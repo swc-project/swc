@@ -39,7 +39,7 @@ struct ConfigItem {
 struct StaticConfigItem {
     #[cfg(feature = "swc_v1")]
     #[serde(flatten)]
-    config: swc_node_bundler::v1::Config,
+    config: swc_core::bundler::node::v1::Config,
 }
 
 pub(crate) struct BundleTask {
@@ -194,7 +194,7 @@ pub(crate) fn bundle(
 
     let static_items: StaticConfigItem = get_deserialized(&conf_items)?;
 
-    let loader = Box::new(swc_node_bundler::loaders::swc::SwcLoader::new(
+    let loader = Box::new(swc_core::bundler::node::loaders::swc::SwcLoader::new(
         c.clone(),
         static_items
             .config

@@ -15,8 +15,8 @@ crate-type = ["cdylib"]
 [features]
 default = ["swc_v1", "plugin"]
 plugin  = ["swc_core/plugin_transform_host_native"]
-swc_v1  = ["swc_node_bundler/swc_v1"]
-swc_v2  = ["swc_node_bundler/swc_v2"]
+swc_v1  = ["swc_core/bundler_node_v1"]
+swc_v2  = ["swc_core/bundler_node_v2"]
 
 # Internal flag for testing purpose only.
 __plugin_transform_vtest = [
@@ -56,5 +56,3 @@ swc_core = { path = "../swc_core", features = [
   "base_node",
   "base_concurrent",
 ] }
-
-swc_node_bundler = { path = "../swc_node_bundler" }

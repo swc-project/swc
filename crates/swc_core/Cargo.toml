@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.7.4"
+version       = "0.7.5"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -89,7 +89,9 @@ utils = ["__utils", "__common"]
 transforms = ["__transforms", "__testing_transform"]
 
 # Enable swc_bundler
-bundler = ["swc_bundler"]
+bundler         = ["__bundler"]
+bundler_node_v1 = ["__bundler", "swc_node_bundler/swc_v1"]
+bundler_node_v2 = ["__bundler", "swc_node_bundler/swc_v2"]
 
 # Enable swc_ecma_loader
 loader = ["swc_ecma_loader"]
@@ -209,6 +211,7 @@ __plugin_transform_schema_test = [
 ## Common
 __base              = ["swc"]
 __binding_macros    = ["common", "__base", "__transforms", "ast", "binding_macros"]
+__bundler           = ["swc_bundler"]
 __common            = ["swc_common"]
 __testing_transform = ["swc_ecma_transforms_testing"]
 __transforms        = ["swc_ecma_transforms"]
@@ -235,6 +238,7 @@ swc_ecma_transforms_testing = { optional = true, version = "0.105.4", path = "..
 swc_ecma_utils              = { optional = true, version = "0.99.4", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { optional = true, version = "0.76.5", path = "../swc_ecma_visit" }
 swc_node_base               = { optional = true, version = "0.5.5", path = "../swc_node_base" }
+swc_node_bundler            = { optional = true, version = "0.0.1", path = "../swc_node_bundler" }
 swc_nodejs_common           = { optional = true, version = "0.0.1", path = "../swc_nodejs_common" }
 swc_plugin                  = { optional = true, version = "0.89.0", path = "../swc_plugin" }
 swc_plugin_macro            = { optional = true, version = "0.9.2", path = "../swc_plugin_macro" }
