@@ -65,10 +65,10 @@ const buildPlugin = async (feature) => {
 describe("Plugins", () => {
     describe("Transform AST schema versions", () => {
         const versionMatrix = [
-            {
-                host: "plugin_transform_schema_v1",
-                plugin: ["plugin_transform_schema_v1"],
-            },
+            // {
+            //     host: "plugin_transform_schema_v1",
+            //     plugin: ["plugin_transform_schema_v1"],
+            // },
             {
                 host: "__plugin_transform_vtest",
                 plugin: [

@@ -56,6 +56,13 @@ jobs:
         with:
           node-version: "16"
 
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
+
       - name: Install node dependencies
         working-directory: scripts/bot
         run: |
