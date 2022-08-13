@@ -11,7 +11,7 @@ var a = function() {
 };
 // Error (good)
 /** @type {function(): string} */ var b = function() {
-    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -28,7 +28,7 @@ var a = function() {
 }();
 // No error (bad)
 /** @type {function(): string} */ var c = function() {
-    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -45,7 +45,7 @@ var a = function() {
 }();
 /** @type {function(function(): string): void} */ var f = function(p) {};
 // Error (good)
-f(_async_to_generator(regeneratorRuntime.mark(function _callee() {
+f(/*#__PURE__*/ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:

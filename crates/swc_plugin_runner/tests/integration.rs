@@ -10,10 +10,7 @@ use serde_json::json;
 use swc_common::{
     collections::AHashMap,
     errors::HANDLER,
-    plugin::{
-        metadata::TransformPluginMetadataContext,
-        serialized::{PluginSerializedBytes, VersionedSerializable},
-    },
+    plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
     sync::Lazy,
     FileName, Mark,
 };
@@ -97,8 +94,7 @@ fn internal() -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
-            .expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
         let experimental_metadata: AHashMap<String, String> = [
             (
                 "TestExperimental".to_string(),
@@ -129,8 +125,7 @@ fn internal() -> Result<(), Error> {
 
         let program: Program = program_bytes
             .deserialize()
-            .expect("Should able to deserialize")
-            .into_inner();
+            .expect("Should able to deserialize");
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };
@@ -158,8 +153,7 @@ fn internal() -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
-            .expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
         let experimental_metadata: AHashMap<String, String> = [
             (
                 "TestExperimental".to_string(),
@@ -212,8 +206,7 @@ fn internal() -> Result<(), Error> {
         .unwrap();
 
         let mut serialized_program =
-            PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
-                .expect("Should serializable");
+            PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         let experimental_metadata: AHashMap<String, String> = [
@@ -263,8 +256,7 @@ fn internal() -> Result<(), Error> {
 
         let program: Program = serialized_program
             .deserialize()
-            .expect("Should able to deserialize")
-            .into_inner();
+            .expect("Should able to deserialize");
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };

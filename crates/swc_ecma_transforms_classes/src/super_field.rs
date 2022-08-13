@@ -402,7 +402,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         if op != op!("=") {
             // Memoize
             if let SuperProp::Computed(c) = &prop {
-                ref_ident = alias_ident_for(&*c.expr, "_ref");
+                ref_ident = alias_ident_for(&c.expr, "_ref");
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: ref_ident.clone().into(),
@@ -415,7 +415,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             if let Some(false) = update_prefix {
                 update_ident = match &prop {
                     SuperProp::Ident(i) => private_ident!(i.span, format!("_{}", i.sym.clone())),
-                    SuperProp::Computed(c) => alias_ident_for(&*c.expr, "_ref"),
+                    SuperProp::Computed(c) => alias_ident_for(&c.expr, "_ref"),
                 };
                 update_ident.sym = format!("_super{}", update_ident.sym).into();
                 self.vars.push(VarDeclarator {

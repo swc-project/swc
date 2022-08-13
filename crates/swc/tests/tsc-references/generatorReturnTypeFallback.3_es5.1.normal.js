@@ -5,7 +5,7 @@
 // Do not allow generators to fallback to IterableIterator while in strictNullChecks mode if they need a type for the sent value.
 // NOTE: In non-strictNullChecks mode, `undefined` (the default sent value) is assignable to everything.
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(f);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(f);
 function f() {
     var x;
     return regeneratorRuntime.wrap(function f$(_ctx) {

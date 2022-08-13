@@ -138,7 +138,7 @@ define!({
     pub enum DeclarationOrAtRule {
         Declaration(Declaration),
         AtRule(AtRule),
-        Invalid(Tokens),
+        ListOfComponentValues(ListOfComponentValues),
     }
 
     pub enum DelimiterValue {

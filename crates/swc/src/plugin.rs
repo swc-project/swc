@@ -78,10 +78,7 @@ impl RustPlugins {
         use std::{path::PathBuf, sync::Arc};
 
         use anyhow::Context;
-        use swc_common::{
-            plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
-            FileName,
-        };
+        use swc_common::{plugin::serialized::PluginSerializedBytes, FileName};
         use swc_ecma_loader::resolve::Resolve;
 
         // swc_plugin_macro will not inject proxy to the comments if comments is empty
@@ -94,8 +91,7 @@ impl RustPlugins {
             },
             || {
                 let span = tracing::span!(tracing::Level::INFO, "serialize_program").entered();
-                let program = VersionedSerializable::new(n);
-                let mut serialized_program = PluginSerializedBytes::try_serialize(&program)?;
+                let mut serialized_program = PluginSerializedBytes::try_serialize(&n)?;
                 drop(span);
 
                 // Run plugin transformation against current program.
@@ -157,7 +153,7 @@ impl RustPlugins {
 
                 // Plugin transformation is done. Deserialize transformed bytes back
                 // into Program
-                serialized_program.deserialize().map(|v| v.into_inner())
+                serialized_program.deserialize()
             },
         )
     }
@@ -168,9 +164,7 @@ impl RustPlugins {
 
         use anyhow::Context;
         use swc_common::{
-            collections::AHashMap,
-            plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
-            FileName,
+            collections::AHashMap, plugin::serialized::PluginSerializedBytes, FileName,
         };
         use swc_ecma_loader::resolve::Resolve;
 
@@ -181,8 +175,7 @@ impl RustPlugins {
                 inner: self.comments.clone(),
             },
             || {
-                let program = VersionedSerializable::new(n);
-                let mut serialized_program = PluginSerializedBytes::try_serialize(&program)?;
+                let mut serialized_program = PluginSerializedBytes::try_serialize(&n)?;
 
                 if let Some(plugins) = &mut self.plugins {
                     for p in plugins.drain(..) {
@@ -207,7 +200,7 @@ impl RustPlugins {
                     }
                 }
 
-                serialized_program.deserialize().map(|v| v.into_inner())
+                serialized_program.deserialize()
             },
         )
     }

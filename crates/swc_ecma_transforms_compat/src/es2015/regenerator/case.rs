@@ -850,12 +850,10 @@ impl CaseHandler<'_> {
             }
 
             if !already_ended {
-                let is_completion = match stmt {
-                    Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => {
-                        true
-                    }
-                    _ => false,
-                };
+                let is_completion = matches!(
+                    stmt,
+                    Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..)
+                );
 
                 stmt.visit_mut_with(&mut UnmarkedInvalidHandler { case_id: i });
 

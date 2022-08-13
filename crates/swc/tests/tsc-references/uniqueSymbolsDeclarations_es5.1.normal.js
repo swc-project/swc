@@ -8,10 +8,10 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _define_property from "@swc/helpers/src/_define_property.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(genFuncYieldConstCallWithTypeQuery);
-var _marked1 = regeneratorRuntime.mark(genFuncYieldVarCall);
-var _marked2 = regeneratorRuntime.mark(genFuncYieldLetCall);
-var _marked3 = regeneratorRuntime.mark(genFuncYieldConstCall);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(genFuncYieldConstCallWithTypeQuery);
+var _marked1 = /*#__PURE__*/ regeneratorRuntime.mark(genFuncYieldVarCall);
+var _marked2 = /*#__PURE__*/ regeneratorRuntime.mark(genFuncYieldLetCall);
+var _marked3 = /*#__PURE__*/ regeneratorRuntime.mark(genFuncYieldConstCall);
 var constCall = Symbol();
 var letCall = Symbol();
 var varCall = Symbol();
@@ -102,7 +102,7 @@ function asyncFuncReturnConstCall() {
 }
 function _asyncFuncReturnConstCall() {
     _asyncFuncReturnConstCall = // async function return inference
-    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -119,7 +119,7 @@ function asyncFuncReturnLetCall() {
     return _asyncFuncReturnLetCall.apply(this, arguments);
 }
 function _asyncFuncReturnLetCall() {
-    _asyncFuncReturnLetCall = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _asyncFuncReturnLetCall = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -136,7 +136,7 @@ function asyncFuncReturnVarCall() {
     return _asyncFuncReturnVarCall.apply(this, arguments);
 }
 function _asyncFuncReturnVarCall() {
-    _asyncFuncReturnVarCall = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _asyncFuncReturnVarCall = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -154,7 +154,7 @@ function asyncGenFuncYieldConstCall() {
 }
 function _asyncGenFuncYieldConstCall() {
     _asyncGenFuncYieldConstCall = // async generator function yield inference
-    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -172,7 +172,7 @@ function asyncGenFuncYieldLetCall() {
     return _asyncGenFuncYieldLetCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldLetCall() {
-    _asyncGenFuncYieldLetCall = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _asyncGenFuncYieldLetCall = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -190,7 +190,7 @@ function asyncGenFuncYieldVarCall() {
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldVarCall() {
-    _asyncGenFuncYieldVarCall = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    _asyncGenFuncYieldVarCall = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -266,7 +266,7 @@ var o2 = {
         return s;
     },
     method2: function method2() {
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -279,7 +279,7 @@ var o2 = {
         }))();
     },
     method3: function method3() {
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -292,7 +292,7 @@ var o2 = {
             }, _callee);
         }))();
     },
-    method4: regeneratorRuntime.mark(function method4() {
+    method4: /*#__PURE__*/ regeneratorRuntime.mark(function method4() {
         return regeneratorRuntime.wrap(function method4$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -326,7 +326,7 @@ var C0 = /*#__PURE__*/ function() {
         return s;
     };
     _proto.method2 = function method2() {
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -339,7 +339,7 @@ var C0 = /*#__PURE__*/ function() {
         }))();
     };
     _proto.method3 = function method3() {
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -352,7 +352,7 @@ var C0 = /*#__PURE__*/ function() {
             }, _callee);
         }))();
     };
-    _proto.method4 = regeneratorRuntime.mark(function method4() {
+    _proto.method4 = /*#__PURE__*/ regeneratorRuntime.mark(function method4() {
         return regeneratorRuntime.wrap(function method4$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -408,7 +408,7 @@ var o4 = {
         return s; // return type should not widen due to contextual type
     },
     method2: function method2() {
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -421,7 +421,7 @@ var o4 = {
         }))();
     },
     method3: function method3() {
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -434,7 +434,7 @@ var o4 = {
             }, _callee);
         }))();
     },
-    method4: regeneratorRuntime.mark(function method4() {
+    method4: /*#__PURE__*/ regeneratorRuntime.mark(function method4() {
         return regeneratorRuntime.wrap(function method4$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

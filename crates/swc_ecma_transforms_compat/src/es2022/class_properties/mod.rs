@@ -543,7 +543,7 @@ impl<C: Comments> ClassProperties<C> {
                             expr.visit_mut_with(&mut ClassNameTdzFolder {
                                 class_name: &class_ident,
                             });
-                            let ident = alias_ident_for(&*expr, "tmp");
+                            let ident = alias_ident_for(&expr, "tmp");
                             // Handle computed property
                             lets.push(VarDeclarator {
                                 span: DUMMY_SP,

@@ -20,7 +20,7 @@ import regeneratorRuntime from "regenerator-runtime";
 var C = function() {
     "use strict";
     function C() {
-        _class_call_check(this, C), this.myModule = import("./0");
+        this.myModule = import("./0");
     }
     return C.prototype.method = function() {
         var _ref;
@@ -47,7 +47,7 @@ var C = function() {
 export var D = function() {
     "use strict";
     function D() {
-        _class_call_check(this, D), this.myModule = import("./0");
+        this.myModule = import("./0");
     }
     return D.prototype.method = function() {
         var _ref;

@@ -18,7 +18,7 @@ struct Operators {
 
 impl Operators {
     fn memorize_prop(&mut self, c: ComputedPropName) -> (ComputedPropName, ComputedPropName) {
-        let alias = alias_ident_for(&*c.expr, "_ref");
+        let alias = alias_ident_for(&c.expr, "_ref");
         self.vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: alias.clone().into(),

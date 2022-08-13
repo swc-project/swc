@@ -204,7 +204,7 @@ impl PreferConst {
                 || var_meta.destructuring_assign
                 || var_meta.declared_into_cycle_head
             {
-                self.emit_report(var_meta.span, &*id.0);
+                self.emit_report(var_meta.span, &id.0);
             }
         });
     }

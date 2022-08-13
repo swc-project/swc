@@ -614,8 +614,10 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Vec<DeclarationOrAtRule>> {
+        // Create an initially empty list of declarations.
         let mut declarations = vec![];
 
+        // Repeatedly consume the next input token:
         loop {
             // TODO: remove `}`
             if is_one_of!(self, EOF, "}") {
@@ -623,15 +625,28 @@ where
             }
 
             match cur!(self) {
+                // <whitespace-token>
+                // Do nothing.
                 tok!(" ") => {
                     self.input.skip_ws()?;
                 }
+                // <semicolon-token>
+                // Do nothing.
                 tok!(";") => {
                     bump!(self);
                 }
+                // <at-keyword-token>
+                // Reconsume the current input token. Consume an at-rule. Append the returned rule
+                // to the list of declarations.
                 tok!("@") => {
                     declarations.push(DeclarationOrAtRule::AtRule(self.parse()?));
                 }
+                // <ident-token>
+                // Initialize a temporary list initially filled with the current input token. As
+                // long as the next input token is anything other than a <semicolon-token> or
+                // <EOF-token>, consume a component value and append it to the temporary list.
+                // Consume a declaration from the temporary list. If anything was returned, append
+                // it to the list of declarations.
                 tok!("ident") => {
                     let state = self.input.state();
                     let span = self.input.cur_span()?;
@@ -641,33 +656,39 @@ where
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            let mut tokens = vec![];
+                            let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                let token = self.input.bump()?;
-
-                                tokens.extend(token);
+                                if let Some(token_and_span) = self.input.bump()? {
+                                    children.push(ComponentValue::PreservedToken(token_and_span));
+                                }
 
                                 if is!(self, ";") {
-                                    let token = self.input.bump()?;
-
-                                    tokens.extend(token);
+                                    if let Some(token_and_span) = self.input.bump()? {
+                                        children
+                                            .push(ComponentValue::PreservedToken(token_and_span));
+                                    }
 
                                     break;
                                 }
                             }
 
-                            DeclarationOrAtRule::Invalid(Tokens {
+                            DeclarationOrAtRule::ListOfComponentValues(ListOfComponentValues {
                                 span: span!(self, span.lo),
-                                tokens,
+                                children,
                             })
                         }
                     };
 
                     declarations.push(prop);
                 }
-
                 // anything else
+                // This is a parse error. Reconsume the current input token. As long as the next
+                // input token is anything other than a <semicolon-token> or <EOF-token>, consume a
+                // component value and throw away the returned value.
+                //
+                // We don't throw away the return value because of the recovery mode and return list
+                // of components values in this case
                 _ => {
                     let span = self.input.cur_span()?;
 
@@ -678,25 +699,28 @@ where
                         ),
                     ));
 
-                    let mut tokens = vec![];
+                    let mut children = vec![];
 
-                    // TODO fix me
                     while !is_one_of!(self, EOF, "}") {
-                        tokens.extend(self.input.bump()?);
+                        if let Some(token_and_span) = self.input.bump()? {
+                            children.push(ComponentValue::PreservedToken(token_and_span));
+                        }
 
                         if is!(self, ";") {
-                            let token = self.input.bump()?;
-
-                            tokens.extend(token);
+                            if let Some(token_and_span) = self.input.bump()? {
+                                children.push(ComponentValue::PreservedToken(token_and_span));
+                            }
 
                             break;
                         }
                     }
 
-                    declarations.push(DeclarationOrAtRule::Invalid(Tokens {
-                        span: span!(self, span.lo),
-                        tokens,
-                    }));
+                    declarations.push(DeclarationOrAtRule::ListOfComponentValues(
+                        ListOfComponentValues {
+                            span: span!(self, span.lo),
+                            children,
+                        },
+                    ));
                 }
             }
         }

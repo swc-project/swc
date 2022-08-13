@@ -3,7 +3,7 @@ use std::sync::Arc;
 use parking_lot::Mutex;
 use swc_common::plugin::{
     metadata::{TransformPluginMetadataContext, TransformPluginMetadataContextKind},
-    serialized::{PluginSerializedBytes, VersionedSerializable},
+    serialized::PluginSerializedBytes,
 };
 use wasmer::{LazyInit, Memory, NativeFunc};
 
@@ -66,8 +66,7 @@ pub fn get_transform_plugin_config(
                 // actually needs it.
                 let config = serde_json::to_string(config_value).ok();
                 if let Some(config) = config {
-                    let value = VersionedSerializable::new(config);
-                    let serialized = PluginSerializedBytes::try_serialize(&value)
+                    let serialized = PluginSerializedBytes::try_serialize(&config)
                         .expect("Should be serializable");
 
                     allocate_return_values_into_guest(
@@ -98,7 +97,6 @@ pub fn get_transform_context(
                 .get(&TransformPluginMetadataContextKind::from(key));
 
             if let Some(value) = value {
-                let value = VersionedSerializable::new(value);
                 let serialized =
                     PluginSerializedBytes::try_serialize(&value).expect("Should be serializable");
 
@@ -124,19 +122,17 @@ pub fn get_experimental_transform_context(
     if let Some(memory) = env.memory_ref() {
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
             let context_key_buffer = &*env.mutable_context_key_buffer.lock();
-            let key: VersionedSerializable<String> =
-                PluginSerializedBytes::from_slice(&context_key_buffer[..])
-                    .deserialize()
-                    .expect("Should able to deserialize");
+            let key: String = PluginSerializedBytes::from_slice(&context_key_buffer[..])
+                .deserialize()
+                .expect("Should able to deserialize");
 
             let value = env
                 .metadata_context
                 .experimental
-                .get(key.inner())
+                .get(&key)
                 .map(|v| v.to_string());
 
             if let Some(value) = value {
-                let value = VersionedSerializable::new(value);
                 let serialized =
                     PluginSerializedBytes::try_serialize(&value).expect("Should be serializable");
 
@@ -160,10 +156,9 @@ pub fn get_raw_experiemtal_transform_context(
     allocated_ret_ptr: i32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
-        let experimental_context =
-            VersionedSerializable::new(env.metadata_context.experimental.clone());
+        let experimental_context = &env.metadata_context.experimental;
         let serialized_experimental_context_bytes =
-            PluginSerializedBytes::try_serialize(&experimental_context)
+            PluginSerializedBytes::try_serialize(experimental_context)
                 .expect("Should be serializable");
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
             allocate_return_values_into_guest(

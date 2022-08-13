@@ -265,6 +265,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                                 ignore_function_length: assumptions.ignore_function_length
                             },
                         },
+                        comments,
                         self.unresolved_mark
                     ),
                     should_enable(self.target, EsVersion::Es2017)

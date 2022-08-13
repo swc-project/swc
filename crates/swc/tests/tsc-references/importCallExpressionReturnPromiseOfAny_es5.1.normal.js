@@ -9,7 +9,7 @@ export var C = function C() {
 };
 // @filename: 1.ts
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(loadModule);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(loadModule);
 import("".concat(directory, "\\").concat(moduleFile));
 import(getSpecifier());
 var p1 = import(ValidSomeCondition() ? "./0" : "externalModule");

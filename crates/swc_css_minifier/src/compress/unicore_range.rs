@@ -54,7 +54,7 @@ impl VisitMut for CompressUnicodeRange {
         unicode_range.visit_mut_children_with(self);
 
         if unicode_range.end.is_none() {
-            unicode_range.start = self.remove_leading_zeros(&*unicode_range.start).into();
+            unicode_range.start = self.remove_leading_zeros(&unicode_range.start).into();
 
             return;
         }

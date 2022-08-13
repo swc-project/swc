@@ -7,7 +7,7 @@ var C = /*#__PURE__*/ function() {
         _class_call_check(this, C);
     }
     var _proto = C.prototype;
-    _proto.foo = regeneratorRuntime.mark(function foo1() {
+    _proto.foo = /*#__PURE__*/ regeneratorRuntime.mark(function foo1() {
         return regeneratorRuntime.wrap(function foo$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

@@ -2,7 +2,7 @@
 // @noImplicitReturns: true 
 // @strictNullChecks: false 
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(testGenerator);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(testGenerator);
 function testGenerator() {
     return regeneratorRuntime.wrap(function testGenerator$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){

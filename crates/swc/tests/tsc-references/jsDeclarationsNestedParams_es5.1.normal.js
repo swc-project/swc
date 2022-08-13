@@ -21,7 +21,7 @@ var X = /*#__PURE__*/ function() {
       * @returns {Promise.<*>} resolves when the event has been sent.
       */ _proto.cancel = function cancel(param) {
         var reason = param.reason, code = param.code;
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -49,7 +49,7 @@ var Y = /*#__PURE__*/ function() {
       * @returns {Promise.<*>} resolves when the event has been sent.
       */ _proto.cancel = function cancel(param) {
         var reason = param.reason, suberr = param.suberr;
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:

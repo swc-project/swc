@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
 var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenerator-runtime"));
-var _marked = _regeneratorRuntime.default.mark(foo);
+var _marked = /*#__PURE__*/ _regeneratorRuntime.default.mark(foo);
 function foo() {
     return _regeneratorRuntime.default.wrap(function foo$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
