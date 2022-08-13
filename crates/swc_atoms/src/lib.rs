@@ -227,61 +227,35 @@ impl PartialEq<Atom> for str {
 }
 
 /// NOT A PUBLIC API
-#[doc(hidden)]
-#[cfg(feature = "rkyv")]
-pub struct ArchivedAtom {
-    // This will be a relative pointer to our string
-    ptr: rkyv::RelPtr<str>,
-}
-
-/// NOT A PUBLIC API
-#[doc(hidden)]
-#[cfg(feature = "rkyv")]
-pub struct AtomResolver {
-    // This will be the position that the bytes of our string are stored at.
-    // We'll use this to resolve the relative pointer of our
-    // ArchivedOwnedStr.
-    pos: usize,
-    // The archived metadata for our str may also need a resolver.
-    metadata_resolver: rkyv::MetadataResolver<str>,
-}
-
-/// NOT A PUBLIC API
-#[doc(hidden)]
 #[cfg(feature = "rkyv")]
 impl rkyv::Archive for Atom {
-    type Archived = ArchivedAtom;
-    type Resolver = AtomResolver;
+    type Archived = rkyv::string::ArchivedString;
+    type Resolver = rkyv::string::StringResolver;
 
     #[allow(clippy::unit_arg)]
     unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        use rkyv::ArchiveUnsized;
-
-        // We have to be careful to add the offset of the ptr field,
-        // otherwise we'll be using the position of the ArchivedOwnedStr
-        // instead of the position of the relative pointer.
-        let (fp, fo) = rkyv::out_field!(out.ptr);
-        (&*self.0).resolve_unsized(pos + fp, resolver.pos, resolver.metadata_resolver, fo);
+        String::resolve(&self.0.to_string(), pos, resolver, out)
     }
 }
 
 /// NOT A PUBLIC API
-#[doc(hidden)]
-// We restrict our serializer types with Serializer because we need its
-// capabilities to archive our type. For other types, we might need more or
-// less restrictive bounds on the type of S.
 #[cfg(feature = "rkyv")]
 impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
     fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        use rkyv::SerializeUnsized;
+        String::serialize(&self.0.to_string(), serializer)
+    }
+}
 
-        // This is where we want to write the bytes of our string and return
-        // a resolver that knows where those bytes were written.
-        // We also need to serialize the metadata for our str.
-        Ok(AtomResolver {
-            pos: (&*self.0).serialize_unsized(serializer)?,
-            metadata_resolver: (&*self.0).serialize_metadata(serializer)?,
-        })
+/// NOT A PUBLIC API
+#[cfg(feature = "rkyv")]
+impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
+where
+    D: rkyv::Fallible,
+{
+    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rkyv::Fallible>::Error> {
+        let s: String = self.deserialize(deserializer)?;
+
+        Ok(Atom::new(s))
     }
 }
 
