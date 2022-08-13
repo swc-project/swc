@@ -1,19 +1,43 @@
 # Changelog
 ## [unreleased]
 
-### Documentation
+### Bug Fixes
 
 
 
-- **(swc_core)** Fix rustdoc (#5446) ([2e883a7](https://github.com/swc-project/swc/commit/2e883a72d71a79d2f3ef80675025e820472d57d1))
+- **(swc_core)** Bump version of deps (#5466) ([5e42864](https://github.com/swc-project/swc/commit/5e428643cdf8c21beb317c0c85acabe6a70623a8))
+
+### Features
+
+
+
+- **(es/compat)** Add pure comments for generator and async transform (#5463) ([5a06271](https://github.com/swc-project/swc/commit/5a06271116c0d341e6f4c5b4bae23513c54e93ff))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix bot script ([d298b20](https://github.com/swc-project/swc/commit/d298b20c7a334cad75889ce8b3a35718b2b66880))
+
+
+- **(ci)** Update rustc ([6c08ab9](https://github.com/swc-project/swc/commit/6c08ab9cf0e441b90aec280dfc8da3cb91707ac6))
+
+
+- **(ci)** Fix lints (#5462) ([3eb1f4b](https://github.com/swc-project/swc/commit/3eb1f4b2b153aeb8551a83b4995b7ae8ee188046))
+
+### Refactor
+
+
+
+- **(es/compat)** Respect MSRV (#5473) ([4a3b4b2](https://github.com/swc-project/swc/commit/4a3b4b27e21b07851daa15ab41d81e835ab3fcf0))
 
 ### Build
 
 
 
-- **(atoms)** Bump `swc_atoms` (#5442) ([e25b37d](https://github.com/swc-project/swc/commit/e25b37d57993aed9bbcd506e3d1dfea8d6992b09))
+- **(plugin)** Downgrade `rkyv` (#5459) ([d36e48e](https://github.com/swc-project/swc/commit/d36e48efbfbe7ebd202f65d31735d4888fbd22f5))
 
-## [1.2.225] - 2022-08-11
+## [1.2.226] - 2022-08-12
 
 ### Bug Fixes
 
@@ -34,6 +58,9 @@
 - **(es/fixer)** Remove needless parens for nested `??` (#5432) ([e359903](https://github.com/swc-project/swc/commit/e35990390b271fffca7e4e7a89971d82df0dc2e6))
 
 
+- **(es/helpers)** Correct import path (#5460) ([efb3d70](https://github.com/swc-project/swc/commit/efb3d7035a3fda44ed7094805734c8d66c77d130))
+
+
 - **(es/utils)** Allow `quote_ident!` working with `swc_core` (#5409) ([c227325](https://github.com/swc-project/swc/commit/c2273255c0c2b90e606c5880b8e80a5cd8c370bf))
 
 
@@ -44,6 +71,18 @@
 
 
 - **(swc_core)** Fix dep on `quote_macros` (#5415) ([420d936](https://github.com/swc-project/swc/commit/420d936c50265c958b3811772ee15fb468afcf58))
+
+
+- **(swc_core)** Apply plugin features (#5457) ([3760ba0](https://github.com/swc-project/swc/commit/3760ba07b10f5d29b6fe025d6721750885bcfeec))
+
+### Documentation
+
+
+
+- **(swc_core)** Fix rustdoc (#5446) ([2e883a7](https://github.com/swc-project/swc/commit/2e883a72d71a79d2f3ef80675025e820472d57d1))
+
+
+- **(swc_core)** Fix rustdoc, really (#5447) ([9d793f1](https://github.com/swc-project/swc/commit/9d793f1cd3f2e23ba5b286783e0633a13690f1c2))
 
 ### Features
 
@@ -67,6 +106,9 @@
 - **(ci)** Reduce CI time (#5440) ([4bdb6a1](https://github.com/swc-project/swc/commit/4bdb6a1de426f57f0f96c2e8f3311333d1446030))
 
 
+- **(ci)** Fix publish action (#5443) ([31bd2c8](https://github.com/swc-project/swc/commit/31bd2c8abbc476e563f0172dbc642912d9d9e1b4))
+
+
 - **(html/utils)** Fix cargo package metadata (#5439) ([0e79d31](https://github.com/swc-project/swc/commit/0e79d31a98624bb414ca5b3ddafd5080331d9898))
 
 ### Refactor
@@ -80,6 +122,15 @@
 
 
 - **(es/minifier)** Organize simple size tests (#5402) ([7b8658e](https://github.com/swc-project/swc/commit/7b8658eef27cba4b1ed761d609c71f1c7bddaf9c))
+
+### Build
+
+
+
+- **(atoms)** Bump `swc_atoms` (#5442) ([e25b37d](https://github.com/swc-project/swc/commit/e25b37d57993aed9bbcd506e3d1dfea8d6992b09))
+
+
+- **(es)** Bump up packages (#5451) ([072eb13](https://github.com/swc-project/swc/commit/072eb13bf1e593f9daaa702b2034bcd5d416aee5))
 
 ## [1.2.224] - 2022-08-06
 

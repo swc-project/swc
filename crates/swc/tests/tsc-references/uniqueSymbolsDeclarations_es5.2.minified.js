@@ -49,17 +49,7 @@ var C = function() {
     "use strict";
     _class_call_check(this, C), this.readonlyCall = Symbol(), this.readwriteCall = Symbol();
 };
-C.readonlyStaticCall = Symbol(), C.readonlyStaticTypeAndCall = Symbol(), C.readwriteStaticCall = Symbol(), C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, i.readonlyType, i.readonlyType, i.readonlyType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, Promise.resolve(constCall), f(s), f(N.s), f(N.s), N.s, N.s, N.s, N.s, regeneratorRuntime.mark(function method4() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.next = 2, s;
-            case 2:
-            case "end":
-                return _ctx.stop();
-        }
-    }, method4);
-});
+C.readonlyStaticCall = Symbol(), C.readonlyStaticTypeAndCall = Symbol(), C.readwriteStaticCall = Symbol(), C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, i.readonlyType, i.readonlyType, i.readonlyType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, Promise.resolve(constCall), f(s), f(N.s), f(N.s), N.s, N.s, N.s, N.s;
 var C0 = function() {
     "use strict";
     function C0() {
@@ -112,14 +102,3 @@ var C1 = function() {
     "use strict";
     _class_call_check(this, C1);
 };
-regeneratorRuntime.mark(function method4() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.next = 2, s;
-            case 2:
-            case "end":
-                return _ctx.stop();
-        }
-    }, method4);
-});

@@ -2896,7 +2896,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default(), Mark::new())
+        async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
     ),
     public_regression_t7364,
     r#"
@@ -3423,7 +3423,11 @@ test!(
         let unresolved_mark = Mark::new();
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
-            async_to_generator(Default::default(), unresolved_mark),
+            async_to_generator(
+                Default::default(),
+                Some(t.comments.clone()),
+                unresolved_mark
+            ),
             block_scoping(unresolved_mark)
         )
     },
@@ -5440,7 +5444,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default(), Mark::new())
+        async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
     ),
     issue_1694_1,
     "
@@ -5471,7 +5475,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default(), Mark::new())
+        async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
     ),
     issue_1694_2,
     "
@@ -5500,7 +5504,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default(), Mark::new())
+        async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
     ),
     issue_1702_1,
     "

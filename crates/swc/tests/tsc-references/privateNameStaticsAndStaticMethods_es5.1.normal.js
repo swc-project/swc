@@ -34,7 +34,7 @@ function bar(a) {
     return _bar.apply(this, arguments);
 }
 function _bar() {
-    _bar = _async_to_generator(regeneratorRuntime.mark(function _callee(a) {
+    _bar = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(a) {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -49,7 +49,7 @@ function baz(a) {
     return _baz.apply(this, arguments);
 }
 function _baz() {
-    _baz = _wrap_async_generator(regeneratorRuntime.mark(function _callee(a) {
+    _baz = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(a) {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

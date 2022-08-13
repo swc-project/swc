@@ -39,7 +39,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var _super, _superIndex, a, b;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -74,7 +74,7 @@ var B = /*#__PURE__*/ function(A) {
         _superprop_set = function(_prop, _value) {
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
         };
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var _super, _superIndex, f, a, b, ref, ref1;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

@@ -5,7 +5,7 @@ import regeneratorRuntime from "regenerator-runtime";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 export var getErrorForTransaction = function() {
-    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, txid) {
+    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, txid) {
         var tx, errors;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -54,7 +54,7 @@ export function sendTransactionsWithManualRetry(connection, wallet, instructions
     return _sendTransactionsWithManualRetry.apply(this, arguments);
 }
 function _sendTransactionsWithManualRetry() {
-    _sendTransactionsWithManualRetry = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
+    _sendTransactionsWithManualRetry = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
         var stopPoint, tries, lastInstructionsLength, toRemoveSigners, ids, filteredSigners, id, txs;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -133,7 +133,7 @@ function _sendTransactionsWithManualRetry() {
     return _sendTransactionsWithManualRetry.apply(this, arguments);
 }
 export var sendTransactions = function() {
-    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructionSet, signersSet) {
+    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, wallet, instructionSet, signersSet) {
         var _loop, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, signedTxnPromise, result, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -294,7 +294,7 @@ export var sendTransactions = function() {
     };
 }();
 export var sendTransaction = function() {
-    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
+    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
         var awaitConfirmation, commitment, includesFeePayer, block, transaction, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -410,7 +410,7 @@ export var sendTransaction = function() {
     };
 }();
 export var sendTransactionWithRetry = function() {
-    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
+    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
         var commitment, includesFeePayer, block, beforeSend, transaction, _transaction, _transaction1, _transaction2, ref, txid, slot, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -498,7 +498,7 @@ export function sendSignedTransaction(_) {
     return _sendSignedTransaction.apply(this, arguments);
 }
 function _sendSignedTransaction() {
-    _sendSignedTransaction = _async_to_generator(regeneratorRuntime.mark(function _callee(param) {
+    _sendSignedTransaction = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(param) {
         var signedTransaction, connection, _timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, simulateResult, i, line;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -515,7 +515,7 @@ function _sendSignedTransaction() {
                     txid = _ctx.sent;
                     console.log("Started awaiting confirmation for", txid);
                     done = false;
-                    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                    _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -639,7 +639,7 @@ function simulateTransaction(connection, transaction, commitment) {
     return _simulateTransaction.apply(this, arguments);
 }
 function _simulateTransaction() {
-    _simulateTransaction = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, transaction, commitment) {
+    _simulateTransaction = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, transaction, commitment) {
         var signData, wireTransaction, encodedTransaction, config, args, res;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -684,7 +684,7 @@ function awaitTransactionSignatureConfirmation(txid, timeout, connection) {
     return _awaitTransactionSignatureConfirmation.apply(this, arguments);
 }
 function _awaitTransactionSignatureConfirmation() {
-    _awaitTransactionSignatureConfirmation = _async_to_generator(regeneratorRuntime.mark(function _callee(txid, timeout, connection) {
+    _awaitTransactionSignatureConfirmation = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(txid, timeout, connection) {
         var commitment, queryStatus, done, status, subId, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -699,7 +699,7 @@ function _awaitTransactionSignatureConfirmation() {
                     subId = 0;
                     _ctx.next = 6;
                     return new Promise(function() {
-                        var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(resolve, reject) {
+                        var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(resolve, reject) {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -739,7 +739,7 @@ function _awaitTransactionSignatureConfirmation() {
                                             break;
                                         }
                                         // eslint-disable-next-line no-loop-func
-                                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                                             var signatureStatuses;
                                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                                 while(1)switch(_ctx.prev = _ctx.next){

@@ -618,7 +618,7 @@ impl Pure<'_> {
         let mut exprs = exprs
             .filter_map(|mut e| {
                 self.ignore_return_value(
-                    &mut *e,
+                    &mut e,
                     DropOpts {
                         drop_global_refs_if_unused: true,
                         drop_str_lit: true,
@@ -764,7 +764,7 @@ impl Pure<'_> {
                     ..
                 }) => {
                     self.ignore_return_value(
-                        &mut **arg,
+                        arg,
                         DropOpts {
                             drop_str_lit: true,
                             drop_global_refs_if_unused: true,
@@ -950,7 +950,7 @@ impl Pure<'_> {
 
                 if let Some(last) = e.exprs.last_mut() {
                     // Non-last elements are already processed.
-                    self.ignore_return_value(&mut **last, opts);
+                    self.ignore_return_value(last, opts);
                 }
 
                 let len = e.exprs.len();

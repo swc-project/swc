@@ -1,7 +1,7 @@
 //@target: ES6
 import _define_property from "@swc/helpers/src/_define_property.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 function g() {
     var x;
     return regeneratorRuntime.wrap(function g$(_ctx) {

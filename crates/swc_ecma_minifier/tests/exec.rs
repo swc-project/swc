@@ -191,7 +191,7 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
 
         assert_eq!(
             DebugUsingDisplay(&actual_output),
-            DebugUsingDisplay(&*expected_output)
+            DebugUsingDisplay(&expected_output)
         );
 
         Ok(())
@@ -228,7 +228,7 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
 
             assert_eq!(
                 DebugUsingDisplay(&actual_output),
-                DebugUsingDisplay(&*expected_output)
+                DebugUsingDisplay(&expected_output)
             );
 
             Ok(())

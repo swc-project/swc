@@ -9,7 +9,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_estree_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.17.0"
+version = "0.17.2"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -21,5 +21,5 @@ bench = false
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
 serde             = { version = "1", features = ["derive"] }
 serde_json        = "1"
-swc_atoms         = { version = "0.4.1", path = "../swc_atoms" }
-swc_common        = { version = "0.27.0", path = "../swc_common" }
+swc_atoms         = { version = "0.4.3", path = "../swc_atoms" }
+swc_common        = { version = "0.27.4", path = "../swc_common" }

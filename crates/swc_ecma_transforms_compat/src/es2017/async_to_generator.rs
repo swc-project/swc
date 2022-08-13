@@ -1,7 +1,7 @@
 use std::iter;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
@@ -36,9 +36,14 @@ use swc_trace_macro::swc_trace;
 /// });
 /// ```
 #[tracing::instrument(level = "info", skip_all)]
-pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
+pub fn async_to_generator<C: Comments + Clone>(
+    c: Config,
+    comments: Option<C>,
+    unresolved_mark: Mark,
+) -> impl Fold + VisitMut {
     as_folder(AsyncToGenerator {
         c,
+        comments,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
     })
 }
@@ -53,13 +58,15 @@ pub struct Config {
 }
 
 #[derive(Default, Clone)]
-struct AsyncToGenerator {
+struct AsyncToGenerator<C: Comments + Clone> {
     c: Config,
+    comments: Option<C>,
     unresolved_ctxt: SyntaxContext,
 }
 
-struct Actual {
+struct Actual<C: Comments> {
     c: Config,
+    comments: Option<C>,
 
     unresolved_ctxt: SyntaxContext,
     extra_stmts: Vec<Stmt>,
@@ -68,7 +75,7 @@ struct Actual {
 
 #[swc_trace]
 #[fast_path(ShouldWork)]
-impl VisitMut for AsyncToGenerator {
+impl<C: Comments + Clone> VisitMut for AsyncToGenerator<C> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
@@ -81,10 +88,10 @@ impl VisitMut for AsyncToGenerator {
 }
 
 #[swc_trace]
-impl AsyncToGenerator {
+impl<C: Comments + Clone> AsyncToGenerator<C> {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitMutWith<Actual>,
+        T: StmtLike + VisitMutWith<Actual<C>>,
         Vec<T>: VisitMutWith<Self>,
     {
         let mut stmts_updated = Vec::with_capacity(stmts.len());
@@ -92,6 +99,7 @@ impl AsyncToGenerator {
         for mut stmt in stmts.drain(..) {
             let mut actual = Actual {
                 c: self.c,
+                comments: self.comments.clone(),
                 unresolved_ctxt: self.unresolved_ctxt,
                 extra_stmts: vec![],
                 hoist_stmts: vec![],
@@ -110,7 +118,7 @@ impl AsyncToGenerator {
 
 #[swc_trace]
 #[fast_path(ShouldWork)]
-impl VisitMut for Actual {
+impl<C: Comments> VisitMut for Actual<C> {
     noop_visit_mut_type!();
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
@@ -159,8 +167,20 @@ impl VisitMut for Actual {
         };
     }
 
+    fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
+        if let Callee::Expr(e) = &mut expr.callee {
+            let mut e = &mut **e;
+            while let Expr::Paren(ParenExpr { expr, .. }) = e {
+                e = &mut **expr;
+            }
+            self.visit_mut_expr_with_binding(e, None, true);
+        }
+
+        expr.args.visit_mut_with(self)
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        self.visit_mut_expr_with_binding(expr, None);
+        self.visit_mut_expr_with_binding(expr, None, false);
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
@@ -289,12 +309,12 @@ impl VisitMut for Actual {
                     ident: None,
                     ref function,
                 }) if function.is_async || function.is_generator => {
-                    self.visit_mut_expr_with_binding(init, Some(id.clone()));
+                    self.visit_mut_expr_with_binding(init, Some(id.clone()), false);
                     return;
                 }
 
                 Expr::Arrow(arrow_expr) if arrow_expr.is_async || arrow_expr.is_generator => {
-                    self.visit_mut_expr_with_binding(init, Some(id.clone()));
+                    self.visit_mut_expr_with_binding(init, Some(id.clone()), false);
                     return;
                 }
 
@@ -307,8 +327,13 @@ impl VisitMut for Actual {
 }
 
 #[swc_trace]
-impl Actual {
-    fn visit_mut_expr_with_binding(&mut self, expr: &mut Expr, binding_ident: Option<Ident>) {
+impl<C: Comments> Actual<C> {
+    fn visit_mut_expr_with_binding(
+        &mut self,
+        expr: &mut Expr,
+        binding_ident: Option<Ident>,
+        in_iife: bool,
+    ) {
         expr.visit_mut_children_with(self);
 
         match expr {
@@ -328,6 +353,11 @@ impl Actual {
 
                 wrapper.function = make_fn_ref(fn_expr);
                 *expr = wrapper.into();
+                if !in_iife {
+                    if let Some(c) = &mut self.comments {
+                        c.add_pure_comment(expr.span().lo)
+                    }
+                }
             }
 
             Expr::Fn(
@@ -346,6 +376,11 @@ impl Actual {
                 wrapper.function = make_fn_ref(fn_expr);
 
                 *expr = wrapper.into();
+                if !in_iife {
+                    if let Some(c) = &mut self.comments {
+                        c.add_pure_comment(expr.span().lo)
+                    }
+                }
             }
 
             _ => {}

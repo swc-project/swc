@@ -6,7 +6,7 @@ var Test = function Test(name) {
     _class_call_check(this, Test);
     var _this = this;
     this.print = function() {
-        var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(arg) {
+        var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(arg) {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:

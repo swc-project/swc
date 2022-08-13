@@ -21,7 +21,7 @@ export class cl1 {
     }
 }
 export const obj = {
-    m: _async_to_generator(function*() {
+    m: /*#__PURE__*/ _async_to_generator(function*() {
         const req = yield import('./test') // THREE
         ;
     })
@@ -29,7 +29,7 @@ export const obj = {
 export class cl2 {
     constructor(){
         this.p = {
-            m: _async_to_generator(function*() {
+            m: /*#__PURE__*/ _async_to_generator(function*() {
                 const req = yield import('./test') // FOUR
                 ;
             })

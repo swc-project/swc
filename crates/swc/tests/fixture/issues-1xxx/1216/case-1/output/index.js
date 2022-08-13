@@ -8,7 +8,7 @@ function request(path) {
     return _request.apply(this, arguments);
 }
 function _request() {
-    _request = _async_to_generator(regeneratorRuntime.mark(function _callee(path) {
+    _request = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(path) {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -21,7 +21,7 @@ function _request() {
     }));
     return _request.apply(this, arguments);
 }
-_async_to_generator(regeneratorRuntime.mark(function _callee() {
+_async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
     var obj;
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){

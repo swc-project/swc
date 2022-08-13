@@ -774,13 +774,13 @@ where
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
         if self.config.minify {
-            let minified = minify_string(&*n.value);
+            let minified = minify_string(&n.value);
 
             write_str!(self, n.span, &minified);
         } else if let Some(raw) = &n.raw {
             write_str!(self, n.span, raw);
         } else {
-            let value = serialize_string(&*n.value);
+            let value = serialize_string(&n.value);
 
             write_str!(self, n.span, &value);
         }

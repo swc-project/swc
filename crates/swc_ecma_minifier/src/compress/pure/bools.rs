@@ -303,14 +303,14 @@ impl Pure<'_> {
             }) => {
                 // Regardless if it's truthy or falsy, we can optimize it because it will be
                 // casted as bool anyway.
-                self.optimize_expr_in_bool_ctx(&mut **left, is_ignore);
-                self.optimize_expr_in_bool_ctx(&mut **right, is_ignore);
+                self.optimize_expr_in_bool_ctx(left, is_ignore);
+                self.optimize_expr_in_bool_ctx(right, is_ignore);
                 return;
             }
 
             Expr::Seq(e) => {
                 if let Some(last) = e.exprs.last_mut() {
-                    self.optimize_expr_in_bool_ctx(&mut **last, is_ignore);
+                    self.optimize_expr_in_bool_ctx(last, is_ignore);
                 }
             }
 

@@ -21,7 +21,7 @@ var Baz = function Baz() {
     "use strict";
     _class_call_check(this, Baz);
 };
-var g3 = regeneratorRuntime.mark(function g3() {
+var g3 = /*#__PURE__*/ regeneratorRuntime.mark(function g3() {
     return regeneratorRuntime.wrap(function g3$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:

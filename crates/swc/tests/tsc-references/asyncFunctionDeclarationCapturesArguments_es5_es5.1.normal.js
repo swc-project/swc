@@ -16,7 +16,7 @@ var C = /*#__PURE__*/ function() {
             return _fn.apply(this, arguments);
         }
         function _fn() {
-            _fn = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+            _fn = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                 var _args = arguments;
                 return regeneratorRuntime.wrap(function _callee$(_ctx) {
                     while(1)switch(_ctx.prev = _ctx.next){

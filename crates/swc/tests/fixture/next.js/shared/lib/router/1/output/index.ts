@@ -9,7 +9,7 @@ var Router = /*#__PURE__*/ function() {
     var _proto = Router.prototype;
     _proto.change = function change(method, url, as, options, forcedScroll) {
         var _this = this;
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, ref, detectedDomain, asNoBasePath, _shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref1, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, ref2, ref3, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, ref4, newUrl, newAs, notFoundRoute, isValidShallowRoute, _scroll, shouldScroll, resetScroll;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

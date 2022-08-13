@@ -142,7 +142,7 @@ impl Visit for UseIsNan {
                     ..
                 }) = expr.as_ref()
                 {
-                    let sym: &str = &*prop.sym;
+                    let sym: &str = &prop.sym;
 
                     if sym == "indexOf" || sym == "lastIndexOf" {
                         if let Some(ExprOrSpread { expr, .. }) = call_expr.args.first() {

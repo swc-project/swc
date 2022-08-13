@@ -53,7 +53,7 @@ function f4() {
 }
 function f5() {
     var v;
-    regeneratorRuntime.mark(function _callee() {
+    /*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -71,7 +71,7 @@ function f5() {
 }
 function f6() {
     var v;
-    _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

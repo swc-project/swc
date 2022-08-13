@@ -21,6 +21,7 @@
 #![allow(clippy::vec_box)]
 #![allow(clippy::logic_bug)]
 #![allow(unstable_name_collisions)]
+#![allow(clippy::match_like_matches_macro)]
 
 use compress::{pure_optimizer, PureOptimizerConfig};
 use mode::Mode;

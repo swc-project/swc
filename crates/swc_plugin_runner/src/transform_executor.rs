@@ -104,7 +104,7 @@ impl TransformExecutor {
         if returned_ptr_result == 0 {
             Ok(ret)
         } else {
-            let err: PluginError = ret.deserialize()?.into_inner();
+            let err: PluginError = ret.deserialize()?;
             match err {
                 PluginError::SizeInteropFailure(msg) => Err(anyhow!(
                     "Failed to convert pointer size to calculate: {}",

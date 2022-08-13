@@ -12,7 +12,7 @@ var A = /*#__PURE__*/ function() {
             key: "method",
             value: function method() {
                 var _this = this;
-                this.foo = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                this.foo = /*#__PURE__*/ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -24,7 +24,7 @@ var A = /*#__PURE__*/ function() {
                     }, _callee);
                 }));
                 var _this1 = this;
-                this.bar = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+                this.bar = /*#__PURE__*/ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
