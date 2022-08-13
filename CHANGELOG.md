@@ -5,6 +5,14 @@
 
 
 
+- **(css/ast)** Use list of component values for error recovery (#5467) ([555b6a3](https://github.com/swc-project/swc/commit/555b6a3734735c17a09aafc61aa9727fd94bacca))
+
+## [1.2.227] - 2022-08-13
+
+### Bug Fixes
+
+
+
 - **(swc_core)** Bump version of deps (#5466) ([5e42864](https://github.com/swc-project/swc/commit/5e428643cdf8c21beb317c0c85acabe6a70623a8))
 
 ### Features
