@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(swc_core)** Bump version of deps (#5466) ([5e42864](https://github.com/swc-project/swc/commit/5e428643cdf8c21beb317c0c85acabe6a70623a8))
+
 ### Features
 
 
