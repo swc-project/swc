@@ -353,8 +353,10 @@ impl<C: Comments> Actual<C> {
 
                 wrapper.function = make_fn_ref(fn_expr);
                 *expr = wrapper.into();
-                if !in_iife && let Some(c) = &mut self.comments {
-                    c.add_pure_comment(expr.span().lo)
+                if !in_iife {
+                    if let Some(c) = &mut self.comments {
+                        c.add_pure_comment(expr.span().lo)
+                    }
                 }
             }
 
@@ -374,8 +376,10 @@ impl<C: Comments> Actual<C> {
                 wrapper.function = make_fn_ref(fn_expr);
 
                 *expr = wrapper.into();
-                if !in_iife && let Some(c) = &mut self.comments {
-                    c.add_pure_comment(expr.span().lo)
+                if !in_iife {
+                    if let Some(c) = &mut self.comments {
+                        c.add_pure_comment(expr.span().lo)
+                    }
                 }
             }
 
