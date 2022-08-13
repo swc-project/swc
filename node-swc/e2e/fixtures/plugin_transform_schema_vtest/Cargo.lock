@@ -489,9 +489,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv"
-version = "0.7.39"
+version = "0.7.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cec2b3485b07d96ddfd3134767b8a447b45ea4eb91448d0a35180ec0ffd5ed15"
+checksum = "1f08c8062c1fe1253064043b8fc07bfea1b9702b71b4a86c11ea3588183b12e1"
 dependencies = [
  "bytecheck",
  "hashbrown",
@@ -503,9 +503,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv_derive"
-version = "0.7.39"
+version = "0.7.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6eaedadc88b53e36dd32d940ed21ae4d850d5916f2581526921f553a72ac34c4"
+checksum = "e289706df51226e84814bf6ba1a9e1013112ae29bc7a9878f73fce360520c403"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -613,7 +613,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.2"
+version = "0.4.4"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -626,7 +626,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.3"
+version = "0.27.5"
 dependencies = [
  "ahash",
  "anyhow",
@@ -654,7 +654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.6.5"
+version = "0.7.3"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -668,7 +668,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.4"
+version = "0.90.6"
 dependencies = [
  "bitflags",
  "bytecheck",
@@ -685,7 +685,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.76.2"
+version = "0.76.4"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -724,7 +724,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.9.0"
+version = "0.9.2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -733,7 +733,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.18.2"
+version = "0.18.4"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
@@ -746,7 +746,7 @@ dependencies = [
 
 [[package]]
 name = "swc_trace_macro"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "proc-macro2",
  "quote",
