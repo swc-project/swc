@@ -1,4 +1,4 @@
-use std::{cmp::Reverse, ops::AddAssign};
+use std::{cmp::Reverse, io::Write, ops::AddAssign};
 
 use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
@@ -75,27 +75,38 @@ impl SourceMapperExt for DummySourceMap {
     }
 }
 
+impl Write for CharFreq {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        self.scan(buf, 1);
+        Ok(buf.len())
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+
 impl CharFreq {
-    pub fn scan(&mut self, s: &str, delta: i32) {
+    pub fn scan(&mut self, s: &[u8], delta: i32) {
         if delta == 0 {
             return;
         }
 
-        for c in s.chars() {
+        for &c in s {
             match c {
-                'a'..='z' => {
+                b'a'..=b'z' => {
                     self.0[c as usize - 'a' as usize] += delta;
                 }
-                'A'..='Z' => {
+                b'A'..=b'Z' => {
                     self.0[c as usize - 'A' as usize + 26] += delta;
                 }
-                '0'..='9' => {
+                b'0'..=b'9' => {
                     self.0[c as usize - '0' as usize + 52] += delta;
                 }
-                '_' => {
+                b'_' => {
                     self.0[62] += delta;
                 }
-                '$' => {
+                b'$' => {
                     self.0[63] += delta;
                 }
 
@@ -105,25 +116,20 @@ impl CharFreq {
     }
 
     pub fn compute(p: &Program, preserved: &FxHashSet<Id>) -> Self {
-        let mut buf = vec![];
         let cm = Lrc::new(DummySourceMap);
+
+        let mut freq = Self::default();
 
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),
                 cm,
                 comments: None,
-                wr: Box::new(JsWriter::new(Default::default(), "\n", &mut buf, None)),
+                wr: Box::new(JsWriter::new(Default::default(), "\n", &mut freq, None)),
             };
 
             emitter.emit_program(p).unwrap();
         }
-
-        let code = String::from_utf8(buf).unwrap();
-
-        let mut freq = Self::default();
-
-        freq.scan(&code, 1);
 
         // Subtract
         p.visit_with(&mut CharFreqAnalyzer {
