@@ -1219,7 +1219,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.5"
+version = "0.7.6"
 dependencies = [
  "once_cell",
  "swc_atoms",
