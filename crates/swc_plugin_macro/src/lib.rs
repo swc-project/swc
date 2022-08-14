@@ -81,7 +81,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
         #[no_mangle]
         pub fn #transform_schema_version_ident() -> u32 {
-            swc_core::common::plugin::serialized::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION
+            swc_core::common::plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION
         }
 
         // Macro to allow compose plugin's transform function without manual pointer operation.
