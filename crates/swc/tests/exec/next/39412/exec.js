@@ -7,3 +7,4 @@ if (a && b && c) {
 if (c && b && a) {
     console.log('Reversed: This also shouldn\'t log');
 }
+console.log('PASS')
