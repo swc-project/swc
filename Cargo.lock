@@ -3411,7 +3411,7 @@ dependencies = [
  "swc_ecma_ast 0.90.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "swc_ecma_loader 0.39.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "swc_ecma_transforms 0.183.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "swc_node_bundler 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "swc_node_bundler 0.0.1",
  "swc_nodejs_common 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "swc_plugin_proxy 0.18.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "swc_plugin_runner 0.71.6",
@@ -3422,7 +3422,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.7"
+version = "0.7.8"
 dependencies = [
  "binding_macros 0.2.3",
  "once_cell",
@@ -3439,7 +3439,7 @@ dependencies = [
  "swc_ecma_utils 0.99.4",
  "swc_ecma_visit 0.76.5",
  "swc_node_base 0.5.5",
- "swc_node_bundler 0.0.1",
+ "swc_node_bundler 0.0.2",
  "swc_nodejs_common 0.0.1",
  "swc_plugin",
  "swc_plugin_macro",
@@ -4879,35 +4879,6 @@ dependencies = [
 [[package]]
 name = "swc_node_bundler"
 version = "0.0.1"
-dependencies = [
- "anyhow",
- "dashmap",
- "is-macro",
- "once_cell",
- "pretty_assertions",
- "regex",
- "serde",
- "serde_json",
- "string_enum 0.3.1",
- "swc 0.214.6",
- "swc_atoms 0.4.5",
- "swc_bundler 0.177.3",
- "swc_common 0.27.6",
- "swc_ecma_ast 0.90.7",
- "swc_ecma_codegen 0.121.4",
- "swc_ecma_loader 0.39.4",
- "swc_ecma_parser 0.117.4",
- "swc_ecma_transforms 0.183.3",
- "swc_ecma_utils 0.99.4",
- "swc_ecma_visit 0.76.5",
- "swc_node_base 0.5.5",
- "testing",
- "tracing",
-]
-
-[[package]]
-name = "swc_node_bundler"
-version = "0.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3ca3cb2b36af6d307da8f57b0f29e6001a4c004479adef100d11105a368e802d"
 dependencies = [
@@ -4931,6 +4902,35 @@ dependencies = [
  "swc_ecma_utils 0.99.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "swc_ecma_visit 0.76.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "swc_node_base 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tracing",
+]
+
+[[package]]
+name = "swc_node_bundler"
+version = "0.0.2"
+dependencies = [
+ "anyhow",
+ "dashmap",
+ "is-macro",
+ "once_cell",
+ "pretty_assertions",
+ "regex",
+ "serde",
+ "serde_json",
+ "string_enum 0.3.1",
+ "swc 0.214.6",
+ "swc_atoms 0.4.5",
+ "swc_bundler 0.177.3",
+ "swc_common 0.27.6",
+ "swc_ecma_ast 0.90.7",
+ "swc_ecma_codegen 0.121.4",
+ "swc_ecma_loader 0.39.4",
+ "swc_ecma_parser 0.117.4",
+ "swc_ecma_transforms 0.183.3",
+ "swc_ecma_utils 0.99.4",
+ "swc_ecma_visit 0.76.5",
+ "swc_node_base 0.5.5",
+ "testing",
  "tracing",
 ]
 

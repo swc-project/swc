@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.7.7"
+version       = "0.7.8"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -238,7 +238,7 @@ swc_ecma_transforms_testing = { optional = true, version = "0.105.4", path = "..
 swc_ecma_utils              = { optional = true, version = "0.99.4", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { optional = true, version = "0.76.5", path = "../swc_ecma_visit" }
 swc_node_base               = { optional = true, version = "0.5.5", path = "../swc_node_base" }
-swc_node_bundler            = { optional = true, version = "0.0.1", path = "../swc_node_bundler" }
+swc_node_bundler            = { optional = true, version = "0.0.2", path = "../swc_node_bundler" }
 swc_nodejs_common           = { optional = true, version = "0.0.1", path = "../swc_nodejs_common" }
 swc_plugin                  = { optional = true, version = "0.89.0", path = "../swc_plugin" }
 swc_plugin_macro            = { optional = true, version = "0.9.3", path = "../swc_plugin_macro" }
