@@ -186,11 +186,11 @@ impl Visit for CharFreqAnalyzer<'_> {
             return;
         }
 
-        self.freq.scan(&i.sym, -1);
+        self.freq.scan(i.sym.as_bytes(), -1);
     }
 
     fn visit_str(&mut self, s: &Str) {
-        self.freq.scan(&s.value, -1);
+        self.freq.scan(s.value.as_bytes(), -1);
     }
 
     fn visit_prop_name(&mut self, n: &PropName) {
