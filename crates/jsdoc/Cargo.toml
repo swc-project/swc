@@ -15,7 +15,7 @@ bench = false
 nom        = "7.1.0"
 serde      = { version = "1", features = ["derive"] }
 swc_atoms  = { version = "0.4.5", path = "../swc_atoms" }
-swc_common = { version = "0.27.6", path = "../swc_common" }
+swc_common = { version = "0.27.7", path = "../swc_common" }
 
 [dev-dependencies]
 anyhow          = "1"

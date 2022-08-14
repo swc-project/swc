@@ -1,18 +1,18 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Faster version of petgraph"
-edition = "2021"
-include = ["Cargo.toml", "src/**/*.rs"]
-license = "Apache-2.0"
-name = "swc_fast_graph"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.15.4"
+edition     = "2021"
+include     = ["Cargo.toml", "src/**/*.rs"]
+license     = "Apache-2.0"
+name        = "swc_fast_graph"
+repository  = "https://github.com/swc-project/swc.git"
+version     = "0.15.4"
 
 [lib]
 bench = false
 
 [dependencies]
-ahash = "0.7.6"
-indexmap = "1.7.0"
-petgraph = "0.6"
-swc_common = { version = "0.27.6", path = "../swc_common"}
+ahash      = "0.7.6"
+indexmap   = "1.7.0"
+petgraph   = "0.6"
+swc_common = { version = "0.27.7", path = "../swc_common" }

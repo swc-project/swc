@@ -1,16 +1,16 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "General ecmascript loader used for transforms"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "General ecmascript loader used for transforms"
 documentation = "https://rustdoc.swc.rs/swc_ecma_loader/"
-edition = "2021"
-license = "Apache-2.0"
-name = "swc_ecma_loader"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.39.4"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_ecma_loader"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.39.4"
 
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
@@ -25,19 +25,19 @@ node = ["normpath", "serde_json", "dashmap", "once_cell", "path-clean"]
 tsc = ["dashmap", "once_cell", "swc_cached"]
 
 [dependencies]
-ahash = "0.7.4"
-anyhow = "1.0.41"
-dashmap = { version = "5.1.0", optional = true }
-lru = { version = "0.7.1", optional = true }
-once_cell = { version = "1.9.0", optional = true }
+ahash       = "0.7.4"
+anyhow      = "1.0.41"
+dashmap     = { version = "5.1.0", optional = true }
+lru         = { version = "0.7.1", optional = true }
+once_cell   = { version = "1.9.0", optional = true }
 parking_lot = { version = "0.12.0", optional = true }
-path-clean = { version = "=0.1.0", optional = true }
-serde = { version = "1", features = ["derive"] }
-serde_json = { version = "1.0.64", optional = true }
-swc_cached = { version = "0.3.5", optional = true, path = "../swc_cached" }
-swc_common = { version = "0.27.6", path = "../swc_common" }
-tracing = "0.1.32"
-pathdiff = "0.2.1"
+path-clean  = { version = "=0.1.0", optional = true }
+pathdiff    = "0.2.1"
+serde       = { version = "1", features = ["derive"] }
+serde_json  = { version = "1.0.64", optional = true }
+swc_cached  = { version = "0.3.5", optional = true, path = "../swc_cached" }
+swc_common  = { version = "0.27.7", path = "../swc_common" }
+tracing     = "0.1.32"
 
 [dev-dependencies]
 lazy_static = "1.4.0"

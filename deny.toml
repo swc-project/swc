@@ -75,6 +75,7 @@ allow = [
   "Zlib",
   "MPL-2.0",
   "0BSD",
+  "Unicode-DFS-2016",               #unicode-ident
 ]
 # List of explictly disallowed licenses
 # See https://spdx.org/licenses/ for list of possible licenses
@@ -103,48 +104,48 @@ confidence-threshold = 0.8
 # aren't accepted for every possible crate as with the normal allow list
 exceptions = []
 
-[[licenses.clarify]]
-# The name of the crate the clarification applies to
-name = "encoding_rs"
-# The optional version constraint for the crate
-version = "0.8.30"
-# The SPDX expression for the license requirements of the crate
-expression = "Apache-2.0 AND BSD-3-Clause"
-# One or more files in the crate's source used as the "source of truth" for
-# the license expression. If the contents match, the clarification will be used
-# when running the license check, otherwise the clarification will be ignored
-# and the crate will be checked normally, which may produce warnings or errors
-# depending on the rest of your configuration
-license-files = [{ path = "COPYRIGHT", hash = 972598577 }]
+  [[licenses.clarify]]
+  # The name of the crate the clarification applies to
+  name = "encoding_rs"
+  # The optional version constraint for the crate
+  version = "0.8.30"
+  # The SPDX expression for the license requirements of the crate
+  expression = "Apache-2.0 AND BSD-3-Clause"
+  # One or more files in the crate's source used as the "source of truth" for
+  # the license expression. If the contents match, the clarification will be used
+  # when running the license check, otherwise the clarification will be ignored
+  # and the crate will be checked normally, which may produce warnings or errors
+  # depending on the rest of your configuration
+  license-files = [{ path = "COPYRIGHT", hash = 972598577 }]
 
-# Some crates don't have (easily) machine readable licensing information,
-# adding a clarification entry for it allows you to manually specify the
-# licensing information
-#[[licenses.clarify]]
-# The name of the crate the clarification applies to
-#name = "ring"
-# The optional version constraint for the crate
-#version = "*"
-# The SPDX expression for the license requirements of the crate
-#expression = "MIT AND ISC AND OpenSSL"
-# One or more files in the crate's source used as the "source of truth" for
-# the license expression. If the contents match, the clarification will be used
-# when running the license check, otherwise the clarification will be ignored
-# and the crate will be checked normally, which may produce warnings or errors
-# depending on the rest of your configuration
-#license-files = [
-# Each entry is a crate relative path, and the (opaque) hash of its contents
-#{ path = "LICENSE", hash = 0xbd0eed23 }
-#]
+  # Some crates don't have (easily) machine readable licensing information,
+  # adding a clarification entry for it allows you to manually specify the
+  # licensing information
+  #[[licenses.clarify]]
+  # The name of the crate the clarification applies to
+  #name = "ring"
+  # The optional version constraint for the crate
+  #version = "*"
+  # The SPDX expression for the license requirements of the crate
+  #expression = "MIT AND ISC AND OpenSSL"
+  # One or more files in the crate's source used as the "source of truth" for
+  # the license expression. If the contents match, the clarification will be used
+  # when running the license check, otherwise the clarification will be ignored
+  # and the crate will be checked normally, which may produce warnings or errors
+  # depending on the rest of your configuration
+  #license-files = [
+  # Each entry is a crate relative path, and the (opaque) hash of its contents
+  #{ path = "LICENSE", hash = 0xbd0eed23 }
+  #]
 
-[licenses.private]
-# If true, ignores workspace crates that aren't published, or are only
-# published to private registries
-ignore = false
-# One or more private registries that you might publish crates to, if a crate
-# is only published to private registries, and ignore is true, the crate will
-# not have its license(s) checked
-registries = []
+  [licenses.private]
+  # If true, ignores workspace crates that aren't published, or are only
+  # published to private registries
+  ignore = false
+  # One or more private registries that you might publish crates to, if a crate
+  # is only published to private registries, and ignore is true, the crate will
+  # not have its license(s) checked
+  registries = []
 
 # This section is considered when running `cargo deny check bans`.
 # More documentation about the 'bans' section can be found here:
@@ -188,10 +189,10 @@ allow-registry = ["https://github.com/rust-lang/crates.io-index"]
 # List of URLs for allowed Git repositories
 allow-git = []
 
-[sources.allow-org]
-# 1 or more github.com organizations to allow git sources for
-github = []
-# 1 or more gitlab.com organizations to allow git sources for
-gitlab = []
-# 1 or more bitbucket.org organizations to allow git sources for
-bitbucket = []
+  [sources.allow-org]
+  # 1 or more github.com organizations to allow git sources for
+  github = []
+  # 1 or more gitlab.com organizations to allow git sources for
+  gitlab = []
+  # 1 or more bitbucket.org organizations to allow git sources for
+  bitbucket = []
