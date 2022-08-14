@@ -7,6 +7,9 @@
 
 - **(css/parser)** Parse `@font-feature-values` at-rule (#5468) ([eebdfdb](https://github.com/swc-project/swc/commit/eebdfdb2a08c95f7fd3a8a5c21527675c22442ec))
 
+
+- **(node)** Use published version of `swc_core` for node binding (#5481) ([9d04f24](https://github.com/swc-project/swc/commit/9d04f24c26d334f7675bbd2ebe3da04467fe6524))
+
 ### Miscellaneous Tasks
 - **general**: Typo (#5478) ([8fde2ab](https://github.com/swc-project/swc/commit/8fde2ab07b56ea644850da5f9b60ed580ccb9d7f))
 
