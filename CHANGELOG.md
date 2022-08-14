@@ -25,6 +25,12 @@
 
 - **(bindings)** Use published `swc_core` as interface (#5482) ([83417b6](https://github.com/swc-project/swc/commit/83417b6f7594c5e74a896034fb508473922203d0))
 
+### Build
+
+
+
+- **(bindings)** Bump up swc_core (#5484) ([76797b1](https://github.com/swc-project/swc/commit/76797b1fc19a6396e62df58dfa834efcd1367939))
+
 ## [1.2.230] - 2022-08-14
 
 ### Features
