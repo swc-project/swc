@@ -7,6 +7,9 @@
 
 - **(es/helpers)** Fix `for await` (#5458) ([b655bf4](https://github.com/swc-project/swc/commit/b655bf473a12a45a8c6d3f2fb3dc0811b778c075))
 
+
+- **(es/minifier)** Remove wrong code (#5485) ([2045fe6](https://github.com/swc-project/swc/commit/2045fe627397da217dc28fca52bd5cf85d42d2ae))
+
 ### Performance
 
 

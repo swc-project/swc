@@ -808,7 +808,7 @@ dependencies = [
  "swc_common 0.27.6",
  "swc_ecma_ast 0.90.7",
  "swc_ecma_codegen 0.121.4",
- "swc_ecma_minifier 0.144.4",
+ "swc_ecma_minifier 0.144.5",
  "swc_ecma_parser 0.117.4",
  "swc_ecma_transforms_base 0.103.7",
  "swc_ecma_visit 0.76.5",
@@ -3103,7 +3103,7 @@ dependencies = [
  "swc_ecma_ext_transforms 0.85.4",
  "swc_ecma_lints 0.58.4",
  "swc_ecma_loader 0.39.4",
- "swc_ecma_minifier 0.144.4",
+ "swc_ecma_minifier 0.144.5",
  "swc_ecma_parser 0.117.4",
  "swc_ecma_preset_env 0.158.3",
  "swc_ecma_testing",
@@ -3180,7 +3180,7 @@ dependencies = [
  "swc_ecma_ast 0.90.7",
  "swc_ecma_codegen 0.121.4",
  "swc_ecma_loader 0.39.4",
- "swc_ecma_minifier 0.144.4",
+ "swc_ecma_minifier 0.144.5",
  "swc_ecma_parser 0.117.4",
  "swc_ecma_transforms_base 0.103.7",
  "swc_ecma_transforms_optimization 0.152.3",
@@ -3862,7 +3862,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.144.4"
+version = "0.144.5"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -4580,7 +4580,7 @@ dependencies = [
  "swc_ecma_ast 0.90.7",
  "swc_ecma_codegen 0.121.4",
  "swc_ecma_dep_graph",
- "swc_ecma_minifier 0.144.4",
+ "swc_ecma_minifier 0.144.5",
  "swc_ecma_parser 0.117.4",
  "swc_ecma_preset_env 0.158.3",
  "swc_ecma_quote",
@@ -4787,7 +4787,7 @@ dependencies = [
  "swc_css_parser",
  "swc_ecma_ast 0.90.7",
  "swc_ecma_codegen 0.121.4",
- "swc_ecma_minifier 0.144.4",
+ "swc_ecma_minifier 0.144.5",
  "swc_ecma_parser 0.117.4",
  "swc_ecma_transforms_base 0.103.7",
  "swc_ecma_visit 0.76.5",
