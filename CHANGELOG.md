@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Remove wrong code (#5485) ([2045fe6](https://github.com/swc-project/swc/commit/2045fe627397da217dc28fca52bd5cf85d42d2ae))
 
+
+- **(swc_core)** Bump up `swc_plugin_macro` (#5486) ([04e11a5](https://github.com/swc-project/swc/commit/04e11a577dcda1b745faa120e7bb94e8ba408d1e))
+
 ### Performance
 
 
