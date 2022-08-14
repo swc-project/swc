@@ -1507,6 +1507,7 @@ where
                         Callee::Super(_) | Callee::Import(_) => false,
                         Callee::Expr(callee) => is_callee_this_aware(callee),
                     },
+                is_lhs_of_assign: false,
                 ..self.ctx
             };
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1535,6 +1536,7 @@ where
             let ctx = Ctx {
                 in_call_arg: true,
                 is_this_aware_callee: false,
+                is_lhs_of_assign: false,
                 ..self.ctx
             };
             // TODO: Prevent inline if callee is unknown.
@@ -2072,6 +2074,7 @@ where
         {
             let ctx = Ctx {
                 is_callee: true,
+                is_lhs_of_assign: false,
                 ..self.ctx
             };
             n.callee.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2080,6 +2083,7 @@ where
         {
             let ctx = Ctx {
                 in_call_arg: true,
+                is_lhs_of_assign: false,
                 ..self.ctx
             };
             n.args.visit_mut_with(&mut *self.with_ctx(ctx));
