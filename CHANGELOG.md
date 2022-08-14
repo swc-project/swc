@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Performance
+
+
+
+- **(es/minifier)** Remove needless allocation of name mangler (#5483) ([1a0a2b5](https://github.com/swc-project/swc/commit/1a0a2b584265907c965242320cace6c89f858171))
+
 ### Refactor
 
 
