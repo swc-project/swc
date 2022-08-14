@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/helpers)** Fix `for await` (#5458) ([b655bf4](https://github.com/swc-project/swc/commit/b655bf473a12a45a8c6d3f2fb3dc0811b778c075))
+
 ### Performance
 
 
