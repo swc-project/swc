@@ -139,12 +139,13 @@ impl TransformExecutor {
      * Host should appropriately handle if plugin is not compatible to the
      * current runtime.
      */
+    #[allow(unreachable_code)]
     pub fn is_transform_schema_compatible(&self) -> Result<bool, Error> {
         #[cfg(any(
             feature = "plugin_transform_schema_v1",
             feature = "plugin_transform_schema_vtest"
         ))]
-        match self.exported_plugin_transform_schema_version.call() {
+        return match self.exported_plugin_transform_schema_version.call() {
             Ok(plugin_schema_version) => {
                 let host_schema_version = PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
 
@@ -156,18 +157,16 @@ impl TransformExecutor {
                 }
             }
             Err(e) => Err(anyhow!("Failed to call plugin's schema version: {}", e)),
-        }
+        };
 
         #[cfg(not(all(
             feature = "plugin_transform_schema_v1",
             feature = "plugin_transform_schema_vtest"
         )))]
-        {
-            panic!(
-                "Plugin runner cannot detect plugin's schema version. Ensure host is compiled \
-                 with proper versions"
-            );
-        }
+        anyhow::bail!(
+            "Plugin runner cannot detect plugin's schema version. Ensure host is compiled with \
+             proper versions"
+        )
     }
 
     #[tracing::instrument(level = "info", skip_all)]
