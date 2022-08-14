@@ -23,4 +23,4 @@ rkyv        = { version = "=0.7.37", optional = true }
 serde       = { version = "1.0.127", features = ["derive"] }
 string_enum = { version = "0.3.1", path = "../string_enum/" }
 swc_atoms   = { version = "0.4.5", path = "../swc_atoms" }
-swc_common  = { version = "0.27.6", path = "../swc_common" }
+swc_common  = { version = "0.27.7", path = "../swc_common" }

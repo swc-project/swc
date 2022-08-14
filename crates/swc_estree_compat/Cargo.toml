@@ -23,7 +23,7 @@ rayon = "1.5.0"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1.0.62"
 swc_atoms = { version = "0.4.5", path = "../swc_atoms" }
-swc_common = { version = "0.27.6", path = "../swc_common", features = [
+swc_common = { version = "0.27.7", path = "../swc_common", features = [
   "concurrent",
   "sourcemap",
   "tty-emitter",
@@ -38,7 +38,7 @@ swc_node_comments = { version = "0.14.4", path = "../swc_node_comments/" }
 [dev-dependencies]
 criterion           = "0.3"
 pretty_assertions   = "1.1"
-swc                 = { version = "0.214.4", path = "../swc" }
+swc                 = { version = "0.214.6", path = "../swc" }
 swc_ecma_ast        = { version = "0.90.7", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "0.117.4", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "0.183.3", path = "../swc_ecma_transforms/" }
