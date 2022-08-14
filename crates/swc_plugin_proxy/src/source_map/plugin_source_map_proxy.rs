@@ -7,6 +7,11 @@ use swc_common::{
     },
     BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };
+use swc_common::{
+    source_map::{PartialFileLinesResult, PartialLoc},
+    sync::OnceCell,
+    CharPos, FileLines, SourceFile,
+};
 #[cfg(feature = "plugin-mode")]
 use swc_ecma_ast::SourceMapperExt;
 use swc_trace_macro::swc_trace;
@@ -17,7 +22,11 @@ use crate::memory_interop::read_returned_result_from_host_fallible;
 
 #[cfg(target_arch = "wasm32")]
 extern "C" {
-    fn __lookup_char_pos_source_map_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
+    fn __lookup_char_pos_source_map_proxy(
+        byte_pos: u32,
+        should_include_source_file: i32,
+        allocated_ret_ptr: i32,
+    ) -> i32;
     fn __doctest_offset_line_proxy(orig: u32) -> u32;
     fn __merge_spans_proxy(
         lhs_lo: u32,
@@ -44,14 +53,20 @@ extern "C" {
         span_lo: u32,
         span_hi: u32,
         span_ctxt: u32,
+        should_request_source_file: i32,
         allocated_ret_ptr: i32,
     ) -> i32;
     fn __lookup_byte_offset_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
 }
 
 #[cfg(feature = "plugin-mode")]
-#[derive(Debug, Copy, Clone)]
-pub struct PluginSourceMapProxy;
+#[derive(Debug, Clone)]
+pub struct PluginSourceMapProxy {
+    // Sharable instance to `SourceFile` per plugin transform.
+    // Since each plugin's lifecycle is tied to single `transform`,
+    // We know this'll be the same across subsequent request for lookup_char_*.
+    pub source_file: OnceCell<swc_common::sync::Lrc<SourceFile>>,
+}
 
 #[cfg(feature = "plugin-mode")]
 #[swc_trace]
@@ -165,21 +180,86 @@ impl SourceMapper for PluginSourceMapProxy {
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
     fn lookup_char_pos(&self, pos: BytePos) -> Loc {
         #[cfg(target_arch = "wasm32")]
-        return read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
-            __lookup_char_pos_source_map_proxy(pos.0, serialized_ptr)
-        })
-        .expect("Host should return Loc");
+        {
+            let should_request_source_file = if self.source_file.get().is_none() {
+                1
+            } else {
+                0
+            };
+            let partial_loc: PartialLoc =
+                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+                    __lookup_char_pos_source_map_proxy(
+                        pos.0,
+                        should_request_source_file,
+                        serialized_ptr,
+                    )
+                })
+                .expect("Host should return PartialLoc");
 
+            if self.source_file.get().is_none() {
+                if let Some(source_file) = partial_loc.source_file {
+                    self.source_file
+                        .set(source_file)
+                        .expect("Should able to set source file");
+                }
+            }
+
+            return Loc {
+                file: self
+                    .source_file
+                    .get()
+                    .expect("SourceFile should exist")
+                    .clone(),
+                line: partial_loc.line,
+                col: CharPos(partial_loc.col),
+                col_display: partial_loc.col_display,
+            };
+        }
+
+        #[cfg(target_arch = "wasm32")]
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
     }
 
     fn span_to_lines(&self, sp: Span) -> FileLinesResult {
         #[cfg(target_arch = "wasm32")]
-        return read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
-            __span_to_lines_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
-        })
-        .expect("Host should return FileLinesResult");
+        {
+            let should_request_source_file = if self.source_file.get().is_none() {
+                1
+            } else {
+                0
+            };
+            let partial_files: PartialFileLinesResult =
+                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+                    __span_to_lines_proxy(
+                        sp.lo.0,
+                        sp.hi.0,
+                        sp.ctxt.as_u32(),
+                        should_request_source_file,
+                        serialized_ptr,
+                    )
+                })
+                .expect("Host should return PartialFileLinesResult");
+
+            if self.source_file.get().is_none() {
+                if let Ok(p) = &partial_files {
+                    if let Some(source_file) = &p.file {
+                        self.source_file
+                            .set(source_file.clone())
+                            .expect("Should able to set source file");
+                    }
+                }
+            }
+
+            return partial_files.map(|files| FileLines {
+                file: self
+                    .source_file
+                    .get()
+                    .expect("SourceFile should exist")
+                    .clone(),
+                lines: files.lines,
+            });
+        }
 
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
