@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Refactor
+
+
+
+- **(bindings)** Use published `swc_core` as interface (#5482) ([83417b6](https://github.com/swc-project/swc/commit/83417b6f7594c5e74a896034fb508473922203d0))
+
+## [1.2.230] - 2022-08-14
+
 ### Features
 
 
