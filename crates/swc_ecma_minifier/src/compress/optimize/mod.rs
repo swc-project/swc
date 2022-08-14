@@ -1508,6 +1508,7 @@ where
                         Callee::Expr(callee) => is_callee_this_aware(callee),
                     },
                 is_lhs_of_assign: false,
+                is_exact_lhs_of_assign: false,
                 ..self.ctx
             };
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1537,6 +1538,7 @@ where
                 in_call_arg: true,
                 is_this_aware_callee: false,
                 is_lhs_of_assign: false,
+                is_exact_lhs_of_assign: false,
                 ..self.ctx
             };
             // TODO: Prevent inline if callee is unknown.
@@ -1839,6 +1841,8 @@ where
 
         let ctx = Ctx {
             top_level: false,
+            is_lhs_of_assign: false,
+            is_exact_lhs_of_assign: false,
             ..self.ctx
         };
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2074,6 +2078,7 @@ where
         {
             let ctx = Ctx {
                 is_callee: true,
+                is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
                 ..self.ctx
             };
@@ -2083,6 +2088,7 @@ where
         {
             let ctx = Ctx {
                 in_call_arg: true,
+                is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
                 ..self.ctx
             };
