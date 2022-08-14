@@ -23,8 +23,8 @@ use swc_core::{
     bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
     common::{collections::AHashMap, Span},
     loader::{TargetEnv, NODE_BUILTINS},
+    node::{get_deserialized, MapErr},
 };
-use swc_nodejs_common::{get_deserialized, MapErr};
 
 use crate::get_compiler;
 
@@ -39,7 +39,7 @@ struct ConfigItem {
 struct StaticConfigItem {
     #[cfg(feature = "swc_v1")]
     #[serde(flatten)]
-    config: swc_node_bundler::v1::Config,
+    config: swc_core::bundler::node::v1::Config,
 }
 
 pub(crate) struct BundleTask {
@@ -188,13 +188,13 @@ pub(crate) fn bundle(
     conf_items: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<BundleTask>> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
 
     let c: Arc<Compiler> = get_compiler();
 
     let static_items: StaticConfigItem = get_deserialized(&conf_items)?;
 
-    let loader = Box::new(swc_node_bundler::loaders::swc::SwcLoader::new(
+    let loader = Box::new(swc_core::bundler::node::loaders::swc::SwcLoader::new(
         c.clone(),
         static_items
             .config

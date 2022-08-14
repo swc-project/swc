@@ -180,8 +180,6 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_core",
- "swc_node_bundler",
- "swc_nodejs_common",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
@@ -3132,7 +3130,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.4"
+version = "0.7.5"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3149,6 +3147,8 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_node_base",
+ "swc_node_bundler",
+ "swc_nodejs_common",
  "swc_plugin",
  "swc_plugin_macro",
  "swc_plugin_proxy",
@@ -4083,7 +4083,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.0.0"
+version = "0.0.1"
 dependencies = [
  "anyhow",
  "dashmap",

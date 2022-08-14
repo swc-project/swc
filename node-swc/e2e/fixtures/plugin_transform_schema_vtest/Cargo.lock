@@ -613,7 +613,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -626,7 +626,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.5"
+version = "0.27.6"
 dependencies = [
  "ahash",
  "anyhow",
@@ -654,7 +654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.3"
+version = "0.7.5"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -668,7 +668,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.6"
+version = "0.90.7"
 dependencies = [
  "bitflags",
  "bytecheck",
@@ -685,7 +685,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.76.4"
+version = "0.76.5"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -733,7 +733,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.18.4"
+version = "0.18.5"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",

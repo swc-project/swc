@@ -10,8 +10,8 @@ use swc_core::{
         config::{Options, SourceMapsConfig},
         Compiler, TransformOutput,
     },
+    node::{deserialize_json, get_deserialized, MapErr},
 };
-use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::get_compiler;
 
@@ -64,7 +64,7 @@ pub fn print(
     options: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<PrintTask>> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
     let options = String::from_utf8_lossy(&options).to_string();
@@ -81,7 +81,7 @@ pub fn print(
 
 #[napi]
 pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOutput> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
 
