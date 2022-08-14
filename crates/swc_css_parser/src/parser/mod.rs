@@ -56,6 +56,7 @@ struct Ctx {
     in_supports_at_rule: bool,
     in_import_at_rule: bool,
     in_page_at_rule: bool,
+    in_font_feature_values_at_rule: bool,
 }
 
 #[derive(Debug)]

@@ -32,7 +32,7 @@ function fun(deepPromised) {
     return _fun.apply(this, arguments);
 }
 function _fun() {
-    _fun = _async_to_generator(regeneratorRuntime.mark(function _callee(deepPromised) {
+    _fun = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(deepPromised) {
         var deepPromisedWithIndexer, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, value, awaitedValue;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

@@ -1,7 +1,7 @@
 // @strict: true
 // @target: esnext
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(f1);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(f1);
 function f1() {
     var a;
     return regeneratorRuntime.wrap(function f1$(_ctx) {

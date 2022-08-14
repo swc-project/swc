@@ -57,7 +57,7 @@ impl NoObjCalls {
             return;
         }
 
-        let name: &str = &*ident.sym;
+        let name: &str = &ident.sym;
 
         if OBJECTS_NAMES.contains(&name) {
             self.emit_report(span, name);

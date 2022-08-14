@@ -74,10 +74,19 @@ pub mod transforms {
 }
 
 // swc_bundler
-#[cfg(feature = "bundler")]
-#[cfg_attr(docsrs, doc(cfg(feature = "bundler")))]
+#[cfg(feature = "__bundler")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__bundler")))]
 pub mod bundler {
     pub use swc_bundler::*;
+
+    #[cfg(any(feature = "bundler_node_v1", feature = "bundler_node_v2"))]
+    #[cfg_attr(
+        docsrs,
+        doc(cfg(any(feature = "bundler_node_v1", feature = "bundler_node_v2")))
+    )]
+    pub mod node {
+        pub use swc_node_bundler::*;
+    }
 }
 
 // swc_ecma_loader
@@ -103,6 +112,12 @@ pub mod testing_transform {
 #[cfg_attr(docsrs, doc(cfg(feature = "__binding_macros")))]
 pub mod binding_macros {
     pub use binding_macros::*;
+}
+
+#[cfg(feature = "base_node")]
+#[cfg_attr(docsrs, doc(cfg(feature = "base_node")))]
+pub mod node {
+    pub use swc_nodejs_common::*;
 }
 
 #[cfg(feature = "allocator_node")]

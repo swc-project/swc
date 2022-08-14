@@ -56,7 +56,7 @@ fn exprs(unresolved_mark: Mark) -> impl Fold {
 #[tracing::instrument(level = "info", skip_all)]
 pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
 where
-    C: Comments,
+    C: Comments + Clone,
 {
     chain!(
         regexp(regexp::Config {
@@ -70,7 +70,7 @@ where
         }),
         block_scoped_functions(),
         template_literal(c.template_literal),
-        classes(comments, c.classes),
+        classes(comments.clone(), c.classes),
         new_target(),
         spread(c.spread),
         // https://github.com/Microsoft/TypeScript/issues/5441
@@ -85,7 +85,7 @@ where
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
         block_scoping(unresolved_mark),
-        regenerator(c.regenerator, unresolved_mark),
+        regenerator(c.regenerator, comments, unresolved_mark),
     )
 }
 

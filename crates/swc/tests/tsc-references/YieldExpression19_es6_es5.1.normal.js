@@ -1,13 +1,13 @@
 // @target: es6
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(foo);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(foo);
 function foo() {
     var bar;
     return regeneratorRuntime.wrap(function foo$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 bar = function bar() {
-                    var _marked = regeneratorRuntime.mark(quux);
+                    var _marked = /*#__PURE__*/ regeneratorRuntime.mark(quux);
                     function quux() {
                         return regeneratorRuntime.wrap(function quux$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){

@@ -11,8 +11,8 @@ use swc_core::{
         TransformOutput,
     },
     common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
+    node::{deserialize_json, get_deserialized, MapErr},
 };
-use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::{get_compiler, util::try_with};
 
@@ -74,7 +74,7 @@ impl Task for MinifyTask {
 
 #[napi]
 fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
@@ -87,7 +87,7 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 
 #[napi]
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
     let code: MinifyTarget = get_deserialized(code)?;
     let opts = get_deserialized(opts)?;
 

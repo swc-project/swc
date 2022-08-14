@@ -574,7 +574,7 @@ where
         options: &CompressOptions,
     ) -> Option<Vec<Mergable<'a>>> {
         Some(match s {
-            Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
+            Stmt::Expr(e) => vec![Mergable::Expr(&mut e.expr)],
             Stmt::Decl(Decl::Var(
                 v @ VarDecl {
                     kind: VarDeclKind::Var | VarDeclKind::Let,
@@ -588,13 +588,13 @@ where
                 }
             }
             Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                vec![Mergable::Expr(&mut **arg)]
+                vec![Mergable::Expr(arg)]
             }
             Stmt::If(s) if options.sequences() => {
-                vec![Mergable::Expr(&mut *s.test)]
+                vec![Mergable::Expr(&mut s.test)]
             }
             Stmt::Throw(s) if options.sequences() => {
-                vec![Mergable::Expr(&mut *s.arg)]
+                vec![Mergable::Expr(&mut s.arg)]
             }
 
             _ => return None,
@@ -1283,7 +1283,7 @@ where
 
             Expr::Cond(b) => {
                 trace_op!("seq: Try test of cond");
-                return self.merge_sequential_expr(a, &mut *b.test);
+                return self.merge_sequential_expr(a, &mut b.test);
             }
 
             Expr::Unary(b) => {
@@ -1295,7 +1295,7 @@ where
                 op, left, right, ..
             }) => {
                 trace_op!("seq: Try left of bin");
-                if self.merge_sequential_expr(a, &mut **left)? {
+                if self.merge_sequential_expr(a, left)? {
                     return Ok(true);
                 }
 
@@ -1309,12 +1309,12 @@ where
                 }
 
                 trace_op!("seq: Try right of bin");
-                return self.merge_sequential_expr(a, &mut **right);
+                return self.merge_sequential_expr(a, right);
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
                 trace_op!("seq: Try object of member");
-                return self.merge_sequential_expr(a, &mut **obj);
+                return self.merge_sequential_expr(a, obj);
             }
 
             Expr::Member(MemberExpr {
@@ -1323,7 +1323,7 @@ where
                 ..
             }) => {
                 trace_op!("seq: Try object of member (computed)");
-                if self.merge_sequential_expr(a, &mut **obj)? {
+                if self.merge_sequential_expr(a, obj)? {
                     return Ok(true);
                 }
 
@@ -1347,7 +1347,7 @@ where
                 match &mut b.left {
                     PatOrExpr::Expr(b_left) => {
                         trace_op!("seq: Try lhs of assign");
-                        if self.merge_sequential_expr(a, &mut **b_left)? {
+                        if self.merge_sequential_expr(a, b_left)? {
                             return Ok(true);
                         }
 
@@ -1362,7 +1362,7 @@ where
                     PatOrExpr::Pat(b_left) => match &mut **b_left {
                         Pat::Expr(b_left) => {
                             trace_op!("seq: Try lhs of assign");
-                            if self.merge_sequential_expr(a, &mut **b_left)? {
+                            if self.merge_sequential_expr(a, b_left)? {
                                 return Ok(true);
                             }
 
@@ -1452,7 +1452,7 @@ where
                     }
                 }
 
-                if self.merge_sequential_expr(a, &mut **b_callee)? {
+                if self.merge_sequential_expr(a, b_callee)? {
                     if is_this_undefined {
                         if let Expr::Member(..) = &**b_callee {
                             let zero = Box::new(Expr::Lit(Lit::Num(Number {
@@ -1494,7 +1494,7 @@ where
                 callee: b_callee, ..
             }) => {
                 trace_op!("seq: Try callee of new");
-                if self.merge_sequential_expr(a, &mut **b_callee)? {
+                if self.merge_sequential_expr(a, b_callee)? {
                     return Ok(true);
                 }
 
@@ -1505,7 +1505,7 @@ where
                 for b_expr in b_exprs {
                     trace_op!("seq: Try elem of seq");
 
-                    if self.merge_sequential_expr(a, &mut **b_expr)? {
+                    if self.merge_sequential_expr(a, b_expr)? {
                         return Ok(true);
                     }
 
@@ -1521,7 +1521,7 @@ where
                 for prop in props {
                     match prop {
                         PropOrSpread::Spread(prop) => {
-                            if self.merge_sequential_expr(a, &mut *prop.expr)? {
+                            if self.merge_sequential_expr(a, &mut prop.expr)? {
                                 return Ok(true);
                             }
 

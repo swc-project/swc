@@ -11,7 +11,7 @@ const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_defaul
 const _react = /*#__PURE__*/ _interopRequireDefault(require("react"));
 function Foo() {
     return /*#__PURE__*/ _react.default.createElement("div", {
-        onClick: _asyncToGenerator(function*(e) {
+        onClick: /*#__PURE__*/ _asyncToGenerator(function*(e) {
             yield doSomething();
         })
     });

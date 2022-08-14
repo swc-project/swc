@@ -56,6 +56,13 @@ jobs:
         with:
           node-version: "16"
 
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
+
       - name: Install node dependencies
         working-directory: scripts/bot
         run: |
@@ -66,12 +73,14 @@ jobs:
         with:
           crate: cargo-mono
           version: "0.3.1"
+          locked: true
 
       - name: Install git-cliff
         uses: baptiste0928/cargo-install@v1.1.0
         with:
           crate: git-cliff
           version: "0.4.2"
+          locked: true
 
       - name: Bump crates
         id: bump

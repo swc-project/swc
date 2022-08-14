@@ -6,7 +6,7 @@ license     = "Apache-2.0"
 name        = "binding_core_wasm"
 publish     = false
 repository  = "https://github.com/swc-project/swc.git"
-version     = "1.2.225"
+version     = "1.2.230"
 
 [lib]
 bench      = false
@@ -20,7 +20,7 @@ swc_v2  = []
 plugin = ["swc_core/plugin_transform_host_js"]
 
 [dependencies]
-swc_core = { path = "../swc_core", features = [
+swc_core = { version = "0.7.5", features = [
   "common_perf",
   "binding_macro_wasm",
 ] }

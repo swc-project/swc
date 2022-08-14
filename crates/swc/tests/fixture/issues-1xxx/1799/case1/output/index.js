@@ -14,7 +14,7 @@ var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenera
 var _react = /*#__PURE__*/ _interopRequireDefault(require("react"));
 function Foo() {
     return /*#__PURE__*/ _react.default.createElement("div", {
-        onClick: _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee(e) {
+        onClick: /*#__PURE__*/ _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _callee(e) {
             return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:

@@ -2,10 +2,15 @@ use std::sync::Arc;
 
 use anyhow::{anyhow, Error};
 use parking_lot::Mutex;
+#[cfg(any(
+    feature = "plugin_transform_schema_v1",
+    feature = "plugin_transform_schema_vtest"
+))]
+use swc_common::plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
 use swc_common::{
     plugin::{
         metadata::TransformPluginMetadataContext,
-        serialized::{PluginError, PluginSerializedBytes, PLUGIN_TRANSFORM_AST_SCHEMA_VERSION},
+        serialized::{PluginError, PluginSerializedBytes},
     },
     SourceMap,
 };
@@ -18,6 +23,13 @@ pub struct TransformExecutor {
     // Main transform interface plugin exports
     exported_plugin_transform: wasmer::NativeFunc<(i32, i32, u32, i32), i32>,
     // Schema version interface exports
+    #[cfg_attr(
+        not(any(
+            feature = "plugin_transform_schema_v1",
+            feature = "plugin_transform_schema_vtest"
+        )),
+        allow(unused)
+    )]
     exported_plugin_transform_schema_version: wasmer::NativeFunc<(), u32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
     // memory space
@@ -104,7 +116,7 @@ impl TransformExecutor {
         if returned_ptr_result == 0 {
             Ok(ret)
         } else {
-            let err: PluginError = ret.deserialize()?.into_inner();
+            let err: PluginError = ret.deserialize()?;
             match err {
                 PluginError::SizeInteropFailure(msg) => Err(anyhow!(
                     "Failed to convert pointer size to calculate: {}",
@@ -127,10 +139,13 @@ impl TransformExecutor {
      * Host should appropriately handle if plugin is not compatible to the
      * current runtime.
      */
+    #[allow(unreachable_code)]
     pub fn is_transform_schema_compatible(&self) -> Result<bool, Error> {
-        let plugin_schema_version = self.exported_plugin_transform_schema_version.call();
-
-        match plugin_schema_version {
+        #[cfg(any(
+            feature = "plugin_transform_schema_v1",
+            feature = "plugin_transform_schema_vtest"
+        ))]
+        return match self.exported_plugin_transform_schema_version.call() {
             Ok(plugin_schema_version) => {
                 let host_schema_version = PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
 
@@ -142,7 +157,16 @@ impl TransformExecutor {
                 }
             }
             Err(e) => Err(anyhow!("Failed to call plugin's schema version: {}", e)),
-        }
+        };
+
+        #[cfg(not(all(
+            feature = "plugin_transform_schema_v1",
+            feature = "plugin_transform_schema_vtest"
+        )))]
+        anyhow::bail!(
+            "Plugin runner cannot detect plugin's schema version. Ensure host is compiled with \
+             proper versions"
+        )
     }
 
     #[tracing::instrument(level = "info", skip_all)]

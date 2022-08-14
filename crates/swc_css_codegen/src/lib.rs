@@ -146,6 +146,17 @@ where
                 space!(self);
                 emit!(self, n)
             }
+            AtRulePrelude::FontFeatureValuesPrelude(n) => {
+                let need_space = !matches!(n.font_family.get(0), Some(FamilyName::Str(_)));
+
+                if need_space {
+                    space!(self);
+                } else {
+                    formatting_space!(self);
+                }
+
+                emit!(self, n)
+            }
             AtRulePrelude::NestPrelude(n) => {
                 space!(self);
                 emit!(self, n)
@@ -314,6 +325,11 @@ where
             KeyframeSelector::Ident(n) => emit!(self, n),
             KeyframeSelector::Percentage(n) => emit!(self, n),
         }
+    }
+
+    #[emitter]
+    fn emit_font_feature_values_prelude(&mut self, n: &FontFeatureValuesPrelude) -> Result {
+        self.emit_list(&n.font_family, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]
@@ -774,13 +790,13 @@ where
     #[emitter]
     fn emit_str(&mut self, n: &Str) -> Result {
         if self.config.minify {
-            let minified = minify_string(&*n.value);
+            let minified = minify_string(&n.value);
 
             write_str!(self, n.span, &minified);
         } else if let Some(raw) = &n.raw {
             write_str!(self, n.span, raw);
         } else {
-            let value = serialize_string(&*n.value);
+            let value = serialize_string(&n.value);
 
             write_str!(self, n.span, &value);
         }
@@ -871,7 +887,7 @@ where
 
                             formatting_newline!(self);
                         }
-                        DeclarationOrAtRule::Invalid(_) => {}
+                        DeclarationOrAtRule::ListOfComponentValues(_) => {}
                     }
 
                     decrease_indent!(self);
@@ -936,7 +952,7 @@ where
         match n {
             DeclarationOrAtRule::Declaration(n) => emit!(self, n),
             DeclarationOrAtRule::AtRule(n) => emit!(self, n),
-            DeclarationOrAtRule::Invalid(n) => emit!(self, n),
+            DeclarationOrAtRule::ListOfComponentValues(n) => emit!(self, n),
         }
     }
 
@@ -1630,6 +1646,19 @@ where
         }
 
         write_raw!(self, n.span, &value);
+    }
+
+    #[emitter]
+    fn emit_family_name(&mut self, n: &FamilyName) -> Result {
+        match n {
+            FamilyName::Str(n) => emit!(self, n),
+            FamilyName::SequenceOfCustomIdents(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_sequence_of_custom_idents(&mut self, n: &SequenceOfCustomIdents) -> Result {
+        self.emit_list(&n.value, ListFormat::SpaceDelimited)?;
     }
 
     #[emitter]

@@ -327,11 +327,6 @@ where
 
                     self.negate_twice(&mut bin.left, false);
                     *e = *bin.left.take();
-                } else {
-                    self.changed = true;
-                    report_change!("Optimizing: e && false => e");
-
-                    *e = *bin.left.take();
                 }
             }
             op!("||") => {

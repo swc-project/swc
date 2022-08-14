@@ -135,23 +135,28 @@ impl SourceMapperExt for dyn SourceMapper {
         self
     }
 }
+
+#[allow(clippy::explicit_auto_deref)]
 impl SourceMapperExt for Arc<SourceMapperDyn> {
     fn get_code_map(&self) -> &dyn SourceMapper {
         &**self
     }
 }
+#[allow(clippy::explicit_auto_deref)]
 impl SourceMapperExt for Rc<SourceMapperDyn> {
     fn get_code_map(&self) -> &dyn SourceMapper {
         &**self
     }
 }
 
+#[allow(clippy::explicit_auto_deref)]
 impl SourceMapperExt for Arc<SourceMap> {
     fn get_code_map(&self) -> &dyn SourceMapper {
         &**self
     }
 }
 
+#[allow(clippy::explicit_auto_deref)]
 impl SourceMapperExt for Rc<SourceMap> {
     fn get_code_map(&self) -> &dyn SourceMapper {
         &**self

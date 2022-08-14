@@ -5,7 +5,7 @@
 // @lib: esnext
 // @Filename: bug25149.js
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(f);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(f);
 function f() {
     var o;
     return regeneratorRuntime.wrap(function f$(_ctx) {
@@ -32,7 +32,7 @@ function f() {
 // @Filename: alsoFails.ts
 // fails in Typescript too
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 function g() {
     var o;
     return regeneratorRuntime.wrap(function g$(_ctx) {

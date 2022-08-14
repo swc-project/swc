@@ -10,7 +10,7 @@ var A = function A() {
     "use strict";
     _class_call_check(this, A);
     var _this = this;
-    this.b = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    this.b = /*#__PURE__*/ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var _len, args, _key, obj, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

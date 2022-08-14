@@ -3,6 +3,7 @@ use swc_common::{
     comments::{Comment, Comments},
     BytePos,
 };
+#[cfg(feature = "plugin-mode")]
 use swc_trace_macro::swc_trace;
 
 #[cfg(feature = "plugin-mode")]
@@ -52,7 +53,6 @@ impl PluginCommentsProxy {
     {
         #[cfg(target_arch = "wasm32")]
         {
-            let value = swc_common::plugin::serialized::VersionedSerializable::new(value);
             let serialized =
                 swc_common::plugin::serialized::PluginSerializedBytes::try_serialize(&value)
                     .expect("Should able to serialize value");

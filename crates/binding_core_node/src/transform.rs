@@ -13,8 +13,8 @@ use swc_core::{
     ast::Program,
     base::{config::Options, Compiler, TransformOutput},
     common::FileName,
+    node::{deserialize_json, get_deserialized, MapErr},
 };
-use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 use tracing::instrument;
 
 use crate::{get_compiler, util::try_with};
@@ -104,7 +104,7 @@ pub fn transform(
     options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -125,7 +125,7 @@ pub fn transform(
 #[napi]
 #[instrument(level = "trace", skip_all)]
 pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<TransformOutput> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -172,7 +172,7 @@ pub fn transform_file(
     options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -191,7 +191,7 @@ pub fn transform_file_sync(
     is_module: bool,
     opts: Buffer,
 ) -> napi::Result<TransformOutput> {
-    swc_nodejs_common::init_default_trace_subscriber();
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
 

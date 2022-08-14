@@ -7,7 +7,7 @@ function fn1() {
     return _fn1.apply(this, arguments);
 }
 function _fn1() {
-    _fn1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    _fn1 = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var obj1, obj2;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

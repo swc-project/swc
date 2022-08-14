@@ -26,6 +26,6 @@ const a = ()=>0;
 }();
 /** @type {function(function(): string): void} */ const f = (p)=>{};
 // Error (good)
-f(_async_to_generator(function*() {
+f(/*#__PURE__*/ _async_to_generator(function*() {
     return 0;
 }));

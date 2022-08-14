@@ -15,7 +15,7 @@ use swc_core::{
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
-    filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, Layer,
+    filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer,
 };
 
 static TARGET_TRIPLE: &str = include_str!(concat!(env!("OUT_DIR"), "/triple.txt"));
@@ -91,4 +91,22 @@ where
             }
         },
     )
+}
+
+// This was originally under swc_nodejs_common, but this is not a public
+// interface for the custom binary - they should choose own trace initialization
+// instead. Will keep as hidden for now until there's proper usecase.
+
+/// Trying to initialize default subscriber if global dispatch is not set.
+/// This can be called multiple time, however subsequent calls will be ignored
+/// as tracing_subscriber only allows single global dispatch.
+pub fn init_default_trace_subscriber() {
+    let _unused = tracing_subscriber::FmtSubscriber::builder()
+        .without_time()
+        .with_target(false)
+        .with_writer(std::io::stderr)
+        .with_ansi(true)
+        .with_env_filter(EnvFilter::from_env("SWC_LOG"))
+        .pretty()
+        .try_init();
 }

@@ -165,14 +165,11 @@ impl Pure<'_> {
             let last = b.stmts.last_mut()?;
 
             if let Stmt::Continue(last_cs) = last {
-                match last_cs.label {
-                    Some(_) => {
-                        if label.eq_ignore_span(&last_cs.label) {
-                        } else {
-                            return None;
-                        }
+                if last_cs.label.is_some() {
+                    if label.eq_ignore_span(&last_cs.label) {
+                    } else {
+                        return None;
                     }
-                    None => {}
                 }
             } else {
                 return None;

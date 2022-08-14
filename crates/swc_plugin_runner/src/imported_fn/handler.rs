@@ -13,8 +13,7 @@ pub fn emit_diagnostics(env: &BaseHostEnvironment, bytes_ptr: i32, bytes_ptr_len
                 let diagnostics_bytes = copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
                 let serialized = PluginSerializedBytes::from_slice(&diagnostics_bytes[..]);
                 let diagnostic = PluginSerializedBytes::deserialize::<Diagnostic>(&serialized)
-                    .expect("Should able to be deserialized into diagnostic")
-                    .into_inner();
+                    .expect("Should able to be deserialized into diagnostic");
 
                 let mut builder =
                     swc_common::errors::DiagnosticBuilder::new_diagnostic(handler, diagnostic);

@@ -48,7 +48,7 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-_asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
+_asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _callee() {
     var counter, resolve, promise, iterable, res, _i, _iter, v, oldresolve;
     return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
@@ -65,7 +65,7 @@ _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
                         }
                     };
                 });
-                res = _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
+                res = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _callee() {
                     var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value;
                     return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){

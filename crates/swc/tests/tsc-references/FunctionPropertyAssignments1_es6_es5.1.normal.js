@@ -1,7 +1,7 @@
 // @target: es6
 import regeneratorRuntime from "regenerator-runtime";
 var v = {
-    foo: regeneratorRuntime.mark(function foo() {
+    foo: /*#__PURE__*/ regeneratorRuntime.mark(function foo() {
         return regeneratorRuntime.wrap(function foo$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

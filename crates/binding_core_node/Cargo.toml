@@ -15,8 +15,8 @@ crate-type = ["cdylib"]
 [features]
 default = ["swc_v1", "plugin"]
 plugin  = ["swc_core/plugin_transform_host_native"]
-swc_v1  = ["swc_node_bundler/swc_v1"]
-swc_v2  = ["swc_node_bundler/swc_v2"]
+swc_v1  = ["swc_core/bundler_node_v1"]
+swc_v2  = ["swc_core/bundler_node_v2"]
 
 # Internal flag for testing purpose only.
 __plugin_transform_vtest = [
@@ -48,7 +48,7 @@ tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_core = { path = "../swc_core", features = [
+swc_core = { version = "0.7.5", features = [
   "ast",
   "common_concurrent",
   "bundler",
@@ -56,6 +56,3 @@ swc_core = { path = "../swc_core", features = [
   "base_node",
   "base_concurrent",
 ] }
-
-swc_node_bundler  = { path = "../swc_node_bundler" }
-swc_nodejs_common = { path = "../swc_nodejs_common" }

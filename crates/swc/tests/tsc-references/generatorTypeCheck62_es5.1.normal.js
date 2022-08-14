@@ -3,7 +3,7 @@
 // @noImplicitAny: true
 import regeneratorRuntime from "regenerator-runtime";
 export function strategy(stratName, gen) {
-    return regeneratorRuntime.mark(function _callee(state) {
+    return /*#__PURE__*/ regeneratorRuntime.mark(function _callee(state) {
         var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, next;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -71,7 +71,7 @@ export function strategy(stratName, gen) {
         ]);
     });
 }
-export var Nothing1 = strategy("Nothing", regeneratorRuntime.mark(function _callee(state) {
+export var Nothing1 = strategy("Nothing", /*#__PURE__*/ regeneratorRuntime.mark(function _callee(state) {
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -82,7 +82,7 @@ export var Nothing1 = strategy("Nothing", regeneratorRuntime.mark(function _call
         }
     }, _callee);
 }));
-export var Nothing2 = strategy("Nothing", regeneratorRuntime.mark(function _callee(state) {
+export var Nothing2 = strategy("Nothing", /*#__PURE__*/ regeneratorRuntime.mark(function _callee(state) {
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -94,7 +94,7 @@ export var Nothing2 = strategy("Nothing", regeneratorRuntime.mark(function _call
         }
     }, _callee);
 }));
-export var Nothing3 = strategy("Nothing", regeneratorRuntime.mark(function _callee(state) {
+export var Nothing3 = strategy("Nothing", /*#__PURE__*/ regeneratorRuntime.mark(function _callee(state) {
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:

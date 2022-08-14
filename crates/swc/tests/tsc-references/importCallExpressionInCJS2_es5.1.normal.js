@@ -15,7 +15,7 @@ function compute(promise) {
     return _compute.apply(this, arguments);
 }
 function _compute() {
-    _compute = _async_to_generator(regeneratorRuntime.mark(function _callee(promise) {
+    _compute = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(promise) {
         var j;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
