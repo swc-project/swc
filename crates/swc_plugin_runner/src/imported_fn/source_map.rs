@@ -2,7 +2,9 @@ use std::sync::Arc;
 
 use parking_lot::Mutex;
 use swc_common::{
-    plugin::serialized::PluginSerializedBytes, BytePos, SourceMap, Span, SyntaxContext,
+    plugin::serialized::PluginSerializedBytes,
+    source_map::{PartialFileLines, PartialLoc},
+    BytePos, SourceMap, Span, SyntaxContext,
 };
 use wasmer::{LazyInit, Memory, NativeFunc};
 
@@ -37,14 +39,32 @@ impl SourceMapHostEnvironment {
     }
 }
 
+/// Returns `Loc` form given bytepos to the guest.
+/// Returned `Loc` is partial, which excludes `SourceFile` from original struct
+/// to avoid unnecessary data copying.
+///
+/// PluginSourceMapProxy::lookup_char_pos internally request separately if
+/// `SourceFile` is needed.
 #[tracing::instrument(level = "info", skip_all)]
 pub fn lookup_char_pos_proxy(
     env: &SourceMapHostEnvironment,
     byte_pos: u32,
+    should_include_source_file: i32,
     allocated_ret_ptr: i32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
-        let ret = (env.source_map.lock()).lookup_char_pos(BytePos(byte_pos));
+        let original_loc = (env.source_map.lock()).lookup_char_pos(BytePos(byte_pos));
+        let ret = PartialLoc {
+            source_file: if should_include_source_file == 0 {
+                None
+            } else {
+                Some(original_loc.file)
+            },
+            line: original_loc.line,
+            col: original_loc.col.0,
+            col_display: original_loc.col_display,
+        };
+
         let serialized_loc_bytes =
             PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
 
@@ -114,6 +134,7 @@ pub fn span_to_lines_proxy(
     span_lo: u32,
     span_hi: u32,
     span_ctxt: u32,
+    should_request_source_file: i32,
     allocated_ret_ptr: i32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
@@ -122,7 +143,17 @@ pub fn span_to_lines_proxy(
             hi: BytePos(span_hi),
             ctxt: SyntaxContext::from_u32(span_ctxt),
         };
-        let ret = (env.source_map.lock()).span_to_lines(span);
+
+        let ret = (env.source_map.lock())
+            .span_to_lines(span)
+            .map(|lines| PartialFileLines {
+                file: if should_request_source_file == 0 {
+                    None
+                } else {
+                    Some(lines.file)
+                },
+                lines: lines.lines,
+            });
 
         let serialized_loc_bytes =
             PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");

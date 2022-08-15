@@ -331,7 +331,7 @@ pub(crate) fn build_import_object(
             "__get_trailing_comments_proxy" => get_trailing_comments_fn_decl,
             "__add_pure_comment_proxy" => add_pure_comment_fn_decl,
             // source_map
-            "__lookup_char_pos_source_map_proxy" =>lookup_char_pos_source_map_fn_decl,
+            "__lookup_char_pos_source_map_proxy" => lookup_char_pos_source_map_fn_decl,
             "__doctest_offset_line_proxy" => doctest_offset_line_fn_decl,
             "__merge_spans_proxy" => merge_spans_fn_decl,
             "__span_to_string_proxy" => span_to_string_fn_decl,

@@ -120,7 +120,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_core::plugin::proxies::PluginCommentsProxy) } else { None };
             let mut metadata = swc_core::plugin::metadata::TransformPluginProgramMetadata {
                 comments: plugin_comments_proxy,
-                source_map: swc_core::plugin::proxies::PluginSourceMapProxy,
+                source_map: swc_core::plugin::proxies::PluginSourceMapProxy { source_file: swc_core::common::sync::OnceCell::new() },
                 unresolved_mark: swc_core::common::Mark::from_u32(unresolved_mark),
             };
 
