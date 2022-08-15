@@ -52,7 +52,7 @@ jobs:
             build: >-
               set -e &&
               RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
-              rm -rf target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
+              rm -rf bindings/swc_cli/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
               cp bindings/swc_cli/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               yarn build --target x86_64-unknown-linux-gnu &&
               strip swc.linux-x64-gnu.node

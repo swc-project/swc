@@ -98,7 +98,7 @@ jobs:
             os: ubuntu-latest
           - crate: binding_core_node
             os: ubuntu-latest
-          - crate: binding_core_wasm
+          - crate: binding_macros
             os: ubuntu-latest
           - crate: dbg-swc
             os: ubuntu-latest
@@ -128,16 +128,6 @@ jobs:
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_cached
             os: ubuntu-latest
-          - crate: swc_cli
-            os: ubuntu-latest
-            check: |
-              cargo check --manifest-path ./bindings/swc_cli/Cargo.toml
-              cargo check --manifest-path ./bindings/swc_cli/Cargo.toml --features plugin
-          - crate: swc_cli
-            os: windows-latest
-            check: |
-              cargo check --manifest-path ./bindings/swc_cli/Cargo.toml
-              cargo check --manifest-path ./bindings/swc_cli/Cargo.toml --features plugin
           - crate: swc_common
             os: ubuntu-latest
             check: |
@@ -147,6 +137,8 @@ jobs:
           - crate: swc_config
             os: ubuntu-latest
           - crate: swc_config_macro
+            os: ubuntu-latest
+          - crate: swc_core
             os: ubuntu-latest
           - crate: swc_css
             os: ubuntu-latest
@@ -286,22 +278,6 @@ jobs:
             os: ubuntu-latest
           - crate: swc_html_visit
             os: ubuntu-latest
-          - crate: swc_xml
-            os: ubuntu-latest
-          - crate: swc_xml_ast
-            os: ubuntu-latest
-          - crate: swc_xml_codegen
-            os: ubuntu-latest
-          - crate: swc_xml_codegen
-            os: windows-latest
-          - crate: swc_xml_codegen_macros
-            os: ubuntu-latest
-          - crate: swc_xml_parser
-            os: ubuntu-latest
-          - crate: swc_xml_parser
-            os: windows-latest
-          - crate: swc_xml_visit
-            os: ubuntu-latest
           - crate: swc_macros_common
             os: ubuntu-latest
           - crate: swc_node_base
@@ -342,6 +318,18 @@ jobs:
           - crate: swc_visit
             os: ubuntu-latest
           - crate: swc_visit_macros
+            os: ubuntu-latest
+          - crate: swc_xml
+            os: ubuntu-latest
+          - crate: swc_xml_ast
+            os: ubuntu-latest
+          - crate: swc_xml_codegen
+            os: ubuntu-latest
+          - crate: swc_xml_codegen_macros
+            os: ubuntu-latest
+          - crate: swc_xml_parser
+            os: ubuntu-latest
+          - crate: swc_xml_visit
             os: ubuntu-latest
           - crate: testing
             os: ubuntu-latest
@@ -419,7 +407,7 @@ jobs:
             swc-exec-cache-${{ matrix.settings.crate }}-${{ runner.os }}
 
       - name: Run cargo test
-        if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli'
+        if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm'
         run: |
           cargo test --color always -p ${{ matrix.settings.crate }}
 
@@ -427,6 +415,11 @@ jobs:
         if: matrix.settings.crate == 'swc_core'
         run: |
           cargo test --color always -p swc_core --features quote --features common --features utils
+
+      - name: Run cargo test (binding_core_wasm)
+        if: matrix.settings.crate == 'binding_core_wasm'
+        run: |
+          cargo test --color always --manifest-path ./bindings/binding_core_wasm/Cargo.toml
 
       - name: Run cargo test (cli)
         if: matrix.settings.crate == 'swc_cli'

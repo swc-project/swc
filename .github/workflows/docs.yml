@@ -22,7 +22,7 @@ jobs:
           profile: minimal
 
       - name: Create rustdoc
-        run: cargo doc --all --exclude binding_core_node --exclude binding_core_wasm --features plugin_transform --features loader --features utils --features quote --features visit --features transforms --features __testing_transform
+        run: cargo doc --all --exclude binding_core_node --features plugin_transform --features loader --features utils --features quote --features visit --features transforms --features __testing_transform
 
       - name: Create CNAME
         run: |
