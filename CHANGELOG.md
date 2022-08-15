@@ -7,6 +7,9 @@
 
 - **(plugin/proxy)** Fix a compilation attribute (#5495) ([ca82f64](https://github.com/swc-project/swc/commit/ca82f64b0e4a550be86bd36d61b3e358b14a720a))
 
+
+- **(swc_core)** Revert crate version metadata patch (#5501) ([ef1f259](https://github.com/swc-project/swc/commit/ef1f259a93495128947e2010998b0f879e59a538))
+
 ### Features
 
 
