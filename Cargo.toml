@@ -4,7 +4,6 @@ members = [
   "crates/dbg-swc",
   "crates/jsdoc",
   "crates/binding_core_node",
-  "crates/binding_core_wasm",
   "crates/binding_macros",
   "crates/swc_css",
   "crates/swc_css_lints",
