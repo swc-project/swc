@@ -244,7 +244,7 @@ a {
   -ms-flex-direction: inherit;
   flex-direction: inherit;
 }
-@supports (display: flex) {
+@supports ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) {
   .foo {
     display: -webkit-box;
     display: -webkit-flex;
@@ -253,7 +253,7 @@ a {
     display: flex;
   }
 }
-@supports (flex: auto) {
+@supports ((flex: auto) or (-webkit-box-flex: 1) or (-webkit-flex: auto) or (-moz-box-flex: 1) or (-ms-flex: auto)) {
   .foo {
     -webkit-box-flex: 1;
     -webkit-flex: auto;
