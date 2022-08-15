@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Build
+
+
+
+- **(es)** Bump up bindings (#5493) ([e547631](https://github.com/swc-project/swc/commit/e5476310f816c8d16dc9c653e234737bfeb03697))
+
+## [1.2.232] - 2022-08-15
+
 ### Bug Fixes
 
 
