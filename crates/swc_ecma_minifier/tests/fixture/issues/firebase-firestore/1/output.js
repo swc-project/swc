@@ -493,10 +493,6 @@
                 var e, n;
                 return "server_timestamp" === (null === (n = ((null === (e = null == t ? void 0 : t.mapValue) || void 0 === e ? void 0 : e.fields) || {}).__type__) || void 0 === n ? void 0 : n.stringValue);
             }
-            function Et(t) {
-                const e = t.mapValue.fields.__previous_value__;
-                return Tt(e) ? Et(e) : e;
-            }
             function It(t) {
                 const e = gt(t.mapValue.fields.__local_write_time__.timestampValue);
                 return new it(e.seconds, e.nanos);
@@ -2099,13 +2095,6 @@
                 }
                 return L();
             }
-            function hs(t) {
-                return t ? void 0 !== t.unaryFilter ? [
-                    ys(t)
-                ] : void 0 !== t.fieldFilter ? [
-                    gs(t)
-                ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
-            }
             function ls(t) {
                 return {
                     before: t.before,
@@ -2123,60 +2112,6 @@
             }
             function ms(t) {
                 return ft.fromServerFormat(t.fieldPath);
-            }
-            function gs(t) {
-                return Jt.create(ms(t.fieldFilter.field), function(t) {
-                    switch(t){
-                        case "EQUAL":
-                            return "==";
-                        case "NOT_EQUAL":
-                            return "!=";
-                        case "GREATER_THAN":
-                            return ">";
-                        case "GREATER_THAN_OR_EQUAL":
-                            return ">=";
-                        case "LESS_THAN":
-                            return "<";
-                        case "LESS_THAN_OR_EQUAL":
-                            return "<=";
-                        case "ARRAY_CONTAINS":
-                            return "array-contains";
-                        case "IN":
-                            return "in";
-                        case "NOT_IN":
-                            return "not-in";
-                        case "ARRAY_CONTAINS_ANY":
-                            return "array-contains-any";
-                        default:
-                            return L();
-                    }
-                }(t.fieldFilter.op), t.fieldFilter.value);
-            }
-            function ys(t) {
-                switch(t.unaryFilter.op){
-                    case "IS_NAN":
-                        const e = ms(t.unaryFilter.field);
-                        return Jt.create(e, "==", {
-                            doubleValue: NaN
-                        });
-                    case "IS_NULL":
-                        const n = ms(t.unaryFilter.field);
-                        return Jt.create(n, "==", {
-                            nullValue: "NULL_VALUE"
-                        });
-                    case "IS_NOT_NAN":
-                        const s = ms(t.unaryFilter.field);
-                        return Jt.create(s, "!=", {
-                            doubleValue: NaN
-                        });
-                    case "IS_NOT_NULL":
-                        const i = ms(t.unaryFilter.field);
-                        return Jt.create(i, "!=", {
-                            nullValue: "NULL_VALUE"
-                        });
-                    default:
-                        return L();
-                }
             }
             function ps(t) {
                 const e = [];
@@ -3585,7 +3520,64 @@
                                             t3.allDescendants ? i1 = t3.collectionId : e1 = e1.child(t3.collectionId);
                                         }
                                         let r = [];
-                                        n1.where && (r = hs(n1.where));
+                                        n1.where && (r = function hs(t) {
+                                            var t1;
+                                            return t ? void 0 !== t.unaryFilter ? [
+                                                function(t) {
+                                                    switch(t.unaryFilter.op){
+                                                        case "IS_NAN":
+                                                            const e = ms(t.unaryFilter.field);
+                                                            return Jt.create(e, "==", {
+                                                                doubleValue: NaN
+                                                            });
+                                                        case "IS_NULL":
+                                                            const n = ms(t.unaryFilter.field);
+                                                            return Jt.create(n, "==", {
+                                                                nullValue: "NULL_VALUE"
+                                                            });
+                                                        case "IS_NOT_NAN":
+                                                            const s = ms(t.unaryFilter.field);
+                                                            return Jt.create(s, "!=", {
+                                                                doubleValue: NaN
+                                                            });
+                                                        case "IS_NOT_NULL":
+                                                            const i = ms(t.unaryFilter.field);
+                                                            return Jt.create(i, "!=", {
+                                                                nullValue: "NULL_VALUE"
+                                                            });
+                                                        default:
+                                                            return L();
+                                                    }
+                                                }(t)
+                                            ] : void 0 !== t.fieldFilter ? [
+                                                (t1 = t, Jt.create(ms(t1.fieldFilter.field), function(t) {
+                                                    switch(t){
+                                                        case "EQUAL":
+                                                            return "==";
+                                                        case "NOT_EQUAL":
+                                                            return "!=";
+                                                        case "GREATER_THAN":
+                                                            return ">";
+                                                        case "GREATER_THAN_OR_EQUAL":
+                                                            return ">=";
+                                                        case "LESS_THAN":
+                                                            return "<";
+                                                        case "LESS_THAN_OR_EQUAL":
+                                                            return "<=";
+                                                        case "ARRAY_CONTAINS":
+                                                            return "array-contains";
+                                                        case "IN":
+                                                            return "in";
+                                                        case "NOT_IN":
+                                                            return "not-in";
+                                                        case "ARRAY_CONTAINS_ANY":
+                                                            return "array-contains-any";
+                                                        default:
+                                                            return L();
+                                                    }
+                                                }(t1.fieldFilter.op), t1.fieldFilter.value))
+                                            ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
+                                        }(n1.where));
                                         let o1 = [];
                                         n1.orderBy && (o1 = n1.orderBy.map((t)=>{
                                             var t1;
@@ -6024,7 +6016,10 @@
                 convertServerTimestamp(t, e) {
                     switch(e){
                         case "previous":
-                            const n = Et(t);
+                            const n = function Et(t) {
+                                const e = t.mapValue.fields.__previous_value__;
+                                return Tt(e) ? Et(e) : e;
+                            }(t);
                             return null == n ? null : this.convertValue(n, e);
                         case "estimate":
                             return this.convertTimestamp(It(t));

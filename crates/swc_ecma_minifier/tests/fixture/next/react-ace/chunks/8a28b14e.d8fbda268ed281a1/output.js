@@ -3079,7 +3079,7 @@
                     };
                     this.normalizeRules = function() {
                         var id = 0, rules = this.$rules;
-                        function processState(key) {
+                        Object.keys(rules).forEach(function processState(key) {
                             var state = rules[key];
                             state.processed = !0;
                             for(var i = 0; i < state.length; i++){
@@ -3111,8 +3111,7 @@
                                 }
                                 rule.keywordMap && (rule.token = this.createKeywordMapper(rule.keywordMap, rule.defaultToken || "text", rule.caseInsensitive), delete rule.defaultToken);
                             }
-                        }
-                        Object.keys(rules).forEach(processState, this);
+                        }, this);
                     }, this.createKeywordMapper = function(map, defaultToken, ignoreCase, splitChar) {
                         var keywords = Object.create(null);
                         return this.$keywordList = [], Object.keys(map).forEach(function(className) {

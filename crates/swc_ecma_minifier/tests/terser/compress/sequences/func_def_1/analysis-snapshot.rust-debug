@@ -45,7 +45,7 @@ TestSnapshot {
             ),
             VarUsageInfo {
                 inline_prevented: false,
-                ref_count: 3,
+                ref_count: 2,
                 cond_init: false,
                 declared: true,
                 declared_count: 1,
@@ -53,7 +53,7 @@ TestSnapshot {
                 declared_as_fn_expr: false,
                 assign_count: 1,
                 mutation_by_call_count: 1,
-                usage_count: 2,
+                usage_count: 1,
                 reassigned_with_assignment: true,
                 reassigned_with_var_decl: false,
                 mutated: true,

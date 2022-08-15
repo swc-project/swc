@@ -8,19 +8,6 @@ import _to_array from "@swc/helpers/src/_to_array.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(function() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.delegateYield(g1, "t0", 1);
-            case 1:
-                return _ctx.delegateYield(g3, "t1", 2);
-            case 2:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _marked);
-});
 _to_consumable_array(g1), _to_consumable_array(g2), _sliced_to_array(g1, 1)[0], _sliced_to_array(g2, 1)[0], _to_array(g1).slice(0), _to_array(g2).slice(0), _ = _sliced_to_array(g1, 1)[0], _ = _sliced_to_array(g2, 1)[0], _ = _to_array(g1).slice(0), _ = _to_array(g2).slice(0);
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {

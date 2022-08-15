@@ -67,8 +67,7 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
             options: this.options
         };
     }, FirebaseAppImpl;
-}(), ERRORS = ((_a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", _a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS);
-function createFirebaseNamespace() {
+}(), ERRORS = ((_a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", _a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS), firebase$1 = function createFirebaseNamespace() {
     var namespace = function(firebaseAppImpl) {
         var apps = {}, namespace = {
             __esModule: !0,
@@ -134,8 +133,7 @@ function createFirebaseNamespace() {
         ErrorFactory: util.ErrorFactory,
         deepExtend: util.deepExtend
     }), namespace;
-}
-var firebase$1 = createFirebaseNamespace(), logger = new logger$1.Logger("@firebase/app-compat");
+}(), logger = new logger$1.Logger("@firebase/app-compat");
 if (util.isBrowser() && void 0 !== self.firebase) {
     logger.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");
     var sdkVersion = self.firebase.SDK_VERSION;

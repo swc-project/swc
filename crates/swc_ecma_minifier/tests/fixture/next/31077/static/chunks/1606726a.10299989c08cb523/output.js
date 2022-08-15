@@ -132,63 +132,8 @@
                 }
             }
             var preventScrollSupported = null;
-            function findOffsetInNode(node, coords) {
-                for(var closest, coordsClosest, dxClosest = 2e8, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
-                    var rects = void 0;
-                    if (1 == child.nodeType) rects = child.getClientRects();
-                    else {
-                        if (3 != child.nodeType) continue;
-                        rects = textRange(child).getClientRects();
-                    }
-                    for(var i = 0; i < rects.length; i++){
-                        var rect = rects[i];
-                        if (rect.top <= rowBot && rect.bottom >= rowTop) {
-                            rowBot = Math.max(rect.bottom, rowBot), rowTop = Math.min(rect.top, rowTop);
-                            var dx = rect.left > coords.left ? rect.left - coords.left : rect.right < coords.left ? coords.left - rect.right : 0;
-                            if (dx < dxClosest) {
-                                closest = child, dxClosest = dx, coordsClosest = dx && 3 == closest.nodeType ? {
-                                    left: rect.right < coords.left ? rect.right : rect.left,
-                                    top: coords.top
-                                } : coords, 1 == child.nodeType && dx && (offset = childIndex + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0));
-                                continue;
-                            }
-                        }
-                        !closest && (coords.left >= rect.right && coords.top >= rect.top || coords.left >= rect.left && coords.top >= rect.bottom) && (offset = childIndex + 1);
-                    }
-                }
-                return closest && 3 == closest.nodeType ? findOffsetInText(closest, coordsClosest) : !closest || dxClosest && 1 == closest.nodeType ? {
-                    node: node,
-                    offset: offset
-                } : findOffsetInNode(closest, coordsClosest);
-            }
-            function findOffsetInText(node, coords) {
-                for(var len = node.nodeValue.length, range = document.createRange(), i = 0; i < len; i++){
-                    range.setEnd(node, i + 1), range.setStart(node, i);
-                    var rect = singleRect(range, 1);
-                    if (rect.top != rect.bottom && inRect(coords, rect)) return {
-                        node: node,
-                        offset: i + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0)
-                    };
-                }
-                return {
-                    node: node,
-                    offset: 0
-                };
-            }
             function inRect(coords, rect) {
                 return coords.left >= rect.left - 1 && coords.left <= rect.right + 1 && coords.top >= rect.top - 1 && coords.top <= rect.bottom + 1;
-            }
-            function elementFromPoint(element, coords, box) {
-                var len = element.childNodes.length;
-                if (len && box.top < box.bottom) for(var startI = Math.max(0, Math.min(len - 1, Math.floor(len * (coords.top - box.top) / (box.bottom - box.top)) - 2)), i = startI;;){
-                    var child = element.childNodes[i];
-                    if (1 == child.nodeType) for(var rects = child.getClientRects(), j = 0; j < rects.length; j++){
-                        var rect = rects[j];
-                        if (inRect(coords, rect)) return elementFromPoint(child, coords, rect);
-                    }
-                    if ((i = (i + 1) % len) == startI) break;
-                }
-                return element;
             }
             function singleRect(object, bias) {
                 var rects = object.getClientRects();
@@ -2646,7 +2591,18 @@
                     var pos, elt = (view.root.elementFromPoint ? view.root : doc).elementFromPoint(coords.left, coords.top + 1);
                     if (!elt || !view.dom.contains(1 != elt.nodeType ? elt.parentNode : elt)) {
                         var box = view.dom.getBoundingClientRect();
-                        if (!inRect(coords, box) || !(elt = elementFromPoint(view.dom, coords, box))) return null;
+                        if (!inRect(coords, box) || !(elt = function elementFromPoint(element, coords, box) {
+                            var len = element.childNodes.length;
+                            if (len && box.top < box.bottom) for(var startI = Math.max(0, Math.min(len - 1, Math.floor(len * (coords.top - box.top) / (box.bottom - box.top)) - 2)), i = startI;;){
+                                var child = element.childNodes[i];
+                                if (1 == child.nodeType) for(var rects = child.getClientRects(), j = 0; j < rects.length; j++){
+                                    var rect = rects[j];
+                                    if (inRect(coords, rect)) return elementFromPoint(child, coords, rect);
+                                }
+                                if ((i = (i + 1) % len) == startI) break;
+                            }
+                            return element;
+                        }(view.dom, coords, box))) return null;
                     }
                     if (result.safari) for(var p = elt; node && p; p = parentNode(p))p.draggable && (node = offset = null);
                     if (elt = (dom = elt, coords1 = coords, (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords1.left < dom.getBoundingClientRect().left ? parent : dom), node) {
@@ -2670,7 +2626,48 @@
                         }(view, node, offset, coords));
                     }
                     null == pos && (pos = function(view, elt, coords) {
-                        var ref = findOffsetInNode(elt, coords), node = ref.node, offset = ref.offset, bias = -1;
+                        var ref = function findOffsetInNode(node, coords) {
+                            for(var closest, coordsClosest, dxClosest = 2e8, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
+                                var rects = void 0;
+                                if (1 == child.nodeType) rects = child.getClientRects();
+                                else {
+                                    if (3 != child.nodeType) continue;
+                                    rects = textRange(child).getClientRects();
+                                }
+                                for(var i = 0; i < rects.length; i++){
+                                    var rect = rects[i];
+                                    if (rect.top <= rowBot && rect.bottom >= rowTop) {
+                                        rowBot = Math.max(rect.bottom, rowBot), rowTop = Math.min(rect.top, rowTop);
+                                        var dx = rect.left > coords.left ? rect.left - coords.left : rect.right < coords.left ? coords.left - rect.right : 0;
+                                        if (dx < dxClosest) {
+                                            closest = child, dxClosest = dx, coordsClosest = dx && 3 == closest.nodeType ? {
+                                                left: rect.right < coords.left ? rect.right : rect.left,
+                                                top: coords.top
+                                            } : coords, 1 == child.nodeType && dx && (offset = childIndex + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0));
+                                            continue;
+                                        }
+                                    }
+                                    !closest && (coords.left >= rect.right && coords.top >= rect.top || coords.left >= rect.left && coords.top >= rect.bottom) && (offset = childIndex + 1);
+                                }
+                            }
+                            return closest && 3 == closest.nodeType ? function(node, coords) {
+                                for(var len = node.nodeValue.length, range = document.createRange(), i = 0; i < len; i++){
+                                    range.setEnd(node, i + 1), range.setStart(node, i);
+                                    var rect = singleRect(range, 1);
+                                    if (rect.top != rect.bottom && inRect(coords, rect)) return {
+                                        node: node,
+                                        offset: i + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0)
+                                    };
+                                }
+                                return {
+                                    node: node,
+                                    offset: 0
+                                };
+                            }(closest, coordsClosest) : !closest || dxClosest && 1 == closest.nodeType ? {
+                                node: node,
+                                offset: offset
+                            } : findOffsetInNode(closest, coordsClosest);
+                        }(elt, coords), node = ref.node, offset = ref.offset, bias = -1;
                         if (1 == node.nodeType && !node.firstChild) {
                             var rect = node.getBoundingClientRect();
                             bias = rect.left != rect.right && coords.left > (rect.left + rect.right) / 2 ? 1 : -1;

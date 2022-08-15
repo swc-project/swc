@@ -188,200 +188,6 @@
                 }
                 return Utility_strlen(children = serialize(element.children, callback)) ? element.return = element.value + "{" + children + "}" : "";
             }
-            function prefix(value, length) {
-                var value1;
-                switch((((length << 2 ^ Utility_charat(value1 = value, 0)) << 2 ^ Utility_charat(value1, 1)) << 2 ^ Utility_charat(value1, 2)) << 2 ^ Utility_charat(value1, 3)){
-                    case 5103:
-                        return WEBKIT + "print-" + value + value;
-                    case 5737:
-                    case 4201:
-                    case 3177:
-                    case 3433:
-                    case 1641:
-                    case 4457:
-                    case 2921:
-                    case 5572:
-                    case 6356:
-                    case 5844:
-                    case 3191:
-                    case 6645:
-                    case 3005:
-                    case 6391:
-                    case 5879:
-                    case 5623:
-                    case 6135:
-                    case 4599:
-                    case 4855:
-                    case 4215:
-                    case 6389:
-                    case 5109:
-                    case 5365:
-                    case 5621:
-                    case 3829:
-                        return WEBKIT + value + value;
-                    case 5349:
-                    case 4246:
-                    case 4810:
-                    case 6968:
-                    case 2756:
-                        return WEBKIT + value + MOZ + value + MS + value + value;
-                    case 6828:
-                    case 4268:
-                        return WEBKIT + value + MS + value + value;
-                    case 6165:
-                        return WEBKIT + value + MS + "flex-" + value + value;
-                    case 5187:
-                        return WEBKIT + value + replace(value, /(\w+).+(:[^]+)/, WEBKIT + "box-$1$2" + MS + "flex-$1$2") + value;
-                    case 5443:
-                        return WEBKIT + value + MS + "flex-item-" + replace(value, /flex-|-self/, "") + value;
-                    case 4675:
-                        return WEBKIT + value + MS + "flex-line-pack" + replace(value, /align-content|flex-|-self/, "") + value;
-                    case 5548:
-                        return WEBKIT + value + MS + replace(value, "shrink", "negative") + value;
-                    case 5292:
-                        return WEBKIT + value + MS + replace(value, "basis", "preferred-size") + value;
-                    case 6060:
-                        return WEBKIT + "box-" + replace(value, "-grow", "") + WEBKIT + value + MS + replace(value, "grow", "positive") + value;
-                    case 4554:
-                        return WEBKIT + replace(value, /([^-])(transform)/g, "$1" + WEBKIT + "$2") + value;
-                    case 6187:
-                        return replace(replace(replace(value, /(zoom-|grab)/, WEBKIT + "$1"), /(image-set)/, WEBKIT + "$1"), value, "") + value;
-                    case 5495:
-                    case 3959:
-                        return replace(value, /(image-set\([^]*)/, WEBKIT + "$1$`$1");
-                    case 4968:
-                        return replace(replace(value, /(.+:)(flex-)?(.*)/, WEBKIT + "box-pack:$3" + MS + "flex-pack:$3"), /s.+-b[^;]+/, "justify") + WEBKIT + value + value;
-                    case 4095:
-                    case 3583:
-                    case 4068:
-                    case 2532:
-                        return replace(value, /(.+)-inline(.+)/, WEBKIT + "$1$2") + value;
-                    case 8116:
-                    case 7059:
-                    case 5753:
-                    case 5535:
-                    case 5445:
-                    case 5701:
-                    case 4933:
-                    case 4677:
-                    case 5533:
-                    case 5789:
-                    case 5021:
-                    case 4765:
-                        if (Utility_strlen(value) - 1 - length > 6) switch(Utility_charat(value, length + 1)){
-                            case 109:
-                                if (45 !== Utility_charat(value, length + 4)) break;
-                            case 102:
-                                return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
-                            case 115:
-                                return ~indexof(value, "stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
-                        }
-                        break;
-                    case 4949:
-                        if (115 !== Utility_charat(value, length + 1)) break;
-                    case 6444:
-                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~indexof(value, "!important") && 10))){
-                            case 107:
-                                return replace(value, ":", ":" + WEBKIT) + value;
-                            case 101:
-                                return replace(value, /(.+:)([^;!]+)(;|!.+)?/, "$1" + WEBKIT + (45 === Utility_charat(value, 14) ? "inline-" : "") + "box$3$1" + WEBKIT + "$2$3$1" + MS + "$2box$3") + value;
-                        }
-                        break;
-                    case 5936:
-                        switch(Utility_charat(value, length + 11)){
-                            case 114:
-                                return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "tb") + value;
-                            case 108:
-                                return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "tb-rl") + value;
-                            case 45:
-                                return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "lr") + value;
-                        }
-                        return WEBKIT + value + MS + value + value;
-                }
-                return value;
-            }
-            function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
-                for(var index = 0, offset = 0, length = pseudo, atrule = 0, property = 0, previous = 0, variable = 1, scanning = 1, ampersand = 1, character = 0, type = "", props = rules, children = rulesets, reference = rule, characters = type; scanning;)switch(previous = character, character = next()){
-                    case 34:
-                    case 39:
-                    case 91:
-                    case 40:
-                        characters += delimit(character);
-                        break;
-                    case 9:
-                    case 10:
-                    case 13:
-                    case 32:
-                        characters += whitespace(previous);
-                        break;
-                    case 92:
-                        characters += escaping(position - 1, 7);
-                        continue;
-                    case 47:
-                        switch(peek()){
-                            case 42:
-                            case 47:
-                                Utility_append(comment(commenter(next(), position), root, parent), declarations);
-                                break;
-                            default:
-                                characters += "/";
-                        }
-                        break;
-                    case 123 * variable:
-                        points[index++] = Utility_strlen(characters) * ampersand;
-                    case 125 * variable:
-                    case 59:
-                    case 0:
-                        switch(character){
-                            case 0:
-                            case 125:
-                                scanning = 0;
-                            case 59 + offset:
-                                property > 0 && Utility_strlen(characters) - length && Utility_append(property > 32 ? declaration(characters + ";", rule, parent, length - 1) : declaration(replace(characters, " ", "") + ";", rule, parent, length - 2), declarations);
-                                break;
-                            case 59:
-                                characters += ";";
-                            default:
-                                if (Utility_append(reference = ruleset(characters, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character) {
-                                    if (0 === offset) parse(characters, root, reference, reference, props, rulesets, length, points, children);
-                                    else switch(atrule){
-                                        case 100:
-                                        case 109:
-                                        case 115:
-                                            parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
-                                            break;
-                                        default:
-                                            parse(characters, reference, reference, reference, [
-                                                ""
-                                            ], children, length, points, children);
-                                    }
-                                }
-                        }
-                        index = offset = property = 0, variable = ampersand = 1, type = characters = "", length = pseudo;
-                        break;
-                    case 58:
-                        length = 1 + Utility_strlen(characters), property = previous;
-                    default:
-                        if (variable < 1) {
-                            if (123 == character) --variable;
-                            else if (125 == character && 0 == variable++ && 125 == prev()) continue;
-                        }
-                        switch(characters += Utility_from(character), character * variable){
-                            case 38:
-                                ampersand = offset > 0 ? 1 : (characters += "\f", -1);
-                                break;
-                            case 44:
-                                points[index++] = (Utility_strlen(characters) - 1) * ampersand, ampersand = 1;
-                                break;
-                            case 64:
-                                45 === peek() && (characters += delimit(next())), atrule = peek(), offset = Utility_strlen(type = characters += identifier(position)), character++;
-                                break;
-                            case 45:
-                                45 === previous && 2 == Utility_strlen(characters) && (variable = 0);
-                        }
-                }
-                return rulesets;
-            }
             function ruleset(value, root, parent, index, offset, rules, points, type, props, children, length) {
                 for(var post = offset - 1, rule = 0 === offset ? rules : [
                     ""
@@ -433,7 +239,118 @@
                 function(element, index, children, callback) {
                     if (!element.return) switch(element.type){
                         case DECLARATION:
-                            element.return = prefix(element.value, element.length);
+                            element.return = function prefix(value, length) {
+                                var value1;
+                                switch((((length << 2 ^ Utility_charat(value1 = value, 0)) << 2 ^ Utility_charat(value1, 1)) << 2 ^ Utility_charat(value1, 2)) << 2 ^ Utility_charat(value1, 3)){
+                                    case 5103:
+                                        return WEBKIT + "print-" + value + value;
+                                    case 5737:
+                                    case 4201:
+                                    case 3177:
+                                    case 3433:
+                                    case 1641:
+                                    case 4457:
+                                    case 2921:
+                                    case 5572:
+                                    case 6356:
+                                    case 5844:
+                                    case 3191:
+                                    case 6645:
+                                    case 3005:
+                                    case 6391:
+                                    case 5879:
+                                    case 5623:
+                                    case 6135:
+                                    case 4599:
+                                    case 4855:
+                                    case 4215:
+                                    case 6389:
+                                    case 5109:
+                                    case 5365:
+                                    case 5621:
+                                    case 3829:
+                                        return WEBKIT + value + value;
+                                    case 5349:
+                                    case 4246:
+                                    case 4810:
+                                    case 6968:
+                                    case 2756:
+                                        return WEBKIT + value + MOZ + value + MS + value + value;
+                                    case 6828:
+                                    case 4268:
+                                        return WEBKIT + value + MS + value + value;
+                                    case 6165:
+                                        return WEBKIT + value + MS + "flex-" + value + value;
+                                    case 5187:
+                                        return WEBKIT + value + replace(value, /(\w+).+(:[^]+)/, WEBKIT + "box-$1$2" + MS + "flex-$1$2") + value;
+                                    case 5443:
+                                        return WEBKIT + value + MS + "flex-item-" + replace(value, /flex-|-self/, "") + value;
+                                    case 4675:
+                                        return WEBKIT + value + MS + "flex-line-pack" + replace(value, /align-content|flex-|-self/, "") + value;
+                                    case 5548:
+                                        return WEBKIT + value + MS + replace(value, "shrink", "negative") + value;
+                                    case 5292:
+                                        return WEBKIT + value + MS + replace(value, "basis", "preferred-size") + value;
+                                    case 6060:
+                                        return WEBKIT + "box-" + replace(value, "-grow", "") + WEBKIT + value + MS + replace(value, "grow", "positive") + value;
+                                    case 4554:
+                                        return WEBKIT + replace(value, /([^-])(transform)/g, "$1" + WEBKIT + "$2") + value;
+                                    case 6187:
+                                        return replace(replace(replace(value, /(zoom-|grab)/, WEBKIT + "$1"), /(image-set)/, WEBKIT + "$1"), value, "") + value;
+                                    case 5495:
+                                    case 3959:
+                                        return replace(value, /(image-set\([^]*)/, WEBKIT + "$1$`$1");
+                                    case 4968:
+                                        return replace(replace(value, /(.+:)(flex-)?(.*)/, WEBKIT + "box-pack:$3" + MS + "flex-pack:$3"), /s.+-b[^;]+/, "justify") + WEBKIT + value + value;
+                                    case 4095:
+                                    case 3583:
+                                    case 4068:
+                                    case 2532:
+                                        return replace(value, /(.+)-inline(.+)/, WEBKIT + "$1$2") + value;
+                                    case 8116:
+                                    case 7059:
+                                    case 5753:
+                                    case 5535:
+                                    case 5445:
+                                    case 5701:
+                                    case 4933:
+                                    case 4677:
+                                    case 5533:
+                                    case 5789:
+                                    case 5021:
+                                    case 4765:
+                                        if (Utility_strlen(value) - 1 - length > 6) switch(Utility_charat(value, length + 1)){
+                                            case 109:
+                                                if (45 !== Utility_charat(value, length + 4)) break;
+                                            case 102:
+                                                return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
+                                            case 115:
+                                                return ~indexof(value, "stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
+                                        }
+                                        break;
+                                    case 4949:
+                                        if (115 !== Utility_charat(value, length + 1)) break;
+                                    case 6444:
+                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~indexof(value, "!important") && 10))){
+                                            case 107:
+                                                return replace(value, ":", ":" + WEBKIT) + value;
+                                            case 101:
+                                                return replace(value, /(.+:)([^;!]+)(;|!.+)?/, "$1" + WEBKIT + (45 === Utility_charat(value, 14) ? "inline-" : "") + "box$3$1" + WEBKIT + "$2$3$1" + MS + "$2box$3") + value;
+                                        }
+                                        break;
+                                    case 5936:
+                                        switch(Utility_charat(value, length + 11)){
+                                            case 114:
+                                                return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "tb") + value;
+                                            case 108:
+                                                return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "tb-rl") + value;
+                                            case 45:
+                                                return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "lr") + value;
+                                        }
+                                        return WEBKIT + value + MS + value + value;
+                                }
+                                return value;
+                            }(element.value, element.length);
                             break;
                         case "@keyframes":
                             return serialize([
@@ -640,7 +557,88 @@
                     return output;
                 }), stylis = function(styles) {
                     var value;
-                    return serialize(dealloc(parse("", null, null, null, [
+                    return serialize(dealloc(function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
+                        for(var index = 0, offset = 0, length = pseudo, atrule = 0, property = 0, previous = 0, variable = 1, scanning = 1, ampersand = 1, character = 0, type = "", props = rules, children = rulesets, reference = rule, characters = type; scanning;)switch(previous = character, character = next()){
+                            case 34:
+                            case 39:
+                            case 91:
+                            case 40:
+                                characters += delimit(character);
+                                break;
+                            case 9:
+                            case 10:
+                            case 13:
+                            case 32:
+                                characters += whitespace(previous);
+                                break;
+                            case 92:
+                                characters += escaping(position - 1, 7);
+                                continue;
+                            case 47:
+                                switch(peek()){
+                                    case 42:
+                                    case 47:
+                                        Utility_append(comment(commenter(next(), position), root, parent), declarations);
+                                        break;
+                                    default:
+                                        characters += "/";
+                                }
+                                break;
+                            case 123 * variable:
+                                points[index++] = Utility_strlen(characters) * ampersand;
+                            case 125 * variable:
+                            case 59:
+                            case 0:
+                                switch(character){
+                                    case 0:
+                                    case 125:
+                                        scanning = 0;
+                                    case 59 + offset:
+                                        property > 0 && Utility_strlen(characters) - length && Utility_append(property > 32 ? declaration(characters + ";", rule, parent, length - 1) : declaration(replace(characters, " ", "") + ";", rule, parent, length - 2), declarations);
+                                        break;
+                                    case 59:
+                                        characters += ";";
+                                    default:
+                                        if (Utility_append(reference = ruleset(characters, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character) {
+                                            if (0 === offset) parse(characters, root, reference, reference, props, rulesets, length, points, children);
+                                            else switch(atrule){
+                                                case 100:
+                                                case 109:
+                                                case 115:
+                                                    parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
+                                                    break;
+                                                default:
+                                                    parse(characters, reference, reference, reference, [
+                                                        ""
+                                                    ], children, length, points, children);
+                                            }
+                                        }
+                                }
+                                index = offset = property = 0, variable = ampersand = 1, type = characters = "", length = pseudo;
+                                break;
+                            case 58:
+                                length = 1 + Utility_strlen(characters), property = previous;
+                            default:
+                                if (variable < 1) {
+                                    if (123 == character) --variable;
+                                    else if (125 == character && 0 == variable++ && 125 == prev()) continue;
+                                }
+                                switch(characters += Utility_from(character), character * variable){
+                                    case 38:
+                                        ampersand = offset > 0 ? 1 : (characters += "\f", -1);
+                                        break;
+                                    case 44:
+                                        points[index++] = (Utility_strlen(characters) - 1) * ampersand, ampersand = 1;
+                                        break;
+                                    case 64:
+                                        45 === peek() && (characters += delimit(next())), atrule = peek(), offset = Utility_strlen(type = characters += identifier(position)), character++;
+                                        break;
+                                    case 45:
+                                        45 === previous && 2 == Utility_strlen(characters) && (variable = 0);
+                                }
+                        }
+                        return rulesets;
+                    }("", null, null, null, [
                         ""
                     ], value = alloc(value = styles), 0, [
                         0
@@ -761,7 +759,7 @@
                 propTypes: !0
             }, TYPE_STATICS[reactIs.Memo] = MEMO_STATICS;
             var defineProperty = Object.defineProperty, getOwnPropertyNames = Object.getOwnPropertyNames, getOwnPropertySymbols = Object.getOwnPropertySymbols, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, getPrototypeOf = Object.getPrototypeOf, objectPrototype = Object.prototype;
-            function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
+            module.exports = function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
                 if ("string" != typeof sourceComponent) {
                     if (objectPrototype) {
                         var inheritedComponent = getPrototypeOf(sourceComponent);
@@ -780,8 +778,7 @@
                     }
                 }
                 return targetComponent;
-            }
-            module.exports = hoistNonReactStatics;
+            };
         },
         8418: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
