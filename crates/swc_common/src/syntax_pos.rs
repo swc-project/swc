@@ -1111,10 +1111,10 @@ impl Sub for CharPos {
 //
 
 /// A source code location used for error reporting
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
+/// Note: This struct intentionally does not implement rkyv's archieve
+/// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
+/// source_map_proxy constructs plugin-side Loc instead with shared SourceFile
+/// instance.
 #[derive(Debug, Clone)]
 pub struct Loc {
     /// Information about the original source
@@ -1124,6 +1124,17 @@ pub struct Loc {
     /// The (0-based) column offset
     pub col: CharPos,
     /// The (0-based) column offset when displayed
+    pub col_display: usize,
+}
+
+#[cfg(feature = "plugin-base")]
+/// A struct to exchange `Loc` with omitting SourceFile as needed.
+/// This is internal struct between plugins to the host, not a public interface.
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Debug, Clone)]
+pub struct PartialLoc {
+    pub source_file: Option<Lrc<SourceFile>>,
+    pub line: usize,
+    pub col: usize,
     pub col_display: usize,
 }
 
@@ -1178,12 +1189,21 @@ pub struct LineCol {
     pub col: u32,
 }
 
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
+/// Note: This struct intentionally does not implement rkyv's archieve
+/// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
+/// source_map_proxy constructs plugin-side Loc instead with shared SourceFile
+/// instance.
 pub struct FileLines {
     pub file: Lrc<SourceFile>,
+    pub lines: Vec<LineInfo>,
+}
+
+#[cfg(feature = "plugin-base")]
+/// A struct to exchange `FileLines` with omitting SourceFile as needed.
+/// This is internal struct between plugins to the host, not a public interface.
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Debug, Clone)]
+pub struct PartialFileLines {
+    pub file: Option<Lrc<SourceFile>>,
     pub lines: Vec<LineInfo>,
 }
 
@@ -1193,6 +1213,8 @@ pub struct FileLines {
 //
 
 pub type FileLinesResult = Result<FileLines, SpanLinesError>;
+#[cfg(feature = "plugin-base")]
+pub type PartialFileLinesResult = Result<PartialFileLines, SpanLinesError>;
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
