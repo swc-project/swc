@@ -211,7 +211,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.232"
+version = "1.2.233"
 dependencies = [
  "swc_core 0.7.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "wasm-bindgen",
