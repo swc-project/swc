@@ -18,7 +18,7 @@ fn stylesheet_test(input: PathBuf, config: ParserConfig) {
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config, None);
         let mut parser = Parser::new(lexer, config);
         let stylesheet = parser.parse_all();
         let errors = parser.take_errors();
@@ -61,7 +61,7 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
         let tokens = {
-            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
+            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default(), None);
             let mut tokens = vec![];
 
             for token_and_span in lexer.by_ref() {
@@ -121,7 +121,7 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
         }
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config, None);
         let mut parser = Parser::new(lexer, config);
         let stylesheet = parser.parse_all();
         let mut errors = parser.take_errors();
@@ -184,7 +184,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
         let fm = cm.load_file(&input).unwrap();
         let mut lexer_errors = vec![];
         let tokens = {
-            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
+            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default(), None);
             let mut tokens = vec![];
 
             for token_and_span in lexer.by_ref() {
@@ -502,7 +502,7 @@ fn stylesheet_span_visualizer(input: PathBuf) {
         };
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config, None);
         let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();

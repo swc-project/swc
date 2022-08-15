@@ -1,4 +1,4 @@
-@namespace url(XML-namespace-URL);
+/* Default namespace */ @namespace url(XML-namespace-URL);
 @namespace "XML-namespace-URL";
 @namespace prefix url(XML-namespace-URL);
 @namespace prefix "XML-namespace-URL";

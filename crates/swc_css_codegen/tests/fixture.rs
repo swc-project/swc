@@ -3,7 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_common::{FileName, Span};
+use swc_common::{comments::SingleThreadedComments, FileName, Span};
 use swc_css_ast::{
     AnPlusBNotation, ComponentValue, HexColor, ImportantFlag, Integer, Number, Str, Stylesheet,
     Token, TokenAndSpan, UrlValueRaw,
@@ -47,11 +47,13 @@ fn run(input: &Path, minify: bool) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .unwrap();
@@ -70,7 +72,11 @@ fn run(input: &Path, minify: bool) {
                 BasicCssWriterConfig::default(),
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify });
+            let mut gen = CodeGenerator::new(
+                wr,
+                if minify { None } else { Some(&comments) },
+                CodegenConfig { minify },
+            );
 
             gen.emit(&stylesheet).unwrap();
         }
@@ -88,11 +94,13 @@ fn run(input: &Path, minify: bool) {
             .unwrap();
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet_output: Stylesheet = parse_file(
             &fm_output,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .map_err(|err| {
@@ -218,11 +226,13 @@ fn indent_type(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .unwrap();
@@ -244,7 +254,7 @@ fn indent_type(input: PathBuf) {
                 },
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut gen = CodeGenerator::new(wr, Some(&comments), CodegenConfig { minify: false });
 
             gen.emit(&stylesheet).unwrap();
         }
@@ -256,11 +266,13 @@ fn indent_type(input: PathBuf) {
             .unwrap();
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet_output: Stylesheet = parse_file(
             &fm_output,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .map_err(|err| {
@@ -295,11 +307,13 @@ fn indent_width(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .unwrap();
@@ -321,7 +335,7 @@ fn indent_width(input: PathBuf) {
                 },
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut gen = CodeGenerator::new(wr, Some(&comments), CodegenConfig { minify: false });
 
             gen.emit(&stylesheet).unwrap();
         }
@@ -333,11 +347,13 @@ fn indent_width(input: PathBuf) {
             .unwrap();
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet_output: Stylesheet = parse_file(
             &fm_output,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .map_err(|err| {
@@ -372,11 +388,13 @@ fn linefeed_lf(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .unwrap();
@@ -398,7 +416,7 @@ fn linefeed_lf(input: PathBuf) {
                 },
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut gen = CodeGenerator::new(wr, Some(&comments), CodegenConfig { minify: false });
 
             gen.emit(&stylesheet).unwrap();
         }
@@ -412,11 +430,13 @@ fn linefeed_lf(input: PathBuf) {
             .unwrap();
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet_output: Stylesheet = parse_file(
             &fm_output,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .map_err(|err| {
@@ -451,11 +471,13 @@ fn linefeed_crlf(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .unwrap();
@@ -477,7 +499,7 @@ fn linefeed_crlf(input: PathBuf) {
                 },
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut gen = CodeGenerator::new(wr, Some(&comments), CodegenConfig { minify: false });
 
             gen.emit(&stylesheet).unwrap();
         }
@@ -491,11 +513,13 @@ fn linefeed_crlf(input: PathBuf) {
             .unwrap();
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet_output: Stylesheet = parse_file(
             &fm_output,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .map_err(|err| {
@@ -526,11 +550,13 @@ fn parse_again(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut errors,
         )
         .map_err(|err| {
@@ -544,7 +570,7 @@ fn parse_again(input: PathBuf) {
         let mut css_str = String::new();
         {
             let wr = BasicCssWriter::new(&mut css_str, None, BasicCssWriterConfig::default());
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut gen = CodeGenerator::new(wr, Some(&comments), CodegenConfig { minify: false });
 
             gen.emit(&stylesheet).unwrap();
         }
@@ -553,11 +579,13 @@ fn parse_again(input: PathBuf) {
 
         let new_fm = cm.new_source_file(FileName::Anon, css_str);
         let mut parsed_errors = vec![];
+        let comments = SingleThreadedComments::default();
         let mut parsed: Stylesheet = parse_file(
             &new_fm,
             ParserConfig {
                 ..Default::default()
             },
+            Some(&comments),
             &mut parsed_errors,
         )
         .map_err(|err| {

@@ -229,6 +229,34 @@ where
         Ok(())
     }
 
+    fn write_comment(&mut self, s: &str) -> Result {
+        self.write(None, s)?;
+
+        {
+            let line_start_of_s = compute_line_starts(s);
+
+            if line_start_of_s.len() > 1 {
+                self.line = self.line + line_start_of_s.len() - 1;
+
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+
+                self.col = s[last_line_byte_index..].chars().count();
+            }
+        }
+
+        Ok(())
+    }
+
+    fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        if self.line_start {
+            self.pending_srcmap = Some(pos);
+        } else {
+            self.srcmap(pos);
+        }
+
+        Ok(())
+    }
+
     fn increase_indent(&mut self) {
         self.indent_level += 1;
     }

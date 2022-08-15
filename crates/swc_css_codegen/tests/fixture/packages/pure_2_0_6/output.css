@@ -1,4 +1,9 @@
-html {
+/*!
+Pure v2.0.6
+Copyright 2013 Yahoo!
+Licensed under the BSD License.
+https://github.com/pure-css/pure/blob/master/LICENSE
+*/ html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
 }

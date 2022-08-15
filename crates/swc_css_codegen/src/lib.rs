@@ -5,7 +5,7 @@ pub use std::fmt::Result;
 use std::str::from_utf8;
 
 use serde::{Deserialize, Serialize};
-use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
+use swc_common::{comments::Comments, BytePos, Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
 use writer::CssWriter;
@@ -15,6 +15,7 @@ use self::{ctx::Ctx, list::ListFormat};
 
 #[macro_use]
 mod macros;
+mod comments;
 mod ctx;
 mod emit;
 mod list;
@@ -27,30 +28,32 @@ pub struct CodegenConfig {
     pub minify: bool,
 }
 
-#[derive(Debug)]
-pub struct CodeGenerator<W>
+pub struct CodeGenerator<'a, W>
 where
     W: CssWriter,
 {
     wr: W,
+    comments: Option<&'a dyn Comments>,
     config: CodegenConfig,
     ctx: Ctx,
 }
 
-impl<W> CodeGenerator<W>
+impl<'a, W> CodeGenerator<'a, W>
 where
     W: CssWriter,
 {
-    pub fn new(wr: W, config: CodegenConfig) -> Self {
+    pub fn new(wr: W, comments: Option<&'a dyn Comments>, config: CodegenConfig) -> Self {
         CodeGenerator {
             wr,
             config,
+            comments,
             ctx: Default::default(),
         }
     }
 
     #[emitter]
     fn emit_stylesheet(&mut self, n: &Stylesheet) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
         self.emit_list(
             &n.rules,
             if self.config.minify {
@@ -59,6 +62,7 @@ where
                 ListFormat::NotDelimited | ListFormat::MultiLine
             },
         )?;
+        self.emit_trailing_comments_of_pos(n.span().hi, true, true)?;
     }
 
     #[emitter]
