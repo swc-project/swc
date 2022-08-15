@@ -1883,6 +1883,11 @@ where
             // rand should not be inlined because of `index`.
 
             let deps = idents_used_by_ignoring_nested(&*a_right);
+            let deps = self.data.expand_infected(deps, 64);
+            let deps = match deps {
+                Ok(v) => v,
+                Err(_) => return Ok(false),
+            };
 
             let used_by_b = idents_used_by(&*b);
 
