@@ -57,10 +57,6 @@ struct SyntaxContextData {
 
 /// A mark is a unique id associated with a macro expansion.
 #[derive(Copy, Clone, PartialEq, Eq, Hash, Debug)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 pub struct Mark(u32);
 
 #[allow(unused)]
