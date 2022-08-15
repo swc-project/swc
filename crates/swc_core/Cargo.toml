@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.7.13"
+version       = "0.7.14"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -249,10 +249,3 @@ swc_plugin_runner = { optional = true, version = "0.71.10", path = "../swc_plugi
 
 [dev-dependencies]
 testing = { version = "0.29.4", path = "../testing" }
-
-[build-dependencies]
-vergen = { version = "7.3.2", default-features = false, features = [
-  "build",
-  "git",
-  "cargo",
-] }
