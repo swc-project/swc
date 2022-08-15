@@ -7,6 +7,12 @@
 
 - **(plugin/proxy)** Fix a compilation attribute (#5495) ([ca82f64](https://github.com/swc-project/swc/commit/ca82f64b0e4a550be86bd36d61b3e358b14a720a))
 
+### Features
+
+
+
+- **(swc_core)** Provide build-time metadata diagnostics (#5494) ([808e68b](https://github.com/swc-project/swc/commit/808e68b4b1cdbaff6a38cbec6d8b07c406d7d550))
+
 ## [1.2.233] - 2022-08-15
 
 ### Build
