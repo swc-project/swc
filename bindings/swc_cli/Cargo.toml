@@ -1,3 +1,4 @@
+[workspace]
 [package]
 authors     = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
 description = "Commandline for SWC"
