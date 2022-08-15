@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(plugin/proxy)** Fix a compilation attribute (#5495) ([ca82f64](https://github.com/swc-project/swc/commit/ca82f64b0e4a550be86bd36d61b3e358b14a720a))
+
+## [1.2.233] - 2022-08-15
+
 ### Build
 
 
