@@ -126,6 +126,7 @@ jobs:
       - name: Publish crates
         if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
         run: |
+          npx ts-node src/cargo/update-constants.ts
           cargo mono publish --no-verify
           cargo mono publish --no-verify
           cargo mono publish --no-verify
