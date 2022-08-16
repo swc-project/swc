@@ -2815,7 +2815,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.214.7"
+version = "0.214.8"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3000,7 +3000,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.16"
+version = "0.7.17"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -4034,7 +4034,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.71.12"
+version = "0.71.13"
 dependencies = [
  "anyhow",
  "criterion",
