@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.7.16"
+version       = "0.7.17"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -225,7 +225,7 @@ wasmer-wasi = { optional = true, version = "3.0.0-beta", default-features = fals
 
 # swc_* dependencies
 binding_macros              = { optional = true, version = "0.2.3", path = "../binding_macros" }
-swc                         = { optional = true, version = "0.214.7", path = "../swc" }
+swc                         = { optional = true, version = "0.214.8", path = "../swc" }
 swc_atoms                   = { optional = true, version = "0.4.6", path = "../swc_atoms" }
 swc_bundler                 = { optional = true, version = "0.177.3", path = "../swc_bundler" }
 swc_common                  = { optional = true, version = "0.27.9", path = "../swc_common" }
@@ -245,7 +245,7 @@ swc_plugin_macro            = { optional = true, version = "0.9.7", path = "../s
 swc_plugin_proxy            = { optional = true, version = "0.18.10", path = "../swc_plugin_proxy" }
 swc_trace_macro             = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_plugin_runner = { optional = true, version = "0.71.12", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = { optional = true, version = "0.71.13", path = "../swc_plugin_runner", default-features = false }
 
 [dev-dependencies]
 testing = { version = "0.29.4", path = "../testing" }
