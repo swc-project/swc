@@ -226,10 +226,10 @@ wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 # swc_* dependencies
 binding_macros              = { optional = true, version = "0.2.3", path = "../binding_macros" }
 swc                         = { optional = true, version = "0.214.7", path = "../swc" }
-swc_atoms                   = { optional = true, version = "0.4.5", path = "../swc_atoms" }
+swc_atoms                   = { optional = true, version = "0.4.6", path = "../swc_atoms" }
 swc_bundler                 = { optional = true, version = "0.177.3", path = "../swc_bundler" }
-swc_common                  = { optional = true, version = "0.27.8", path = "../swc_common" }
-swc_ecma_ast                = { optional = true, version = "0.90.7", path = "../swc_ecma_ast" }
+swc_common                  = { optional = true, version = "0.27.9", path = "../swc_common" }
+swc_ecma_ast                = { optional = true, version = "0.90.8", path = "../swc_ecma_ast" }
 swc_ecma_loader             = { optional = true, version = "0.39.4", path = "../swc_ecma_loader" }
 swc_ecma_parser             = { optional = true, version = "0.117.4", path = "../swc_ecma_parser" }
 swc_ecma_quote_macros       = { optional = true, version = "0.28.4", path = "../swc_ecma_quote_macros" }
@@ -242,7 +242,7 @@ swc_node_bundler            = { optional = true, version = "0.0.2", path = "../s
 swc_nodejs_common           = { optional = true, version = "0.0.1", path = "../swc_nodejs_common" }
 swc_plugin                  = { optional = true, version = "0.89.0", path = "../swc_plugin" }
 swc_plugin_macro            = { optional = true, version = "0.9.5", path = "../swc_plugin_macro" }
-swc_plugin_proxy            = { optional = true, version = "0.18.7", path = "../swc_plugin_proxy" }
+swc_plugin_proxy            = { optional = true, version = "0.18.8", path = "../swc_plugin_proxy" }
 swc_trace_macro             = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 # TODO: eventually swc_plugin_runner needs to remove default features
 swc_plugin_runner = { optional = true, version = "0.71.10", path = "../swc_plugin_runner", default-features = false }
