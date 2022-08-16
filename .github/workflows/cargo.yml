@@ -96,8 +96,6 @@ jobs:
             os: ubuntu-latest
           - crate: better_scoped_tls
             os: ubuntu-latest
-          - crate: binding_core_node
-            os: ubuntu-latest
           - crate: binding_macros
             os: ubuntu-latest
           - crate: dbg-swc
@@ -107,8 +105,6 @@ jobs:
           - crate: from_variant
             os: ubuntu-latest
           - crate: jsdoc
-            os: ubuntu-latest
-          - crate: node_macro_deps
             os: ubuntu-latest
           - crate: preset_env_base
             os: ubuntu-latest

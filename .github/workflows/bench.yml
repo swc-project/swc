@@ -74,7 +74,7 @@ jobs:
           yarn
 
       - name: Run benchmark
-        run: cargo bench --workspace --exclude swc_plugin --exclude binding_core_node --features plugin_transform_schema_vtest -- --output-format bencher | tee output.txt
+        run: cargo bench --workspace --exclude swc_plugin --features plugin_transform_schema_vtest -- --output-format bencher | tee output.txt
 
       - name: Download previous benchmark results
         run: mkdir raw-data && curl -o raw-data/benchmark-data.json https://raw.githubusercontent.com/swc-project/raw-data/gh-pages/benchmark-data.json

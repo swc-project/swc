@@ -60,8 +60,8 @@
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build:wasm": "npm-run-all \"pack -- build ./bindings/binding_core_wasm --scope swc {1} -t {2} --features plugin\" --",
-        "build": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p binding_core_node --release",
-        "build:dev": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p binding_core_node",
+        "build": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts --cargo-cwd ./bindings/binding_core_node --release",
+        "build:dev": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts --cargo-cwd ./bindings/binding_core_node",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --config ./node-swc/jest.config.js",
         "version": "napi version -p scripts/npm"
     },
