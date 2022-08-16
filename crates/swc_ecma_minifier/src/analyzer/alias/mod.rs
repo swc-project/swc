@@ -93,6 +93,20 @@ impl Visit for InfectsTo<'_> {
         self.infects.insert(n.to_id());
     }
 
+    fn visit_expr(&mut self, e: &Expr) {
+        if let Expr::Ident(..) = e {
+            if !self.ctx.track_expr_ident {
+                return;
+            }
+        }
+
+        let ctx = Ctx {
+            track_expr_ident: true,
+            ..self.ctx
+        };
+        e.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_member_prop(&mut self, n: &MemberProp) {
         if let MemberProp::Computed(..) = n {
             n.visit_children_with(self);
