@@ -779,12 +779,11 @@ impl Fixer<'_> {
                     Context::Default => exprs
                         .first()
                         .map(|e| match &**e {
-                            Expr::Fn(FnExpr { ident: None, .. })
-                            | Expr::Class(ClassExpr { ident: None, .. }) => true,
+                            Expr::Fn(FnExpr { .. }) | Expr::Class(ClassExpr { .. }) => true,
                             Expr::Call(CallExpr {
-                                callee: Callee::Expr(expr),
+                                callee: Callee::Expr(callee_expr),
                                 ..
-                            }) if matches!(&**expr, Expr::Fn(FnExpr { ident: None, .. })) => true,
+                            }) => callee_expr.is_fn_expr(),
 
                             _ => false,
                         })
