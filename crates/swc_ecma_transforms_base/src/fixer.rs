@@ -774,13 +774,15 @@ impl Fixer<'_> {
                     ignore_padding_value(buf)
                 };
 
-                if let Some(expr) = exprs.first_mut() {
-                    match &mut **expr {
-                        Expr::Call(CallExpr {
-                            callee: Callee::Expr(callee_expr),
-                            ..
-                        }) if callee_expr.is_fn_expr() => self.wrap(callee_expr),
-                        _ => (),
+                if self.ctx == Context::Default {
+                    if let Some(expr) = exprs.first_mut() {
+                        match &mut **expr {
+                            Expr::Call(CallExpr {
+                                callee: Callee::Expr(callee_expr),
+                                ..
+                            }) if callee_expr.is_fn_expr() => self.wrap(callee_expr),
+                            _ => (),
+                        }
                     }
                 }
 
