@@ -3000,7 +3000,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.15"
+version = "0.7.16"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -4012,7 +4012,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.9.6"
+version = "0.9.7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4021,7 +4021,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.18.9"
+version = "0.18.10"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
@@ -4034,7 +4034,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.71.11"
+version = "0.71.12"
 dependencies = [
  "anyhow",
  "criterion",
