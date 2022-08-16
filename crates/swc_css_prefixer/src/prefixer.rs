@@ -2096,12 +2096,12 @@ impl VisitMut for Prefixer {
                     replace_ident(&mut o_value, "pixelated", "-o-pixelated");
                 }
 
-                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                if should_prefix("nearest-neighbor", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none())
+                {
                     let mut old_spec_ms_value = ms_value.clone();
 
-                    if should_prefix("nearest-neighbor", self.env, false) {
-                        replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
-                    }
+                    replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
 
                     if ms_value != old_spec_ms_value {
                         add_declaration!(
@@ -2663,17 +2663,33 @@ impl VisitMut for Prefixer {
 
             "unicode-bidi" => {
                 if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    replace_ident(&mut moz_value, "isolate", "-moz-isolate");
-                    replace_ident(&mut moz_value, "isolate-override", "-moz-isolate-override");
-                    replace_ident(&mut moz_value, "plaintext", "-moz-plaintext");
+                    if should_prefix("-moz-isolate", self.env, false) {
+                        replace_ident(&mut moz_value, "isolate", "-moz-isolate");
+                    }
 
-                    replace_ident(&mut webkit_value, "isolate", "-webkit-isolate");
-                    replace_ident(
-                        &mut webkit_value,
-                        "isolate-override",
-                        "-webpack-isolate-override",
-                    );
-                    replace_ident(&mut webkit_value, "plaintext", "-webpack-plaintext");
+                    if should_prefix("-moz-isolate-override", self.env, false) {
+                        replace_ident(&mut moz_value, "isolate-override", "-moz-isolate-override");
+                    }
+
+                    if should_prefix("-moz-plaintext", self.env, false) {
+                        replace_ident(&mut moz_value, "plaintext", "-moz-plaintext");
+                    }
+
+                    if should_prefix("-webkit-isolate", self.env, false) {
+                        replace_ident(&mut webkit_value, "isolate", "-webkit-isolate");
+                    }
+
+                    if should_prefix("-webpack-isolate-override", self.env, false) {
+                        replace_ident(
+                            &mut webkit_value,
+                            "isolate-override",
+                            "-webpack-isolate-override",
+                        );
+                    }
+
+                    if should_prefix("-webpack-plaintext", self.env, false) {
+                        replace_ident(&mut webkit_value, "plaintext", "-webpack-plaintext");
+                    }
                 }
             }
 

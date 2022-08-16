@@ -3718,5 +3718,62 @@
     {
       "ie": "10"
     }
+  ],
+
+  "-webkit-isolate": [
+    {
+      "chrome": "16",
+      "ios": "6",
+      "safari": "6"
+    },
+    {
+      "chrome": "47",
+      "ios": "10.3",
+      "safari": "10.1"
+    }
+  ],
+  "-webpack-isolate-override": [
+    {
+      "safari": "6",
+      "ios": "6"
+    },
+    {
+      "safari": "10.1",
+      "ios": "10.3"
+    }
+  ],
+  "-webpack-plaintext": [
+    {
+      "safari": "6",
+      "ios": "6"
+    },
+    {
+      "safari": "10.1",
+      "ios": "10.3"
+    }
+  ],
+  "-moz-isolate": [
+    {
+      "firefox": "17"
+    },
+    {
+      "firefox": "49"
+    }
+  ],
+  "-moz-isolate-override": [
+    {
+      "firefox": "17"
+    },
+    {
+      "firefox": "49"
+    }
+  ],
+  "-moz-plaintext": [
+    {
+      "firefox": "10"
+    },
+    {
+      "firefox": "49"
+    }
   ]
 }
