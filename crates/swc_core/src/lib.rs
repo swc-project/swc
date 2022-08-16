@@ -124,32 +124,4 @@ pub mod node {
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
 extern crate swc_node_base;
 
-pub mod diagnostics {
-    /// Set of metadata swc_core was built against.
-    /// This is useful for the diagnostics to determine any runtime, or guest
-    /// uses specific version of swc_core, or desired features to be enabled or
-    /// not.
-    #[derive(Debug)]
-    pub struct CoreEngineDiagnostics {
-        /// Semver package version of swc_core.
-        pub package_semver: String,
-        /// Git branch of swc_core built against.
-        pub git_branch: String,
-        /// Commit sha of swc_core built against.
-        pub git_sha: String,
-        /// List of features enabled
-        pub cargo_features: String,
-        pub cargo_target_triple: String,
-    }
-
-    /// Returns metadata about the swc_core engine that was built against.
-    pub fn get_core_engine_diagnostics() -> CoreEngineDiagnostics {
-        CoreEngineDiagnostics {
-            package_semver: env!("VERGEN_BUILD_SEMVER").to_string(),
-            git_branch: env!("VERGEN_GIT_BRANCH").to_string(),
-            git_sha: env!("VERGEN_GIT_SHA").to_string(),
-            cargo_features: env!("VERGEN_CARGO_FEATURES").to_string(),
-            cargo_target_triple: env!("VERGEN_CARGO_TARGET_TRIPLE").to_string(),
-        }
-    }
-}
+pub static SWC_CORE_VERSION: &str = include_str!(concat!(env!("OUT_DIR"), "/core_pkg_version.txt"));

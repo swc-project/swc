@@ -8,9 +8,9 @@
 #[cfg(target_arch = "wasm32")]
 #[no_mangle]
 #[inline(always)]
-pub extern "C" fn __alloc(size: usize) -> *mut u8 {
+pub extern "C" fn __alloc(size: i32) -> *mut u8 {
     // create a new mutable buffer with specified capacity
-    let mut buf = Vec::with_capacity(size);
+    let mut buf = Vec::with_capacity(size as usize);
     // take a mutable pointer to the buffer
     let ptr = buf.as_mut_ptr();
     // take ownership of the memory block and
@@ -28,8 +28,8 @@ pub extern "C" fn __alloc(size: usize) -> *mut u8 {
 #[cfg(target_arch = "wasm32")]
 #[no_mangle]
 #[inline(always)]
-pub extern "C" fn __free(ptr: *mut u8, size: usize) -> i32 {
-    let data = unsafe { Vec::from_raw_parts(ptr, size, size) };
+pub extern "C" fn __free(ptr: *mut u8, size: i32) -> i32 {
+    let data = unsafe { Vec::from_raw_parts(ptr, size as usize, size as usize) };
     std::mem::drop(data);
     0
 }

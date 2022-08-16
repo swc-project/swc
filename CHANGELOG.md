@@ -7,11 +7,32 @@
 
 - **(plugin/proxy)** Fix a compilation attribute (#5495) ([ca82f64](https://github.com/swc-project/swc/commit/ca82f64b0e4a550be86bd36d61b3e358b14a720a))
 
+
+- **(swc_core)** Revert crate version metadata patch (#5501) ([ef1f259](https://github.com/swc-project/swc/commit/ef1f259a93495128947e2010998b0f879e59a538))
+
 ### Features
 
 
 
+- **(bindings)** Update `swc_core` (#5510) ([b9f88ff](https://github.com/swc-project/swc/commit/b9f88ff7203e0143de78f43ec0a4770907fa42da))
+
+
+- **(es/plugin)** Update `wasmer` to 3  (#5456) ([92f006c](https://github.com/swc-project/swc/commit/92f006c9a033bf4a49b48e842fd0668a96a13c61))
+
+
 - **(swc_core)** Provide build-time metadata diagnostics (#5494) ([808e68b](https://github.com/swc-project/swc/commit/808e68b4b1cdbaff6a38cbec6d8b07c406d7d550))
+
+### Refactor
+
+
+
+- **(bindings)** Use separate workspace for bindings (#5506) ([496346a](https://github.com/swc-project/swc/commit/496346ac04483581c29444e205392c479e1f8c4b))
+
+### Build
+
+
+
+- **(swc_core)** Bump up `rkyv` (#5507) ([becc3ae](https://github.com/swc-project/swc/commit/becc3aebf2469cc29ddfce0c082470d06a6117df))
 
 ## [1.2.233] - 2022-08-15
 
