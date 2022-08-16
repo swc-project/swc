@@ -227,4 +227,10 @@ impl Visit for InfectionCollector<'_> {
         };
         e.arg.visit_with(&mut *self.with_ctx(ctx));
     }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        if let PropName::Computed(c) = &n {
+            c.visit_with(self);
+        }
+    }
 }
