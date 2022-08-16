@@ -3,7 +3,7 @@ use std::{collections::HashSet, hash::BuildHasherDefault};
 use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashSet, SyntaxContext};
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -97,7 +97,7 @@ pub(crate) struct VarUsageInfo {
 
     pub has_property_access: bool,
     pub has_property_mutation: bool,
-    pub accessed_props: AHashSet<JsWord>,
+    pub accessed_props: AHashMap<JsWord, usize>,
 
     pub exported: bool,
     /// True if used **above** the declaration. (Not eval order).
