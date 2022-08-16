@@ -2,9 +2,6 @@
   transform: rotate(30deg);
 }
 a {
-  transition: -webkit-transform 1s;
-  transition: -moz-transform 1s;
-  transition: -o-transform 1s;
   transition: transform 1s;
   transform: rotateX(45deg);
 }

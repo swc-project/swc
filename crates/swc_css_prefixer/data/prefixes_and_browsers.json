@@ -3775,5 +3775,103 @@
     {
       "firefox": "49"
     }
+  ],
+
+  "-webkit-fit-content": [
+    {
+      "android": "4.4",
+      "chrome": "22",
+      "safari": "7",
+      "ios": "7",
+      "opera": "15",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "45",
+      "safari": "10.1",
+      "ios": "10.3",
+      "opera": "32",
+      "samsung": "4"
+    }
+  ],
+  "-webkit-max-content": [
+    {
+      "android": "4.4",
+      "chrome": "22",
+      "ios": "7.1",
+      "opera": "15",
+      "safari": "6.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "45",
+      "ios": "13.7",
+      "opera": "32",
+      "safari": "10.1",
+      "samsung": "4"
+    }
+  ],
+  "-webkit-min-content": [
+    {
+      "android": "4.4",
+      "chrome": "22",
+      "ios": "7.1",
+      "opera": "15",
+      "safari": "6.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "45",
+      "ios": "13.7",
+      "opera": "32",
+      "safari": "10.1",
+      "samsung": "4"
+    }
+  ],
+  "-webkit-fill-available": [
+    {
+      "android": "4.4",
+      "chrome": "22",
+      "edge": "79",
+      "ios": "7.0",
+      "op_mob": "64",
+      "opera": "15",
+      "safari": "7",
+      "samsung": "5.0"
+    },
+    {}
+  ],
+  "-moz-fit-content": [
+    {
+      "firefox": "3"
+    },
+    {
+      "firefox": "93"
+    }
+  ],
+  "-moz-max-content": [
+    {
+      "firefox": "3"
+    },
+    {
+      "firefox": "65"
+    }
+  ],
+  "-moz-min-content": [
+    {
+      "firefox": "3"
+    },
+    {
+      "firefox": "65"
+    }
+  ],
+  "-moz-available": [
+    {
+      "firefox": "3"
+    },
+    {}
   ]
 }

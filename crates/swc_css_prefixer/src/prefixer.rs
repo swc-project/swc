@@ -2417,19 +2417,28 @@ impl VisitMut for Prefixer {
             // TODO https://github.com/postcss/autoprefixer/blob/main/lib/transition.js
             "transition" => {
                 if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    replace_ident(&mut webkit_value, "transform", "-webkit-transform");
-                    replace_ident(&mut webkit_value, "filter", "-webkit-filter");
+                    if should_prefix("-webkit-transform", self.env, false) {
+                        replace_ident(&mut webkit_value, "transform", "-webkit-transform");
+                    }
+
+                    if should_prefix("-webkit-filter", self.env, false) {
+                        replace_ident(&mut webkit_value, "filter", "-webkit-filter");
+                    }
                 }
 
                 add_declaration!(Prefix::Webkit, "-webkit-transition", None);
 
-                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                if should_prefix("-moz-transform", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
                     replace_ident(&mut moz_value, "transform", "-moz-transform");
                 }
 
                 add_declaration!(Prefix::Moz, "-moz-transition", None);
 
-                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                if should_prefix("-o-transform", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none())
+                {
                     replace_ident(&mut o_value, "transform", "-o-transform");
                 }
 
@@ -2437,15 +2446,27 @@ impl VisitMut for Prefixer {
             }
 
             "transition-property" => {
-                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                if should_prefix("-webkit-transform", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none())
+                {
                     replace_ident(&mut webkit_value, "transform", "-webkit-transform");
                 }
 
-                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                if should_prefix("-webkit-filter", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none())
+                {
+                    replace_ident(&mut webkit_value, "filter", "-webkit-filter");
+                }
+
+                if should_prefix("-moz-transform", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
                     replace_ident(&mut moz_value, "transform", "-moz-transform");
                 }
 
-                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
+                if should_prefix("-o-transform", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none())
+                {
                     replace_ident(&mut o_value, "transform", "-o-transform");
                 }
 
@@ -2599,27 +2620,49 @@ impl VisitMut for Prefixer {
                 );
 
                 if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    replace_ident(&mut webkit_value, "fit-content", "-webkit-fit-content");
-                    replace_ident(&mut webkit_value, "max-content", "-webkit-max-content");
-                    replace_ident(&mut webkit_value, "min-content", "-webkit-min-content");
-                    replace_ident(
-                        &mut webkit_value,
-                        "fill-available",
-                        "-webkit-fill-available",
-                    );
-                    replace_ident(&mut webkit_value, "fill", "-webkit-fill-available");
-                    replace_ident(&mut webkit_value, "stretch", "-webkit-fill-available");
+                    if should_prefix("-webkit-fit-content", self.env, false) {
+                        replace_ident(&mut webkit_value, "fit-content", "-webkit-fit-content");
+                    }
+
+                    if should_prefix("-webkit-max-content", self.env, false) {
+                        replace_ident(&mut webkit_value, "max-content", "-webkit-max-content");
+                    }
+
+                    if should_prefix("-webkit-min-content", self.env, false) {
+                        replace_ident(&mut webkit_value, "min-content", "-webkit-min-content");
+                    }
+
+                    if should_prefix("-webkit-fill-available", self.env, false) {
+                        replace_ident(
+                            &mut webkit_value,
+                            "fill-available",
+                            "-webkit-fill-available",
+                        );
+                        replace_ident(&mut webkit_value, "fill", "-webkit-fill-available");
+                        replace_ident(&mut webkit_value, "stretch", "-webkit-fill-available");
+                    }
                 }
 
                 if !is_grid_property
                     && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
                 {
-                    replace_ident(&mut moz_value, "fit-content", "-moz-fit-content");
-                    replace_ident(&mut moz_value, "max-content", "-moz-max-content");
-                    replace_ident(&mut moz_value, "min-content", "-moz-min-content");
-                    replace_ident(&mut moz_value, "fill-available", "-moz-available");
-                    replace_ident(&mut moz_value, "fill", "-moz-available");
-                    replace_ident(&mut moz_value, "stretch", "-moz-available");
+                    if should_prefix("-moz-fit-content", self.env, false) {
+                        replace_ident(&mut moz_value, "fit-content", "-moz-fit-content");
+                    }
+
+                    if should_prefix("-moz-max-content", self.env, false) {
+                        replace_ident(&mut moz_value, "max-content", "-moz-max-content");
+                    }
+
+                    if should_prefix("-moz-min-content", self.env, false) {
+                        replace_ident(&mut moz_value, "min-content", "-moz-min-content");
+                    }
+
+                    if should_prefix("-moz-available", self.env, false) {
+                        replace_ident(&mut moz_value, "fill-available", "-moz-available");
+                        replace_ident(&mut moz_value, "fill", "-moz-available");
+                        replace_ident(&mut moz_value, "stretch", "-moz-available");
+                    }
                 }
             }
 
