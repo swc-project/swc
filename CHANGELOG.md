@@ -16,6 +16,12 @@
 
 - **(swc_core)** Provide build-time metadata diagnostics (#5494) ([808e68b](https://github.com/swc-project/swc/commit/808e68b4b1cdbaff6a38cbec6d8b07c406d7d550))
 
+### Refactor
+
+
+
+- **(bindings)** Use separate workspace for bindings (#5506) ([496346a](https://github.com/swc-project/swc/commit/496346ac04483581c29444e205392c479e1f8c4b))
+
 ## [1.2.233] - 2022-08-15
 
 ### Build
