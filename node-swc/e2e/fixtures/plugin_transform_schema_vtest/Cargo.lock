@@ -654,7 +654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.11"
+version = "0.7.14"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -733,7 +733,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.18.6"
+version = "0.18.7"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
