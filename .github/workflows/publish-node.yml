@@ -27,7 +27,7 @@ jobs:
             target: x86_64-apple-darwin
             build: |
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
-              cp ./bindings/swc_cli/target/release/swc .
+              cp ./bindings/target/release/swc .
               chmod +x ./swc
               yarn build
               strip -x *.node
@@ -35,14 +35,14 @@ jobs:
             build: |
               yarn build
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
-              cp ./bindings/swc_cli/target/release/swc .
+              cp ./bindings/target/release/swc .
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_LTO=false
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
-              cp bindings/swc_cli/target/i686-pc-windows-msvc/release/swc .
+              cp bindings/target/i686-pc-windows-msvc/release/swc .
               yarn build --target i686-pc-windows-msvc --cargo-flags="--no-default-features" --features swc_v1
               yarn test
             target: i686-pc-windows-msvc
@@ -52,8 +52,8 @@ jobs:
             build: >-
               set -e &&
               RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
-              rm -rf bindings/swc_cli/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
-              cp bindings/swc_cli/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
+              rm -rf bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
+              cp bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               yarn build --target x86_64-unknown-linux-gnu &&
               strip swc.linux-x64-gnu.node
           - host: ubuntu-latest
@@ -65,7 +65,7 @@ jobs:
               export CARGO_PROFILE_RELEASE_LTO=false &&
               RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
               rm -rf target/release/.cargo-lock &&
-              cp bindings/swc_cli/target/release/swc . && chmod +x ./swc &&
+              cp bindings/target/release/swc . && chmod +x ./swc &&
               RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build &&
               llvm-strip -x swc.linux-x64-musl.node
           - host: macos-latest
@@ -77,7 +77,7 @@ jobs:
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target=aarch64-apple-darwin
-              cp ./bindings/swc_cli/target/aarch64-apple-darwin/release/swc .
+              cp ./bindings/target/aarch64-apple-darwin/release/swc .
               chmod +x ./swc
               yarn build --target=aarch64-apple-darwin
               strip -x *.node
@@ -88,7 +88,7 @@ jobs:
               set -e &&
               rustup target add aarch64-unknown-linux-gnu &&
               RUSTFLAGS='-Z new-llvm-pass-manager=no' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
-              cp ./bindings/swc_cli/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
+              cp ./bindings/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
               yarn build --target aarch64-unknown-linux-gnu &&
               llvm-strip -x swc.linux-arm64-gnu.node
@@ -100,7 +100,7 @@ jobs:
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target=armv7-unknown-linux-gnueabihf
-              cp ./bindings/swc_cli/target/armv7-unknown-linux-gnueabihf/release/swc .
+              cp ./bindings/target/armv7-unknown-linux-gnueabihf/release/swc .
               chmod +x ./swc
               yarn build --target=armv7-unknown-linux-gnueabihf --cargo-flags='--no-default-features --features swc_v1'
               arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node
@@ -117,7 +117,7 @@ jobs:
               chmod 777 "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/${CLANG_VERSION}/lib/linux/aarch64/libgcc.a"
               echo "INPUT(-lunwind)" > "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/${CLANG_VERSION}/lib/linux/aarch64/libgcc.a"
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-linux-android
-              cp ./bindings/swc_cli/target/aarch64-linux-android/release/swc .
+              cp ./bindings/target/aarch64-linux-android/release/swc .
               chmod +x ./swc
               yarn build --target aarch64-linux-android
               ${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip *.node
@@ -135,7 +135,7 @@ jobs:
               chmod 777 "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/${CLANG_VERSION}/lib/linux/arm/libgcc.a"
               echo "INPUT(-lunwind)" > "${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/${CLANG_VERSION}/lib/linux/arm/libgcc.a"
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target armv7-linux-androideabi
-              cp ./bindings/swc_cli/target/armv7-linux-androideabi/release/swc .
+              cp ./bindings/target/armv7-linux-androideabi/release/swc .
               chmod +x ./swc
               yarn build --target armv7-linux-androideabi --cargo-flags='--no-default-features --features swc_v1'
               ${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip *.node
@@ -148,7 +148,7 @@ jobs:
               rustup target add aarch64-unknown-linux-musl &&
               RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
               rm -rf target/release/.cargo-lock &&
-              cp bindings/swc_cli/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+              cp bindings/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
               env RUSTFLAGS='-C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build --target=aarch64-unknown-linux-musl &&
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node
           - host: windows-latest
@@ -159,7 +159,7 @@ jobs:
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
-              cp bindings/swc_cli/target/aarch64-pc-windows-msvc/release/swc.exe .
+              cp bindings/target/aarch64-pc-windows-msvc/release/swc.exe .
               yarn build --target aarch64-pc-windows-msvc --cargo-flags='--no-default-features --features swc_v1'
     name: stable - ${{ matrix.settings.target }} - node@16
     runs-on: ${{ matrix.settings.host }}
@@ -330,7 +330,7 @@ jobs:
             yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
             yarn build --cargo-flags="--no-default-features" --features "swc_v1"
             cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
-            cp ./bindings/swc_cli/target/release/swc .
+            cp ./bindings/target/release/swc .
             yarn test
             rm -rf node_modules
             rm -rf target
