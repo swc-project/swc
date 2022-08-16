@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/compat)** Fix syntax context of transpiled class methods (#5498) ([b9933b1](https://github.com/swc-project/swc/commit/b9933b159a208a0bccbb9bf7cd9383b6a9be0e51))
+
+## [1.2.234] - 2022-08-16
+
 ### Bug Fixes
 
 
