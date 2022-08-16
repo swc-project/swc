@@ -1088,6 +1088,10 @@ where
                     }
                 }
 
+                if !self.is_skippable_for_seq(a, &Expr::Ident(left_id.clone())) {
+                    return false;
+                }
+
                 if let Expr::Lit(..) = &*e.right {
                     return true;
                 }
