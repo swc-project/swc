@@ -978,7 +978,6 @@ where
                                 AliasConfig {
                                     marks: Some(self.marks),
                                 },
-                                false,
                             )
                         }),
                         Mergable::Expr(a) => match a {
@@ -994,7 +993,6 @@ where
                                         AliasConfig {
                                             marks: Some(self.marks),
                                         },
-                                        false,
                                     ))
                                 } else {
                                     None

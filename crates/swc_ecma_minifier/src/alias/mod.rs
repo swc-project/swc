@@ -16,11 +16,7 @@ pub(crate) struct AliasConfig {
     pub marks: Option<Marks>,
 }
 
-pub(crate) fn collect_infects_from<N>(
-    node: &N,
-    config: AliasConfig,
-    track_by_default: bool,
-) -> FxHashSet<Id>
+pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
 where
     N: for<'aa> VisitWith<InfectionCollector<'aa>>,
     N: VisitWith<BindingCollector<Id>>,
@@ -36,7 +32,7 @@ where
 
         exclude: &decls,
         ctx: Ctx {
-            track_expr_ident: track_by_default,
+            track_expr_ident: true,
             ..Default::default()
         },
         aliases: FxHashSet::default(),
