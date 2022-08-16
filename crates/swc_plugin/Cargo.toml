@@ -1,16 +1,16 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "SDK for authoring swc plugin"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "SDK for authoring swc plugin"
 documentation = "https://rustdoc.swc.rs/swc_plugin/"
-edition = "2018"
-license = "Apache-2.0"
-name = "swc_plugin"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.89.0"
+edition       = "2018"
+license       = "Apache-2.0"
+name          = "swc_plugin"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.89.1"
 
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false

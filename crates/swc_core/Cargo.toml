@@ -220,8 +220,8 @@ __utils             = ["swc_ecma_utils"]
 [dependencies]
 # 3rd party dependencies
 once_cell   = { optional = true, version = "1.13.0" }
-wasmer      = { optional = true, version = "2.3.0", default-features = false }
-wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
+wasmer      = { optional = true, version = "3.0.0-beta", default-features = false }
+wasmer-wasi = { optional = true, version = "3.0.0-beta", default-features = false }
 
 # swc_* dependencies
 binding_macros              = { optional = true, version = "0.2.3", path = "../binding_macros" }
@@ -240,12 +240,12 @@ swc_ecma_visit              = { optional = true, version = "0.76.5", path = "../
 swc_node_base               = { optional = true, version = "0.5.5", path = "../swc_node_base" }
 swc_node_bundler            = { optional = true, version = "0.0.2", path = "../swc_node_bundler" }
 swc_nodejs_common           = { optional = true, version = "0.0.1", path = "../swc_nodejs_common" }
-swc_plugin                  = { optional = true, version = "0.89.0", path = "../swc_plugin" }
-swc_plugin_macro            = { optional = true, version = "0.9.5", path = "../swc_plugin_macro" }
-swc_plugin_proxy            = { optional = true, version = "0.18.8", path = "../swc_plugin_proxy" }
+swc_plugin                  = { optional = true, version = "0.89.1", path = "../swc_plugin" }
+swc_plugin_macro            = { optional = true, version = "0.9.6", path = "../swc_plugin_macro" }
+swc_plugin_proxy            = { optional = true, version = "0.18.9", path = "../swc_plugin_proxy" }
 swc_trace_macro             = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_plugin_runner = { optional = true, version = "0.71.10", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = { optional = true, version = "0.71.11", path = "../swc_plugin_runner", default-features = false }
 
 [dev-dependencies]
 testing = { version = "0.29.4", path = "../testing" }
