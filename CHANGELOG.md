@@ -14,6 +14,9 @@
 
 
 
+- **(es/plugin)** Update `wasmer` to 3  (#5456) ([92f006c](https://github.com/swc-project/swc/commit/92f006c9a033bf4a49b48e842fd0668a96a13c61))
+
+
 - **(swc_core)** Provide build-time metadata diagnostics (#5494) ([808e68b](https://github.com/swc-project/swc/commit/808e68b4b1cdbaff6a38cbec6d8b07c406d7d550))
 
 ### Refactor
