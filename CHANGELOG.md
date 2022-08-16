@@ -14,6 +14,9 @@
 
 
 
+- **(bindings)** Update `swc_core` (#5510) ([b9f88ff](https://github.com/swc-project/swc/commit/b9f88ff7203e0143de78f43ec0a4770907fa42da))
+
+
 - **(es/plugin)** Update `wasmer` to 3  (#5456) ([92f006c](https://github.com/swc-project/swc/commit/92f006c9a033bf4a49b48e842fd0668a96a13c61))
 
 
