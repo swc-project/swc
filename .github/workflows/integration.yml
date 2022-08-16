@@ -96,6 +96,9 @@ jobs:
 
           # Avoid no space left on device, copyfile
           cargo clean
+          cargo clean --manifest-path ./bindings/binding_core_node/Cargo.toml
+          cargo clean --manifest-path ./bindings/binding_core_wasm/Cargo.toml
+          cargo clean --manifest-path ./bindings/swc_cli/Cargo.toml
 
           yarn global add @swc/cli@0.1.56
           yarn link

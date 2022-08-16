@@ -1,6 +1,68 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/compat)** Fix syntax context of transpiled class methods (#5498) ([b9933b1](https://github.com/swc-project/swc/commit/b9933b159a208a0bccbb9bf7cd9383b6a9be0e51))
+
+## [1.2.234] - 2022-08-16
+
+### Bug Fixes
+
+
+
+- **(plugin/proxy)** Fix a compilation attribute (#5495) ([ca82f64](https://github.com/swc-project/swc/commit/ca82f64b0e4a550be86bd36d61b3e358b14a720a))
+
+
+- **(swc_core)** Revert crate version metadata patch (#5501) ([ef1f259](https://github.com/swc-project/swc/commit/ef1f259a93495128947e2010998b0f879e59a538))
+
+### Features
+
+
+
+- **(bindings)** Update `swc_core` (#5510) ([b9f88ff](https://github.com/swc-project/swc/commit/b9f88ff7203e0143de78f43ec0a4770907fa42da))
+
+
+- **(es/plugin)** Update `wasmer` to 3  (#5456) ([92f006c](https://github.com/swc-project/swc/commit/92f006c9a033bf4a49b48e842fd0668a96a13c61))
+
+
+- **(swc_core)** Provide build-time metadata diagnostics (#5494) ([808e68b](https://github.com/swc-project/swc/commit/808e68b4b1cdbaff6a38cbec6d8b07c406d7d550))
+
+### Refactor
+
+
+
+- **(bindings)** Use separate workspace for bindings (#5506) ([496346a](https://github.com/swc-project/swc/commit/496346ac04483581c29444e205392c479e1f8c4b))
+
+### Build
+
+
+
+- **(swc_core)** Bump up `rkyv` (#5507) ([becc3ae](https://github.com/swc-project/swc/commit/becc3aebf2469cc29ddfce0c082470d06a6117df))
+
+## [1.2.233] - 2022-08-15
+
+### Build
+
+
+
+- **(es)** Bump up bindings (#5493) ([e547631](https://github.com/swc-project/swc/commit/e5476310f816c8d16dc9c653e234737bfeb03697))
+
+## [1.2.232] - 2022-08-15
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix context of call/new expressions (#5487) ([40bb695](https://github.com/swc-project/swc/commit/40bb695f64da7fe1f7d892ded51bf77101cea4bc))
+
+
+- **(es/plugin)** Share `SourceFile` for plugin transforms (#5475) ([ff7f6f6](https://github.com/swc-project/swc/commit/ff7f6f63f93c253834908c329f61fe28fef9ad62))
+
+## [1.2.231] - 2022-08-14
+
 ### Bug Fixes
 
 
@@ -9,9 +71,6 @@
 
 
 - **(es/minifier)** Remove wrong code (#5485) ([2045fe6](https://github.com/swc-project/swc/commit/2045fe627397da217dc28fca52bd5cf85d42d2ae))
-
-
-- **(es/minifier)** Fix context of call/new expressions (#5487) ([40bb695](https://github.com/swc-project/swc/commit/40bb695f64da7fe1f7d892ded51bf77101cea4bc))
 
 
 - **(swc_core)** Bump up `swc_plugin_macro` (#5486) ([04e11a5](https://github.com/swc-project/swc/commit/04e11a577dcda1b745faa120e7bb94e8ba408d1e))
