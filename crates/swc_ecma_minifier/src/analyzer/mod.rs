@@ -1083,11 +1083,7 @@ where
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
                 for id in collect_infects_from(init, AliasConfig { marks: self.marks }) {
-                    self.data
-                        .var_or_default(id.clone())
-                        .add_infects_to(var.to_id());
-
-                    self.data.var_or_default(var.to_id()).add_infects_to(id);
+                    self.data.var_or_default(id).add_infects_to(var.to_id());
                 }
             }
         }
