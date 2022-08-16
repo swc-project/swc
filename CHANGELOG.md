@@ -22,6 +22,12 @@
 
 - **(bindings)** Use separate workspace for bindings (#5506) ([496346a](https://github.com/swc-project/swc/commit/496346ac04483581c29444e205392c479e1f8c4b))
 
+### Build
+
+
+
+- **(swc_core)** Bump up `rkyv` (#5507) ([becc3ae](https://github.com/swc-project/swc/commit/becc3aebf2469cc29ddfce0c082470d06a6117df))
+
 ## [1.2.233] - 2022-08-15
 
 ### Build
