@@ -1704,9 +1704,9 @@ checksum = "4389f1d5789befaf6029ebd9f7dac4af7f7e3d61b69d4f30e2ac02b57e7712b0"
 
 [[package]]
 name = "rkyv"
-version = "0.7.37"
+version = "0.7.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f08c8062c1fe1253064043b8fc07bfea1b9702b71b4a86c11ea3588183b12e1"
+checksum = "cec2b3485b07d96ddfd3134767b8a447b45ea4eb91448d0a35180ec0ffd5ed15"
 dependencies = [
  "bytecheck",
  "hashbrown 0.12.3",
@@ -1718,9 +1718,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv_derive"
-version = "0.7.37"
+version = "0.7.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e289706df51226e84814bf6ba1a9e1013112ae29bc7a9878f73fce360520c403"
+checksum = "6eaedadc88b53e36dd32d940ed21ae4d850d5916f2581526921f553a72ac34c4"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2146,9 +2146,9 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.5"
+version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "013b8129d72b54f337bc3733a075389d97a5714fb58d3ead5df49977a45322fc"
+checksum = "87b60823c5d9576cbedb299d57e4a808dd7e607062bd9b9bd5b3d5b65763c111"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -2210,9 +2210,9 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.8"
+version = "0.27.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6950d061940150c048956c9c90bb729283d94750696b6fddbcbfaedcb245196e"
+checksum = "97e51645bfec1301012bef2f6f6b33482ba22b0f4034501a62ac248890bd107e"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2268,9 +2268,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.14"
+version = "0.7.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8d1a7e8318e00a8bd209c8f93ed26c4b18f896e67e9de50fbcda0e5728a39578"
+checksum = "32164f9b046036e6bba24118fcecc9211655faa829c16fbfd31df344c1c897b2"
 dependencies = [
  "swc",
  "swc_atoms",
@@ -2288,9 +2288,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.7"
+version = "0.90.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8265c7abbdf36fa17da7c276bf6dd933b0837e00655dc7452b7b23068e7de688"
+checksum = "3427b28422f769f875e40404c0101b22cef9d7ba12c89453aac65f409b6e33cb"
 dependencies = [
  "bitflags",
  "bytecheck",
@@ -2847,9 +2847,9 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.18.7"
+version = "0.18.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6aa21ebe5fe45a4c279ad57d1c9929b785ed707dd0929d8d57c7b9918ca45f48"
+checksum = "70caa8bf21f07ee257a672fe710fee2a541009e8619ef64eef11e038647ccc06"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
