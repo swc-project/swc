@@ -708,7 +708,7 @@ impl Fixer<'_> {
 
                 let exprs_len = exprs.len();
                 // don't has child seq
-                let exprs = if len == exprs_len {
+                let mut exprs = if len == exprs_len {
                     let mut exprs = exprs
                         .iter_mut()
                         .enumerate()
@@ -774,32 +774,26 @@ impl Fixer<'_> {
                     ignore_padding_value(buf)
                 };
 
-                let need_paren = match self.ctx {
-                    Context::ForcedExpr => true,
-                    Context::Default => exprs
-                        .first()
-                        .map(|e| match &**e {
-                            Expr::Fn(FnExpr { .. }) | Expr::Class(ClassExpr { .. }) => true,
-                            Expr::Call(CallExpr {
-                                callee: Callee::Expr(callee_expr),
-                                ..
-                            }) => callee_expr.is_fn_expr(),
-
-                            _ => false,
-                        })
-                        .unwrap_or_default(),
-                    _ => false,
-                };
+                if let Some(expr) = exprs.first_mut() {
+                    match &mut **expr {
+                        Expr::Call(CallExpr {
+                            callee: Callee::Expr(callee_expr),
+                            ..
+                        }) if callee_expr.is_fn_expr() => self.wrap(callee_expr),
+                        _ => (),
+                    }
+                }
 
                 let expr = Expr::Seq(SeqExpr { span: *span, exprs });
 
-                if need_paren {
-                    *e = Expr::Paren(ParenExpr {
-                        span: *span,
-                        expr: Box::new(expr),
-                    })
-                } else {
-                    *e = expr
+                match self.ctx {
+                    Context::ForcedExpr => {
+                        *e = Expr::Paren(ParenExpr {
+                            span: *span,
+                            expr: Box::new(expr),
+                        })
+                    }
+                    _ => *e = expr,
                 };
             }
 
