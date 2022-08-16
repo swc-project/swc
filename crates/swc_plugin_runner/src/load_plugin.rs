@@ -119,9 +119,10 @@ pub fn load_plugin(
                     base_env.as_mut(store).memory = Some(memory.clone());
 
                     comments_env.as_mut(store).memory = Some(memory.clone());
-                    comments_env.as_mut(store).alloc_guest_memory = Some(alloc);
+                    comments_env.as_mut(store).alloc_guest_memory = Some(alloc.clone());
 
                     source_map_host_env.as_mut(store).memory = Some(memory.clone());
+                    source_map_host_env.as_mut(store).alloc_guest_memory = Some(alloc);
 
                     Ok(instance)
                 } else {
