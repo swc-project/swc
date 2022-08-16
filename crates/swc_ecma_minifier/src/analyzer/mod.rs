@@ -1209,6 +1209,9 @@ impl Visit for InfectsTo<'_> {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, n: &Ident) {
+        if self.excludes.contains(&n.to_id()) {
+            return;
+        }
         self.infects.insert(n.to_id());
     }
 
