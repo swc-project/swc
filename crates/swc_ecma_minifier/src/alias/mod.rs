@@ -143,6 +143,10 @@ impl Visit for InfectionCollector<'_> {
         }
     }
 
+    fn visit_ident(&mut self, n: &Ident) {
+        self.add_id(&n.to_id());
+    }
+
     fn visit_expr(&mut self, e: &Expr) {
         match e {
             Expr::Ident(i) => {
