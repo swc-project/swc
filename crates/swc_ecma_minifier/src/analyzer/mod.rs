@@ -6,17 +6,14 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, find_pat_ids, ident::IdentLike, BindingCollector, IsEmpty};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 use swc_timer::timer;
 
 use self::{
     ctx::Ctx,
     storage::{Storage, *},
 };
-use crate::{
-    marks::Marks,
-    util::{can_end_conditionally, idents_used_by, IdentUsageCollector},
-};
+use crate::{marks::Marks, util::can_end_conditionally};
 
 mod ctx;
 pub(crate) mod storage;
@@ -1182,14 +1179,50 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
 
 fn get_infects_of<N>(init: &N) -> impl 'static + Iterator<Item = Id>
 where
-    N: VisitWith<IdentUsageCollector> + VisitWith<BindingCollector<Id>>,
+    N: for<'aa> VisitWith<InfectsTo<'aa>> + VisitWith<BindingCollector<Id>>,
 {
-    let used_idents = idents_used_by(init);
     let excluded: AHashSet<Id> = collect_decls(init);
+    let used_idents = {
+        let mut v = InfectsTo {
+            excludes: &excluded,
+            infects: Default::default(),
+        };
+
+        init.visit_with(&mut v);
+
+        v.infects
+    };
 
     used_idents
         .into_iter()
         .filter(move |id| !excluded.contains(id))
+}
+
+struct InfectsTo<'a> {
+    excludes: &'a AHashSet<Id>,
+    infects: FxHashSet<Id>,
+}
+
+impl Visit for InfectsTo<'_> {
+    noop_visit_type!();
+
+    visit_obj_and_computed!();
+
+    fn visit_ident(&mut self, n: &Ident) {
+        self.infects.insert(n.to_id());
+    }
+
+    fn visit_member_prop(&mut self, n: &MemberProp) {
+        if let MemberProp::Computed(..) = n {
+            n.visit_children_with(self);
+        }
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        if let PropName::Computed(..) = n {
+            n.visit_children_with(self);
+        }
+    }
 }
 
 /// This is **NOT** a public api.
