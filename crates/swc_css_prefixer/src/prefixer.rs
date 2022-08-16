@@ -1470,7 +1470,6 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "alternate-reverse" | "reverse" => {}
-
                         _ => {
                             add_declaration!(Prefix::Webkit, "-webkit-animation-direction", None);
                             add_declaration!(Prefix::Moz, "-moz-animation-direction", None);
@@ -1582,17 +1581,39 @@ impl VisitMut for Prefixer {
 
             "cursor" => {
                 if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    replace_ident(&mut webkit_value, "zoom-in", "-webkit-zoom-in");
-                    replace_ident(&mut webkit_value, "zoom-out", "-webkit-zoom-out");
-                    replace_ident(&mut webkit_value, "grab", "-webkit-grab");
-                    replace_ident(&mut webkit_value, "grabbing", "-webkit-grabbing");
+                    if should_prefix("-o-repeating-radial-gradient()", self.env, false) {
+                        replace_ident(&mut webkit_value, "zoom-in", "-webkit-zoom-in");
+                    }
+
+                    if should_prefix("-o-repeating-radial-gradient()", self.env, false) {
+                        replace_ident(&mut webkit_value, "zoom-out", "-webkit-zoom-out");
+                    }
+
+                    if should_prefix("-webkit-grab", self.env, false) {
+                        replace_ident(&mut webkit_value, "grab", "-webkit-grab");
+                    }
+
+                    if should_prefix("-webkit-grabbing", self.env, false) {
+                        replace_ident(&mut webkit_value, "grabbing", "-webkit-grabbing");
+                    }
                 }
 
                 if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
-                    replace_ident(&mut moz_value, "zoom-in", "-moz-zoom-in");
-                    replace_ident(&mut moz_value, "zoom-out", "-moz-zoom-out");
-                    replace_ident(&mut moz_value, "grab", "-moz-grab");
-                    replace_ident(&mut moz_value, "grabbing", "-moz-grabbing");
+                    if should_prefix("-moz-zoom-in", self.env, false) {
+                        replace_ident(&mut moz_value, "zoom-in", "-moz-zoom-in");
+                    }
+
+                    if should_prefix("-moz-zoom-out", self.env, false) {
+                        replace_ident(&mut moz_value, "zoom-out", "-moz-zoom-out");
+                    }
+
+                    if should_prefix("-moz-grab", self.env, false) {
+                        replace_ident(&mut moz_value, "grab", "-moz-grab");
+                    }
+
+                    if should_prefix("-moz-grabbing", self.env, false) {
+                        replace_ident(&mut moz_value, "grabbing", "-moz-grabbing");
+                    }
                 }
             }
 
@@ -2184,7 +2205,9 @@ impl VisitMut for Prefixer {
 
             "position" if n.value.len() == 1 => {
                 if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
+                    if should_prefix("-webkit-sticky", self.env, false) {
+                        replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
+                    }
                 }
             }
 
@@ -2560,12 +2583,29 @@ impl VisitMut for Prefixer {
                 if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
                     let mut new_ms_value = ms_value.clone();
 
-                    replace_ident(&mut new_ms_value, "pan-x", "-ms-pan-x");
-                    replace_ident(&mut new_ms_value, "pan-y", "-ms-pan-y");
-                    replace_ident(&mut new_ms_value, "double-tap-zoom", "-ms-double-tap-zoom");
-                    replace_ident(&mut new_ms_value, "manipulation", "-ms-manipulation");
-                    replace_ident(&mut new_ms_value, "none", "-ms-none");
-                    replace_ident(&mut new_ms_value, "pinch-zoom", "-ms-pinch-zoom");
+                    if should_prefix("-ms-pan-x", self.env, false) {
+                        replace_ident(&mut new_ms_value, "pan-x", "-ms-pan-x");
+                    }
+
+                    if should_prefix("-ms-pan-y", self.env, false) {
+                        replace_ident(&mut new_ms_value, "pan-y", "-ms-pan-y");
+                    }
+
+                    if should_prefix("-ms-double-tap-zoom", self.env, false) {
+                        replace_ident(&mut new_ms_value, "double-tap-zoom", "-ms-double-tap-zoom");
+                    }
+
+                    if should_prefix("-ms-manipulation", self.env, false) {
+                        replace_ident(&mut new_ms_value, "manipulation", "-ms-manipulation");
+                    }
+
+                    if should_prefix("-ms-none", self.env, false) {
+                        replace_ident(&mut new_ms_value, "none", "-ms-none");
+                    }
+
+                    if should_prefix("-ms-pinch-zoom", self.env, false) {
+                        replace_ident(&mut new_ms_value, "pinch-zoom", "-ms-pinch-zoom");
+                    }
 
                     add_declaration!(Prefix::Ms, "-ms-touch-action", Some(new_ms_value));
                 }
