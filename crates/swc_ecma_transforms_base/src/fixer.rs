@@ -708,7 +708,7 @@ impl Fixer<'_> {
 
                 let exprs_len = exprs.len();
                 // don't has child seq
-                let expr = if len == exprs_len {
+                let exprs = if len == exprs_len {
                     let mut exprs = exprs
                         .iter_mut()
                         .enumerate()
@@ -725,8 +725,7 @@ impl Fixer<'_> {
                         *e = *exprs.pop().unwrap();
                         return;
                     }
-                    let exprs = ignore_padding_value(exprs);
-                    Expr::Seq(SeqExpr { span: *span, exprs })
+                    ignore_padding_value(exprs)
                 } else {
                     let mut buf = Vec::with_capacity(len);
                     for (i, expr) in exprs.iter_mut().enumerate() {
@@ -772,19 +771,36 @@ impl Fixer<'_> {
                         return;
                     }
 
-                    let exprs = ignore_padding_value(buf);
-
-                    Expr::Seq(SeqExpr { span: *span, exprs })
+                    ignore_padding_value(buf)
                 };
 
-                match self.ctx {
-                    Context::ForcedExpr => {
-                        *e = Expr::Paren(ParenExpr {
-                            span: *span,
-                            expr: Box::new(expr),
+                let need_paren = match self.ctx {
+                    Context::ForcedExpr => true,
+                    Context::Default => exprs
+                        .first()
+                        .map(|e| match &**e {
+                            Expr::Fn(FnExpr { ident: None, .. })
+                            | Expr::Class(ClassExpr { ident: None, .. }) => true,
+                            Expr::Call(CallExpr {
+                                callee: Callee::Expr(expr),
+                                ..
+                            }) if matches!(&**expr, Expr::Fn(FnExpr { ident: None, .. })) => true,
+
+                            _ => false,
                         })
-                    }
-                    _ => *e = expr,
+                        .unwrap_or_default(),
+                    _ => false,
+                };
+
+                let expr = Expr::Seq(SeqExpr { span: *span, exprs });
+
+                if need_paren {
+                    *e = Expr::Paren(ParenExpr {
+                        span: *span,
+                        expr: Box::new(expr),
+                    })
+                } else {
+                    *e = expr
                 };
             }
 
