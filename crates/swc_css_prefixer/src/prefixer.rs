@@ -2035,29 +2035,40 @@ impl VisitMut for Prefixer {
 
             "image-rendering" => {
                 if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    // Fallback to nearest-neighbor algorithm
-                    replace_ident(&mut webkit_value, "pixelated", "-webkit-optimize-contrast");
-                    replace_ident(
-                        &mut webkit_value,
-                        "crisp-edges",
-                        "-webkit-optimize-contrast",
-                    );
+                    if should_prefix("-webkit-optimize-contrast:fallback", self.env, false) {
+                        // Fallback to nearest-neighbor algorithm
+                        replace_ident(&mut webkit_value, "pixelated", "-webkit-optimize-contrast");
+                    }
+
+                    if should_prefix("-webkit-optimize-contrast", self.env, false) {
+                        replace_ident(
+                            &mut webkit_value,
+                            "crisp-edges",
+                            "-webkit-optimize-contrast",
+                        );
+                    }
                 }
 
                 if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
-                    // Fallback to nearest-neighbor algorithm
-                    replace_ident(&mut moz_value, "pixelated", "-moz-crisp-edges");
-                    replace_ident(&mut moz_value, "crisp-edges", "-moz-crisp-edges");
+                    if should_prefix("-moz-crisp-edges", self.env, false) {
+                        // Fallback to nearest-neighbor algorithm
+                        replace_ident(&mut moz_value, "pixelated", "-moz-crisp-edges");
+                        replace_ident(&mut moz_value, "crisp-edges", "-moz-crisp-edges");
+                    }
                 }
 
                 if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
-                    replace_ident(&mut o_value, "pixelated", "-o-pixelated");
+                    if should_prefix("-o-pixelated", self.env, false) {
+                        replace_ident(&mut o_value, "pixelated", "-o-pixelated");
+                    }
                 }
 
                 if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
                     let mut old_spec_ms_value = ms_value.clone();
 
-                    replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
+                    if should_prefix("nearest-neighbor", self.env, false) {
+                        replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
+                    }
 
                     if ms_value != old_spec_ms_value {
                         add_declaration!(

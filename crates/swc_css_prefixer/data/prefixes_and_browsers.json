@@ -3267,7 +3267,7 @@
       "safari": "6"
     }
   ],
-  "-moz-calc": [
+  "-moz-calc()": [
     {
       "firefox": "4"
     },
@@ -3583,6 +3583,51 @@
     },
     {
       "ie": "10"
+    }
+  ],
+
+  "-webkit-optimize-contrast": [
+    {
+      "ios": "5.0",
+      "safari": "6"
+    },
+    {
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-webkit-optimize-contrast:fallback": [
+    {
+      "ios": "5.0",
+      "safari": "6"
+    },
+    {
+      "ios": "9.3",
+      "safari": "9.1"
+    }
+  ],
+  "-moz-crisp-edges": [
+    {
+      "firefox": "3.6"
+    },
+    {
+      "firefox": "64"
+    }
+  ],
+  "-o-pixelated": [
+    {
+      "opera": "11.6"
+    },
+    {
+      "opera": "12.1"
+    }
+  ],
+  "nearest-neighbor": [
+    {
+      "ie": "7"
+    },
+    {
+      "ie": "11"
     }
   ]
 }
