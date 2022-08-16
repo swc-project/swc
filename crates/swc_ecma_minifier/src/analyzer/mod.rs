@@ -10,6 +10,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
 use self::{
+    alias::get_infects_of,
     ctx::Ctx,
     storage::{Storage, *},
 };

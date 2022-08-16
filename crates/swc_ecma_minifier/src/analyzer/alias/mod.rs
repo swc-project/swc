@@ -1,3 +1,5 @@
+#![allow(clippy::needless_update)]
+
 use rustc_hash::FxHashSet;
 use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
@@ -42,7 +44,49 @@ impl Visit for InfectsTo<'_> {
 
     visit_obj_and_computed!();
 
+    fn visit_bin_expr(&mut self, e: &BinExpr) {
+        match e.op {
+            op!("in")
+            | op!("instanceof")
+            | op!(bin, "-")
+            | op!(bin, "+")
+            | op!("/")
+            | op!("*")
+            | op!("%")
+            | op!("&")
+            | op!("^")
+            | op!("|")
+            | op!("==")
+            | op!("===")
+            | op!("!=")
+            | op!("!==")
+            | op!("<")
+            | op!("<=")
+            | op!(">")
+            | op!(">=")
+            | op!("<<")
+            | op!(">>")
+            | op!(">>>") => {
+                let ctx = Ctx {
+                    track_expr_ident: false,
+                    ..self.ctx
+                };
+                e.visit_children_with(&mut *self.with_ctx(ctx));
+            }
+            _ => {
+                let ctx = Ctx {
+                    track_expr_ident: true,
+                    ..self.ctx
+                };
+                e.visit_children_with(&mut *self.with_ctx(ctx));
+            }
+        }
+    }
+
     fn visit_ident(&mut self, n: &Ident) {
+        if !self.ctx.track_expr_ident {
+            return;
+        }
         if self.excludes.contains(&n.to_id()) {
             return;
         }
