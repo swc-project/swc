@@ -19,7 +19,9 @@ where
         let mut v = InfectsTo {
             excludes: &excluded,
             infects: Default::default(),
-            ctx: Default::default(),
+            ctx: Ctx {
+                track_expr_ident: true,
+            },
         };
 
         init.visit_with(&mut v);
