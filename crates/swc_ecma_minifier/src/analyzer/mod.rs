@@ -10,13 +10,15 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
 use self::{
-    alias::get_infects_of,
     ctx::Ctx,
     storage::{Storage, *},
 };
-use crate::{marks::Marks, util::can_end_conditionally};
+use crate::{
+    alias::{collect_infects_from, AliasConfig},
+    marks::Marks,
+    util::can_end_conditionally,
+};
 
-mod alias;
 mod ctx;
 pub(crate) mod storage;
 
@@ -702,7 +704,7 @@ where
         self.used_recursively.remove(&id);
 
         {
-            for id in get_infects_of(&n.function) {
+            for id in collect_infects_from(&n.function, AliasConfig { marks: self.marks }, true) {
                 self.data
                     .var_or_default(n.ident.to_id())
                     .add_infects_to(id.clone());
@@ -720,7 +722,8 @@ where
                 .mark_declared_as_fn_expr();
 
             {
-                for id in get_infects_of(&n.function) {
+                for id in collect_infects_from(&n.function, AliasConfig { marks: self.marks }, true)
+                {
                     self.data
                         .var_or_default(n_id.to_id())
                         .add_infects_to(id.to_id());
@@ -1080,7 +1083,7 @@ where
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                for id in get_infects_of(init) {
+                for id in collect_infects_from(init, AliasConfig { marks: self.marks }, true) {
                     self.data
                         .var_or_default(id.clone())
                         .add_infects_to(var.to_id());

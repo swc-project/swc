@@ -13,16 +13,21 @@ use crate::marks::Marks;
 mod ctx;
 
 pub(crate) struct AliasConfig {
-    #[allow(unused)]
-    pub marks: Marks,
+    pub marks: Option<Marks>,
 }
 
-pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
+pub(crate) fn collect_infects_from<N>(
+    node: &N,
+    config: AliasConfig,
+    track_by_default: bool,
+) -> FxHashSet<Id>
 where
     N: for<'aa> VisitWith<InfectionCollector<'aa>>,
     N: VisitWith<BindingCollector<Id>>,
 {
-    let unresolved_ctxt = SyntaxContext::empty().apply_mark(config.marks.unresolved_mark);
+    let unresolved_ctxt = config
+        .marks
+        .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
     let decls = collect_decls(node);
 
     let mut visitor = InfectionCollector {
@@ -30,7 +35,10 @@ where
         unresolved_ctxt,
 
         exclude: &decls,
-        ctx: Default::default(),
+        ctx: Ctx {
+            track_expr_ident: track_by_default,
+            ..Default::default()
+        },
         aliases: FxHashSet::default(),
     };
 
@@ -42,7 +50,7 @@ where
 pub(crate) struct InfectionCollector<'a> {
     #[allow(unused)]
     config: AliasConfig,
-    unresolved_ctxt: SyntaxContext,
+    unresolved_ctxt: Option<SyntaxContext>,
 
     exclude: &'a AHashSet<Id>,
 
@@ -57,7 +65,7 @@ impl InfectionCollector<'_> {
             return;
         }
 
-        if self.unresolved_ctxt == e.1 {
+        if self.unresolved_ctxt == Some(e.1) {
             match e.0 {
                 js_word!("String")
                 | js_word!("Object")
