@@ -220,8 +220,8 @@ __utils             = ["swc_ecma_utils"]
 [dependencies]
 # 3rd party dependencies
 once_cell   = { optional = true, version = "1.13.0" }
-wasmer      = { optional = true, version = "2.3.0", default-features = false }
-wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
+wasmer      = { optional = true, version = "3.0.0-beta", default-features = false }
+wasmer-wasi = { optional = true, version = "3.0.0-beta", default-features = false }
 
 # swc_* dependencies
 binding_macros              = { optional = true, version = "0.2.3", path = "../binding_macros" }
