@@ -5,8 +5,8 @@ use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, find_pat_ids, ident::IdentLike, BindingCollector, IsEmpty};
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
 use self::{

@@ -1,4 +1,10 @@
 use rustc_hash::FxHashSet;
+use swc_common::collections::AHashSet;
+use swc_ecma_ast::*;
+use swc_ecma_utils::{collect_decls, BindingCollector};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+
+use self::ctx::Ctx;
 
 mod ctx;
 
@@ -11,6 +17,7 @@ where
         let mut v = InfectsTo {
             excludes: &excluded,
             infects: Default::default(),
+            ctx: Default::default(),
         };
 
         init.visit_with(&mut v);
@@ -24,8 +31,10 @@ where
 }
 
 pub(super) struct InfectsTo<'a> {
-    pub excludes: &'a AHashSet<Id>,
-    pub infects: FxHashSet<Id>,
+    excludes: &'a AHashSet<Id>,
+    infects: FxHashSet<Id>,
+
+    ctx: Ctx,
 }
 
 impl Visit for InfectsTo<'_> {
