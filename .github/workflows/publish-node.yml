@@ -329,7 +329,7 @@ jobs:
             freebsd-version
             yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
             yarn build --cargo-flags="--no-default-features" --features "swc_v1"
-            cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
+            cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release
             cp ./bindings/target/release/swc .
             yarn test
             rm -rf node_modules
