@@ -65,10 +65,6 @@ button::-moz-submit-invalid {
   }
 }
 button::-webkit-search-cancel-button {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   transition: color 200ms, -webkit-transform 200ms;
   transition: color 200ms, -moz-transform 200ms;
@@ -79,10 +75,6 @@ button::-webkit-search-cancel-button {
 button::-webkit-search-cancel-button {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-transition: color 200ms, -webkit-transform 200ms;
   transition: color 200ms, -webkit-transform 200ms;
@@ -98,10 +90,6 @@ button::-webkit-search-cancel-button {
   transform: rotate(10deg);
 }
 .a::-webkit-search-cancel-button {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-flow: row;
   order: 0;

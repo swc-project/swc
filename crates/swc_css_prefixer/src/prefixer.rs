@@ -1621,12 +1621,17 @@ impl VisitMut for Prefixer {
                 if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
                     let mut old_spec_webkit_value = webkit_value.clone();
 
-                    replace_ident(&mut old_spec_webkit_value, "flex", "-webkit-box");
-                    replace_ident(
-                        &mut old_spec_webkit_value,
-                        "inline-flex",
-                        "-webkit-inline-box",
-                    );
+                    if should_prefix("-webkit-box", self.env, false) {
+                        replace_ident(&mut old_spec_webkit_value, "flex", "-webkit-box");
+                    }
+
+                    if should_prefix("-webkit-inline-box", self.env, false) {
+                        replace_ident(
+                            &mut old_spec_webkit_value,
+                            "inline-flex",
+                            "-webkit-inline-box",
+                        );
+                    }
 
                     if n.value != old_spec_webkit_value {
                         self.added_declarations.push(Declaration {
@@ -1636,21 +1641,34 @@ impl VisitMut for Prefixer {
                             important: n.important.clone(),
                         });
                     }
-                }
 
-                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    replace_ident(&mut webkit_value, "flex", "-webkit-flex");
-                    replace_ident(&mut webkit_value, "inline-flex", "-webkit-inline-flex");
+                    if should_prefix("-webkit-flex:display", self.env, false) {
+                        replace_ident(&mut webkit_value, "flex", "-webkit-flex");
+                    }
+
+                    if should_prefix("-webkit-inline-flex", self.env, false) {
+                        replace_ident(&mut webkit_value, "inline-flex", "-webkit-inline-flex");
+                    }
                 }
 
                 if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
-                    replace_ident(&mut moz_value, "flex", "-moz-box");
-                    replace_ident(&mut moz_value, "inline-flex", "-moz-inline-box");
+                    if should_prefix("-moz-box", self.env, false) {
+                        replace_ident(&mut moz_value, "flex", "-moz-box");
+                    }
+
+                    if should_prefix("-moz-inline-box", self.env, false) {
+                        replace_ident(&mut moz_value, "inline-flex", "-moz-inline-box");
+                    }
                 }
 
                 if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
-                    replace_ident(&mut ms_value, "flex", "-ms-flexbox");
-                    replace_ident(&mut ms_value, "inline-flex", "-ms-inline-flexbox");
+                    if should_prefix("-ms-flexbox", self.env, false) {
+                        replace_ident(&mut ms_value, "flex", "-ms-flexbox");
+                    }
+
+                    if should_prefix("-ms-inline-flexbox", self.env, false) {
+                        replace_ident(&mut ms_value, "inline-flex", "-ms-inline-flexbox");
+                    }
                 }
             }
 
@@ -1892,6 +1910,7 @@ impl VisitMut for Prefixer {
                 };
 
                 if need_old_spec
+                    && should_prefix("-webkit-box", self.env, false)
                     && (self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none())
                 {
                     let mut old_spec_webkit_new_value = webkit_value.clone();
@@ -1910,6 +1929,7 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Webkit, "-webkit-justify-content", None);
 
                 if need_old_spec
+                    && should_prefix("-moz-box", self.env, false)
                     && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
                 {
                     let mut old_spec_moz_value = moz_value.clone();
@@ -1921,7 +1941,9 @@ impl VisitMut for Prefixer {
                     add_declaration!(Prefix::Moz, "-moz-box-pack", Some(old_spec_moz_value));
                 }
 
-                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                if should_prefix("-ms-flexbox", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none())
+                {
                     let mut old_spec_ms_value = ms_value.clone();
 
                     replace_ident(&mut old_spec_ms_value, "flex-start", "start");
@@ -1971,7 +1993,10 @@ impl VisitMut for Prefixer {
             }
 
             "align-items" => {
-                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                if should_prefix("-webkit-box", self.env, false)
+                    && self.rule_prefix == Some(Prefix::Webkit)
+                    || self.rule_prefix.is_none()
+                {
                     let mut old_spec_webkit_new_value = webkit_value.clone();
 
                     replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
@@ -1986,7 +2011,9 @@ impl VisitMut for Prefixer {
 
                 add_declaration!(Prefix::Webkit, "-webkit-align-items", None);
 
-                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                if should_prefix("-moz-box", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
                     let mut old_spec_moz_value = moz_value.clone();
 
                     replace_ident(&mut old_spec_moz_value, "flex-end", "end");
@@ -1995,7 +2022,9 @@ impl VisitMut for Prefixer {
                     add_declaration!(Prefix::Moz, "-moz-box-align", Some(old_spec_moz_value));
                 }
 
-                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                if should_prefix("-ms-flexbox", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none())
+                {
                     let mut old_spec_ms_value = ms_value.clone();
 
                     replace_ident(&mut old_spec_ms_value, "flex-end", "end");
@@ -2008,7 +2037,9 @@ impl VisitMut for Prefixer {
             "align-self" => {
                 add_declaration!(Prefix::Webkit, "-webkit-align-self", None);
 
-                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                if should_prefix("-ms-flexbox", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none())
+                {
                     let mut spec_2012_ms_value = ms_value.clone();
 
                     replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
@@ -2021,7 +2052,9 @@ impl VisitMut for Prefixer {
             "align-content" => {
                 add_declaration!(Prefix::Webkit, "-webkit-align-content", None);
 
-                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                if should_prefix("-ms-flexbox", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none())
+                {
                     let mut spec_2012_ms_value = ms_value.clone();
 
                     replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
@@ -2049,18 +2082,18 @@ impl VisitMut for Prefixer {
                     }
                 }
 
-                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
-                    if should_prefix("-moz-crisp-edges", self.env, false) {
-                        // Fallback to nearest-neighbor algorithm
-                        replace_ident(&mut moz_value, "pixelated", "-moz-crisp-edges");
-                        replace_ident(&mut moz_value, "crisp-edges", "-moz-crisp-edges");
-                    }
+                if should_prefix("-moz-crisp-edges", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
+                {
+                    // Fallback to nearest-neighbor algorithm
+                    replace_ident(&mut moz_value, "pixelated", "-moz-crisp-edges");
+                    replace_ident(&mut moz_value, "crisp-edges", "-moz-crisp-edges");
                 }
 
-                if self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none() {
-                    if should_prefix("-o-pixelated", self.env, false) {
-                        replace_ident(&mut o_value, "pixelated", "-o-pixelated");
-                    }
+                if should_prefix("-o-pixelated", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none())
+                {
+                    replace_ident(&mut o_value, "pixelated", "-o-pixelated");
                 }
 
                 if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
@@ -2215,10 +2248,10 @@ impl VisitMut for Prefixer {
             }
 
             "position" if n.value.len() == 1 => {
-                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    if should_prefix("-webkit-sticky", self.env, false) {
-                        replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
-                    }
+                if should_prefix("-webkit-sticky", self.env, false)
+                    && (self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none())
+                {
+                    replace_ident(&mut webkit_value, "sticky", "-webkit-sticky");
                 }
             }
 
