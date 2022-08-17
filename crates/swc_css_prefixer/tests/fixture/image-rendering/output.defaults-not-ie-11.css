@@ -1,22 +1,12 @@
 img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
 img.other {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -o-pixelated;
   image-rendering: pixelated;
 }
 img.already {
   -ms-interpolation-mode: nearest-neighbor;
   display: block;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -o-pixelated;
   image-rendering: pixelated;
 }

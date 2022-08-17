@@ -1,9 +1,5 @@
 a {
   -js-display: flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-flow: row;
   order: 0;
@@ -11,20 +7,12 @@ a {
   transition: flex 200ms;
 }
 .inline {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -moz-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
   align-self: auto;
   align-content: stretch;
   flex: auto;
 }
 .a {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -35,10 +23,6 @@ a {
   flex: none;
 }
 .b {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
@@ -49,10 +33,6 @@ a {
   flex-shrink: 1;
 }
 .c {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,10 +43,6 @@ a {
   flex-basis: auto;
 }
 .e {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-direction: column-reverse;
   justify-content: space-between;
@@ -75,10 +51,6 @@ a {
   align-self: baseline;
 }
 .f {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   justify-content: space-around;
   align-items: stretch;
@@ -86,10 +58,6 @@ a {
   align-self: stretch;
 }
 .g {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex: calc(1em + 1px) 0 0;
 }
@@ -103,12 +71,8 @@ a {
   order: inherit;
   flex-direction: inherit;
 }
-@supports ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) {
+@supports (display: flex) {
   .foo {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
 }

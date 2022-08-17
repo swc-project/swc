@@ -1,55 +1,35 @@
-@supports ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) {
+@supports (display: flex) {
   div {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
 }
-@supports  not ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) {
+@supports  not (display: flex) {
   a {
     color: #000;
   }
 }
-@supports  not ( not ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox))) {
+@supports  not ( not (display: flex)) {
   a {
     color: #000;
   }
 }
-@supports ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) or ((cursor: grab) or (cursor: -webkit-grab) or (cursor: -moz-grab)) {
+@supports (display: flex) or (cursor: grab) {
   div {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
 }
-@supports ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) and ((cursor: grab) or (cursor: -webkit-grab) or (cursor: -moz-grab)) {
+@supports (display: flex) and (cursor: grab) {
   div {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
 }
-@supports (((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) and ((cursor: grab) or (cursor: -webkit-grab) or (cursor: -moz-grab))) {
+@supports ((display: flex) and (cursor: grab)) {
   div {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
 }
-@supports (((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox))) and (((cursor: grab) or (cursor: -webkit-grab) or (cursor: -moz-grab))) {
+@supports ((display: flex)) and ((cursor: grab)) {
   div {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
 }
@@ -58,37 +38,25 @@
     color: #000;
   }
 }
-@supports ((cursor: grab) or (cursor: -webkit-grab) or (cursor: -moz-grab)) or (color: black) {
+@supports (cursor: grab) or (color: black) {
   a {
     color: black;
   }
 }
-@supports ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) {
+@supports (display: flex) {
   @media screen and (min-width: 900px) {
     article {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -moz-box;
-      display: -ms-flexbox;
       display: flex;
     }
   }
 }
 @supports ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) {
   div {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
 }
-@supports ((display: flex) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) or (display: -webkit-box) {
+@supports (display: flex) or (display: -webkit-box) {
   div {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
 }

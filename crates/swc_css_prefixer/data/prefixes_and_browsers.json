@@ -3267,7 +3267,7 @@
       "safari": "6"
     }
   ],
-  "-moz-calc": [
+  "-moz-calc()": [
     {
       "firefox": "4"
     },
@@ -3440,5 +3440,438 @@
     {
       "opera": "15"
     }
+  ],
+
+  "-webkit-zoom-in": [
+    {
+      "chrome": "4",
+      "opera": "15",
+      "safari": "3.1"
+
+    },
+    {
+      "chrome": "36",
+      "opera": "23",
+      "safari": "8"
+    }
+  ],
+  "-webkit-zoom-out": [
+    {
+      "chrome": "4",
+      "opera": "15",
+      "safari": "3.1"
+
+    },
+    {
+      "chrome": "36",
+      "opera": "23",
+      "safari": "8"
+    }
+  ],
+  "-moz-zoom-in": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "23"
+    }
+  ],
+  "-moz-zoom-out": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "23"
+    }
+  ],
+
+  "-webkit-grab": [
+    {
+      "chrome": "4",
+      "opera": "15",
+      "safari": "3.1"
+    },
+    {
+      "chrome": "67",
+      "opera": "54",
+      "safari": "10.1"
+    }
+  ],
+  "-webkit-grabbing": [
+    {
+      "chrome": "4",
+      "opera": "15",
+      "safari": "3.1"
+    },
+    {
+      "chrome": "67",
+      "opera": "54",
+      "safari": "10.1"
+    }
+  ],
+  "-moz-grab": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "26"
+    }
+  ],
+  "-moz-grabbing": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "26"
+    }
+  ],
+
+  "-webkit-sticky": [
+    {
+      "ios": "6.0",
+      "safari": "6.1"
+    },
+    {
+      "ios": "12.5",
+      "safari": "12.1"
+    }
+  ],
+
+  "-ms-pan-x": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+  "-ms-pan-y": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+  "-ms-double-tap-zoom": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+  "-ms-manipulation": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+  "-ms-none": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+  "-ms-pinch-zoom": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+
+  "-webkit-optimize-contrast": [
+    {
+      "ios": "5.0",
+      "safari": "6"
+    },
+    {
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-webkit-optimize-contrast:fallback": [
+    {
+      "ios": "5.0",
+      "safari": "6"
+    },
+    {
+      "ios": "9.3",
+      "safari": "9.1"
+    }
+  ],
+  "-moz-crisp-edges": [
+    {
+      "firefox": "3.6"
+    },
+    {
+      "firefox": "64"
+    }
+  ],
+  "-o-pixelated": [
+    {
+      "opera": "11.6"
+    },
+    {
+      "opera": "12.1"
+    }
+  ],
+  "nearest-neighbor": [
+    {
+      "ie": "7"
+    },
+    {
+      "ie": "11"
+    }
+  ],
+
+  "-webkit-box": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "20",
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-webkit-inline-box": [
+    {
+      "android": "2.1",
+      "chrome": "4",
+      "ios": "3.2",
+      "safari": "3.1"
+    },
+    {
+      "android": "4.3",
+      "chrome": "20",
+      "ios": "6.1",
+      "safari": "6"
+    }
+  ],
+  "-webkit-flex:display": [
+    {
+      "chrome": "21",
+      "ios": "7.0",
+      "opera": "15",
+      "safari": "6.1"
+    },
+    {
+      "chrome": "28",
+      "ios": "8.4",
+      "opera": "16",
+      "safari": "8"
+    }
+  ],
+  "-webkit-inline-flex": [
+    {
+      "chrome": "21",
+      "ios": "7.0",
+      "opera": "15",
+      "safari": "6.1"
+    },
+    {
+      "chrome": "28",
+      "ios": "8.4",
+      "opera": "16",
+      "safari": "8"
+    }
+  ],
+  "-moz-box": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "21"
+    }
+  ],
+  "-moz-inline-box": [
+    {
+      "firefox": "2"
+    },
+    {
+      "firefox": "21"
+    }
+  ],
+  "-ms-flexbox": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+  "-ms-inline-flexbox": [
+    {
+      "ie": "10"
+    },
+    {
+      "ie": "10"
+    }
+  ],
+
+  "-webkit-isolate": [
+    {
+      "chrome": "16",
+      "ios": "6",
+      "safari": "6"
+    },
+    {
+      "chrome": "47",
+      "ios": "10.3",
+      "safari": "10.1"
+    }
+  ],
+  "-webpack-isolate-override": [
+    {
+      "safari": "6",
+      "ios": "6"
+    },
+    {
+      "safari": "10.1",
+      "ios": "10.3"
+    }
+  ],
+  "-webpack-plaintext": [
+    {
+      "safari": "6",
+      "ios": "6"
+    },
+    {
+      "safari": "10.1",
+      "ios": "10.3"
+    }
+  ],
+  "-moz-isolate": [
+    {
+      "firefox": "17"
+    },
+    {
+      "firefox": "49"
+    }
+  ],
+  "-moz-isolate-override": [
+    {
+      "firefox": "17"
+    },
+    {
+      "firefox": "49"
+    }
+  ],
+  "-moz-plaintext": [
+    {
+      "firefox": "10"
+    },
+    {
+      "firefox": "49"
+    }
+  ],
+
+  "-webkit-fit-content": [
+    {
+      "android": "4.4",
+      "chrome": "22",
+      "safari": "7",
+      "ios": "7",
+      "opera": "15",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "45",
+      "safari": "10.1",
+      "ios": "10.3",
+      "opera": "32",
+      "samsung": "4"
+    }
+  ],
+  "-webkit-max-content": [
+    {
+      "android": "4.4",
+      "chrome": "22",
+      "ios": "7.1",
+      "opera": "15",
+      "safari": "6.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "45",
+      "ios": "13.7",
+      "opera": "32",
+      "safari": "10.1",
+      "samsung": "4"
+    }
+  ],
+  "-webkit-min-content": [
+    {
+      "android": "4.4",
+      "chrome": "22",
+      "ios": "7.1",
+      "opera": "15",
+      "safari": "6.1",
+      "samsung": "4"
+    },
+    {
+      "android": "4.4.4",
+      "chrome": "45",
+      "ios": "13.7",
+      "opera": "32",
+      "safari": "10.1",
+      "samsung": "4"
+    }
+  ],
+  "-webkit-fill-available": [
+    {
+      "android": "4.4",
+      "chrome": "22",
+      "edge": "79",
+      "ios": "7.0",
+      "op_mob": "64",
+      "opera": "15",
+      "safari": "7",
+      "samsung": "5.0"
+    },
+    {}
+  ],
+  "-moz-fit-content": [
+    {
+      "firefox": "3"
+    },
+    {
+      "firefox": "93"
+    }
+  ],
+  "-moz-max-content": [
+    {
+      "firefox": "3"
+    },
+    {
+      "firefox": "65"
+    }
+  ],
+  "-moz-min-content": [
+    {
+      "firefox": "3"
+    },
+    {
+      "firefox": "65"
+    }
+  ],
+  "-moz-available": [
+    {
+      "firefox": "3"
+    },
+    {}
   ]
 }

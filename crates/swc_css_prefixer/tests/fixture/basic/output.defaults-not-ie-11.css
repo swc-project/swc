@@ -3,10 +3,6 @@ body {
 }
 :hover {
   color: red;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   animation: foo 1s ease-out;
 }

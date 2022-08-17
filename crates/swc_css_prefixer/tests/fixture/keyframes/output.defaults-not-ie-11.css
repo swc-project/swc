@@ -5,10 +5,6 @@
   }
   50% {
     top: 0;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
   }
   to {
