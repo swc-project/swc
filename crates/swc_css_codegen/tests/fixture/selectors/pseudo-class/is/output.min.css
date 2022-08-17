@@ -1,1 +1,1 @@
-*|*:is(:hover,:focus){color:red}div:is(.class>a){color:red}
+*|*:is(:hover,:focus){color:red}div:is(.class>a){color:red}:is(a,b){}:is(a >< b,a>b,d>c){}:is(   a >< b,a>b,d>c){}:is(a>b,d>c, a >< b){}:is(a>b,d>c, a >< b   ){}:is(a>b,   a >< b   ,d>c){}

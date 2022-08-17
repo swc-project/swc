@@ -881,15 +881,11 @@ where
 
                     match &*names.0.to_ascii_lowercase() {
                         "-moz-any" | "-webkit-any" => {
-                            self.input.skip_ws()?;
-
                             let compound_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::CompoundSelectorList(
                                 compound_selector_list,
                             ));
-
-                            self.input.skip_ws()?;
                         }
                         "dir" => {
                             self.input.skip_ws()?;
@@ -901,6 +897,8 @@ where
                             self.input.skip_ws()?;
                         }
                         "lang" => {
+                            self.input.skip_ws()?;
+
                             let child = match cur!(self) {
                                 tok!("ident") => PseudoClassSelectorChildren::Ident(self.parse()?),
                                 tok!("string") => PseudoClassSelectorChildren::Str(self.parse()?),
@@ -946,39 +944,25 @@ where
                             }
                         }
                         "current" | "past" | "future" => {
-                            self.input.skip_ws()?;
-
                             let compound_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::CompoundSelectorList(
                                 compound_selector_list,
                             ));
-
-                            self.input.skip_ws()?;
                         }
                         "not" | "matches" => {
-                            self.input.skip_ws()?;
-
                             let selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
-
-                            self.input.skip_ws()?;
                         }
                         "is" | "where" => {
-                            self.input.skip_ws()?;
-
                             let forgiving_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::ForgivingSelectorList(
                                 forgiving_selector_list,
                             ));
-
-                            self.input.skip_ws()?;
                         }
                         "has" => {
-                            self.input.skip_ws()?;
-
                             let forgiving_relative_selector_list = self.parse()?;
 
                             children.push(
@@ -986,13 +970,9 @@ where
                                     forgiving_relative_selector_list,
                                 ),
                             );
-
-                            self.input.skip_ws()?;
                         }
                         "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
                         | "nth-col" | "nth-last-col" => {
-                            self.input.skip_ws()?;
-
                             let an_plus_b = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::AnPlusB(an_plus_b));

@@ -20,7 +20,7 @@ where
 
 #[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct Ctx {
-    pub in_at_rule_prelude: bool,
+    pub in_single_line_selectors: bool,
 }
 
 pub(super) struct WithCtx<'w, I: 'w + CssWriter> {

@@ -2,3 +2,10 @@ a:has(> img) {color: red}
 dt:has(+ dt) {color: blue}
 dt:has(+ dt, > img) {color: blue}
 section:has(h1, h2, h3, h4, h5, h6) {color: green}
+
+a:has(<>  img, > img) {}
+a:has(   <>  img, > img) {}
+a:has(> img, <>  img) {}
+a:has(> img, <>  img   ) {}
+
+a:has(> img,    <>  img   , > img) {}

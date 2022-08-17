@@ -2250,13 +2250,25 @@
   x PseudoClassSelectorChildren
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
  14 | a:has(   <>  img, > img) {}
-    :          ^^^^^^^^^^^^^^
+    :       ^^^^^^^^^^^^^^^^^
     `----
 
   x ForgivingRelativeSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
  14 | a:has(   <>  img, > img) {}
-    :          ^^^^^^^^^^^^^^
+    :       ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
+ 14 | a:has(   <>  img, > img) {}
+    :       ^^^
+    `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
+ 14 | a:has(   <>  img, > img) {}
+    :       ^^^
     `----
 
   x ComponentValue

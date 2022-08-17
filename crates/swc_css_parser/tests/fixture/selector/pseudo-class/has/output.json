@@ -2779,7 +2779,7 @@
                       {
                         "type": "ForgivingRelativeSelectorList",
                         "span": {
-                          "start": 335,
+                          "start": 332,
                           "end": 349,
                           "ctxt": 0
                         },
@@ -2787,11 +2787,24 @@
                           {
                             "type": "ListOfComponentValues",
                             "span": {
-                              "start": 335,
+                              "start": 332,
                               "end": 342,
                               "ctxt": 0
                             },
                             "children": [
+                              {
+                                "type": "PreservedToken",
+                                "span": {
+                                  "start": 332,
+                                  "end": 335,
+                                  "ctxt": 0
+                                },
+                                "token": {
+                                  "WhiteSpace": {
+                                    "value": "   "
+                                  }
+                                }
+                              },
                               {
                                 "type": "PreservedToken",
                                 "span": {

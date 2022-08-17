@@ -5176,7 +5176,7 @@
                       {
                         "type": "SelectorList",
                         "span": {
-                          "start": 755,
+                          "start": 752,
                           "end": 775,
                           "ctxt": 0
                         },
@@ -5184,11 +5184,24 @@
                           {
                             "type": "ListOfComponentValues",
                             "span": {
-                              "start": 755,
+                              "start": 752,
                               "end": 761,
                               "ctxt": 0
                             },
                             "children": [
+                              {
+                                "type": "PreservedToken",
+                                "span": {
+                                  "start": 752,
+                                  "end": 755,
+                                  "ctxt": 0
+                                },
+                                "token": {
+                                  "WhiteSpace": {
+                                    "value": "   "
+                                  }
+                                }
+                              },
                               {
                                 "type": "PreservedToken",
                                 "span": {

@@ -4193,13 +4193,25 @@
   x PseudoClassSelectorChildren
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
  26 | :is(   a >< b, a > b, d > c) {}
-    :        ^^^^^^^^^^^^^^^^^^^^
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
  26 | :is(   a >< b, a > b, d > c) {}
-    :        ^^^^^^^^^^^^^^^^^^^^
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
+ 26 | :is(   a >< b, a > b, d > c) {}
+    :     ^^^
+    `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
+ 26 | :is(   a >< b, a > b, d > c) {}
+    :     ^^^
     `----
 
   x ComponentValue
