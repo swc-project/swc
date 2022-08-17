@@ -821,6 +821,7 @@ pub struct Config {
     #[serde(default)]
     pub module: Option<ModuleConfig>,
 
+    #[cfg(not(feature = "swc_v2"))]
     #[serde(default)]
     pub minify: BoolConfig<false>,
 
@@ -1159,6 +1160,7 @@ pub struct JscConfig {
     #[serde(default)]
     pub paths: Paths,
 
+    #[cfg(not(feature = "swc_v2"))]
     #[serde(default)]
     pub minify: Option<JsMinifyOptions>,
 
