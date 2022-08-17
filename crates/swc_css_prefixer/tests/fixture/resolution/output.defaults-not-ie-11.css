@@ -1,6 +1,6 @@
 @import url('styles.css') screen and (min-resolution: 2dppx), screen and (-webkit-min-device-pixel-ratio: 2);
 @import url("styles.css") supports(display: flex) screen and (max-width: 400px);
-@import url("styles.css") supports( not (display: flex)) screen and (max-width: 400px);
+@import url("styles.css") supports(not (display: flex)) screen and (max-width: 400px);
 @import url('styles.css') supports(display: flex) screen and (min-resolution: 2dppx), screen and (-webkit-min-device-pixel-ratio: 2);
 @media (min-resolution: 2dppx), (min-resolution: 192dpi), (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 2) {
   .class {
