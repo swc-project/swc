@@ -3642,7 +3642,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.141.4"
+version = "0.141.5"
 dependencies = [
  "ahash",
  "base64 0.13.0",

@@ -16,6 +16,9 @@
 
 - **(api/rust)** Implement more traits for public types (#5488) ([75c8e09](https://github.com/swc-project/swc/commit/75c8e09d6d412e1012a921d9f3932d6f253781e6))
 
+
+- **(es/react)** Add `VisitMut` bound to the return type of react preset (#5499) ([14606d9](https://github.com/swc-project/swc/commit/14606d92225c67145d484f30902d798297a4ffe2))
+
 ### Testing
 
 
