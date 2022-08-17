@@ -7,6 +7,9 @@
 
 - **(es/plugin/runner)** Provide guest memory allocator for the sourcemap (#5517) ([3bdb39c](https://github.com/swc-project/swc/commit/3bdb39c0eea3c8c5473ff6034be7f7f44d9ba9e7))
 
+
+- **(es/plugin/runner)** Revert wasmer@3 (#5521) ([4a9b1dd](https://github.com/swc-project/swc/commit/4a9b1dde1aaf84e233a9d1a59a1de539706e652b))
+
 ### Features
 
 
