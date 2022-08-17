@@ -2837,7 +2837,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.214.9"
+version = "0.214.10"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2964,7 +2964,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.11"
+version = "0.27.12"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4056,7 +4056,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.71.15"
+version = "0.71.16"
 dependencies = [
  "anyhow",
  "criterion",
