@@ -5,6 +5,14 @@
 
 
 
+- **(css/prefixer)** Reduce duplicates (#5537) ([0985c15](https://github.com/swc-project/swc/commit/0985c1546b38a4072099e45af354c4534e0e23cb))
+
+## [1.2.238] - 2022-08-17
+
+### Bug Fixes
+
+
+
 - **(css/codegen)** Improve output of `@supports` (#5529) ([0f45822](https://github.com/swc-project/swc/commit/0f45822410809b1d05658057a1ce8d8b446ee28c))
 
 
