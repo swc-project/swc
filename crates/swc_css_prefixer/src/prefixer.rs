@@ -568,13 +568,12 @@ impl Prefixer {
 impl VisitMut for Prefixer {
     fn visit_mut_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
         let mut new_rules = Vec::with_capacity(stylesheet.rules.len());
-        let original_rules = stylesheet.rules.clone();
 
         for mut rule in take(&mut stylesheet.rules) {
             rule.visit_mut_children_with(self);
 
             for mut added_rule in take(&mut self.added_top_rules) {
-                let need_skip = original_rules
+                let need_skip = new_rules
                     .iter()
                     .any(|existing_rule| added_rule.1.eq_ignore_span(existing_rule));
 
