@@ -18,7 +18,7 @@
     color: red;
   }
 }
-@supports (flex-wrap: wrap) {
+@supports ((flex-wrap: wrap) or (-webkit-flex-wrap: wrap) or (-ms-flex-wrap: wrap)) {
   @-webkit-keyframes test {
     0% {
       color: red;
@@ -40,8 +40,8 @@
     }
   }
 }
-@supports (flex-wrap: wrap) {
-  @supports (flex-wrap: wrap) {
+@supports ((flex-wrap: wrap) or (-webkit-flex-wrap: wrap) or (-ms-flex-wrap: wrap)) {
+  @supports ((flex-wrap: wrap) or (-webkit-flex-wrap: wrap) or (-ms-flex-wrap: wrap)) {
     @-webkit-keyframes test {
       0% {
         color: red;
@@ -59,8 +59,6 @@
     }
     @keyframes test {
       0% {
-        -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
         color: red;
       }
     }
