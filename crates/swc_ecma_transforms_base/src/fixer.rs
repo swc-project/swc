@@ -194,13 +194,16 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
 
         match &*expr.arg {
-            Expr::Cond(..)
-            | Expr::Assign(..)
-            | Expr::Bin(..)
-            | Expr::Unary(..)
-            | Expr::Update(..) => self.wrap(&mut expr.arg),
+            Expr::Cond(..) | Expr::Assign(..) | Expr::Bin(..) => self.wrap(&mut expr.arg),
             _ => {}
         }
+    }
+
+    fn visit_mut_yield_expr(&mut self, expr: &mut YieldExpr) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        expr.arg.visit_mut_with(self);
+        self.ctx = old;
     }
 
     fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
