@@ -45,10 +45,13 @@ impl EnsureSize {
         })?;
 
         for f in &results {
-            println!();
-            println!("{}", f.fm.name);
-
             if let Some(terser) = &f.terser {
+                if f.swc.mangled_size > terser.mangled_size
+                    || f.swc.no_mangle_size > terser.no_mangle_size
+                {
+                    println!();
+                    println!("{}", f.fm.name);
+                }
                 if f.swc.mangled_size > terser.mangled_size {
                     println!("  Mangled");
                     println!("    swc: {} bytes", f.swc.mangled_size);
