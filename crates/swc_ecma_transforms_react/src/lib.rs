@@ -1,7 +1,7 @@
 #![deny(clippy::all)]
 
 use swc_common::{chain, comments::Comments, sync::Lrc, Mark, SourceMap};
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, VisitMut};
 
 pub use self::{
     display_name::display_name,
@@ -37,7 +37,7 @@ pub fn react<C>(
     comments: Option<C>,
     mut options: Options,
     top_level_mark: Mark,
-) -> impl Fold
+) -> impl Fold + VisitMut
 where
     C: Comments + Clone,
 {
