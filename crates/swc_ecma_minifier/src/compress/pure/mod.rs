@@ -61,10 +61,7 @@ pub(crate) fn pure_optimizer<'a>(
             is_unresolved_ref_safe: false,
         },
         data,
-        ctx: Ctx {
-            top_level: true,
-            ..Default::default()
-        },
+        ctx: Default::default(),
         changed: Default::default(),
     }
 }
@@ -538,14 +535,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let ctx = Ctx {
-            top_level: true,
-            ..self.ctx
-        };
+        self.visit_par(items);
 
-        self.with_ctx(ctx).visit_par(items);
-
-        self.with_ctx(ctx).handle_stmt_likes(items);
+        self.handle_stmt_likes(items);
     }
 
     fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
@@ -731,8 +723,6 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        self.eval_free_iife(s);
-
         self.loop_to_for_stmt(s);
 
         self.drop_instant_break(s);
@@ -773,14 +763,10 @@ impl VisitMut for Pure<'_> {
                 }
             }
         }
-        let ctx = Ctx {
-            top_level: false,
-            ..self.ctx
-        };
 
-        self.with_ctx(ctx).visit_par(items);
+        self.visit_par(items);
 
-        self.with_ctx(ctx).handle_stmt_likes(items);
+        self.handle_stmt_likes(items);
 
         items.retain(|s| !matches!(s, Stmt::Empty(..)));
 

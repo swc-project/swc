@@ -913,9 +913,11 @@
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
             var setTimeout2;
-            return isUndefined(pollTimeout) && (setTimeout2 = setTimeout1, forEach(pollFns, function(pollFn) {
-                pollFn();
-            }), pollTimeout = setTimeout2(check, 100)), pollFns.push(fn), fn;
+            return isUndefined(pollTimeout) && (setTimeout2 = setTimeout1, function check() {
+                forEach(pollFns, function(pollFn) {
+                    pollFn();
+                }), pollTimeout = setTimeout2(check, 100);
+            }()), pollFns.push(fn), fn;
         };
         var lastBrowserUrl = location.href, baseElement = document1.find("base"), newLocation = null;
         self.url = function(url, replace) {
