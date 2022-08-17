@@ -145,7 +145,7 @@ pub mod lexer;
 mod parser;
 pub mod token;
 
-#[derive(Debug, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields, tag = "syntax")]
 pub enum Syntax {
     /// Standard
@@ -275,7 +275,7 @@ impl Syntax {
     }
 }
 
-#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TsConfig {
     #[serde(default)]
@@ -292,7 +292,7 @@ pub struct TsConfig {
     pub no_early_errors: bool,
 }
 
-#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EsConfig {
     #[serde(default)]

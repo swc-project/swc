@@ -3078,7 +3078,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.117.0"
+version = "0.117.1"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3157,7 +3157,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.117.0"
+version = "0.117.1"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -3361,7 +3361,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.117.5"
+version = "0.117.6"
 dependencies = [
  "criterion",
  "either",
@@ -3480,7 +3480,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.103.8"
+version = "0.103.9"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -3864,7 +3864,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.32.4"
+version = "0.32.5"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -4143,7 +4143,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_codegen"
-version = "0.2.4"
+version = "0.2.5"
 dependencies = [
  "auto_impl",
  "bitflags",

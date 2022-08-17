@@ -5,6 +5,29 @@
 
 
 
+- **(css/prefixer)** Handle supports (#5503) ([dc98234](https://github.com/swc-project/swc/commit/dc98234fab255a411d56a363b7a9e1d0c7ff131d))
+
+
+- **(es/fixer)** Wrap first `function` or `class` of a sequence expression (#5508) ([f27ed73](https://github.com/swc-project/swc/commit/f27ed73594110b27b3937a7f5211503f0f72f3f9))
+
+### Features
+
+
+
+- **(api/rust)** Implement more traits for public types (#5488) ([75c8e09](https://github.com/swc-project/swc/commit/75c8e09d6d412e1012a921d9f3932d6f253781e6))
+
+### Testing
+
+
+
+- **(es/minifier)** Remove useless, slow tests (#5502) ([69ce1b2](https://github.com/swc-project/swc/commit/69ce1b24d5ed1e6699678363195e1c2f8d2c7eee))
+
+## [1.2.237] - 2022-08-17
+
+### Bug Fixes
+
+
+
 - **(es/plugin/runner)** Provide guest memory allocator for the sourcemap (#5517) ([3bdb39c](https://github.com/swc-project/swc/commit/3bdb39c0eea3c8c5473ff6034be7f7f44d9ba9e7))
 
 

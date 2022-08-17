@@ -5,6 +5,7 @@ use swc_common::{BytePos, LineCol, Span};
 
 use super::CssWriter;
 
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum IndentType {
     Tab,
     Space,
@@ -16,6 +17,7 @@ impl Default for IndentType {
     }
 }
 
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum LineFeed {
     LF,
     CRLF,
