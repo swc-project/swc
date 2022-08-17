@@ -17,7 +17,7 @@ pub struct SourceMapHostEnvironment {
     pub memory: Option<Memory>,
     /// Attached imported fn `__alloc` to the hostenvironment to allow any other
     /// imported fn can allocate guest's memory space from host runtime.
-    pub allocate_guest_memory: Option<TypedFunction<i32, i32>>,
+    pub alloc_guest_memory: Option<TypedFunction<i32, i32>>,
     pub source_map: Arc<Mutex<Arc<SourceMap>>>,
     /// A buffer to non-determined size of return value from the host.
     pub mutable_source_map_buffer: Arc<Mutex<Vec<u8>>>,
@@ -30,7 +30,7 @@ impl SourceMapHostEnvironment {
     ) -> SourceMapHostEnvironment {
         SourceMapHostEnvironment {
             memory: None,
-            allocate_guest_memory: None,
+            alloc_guest_memory: None,
             source_map: source_map.clone(),
             mutable_source_map_buffer: mutable_source_map_buffer.clone(),
         }
@@ -40,9 +40,6 @@ impl SourceMapHostEnvironment {
 /// Returns `Loc` form given bytepos to the guest.
 /// Returned `Loc` is partial, which excludes `SourceFile` from original struct
 /// to avoid unnecessary data copying.
-///
-/// PluginSourceMapProxy::lookup_char_pos internally request separately if
-/// `SourceFile` is needed.
 #[tracing::instrument(level = "info", skip_all)]
 pub fn lookup_char_pos_proxy(
     mut env: FunctionEnvMut<SourceMapHostEnvironment>,
@@ -66,7 +63,7 @@ pub fn lookup_char_pos_proxy(
         let serialized_loc_bytes =
             PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
 
-        if let Some(alloc_guest_memory) = env.data().allocate_guest_memory.clone().as_ref() {
+        if let Some(alloc_guest_memory) = env.data().alloc_guest_memory.clone().as_ref() {
             allocate_return_values_into_guest(
                 memory,
                 &mut env.as_store_mut(),
@@ -162,7 +159,7 @@ pub fn span_to_lines_proxy(
         let serialized_loc_bytes =
             PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
 
-        if let Some(alloc_guest_memory) = env.data().allocate_guest_memory.clone().as_ref() {
+        if let Some(alloc_guest_memory) = env.data().alloc_guest_memory.clone().as_ref() {
             allocate_return_values_into_guest(
                 memory,
                 &mut env.as_store_mut(),
@@ -192,7 +189,7 @@ pub fn lookup_byte_offset_proxy(
         let serialized_loc_bytes =
             PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
 
-        if let Some(alloc_guest_memory) = env.data().allocate_guest_memory.clone().as_ref() {
+        if let Some(alloc_guest_memory) = env.data().alloc_guest_memory.clone().as_ref() {
             allocate_return_values_into_guest(
                 memory,
                 &mut env.as_store_mut(),
@@ -227,7 +224,7 @@ pub fn span_to_string_proxy(
         let serialized_loc_bytes =
             PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
 
-        if let Some(alloc_guest_memory) = env.data().allocate_guest_memory.clone().as_ref() {
+        if let Some(alloc_guest_memory) = env.data().alloc_guest_memory.clone().as_ref() {
             allocate_return_values_into_guest(
                 memory,
                 &mut env.as_store_mut(),
@@ -262,7 +259,7 @@ pub fn span_to_filename_proxy(
         let serialized_loc_bytes =
             PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
 
-        if let Some(alloc_guest_memory) = env.data().allocate_guest_memory.clone().as_ref() {
+        if let Some(alloc_guest_memory) = env.data().alloc_guest_memory.clone().as_ref() {
             allocate_return_values_into_guest(
                 memory,
                 &mut env.as_store_mut(),
