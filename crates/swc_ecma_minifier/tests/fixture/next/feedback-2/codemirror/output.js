@@ -2416,16 +2416,15 @@
         signalLater(doc, "change", doc, change);
     }
     function linkedDocs(doc, f, sharedHistOnly) {
-        function propagate(doc, skip, sharedHist) {
+        !function propagate(doc, skip, sharedHist) {
             if (doc.linked) for(var i = 0; i < doc.linked.length; ++i){
                 var rel = doc.linked[i];
-                if (rel.doc != skip) {
+                if (null != rel.doc) {
                     var shared = sharedHist && rel.sharedHist;
                     (!sharedHistOnly || shared) && (f(rel.doc, shared), propagate(rel.doc, doc, shared));
                 }
             }
-        }
-        propagate(doc, null, !0);
+        }(doc, null, !0);
     }
     function attachDoc(cm, doc) {
         if (doc.cm) throw Error("This document is already in use.");
@@ -4254,46 +4253,45 @@
             ourRange
         ], 0), sel_mouse), startSel = doc.sel);
         var lastPos = start, editorSize = display.wrapper.getBoundingClientRect(), counter = 0;
-        function extend(e) {
-            var curCount = ++counter, cur = posFromMouse(cm, e, !0, "rectangle" == behavior.unit);
-            if (cur) {
-                if (0 != cmp(cur, lastPos)) {
-                    cm.curOp.focus = activeElt(), function(pos) {
-                        if (0 != cmp(lastPos, pos)) {
-                            if (lastPos = pos, "rectangle" == behavior.unit) {
-                                for(var ranges = [], tabSize = cm.options.tabSize, startCol = countColumn(getLine(doc, start.line).text, start.ch, tabSize), posCol = countColumn(getLine(doc, pos.line).text, pos.ch, tabSize), left = Math.min(startCol, posCol), right = Math.max(startCol, posCol), line = Math.min(start.line, pos.line), end = Math.min(cm.lastLine(), Math.max(start.line, pos.line)); line <= end; line++){
-                                    var text = getLine(doc, line).text, leftPos = findColumn(text, left, tabSize);
-                                    left == right ? ranges.push(new Range(Pos(line, leftPos), Pos(line, leftPos))) : text.length > leftPos && ranges.push(new Range(Pos(line, leftPos), Pos(line, findColumn(text, right, tabSize))));
-                                }
-                                ranges.length || ranges.push(new Range(start, start)), setSelection(doc, normalizeSelection(cm, startSel.ranges.slice(0, ourIndex).concat(ranges), ourIndex), {
-                                    origin: "*mouse",
-                                    scroll: !1
-                                }), cm.scrollIntoView(pos);
-                            } else {
-                                var head, oldRange = ourRange, range = rangeForUnit(cm, pos, behavior.unit), anchor = oldRange.anchor;
-                                cmp(range.anchor, anchor) > 0 ? (head = range.head, anchor = minPos(oldRange.from(), range.anchor)) : (head = range.anchor, anchor = maxPos(oldRange.to(), range.head));
-                                var ranges$1 = startSel.ranges.slice(0);
-                                ranges$1[ourIndex] = bidiSimplify(cm, new Range(clipPos(doc, anchor), head)), setSelection(doc, normalizeSelection(cm, ranges$1, ourIndex), sel_mouse);
-                            }
-                        }
-                    }(cur);
-                    var visible = visibleLines(display, doc);
-                    (cur.line >= visible.to || cur.line < visible.from) && setTimeout(operation(cm, function() {
-                        counter == curCount && extend(e);
-                    }), 150);
-                } else {
-                    var outside = e.clientY < editorSize.top ? -20 : e.clientY > editorSize.bottom ? 20 : 0;
-                    outside && setTimeout(operation(cm, function() {
-                        counter == curCount && (display.scroller.scrollTop += outside, extend(e));
-                    }), 50);
-                }
-            }
-        }
         function done(e) {
             cm.state.selectingText = !1, counter = 1 / 0, e && (e_preventDefault(e), display.input.focus()), off(display.wrapper.ownerDocument, "mousemove", move), off(display.wrapper.ownerDocument, "mouseup", up), doc.history.lastSelOrigin = null;
         }
         var move = operation(cm, function(e) {
-            0 !== e.buttons && e_button(e) ? extend(e) : done(e);
+            0 !== e.buttons && e_button(e) ? function extend(e) {
+                var curCount = ++counter, cur = posFromMouse(cm, e, !0, "rectangle" == behavior.unit);
+                if (cur) {
+                    if (0 != cmp(cur, lastPos)) {
+                        cm.curOp.focus = activeElt(), function(pos) {
+                            if (0 != cmp(lastPos, pos)) {
+                                if (lastPos = pos, "rectangle" == behavior.unit) {
+                                    for(var ranges = [], tabSize = cm.options.tabSize, startCol = countColumn(getLine(doc, start.line).text, start.ch, tabSize), posCol = countColumn(getLine(doc, pos.line).text, pos.ch, tabSize), left = Math.min(startCol, posCol), right = Math.max(startCol, posCol), line = Math.min(start.line, pos.line), end = Math.min(cm.lastLine(), Math.max(start.line, pos.line)); line <= end; line++){
+                                        var text = getLine(doc, line).text, leftPos = findColumn(text, left, tabSize);
+                                        left == right ? ranges.push(new Range(Pos(line, leftPos), Pos(line, leftPos))) : text.length > leftPos && ranges.push(new Range(Pos(line, leftPos), Pos(line, findColumn(text, right, tabSize))));
+                                    }
+                                    ranges.length || ranges.push(new Range(start, start)), setSelection(doc, normalizeSelection(cm, startSel.ranges.slice(0, ourIndex).concat(ranges), ourIndex), {
+                                        origin: "*mouse",
+                                        scroll: !1
+                                    }), cm.scrollIntoView(pos);
+                                } else {
+                                    var head, oldRange = ourRange, range = rangeForUnit(cm, pos, behavior.unit), anchor = oldRange.anchor;
+                                    cmp(range.anchor, anchor) > 0 ? (head = range.head, anchor = minPos(oldRange.from(), range.anchor)) : (head = range.anchor, anchor = maxPos(oldRange.to(), range.head));
+                                    var ranges$1 = startSel.ranges.slice(0);
+                                    ranges$1[ourIndex] = bidiSimplify(cm, new Range(clipPos(doc, anchor), head)), setSelection(doc, normalizeSelection(cm, ranges$1, ourIndex), sel_mouse);
+                                }
+                            }
+                        }(cur);
+                        var visible = visibleLines(display, doc);
+                        (cur.line >= visible.to || cur.line < visible.from) && setTimeout(operation(cm, function() {
+                            counter == curCount && extend(e);
+                        }), 150);
+                    } else {
+                        var outside = e.clientY < editorSize.top ? -20 : e.clientY > editorSize.bottom ? 20 : 0;
+                        outside && setTimeout(operation(cm, function() {
+                            counter == curCount && (display.scroller.scrollTop += outside, extend(e));
+                        }), 50);
+                    }
+                }
+            }(e) : done(e);
         }), up = operation(cm, done);
         cm.state.selectingText = up, on(display.wrapper.ownerDocument, "mousemove", move), on(display.wrapper.ownerDocument, "mouseup", up);
     }

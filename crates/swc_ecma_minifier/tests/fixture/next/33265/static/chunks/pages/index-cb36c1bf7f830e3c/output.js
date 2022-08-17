@@ -1307,37 +1307,6 @@
                         buf.push("??", node.nodeName);
                 }
             }
-            function importNode(doc, node, deep) {
-                var node2;
-                switch(node.nodeType){
-                    case ELEMENT_NODE:
-                        (node2 = node.cloneNode(!1)).ownerDocument = doc;
-                    case DOCUMENT_FRAGMENT_NODE:
-                        break;
-                    case ATTRIBUTE_NODE:
-                        deep = !0;
-                }
-                if (node2 || (node2 = node.cloneNode(!1)), node2.ownerDocument = doc, node2.parentNode = null, deep) for(var child = node.firstChild; child;)node2.appendChild(importNode(doc, child, deep)), child = child.nextSibling;
-                return node2;
-            }
-            function cloneNode(doc, node, deep) {
-                var node2 = new node.constructor();
-                for(var n in node){
-                    var v = node[n];
-                    "object" != typeof v && v != node2[n] && (node2[n] = v);
-                }
-                switch(node.childNodes && (node2.childNodes = new NodeList()), node2.ownerDocument = doc, node2.nodeType){
-                    case ELEMENT_NODE:
-                        var attrs = node.attributes, attrs2 = node2.attributes = new NamedNodeMap(), len = attrs.length;
-                        attrs2._ownerElement = node2;
-                        for(var i = 0; i < len; i++)node2.setAttributeNode(cloneNode(doc, attrs.item(i), !0));
-                        break;
-                    case ATTRIBUTE_NODE:
-                        deep = !0;
-                }
-                if (deep) for(var child = node.firstChild; child;)node2.appendChild(cloneNode(doc, child, deep)), child = child.nextSibling;
-                return node2;
-            }
             function __set__(object, key, value) {
                 object[key] = value;
             }
@@ -1432,7 +1401,24 @@
                     return null != this.firstChild;
                 },
                 cloneNode: function(deep) {
-                    return cloneNode(this.ownerDocument || this, this, deep);
+                    return function cloneNode(doc, node, deep) {
+                        var node2 = new node.constructor();
+                        for(var n in node){
+                            var v = node[n];
+                            "object" != typeof v && v != node2[n] && (node2[n] = v);
+                        }
+                        switch(node.childNodes && (node2.childNodes = new NodeList()), node2.ownerDocument = doc, node2.nodeType){
+                            case ELEMENT_NODE:
+                                var attrs = node.attributes, attrs2 = node2.attributes = new NamedNodeMap(), len = attrs.length;
+                                attrs2._ownerElement = node2;
+                                for(var i = 0; i < len; i++)node2.setAttributeNode(cloneNode(doc, attrs.item(i), !0));
+                                break;
+                            case ATTRIBUTE_NODE:
+                                deep = !0;
+                        }
+                        if (deep) for(var child = node.firstChild; child;)node2.appendChild(cloneNode(doc, child, deep)), child = child.nextSibling;
+                        return node2;
+                    }(this.ownerDocument || this, this, deep);
                 },
                 normalize: function() {
                     for(var child = this.firstChild; child;){
@@ -1487,7 +1473,19 @@
                     return this.documentElement == oldChild && (this.documentElement = null), _removeChild(this, oldChild);
                 },
                 importNode: function(importedNode, deep) {
-                    return importNode(this, importedNode, deep);
+                    return function importNode(doc, node, deep) {
+                        var node2;
+                        switch(node.nodeType){
+                            case ELEMENT_NODE:
+                                (node2 = node.cloneNode(!1)).ownerDocument = doc;
+                            case DOCUMENT_FRAGMENT_NODE:
+                                break;
+                            case ATTRIBUTE_NODE:
+                                deep = !0;
+                        }
+                        if (node2 || (node2 = node.cloneNode(!1)), node2.ownerDocument = doc, node2.parentNode = null, deep) for(var child = node.firstChild; child;)node2.appendChild(importNode(doc, child, deep)), child = child.nextSibling;
+                        return node2;
+                    }(this, importedNode, deep);
                 },
                 getElementById: function(id) {
                     var rtv = null;
@@ -1670,41 +1668,38 @@
                 return nodeSerializeToString.call(node, isHtml, nodeFilter);
             }, Node.prototype.toString = nodeSerializeToString;
             try {
-                if (Object.defineProperty) {
-                    function getTextContent(node) {
-                        switch(node.nodeType){
-                            case ELEMENT_NODE:
-                            case DOCUMENT_FRAGMENT_NODE:
-                                var buf = [];
-                                for(node = node.firstChild; node;)7 !== node.nodeType && 8 !== node.nodeType && buf.push(getTextContent(node)), node = node.nextSibling;
-                                return buf.join("");
-                            default:
-                                return node.nodeValue;
-                        }
+                Object.defineProperty && (Object.defineProperty(LiveNodeList.prototype, "length", {
+                    get: function() {
+                        return _updateLiveList(this), this.$$length;
                     }
-                    Object.defineProperty(LiveNodeList.prototype, "length", {
-                        get: function() {
-                            return _updateLiveList(this), this.$$length;
-                        }
-                    }), Object.defineProperty(Node.prototype, "textContent", {
-                        get: function() {
-                            return getTextContent(this);
-                        },
-                        set: function(data) {
-                            switch(this.nodeType){
+                }), Object.defineProperty(Node.prototype, "textContent", {
+                    get: function() {
+                        return function getTextContent(node) {
+                            switch(node.nodeType){
                                 case ELEMENT_NODE:
                                 case DOCUMENT_FRAGMENT_NODE:
-                                    for(; this.firstChild;)this.removeChild(this.firstChild);
-                                    (data || String(data)) && this.appendChild(this.ownerDocument.createTextNode(data));
-                                    break;
+                                    var buf = [];
+                                    for(node = node.firstChild; node;)7 !== node.nodeType && 8 !== node.nodeType && buf.push(getTextContent(node)), node = node.nextSibling;
+                                    return buf.join("");
                                 default:
-                                    this.data = data, this.value = data, this.nodeValue = data;
+                                    return node.nodeValue;
                             }
+                        }(this);
+                    },
+                    set: function(data) {
+                        switch(this.nodeType){
+                            case ELEMENT_NODE:
+                            case DOCUMENT_FRAGMENT_NODE:
+                                for(; this.firstChild;)this.removeChild(this.firstChild);
+                                (data || String(data)) && this.appendChild(this.ownerDocument.createTextNode(data));
+                                break;
+                            default:
+                                this.data = data, this.value = data, this.nodeValue = data;
                         }
-                    }), __set__ = function(object, key, value) {
-                        object["$$" + key] = value;
-                    };
-                }
+                    }
+                }), __set__ = function(object, key, value) {
+                    object["$$" + key] = value;
+                });
             } catch (e) {}
             exports.DocumentType = DocumentType, exports.DOMException = DOMException, exports.DOMImplementation = DOMImplementation, exports.Element = Element, exports.Node = Node, exports.NodeList = NodeList, exports.XMLSerializer = XMLSerializer;
         },

@@ -16,27 +16,4 @@ var Foo = function() {
 }(Foo), Baz = function() {
     "use strict";
     _class_call_check(this, Baz);
-}, g3 = regeneratorRuntime.mark(function() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-                _ctx.next = 2;
-                return;
-            case 2:
-                return _ctx.next = 4, new Bar;
-            case 4:
-                return _ctx.next = 6, new Baz;
-            case 6:
-                return _ctx.delegateYield([
-                    new Bar
-                ], "t0", 7);
-            case 7:
-                return _ctx.delegateYield([
-                    new Baz
-                ], "t1", 8);
-            case 8:
-            case "end":
-                return _ctx.stop();
-        }
-    }, g3);
-});
+};

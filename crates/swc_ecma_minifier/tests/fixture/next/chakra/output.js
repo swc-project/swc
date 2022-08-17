@@ -869,100 +869,6 @@
                     return this.toRgbString() === new TinyColor(color).toRgbString();
                 }, TinyColor;
             }();
-            function random(options) {
-                if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
-                    var totalColors = options.count, colors = [];
-                    for(options.count = void 0; totalColors > colors.length;)options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
-                    return options.count = totalColors, colors;
-                }
-                var h = pickHue(options.hue, options.seed), s = pickSaturation(h, options), v = pickBrightness(h, s, options), res = {
-                    h: h,
-                    s: s,
-                    v: v
-                };
-                return void 0 !== options.alpha && (res.a = options.alpha), new module_TinyColor(res);
-            }
-            function pickHue(hue, seed) {
-                var hueRange = getHueRange(hue), res = randomWithin(hueRange, seed);
-                return res < 0 && (res = 360 + res), res;
-            }
-            function pickSaturation(hue, options) {
-                if ("monochrome" === options.hue) return 0;
-                if ("random" === options.luminosity) return randomWithin([
-                    0,
-                    100
-                ], options.seed);
-                var saturationRange = getColorInfo(hue).saturationRange, sMin = saturationRange[0], sMax = saturationRange[1];
-                switch(options.luminosity){
-                    case "bright":
-                        sMin = 55;
-                        break;
-                    case "dark":
-                        sMin = sMax - 10;
-                        break;
-                    case "light":
-                        sMax = 55;
-                }
-                return randomWithin([
-                    sMin,
-                    sMax
-                ], options.seed);
-            }
-            function pickBrightness(H, S, options) {
-                var bMin = getMinimumBrightness(H, S), bMax = 100;
-                switch(options.luminosity){
-                    case "dark":
-                        bMax = bMin + 20;
-                        break;
-                    case "light":
-                        bMin = (bMax + bMin) / 2;
-                        break;
-                    case "random":
-                        bMin = 0, bMax = 100;
-                }
-                return randomWithin([
-                    bMin,
-                    bMax
-                ], options.seed);
-            }
-            function getMinimumBrightness(H, S) {
-                for(var lowerBounds = getColorInfo(H).lowerBounds, i = 0; i < lowerBounds.length - 1; i++){
-                    var s1 = lowerBounds[i][0], v1 = lowerBounds[i][1], s2 = lowerBounds[i + 1][0], v2 = lowerBounds[i + 1][1];
-                    if (S >= s1 && S <= s2) {
-                        var m = (v2 - v1) / (s2 - s1), b = v1 - m * s1;
-                        return m * S + b;
-                    }
-                }
-                return 0;
-            }
-            function getHueRange(colorInput) {
-                var num = parseInt(colorInput, 10);
-                if (!Number.isNaN(num) && num < 360 && num > 0) return [
-                    num,
-                    num
-                ];
-                if ("string" == typeof colorInput) {
-                    var namedColor = bounds.find(function(n) {
-                        return n.name === colorInput;
-                    });
-                    if (namedColor) {
-                        var color = defineColor(namedColor);
-                        if (color.hueRange) return color.hueRange;
-                    }
-                    var parsed = new module_TinyColor(colorInput);
-                    if (parsed.isValid) {
-                        var hue = parsed.toHsv().h;
-                        return [
-                            hue,
-                            hue
-                        ];
-                    }
-                }
-                return [
-                    0,
-                    360
-                ];
-            }
             function getColorInfo(hue) {
                 hue >= 334 && hue <= 360 && (hue -= 360);
                 for(var _i = 0, bounds_1 = bounds; _i < bounds_1.length; _i++){
@@ -1706,7 +1612,92 @@
             }, baseStyleContainer$3 = function(props) {
                 var list, opts, fallback, color, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
-                }, fallback = random().toHexString(), !opts || (0, chakra_ui_utils_esm.Qr)(opts) ? fallback : opts.string && opts.colors ? function(str, list) {
+                }, fallback = (function random(options) {
+                    if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
+                        var totalColors = options.count, colors = [];
+                        for(options.count = void 0; totalColors > colors.length;)options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
+                        return options.count = totalColors, colors;
+                    }
+                    var hue, seed, hueRange, res, h = (hue = options.hue, seed = options.seed, hueRange = function(colorInput) {
+                        var num = parseInt(colorInput, 10);
+                        if (!Number.isNaN(num) && num < 360 && num > 0) return [
+                            num,
+                            num
+                        ];
+                        if ("string" == typeof colorInput) {
+                            var namedColor = bounds.find(function(n) {
+                                return n.name === colorInput;
+                            });
+                            if (namedColor) {
+                                var color = defineColor(namedColor);
+                                if (color.hueRange) return color.hueRange;
+                            }
+                            var parsed = new module_TinyColor(colorInput);
+                            if (parsed.isValid) {
+                                var hue = parsed.toHsv().h;
+                                return [
+                                    hue,
+                                    hue
+                                ];
+                            }
+                        }
+                        return [
+                            0,
+                            360
+                        ];
+                    }(hue), res = randomWithin(hueRange, seed), res < 0 && (res = 360 + res), res), s = function(hue, options) {
+                        if ("monochrome" === options.hue) return 0;
+                        if ("random" === options.luminosity) return randomWithin([
+                            0,
+                            100
+                        ], options.seed);
+                        var saturationRange = getColorInfo(hue).saturationRange, sMin = saturationRange[0], sMax = saturationRange[1];
+                        switch(options.luminosity){
+                            case "bright":
+                                sMin = 55;
+                                break;
+                            case "dark":
+                                sMin = sMax - 10;
+                                break;
+                            case "light":
+                                sMax = 55;
+                        }
+                        return randomWithin([
+                            sMin,
+                            sMax
+                        ], options.seed);
+                    }(h, options), v = function(H, S, options) {
+                        var bMin = function(H, S) {
+                            for(var lowerBounds = getColorInfo(H).lowerBounds, i = 0; i < lowerBounds.length - 1; i++){
+                                var s1 = lowerBounds[i][0], v1 = lowerBounds[i][1], s2 = lowerBounds[i + 1][0], v2 = lowerBounds[i + 1][1];
+                                if (S >= s1 && S <= s2) {
+                                    var m = (v2 - v1) / (s2 - s1), b = v1 - m * s1;
+                                    return m * S + b;
+                                }
+                            }
+                            return 0;
+                        }(H, S), bMax = 100;
+                        switch(options.luminosity){
+                            case "dark":
+                                bMax = bMin + 20;
+                                break;
+                            case "light":
+                                bMin = (bMax + bMin) / 2;
+                                break;
+                            case "random":
+                                bMin = 0, bMax = 100;
+                        }
+                        return randomWithin([
+                            bMin,
+                            bMax
+                        ], options.seed);
+                    }(h, s, options), res1 = {
+                        h: h,
+                        s: s,
+                        v: v
+                    };
+                    return void 0 !== options.alpha && (res1.a = options.alpha), new module_TinyColor(res1);
+                })().toHexString(), !opts || (0, chakra_ui_utils_esm.Qr)(opts) ? fallback : opts.string && opts.colors ? function(str, list) {
                     var index = 0;
                     if (0 === str.length) return list[0];
                     for(var i = 0; i < str.length; i += 1)index = str.charCodeAt(i) + ((index << 5) - index), index &= index;
@@ -4731,12 +4722,6 @@
                 }(_ref, chakra_ui_react_esm_excluded);
                 return react.createElement(chakra_ui_provider_esm_ChakraProvider, restProps, children, react.createElement(ToastProvider, toastOptions));
             };
-            function mergeThemeCustomizer(source, override, key, object) {
-                if ((isFunction(source) || isFunction(override)) && Object.prototype.hasOwnProperty.call(object, key)) return function() {
-                    var sourceValue = isFunction(source) ? source.apply(void 0, arguments) : source, overrideValue = isFunction(override) ? override.apply(void 0, arguments) : override;
-                    return mergeWith({}, sourceValue, overrideValue, mergeThemeCustomizer);
-                };
-            }
             ChakraProvider.defaultProps = {
                 theme: theme
             };

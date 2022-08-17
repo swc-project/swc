@@ -22,6 +22,3 @@ var B = function(A) {
     }
     return B;
 }(A);
-function f1() {
-    _instanceof(this, f1) && this.constructor, _instanceof(this, f1) && this.constructor;
-}

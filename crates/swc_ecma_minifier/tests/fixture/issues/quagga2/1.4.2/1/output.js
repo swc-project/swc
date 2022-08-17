@@ -2673,26 +2673,25 @@
                 }
                 function AsyncIterator(generator, PromiseImpl) {
                     var previousPromise;
-                    function invoke(method, arg, resolve, reject) {
-                        var record = tryCatch(generator[method], generator, arg);
-                        if ("throw" === record.type) reject(record.arg);
-                        else {
-                            var result = record.arg, value = result.value;
-                            return value && "object" == typeof value && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function(value) {
-                                invoke("next", value, resolve, reject);
-                            }, function(err) {
-                                invoke("throw", err, resolve, reject);
-                            }) : PromiseImpl.resolve(value).then(function(unwrapped) {
-                                result.value = unwrapped, resolve(result);
-                            }, function(error) {
-                                return invoke("throw", error, resolve, reject);
-                            });
-                        }
-                    }
                     this._invoke = function(method, arg) {
                         function callInvokeWithMethodAndArg() {
                             return new PromiseImpl(function(resolve, reject) {
-                                invoke(method, arg, resolve, reject);
+                                !function invoke(method, arg, resolve, reject) {
+                                    var record = tryCatch(generator[method], generator, arg);
+                                    if ("throw" === record.type) reject(record.arg);
+                                    else {
+                                        var result = record.arg, value = result.value;
+                                        return value && "object" == typeof value && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function(value) {
+                                            invoke("next", value, resolve, reject);
+                                        }, function(err) {
+                                            invoke("throw", err, resolve, reject);
+                                        }) : PromiseImpl.resolve(value).then(function(unwrapped) {
+                                            result.value = unwrapped, resolve(result);
+                                        }, function(error) {
+                                            return invoke("throw", error, resolve, reject);
+                                        });
+                                    }
+                                }(method, arg, resolve, reject);
                             });
                         }
                         return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
@@ -3045,15 +3044,14 @@
         },
         function(module1, exports1, __webpack_require__) {
             var arrayPush = __webpack_require__(246), isFlattenable = __webpack_require__(247);
-            function baseFlatten(array, depth, predicate, isStrict, result) {
+            module1.exports = function baseFlatten(array, depth, predicate, isStrict, result) {
                 var index = -1, length = array.length;
                 for(predicate || (predicate = isFlattenable), result || (result = []); ++index < length;){
                     var value = array[index];
                     depth > 0 && predicate(value) ? depth > 1 ? baseFlatten(value, depth - 1, predicate, isStrict, result) : arrayPush(result, value) : isStrict || (result[result.length] = value);
                 }
                 return result;
-            }
-            module1.exports = baseFlatten;
+            };
         },
         function(module1, exports1) {
             module1.exports = function(array, values) {
@@ -6639,10 +6637,9 @@
             function waitForVideo(video) {
                 return new Promise(function(resolve, reject) {
                     var attempts = 10;
-                    function checkVideo() {
+                    !function checkVideo() {
                         attempts > 0 ? video.videoWidth > 10 && video.videoHeight > 10 ? (console.log("* dev: checkVideo found ".concat(video.videoWidth, "px x ").concat(video.videoHeight, "px")), resolve()) : window.setTimeout(checkVideo, 500) : reject(new Exception_Exception("Unable to play video stream. Is webcam working?", -1)), attempts--;
-                    }
-                    checkVideo();
+                    }();
                 });
             }
             function initCamera(_x, _x2) {

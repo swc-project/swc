@@ -1,9 +1,8 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _type_of from "@swc/helpers/src/_type_of.mjs";
-function foo3() {
+!function foo3() {
     return foo3();
-}
-foo3(), function(x) {
+}(), function(x) {
     void 0 === x || _type_of(x);
 }(1);
 var M, e1, C = function() {
