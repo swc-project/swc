@@ -15,4 +15,6 @@ async function* foo() {
     await (foo ? bar : baz);
     yield ++foo;
     await ++foo;
+    yield !foo;
+    await !foo;
 }
