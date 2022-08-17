@@ -31,7 +31,7 @@
   }
 }
 .class {
-  @supports  not (display: grid) {
+  @supports not (display: grid) {
     float: right;
     & .class {
       color: red;
@@ -40,7 +40,7 @@
 }
 .class {
   color: blue;
-  @supports  not (display: grid) {
+  @supports not (display: grid) {
     float: right;
     & .class {
       color: red;
@@ -52,7 +52,7 @@
   &.foo {
     color: green;
   }
-  @supports  not (display: grid) {
+  @supports not (display: grid) {
     float: right;
     & .class {
       color: red;

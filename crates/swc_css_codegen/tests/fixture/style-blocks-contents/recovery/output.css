@@ -20,7 +20,7 @@ a {
   &.foo {
     ident
          color: green;}
-  @supports  not (display: grid) {
+  @supports not (display: grid) {
     float: right;
     & .class {
       ident
@@ -33,7 +33,7 @@ a {
   &.foo {
     ident;color: green;
   }
-  @supports  not (display: grid) {
+  @supports not (display: grid) {
     float: right;
     & .class {
       ident;color: red;
