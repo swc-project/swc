@@ -83,3 +83,4 @@
 @media only screen and (min-resolution: 124.8dpi), only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3) {}
 @media (min-resolution: 113.38dpcm), (-webkit-min-device-pixel-ratio: 3), (min--moz-device-pixel-ratio: 3) {}
 @media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx) {}
+@media (min-resolution: 2dppx), (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2) {}

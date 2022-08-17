@@ -90,3 +90,5 @@
 @media (min-resolution: 113.38dpcm) { }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx) {}
+
+@media (min-resolution: 2dppx), (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2) {}
