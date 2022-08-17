@@ -3,69 +3,30 @@ use std::{env, sync::Arc};
 use anyhow::{Context, Error};
 use parking_lot::Mutex;
 use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
-use wasmer::{FunctionEnv, Instance, Store};
+use wasmer::{ChainableNamedResolver, Instance};
 use wasmer_wasi::{is_wasi_module, WasiState};
 
-use crate::{
-    host_environment::BaseHostEnvironment,
-    imported_fn::{
-        build_import_object, comments::CommentHostEnvironment,
-        metadata_context::MetadataContextHostEnvironment,
-        set_transform_result::TransformResultHostEnvironment, source_map::SourceMapHostEnvironment,
-    },
-};
+use crate::imported_fn::build_import_object;
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn load_plugin(
-    store: &mut Store,
     plugin_path: &std::path::Path,
     cache: &once_cell::sync::Lazy<crate::cache::PluginModuleCache>,
     source_map: &Arc<SourceMap>,
     metadata_context: &Arc<TransformPluginMetadataContext>,
     plugin_config: Option<serde_json::Value>,
 ) -> Result<(Instance, Arc<Mutex<Vec<u8>>>), Error> {
-    let module = cache.load_module(store, plugin_path);
+    let module = cache.load_module(plugin_path);
 
     return match module {
         Ok(module) => {
-            let context_key_buffer = Arc::new(Mutex::new(vec![]));
-            let metadata_env = FunctionEnv::new(
-                store,
-                MetadataContextHostEnvironment::new(
-                    metadata_context,
-                    &plugin_config,
-                    &context_key_buffer,
-                ),
-            );
-
             let transform_result: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(vec![]));
-            let transform_env = FunctionEnv::new(
-                store,
-                TransformResultHostEnvironment::new(&transform_result),
-            );
-
-            let base_env = FunctionEnv::new(store, BaseHostEnvironment::new());
-
-            let comment_buffer = Arc::new(Mutex::new(vec![]));
-
-            let comments_env =
-                FunctionEnv::new(store, CommentHostEnvironment::new(&comment_buffer));
-
-            let source_map_buffer = Arc::new(Mutex::new(vec![]));
-            let source_map = Arc::new(Mutex::new(source_map.clone()));
-
-            let source_map_host_env = FunctionEnv::new(
-                store,
-                SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-            );
-
-            let mut import_object = build_import_object(
-                store,
-                &metadata_env,
-                &transform_env,
-                &base_env,
-                &comments_env,
-                &source_map_host_env,
+            let import_object = build_import_object(
+                &module,
+                &transform_result,
+                source_map.clone(),
+                metadata_context.clone(),
+                plugin_config,
             );
 
             // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown.
@@ -96,39 +57,14 @@ pub fn load_plugin(
                     &mut wasi_env
                 };
 
-                let wasi_env = wasi_env.finalize(store)?;
+                let mut wasi_env = wasi_env.finalize()?;
 
                 // Generate an `ImportObject` from wasi_env, overwrite into imported_object
-                let wasi_env_import_object = wasi_env.import_object(store, &module)?;
-                import_object.extend(&wasi_env_import_object);
-                let instance = Instance::new(store, &module, &import_object);
-
-                if let Ok(instance) = instance {
-                    // For WASI, don't forget to import memory to WasiEnv
-                    let memory = instance.exports.get_memory("memory")?;
-                    let alloc = instance.exports.get_typed_function(store, "__alloc")?;
-                    wasi_env.data_mut(store).set_memory(memory.clone());
-
-                    // Unlike wasmer@2, have to manually `import` memory / necessary functions from
-                    // the guest into env.
-                    metadata_env.as_mut(store).memory = Some(memory.clone());
-                    metadata_env.as_mut(store).alloc_guest_memory = Some(alloc.clone());
-
-                    transform_env.as_mut(store).memory = Some(memory.clone());
-
-                    base_env.as_mut(store).memory = Some(memory.clone());
-
-                    comments_env.as_mut(store).memory = Some(memory.clone());
-                    comments_env.as_mut(store).alloc_guest_memory = Some(alloc);
-
-                    source_map_host_env.as_mut(store).memory = Some(memory.clone());
-
-                    Ok(instance)
-                } else {
-                    instance
-                }
+                let wasi_env_import_object = wasi_env.import_object(&module)?;
+                let chained_resolver = import_object.chain_front(wasi_env_import_object);
+                Instance::new(&module, &chained_resolver)
             } else {
-                Instance::new(store, &module, &import_object)
+                Instance::new(&module, &import_object)
             };
 
             instance

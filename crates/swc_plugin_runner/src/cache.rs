@@ -30,7 +30,7 @@ compile_error!(
 /// however it is not gauranteed to be compatible across wasmer's
 /// internal changes.
 /// https://github.com/wasmerio/wasmer/issues/2781
-const MODULE_SERIALIZATION_VERSION: &str = "v4";
+const MODULE_SERIALIZATION_VERSION: &str = "v3";
 
 /// A shared instance to plugin's module bytecode cache.
 pub static PLUGIN_MODULE_CACHE: Lazy<PluginModuleCache> = Lazy::new(Default::default);
@@ -133,7 +133,7 @@ impl PluginModuleCache {
     /// In actual transform, `plugins` is also being called per each transform.
     #[cfg(feature = "filesystem_cache")]
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn load_module(&self, wasmer_store: &Store, binary_path: &Path) -> Result<Module, Error> {
+    pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
 
@@ -149,6 +149,8 @@ impl PluginModuleCache {
             std::fs::read(&binary_path).context("Cannot read plugin from specified path")?;
         let module_bytes_hash = Hash::generate(&module_bytes);
 
+        let wasmer_store = Store::default();
+
         let load_cold_wasm_bytes = || {
             let span = tracing::span!(
                 tracing::Level::INFO,
@@ -158,7 +160,7 @@ impl PluginModuleCache {
             let span_guard = span.enter();
             let _lock = self.instantiation_lock.lock();
             let ret =
-                Module::new(wasmer_store, module_bytes).context("Cannot compile plugin binary");
+                Module::new(&wasmer_store, module_bytes).context("Cannot compile plugin binary");
             drop(span_guard);
             ret
         };
@@ -166,7 +168,7 @@ impl PluginModuleCache {
         // Try to load compiled bytes from filesystem cache if available.
         // Otherwise, cold compile instead.
         let module = if let Some(fs_cache) = &mut inner_cache.fs_cache {
-            let load_result = unsafe { fs_cache.load(wasmer_store, module_bytes_hash) };
+            let load_result = unsafe { fs_cache.load(&wasmer_store, module_bytes_hash) };
             if let Ok(module) = load_result {
                 module
             } else {
@@ -187,7 +189,7 @@ impl PluginModuleCache {
 
     #[cfg(feature = "memory_cache")]
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn load_module(&self, wasmer_store: &Store, binary_path: &Path) -> Result<Module, Error> {
+    pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
 
@@ -203,7 +205,8 @@ impl PluginModuleCache {
         //TODO: In native runtime we have to reconstruct module using raw bytes in
         // memory cache. requires https://github.com/wasmerio/wasmer/pull/2821
 
-        let module = Module::new(wasmer_store, in_memory_module_bytes)?;
+        let wasmer_store = Store::default();
+        let module = Module::new(&wasmer_store, in_memory_module_bytes)?;
 
         Ok(module)
     }
