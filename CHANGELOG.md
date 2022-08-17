@@ -7,6 +7,12 @@
 
 - **(css/prefixer)** Reduce duplicates (#5537) ([0985c15](https://github.com/swc-project/swc/commit/0985c1546b38a4072099e45af354c4534e0e23cb))
 
+### Features
+
+
+
+- **(es/minifier)** Ignore recursive usage for function calls and pure calls (#5526) ([d2f3e29](https://github.com/swc-project/swc/commit/d2f3e29bb054ffcb557fb54d535dc98640a77dc4))
+
 ## [1.2.238] - 2022-08-17
 
 ### Bug Fixes
