@@ -482,9 +482,9 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
         n.visit_mut_children_with(self);
 
         if let MediaFeatureValue::Dimension(Dimension::Resolution(Resolution {
-            span: resolution_span,
             value: resolution_value,
             unit: resolution_unit,
+            ..
         })) = &n.value
         {
             let MediaFeatureName::Ident(Ident {
@@ -506,14 +506,10 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                     _ => resolution_value.value,
                 };
 
-                n.value = MediaFeatureValue::Ratio(Ratio {
-                    span: *resolution_span,
-                    left: Number {
-                        span: resolution_value.span,
-                        value: left,
-                        raw: None,
-                    },
-                    right: None,
+                n.value = MediaFeatureValue::Number(Number {
+                    span: resolution_value.span,
+                    value: left,
+                    raw: None,
                 });
             }
         }
@@ -765,54 +761,59 @@ impl VisitMut for Prefixer {
     fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
         media_query_list.visit_mut_children_with(self);
 
-        let mut new_queries = Vec::with_capacity(media_query_list.queries.len());
+        let mut new_queries = vec![];
 
-        for n in take(&mut media_query_list.queries) {
-            // TODO avoid duplicates
+        for n in &media_query_list.queries {
             if should_prefix("-webkit-min-device-pixel-ratio", self.env, false) {
-                let mut new_webkit_value = n.clone();
+                let mut new_media_query = n.clone();
 
                 replace_media_feature_resolution_on_legacy_variant(
-                    &mut new_webkit_value,
+                    &mut new_media_query,
                     "min-resolution",
                     "-webkit-min-device-pixel-ratio",
                 );
                 replace_media_feature_resolution_on_legacy_variant(
-                    &mut new_webkit_value,
+                    &mut new_media_query,
                     "max-resolution",
                     "-webkit-max-device-pixel-ratio",
                 );
 
-                if n != new_webkit_value {
-                    new_queries.push(new_webkit_value);
+                let need_skip = media_query_list.queries.iter().any(|existing_media_query| {
+                    new_media_query.eq_ignore_span(existing_media_query)
+                });
+
+                if !need_skip {
+                    new_queries.push(new_media_query);
                 }
             }
 
             if should_prefix("min--moz-device-pixel-ratio", self.env, false) {
-                let mut new_moz_value = n.clone();
+                let mut new_media_query = n.clone();
 
                 replace_media_feature_resolution_on_legacy_variant(
-                    &mut new_moz_value,
+                    &mut new_media_query,
                     "min-resolution",
                     "min--moz-device-pixel-ratio",
                 );
                 replace_media_feature_resolution_on_legacy_variant(
-                    &mut new_moz_value,
+                    &mut new_media_query,
                     "max-resolution",
                     "max--moz-device-pixel-ratio",
                 );
 
-                if n != new_moz_value {
-                    new_queries.push(new_moz_value);
+                let need_skip = media_query_list.queries.iter().any(|existing_media_query| {
+                    new_media_query.eq_ignore_span(existing_media_query)
+                });
+
+                if !need_skip {
+                    new_queries.push(new_media_query);
                 }
             }
 
             // TODO opera support
-
-            new_queries.push(n);
         }
 
-        media_query_list.queries = new_queries;
+        media_query_list.queries.extend(new_queries);
     }
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
