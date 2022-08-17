@@ -7,7 +7,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_atoms"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.4.7"
+version       = "0.4.8"
 
 [lib]
 bench = false
@@ -18,7 +18,7 @@ rkyv-impl = ["rkyv", "bytecheck"]
 [dependencies]
 bytecheck    = { version = "0.6.9", optional = true }
 once_cell    = "1"
-rkyv         = { version = "=0.7.38", optional = true }
+rkyv         = { version = "=0.7.37", optional = true }
 rustc-hash   = "1.1.0"
 serde        = "1"
 string_cache = "0.8.4"
