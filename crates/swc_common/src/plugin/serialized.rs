@@ -42,6 +42,7 @@ impl PluginSerializedBytes {
      * Constructs an instance from already serialized byte
      * slices.
      */
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn from_slice(bytes: &[u8]) -> PluginSerializedBytes {
         let mut field = rkyv::AlignedVec::new();
         field.extend_from_slice(bytes);
@@ -54,6 +55,7 @@ impl PluginSerializedBytes {
      * This is sort of mimic TryFrom behavior, since we can't use generic
      * to implement TryFrom trait
      */
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn try_serialize<W>(t: &W) -> Result<Self, Error>
     where
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
@@ -74,6 +76,7 @@ impl PluginSerializedBytes {
     /*
      * Internal fn to constructs an instance from raw bytes ptr.
      */
+    #[tracing::instrument(level = "info", skip_all)]
     fn from_raw_ptr(
         raw_allocated_ptr: *const u8,
         raw_allocated_ptr_len: usize,
@@ -92,6 +95,7 @@ impl PluginSerializedBytes {
         (self.field.as_ptr(), self.field.len())
     }
 
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<W, Error>
     where
         W: rkyv::Archive,
@@ -113,6 +117,7 @@ impl PluginSerializedBytes {
 ///
 /// # Safety
 /// This is naturally unsafe by constructing bytes slice from raw ptr.
+#[tracing::instrument(level = "info", skip_all)]
 pub unsafe fn deserialize_from_ptr<W>(
     raw_allocated_ptr: *const u8,
     raw_allocated_ptr_len: i32,
@@ -136,6 +141,7 @@ where
 /// # Safety
 /// This is unsafe by construting bytes slice from raw ptr also deserialize
 /// it without slice bound check.
+#[tracing::instrument(level = "info", skip_all)]
 pub unsafe fn deserialize_from_ptr_into_fallible<W>(
     raw_allocated_ptr: *const u8,
     raw_allocated_ptr_len: i32,
