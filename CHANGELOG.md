@@ -10,6 +10,9 @@
 
 - **(es/fixer)** Wrap first `function` or `class` of a sequence expression (#5508) ([f27ed73](https://github.com/swc-project/swc/commit/f27ed73594110b27b3937a7f5211503f0f72f3f9))
 
+
+- **(html/minifier)** Apply `fixer` (#5514) ([1a4d755](https://github.com/swc-project/swc/commit/1a4d7553b8688e567d1a5a3b0f51a1f50eb3810a))
+
 ### Features
 
 
