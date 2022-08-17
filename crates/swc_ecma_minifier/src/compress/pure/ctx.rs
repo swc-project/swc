@@ -23,8 +23,6 @@ pub(super) struct Ctx {
     /// This is true for `expr` of [swc_ecma_ast::ExprStmt], `test` of
     /// [swc_ecma_ast::IfStmt], and more like that.
     pub in_first_expr: bool,
-
-    pub top_level: bool,
 }
 
 impl<'b> Pure<'b> {
