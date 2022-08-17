@@ -35,7 +35,7 @@ jobs:
           yarn build
 
       - name: Print binary size
-        run: ls -al ./target/release/libbinding*
+        run: ls -al ./bindings/target/release/libbinding*
 
   benchmark:
     name: Performance regression check
