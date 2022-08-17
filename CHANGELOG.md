@@ -5,10 +5,27 @@
 
 
 
+- **(css/prefixer)** Reduce duplicates (#5537) ([0985c15](https://github.com/swc-project/swc/commit/0985c1546b38a4072099e45af354c4534e0e23cb))
+
+## [1.2.238] - 2022-08-17
+
+### Bug Fixes
+
+
+
+- **(css/codegen)** Improve output of `@supports` (#5529) ([0f45822](https://github.com/swc-project/swc/commit/0f45822410809b1d05658057a1ce8d8b446ee28c))
+
+
 - **(css/prefixer)** Handle supports (#5503) ([dc98234](https://github.com/swc-project/swc/commit/dc98234fab255a411d56a363b7a9e1d0c7ff131d))
 
 
 - **(es/fixer)** Wrap first `function` or `class` of a sequence expression (#5508) ([f27ed73](https://github.com/swc-project/swc/commit/f27ed73594110b27b3937a7f5211503f0f72f3f9))
+
+
+- **(es/fixer)** Fix handling of `yield` and `await` (#5533) ([7394dee](https://github.com/swc-project/swc/commit/7394deef428e15bb9b03e0113e72b8b6b2ae07bc))
+
+
+- **(es/minifier)** Remove recklessly inline (#5528) ([5aa96e0](https://github.com/swc-project/swc/commit/5aa96e00d852a7a05a97be0ef625c5d798ef36da))
 
 
 - **(html/minifier)** Apply `fixer` (#5514) ([1a4d755](https://github.com/swc-project/swc/commit/1a4d7553b8688e567d1a5a3b0f51a1f50eb3810a))
@@ -21,6 +38,9 @@
 
 
 - **(css/prefixer)** Support more env properties and values (#5512) ([674c788](https://github.com/swc-project/swc/commit/674c788654714512000c64abf1a088e0f9f2820b))
+
+
+- **(es/plugin/runner)** Add more traces for the plugin host (#5538) ([d46418b](https://github.com/swc-project/swc/commit/d46418bb470761db48cd1a3e50578d4e1e82e577))
 
 
 - **(es/react)** Add `VisitMut` bound to the return type of react preset (#5499) ([14606d9](https://github.com/swc-project/swc/commit/14606d92225c67145d484f30902d798297a4ffe2))

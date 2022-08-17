@@ -2837,7 +2837,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.214.9"
+version = "0.214.10"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2964,7 +2964,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.11"
+version = "0.27.12"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3078,7 +3078,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.117.1"
+version = "0.117.2"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3157,7 +3157,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.117.2"
+version = "0.117.3"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -3319,7 +3319,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.144.7"
+version = "0.144.8"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3480,7 +3480,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.103.9"
+version = "0.103.10"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -4056,7 +4056,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.71.15"
+version = "0.71.16"
 dependencies = [
  "anyhow",
  "criterion",

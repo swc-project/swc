@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "./bindings"
+    }
+  ],
+  "settings": {
+    "git.ignoreLimitWarning": true,
+    "git.autoRepositoryDetection": false,
+    "git.ignoredRepositories": [
+      "crates/swc_ecma_parser/tests/test262-parser",
+      "crates/swc_html_parser/tests/html5lib-tests"
+    ],
+    "rust-analyzer.checkOnSave.command": "clippy",
+  }
+}
