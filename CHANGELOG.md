@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Testing
+
+
+
+- **(es/minifier)** Remove useless, slow tests (#5502) ([69ce1b2](https://github.com/swc-project/swc/commit/69ce1b24d5ed1e6699678363195e1c2f8d2c7eee))
+
+## [1.2.237] - 2022-08-17
+
 ### Bug Fixes
 
 
