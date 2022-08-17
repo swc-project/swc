@@ -7,6 +7,12 @@
 
 - **(es/plugin/runner)** Provide guest memory allocator for the sourcemap (#5517) ([3bdb39c](https://github.com/swc-project/swc/commit/3bdb39c0eea3c8c5473ff6034be7f7f44d9ba9e7))
 
+### Features
+
+
+
+- **(bindings)** Update `swc_core` (#5518) ([b37b640](https://github.com/swc-project/swc/commit/b37b64013354d621b47bddca6e3bf6294f29b11d))
+
 ## [1.2.235] - 2022-08-16
 
 ### Bug Fixes
