@@ -240,8 +240,6 @@ jobs:
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
-          - crate: swc_ecmascript
-            os: ubuntu-latest
           - crate: swc_eq_ignore_macros
             os: ubuntu-latest
           - crate: swc_error_reporters
