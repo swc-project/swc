@@ -66,18 +66,16 @@ impl EnsureSize {
             }
         }
 
+        let swc_total = results.iter().map(|f| f.swc.mangled_size).sum::<usize>();
+        let terser_total = results
+            .iter()
+            .flat_map(|f| f.terser.map(|v| v.mangled_size))
+            .sum::<usize>();
+
         println!("Total");
-        println!(
-            "  swc: {} bytes",
-            results.iter().map(|f| f.swc.mangled_size).sum::<usize>()
-        );
-        println!(
-            "  terser: {} bytes",
-            results
-                .iter()
-                .flat_map(|f| f.terser.map(|v| v.mangled_size))
-                .sum::<usize>()
-        );
+        println!("  swc: {} bytes", swc_total);
+
+        println!("  terser: {} bytes", terser_total);
 
         Ok(())
     }
