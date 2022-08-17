@@ -1,19 +1,13 @@
 # Changelog
 ## [unreleased]
 
-### Features
+### Bug Fixes
 
 
 
-- **(es/compat)** Fix syntax context of transpiled class methods (#5498) ([b9933b1](https://github.com/swc-project/swc/commit/b9933b159a208a0bccbb9bf7cd9383b6a9be0e51))
+- **(es/plugin/runner)** Provide guest memory allocator for the sourcemap (#5517) ([3bdb39c](https://github.com/swc-project/swc/commit/3bdb39c0eea3c8c5473ff6034be7f7f44d9ba9e7))
 
-### Refactor
-
-
-
-- **(bindings)** Merge cargo workspace (#5511) ([bbf9e2f](https://github.com/swc-project/swc/commit/bbf9e2f24363094819c7d0aa390122db85645f39))
-
-## [1.2.234] - 2022-08-16
+## [1.2.235] - 2022-08-16
 
 ### Bug Fixes
 
@@ -31,6 +25,9 @@
 - **(bindings)** Update `swc_core` (#5510) ([b9f88ff](https://github.com/swc-project/swc/commit/b9f88ff7203e0143de78f43ec0a4770907fa42da))
 
 
+- **(es/compat)** Fix syntax context of transpiled class methods (#5498) ([b9933b1](https://github.com/swc-project/swc/commit/b9933b159a208a0bccbb9bf7cd9383b6a9be0e51))
+
+
 - **(es/plugin)** Update `wasmer` to 3  (#5456) ([92f006c](https://github.com/swc-project/swc/commit/92f006c9a033bf4a49b48e842fd0668a96a13c61))
 
 
@@ -41,6 +38,9 @@
 
 
 - **(bindings)** Use separate workspace for bindings (#5506) ([496346a](https://github.com/swc-project/swc/commit/496346ac04483581c29444e205392c479e1f8c4b))
+
+
+- **(bindings)** Merge cargo workspace (#5511) ([bbf9e2f](https://github.com/swc-project/swc/commit/bbf9e2f24363094819c7d0aa390122db85645f39))
 
 ### Build
 
