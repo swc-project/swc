@@ -16,6 +16,9 @@
 
 - **(bindings)** Update `swc_core` (#5518) ([b37b640](https://github.com/swc-project/swc/commit/b37b64013354d621b47bddca6e3bf6294f29b11d))
 
+
+- **(bindings)** Bump `swc_core` (#5525) ([ac60c0a](https://github.com/swc-project/swc/commit/ac60c0a2a01009a29ab71e7805eb8ee2aad40b34))
+
 ## [1.2.235] - 2022-08-16
 
 ### Bug Fixes
