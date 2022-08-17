@@ -91,7 +91,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
         #[no_mangle]
         pub fn #transform_process_impl_ident(
             ast_ptr: *const u8, ast_ptr_len: i32,
-            unresolved_mark: u32, should_enable_comments_proxy: i32) -> i32 {
+            unresolved_mark: i32, should_enable_comments_proxy: i32) -> i32 {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
             let program = unsafe { swc_core::common::plugin::serialized::deserialize_from_ptr(ast_ptr, ast_ptr_len) };
@@ -121,7 +121,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let mut metadata = swc_core::plugin::metadata::TransformPluginProgramMetadata {
                 comments: plugin_comments_proxy,
                 source_map: swc_core::plugin::proxies::PluginSourceMapProxy { source_file: swc_core::common::sync::OnceCell::new() },
-                unresolved_mark: swc_core::common::Mark::from_u32(unresolved_mark),
+                unresolved_mark: swc_core::common::Mark::from_u32(unresolved_mark as u32),
             };
 
             // Take original plugin fn ident, then call it with interop'ed args
