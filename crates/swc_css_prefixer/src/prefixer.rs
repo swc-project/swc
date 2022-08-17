@@ -598,7 +598,6 @@ impl VisitMut for Prefixer {
         stylesheet.rules = new_rules;
     }
 
-    // TODO `@import` test
     // TODO `selector()` supports
     fn visit_mut_at_rule(&mut self, at_rule: &mut AtRule) {
         let original_simple_block = at_rule.block.clone();
@@ -693,6 +692,41 @@ impl VisitMut for Prefixer {
                 }
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_import_prelude(&mut self, import_prelude: &mut ImportPrelude) {
+        import_prelude.visit_mut_children_with(self);
+
+        if !self.added_declarations.is_empty() {
+            if let Some(ImportPreludeSupportsType::Declaration(declaration)) =
+                import_prelude.supports.take()
+            {
+                let span = declaration.span;
+                let mut conditions = Vec::with_capacity(1 + self.added_declarations.len());
+
+                conditions.push(SupportsConditionType::SupportsInParens(
+                    SupportsInParens::Feature(SupportsFeature::Declaration(declaration)),
+                ));
+
+                for n in take(&mut self.added_declarations) {
+                    let supports_condition_type = SupportsConditionType::Or(SupportsOr {
+                        span: DUMMY_SP,
+                        keyword: Ident {
+                            span: DUMMY_SP,
+                            value: js_word!("or"),
+                            raw: None,
+                        },
+                        condition: SupportsInParens::Feature(SupportsFeature::Declaration(n)),
+                    });
+
+                    conditions.push(supports_condition_type);
+                }
+
+                import_prelude.supports = Some(ImportPreludeSupportsType::SupportsCondition(
+                    SupportsCondition { span, conditions },
+                ));
+            }
         }
     }
 
