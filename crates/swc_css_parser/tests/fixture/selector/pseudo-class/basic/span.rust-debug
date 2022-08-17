@@ -892,7 +892,7 @@
    :                 ^^^^^^^^^^^^^^
    `----
 
-  x RelativeSelectorList
+  x ForgivingRelativeSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    :                 ^^^^^^^^^^^^^^
@@ -1030,7 +1030,7 @@
    :                                          ^^^^^^^^^^^^^^
    `----
 
-  x RelativeSelectorList
+  x ForgivingRelativeSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    :                                          ^^^^^^^^^^^^^^
@@ -1444,7 +1444,7 @@
     :      ^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
  13 | *:is(*) {}
     :      ^

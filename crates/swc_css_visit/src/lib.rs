@@ -343,6 +343,16 @@ define!({
         pub children: Vec<ComplexSelector>,
     }
 
+    pub struct ForgivingSelectorList {
+        pub span: Span,
+        pub children: Vec<ForgivingComplexSelector>,
+    }
+
+    pub enum ForgivingComplexSelector {
+        ComplexSelector(ComplexSelector),
+        ListOfComponentValues(ListOfComponentValues),
+    }
+
     pub struct CompoundSelectorList {
         pub span: Span,
         pub children: Vec<CompoundSelector>,
@@ -351,6 +361,16 @@ define!({
     pub struct RelativeSelectorList {
         pub span: Span,
         pub children: Vec<RelativeSelector>,
+    }
+
+    pub struct ForgivingRelativeSelectorList {
+        pub span: Span,
+        pub children: Vec<ForgivingRelativeSelector>,
+    }
+
+    pub enum ForgivingRelativeSelector {
+        RelativeSelector(RelativeSelector),
+        ListOfComponentValues(ListOfComponentValues),
     }
 
     pub struct ComplexSelector {
@@ -455,8 +475,10 @@ define!({
         Str(Str),
         Delimiter(Delimiter),
         SelectorList(SelectorList),
+        ForgivingSelectorList(ForgivingSelectorList),
         CompoundSelectorList(CompoundSelectorList),
         RelativeSelectorList(RelativeSelectorList),
+        ForgivingRelativeSelectorList(ForgivingRelativeSelectorList),
         CompoundSelector(CompoundSelector),
     }
 

@@ -3632,7 +3632,7 @@
                                     },
                                     "children": [
                                       {
-                                        "type": "RelativeSelectorList",
+                                        "type": "ForgivingRelativeSelectorList",
                                         "span": {
                                           "start": 489,
                                           "end": 511,
@@ -4082,7 +4082,7 @@
                     },
                     "children": [
                       {
-                        "type": "RelativeSelectorList",
+                        "type": "ForgivingRelativeSelectorList",
                         "span": {
                           "start": 529,
                           "end": 557,

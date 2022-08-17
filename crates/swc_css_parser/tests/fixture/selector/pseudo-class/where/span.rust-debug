@@ -80,7 +80,7 @@
    :        ^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1]
  1 | :where(ul) li {}
    :        ^^
@@ -218,7 +218,7 @@
    :        ^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1]
  2 | :where(ul, ol) li {}
    :        ^^^^^^
@@ -392,7 +392,7 @@
    :        ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1]
  3 | :where(header, main, footer) p:hover {}
    :        ^^^^^^^^^^^^^^^^^^^^
@@ -644,7 +644,7 @@
    :           ^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1]
  4 | div:where(.cool, .fun) {}
    :           ^^^^^^^^^^^
@@ -770,7 +770,7 @@
    :        ^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1]
  5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
    :        ^^^^^^^^^^^^^^^^^
@@ -956,7 +956,7 @@
    :                                  ^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1]
  5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
    :                                  ^^^^^^^^^^^^^^^^^
@@ -1142,7 +1142,7 @@
    :                                                            ^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1]
  5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
    :                                                            ^^^^^^^^^^^^^
@@ -1340,7 +1340,7 @@
    :           ^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1]
  6 | *|*:where(:hover, :focus) {}
    :           ^^^^^^^^^^^^^^
@@ -1490,7 +1490,7 @@
    :           ^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1]
  7 | *|*:where(*:hover, *:focus) {}
    :           ^^^^^^^^^^^^^^^^
@@ -1640,7 +1640,7 @@
    :        ^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1]
  8 | :where(ul, ol, .lwheret) > [hidden] {}
    :        ^^^^^^^^^^^^^^^^
@@ -1844,7 +1844,7 @@
    :        ^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1]
  9 | :where(p, p:unsupported) {}
    :        ^^^^^^^^^^^^^^^^
@@ -2000,7 +2000,7 @@
     :        ^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1]
  10 | :where(:valid, :unsupported) {}
     :        ^^^^^^^^^^^^^^^^^^^^
@@ -2150,7 +2150,7 @@
     :         ^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1]
  11 | a:where(:not(:hover)) {}
     :         ^^^^^^^^^^^^
@@ -2288,7 +2288,7 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1]
  12 | :where(:nth-child(6), :nth-child(6) #id){}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2480,7 +2480,7 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1]
  13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2672,7 +2672,7 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1]
  14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2996,7 +2996,7 @@
  19 | `->        :nth-last-of-type(9)   #e) {}
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:1]
  15 | ,-> :where(:nth-last-of-type(9)   #a,
  16 | |          :nth-last-of-type(9 )  #b,
@@ -3471,7 +3471,7 @@
  23 | `->        :nth-last-of-type(6)) {}
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1]
  20 | ,-> :where(:nth-child(6),
  21 | |          :nth-last-child(6),

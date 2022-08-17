@@ -987,7 +987,7 @@
     :          ^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:10:1]
  10 | :not(:is(argument)) {}
     :          ^^^^^^^^
@@ -2811,7 +2811,7 @@
     :         ^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:22:1]
  22 | a:where(:not(:hover)) {}
     :         ^^^^^^^^^^^^
@@ -3015,7 +3015,7 @@
     :                  ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x RelativeSelectorList
+  x ForgivingRelativeSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:23:1]
  23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
     :                  ^^^^^^^^^^^^^^^^^^^^^^
@@ -3357,7 +3357,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x RelativeSelectorList
+  x ForgivingRelativeSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:24:1]
  24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

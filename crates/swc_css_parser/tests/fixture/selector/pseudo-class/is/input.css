@@ -16,3 +16,14 @@ a:is(:not(:hover)) {}
     :nth-last-child(6),
     :nth-of-type(6),
     :nth-last-of-type(6)) {}
+:-webkit-any(header, main, footer) p:hover {}
+:-moz-any(header, main, footer) p:hover {}
+:matches(header, main, footer) p:hover {}
+:is(header, main, footer) p:hover {}
+
+/* Forgiving */
+:is(a >< b, a > b, d > c) {}
+:is(   a >< b, a > b, d > c) {}
+:is(a > b, d > c, a >< b) {}
+:is(a > b, d > c, a >< b   ) {}
+:is(a > b,   a >< b   ,  d > c) {}

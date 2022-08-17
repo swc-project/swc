@@ -1069,7 +1069,7 @@
                     },
                     "children": [
                       {
-                        "type": "RelativeSelectorList",
+                        "type": "ForgivingRelativeSelectorList",
                         "span": {
                           "start": 170,
                           "end": 184,
@@ -1214,7 +1214,7 @@
                                     },
                                     "children": [
                                       {
-                                        "type": "RelativeSelectorList",
+                                        "type": "ForgivingRelativeSelectorList",
                                         "span": {
                                           "start": 195,
                                           "end": 209,

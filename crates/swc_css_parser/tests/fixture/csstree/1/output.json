@@ -1395,7 +1395,7 @@
                     },
                     "children": [
                       {
-                        "type": "RelativeSelectorList",
+                        "type": "ForgivingRelativeSelectorList",
                         "span": {
                           "start": 345,
                           "end": 350,
