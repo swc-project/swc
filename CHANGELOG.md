@@ -11,6 +11,9 @@
 - **(es/fixer)** Wrap first `function` or `class` of a sequence expression (#5508) ([f27ed73](https://github.com/swc-project/swc/commit/f27ed73594110b27b3937a7f5211503f0f72f3f9))
 
 
+- **(es/fixer)** Fix handling of `yield` and `await` (#5533) ([7394dee](https://github.com/swc-project/swc/commit/7394deef428e15bb9b03e0113e72b8b6b2ae07bc))
+
+
 - **(es/minifier)** Remove recklessly inline (#5528) ([5aa96e0](https://github.com/swc-project/swc/commit/5aa96e00d852a7a05a97be0ef625c5d798ef36da))
 
 
