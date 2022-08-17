@@ -5,16 +5,18 @@ use swc_common::plugin::{
     metadata::{TransformPluginMetadataContext, TransformPluginMetadataContextKind},
     serialized::PluginSerializedBytes,
 };
-use wasmer::{AsStoreMut, FunctionEnvMut, Memory, TypedFunction};
+use wasmer::{LazyInit, Memory, NativeFunc};
 
 use crate::memory_interop::{allocate_return_values_into_guest, copy_bytes_into_host};
 
-#[derive(Clone)]
+#[derive(wasmer::WasmerEnv, Clone)]
 pub struct MetadataContextHostEnvironment {
-    pub memory: Option<Memory>,
+    #[wasmer(export)]
+    pub memory: wasmer::LazyInit<Memory>,
     /// Attached imported fn `__alloc` to the hostenvironment to allow any other
     /// imported fn can allocate guest's memory space from host runtime.
-    pub alloc_guest_memory: Option<TypedFunction<i32, i32>>,
+    #[wasmer(export(name = "__alloc"))]
+    pub alloc_guest_memory: LazyInit<NativeFunc<u32, i32>>,
     pub metadata_context: Arc<TransformPluginMetadataContext>,
     pub transform_plugin_config: Option<serde_json::Value>,
     /// A buffer to string key to the context plugin need to pass to the host.
@@ -28,8 +30,8 @@ impl MetadataContextHostEnvironment {
         mutable_context_key_buffer: &Arc<Mutex<Vec<u8>>>,
     ) -> Self {
         MetadataContextHostEnvironment {
-            memory: None,
-            alloc_guest_memory: None,
+            memory: LazyInit::default(),
+            alloc_guest_memory: LazyInit::default(),
             metadata_context: metadata_context.clone(),
             transform_plugin_config: plugin_config.clone(),
             mutable_context_key_buffer: mutable_context_key_buffer.clone(),
@@ -41,24 +43,24 @@ impl MetadataContextHostEnvironment {
 /// in the host can read it.
 #[tracing::instrument(level = "info", skip_all)]
 pub fn copy_context_key_to_host_env(
-    mut env: FunctionEnvMut<MetadataContextHostEnvironment>,
+    env: &MetadataContextHostEnvironment,
     bytes_ptr: i32,
     bytes_ptr_len: i32,
 ) {
-    if let Some(memory) = env.data().memory.as_ref() {
-        (*env.data_mut().mutable_context_key_buffer.lock()) =
-            copy_bytes_into_host(&memory.view(&env), bytes_ptr, bytes_ptr_len);
+    if let Some(memory) = env.memory_ref() {
+        (*env.mutable_context_key_buffer.lock()) =
+            copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
     }
 }
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn get_transform_plugin_config(
-    mut env: FunctionEnvMut<MetadataContextHostEnvironment>,
+    env: &MetadataContextHostEnvironment,
     allocated_ret_ptr: i32,
 ) -> i32 {
-    if let Some(memory) = env.data().memory.clone().as_ref() {
-        if let Some(alloc_guest_memory) = env.data().alloc_guest_memory.clone().as_ref() {
-            let config_value = &env.data().transform_plugin_config;
+    if let Some(memory) = env.memory_ref() {
+        if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
+            let config_value = &env.transform_plugin_config;
             if let Some(config_value) = config_value {
                 // Lazy as possible as we can - only deserialize json value if transform plugin
                 // actually needs it.
@@ -69,7 +71,6 @@ pub fn get_transform_plugin_config(
 
                     allocate_return_values_into_guest(
                         memory,
-                        &mut env.as_store_mut(),
                         alloc_guest_memory,
                         allocated_ret_ptr,
                         &serialized,
@@ -85,17 +86,13 @@ pub fn get_transform_plugin_config(
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn get_transform_context(
-    mut env: FunctionEnvMut<MetadataContextHostEnvironment>,
+    env: &MetadataContextHostEnvironment,
     key: u32,
     allocated_ret_ptr: i32,
 ) -> i32 {
-    let memory = env.data().memory.clone();
-    let __alloc = env.data().alloc_guest_memory.clone();
-
-    if let Some(memory) = memory.as_ref() {
-        if let Some(alloc_guest_memory) = __alloc.as_ref() {
+    if let Some(memory) = env.memory_ref() {
+        if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
             let value = env
-                .data()
                 .metadata_context
                 .get(&TransformPluginMetadataContextKind::from(key));
 
@@ -105,7 +102,6 @@ pub fn get_transform_context(
 
                 allocate_return_values_into_guest(
                     memory,
-                    &mut env.as_store_mut(),
                     alloc_guest_memory,
                     allocated_ret_ptr,
                     &serialized,
@@ -120,18 +116,17 @@ pub fn get_transform_context(
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn get_experimental_transform_context(
-    mut env: FunctionEnvMut<MetadataContextHostEnvironment>,
+    env: &MetadataContextHostEnvironment,
     allocated_ret_ptr: i32,
 ) -> i32 {
-    if let Some(memory) = env.data().memory.clone().as_ref() {
-        if let Some(alloc_guest_memory) = env.data().alloc_guest_memory.clone().as_ref() {
-            let context_key_buffer = env.data().mutable_context_key_buffer.lock().clone();
+    if let Some(memory) = env.memory_ref() {
+        if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
+            let context_key_buffer = &*env.mutable_context_key_buffer.lock();
             let key: String = PluginSerializedBytes::from_slice(&context_key_buffer[..])
                 .deserialize()
                 .expect("Should able to deserialize");
 
             let value = env
-                .data()
                 .metadata_context
                 .experimental
                 .get(&key)
@@ -143,7 +138,6 @@ pub fn get_experimental_transform_context(
 
                 allocate_return_values_into_guest(
                     memory,
-                    &mut env.as_store_mut(),
                     alloc_guest_memory,
                     allocated_ret_ptr,
                     &serialized,
@@ -158,18 +152,17 @@ pub fn get_experimental_transform_context(
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn get_raw_experiemtal_transform_context(
-    mut env: FunctionEnvMut<MetadataContextHostEnvironment>,
+    env: &MetadataContextHostEnvironment,
     allocated_ret_ptr: i32,
 ) -> i32 {
-    if let Some(memory) = env.data().memory.clone().as_ref() {
-        let experimental_context = env.data().metadata_context.experimental.clone();
+    if let Some(memory) = env.memory_ref() {
+        let experimental_context = &env.metadata_context.experimental;
         let serialized_experimental_context_bytes =
-            PluginSerializedBytes::try_serialize(&experimental_context)
+            PluginSerializedBytes::try_serialize(experimental_context)
                 .expect("Should be serializable");
-        if let Some(alloc_guest_memory) = env.data().alloc_guest_memory.clone().as_ref() {
+        if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
             allocate_return_values_into_guest(
                 memory,
-                &mut env.as_store_mut(),
                 alloc_guest_memory,
                 allocated_ret_ptr,
                 &serialized_experimental_context_bytes,
