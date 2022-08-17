@@ -168,3 +168,10 @@ body>h2:not(:first-of-type):not(:last-of-type){color:blue}
 h1,h2,h3,h4,h5,h6,h5,h1,h2,h3{color:blue}
 .class,.class,.class{color:blue}
 div.class,div.class,.class{color:blue}
+
+a:is(a > b) {color:red}
+a:is(a > b, a > b) {color:red}
+a:is(a > b, form > label, a > b) {color:red}
+
+a:has(> a) {color:red}
+a:has(> a, > a) {color:red}

@@ -33,6 +33,71 @@ impl VisitMut for CompressSelector {
         });
     }
 
+    fn visit_mut_forgiving_selector_list(
+        &mut self,
+        forgiving_selector_list: &mut ForgivingSelectorList,
+    ) {
+        forgiving_selector_list.visit_mut_children_with(self);
+
+        let mut already_seen: Vec<ForgivingComplexSelector> = vec![];
+
+        forgiving_selector_list.children.retain(|children| {
+            for already_seen_complex_selector in &already_seen {
+                if already_seen_complex_selector.eq_ignore_span(children) {
+                    return false;
+                }
+            }
+
+            already_seen.push(children.clone());
+
+            true
+        });
+    }
+
+    fn visit_mut_relative_selector_list(
+        &mut self,
+        relative_selector_list: &mut RelativeSelectorList,
+    ) {
+        relative_selector_list.visit_mut_children_with(self);
+
+        let mut already_seen: Vec<RelativeSelector> = vec![];
+
+        relative_selector_list.children.retain(|children| {
+            for already_seen_complex_selector in &already_seen {
+                if already_seen_complex_selector.eq_ignore_span(children) {
+                    return false;
+                }
+            }
+
+            already_seen.push(children.clone());
+
+            true
+        });
+    }
+
+    fn visit_mut_forgiving_relative_selector_list(
+        &mut self,
+        forgiving_relative_selector_list: &mut ForgivingRelativeSelectorList,
+    ) {
+        forgiving_relative_selector_list.visit_mut_children_with(self);
+
+        let mut already_seen: Vec<ForgivingRelativeSelector> = vec![];
+
+        forgiving_relative_selector_list
+            .children
+            .retain(|children| {
+                for already_seen_complex_selector in &already_seen {
+                    if already_seen_complex_selector.eq_ignore_span(children) {
+                        return false;
+                    }
+                }
+
+                already_seen.push(children.clone());
+
+                true
+            });
+    }
+
     fn visit_mut_an_plus_b(&mut self, an_plus_b: &mut AnPlusB) {
         an_plus_b.visit_mut_children_with(self);
 
