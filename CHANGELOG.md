@@ -5,6 +5,9 @@
 
 
 
+- **(css/codegen)** Improve output of `@supports` (#5529) ([0f45822](https://github.com/swc-project/swc/commit/0f45822410809b1d05658057a1ce8d8b446ee28c))
+
+
 - **(css/prefixer)** Handle supports (#5503) ([dc98234](https://github.com/swc-project/swc/commit/dc98234fab255a411d56a363b7a9e1d0c7ff131d))
 
 
