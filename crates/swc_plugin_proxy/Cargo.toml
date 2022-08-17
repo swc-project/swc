@@ -5,7 +5,7 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "swc_plugin_proxy"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.18.12"
+version     = "0.18.13"
 
 [lib]
 bench = false
@@ -23,6 +23,6 @@ rkyv = "=0.7.37"
 swc_common = { version = "0.27.7", path = "../swc_common", features = [
   "plugin-base",
 ] }
-swc_ecma_ast = { version = "0.90.7", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "0.90.10", path = "../swc_ecma_ast" }
 swc_trace_macro = { version = "0.1.2", path = "../swc_trace_macro" }
 tracing = "0.1.32"
