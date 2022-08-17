@@ -1,30 +1,30 @@
 [package]
-authors       = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
-description   = "TBD"
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
+description = "TBD"
 documentation = "https://rustdoc.swc.rs/swc_core/"
-edition       = "2021"
-license       = "Apache-2.0"
-name          = "swc_core"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "0.7.20"
-  [package.metadata.docs.rs]
-  features = [
-    "common_perf",
-    "allocator_node",
-    "base",
-    "base_node",
-    "common",
-    "visit",
-    "quote",
-    "utils",
-    "transforms",
-    "bundler",
-    "loader",
-    "ast",
-    "trace_macro",
-    "plugin_transform",
-  ]
-  rustdoc-args = ["--cfg", "docsrs"]
+edition = "2021"
+license = "Apache-2.0"
+name = "swc_core"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.7.20"
+[package.metadata.docs.rs]
+features = [
+  "common_perf",
+  "allocator_node",
+  "base",
+  "base_node",
+  "common",
+  "visit",
+  "quote",
+  "utils",
+  "transforms",
+  "bundler",
+  "loader",
+  "ast",
+  "trace_macro",
+  "plugin_transform",
+]
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 doctest = false
@@ -47,16 +47,15 @@ allocator_node = ["swc_node_base"]
 ## General
 # Enable swc reexports. To avoid confusion between swc_core namespace,
 # it is named as 'base' instead.
-base            = ["__base"]
+base = ["__base"]
 base_concurrent = ["__base", "swc/concurrent"]
 # Enables n-api related features.
 base_node = [
   "__base",
-  "swc/node",
-  # Assume if anyone enables n-api related codes, they may would like to use
-  # some utility functions as well.
+  "swc/node", # Assume if anyone enables n-api related codes, they may would like to use  # some utility functions as well.
   "swc_nodejs_common",
 ]
+base_v2 = ["base", "swc/swc_v2"]
 
 # Enable swc_common reexports.
 #
@@ -78,7 +77,7 @@ visit = ["swc_ecma_visit"]
 quote = [
   # Dependent features
   "__common",
-  "ast",                   # Enable optional package
+  "ast", # Enable optional package
   "swc_ecma_quote_macros",
 ]
 
@@ -89,7 +88,7 @@ utils = ["__utils", "__common"]
 transforms = ["__transforms", "__testing_transform"]
 
 # Enable swc_bundler
-bundler         = ["__bundler"]
+bundler = ["__bundler"]
 bundler_node_v1 = ["__bundler", "swc_node_bundler/swc_v1"]
 bundler_node_v2 = ["__bundler", "swc_node_bundler/swc_v2"]
 
@@ -109,7 +108,7 @@ ast = ["swc_ecma_ast", "swc_atoms"]
 trace_macro = ["swc_trace_macro"]
 
 binding_macro_native = ["__binding_macros", "binding_macros/binding_native"]
-binding_macro_wasm   = ["__binding_macros", "binding_macros/binding_wasm"]
+binding_macro_wasm = ["__binding_macros", "binding_macros/binding_wasm"]
 
 ## Plugins
 # Top level features should be enabled to write plugins for the custom transform.
@@ -146,7 +145,7 @@ plugin_transform_host_native = [
 # swc_core.
 __plugin_transform_host_schema_v1 = [
   # Dependent features
-  "__plugin_transform_schema_v1",                 # Enable optional features
+  "__plugin_transform_schema_v1", # Enable optional features
   "swc/plugin_transform_schema_v1",
   "swc_plugin_runner/plugin_transform_schema_v1",
 ]
@@ -155,7 +154,7 @@ __plugin_transform_schema_v1 = ["swc_common/plugin_transform_schema_v1"]
 # Do not use: testing purpose only
 __plugin_transform_host_schema_vtest = [
   # Dependent features
-  "__plugin_transform_schema_vtest",                 # Enable optional features
+  "__plugin_transform_schema_vtest", # Enable optional features
   "swc/plugin_transform_schema_vtest",
   "swc_plugin_runner/plugin_transform_schema_vtest",
 ]
@@ -167,7 +166,7 @@ __plugin_transform = [
   # Dependent features
   "visit",
   "__common",
-  "ast",                          # Enable optional packages
+  "ast", # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
   "swc_atoms/rkyv-impl",
   "swc_common/plugin-mode",
@@ -180,11 +179,10 @@ __plugin_transform = [
 # Internal flags for any transform plugin host feature
 __plugin_transform_host = [
   # Dependent features
-  "__common",               # Enable optional packages
+  "__common", # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
   "swc_atoms/rkyv-impl",
-  "swc_common/plugin-rt",
-  # TODO: we may simply flag around downlevel plugin feature
+  "swc_common/plugin-rt", # TODO: we may simply flag around downlevel plugin feature
   "swc_plugin_proxy/plugin-rt",
   "swc/plugin",
 ]
@@ -209,43 +207,43 @@ __plugin_transform_schema_test = [
 ]
 
 ## Common
-__base              = ["swc"]
-__binding_macros    = ["common", "__base", "__transforms", "ast", "binding_macros"]
-__bundler           = ["swc_bundler"]
-__common            = ["swc_common"]
+__base = ["swc"]
+__binding_macros = ["common", "__base", "__transforms", "ast", "binding_macros"]
+__bundler = ["swc_bundler"]
+__common = ["swc_common"]
 __testing_transform = ["swc_ecma_transforms_testing"]
-__transforms        = ["swc_ecma_transforms"]
-__utils             = ["swc_ecma_utils"]
+__transforms = ["swc_ecma_transforms"]
+__utils = ["swc_ecma_utils"]
 
 [dependencies]
 # 3rd party dependencies
-once_cell   = { optional = true, version = "1.13.0" }
-wasmer      = { optional = true, version = "2.3.0", default-features = false }
-wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
+once_cell = {optional = true, version = "1.13.0"}
+wasmer = {optional = true, version = "2.3.0", default-features = false}
+wasmer-wasi = {optional = true, version = "2.3.0", default-features = false}
 
 # swc_* dependencies
-binding_macros              = { optional = true, version = "0.2.4", path = "../binding_macros" }
-swc                         = { optional = true, version = "0.214.9", path = "../swc" }
-swc_atoms                   = { optional = true, version = "0.4.8", path = "../swc_atoms" }
-swc_bundler                 = { optional = true, version = "0.177.4", path = "../swc_bundler" }
-swc_common                  = { optional = true, version = "0.27.11", path = "../swc_common" }
-swc_ecma_ast                = { optional = true, version = "0.90.10", path = "../swc_ecma_ast" }
-swc_ecma_loader             = { optional = true, version = "0.39.4", path = "../swc_ecma_loader" }
-swc_ecma_parser             = { optional = true, version = "0.117.5", path = "../swc_ecma_parser" }
-swc_ecma_quote_macros       = { optional = true, version = "0.28.5", path = "../swc_ecma_quote_macros" }
-swc_ecma_transforms         = { optional = true, version = "0.183.4", path = "../swc_ecma_transforms" }
-swc_ecma_transforms_testing = { optional = true, version = "0.105.5", path = "../swc_ecma_transforms_testing" }
-swc_ecma_utils              = { optional = true, version = "0.99.5", path = "../swc_ecma_utils" }
-swc_ecma_visit              = { optional = true, version = "0.76.6", path = "../swc_ecma_visit" }
-swc_node_base               = { optional = true, version = "0.5.5", path = "../swc_node_base" }
-swc_node_bundler            = { optional = true, version = "0.0.3", path = "../swc_node_bundler" }
-swc_nodejs_common           = { optional = true, version = "0.0.1", path = "../swc_nodejs_common" }
-swc_plugin                  = { optional = true, version = "0.89.1", path = "../swc_plugin" }
-swc_plugin_macro            = { optional = true, version = "0.9.7", path = "../swc_plugin_macro" }
-swc_plugin_proxy            = { optional = true, version = "0.18.13", path = "../swc_plugin_proxy" }
-swc_trace_macro             = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
+binding_macros = {optional = true, version = "0.2.4", path = "../binding_macros"}
+swc = {optional = true, version = "0.214.9", path = "../swc"}
+swc_atoms = {optional = true, version = "0.4.8", path = "../swc_atoms"}
+swc_bundler = {optional = true, version = "0.177.4", path = "../swc_bundler"}
+swc_common = {optional = true, version = "0.27.11", path = "../swc_common"}
+swc_ecma_ast = {optional = true, version = "0.90.10", path = "../swc_ecma_ast"}
+swc_ecma_loader = {optional = true, version = "0.39.4", path = "../swc_ecma_loader"}
+swc_ecma_parser = {optional = true, version = "0.117.5", path = "../swc_ecma_parser"}
+swc_ecma_quote_macros = {optional = true, version = "0.28.5", path = "../swc_ecma_quote_macros"}
+swc_ecma_transforms = {optional = true, version = "0.183.4", path = "../swc_ecma_transforms"}
+swc_ecma_transforms_testing = {optional = true, version = "0.105.5", path = "../swc_ecma_transforms_testing"}
+swc_ecma_utils = {optional = true, version = "0.99.5", path = "../swc_ecma_utils"}
+swc_ecma_visit = {optional = true, version = "0.76.6", path = "../swc_ecma_visit"}
+swc_node_base = {optional = true, version = "0.5.5", path = "../swc_node_base"}
+swc_node_bundler = {optional = true, version = "0.0.3", path = "../swc_node_bundler"}
+swc_nodejs_common = {optional = true, version = "0.0.1", path = "../swc_nodejs_common"}
+swc_plugin = {optional = true, version = "0.89.1", path = "../swc_plugin"}
+swc_plugin_macro = {optional = true, version = "0.9.7", path = "../swc_plugin_macro"}
+swc_plugin_proxy = {optional = true, version = "0.18.13", path = "../swc_plugin_proxy"}
+swc_trace_macro = {optional = true, version = "0.1.2", path = "../swc_trace_macro"}
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_plugin_runner = { optional = true, version = "0.71.15", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = {optional = true, version = "0.71.15", path = "../swc_plugin_runner", default-features = false}
 
 [dev-dependencies]
-testing = { version = "0.29.4", path = "../testing" }
+testing = {version = "0.29.4", path = "../testing"}
