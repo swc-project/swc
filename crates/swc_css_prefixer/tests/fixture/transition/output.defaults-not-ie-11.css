@@ -34,7 +34,7 @@ button::-moz-submit-invalid {
   transform: translateX(45px);
   transition: opacity 0.5s 2s, transform 0.5s 0.5s;
 }
-@supports ((transition: opacity 0.5s 2s, transform 0.5s 0.5s) or (transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s) or (transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s) or (transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s)) {
+@supports (transition: opacity 0.5s 2s, transform 0.5s 0.5s) {
   button::-moz-submit-invalid {
     opacity: 1;
     transform: translateX(45px);
