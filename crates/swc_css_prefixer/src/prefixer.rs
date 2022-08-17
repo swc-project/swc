@@ -3,6 +3,7 @@ use std::mem::take;
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
+use swc_atoms::js_word;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     EqIgnoreSpan, DUMMY_SP,
@@ -548,6 +549,7 @@ pub enum Prefix {
 struct Prefixer {
     env: Versions,
     in_keyframe_block: bool,
+    supports_condition: Option<SupportsCondition>,
     simple_block: Option<SimpleBlock>,
     rule_prefix: Option<Prefix>,
     added_top_rules: Vec<(Prefix, Rule)>,
@@ -601,7 +603,8 @@ impl VisitMut for Prefixer {
         stylesheet.rules = new_rules;
     }
 
-    // TODO handle declarations in `@media`/`@support`
+    // TODO `@import` test
+    // TODO `selector()` supports
     fn visit_mut_at_rule(&mut self, at_rule: &mut AtRule) {
         let original_simple_block = at_rule.block.clone();
 
@@ -695,6 +698,67 @@ impl VisitMut for Prefixer {
                 }
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_supports_condition(&mut self, supports_condition: &mut SupportsCondition) {
+        let old_supports_condition = self.supports_condition.take();
+
+        self.supports_condition = Some(supports_condition.clone());
+
+        supports_condition.visit_mut_children_with(self);
+
+        self.supports_condition = old_supports_condition;
+    }
+
+    fn visit_mut_supports_in_parens(&mut self, supports_in_parens: &mut SupportsInParens) {
+        supports_in_parens.visit_mut_children_with(self);
+
+        if let Some(supports_condition) = &self.supports_condition {
+            match supports_in_parens {
+                SupportsInParens::Feature(_) if !self.added_declarations.is_empty() => {
+                    let mut conditions = Vec::with_capacity(1 + self.added_declarations.len());
+
+                    conditions.push(swc_css_ast::SupportsConditionType::SupportsInParens(
+                        supports_in_parens.clone(),
+                    ));
+
+                    for n in take(&mut self.added_declarations) {
+                        let supports_condition_type = SupportsConditionType::Or(SupportsOr {
+                            span: DUMMY_SP,
+                            keyword: Ident {
+                                span: DUMMY_SP,
+                                value: js_word!("or"),
+                                raw: None,
+                            },
+                            condition: SupportsInParens::Feature(SupportsFeature::Declaration(n)),
+                        });
+
+                        let need_skip =
+                            supports_condition
+                                .conditions
+                                .iter()
+                                .any(|existing_condition_type| {
+                                    supports_condition_type.eq_ignore_span(existing_condition_type)
+                                });
+
+                        if need_skip {
+                            continue;
+                        }
+
+                        conditions.push(supports_condition_type);
+                    }
+
+                    if conditions.len() > 1 {
+                        *supports_in_parens =
+                            SupportsInParens::SupportsCondition(SupportsCondition {
+                                span: DUMMY_SP,
+                                conditions,
+                            });
+                    }
+                }
+                _ => {}
+            }
         }
     }
 
@@ -1020,7 +1084,7 @@ impl VisitMut for Prefixer {
 
         self.simple_block = Some(simple_block.clone());
 
-        let mut new = vec![];
+        let mut new = Vec::with_capacity(simple_block.value.len());
 
         for mut n in take(&mut simple_block.value) {
             n.visit_mut_children_with(self);
@@ -1116,10 +1180,6 @@ impl VisitMut for Prefixer {
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
-
-        if self.simple_block.is_none() {
-            return;
-        }
 
         if n.value.is_empty() {
             return;
@@ -1285,22 +1345,27 @@ impl VisitMut for Prefixer {
         let mut ms_value = n.value.clone();
 
         let declarations = Lazy::new(|| {
-            let simple_block = self.simple_block.as_ref().unwrap();
-            let mut declarations = Vec::with_capacity(simple_block.value.len());
+            if let Some(simple_block) = &self.simple_block {
+                let mut declarations = Vec::with_capacity(simple_block.value.len());
 
-            for n in simple_block.value.iter() {
-                match n {
-                    ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
-                        declaration,
-                    )) => declarations.push(declaration),
-                    ComponentValue::StyleBlock(StyleBlock::Declaration(declaration)) => {
-                        declarations.push(declaration)
+                for n in simple_block.value.iter() {
+                    match n {
+                        ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
+                            declaration,
+                        )) => {
+                            declarations.push(declaration);
+                        }
+                        ComponentValue::StyleBlock(StyleBlock::Declaration(declaration)) => {
+                            declarations.push(declaration);
+                        }
+                        _ => {}
                     }
-                    _ => {}
                 }
-            }
 
-            declarations
+                declarations
+            } else {
+                vec![]
+            }
         });
 
         let properties = Lazy::new(|| {

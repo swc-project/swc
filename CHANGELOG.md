@@ -5,13 +5,116 @@
 
 
 
+- **(css/prefixer)** Handle supports (#5503) ([dc98234](https://github.com/swc-project/swc/commit/dc98234fab255a411d56a363b7a9e1d0c7ff131d))
+
+
+- **(es/fixer)** Wrap first `function` or `class` of a sequence expression (#5508) ([f27ed73](https://github.com/swc-project/swc/commit/f27ed73594110b27b3937a7f5211503f0f72f3f9))
+
+### Features
+
+
+
+- **(api/rust)** Implement more traits for public types (#5488) ([75c8e09](https://github.com/swc-project/swc/commit/75c8e09d6d412e1012a921d9f3932d6f253781e6))
+
+
+- **(es/react)** Add `VisitMut` bound to the return type of react preset (#5499) ([14606d9](https://github.com/swc-project/swc/commit/14606d92225c67145d484f30902d798297a4ffe2))
+
+### Testing
+
+
+
+- **(es/minifier)** Remove useless, slow tests (#5502) ([69ce1b2](https://github.com/swc-project/swc/commit/69ce1b24d5ed1e6699678363195e1c2f8d2c7eee))
+
+## [1.2.237] - 2022-08-17
+
+### Bug Fixes
+
+
+
+- **(es/plugin/runner)** Provide guest memory allocator for the sourcemap (#5517) ([3bdb39c](https://github.com/swc-project/swc/commit/3bdb39c0eea3c8c5473ff6034be7f7f44d9ba9e7))
+
+
+- **(es/plugin/runner)** Revert wasmer@3 (#5521) ([4a9b1dd](https://github.com/swc-project/swc/commit/4a9b1dde1aaf84e233a9d1a59a1de539706e652b))
+
+### Features
+
+
+
+- **(bindings)** Update `swc_core` (#5518) ([b37b640](https://github.com/swc-project/swc/commit/b37b64013354d621b47bddca6e3bf6294f29b11d))
+
+
+- **(bindings)** Bump `swc_core` (#5525) ([ac60c0a](https://github.com/swc-project/swc/commit/ac60c0a2a01009a29ab71e7805eb8ee2aad40b34))
+
+## [1.2.235] - 2022-08-16
+
+### Bug Fixes
+
+
+
+- **(plugin/proxy)** Fix a compilation attribute (#5495) ([ca82f64](https://github.com/swc-project/swc/commit/ca82f64b0e4a550be86bd36d61b3e358b14a720a))
+
+
+- **(swc_core)** Revert crate version metadata patch (#5501) ([ef1f259](https://github.com/swc-project/swc/commit/ef1f259a93495128947e2010998b0f879e59a538))
+
+### Features
+
+
+
+- **(bindings)** Update `swc_core` (#5510) ([b9f88ff](https://github.com/swc-project/swc/commit/b9f88ff7203e0143de78f43ec0a4770907fa42da))
+
+
+- **(es/compat)** Fix syntax context of transpiled class methods (#5498) ([b9933b1](https://github.com/swc-project/swc/commit/b9933b159a208a0bccbb9bf7cd9383b6a9be0e51))
+
+
+- **(es/plugin)** Update `wasmer` to 3  (#5456) ([92f006c](https://github.com/swc-project/swc/commit/92f006c9a033bf4a49b48e842fd0668a96a13c61))
+
+
+- **(swc_core)** Provide build-time metadata diagnostics (#5494) ([808e68b](https://github.com/swc-project/swc/commit/808e68b4b1cdbaff6a38cbec6d8b07c406d7d550))
+
+### Refactor
+
+
+
+- **(bindings)** Use separate workspace for bindings (#5506) ([496346a](https://github.com/swc-project/swc/commit/496346ac04483581c29444e205392c479e1f8c4b))
+
+
+- **(bindings)** Merge cargo workspace (#5511) ([bbf9e2f](https://github.com/swc-project/swc/commit/bbf9e2f24363094819c7d0aa390122db85645f39))
+
+### Build
+
+
+
+- **(swc_core)** Bump up `rkyv` (#5507) ([becc3ae](https://github.com/swc-project/swc/commit/becc3aebf2469cc29ddfce0c082470d06a6117df))
+
+## [1.2.233] - 2022-08-15
+
+### Build
+
+
+
+- **(es)** Bump up bindings (#5493) ([e547631](https://github.com/swc-project/swc/commit/e5476310f816c8d16dc9c653e234737bfeb03697))
+
+## [1.2.232] - 2022-08-15
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix context of call/new expressions (#5487) ([40bb695](https://github.com/swc-project/swc/commit/40bb695f64da7fe1f7d892ded51bf77101cea4bc))
+
+
+- **(es/plugin)** Share `SourceFile` for plugin transforms (#5475) ([ff7f6f6](https://github.com/swc-project/swc/commit/ff7f6f63f93c253834908c329f61fe28fef9ad62))
+
+## [1.2.231] - 2022-08-14
+
+### Bug Fixes
+
+
+
 - **(es/helpers)** Fix `for await` (#5458) ([b655bf4](https://github.com/swc-project/swc/commit/b655bf473a12a45a8c6d3f2fb3dc0811b778c075))
 
 
 - **(es/minifier)** Remove wrong code (#5485) ([2045fe6](https://github.com/swc-project/swc/commit/2045fe627397da217dc28fca52bd5cf85d42d2ae))
-
-
-- **(es/minifier)** Fix context of call/new expressions (#5487) ([40bb695](https://github.com/swc-project/swc/commit/40bb695f64da7fe1f7d892ded51bf77101cea4bc))
 
 
 - **(swc_core)** Bump up `swc_plugin_macro` (#5486) ([04e11a5](https://github.com/swc-project/swc/commit/04e11a577dcda1b745faa120e7bb94e8ba408d1e))

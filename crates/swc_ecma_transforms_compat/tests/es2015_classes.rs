@@ -3480,7 +3480,7 @@ function A() {
   _createClass(A, [{
     key: "foo",
     value: function foo() {
-      const foo = 2;
+      const foo1 = 2;
     }
   }]);
   return A;

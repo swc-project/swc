@@ -9,6 +9,7 @@ node_modules/
 # Space sensitive
 crates/jsdoc/tests/
 crates/swc/tests/errors/
+crates/swc/tests/fixture/
 crates/swc/tests/projects/
 crates/swc/tests/serde/
 crates/swc_css_codegen/tests/
@@ -56,7 +57,6 @@ node-swc/src
 node-swc/tests
 crates/swc/tests/srcmap/
 crates/swc/tests/stacktrace/
-
 
 # git submodules
 crates/swc_ecma_parser/tests/test262-parser
