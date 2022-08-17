@@ -75,7 +75,7 @@ impl EnsureSize {
         println!("Total");
         println!("  swc: {} bytes", swc_total);
         println!("  terser: {} bytes", terser_total);
-        println!("Ratio: {}", swc_total as f64 / terser_total as f64);
+        println!("  Size ratio: {}", swc_total as f64 / terser_total as f64);
 
         let swc_smaller_file_count = results
             .iter()
