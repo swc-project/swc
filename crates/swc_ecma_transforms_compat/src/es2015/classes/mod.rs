@@ -1045,9 +1045,9 @@ where
             let value = Box::new(Expr::Fn(FnExpr {
                 ident: if m.kind == MethodKind::Method && !computed {
                     match prop_name {
-                        Expr::Ident(ident) => Some(ident),
+                        Expr::Ident(ident) => Some(private_ident!(ident.span, ident.sym)),
                         Expr::Lit(Lit::Str(Str { span, value, .. })) => {
-                            Some(Ident::new(value, span))
+                            Some(Ident::new(value, span.private()))
                         }
                         _ => None,
                     }

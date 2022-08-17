@@ -1670,47 +1670,6 @@ fn full(input: PathBuf) {
     .unwrap()
 }
 
-#[testing::fixture("benches/full/*.js")]
-fn full_libs(input: PathBuf) {
-    let manifest_dir = input.parent().unwrap().parent().unwrap().parent().unwrap();
-
-    testing::run_test2(false, |cm, handler| {
-        let output = run(
-            cm.clone(),
-            &handler,
-            &input,
-            r#"{ "toplevel": true, "defaults": true }"#,
-            Some(TestMangleOptions::Normal(MangleOptions {
-                top_level: true,
-                ..Default::default()
-            })),
-            false,
-        );
-        let output_module = match output {
-            Some(v) => v,
-            None => return Ok(()),
-        };
-
-        let output = print(cm, &[output_module], true, true);
-
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
-
-        println!("{}", input.display());
-
-        NormalizedOutput::from(output)
-            .compare_to_file(
-                manifest_dir
-                    .join("tests")
-                    .join("lib-output")
-                    .join(input.file_name().unwrap()),
-            )
-            .unwrap();
-
-        Ok(())
-    })
-    .unwrap()
-}
-
 struct DropParens;
 
 impl VisitMut for DropParens {

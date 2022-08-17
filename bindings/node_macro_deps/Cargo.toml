@@ -3,14 +3,14 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2021"
 exclude = ["artifacts.json", "index.node"]
 license = "Apache-2.0"
-name = "node_macro_deps"
+name    = "node_macro_deps"
 publish = false
 version = "0.1.0"
 
 [lib]
-bench = false
+bench      = false
 proc-macro = true
 
 [dependencies]
 proc-macro2 = "1"
-quote = "1"
+quote       = "1"
