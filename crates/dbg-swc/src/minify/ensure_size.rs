@@ -45,10 +45,13 @@ impl EnsureSize {
         })?;
 
         for f in &results {
-            println!();
-            println!("{}", f.fm.name);
-
             if let Some(terser) = &f.terser {
+                if f.swc.mangled_size > terser.mangled_size
+                    || f.swc.no_mangle_size > terser.no_mangle_size
+                {
+                    println!();
+                    println!("{}", f.fm.name);
+                }
                 if f.swc.mangled_size > terser.mangled_size {
                     println!("  Mangled");
                     println!("    swc: {} bytes", f.swc.mangled_size);
@@ -63,17 +66,32 @@ impl EnsureSize {
             }
         }
 
+        let swc_total = results.iter().map(|f| f.swc.mangled_size).sum::<usize>();
+        let terser_total = results
+            .iter()
+            .flat_map(|f| f.terser.map(|v| v.mangled_size))
+            .sum::<usize>();
+
         println!("Total");
+        println!("  swc: {} bytes", swc_total);
+        println!("  terser: {} bytes", terser_total);
+        println!("  Size ratio: {}", swc_total as f64 / terser_total as f64);
+
+        let swc_smaller_file_count = results
+            .iter()
+            .filter(|f| {
+                if let Some(terser) = &f.terser {
+                    f.swc.mangled_size <= terser.mangled_size
+                } else {
+                    false
+                }
+            })
+            .count();
         println!(
-            "  swc: {} bytes",
-            results.iter().map(|f| f.swc.mangled_size).sum::<usize>()
-        );
-        println!(
-            "  terser: {} bytes",
-            results
-                .iter()
-                .flat_map(|f| f.terser.map(|v| v.mangled_size))
-                .sum::<usize>()
+            "swc produced smaller or equal output for {} files out of {} files, {:.2}%",
+            swc_smaller_file_count,
+            all_files.len(),
+            100.0 * swc_smaller_file_count as f64 / results.len() as f64
         );
 
         Ok(())
