@@ -6,7 +6,7 @@ use swc_common::SourceMap;
 
 use crate::util::{
     make_pretty,
-    minifier::{get_esbuild_output, get_minified, get_terser_output},
+    minifier::{get_minified, get_terser_output},
     print_js,
 };
 
