@@ -1,4 +1,4 @@
-use std::{alloc::Global, collections::HashSet, hash::BuildHasherDefault};
+use std::{collections::HashSet, hash::BuildHasherDefault};
 
 use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
