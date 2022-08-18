@@ -28,7 +28,7 @@ use tracing::{debug, error};
 pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
 use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
-    analyzer::{analyze, UsageAnalyzer},
+    analyzer::{analyze, ModuleInfo, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
     debug::{dump, AssertValid},
     marks::Marks,
@@ -46,6 +46,7 @@ mod util;
 
 pub(crate) fn compressor<'a, M>(
     globals: &'a Globals,
+    module_info: &'a ModuleInfo,
     marks: Marks,
     options: &'a CompressOptions,
     mode: &'a M,
@@ -57,11 +58,12 @@ where
         globals,
         marks,
         options,
+        module_info,
         changed: false,
         pass: 1,
         left_parallel_depth: 0,
-        mode,
         dump_for_infinite_loop: Default::default(),
+        mode,
     };
 
     chain!(
@@ -83,6 +85,7 @@ where
     globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
+    module_info: &'a ModuleInfo,
     changed: bool,
     pass: usize,
     /// `0` means we should not create more threads.
@@ -144,11 +147,12 @@ where
                     globals: self.globals,
                     marks: self.marks,
                     options: self.options,
+                    module_info: self.module_info,
                     changed: false,
                     pass: self.pass,
                     left_parallel_depth: 0,
-                    mode: self.mode,
                     dump_for_infinite_loop: Default::default(),
+                    mode: self.mode,
                 };
                 node.visit_mut_with(&mut v);
 
@@ -164,11 +168,12 @@ where
                             globals: self.globals,
                             marks: self.marks,
                             options: self.options,
+                            module_info: self.module_info,
                             changed: false,
                             pass: self.pass,
                             left_parallel_depth: self.left_parallel_depth - 1,
-                            mode: self.mode,
                             dump_for_infinite_loop: Default::default(),
+                            mode: self.mode,
                         };
                         node.visit_mut_with(&mut v);
 
@@ -218,7 +223,7 @@ where
         );
 
         {
-            let data = analyze(&*n, Some(self.marks));
+            let data = analyze(&*n, &self.module_info, Some(self.marks));
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
@@ -377,7 +382,7 @@ where
         {
             let _timer = timer!("apply full optimizer");
 
-            let mut data = analyze(&*n, Some(self.marks));
+            let mut data = analyze(&*n, &self.module_info, Some(self.marks));
 
             // TODO: reset_opt_flags
             //
