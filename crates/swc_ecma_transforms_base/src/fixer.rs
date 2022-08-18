@@ -1503,7 +1503,7 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(extends_cond, "class Foo extends (true ? Bar : Baz) {}");
 
     identical!(
-        extends_await_yiels,
+        extends_await_yield,
         "
         async function* func() {
             class A extends (await p) {}
