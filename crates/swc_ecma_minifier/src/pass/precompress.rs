@@ -15,8 +15,8 @@ use crate::{
 ///
 /// - Remove parens.
 pub(crate) fn precompress_optimizer<'a>(
-    options: &'a CompressOptions,
     module_info: &'a ModuleInfo,
+    options: &'a CompressOptions,
     marks: Marks,
 ) -> impl 'a + VisitMut {
     PrecompressOptimizer {

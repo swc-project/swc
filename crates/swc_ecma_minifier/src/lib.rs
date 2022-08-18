@@ -23,6 +23,7 @@
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
 
+use analyzer::ModuleInfo;
 use compress::{pure_optimizer, PureOptimizerConfig};
 use mode::Mode;
 use once_cell::sync::Lazy;
@@ -100,10 +101,13 @@ pub fn optimize(
         }
     }
 
+    // TODO
+    let module_info = { ModuleInfo::default() };
+
     if let Some(options) = &options.compress {
         let _timer = timer!("precompress");
 
-        m.visit_mut_with(&mut precompress_optimizer(options, marks));
+        m.visit_mut_with(&mut precompress_optimizer(&module_info, options, marks));
     }
 
     if options.compress.is_some() {
@@ -148,7 +152,13 @@ pub fn optimize(
             let _timer = timer!("compress ast");
 
             GLOBALS.with(|globals| {
-                m.visit_mut_with(&mut compressor(globals, marks, options, &Minification))
+                m.visit_mut_with(&mut compressor(
+                    globals,
+                    &module_info,
+                    marks,
+                    options,
+                    &Minification,
+                ))
             });
         }
 
@@ -189,7 +199,7 @@ pub fn optimize(
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
-        mangle_properties(&mut m, property_mangle_options.clone());
+        mangle_properties(&mut m, &module_info, property_mangle_options.clone());
     }
 
     m.visit_mut_with(&mut merge_exports());
