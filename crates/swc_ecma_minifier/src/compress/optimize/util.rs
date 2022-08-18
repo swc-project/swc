@@ -77,41 +77,45 @@ impl<M> Drop for WithCtx<'_, '_, M> {
     }
 }
 
-pub(crate) fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
-    if let Some(e) = &c.super_class {
+pub(crate) fn extract_class_side_effect(expr_ctx: &ExprCtx, c: Class) -> Vec<Box<Expr>> {
+    let mut res = Vec::new();
+    if let Some(e) = c.super_class {
         if e.may_have_side_effects(expr_ctx) {
-            return true;
+            res.push(e);
         }
     }
 
-    for m in &c.body {
+    for m in c.body {
         match m {
-            ClassMember::Method(p) => {
-                if let PropName::Computed(key) = &p.key {
-                    if key.expr.may_have_side_effects(expr_ctx) {
-                        return true;
-                    }
+            ClassMember::Method(ClassMethod {
+                key: PropName::Computed(key),
+                ..
+            }) => {
+                if key.expr.may_have_side_effects(expr_ctx) {
+                    res.push(key.expr);
                 }
             }
 
             ClassMember::ClassProp(p) => {
-                if let PropName::Computed(key) = &p.key {
+                if let PropName::Computed(key) = p.key {
                     if key.expr.may_have_side_effects(expr_ctx) {
-                        return true;
+                        res.push(key.expr);
                     }
                 }
 
-                if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
-                        return true;
+                if let Some(v) = p.value {
+                    if p.is_static && v.may_have_side_effects(expr_ctx) {
+                        res.push(v);
                     }
                 }
             }
-            ClassMember::PrivateProp(p) => {
-                if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
-                        return true;
-                    }
+            ClassMember::PrivateProp(PrivateProp {
+                value: Some(v),
+                is_static: true,
+                ..
+            }) => {
+                if v.may_have_side_effects(expr_ctx) {
+                    res.push(v);
                 }
             }
 
@@ -119,7 +123,7 @@ pub(crate) fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
         }
     }
 
-    false
+    res
 }
 
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {

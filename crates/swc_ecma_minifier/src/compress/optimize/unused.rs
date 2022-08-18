@@ -8,7 +8,7 @@ use super::Optimizer;
 use crate::debug::dump;
 use crate::{
     compress::{
-        optimize::util::class_has_side_effect, util::is_global_var_with_pure_property_access,
+        optimize::util::extract_class_side_effect, util::is_global_var_with_pure_property_access,
     },
     mode::Mode,
     option::PureGetterOption,
@@ -313,7 +313,7 @@ where
 
             Expr::Paren(p) => return self.should_preserve_property_access(&p.expr, opts),
 
-            Expr::Fn(..) | Expr::Arrow(..) | Expr::Array(..) => {
+            Expr::Fn(..) | Expr::Arrow(..) | Expr::Array(..) | Expr::Class(..) => {
                 return false;
             }
 
@@ -477,14 +477,46 @@ where
             }
         }
 
-        if let Decl::Class(c) = decl {
-            if class_has_side_effect(&self.expr_ctx, &c.class) {
-                return;
-            }
-        }
-
         match decl {
-            Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+            Decl::Class(ClassDecl { ident, .. }) => {
+                if ident.sym == js_word!("arguments") {
+                    return;
+                }
+                // If it is not used, drop it.
+                if self
+                    .data
+                    .vars
+                    .get(&ident.to_id())
+                    .map(|v| v.usage_count == 0 && !v.has_property_mutation)
+                    .unwrap_or(false)
+                {
+                    self.changed = true;
+                    report_change!(
+                        "unused: Dropping a decl '{}{:?}' because it is not used",
+                        ident.sym,
+                        ident.span.ctxt
+                    );
+                    // This will remove the declaration.
+                    let class = decl.take().class().unwrap();
+                    let mut side_effects = extract_class_side_effect(&self.expr_ctx, class.class);
+
+                    if !side_effects.is_empty() {
+                        self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: if side_effects.len() > 1 {
+                                Expr::Seq(SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs: side_effects,
+                                })
+                                .into()
+                            } else {
+                                side_effects.remove(0)
+                            },
+                        }))
+                    }
+                }
+            }
+            Decl::Fn(FnDecl { ident, .. }) => {
                 // We should skip if the name of decl is arguments.
                 if ident.sym == js_word!("arguments") {
                     return;

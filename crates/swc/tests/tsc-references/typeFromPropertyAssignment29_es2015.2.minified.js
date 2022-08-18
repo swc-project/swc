@@ -20,12 +20,7 @@ function ExpandoMerge(n) {
 }
 ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     return n + 1;
-}, (function(n) {
-    let nested = function(m) {
-        return n + m;
-    };
-    return nested.total = n + 1000000, nested;
-}).also = -1, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), function(Ns) {
+}, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), function(Ns) {
     function ExpandoNamespace() {}
     function foo() {
         return ExpandoNamespace;

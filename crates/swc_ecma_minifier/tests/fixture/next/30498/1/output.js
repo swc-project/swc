@@ -1,4 +1,7 @@
-class StringSchema extends BaseSchema {
+export function string_create() {
+    return new StringSchema();
+}
+export class StringSchema extends BaseSchema {
     matches(regex, options) {
         let excludeEmptyString = !1, message, name;
         return options && ("object" == typeof options ? { excludeEmptyString =!1 , message , name  } = options : message = options), this.test({
@@ -11,6 +14,4 @@ class StringSchema extends BaseSchema {
         });
     }
 }
-(function() {
-    return new StringSchema();
-}).prototype = StringSchema.prototype;
+string_create.prototype = StringSchema.prototype;
