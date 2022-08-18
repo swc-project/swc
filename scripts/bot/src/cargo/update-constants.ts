@@ -22,6 +22,9 @@ pub(crate) static GIT_SHA: &str = "${sha}";`,
         "utf-8"
     );
 
+    await execAsync(`git config --global user.email "bot@swc.rs"`);
+    await execAsync(`git config --global user.name "SWC Bot"`);
+
     // we won't push, it's only to avoid dirty check for the publish
     await execAsync(`git add ${filePath}`);
     await execAsync(`git commit -m 'build(swc/core): bump sha'`);
