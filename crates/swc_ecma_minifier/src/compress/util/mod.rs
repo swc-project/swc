@@ -11,7 +11,6 @@ use swc_ecma_visit::{as_folder, FoldWith};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-use unicode_id::UnicodeID;
 
 #[cfg(feature = "debug")]
 use crate::debug::dump;
@@ -426,9 +425,8 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
             return false;
         }
     }
-
-    s.starts_with(|c: char| c.is_id_start())
-        && s.chars().all(|c: char| c.is_id_continue())
+    s.starts_with(Ident::is_valid_start)
+        && s.chars().skip(1).all(Ident::is_valid_continue)
         && !s.contains('𝒶')
         && !s.is_reserved()
 }
