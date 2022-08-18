@@ -8,6 +8,9 @@
 - **(ci)** Adjust script path (#5546) ([c833d08](https://github.com/swc-project/swc/commit/c833d088d5fc35cccb46aee884348d594f0fd972))
 
 
+- **(ci)** Wait exec asynchronously (#5547) ([719444c](https://github.com/swc-project/swc/commit/719444c42c6c29551de5a6a57a3dd3a1a09a7350))
+
+
 - **(css/codegen)** Improve codegen of `@media` (#5544) ([fa7abe2](https://github.com/swc-project/swc/commit/fa7abe26cf2a9eab1d8bcd481cf6fb2dd02188a3))
 
 ### Features
