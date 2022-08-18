@@ -23,29 +23,27 @@
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
 
-use analyzer::ModuleInfo;
-use compress::{pure_optimizer, PureOptimizerConfig};
-use mode::Mode;
 use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Program;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
-use timing::Timings;
 
 pub use self::analyzer::dump_snapshot;
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
-    compress::compressor,
+    analyzer::ModuleInfo,
+    compress::{compressor, pure_optimizer, PureOptimizerConfig},
     marks::Marks,
     metadata::info_marker,
-    mode::Minification,
+    mode::{Minification, Mode},
     option::{ExtraOptions, MinifyOptions},
     pass::{
         expand_names::name_expander, global_defs, mangle_names::name_mangler,
         mangle_props::mangle_properties, merge_exports::merge_exports,
         postcompress::postcompress_optimizer, precompress::precompress_optimizer,
     },
+    timing::Timings,
 };
 
 #[macro_use]
@@ -101,8 +99,14 @@ pub fn optimize(
         }
     }
 
-    // TODO
-    let module_info = { ModuleInfo::default() };
+    let module_info = match &m {
+        Program::Script(_) => ModuleInfo::default(),
+        Program::Module(m) => ModuleInfo {
+            // TODO
+            imports: Default::default(),
+            exports: Default::default(),
+        },
+    };
 
     if let Some(options) = &options.compress {
         let _timer = timer!("precompress");
