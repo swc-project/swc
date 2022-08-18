@@ -473,31 +473,6 @@
         var name = fn ? fn.displayName || fn.name : "", syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
         return "function" == typeof fn && componentFrameCache.set(fn, syntheticFrame), syntheticFrame;
     }
-    function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
-        if (null == type) return "";
-        if ("function" == typeof type) return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
-        if ("string" == typeof type) return describeBuiltInComponentFrame(type);
-        switch(type){
-            case REACT_SUSPENSE_TYPE:
-                return describeBuiltInComponentFrame("Suspense");
-            case REACT_SUSPENSE_LIST_TYPE:
-                return describeBuiltInComponentFrame("SuspenseList");
-        }
-        if ("object" == typeof type) switch(type.$$typeof){
-            case REACT_FORWARD_REF_TYPE:
-                return describeNativeComponentFrame(type.render, !1);
-            case REACT_MEMO_TYPE:
-                return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
-            case REACT_BLOCK_TYPE:
-                return describeNativeComponentFrame(type._render, !1);
-            case REACT_LAZY_TYPE:
-                var Component, prototype, fn, fn1, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
-                try {
-                    return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
-                } catch (x) {}
-        }
-        return "";
-    }
     function describeFiber(fiber) {
         var fn, fn1, fn2, ctor;
         switch(fiber._debugOwner && fiber._debugOwner.type, fiber._debugSource, fiber.tag){
@@ -2893,9 +2868,6 @@
     function isTextNode(node) {
         return node && 3 === node.nodeType;
     }
-    function containsNode(outerNode, innerNode) {
-        return !!outerNode && !!innerNode && (outerNode === innerNode || !isTextNode(outerNode) && (isTextNode(innerNode) ? containsNode(outerNode, innerNode.parentNode) : "contains" in outerNode ? outerNode.contains(innerNode) : !!outerNode.compareDocumentPosition && !!(16 & outerNode.compareDocumentPosition(innerNode))));
-    }
     function isSameOriginFrame(iframe) {
         try {
             return "string" == typeof iframe.contentWindow.location.href;
@@ -4073,7 +4045,31 @@
     var loggedTypeFailures = {}, ReactDebugCurrentFrame$1 = ReactSharedInternals.ReactDebugCurrentFrame;
     function setCurrentlyValidatingElement(element) {
         if (element) {
-            var owner = element._owner, stack = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+            var owner = element._owner, stack = function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
+                if (null == type) return "";
+                if ("function" == typeof type) return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
+                if ("string" == typeof type) return describeBuiltInComponentFrame(type);
+                switch(type){
+                    case REACT_SUSPENSE_TYPE:
+                        return describeBuiltInComponentFrame("Suspense");
+                    case REACT_SUSPENSE_LIST_TYPE:
+                        return describeBuiltInComponentFrame("SuspenseList");
+                }
+                if ("object" == typeof type) switch(type.$$typeof){
+                    case REACT_FORWARD_REF_TYPE:
+                        return describeNativeComponentFrame(type.render, !1);
+                    case REACT_MEMO_TYPE:
+                        return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
+                    case REACT_BLOCK_TYPE:
+                        return describeNativeComponentFrame(type._render, !1);
+                    case REACT_LAZY_TYPE:
+                        var Component, prototype, fn, fn1, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
+                        try {
+                            return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
+                        } catch (x) {}
+                }
+                return "";
+            }(element.type, element._source, owner ? owner.type : null);
             ReactDebugCurrentFrame$1.setExtraStackFrame(stack);
         } else ReactDebugCurrentFrame$1.setExtraStackFrame(null);
     }
@@ -8454,7 +8450,9 @@
             while (null !== nextEffect)
             root.containerInfo, function(priorSelectionInformation) {
                 var input, offsets, start, end, node, curFocusedElem = getActiveElementDeep(), priorFocusedElem = priorSelectionInformation.focusedElem, priorSelectionRange = priorSelectionInformation.selectionRange;
-                if (curFocusedElem !== priorFocusedElem && (node = priorFocusedElem) && node.ownerDocument && containsNode(node.ownerDocument.documentElement, node)) {
+                if (curFocusedElem !== priorFocusedElem && (node = priorFocusedElem) && node.ownerDocument && function containsNode(outerNode, innerNode) {
+                    return !!outerNode && !!innerNode && (outerNode === innerNode || !isTextNode(outerNode) && (isTextNode(innerNode) ? containsNode(outerNode, innerNode.parentNode) : "contains" in outerNode ? outerNode.contains(innerNode) : !!outerNode.compareDocumentPosition && !!(16 & outerNode.compareDocumentPosition(innerNode))));
+                }(node.ownerDocument.documentElement, node)) {
                     null !== priorSelectionRange && hasSelectionCapabilities(priorFocusedElem) && (input = priorFocusedElem, start = (offsets = priorSelectionRange).start, end = offsets.end, void 0 === end && (end = start), "selectionStart" in input ? (input.selectionStart = start, input.selectionEnd = Math.min(end, input.value.length)) : function(node, offsets) {
                         var doc = node.ownerDocument || document, win = doc && doc.defaultView || window;
                         if (win.getSelection) {

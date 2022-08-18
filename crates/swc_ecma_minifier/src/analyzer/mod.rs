@@ -49,6 +49,7 @@ where
         marks,
         scope: Default::default(),
         ctx: Default::default(),
+        used_recursively: HashSet::new(),
     };
     n.visit_with(&mut v);
     let top_scope = v.scope;
@@ -262,6 +263,7 @@ where
     marks: Option<Marks>,
     scope: S::ScopeData,
     ctx: Ctx,
+    used_recursively: HashSet<Id>,
 }
 
 impl<S> UsageAnalyzer<S>
@@ -277,6 +279,7 @@ where
             marks: self.marks,
             ctx: self.ctx,
             scope: Default::default(),
+            used_recursively: self.used_recursively.clone(),
         };
 
         let ret = op(&mut child);
@@ -323,6 +326,10 @@ where
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
         if i.sym == js_word!("arguments") {
             self.scope.mark_used_arguments();
+        }
+
+        if !is_assign && self.used_recursively.contains(&i.to_id()) {
+            return;
         }
 
         self.data.report_usage(self.ctx, i, is_assign)
@@ -690,7 +697,10 @@ where
             self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
         }
 
+        let id = n.ident.to_id();
+        self.used_recursively.insert(id.clone());
         n.visit_children_with(self);
+        self.used_recursively.remove(&id);
 
         {
             for id in get_infects_of(&n.function) {
@@ -1115,6 +1125,29 @@ where
                 in_pat_of_var_decl: false,
                 ..self.ctx
             };
+
+            if let Some(marks) = &self.marks {
+                if let VarDeclarator {
+                    name: Pat::Ident(id),
+                    init: Some(init),
+                    definite: false,
+                    ..
+                } = e
+                {
+                    // TODO: merge with may_have_side_effects
+                    let can_ignore = match &**init {
+                        Expr::Call(call) if call.span.has_mark(marks.pure) => true,
+                        _ => false,
+                    };
+                    if can_ignore {
+                        let id = id.to_id();
+                        self.used_recursively.insert(id.clone());
+                        e.init.visit_with(&mut *self.with_ctx(ctx));
+                        self.used_recursively.remove(&id);
+                        return;
+                    }
+                }
+            }
 
             e.init.visit_with(&mut *self.with_ctx(ctx));
         }

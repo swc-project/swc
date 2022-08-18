@@ -42,9 +42,6 @@ impl SourceMapHostEnvironment {
 /// Returns `Loc` form given bytepos to the guest.
 /// Returned `Loc` is partial, which excludes `SourceFile` from original struct
 /// to avoid unnecessary data copying.
-///
-/// PluginSourceMapProxy::lookup_char_pos internally request separately if
-/// `SourceFile` is needed.
 #[tracing::instrument(level = "info", skip_all)]
 pub fn lookup_char_pos_proxy(
     env: &SourceMapHostEnvironment,

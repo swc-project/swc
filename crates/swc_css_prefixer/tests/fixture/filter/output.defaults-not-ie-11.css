@@ -4,7 +4,6 @@
 }
 a {
   filter: blur(10px);
-  transition: -webkit-filter 2s;
   transition: filter 2s;
 }
 div {

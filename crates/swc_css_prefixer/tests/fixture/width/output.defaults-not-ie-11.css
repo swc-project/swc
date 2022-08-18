@@ -29,7 +29,6 @@
   width: --max-content;
 }
 .class {
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -38,12 +37,10 @@
 }
 .class {
   min-width: -webkit-max-content;
-  min-width: -moz-max-content;
   min-width: max-content;
 }
 .class {
   max-width: -webkit-min-content;
-  max-width: -moz-min-content;
   max-width: min-content;
 }
 .class {
@@ -52,7 +49,6 @@
   height: fill-available;
 }
 .class {
-  max-height: -webkit-fit-content;
   max-height: -moz-fit-content;
   max-height: fit-content;
 }
@@ -68,12 +64,10 @@
 }
 .class {
   min-block-size: -webkit-max-content;
-  min-block-size: -moz-max-content;
   min-block-size: max-content;
 }
 .class {
   min-inline-size: -webkit-max-content;
-  min-inline-size: -moz-max-content;
   min-inline-size: max-content;
 }
 .class {

@@ -1533,6 +1533,11 @@ impl Minifier<'_> {
             },
         );
 
+        let program = swc_ecma_visit::FoldWith::fold_with(
+            program,
+            &mut swc_ecma_transforms_base::fixer::fixer(Some(&comments)),
+        );
+
         let mut buf = vec![];
 
         {

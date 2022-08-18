@@ -88,6 +88,7 @@ impl TransformExecutor {
 
     /// Copy host's serialized bytes into guest (plugin)'s allocated memory.
     /// Once transformation completes, host should free allocated memory.
+    #[tracing::instrument(level = "info", skip_all)]
     fn write_bytes_into_guest(
         &mut self,
         serialized_bytes: &PluginSerializedBytes,

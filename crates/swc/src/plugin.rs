@@ -159,6 +159,7 @@ impl RustPlugins {
     }
 
     #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
+    #[tracing::instrument(level = "info", skip_all)]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
 

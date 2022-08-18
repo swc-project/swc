@@ -61,10 +61,6 @@
 }
 .class-13 {
   display: block;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
 }
 .class-14 {
@@ -87,10 +83,6 @@
   align-content: flex-start;
 }
 .class-19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;

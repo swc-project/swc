@@ -1,8 +1,4 @@
 main {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;
   flex-direction: __styled-jsx-placeholder;
   justify-content: space-between;

@@ -1,0 +1,15 @@
+[workspace]
+members = [
+  "binding_core_node",
+  "binding_core_wasm",
+  "swc_cli",
+]
+
+[profile.release]
+# lto = true
+
+# We use CARGO_PROFILE_RELEASE_LTO for production builds
+# lto = "fat"
+
+# debug = true
+# opt-level = 'z'

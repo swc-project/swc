@@ -1,4 +1,4 @@
-function ItemsList() {
+export function ItemsList() {
     _classCallCheck(this, ItemsList);
     for(var _ref, _temp, _this, _ret, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return _ret = (_temp = _this = _possibleConstructorReturn(this, (_ref = ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(_ref, [

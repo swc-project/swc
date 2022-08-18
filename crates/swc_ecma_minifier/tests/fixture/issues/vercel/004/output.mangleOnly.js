@@ -1,13 +1,13 @@
-function t() {
-    var e;
-    var n, o, r;
-    _classCallCheck(this, t);
-    for(var i = arguments.length, l = Array(i), h = 0; h < i; h++){
-        l[h] = arguments[h];
+export function ItemsList() {
+    var t;
+    var e, i, s;
+    _classCallCheck(this, ItemsList);
+    for(var n = arguments.length, o = Array(n), r = 0; r < n; r++){
+        o[r] = arguments[r];
     }
-    return ((r = ((n = ((o = _possibleConstructorReturn(this, (e = t.__proto__ || Object.getPrototypeOf(t)).call.apply(e, [
+    return ((s = ((e = ((i = _possibleConstructorReturn(this, (t = ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(t, [
         this
-    ].concat(l)))), o)), (o.storeHighlightedItemReference = function(t) {
-        o.props.onHighlightedItemChange(t === null ? null : t.item);
-    }), n)), _possibleConstructorReturn(o, r));
+    ].concat(o)))), i)), (i.storeHighlightedItemReference = function(t) {
+        i.props.onHighlightedItemChange(t === null ? null : t.item);
+    }), e)), _possibleConstructorReturn(i, s));
 }

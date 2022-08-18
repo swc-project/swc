@@ -13,9 +13,10 @@ a {
   transform: rotate(10deg);
 }
 div {
-  -webkit-transition-property: filter;
+  -webkit-transition-property: -webkit-filter;
   -moz-transition-timing-function: filter;
   -o-transition-timing-function: filter;
+  transition-property: -webkit-filter;
   transition-property: filter;
   -webkit-animation-name: rotating;
   -moz-animation-name: rotating;
@@ -23,9 +24,10 @@ div {
   animation-name: rotating;
 }
 .good {
-  -webkit-transition-property: filter;
+  -webkit-transition-property: -webkit-filter;
   -moz-transition-timing-function: filter;
   -o-transition-timing-function: filter;
+  transition-property: -webkit-filter;
   transition-property: filter;
   -webkit-transition-duration: 1s;
   -moz-transition-duration: 1s;
@@ -33,9 +35,10 @@ div {
   transition-duration: 1s;
 }
 .good2 {
-  -webkit-transition-property: color, filter;
+  -webkit-transition-property: color, -webkit-filter;
   -moz-transition-timing-function: color, filter;
   -o-transition-timing-function: color, filter;
+  transition-property: color, -webkit-filter;
   transition-property: color, filter;
   -webkit-transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
   -moz-transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
@@ -43,9 +46,10 @@ div {
   transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
 }
 .bad {
-  -webkit-transition-property: color, filter;
+  -webkit-transition-property: color, -webkit-filter;
   -moz-transition-timing-function: color, filter;
   -o-transition-timing-function: color, filter;
+  transition-property: color, -webkit-filter;
   transition-property: color, filter;
   -webkit-transition-duration: 1s, 2s;
   -moz-transition-duration: 1s, 2s;
@@ -100,7 +104,7 @@ button::-moz-submit-invalid {
   transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
   transition: opacity 0.5s 2s, transform 0.5s 0.5s;
 }
-@supports (transition: opacity 0.5s 2s, transform 0.5s 0.5s) {
+@supports ((transition: opacity 0.5s 2s, transform 0.5s 0.5s) or (-webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s) or (-moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s) or (-o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s) or (transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s) or (transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s) or (transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s)) {
   button::-moz-submit-invalid {
     opacity: 1;
     -webkit-transform: translateX(45px);

@@ -216,7 +216,6 @@ impl SourceMapper for PluginSourceMapProxy {
             };
         }
 
-        #[cfg(target_arch = "wasm32")]
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
     }
