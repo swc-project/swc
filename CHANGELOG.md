@@ -7,6 +7,9 @@
 
 - **(css/minifier)** Remove duplications (#5542) ([780a4c2](https://github.com/swc-project/swc/commit/780a4c2b5dbc1c396d2212451b21e30a134ac3c4))
 
+
+- **(es/minifier)** Optimize more string property names (#5545) ([7487e33](https://github.com/swc-project/swc/commit/7487e3341dfff7532e4b3ff7c4868fc1fe5e04e0))
+
 ## [1.2.239] - 2022-08-18
 
 ### Bug Fixes
