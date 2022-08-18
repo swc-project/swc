@@ -1,5 +1,5 @@
 //@target: ES6
 function* g() {
-    class C extends yield {
+    class C extends (yield) {
     }
 }
