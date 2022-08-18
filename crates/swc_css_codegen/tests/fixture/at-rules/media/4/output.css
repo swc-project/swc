@@ -12,8 +12,8 @@
 @media screen and (color) {}
 @media not all and (monochrome) {}
 @media not screen and (color), print and (color) {}
-@media  not (device-aspect-ratio: 16/9) {}
-@media  not (device-aspect-ratio: 16/9) {}
+@media not (device-aspect-ratio: 16/9) {}
+@media not (device-aspect-ratio: 16/9) {}
 @media not all {}
 @media not all {}
 @media only screen and (color) {}
@@ -82,8 +82,8 @@
 @media (400px > width > 700px) {}
 @media (400px >= width >= 700px) {}
 @media (--modern) and (min-width: 1024px) {}
-@media ( not (color)) or (hover) {}
-@media ( not (color)) or (hover) {}
+@media (not (color)) or (hover) {}
+@media (not (color)) or (hover) {}
 @media ((color) or (hover)) and (width > 1024px) {}
 @media (((color)) or ((hover))) and (width > 1024px) {}
 @media (((((color)) or ((hover))))) and (width > 1024px) {}
@@ -96,7 +96,7 @@
 @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
 @media{}
 @media{}
-@media  not (min-width: 100px) {}
+@media not (min-width: 100px) {}
 @media ((color) or (hover)) and (min-width: 1024px) {
   .a {
     color: green;

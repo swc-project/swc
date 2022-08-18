@@ -29,3 +29,6 @@
 @supports selector(:nth-child(1n of a, b)) {}
 @supports (display: flex) and selector(:nth-child(1n of a, b)) {}
 @supports selector(:nth-child(1n of a, b)) and (display: flex) {}
+@supports ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) or (display: -webkit-box) {}
+@supports ((display: flex) and (display: -webkit-box) and (display: -webkit-flex) and (display: -moz-box) and (display: -ms-flexbox)) and (display: -webkit-box) {}
+@supports ((display: flex) and (display: -webkit-box) and (display: -webkit-flex) and (display: -moz-box) and (display: -ms-flexbox)) or (display: -webkit-box) {}

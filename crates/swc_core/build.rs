@@ -5,6 +5,8 @@ use std::{
     path::Path,
 };
 
+use vergen::{vergen, Config};
+
 // Validate conflict between host / plugin features
 #[cfg(all(
     feature = "plugin_transform",
@@ -37,4 +39,8 @@ fn main() {
         File::create(&dest_path).expect("Failed to create swc_core version constant"),
     );
     write!(f, "{}", pkg_version).expect("Failed to write swc_core version constant");
+
+    // Attempt to collect some build time env values but will skip if there are any
+    // errors.
+    let _ = vergen(Config::default());
 }

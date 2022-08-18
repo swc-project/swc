@@ -1,6 +1,9 @@
 import { exec } from "child_process";
 import { getTitleOfLatestCommit } from "../util/git";
 import { parsePrComments } from "./comment-parser";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 (async () => {
     const latestCommitMessage = await getTitleOfLatestCommit();
@@ -33,9 +36,9 @@ import { parsePrComments } from "./comment-parser";
         console.log(action);
 
         if (action.breaking) {
-            await exec(`cargo mono bump ${action.crate} --breaking`);
+            await execAsync(`cargo mono bump ${action.crate} --breaking`);
         } else {
-            await exec(`cargo mono bump ${action.crate}`);
+            await execAsync(`cargo mono bump ${action.crate}`);
         }
     }
 })();

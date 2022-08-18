@@ -19,3 +19,13 @@ export async function getTitleOfLatestCommit(): Promise<string> {
 
     return s.split("\n")[0];
 }
+
+export async function getCommitSha(): Promise<string> {
+    const { stdout } = exec("git rev-parse HEAD");
+
+    const msg = await streamToString(stdout!);
+
+    const s = msg.trim();
+
+    return s;
+}
