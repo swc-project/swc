@@ -24,5 +24,5 @@ pub(crate) static GIT_SHA: &str = "${sha}";`,
 
     // we won't push, it's only to avoid dirty check for the publish
     await execAsync(`git add ${filePath}`);
-    await execAsync(`git commit -m build(swc/core): bump sha`);
+    await execAsync(`git commit -m 'build(swc/core): bump sha'`);
 })();
