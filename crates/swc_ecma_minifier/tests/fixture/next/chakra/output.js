@@ -2716,7 +2716,7 @@
                 var _Checkbox$baseStyle$c = Checkbox.baseStyle(props).control, control = void 0 === _Checkbox$baseStyle$c ? {} : _Checkbox$baseStyle$c;
                 return sizes_501602a9_esm_extends({}, control, {
                     borderRadius: "full",
-                    _checked: sizes_501602a9_esm_extends({}, control["_checked"], {
+                    _checked: sizes_501602a9_esm_extends({}, control._checked, {
                         _before: {
                             content: '""',
                             display: "inline-block",
