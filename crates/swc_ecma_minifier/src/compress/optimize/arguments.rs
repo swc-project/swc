@@ -25,10 +25,7 @@ where
             Expr::Member(MemberExpr { prop, .. }) => {
                 if let MemberProp::Computed(c) = prop {
                     if let Expr::Lit(Lit::Str(s)) = &mut *c.expr {
-                        if !s
-                            .value
-                            .starts_with(|c: char| c.is_ascii_alphabetic() || c == '_' || c == '$')
-                        {
+                        if !s.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
                             return;
                         }
 
@@ -46,10 +43,7 @@ where
             Expr::SuperProp(SuperPropExpr { prop, .. }) => {
                 if let SuperProp::Computed(c) = prop {
                     if let Expr::Lit(Lit::Str(s)) = &mut *c.expr {
-                        if !s
-                            .value
-                            .starts_with(|c: char| c.is_ascii_alphabetic() || c == '_' || c == '$')
-                        {
+                        if !s.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
                             return;
                         }
 
