@@ -11,6 +11,9 @@
 
 
 
+- **(dbg-swc)** Improve minifier comparator (#5541) ([935a2fb](https://github.com/swc-project/swc/commit/935a2fbd002398a9593135fb765127d24f4e4dbb))
+
+
 - **(es/minifier)** Ignore recursive usage for function calls and pure calls (#5526) ([d2f3e29](https://github.com/swc-project/swc/commit/d2f3e29bb054ffcb557fb54d535dc98640a77dc4))
 
 ## [1.2.238] - 2022-08-17
