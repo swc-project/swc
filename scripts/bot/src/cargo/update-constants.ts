@@ -4,6 +4,8 @@ import * as fs from "fs";
 import { promisify } from "util";
 import * as path from "path";
 
+const execAsync = promisify(exec);
+
 const writeFile = promisify(fs.writeFile);
 
 (async () => {
@@ -21,6 +23,6 @@ pub(crate) static GIT_SHA: &str = "${sha}";`,
     );
 
     // we won't push, it's only to avoid dirty check for the publish
-    exec(`git add ${filePath}`);
-    exec(`git commit -m build(swc/core): bump sha`);
+    await execAsync(`git add ${filePath}`);
+    await execAsync(`git commit -m build(swc/core): bump sha`);
 })();
