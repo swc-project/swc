@@ -23,7 +23,16 @@
 - **(es/minifier)** Optimize more string property names (#5545) ([7487e33](https://github.com/swc-project/swc/commit/7487e3341dfff7532e4b3ff7c4868fc1fe5e04e0))
 
 
+- **(es/minifier)** Optimize numeric property names (#5548) ([38b8ca0](https://github.com/swc-project/swc/commit/38b8ca05adf22d7096e4cc6856cd5fb1734656cd))
+
+
 - **(swc_core)** Implement engine diagnostics (#5515) ([f1a4263](https://github.com/swc-project/swc/commit/f1a42639541ef5a356079b7fb177a621ddd5a2c0))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix publish action ([91d494d](https://github.com/swc-project/swc/commit/91d494dfd4cb49db8dac900bf8f52d5ae31b01a3))
 
 ## [1.2.239] - 2022-08-18
 
