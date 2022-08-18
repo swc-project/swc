@@ -6,7 +6,7 @@ use swc_common::SourceMap;
 
 use crate::util::{
     make_pretty,
-    minifier::{get_esbuild_output, get_minified},
+    minifier::{get_esbuild_output, get_minified, get_terser_output},
     print_js,
 };
 
@@ -22,7 +22,7 @@ impl CompareCommand {
         let code_mangled = print_js(cm, &minified_mangled.module, true)
             .context("failed to convert ast to code")?;
 
-        let esbuild_mangled = get_esbuild_output(&self.path, true)?;
+        let esbuild_mangled = get_terser_output(&self.path, true, true)?;
 
         eprintln!("swc: {} bytes", code_mangled.as_bytes().len());
         eprintln!(
@@ -34,17 +34,17 @@ impl CompareCommand {
 
         make_pretty("swc.output.js".as_ref())?;
 
-        std::fs::write("esbuild.output.js", esbuild_mangled.as_bytes())
-            .context("failed to write swc.output.js")?;
+        std::fs::write("terser.output.js", esbuild_mangled.as_bytes())
+            .context("failed to write terser.output.js")?;
 
-        eprintln!("swc: {} bytes", esbuild_mangled.as_bytes().len());
-        make_pretty("esbuild.output.js".as_ref())?;
+        eprintln!("terser: {} bytes", esbuild_mangled.as_bytes().len());
+        make_pretty("terser.output.js".as_ref())?;
 
         {
             let mut c = Command::new("code");
             c.arg("--diff");
             c.arg("swc.output.js");
-            c.arg("esbuild.output.js");
+            c.arg("terser.output.js");
             c.output().context("failed to run vscode")?;
         }
 
