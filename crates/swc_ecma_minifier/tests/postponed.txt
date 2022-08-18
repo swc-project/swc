@@ -126,7 +126,6 @@ destructuring/mangle_destructuring_decl_collapse_vars/input.js
 destructuring/unused_destructuring_arrow_param/input.js
 destructuring/unused_destructuring_getter_side_effect_2/input.js
 drop_unused/chained_3/input.js
-drop_unused/defun_lambda_same_name/input.js
 drop_unused/delete_assign_1/input.js
 drop_unused/delete_assign_2/input.js
 drop_unused/double_assign_1/input.js
@@ -168,7 +167,6 @@ drop_unused/issue_2418_3/input.js
 drop_unused/issue_2418_4/input.js
 drop_unused/issue_2516_1/input.js
 drop_unused/issue_2516_2/input.js
-drop_unused/issue_2660_1/input.js
 drop_unused/issue_2660_2/input.js
 drop_unused/issue_2665/input.js
 drop_unused/issue_2846/input.js
@@ -245,7 +243,6 @@ functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
 functions/issue_2630_1/input.js
 functions/issue_2630_2/input.js
-functions/issue_2630_3/input.js
 functions/issue_2630_4/input.js
 functions/issue_2630_5/input.js
 functions/issue_2657/input.js
@@ -264,7 +261,6 @@ functions/issue_3166/input.js
 functions/issue_t131a/input.js
 functions/issue_t131b/input.js
 functions/loop_init_arg/input.js
-functions/recursive_inline_2/input.js
 functions/unsafe_apply_1/input.js
 functions/unsafe_apply_2/input.js
 functions/unsafe_apply_expansion_1/input.js
@@ -401,7 +397,6 @@ issue_22/return_with_no_value_in_if_body/input.js
 issue_269/issue_269_1/input.js
 issue_269/regexp/input.js
 issue_269/strings_concat/input.js
-issue_2719/warn/input.js
 issue_281/collapse_vars_constants/input.js
 issue_281/issue_1758/input.js
 issue_2871/comparison_with_undefined/input.js
@@ -563,7 +558,6 @@ reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
 reduce_vars/defun_inline_1/input.js
-reduce_vars/defun_inline_2/input.js
 reduce_vars/defun_label/input.js
 reduce_vars/defun_redefine/input.js
 reduce_vars/defun_reference/input.js
