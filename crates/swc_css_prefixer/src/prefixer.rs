@@ -3,7 +3,6 @@ use std::mem::take;
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
-use swc_atoms::js_word;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     EqIgnoreSpan, DUMMY_SP,
@@ -712,11 +711,7 @@ impl VisitMut for Prefixer {
                 for n in take(&mut self.added_declarations) {
                     let supports_condition_type = SupportsConditionType::Or(SupportsOr {
                         span: DUMMY_SP,
-                        keyword: Ident {
-                            span: DUMMY_SP,
-                            value: js_word!("or"),
-                            raw: None,
-                        },
+                        keyword: None,
                         condition: SupportsInParens::Feature(SupportsFeature::Declaration(n)),
                     });
 
@@ -755,11 +750,7 @@ impl VisitMut for Prefixer {
                     for n in take(&mut self.added_declarations) {
                         let supports_condition_type = SupportsConditionType::Or(SupportsOr {
                             span: DUMMY_SP,
-                            keyword: Ident {
-                                span: DUMMY_SP,
-                                value: js_word!("or"),
-                                raw: None,
-                            },
+                            keyword: None,
                             condition: SupportsInParens::Feature(SupportsFeature::Declaration(n)),
                         });
 

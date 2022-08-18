@@ -931,7 +931,7 @@ where
         let span = self.input.cur_span()?;
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                self.parse()?
+                Some(self.parse()?)
             }
             _ => {
                 return Err(Error::new(
@@ -961,7 +961,7 @@ where
         let span = self.input.cur_span()?;
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                self.parse()?
+                Some(self.parse()?)
             }
             _ => {
                 return Err(Error::new(
@@ -991,7 +991,7 @@ where
         let span = self.input.cur_span()?;
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                self.parse()?
+                Some(self.parse()?)
             }
             _ => {
                 return Err(Error::new(
@@ -1390,7 +1390,7 @@ where
         let span = self.input.cur_span()?;
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                self.parse()?
+                Some(self.parse()?)
             }
             _ => {
                 return Err(Error::new(
@@ -1420,7 +1420,7 @@ where
         let span = self.input.cur_span()?;
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                self.parse()?
+                Some(self.parse()?)
             }
             _ => {
                 return Err(Error::new(
@@ -1450,7 +1450,7 @@ where
         let span = self.input.cur_span()?;
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                self.parse()?
+                Some(self.parse()?)
             }
             _ => {
                 return Err(Error::new(
