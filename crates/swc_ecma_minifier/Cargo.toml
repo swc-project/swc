@@ -55,7 +55,6 @@ swc_ecma_utils                   = { version = "0.99.5", path = "../swc_ecma_uti
 swc_ecma_visit                   = { version = "0.76.6", path = "../swc_ecma_visit" }
 swc_timer                        = { version = "0.15.4", path = "../swc_timer" }
 tracing                          = "0.1.32"
-unicode-id                       = "0.3.0"
 
 [dev-dependencies]
 ansi_term         = "0.12.1"
