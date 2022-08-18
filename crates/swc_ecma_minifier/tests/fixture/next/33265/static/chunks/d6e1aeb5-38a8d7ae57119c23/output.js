@@ -65,8 +65,7 @@
                 for(var _i = 0; _i < browserApi.length; _i++)FullscreenApi[specApi[_i]] = browserApi[_i];
                 FullscreenApi.prefixed = browserApi[0] !== specApi[0];
             }
-            var history = [];
-            function createLogger$1(name) {
+            var history = [], log$1 = function createLogger$1(name) {
                 var logByType, name1, log, level = "info", log1 = function() {
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     logByType("log", level, args);
@@ -120,8 +119,7 @@
                     for(var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++)args[_key4] = arguments[_key4];
                     return logByType("debug", level, args);
                 }, log1;
-            }
-            var log$1 = createLogger$1("VIDEOJS"), createLogger = log$1.createLogger, toString = Object.prototype.toString, keys = function(object) {
+            }("VIDEOJS"), createLogger = log$1.createLogger, toString = Object.prototype.toString, keys = function(object) {
                 return isObject(object) ? Object.keys(object) : [];
             };
             function each(object, fn) {
@@ -2033,35 +2031,6 @@
                     var mw = mws[i];
                     mw[method] && mw[method](terminated, value);
                 }
-            }
-            function setSourceHelper(src, middleware, next, player, acc, lastRun) {
-                void 0 === src && (src = {}), void 0 === middleware && (middleware = []), void 0 === acc && (acc = []), void 0 === lastRun && (lastRun = !1);
-                var _middleware = middleware, mwFactory = _middleware[0], mwrest = _middleware.slice(1);
-                if ("string" == typeof mwFactory) setSourceHelper(src, middlewares[mwFactory], next, player, acc, lastRun);
-                else if (mwFactory) {
-                    var mw = function(player, mwFactory) {
-                        var mws = middlewareInstances[player.id()], mw = null;
-                        if (null == mws) return mw = mwFactory(player), middlewareInstances[player.id()] = [
-                            [
-                                mwFactory,
-                                mw
-                            ]
-                        ], mw;
-                        for(var i = 0; i < mws.length; i++){
-                            var _mws$i = mws[i], mwf = _mws$i[0], mwi = _mws$i[1];
-                            mwf === mwFactory && (mw = mwi);
-                        }
-                        return null === mw && (mw = mwFactory(player), mws.push([
-                            mwFactory,
-                            mw
-                        ])), mw;
-                    }(player, mwFactory);
-                    if (!mw.setSource) return acc.push(mw), setSourceHelper(src, mwrest, next, player, acc, lastRun);
-                    mw.setSource(assign({}, src), function(err, _src) {
-                        if (err) return setSourceHelper(src, mwrest, next, player, acc, lastRun);
-                        acc.push(mw), setSourceHelper(_src, src.type === _src.type ? mwrest : middlewares[_src.type], next, player, acc, lastRun);
-                    });
-                } else mwrest.length ? setSourceHelper(src, mwrest, next, player, acc, lastRun) : lastRun ? next(src, acc) : setSourceHelper(src, middlewares["*"], next, player, acc, !0);
             }
             var MimetypesKind = {
                 opus: "video/ogg",
@@ -5884,7 +5853,35 @@
                     }
                     if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), function(player, src, next) {
                         player.setTimeout(function() {
-                            return setSourceHelper(src, middlewares[src.type], next, player);
+                            return function setSourceHelper(src, middleware, next, player, acc, lastRun) {
+                                void 0 === src && (src = {}), void 0 === middleware && (middleware = []), void 0 === acc && (acc = []), void 0 === lastRun && (lastRun = !1);
+                                var _middleware = middleware, mwFactory = _middleware[0], mwrest = _middleware.slice(1);
+                                if ("string" == typeof mwFactory) setSourceHelper(src, middlewares[mwFactory], next, player, acc, lastRun);
+                                else if (mwFactory) {
+                                    var mw = function(player, mwFactory) {
+                                        var mws = middlewareInstances[player.id()], mw = null;
+                                        if (null == mws) return mw = mwFactory(player), middlewareInstances[player.id()] = [
+                                            [
+                                                mwFactory,
+                                                mw
+                                            ]
+                                        ], mw;
+                                        for(var i = 0; i < mws.length; i++){
+                                            var _mws$i = mws[i], mwf = _mws$i[0], mwi = _mws$i[1];
+                                            mwf === mwFactory && (mw = mwi);
+                                        }
+                                        return null === mw && (mw = mwFactory(player), mws.push([
+                                            mwFactory,
+                                            mw
+                                        ])), mw;
+                                    }(player, mwFactory);
+                                    if (!mw.setSource) return acc.push(mw), setSourceHelper(src, mwrest, next, player, acc, lastRun);
+                                    mw.setSource(assign({}, src), function(err, _src) {
+                                        if (err) return setSourceHelper(src, mwrest, next, player, acc, lastRun);
+                                        acc.push(mw), setSourceHelper(_src, src.type === _src.type ? mwrest : middlewares[_src.type], next, player, acc, lastRun);
+                                    });
+                                } else mwrest.length ? setSourceHelper(src, mwrest, next, player, acc, lastRun) : lastRun ? next(src, acc) : setSourceHelper(src, middlewares["*"], next, player, acc, !0);
+                            }(src, middlewares[src.type], next, player);
                         }, 1);
                     }(this, sources[0], function(middlewareSource, mws) {
                         if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : (_this14.changingSrc_ = !1, _this14.setTimeout(function() {

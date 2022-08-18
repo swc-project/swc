@@ -1,3 +1,8 @@
+@import url('styles.css') screen and (min-resolution: 2dppx);
+@import url("styles.css") supports(display: flex) screen and (max-width: 400px);
+@import url("styles.css") supports(not (display: flex)) screen and (max-width: 400px);
+@import url('styles.css') supports(display: flex) screen and (min-resolution: 2dppx);
+
 @media (min-resolution: 2dppx), (min-resolution: 192dpi) {
     .class {
         color: red;
@@ -88,3 +93,7 @@
 @media only screen and (min-resolution: 124.8dpi) { }
 
 @media (min-resolution: 113.38dpcm) { }
+
+@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx) {}
+
+@media (min-resolution: 2dppx), (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2) {}

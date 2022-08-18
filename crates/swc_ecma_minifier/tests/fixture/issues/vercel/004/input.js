@@ -1,4 +1,4 @@
-function ItemsList() {
+export function ItemsList() {
     var _ref;
 
     var _temp, _this, _ret;

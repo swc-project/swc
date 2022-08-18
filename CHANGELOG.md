@@ -5,6 +5,23 @@
 
 
 
+- **(css/prefixer)** Reduce duplicates (#5537) ([0985c15](https://github.com/swc-project/swc/commit/0985c1546b38a4072099e45af354c4534e0e23cb))
+
+### Features
+
+
+
+- **(dbg-swc)** Improve minifier comparator (#5541) ([935a2fb](https://github.com/swc-project/swc/commit/935a2fbd002398a9593135fb765127d24f4e4dbb))
+
+
+- **(es/minifier)** Ignore recursive usage for function calls and pure calls (#5526) ([d2f3e29](https://github.com/swc-project/swc/commit/d2f3e29bb054ffcb557fb54d535dc98640a77dc4))
+
+## [1.2.238] - 2022-08-17
+
+### Bug Fixes
+
+
+
 - **(css/codegen)** Improve output of `@supports` (#5529) ([0f45822](https://github.com/swc-project/swc/commit/0f45822410809b1d05658057a1ce8d8b446ee28c))
 
 
@@ -30,6 +47,9 @@
 
 
 - **(css/prefixer)** Support more env properties and values (#5512) ([674c788](https://github.com/swc-project/swc/commit/674c788654714512000c64abf1a088e0f9f2820b))
+
+
+- **(es/plugin/runner)** Add more traces for the plugin host (#5538) ([d46418b](https://github.com/swc-project/swc/commit/d46418bb470761db48cd1a3e50578d4e1e82e577))
 
 
 - **(es/react)** Add `VisitMut` bound to the return type of react preset (#5499) ([14606d9](https://github.com/swc-project/swc/commit/14606d92225c67145d484f30902d798297a4ffe2))
