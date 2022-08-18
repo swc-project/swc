@@ -1,4 +1,4 @@
-use std::{collections::HashSet, hash::BuildHasherDefault};
+use std::{alloc::Global, collections::HashSet, hash::BuildHasherDefault};
 
 use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
@@ -31,12 +31,12 @@ struct TestSnapshot {
 }
 
 #[derive(Debug)]
-pub(crate) struct ImportExportData {
+pub(crate) struct ModuleInfo {
     pub exports: AHashSet<Id>,
     pub imports: AHashSet<Id>,
 }
 
-pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
+pub(crate) fn analyze<N>(n: &N, module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
