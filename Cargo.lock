@@ -3107,7 +3107,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.107.2"
+version = "0.107.3"
 dependencies = [
  "bytecheck",
  "is-macro",
@@ -3892,7 +3892,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.24.6"
+version = "0.24.7"
 dependencies = [
  "bytecheck",
  "is-macro",

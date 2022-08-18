@@ -5,6 +5,9 @@
 
 
 
+- **(ast)** Add attributes for `rkyv` (#5489) ([3569b20](https://github.com/swc-project/swc/commit/3569b20645a57999fd09ee62e082e08d2caeebcc))
+
+
 - **(ci)** Adjust script path (#5546) ([c833d08](https://github.com/swc-project/swc/commit/c833d088d5fc35cccb46aee884348d594f0fd972))
 
 
@@ -33,6 +36,9 @@
 
 
 - **(ci)** Fix publish action ([91d494d](https://github.com/swc-project/swc/commit/91d494dfd4cb49db8dac900bf8f52d5ae31b01a3))
+
+
+- **(ci)** Fix publish action ([bc9aef8](https://github.com/swc-project/swc/commit/bc9aef891e1dd4665c30854b67f6173767d96a22))
 
 ## [1.2.239] - 2022-08-18
 
