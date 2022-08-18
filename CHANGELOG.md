@@ -16,6 +16,9 @@
 
 - **(es/minifier)** Optimize more string property names (#5545) ([7487e33](https://github.com/swc-project/swc/commit/7487e3341dfff7532e4b3ff7c4868fc1fe5e04e0))
 
+
+- **(swc_core)** Implement engine diagnostics (#5515) ([f1a4263](https://github.com/swc-project/swc/commit/f1a42639541ef5a356079b7fb177a621ddd5a2c0))
+
 ## [1.2.239] - 2022-08-18
 
 ### Bug Fixes
