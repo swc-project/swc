@@ -92,6 +92,17 @@ impl Pure<'_> {
                     sym: s.value.clone(),
                     optional: false,
                 });
+                return;
+            }
+
+            if let Ok(v) = s.value.parse::<u32>() {
+                self.changed = true;
+                report_change!("misc: Optimizing numeric property name");
+                *name = PropName::Num(Number {
+                    span: s.span,
+                    value: v as _,
+                    raw: None,
+                });
             }
         }
     }

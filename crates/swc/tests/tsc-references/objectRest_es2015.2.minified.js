@@ -23,7 +23,7 @@ var { b: renamed  } = o;
 _object_without_properties(o, [
     'b'
 ]);
-var { b: { '0': n , '1': oooo  }  } = o;
+var { b: { 0: n , 1: oooo  }  } = o;
 _object_without_properties(o, [
     "b"
 ]);
