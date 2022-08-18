@@ -30,7 +30,7 @@ struct TestSnapshot {
     vars: Vec<(Id, VarUsageInfo)>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub(crate) struct ModuleInfo {
     pub exports: AHashSet<Id>,
     pub imports: AHashSet<Id>,
@@ -1191,7 +1191,7 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
 pub fn dump_snapshot(program: &Module) -> String {
     let marks = Marks::new();
 
-    let data = analyze(program, Some(marks));
+    let data = analyze(program, &Default::default(), Some(marks));
 
     // Iteration order of hashmap is not deterministic
     let mut snapshot = TestSnapshot {
