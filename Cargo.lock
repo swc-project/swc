@@ -3355,7 +3355,6 @@ dependencies = [
  "swc_timer",
  "testing",
  "tracing",
- "unicode-id",
  "walkdir",
 ]
 
