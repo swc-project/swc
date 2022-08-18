@@ -3,7 +3,10 @@ use std::{collections::HashSet, hash::BuildHasherDefault};
 use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, SyntaxContext};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    SyntaxContext,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -25,6 +28,12 @@ pub(crate) mod storage;
 #[derive(Debug)]
 struct TestSnapshot {
     vars: Vec<(Id, VarUsageInfo)>,
+}
+
+#[derive(Debug)]
+pub(crate) struct ImportExportData {
+    pub exports: AHashSet<Id>,
+    pub imports: AHashSet<Id>,
 }
 
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
