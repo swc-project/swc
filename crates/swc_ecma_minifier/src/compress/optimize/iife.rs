@@ -805,6 +805,8 @@ where
         }
 
         if !body_rename_map.is_empty() {
+            trace_op!("iife: Renaming variables: {:?}", body_rename_map);
+
             body.visit_mut_with(&mut Renamer {
                 vars: body_rename_map,
             });
