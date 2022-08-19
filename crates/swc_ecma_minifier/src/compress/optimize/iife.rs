@@ -754,6 +754,10 @@ where
             let init = if let Some(arg) = arg {
                 let (expr, init) = match *arg {
                     Expr::Lit(..) => (Expr::Ident(param.clone()), Some(arg)),
+                    Expr::Ident(arg) => {
+                        body_remap.insert(param.to_id(), arg.to_id());
+                        (Expr::Ident(param.clone()), None)
+                    }
                     _ => (
                         Expr::Assign(AssignExpr {
                             span: DUMMY_SP.apply_mark(self.marks.non_top_level),
@@ -795,6 +799,10 @@ where
                 declare: Default::default(),
                 decls: vars,
             })));
+        }
+
+        if !body_remap.is_empty() {
+            body.visit_mut_with(&mut Remapper { vars: body_remap });
         }
 
         for mut stmt in body.stmts.take() {
