@@ -1,0 +1,12 @@
+{
+    filename: '/Users/kdy1/projects/lab/blog-template/server/post/dto/UpdatePostDto.ts',
+    sourceMaps: true,
+    jsc: {
+      parser: { syntax: 'typescript', tsx: true, decorators: true
+        },
+      transform: { react: [Object
+            ], legacyDecorator: true, decoratorMetadata: true
+        },
+      keepClassNames: true
+    }
+}
