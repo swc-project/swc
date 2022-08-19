@@ -1825,7 +1825,7 @@ impl<I: Tokens> Parser<I> {
         // YieldExpression cannot be used within the FormalParameters of a generator
         // function because any expressions that are part of FormalParameters are
         // evaluated before the resulting generator object is in a resumable state.
-        if self.ctx().in_parameters {
+        if self.ctx().in_parameters && !self.ctx().in_function {
             syntax_error!(self, self.input.prev_span(), SyntaxError::YieldParamInGen)
         }
 

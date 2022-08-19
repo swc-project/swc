@@ -1209,6 +1209,7 @@ impl<I: Tokens> Parser<I> {
 
             let arg_ctx = Context {
                 in_parameters: true,
+                in_function: false,
                 // in_generator: prev_in_generator,
                 ..p.ctx()
             };
