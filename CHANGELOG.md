@@ -5,21 +5,9 @@
 
 
 
-- **(es/compat)** Handle `async` in class method parameters (#5560) ([f2c1164](https://github.com/swc-project/swc/commit/f2c116402621b64b49181407dba1bb7ae852cf13))
+- **(es/compat)** Use separate `SyntaxContext` for class names (#5566) ([b717a68](https://github.com/swc-project/swc/commit/b717a68199fc965632e9513d2c57a47af23231d8))
 
-### Features
-
-
-
-- **(es/minifier)** Remove more functions and classes (#5552) ([69f8945](https://github.com/swc-project/swc/commit/69f8945911e50d96978b0f49642cb79473178173))
-
-### Testing
-
-
-
-- **(es/minifier)** Add tests for size (#5561) ([7f5095d](https://github.com/swc-project/swc/commit/7f5095dd5e569eab0e4415453144485aeef4d043))
-
-## [1.2.240] - 2022-08-19
+## [1.2.241] - 2022-08-19
 
 ### Bug Fixes
 
@@ -35,6 +23,9 @@
 
 
 - **(css/codegen)** Improve codegen of `@media` (#5544) ([fa7abe2](https://github.com/swc-project/swc/commit/fa7abe26cf2a9eab1d8bcd481cf6fb2dd02188a3))
+
+
+- **(es/compat)** Handle `async` in class method parameters (#5560) ([f2c1164](https://github.com/swc-project/swc/commit/f2c116402621b64b49181407dba1bb7ae852cf13))
 
 
 - **(es/fixer)** Wrap `yield` expression in `extends` (#5555) ([b14d69e](https://github.com/swc-project/swc/commit/b14d69e9b0427751a86d2260f10d4af7495d7ae8))
@@ -55,6 +46,9 @@
 - **(es/minifier)** Optimize numeric property names (#5548) ([38b8ca0](https://github.com/swc-project/swc/commit/38b8ca05adf22d7096e4cc6856cd5fb1734656cd))
 
 
+- **(es/minifier)** Remove more functions and classes (#5552) ([69f8945](https://github.com/swc-project/swc/commit/69f8945911e50d96978b0f49642cb79473178173))
+
+
 - **(swc_core)** Implement engine diagnostics (#5515) ([f1a4263](https://github.com/swc-project/swc/commit/f1a42639541ef5a356079b7fb177a621ddd5a2c0))
 
 ### Miscellaneous Tasks
@@ -65,6 +59,12 @@
 
 
 - **(ci)** Fix publish action ([bc9aef8](https://github.com/swc-project/swc/commit/bc9aef891e1dd4665c30854b67f6173767d96a22))
+
+### Testing
+
+
+
+- **(es/minifier)** Add tests for size (#5561) ([7f5095d](https://github.com/swc-project/swc/commit/7f5095dd5e569eab0e4415453144485aeef4d043))
 
 ## [1.2.239] - 2022-08-18
 
