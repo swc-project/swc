@@ -762,7 +762,7 @@ where
                             .data
                             .vars
                             .get(&orig_params[idx].to_id())
-                            .map_or(false, |usage| !dbg!(usage).reassigned())
+                            .map_or(false, |usage| !usage.reassigned())
                             && self
                                 .data
                                 .vars
