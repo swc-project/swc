@@ -449,6 +449,12 @@
     :                    ^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/comment/input.css:23:1]
+ 23 | @media/* comment */screen/* comment */{}
+    :                    ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/comment/input.css:23:1]
  23 | @media/* comment */screen/* comment */{}
@@ -492,6 +498,12 @@
     `----
 
   x MediaQuery
+    ,-[$DIR/tests/fixture/comment/input.css:24:1]
+ 24 | @media /* comment */ screen /* comment */ {}
+    :                      ^^^^^^
+    `----
+
+  x MediaType
     ,-[$DIR/tests/fixture/comment/input.css:24:1]
  24 | @media /* comment */ screen /* comment */ {}
     :                      ^^^^^^

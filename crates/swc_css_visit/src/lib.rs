@@ -657,9 +657,13 @@ define!({
     pub struct MediaQuery {
         pub span: Span,
         pub modifier: Option<Ident>,
-        pub media_type: Option<Ident>,
+        pub media_type: Option<MediaType>,
         pub keyword: Option<Ident>,
         pub condition: Option<MediaConditionType>,
+    }
+
+    pub enum MediaType {
+        Ident(Ident),
     }
 
     pub enum MediaConditionType {

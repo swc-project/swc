@@ -804,6 +804,12 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
+    :        ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
  19 | @media screen and (min-width: 900px) {

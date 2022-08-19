@@ -187,7 +187,7 @@ pub struct MediaQueryList {
 pub struct MediaQuery {
     pub span: Span,
     pub modifier: Option<Ident>,
-    pub media_type: Option<Ident>,
+    pub media_type: Option<MediaType>,
     pub keyword: Option<Ident>,
     pub condition: Option<MediaConditionType>,
 }
@@ -198,6 +198,13 @@ impl EqIgnoreSpan for MediaQuery {
             && self.media_type.eq_ignore_span(&other.media_type)
             && self.condition.eq_ignore_span(&other.condition)
     }
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum MediaType {
+    #[tag("Ident")]
+    Ident(Ident),
 }
 
 #[ast_node]
