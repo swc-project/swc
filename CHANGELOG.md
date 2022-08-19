@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/compat)** Handle `async` in class method parameters (#5560) ([f2c1164](https://github.com/swc-project/swc/commit/f2c116402621b64b49181407dba1bb7ae852cf13))
+
 ### Features
 
 
