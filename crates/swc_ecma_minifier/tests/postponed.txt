@@ -644,7 +644,6 @@ sequences/side_effects_cascade_3/input.js
 switch/if_switch_typeof/input.js
 template_string/regex_2/input.js
 template_string/side_effects/input.js
-template_string/tagged_template_function_inline_5/input.js
 transform/label_if_break/input.js
 try_catch/catch_destructuring_with_sequence/input.js
 typeof/issue_2728_3/input.js
