@@ -198,6 +198,11 @@ impl ProgramData {
                 let range = ranges.remove(0);
                 for index in range {
                     let iid = ids.get(index).unwrap();
+
+                    // Abort on imported variables, because we can't analyze them
+                    if module_info.imports.contains(iid) {
+                        return Err(());
+                    }
                     if !res.insert(iid.clone()) {
                         continue;
                     }
