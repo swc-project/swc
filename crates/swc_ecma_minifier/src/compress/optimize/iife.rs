@@ -736,6 +736,13 @@ where
         }
         body.visit_mut_with(&mut Remapper { vars: remap });
 
+        // For
+        //
+        //  (function foo(o){})(a)
+        //
+        // we can replace o with a instead of creating `o = a`
+        let mut body_remap = HashMap::default();
+
         // TODO: temporary workaround as swc currently cannot inline
         // let a; a = 1; console.log(a)
         let mut vars = Vec::new();
@@ -745,8 +752,9 @@ where
         for (idx, param) in params.into_iter().enumerate() {
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
             let init = if let Some(arg) = arg {
-                let (expr, init) = if !arg.is_lit() {
-                    (
+                let (expr, init) = match *arg {
+                    Expr::Lit(..) => (Expr::Ident(param.clone()), Some(arg)),
+                    _ => (
                         Expr::Assign(AssignExpr {
                             span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                             op: op!("="),
@@ -754,9 +762,7 @@ where
                             right: arg,
                         }),
                         None,
-                    )
-                } else {
-                    (Expr::Ident(param.clone()), Some(arg))
+                    ),
                 };
 
                 exprs.push(expr.into());
