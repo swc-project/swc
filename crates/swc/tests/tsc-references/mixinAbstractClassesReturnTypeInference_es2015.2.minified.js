@@ -1,11 +1,7 @@
-class AbstractBase {
-}
-function Mixin2(baseClass) {
+!function(baseClass) {
     return class extends baseClass {
         mixinMethod() {}
         static staticMixinMethod() {}
     };
-}
-class DerivedFromAbstract2 extends Mixin2(AbstractBase) {
-    abstractBaseMethod() {}
-}
+}(class {
+});

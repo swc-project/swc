@@ -6,14 +6,7 @@ Component.propTypes = {
     baz: PropTypes.string.isRequired
 }, Component.defaultProps = {
     foo: 42
-}, (class extends ReactComponent {
-}).propTypes = {
-    foo: PropTypes.number,
-    bar: PropTypes.node.isRequired
-}, (class extends ReactComponent {
-}).defaultProps = {
-    foo: 42
-};
+}, PropTypes.number, PropTypes.node.isRequired;
 class BothWithSpecifiedGeneric extends ReactComponent {
 }
 BothWithSpecifiedGeneric.propTypes = {
@@ -22,11 +15,4 @@ BothWithSpecifiedGeneric.propTypes = {
     baz: PropTypes.number.isRequired
 }, BothWithSpecifiedGeneric.defaultProps = {
     foo: "yo"
-}, (class extends ReactComponent {
-}).propTypes = {
-    foo: PropTypes.string,
-    bar: PropTypes.node.isRequired
-}, (class extends ReactComponent {
-}).defaultProps = {
-    foo: "no"
-};
+}, PropTypes.string, PropTypes.node.isRequired;

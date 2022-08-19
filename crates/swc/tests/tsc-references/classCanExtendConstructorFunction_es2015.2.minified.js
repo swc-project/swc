@@ -15,9 +15,7 @@ var db = new class extends Wagon {
         super(), this.foonly = 12;
     }
 }();
-db.numberOxen = db.foonly;
-class Drakkhen extends Dragon {
-}
+db.numberOxen = db.foonly, Dragon;
 class Conestoga extends Wagon {
     static circle(others) {
         return others.length;

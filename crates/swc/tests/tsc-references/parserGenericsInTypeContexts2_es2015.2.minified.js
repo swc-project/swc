@@ -1,2 +1,1 @@
-class C extends A {
-}
+A;

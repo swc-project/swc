@@ -194,6 +194,7 @@ evaluate/unsafe_float_key_complex/input.js
 evaluate/unsafe_integer_key/input.js
 evaluate/unsafe_integer_key_complex/input.js
 evaluate/unsafe_object/input.js
+evaluate/unsafe_object_accessor/input.js
 evaluate/unsafe_object_complex/input.js
 evaluate/unsafe_object_nested/input.js
 evaluate/unsafe_object_repeated/input.js
