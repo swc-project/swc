@@ -284,13 +284,13 @@
                     }
             }
             if (invokeCallback) {
-                var newKey, _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
+                var oldElement, newKey, _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
                 if (Array.isArray(mappedChild)) {
                     var escapedChildKey = "";
                     null != childKey && (escapedChildKey = escapeUserProvidedKey(childKey) + "/"), mapIntoArray(mappedChild, array, escapedChildKey, "", function(c) {
                         return c;
                     });
-                } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = (newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey, ReactElement(mappedChild.type, newKey, mappedChild.ref, mappedChild._self, mappedChild._source, mappedChild._owner, mappedChild.props))), array.push(mappedChild));
+                } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey, ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props))), array.push(mappedChild));
                 return 1;
             }
             var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";

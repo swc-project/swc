@@ -122,8 +122,8 @@
                     "blurDataURL", 
                 ]), rest = all, layout = sizes ? "responsive" : "intrinsic";
                 "layout" in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
-                var staticSrc = "";
-                if ("object" == typeof src && (isStaticRequire(src) || void 0 !== src.src)) {
+                var src1, staticSrc = "";
+                if ("object" == typeof (src1 = src) && (isStaticRequire(src1) || void 0 !== src1.src)) {
                     var staticImageData = isStaticRequire(src) ? src.default : src;
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
                     if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));

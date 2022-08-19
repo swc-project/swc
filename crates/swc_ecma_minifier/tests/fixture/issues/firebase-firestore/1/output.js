@@ -1161,8 +1161,8 @@
                 return t instanceof Fe ? Me(t, e) : t instanceof Le ? Be(t, e) : n;
             }
             function $e(t, e) {
-                var n;
-                return t instanceof Ue ? $t(n = e) || n && "doubleValue" in n ? e : {
+                var n, t1;
+                return t instanceof Ue ? $t(n = e) || (t1 = n) && "doubleValue" in t1 ? e : {
                     integerValue: 0
                 } : null;
             }
@@ -3493,20 +3493,20 @@
                                 query: function(t) {
                                     var e;
                                     const e1 = function(t) {
-                                        var t1;
-                                        let e = function(t) {
+                                        var t1, t2, e, n, s, i, o, c;
+                                        let e1 = function(t) {
                                             const e = Wn(t);
                                             return 4 === e.length ? ht.emptyPath() : Xn(e);
                                         }(t.parent);
-                                        const n = t.structuredQuery, s = n.from ? n.from.length : 0;
-                                        let i = null;
-                                        if (s > 0) {
-                                            1 === s || L();
-                                            const t2 = n.from[0];
-                                            t2.allDescendants ? i = t2.collectionId : e = e.child(t2.collectionId);
+                                        const n1 = t.structuredQuery, s1 = n1.from ? n1.from.length : 0;
+                                        let i1 = null;
+                                        if (s1 > 0) {
+                                            1 === s1 || L();
+                                            const t3 = n1.from[0];
+                                            t3.allDescendants ? i1 = t3.collectionId : e1 = e1.child(t3.collectionId);
                                         }
                                         let r = [];
-                                        n.where && (r = function hs(t) {
+                                        n1.where && (r = function hs(t) {
                                             return t ? void 0 !== t.unaryFilter ? [
                                                 function(t) {
                                                     switch(t.unaryFilter.op){
@@ -3562,9 +3562,9 @@
                                                     }
                                                 }(t.fieldFilter.op), t.fieldFilter.value)
                                             ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
-                                        }(n.where));
-                                        let o = [];
-                                        n.orderBy && (o = n.orderBy.map((t)=>new ae(ms(t.field), function(t) {
+                                        }(n1.where));
+                                        let o1 = [];
+                                        n1.orderBy && (o1 = n1.orderBy.map((t)=>new ae(ms(t.field), function(t) {
                                                 switch(t){
                                                     case "ASCENDING":
                                                         return "asc";
@@ -3574,12 +3574,12 @@
                                                         return;
                                                 }
                                             }(t.direction))));
-                                        let c = null, e1;
-                                        n.limit && (c = At(e1 = "object" == typeof (t1 = n.limit) ? t1.value : t1) ? null : e1);
+                                        let c1 = null, e2;
+                                        n1.limit && (c1 = At(e2 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e2);
                                         let a = null;
-                                        n.startAt && (a = fs(n.startAt));
+                                        n1.startAt && (a = fs(n1.startAt));
                                         let u = null;
-                                        return n.endAt && (u = fs(n.endAt)), new fe(e, i, o, r, c, "F", a, u);
+                                        return n1.endAt && (u = fs(n1.endAt)), t2 = e1, e = i1, n = o1, s = r, i = c1, o = a, c = u, new fe(t2, e, n, s, i, "F", o, c);
                                     }({
                                         parent: t.parent,
                                         structuredQuery: t.structuredQuery
@@ -5309,7 +5309,8 @@
                 if ("object" == typeof t) {
                     if (t instanceof Array) return "an array";
                     {
-                        const e = t.constructor ? t.constructor.name : null;
+                        var t1;
+                        const e = (t1 = t).constructor ? t1.constructor.name : null;
                         return e ? `a custom ${e} object` : "an object";
                     }
                 }
@@ -5736,8 +5737,8 @@
                         nullValue: "NULL_VALUE"
                     };
                     if ("number" == typeof t) {
-                        var t1;
-                        return t1 = e.N, bt(t) ? De(t) : Se(t1, t);
+                        var t1, e1;
+                        return t1 = e.N, bt(e1 = t) ? De(e1) : Se(t1, e1);
                     }
                     if ("boolean" == typeof t) return {
                         booleanValue: t

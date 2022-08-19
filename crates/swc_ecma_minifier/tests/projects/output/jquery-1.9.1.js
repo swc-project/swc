@@ -266,10 +266,10 @@
     }), rootjQuery = jQuery(document);
     var optionsCache = {};
     jQuery.Callbacks = function(options) {
-        options = "string" == typeof options ? optionsCache[options] || (object = optionsCache[options] = {}, jQuery.each(options.match(core_rnotwhite) || [], function(_, flag) {
+        options = "string" == typeof options ? optionsCache[options] || (object = optionsCache[options1 = options] = {}, jQuery.each(options1.match(core_rnotwhite) || [], function(_, flag) {
             object[flag] = !0;
         }), object) : jQuery.extend({}, options);
-        var object, firing, memory, fired, firingLength, firingIndex, firingStart, list = [], stack = !options.once && [], fire = function(data) {
+        var options1, object, firing, memory, fired, firingLength, firingIndex, firingStart, list = [], stack = !options.once && [], fire = function(data) {
             for(memory = options.memory && data, fired = !0, firingIndex = firingStart || 0, firingStart = 0, firingLength = list.length, firing = !0; list && firingIndex < firingLength; firingIndex++)if (!1 === list[firingIndex].apply(data[0], data[1]) && options.stopOnFalse) {
                 memory = !1;
                 break;

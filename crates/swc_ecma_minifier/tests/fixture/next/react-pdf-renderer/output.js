@@ -1979,16 +1979,16 @@
                     height: t[1]
                 };
             }, et = function(t) {
-                var e, r, n, i = (null === (e = t.props) || void 0 === e ? void 0 : e.size) || "A4", o = parseFloat((null === (r = t.props) || void 0 === r ? void 0 : r.dpi) || 72), a = typeof i, u = i;
-                return "string" === a ? u = tK(tJ[i.toUpperCase()]) : Array.isArray(i) ? u = tK(i) : "number" === a && (u = tK([
-                    i
-                ])), u = (n = o / 72, {
-                    width: u.width ? u.width * n : u.width,
-                    height: u.height ? u.height * n : u.height
+                var e, r, n, i, o, a = (null === (e = t.props) || void 0 === e ? void 0 : e.size) || "A4", u = parseFloat((null === (r = t.props) || void 0 === r ? void 0 : r.dpi) || 72), l = typeof a, s = a;
+                return "string" === l ? s = tK(tJ[a.toUpperCase()]) : Array.isArray(a) ? s = tK(a) : "number" === l && (s = tK([
+                    a
+                ])), s = (n = s, i = u / 72, {
+                    width: n.width ? n.width * i : n.width,
+                    height: n.height ? n.height * i : n.height
                 }), "landscape" === tQ(t) ? {
-                    width: u.height,
-                    height: u.width
-                } : u;
+                    width: (o = s).height,
+                    height: o.width
+                } : s;
             }, ee = function(t) {
                 var e = et(t), r = G.default(t.style || {});
                 return U.default({}, t, {
@@ -6045,15 +6045,15 @@
             }, d = function(t, e) {
                 return function(r) {
                     var n = (void 0 === t && (t = {}), function(r, n, a) {
-                        var u, l, d = n === a.length - 1, p = (null === (u = r.runs) || void 0 === u ? void 0 : null === (l = u[0]) || void 0 === l ? void 0 : l.attributes) || {}, h = d ? p.alignLastLine : p.align;
-                        return (0, i.compose)(t.textDecoration(e), function(r) {
-                            var n = (0, o.default)(r), i = s[h] || 0, a = Math.max(0, r.box.width - n), u = "justify" === h || n > r.box.width, l = r.box.x + a * i, f = Object.assign({}, r.box, {
-                                x: l
-                            }), c = Object.assign({}, r, {
-                                box: f
+                        var u, l, d, p = n === a.length - 1, h = (null === (u = r.runs) || void 0 === u ? void 0 : null === (l = u[0]) || void 0 === l ? void 0 : l.attributes) || {}, $ = p ? h.alignLastLine : h.align;
+                        return (0, i.compose)(t.textDecoration(e), (d = t, function(t) {
+                            var r = (0, o.default)(t), n = s[$] || 0, i = Math.max(0, t.box.width - r), a = "justify" === $ || r > t.box.width, u = t.box.x + i * n, l = Object.assign({}, t.box, {
+                                x: u
+                            }), f = Object.assign({}, t, {
+                                box: l
                             });
-                            return u ? t.justification(e)(c) : c;
-                        }, c, f)(r);
+                            return a ? d.justification(e)(f) : f;
+                        }), c, f)(r);
                     });
                     return r.map(function(t) {
                         return t.map(n);
@@ -8473,9 +8473,19 @@
                     }
                     function p() {
                         return this.bodyUsed = !1, this._initBody = function(t) {
-                            this._bodyInit = t, t ? "string" == typeof t ? this._bodyText = t : r.blob && Blob.prototype.isPrototypeOf(t) ? this._bodyBlob = t : r.formData && FormData.prototype.isPrototypeOf(t) ? this._bodyFormData = t : r.searchParams && URLSearchParams.prototype.isPrototypeOf(t) ? this._bodyText = t.toString() : r.arrayBuffer && r.blob && t && DataView.prototype.isPrototypeOf(t) ? (this._bodyArrayBuffer = d(t.buffer), this._bodyInit = new Blob([
-                                this._bodyArrayBuffer, 
-                            ])) : r.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(t) || i(t)) ? this._bodyArrayBuffer = d(t) : this._bodyText = t = Object.prototype.toString.call(t) : this._bodyText = "", !this.headers.get("content-type") && ("string" == typeof t ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : r.searchParams && URLSearchParams.prototype.isPrototypeOf(t) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"));
+                            if (this._bodyInit = t, t) {
+                                if ("string" == typeof t) this._bodyText = t;
+                                else if (r.blob && Blob.prototype.isPrototypeOf(t)) this._bodyBlob = t;
+                                else if (r.formData && FormData.prototype.isPrototypeOf(t)) this._bodyFormData = t;
+                                else if (r.searchParams && URLSearchParams.prototype.isPrototypeOf(t)) this._bodyText = t.toString();
+                                else {
+                                    var e;
+                                    r.arrayBuffer && r.blob && (e = t) && DataView.prototype.isPrototypeOf(e) ? (this._bodyArrayBuffer = d(t.buffer), this._bodyInit = new Blob([
+                                        this._bodyArrayBuffer, 
+                                    ])) : r.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(t) || i(t)) ? this._bodyArrayBuffer = d(t) : this._bodyText = t = Object.prototype.toString.call(t);
+                                }
+                            } else this._bodyText = "";
+                            !this.headers.get("content-type") && ("string" == typeof t ? this.headers.set("content-type", "text/plain;charset=UTF-8") : this._bodyBlob && this._bodyBlob.type ? this.headers.set("content-type", this._bodyBlob.type) : r.searchParams && URLSearchParams.prototype.isPrototypeOf(t) && this.headers.set("content-type", "application/x-www-form-urlencoded;charset=UTF-8"));
                         }, r.blob && (this.blob = function() {
                             var t = s(this);
                             if (t) return t;
@@ -21184,18 +21194,18 @@
                         }
                         function C(t, e, r, n, i) {
                             c("readableAddChunk", e);
-                            var o, a = t._readableState;
-                            if (null === e) a.reading = !1, F(t, a);
-                            else if (i || (o = S(a, e)), o) w(t, o);
-                            else if (a.objectMode || e && e.length > 0) {
-                                if ("string" == typeof e || a.objectMode || Object.getPrototypeOf(e) === u.prototype || (e = u.from(e)), n) a.endEmitted ? w(t, new D()) : T(t, a, e, !0);
-                                else if (a.ended) w(t, new m());
+                            var o, a, l = t._readableState;
+                            if (null === e) l.reading = !1, F(t, l);
+                            else if (i || (a = S(l, e)), a) w(t, a);
+                            else if (l.objectMode || e && e.length > 0) {
+                                if ("string" == typeof e || l.objectMode || Object.getPrototypeOf(e) === u.prototype || (e = (o = e, u.from(o))), n) l.endEmitted ? w(t, new D()) : T(t, l, e, !0);
+                                else if (l.ended) w(t, new m());
                                 else {
-                                    if (a.destroyed) return !1;
-                                    a.reading = !1, a.decoder && !r ? (e = a.decoder.write(e), a.objectMode || 0 !== e.length ? T(t, a, e, !1) : R(t, a)) : T(t, a, e, !1);
+                                    if (l.destroyed) return !1;
+                                    l.reading = !1, l.decoder && !r ? (e = l.decoder.write(e), l.objectMode || 0 !== e.length ? T(t, l, e, !1) : R(t, l)) : T(t, l, e, !1);
                                 }
-                            } else n || (a.reading = !1, R(t, a));
-                            return !a.ended && (a.length < a.highWaterMark || 0 === a.length);
+                            } else n || (l.reading = !1, R(t, l));
+                            return !l.ended && (l.length < l.highWaterMark || 0 === l.length);
                         }
                         function T(t, e, r, n) {
                             e.flowing && 0 === e.length && !e.sync ? (e.awaitDrain = 0, t.emit("data", r)) : (e.length += e.objectMode ? 1 : r.length, n ? e.buffer.unshift(r) : e.buffer.push(r), e.needReadable && A(t)), R(t, e);
@@ -21596,30 +21606,30 @@
                         }, k.prototype.pipe = function() {
                             w(this, new g());
                         }, k.prototype.write = function(t, e, r) {
-                            var i, o, a, u, l = this._writableState, s = !1, d = !l.objectMode && (f.isBuffer(t) || t instanceof c);
-                            return (d && !f.isBuffer(t) && (t = f.from(t)), "function" == typeof e && (r = e, e = null), d ? e = "buffer" : e || (e = l.defaultEncoding), "function" != typeof r && (r = E), l.ending) ? (i = this, o = new b(), w(i, o), n.nextTick(r, o)) : (d || (a = this, null === t ? u = new m() : "string" == typeof t || l.objectMode || (u = new $("chunk", [
+                            var i, o, a, u, l, s, d, p, h, y = this._writableState, v = !1, g = !y.objectMode && (h = t, f.isBuffer(h) || h instanceof c);
+                            return g && !f.isBuffer(t) && (t = (i = t, f.from(i))), ("function" == typeof e && (r = e, e = null), g ? e = "buffer" : e || (e = y.defaultEncoding), "function" != typeof r && (r = E), y.ending) ? (o = this, a = r, u = new b(), w(o, u), n.nextTick(a, u)) : (g || (l = this, s = t, d = r, null === s ? p = new m() : "string" == typeof s || y.objectMode || (p = new $("chunk", [
                                 "string",
                                 "Buffer"
-                            ], t)), !u || (w(a, u), n.nextTick(r, u), 0))) && (l.pendingcb++, s = function(t, e, r, n, i, o) {
+                            ], s)), !p || (w(l, p), n.nextTick(d, p), 0))) && (y.pendingcb++, v = function(t, e, r, n, i, o) {
                                 if (!r) {
-                                    var a = (e.objectMode || !1 === e.decodeStrings || "string" != typeof n || (n = f.from(n, i)), n);
-                                    n !== a && (r = !0, i = "buffer", n = a);
+                                    var a, u, l = (a = n, u = i, e.objectMode || !1 === e.decodeStrings || "string" != typeof a || (a = f.from(a, u)), a);
+                                    n !== l && (r = !0, i = "buffer", n = l);
                                 }
-                                var u = e.objectMode ? 1 : n.length;
-                                e.length += u;
-                                var l = e.length < e.highWaterMark;
-                                if (l || (e.needDrain = !0), e.writing || e.corked) {
-                                    var s = e.lastBufferedRequest;
+                                var s = e.objectMode ? 1 : n.length;
+                                e.length += s;
+                                var c = e.length < e.highWaterMark;
+                                if (c || (e.needDrain = !0), e.writing || e.corked) {
+                                    var d = e.lastBufferedRequest;
                                     e.lastBufferedRequest = {
                                         chunk: n,
                                         encoding: i,
                                         isBuf: r,
                                         callback: o,
                                         next: null
-                                    }, s ? s.next = e.lastBufferedRequest : e.bufferedRequest = e.lastBufferedRequest, e.bufferedRequestCount += 1;
-                                } else C(t, e, !1, u, n, i, o);
-                                return l;
-                            }(this, l, d, t, e, r)), s;
+                                    }, d ? d.next = e.lastBufferedRequest : e.bufferedRequest = e.lastBufferedRequest, e.bufferedRequestCount += 1;
+                                } else C(t, e, !1, s, n, i, o);
+                                return c;
+                            }(this, y, g, t, e, r)), v;
                         }, k.prototype.cork = function() {
                             this._writableState.corked++;
                         }, k.prototype.uncork = function() {
@@ -21653,8 +21663,8 @@
                         }), k.prototype._write = function(t, e, r) {
                             r(new y("_write()"));
                         }, k.prototype._writev = null, k.prototype.end = function(t, e, r) {
-                            var i, o = this._writableState;
-                            return "function" == typeof t ? (r = t, t = null, e = null) : "function" == typeof e && (r = e, e = null), null != t && this.write(t, e), o.corked && (o.corked = 1, this.uncork()), o.ending || (i = this, o.ending = !0, R(i, o), r && (o.finished ? n.nextTick(r) : i.once("finish", r)), o.ended = !0, i.writable = !1), this;
+                            var i, o, a = this._writableState;
+                            return "function" == typeof t ? (r = t, t = null, e = null) : "function" == typeof e && (r = e, e = null), null != t && this.write(t, e), a.corked && (a.corked = 1, this.uncork()), a.ending || (i = this, o = r, a.ending = !0, R(i, a), o && (a.finished ? n.nextTick(o) : i.once("finish", o)), a.ended = !0, i.writable = !1), this;
                         }, Object.defineProperty(k.prototype, "writableLength", {
                             enumerable: !1,
                             get: function() {
@@ -22086,34 +22096,34 @@
                         }
                         t.exports = function() {
                             for(var t, e = arguments.length, i = Array(e), f = 0; f < e; f++)i[f] = arguments[f];
-                            var c = i.length && "function" == typeof i[i.length - 1] ? i.pop() : u;
+                            var c, d = (c = i).length && "function" == typeof c[c.length - 1] ? c.pop() : u;
                             if (Array.isArray(i[0]) && (i = i[0]), i.length < 2) throw new o("streams");
-                            var d = i.map(function(e, o) {
+                            var p = i.map(function(e, o) {
                                 var u = o < i.length - 1;
                                 return function(t, e, i, o) {
-                                    o = (u = !1, function() {
-                                        u || (u = !0, o.apply(void 0, arguments));
+                                    o = (u = o, l = !1, function() {
+                                        l || (l = !0, u.apply(void 0, arguments));
                                     });
-                                    var u, l = !1;
+                                    var u, l, s = !1;
                                     t.on("close", function() {
-                                        l = !0;
+                                        s = !0;
                                     }), void 0 === n && (n = r(494)), n(t, {
                                         readable: e,
                                         writable: i
                                     }, function(t) {
                                         if (t) return o(t);
-                                        l = !0, o();
+                                        s = !0, o();
                                     });
-                                    var s = !1;
+                                    var f = !1;
                                     return function(e) {
-                                        if (!l && !s) {
-                                            if (s = !0, t.setHeader && "function" == typeof t.abort) return t.abort();
+                                        if (!s && !f) {
+                                            if (f = !0, t.setHeader && "function" == typeof t.abort) return t.abort();
                                             if ("function" == typeof t.destroy) return t.destroy();
                                             o(e || new a("pipe"));
                                         }
                                     };
                                 }(e, u, o > 0, function(e) {
-                                    t || (t = e), e && d.forEach(l), u || (d.forEach(l), c(t));
+                                    t || (t = e), e && p.forEach(l), u || (p.forEach(l), d(t));
                                 });
                             });
                             return i.reduce(s);
@@ -27330,13 +27340,13 @@
                     attemptSynchronousHydration: function(t) {
                         switch(t.tag){
                             case 3:
-                                var e, r = t.stateNode;
-                                r.hydrate && (e = r.firstPendingTime, iR(r, e), ii(r), (nF & (n6 | n4)) === nx && ef());
+                                var e, r, n = t.stateNode;
+                                n.hydrate && (e = n, r = n.firstPendingTime, iR(e, r), ii(e), (nF & (n6 | n4)) === nx && ef());
                                 break;
                             case 13:
                                 iu(function() {
                                     return it(t, 1073741823);
-                                }), r = ep(nJ(), 150, 100), iL(t, r);
+                                }), n = ep(nJ(), 150, 100), iL(t, n);
                         }
                     },
                     attemptUserBlockingHydration: function(t) {

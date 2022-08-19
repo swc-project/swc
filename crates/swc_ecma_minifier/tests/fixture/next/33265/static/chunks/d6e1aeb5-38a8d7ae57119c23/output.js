@@ -7161,8 +7161,8 @@
                 hexDump: hexDump,
                 tagDump: tagDump,
                 textRanges: function(ranges) {
-                    var i, result = "";
-                    for(i = 0; i < ranges.length; i++)result += ranges.start(i) + "-" + ranges.end(i) + " ";
+                    var i, i1, result = "";
+                    for(i1 = 0; i1 < ranges.length; i1++)result += (i = i1, ranges.start(i) + "-" + ranges.end(i) + " ");
                     return result;
                 }
             }), playerTimeToProgramTime = function(playerTime, segment) {

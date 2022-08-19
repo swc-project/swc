@@ -3493,15 +3493,15 @@
             }
             function deepmerge(target, source, options) {
                 (options = options || {}).arrayMerge = options.arrayMerge || defaultArrayMerge, options.isMergeableObject = options.isMergeableObject || isMergeableObject, options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
-                var destination, sourceIsArray = Array.isArray(source), targetIsArray = Array.isArray(target);
-                return sourceIsArray !== targetIsArray ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (destination = {}, options.isMergeableObject(target) && getKeys(target).forEach(function(key) {
-                    destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
+                var options1, destination, sourceIsArray = Array.isArray(source), targetIsArray = Array.isArray(target);
+                return sourceIsArray !== targetIsArray ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (destination = {}, (options1 = options).isMergeableObject(target) && getKeys(target).forEach(function(key) {
+                    destination[key] = cloneUnlessOtherwiseSpecified(target[key], options1);
                 }), getKeys(source).forEach(function(key) {
-                    (!propertyIsOnObject(target, key) || Object.hasOwnProperty.call(target, key) && Object.propertyIsEnumerable.call(target, key)) && (propertyIsOnObject(target, key) && options.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {
+                    (!propertyIsOnObject(target, key) || Object.hasOwnProperty.call(target, key) && Object.propertyIsEnumerable.call(target, key)) && (propertyIsOnObject(target, key) && options1.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {
                         if (!options.customMerge) return deepmerge;
                         var customMerge = options.customMerge(key);
                         return "function" == typeof customMerge ? customMerge : deepmerge;
-                    })(key, options)(target[key], source[key], options) : destination[key] = cloneUnlessOtherwiseSpecified(source[key], options));
+                    })(key, options1)(target[key], source[key], options1) : destination[key] = cloneUnlessOtherwiseSpecified(source[key], options1));
                 }), destination);
             }
             deepmerge.all = function(array, options) {
@@ -4618,7 +4618,7 @@
                 }, t.toString = function() {
                     return function(e) {
                         for(var t = e.getTag(), n = t.length, r = "", o = 0; o < n; o++){
-                            var s = k.get(o);
+                            var e1, s = (e1 = o, k.get(e1));
                             if (void 0 !== s) {
                                 var i = e.names.get(s), a = t.getGroup(o);
                                 if (i && a && i.size) {
@@ -4856,8 +4856,8 @@
             function Me(e) {
                 for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
                 for(var o = 0, s = n; o < s.length; o++){
-                    var i = s[o];
-                    if (Ve(i)) for(var a in i)"__proto__" !== a && "constructor" !== a && "prototype" !== a && ze(e, i[a], a);
+                    var e1, i = s[o];
+                    if (Ve(i)) for(var a in i)"__proto__" !== (e1 = a) && "constructor" !== e1 && "prototype" !== e1 && ze(e, i[a], a);
                 }
                 return e;
             }

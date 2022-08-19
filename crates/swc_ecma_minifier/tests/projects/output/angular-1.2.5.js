@@ -579,8 +579,8 @@
         dealoc: jqLiteDealoc,
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
-            var eventHandler, events = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events || jqLiteExpandoStore(element, "events", events = {}), handle || jqLiteExpandoStore(element, "handle", handle = ((eventHandler = function(event, type) {
+            var events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", handle = (events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -597,7 +597,7 @@
                     fn.call(element, event);
                 }), msie <= 8 ? (event.preventDefault = null, event.stopPropagation = null, event.isDefaultPrevented = null) : (delete event.preventDefault, delete event.stopPropagation, delete event.isDefaultPrevented);
             }).elem = element, eventHandler)), forEach(type.split(" "), function(type) {
-                var eventFns = events[type];
+                var eventFns = events1[type];
                 if (!eventFns) {
                     if ("mouseenter" == type || "mouseleave" == type) {
                         var contains = document1.body.contains || document1.body.compareDocumentPosition ? function(a, b) {
@@ -609,15 +609,15 @@
                             }
                             return !1;
                         };
-                        events[type] = [], onFn(element, {
+                        events1[type] = [], onFn(element, {
                             mouseleave: "mouseout",
                             mouseenter: "mouseover"
                         }[type], function(event) {
                             var related = event.relatedTarget;
                             related && (related === this || contains(this, related)) || handle(event, type);
                         });
-                    } else addEventListenerFn(element, type, handle), events[type] = [];
-                    eventFns = events[type];
+                    } else addEventListenerFn(element, type, handle), events1[type] = [];
+                    eventFns = events1[type];
                 }
                 eventFns.push(fn);
             });
@@ -2954,6 +2954,7 @@
             adjustedMatchers.push(function(matcher) {
                 if ("self" === matcher) return matcher;
                 if (isString(matcher)) {
+                    var s;
                     if (matcher.indexOf("***") > -1) throw $sceMinErr("iwcard", "Illegal sequence *** in string matcher.  String: {0}", matcher);
                     return RegExp("^" + (matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*")) + "$");
                 }
@@ -3465,7 +3466,7 @@
                 form.$setValidity(validationToken, !0, control);
             }), arrayRemove(controls, control);
         }, form.$setValidity = function(validationToken, isValid, control) {
-            var queue = errors[validationToken];
+            var array, queue = errors[validationToken];
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {

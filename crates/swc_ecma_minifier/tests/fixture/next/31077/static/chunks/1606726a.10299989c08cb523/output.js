@@ -2605,9 +2605,9 @@
                         }(view.dom, coords, box))) return null;
                     }
                     if (result.safari) for(var p = elt; node && p; p = parentNode(p))p.draggable && (node = offset = null);
-                    if (elt = (parent = elt.parentNode) && /^li$/i.test(parent.nodeName) && coords.left < elt.getBoundingClientRect().left ? parent : elt, node) {
+                    if (elt = (parent = (dom = elt).parentNode) && /^li$/i.test(parent.nodeName) && coords.left < dom.getBoundingClientRect().left ? parent : dom, node) {
                         if (result.gecko && 1 == node.nodeType && (offset = Math.min(offset, node.childNodes.length)) < node.childNodes.length) {
-                            var parent, box$1, next = node.childNodes[offset];
+                            var dom, parent, box$1, next = node.childNodes[offset];
                             "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords.left && box$1.bottom > coords.top && offset++;
                         }
                         node == view.dom && offset == node.childNodes.length - 1 && 1 == node.lastChild.nodeType && coords.top > node.lastChild.getBoundingClientRect().bottom ? pos = view.state.doc.content.size : (0 == offset || 1 != node.nodeType || "BR" != node.childNodes[offset - 1].nodeName) && (pos = function(view, node, offset, coords) {

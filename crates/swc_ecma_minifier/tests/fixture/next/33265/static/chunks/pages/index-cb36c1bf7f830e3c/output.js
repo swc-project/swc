@@ -41,7 +41,8 @@
                 }
             });
             var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
-                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || ArrayBuffer.isView(bytes) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
+                var obj;
+                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || (obj = bytes, ArrayBuffer.isView(obj)) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
                 ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
             }, BigInt = global_window__WEBPACK_IMPORTED_MODULE_0___default().BigInt || Number, BYTE_TABLE = [
@@ -458,12 +459,12 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml = function findEbml(bytes, paths) {
-                paths = Array.isArray(paths) ? paths.map(function(p) {
+                paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
                     return ebml_helpers_normalizePath(p);
                 }) : [
-                    ebml_helpers_normalizePath(paths)
+                    ebml_helpers_normalizePath(paths1)
                 ], bytes = (0, byte_helpers.Ki)(bytes);
-                var results = [];
+                var paths1, results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
@@ -3238,7 +3239,7 @@
                 return "text/vtt" === attributes.mimeType || "text" === attributes.contentType;
             }, toM3u8 = function(dashPlaylists, locations, sidxMapping) {
                 if (void 0 === sidxMapping && (sidxMapping = {}), !dashPlaylists.length) return {};
-                var _mediaGroups, _dashPlaylists$0$attr = dashPlaylists[0].attributes, duration = _dashPlaylists$0$attr.sourceDuration, type = _dashPlaylists$0$attr.type, suggestedPresentationDelay = _dashPlaylists$0$attr.suggestedPresentationDelay, minimumUpdatePeriod = _dashPlaylists$0$attr.minimumUpdatePeriod, videoPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(videoOnly)).map(formatVideoPlaylist), audioPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(audioOnly)), vttPlaylists = dashPlaylists.filter(vttOnly), captions = dashPlaylists.map(function(playlist) {
+                var sidxMapping1, _mediaGroups, _dashPlaylists$0$attr = dashPlaylists[0].attributes, duration = _dashPlaylists$0$attr.sourceDuration, type = _dashPlaylists$0$attr.type, suggestedPresentationDelay = _dashPlaylists$0$attr.suggestedPresentationDelay, minimumUpdatePeriod = _dashPlaylists$0$attr.minimumUpdatePeriod, videoPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(videoOnly)).map(formatVideoPlaylist), audioPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(audioOnly)), vttPlaylists = dashPlaylists.filter(vttOnly), captions = dashPlaylists.map(function(playlist) {
                     return playlist.attributes.captionServices;
                 }).filter(Boolean), manifest = {
                     allowCache: !0,
@@ -3255,7 +3256,7 @@
                 };
                 minimumUpdatePeriod >= 0 && (manifest.minimumUpdatePeriod = 1000 * minimumUpdatePeriod), locations && (manifest.locations = locations), "dynamic" === type && (manifest.suggestedPresentationDelay = suggestedPresentationDelay);
                 var isAudioOnly = 0 === manifest.playlists.length;
-                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (void 0 === sidxMapping && (sidxMapping = {}), vttPlaylists.reduce(function(a, playlist) {
+                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (void 0 === (sidxMapping1 = sidxMapping) && (sidxMapping1 = {}), vttPlaylists.reduce(function(a, playlist) {
                     var label = playlist.attributes.lang || "text";
                     return a[label] || (a[label] = {
                         language: label,
@@ -3263,7 +3264,7 @@
                         autoselect: !1,
                         playlists: [],
                         uri: ""
-                    }), a[label].playlists.push(addSidxSegmentsToPlaylist$1(formatVttPlaylist(playlist), sidxMapping)), a;
+                    }), a[label].playlists.push(addSidxSegmentsToPlaylist$1(formatVttPlaylist(playlist), sidxMapping1)), a;
                 }, {}))), captions.length && (manifest.mediaGroups["CLOSED-CAPTIONS"].cc = captions.reduce(function(svcObj, svc) {
                     return svc && svc.forEach(function(service) {
                         var channel = service.channel, language = service.language;
@@ -3568,9 +3569,9 @@
                             Object.keys(contentProtection).length && (attrs = merge(attrs, {
                                 contentProtection: contentProtection
                             }));
-                            var segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo = merge(periodSegmentInfo, segmentInfo);
-                            return flatten(representations.map(function(representation) {
-                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements), attributes = merge(attrs, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
+                            var adaptationSetAttributes1, segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo = merge(periodSegmentInfo, segmentInfo);
+                            return flatten(representations.map((adaptationSetAttributes1 = attrs, function(representation) {
+                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements), attributes = merge(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
                                 return repBaseUrls.map(function(baseUrl) {
                                     return {
                                         segmentInfo: merge(adaptationSetSegmentInfo, representationSegmentInfo),
@@ -3579,7 +3580,7 @@
                                         })
                                     };
                                 });
-                            }));
+                            })));
                         }));
                     }))
                 };

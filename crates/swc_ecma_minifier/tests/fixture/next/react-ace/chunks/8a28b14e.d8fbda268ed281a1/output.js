@@ -1258,11 +1258,11 @@
                     }, this), editor.on("mousedown", this.onMouseDown.bind(mouseHandler));
                     var dragSelectionMarker, x, y, timerId, range, dragCursor, mouseTarget = editor.container, counter = 0;
                     function onDragInterval() {
-                        var now, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement, cursor, now1, vMovement1, hMovement, prevCursor = dragCursor;
-                        cursor = dragCursor = editor.renderer.screenToTextCoordinates(x, y), now1 = Date.now(), vMovement1 = !prevCursor || cursor.row != prevCursor.row, hMovement = !prevCursor || cursor.column != prevCursor.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor), cursorMovedTime = now1, cursorPointOnCaretMoved = {
+                        var cursor, now, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement, cursor1, now1, vMovement1, hMovement, prevCursor = dragCursor;
+                        cursor1 = dragCursor = editor.renderer.screenToTextCoordinates(x, y), now1 = Date.now(), vMovement1 = !prevCursor || cursor1.row != prevCursor.row, hMovement = !prevCursor || cursor1.column != prevCursor.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor1), cursorMovedTime = now1, cursorPointOnCaretMoved = {
                             x: x,
                             y: y
-                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), offsets = {
+                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor = dragCursor, now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), offsets = {
                             x: {
                                 left: x - editorRect.left,
                                 right: editorRect.right - x
@@ -1272,9 +1272,9 @@
                                 bottom: editorRect.bottom - y
                             }
                         }, nearestXOffset = Math.min(offsets.x.left, offsets.x.right), nearestYOffset = Math.min(offsets.y.top, offsets.y.bottom), scrollCursor = {
-                            row: dragCursor.row,
-                            column: dragCursor.column
-                        }, nearestXOffset / characterWidth <= 2 && (scrollCursor.column += offsets.x.left < offsets.x.right ? -3 : 2), nearestYOffset / lineHeight <= 1 && (scrollCursor.row += offsets.y.top < offsets.y.bottom ? -1 : 1), vScroll = dragCursor.row != scrollCursor.row, hScroll = dragCursor.column != scrollCursor.column, vMovement = !prevCursor || dragCursor.row != prevCursor.row, vScroll || hScroll && !vMovement ? autoScrollStartTime ? now - autoScrollStartTime >= 200 && editor.renderer.scrollCursorIntoView(scrollCursor) : autoScrollStartTime = now : autoScrollStartTime = null;
+                            row: cursor.row,
+                            column: cursor.column
+                        }, nearestXOffset / characterWidth <= 2 && (scrollCursor.column += offsets.x.left < offsets.x.right ? -3 : 2), nearestYOffset / lineHeight <= 1 && (scrollCursor.row += offsets.y.top < offsets.y.bottom ? -1 : 1), vScroll = cursor.row != scrollCursor.row, hScroll = cursor.column != scrollCursor.column, vMovement = !prevCursor || cursor.row != prevCursor.row, vScroll || hScroll && !vMovement ? autoScrollStartTime ? now - autoScrollStartTime >= 200 && editor.renderer.scrollCursorIntoView(scrollCursor) : autoScrollStartTime = now : autoScrollStartTime = null;
                     }
                     function addDragMarker() {
                         range = editor.selection.toOrientedRange(), dragSelectionMarker = editor.session.addMarker(range, "ace_selection", editor.getSelectionStyle()), editor.clearSelection(), editor.isFocused() && editor.renderer.$cursorLayer.setBlinking(!1), clearInterval(timerId), onDragInterval(), timerId = setInterval(onDragInterval, 20), counter = 0, event.addListener(document, "mousemove", onMouseMove);
@@ -9075,11 +9075,12 @@
                     return rest;
                 }
                 function moveDeltasByOne(redoStack, d) {
+                    var d1;
                     d = {
-                        start: clonePos(d.start),
-                        end: clonePos(d.end),
-                        action: d.action,
-                        lines: d.lines.slice()
+                        start: clonePos((d1 = d).start),
+                        end: clonePos(d1.end),
+                        action: d1.action,
+                        lines: d1.lines.slice()
                     };
                     for(var j = redoStack.length; j--;){
                         for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){

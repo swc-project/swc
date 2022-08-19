@@ -6444,7 +6444,7 @@
                         };
                     }
                     function _decodeFromBoundingBox(box) {
-                        var line, result, ctx = _canvas.ctx.overlay;
+                        var line, result, line1, ctx = _canvas.ctx.overlay;
                         config.debug.drawBoundingBox && ctx && image_debug.a.drawPath(box, {
                             x: 0,
                             y: 1
@@ -6452,7 +6452,7 @@
                             color: "blue",
                             lineWidth: 2
                         });
-                        var lineLength = Math.sqrt(Math.pow(Math.abs((line = [
+                        var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line = [
                             {
                                 x: (box[1][0] - box[0][0]) / 2 + box[0][0],
                                 y: (box[1][1] - box[0][1]) / 2 + box[0][1]
@@ -6461,7 +6461,7 @@
                                 x: (box[3][0] - box[2][0]) / 2 + box[2][0],
                                 y: (box[3][1] - box[2][1]) / 2 + box[2][1]
                             }, 
-                        ])[1].y - line[0].y), 2) + Math.pow(Math.abs(line[1].x - line[0].x), 2)), lineAngle = Math.atan2(line[1].y - line[0].y, line[1].x - line[0].x);
+                        ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle = Math.atan2(line[1].y - line[0].y, line[1].x - line[0].x);
                         return null === (line = function(line, angle, ext) {
                             function extendLine(amount) {
                                 var extension = {
@@ -7126,9 +7126,9 @@
                 }, _that.getData = function() {
                     return _data;
                 }, _that.grab = function() {
-                    var ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
+                    var canvas, ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
                     if (drawable) {
-                        if (_canvas.width !== _canvasSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), _canvas.width = _canvasSize.x), _canvas.height !== _canvasSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), _canvas.height = _canvasSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
+                        if ((canvas = _canvas).width !== _canvasSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.width = _canvasSize.x), canvas.height !== _canvasSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.height = _canvasSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
                             case 6:
                                 drawAngle = 90 * TO_RADIANS;
                                 break;

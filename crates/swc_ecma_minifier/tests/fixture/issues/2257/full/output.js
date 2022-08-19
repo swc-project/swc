@@ -438,7 +438,7 @@
             }
             function parseRoutes(routes, fallback) {
                 return routes.map(function(route) {
-                    var ref, __LAZY__, dynamicImport, __LOADABLE__, children = route.children, component = route.component, routeWrappers = route.routeWrappers, wrappers = route.wrappers, others = swcHelpers.objectWithoutProperties(route, [
+                    var routerWrappers, ref, __LAZY__, dynamicImport, __LOADABLE__, children = route.children, component = route.component, routeWrappers = route.routeWrappers, wrappers = route.wrappers, others = swcHelpers.objectWithoutProperties(route, [
                         "children",
                         "component",
                         "routeWrappers",
@@ -446,23 +446,23 @@
                     ]), mergedRouteWrappers = children ? [] : routeWrappers;
                     wrappers && wrappers.length && (mergedRouteWrappers = mergedRouteWrappers.concat(wrappers));
                     var parsedRoute = swcHelpers.objectSpread({}, others);
-                    return component && (parsedRoute.component = (__LAZY__ = (ref = component || {}).__LAZY__, dynamicImport = ref.dynamicImport, __LOADABLE__ = ref.__LOADABLE__, __LOADABLE__ ? _component.default(dynamicImport, {
+                    return component && (parsedRoute.component = (routerWrappers = mergedRouteWrappers, __LAZY__ = (ref = component || {}).__LAZY__, dynamicImport = ref.dynamicImport, __LOADABLE__ = ref.__LOADABLE__, __LOADABLE__ ? _component.default(dynamicImport, {
                         resolveComponent: function(mod) {
                             var comp = mod.default;
-                            return setComponentAttr(comp, route), wrapperRoute(comp, mergedRouteWrappers);
+                            return setComponentAttr(comp, route), wrapperRoute(comp, routerWrappers);
                         },
                         fallback: fallback
                     }) : __LAZY__ ? _react.lazy(function() {
                         return dynamicImport().then(function(mod) {
-                            if (mergedRouteWrappers && mergedRouteWrappers.length) {
+                            if (routerWrappers && routerWrappers.length) {
                                 var comp = mod.default;
                                 return setComponentAttr(comp, route), swcHelpers.objectSpread({}, mod, {
-                                    default: wrapperRoute(comp, mergedRouteWrappers)
+                                    default: wrapperRoute(comp, routerWrappers)
                                 });
                             }
                             return mod;
                         });
-                    }) : (setComponentAttr(component, route), wrapperRoute(component, mergedRouteWrappers)))), children && (parsedRoute.children = parseRoutes(children, fallback)), parsedRoute;
+                    }) : (setComponentAttr(component, route), wrapperRoute(component, routerWrappers)))), children && (parsedRoute.children = parseRoutes(children, fallback)), parsedRoute;
                 });
             }
             function Routes(param) {
@@ -8807,7 +8807,7 @@
                         case AUTHORITY:
                             if ("@" == chr) {
                                 seenAt && (buffer = "%40" + buffer), seenAt = !0, bufferCodePoints = arrayFrom(buffer);
-                                for(var i = 0; i < bufferCodePoints.length; i++){
+                                for(var segment, segment1, i = 0; i < bufferCodePoints.length; i++){
                                     var codePoint = bufferCodePoints[i];
                                     if (":" == codePoint && !seenPasswordToken) {
                                         seenPasswordToken = !0;
@@ -8905,7 +8905,7 @@
                             break;
                         case PATH:
                             if (chr == EOF || "/" == chr || "\\" == chr && isSpecial(url) || !stateOverride && ("?" == chr || "#" == chr)) {
-                                if (".." === (buffer = buffer.toLowerCase()) || "%2e." === buffer || ".%2e" === buffer || "%2e%2e" === buffer ? (shortenURLsPath(url), "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("")) : "." === buffer || "%2e" === buffer.toLowerCase() ? "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("") : ("file" == url.scheme && !url.path.length && isWindowsDriveLetter(buffer) && (url.host && (url.host = ""), buffer = buffer.charAt(0) + ":"), url.path.push(buffer)), buffer = "", "file" == url.scheme && (chr == EOF || "?" == chr || "#" == chr)) for(; url.path.length > 1 && "" === url.path[0];)url.path.shift();
+                                if (".." === (segment = (segment = buffer).toLowerCase()) || "%2e." === segment || ".%2e" === segment || "%2e%2e" === segment ? (shortenURLsPath(url), "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("")) : "." === (segment1 = buffer) || "%2e" === segment1.toLowerCase() ? "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("") : ("file" == url.scheme && !url.path.length && isWindowsDriveLetter(buffer) && (url.host && (url.host = ""), buffer = buffer.charAt(0) + ":"), url.path.push(buffer)), buffer = "", "file" == url.scheme && (chr == EOF || "?" == chr || "#" == chr)) for(; url.path.length > 1 && "" === url.path[0];)url.path.shift();
                                 "?" == chr ? (url.query = "", state = QUERY) : "#" == chr && (url.fragment = "", state = FRAGMENT);
                             } else buffer += percentEncode(chr, pathPercentEncodeSet);
                             break;
@@ -10153,6 +10153,7 @@
                 return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", attachKeys(RegExp("^" + route, flags(options)), keys);
             }
             function pathToRegexp(path, keys, options) {
+                var keys1, options1;
                 return (isarray(keys) || (options = keys || options, keys = []), options = options || {}, path instanceof RegExp) ? function(path, keys) {
                     var groups = path.source.match(/\((?!\?)/g);
                     if (groups) for(var i = 0; i < groups.length; i++)keys.push({
@@ -10170,7 +10171,7 @@
                     for(var parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
                     var regexp = RegExp("(?:" + parts.join("|") + ")", flags(options));
                     return attachKeys(regexp, keys);
-                }(path, keys, options) : tokensToRegExp(parse(path, options), keys, options);
+                }(path, keys, options) : (keys1 = keys, tokensToRegExp(parse(path, options1 = options), keys1, options1));
             }
         },
         97671: function(module) {
@@ -10822,7 +10823,7 @@
                 return a[1].toUpperCase();
             }
             function qa(a, b, c, d) {
-                var e = D.hasOwnProperty(b) ? D[b] : null;
+                var a1, e = D.hasOwnProperty(b) ? D[b] : null;
                 (null !== e ? 0 === e.type : !d && 2 < b.length && ("o" === b[0] || "O" === b[0]) && ("n" === b[1] || "N" === b[1])) || (function(a, b, c, d) {
                     if (null == b || function(a, b, c, d) {
                         if (null !== c && 0 === c.type) return !1;
@@ -10850,7 +10851,7 @@
                             return isNaN(b) || 1 > b;
                     }
                     return !1;
-                }(b, c, e, d) && (c = null), d || null === e ? (!!ia.call(ka, b) || !ia.call(ja, b) && (ha.test(b) ? ka[b] = !0 : (ja[b] = !0, !1))) && (null === c ? a.removeAttribute(b) : a.setAttribute(b, "" + c)) : e.mustUseProperty ? a[e.propertyName] = null === c ? 3 !== e.type && "" : c : (b = e.attributeName, d = e.attributeNamespace, null === c ? a.removeAttribute(b) : (c = 3 === (e = e.type) || 4 === e && !0 === c ? "" : "" + c, d ? a.setAttributeNS(d, b, c) : a.setAttribute(b, c))));
+                }(b, c, e, d) && (c = null), d || null === e ? (a1 = b, (!!ia.call(ka, a1) || !ia.call(ja, a1) && (ha.test(a1) ? ka[a1] = !0 : (ja[a1] = !0, !1))) && (null === c ? a.removeAttribute(b) : a.setAttribute(b, "" + c))) : e.mustUseProperty ? a[e.propertyName] = null === c ? 3 !== e.type && "" : c : (b = e.attributeName, d = e.attributeNamespace, null === c ? a.removeAttribute(b) : (c = 3 === (e = e.type) || 4 === e && !0 === c ? "" : "" + c, d ? a.setAttributeNS(d, b, c) : a.setAttribute(b, c))));
             }
             "accent-height alignment-baseline arabic-form baseline-shift cap-height clip-path clip-rule color-interpolation color-interpolation-filters color-profile color-rendering dominant-baseline enable-background fill-opacity fill-rule flood-color flood-opacity font-family font-size font-size-adjust font-stretch font-style font-variant font-weight glyph-name glyph-orientation-horizontal glyph-orientation-vertical horiz-adv-x horiz-origin-x image-rendering letter-spacing lighting-color marker-end marker-mid marker-start overline-position overline-thickness paint-order panose-1 pointer-events rendering-intent shape-rendering stop-color stop-opacity strikethrough-position strikethrough-thickness stroke-dasharray stroke-dashoffset stroke-linecap stroke-linejoin stroke-miterlimit stroke-opacity stroke-width text-anchor text-decoration text-rendering underline-position underline-thickness unicode-bidi unicode-range units-per-em v-alphabetic v-hanging v-ideographic v-mathematical vector-effect vert-adv-y vert-origin-x vert-origin-y word-spacing writing-mode xmlns:xlink x-height".split(" ").forEach(function(a) {
                 var b = a.replace(oa, pa);
@@ -16364,13 +16365,13 @@
                     var _this = this;
                     return _react_17_0_2_react.createElement(context.Consumer, null, function(context$1) {
                         context$1 || (0, tiny_invariant_esm.default)(!1);
-                        var location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({}, context$1, {
+                        var children, location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({}, context$1, {
                             location: location,
                             match: match
-                        }), _this$props = _this.props, children = _this$props.children, component = _this$props.component, render = _this$props.render;
-                        return Array.isArray(children) && 0 === _react_17_0_2_react.Children.count(children) && (children = null), _react_17_0_2_react.createElement(context.Provider, {
+                        }), _this$props = _this.props, children1 = _this$props.children, component = _this$props.component, render = _this$props.render;
+                        return Array.isArray(children1) && (children = children1, 0 === _react_17_0_2_react.Children.count(children)) && (children1 = null), _react_17_0_2_react.createElement(context.Provider, {
                             value: props
-                        }, props.match ? children ? "function" == typeof children ? children(props) : children : component ? _react_17_0_2_react.createElement(component, props) : render ? render(props) : null : "function" == typeof children ? children(props) : null);
+                        }, props.match ? children1 ? "function" == typeof children1 ? children1(props) : children1 : component ? _react_17_0_2_react.createElement(component, props) : render ? render(props) : null : "function" == typeof children1 ? children1(props) : null);
                     });
                 }, Route;
             }(_react_17_0_2_react.Component);
@@ -16603,7 +16604,7 @@
                 if (null == a) return a;
                 var e = [], d = 0;
                 return !function O(a, b, c, e, d) {
-                    var b1, k = typeof a;
+                    var a1, b1, a2, k = typeof a;
                     ("undefined" === k || "boolean" === k) && (a = null);
                     var h = !1;
                     if (null === a) h = !0;
@@ -16621,19 +16622,19 @@
                     }
                     if (h) return d = d(h = a), a = "" === e ? "." + N(h, 0) : e, Array.isArray(d) ? (c = "", null != a && (c = a.replace(M, "$&/") + "/"), O(d, b, c, "", function(a) {
                         return a;
-                    })) : null != d && (L(d) && (d = (b1 = c + (!d.key || h && h.key === d.key ? "" : ("" + d.key).replace(M, "$&/") + "/") + a, {
+                    })) : null != d && (L(d) && (d = (a1 = d, b1 = c + (!d.key || h && h.key === d.key ? "" : ("" + d.key).replace(M, "$&/") + "/") + a, {
                         $$typeof: n,
-                        type: d.type,
+                        type: a1.type,
                         key: b1,
-                        ref: d.ref,
-                        props: d.props,
-                        _owner: d._owner
+                        ref: a1.ref,
+                        props: a1.props,
+                        _owner: a1._owner
                     })), b.push(d)), 1;
                     if (h = 0, e = "" === e ? "." : e + ":", Array.isArray(a)) for(var g = 0; g < a.length; g++){
                         var f = e + N(k = a[g], g);
                         h += O(k, b, c, f, d);
                     }
-                    else if ("function" == typeof (f = null === a || "object" != typeof a ? null : "function" == typeof (a = x && a[x] || a["@@iterator"]) ? a : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
+                    else if ("function" == typeof (f = null === (a2 = a) || "object" != typeof a2 ? null : "function" == typeof (a2 = x && a2[x] || a2["@@iterator"]) ? a2 : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
                     else if ("object" === k) throw Error(z(31, "[object Object]" == (b = "" + a) ? "object with keys {" + Object.keys(a).join(", ") + "}" : b));
                     return h;
                 }(a, e, "", "", function(a) {

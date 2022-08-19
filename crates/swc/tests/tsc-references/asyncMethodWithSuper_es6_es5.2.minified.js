@@ -51,7 +51,8 @@ var A = function() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        f = function() {}, _superprop_get_x().call(_this1), _superprop_get("x").call(_this1), a = _superprop_get_x(), b = _superprop_get("x"), _set(_get_prototype_of(B.prototype), "x", f, _this, !0), _set(_get_prototype_of(B.prototype), "x", f, _this, !0), ref = {
+                        var _value, _value1;
+                        f = function() {}, _superprop_get_x().call(_this1), _superprop_get("x").call(_this1), a = _superprop_get_x(), b = _superprop_get("x"), _value = f, _set(_get_prototype_of(B.prototype), "x", _value, _this, !0), _value1 = f, _set(_get_prototype_of(B.prototype), "x", _value1, _this, !0), ref = {
                             f: f
                         }, _superprop_get_x() = ref.f, ref1 = {
                             f: f
@@ -87,7 +88,8 @@ var A = function() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        f = function() {}, _set(_get_prototype_of(B.prototype), "x", f, _this, !0), ref = {
+                        var _value;
+                        _value = f = function() {}, _set(_get_prototype_of(B.prototype), "x", _value, _this, !0), ref = {
                             f: f
                         }, _superprop_get_x() = ref.f;
                     case 6:
@@ -121,7 +123,8 @@ var A = function() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        f = function() {}, _set(_get_prototype_of(B.prototype), "x", f, _this, !0), ref = {
+                        var _value;
+                        _value = f = function() {}, _set(_get_prototype_of(B.prototype), "x", _value, _this, !0), ref = {
                             f: f
                         }, _superprop_get("x") = ref.f;
                     case 6:
@@ -155,7 +158,8 @@ var A = function() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        f = function() {}, _set(_get_prototype_of(B.prototype), "x", f, _this, !0), ref = {
+                        var _value;
+                        _value = f = function() {}, _set(_get_prototype_of(B.prototype), "x", _value, _this, !0), ref = {
                             f: f
                         }, _superprop_get_x() = ref.f;
                     case 6:
@@ -189,7 +193,8 @@ var A = function() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        f = function() {}, _set(_get_prototype_of(B.prototype), "x", f, _this, !0), ref = {
+                        var _value;
+                        _value = f = function() {}, _set(_get_prototype_of(B.prototype), "x", _value, _this, !0), ref = {
                             f: f
                         }, _superprop_get("x") = ref.f;
                     case 6:

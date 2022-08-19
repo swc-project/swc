@@ -2101,8 +2101,8 @@
         maybeUpdateLineNumberWidth(cm) && (resetView(cm), update.dims = getDimensions(cm));
         var end = doc.first + doc.size, from = Math.max(update.visible.from - cm.options.viewportMargin, doc.first), to = Math.min(end, update.visible.to + cm.options.viewportMargin);
         display.viewFrom < from && from - display.viewFrom < 20 && (from = Math.max(doc.first, display.viewFrom)), display.viewTo > to && display.viewTo - to < 20 && (to = Math.min(end, display.viewTo)), sawCollapsedSpans && (from = visualLineNo(cm.doc, from), to = visualLineEndNo(cm.doc, to));
-        var display1, different = from != display.viewFrom || to != display.viewTo || display.lastWrapHeight != update.wrapperHeight || display.lastWrapWidth != update.wrapperWidth;
-        0 == (display1 = cm.display).view.length || from >= display1.viewTo || to <= display1.viewFrom ? (display1.view = buildViewArray(cm, from, to), display1.viewFrom = from) : (display1.viewFrom > from ? display1.view = buildViewArray(cm, from, display1.viewFrom).concat(display1.view) : display1.viewFrom < from && (display1.view = display1.view.slice(findViewIndex(cm, from))), display1.viewFrom = from, display1.viewTo < to ? display1.view = display1.view.concat(buildViewArray(cm, display1.viewTo, to)) : display1.viewTo > to && (display1.view = display1.view.slice(0, findViewIndex(cm, to)))), display1.viewTo = to, display.viewOffset = heightAtLine(getLine(cm.doc, display.viewFrom)), cm.display.mover.style.top = display.viewOffset + "px";
+        var from1, to1, display1, different = from != display.viewFrom || to != display.viewTo || display.lastWrapHeight != update.wrapperHeight || display.lastWrapWidth != update.wrapperWidth;
+        from1 = from, to1 = to, 0 == (display1 = cm.display).view.length || from1 >= display1.viewTo || to1 <= display1.viewFrom ? (display1.view = buildViewArray(cm, from1, to1), display1.viewFrom = from1) : (display1.viewFrom > from1 ? display1.view = buildViewArray(cm, from1, display1.viewFrom).concat(display1.view) : display1.viewFrom < from1 && (display1.view = display1.view.slice(findViewIndex(cm, from1))), display1.viewFrom = from1, display1.viewTo < to1 ? display1.view = display1.view.concat(buildViewArray(cm, display1.viewTo, to1)) : display1.viewTo > to1 && (display1.view = display1.view.slice(0, findViewIndex(cm, to1)))), display1.viewTo = to1, display.viewOffset = heightAtLine(getLine(cm.doc, display.viewFrom)), cm.display.mover.style.top = display.viewOffset + "px";
         var toUpdate = countDirtyView(cm);
         if (!different && 0 == toUpdate && !update.force && display.renderedView == display.view && (null == display.updateLineNumbers || display.updateLineNumbers >= display.viewTo)) return !1;
         var selSnapshot = function(cm) {
@@ -2558,15 +2558,15 @@
     }
     function setSelectionNoUndo(doc, sel, options) {
         if (hasHandler(doc, "beforeSelectionChange") || doc.cm && hasHandler(doc.cm, "beforeSelectionChange")) {
-            var obj;
+            var sel1, obj;
             sel = (obj = {
-                ranges: sel.ranges,
+                ranges: (sel1 = sel).ranges,
                 update: function(ranges) {
                     this.ranges = [];
                     for(var i = 0; i < ranges.length; i++)this.ranges[i] = new Range(clipPos(doc, ranges[i].anchor), clipPos(doc, ranges[i].head));
                 },
                 origin: options && options.origin
-            }, (signal(doc, "beforeSelectionChange", doc, obj), doc.cm && signal(doc.cm, "beforeSelectionChange", doc.cm, obj), obj.ranges != sel.ranges) ? normalizeSelection(doc.cm, obj.ranges, obj.ranges.length - 1) : sel);
+            }, (signal(doc, "beforeSelectionChange", doc, obj), doc.cm && signal(doc.cm, "beforeSelectionChange", doc.cm, obj), obj.ranges != sel1.ranges) ? normalizeSelection(doc.cm, obj.ranges, obj.ranges.length - 1) : sel1);
         }
         var bias = options && options.bias || (0 > cmp(sel.primary().head, doc.sel.primary().head) ? -1 : 1);
         setSelectionInner(doc, skipAtomicInSelection(doc, sel, bias, !0)), !(options && !1 === options.scroll) && doc.cm && "nocursor" != doc.cm.getOption("readOnly") && ensureCursorVisible(doc.cm);
@@ -5458,8 +5458,8 @@
                 from: range,
                 to: null
             }), range.to || (range.to = range.from), range.margin = margin || 0, null != range.from.line) {
-                var cm;
-                cm = this, resolveScrollToPos(cm), cm.curOp.scrollToPos = range;
+                var cm, range1;
+                cm = this, range1 = range, resolveScrollToPos(cm), cm.curOp.scrollToPos = range1;
             } else scrollToCoordsRange(this, range.from, range.to, range.margin);
         }),
         setSize: methodOp(function(width, height) {
