@@ -44,7 +44,6 @@ use crate::{
         postcompress::postcompress_optimizer, precompress::precompress_optimizer,
     },
     timing::Timings,
-    util::ModuleItemExt,
 };
 
 #[macro_use]
@@ -112,7 +111,7 @@ pub fn optimize(
                     _ => None,
                 })
                 .flat_map(|v| v.specifiers.iter())
-                .filter_map(|v| match v {
+                .map(|v| match v {
                     ImportSpecifier::Named(v) => v.local.to_id(),
                     ImportSpecifier::Default(v) => v.local.to_id(),
                     ImportSpecifier::Namespace(v) => v.local.to_id(),
@@ -128,9 +127,12 @@ pub fn optimize(
                 })
                 .flat_map(|v| v.specifiers.iter())
                 .filter_map(|v| match v {
-                    ExportSpecifier::Namespace(_) => {}
-                    ExportSpecifier::Default(_) => {}
-                    ExportSpecifier::Named(_) => {}
+                    ExportSpecifier::Named(v) => Some(v),
+                    _ => None,
+                })
+                .filter_map(|v| match &v.orig {
+                    ModuleExportName::Ident(i) => Some(i.to_id()),
+                    ModuleExportName::Str(_) => None,
                 })
                 .collect(),
         },
