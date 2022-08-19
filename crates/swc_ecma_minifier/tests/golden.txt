@@ -488,7 +488,6 @@ evaluate/string_charCodeAt/input.js
 evaluate/unary_prefix/input.js
 evaluate/unsafe_array_bad_index/input.js
 evaluate/unsafe_constant/input.js
-evaluate/unsafe_object_accessor/input.js
 evaluate/unsafe_string/input.js
 evaluate/unsafe_string_bad_index/input.js
 expansions/avoid_spread_getset_object/input.js
@@ -556,6 +555,7 @@ functions/issue_1841_1/input.js
 functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2101/input.js
+functions/issue_2428/input.js
 functions/issue_2531_2/input.js
 functions/issue_2630_3/input.js
 functions/issue_2647_1/input.js
@@ -1412,6 +1412,7 @@ template_string/tagged_template_function_inline_1/input.js
 template_string/tagged_template_function_inline_2/input.js
 template_string/tagged_template_function_inline_3/input.js
 template_string/tagged_template_function_inline_4/input.js
+template_string/tagged_template_function_inline_5/input.js
 template_string/tagged_template_parens/input.js
 template_string/tagged_template_valid_strict_legacy_octal/input.js
 template_string/tagged_template_with_comment/input.js
