@@ -117,24 +117,24 @@ pub fn optimize(
                     ImportSpecifier::Namespace(v) => v.local.to_id(),
                 })
                 .collect(),
-            exports: m
-                .body
-                .iter()
-                .filter_map(|v| v.as_module_decl())
-                .filter_map(|v| match v {
-                    ModuleDecl::ExportNamed(i) if i.src.is_none() => Some(i),
-                    _ => None,
-                })
-                .flat_map(|v| v.specifiers.iter())
-                .filter_map(|v| match v {
-                    ExportSpecifier::Named(v) => Some(v),
-                    _ => None,
-                })
-                .filter_map(|v| match &v.orig {
-                    ModuleExportName::Ident(i) => Some(i.to_id()),
-                    ModuleExportName::Str(_) => None,
-                })
-                .collect(),
+            // exports: m
+            //     .body
+            //     .iter()
+            //     .filter_map(|v| v.as_module_decl())
+            //     .filter_map(|v| match v {
+            //         ModuleDecl::ExportNamed(i) if i.src.is_none() => Some(i),
+            //         _ => None,
+            //     })
+            //     .flat_map(|v| v.specifiers.iter())
+            //     .filter_map(|v| match v {
+            //         ExportSpecifier::Named(v) => Some(v),
+            //         _ => None,
+            //     })
+            //     .filter_map(|v| match &v.orig {
+            //         ModuleExportName::Ident(i) => Some(i.to_id()),
+            //         ModuleExportName::Str(_) => None,
+            //     })
+            //     .collect(),
         },
     };
 

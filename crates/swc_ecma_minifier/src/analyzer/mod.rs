@@ -32,14 +32,14 @@ struct TestSnapshot {
 
 #[derive(Debug, Default)]
 pub(crate) struct ModuleInfo {
-    /// Named exports without `src`.
-    ///
-    /// e.g. `export { foo }`.
-    pub exports: AHashSet<Id>,
+    // /// Named exports without `src`.
+    // ///
+    // /// e.g. `export { foo }`.
+    // pub exports: AHashSet<Id>,
     pub imports: AHashSet<Id>,
 }
 
-pub(crate) fn analyze<N>(n: &N, module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
+pub(crate) fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
@@ -184,6 +184,7 @@ pub(crate) struct ProgramData {
 impl ProgramData {
     pub(crate) fn expand_infected(
         &self,
+        module_info: &ModuleInfo,
         ids: FxHashSet<Id>,
         max_num: usize,
     ) -> Result<FxHashSet<Id>, ()> {

@@ -391,6 +391,7 @@ where
             let mut visitor = optimizer(
                 self.marks,
                 self.options,
+                self.module_info,
                 &mut data,
                 self.mode,
                 !self.dump_for_infinite_loop.is_empty(),
