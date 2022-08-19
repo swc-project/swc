@@ -3,16 +3,16 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _possible_constructor_return from "@swc/helpers/src/_possible_constructor_return.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-export var A = function() {
+export var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
-export var B = function() {
+export var B = function B() {
     "use strict";
     _class_call_check(this, B);
 };
 B.cat = "cat";
-export var C = function() {
+export var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
@@ -20,7 +20,7 @@ C.Cls = function _class() {
     "use strict";
     _class_call_check(this, _class);
 };
-export var D = function(a, b) {
+export var D = function D(a, b) {
     "use strict";
     _class_call_check(this, D);
 };
@@ -77,15 +77,15 @@ export var F = function() {
         return new F(a, b);
     }, F;
 }();
-var G = function() {
+var G = function G() {
     "use strict";
     _class_call_check(this, G);
 };
-var HH = function() {
+var HH = function HH() {
     "use strict";
     _class_call_check(this, HH);
 };
-export var I = function() {
+export var I = function I() {
     "use strict";
     _class_call_check(this, I);
 };

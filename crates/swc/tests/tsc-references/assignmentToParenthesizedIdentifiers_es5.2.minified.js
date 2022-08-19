@@ -1,3 +1,4 @@
+var M, M2, E;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(M) {
     var y;
@@ -24,8 +25,3 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 }, function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), E = void 0, E = void 0;
-var M, M2, E, C = function() {
-    "use strict";
-    _class_call_check(this, C);
-};
-C = void 0, C = void 0;

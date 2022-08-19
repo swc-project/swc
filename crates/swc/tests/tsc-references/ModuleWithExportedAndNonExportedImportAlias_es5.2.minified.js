@@ -1,7 +1,7 @@
 var B, Geometry;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(B) {
-    var Line = function(start, end) {
+    var Line = function Line(start, end) {
         "use strict";
         _class_call_check(this, Line), this.start = start, this.end = end;
     };

@@ -8,7 +8,7 @@ function _templateObject() {
         return data;
     }, data;
 }
-var Foo = function() {
+var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
 };

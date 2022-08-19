@@ -8,8 +8,8 @@ use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, is_valid_prop_ident, prepend_stmt, private_ident,
-    prop_name_to_expr, quote_expr, quote_ident, quote_str, ExprFactory, IdentExt, IsDirective,
-    ModuleItemLike, StmtLike,
+    prop_name_to_expr, quote_expr, quote_ident, quote_str, replace_ident, ExprFactory, IdentExt,
+    IsDirective, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -254,7 +254,7 @@ where
         } = d
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **init {
-                c.ident = Some(i.id.clone())
+                c.ident = Some(i.id.clone().private())
             }
         }
 
@@ -265,7 +265,7 @@ where
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         if let Some(value) = &mut n.value {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **value {
-                c.ident = Some(n.key.clone());
+                c.ident = Some(n.key.clone().private());
             }
         }
 
@@ -280,7 +280,7 @@ where
             Expr::Class(c @ ClassExpr { ident: None, .. }),
         ) = (&*n.left, &mut *n.right)
         {
-            c.ident = Some(id.clone())
+            c.ident = Some(id.clone().private())
         }
 
         n.visit_mut_children_with(self);
@@ -328,12 +328,12 @@ where
                 match left {
                     PatOrExpr::Pat(pat) => {
                         if let Pat::Ident(i) = &**pat {
-                            c.ident = Some(i.id.clone())
+                            c.ident = Some(i.id.clone().private())
                         }
                     }
                     PatOrExpr::Expr(expr) => {
                         if let Expr::Ident(ident) = &**expr {
-                            c.ident = Some(ident.clone())
+                            c.ident = Some(ident.clone().private())
                         }
                     }
                 }
@@ -358,6 +358,10 @@ where
     fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
         let span = class.span;
         let mut rhs = self.fold_class(Some(ident.clone()), class);
+
+        let mut new_name = ident.clone();
+        new_name.span = new_name.span.apply_mark(Mark::new());
+        replace_ident(&mut rhs, ident.to_id(), &new_name);
 
         // let VarDecl take every comments except pure
         if let Expr::Call(call) = &mut rhs {

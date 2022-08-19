@@ -1,7 +1,7 @@
 module.exports = Point;
 export { };
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var Bar = function(input) {
+var Bar = function Bar(input) {
     "use strict";
     _class_call_check(this, Bar);
 };
@@ -21,7 +21,7 @@ export var y = {
         x: 12
     }
 };
-export var Bar2 = function(input) {
+export var Bar2 = function Bar2(input) {
     "use strict";
     _class_call_check(this, Bar2);
 };

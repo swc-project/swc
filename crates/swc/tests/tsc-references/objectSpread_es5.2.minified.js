@@ -38,13 +38,13 @@ _object_spread_props(_object_spread({}, o), {
 }), {
     c: 7
 }).a = 12, _object_spread({}, function() {}), _object_spread({}, anything);
-var C = function() {
+var c = new (function() {
     "use strict";
     function C() {
         _class_call_check(this, C), this.p = 1;
     }
     return C.prototype.m = function() {}, C;
-}(), c = new C();
+}())();
 function f(t, u) {
     return _object_spread_props(_object_spread({}, t, u), {
         id: "id"

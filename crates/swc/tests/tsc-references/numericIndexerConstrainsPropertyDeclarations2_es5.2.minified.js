@@ -19,8 +19,5 @@ var A = function() {
     return B.prototype.bar = function() {
         return "";
     }, B;
-}(A), Foo = function() {
-    "use strict";
-    _class_call_check(this, Foo);
-};
+}(A);
 new A(), new B(), new B();

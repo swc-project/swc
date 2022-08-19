@@ -8,7 +8,7 @@ import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var A = function() {
+var A = function A() {
     "use strict";
     _class_call_check(this, A), _class_static_private_method_get(A, A, foo).call(A, 30), _class_static_private_method_get(A, A, bar).call(A, 30), _class_static_private_method_get(A, A, bar).call(A, 30), _class_static_private_field_spec_set(A, A, _quux, _class_static_private_field_spec_get(A, A, _quux) + 1), _class_static_private_field_update(A, A, _quux).value++;
 }, _quux = {
@@ -37,15 +37,3 @@ function _bar() {
         }, _callee);
     }))).apply(this, arguments);
 }
-var B = function(A) {
-    "use strict";
-    _inherits(B, A);
-    var _super = _create_super(B);
-    function B() {
-        _class_call_check(this, B);
-        var _this = _super.call(this);
-        return _class_static_private_method_get(B, B, foo1).call(B, "str"), _this;
-    }
-    return B;
-}(A);
-function foo1(a) {}

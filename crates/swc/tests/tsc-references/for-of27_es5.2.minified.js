@@ -1,5 +1,5 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var StringIterator = function() {
+var StringIterator = function StringIterator() {
     "use strict";
     _class_call_check(this, StringIterator);
 }, _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;

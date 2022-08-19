@@ -4,7 +4,7 @@ import _class_private_field_init from "@swc/helpers/src/_class_private_field_ini
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var _a = new WeakMap(), _b = new WeakSet(), _c = new WeakMap();
-export var C = function() {
+export var C = function C() {
     "use strict";
     _class_call_check(this, C), _class_private_method_init(this, _b), _class_private_field_init(this, _c, {
         get: void 0,

@@ -43,10 +43,3 @@ var C = function() {
 C.sa = 1, C.sb = function() {
     return 1;
 };
-var D = function() {
-    "use strict";
-    function D(y) {
-        _class_call_check(this, D), this.y = y;
-    }
-    return D.prototype.foo = function() {}, D;
-}();

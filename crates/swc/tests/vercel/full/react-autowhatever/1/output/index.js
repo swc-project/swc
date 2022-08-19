@@ -9,18 +9,18 @@ Object.defineProperty(exports, "__esModule", {
 });
 var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@swc/helpers/lib/_inherits.js").default, n = require("@swc/helpers/lib/_interop_require_default.js").default, r = require("@swc/helpers/lib/_interop_require_wildcard.js").default, i = require("@swc/helpers/lib/_object_spread.js").default, d = require("@swc/helpers/lib/_object_spread_props.js").default, u = require("@swc/helpers/lib/_create_super.js").default, a = require("react/jsx-runtime"), l = r(require("react")), f = n(require("prop-types")), o = function(n) {
     "use strict";
-    t(o, n);
-    var r = u(o);
-    function o() {
+    t(l, n);
+    var r = u(l);
+    function l() {
         var t;
-        return e(this, o), t = r.apply(this, arguments), t.storeHighlightedItemReference = function(e) {
+        return e(this, l), t = r.apply(this, arguments), t.storeHighlightedItemReference = function(e) {
             t.props.onHighlightedItemChange(null === e ? null : e.item);
         }, t;
     }
-    var l = o.prototype;
-    return l.shouldComponentUpdate = function(e) {
+    var f = l.prototype;
+    return f.shouldComponentUpdate = function(e) {
         return !0;
-    }, l.render = function() {
+    }, f.render = function() {
         var e = this, t = this.props, n = t.items, r = t.itemProps, u = t.renderItem, l = t.renderItemData, f = t.sectionIndex, o = t.highlightedItemIndex, c = t.getItemId, s = t.theme, m = t.keyPrefix, h = null === f ? m : "".concat(m, "section-").concat(f, "-"), I = "function" == typeof r;
         return (0, a.jsx)("ul", d(i({
             role: "listbox"
@@ -43,7 +43,7 @@ var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@
                 }));
             })
         }));
-    }, o;
+    }, l;
 }(l.Component);
 o.propTypes = {
     items: f.default.array.isRequired,

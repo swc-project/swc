@@ -14,28 +14,8 @@ function rec4() {
     return rec3();
 }
 rec1(), rec2(), rec3(), rec4();
-var Base = function() {
+var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
-}, Derived = function(Base) {
-    "use strict";
-    _inherits(Derived, Base);
-    var _super = _create_super(Derived);
-    function Derived() {
-        return _class_call_check(this, Derived), _super.apply(this, arguments);
-    }
-    return Derived;
-}(Base);
-new Base(), new Base();
-var Derived2 = function(Base) {
-    "use strict";
-    _inherits(Derived2, Base);
-    var _super = _create_super(Derived2);
-    function Derived2() {
-        return _class_call_check(this, Derived2), _super.apply(this, arguments);
-    }
-    return Derived2;
-}(Base), AnotherClass = function() {
-    "use strict";
-    _class_call_check(this, AnotherClass);
 };
+new Base(), new Base();

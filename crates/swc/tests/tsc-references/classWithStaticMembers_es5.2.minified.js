@@ -20,7 +20,7 @@ var C = function() {
     ]), C;
 }(), r = C.fn();
 r.x, r.foo;
-var D = function(C) {
+var r = (function(C) {
     "use strict";
     _inherits(D, C);
     var _super = _create_super(D);
@@ -28,5 +28,5 @@ var D = function(C) {
         return _class_call_check(this, D), _super.apply(this, arguments);
     }
     return D;
-}(C), r = D.fn();
+})(C).fn();
 r.x, r.foo;

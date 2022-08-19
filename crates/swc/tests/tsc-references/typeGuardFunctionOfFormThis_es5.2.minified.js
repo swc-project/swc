@@ -35,7 +35,7 @@ var holder2 = {
     a: a
 };
 holder2.a.isLeader(), holder2.a;
-var ArrowGuard = function() {
+var ArrowGuard = function ArrowGuard() {
     "use strict";
     var _this = this;
     _class_call_check(this, ArrowGuard), this.isElite = function() {

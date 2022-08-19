@@ -2,7 +2,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var NUMBER, M, NUMBER1 = [
     1,
     2
-], A = function() {
+], A = function A() {
     "use strict";
     _class_call_check(this, A);
 };

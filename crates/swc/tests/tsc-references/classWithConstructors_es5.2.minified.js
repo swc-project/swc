@@ -3,12 +3,12 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 !function(NonGeneric) {
-    var C = function(x) {
+    var C = function C(x) {
         "use strict";
         _class_call_check(this, C);
     };
     new C(), new C("");
-    var C2 = function(x) {
+    var C2 = function C2(x) {
         "use strict";
         _class_call_check(this, C2);
     };
@@ -24,12 +24,12 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     }(C2);
     new D(), new D(1), new D("");
 }(NonGeneric || (NonGeneric = {})), function(Generics) {
-    var C = function(x) {
+    var C = function C(x) {
         "use strict";
         _class_call_check(this, C);
     };
     new C(), new C("");
-    var C2 = function(x) {
+    var C2 = function C2(x) {
         "use strict";
         _class_call_check(this, C2);
     };

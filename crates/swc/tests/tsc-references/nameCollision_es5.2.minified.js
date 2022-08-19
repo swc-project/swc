@@ -1,11 +1,6 @@
 var A, B, X, Y, D;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-A || (A = {}), B || (B = {}), function(B) {
-    var B1 = function() {
-        "use strict";
-        _class_call_check(this, B1);
-    };
-}(B || (B = {})), function(X) {
+A || (A = {}), B || (B = {}), B || (B = {}), function(X) {
     var Y;
     (Y = X.Y || (X.Y = {})).Z || (Y.Z = {});
 }(X || (X = {})), function(Y) {

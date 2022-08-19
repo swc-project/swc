@@ -11,7 +11,7 @@ var X = function() {
     return X.prototype.why = function() {}, X.now = function() {
         return {};
     }, X;
-}(), Y = function() {
+}(), Y = function Y() {
     "use strict";
     _class_call_check(this, Y);
 };

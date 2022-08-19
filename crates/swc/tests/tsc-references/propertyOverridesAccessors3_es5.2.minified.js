@@ -21,8 +21,7 @@ var Animal = function() {
         }
     ]), Animal;
 }();
-(new Animal).makeSound();
-var Lion = function(Animal) {
+(new Animal).makeSound(), (new (function(Animal) {
     "use strict";
     _inherits(Lion, Animal);
     var _super = _create_super(Lion);
@@ -31,5 +30,4 @@ var Lion = function(Animal) {
         return _class_call_check(this, Lion), _this = _super.apply(this, arguments), _this.sound = "RAWR!", _this;
     }
     return Lion;
-}(Animal);
-(new Lion).makeSound();
+}(Animal))).makeSound();

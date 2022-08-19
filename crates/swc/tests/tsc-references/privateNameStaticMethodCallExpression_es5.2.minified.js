@@ -33,7 +33,13 @@ function _templateObject2() {
         return data;
     }, data;
 }
-var AA = function() {
+function method() {
+    this.x = 10;
+}
+function method2(a) {
+    for(var _len = arguments.length, b = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)b[_key - 1] = arguments[_key];
+}
+(function() {
     "use strict";
     function AA() {
         _class_call_check(this, AA);
@@ -66,11 +72,4 @@ var AA = function() {
     }, AA.getClass = function() {
         return AA;
     }, AA;
-}();
-function method() {
-    this.x = 10;
-}
-function method2(a) {
-    for(var _len = arguments.length, b = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)b[_key - 1] = arguments[_key];
-}
-AA.x = 1;
+})().x = 1;

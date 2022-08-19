@@ -1,11 +1,8 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var AbstractBase = function() {
-    "use strict";
-    _class_call_check(this, AbstractBase);
-}, MixedBase = function(baseClass) {
-    var MixinClass = function(baseClass) {
+new (function(baseClass) {
+    return function(baseClass) {
         "use strict";
         _inherits(MixinClass, baseClass);
         var _super = _create_super(MixinClass);
@@ -14,14 +11,7 @@ var AbstractBase = function() {
         }
         return MixinClass.prototype.mixinMethod = function() {}, MixinClass;
     }(baseClass);
-    return MixinClass;
-}(AbstractBase), DerivedFromAbstract = function(MixedBase) {
+}(function AbstractBase() {
     "use strict";
-    _inherits(DerivedFromAbstract, MixedBase);
-    var _super = _create_super(DerivedFromAbstract);
-    function DerivedFromAbstract() {
-        return _class_call_check(this, DerivedFromAbstract), _super.apply(this, arguments);
-    }
-    return DerivedFromAbstract;
-}(MixedBase);
-new MixedBase();
+    _class_call_check(this, AbstractBase);
+}))();

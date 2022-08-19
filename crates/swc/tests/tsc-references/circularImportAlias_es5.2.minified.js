@@ -16,7 +16,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     }(a.C);
     B.D = D;
 }(B || (B = {})), function(A) {
-    var C = function() {
+    var C = function C() {
         "use strict";
         _class_call_check(this, C);
     };

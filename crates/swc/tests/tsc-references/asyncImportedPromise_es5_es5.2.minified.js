@@ -14,22 +14,3 @@ export var Task = function(Promise1) {
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var Test = function() {
-    "use strict";
-    function Test() {
-        _class_call_check(this, Test);
-    }
-    return Test.prototype.example = function() {
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function(_ctx) {
-                for(;;)switch(_ctx.prev = _ctx.next){
-                    case 0:
-                        return _ctx.abrupt("return");
-                    case 1:
-                    case "end":
-                        return _ctx.stop();
-                }
-            }, _callee);
-        }))();
-    }, Test;
-}();
