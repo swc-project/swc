@@ -61,7 +61,11 @@ impl Visit for NoDuplicateAtImportRules {
 
         if let Some(queries) = import_prelude.media.as_ref().map(|media| &media.queries) {
             queries.iter().fold(&mut self.imports, |imports, query| {
-                let media = query.media_type.as_ref().map(|ident| ident.value.clone());
+                let media = query.media_type.as_ref().map(|ident| {
+                    let MediaType::Ident(Ident { value, .. }) = ident;
+
+                    value.clone()
+                });
                 let pair = (href.clone(), media);
 
                 if imports.contains(&pair) {
