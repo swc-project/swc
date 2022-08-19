@@ -18,11 +18,10 @@ pub struct CompareCommand {
 
 impl CompareCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
-        let minified_mangled = get_minified(cm.clone(), &self.path, true, true)?;
-        let code = print_js(cm, &minified_mangled.module, true)
-            .context("failed to convert ast to code")?;
+        let record = get_minified(cm.clone(), &self.path, true, false)?;
+        let code = print_js(cm, &record.module, true).context("failed to convert ast to code")?;
 
-        let terser_mangled = get_terser_output(&self.path, true, true)?;
+        let terser_mangled = get_terser_output(&self.path, true, false)?;
 
         eprintln!("swc: {} bytes", code.as_bytes().len());
         eprintln!(
