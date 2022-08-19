@@ -31,8 +31,13 @@ pub enum CollapseWhitespaces {
     Smart,
     /// Remove and collapse multiple whitespace into one whitespace
     Conservative,
-    /// Remove whitespace in the `head` element, trim whitespaces for the `body`
-    /// element, remove spaces between `metadata` elements (i.e.
+    /// Remove and collapse multiple whitespace into one whitespace, remove
+    /// all whitespace in the `head` element, trim whitespaces for the `body`
+    /// element and remove spaces between `metadata` elements (i.e.
+    /// `script`/`style`/etc)
+    AdvancedConservative,
+    /// Remove all whitespace in the `head` element, trim whitespaces for the
+    /// `body` element, remove spaces between `metadata` elements (i.e.
     /// `script`/`style`/etc)
     OnlyMetadata,
 }

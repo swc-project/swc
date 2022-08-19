@@ -255,10 +255,6 @@
 <div>test </div><span><span><span><span>foo <span>baz</span></span></span></span></span>
 <span><span><span><span>foo <span>baz</span></span></span></span></span><div>test </div>
 
-<div><b>   foo
-
-</b></div>
-
 <div><div>
 
 <!--test-->
@@ -289,6 +285,23 @@
 
 <span> <!-- test --> text </span>
 <span> text <!-- test --> </span>
+
+<div>
+    <style>a { color: red }</style>
+    <span>test</span>
+    <style>a { color: red  }</style>
+</div>
+
+<div>
+    <style>a { color: red }</style>
+    <style>a { color: red  }</style>
+</div>
+
+<div>
+    <style>a { color: red }</style>
+    <span>test</span> <span>test</span>
+    <style>a { color: red  }</style>
+</div>
 
 <div>
     <script>console.log("test")</script>

@@ -918,6 +918,7 @@ impl Minifier<'_> {
             CollapseWhitespaces::Smart
             | CollapseWhitespaces::Conservative
             | CollapseWhitespaces::OnlyMetadata
+            | CollapseWhitespaces::AdvancedConservative
             | CollapseWhitespaces::None => false,
         };
 
@@ -1079,12 +1080,16 @@ impl Minifier<'_> {
                             CollapseWhitespaces::All
                                 | CollapseWhitespaces::Smart
                                 | CollapseWhitespaces::Conservative
+                                | CollapseWhitespaces::AdvancedConservative
                         ) =>
                 {
                     let mut is_smart_left_trim = false;
                     let mut is_smart_right_trim = false;
 
-                    if self.options.collapse_whitespaces == CollapseWhitespaces::Smart {
+                    if matches!(
+                        self.options.collapse_whitespaces,
+                        CollapseWhitespaces::Smart | CollapseWhitespaces::AdvancedConservative
+                    ) {
                         let prev = if index >= 1 {
                             children.get(index - 1)
                         } else {
@@ -1100,7 +1105,7 @@ impl Minifier<'_> {
                             _ => None,
                         };
 
-                        is_smart_left_trim = match prev_display {
+                        let allow_to_trim_left = match prev_display {
                             // Block-level containers:
                             //
                             // `Display::Block`    - `display: block flow`
@@ -1223,7 +1228,7 @@ impl Minifier<'_> {
                             _ => None,
                         };
 
-                        is_smart_right_trim = match next_display {
+                        let allow_to_trim_right = match next_display {
                             // Block-level containers:
                             //
                             // `Display::Block`    - `display: block flow`
@@ -1280,6 +1285,19 @@ impl Minifier<'_> {
                                 }
                             }
                         };
+
+                        if matches!(
+                            self.options.collapse_whitespaces,
+                            CollapseWhitespaces::Smart
+                        ) || (matches!(
+                            self.options.collapse_whitespaces,
+                            CollapseWhitespaces::AdvancedConservative
+                        ) && (prev_display == Some(Display::None)
+                            || next_display == Some(Display::None)))
+                        {
+                            is_smart_left_trim = allow_to_trim_left;
+                            is_smart_right_trim = allow_to_trim_right;
+                        }
                     }
 
                     let mut value = if (mode.trim) || is_smart_left_trim {
@@ -1891,7 +1909,10 @@ impl VisitMut for Minifier<'_> {
 
         self.current_element = None;
 
-        if self.options.collapse_whitespaces == CollapseWhitespaces::Smart {
+        if matches!(
+            self.options.collapse_whitespaces,
+            CollapseWhitespaces::Smart | CollapseWhitespaces::AdvancedConservative
+        ) {
             match n {
                 Child::Text(_) | Child::Element(_) => {
                     self.latest_element = Some(n.clone());
