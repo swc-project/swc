@@ -80,12 +80,12 @@ removable.removed, _object_without_properties(removable, [
 var i = removable;
 i.removed, _object_without_properties(i, [
     "removed"
-]);
-var computed = "b", computed2 = "a", o = (o[computed], o[computed2], _object_without_properties(o, [
-    computed,
-    computed2
-].map(_to_property_key)));
+]), o.b, o.a;
+var o = _object_without_properties(o, [
+    "b",
+    "a"
+].map(_to_property_key));
 o = _object_without_properties(_o = o, [
-    computed,
-    computed2
-].map(_to_property_key)), ref1 = _o, ref1[computed], ref1[computed2];
+    "b",
+    "a"
+].map(_to_property_key)), ref1 = _o, ref1.b, ref1.a;

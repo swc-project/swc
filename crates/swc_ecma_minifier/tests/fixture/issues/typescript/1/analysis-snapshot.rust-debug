@@ -35,20 +35,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #9,
-                    ),
-                    (
-                        Atom('umdHeader' type=dynamic),
-                        #10,
-                    ),
-                    (
-                        Atom('updated' type=inline),
-                        #10,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1126,12 +1113,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1171,12 +1153,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #9,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1216,12 +1193,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('umdHeader' type=dynamic),
-                        #10,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1415,12 +1387,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('createExportStatement' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1430,7 +1397,7 @@ TestSnapshot {
             ),
             VarUsageInfo {
                 inline_prevented: false,
-                ref_count: 2,
+                ref_count: 1,
                 cond_init: false,
                 declared: true,
                 declared_count: 1,
@@ -1438,7 +1405,7 @@ TestSnapshot {
                 declared_as_fn_expr: false,
                 assign_count: 0,
                 mutation_by_call_count: 0,
-                usage_count: 2,
+                usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: false,
@@ -1458,16 +1425,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('appendExportsOfDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('appendExportsOfBindingElement' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1505,16 +1463,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('appendExportStatement' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1552,16 +1501,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('appendExportStatement' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('appendExportsOfDeclaration' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1599,12 +1539,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('appendExportsOfDeclaration' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1642,12 +1577,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('appendExportsOfDeclaration' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1685,12 +1615,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('appendExportsOfBindingElement' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1728,12 +1653,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('argClone' type=dynamic),
-                        #28,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1771,12 +1691,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('body' type=inline),
-                        #29,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -1814,12 +1729,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('requireCall' type=dynamic),
-                        #30,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2097,40 +2007,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('_a' type=inline),
-                        #9,
-                    ),
-                    (
-                        Atom('_a' type=inline),
-                        #10,
-                    ),
-                    (
-                        Atom('resolver' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('factory' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('host' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('currentSourceFile' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2170,44 +2047,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('languageVersion' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('moduleKind' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('ensureUseStrict' type=dynamic),
-                        #7,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #9,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #10,
-                    ),
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #11,
-                    ),
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #27,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #34,
-                    ),
-                    (
-                        Atom('exportNeedsImportDefault' type=dynamic),
-                        #36,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2437,16 +2277,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('createExportExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('getExports' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2484,16 +2315,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statement' type=dynamic),
-                        #54,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2531,16 +2353,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('createExportExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2578,20 +2391,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('emitHelpers' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2629,20 +2429,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('emitHelpers' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2680,28 +2467,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('createImportCallExpressionCommonJS' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('createImportCallExpressionAMD' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('needUMDDynamicImportHelper' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('hoistVariableDeclaration' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2739,32 +2505,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('resolver' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('factory' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('host' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('currentSourceFile' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2802,16 +2543,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('createExportExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -2891,36 +2623,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('ensureUseStrict' type=dynamic),
-                        #7,
-                    ),
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #11,
-                    ),
-                    (
-                        Atom('importAliasName' type=dynamic),
-                        #11,
-                    ),
-                    (
-                        Atom('name' type=inline),
-                        #12,
-                    ),
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #27,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #34,
-                    ),
-                    (
-                        Atom('externalHelpersModuleName' type=dynamic),
-                        #63,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -3112,12 +2815,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportName' type=dynamic),
-                        #50,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -3155,12 +2853,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('name' type=inline),
-                        #51,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -3240,12 +2933,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #9,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -3255,7 +2943,7 @@ TestSnapshot {
             ),
             VarUsageInfo {
                 inline_prevented: false,
-                ref_count: 6,
+                ref_count: 1,
                 cond_init: false,
                 declared: true,
                 declared_count: 1,
@@ -3263,7 +2951,7 @@ TestSnapshot {
                 declared_as_fn_expr: false,
                 assign_count: 0,
                 mutation_by_call_count: 0,
-                usage_count: 6,
+                usage_count: 1,
                 reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: false,
@@ -3274,8 +2962,8 @@ TestSnapshot {
                 used_above_decl: false,
                 is_fn_local: false,
                 used_by_nested_fn: true,
-                executed_multiple_time: true,
-                used_in_cond: true,
+                executed_multiple_time: false,
+                used_in_cond: false,
                 var_kind: None,
                 var_initialized: true,
                 declared_as_catch_param: false,
@@ -3283,16 +2971,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('destructuringNeedsFlattening' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('getExports' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -3330,12 +3009,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitorWorker' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -3569,12 +3243,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportedValue' type=dynamic),
-                        #36,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -3654,12 +3323,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statementOffset' type=dynamic),
-                        #7,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -4017,12 +3681,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportSpecifiers_1' type=dynamic),
-                        #51,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -4102,12 +3761,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportedNames_1' type=dynamic),
-                        #26,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -4147,12 +3801,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportedNames_2' type=dynamic),
-                        #41,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -4192,12 +3841,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportedNames_3' type=dynamic),
-                        #64,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -4357,12 +4001,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('initializer' type=dynamic),
-                        #59,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -4720,16 +4359,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statement' type=dynamic),
-                        #15,
-                    ),
-                    (
-                        Atom('statement' type=dynamic),
-                        #15,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -4769,12 +4399,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statement' type=dynamic),
-                        #40,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -4894,12 +4519,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('argument' type=dynamic),
-                        #27,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -4939,36 +4559,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #9,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #10,
-                    ),
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #11,
-                    ),
-                    (
-                        Atom('importAliasName' type=dynamic),
-                        #11,
-                    ),
-                    (
-                        Atom('name' type=inline),
-                        #12,
-                    ),
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #27,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #34,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5008,12 +4599,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('argument' type=dynamic),
-                        #27,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5053,12 +4639,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('promise' type=inline),
-                        #29,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5138,12 +4719,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportedValue' type=dynamic),
-                        #36,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5181,36 +4757,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('resolver' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('factory' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('getHelperExpressionForImport' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('host' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('currentSourceFile' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5248,24 +4795,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportedNames' type=dynamic),
-                        #26,
-                    ),
-                    (
-                        Atom('exportedNames' type=dynamic),
-                        #41,
-                    ),
-                    (
-                        Atom('exportedNames' type=dynamic),
-                        #64,
-                    ),
-                    (
-                        Atom('currentModuleInfo' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5303,16 +4833,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('emitHelpers' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5350,20 +4871,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('expr' type=inline),
-                        #12,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('emitHelpers' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5401,24 +4909,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('transformUMDModule' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('transformAMDModule' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('transformCommonJSModule' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('transformModule' type=dynamic),
-                        #5,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5572,12 +5063,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('temp' type=inline),
-                        #28,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -5617,28 +5103,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #9,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #10,
-                    ),
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #11,
-                    ),
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #27,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #34,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -6078,12 +5543,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #9,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -6123,12 +5583,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #10,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -6328,16 +5783,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #11,
-                    ),
-                    (
-                        Atom('importAliasName' type=dynamic),
-                        #11,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -6375,12 +5821,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #34,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -6728,12 +6169,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statement' type=dynamic),
-                        #54,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -6885,12 +6321,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statement' type=dynamic),
-                        #54,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -6966,12 +6397,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7091,12 +6517,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('transformModule' type=dynamic),
-                        #5,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7174,12 +6595,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #9,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7219,12 +6635,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('umdHeader' type=dynamic),
-                        #10,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7304,12 +6715,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('expr' type=inline),
-                        #12,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7347,16 +6753,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportedNames' type=dynamic),
-                        #41,
-                    ),
-                    (
-                        Atom('expression' type=dynamic),
-                        #41,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7396,12 +6793,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportSpecifiers' type=dynamic),
-                        #51,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7439,12 +6831,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statement' type=dynamic),
-                        #54,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7522,12 +6909,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportedOrImportedName' type=dynamic),
-                        #59,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7605,12 +6987,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('valueDeclaration' type=dynamic),
-                        #65,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7884,12 +7261,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #5,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7927,16 +7299,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statementOffset' type=dynamic),
-                        #7,
-                    ),
-                    (
-                        Atom('updated' type=inline),
-                        #7,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -7974,24 +7337,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #9,
-                    ),
-                    (
-                        Atom('jsonSourceFile' type=dynamic),
-                        #9,
-                    ),
-                    (
-                        Atom('_a' type=inline),
-                        #9,
-                    ),
-                    (
-                        Atom('updated' type=inline),
-                        #9,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -8029,20 +7375,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('_a' type=inline),
-                        #10,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #10,
-                    ),
-                    (
-                        Atom('updated' type=inline),
-                        #10,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -8118,16 +7451,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('name' type=inline),
-                        #12,
-                    ),
-                    (
-                        Atom('expr' type=inline),
-                        #12,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -8621,12 +7945,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #27,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -8740,16 +8059,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('namespaceDeclaration' type=dynamic),
-                        #33,
-                    ),
-                    (
-                        Atom('id' type=inline),
-                        #33,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -8787,12 +8097,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('id' type=inline),
-                        #35,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -8830,16 +8135,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('generatedName' type=dynamic),
-                        #36,
-                    ),
-                    (
-                        Atom('exportNeedsImportDefault' type=dynamic),
-                        #36,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -8877,12 +8173,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('id' type=inline),
-                        #37,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -8920,12 +8211,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('id' type=inline),
-                        #38,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -8963,12 +8249,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('id' type=inline),
-                        #39,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -9006,16 +8287,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statement' type=dynamic),
-                        #40,
-                    ),
-                    (
-                        Atom('id' type=inline),
-                        #40,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -9091,12 +8363,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('id' type=inline),
-                        #43,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -9172,12 +8439,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('id' type=inline),
-                        #45,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -9519,16 +8781,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportContainer' type=dynamic),
-                        #63,
-                    ),
-                    (
-                        Atom('importDeclaration' type=dynamic),
-                        #63,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -9566,12 +8819,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('expression' type=dynamic),
-                        #64,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -9609,24 +8857,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('currentModuleInfo' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('previousOnEmitNode' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('currentSourceFile' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -9664,20 +8895,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('substituteExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('substituteShorthandPropertyAssignment' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('previousOnSubstituteNode' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -10033,16 +9251,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('parameters' type=dynamic),
-                        #29,
-                    ),
-                    (
-                        Atom('body' type=inline),
-                        #29,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -10162,16 +9371,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('parameters' type=dynamic),
-                        #29,
-                    ),
-                    (
-                        Atom('body' type=inline),
-                        #29,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -10211,20 +9411,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #11,
-                    ),
-                    (
-                        Atom('externalModuleName' type=dynamic),
-                        #27,
-                    ),
-                    (
-                        Atom('moduleName' type=dynamic),
-                        #34,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -10262,12 +9449,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('currentSourceFile' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -10627,16 +9809,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statementOffset' type=dynamic),
-                        #7,
-                    ),
-                    (
-                        Atom('updated' type=inline),
-                        #7,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -10676,16 +9849,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statementOffset' type=dynamic),
-                        #13,
-                    ),
-                    (
-                        Atom('body' type=inline),
-                        #13,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11347,16 +10511,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('createExportExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('getExports' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11394,16 +10549,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('substituteExpressionIdentifier' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11441,24 +10587,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('substituteTaggedTemplateExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('substituteCallExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('substituteExpressionIdentifier' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('substituteBinaryExpression' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11496,24 +10625,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('exportedOrImportedName' type=dynamic),
-                        #59,
-                    ),
-                    (
-                        Atom('expression' type=dynamic),
-                        #61,
-                    ),
-                    (
-                        Atom('tag' type=inline),
-                        #62,
-                    ),
-                    (
-                        Atom('currentSourceFile' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11551,12 +10663,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('substituteExpressionIdentifier' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11594,16 +10701,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('substituteExpressionIdentifier' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11761,56 +10859,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statementOffset' type=dynamic),
-                        #7,
-                    ),
-                    (
-                        Atom('statementOffset' type=dynamic),
-                        #13,
-                    ),
-                    (
-                        Atom('visitMergeDeclarationMarker' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitImportDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitVariableStatement' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitClassDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitExportAssignment' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('visitEndOfDeclarationMarker' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitExportDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitFunctionDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitImportEqualsDeclaration' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11848,36 +10897,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('transformAsynchronousModuleBody' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('factory' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('__spreadArray' type=dynamic),
-                        #6,
-                    ),
-                    (
-                        Atom('host' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('collectAsynchronousDependencies' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11915,52 +10935,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #9,
-                    ),
-                    (
-                        Atom('updated' type=inline),
-                        #10,
-                    ),
-                    (
-                        Atom('addExportEqualsIfNeeded' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('shouldEmitUnderscoreUnderscoreESModule' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('createUnderscoreUnderscoreESModule' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('endLexicalEnvironment' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('getAMDImportExpressionForImport' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('dynamicImportUMDHelper' type=dynamic),
-                        #2,
-                    ),
-                    (
-                        Atom('topLevelVisitor' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('startLexicalEnvironment' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('needUMDDynamicImportHelper' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -11998,40 +10973,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('addExportEqualsIfNeeded' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('shouldEmitUnderscoreUnderscoreESModule' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('createUnderscoreUnderscoreESModule' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('currentSourceFile' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('endLexicalEnvironment' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('startLexicalEnvironment' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('topLevelVisitor' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12069,24 +11011,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('createAllExportExpressions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('context' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12124,20 +11049,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('__spreadArray' type=dynamic),
-                        #6,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('dynamicImportUMDHelper' type=dynamic),
-                        #2,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12177,12 +11089,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #5,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12220,44 +11127,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('currentModuleInfo' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('moduleKind' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('resolver' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('currentSourceFile' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('getTransformModuleDelegate' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('needUMDDynamicImportHelper' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('context' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12295,36 +11165,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('transformAsynchronousModuleBody' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('factory' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('__spreadArray' type=dynamic),
-                        #6,
-                    ),
-                    (
-                        Atom('collectAsynchronousDependencies' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('host' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12442,12 +11283,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #10,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12487,12 +11323,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #9,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12532,12 +11363,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('umdHeader' type=dynamic),
-                        #10,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12615,44 +11441,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('updated' type=inline),
-                        #9,
-                    ),
-                    (
-                        Atom('umdHeader' type=dynamic),
-                        #10,
-                    ),
-                    (
-                        Atom('updated' type=inline),
-                        #10,
-                    ),
-                    (
-                        Atom('parameters' type=dynamic),
-                        #29,
-                    ),
-                    (
-                        Atom('body' type=inline),
-                        #29,
-                    ),
-                    (
-                        Atom('promise' type=inline),
-                        #29,
-                    ),
-                    (
-                        Atom('promiseResolveCall' type=dynamic),
-                        #30,
-                    ),
-                    (
-                        Atom('requireCall' type=dynamic),
-                        #30,
-                    ),
-                    (
-                        Atom('statement' type=dynamic),
-                        #54,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12890,12 +11679,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('expression' type=dynamic),
-                        #41,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -12933,12 +11717,7 @@ TestSnapshot {
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('statement' type=dynamic),
-                        #54,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13364,32 +12143,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('modifierVisitor' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('appendExportsOfHoistedDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('hasAssociatedEndOfDeclarationMarker' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('context' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13427,24 +12181,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('createAllExportExpressions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('destructuringNeedsFlattening' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('context' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13520,24 +12257,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('appendExportStatement' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('hasAssociatedEndOfDeclarationMarker' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13575,32 +12295,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('createRequireCall' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('createExportExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('getHelperExpressionForExport' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('emitHelpers' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13638,12 +12333,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('discardedValueVisitor' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13681,20 +12371,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('discardedValueVisitor' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('context' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13732,32 +12409,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('modifierVisitor' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('appendExportsOfHoistedDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('hasAssociatedEndOfDeclarationMarker' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('context' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13795,44 +12447,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('factory' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('createImportCallExpressionUMD' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('createImportCallExpressionCommonJS' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('compilerOptions' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('currentSourceFile' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('resolver' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('createImportCallExpressionAMD' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('host' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13870,28 +12485,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('createRequireCall' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('getHelperExpressionForImport' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('appendExportsOfImportDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('hasAssociatedEndOfDeclarationMarker' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13929,28 +12523,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('createExportExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('createRequireCall' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('undefined' type=static),
-                        #6,
-                    ),
-                    (
-                        Atom('appendExportsOfImportEqualsDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('hasAssociatedEndOfDeclarationMarker' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -13988,16 +12561,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('appendExportsOfVariableStatement' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('hasAssociatedEndOfDeclarationMarker' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -14035,16 +12599,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('discardedValueVisitor' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -14082,16 +12637,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('discardedValueVisitor' type=dynamic),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -14129,28 +12675,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('createExportExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('hoistVariableDeclaration' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('getExports' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('context' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -14188,32 +12713,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('transformInitializedVariable' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('modifierVisitor' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('appendExportsOfVariableStatement' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('hasAssociatedEndOfDeclarationMarker' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('context' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -14251,28 +12751,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: true,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('expressionResult' type=dynamic),
-                        #15,
-                    ),
-                    (
-                        Atom('visitorWorker' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('expression' type=dynamic),
-                        #26,
-                    ),
-                    (
-                        Atom('firstArgument' type=dynamic),
-                        #27,
-                    ),
-                    (
-                        Atom('updatedVariable' type=dynamic),
-                        #40,
-                    ),
-                ],
+                infects: [],
             },
         ),
         (
@@ -14310,44 +12789,7 @@ TestSnapshot {
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
-                infects: [
-                    (
-                        Atom('visitPreOrPostfixUnaryExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitImportCallExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitForStatement' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitPartiallyEmittedExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitParenthesizedExpression' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitDestructuringAssignment' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('visitor' type=inline),
-                        #3,
-                    ),
-                    (
-                        Atom('visitExpressionStatement' type=dynamic),
-                        #3,
-                    ),
-                    (
-                        Atom('context' type=inline),
-                        #3,
-                    ),
-                ],
+                infects: [],
             },
         ),
     ],
