@@ -32,6 +32,9 @@ struct TestSnapshot {
 
 #[derive(Debug, Default)]
 pub(crate) struct ModuleInfo {
+    /// Named exports without `src`.
+    ///
+    /// e.g. `export { foo }`.
     pub exports: AHashSet<Id>,
     pub imports: AHashSet<Id>,
 }
