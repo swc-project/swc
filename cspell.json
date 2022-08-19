@@ -123,6 +123,7 @@
         "RAII",
         "reconsume",
         "regs",
+        "renamer",
         "repr",
         "rfind",
         "rkyv",
