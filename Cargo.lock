@@ -3521,7 +3521,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.103.10"
+version = "0.103.11"
 dependencies = [
  "better_scoped_tls",
  "bitflags",

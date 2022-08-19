@@ -16,6 +16,12 @@
 
 - **(css/codegen)** Improve codegen of `@media` (#5544) ([fa7abe2](https://github.com/swc-project/swc/commit/fa7abe26cf2a9eab1d8bcd481cf6fb2dd02188a3))
 
+
+- **(es/fixer)** Wrap `yield` expression in `extends` (#5555) ([b14d69e](https://github.com/swc-project/swc/commit/b14d69e9b0427751a86d2260f10d4af7495d7ae8))
+
+
+- **(es/helpers)** Add a missing helper (#5551) ([e930fea](https://github.com/swc-project/swc/commit/e930fea4cafce6452ace889a7a17c5abe071c492))
+
 ### Features
 
 
