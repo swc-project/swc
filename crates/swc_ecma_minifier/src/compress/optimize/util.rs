@@ -5,7 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_obj_and_computed, VisitMut, VisitMutWith};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
@@ -141,9 +141,57 @@ pub(crate) struct Remapper {
 impl VisitMut for Remapper {
     noop_visit_mut_type!();
 
+    visit_mut_obj_and_computed!();
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if let Some(new_ctxt) = self.vars.get(&i.to_id()).copied() {
             i.span.ctxt = new_ctxt;
+        }
+    }
+}
+
+/// Variable renamer
+///
+/// - Used for evaluating IIFEs
+
+pub(crate) struct Renamer {
+    pub vars: FxHashMap<Id, Id>,
+}
+
+impl VisitMut for Renamer {
+    noop_visit_mut_type!();
+
+    visit_mut_obj_and_computed!();
+
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        match prop {
+            Prop::Shorthand(p) => {
+                let prev = p.clone();
+
+                p.visit_mut_with(self);
+
+                if p.sym == prev.sym {
+                    return;
+                }
+
+                *prop = Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(Ident::new(
+                        prev.sym,
+                        prev.span.with_ctxt(SyntaxContext::empty()),
+                    )),
+                    value: Box::new(Expr::Ident(p.clone())),
+                });
+            }
+            _ => {
+                prop.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if let Some(new_id) = self.vars.get(&i.to_id()).cloned() {
+            i.sym = new_id.0;
+            i.span.ctxt = new_id.1;
         }
     }
 }
