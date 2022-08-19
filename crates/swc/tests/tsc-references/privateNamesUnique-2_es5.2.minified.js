@@ -10,7 +10,8 @@ export var Foo = function() {
             value: void 0
         });
     }
-    return Foo.prototype.copy = function(other) {
+    var _proto = Foo.prototype;
+    return _proto.copy = function(other) {
         _class_private_field_get(other, _x);
     }, Foo;
 }();

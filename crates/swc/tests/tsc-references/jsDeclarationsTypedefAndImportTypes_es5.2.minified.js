@@ -4,7 +4,8 @@ var Conn = function() {
     function Conn() {
         _class_call_check(this, Conn), this.item = 3;
     }
-    return Conn.prototype.method = function() {}, Conn;
+    var _proto = Conn.prototype;
+    return _proto.method = function() {}, Conn;
 }();
 module.exports = Conn;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";

@@ -20,7 +20,8 @@ var c, RoyalGuard = function() {
     function LeadGuard() {
         return _class_call_check(this, LeadGuard), _super.apply(this, arguments);
     }
-    return LeadGuard.prototype.lead = function() {}, LeadGuard;
+    var _proto = LeadGuard.prototype;
+    return _proto.lead = function() {}, LeadGuard;
 }(RoyalGuard), FollowerGuard = function(RoyalGuard) {
     "use strict";
     _inherits(FollowerGuard, RoyalGuard);
@@ -28,7 +29,8 @@ var c, RoyalGuard = function() {
     function FollowerGuard() {
         return _class_call_check(this, FollowerGuard), _super.apply(this, arguments);
     }
-    return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
+    var _proto = FollowerGuard.prototype;
+    return _proto.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard(), b = new LeadGuard();
 function invalidGuard(c) {
     return !1;

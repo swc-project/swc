@@ -12,7 +12,8 @@ var Rectangle = require("./rectangle").Rectangle, Render = function() {
     function Render() {
         _class_call_check(this, Render), this.objects = [];
     }
-    return Render.prototype.addRectangle = function() {
+    var _proto = Render.prototype;
+    return _proto.addRectangle = function() {
         var obj = new Rectangle();
         return this.objects.push(obj), obj;
     }, Render;

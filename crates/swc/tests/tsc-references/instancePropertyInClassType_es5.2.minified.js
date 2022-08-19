@@ -7,7 +7,8 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
         function C(a, b) {
             _class_call_check(this, C), this.a = a, this.b = b;
         }
-        return C.prototype.fn = function() {
+        var _proto = C.prototype;
+        return _proto.fn = function() {
             return this;
         }, _create_class(C, [
             {
@@ -26,7 +27,8 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
         function C(a, b) {
             _class_call_check(this, C), this.a = a, this.b = b;
         }
-        return C.prototype.fn = function() {
+        var _proto = C.prototype;
+        return _proto.fn = function() {
             return this;
         }, _create_class(C, [
             {

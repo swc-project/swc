@@ -32,7 +32,8 @@ export var ClassWithPrivateNamedMethods = function() {
     function ClassWithPrivateNamedMethods() {
         _class_call_check(this, ClassWithPrivateNamedMethods);
     }
-    return ClassWithPrivateNamedMethods.prototype[s] = function() {}, ClassWithPrivateNamedMethods[s] = function() {}, ClassWithPrivateNamedMethods;
+    var _proto = ClassWithPrivateNamedMethods.prototype;
+    return _proto[s] = function() {}, ClassWithPrivateNamedMethods[s] = function() {}, ClassWithPrivateNamedMethods;
 }();
 export var ClassWithPrivateNamedAccessors = function() {
     "use strict";

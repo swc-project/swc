@@ -13,10 +13,12 @@ function foo() {
 }
 _undefined1[0], _undefined1[1];
 var ref = _sliced_to_array(foo(), 2);
-ref[0], ref[1], _to_array(foo()).slice(0);
-var ref1 = _sliced_to_array(_to_consumable_array([
+ref[0], ref[1];
+var ref1 = _to_array(foo());
+ref1.slice(0);
+var ref2 = _sliced_to_array(_to_consumable_array([
     1,
     2,
     3
 ]), 2);
-ref1[0], ref1[1];
+ref2[0], ref2[1];

@@ -14,7 +14,8 @@ my.method = function(n) {
     function _class() {
         _class_call_check(this, _class);
     }
-    return _class.prototype.m = function() {
+    var _proto = _class.prototype;
+    return _proto.m = function() {
         return 101;
     }, _class;
 }();

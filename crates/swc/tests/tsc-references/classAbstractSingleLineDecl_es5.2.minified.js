@@ -1,4 +1,8 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var A = function A() {
+    "use strict";
+    _class_call_check(this, A);
+};
 abstract;
 var B = function B() {
     "use strict";
@@ -9,7 +13,4 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-new function A() {
-    "use strict";
-    _class_call_check(this, A);
-}, new B, new C;
+new A, new B, new C;

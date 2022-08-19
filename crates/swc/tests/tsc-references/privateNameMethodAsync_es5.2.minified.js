@@ -72,7 +72,8 @@ new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), function(
     function _class() {
         _class_call_check(this, _class), _class_private_method_init(this, _bar), _class_private_method_init(this, _baz), _class_private_method_init(this, _qux);
     }
-    return _class.prototype.foo = function() {
+    var _proto = _class.prototype;
+    return _proto.foo = function() {
         var _this = this;
         return _async_to_generator(function() {
             var b;

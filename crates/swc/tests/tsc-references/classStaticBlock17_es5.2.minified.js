@@ -10,7 +10,8 @@ var friendA, _x = new WeakMap(), A = function() {
             value: void 0
         }), _class_private_field_set(this, _x, v);
     }
-    return A.prototype.getX = function() {
+    var _proto = A.prototype;
+    return _proto.getX = function() {
         return _class_private_field_get(this, _x);
     }, A;
 }();

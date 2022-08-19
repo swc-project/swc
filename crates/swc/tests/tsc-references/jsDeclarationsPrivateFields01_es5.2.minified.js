@@ -17,7 +17,8 @@ export var C = function() {
             value: 100
         });
     }
-    return C.prototype.getWorld = function() {
+    var _proto = C.prototype;
+    return _proto.getWorld = function() {
         return _class_private_field_get(this, _world);
     }, C;
 }();

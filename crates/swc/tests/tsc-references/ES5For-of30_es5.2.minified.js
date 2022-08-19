@@ -4,7 +4,7 @@ try {
     for(var ref, _step, _iterator = [
         2,
         "3"
-    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)(ref = _sliced_to_array(_step.value, 2))[0], ref[1];
+    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)ref = _sliced_to_array(_step.value, 2), ref[0], ref[1];
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{

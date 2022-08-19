@@ -43,15 +43,27 @@ _object_spread({
 }, o3), _object_spread(_object_spread_props(_object_spread({}, o3), {
     'in the middle': 13,
     b: 'maybe?'
-}), o4), _object_spread({}, 12), _object_spread({}, 2), _object_spread({}, 0).toFixed(), _object_spread({}, !0).valueOf();
+}), o4), _object_spread({}, 12), _object_spread({}, 2);
+let spreadZero = _object_spread({}, 0);
+spreadZero.toFixed();
+let spreadBool = _object_spread({}, !0);
+spreadBool.valueOf();
 let spreadStr = _object_spread({}, 'foo');
-spreadStr.length, spreadStr.charAt(1), _object_spread({}, function() {})(), _object_spread({}, {
+spreadStr.length, spreadStr.charAt(1);
+let spreadFunc = _object_spread({}, function() {});
+spreadFunc();
+let setterOnly = _object_spread({}, {
     set b (bad){}
-}).b = 12, _object_spread({}, new class {
+});
+setterOnly.b = 12;
+let spreadC = _object_spread({}, new class {
     m() {}
     constructor(){
         this.p = 1;
     }
-}()).m(), _object_spread({}, {
+}());
+spreadC.m();
+let spreadObj = _object_spread({}, {
     a: 123
-}).a;
+});
+spreadObj.a;

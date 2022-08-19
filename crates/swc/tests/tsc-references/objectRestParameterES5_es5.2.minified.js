@@ -8,9 +8,11 @@ function foobar() {
     ]);
 }
 suddenly(function(_param) {
-    return _param.x, _object_without_properties(_param, [
+    _param.x;
+    var rest = _object_without_properties(_param, [
         "x"
-    ]).y;
+    ]);
+    return rest.y;
 }), suddenly(function() {
     var _param = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: {

@@ -4,5 +4,6 @@ export var Clazz = function() {
     function Clazz() {
         _class_call_check(this, Clazz);
     }
-    return Clazz.prototype.method = function(functionDeclaration) {}, Clazz;
+    var _proto = Clazz.prototype;
+    return _proto.method = function(functionDeclaration) {}, Clazz;
 }();

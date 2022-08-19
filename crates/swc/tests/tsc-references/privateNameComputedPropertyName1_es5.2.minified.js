@@ -23,7 +23,8 @@ new (function() {
             value: ""
         }), _class_private_field_set(this, _b, "b"), _class_private_field_set(this, _d, "d");
     }
-    return A.prototype.test = function() {
+    var _proto = A.prototype;
+    return _proto.test = function() {
         var data = {
             a: "a",
             b: "b",

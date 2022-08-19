@@ -121,6 +121,8 @@ export default function S(u) {
             var e;
             z = setTimeout(function() {
                 var e = K.getState(), n = (e.resultsFacetValues, a(e, [
+            z = e = setTimeout(function() {
+                var e = K.getState(), a = (e.resultsFacetValues, n(e, [
                     "resultsFacetValues"
                 ]));
                 K.setState(r(t({}, n), {
@@ -287,6 +289,8 @@ export default function S(u) {
     }(S, x);
     var K = (U = O = {
         widgets: void 0 === l ? {} : l,
+    var K = (B = {
+        widgets: void 0 === f ? {} : f,
         metadata: v(x),
         results: (k = x) ? Array.isArray(k.results) ? k.results.reduce(function(a, n) {
             return r(t({}, a), e({}, n._internalIndexId, new s.SearchResults(new s.SearchParameters(n.state), n.rawResults)));
@@ -296,6 +300,7 @@ export default function S(u) {
         isSearchStalled: !0,
         searchingForFacetValues: !1
     }, B = [], {
+    }, D = B, O = [], {
         getState: function() {
             return U;
         },

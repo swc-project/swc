@@ -23,7 +23,8 @@ var c = new (function() {
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype.setState = function(props) {
+    var _proto = C.prototype;
+    return _proto.setState = function(props) {
         for(var k in props)this.state[k] = props[k];
     }, C;
 }())();

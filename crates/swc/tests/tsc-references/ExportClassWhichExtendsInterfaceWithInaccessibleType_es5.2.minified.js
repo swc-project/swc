@@ -6,7 +6,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         function Point2d(x, y) {
             _class_call_check(this, Point2d), this.x = x, this.y = y;
         }
-        return Point2d.prototype.fromOrigin = function(p) {
+        var _proto = Point2d.prototype;
+        return _proto.fromOrigin = function(p) {
             return 1;
         }, Point2d;
     }();

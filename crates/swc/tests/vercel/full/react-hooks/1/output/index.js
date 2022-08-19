@@ -12,6 +12,6 @@ import { useRouter as m } from "next/router";
 import { useProject as a } from "@swr/use-project";
 import i from "@swr/use-team";
 export default function e() {
-    var t = a(m().query.project).data;
-    return i().teamSlug, useProjectBranches(null == t ? void 0 : t.id).data, r(o, {});
+    var t = m().query, e = a(t.project), f = e.data;
+    return i().teamSlug, useProjectBranches(null == f ? void 0 : f.id).data, r(o, {});
 };

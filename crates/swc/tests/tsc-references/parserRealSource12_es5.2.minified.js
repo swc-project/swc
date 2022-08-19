@@ -8,7 +8,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         function AstWalkOptions() {
             _class_call_check(this, AstWalkOptions), this.goChildren = !0, this.goNextSibling = !0, this.reverseSiblings = !1;
         }
-        return AstWalkOptions.prototype.stopWalk = function() {
+        var _proto = AstWalkOptions.prototype;
+        return _proto.stopWalk = function() {
             var stop = !(arguments.length > 0) || void 0 === arguments[0] || arguments[0];
             this.goChildren = !stop, this.goNextSibling = !stop;
         }, AstWalkOptions;
@@ -19,7 +20,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         function AstWalker(childrenWalkers, pre, post, options, state) {
             _class_call_check(this, AstWalker), this.childrenWalkers = childrenWalkers, this.pre = pre, this.post = post, this.options = options, this.state = state;
         }
-        return AstWalker.prototype.walk = function(ast, parent) {
+        var _proto = AstWalker.prototype;
+        return _proto.walk = function(ast, parent) {
             var preAst = this.pre(ast, parent, this);
             if (void 0 === preAst && (preAst = ast), this.options.goChildren) {
                 var svGoSib = this.options.goNextSibling;

@@ -15,7 +15,8 @@ var d2, Derived = function(Base) {
     function Base(x) {
         _class_call_check(this, Base);
     }
-    return Base.prototype.b = function() {}, Base.s = function() {}, _create_class(Base, [
+    var _proto = Base.prototype;
+    return _proto.b = function() {}, Base.s = function() {}, _create_class(Base, [
         {
             key: "c",
             get: function() {

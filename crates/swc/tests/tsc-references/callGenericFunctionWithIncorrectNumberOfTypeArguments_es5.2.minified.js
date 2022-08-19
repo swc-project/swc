@@ -8,7 +8,8 @@ var C = function() {
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype.f = function(x, y) {
+    var _proto = C.prototype;
+    return _proto.f = function(x, y) {
         return null;
     }, C;
 }();
@@ -18,7 +19,8 @@ var C2 = function() {
     function C2() {
         _class_call_check(this, C2);
     }
-    return C2.prototype.f = function(x, y) {
+    var _proto = C2.prototype;
+    return _proto.f = function(x, y) {
         return null;
     }, C2;
 }();

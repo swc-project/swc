@@ -22,7 +22,8 @@ var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(
             set: set_valueCompound
         });
     }
-    return Test.prototype.m = function() {
+    var _proto = Test.prototype;
+    return _proto.m = function() {
         var ref, _tmp, ref1, _tmp1, foo = {
             bar: 1
         };

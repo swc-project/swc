@@ -2,7 +2,10 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var ref, Foo = function(Bar) {
+var ref, Bar = function Bar() {
+    "use strict";
+    _class_call_check(this, Bar);
+}, Foo = function(Bar) {
     "use strict";
     _inherits(Foo, Bar);
     var _super = _create_super(Foo);
@@ -10,11 +13,7 @@ var ref, Foo = function(Bar) {
         return _class_call_check(this, Foo), _super.apply(this, arguments);
     }
     return Foo;
-}(function Bar() {
-    "use strict";
-    _class_call_check(this, Bar);
-});
-(ref = _sliced_to_array(new (function() {
+}(Bar), FooIterator = function() {
     "use strict";
     function FooIterator() {
         _class_call_check(this, FooIterator);
@@ -28,4 +27,5 @@ var ref, Foo = function(Bar) {
     }, _proto[Symbol.iterator] = function() {
         return this;
     }, FooIterator;
-}()), 2))[0], ref[1];
+}();
+ref = _sliced_to_array(new FooIterator, 2), ref[0], ref[1];

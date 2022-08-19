@@ -8,7 +8,10 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     var __tmp = _sliced_to_array(_tmp, 2);
     __tmp[0], __tmp[1];
 }).apply(void 0, _to_consumable_array(new FooIteratorIterator));
-var Foo = function(Bar) {
+var Bar = function Bar() {
+    "use strict";
+    _class_call_check(this, Bar);
+}, Foo = function(Bar) {
     "use strict";
     _inherits(Foo, Bar);
     var _super = _create_super(Foo);
@@ -16,10 +19,7 @@ var Foo = function(Bar) {
         return _class_call_check(this, Foo), _super.apply(this, arguments);
     }
     return Foo;
-}(function Bar() {
-    "use strict";
-    _class_call_check(this, Bar);
-}), FooIterator = function() {
+}(Bar), FooIterator = function() {
     "use strict";
     function FooIterator() {
         _class_call_check(this, FooIterator);

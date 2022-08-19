@@ -6,10 +6,10 @@ function foobar(_param = {}) {
     ]);
 }
 suddenly((_param)=>{
-    var { x: a  } = _param;
-    return _object_without_properties(_param, [
+    var { x: a  } = _param, rest = _object_without_properties(_param, [
         "x"
-    ]).y;
+    ]);
+    return rest.y;
 }), suddenly((_param = {
     x: {
         z: 1,

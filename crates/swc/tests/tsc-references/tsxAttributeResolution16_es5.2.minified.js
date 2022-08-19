@@ -9,7 +9,8 @@ export var AddressComp = function(_Component) {
     function AddressComp() {
         return _class_call_check(this, AddressComp), _super.apply(this, arguments);
     }
-    return AddressComp.prototype.render = function() {
+    var _proto = AddressComp.prototype;
+    return _proto.render = function() {
         return null;
     }, AddressComp;
 }(React.Component);

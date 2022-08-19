@@ -14,8 +14,7 @@ var SymbolIterator = function() {
     }, _proto[Symbol.iterator] = function() {
         return this;
     }, SymbolIterator;
-}();
-_to_consumable_array(new (function() {
+}(), NumberIterator = function() {
     "use strict";
     function NumberIterator() {
         _class_call_check(this, NumberIterator);
@@ -29,4 +28,5 @@ _to_consumable_array(new (function() {
     }, _proto[Symbol.iterator] = function() {
         return this;
     }, NumberIterator;
-}())).concat(_to_consumable_array(new SymbolIterator));
+}();
+_to_consumable_array(new NumberIterator).concat(_to_consumable_array(new SymbolIterator));

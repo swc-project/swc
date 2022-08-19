@@ -7,7 +7,8 @@ var Animal = function() {
     function Animal() {
         _class_call_check(this, Animal), this._sound = "rustling noise in the bushes";
     }
-    return Animal.prototype.makeSound = function() {
+    var _proto = Animal.prototype;
+    return _proto.makeSound = function() {
         console.log(this._sound);
     }, _create_class(Animal, [
         {

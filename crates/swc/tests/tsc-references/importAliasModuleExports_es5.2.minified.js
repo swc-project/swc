@@ -4,7 +4,8 @@ var Alias = function() {
     function Alias() {
         _class_call_check(this, Alias);
     }
-    return Alias.prototype.bar = function() {
+    var _proto = Alias.prototype;
+    return _proto.bar = function() {
         return 1;
     }, Alias;
 }();

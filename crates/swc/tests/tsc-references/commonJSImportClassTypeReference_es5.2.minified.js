@@ -5,7 +5,8 @@ var K = function() {
     function K() {
         _class_call_check(this, K);
     }
-    return K.prototype.values = function() {
+    var _proto = K.prototype;
+    return _proto.values = function() {
         return new K();
     }, K;
 }();

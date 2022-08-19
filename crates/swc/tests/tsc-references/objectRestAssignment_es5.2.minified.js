@@ -19,4 +19,4 @@ _a.slice(1), overEmit.b.z, _extends({}, overEmit.a[0]), _object_without_properti
 ]), _object_without_properties(_overEmit, [
     "a",
     "b"
-]), (ref2 = _to_array((ref1 = _overEmit).a))[0], ref2.slice(1), ref1.b.z;
+]), ref2 = _to_array((ref1 = _overEmit).a), ref2[0], ref2.slice(1), ref1.b.z;

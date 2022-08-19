@@ -6,7 +6,8 @@ var BaseA = function() {
     function BaseA(x) {
         _class_call_check(this, BaseA), this.x = x;
     }
-    return BaseA.prototype.createInstance = function() {
+    var _proto = BaseA.prototype;
+    return _proto.createInstance = function() {
         new BaseA(1);
     }, BaseA;
 }(), BaseB = function() {
@@ -14,7 +15,8 @@ var BaseA = function() {
     function BaseB(x) {
         _class_call_check(this, BaseB), this.x = x;
     }
-    return BaseB.prototype.createInstance = function() {
+    var _proto = BaseB.prototype;
+    return _proto.createInstance = function() {
         new BaseB(2);
     }, BaseB;
 }(), BaseC = function() {
@@ -22,7 +24,8 @@ var BaseA = function() {
     function BaseC(x) {
         _class_call_check(this, BaseC), this.x = x;
     }
-    return BaseC.prototype.createInstance = function() {
+    var _proto = BaseC.prototype;
+    return _proto.createInstance = function() {
         new BaseC(3);
     }, BaseC.staticInstance = function() {
         new BaseC(4);

@@ -5,7 +5,8 @@ export var Base = function() {
     function Base() {
         _class_call_check(this, Base);
     }
-    return Base.prototype.toJSON = function() {
+    var _proto = Base.prototype;
+    return _proto.toJSON = function() {
         return {
             type: void 0,
             name: void 0,
@@ -33,6 +34,16 @@ export var Argument = function(Base) {
             ];
         });
     }, Argument.parse = function(tokeniser) {}, _create_class(Argument, [
+    var _proto = Argument.prototype;
+    return _proto.validate = regeneratorRuntime.mark(function validate(defs) {
+        return regeneratorRuntime.wrap(function(_ctx) {
+            for(;;)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, validate);
+    }), Argument.parse = function(tokeniser) {}, _create_class(Argument, [
         {
             key: "type",
             get: function() {

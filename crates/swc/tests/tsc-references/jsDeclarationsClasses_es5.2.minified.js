@@ -98,7 +98,8 @@ export var K = function() {
     function K() {
         _class_call_check(this, K), this.p1 = 12, this.p2 = "ok";
     }
-    return K.prototype.method = function() {
+    var _proto = K.prototype;
+    return _proto.method = function() {
         return this.p1;
     }, K;
 }();

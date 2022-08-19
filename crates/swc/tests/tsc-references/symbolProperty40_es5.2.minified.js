@@ -4,6 +4,7 @@ var c = new (function() {
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype[Symbol.iterator] = function(x) {}, C;
+    var _proto = C.prototype;
+    return _proto[Symbol.iterator] = function(x) {}, C;
 }());
 c[Symbol.iterator](""), c[Symbol.iterator](0);

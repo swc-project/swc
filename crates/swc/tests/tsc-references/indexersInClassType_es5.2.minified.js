@@ -4,7 +4,8 @@ var r = new (function() {
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype.fn = function() {
+    var _proto = C.prototype;
+    return _proto.fn = function() {
         return this;
     }, C;
 }())().fn();

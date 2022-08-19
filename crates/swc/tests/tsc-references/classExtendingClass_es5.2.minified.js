@@ -14,7 +14,8 @@ var d, d2, D = function(C) {
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype.thing = function() {}, C.other = function() {}, C;
+    var _proto = C.prototype;
+    return _proto.thing = function() {}, C.other = function() {}, C;
 }());
 d.foo, d.bar, d.thing(), D.other();
 var D2 = function(C2) {
@@ -30,6 +31,7 @@ var D2 = function(C2) {
     function C2() {
         _class_call_check(this, C2);
     }
-    return C2.prototype.thing = function(x) {}, C2.other = function(x) {}, C2;
+    var _proto = C2.prototype;
+    return _proto.thing = function(x) {}, C2.other = function(x) {}, C2;
 }());
 d2.foo, d2.bar, d2.thing(""), D2.other(1);

@@ -13,7 +13,8 @@ var _foo = new WeakMap(), Parent = function() {
             value: 3
         });
     }
-    return Parent.prototype.accessChildProps = function() {
+    var _proto = Parent.prototype;
+    return _proto.accessChildProps = function() {
         _class_private_field_get(new Child(), _foo), _class_static_private_field_spec_get(Child, Parent, _bar);
     }, Parent;
 }(), _bar = {

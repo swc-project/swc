@@ -5,5 +5,6 @@ exports.K = function() {
     function K() {
         _class_call_check(this, K);
     }
-    return K.prototype.values = function() {}, K;
+    var _proto = K.prototype;
+    return _proto.values = function() {}, K;
 }();

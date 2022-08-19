@@ -3,7 +3,7 @@ import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function foo(s) {
     return s[0];
 }
-foo.apply(void 0, _to_consumable_array(new (function() {
+var SymbolIterator = function() {
     "use strict";
     function SymbolIterator() {
         _class_call_check(this, SymbolIterator);
@@ -17,4 +17,5 @@ foo.apply(void 0, _to_consumable_array(new (function() {
     }, _proto[Symbol.iterator] = function() {
         return this;
     }, SymbolIterator;
-}())));
+}();
+foo.apply(void 0, _to_consumable_array(new SymbolIterator));

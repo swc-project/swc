@@ -1,7 +1,10 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var C = function(Base) {
+var Base = function Base(x) {
+    "use strict";
+    _class_call_check(this, Base);
+}, C = function(Base) {
     "use strict";
     _inherits(C, Base);
     var _super = _create_super(C);
@@ -9,12 +12,12 @@ var C = function(Base) {
         return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C;
-}(function Base(x) {
-    "use strict";
-    _class_call_check(this, Base);
-});
+}(Base);
 new C(), new C(1);
-var D = function(Base2) {
+var Base2 = function Base2(x) {
+    "use strict";
+    _class_call_check(this, Base2);
+}, D = function(Base2) {
     "use strict";
     _inherits(D, Base2);
     var _super = _create_super(D);
@@ -22,8 +25,5 @@ var D = function(Base2) {
         return _class_call_check(this, D), _super.apply(this, arguments);
     }
     return D;
-}(function Base2(x) {
-    "use strict";
-    _class_call_check(this, Base2);
-});
+}(Base2);
 new D(), new D(1), new D(), new D(1), new D(), new D(1);

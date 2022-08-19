@@ -6,7 +6,8 @@ NS.K = function() {
     function _class() {
         _class_call_check(this, _class);
     }
-    return _class.prototype.values = function() {
+    var _proto = _class.prototype;
+    return _proto.values = function() {
         return new NS.K();
     }, _class;
 }(), exports.K = NS.K;

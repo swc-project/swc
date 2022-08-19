@@ -5,7 +5,8 @@ f3(1), new (function() {
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype.f = function(x) {
+    var _proto = C.prototype;
+    return _proto.f = function(x) {
         return null;
     }, C;
 }())().f(1), i.f(1), new (function() {
@@ -13,7 +14,8 @@ f3(1), new (function() {
     function C2() {
         _class_call_check(this, C2);
     }
-    return C2.prototype.f = function(x) {
+    var _proto = C2.prototype;
+    return _proto.f = function(x) {
         return null;
     }, C2;
 }())().f(1), i2.f(1);

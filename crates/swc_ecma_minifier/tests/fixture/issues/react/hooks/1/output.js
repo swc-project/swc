@@ -3,6 +3,6 @@ import { useRouter } from "next/router";
 import { useProject } from "@swr/use-project";
 import useTeam from "@swr/use-team";
 export default function MyComp() {
-    var projectInfo = useProject(useRouter().query.project).data;
-    return useTeam().teamSlug, useProjectBranches(null == projectInfo ? void 0 : projectInfo.id).data, _jsx(_Fragment, {});
+    var _query = useRouter().query, ref = useProject(_query.project), projectInfo = ref.data, ref1 = useTeam();
+    return ref1.teamSlug, useProjectBranches(null == projectInfo ? void 0 : projectInfo.id).data, _jsx(_Fragment, {});
 };

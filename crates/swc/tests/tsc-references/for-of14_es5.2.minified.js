@@ -4,7 +4,8 @@ var StringIterator = function() {
     function StringIterator() {
         _class_call_check(this, StringIterator);
     }
-    return StringIterator.prototype.next = function() {
+    var _proto = StringIterator.prototype;
+    return _proto.next = function() {
         return "";
     }, StringIterator;
 }(), _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;

@@ -6,4 +6,5 @@ module.exports.n = {}, module.exports.n.K = function() {
     }
 };
 import * as s from './mod';
-new s.n.K().x, new s.Classic();
+var k = new s.n.K();
+k.x, new s.Classic();

@@ -44,9 +44,12 @@ function method2(a) {
     function AA() {
         _class_call_check(this, AA);
     }
-    return AA.prototype.test = function() {
-        _class_static_private_method_get(AA, AA, method).call(AA), _class_static_private_method_get(AA, AA, method)(), new (_class_static_private_method_get(AA, AA, method))();
-        var _instance, _instance1, arr = [
+    var _proto = AA.prototype;
+    return _proto.test = function() {
+        _class_static_private_method_get(AA, AA, method).call(AA);
+        var _instance, _instance1, func = _class_static_private_method_get(AA, AA, method);
+        func(), new (_class_static_private_method_get(AA, AA, method))();
+        var arr = [
             1,
             2
         ];
