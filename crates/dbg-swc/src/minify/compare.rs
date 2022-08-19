@@ -19,25 +19,25 @@ pub struct CompareCommand {
 impl CompareCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         let minified_mangled = get_minified(cm.clone(), &self.path, true, true)?;
-        let code_mangled = print_js(cm, &minified_mangled.module, true)
+        let code = print_js(cm, &minified_mangled.module, true)
             .context("failed to convert ast to code")?;
 
-        let esbuild_mangled = get_terser_output(&self.path, true, true)?;
+        let terser_mangled = get_terser_output(&self.path, true, true)?;
 
-        eprintln!("swc: {} bytes", code_mangled.as_bytes().len());
+        eprintln!("swc: {} bytes", code.as_bytes().len());
         eprintln!(
             "swc: {} bytes (newline stripped)",
-            code_mangled.replace("\\n", "_").as_bytes().len()
+            code.replace("\\n", "_").as_bytes().len()
         );
-        std::fs::write("swc.output.js", code_mangled.as_bytes())
+        std::fs::write("swc.output.js", code.as_bytes())
             .context("failed to write swc.output.js")?;
 
         make_pretty("swc.output.js".as_ref())?;
 
-        std::fs::write("terser.output.js", esbuild_mangled.as_bytes())
+        std::fs::write("terser.output.js", terser_mangled.as_bytes())
             .context("failed to write terser.output.js")?;
 
-        eprintln!("terser: {} bytes", esbuild_mangled.as_bytes().len());
+        eprintln!("terser: {} bytes", terser_mangled.as_bytes().len());
         make_pretty("terser.output.js".as_ref())?;
 
         {
