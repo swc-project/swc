@@ -25,7 +25,7 @@
 
 use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
-use swc_ecma_ast::Program;
+use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 
@@ -44,6 +44,7 @@ use crate::{
         postcompress::postcompress_optimizer, precompress::precompress_optimizer,
     },
     timing::Timings,
+    util::ModuleItemExt,
 };
 
 #[macro_use]
@@ -102,9 +103,36 @@ pub fn optimize(
     let module_info = match &m {
         Program::Script(_) => ModuleInfo::default(),
         Program::Module(m) => ModuleInfo {
-            // TODO
-            imports: Default::default(),
-            exports: Default::default(),
+            imports: m
+                .body
+                .iter()
+                .filter_map(|v| v.as_module_decl())
+                .filter_map(|v| match v {
+                    ModuleDecl::Import(i) => Some(i),
+                    _ => None,
+                })
+                .flat_map(|v| v.specifiers.iter())
+                .filter_map(|v| match v {
+                    ImportSpecifier::Named(v) => v.local.to_id(),
+                    ImportSpecifier::Default(v) => v.local.to_id(),
+                    ImportSpecifier::Namespace(v) => v.local.to_id(),
+                })
+                .collect(),
+            exports: m
+                .body
+                .iter()
+                .filter_map(|v| v.as_module_decl())
+                .filter_map(|v| match v {
+                    ModuleDecl::ExportNamed(i) if i.src.is_none() => Some(i),
+                    _ => None,
+                })
+                .flat_map(|v| v.specifiers.iter())
+                .filter_map(|v| match v {
+                    ExportSpecifier::Namespace(_) => {}
+                    ExportSpecifier::Default(_) => {}
+                    ExportSpecifier::Named(_) => {}
+                })
+                .collect(),
         },
     };
 
