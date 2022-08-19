@@ -755,9 +755,15 @@ where
         for (idx, param) in params.into_iter().enumerate() {
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
             let init = if let Some(arg) = arg {
-                let (expr, init) = match *arg {
+                let (expr, init) = match &*arg {
                     Expr::Lit(..) => (Expr::Ident(param.clone()), Some(arg)),
-                    Expr::Ident(arg) => {
+                    Expr::Ident(arg)
+                        if self
+                            .data
+                            .vars
+                            .get(&arg.to_id())
+                            .map_or(false, |v| !v.reassigned()) =>
+                    {
                         body_rename_map.insert(param.to_id(), arg.to_id());
                         continue;
                     }
