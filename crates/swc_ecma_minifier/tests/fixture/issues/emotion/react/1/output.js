@@ -359,7 +359,8 @@
                             if (element.length) return function(array, callback) {
                                 return array.map(callback).join("");
                             }(element.props, function(value) {
-                                switch((value = /(::plac\w+|:read-\w+)/.exec(value)) ? value[0] : value){
+                                var value1;
+                                switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
                                     case ":read-only":
                                     case ":read-write":
                                         return serialize([
@@ -553,10 +554,9 @@
                 ].concat(stylisPlugins, finalizingPlugins), length = Utility_sizeof(collection), function(element, index, children, callback) {
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
-                });
-                _insert = function(selector, serialized, sheet, shouldCache) {
-                    var styles;
-                    currentSheet = sheet, serialize(dealloc(function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
+                }), stylis = function(styles) {
+                    var value;
+                    return serialize(dealloc(function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
                         for(var index = 0, offset = 0, length = pseudo, atrule = 0, property = 0, previous = 0, variable = 1, scanning = 1, ampersand = 1, character = 0, type = "", props = rules, children = rulesets, reference = rule, characters = type; scanning;)switch(previous = character, character = next()){
                             case 34:
                             case 39:
@@ -639,9 +639,12 @@
                         return rulesets;
                     }("", null, null, null, [
                         ""
-                    ], styles = alloc(styles = selector ? selector + "{" + serialized.styles + "}" : serialized.styles), 0, [
+                    ], value = alloc(value = styles), 0, [
                         0
-                    ], styles)), serializer), shouldCache && (cache.inserted[serialized.name] = !0);
+                    ], value)), serializer);
+                };
+                _insert = function(selector, serialized, sheet, shouldCache) {
+                    currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);
                 };
                 var cache = {
                     key: key,
@@ -847,12 +850,12 @@
                 var childProps = {
                     ref: setRef,
                     onClick: function(e) {
-                        var target;
-                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || "A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href)) || (e.preventDefault(), null == scroll && as.indexOf("#") >= 0 && (scroll = !1), router[replace ? "replace" : "push"](href, as, {
+                        var scroll1, target;
+                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, "A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href)) || (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), router[replace ? "replace" : "push"](href, as, {
                             shallow: shallow,
                             locale: locale,
-                            scroll: scroll
-                        }));
+                            scroll: scroll1
+                        })));
                     }
                 };
                 if (childProps.onMouseEnter = function(e) {

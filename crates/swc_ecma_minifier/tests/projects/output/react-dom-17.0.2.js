@@ -8657,13 +8657,13 @@
         markRootPinged(root, pingedLanes), workInProgressRoot === root && isSubsetOfLanes(workInProgressRootRenderLanes, pingedLanes) && (4 === workInProgressRootExitStatus || 3 === workInProgressRootExitStatus && includesOnlyRetries(workInProgressRootRenderLanes) && now() - globalMostRecentFallbackTime < 500 ? prepareFreshStack(root, NoLanes) : workInProgressRootPingedLanes |= pingedLanes), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, pingedLanes);
     }
     function resolveRetryWakeable(boundaryFiber, wakeable) {
-        var retryCache, eventTime, root;
-        null !== (retryCache = boundaryFiber.stateNode) && retryCache.delete(wakeable), NoLane == NoLane && (NoLane = function(fiber) {
+        var retryCache, retryLane, eventTime, root;
+        null !== (retryCache = boundaryFiber.stateNode) && retryCache.delete(wakeable), (retryLane = NoLane) === NoLane && (retryLane = function(fiber) {
             var lanes, wipLanes, lane, mode = fiber.mode;
             if ((2 & mode) == 0) return SyncLane;
             if ((4 & mode) == 0) return 99 === getCurrentPriorityLevel() ? SyncLane : 2;
             return currentEventWipLanes === NoLanes && (currentEventWipLanes = workInProgressRootIncludedLanes), (lane = (lanes = 62914560 & ~currentEventWipLanes) & -lanes) === NoLane && (lane = 4194304), lane;
-        }(boundaryFiber)), eventTime = requestEventTime(), null !== (root = markUpdateLaneFromFiberToRoot(boundaryFiber, NoLane)) && (markRootUpdated(root, NoLane, eventTime), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, NoLane));
+        }(boundaryFiber)), eventTime = requestEventTime(), null !== (root = markUpdateLaneFromFiberToRoot(boundaryFiber, retryLane)) && (markRootUpdated(root, retryLane, eventTime), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, retryLane));
     }
     function jnd(timeElapsed) {
         return timeElapsed < 120 ? 120 : timeElapsed < 480 ? 480 : timeElapsed < 1080 ? 1080 : timeElapsed < 1920 ? 1920 : timeElapsed < 3000 ? 3000 : timeElapsed < 4320 ? 4320 : 1960 * ceil(timeElapsed / 1960);

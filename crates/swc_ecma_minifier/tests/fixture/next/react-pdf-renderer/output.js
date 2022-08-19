@@ -6044,19 +6044,19 @@
                 });
             }, d = function(t, e) {
                 return function(r) {
-                    var n = (void 0 === t && (t = {}), function(r, n, a) {
-                        var u, l, d, p = n === a.length - 1, h = (null === (u = r.runs) || void 0 === u ? void 0 : null === (l = u[0]) || void 0 === l ? void 0 : l.attributes) || {}, $ = p ? h.alignLastLine : h.align;
-                        return (0, i.compose)(t.textDecoration(e), (d = t, function(t) {
+                    var n, a = (void 0 === (n = t) && (n = {}), function(t, r, a) {
+                        var u, l, d, p = r === a.length - 1, h = (null === (u = t.runs) || void 0 === u ? void 0 : null === (l = u[0]) || void 0 === l ? void 0 : l.attributes) || {}, $ = p ? h.alignLastLine : h.align;
+                        return (0, i.compose)(n.textDecoration(e), (d = n, function(t) {
                             var r = (0, o.default)(t), n = s[$] || 0, i = Math.max(0, t.box.width - r), a = "justify" === $ || r > t.box.width, u = t.box.x + i * n, l = Object.assign({}, t.box, {
                                 x: u
                             }), f = Object.assign({}, t, {
                                 box: l
                             });
                             return a ? d.justification(e)(f) : f;
-                        }), c, f)(r);
+                        }), c, f)(t);
                     });
                     return r.map(function(t) {
-                        return t.map(n);
+                        return t.map(a);
                     });
                 };
             };
@@ -21219,7 +21219,14 @@
                             ], e)), r;
                         }
                         function P(t, e) {
-                            return t <= 0 || 0 === e.length && e.ended ? 0 : e.objectMode ? 1 : t != t ? e.flowing && e.length ? e.buffer.head.data.length : e.length : (t > e.highWaterMark && (e.highWaterMark = (t >= 1073741824 ? t = 1073741824 : (t--, t |= t >>> 1, t |= t >>> 2, t |= t >>> 4, t |= t >>> 8, t |= t >>> 16, t++), t)), t <= e.length) ? t : e.ended ? e.length : (e.needReadable = !0, 0);
+                            if (t <= 0 || 0 === e.length && e.ended) return 0;
+                            if (e.objectMode) return 1;
+                            if (t != t) return e.flowing && e.length ? e.buffer.head.data.length : e.length;
+                            if (t > e.highWaterMark) {
+                                var r;
+                                e.highWaterMark = ((r = t) >= 1073741824 ? r = 1073741824 : (r--, r |= r >>> 1, r |= r >>> 2, r |= r >>> 4, r |= r >>> 8, r |= r >>> 16, r++), r);
+                            }
+                            return t <= e.length ? t : e.ended ? e.length : (e.needReadable = !0, 0);
                         }
                         function F(t, e) {
                             if (c("onEofChunk"), !e.ended) {

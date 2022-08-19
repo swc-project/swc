@@ -3391,7 +3391,8 @@
                     return parseDuration(value);
                 },
                 availabilityStartTime: function(value) {
-                    return /^\d+-\d+-\d+T\d+:\d+:\d+(\.\d+)?$/.test(value) && (value += "Z"), Date.parse(value) / 1000;
+                    var str;
+                    return str = value, /^\d+-\d+-\d+T\d+:\d+:\d+(\.\d+)?$/.test(str) && (str += "Z"), Date.parse(str) / 1000;
                 },
                 minimumUpdatePeriod: function(value) {
                     return parseDuration(value);
