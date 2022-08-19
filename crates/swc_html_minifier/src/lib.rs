@@ -933,10 +933,10 @@ impl Minifier<'_> {
             Namespace::HTML => match tag_name {
                 "script" | "style" => WhitespaceMinificationMode {
                     collapse: false,
-                    trim: match self.options.collapse_whitespaces {
-                        CollapseWhitespaces::None | CollapseWhitespaces::OnlyMetadata => false,
-                        _ => true,
-                    },
+                    trim: !matches!(
+                        self.options.collapse_whitespaces,
+                        CollapseWhitespaces::None | CollapseWhitespaces::OnlyMetadata
+                    ),
                 },
                 _ => {
                     if get_white_space(namespace, tag_name) == WhiteSpace::Pre {
@@ -986,10 +986,10 @@ impl Minifier<'_> {
                 }
                 _ => WhitespaceMinificationMode {
                     collapse: default_collapse,
-                    trim: match self.options.collapse_whitespaces {
-                        CollapseWhitespaces::None | CollapseWhitespaces::OnlyMetadata => false,
-                        _ => true,
-                    },
+                    trim: !matches!(
+                        self.options.collapse_whitespaces,
+                        CollapseWhitespaces::None | CollapseWhitespaces::OnlyMetadata
+                    ),
                 },
             },
             _ => WhitespaceMinificationMode {
