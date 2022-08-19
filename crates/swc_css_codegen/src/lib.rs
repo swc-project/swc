@@ -450,9 +450,6 @@ where
 
     #[emitter]
     fn emit_media_not(&mut self, n: &MediaNot) -> Result {
-        emit!(self, n.keyword);
-        formatting_space!(self);
-
         if n.keyword.is_some() {
             emit!(self, n.keyword);
         } else {
@@ -465,9 +462,6 @@ where
 
     #[emitter]
     fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
-        emit!(self, n.keyword);
-        formatting_space!(self);
-
         if n.keyword.is_some() {
             emit!(self, n.keyword);
         } else {
@@ -480,9 +474,6 @@ where
 
     #[emitter]
     fn emit_media_or(&mut self, n: &MediaOr) -> Result {
-        emit!(self, n.keyword);
-        formatting_space!(self);
-
         if n.keyword.is_some() {
             emit!(self, n.keyword);
         } else {
