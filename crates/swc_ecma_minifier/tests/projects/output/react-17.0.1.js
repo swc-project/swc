@@ -136,8 +136,8 @@
             case REACT_PROVIDER_TYPE:
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
-                var outerType, innerType, functionName, wrapperName = "ForwardRef";
-                return outerType = type, innerType = type.render, functionName = innerType.displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                var innerType, functionName, wrapperName = "ForwardRef";
+                return functionName = (innerType = type.render).displayName || innerType.name || "", type.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:
@@ -217,15 +217,15 @@
             for(propName in defaultProps)void 0 === props[propName] && (props[propName] = defaultProps[propName]);
         }
         if (key || ref) {
-            var props1, displayName, warnAboutAccessingKey, props2, displayName1, warnAboutAccessingRef, displayName2 = "function" == typeof type ? type.displayName || type.name || "Unknown" : type;
-            key && (props1 = props, displayName = displayName2, (warnAboutAccessingKey = function() {
+            var warnAboutAccessingKey, warnAboutAccessingRef, displayName = "function" == typeof type ? type.displayName || type.name || "Unknown" : type;
+            key && ((warnAboutAccessingKey = function() {
                 specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
-            }).isReactWarning = !0, Object.defineProperty(props1, "key", {
+            }).isReactWarning = !0, Object.defineProperty(props, "key", {
                 get: warnAboutAccessingKey,
                 configurable: !0
-            })), ref && (props2 = props, displayName1 = displayName2, (warnAboutAccessingRef = function() {
-                specialPropRefWarningShown || (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName1));
-            }).isReactWarning = !0, Object.defineProperty(props2, "ref", {
+            })), ref && ((warnAboutAccessingRef = function() {
+                specialPropRefWarningShown || (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
+            }).isReactWarning = !0, Object.defineProperty(props, "ref", {
                 get: warnAboutAccessingRef,
                 configurable: !0
             }));
@@ -284,13 +284,13 @@
                     }
             }
             if (invokeCallback) {
-                var oldElement, newKey, _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
+                var newKey, _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
                 if (Array.isArray(mappedChild)) {
                     var escapedChildKey = "";
                     null != childKey && (escapedChildKey = escapeUserProvidedKey(childKey) + "/"), mapIntoArray(mappedChild, array, escapedChildKey, "", function(c) {
                         return c;
                     });
-                } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey, ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props))), array.push(mappedChild));
+                } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = (newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey, ReactElement(mappedChild.type, newKey, mappedChild.ref, mappedChild._self, mappedChild._source, mappedChild._owner, mappedChild.props))), array.push(mappedChild));
                 return 1;
             }
             var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
@@ -480,7 +480,7 @@
             case REACT_BLOCK_TYPE:
                 return describeNativeComponentFrame(type._render, !1);
             case REACT_LAZY_TYPE:
-                var Component, prototype, fn, fn1, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
+                var prototype, fn, fn1, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                 } catch (x) {}
@@ -497,7 +497,7 @@
     }
     function setCurrentlyValidatingElement$1(element) {
         if (element) {
-            var stack, owner = element._owner;
+            var owner = element._owner;
             currentExtraStackFrame = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
         } else currentExtraStackFrame = null;
     }
@@ -578,15 +578,15 @@
     function createElementWithValidation(type, props, children) {
         var validType = isValidElementType(type);
         if (!validType) {
-            var typeString, elementProps, info = "";
+            var typeString, info = "";
             (void 0 === type || "object" == typeof type && null !== type && 0 === Object.keys(type).length) && (info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
-            var sourceInfo = null != (elementProps = props) ? function(source) {
+            var sourceInfo = null != props ? function(source) {
                 if (void 0 !== source) {
                     var fileName = source.fileName.replace(/^.*[\\\/]/, ""), lineNumber = source.lineNumber;
                     return "\n\nCheck your code at " + fileName + ":" + lineNumber + ".";
                 }
                 return "";
-            }(elementProps.__source) : "";
+            }(props.__source) : "";
             sourceInfo ? info += sourceInfo : info += getDeclarationErrorAddendum(), null === type ? typeString = "null" : Array.isArray(type) ? typeString = "array" : void 0 !== type && type.$$typeof === REACT_ELEMENT_TYPE ? (typeString = "<" + (getComponentName(type.type) || "Unknown") + " />", info = " Did you accidentally export a JSX literal instead of a component?") : typeString = typeof type, error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
         }
         var element = createElement.apply(this, arguments);

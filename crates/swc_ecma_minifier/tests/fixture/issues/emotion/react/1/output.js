@@ -227,7 +227,7 @@
                     for(var value = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; "rule" !== parent.type;)if (!(parent = parent.parent)) return;
                     if ((1 !== element.props.length || 58 === value.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
                         fixedElements.set(element, !0);
-                        for(var value1, points, points1 = [], rules = (value1 = value, points = points1, dealloc(toRules(alloc(value1), points))), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points1[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
+                        for(var points = [], rules = dealloc(toRules(alloc(value), points)), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
                     }
                 }
             }, removeLabel = function(element) {
@@ -240,8 +240,7 @@
                     if (!element.return) switch(element.type){
                         case DECLARATION:
                             element.return = function prefix(value, length) {
-                                var value1;
-                                switch((((length << 2 ^ Utility_charat(value1 = value, 0)) << 2 ^ Utility_charat(value1, 1)) << 2 ^ Utility_charat(value1, 2)) << 2 ^ Utility_charat(value1, 3)){
+                                switch((((length << 2 ^ Utility_charat(value, 0)) << 2 ^ Utility_charat(value, 1)) << 2 ^ Utility_charat(value, 2)) << 2 ^ Utility_charat(value, 3)){
                                     case 5103:
                                         return WEBKIT + "print-" + value + value;
                                     case 5737:
@@ -360,8 +359,7 @@
                             if (element.length) return function(array, callback) {
                                 return array.map(callback).join("");
                             }(element.props, function(value) {
-                                var value1;
-                                switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
+                                switch((value = /(::plac\w+|:read-\w+)/.exec(value)) ? value[0] : value){
                                     case ":read-only":
                                     case ":read-write":
                                         return serialize([
@@ -555,9 +553,10 @@
                 ].concat(stylisPlugins, finalizingPlugins), length = Utility_sizeof(collection), function(element, index, children, callback) {
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
-                }), stylis = function(styles) {
-                    var value;
-                    return serialize(dealloc(function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
+                });
+                _insert = function(selector, serialized, sheet, shouldCache) {
+                    var styles;
+                    currentSheet = sheet, serialize(dealloc(function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
                         for(var index = 0, offset = 0, length = pseudo, atrule = 0, property = 0, previous = 0, variable = 1, scanning = 1, ampersand = 1, character = 0, type = "", props = rules, children = rulesets, reference = rule, characters = type; scanning;)switch(previous = character, character = next()){
                             case 34:
                             case 39:
@@ -640,12 +639,9 @@
                         return rulesets;
                     }("", null, null, null, [
                         ""
-                    ], value = alloc(value = styles), 0, [
+                    ], styles = alloc(styles = selector ? selector + "{" + serialized.styles + "}" : serialized.styles), 0, [
                         0
-                    ], value)), serializer);
-                };
-                _insert = function(selector, serialized, sheet, shouldCache) {
-                    currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);
+                    ], styles)), serializer), shouldCache && (cache.inserted[serialized.name] = !0);
                 };
                 var cache = {
                     key: key,
@@ -851,12 +847,12 @@
                 var childProps = {
                     ref: setRef,
                     onClick: function(e) {
-                        var e1, router1, href1, as1, replace1, shallow1, scroll1, locale1, event, target;
-                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (e1 = e, router1 = router, href1 = href, as1 = as, replace1 = replace, shallow1 = shallow, scroll1 = scroll, locale1 = locale, "A" === e1.currentTarget.nodeName && ((target = (event = e1).currentTarget.target) && "_self" !== target || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.nativeEvent && 2 === event.nativeEvent.which || !_router.isLocalURL(href1)) || (e1.preventDefault(), null == scroll1 && as1.indexOf("#") >= 0 && (scroll1 = !1), router1[replace1 ? "replace" : "push"](href1, as1, {
-                            shallow: shallow1,
-                            locale: locale1,
-                            scroll: scroll1
-                        })));
+                        var target;
+                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || "A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href)) || (e.preventDefault(), null == scroll && as.indexOf("#") >= 0 && (scroll = !1), router[replace ? "replace" : "push"](href, as, {
+                            shallow: shallow,
+                            locale: locale,
+                            scroll: scroll
+                        }));
                     }
                 };
                 if (childProps.onMouseEnter = function(e) {

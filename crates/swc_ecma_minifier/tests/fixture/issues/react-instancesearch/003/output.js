@@ -16,7 +16,6 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 export default function createInstantSearchManager({ indexName , initialState ={} , searchClient , resultsState , stalledSearchDelay ,  }) {
-    var results;
     const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
     });
@@ -94,10 +93,10 @@ export default function createInstantSearchManager({ indexName , initialState ={
     const store = createStore({
         widgets: initialState,
         metadata: hydrateMetadata(resultsState),
-        results: (results = resultsState) ? Array.isArray(results.results) ? results.results.reduce((acc, result)=>({
+        results: resultsState ? Array.isArray(resultsState.results) ? resultsState.results.reduce((acc, result)=>({
                 ...acc,
                 [result._internalIndexId]: new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)
-            }), {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults) : null,
+            }), {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(resultsState.state), resultsState.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,

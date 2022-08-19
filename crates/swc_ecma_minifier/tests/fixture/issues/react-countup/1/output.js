@@ -122,8 +122,8 @@
                     "blurDataURL", 
                 ]), rest = all, layout = sizes ? "responsive" : "intrinsic";
                 "layout" in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
-                var src1, staticSrc = "";
-                if ("object" == typeof (src1 = src) && (isStaticRequire(src1) || void 0 !== src1.src)) {
+                var staticSrc = "";
+                if ("object" == typeof src && (isStaticRequire(src) || void 0 !== src.src)) {
                     var staticImageData = isStaticRequire(src) ? src.default : src;
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
                     if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
@@ -295,13 +295,13 @@
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var value;
+                        value = source[key], key in target ? Object.defineProperty(target, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : target[key] = value;
                     });
                 }(i);
                 return target;
@@ -588,8 +588,8 @@
         },
         7857: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            var e, React = __webpack_require__(7294), countup_js = __webpack_require__(8273), React__default = (e = React) && "object" == typeof e && "default" in e ? e : {
-                default: e
+            var React = __webpack_require__(7294), countup_js = __webpack_require__(8273), React__default = React && "object" == typeof React && "default" in React ? React : {
+                default: React
             };
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);

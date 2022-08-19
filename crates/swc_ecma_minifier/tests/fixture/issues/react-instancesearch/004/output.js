@@ -235,7 +235,7 @@ export default function createInstantSearchManager(param) {
     addAlgoliaAgents(searchClient), helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
         indexId: indexName
     })).on("error", handleSearchError);
-    var results, state, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(onWidgetsUpdate);
+    var state, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(onWidgetsUpdate);
     !function(client, results) {
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
             if (client.transporter && !client._cacheHydrated) {
@@ -280,9 +280,9 @@ export default function createInstantSearchManager(param) {
     var store = (state = {
         widgets: void 0 === _initialState ? {} : _initialState,
         metadata: hydrateMetadata(resultsState),
-        results: (results = resultsState) ? Array.isArray(results.results) ? results.results.reduce(function(acc, result) {
+        results: resultsState ? Array.isArray(resultsState.results) ? resultsState.results.reduce(function(acc, result) {
             return swcHelpers.objectSpread({}, acc, swcHelpers.defineProperty({}, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
-        }, {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults) : null,
+        }, {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(resultsState.state), resultsState.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,

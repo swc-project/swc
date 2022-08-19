@@ -68,10 +68,10 @@
                 margin: "100px 0",
                 color: "#ed3131"
             }, ErrorBoundaryFallback = function(param) {
-                var error, componentStack, componentStack1 = param.componentStack, error1 = param.error;
+                var componentStack = param.componentStack, error = param.error;
                 return _jsxRuntime.jsxs("div", {
                     style: style,
-                    title: (error = error1, componentStack = componentStack1, "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack)),
+                    title: "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack),
                     children: [
                         _jsxRuntime.jsxs("svg", {
                             viewBox: "0 0 1024 1024",
@@ -261,14 +261,14 @@
                 value: !0
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _auth = __webpack_require__(45440), _default = function(param) {
-                var authConfig, context = param.context, appConfig = param.appConfig, addProvider = param.addProvider, wrapperPageComponent = param.wrapperPageComponent, initialData = context && context.initialData ? context.initialData : {}, initialAuth = initialData.auth || {}, authConfig1 = appConfig.auth || {}, AuthStoreProvider = function(param) {
+                var context = param.context, appConfig = param.appConfig, addProvider = param.addProvider, wrapperPageComponent = param.wrapperPageComponent, initialData = context && context.initialData ? context.initialData : {}, initialAuth = initialData.auth || {}, authConfig = appConfig.auth || {}, AuthStoreProvider = function(param) {
                     var children = param.children;
                     return _jsxRuntime.jsx(_auth.Provider, {
                         value: initialAuth,
                         children: children
                     });
                 };
-                addProvider(AuthStoreProvider), wrapperPageComponent((authConfig = authConfig1, function(PageComponent) {
+                addProvider(AuthStoreProvider), wrapperPageComponent(function(PageComponent) {
                     var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig, AuthWrappedComponent = function(props) {
                         var auth = props.auth, rest = (props.setAuth, swcHelpers.objectWithoutProperties(props, [
                             "auth",
@@ -280,7 +280,7 @@
                         }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest));
                     };
                     return _auth.withAuth(AuthWrappedComponent);
-                }));
+                });
             };
             exports.default = _default;
         },
@@ -438,7 +438,7 @@
             }
             function parseRoutes(routes, fallback) {
                 return routes.map(function(route) {
-                    var component, routerWrappers, route1, fallback1, ref, __LAZY__, dynamicImport, __LOADABLE__, children = route.children, component1 = route.component, routeWrappers = route.routeWrappers, wrappers = route.wrappers, others = swcHelpers.objectWithoutProperties(route, [
+                    var ref, __LAZY__, dynamicImport, __LOADABLE__, children = route.children, component = route.component, routeWrappers = route.routeWrappers, wrappers = route.wrappers, others = swcHelpers.objectWithoutProperties(route, [
                         "children",
                         "component",
                         "routeWrappers",
@@ -446,23 +446,23 @@
                     ]), mergedRouteWrappers = children ? [] : routeWrappers;
                     wrappers && wrappers.length && (mergedRouteWrappers = mergedRouteWrappers.concat(wrappers));
                     var parsedRoute = swcHelpers.objectSpread({}, others);
-                    return component1 && (parsedRoute.component = (component = component1, routerWrappers = mergedRouteWrappers, route1 = route, fallback1 = fallback, __LAZY__ = (ref = component || {}).__LAZY__, dynamicImport = ref.dynamicImport, __LOADABLE__ = ref.__LOADABLE__, __LOADABLE__ ? _component.default(dynamicImport, {
+                    return component && (parsedRoute.component = (__LAZY__ = (ref = component || {}).__LAZY__, dynamicImport = ref.dynamicImport, __LOADABLE__ = ref.__LOADABLE__, __LOADABLE__ ? _component.default(dynamicImport, {
                         resolveComponent: function(mod) {
                             var comp = mod.default;
-                            return setComponentAttr(comp, route1), wrapperRoute(comp, routerWrappers);
+                            return setComponentAttr(comp, route), wrapperRoute(comp, mergedRouteWrappers);
                         },
-                        fallback: fallback1
+                        fallback: fallback
                     }) : __LAZY__ ? _react.lazy(function() {
                         return dynamicImport().then(function(mod) {
-                            if (routerWrappers && routerWrappers.length) {
+                            if (mergedRouteWrappers && mergedRouteWrappers.length) {
                                 var comp = mod.default;
-                                return setComponentAttr(comp, route1), swcHelpers.objectSpread({}, mod, {
-                                    default: wrapperRoute(comp, routerWrappers)
+                                return setComponentAttr(comp, route), swcHelpers.objectSpread({}, mod, {
+                                    default: wrapperRoute(comp, mergedRouteWrappers)
                                 });
                             }
                             return mod;
                         });
-                    }) : (setComponentAttr(component, route1), wrapperRoute(component, routerWrappers)))), children && (parsedRoute.children = parseRoutes(children, fallback)), parsedRoute;
+                    }) : (setComponentAttr(component, route), wrapperRoute(component, mergedRouteWrappers)))), children && (parsedRoute.children = parseRoutes(children, fallback)), parsedRoute;
                 });
             }
             function Routes(param) {
@@ -752,13 +752,13 @@
                 var _ref$defaultResolveCo = _ref.defaultResolveComponent, defaultResolveComponent = void 0 === _ref$defaultResolveCo ? identity : _ref$defaultResolveCo, _render = _ref.render, onLoad = _ref.onLoad;
                 function loadable(loadableConstructor, options) {
                     void 0 === options && (options = {});
-                    var ctor, ctor1 = "function" == typeof (ctor = loadableConstructor) ? {
-                        requireAsync: ctor,
+                    var ctor = "function" == typeof loadableConstructor ? {
+                        requireAsync: loadableConstructor,
                         resolve: function() {},
                         chunkName: function() {}
-                    } : ctor, cache = {};
+                    } : loadableConstructor, cache = {};
                     function _getCacheKey(props) {
-                        return options.cacheKey ? options.cacheKey(props) : ctor1.resolve ? ctor1.resolve(props) : "static";
+                        return options.cacheKey ? options.cacheKey(props) : ctor.resolve ? ctor.resolve(props) : "static";
                     }
                     function resolve(module, props, Loadable) {
                         var Component = options.resolveComponent ? options.resolveComponent(module, props) : defaultResolveComponent(module);
@@ -775,12 +775,12 @@
                                 error: null,
                                 loading: !0,
                                 cacheKey: _getCacheKey(props)
-                            }, invariant(!props.__chunkExtractor || ctor1.requireSync, "SSR requires `@loadable/babel-plugin`, please install it"), props.__chunkExtractor) ? (!1 === options.ssr || (ctor1.requireAsync(props).catch(function() {
+                            }, invariant(!props.__chunkExtractor || ctor.requireSync, "SSR requires `@loadable/babel-plugin`, please install it"), props.__chunkExtractor) ? (!1 === options.ssr || (ctor.requireAsync(props).catch(function() {
                                 return null;
-                            }), _this.loadSync(), props.__chunkExtractor.addChunk(ctor1.chunkName(props))), function(self1) {
+                            }), _this.loadSync(), props.__chunkExtractor.addChunk(ctor.chunkName(props))), function(self1) {
                                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                                 return self1;
-                            }(_this)) : (!1 !== options.ssr && (ctor1.isReady && ctor1.isReady(props) || ctor1.chunkName && LOADABLE_SHARED.initialChunks[ctor1.chunkName(props)]) && _this.loadSync(), _this);
+                            }(_this)) : (!1 !== options.ssr && (ctor.isReady && ctor.isReady(props) || ctor.chunkName && LOADABLE_SHARED.initialChunks[ctor.chunkName(props)]) && _this.loadSync(), _this);
                         }
                         (0, inheritsLoose.Z)(InnerLoadable, _React$Component), InnerLoadable.getDerivedStateFromProps = function(props, state) {
                             var cacheKey = _getCacheKey(props);
@@ -813,12 +813,12 @@
                             });
                         }, _proto.loadSync = function() {
                             if (this.state.loading) try {
-                                var loadedModule = ctor1.requireSync(this.props), result = resolve(loadedModule, this.props, Loadable);
+                                var loadedModule = ctor.requireSync(this.props), result = resolve(loadedModule, this.props, Loadable);
                                 this.state.result = result, this.state.loading = !1;
                             } catch (error) {
                                 console.error("loadable-components: failed to synchronously load component, which expected to be available", {
-                                    fileName: ctor1.resolve(this.props),
-                                    chunkName: ctor1.chunkName(this.props),
+                                    fileName: ctor.resolve(this.props),
+                                    chunkName: ctor.chunkName(this.props),
                                     error: error ? error.message : error
                                 }), this.state.error = error;
                             }
@@ -845,12 +845,12 @@
                                 "__chunkExtractor",
                                 "forwardedRef"
                             ])), promise = this.getCache();
-                            return promise || ((promise = ctor1.requireAsync(props)).status = STATUS_PENDING, this.setCache(promise), promise.then(function() {
+                            return promise || ((promise = ctor.requireAsync(props)).status = STATUS_PENDING, this.setCache(promise), promise.then(function() {
                                 promise.status = "RESOLVED";
                             }, function(error) {
                                 console.error("loadable-components: failed to asynchronously load component", {
-                                    fileName: ctor1.resolve(_this4.props),
-                                    chunkName: ctor1.chunkName(_this4.props),
+                                    fileName: ctor.resolve(_this4.props),
+                                    chunkName: ctor.chunkName(_this4.props),
                                     error: error ? error.message : error
                                 }), promise.status = STATUS_REJECTED;
                             })), promise;
@@ -878,9 +878,9 @@
                         }, props));
                     });
                     return Loadable.displayName = "Loadable", Loadable.preload = function(props) {
-                        ctor1.requireAsync(props);
+                        ctor.requireAsync(props);
                     }, Loadable.load = function(props) {
-                        return ctor1.requireAsync(props);
+                        return ctor.requireAsync(props);
                     }, Loadable;
                 }
                 return {
@@ -5495,13 +5495,13 @@
             }, {
                 sort: function(comparefn) {
                     void 0 !== comparefn && aCallable(comparefn);
-                    var comparefn1, itemsLength, index, array = toObject(this);
+                    var itemsLength, index, array = toObject(this);
                     if (STABLE_SORT) return void 0 === comparefn ? nativeSort.call(array) : nativeSort.call(array, comparefn);
                     var items = [], arrayLength = toLength(array.length);
                     for(index = 0; index < arrayLength; index++)index in array && items.push(array[index]);
-                    for(itemsLength = (items = internalSort(items, (comparefn1 = comparefn, function(x, y) {
-                        return void 0 === y ? -1 : void 0 === x ? 1 : void 0 !== comparefn1 ? +comparefn1(x, y) || 0 : toString1(x) > toString1(y) ? 1 : -1;
-                    }))).length, index = 0; index < itemsLength;)array[index] = items[index++];
+                    for(itemsLength = (items = internalSort(items, function(x, y) {
+                        return void 0 === y ? -1 : void 0 === x ? 1 : void 0 !== comparefn ? +comparefn(x, y) || 0 : toString1(x) > toString1(y) ? 1 : -1;
+                    })).length, index = 0; index < itemsLength;)array[index] = items[index++];
                     for(; index < arrayLength;)delete array[index++];
                     return array;
                 }
@@ -8160,14 +8160,14 @@
                 }), index = 0; index < 516; index++)if (array[index] !== expected[index]) return !0;
             });
             exportTypedArrayMethod("sort", function(comparefn) {
-                var comparefn1, index, array = this;
+                var index, array = this;
                 if (void 0 !== comparefn && aCallable(comparefn), STABLE_SORT) return nativeSort.call(array, comparefn);
                 aTypedArray(array);
                 var arrayLength = toLength(array.length), items = Array(arrayLength);
                 for(index = 0; index < arrayLength; index++)items[index] = array[index];
-                for(index = 0, items = internalSort(array, (comparefn1 = comparefn, function(x, y) {
-                    return void 0 !== comparefn1 ? +comparefn1(x, y) || 0 : y != y ? -1 : x != x ? 1 : 0 === x && 0 === y ? 1 / x > 0 && 1 / y < 0 ? 1 : -1 : x > y;
-                })); index < arrayLength; index++)array[index] = items[index];
+                for(index = 0, items = internalSort(array, function(x, y) {
+                    return void 0 !== comparefn ? +comparefn(x, y) || 0 : y != y ? -1 : x != x ? 1 : 0 === x && 0 === y ? 1 / x > 0 && 1 / y < 0 ? 1 : -1 : x > y;
+                }); index < arrayLength; index++)array[index] = items[index];
                 return array;
             }, !STABLE_SORT || ACCEPT_INCORRECT_ARGUMENTS);
         },
@@ -8807,7 +8807,7 @@
                         case AUTHORITY:
                             if ("@" == chr) {
                                 seenAt && (buffer = "%40" + buffer), seenAt = !0, bufferCodePoints = arrayFrom(buffer);
-                                for(var segment, segment1, i = 0; i < bufferCodePoints.length; i++){
+                                for(var i = 0; i < bufferCodePoints.length; i++){
                                     var codePoint = bufferCodePoints[i];
                                     if (":" == codePoint && !seenPasswordToken) {
                                         seenPasswordToken = !0;
@@ -8905,7 +8905,7 @@
                             break;
                         case PATH:
                             if (chr == EOF || "/" == chr || "\\" == chr && isSpecial(url) || !stateOverride && ("?" == chr || "#" == chr)) {
-                                if (".." === (segment = (segment = buffer).toLowerCase()) || "%2e." === segment || ".%2e" === segment || "%2e%2e" === segment ? (shortenURLsPath(url), "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("")) : "." === (segment1 = buffer) || "%2e" === segment1.toLowerCase() ? "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("") : ("file" == url.scheme && !url.path.length && isWindowsDriveLetter(buffer) && (url.host && (url.host = ""), buffer = buffer.charAt(0) + ":"), url.path.push(buffer)), buffer = "", "file" == url.scheme && (chr == EOF || "?" == chr || "#" == chr)) for(; url.path.length > 1 && "" === url.path[0];)url.path.shift();
+                                if (".." === (buffer = buffer.toLowerCase()) || "%2e." === buffer || ".%2e" === buffer || "%2e%2e" === buffer ? (shortenURLsPath(url), "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("")) : "." === buffer || "%2e" === buffer.toLowerCase() ? "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("") : ("file" == url.scheme && !url.path.length && isWindowsDriveLetter(buffer) && (url.host && (url.host = ""), buffer = buffer.charAt(0) + ":"), url.path.push(buffer)), buffer = "", "file" == url.scheme && (chr == EOF || "?" == chr || "#" == chr)) for(; url.path.length > 1 && "" === url.path[0];)url.path.shift();
                                 "?" == chr ? (url.query = "", state = QUERY) : "#" == chr && (url.fragment = "", state = FRAGMENT);
                             } else buffer += percentEncode(chr, pathPercentEncodeSet);
                             break;
@@ -9236,7 +9236,7 @@
             function setHistory(customHistory) {
                 storage.history = customHistory;
             }
-            var createHistory, storage_history = storage.history, __assign = function() {
+            var storage_history = storage.history, __assign = function() {
                 return (__assign = Object.assign || function(t) {
                     for(var s, i = 1, n = arguments.length; i < n; i++)for(var p in s = arguments[i])Object.prototype.hasOwnProperty.call(s, p) && (t[p] = s[p]);
                     return t;
@@ -9252,14 +9252,14 @@
                         visibilityState: !0
                     }, lib_router.prev.visibiltyState = !1, pageLifeCycles_emit(HIDE, lib_router.prev.pathname), pageLifeCycles_emit(SHOW, lib_router.current.pathname));
                 });
-            }, esm_history = __webpack_require__(91520), process = __webpack_require__(97671), createHistory1 = function(_a) {
+            }, esm_history = __webpack_require__(91520), process = __webpack_require__(97671), createHistory = function(_a) {
                 var type = _a.type, basename = _a.basename, location = _a.location;
                 return process.env.__IS_SERVER__ && ((0, esm_history.createMemoryHistory)().location = location), "hash" === type ? (0, esm_history.createHashHistory)({
                     basename: basename
                 }) : "browser" === type ? (0, esm_history.createBrowserHistory)({
                     basename: basename
                 }) : (0, esm_history.createMemoryHistory)();
-            }, initHistory = (createHistory = createHistory1, function(appConfig, initialContext) {
+            }, initHistory = function(appConfig, initialContext) {
                 void 0 === initialContext && (initialContext = null), appConfig.router || (appConfig.router = DEFAULT_APP_CONFIG.router);
                 var router = appConfig.router, _a = router.type, type = void 0 === _a ? DEFAULT_APP_CONFIG.router.type : _a, basename = router.basename, customHistory = router.history, location = initialContext ? initialContext.location : null, newHistory = createHistory({
                     type: type,
@@ -9268,7 +9268,7 @@
                     customHistory: customHistory
                 });
                 appConfig.router.history = newHistory, setHistory(newHistory);
-            }), web_history = createHistory1, web_initAppLifeCycles = function() {
+            }, web_history = createHistory, web_initAppLifeCycles = function() {
                 "undefined" != typeof document && "undefined" != typeof window && (document.addEventListener("visibilitychange", function() {
                     var history = getHistory();
                     (history ? history.location.pathname : lib_router.current.pathname) === lib_router.current.pathname && (lib_router.current.visibilityState = !lib_router.current.visibilityState, lib_router.current.visibilityState ? (emit(SHOW), pageLifeCycles_emit(SHOW, lib_router.current.pathname)) : (pageLifeCycles_emit(HIDE, lib_router.current.pathname), emit(HIDE)));
@@ -9534,8 +9534,7 @@
                 return "/" === path.charAt(0) ? path.substr(1) : path;
             }
             function stripBasename(path, prefix) {
-                var path1, prefix1;
-                return (path1 = path, prefix1 = prefix, 0 === path1.toLowerCase().indexOf(prefix1.toLowerCase()) && -1 !== "/?#".indexOf(path1.charAt(prefix1.length))) ? path.substr(prefix.length) : path;
+                return 0 === path.toLowerCase().indexOf(prefix.toLowerCase()) && -1 !== "/?#".indexOf(path.charAt(prefix.length)) ? path.substr(prefix.length) : path;
             }
             function stripTrailingSlash(path) {
                 return "/" === path.charAt(path.length - 1) ? path.slice(0, -1) : path;
@@ -9628,7 +9627,7 @@
                     (0, esm_extends.Z)(history, nextState), history.length = globalHistory.length, transitionManager.notifyListeners(history.location, history.action);
                 }
                 function handlePopState(event) {
-                    (void 0 !== event.state || -1 !== navigator.userAgent.indexOf("CriOS")) && handlePop(getDOMLocation(event.state));
+                    void 0 === event.state && -1 === navigator.userAgent.indexOf("CriOS") || handlePop(getDOMLocation(event.state));
                 }
                 function handleHashChange() {
                     handlePop(getDOMLocation(getHistoryState()));
@@ -9780,8 +9779,8 @@
                     var path = getHashPath(), encodedPath = encodePath(path);
                     if (path !== encodedPath) replaceHashPath(encodedPath);
                     else {
-                        var a, b, location = getDOMLocation(), prevLocation = history.location;
-                        if (!forceNextPop && (a = prevLocation, b = location, a.pathname === b.pathname && a.search === b.search && a.hash === b.hash) || ignorePath === createPath(location)) return;
+                        var location = getDOMLocation(), prevLocation = history.location;
+                        if (!forceNextPop && prevLocation.pathname === location.pathname && prevLocation.search === location.search && prevLocation.hash === location.hash || ignorePath === createPath(location)) return;
                         ignorePath = null, handlePop(location);
                     }
                 }
@@ -9827,8 +9826,8 @@
                             if (ok) {
                                 var path = createPath(location), encodedPath = encodePath(basename + path);
                                 if (getHashPath() !== encodedPath) {
-                                    ignorePath = path, path1 = encodedPath, window.location.hash = path1;
-                                    var path1, prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
+                                    ignorePath = path, window.location.hash = encodedPath;
+                                    var prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
                                     nextPaths.push(path), allPaths = nextPaths, setState({
                                         action: action,
                                         location: location
@@ -10154,7 +10153,6 @@
                 return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", attachKeys(RegExp("^" + route, flags(options)), keys);
             }
             function pathToRegexp(path, keys, options) {
-                var path1, keys1, options1;
                 return (isarray(keys) || (options = keys || options, keys = []), options = options || {}, path instanceof RegExp) ? function(path, keys) {
                     var groups = path.source.match(/\((?!\?)/g);
                     if (groups) for(var i = 0; i < groups.length; i++)keys.push({
@@ -10172,7 +10170,7 @@
                     for(var parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
                     var regexp = RegExp("(?:" + parts.join("|") + ")", flags(options));
                     return attachKeys(regexp, keys);
-                }(path, keys, options) : (path1 = path, keys1 = keys, tokensToRegExp(parse(path1, options1 = options), keys1, options1));
+                }(path, keys, options) : tokensToRegExp(parse(path, options), keys, options);
             }
         },
         97671: function(module) {
@@ -10719,7 +10717,7 @@
                                 return runtime = (_e = createBaseApp(appConfig, buildConfig, context)).runtime, modifiedAppConfig = _e.appConfig, initAppLifeCycles(), initialData = context.initialData, __initialData__ = initialData, emitLifeCycles(), [
                                     2,
                                     function(runtime, options) {
-                                        var mountNode, rootId, _a, _b = options.appConfig, _c = (void 0 === _b ? {} : _b).app, rootId1 = _c.rootId, mountNode1 = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = (mountNode = mountNode1, rootId = rootId1, mountNode || document.getElementById(rootId) || document.getElementById("ice-container"));
+                                        var _a, _b = options.appConfig, _c = (void 0 === _b ? {} : _b).app, rootId = _c.rootId, mountNode = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = mountNode || document.getElementById(rootId) || document.getElementById("ice-container");
                                         if (null == runtime ? void 0 : runtime.modifyDOMRender) return null === (_a = null == runtime ? void 0 : runtime.modifyDOMRender) || void 0 === _a ? void 0 : _a.call(runtime, {
                                             App: App,
                                             appMountNode: appMountNode
@@ -10824,7 +10822,7 @@
                 return a[1].toUpperCase();
             }
             function qa(a, b, c, d) {
-                var a1, e = D.hasOwnProperty(b) ? D[b] : null;
+                var e = D.hasOwnProperty(b) ? D[b] : null;
                 (null !== e ? 0 === e.type : !d && 2 < b.length && ("o" === b[0] || "O" === b[0]) && ("n" === b[1] || "N" === b[1])) || (function(a, b, c, d) {
                     if (null == b || function(a, b, c, d) {
                         if (null !== c && 0 === c.type) return !1;
@@ -10852,7 +10850,7 @@
                             return isNaN(b) || 1 > b;
                     }
                     return !1;
-                }(b, c, e, d) && (c = null), d || null === e ? (a1 = b, (!!ia.call(ka, a1) || !ia.call(ja, a1) && (ha.test(a1) ? ka[a1] = !0 : (ja[a1] = !0, !1))) && (null === c ? a.removeAttribute(b) : a.setAttribute(b, "" + c))) : e.mustUseProperty ? a[e.propertyName] = null === c ? 3 !== e.type && "" : c : (b = e.attributeName, d = e.attributeNamespace, null === c ? a.removeAttribute(b) : (c = 3 === (e = e.type) || 4 === e && !0 === c ? "" : "" + c, d ? a.setAttributeNS(d, b, c) : a.setAttribute(b, c))));
+                }(b, c, e, d) && (c = null), d || null === e ? (!!ia.call(ka, b) || !ia.call(ja, b) && (ha.test(b) ? ka[b] = !0 : (ja[b] = !0, !1))) && (null === c ? a.removeAttribute(b) : a.setAttribute(b, "" + c)) : e.mustUseProperty ? a[e.propertyName] = null === c ? 3 !== e.type && "" : c : (b = e.attributeName, d = e.attributeNamespace, null === c ? a.removeAttribute(b) : (c = 3 === (e = e.type) || 4 === e && !0 === c ? "" : "" + c, d ? a.setAttributeNS(d, b, c) : a.setAttribute(b, c))));
             }
             "accent-height alignment-baseline arabic-form baseline-shift cap-height clip-path clip-rule color-interpolation color-interpolation-filters color-profile color-rendering dominant-baseline enable-background fill-opacity fill-rule flood-color flood-opacity font-family font-size font-size-adjust font-stretch font-style font-variant font-weight glyph-name glyph-orientation-horizontal glyph-orientation-vertical horiz-adv-x horiz-origin-x image-rendering letter-spacing lighting-color marker-end marker-mid marker-start overline-position overline-thickness paint-order panose-1 pointer-events rendering-intent shape-rendering stop-color stop-opacity strikethrough-position strikethrough-thickness stroke-dasharray stroke-dashoffset stroke-linecap stroke-linejoin stroke-miterlimit stroke-opacity stroke-width text-anchor text-decoration text-rendering underline-position underline-thickness unicode-bidi unicode-range units-per-em v-alphabetic v-hanging v-ideographic v-mathematical vector-effect vert-adv-y vert-origin-x vert-origin-y word-spacing writing-mode xmlns:xlink x-height".split(" ").forEach(function(a) {
                 var b = a.replace(oa, pa);
@@ -15933,13 +15931,12 @@
                     "onClick", 
                 ]), i = a.target, c = _extends({}, a, {
                     onClick: function(t) {
-                        var e;
                         try {
                             n && n(t);
-                        } catch (e1) {
-                            throw t.preventDefault(), e1;
+                        } catch (e) {
+                            throw t.preventDefault(), e;
                         }
-                        t.defaultPrevented || 0 !== t.button || i && "_self" !== i || (e = t).metaKey || e.altKey || e.ctrlKey || e.shiftKey || (t.preventDefault(), o());
+                        t.defaultPrevented || 0 !== t.button || i && "_self" !== i || t.metaKey || t.altKey || t.ctrlKey || t.shiftKey || (t.preventDefault(), o());
                     }
                 });
                 return c.ref = forwardRefShim !== forwardRef && t || r, React.createElement("a", c);
@@ -16161,8 +16158,8 @@
                         return (_ref = {})[contextProp] = this.emitter, _ref;
                     }, _proto.componentWillReceiveProps = function(nextProps) {
                         if (this.props.value !== nextProps.value) {
-                            var changedBits, x, y, oldValue = this.props.value, newValue = nextProps.value;
-                            ((x = oldValue) === (y = newValue) ? 0 !== x || 1 / x == 1 / y : x != x && y != y) ? changedBits = 0 : (changedBits = "function" == typeof calculateChangedBits ? calculateChangedBits(oldValue, newValue) : 1073741823, 0 != (changedBits |= 0) && this.emitter.set(nextProps.value, changedBits));
+                            var changedBits, oldValue = this.props.value, newValue = nextProps.value;
+                            (oldValue === newValue ? 0 !== oldValue || 1 / oldValue == 1 / newValue : oldValue != oldValue && newValue != newValue) ? changedBits = 0 : (changedBits = "function" == typeof calculateChangedBits ? calculateChangedBits(oldValue, newValue) : 1073741823, 0 != (changedBits |= 0) && this.emitter.set(nextProps.value, changedBits));
                         }
                     }, _proto.render = function() {
                         return this.props.children;
@@ -16367,13 +16364,13 @@
                     var _this = this;
                     return _react_17_0_2_react.createElement(context.Consumer, null, function(context$1) {
                         context$1 || (0, tiny_invariant_esm.default)(!1);
-                        var children, location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({}, context$1, {
+                        var location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({}, context$1, {
                             location: location,
                             match: match
-                        }), _this$props = _this.props, children1 = _this$props.children, component = _this$props.component, render = _this$props.render;
-                        return Array.isArray(children1) && (children = children1, 0 === _react_17_0_2_react.Children.count(children)) && (children1 = null), _react_17_0_2_react.createElement(context.Provider, {
+                        }), _this$props = _this.props, children = _this$props.children, component = _this$props.component, render = _this$props.render;
+                        return Array.isArray(children) && 0 === _react_17_0_2_react.Children.count(children) && (children = null), _react_17_0_2_react.createElement(context.Provider, {
                             value: props
-                        }, props.match ? children1 ? "function" == typeof children1 ? children1(props) : children1 : component ? _react_17_0_2_react.createElement(component, props) : render ? render(props) : null : "function" == typeof children1 ? children1(props) : null);
+                        }, props.match ? children ? "function" == typeof children ? children(props) : children : component ? _react_17_0_2_react.createElement(component, props) : render ? render(props) : null : "function" == typeof children ? children(props) : null);
                     });
                 }, Route;
             }(_react_17_0_2_react.Component);
@@ -16606,7 +16603,7 @@
                 if (null == a) return a;
                 var e = [], d = 0;
                 return !function O(a, b, c, e, d) {
-                    var a1, b1, a2, k = typeof a;
+                    var b1, k = typeof a;
                     ("undefined" === k || "boolean" === k) && (a = null);
                     var h = !1;
                     if (null === a) h = !0;
@@ -16624,19 +16621,19 @@
                     }
                     if (h) return d = d(h = a), a = "" === e ? "." + N(h, 0) : e, Array.isArray(d) ? (c = "", null != a && (c = a.replace(M, "$&/") + "/"), O(d, b, c, "", function(a) {
                         return a;
-                    })) : null != d && (L(d) && (d = (a1 = d, b1 = c + (!d.key || h && h.key === d.key ? "" : ("" + d.key).replace(M, "$&/") + "/") + a, {
+                    })) : null != d && (L(d) && (d = (b1 = c + (!d.key || h && h.key === d.key ? "" : ("" + d.key).replace(M, "$&/") + "/") + a, {
                         $$typeof: n,
-                        type: a1.type,
+                        type: d.type,
                         key: b1,
-                        ref: a1.ref,
-                        props: a1.props,
-                        _owner: a1._owner
+                        ref: d.ref,
+                        props: d.props,
+                        _owner: d._owner
                     })), b.push(d)), 1;
                     if (h = 0, e = "" === e ? "." : e + ":", Array.isArray(a)) for(var g = 0; g < a.length; g++){
                         var f = e + N(k = a[g], g);
                         h += O(k, b, c, f, d);
                     }
-                    else if ("function" == typeof (f = null === (a2 = a) || "object" != typeof a2 ? null : "function" == typeof (a2 = x && a2[x] || a2["@@iterator"]) ? a2 : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
+                    else if ("function" == typeof (f = null === a || "object" != typeof a ? null : "function" == typeof (a = x && a[x] || a["@@iterator"]) ? a : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
                     else if ("object" === k) throw Error(z(31, "[object Object]" == (b = "" + a) ? "object with keys {" + Object.keys(a).join(", ") + "}" : b));
                     return h;
                 }(a, e, "", "", function(a) {

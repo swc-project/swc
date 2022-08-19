@@ -1,5 +1,5 @@
 function foo(node) {
-    for(var obj, i; (i = node.data) && i.a != i.b;)node = node.data;
+    for(var i; (i = node.data) && i.a != i.b;)node = node.data;
     return node;
 }
 var x = {

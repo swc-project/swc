@@ -539,7 +539,6 @@
                 return "nullValue" in t ? 0 : "booleanValue" in t ? 1 : "integerValue" in t || "doubleValue" in t ? 2 : "timestampValue" in t ? 3 : "stringValue" in t ? 5 : "bytesValue" in t ? 6 : "referenceValue" in t ? 7 : "geoPointValue" in t ? 8 : "arrayValue" in t ? 9 : "mapValue" in t ? Tt(t) ? 4 : 10 : L();
             }
             function Vt(t, e) {
-                var t1, e1, t2, e2;
                 const n = vt(t);
                 if (n !== vt(e)) return !1;
                 switch(n){
@@ -558,11 +557,11 @@
                     case 5:
                         return t.stringValue === e.stringValue;
                     case 6:
-                        return t1 = t, e1 = e, pt(t1.bytesValue).isEqual(pt(e1.bytesValue));
+                        return pt(t.bytesValue).isEqual(pt(e.bytesValue));
                     case 7:
                         return t.referenceValue === e.referenceValue;
                     case 8:
-                        return t2 = t, e2 = e, yt(t2.geoPointValue.latitude) === yt(e2.geoPointValue.latitude) && yt(t2.geoPointValue.longitude) === yt(e2.geoPointValue.longitude);
+                        return yt(t.geoPointValue.latitude) === yt(e.geoPointValue.latitude) && yt(t.geoPointValue.longitude) === yt(e.geoPointValue.longitude);
                     case 2:
                         return function(t, e) {
                             if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
@@ -848,10 +847,7 @@
                 const e = t;
                 if (null === e.A) {
                     let t1 = e.path.canonicalString();
-                    null !== e.collectionGroup && (t1 += "|cg:" + e.collectionGroup), t1 += "|f:", t1 += e.filters.map((t)=>Yt(t)).join(","), t1 += "|ob:", t1 += e.orderBy.map((t)=>{
-                        var t1;
-                        return (t1 = t).field.canonicalString() + t1.dir;
-                    }).join(","), At(e.limit) || (t1 += "|l:", t1 += e.limit), e.startAt && (t1 += "|lb:", t1 += ce(e.startAt)), e.endAt && (t1 += "|ub:", t1 += ce(e.endAt)), e.A = t1;
+                    null !== e.collectionGroup && (t1 += "|cg:" + e.collectionGroup), t1 += "|f:", t1 += e.filters.map((t)=>Yt(t)).join(","), t1 += "|ob:", t1 += e.orderBy.map((t)=>t.field.canonicalString() + t.dir).join(","), At(e.limit) || (t1 += "|l:", t1 += e.limit), e.startAt && (t1 += "|lb:", t1 += ce(e.startAt)), e.endAt && (t1 += "|ub:", t1 += ce(e.endAt)), e.A = t1;
                 }
                 return e.A;
             }
@@ -1026,21 +1022,20 @@
                 return !At(t.limit) && "L" === t.limitType;
             }
             function Te(t) {
-                var t1;
                 const e = t;
                 if (null === e.V) {
                     e.V = [];
-                    const t2 = function(t) {
+                    const t1 = function(t) {
                         for (const e of t.filters)if (e.v()) return e.field;
                         return null;
-                    }(e), n = (t1 = e).explicitOrderBy.length > 0 ? t1.explicitOrderBy[0].field : null;
-                    if (null !== t2 && null === n) t2.isKeyField() || e.V.push(new ae(t2)), e.V.push(new ae(ft.keyField(), "asc"));
+                    }(e), n = e.explicitOrderBy.length > 0 ? e.explicitOrderBy[0].field : null;
+                    if (null !== t1 && null === n) t1.isKeyField() || e.V.push(new ae(t1)), e.V.push(new ae(ft.keyField(), "asc"));
                     else {
-                        let t3 = !1;
-                        for (const n1 of e.explicitOrderBy)e.V.push(n1), n1.field.isKeyField() && (t3 = !0);
-                        if (!t3) {
-                            const t4 = e.explicitOrderBy.length > 0 ? e.explicitOrderBy[e.explicitOrderBy.length - 1].dir : "asc";
-                            e.V.push(new ae(ft.keyField(), t4));
+                        let t2 = !1;
+                        for (const n1 of e.explicitOrderBy)e.V.push(n1), n1.field.isKeyField() && (t2 = !0);
+                        if (!t2) {
+                            const t3 = e.explicitOrderBy.length > 0 ? e.explicitOrderBy[e.explicitOrderBy.length - 1].dir : "asc";
+                            e.V.push(new ae(ft.keyField(), t3));
                         }
                     }
                 }
@@ -1074,13 +1069,9 @@
                 return `Query(target=${e = (t1 = Ee(t)).path.canonicalString(), null !== t1.collectionGroup && (e += " collectionGroup=" + t1.collectionGroup), t1.filters.length > 0 && (e += `, filters: [${t1.filters.map((t)=>{
                     var e;
                     return `${(e = t).field.canonicalString()} ${e.op} ${xt(e.value)}`;
-                }).join(", ")}]`), At(t1.limit) || (e += ", limit: " + t1.limit), t1.orderBy.length > 0 && (e += `, orderBy: [${t1.orderBy.map((t)=>{
-                    var t1;
-                    return t1 = t, `${t1.field.canonicalString()} (${t1.dir})`;
-                }).join(", ")}]`), t1.startAt && (e += ", startAt: " + ce(t1.startAt)), t1.endAt && (e += ", endAt: " + ce(t1.endAt)), `Target(${e})`}; limitType=${t.limitType})`;
+                }).join(", ")}]`), At(t1.limit) || (e += ", limit: " + t1.limit), t1.orderBy.length > 0 && (e += `, orderBy: [${t1.orderBy.map((t)=>`${t.field.canonicalString()} (${t.dir})`).join(", ")}]`), t1.startAt && (e += ", startAt: " + ce(t1.startAt)), t1.endAt && (e += ", endAt: " + ce(t1.endAt)), `Target(${e})`}; limitType=${t.limitType})`;
             }
             function Pe(t, e) {
-                var t1, e1;
                 return e.isFoundDocument() && function(t, e) {
                     const n = e.key.path;
                     return null !== t.collectionGroup ? e.key.hasCollectionId(t.collectionGroup) && t.path.isPrefixOf(n) : Pt.isDocumentKey(t.path) ? t.path.isEqual(n) : t.path.isImmediateParentOf(n);
@@ -1090,7 +1081,7 @@
                 }(t, e) && function(t, e) {
                     for (const n of t.filters)if (!n.matches(e)) return !1;
                     return !0;
-                }(t, e) && (t1 = t, e1 = e, !(t1.startAt && !he(t1.startAt, Te(t1), e1) || t1.endAt && he(t1.endAt, Te(t1), e1)));
+                }(t, e) && !(t.startAt && !he(t.startAt, Te(t), e) || t.endAt && he(t.endAt, Te(t), e));
             }
             function ve(t) {
                 return (e, n)=>{
@@ -1170,8 +1161,8 @@
                 return t instanceof Fe ? Me(t, e) : t instanceof Le ? Be(t, e) : n;
             }
             function $e(t, e) {
-                var n, t1;
-                return t instanceof Ue ? $t(n = e) || (t1 = n) && "doubleValue" in t1 ? e : {
+                var n;
+                return t instanceof Ue ? $t(n = e) || n && "doubleValue" in n ? e : {
                     integerValue: 0
                 } : null;
             }
@@ -1264,7 +1255,6 @@
                 }(0, e, n);
             }
             function Ye(t, e, n) {
-                var t1, e1;
                 t instanceof en ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return;
                     const s = t.value.clone(), i = on(t.fieldTransforms, n, e);
@@ -1273,13 +1263,13 @@
                     if (!ze(t.precondition, e)) return;
                     const s = on(t.fieldTransforms, n, e), i = e.data;
                     i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(tn(e), i).setHasLocalMutations();
-                }(t, e, n) : (t1 = t, e1 = e, ze(t1.precondition, e1) && e1.convertToNoDocument(rt.min()));
+                }(t, e, n) : ze(t.precondition, e) && e.convertToNoDocument(rt.min());
             }
             function Ze(t, e) {
                 var t1, e1;
                 return t.type === e.type && !!t.key.isEqual(e.key) && !!t.precondition.isEqual(e.precondition) && (t1 = t.fieldTransforms, e1 = e.fieldTransforms, !!(void 0 === t1 && void 0 === e1 || !(!t1 || !e1) && nt(t1, e1, (t, e)=>{
-                    var t1, e1, t2, e2;
-                    return t1 = t, e1 = e, t1.field.isEqual(e1.field) && (t2 = t1.transform, e2 = e1.transform, t2 instanceof Fe && e2 instanceof Fe || t2 instanceof Le && e2 instanceof Le ? nt(t2.elements, e2.elements, Vt) : t2 instanceof Ue && e2 instanceof Ue ? Vt(t2.C, e2.C) : t2 instanceof Oe && e2 instanceof Oe);
+                    var t1, e1;
+                    return t.field.isEqual(e.field) && (t1 = t.transform, e1 = e.transform, t1 instanceof Fe && e1 instanceof Fe || t1 instanceof Le && e1 instanceof Le ? nt(t1.elements, e1.elements, Vt) : t1 instanceof Ue && e1 instanceof Ue ? Vt(t1.C, e1.C) : t1 instanceof Oe && e1 instanceof Oe);
                 }))) && (0 === t.type ? t.value.isEqual(e.value) : 1 !== t.type || t.data.isEqual(e.data) && t.fieldMask.isEqual(e.fieldMask));
             }
             function tn(t) {
@@ -1965,13 +1955,12 @@
                 }(t));
             }
             function Qn(t, e) {
-                var t1;
-                return (t1 = t, new ht([
+                return new ht([
                     "projects",
-                    t1.projectId,
+                    t.projectId,
                     "databases",
-                    t1.database, 
-                ])).child("documents").child(e).canonicalString();
+                    t.database, 
+                ]).child("documents").child(e).canonicalString();
             }
             function Wn(t) {
                 const e = ht.fromString(t);
@@ -2007,7 +1996,7 @@
                 };
             }
             function ss(t, e) {
-                var t1, e1;
+                var e1;
                 let n;
                 if (e instanceof en) n = {
                     update: Zn(t, e.key, e.value)
@@ -2048,11 +2037,11 @@
                             increment: n.C
                         };
                         throw L();
-                    })(0, t))), e.precondition.isNone || (n.currentDocument = (t1 = t, void 0 !== (e1 = e.precondition).updateTime ? {
-                    updateTime: Un(t1, (0, e1.updateTime).toTimestamp())
+                    })(0, t))), e.precondition.isNone || (n.currentDocument = void 0 !== (e1 = e.precondition).updateTime ? {
+                    updateTime: Un(t, (0, e1.updateTime).toTimestamp())
                 } : void 0 !== e1.exists ? {
                     exists: e1.exists
-                } : L())), n;
+                } : L()), n;
             }
             function is(t, e) {
                 var t1;
@@ -3014,8 +3003,7 @@
                     return this.In.getAllMutationBatchesAffectingDocumentKeys(t, e).next((t)=>this.bn(e, t));
                 }
                 getDocumentsMatchingQuery(t, e, n) {
-                    var t1;
-                    return (t1 = e, Pt.isDocumentKey(t1.path) && null === t1.collectionGroup && 0 === t1.filters.length) ? this.Vn(t, e.path) : null !== e.collectionGroup ? this.Sn(t, e, n) : this.Dn(t, e, n);
+                    return Pt.isDocumentKey(e.path) && null === e.collectionGroup && 0 === e.filters.length ? this.Vn(t, e.path) : null !== e.collectionGroup ? this.Sn(t, e, n) : this.Dn(t, e, n);
                 }
                 Vn(t, e) {
                     return this.An(t, new Pt(e)).next((t)=>{
@@ -3027,8 +3015,8 @@
                     const s = e.collectionGroup;
                     let i = En;
                     return this.Ht.getCollectionParents(t, s).next((r)=>js.forEach(r, (r)=>{
-                            var t1, e1;
-                            const o = (t1 = e, e1 = r.child(s), new fe(e1, null, t1.explicitOrderBy.slice(), t1.filters.slice(), t1.limit, t1.limitType, t1.startAt, t1.endAt));
+                            var e1;
+                            const o = (e1 = r.child(s), new fe(e1, null, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt));
                             return this.Dn(t, o, n).next((t)=>{
                                 t.forEach((t, e)=>{
                                     i = i.insert(t, e);
@@ -3078,8 +3066,7 @@
                     this.On = t;
                 }
                 getDocumentsMatchingQuery(t, e, n, s) {
-                    var t1;
-                    return 0 === (t1 = e).filters.length && null === t1.limit && null == t1.startAt && null == t1.endAt && (0 === t1.explicitOrderBy.length || 1 === t1.explicitOrderBy.length && t1.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t, e) : this.On.Pn(t, s).next((i)=>{
+                    return 0 === e.filters.length && null === e.limit && null == e.startAt && null == e.endAt && (0 === e.explicitOrderBy.length || 1 === e.explicitOrderBy.length && e.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t, e) : this.On.Pn(t, s).next((i)=>{
                         const r = this.Mn(e, i);
                         return (_e(e) || me(e)) && this.Ln(e.limitType, r, s, n) ? this.Fn(t, e) : (x() <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__.in.DEBUG && $("QueryEngine", "Re-using previous result from %s to execute query: %s", n.toString(), be(e)), this.On.getDocumentsMatchingQuery(t, e, n).next((t)=>(r.forEach((e)=>{
                                 t = t.insert(e.key, e);
@@ -3501,27 +3488,25 @@
                             return js.resolve(this.Xn.get(e));
                         }
                         saveNamedQuery(t, e) {
-                            var t1;
                             return this.Xn.set(e.name, {
-                                name: (t1 = e).name,
+                                name: e.name,
                                 query: function(t) {
-                                    var t1, e;
+                                    var e;
                                     const e1 = function(t) {
-                                        var t1, t2, e, n, s, i, o, c;
-                                        let e1 = function(t) {
+                                        var t1;
+                                        let e = function(t) {
                                             const e = Wn(t);
                                             return 4 === e.length ? ht.emptyPath() : Xn(e);
                                         }(t.parent);
-                                        const n1 = t.structuredQuery, s1 = n1.from ? n1.from.length : 0;
-                                        let i1 = null;
-                                        if (s1 > 0) {
-                                            1 === s1 || L();
-                                            const t3 = n1.from[0];
-                                            t3.allDescendants ? i1 = t3.collectionId : e1 = e1.child(t3.collectionId);
+                                        const n = t.structuredQuery, s = n.from ? n.from.length : 0;
+                                        let i = null;
+                                        if (s > 0) {
+                                            1 === s || L();
+                                            const t2 = n.from[0];
+                                            t2.allDescendants ? i = t2.collectionId : e = e.child(t2.collectionId);
                                         }
                                         let r = [];
-                                        n1.where && (r = function hs(t) {
-                                            var t1;
+                                        n.where && (r = function hs(t) {
                                             return t ? void 0 !== t.unaryFilter ? [
                                                 function(t) {
                                                     switch(t.unaryFilter.op){
@@ -3550,7 +3535,7 @@
                                                     }
                                                 }(t)
                                             ] : void 0 !== t.fieldFilter ? [
-                                                (t1 = t, Jt.create(ms(t1.fieldFilter.field), function(t) {
+                                                Jt.create(ms(t.fieldFilter.field), function(t) {
                                                     switch(t){
                                                         case "EQUAL":
                                                             return "==";
@@ -3575,13 +3560,11 @@
                                                         default:
                                                             return L();
                                                     }
-                                                }(t1.fieldFilter.op), t1.fieldFilter.value))
+                                                }(t.fieldFilter.op), t.fieldFilter.value)
                                             ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
-                                        }(n1.where));
-                                        let o1 = [];
-                                        n1.orderBy && (o1 = n1.orderBy.map((t)=>{
-                                            var t1;
-                                            return t1 = t, new ae(ms(t1.field), function(t) {
+                                        }(n.where));
+                                        let o = [];
+                                        n.orderBy && (o = n.orderBy.map((t)=>new ae(ms(t.field), function(t) {
                                                 switch(t){
                                                     case "ASCENDING":
                                                         return "asc";
@@ -3590,21 +3573,20 @@
                                                     default:
                                                         return;
                                                 }
-                                            }(t1.direction));
-                                        }));
-                                        let c1 = null, e2;
-                                        n1.limit && (c1 = At(e2 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e2);
+                                            }(t.direction))));
+                                        let c = null, e1;
+                                        n.limit && (c = At(e1 = "object" == typeof (t1 = n.limit) ? t1.value : t1) ? null : e1);
                                         let a = null;
-                                        n1.startAt && (a = fs(n1.startAt));
+                                        n.startAt && (a = fs(n.startAt));
                                         let u = null;
-                                        return n1.endAt && (u = fs(n1.endAt)), t2 = e1, e = i1, n = o1, s = r, i = c1, o = a, c = u, new fe(t2, e, n, s, i, "F", o, c);
+                                        return n.endAt && (u = fs(n.endAt)), new fe(e, i, o, r, c, "F", a, u);
                                     }({
                                         parent: t.parent,
                                         structuredQuery: t.structuredQuery
                                     });
-                                    return "LAST" === t.limitType ? (t1 = e1, e = e1.limit, new fe(t1.path, t1.collectionGroup, t1.explicitOrderBy.slice(), t1.filters.slice(), e, "L", t1.startAt, t1.endAt)) : e1;
-                                }(t1.bundledQuery),
-                                readTime: jn(t1.readTime)
+                                    return "LAST" === t.limitType ? (e = e1.limit, new fe(e1.path, e1.collectionGroup, e1.explicitOrderBy.slice(), e1.filters.slice(), e, "L", e1.startAt, e1.endAt)) : e1;
+                                }(e.bundledQuery),
+                                readTime: jn(e.readTime)
                             }), js.resolve();
                         }
                     }(this.N);
@@ -4146,9 +4128,9 @@
                     const e = function(t, e) {
                         let n;
                         if ("targetChange" in e) {
-                            var t1, t2, e1;
+                            var t1, e1;
                             e.targetChange;
-                            const s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t1 ? 1 : "REMOVE" === t1 ? 2 : "CURRENT" === t1 ? 3 : "RESET" === t1 ? 4 : L(), i = e.targetChange.targetIds || [], r = (t2 = t, e1 = e.targetChange.resumeToken, t2.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (void 0 === e1 || e1 instanceof Uint8Array || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause, c = o && function(t) {
+                            const s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t1 ? 1 : "REMOVE" === t1 ? 2 : "CURRENT" === t1 ? 3 : "RESET" === t1 ? 4 : L(), i = e.targetChange.targetIds || [], r = (e1 = e.targetChange.resumeToken, t.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (void 0 === e1 || e1 instanceof Uint8Array || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause, c = o && function(t) {
                                 const e = void 0 === t.code ? K.UNKNOWN : dn(t.code);
                                 return new j(e, t.message || "");
                             }(o);
@@ -4179,9 +4161,9 @@
                             if (!("filter" in e)) return L();
                             {
                                 e.filter;
-                                const t3 = e.filter;
-                                t3.targetId;
-                                const s4 = t3.count || 0, i4 = new un(s4), r4 = t3.targetId;
+                                const t2 = e.filter;
+                                t2.targetId;
+                                const s4 = t2.count || 0, i4 = new un(s4), r4 = t2.targetId;
                                 n = new Nn(r4, i4);
                             }
                         }
@@ -4206,7 +4188,7 @@
                             }
                         } : {
                             query: function(t, e) {
-                                var t1, e1;
+                                var e1;
                                 const n = {
                                     structuredQuery: {}
                                 }, s = e.path;
@@ -4267,16 +4249,13 @@
                                 }(e.filters);
                                 i && (n.structuredQuery.where = i);
                                 const r = function(t) {
-                                    if (0 !== t.length) return t.map((t)=>{
-                                        var t1;
-                                        return {
-                                            field: _s((t1 = t).field),
-                                            direction: Mn[t1.dir]
-                                        };
-                                    });
+                                    if (0 !== t.length) return t.map((t)=>({
+                                            field: _s(t.field),
+                                            direction: Mn[t.dir]
+                                        }));
                                 }(e.orderBy);
                                 r && (n.structuredQuery.orderBy = r);
-                                const o = (t1 = t, e1 = e.limit, t1.D || At(e1) ? e1 : {
+                                const o = (e1 = e.limit, t.D || At(e1) ? e1 : {
                                     value: e1
                                 });
                                 return null !== o && (n.structuredQuery.limit = o), e.startAt && (n.structuredQuery.startAt = ls(e.startAt)), e.endAt && (n.structuredQuery.endAt = ls(e.endAt)), n;
@@ -4328,9 +4307,8 @@
                     if (t.streamToken || L(), this.lastStreamToken = t.streamToken, this.vr) {
                         this.ar.reset();
                         const e1 = (t1 = t.writeResults, e = t.commitTime, t1 && t1.length > 0 ? (void 0 !== e || L(), t1.map((t)=>{
-                            var t1, e1;
                             let n;
-                            return t1 = t, e1 = e, (n = t1.updateTime ? jn(t1.updateTime) : jn(e1)).isEqual(rt.min()) && (n = jn(e1)), new We(n, t1.transformResults || []);
+                            return (n = t.updateTime ? jn(t.updateTime) : jn(e)).isEqual(rt.min()) && (n = jn(e)), new We(n, t.transformResults || []);
                         })) : []), n = jn(t.commitTime);
                         return this.listener.Dr(n, e1);
                     }
@@ -5002,7 +4980,7 @@
                         const n = t, s = e.snapshotVersion;
                         let i = n.Un;
                         return n.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
-                            var t1, e1, n1, s1, i1;
+                            var n1, i1;
                             const r = n.jn.newChangeBuffer({
                                 trackRemovals: !0
                             });
@@ -5014,25 +4992,24 @@
                                 o.push(n.ze.removeMatchingKeys(t, e.removedDocuments, r).next(()=>n.ze.addMatchingKeys(t, e.addedDocuments, r)));
                                 const a = e.resumeToken;
                                 if (a.approximateByteSize() > 0) {
-                                    var t1, e1, n1;
                                     const u = c.withResumeToken(a, s).withSequenceNumber(t.currentSequenceNumber);
-                                    i = i.insert(r, u), t1 = c, e1 = u, n1 = e, e1.resumeToken.approximateByteSize() > 0 || L(), (0 === t1.resumeToken.approximateByteSize() || e1.snapshotVersion.toMicroseconds() - t1.snapshotVersion.toMicroseconds() >= 3e8 || n1.addedDocuments.size + n1.modifiedDocuments.size + n1.removedDocuments.size > 0) && o.push(n.ze.updateTargetData(t, u));
+                                    i = i.insert(r, u), u.resumeToken.approximateByteSize() > 0 || L(), (0 === c.resumeToken.approximateByteSize() || u.snapshotVersion.toMicroseconds() - c.snapshotVersion.toMicroseconds() >= 3e8 || e.addedDocuments.size + e.modifiedDocuments.size + e.removedDocuments.size > 0) && o.push(n.ze.updateTargetData(t, u));
                                 }
                             });
                             let c = pn, r1;
                             if (e.documentUpdates.forEach((s, i)=>{
                                 e.resolvedLimboDocuments.has(s) && o.push(n.persistence.referenceDelegate.updateLimboDocument(t, s));
-                            }), o.push((t1 = t, e1 = r, n1 = e.documentUpdates, s1 = s, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), e1.getEntries(t1, r1).next((t)=>{
-                                let r = pn;
+                            }), o.push((n1 = e.documentUpdates, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), r.getEntries(t, r1).next((t)=>{
+                                let r1 = pn;
                                 return n1.forEach((n, o)=>{
-                                    const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s1;
-                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (e1.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (e1.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
-                                }), r;
+                                    const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s;
+                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (r.removeEntry(n, a), r1 = r1.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (r.addEntry(o, a), r1 = r1.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
+                                }), r1;
                             })).next((t)=>{
                                 c = t;
                             })), !s.isEqual(rt.min())) {
-                                const e2 = n.ze.getLastRemoteSnapshotVersion(t).next((e)=>n.ze.setTargetsMetadata(t, t.currentSequenceNumber, s));
-                                o.push(e2);
+                                const e1 = n.ze.getLastRemoteSnapshotVersion(t).next((e)=>n.ze.setTargetsMetadata(t, t.currentSequenceNumber, s));
+                                o.push(e1);
                             }
                             return js.waitFor(o).next(()=>r.apply(t)).next(()=>n.Qn.vn(t, c)).next(()=>c);
                         }).then((t)=>(n.Un = i, t));
@@ -5127,16 +5104,15 @@
                 }(s.localStore, r));
             }
             async function Tc(t, e) {
-                var t1;
                 const n = t;
                 if (!n.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
-                    const t2 = await hr(n.localStore, e);
-                    n.currentUser = e, (t1 = n).Ko.forEach((t)=>{
+                    const t1 = await hr(n.localStore, e);
+                    n.currentUser = e, n.Ko.forEach((t)=>{
                         t.forEach((t)=>{
                             t.reject(new j(K.CANCELLED, "'waitForPendingWrites' promise is rejected due to a user change."));
                         });
-                    }), t1.Ko.clear(), n.sharedClientState.handleUserChange(e, t2.removedBatchIds, t2.addedBatchIds), await pc(n, t2.Wn);
+                    }), n.Ko.clear(), n.sharedClientState.handleUserChange(e, t1.removedBatchIds, t1.addedBatchIds), await pc(n, t1.Wn);
                 }
             }
             function Ec(t, e) {
@@ -5189,9 +5165,9 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    var s, t1, e, n;
-                    const e1 = Yr(t.databaseInfo.databaseId), n1 = (s = t.databaseInfo, new zr(s));
-                    return t1 = t.credentials, e = n1, n = e1, new no(t1, e, n);
+                    var s, t1;
+                    const e = Yr(t.databaseInfo.databaseId), n = (s = t.databaseInfo, new zr(s));
+                    return t1 = t.credentials, new no(t1, n, e);
                 }
                 createRemoteStore(t) {
                     var e, n, s, i, r;
@@ -5333,8 +5309,7 @@
                 if ("object" == typeof t) {
                     if (t instanceof Array) return "an array";
                     {
-                        var t1;
-                        const e = (t1 = t).constructor ? t1.constructor.name : null;
+                        const e = t.constructor ? t.constructor.name : null;
                         return e ? `a custom ${e} object` : "an object";
                     }
                 }
@@ -5534,10 +5509,9 @@
                         }
                         Pc(t) {
                             const e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
-                                    var t1;
                                     this.Tc = t, this.Ec = !1;
                                     let e;
-                                    const e1 = (e = (t1 = t).message || "", t1.stack && (e = t1.stack.includes(t1.message) ? t1.stack : t1.message + "\n" + t1.stack), e);
+                                    const e1 = (e = t.message || "", t.stack && (e = t.stack.includes(t.message) ? t.stack : t.message + "\n" + t.stack), e);
                                     throw O("INTERNAL UNHANDLED ERROR: ", e1), t;
                                 }).then((t)=>(this.Ec = !1, t))));
                             return this._c = e, e;
@@ -5580,9 +5554,9 @@
                 }
             }
             function Ma(t) {
-                var e, t1, e1, n, s;
-                const n1 = t._freezeSettings(), s1 = (t1 = t._databaseId, e1 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, s = n1, new ua(t1, e1, n, s.host, s.ssl, s.experimentalForceLongPolling, s.experimentalAutoDetectLongPolling, s.useFetchStreams));
-                t._firestoreClient = new Kc(t._credentials, t._queue, s1);
+                var e, t1, e1, n;
+                const n1 = t._freezeSettings(), s = (t1 = t._databaseId, e1 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, new ua(t1, e1, n, n1.host, n1.ssl, n1.experimentalForceLongPolling, n1.experimentalAutoDetectLongPolling, n1.useFetchStreams));
+                t._firestoreClient = new Kc(t._credentials, t._queue, s);
             }
             class Ja {
                 constructor(...t){
@@ -5762,8 +5736,8 @@
                         nullValue: "NULL_VALUE"
                     };
                     if ("number" == typeof t) {
-                        var t1, e1;
-                        return t1 = e.N, bt(e1 = t) ? De(e1) : Se(t1, e1);
+                        var t1;
+                        return t1 = e.N, bt(t) ? De(t) : Se(t1, t);
                     }
                     if ("boolean" == typeof t) return {
                         booleanValue: t
@@ -5817,8 +5791,7 @@
                 return !("object" != typeof t || null === t || t instanceof Array || t instanceof Date || t instanceof it || t instanceof tu || t instanceof Xa || t instanceof Ia || t instanceof Za);
             }
             function Eu(t, e, n) {
-                var t1;
-                if (!Tu(n) || "object" != typeof (t1 = n) || null === t1 || Object.getPrototypeOf(t1) !== Object.prototype && null !== Object.getPrototypeOf(t1)) {
+                if (!Tu(n) || !("object" == typeof n && null !== n && (Object.getPrototypeOf(n) === Object.prototype || null === Object.getPrototypeOf(n)))) {
                     const s = ma(n);
                     throw "an object" === s ? e.Uc(t + " a custom object") : e.Uc(t + " " + s);
                 }
@@ -6051,9 +6024,8 @@
                 }
             }
             function lh(t) {
-                var t1;
                 t = ga(t, Aa);
-                const e = ga(t.firestore, ka), n = ((t1 = e)._firestoreClient || Ma(t1), t1._firestoreClient.verifyNotTerminated(), t1._firestoreClient), s = new ah(e);
+                const e = ga(t.firestore, ka), n = (e._firestoreClient || Ma(e), e._firestoreClient.verifyNotTerminated(), e._firestoreClient), s = new ah(e);
                 return function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
                 }(t._query), (function(t, e, n = {}) {

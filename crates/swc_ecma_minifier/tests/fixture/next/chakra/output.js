@@ -562,15 +562,15 @@
                 function TinyColor(color, opts) {
                     if (void 0 === color && (color = ""), void 0 === opts && (opts = {}), color instanceof TinyColor) return color;
                     "number" == typeof color && (color = {
-                        r: (color1 = color) >> 16,
-                        g: (0xff00 & color1) >> 8,
-                        b: 0xff & color1
+                        r: color >> 16,
+                        g: (0xff00 & color) >> 8,
+                        b: 0xff & color
                     }), this.originalInput = color;
-                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (rgb = {
+                    var r, g, b, h, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s, v, l, ok, format, _a, rgb1 = (rgb = {
                         r: 0,
                         g: 0,
                         b: 0
-                    }, a = 1, s1 = null, v1 = null, l = null, ok = !1, format = !1, "string" == typeof (color2 = color) && (color2 = function(color) {
+                    }, a = 1, s = null, v = null, l = null, ok = !1, format = !1, "string" == typeof color && (color = function(color) {
                         if (0 === (color = color.trim().toLowerCase()).length) return !1;
                         var named = !1;
                         if (names[color]) color = names[color], named = !0;
@@ -632,11 +632,11 @@
                             b: parseIntFromHex(match[3] + match[3]),
                             format: named ? "name" : "hex"
                         };
-                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (rgb = (r = color2.r, g = color2.g, b = color2.b, {
+                    }(color)), "object" == typeof color && (isValidCSSUnit(color.r) && isValidCSSUnit(color.g) && isValidCSSUnit(color.b) ? (rgb = (r = color.r, g = color.g, b = color.b, {
                         r: 255 * bound01(r, 255),
                         g: 255 * bound01(g, 255),
                         b: 255 * bound01(b, 255)
-                    }), ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), rgb = (h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), mod = i % 6, r1 = [
+                    }), ok = !0, format = "%" === String(color.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.v) ? (s = convertToPercentage(color.s), v = convertToPercentage(color.v), rgb = (h = 6 * bound01(h = color.h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), mod = i % 6, r1 = [
                         v,
                         q,
                         p,
@@ -661,7 +661,7 @@
                         r: 255 * r1,
                         g: 255 * g1,
                         b: 255 * b1
-                    }), ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
+                    }), ok = !0, format = "hsv") : isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.l) && (s = convertToPercentage(color.s), l = convertToPercentage(color.l), rgb = function(h, s, l) {
                         if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
                         else {
                             var r, g, b, q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
@@ -672,9 +672,9 @@
                             g: 255 * g,
                             b: 255 * b
                         };
-                    }(color2.h, s1, l), ok = !0, format = "hsl"), Object.prototype.hasOwnProperty.call(color2, "a") && (a = color2.a)), a = boundAlpha(a), {
+                    }(color.h, s, l), ok = !0, format = "hsl"), Object.prototype.hasOwnProperty.call(color, "a") && (a = color.a)), a = boundAlpha(a), {
                         ok: ok,
-                        format: color2.format || format,
+                        format: color.format || format,
                         r: Math.min(255, Math.max(rgb.r, 0)),
                         g: Math.min(255, Math.max(rgb.g, 0)),
                         b: Math.min(255, Math.max(rgb.b, 0)),
@@ -723,13 +723,13 @@
                 }, TinyColor.prototype.toHexString = function(allow3Char) {
                     return void 0 === allow3Char && (allow3Char = !1), "#" + this.toHex(allow3Char);
                 }, TinyColor.prototype.toHex8 = function(allow4Char) {
-                    var r, g, b, a, allow4Char1, hex;
-                    return void 0 === allow4Char && (allow4Char = !1), r = this.r, g = this.g, b = this.b, a = this.a, allow4Char1 = allow4Char, hex = [
+                    var r, g, b, a, hex;
+                    return void 0 === allow4Char && (allow4Char = !1), r = this.r, g = this.g, b = this.b, a = this.a, hex = [
                         util_pad2(Math.round(r).toString(16)),
                         util_pad2(Math.round(g).toString(16)),
                         util_pad2(Math.round(b).toString(16)),
                         util_pad2(Math.round(255 * parseFloat(a)).toString(16)), 
-                    ], allow4Char1 && hex[0].startsWith(hex[0].charAt(1)) && hex[1].startsWith(hex[1].charAt(1)) && hex[2].startsWith(hex[2].charAt(1)) && hex[3].startsWith(hex[3].charAt(1)) ? hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0) : hex.join("");
+                    ], allow4Char && hex[0].startsWith(hex[0].charAt(1)) && hex[1].startsWith(hex[1].charAt(1)) && hex[2].startsWith(hex[2].charAt(1)) && hex[3].startsWith(hex[3].charAt(1)) ? hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0) : hex.join("");
                 }, TinyColor.prototype.toHex8String = function(allow4Char) {
                     return void 0 === allow4Char && (allow4Char = !1), "#" + this.toHex8(allow4Char);
                 }, TinyColor.prototype.toRgb = function() {
@@ -1246,7 +1246,7 @@
                 }
             }
             var Anatomy = function() {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function Anatomy(name) {
                     var _this = this;
                     this.map = {}, this.called = !1, this.assert = function() {
@@ -1289,7 +1289,7 @@
                         };
                     }, this.__type = {};
                 }
-                return Constructor = Anatomy, protoProps = [
+                return protoProps = [
                     {
                         key: "selectors",
                         get: function() {
@@ -1320,7 +1320,7 @@
                             return Object.keys(this.map);
                         }
                     }, 
-                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Object.defineProperty(Constructor, "prototype", {
+                ], _defineProperties(Anatomy.prototype, protoProps), staticProps && _defineProperties(Anatomy, staticProps), Object.defineProperty(Anatomy, "prototype", {
                     writable: !1
                 }), Anatomy;
             }();
@@ -1401,13 +1401,13 @@
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
-                var value, prefix, value1, prefix1, name1, fallback, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, void 0 === (prefix1 = prefix) && (prefix1 = ""), [
-                    prefix1,
-                    chakra_ui_theme_tools_esm_escape(value1)
+                var prefix, fallback, cssVariable = (void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (void 0 === prefix && (prefix = ""), [
+                    prefix,
+                    chakra_ui_theme_tools_esm_escape(name)
                 ].filter(Boolean).join("-")));
                 return {
                     variable: cssVariable,
-                    reference: (name1 = cssVariable, fallback = getFallback(null == options ? void 0 : options.fallback), "var(" + chakra_ui_theme_tools_esm_escape(name1) + (fallback ? ", " + fallback : "") + ")")
+                    reference: (fallback = getFallback(null == options ? void 0 : options.fallback), "var(" + chakra_ui_theme_tools_esm_escape(cssVariable) + (fallback ? ", " + fallback : "") + ")")
                 };
             }
             function getFallback(fallback) {
@@ -1610,7 +1610,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleContainer$3 = function(props) {
-                var list, opts, fallback, color, name = props.name, theme = props.theme, bg = name ? (opts = {
+                var hex, list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
@@ -1708,33 +1708,26 @@
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
-                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = (color = bg, function(theme) {
-                    var color1;
-                    return "dark" === (color1 = color, function(theme) {
-                        var hex = getColor(theme, color1);
-                        return new module_TinyColor(hex).isDark() ? "dark" : "light";
-                    })(theme);
-                })(theme), color1 = "white";
-                isBgDark || (color1 = "gray.800");
+                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light"), color = "white";
+                isBgDark || (color = "gray.800");
                 var borderColor = mode("white", "gray.800")(props);
                 return {
                     bg: bg,
-                    color: color1,
+                    color: color,
                     borderColor: borderColor,
                     verticalAlign: "top"
                 };
             }, baseStyle$B = function(props) {
-                var props1, props2;
                 return {
-                    badge: (props1 = props, {
+                    badge: {
                         transform: "translate(25%, 25%)",
                         borderRadius: "full",
                         border: "0.2em solid",
-                        borderColor: mode("white", "gray.800")(props1)
-                    }),
-                    excessLabel: (props2 = props, {
-                        bg: mode("gray.200", "whiteAlpha.400")(props2)
-                    }),
+                        borderColor: mode("white", "gray.800")(props)
+                    },
+                    excessLabel: {
+                        bg: mode("gray.200", "whiteAlpha.400")(props)
+                    },
                     container: baseStyleContainer$3(props)
                 };
             };
@@ -2092,18 +2085,17 @@
                 px: 6,
                 py: 4
             }, baseStyle$s = function(props) {
-                var props1;
                 return {
                     overlay: baseStyleOverlay$1,
                     dialogContainer: baseStyleDialogContainer$1,
-                    dialog: sizes_501602a9_esm_extends({}, (props1 = props).isFullHeight && {
+                    dialog: sizes_501602a9_esm_extends({}, props.isFullHeight && {
                         height: "100vh"
                     }, {
                         zIndex: "modal",
                         maxH: "100vh",
-                        bg: mode("white", "gray.700")(props1),
+                        bg: mode("white", "gray.700")(props),
                         color: "inherit",
-                        boxShadow: mode("lg", "dark-lg")(props1)
+                        boxShadow: mode("lg", "dark-lg")(props)
                     }),
                     header: baseStyleHeader$2,
                     closeButton: baseStyleCloseButton$3,
@@ -2161,39 +2153,37 @@
                     }
                 }
             }, baseStyle$q = function(props) {
-                var props1, props2;
                 return {
                     container: {
                         width: "100%",
                         position: "relative"
                     },
-                    requiredIndicator: (props1 = props, {
+                    requiredIndicator: {
                         marginStart: 1,
-                        color: mode("red.500", "red.300")(props1)
-                    }),
-                    helperText: (props2 = props, {
+                        color: mode("red.500", "red.300")(props)
+                    },
+                    helperText: {
                         mt: 2,
-                        color: mode("gray.500", "whiteAlpha.600")(props2),
+                        color: mode("gray.500", "whiteAlpha.600")(props),
                         lineHeight: "normal",
                         fontSize: "sm"
-                    })
+                    }
                 };
             }, Form = {
                 parts: formAnatomy.keys,
                 baseStyle: baseStyle$q
             }, baseStyle$p = function(props) {
-                var props1, props2;
                 return {
-                    text: (props1 = props, {
-                        color: mode("red.500", "red.300")(props1),
+                    text: {
+                        color: mode("red.500", "red.300")(props),
                         mt: 2,
                         fontSize: "sm",
                         lineHeight: "normal"
-                    }),
-                    icon: (props2 = props, {
+                    },
+                    icon: {
                         marginEnd: "0.5em",
-                        color: mode("red.500", "red.300")(props2)
-                    })
+                        color: mode("red.500", "red.300")(props)
+                    }
                 };
             }, FormError = {
                 parts: formErrorAnatomy.keys,
@@ -2419,39 +2409,38 @@
                 transitionProperty: "common",
                 transitionDuration: "normal"
             }, baseStyle$i = function(props) {
-                var props1, props2;
                 return {
                     button: baseStyleButton,
-                    list: (props1 = props, {
-                        bg: mode("#fff", "gray.700")(props1),
-                        boxShadow: mode("sm", "dark-lg")(props1),
+                    list: {
+                        bg: mode("#fff", "gray.700")(props),
+                        boxShadow: mode("sm", "dark-lg")(props),
                         color: "inherit",
                         minW: "3xs",
                         py: "2",
                         zIndex: 1,
                         borderRadius: "md",
                         borderWidth: "1px"
-                    }),
-                    item: (props2 = props, {
+                    },
+                    item: {
                         py: "0.4rem",
                         px: "0.8rem",
                         transitionProperty: "background",
                         transitionDuration: "ultra-fast",
                         transitionTimingFunction: "ease-in",
                         _focus: {
-                            bg: mode("gray.100", "whiteAlpha.100")(props2)
+                            bg: mode("gray.100", "whiteAlpha.100")(props)
                         },
                         _active: {
-                            bg: mode("gray.200", "whiteAlpha.200")(props2)
+                            bg: mode("gray.200", "whiteAlpha.200")(props)
                         },
                         _expanded: {
-                            bg: mode("gray.100", "whiteAlpha.100")(props2)
+                            bg: mode("gray.100", "whiteAlpha.100")(props)
                         },
                         _disabled: {
                             opacity: 0.4,
                             cursor: "not-allowed"
                         }
-                    }),
+                    },
                     groupTitle: baseStyleGroupTitle,
                     command: baseStyleCommand,
                     divider: baseStyleDivider
@@ -2550,23 +2539,22 @@
                     $stepperWidth.reference
                 ]
             }, baseStyle$g = function(props) {
-                var props1;
                 return {
                     root: baseStyleRoot$1,
                     field: baseStyleField$1,
                     stepperGroup: baseStyleStepperGroup,
-                    stepper: (props1 = props, {
+                    stepper: {
                         borderStart: "1px solid",
-                        borderStartColor: mode("inherit", "whiteAlpha.300")(props1),
-                        color: mode("inherit", "whiteAlpha.800")(props1),
+                        borderStartColor: mode("inherit", "whiteAlpha.300")(props),
+                        color: mode("inherit", "whiteAlpha.800")(props),
                         _active: {
-                            bg: mode("gray.200", "whiteAlpha.300")(props1)
+                            bg: mode("gray.200", "whiteAlpha.300")(props)
                         },
                         _disabled: {
                             opacity: 0.4,
                             cursor: "not-allowed"
                         }
-                    })
+                    }
                 };
             };
             function getSize(size) {
@@ -2665,23 +2653,22 @@
                 fontWeight: "bold",
                 color: "white"
             }, baseStyleFilledTrack$1 = function(props) {
-                var props1, c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
+                var c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
                 return sizes_501602a9_esm_extends({
                     transitionProperty: "common",
                     transitionDuration: "slow"
-                }, (c = (props1 = props).colorScheme, t = props1.theme, isIndeterminate = props1.isIndeterminate, hasStripe = props1.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props1), bgColor = mode(c + ".500", c + ".200")(props1), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
+                }, (c = props.colorScheme, t = props.theme, isIndeterminate = props.isIndeterminate, hasStripe = props.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props), bgColor = mode(c + ".500", c + ".200")(props), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
                     bgImage: gradient
                 } : {
                     bgColor: bgColor
                 })));
             }, baseStyle$d = function(props) {
-                var props1;
                 return {
                     label: baseStyleLabel$2,
                     filledTrack: baseStyleFilledTrack$1(props),
-                    track: (props1 = props, {
-                        bg: mode("gray.100", "whiteAlpha.300")(props1)
-                    })
+                    track: {
+                        bg: mode("gray.100", "whiteAlpha.300")(props)
+                    }
                 };
             }, Progress = {
                 parts: progressAnatomy.keys,
@@ -2781,17 +2768,16 @@
                     opacity: 0.5
                 }
             }, baseStyle$b = function(props) {
-                var props1;
                 return {
-                    field: (props1 = props, sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
-                        bg: mode("white", "gray.700")(props1),
+                    field: sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
+                        bg: mode("white", "gray.700")(props),
                         appearance: "none",
                         paddingBottom: "1px",
                         lineHeight: "normal",
                         "> option, > optgroup": {
-                            bg: mode("white", "gray.700")(props1)
+                            bg: mode("white", "gray.700")(props)
                         }
-                    })),
+                    }),
                     icon: baseStyleIcon$1
                 };
             }, iconSpacing = {
@@ -2819,22 +2805,22 @@
                 variants: Input.variants,
                 defaultProps: Input.defaultProps
             }, baseStyle$a = function(props) {
-                var startColor, endColor, defaultStartColor = mode("gray.100", "gray.800")(props), defaultEndColor = mode("gray.400", "gray.600")(props), _props$startColor = props.startColor, _props$endColor = props.endColor, speed = props.speed, theme = props.theme, start = getColor(theme, void 0 === _props$startColor ? defaultStartColor : _props$startColor), end = getColor(theme, void 0 === _props$endColor ? defaultEndColor : _props$endColor);
+                var defaultStartColor = mode("gray.100", "gray.800")(props), defaultEndColor = mode("gray.400", "gray.600")(props), _props$startColor = props.startColor, _props$endColor = props.endColor, speed = props.speed, theme = props.theme, start = getColor(theme, void 0 === _props$startColor ? defaultStartColor : _props$startColor), end = getColor(theme, void 0 === _props$endColor ? defaultEndColor : _props$endColor);
                 return {
                     opacity: 0.7,
                     borderRadius: "2px",
                     borderColor: start,
                     background: end,
-                    animation: speed + "s linear infinite alternate " + (startColor = start, endColor = end, (0, emotion_react_browser_esm.F4)({
+                    animation: speed + "s linear infinite alternate " + (0, emotion_react_browser_esm.F4)({
                         from: {
-                            borderColor: startColor,
-                            background: startColor
+                            borderColor: start,
+                            background: start
                         },
                         to: {
-                            borderColor: endColor,
-                            background: endColor
+                            borderColor: end,
+                            background: end
                         }
-                    }))
+                    })
                 };
             }, baseStyle$9 = function(props) {
                 return {
@@ -2857,7 +2843,6 @@
                     bg: mode(c + ".500", c + ".200")(props)
                 };
             }, baseStyle$8 = function(props) {
-                var props1;
                 return {
                     container: sizes_501602a9_esm_extends({
                         display: "inline-block",
@@ -2877,14 +2862,14 @@
                             w: "100%"
                         }
                     })),
-                    track: (props1 = props, {
+                    track: {
                         overflow: "hidden",
                         borderRadius: "sm",
-                        bg: mode("gray.200", "whiteAlpha.200")(props1),
+                        bg: mode("gray.200", "whiteAlpha.200")(props),
                         _disabled: {
-                            bg: mode("gray.300", "whiteAlpha.300")(props1)
+                            bg: mode("gray.300", "whiteAlpha.300")(props)
                         }
-                    }),
+                    },
                     thumb: sizes_501602a9_esm_extends({
                         display: "flex",
                         alignItems: "center",
@@ -4647,8 +4632,8 @@
                     containerStyle,
                     toastSpacing
                 ]), toastStyle = react.useMemo(function() {
-                    var position1, isRighty, isLefty, alignItems;
-                    return isRighty = (position1 = position).includes("right"), isLefty = position1.includes("left"), alignItems = "center", isRighty && (alignItems = "flex-end"), isLefty && (alignItems = "flex-start"), {
+                    var isRighty, isLefty, alignItems;
+                    return isRighty = position.includes("right"), isLefty = position.includes("left"), alignItems = "center", isRighty && (alignItems = "flex-end"), isLefty && (alignItems = "flex-start"), {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: alignItems
@@ -4682,19 +4667,19 @@
             chakra_ui_utils_esm.Ts && (ToastComponent.displayName = "ToastComponent");
             var ToastProvider = function(props) {
                 var state = react.useSyncExternalStore(toastStore.subscribe, toastStore.getState, toastStore.getState), children = props.children, motionVariants = props.motionVariants, _props$component = props.component, Component = void 0 === _props$component ? ToastComponent : _props$component, portalProps = props.portalProps, toastList = (0, chakra_ui_utils_esm.Yd)(state).map(function(position) {
-                    var position1, top, bottom, right, left, toasts = state[position];
+                    var top, bottom, right, left, toasts = state[position];
                     return react.createElement("ul", {
                         role: "region",
                         "aria-live": "polite",
                         key: position,
                         id: "chakra-toast-manager-" + position,
-                        style: (top = (position1 = position).includes("top") ? "env(safe-area-inset-top, 0px)" : void 0, bottom = position1.includes("bottom") ? "env(safe-area-inset-bottom, 0px)" : void 0, right = position1.includes("left") ? void 0 : "env(safe-area-inset-right, 0px)", left = position1.includes("right") ? void 0 : "env(safe-area-inset-left, 0px)", {
+                        style: (top = position.includes("top") ? "env(safe-area-inset-top, 0px)" : void 0, bottom = position.includes("bottom") ? "env(safe-area-inset-bottom, 0px)" : void 0, right = position.includes("left") ? void 0 : "env(safe-area-inset-right, 0px)", left = position.includes("right") ? void 0 : "env(safe-area-inset-left, 0px)", {
                             position: "fixed",
                             zIndex: 5500,
                             pointerEvents: "none",
                             display: "flex",
                             flexDirection: "column",
-                            margin: "top" === position1 || "bottom" === position1 ? "0 auto" : void 0,
+                            margin: "top" === position || "bottom" === position ? "0 auto" : void 0,
                             top: top,
                             bottom: bottom,
                             right: right,

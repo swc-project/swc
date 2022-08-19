@@ -108,7 +108,7 @@
                             var r = getLens(e), t = r[0], f = r[1];
                             return (t + f) * 3 / 4 - f;
                         }, r.toByteArray = function(e) {
-                            var r, h, t, t1 = getLens(e), i = t1[0], o = t1[1], u = new n((i + (t = o)) * 3 / 4 - t), a = 0, s = o > 0 ? i - 4 : i;
+                            var r, h, t = getLens(e), i = t[0], o = t[1], u = new n((i + o) * 3 / 4 - o), a = 0, s = o > 0 ? i - 4 : i;
                             for(h = 0; h < s; h += 4)r = f[e.charCodeAt(h)] << 18 | f[e.charCodeAt(h + 1)] << 12 | f[e.charCodeAt(h + 2)] << 6 | f[e.charCodeAt(h + 3)], u[a++] = r >> 16 & 255, u[a++] = r >> 8 & 255, u[a++] = 255 & r;
                             return 2 === o && (r = f[e.charCodeAt(h)] << 2 | f[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f[e.charCodeAt(h)] << 10 | f[e.charCodeAt(h + 1)] << 4 | f[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
                         }, r.fromByteArray = function(e) {
@@ -301,8 +301,8 @@
                             var i = r.length;
                             f > i / 2 && (f = i / 2);
                             for(var o = 0; o < f; ++o){
-                                var e1, u = parseInt(r.substr(2 * o, 2), 16);
-                                if ((e1 = u) != e1) break;
+                                var u = parseInt(r.substr(2 * o, 2), 16);
+                                if (u != u) break;
                                 e[t + o] = u;
                             }
                             return o;
@@ -415,8 +415,7 @@
                         }), Buffer.poolSize = 8192, Buffer.from = function(e, r, t) {
                             return from(e, r, t);
                         }, Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype), Object.setPrototypeOf(Buffer, Uint8Array), Buffer.alloc = function(e, r, t) {
-                            var e1, r1, t1;
-                            return e1 = e, r1 = r, t1 = t, (assertSize(e1), e1 <= 0) ? createBuffer(e1) : void 0 !== r1 ? "string" == typeof t1 ? createBuffer(e1).fill(r1, t1) : createBuffer(e1).fill(r1) : createBuffer(e1);
+                            return (assertSize(e), e <= 0) ? createBuffer(e) : void 0 !== r ? "string" == typeof t ? createBuffer(e).fill(r, t) : createBuffer(e).fill(r) : createBuffer(e);
                         }, Buffer.allocUnsafe = function(e) {
                             return allocUnsafe(e);
                         }, Buffer.allocUnsafeSlow = function(e) {

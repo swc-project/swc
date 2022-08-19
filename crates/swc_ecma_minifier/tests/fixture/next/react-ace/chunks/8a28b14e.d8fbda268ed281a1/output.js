@@ -838,13 +838,7 @@
                     };
                     this.resetSelection = resetSelection, isFocused && host.onFocus();
                     var onSelect = function(e) {
-                        if (!inComposition) {
-                            if (copied) copied = !1;
-                            else {
-                                var text1;
-                                0 === (text1 = text).selectionStart && text1.selectionEnd >= lastValue.length && text1.value === lastValue && lastValue && text1.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection();
-                            }
-                        }
+                        !inComposition && (copied ? copied = !1 : 0 === text.selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection());
                     }, inputHandler = null;
                     this.setInputHandler = function(cb) {
                         inputHandler = cb;
@@ -956,30 +950,30 @@
                         };
                         move(e), "mousedown" == e.type && (host.renderer.$isMousePressed = !0, clearTimeout(closeTimeout), useragent.isWin && event.capture(host.container, move, onContextMenuClose));
                     }, this.onContextMenuClose = onContextMenuClose;
-                    var host1, text1, typingResetTimeout, typing, detectArrowKeys, onContextMenu = function(e) {
+                    var typingResetTimeout, typing, detectArrowKeys, onContextMenu = function(e) {
                         host.textInput.onContextMenu(e), onContextMenuClose();
                     };
                     event.addListener(text, "mouseup", onContextMenu, host), event.addListener(text, "mousedown", function(e) {
                         e.preventDefault(), onContextMenuClose();
-                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && (host1 = host, typingResetTimeout = null, typing = !1, (text1 = text).addEventListener("keydown", function(e) {
+                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && (typingResetTimeout = null, typing = !1, text.addEventListener("keydown", function(e) {
                         typingResetTimeout && clearTimeout(typingResetTimeout), typing = !0;
-                    }, !0), text1.addEventListener("keyup", function(e) {
+                    }, !0), text.addEventListener("keyup", function(e) {
                         typingResetTimeout = setTimeout(function() {
                             typing = !1;
                         }, 100);
                     }, !0), detectArrowKeys = function(e) {
-                        if (document.activeElement === text1 && !typing && !inComposition && !host1.$mouseHandler.isMousePressed && !copied) {
-                            var selectionStart = text1.selectionStart, selectionEnd = text1.selectionEnd, key = null, modifier = 0;
+                        if (document.activeElement === text && !typing && !inComposition && !host.$mouseHandler.isMousePressed && !copied) {
+                            var selectionStart = text.selectionStart, selectionEnd = text.selectionEnd, key = null, modifier = 0;
                             if (0 == selectionStart ? key = KEYS.up : 1 == selectionStart ? key = KEYS.home : selectionEnd > lastSelectionEnd && "\n" == lastValue[selectionEnd] ? key = KEYS.end : selectionStart < lastSelectionStart && " " == lastValue[selectionStart - 1] ? (key = KEYS.left, modifier = MODS.option) : selectionStart < lastSelectionStart || selectionStart == lastSelectionStart && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd ? key = KEYS.left : selectionEnd > lastSelectionEnd && lastValue.slice(0, selectionEnd).split("\n").length > 2 ? key = KEYS.down : selectionEnd > lastSelectionEnd && " " == lastValue[selectionEnd - 1] ? (key = KEYS.right, modifier = MODS.option) : (selectionEnd > lastSelectionEnd || selectionEnd == lastSelectionEnd && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd) && (key = KEYS.right), selectionStart !== selectionEnd && (modifier |= MODS.shift), key) {
-                                if (!host1.onCommandKey({}, modifier, key) && host1.commands) {
+                                if (!host.onCommandKey({}, modifier, key) && host.commands) {
                                     key = KEYS.keyCodeToString(key);
-                                    var command = host1.commands.findKeyCommand(modifier, key);
-                                    command && host1.execCommand(command);
+                                    var command = host.commands.findKeyCommand(modifier, key);
+                                    command && host.execCommand(command);
                                 }
                                 lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd, resetSelection("");
                             }
                         }
-                    }, document.addEventListener("selectionchange", detectArrowKeys), host1.on("destroy", function() {
+                    }, document.addEventListener("selectionchange", detectArrowKeys), host.on("destroy", function() {
                         document.removeEventListener("selectionchange", detectArrowKeys);
                     }));
                 };
@@ -1264,11 +1258,11 @@
                     }, this), editor.on("mousedown", this.onMouseDown.bind(mouseHandler));
                     var dragSelectionMarker, x, y, timerId, range, dragCursor, mouseTarget = editor.container, counter = 0;
                     function onDragInterval() {
-                        var cursor, prevCursor, now, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement, cursor1, prevCursor1, now1, vMovement1, hMovement, prevCursor2 = dragCursor;
-                        cursor1 = dragCursor = editor.renderer.screenToTextCoordinates(x, y), prevCursor1 = prevCursor2, now1 = Date.now(), vMovement1 = !prevCursor1 || cursor1.row != prevCursor1.row, hMovement = !prevCursor1 || cursor1.column != prevCursor1.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor1), cursorMovedTime = now1, cursorPointOnCaretMoved = {
+                        var now, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement, cursor, now1, vMovement1, hMovement, prevCursor = dragCursor;
+                        cursor = dragCursor = editor.renderer.screenToTextCoordinates(x, y), now1 = Date.now(), vMovement1 = !prevCursor || cursor.row != prevCursor.row, hMovement = !prevCursor || cursor.column != prevCursor.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor), cursorMovedTime = now1, cursorPointOnCaretMoved = {
                             x: x,
                             y: y
-                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor = dragCursor, prevCursor = prevCursor2, now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), offsets = {
+                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), offsets = {
                             x: {
                                 left: x - editorRect.left,
                                 right: editorRect.right - x
@@ -1278,9 +1272,9 @@
                                 bottom: editorRect.bottom - y
                             }
                         }, nearestXOffset = Math.min(offsets.x.left, offsets.x.right), nearestYOffset = Math.min(offsets.y.top, offsets.y.bottom), scrollCursor = {
-                            row: cursor.row,
-                            column: cursor.column
-                        }, nearestXOffset / characterWidth <= 2 && (scrollCursor.column += offsets.x.left < offsets.x.right ? -3 : 2), nearestYOffset / lineHeight <= 1 && (scrollCursor.row += offsets.y.top < offsets.y.bottom ? -1 : 1), vScroll = cursor.row != scrollCursor.row, hScroll = cursor.column != scrollCursor.column, vMovement = !prevCursor || cursor.row != prevCursor.row, vScroll || hScroll && !vMovement ? autoScrollStartTime ? now - autoScrollStartTime >= 200 && editor.renderer.scrollCursorIntoView(scrollCursor) : autoScrollStartTime = now : autoScrollStartTime = null;
+                            row: dragCursor.row,
+                            column: dragCursor.column
+                        }, nearestXOffset / characterWidth <= 2 && (scrollCursor.column += offsets.x.left < offsets.x.right ? -3 : 2), nearestYOffset / lineHeight <= 1 && (scrollCursor.row += offsets.y.top < offsets.y.bottom ? -1 : 1), vScroll = dragCursor.row != scrollCursor.row, hScroll = dragCursor.column != scrollCursor.column, vMovement = !prevCursor || dragCursor.row != prevCursor.row, vScroll || hScroll && !vMovement ? autoScrollStartTime ? now - autoScrollStartTime >= 200 && editor.renderer.scrollCursorIntoView(scrollCursor) : autoScrollStartTime = now : autoScrollStartTime = null;
                     }
                     function addDragMarker() {
                         range = editor.selection.toOrientedRange(), dragSelectionMarker = editor.session.addMarker(range, "ace_selection", editor.getSelectionStyle()), editor.clearSelection(), editor.isFocused() && editor.renderer.$cursorLayer.setBlinking(!1), clearInterval(timerId), onDragInterval(), timerId = setInterval(onDragInterval, 20), counter = 0, event.addListener(document, "mousemove", onMouseMove);
@@ -4531,10 +4525,10 @@
                         return this.document;
                     }, this.$insertRight = !1, this.onChange = function(delta) {
                         if ((delta.start.row != delta.end.row || delta.start.row == this.row) && !(delta.start.row > this.row)) {
-                            var delta1, point, moveIfEqual, deltaIsInsert, deltaRowShift, deltaColShift, deltaStart, deltaEnd, point1 = (delta1 = delta, point = {
+                            var point, moveIfEqual, deltaIsInsert, deltaRowShift, deltaColShift, deltaStart, deltaEnd, point1 = (point = {
                                 row: this.row,
                                 column: this.column
-                            }, moveIfEqual = this.$insertRight, deltaRowShift = ((deltaIsInsert = "insert" == delta1.action) ? 1 : -1) * (delta1.end.row - delta1.start.row), deltaColShift = (deltaIsInsert ? 1 : -1) * (delta1.end.column - delta1.start.column), deltaStart = delta1.start, deltaEnd = deltaIsInsert ? deltaStart : delta1.end, $pointsInOrder(point, deltaStart, moveIfEqual) ? {
+                            }, moveIfEqual = this.$insertRight, deltaRowShift = ((deltaIsInsert = "insert" == delta.action) ? 1 : -1) * (delta.end.row - delta.start.row), deltaColShift = (deltaIsInsert ? 1 : -1) * (delta.end.column - delta.start.column), deltaStart = delta.start, deltaEnd = deltaIsInsert ? deltaStart : delta.end, $pointsInOrder(point, deltaStart, moveIfEqual) ? {
                                 row: point.row,
                                 column: point.column
                             } : $pointsInOrder(deltaEnd, point, !moveIfEqual) ? {
@@ -5123,8 +5117,8 @@
                         }), fold.collapseChildren = this.collapseChildren, fold;
                     }, this.addSubFold = function(fold) {
                         if (!this.range.isEqual(fold)) {
-                            range = fold, anchor = this.start, consumePoint(range.start, anchor), consumePoint(range.end, anchor);
-                            for(var range, anchor, row = fold.start.row, column = fold.start.column, i = 0, cmp = -1; i < this.subFolds.length && 1 == (cmp = this.subFolds[i].range.compare(row, column)); i++);
+                            anchor = this.start, consumePoint(fold.start, anchor), consumePoint(fold.end, anchor);
+                            for(var anchor, row = fold.start.row, column = fold.start.column, i = 0, cmp = -1; i < this.subFolds.length && 1 == (cmp = this.subFolds[i].range.compare(row, column)); i++);
                             var afterStart = this.subFolds[i], firstConsumed = 0;
                             if (0 == cmp) {
                                 if (afterStart.range.containsRange(fold)) return afterStart.addSubFold(fold);
@@ -5136,8 +5130,8 @@
                             return fold.setFoldLine(this.foldLine), fold;
                         }
                     }, this.restoreRange = function(range) {
-                        var range1, anchor;
-                        return range1 = range, anchor = this.start, void (restorePoint(range1.start, anchor), restorePoint(range1.end, anchor));
+                        var anchor;
+                        return anchor = this.start, void (restorePoint(range.start, anchor), restorePoint(range.end, anchor));
                     };
                 }).call(Fold.prototype);
             }), ace.define("ace/edit_session/folding", [
@@ -9081,12 +9075,11 @@
                     return rest;
                 }
                 function moveDeltasByOne(redoStack, d) {
-                    var d1;
                     d = {
-                        start: clonePos((d1 = d).start),
-                        end: clonePos(d1.end),
-                        action: d1.action,
-                        lines: d1.lines.slice()
+                        start: clonePos(d.start),
+                        end: clonePos(d.end),
+                        action: d.action,
+                        lines: d.lines.slice()
                     };
                     for(var j = redoStack.length; j--;){
                         for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
@@ -10766,8 +10759,8 @@ margin: 0 10px;\
                         var pos = this.$cursorLayer.getPixelPosition(cursor), h = this.$size.scrollerHeight - this.lineHeight, offset = pos.top - h * (alignment || 0);
                         return this.session.setScrollTop(offset), offset;
                     }, this.STEPS = 8, this.$calcSteps = function(fromValue, toValue) {
-                        var t, x_min, dx, i = 0, l = this.STEPS, steps = [];
-                        for(i = 0; i < l; ++i)steps.push((t = i / this.STEPS, x_min = fromValue, dx = toValue - fromValue, dx * (Math.pow(t - 1, 3) + 1) + x_min));
+                        var i = 0, l = this.STEPS, steps = [];
+                        for(i = 0; i < l; ++i)steps.push((toValue - fromValue) * (Math.pow(i / this.STEPS - 1, 3) + 1) + fromValue);
                         return steps;
                     }, this.scrollToLine = function(line, center, animate, callback) {
                         var offset = this.$cursorLayer.getPixelPosition({
@@ -11799,7 +11792,7 @@ margin: 0 10px;\
                     }, this.selectMore = function(dir, skip, stopAtFirst) {
                         var session = this.session, range = session.multiSelect.toOrientedRange();
                         if (!range.isEmpty() || ((range = session.getWordRange(range.start.row, range.start.column)).cursor = -1 == dir ? range.start : range.end, this.multiSelect.addRange(range), !stopAtFirst)) {
-                            var session1, needle, dir1, needle1 = session.getTextRange(range), newRange = (session1 = session, needle = needle1, dir1 = dir, search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir1, search.find(session1));
+                            var needle = session.getTextRange(range), newRange = (search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir, search.find(session));
                             newRange && (newRange.cursor = -1 == dir ? newRange.start : newRange.end, this.session.unfold(newRange), this.multiSelect.addRange(newRange), this.renderer.scrollCursorIntoView(null, 0.5)), skip && this.multiSelect.substractPoint(range.cursor);
                         }
                     }, this.alignCursors = function() {

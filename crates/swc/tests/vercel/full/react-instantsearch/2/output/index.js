@@ -29,32 +29,32 @@ var d = function(e) {
 };
 export default function S(c) {
     var o = c.indexName, f = c.initialState, S = c.searchClient, x = c.resultsState, _ = c.stalledSearchDelay, w = function() {
-        U = !0;
+        O = !0;
     }, y = function(e) {
         l(e), b.setClient(e), P();
     }, F = function() {
         b.clearCache(), P();
     }, $ = function(e) {
-        return J.getWidgets().filter(function(e) {
+        return G.getWidgets().filter(function(e) {
             return Boolean(e.getMetadata);
         }).map(function(t) {
             return t.getMetadata(e);
         });
     }, I = function() {
-        var n = J.getWidgets().filter(function(e) {
+        var n = G.getWidgets().filter(function(e) {
             return Boolean(e.getSearchParameters);
         }).filter(function(e) {
             return !d(e) && !g(e);
         }).reduce(function(e, t) {
             return t.getSearchParameters(e);
-        }, G), a = J.getWidgets().filter(function(e) {
+        }, z), a = G.getWidgets().filter(function(e) {
             return Boolean(e.getSearchParameters);
         }).filter(function(e) {
             var t = d(e) && m(e, o), r = g(e) && p(e, o);
             return t || r;
         }).sort(h).reduce(function(e, t) {
             return t.getSearchParameters(e);
-        }, n), s = J.getWidgets().filter(function(e) {
+        }, n), s = G.getWidgets().filter(function(e) {
             return Boolean(e.getSearchParameters);
         }).filter(function(e) {
             var t = d(e) && !m(e, o), r = g(e) && !p(e, o);
@@ -75,7 +75,7 @@ export default function S(c) {
             derivedParameters: i
         };
     }, P = function() {
-        if (!U) {
+        if (!O) {
             var e = I(b.state), t = e.mainParameters, r = e.derivedParameters;
             b.derivedHelpers.slice().forEach(function(e) {
                 e.detach();
@@ -91,14 +91,14 @@ export default function S(c) {
     }, V = function(a) {
         var s = a.indexId;
         return function(a) {
-            var i = K.getState(), u = !b.derivedHelpers.length, c = i.results ? i.results : {};
+            var i = J.getState(), u = !b.derivedHelpers.length, c = i.results ? i.results : {};
             c = !u && c.getFacetByName ? {} : c, c = u ? a.results : r(t({}, c), e({}, s, a.results));
-            var o = K.getState(), f = o.isSearchStalled;
-            b.hasPendingRequests() || (clearTimeout(z), z = null, f = !1), o.resultsFacetValues;
+            var o = J.getState(), f = o.isSearchStalled;
+            b.hasPendingRequests() || (clearTimeout(U), U = null, f = !1), o.resultsFacetValues;
             var l = n(o, [
                 "resultsFacetValues"
             ]);
-            K.setState(r(t({}, l), {
+            J.setState(r(t({}, l), {
                 results: c,
                 isSearchStalled: f,
                 searching: !1,
@@ -106,24 +106,24 @@ export default function S(c) {
             }));
         };
     }, R = function(e) {
-        var a = e.error, s = K.getState(), i = s.isSearchStalled;
-        b.hasPendingRequests() || (clearTimeout(z), i = !1), s.resultsFacetValues;
+        var a = e.error, s = J.getState(), i = s.isSearchStalled;
+        b.hasPendingRequests() || (clearTimeout(U), i = !1), s.resultsFacetValues;
         var u = n(s, [
             "resultsFacetValues"
         ]);
-        K.setState(r(t({}, u), {
+        J.setState(r(t({}, u), {
             isSearchStalled: i,
             error: a,
             searching: !1
         }));
     }, C = function() {
-        if (!z) {
+        if (!U) {
             var e;
-            z = setTimeout(function() {
-                var e = K.getState(), a = (e.resultsFacetValues, n(e, [
+            U = setTimeout(function() {
+                var e = J.getState(), a = (e.resultsFacetValues, n(e, [
                     "resultsFacetValues"
                 ]));
-                K.setState(r(t({}, a), {
+                J.setState(r(t({}, a), {
                     isSearchStalled: !0
                 }));
             }, _);
@@ -193,38 +193,38 @@ export default function S(c) {
             results: a.rawResults
         })));
     }, N = function() {
-        var e = $(K.getState().widgets);
-        K.setState(r(t({}, K.getState()), {
+        var e = $(J.getState().widgets);
+        J.setState(r(t({}, J.getState()), {
             metadata: e,
             searching: !0
         })), P();
     }, W = function(e) {
-        var t = K.getState().widgets;
-        return J.getWidgets().filter(function(e) {
+        var t = J.getState().widgets;
+        return G.getWidgets().filter(function(e) {
             return Boolean(e.transitionState);
         }).reduce(function(e, r) {
             return r.transitionState(t, e);
         }, e);
     }, q = function(e) {
         var n = $(e);
-        K.setState(r(t({}, K.getState()), {
+        J.setState(r(t({}, J.getState()), {
             widgets: e,
             metadata: n,
             searching: !0
         })), P();
     }, E = function(n) {
         var a = n.facetName, s = n.query, i = n.maxFacetHits;
-        K.setState(r(t({}, K.getState()), {
+        J.setState(r(t({}, J.getState()), {
             searchingForFacetValues: !0
         })), b.searchForFacetValues(a, s, Math.max(1, Math.min(void 0 === i ? 10 : i, 100))).then(function(n) {
             var i;
-            K.setState(r(t({}, K.getState()), {
+            J.setState(r(t({}, J.getState()), {
                 error: null,
                 searchingForFacetValues: !1,
-                resultsFacetValues: r(t({}, K.getState().resultsFacetValues), (e(i = {}, a, n.facetHits), e(i, "query", s), i))
+                resultsFacetValues: r(t({}, J.getState().resultsFacetValues), (e(i = {}, a, n.facetHits), e(i, "query", s), i))
             }));
         }, function(e) {
-            K.setState(r(t({}, K.getState()), {
+            J.setState(r(t({}, J.getState()), {
                 searchingForFacetValues: !1,
                 error: e
             }));
@@ -234,16 +234,16 @@ export default function S(c) {
             });
         });
     }, k = function(e) {
-        G = G.setIndex(e);
+        z = z.setIndex(e);
     }, M = function() {
-        return K.getState().metadata.reduce(function(e, t) {
+        return J.getState().metadata.reduce(function(e, t) {
             return void 0 !== t.id ? e.concat(t.id) : e;
         }, []);
     }, b = s(S, o, t({}, u));
     l(S), b.on("search", C).on("result", V({
         indexId: o
     })).on("error", R);
-    var j, B, D, O, U = !1, z = null, G = b.state, J = i(N);
+    var j, B, D, O = !1, U = null, z = b.state, G = i(N);
     !function(e, n) {
         if (n && (e.transporter && !e._cacheHydrated || e._useCache && "function" == typeof e.addAlgoliaAgent)) {
             if (e.transporter && !e._cacheHydrated) {
@@ -285,34 +285,34 @@ export default function S(c) {
             H(e, n);
         }
     }(S, x);
-    var K = (D = B = {
+    var J = (B = j = {
         widgets: void 0 === f ? {} : f,
         metadata: v(x),
-        results: (j = x) ? Array.isArray(j.results) ? j.results.reduce(function(n, a) {
+        results: x ? Array.isArray(x.results) ? x.results.reduce(function(n, a) {
             return r(t({}, n), e({}, a._internalIndexId, new s.SearchResults(new s.SearchParameters(a.state), a.rawResults)));
-        }, {}) : new s.SearchResults(new s.SearchParameters(j.state), j.rawResults) : null,
+        }, {}) : new s.SearchResults(new s.SearchParameters(x.state), x.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,
         searchingForFacetValues: !1
-    }, O = [], {
+    }, D = [], {
         getState: function() {
-            return D;
+            return B;
         },
         setState: function(e) {
-            D = e, O.forEach(function(e) {
+            B = e, D.forEach(function(e) {
                 return e();
             });
         },
         subscribe: function(e) {
-            return O.push(e), function() {
-                O.splice(O.indexOf(e), 1);
+            return D.push(e), function() {
+                D.splice(D.indexOf(e), 1);
             };
         }
     });
     return {
-        store: K,
-        widgetsManager: J,
+        store: J,
+        widgetsManager: G,
         getWidgetsIds: M,
         getSearchParameters: I,
         onSearchForFacetValues: E,

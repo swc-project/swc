@@ -75,8 +75,8 @@ var Component = function() {
 }(Base), OtherPerson = function() {
     "use strict";
     function OtherPerson(parts) {
-        var obj, value;
-        _class_call_check(this, OtherPerson), obj = this, value = parts, obj.parts = value;
+        var obj;
+        _class_call_check(this, OtherPerson), obj = this, obj.parts = parts;
     }
     return OtherPerson.prototype.getParts = function() {
         var obj;
