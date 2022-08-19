@@ -391,6 +391,7 @@ impl VisitMut for Fixer<'_> {
             Some(e)
                 if e.is_seq()
                     || e.is_await_expr()
+                    || e.is_yield_expr()
                     || e.is_bin()
                     || e.is_assign()
                     || e.is_cond()
@@ -1500,6 +1501,16 @@ var store = global[SHARED] || (global[SHARED] = {});
     );
 
     identical!(extends_cond, "class Foo extends (true ? Bar : Baz) {}");
+
+    identical!(
+        extends_await_yield,
+        "
+        async function* func() {
+            class A extends (await p) {}
+            class B extends (yield p) {}
+        }
+        "
+    );
 
     identical!(deno_10668_1, "console.log(null ?? (undefined && true))");
 

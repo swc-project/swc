@@ -7,7 +7,7 @@ function func() {
 }
 function _func() {
     _func = _async_to_generator(function*() {
-        class D extends yield p {
+        class D extends (yield p) {
         }
     });
     return _func.apply(this, arguments);
