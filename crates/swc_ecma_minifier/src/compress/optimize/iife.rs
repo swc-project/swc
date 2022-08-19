@@ -759,7 +759,7 @@ where
                     Expr::Lit(..) => (Expr::Ident(param.clone()), Some(arg)),
                     Expr::Ident(arg) => {
                         body_rename_map.insert(param.to_id(), arg.to_id());
-                        (Expr::Ident(param.clone()), None)
+                        continue;
                     }
                     _ => (
                         Expr::Assign(AssignExpr {
