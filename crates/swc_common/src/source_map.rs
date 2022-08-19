@@ -1238,8 +1238,7 @@ impl SourceMap {
                     }
                 }
             }
-
-            builder.add_raw(lc.line, lc.col, line - 1, col, Some(src_id), name_idx);
+            builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx);
             prev_dst_line = lc.line;
         }
 
