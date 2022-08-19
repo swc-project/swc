@@ -690,11 +690,11 @@ where
 
     fn inline_fn_like(
         &mut self,
-        params: &[Ident],
+        orig_params: &[Ident],
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(params, &*body) {
+        if !self.can_inline_fn_like(orig_params, &*body) {
             return None;
         }
 
@@ -705,7 +705,7 @@ where
         let mut remap = HashMap::default();
         let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
 
-        let params = params
+        let params = orig_params
             .iter()
             .map(|i| {
                 // As the result of this function comes from `params` and `body`, we only need
@@ -761,8 +761,13 @@ where
                         if self
                             .data
                             .vars
-                            .get(&arg.to_id())
-                            .map_or(false, |v| !v.reassigned()) =>
+                            .get(&orig_params[idx].to_id())
+                            .map_or(false, |usage| !dbg!(usage).reassigned())
+                            && self
+                                .data
+                                .vars
+                                .get(&arg.to_id())
+                                .map_or(false, |v| !v.reassigned()) =>
                     {
                         body_rename_map.insert(param.to_id(), arg.to_id());
                         continue;
