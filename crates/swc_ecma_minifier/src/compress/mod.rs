@@ -223,7 +223,7 @@ where
         );
 
         {
-            let data = analyze(&*n, &self.module_info, Some(self.marks));
+            let data = analyze(&*n, self.module_info, Some(self.marks));
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
