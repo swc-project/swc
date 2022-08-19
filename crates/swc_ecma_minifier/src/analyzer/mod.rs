@@ -201,7 +201,7 @@ impl ProgramData {
 
                     // Abort on imported variables, because we can't analyze them
                     if module_info.imports.contains(iid) {
-                        // return Err(());
+                        return Err(());
                     }
                     if !res.insert(iid.clone()) {
                         continue;
