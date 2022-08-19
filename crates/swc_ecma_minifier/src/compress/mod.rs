@@ -382,7 +382,7 @@ where
         {
             let _timer = timer!("apply full optimizer");
 
-            let mut data = analyze(&*n, &self.module_info, Some(self.marks));
+            let mut data = analyze(&*n, self.module_info, Some(self.marks));
 
             // TODO: reset_opt_flags
             //

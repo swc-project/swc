@@ -64,7 +64,7 @@ impl PrecompressOptimizer<'_> {
             );
 
             if has_decl {
-                let data = Some(analyze(&*stmts, &self.module_info, Some(self.marks)));
+                let data = Some(analyze(&*stmts, self.module_info, Some(self.marks)));
 
                 stmts.visit_mut_children_with(&mut PrecompressOptimizer {
                     options: self.options,
