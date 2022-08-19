@@ -728,7 +728,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.43.6"
+version = "0.43.7"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3361,7 +3361,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.144.11"
+version = "0.144.12"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3756,7 +3756,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.99.5"
+version = "0.99.6"
 dependencies = [
  "indexmap",
  "once_cell",

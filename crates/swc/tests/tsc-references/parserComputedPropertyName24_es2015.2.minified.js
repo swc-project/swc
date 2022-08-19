@@ -1,3 +1,1 @@
-class C {
-    set [e](v) {}
-}
+e;

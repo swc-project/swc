@@ -1,6 +1,2 @@
-var si, oi;
-(class {
-    m(x, y) {}
-}).Inner = class {
-    n(a, b) {}
-}, si.m, oi.n;
+var oi;
+(void 0).m, oi.n;

@@ -20,7 +20,7 @@ use Value::Known;
 
 use self::{
     unused::PropertyAccessOpts,
-    util::{MultiReplacer, MultiReplacerMode},
+    util::{extract_class_side_effect, MultiReplacer, MultiReplacerMode},
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
@@ -634,43 +634,12 @@ where
             }
 
             Expr::Class(cls) => {
-                let mut exprs = vec![];
-                exprs.extend(
-                    cls.class
-                        .super_class
-                        .as_mut()
-                        .and_then(|e| self.ignore_return_value(e))
-                        .map(Box::new),
-                );
-
-                for member in &mut cls.class.body {
-                    match member {
-                        ClassMember::Method(ClassMethod {
-                            key: PropName::Computed(key),
-                            ..
-                        }) => {
-                            exprs.extend(self.ignore_return_value(&mut key.expr).map(Box::new));
-                        }
-                        ClassMember::ClassProp(ClassProp {
-                            key,
-                            is_static,
-                            value,
-                            ..
-                        }) => {
-                            if let PropName::Computed(key) = key {
-                                exprs.extend(self.ignore_return_value(&mut key.expr).map(Box::new));
-                            }
-
-                            if *is_static {
-                                if let Some(v) = value {
-                                    exprs.extend(self.ignore_return_value(v).map(Box::new));
-                                }
-                            }
-                        }
-
-                        _ => {}
-                    }
-                }
+                let exprs: Vec<Box<Expr>> =
+                    extract_class_side_effect(&self.expr_ctx, cls.class.take())
+                        .into_iter()
+                        .filter_map(|mut e| self.ignore_return_value(&mut e))
+                        .map(Box::new)
+                        .collect();
 
                 if exprs.is_empty() {
                     return None;
@@ -833,7 +802,12 @@ where
             }) if left.is_expr() && !op.may_short_circuit() => {
                 if let PatOrExpr::Expr(expr) = left {
                     if let Expr::Member(m) = &**expr {
-                        if !expr.may_have_side_effects(&self.expr_ctx) && m.obj.is_object() {
+                        if !expr.may_have_side_effects(&self.expr_ctx)
+                            && (m.obj.is_object()
+                                || m.obj.is_fn_expr()
+                                || m.obj.is_arrow()
+                                || m.obj.is_class())
+                        {
                             if self.should_preserve_property_access(
                                 &m.obj,
                                 PropertyAccessOpts {
@@ -843,6 +817,10 @@ where
                             ) {
                                 return Some(e.take());
                             } else {
+                                report_change!(
+                                    "ignore_return_value: Dropping unused assign target: {}",
+                                    dump(&*expr, false)
+                                );
                                 return Some(*right.take());
                             }
                         }

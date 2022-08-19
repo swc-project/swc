@@ -116,15 +116,15 @@ impl VisitMut for Normalizer {
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
-        if let Prop::KeyValue(kv) = p {
-            if let PropName::Ident(k) = &kv.key {
-                match &*kv.value {
-                    Expr::Ident(value) if k.sym == value.sym => {
-                        *p = Prop::Shorthand(k.clone());
-                    }
-                    _ => {}
-                }
-            }
-        }
+        // if let Prop::KeyValue(kv) = p {
+        //     if let PropName::Ident(k) = &kv.key {
+        //         match &*kv.value {
+        //             Expr::Ident(value) if k.sym == value.sym => {
+        //                 *p = Prop::Shorthand(k.clone());
+        //             }
+        //             _ => {}
+        //         }
+        //     }
+        // }
     }
 }

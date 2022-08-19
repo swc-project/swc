@@ -1,3 +1,0 @@
-class C {
-    [Symbol.toStringTag]() {}
-}

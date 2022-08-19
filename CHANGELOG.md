@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Remove more functions and classes (#5552) ([69f8945](https://github.com/swc-project/swc/commit/69f8945911e50d96978b0f49642cb79473178173))
+
+### Testing
+
+
+
+- **(es/minifier)** Add tests for size (#5561) ([7f5095d](https://github.com/swc-project/swc/commit/7f5095dd5e569eab0e4415453144485aeef4d043))
+
+## [1.2.240] - 2022-08-19
+
 ### Bug Fixes
 
 

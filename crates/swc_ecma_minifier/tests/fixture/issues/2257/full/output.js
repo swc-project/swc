@@ -3755,10 +3755,10 @@
             };
         },
         25160: function(module, __unused_webpack_exports, __webpack_require__) {
-            var DESCRIPTORS = __webpack_require__(87122), has = __webpack_require__(1521), FunctionPrototype = Function.prototype, getDescriptor = DESCRIPTORS && Object.getOwnPropertyDescriptor, EXISTS = has(FunctionPrototype, "name"), PROPER = EXISTS && "something" === (function() {}).name, CONFIGURABLE = EXISTS && (!DESCRIPTORS || DESCRIPTORS && getDescriptor(FunctionPrototype, "name").configurable);
+            var DESCRIPTORS = __webpack_require__(87122), has = __webpack_require__(1521), FunctionPrototype = Function.prototype, getDescriptor = DESCRIPTORS && Object.getOwnPropertyDescriptor, EXISTS = has(FunctionPrototype, "name"), CONFIGURABLE = EXISTS && (!DESCRIPTORS || DESCRIPTORS && getDescriptor(FunctionPrototype, "name").configurable);
             module.exports = {
                 EXISTS: EXISTS,
-                PROPER: PROPER,
+                PROPER: EXISTS && "something" === (function() {}).name,
                 CONFIGURABLE: CONFIGURABLE
             };
         },

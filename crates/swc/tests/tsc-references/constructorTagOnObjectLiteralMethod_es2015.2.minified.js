@@ -1,6 +1,5 @@
-const obj = {
+new ({
     Foo () {
         this.bar = "bar";
     }
-};
-new obj.Foo().bar;
+}).Foo().bar;

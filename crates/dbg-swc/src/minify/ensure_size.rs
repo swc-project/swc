@@ -36,13 +36,21 @@ impl EnsureSize {
 
         info!("Using {} files", all_files.len());
 
-        let results = GLOBALS.with(|globals| {
+        let mut results = GLOBALS.with(|globals| {
             all_files
                 .par_iter()
                 .map(|js_file| GLOBALS.set(globals, || self.check_file(cm.clone(), js_file)))
                 .filter_map(|v| v.transpose())
                 .collect::<Result<Vec<_>>>()
         })?;
+
+        results.sort_by_key(|f| {
+            if let Some(terser) = &f.terser {
+                f.swc.mangled_size as isize - terser.mangled_size as isize
+            } else {
+                0
+            }
+        });
 
         for f in &results {
             if let Some(terser) = &f.terser {
