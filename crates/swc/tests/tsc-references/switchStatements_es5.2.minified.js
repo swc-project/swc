@@ -8,7 +8,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     };
     M.fn = fn;
 }(M || (M = {})), void 0 === x || _type_of(x), void 0 === M || _type_of(M), M.fn(1);
-var M, x, C = function() {
+var M, x, C = function C() {
     "use strict";
     _class_call_check(this, C);
 }, D = function(C) {

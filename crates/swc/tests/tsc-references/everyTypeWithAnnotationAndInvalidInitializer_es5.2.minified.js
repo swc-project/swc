@@ -1,15 +1,15 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var M, N, C = function() {
+var M, N, C = function C() {
     "use strict";
     _class_call_check(this, C);
-}, D = function() {
+}, D = function D() {
     "use strict";
     _class_call_check(this, D);
 };
 !function(M) {
     var _$F2 = function(x) {
         return x.toString();
-    }, A = function() {
+    }, A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
@@ -17,7 +17,7 @@ var M, N, C = function() {
 }(M || (M = {})), function(N) {
     var _$F2 = function(x) {
         return x.toString();
-    }, A = function() {
+    }, A = function A() {
         "use strict";
         _class_call_check(this, A);
     };

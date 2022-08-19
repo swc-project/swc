@@ -5,7 +5,7 @@ import _class_private_method_get from "@swc/helpers/src/_class_private_method_ge
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-var _bar, _baz, _qux, _class, _marked = regeneratorRuntime.mark(baz);
+var _bar, _baz, _qux, _marked = regeneratorRuntime.mark(baz);
 function bar() {
     return _bar1.apply(this, arguments);
 }
@@ -53,7 +53,7 @@ function _qux1() {
         }, _callee);
     }))).apply(this, arguments);
 }
-new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), _class = function() {
+new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), function() {
     "use strict";
     function _class() {
         _class_call_check(this, _class), _class_private_method_init(this, _bar), _class_private_method_init(this, _baz), _class_private_method_init(this, _qux);

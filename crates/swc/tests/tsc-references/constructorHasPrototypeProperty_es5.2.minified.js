@@ -3,7 +3,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 !function(NonGeneric) {
-    var C = function() {
+    var C = function C() {
         "use strict";
         _class_call_check(this, C);
     }, D = function(C) {
@@ -14,10 +14,12 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
             return _class_call_check(this, D), _super.apply(this, arguments);
         }
         return D;
-    }(C);
-    C.prototype.foo, D.prototype.bar;
+    }(C), r = C.prototype;
+    r.foo;
+    var r2 = D.prototype;
+    r2.bar;
 }(NonGeneric || (NonGeneric = {})), function(Generic) {
-    var C = function() {
+    var C = function C() {
         "use strict";
         _class_call_check(this, C);
     }, D = function(C) {
@@ -28,6 +30,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
             return _class_call_check(this, D), _super.apply(this, arguments);
         }
         return D;
-    }(C);
-    C.prototype.foo, D.prototype.baz;
+    }(C), r = C.prototype;
+    r.foo;
+    var r2 = D.prototype;
+    r2.baz;
 }(Generic || (Generic = {}));

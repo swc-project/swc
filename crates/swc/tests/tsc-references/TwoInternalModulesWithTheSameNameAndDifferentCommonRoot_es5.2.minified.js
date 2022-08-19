@@ -15,7 +15,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     (A = otherRoot.A || (otherRoot.A = {})).Origin = {
         x: 0,
         y: 0
-    }, Utils = A.Utils || (A.Utils = {}), Plane = function(tl, br) {
+    }, Utils = A.Utils || (A.Utils = {}), Plane = function Plane(tl, br) {
         "use strict";
         _class_call_check(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;

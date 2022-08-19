@@ -9,7 +9,7 @@ export function getEntity(id, state) {
     var ids = state.ids, entities = state.entities;
     if (ids.includes(id)) return entities[id];
 }
-export var c = function() {
+export var c = function c() {
     "use strict";
     _class_call_check(this, c), this.a = "b", this.a = "b";
 };

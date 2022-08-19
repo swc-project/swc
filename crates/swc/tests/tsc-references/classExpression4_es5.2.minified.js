@@ -1,11 +1,11 @@
+var C;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var C = function() {
+(new (function() {
     "use strict";
-    function C() {
-        _class_call_check(this, C);
+    function C1() {
+        _class_call_check(this, C1);
     }
-    return C.prototype.foo = function() {
+    return C1.prototype.foo = function() {
         return new C();
-    }, C;
-}();
-(new C).foo();
+    }, C1;
+}())).foo();

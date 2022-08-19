@@ -1,7 +1,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _construct from "@swc/helpers/src/_construct.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
-var Foo = function() {
+var Foo = function Foo() {
     "use strict";
     for(var _len = arguments.length, s = Array(_len), _key = 0; _key < _len; _key++)s[_key] = arguments[_key];
     _class_call_check(this, Foo);

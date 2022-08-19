@@ -2871,9 +2871,9 @@ var t = new Example();
     r#"
 var Example = function Example() {
   "use strict";
-_classCallCheck(this, Example);
+  _classCallCheck(this, Example);
 
-  var Example1;
+  var _$Example;
 };
 
 var t = new Example();

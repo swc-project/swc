@@ -1,7 +1,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-export var M = function() {
+export var M = function M() {
     "use strict";
     _class_call_check(this, M);
 };
@@ -14,7 +14,7 @@ export var N = function(M) {
     }
     return N;
 }(M);
-export var O = function() {
+export var O = function O() {
     "use strict";
     _class_call_check(this, O);
 };
@@ -54,7 +54,7 @@ export var S = function(O) {
     }
     return S;
 }(O);
-export var T = function() {
+export var T = function T() {
     "use strict";
     _class_call_check(this, T);
 };
@@ -94,7 +94,7 @@ export var X = function(T) {
     }
     return X;
 }(T);
-export var Y = function() {
+export var Y = function Y() {
     "use strict";
     _class_call_check(this, Y);
 };

@@ -7,15 +7,6 @@ import("./0").then(function(zero) {
     return zero.foo();
 });
 export var p2 = import("./0");
-var C = function() {
-    "use strict";
-    function C() {
-        _class_call_check(this, C);
-    }
-    return C.prototype.method = function() {
-        import("./0");
-    }, C;
-}();
 export var D = function() {
     "use strict";
     function D() {

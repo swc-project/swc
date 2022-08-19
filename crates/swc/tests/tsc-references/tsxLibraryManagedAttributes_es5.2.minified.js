@@ -16,8 +16,7 @@ Component.propTypes = {
     baz: PropTypes.string.isRequired
 }, Component.defaultProps = {
     foo: 42
-};
-var JustPropTypes = function(ReactComponent1) {
+}, function(ReactComponent1) {
     "use strict";
     _inherits(JustPropTypes, ReactComponent1);
     var _super = _create_super(JustPropTypes);
@@ -25,12 +24,10 @@ var JustPropTypes = function(ReactComponent1) {
         return _class_call_check(this, JustPropTypes), _super.apply(this, arguments);
     }
     return JustPropTypes;
-}(ReactComponent);
-JustPropTypes.propTypes = {
+}(ReactComponent).propTypes = {
     foo: PropTypes.number,
     bar: PropTypes.node.isRequired
-};
-var JustDefaultProps = function(ReactComponent1) {
+}, function(ReactComponent1) {
     "use strict";
     _inherits(JustDefaultProps, ReactComponent1);
     var _super = _create_super(JustDefaultProps);
@@ -38,8 +35,7 @@ var JustDefaultProps = function(ReactComponent1) {
         return _class_call_check(this, JustDefaultProps), _super.apply(this, arguments);
     }
     return JustDefaultProps;
-}(ReactComponent);
-JustDefaultProps.defaultProps = {
+}(ReactComponent).defaultProps = {
     foo: 42
 };
 var BothWithSpecifiedGeneric = function(ReactComponent1) {
@@ -57,8 +53,7 @@ BothWithSpecifiedGeneric.propTypes = {
     baz: PropTypes.number.isRequired
 }, BothWithSpecifiedGeneric.defaultProps = {
     foo: "yo"
-};
-var JustPropTypesWithSpecifiedGeneric = function(ReactComponent1) {
+}, function(ReactComponent1) {
     "use strict";
     _inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent1);
     var _super = _create_super(JustPropTypesWithSpecifiedGeneric);
@@ -66,12 +61,10 @@ var JustPropTypesWithSpecifiedGeneric = function(ReactComponent1) {
         return _class_call_check(this, JustPropTypesWithSpecifiedGeneric), _super.apply(this, arguments);
     }
     return JustPropTypesWithSpecifiedGeneric;
-}(ReactComponent);
-JustPropTypesWithSpecifiedGeneric.propTypes = {
+}(ReactComponent).propTypes = {
     foo: PropTypes.string,
     bar: PropTypes.node.isRequired
-};
-var JustDefaultPropsWithSpecifiedGeneric = function(ReactComponent1) {
+}, function(ReactComponent1) {
     "use strict";
     _inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent1);
     var _super = _create_super(JustDefaultPropsWithSpecifiedGeneric);
@@ -79,7 +72,6 @@ var JustDefaultPropsWithSpecifiedGeneric = function(ReactComponent1) {
         return _class_call_check(this, JustDefaultPropsWithSpecifiedGeneric), _super.apply(this, arguments);
     }
     return JustDefaultPropsWithSpecifiedGeneric;
-}(ReactComponent);
-JustDefaultPropsWithSpecifiedGeneric.defaultProps = {
+}(ReactComponent).defaultProps = {
     foo: "no"
 };

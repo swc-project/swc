@@ -5,7 +5,7 @@ var ANY, ANY1, M, ANY2 = [
 ], obj = {
     x: 1,
     y: null
-}, A = function() {
+}, A = function A() {
     "use strict";
     _class_call_check(this, A);
 };

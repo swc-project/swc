@@ -1,9 +1,9 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var _default = function() {
+var _default = function _default() {
     "use strict";
     _class_call_check(this, _default);
 };
-export var A = function() {
+export var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
@@ -30,7 +30,7 @@ var c, d;
 console.log(c, d);
 export { };
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var H = function() {
+var H = function H() {
     "use strict";
     _class_call_check(this, H);
 };

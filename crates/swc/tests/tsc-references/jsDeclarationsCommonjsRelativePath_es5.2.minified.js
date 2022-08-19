@@ -1,6 +1,6 @@
 "use strict";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var Thing = function() {
+var Thing = function Thing() {
     _class_call_check(this, Thing);
 };
 module.exports = {

@@ -6,9 +6,9 @@ var A;
     var F = function F(s) {
         return 2;
     };
-    var A1 = function A1() {
+    var A1 = function A() {
         "use strict";
-        _class_call_check(this, A1);
+        _class_call_check(this, A);
     };
     var AA = function AA() {
         "use strict";

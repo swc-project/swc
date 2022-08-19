@@ -1,5 +1,5 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var abstract = function() {
+new (function() {
     "use strict";
     function abstract() {
         _class_call_check(this, abstract);
@@ -7,5 +7,4 @@ var abstract = function() {
     return abstract.prototype.foo = function() {
         return 1;
     }, abstract;
-}();
-new abstract;
+}());

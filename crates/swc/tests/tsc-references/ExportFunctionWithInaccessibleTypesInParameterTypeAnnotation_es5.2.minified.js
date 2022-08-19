@@ -6,9 +6,6 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             x: 0,
             y: 0
         }, p);
-    }, Point = function() {
-        "use strict";
-        _class_call_check(this, Point);
     }, Line = function Line(start, end) {
         "use strict";
         _class_call_check(this, Line), this.start = start, this.end = end;

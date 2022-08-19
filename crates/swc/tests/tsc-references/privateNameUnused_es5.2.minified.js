@@ -4,7 +4,7 @@ import _class_private_field_init from "@swc/helpers/src/_class_private_field_ini
 import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var _used = new WeakMap(), _unused = new WeakMap();
-export var A = function() {
+export var A = function A() {
     "use strict";
     _class_call_check(this, A), _class_private_field_init(this, _used, {
         writable: !0,
@@ -15,13 +15,13 @@ export var A = function() {
     }), console.log(_class_private_field_get(this, _used));
 };
 var _used1 = new WeakSet(), _unused1 = new WeakSet();
-export var A2 = function() {
+export var A2 = function A2() {
     "use strict";
     _class_call_check(this, A2), _class_private_method_init(this, _used1), _class_private_method_init(this, _unused1), console.log(_class_private_method_get(this, _used1, used).call(this));
 };
 function used() {}
 var _used2 = new WeakMap(), _unused2 = new WeakMap();
-export var A3 = function() {
+export var A3 = function A3() {
     "use strict";
     _class_call_check(this, A3), _class_private_field_init(this, _used2, {
         get: get_used,

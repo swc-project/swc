@@ -4,7 +4,15 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 !function(NonGeneric) {
-    var C = function() {
+    var d = new (function(C) {
+        "use strict";
+        _inherits(D, C);
+        var _super = _create_super(D);
+        function D() {
+            return _class_call_check(this, D), _super.apply(this, arguments);
+        }
+        return D;
+    }(function() {
         "use strict";
         function C(a, b) {
             _class_call_check(this, C), this.a = a, this.b = b;
@@ -20,7 +28,10 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
                 set: function(v) {}
             }
         ]), C;
-    }(), D = function(C) {
+    }()))(1, 2), r = d.fn();
+    r.x, r.y, r.y = 4, d.y();
+}(NonGeneric || (NonGeneric = {})), function(Generic) {
+    var d = new (function(C) {
         "use strict";
         _inherits(D, C);
         var _super = _create_super(D);
@@ -28,10 +39,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
             return _class_call_check(this, D), _super.apply(this, arguments);
         }
         return D;
-    }(C), d = new D(1, 2), r = d.fn();
-    r.x, r.y, r.y = 4, d.y();
-}(NonGeneric || (NonGeneric = {})), function(Generic) {
-    var C = function() {
+    }(function() {
         "use strict";
         function C(a, b) {
             _class_call_check(this, C), this.a = a, this.b = b;
@@ -47,14 +55,6 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
                 set: function(v) {}
             }
         ]), C;
-    }(), D = function(C) {
-        "use strict";
-        _inherits(D, C);
-        var _super = _create_super(D);
-        function D() {
-            return _class_call_check(this, D), _super.apply(this, arguments);
-        }
-        return D;
-    }(C), d = new D(1, ""), r = d.fn();
+    }()))(1, ""), r = d.fn();
     r.x, r.y, r.y = "", d.y();
 }(Generic || (Generic = {}));

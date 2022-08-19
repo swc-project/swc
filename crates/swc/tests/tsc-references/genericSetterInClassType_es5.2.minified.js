@@ -5,7 +5,7 @@ import _class_private_field_init from "@swc/helpers/src/_class_private_field_ini
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 !function(Generic) {
-    var C = function() {
+    var c = new (function() {
         "use strict";
         function C() {
             _class_call_check(this, C);
@@ -19,9 +19,10 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
                 set: function(v) {}
             }
         ]), C;
-    }(), c = new C();
+    }())();
     c.y = c.y;
-    var _value = new WeakMap(), Box = function() {
+    var _value = new WeakMap();
+    new (function() {
         "use strict";
         function Box() {
             _class_call_check(this, Box), _class_private_field_init(this, _value, {
@@ -40,6 +41,5 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
                 }
             }
         ]), Box;
-    }();
-    new Box().value = 3;
+    }())().value = 3;
 }(Generic || (Generic = {}));

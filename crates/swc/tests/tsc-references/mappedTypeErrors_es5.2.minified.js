@@ -18,7 +18,7 @@ setState(foo, {
 }), setState(foo, {
     c: !0
 });
-var C = function() {
+var c = new (function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -26,7 +26,7 @@ var C = function() {
     return C.prototype.setState = function(props) {
         for(var k in props)this.state[k] = props[k];
     }, C;
-}(), c = new C();
+}())();
 c.setState({
     a: "test",
     b: 43

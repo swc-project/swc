@@ -1,5 +1,5 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var u, C = function() {
+var u, c = new (function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -12,7 +12,7 @@ var u, C = function() {
     }, _proto.explicitVoid = function(m) {
         return m + 1;
     }, C;
-}(), c = new C();
+}())();
 c.explicitVoid = c.explicitThis;
 var o = {
     n: 101,

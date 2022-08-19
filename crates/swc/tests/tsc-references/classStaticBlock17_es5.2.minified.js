@@ -22,7 +22,7 @@ friendA = {
         _class_private_field_set(obj, _x, value);
     }
 };
-var B = function(a) {
+var B = function B(a) {
     "use strict";
     _class_call_check(this, B);
     var x = friendA.getX(a);
