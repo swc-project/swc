@@ -16,7 +16,10 @@ use super::{
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::optimize::{util::Remapper, Ctx},
+    compress::optimize::{
+        util::{Remapper, Renamer},
+        Ctx,
+    },
     mode::Mode,
     util::{idents_captured_by, idents_used_by, make_number},
 };
@@ -741,7 +744,7 @@ where
         //  (function foo(o){})(a)
         //
         // we can replace o with a instead of creating `o = a`
-        let mut body_remap = HashMap::default();
+        let mut body_rename_map = HashMap::default();
 
         // TODO: temporary workaround as swc currently cannot inline
         // let a; a = 1; console.log(a)
@@ -755,7 +758,7 @@ where
                 let (expr, init) = match *arg {
                     Expr::Lit(..) => (Expr::Ident(param.clone()), Some(arg)),
                     Expr::Ident(arg) => {
-                        body_remap.insert(param.to_id(), arg.to_id());
+                        body_rename_map.insert(param.to_id(), arg.to_id());
                         (Expr::Ident(param.clone()), None)
                     }
                     _ => (
@@ -801,8 +804,10 @@ where
             })));
         }
 
-        if !body_remap.is_empty() {
-            body.visit_mut_with(&mut Remapper { vars: body_remap });
+        if !body_rename_map.is_empty() {
+            body.visit_mut_with(&mut Renamer {
+                vars: body_rename_map,
+            });
         }
 
         for mut stmt in body.stmts.take() {
