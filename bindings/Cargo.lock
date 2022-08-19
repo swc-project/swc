@@ -185,7 +185,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.239"
+version = "1.2.240"
 dependencies = [
  "swc_core",
  "wasm-bindgen",
@@ -193,9 +193,9 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.2.4"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4d154a2c3e08a42962d63eb5132cc3672f74dad54927cefd09ffe63144615b1e"
+checksum = "be1a3f381d30c22225c27b51519b84c7f938e13ff996957b4030fdc753fac65d"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -663,7 +663,16 @@ version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4eeac5c5edb79e4e39fe8439ef35207780a11f69c52cbe424ce3dfad4cb78de6"
 dependencies = [
- "enum-iterator-derive",
+ "enum-iterator-derive 0.7.0",
+]
+
+[[package]]
+name = "enum-iterator"
+version = "1.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "45a0ac4aeb3a18f92eaf09c6bb9b3ac30ff61ca95514fc58cbead1c9a6bf5401"
+dependencies = [
+ "enum-iterator-derive 1.0.2",
 ]
 
 [[package]]
@@ -671,6 +680,17 @@ name = "enum-iterator-derive"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c134c37760b27a871ba422106eedbb8247da973a09e82558bf26d619c882b159"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "enum-iterator-derive"
+version = "1.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b13f1e69590421890f90448c3cd5f554746a31adc6dc0dac406ec6901db8dc25"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -795,6 +815,18 @@ dependencies = [
  "libc",
  "wasi 0.11.0+wasi-snapshot-preview1",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "getset"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e45727250e75cc04ff2846a66397da8ef2b3db8e40e0cef4df67950a07621eb9"
+dependencies = [
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
@@ -1367,6 +1399,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "num_threads"
+version = "0.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2819ce041d2ee131036f4fc9d6ae7ae125a3a40e97ba64d04fe799ad9dabbb44"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "object"
 version = "0.28.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1578,9 +1619,9 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 
 [[package]]
 name = "preset_env_base"
-version = "0.2.4"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5f68dc2366d2258e280ad44221403aa0af50868b3e6dc1cb9fb14a302cc01948"
+checksum = "ec3fc6fae03023ee1badb75ccbefc36379c419754b30e3848b77a4327f4ec1e2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2221,9 +2262,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.214.10"
+version = "0.215.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cd3516cbe6f8d2081b881379f97f8598db8d4f6be20c4d28ef7f9a4743c97b64"
+checksum = "7a47f3713437e73349b7a971bd003df790ca800632aefdacd90c5d7065d9494c"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2415,9 +2456,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.7.20"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1b3efad9003b590540afeb0e6db2783036e20ece1fbd631a2d468f7b472e29cd"
+checksum = "9db80d8d791718a4395b27e69e6e165c9886ffd82ae0389c8e57e20fc8978be5"
 dependencies = [
  "binding_macros",
  "swc",
@@ -2432,6 +2473,7 @@ dependencies = [
  "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_trace_macro",
+ "vergen",
  "wasmer",
  "wasmer-wasi",
 ]
@@ -2546,9 +2588,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.144.9"
+version = "0.144.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e42e5d30a3985cfa037d44be3f4240f8d9ba1a6b9ead77bf1f70ceb79491425"
+checksum = "8e1dd6851117c7d80c066ca095fb856e9541105de6d4566cda0cdcf57cb834b2"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2576,7 +2618,6 @@ dependencies = [
  "swc_ecma_visit",
  "swc_timer",
  "tracing",
- "unicode-id",
 ]
 
 [[package]]
@@ -2600,9 +2641,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.158.4"
+version = "0.159.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef62b25660684da925c7b53b1a4724bdaf1a8520a419ad736263b101ca4c9e1d"
+checksum = "80bff7f470d097842c2052a5e29dbe0a0f0768b8a39f0fd39935107682ef7060"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2645,9 +2686,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.103.10"
+version = "0.103.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "217415787a810b2cdbf23018a3841b3dd4c9d801667c7d2a2bd14f60e5107ad7"
+checksum = "a4aad7af4a1ae307e547a0f5ab6b081ffa6a22af89abe2f8a953a735a398ba9d"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -2941,9 +2982,9 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.0.3"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fe8a8e4b38d7c2dcb4ef54c2c7589415431c0c239b9608a1a2638a370b23d0b0"
+checksum = "12bd484efd17e13dab0749548caad530b4de04e4cff027908db5e82eab262eb1"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -3213,6 +3254,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "time"
+version = "0.3.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "db76ff9fa4b1458b3c7f077f3ff9887394058460d21e634355b273aaf11eea45"
+dependencies = [
+ "itoa",
+ "libc",
+ "num_threads",
+]
+
+[[package]]
 name = "time-macros"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3414,6 +3466,21 @@ name = "valuable"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "830b7e5d4d90034032940e4ace0d9a9a057e7a45cd94e6c007832e39edb82f6d"
+
+[[package]]
+name = "vergen"
+version = "7.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1ffa80ed519f45995741e70664d4abcf147d2a47b8c7ea0a4aa495548ef9474f"
+dependencies = [
+ "anyhow",
+ "cfg-if 1.0.0",
+ "enum-iterator 1.1.3",
+ "getset",
+ "rustversion",
+ "thiserror",
+ "time 0.3.13",
+]
 
 [[package]]
 name = "version_check"
@@ -3660,7 +3727,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ad0358af9c154724587731175553805648d9acb8f6657880d165e378672b7e53"
 dependencies = [
  "cfg-if 1.0.0",
- "enum-iterator",
+ "enum-iterator 0.7.0",
  "enumset",
  "leb128",
  "libloading",
@@ -3705,7 +3772,7 @@ version = "2.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "68f1db3f54152657eb6e86c44b66525ff7801dad8328fe677da48dd06af9ad41"
 dependencies = [
- "enum-iterator",
+ "enum-iterator 0.7.0",
  "enumset",
  "loupe",
  "rkyv",
@@ -3734,7 +3801,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39df01ea05dc0a9bab67e054c7cb01521e53b35a7bb90bd02eca564ed0b2667f"
 dependencies = [
  "backtrace",
- "enum-iterator",
+ "enum-iterator 0.7.0",
  "indexmap",
  "loupe",
  "more-asserts",
@@ -3765,7 +3832,7 @@ dependencies = [
  "cc",
  "cfg-if 1.0.0",
  "corosensei",
- "enum-iterator",
+ "enum-iterator 0.7.0",
  "indexmap",
  "lazy_static",
  "libc",
