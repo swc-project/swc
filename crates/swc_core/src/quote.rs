@@ -1,6 +1,3 @@
-use self::private::Sealed;
-use super::{ast::*, atoms::JsWord};
-
 /// # Supported output types
 ///
 ///  - `Expr`
