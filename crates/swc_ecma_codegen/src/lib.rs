@@ -1370,6 +1370,7 @@ where
             Some(&n.function.params),
             ListFormat::CommaListElements,
         )?;
+
         punct!(")");
 
         if let Some(ty) = &n.function.return_type {
@@ -2631,8 +2632,8 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        punct!("}");
         srcmap!(node, false);
+        punct!("}");
     }
 
     #[emitter]
