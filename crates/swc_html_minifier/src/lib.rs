@@ -913,11 +913,19 @@ impl Minifier<'_> {
         namespace: Namespace,
         tag_name: &str,
     ) -> WhitespaceMinificationMode {
+        let default_collapse = match self.options.collapse_whitespaces {
+            CollapseWhitespaces::All
+            | CollapseWhitespaces::Smart
+            | CollapseWhitespaces::Conservative
+            | CollapseWhitespaces::AdvancedConservative => true,
+            CollapseWhitespaces::OnlyMetadata | CollapseWhitespaces::None => false,
+        };
         let default_trim = match self.options.collapse_whitespaces {
             CollapseWhitespaces::All => true,
             CollapseWhitespaces::Smart
             | CollapseWhitespaces::Conservative
             | CollapseWhitespaces::OnlyMetadata
+            | CollapseWhitespaces::AdvancedConservative
             | CollapseWhitespaces::None => false,
         };
 
@@ -925,7 +933,10 @@ impl Minifier<'_> {
             Namespace::HTML => match tag_name {
                 "script" | "style" => WhitespaceMinificationMode {
                     collapse: false,
-                    trim: true,
+                    trim: !matches!(
+                        self.options.collapse_whitespaces,
+                        CollapseWhitespaces::None | CollapseWhitespaces::OnlyMetadata
+                    ),
                 },
                 _ => {
                     if get_white_space(namespace, tag_name) == WhiteSpace::Pre {
@@ -935,7 +946,7 @@ impl Minifier<'_> {
                         }
                     } else {
                         WhitespaceMinificationMode {
-                            collapse: true,
+                            collapse: default_collapse,
                             trim: default_trim,
                         }
                     }
@@ -969,13 +980,16 @@ impl Minifier<'_> {
                 ) =>
                 {
                     WhitespaceMinificationMode {
-                        collapse: true,
+                        collapse: default_collapse,
                         trim: default_trim,
                     }
                 }
                 _ => WhitespaceMinificationMode {
-                    collapse: true,
-                    trim: true,
+                    collapse: default_collapse,
+                    trim: !matches!(
+                        self.options.collapse_whitespaces,
+                        CollapseWhitespaces::None | CollapseWhitespaces::OnlyMetadata
+                    ),
                 },
             },
             _ => WhitespaceMinificationMode {
@@ -1078,13 +1092,26 @@ impl Minifier<'_> {
                             self.options.collapse_whitespaces,
                             CollapseWhitespaces::All
                                 | CollapseWhitespaces::Smart
+                                | CollapseWhitespaces::OnlyMetadata
                                 | CollapseWhitespaces::Conservative
+                                | CollapseWhitespaces::AdvancedConservative
                         ) =>
                 {
                     let mut is_smart_left_trim = false;
                     let mut is_smart_right_trim = false;
 
-                    if self.options.collapse_whitespaces == CollapseWhitespaces::Smart {
+                    if matches!(
+                        self.options.collapse_whitespaces,
+                        CollapseWhitespaces::Smart
+                            | CollapseWhitespaces::OnlyMetadata
+                            | CollapseWhitespaces::AdvancedConservative
+                    ) {
+                        let need_remove_metadata_whitespaces = matches!(
+                            self.options.collapse_whitespaces,
+                            CollapseWhitespaces::OnlyMetadata
+                                | CollapseWhitespaces::AdvancedConservative
+                        );
+
                         let prev = if index >= 1 {
                             children.get(index - 1)
                         } else {
@@ -1096,11 +1123,14 @@ impl Minifier<'_> {
                                 tag_name,
                                 ..
                             })) => Some(self.get_display(*namespace, tag_name)),
-                            Some(Child::Comment(_)) => Some(Display::None),
+                            Some(Child::Comment(_)) => match need_remove_metadata_whitespaces {
+                                true => None,
+                                _ => Some(Display::None),
+                            },
                             _ => None,
                         };
 
-                        is_smart_left_trim = match prev_display {
+                        let allow_to_trim_left = match prev_display {
                             // Block-level containers:
                             //
                             // `Display::Block`    - `display: block flow`
@@ -1219,11 +1249,14 @@ impl Minifier<'_> {
                                 tag_name,
                                 ..
                             })) => Some(self.get_display(*namespace, tag_name)),
-                            Some(Child::Comment(_)) => Some(Display::None),
+                            Some(Child::Comment(_)) => match need_remove_metadata_whitespaces {
+                                true => None,
+                                _ => Some(Display::None),
+                            },
                             _ => None,
                         };
 
-                        is_smart_right_trim = match next_display {
+                        let allow_to_trim_right = match next_display {
                             // Block-level containers:
                             //
                             // `Display::Block`    - `display: block flow`
@@ -1280,6 +1313,17 @@ impl Minifier<'_> {
                                 }
                             }
                         };
+
+                        if matches!(
+                            self.options.collapse_whitespaces,
+                            CollapseWhitespaces::Smart
+                        ) || (need_remove_metadata_whitespaces
+                            && (prev_display == Some(Display::None)
+                                && next_display == Some(Display::None)))
+                        {
+                            is_smart_left_trim = allow_to_trim_left;
+                            is_smart_right_trim = allow_to_trim_right;
+                        }
                     }
 
                     let mut value = if (mode.trim) || is_smart_left_trim {
@@ -1891,7 +1935,12 @@ impl VisitMut for Minifier<'_> {
 
         self.current_element = None;
 
-        if self.options.collapse_whitespaces == CollapseWhitespaces::Smart {
+        if matches!(
+            self.options.collapse_whitespaces,
+            CollapseWhitespaces::Smart
+                | CollapseWhitespaces::AdvancedConservative
+                | CollapseWhitespaces::OnlyMetadata
+        ) {
             match n {
                 Child::Text(_) | Child::Element(_) => {
                     self.latest_element = Some(n.clone());
