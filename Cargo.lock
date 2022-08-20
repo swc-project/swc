@@ -3241,7 +3241,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.10"
+version = "0.90.11"
 dependencies = [
  "arbitrary",
  "bitflags",
@@ -3260,7 +3260,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.121.5"
+version = "0.121.6"
 dependencies = [
  "criterion",
  "memchr",
@@ -3660,7 +3660,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.130.4"
+version = "0.130.5"
 dependencies = [
  "either",
  "serde",
@@ -3735,7 +3735,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.145.4"
+version = "0.145.5"
 dependencies = [
  "criterion",
  "serde",
