@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_quote"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.32.5"
+version       = "0.32.6"
 
 [lib]
 bench = false
