@@ -379,7 +379,7 @@ impl<I: Tokens> Parser<I> {
             if id.is_reserved_in_strict_mode(self.ctx().module && !self.ctx().in_declare) {
                 self.emit_strict_mode_err(
                     self.input.prev_span(),
-                    SyntaxError::InvalidIdentInStrict,
+                    SyntaxError::InvalidIdentInStrict(id.sym.clone()),
                 );
             }
 

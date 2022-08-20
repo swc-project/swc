@@ -1,5 +1,5 @@
 
-  x 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  x `let` cannot be used as an identifier in strict mode
    ,-[$DIR/tests/typescript-errors/let/index.ts:3:1]
  3 | let let;
    :     ^^^

@@ -1,5 +1,5 @@
 //!
-//!  x `await` is a reserved word that cannot be used as an identifier.
+//!  x `await` cannot be used as an identifier in an async context
 //!   ,----
 //! 3 | function f(await = await) {
 //!   :                    ^^^^^

@@ -93,11 +93,11 @@ pub enum SyntaxError {
     NumLitTerminatedWithExp,
     LegacyCommentInModule,
 
-    /// "implements", "interface", "let", "package",\
-    ///  "private", "protected",  "public", "static", or "yield"
-    InvalidIdentInStrict,
+    /// "implements", "interface", "let", "package", "private", "protected",
+    /// "public", "static", or "yield"
+    InvalidIdentInStrict(JsWord),
 
-    ReservedAwait,
+    InvalidIdentInAsync,
     /// 'eval' and 'arguments' are invalid identifier in strict mode.
     EvalAndArgumentsInStrict,
     ArgumentsInClassField,
@@ -321,13 +321,13 @@ impl SyntaxError {
             }
             SyntaxError::NumLitTerminatedWithExp => "Expected +, - or decimal digit after e".into(),
 
-            SyntaxError::InvalidIdentInStrict => {
-                "'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', \
-                 'static', or 'yield' cannot be used as an identifier in strict mode"
-                    .into()
-            }
-            SyntaxError::ReservedAwait => {
-                "`await` is a reserved word that cannot be used as an identifier.".into()
+            SyntaxError::InvalidIdentInStrict(identifier_name) => format!(
+                "`{}` cannot be used as an identifier in strict mode",
+                identifier_name
+            )
+            .into(),
+            SyntaxError::InvalidIdentInAsync => {
+                "`await` cannot be used as an identifier in an async context".into()
             }
             SyntaxError::EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a \
                                                       binding identifier in strict mode"

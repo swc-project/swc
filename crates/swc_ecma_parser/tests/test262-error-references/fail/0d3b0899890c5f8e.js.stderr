@@ -1,5 +1,5 @@
 
-  x 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  x `enum` cannot be used as an identifier in strict mode
    ,-[$DIR/tests/test262-parser/fail/0d3b0899890c5f8e.js:1:1]
  1 | class a {b(enum){}}
    :            ^^^^
