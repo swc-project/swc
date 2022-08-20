@@ -122,6 +122,13 @@ impl TscDecorator {
 
                 return Expr::Ident(var_name);
             }
+            PropName::Ident(i) => {
+                return Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    raw: None,
+                    value: i.sym.clone(),
+                }))
+            }
             _ => {}
         }
 
