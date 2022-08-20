@@ -112,6 +112,9 @@ macro_rules! srcmap {
             $emitter.wr.add_srcmap(lo)?;
         }
     }};
+    ($emitter:expr, $n:expr, false) => {
+        srcmap!($emitter, $n, false, false)
+    };
     ($emitter:expr, $n:expr, false, $subtract:expr) => {
         let hi = $n.span_hi();
         if !hi.is_dummy() {
