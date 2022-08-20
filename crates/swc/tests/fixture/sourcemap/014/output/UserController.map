@@ -1,0 +1,40 @@
+{
+  "mappings": "AAAA;;;;;;AAAA,SACIA,UAAU,EACVC,IAAI,EACJC,SAAS,EACTC,IAAI,EACJC,GAAG,EACHC,KAAK,EACLC,kBAAkB,EAClBC,eAAe,QACZ,gBAAgB,CAAC;AAExB,SACIC,qBAAqB,EACrBC,oBAAoB,EACpBC,oBAAoB,QACjB,+BAA+B,CAAC;AACvC,SAASC,aAAa,QAAQ,gCAAgC,CAAC;AAC/D,SAASC,aAAa,QAAQ,gCAAgC,CAAC;AAC/D,SAASC,YAAY,QAAQ,kCAAkC,CAAC;AAChE,SAASC,IAAI,QAAQ,kCAAkC,CAAC;AACxD,SAASA,IAAI,IAAIC,QAAQ,QAAQ,iCAAiC,CAAC;AACnE,SAASC,kCAAkC,QAAQ,yDAAyD,CAAC;AAC7G,SAASC,WAAW,QAAQ,0BAA0B,CAAC;AAIvD,WAAaC,cAAc,iBAApB;;4BACiBC,WAAwB;;aAAxBA,WAAwB,GAAxBA,WAAwB;;;IAE5C,OACMC,MAAM,AAEX,GAHD,SACMA,MAAM,CAAC,AAAQC,aAA4B;;eADjD,0DAAA,mBACmD;;;;qDACxC,MAAKF,WAAW,CAACG,MAAM,CAACD,aAAa,CAAC;;;;;;SAChD,EAAA;KAAA;IAED,OAEME,MAAM,AAUX,GAZD,SAEMA,MAAM,CACR,AAAaC,MAAc,EAC3B,AAAQC,aAA4B,EACpC,AAAQC,IAAc;;eAL1B,0DAAA,mBAME;;;;4BACMA,CAAAA,CAAAA,IAAI,CAACC,EAAE,KAAKH,MAAM,CAAA;;;;wBAClB,MAAM,IAAIlB,kBAAkB,EAAE,CAAC;;qDAG5B,MAAKa,WAAW,CAACI,MAAM,CAACC,MAAM,EAAEC,aAAa,CAAC;;;;;;SACxD,EAAA;KAAA;;CACJ,EAAA,CAAA;;IAlBIxB,IAAI,CAACQ,oBAAoB,CAAC;IACbN,aAAAA,IAAI,EAAE,CAAA;;;eAAgB,aAAa,4BAAb,aAAa;;GAJxCe,cAAc,YAIjBE,QAAM;;IAIXlB,SAAS,CAACW,YAAY,CAAC;IACvBT,GAAG,CAACM,oBAAoB,CAAC;IAErBL,aAAAA,KAAK,CAAC,IAAI,CAAC,CAAA;IACXF,aAAAA,IAAI,EAAE,CAAA;IACNW,aAAAA,IAAI,EAAE,CAAA;;;;eADgB,aAAa,4BAAb,aAAa;eACtB,QAAQ,4BAAR,QAAQ;;GAbjBI,cAAc,YAUjBK,QAAM;AAVHL,cAAc;IAF1BlB,UAAU,CAACQ,qBAAqB,CAAC;IACjCD,eAAe,CAACS,kCAAkC,CAACD,QAAQ,CAAC,CAAC;;;eAEzB,WAAW,4BAAX,WAAW;;GADnCG,cAAc",
+  "names": [
+    "Controller",
+    "Post",
+    "UseGuards",
+    "Body",
+    "Put",
+    "Param",
+    "ForbiddenException",
+    "UseInterceptors",
+    "USER_CONTROLLER_ROUTE",
+    "USER_CREATE_ENDPOINT",
+    "USER_UPDATE_ENDPOINT",
+    "CreateUserDto",
+    "UpdateUserDto",
+    "JwtAuthGuard",
+    "User",
+    "UserType",
+    "MongooseClassSerializerInterceptor",
+    "UserService",
+    "UserController",
+    "userService",
+    "signup",
+    "createUserDto",
+    "create",
+    "update",
+    "userId",
+    "updateUserDto",
+    "user",
+    "id"
+  ],
+  "sources": [
+    "../../input/UserController.ts"
+  ],
+  "sourcesContent": [
+    "import {\n    Controller,\n    Post,\n    UseGuards,\n    Body,\n    Put,\n    Param,\n    ForbiddenException,\n    UseInterceptors,\n} from '@nestjs/common';\n\nimport {\n    USER_CONTROLLER_ROUTE,\n    USER_CREATE_ENDPOINT,\n    USER_UPDATE_ENDPOINT,\n} from '@server/constants/controllers';\nimport { CreateUserDto } from '@server/user/dto/CreateUserDto';\nimport { UpdateUserDto } from '@server/user/dto/UpdateUserDto';\nimport { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';\nimport { User } from '@server/decorators/UserDecorator';\nimport { User as UserType } from '@server/user/schemas/UserSchema';\nimport { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';\nimport { UserService } from '@server/user/UserService';\n\n@Controller(USER_CONTROLLER_ROUTE)\n@UseInterceptors(MongooseClassSerializerInterceptor(UserType))\nexport class UserController {\n    constructor(private userService: UserService) { }\n\n    @Post(USER_CREATE_ENDPOINT)\n    async signup(@Body() createUserDto: CreateUserDto) {\n        return this.userService.create(createUserDto);\n    }\n\n    @UseGuards(JwtAuthGuard)\n    @Put(USER_UPDATE_ENDPOINT)\n    async update(\n        @Param('id') userId: string,\n        @Body() updateUserDto: UpdateUserDto,\n        @User() user: UserType,\n    ) {\n        if (user.id !== userId) {\n            throw new ForbiddenException();\n        }\n\n        return this.userService.update(userId, updateUserDto);\n    }\n}\n"
+  ],
+  "version": 3
+}
