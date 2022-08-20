@@ -115,7 +115,8 @@ macro_rules! srcmap {
     ($emitter:expr, $n:expr, false) => {
         let hi = $n.span_hi();
         if !hi.is_dummy() {
-            $emitter.wr.add_srcmap(hi)?;
+            // hi is exclusive
+            $emitter.wr.add_srcmap(hi - swc_common::BytePos(1))?;
         }
     };
 }
