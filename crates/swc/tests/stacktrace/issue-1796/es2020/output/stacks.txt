@@ -4,6 +4,6 @@ $DIR/tests/stacktrace/issue-1796/es2020/input/index.js:3
 
 Error: Boom
     at null.<anonymous> ($DIR/tests/stacktrace/issue-1796/es2020/input/index.js:3:15)
-    at null.<anonymous> ($DIR/tests/stacktrace/issue-1796/es2020/input/index.js:4:6)
-    at Object.<anonymous> ($DIR/tests/stacktrace/issue-1796/es2020/input/index.js:5:2)
+    at null.<anonymous> ($DIR/tests/stacktrace/issue-1796/es2020/input/index.js:4:7)
+    at Object.<anonymous> ($DIR/tests/stacktrace/issue-1796/es2020/input/index.js:5:3)
     at node:internal/main/run_main_module:17:47
