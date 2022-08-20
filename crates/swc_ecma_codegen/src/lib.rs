@@ -1385,8 +1385,6 @@ where
         } else {
             formatting_semi!()
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -1516,8 +1514,6 @@ where
         } else {
             formatting_semi!();
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -2632,8 +2628,8 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
+        srcmap!(node, false, true);
         punct!("}");
-        srcmap!(node, false);
     }
 
     #[emitter]
