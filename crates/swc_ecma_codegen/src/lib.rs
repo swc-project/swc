@@ -2632,8 +2632,8 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        srcmap!(node, false);
         punct!("}");
+        srcmap!(node, false);
     }
 
     #[emitter]
