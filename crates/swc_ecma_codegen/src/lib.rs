@@ -1386,7 +1386,7 @@ where
             formatting_semi!()
         }
 
-        srcmap!(n, false);
+        srcmap!(n, false, true);
     }
 
     #[emitter]
@@ -1517,7 +1517,7 @@ where
             formatting_semi!();
         }
 
-        srcmap!(n, false);
+        srcmap!(n, false, true);
     }
 
     #[emitter]
