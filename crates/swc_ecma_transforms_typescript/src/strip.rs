@@ -1802,9 +1802,10 @@ where
                             extra_props.push(ident.id.clone());
                         }
                         let assign_expr = Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
+                            span: ident.span.with_ctxt(SyntaxContext::empty()),
                             left: PatOrExpr::Expr(Box::new(
-                                ThisExpr { span: DUMMY_SP }.make_member(ident.id.clone()),
+                                ThisExpr { span: DUMMY_SP }
+                                    .make_member(ident.id.clone().without_loc()),
                             )),
                             op: op!("="),
                             right: Box::new(Expr::Ident(ident.id)),

@@ -5,7 +5,16 @@
 
 
 
+- **(es)** Improve sourcemap (#5569) ([2f7e322](https://github.com/swc-project/swc/commit/2f7e3222140aba2a0e13e307f18b42f6b39f084d))
+
+
 - **(es/compat)** Use separate `SyntaxContext` for class names (#5566) ([b717a68](https://github.com/swc-project/swc/commit/b717a68199fc965632e9513d2c57a47af23231d8))
+
+### Features
+
+
+
+- **(css/ast)** Make `keyword` optional (#5543) ([a3c1ac6](https://github.com/swc-project/swc/commit/a3c1ac67d708b6c95ef9a9b0892df90bdb26ffe5))
 
 ## [1.2.241] - 2022-08-19
 
