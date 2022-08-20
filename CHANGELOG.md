@@ -13,6 +13,9 @@
 
 - **(es/compat)** Use separate `SyntaxContext` for class names (#5566) ([b717a68](https://github.com/swc-project/swc/commit/b717a68199fc965632e9513d2c57a47af23231d8))
 
+
+- **(es/quote)** Allow cloning (#5571) ([82cc3ca](https://github.com/swc-project/swc/commit/82cc3ca7a4f27f932ed4e8b4e620d1d8b5f41bdc))
+
 ### Features
 
 
