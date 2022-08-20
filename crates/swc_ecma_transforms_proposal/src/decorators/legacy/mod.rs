@@ -261,7 +261,7 @@ impl VisitMut for TscDecorator {
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         let old = self.class_name.take();
-        self.class_name = Some(n.ident.clone());
+        self.class_name = Some(n.ident.clone().without_loc());
 
         n.visit_mut_children_with(self);
 
@@ -275,7 +275,7 @@ impl VisitMut for TscDecorator {
         }
 
         if let Some(ident) = &n.ident {
-            self.class_name = Some(ident.clone());
+            self.class_name = Some(ident.clone().without_loc());
         }
 
         n.visit_mut_children_with(self);
