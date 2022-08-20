@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAA,0FAAA,gBAAe,SAASA,CAAU,CAAC,CAAQ,CAAE,KAAV,AAAEC,CAAI,CAAN,CAAQ,CAANA,IAAI,AAAE,AACvC,QAAO,oBAACC,KAAG,MAAED,CAAI,CAACE,GAAG,CAAO,AAAC,CAChC,AAED,iBAAsBC,cAAc,UAAdA,CAAc,uBAQnC,SARqBA,CAAc,UAAdA,CAAc,CAA7B,SAAA,YAAgC,wFAC5B,CACHC,KAAK,CAAE,CACHJ,IAAI,CAAE,CACFE,GAAG,CAAE,KAAK,CACb,CACJ,CACJ,wCACJ,EAAA,wBAAA",
+  "mappings": "AAAA,0FAAA,gBAAe,SAASA,CAAU,CAAC,CAAQ,AAAD,CAAG,KAAV,AAAEC,CAAI,CAAN,CAAQ,CAANA,IAAI,AAAC,AACtC,QAAO,oBAACC,KAAE,MAAGD,CAAI,CAACE,GAAG,AAAD,CAAO,AAAC,CAChC,AAEA,iBAAsBC,cAAc,UAAdA,CAAc,uBAQpC,SARsBA,CAAc,UAAdA,CAAc,CAA7B,SAAA,YAAgC,wFAC5B,CACHC,KAAK,CAAE,CACHJ,IAAI,CAAE,CACFE,GAAG,CAAE,KAAI,AAAC,CACd,AAAC,CACL,AAAC,CACL,wCACJ,EAAA,wBAAA",
   "names": [
     "StaticPage",
     "data",
@@ -9,10 +9,12 @@
     "props"
   ],
   "sources": [
-    "../../input/index.js"
+    "../../input/index.js",
+    "<<jsx-config-pragmaFrag.js>>"
   ],
   "sourcesContent": [
-    "export default function StaticPage({ data }) {\n    return <div>{data.foo}</div>;\n}\n\nexport async function getStaticProps() {\n    return {\n        props: {\n            data: {\n                foo: \"bar\",\n            },\n        },\n    };\n}\n"
+    "export default function StaticPage({ data }) {\n    return <div>{data.foo}</div>;\n}\n\nexport async function getStaticProps() {\n    return {\n        props: {\n            data: {\n                foo: \"bar\",\n            },\n        },\n    };\n}\n",
+    "React.Fragment"
   ],
   "version": 3
 }
