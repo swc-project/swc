@@ -2089,7 +2089,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "await` cannot be used as an identifier in an async context")]
+    #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
     fn await_in_nested_async_function_in_module() {
         let src = "async function foo () { function bar(x = await) {} }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
@@ -2108,7 +2108,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "await` cannot be used as an identifier in an async context")]
+    #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
     fn await_as_param_ident_in_module() {
         let src = "function foo (x = await) { }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
@@ -2121,7 +2121,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "await` cannot be used as an identifier in an async context")]
+    #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
     fn await_as_ident_in_module() {
         let src = "let await = 1";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
@@ -2134,7 +2134,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "await` cannot be used as an identifier in an async context")]
+    #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
     fn await_as_ident_in_async() {
         let src = "async function foo() { let await = 1; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
