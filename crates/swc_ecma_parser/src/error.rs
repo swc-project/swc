@@ -96,6 +96,8 @@ pub enum SyntaxError {
     /// "implements", "interface", "let", "package",\
     ///  "private", "protected",  "public", "static", or "yield"
     InvalidIdentInStrict,
+
+    ReservedAwait,
     /// 'eval' and 'arguments' are invalid identifier in strict mode.
     EvalAndArgumentsInStrict,
     ArgumentsInClassField,
@@ -152,6 +154,7 @@ pub enum SyntaxError {
     LabelledGeneratorOrAsync,
     LabelledFunctionInStrict,
     YieldParamInGen,
+    AwaitParamInAsync,
 
     AwaitForStmt,
 
@@ -323,6 +326,9 @@ impl SyntaxError {
                  'static', or 'yield' cannot be used as an identifier in strict mode"
                     .into()
             }
+            SyntaxError::ReservedAwait => {
+                "`await` is a reserved word that cannot be used as an identifier.".into()
+            }
             SyntaxError::EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a \
                                                       binding identifier in strict mode"
                 .into(),
@@ -406,6 +412,9 @@ impl SyntaxError {
             }
             SyntaxError::YieldParamInGen => {
                 "'yield' cannot be used as a parameter within generator".into()
+            }
+            SyntaxError::AwaitParamInAsync => {
+                "`await` expressions cannot be used in a parameter initializer.".into()
             }
             SyntaxError::AwaitForStmt => {
                 "for await syntax is valid only for for-of statement".into()

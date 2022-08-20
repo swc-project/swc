@@ -1,4 +1,12 @@
-// @target: ES5
-// @lib: es5,es2015.promise
-// @noEmitHelpers: true
-function f(_await = _await) {}
+//!
+//!  x `await` is a reserved word that cannot be used as an identifier.
+//!   ,----
+//! 4 | function f(await = await) {
+//!   :                    ^^^^^
+//!   `----
+//!
+//!
+//!Caused by:
+//!    0: failed to process input file
+//!    1: error was recoverable, but proceeding would result in wrong codegen
+//!    2: Syntax Error
