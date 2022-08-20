@@ -3260,7 +3260,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.121.6"
+version = "0.121.7"
 dependencies = [
  "criterion",
  "memchr",
