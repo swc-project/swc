@@ -381,7 +381,13 @@ where
 
             if n.condition.is_some() {
                 space!(self);
-                emit!(self, n.keyword);
+
+                if n.keyword.is_some() {
+                    emit!(self, n.keyword);
+                } else {
+                    write_raw!(self, "and");
+                }
+
                 space!(self);
             }
         }
@@ -444,21 +450,36 @@ where
 
     #[emitter]
     fn emit_media_not(&mut self, n: &MediaNot) -> Result {
-        emit!(self, n.keyword);
+        if n.keyword.is_some() {
+            emit!(self, n.keyword);
+        } else {
+            write_raw!(self, "not");
+        }
+
         space!(self);
         emit!(self, n.condition);
     }
 
     #[emitter]
     fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
-        emit!(self, n.keyword);
+        if n.keyword.is_some() {
+            emit!(self, n.keyword);
+        } else {
+            write_raw!(self, "and");
+        }
+
         space!(self);
         emit!(self, n.condition);
     }
 
     #[emitter]
     fn emit_media_or(&mut self, n: &MediaOr) -> Result {
-        emit!(self, n.keyword);
+        if n.keyword.is_some() {
+            emit!(self, n.keyword);
+        } else {
+            write_raw!(self, "or");
+        }
+
         space!(self);
         emit!(self, n.condition);
     }
@@ -572,21 +593,36 @@ where
 
     #[emitter]
     fn emit_supports_not(&mut self, n: &SupportsNot) -> Result {
-        emit!(self, n.keyword);
+        if n.keyword.is_some() {
+            emit!(self, n.keyword);
+        } else {
+            write_raw!(self, "not");
+        }
+
         space!(self);
         emit!(self, n.condition);
     }
 
     #[emitter]
     fn emit_supports_and(&mut self, n: &SupportsAnd) -> Result {
-        emit!(self, n.keyword);
+        if n.keyword.is_some() {
+            emit!(self, n.keyword);
+        } else {
+            write_raw!(self, "and");
+        }
+
         space!(self);
         emit!(self, n.condition);
     }
 
     #[emitter]
     fn emit_support_or(&mut self, n: &SupportsOr) -> Result {
-        emit!(self, n.keyword);
+        if n.keyword.is_some() {
+            emit!(self, n.keyword);
+        } else {
+            write_raw!(self, "or");
+        }
+
         space!(self);
         emit!(self, n.condition);
     }

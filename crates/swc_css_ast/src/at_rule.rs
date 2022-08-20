@@ -183,13 +183,21 @@ pub struct MediaQueryList {
 }
 
 #[ast_node("MediaQuery")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct MediaQuery {
     pub span: Span,
     pub modifier: Option<Ident>,
     pub media_type: Option<Ident>,
     pub keyword: Option<Ident>,
     pub condition: Option<MediaConditionType>,
+}
+
+impl EqIgnoreSpan for MediaQuery {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.modifier.eq_ignore_span(&other.modifier)
+            && self.media_type.eq_ignore_span(&other.media_type)
+            && self.condition.eq_ignore_span(&other.condition)
+    }
 }
 
 #[ast_node]
@@ -246,27 +254,45 @@ pub enum MediaConditionWithoutOrType {
 }
 
 #[ast_node("MediaNot")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct MediaNot {
     pub span: Span,
-    pub keyword: Ident,
+    pub keyword: Option<Ident>,
     pub condition: MediaInParens,
+}
+
+impl EqIgnoreSpan for MediaNot {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.condition.eq_ignore_span(&other.condition)
+    }
 }
 
 #[ast_node("MediaAnd")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct MediaAnd {
     pub span: Span,
-    pub keyword: Ident,
+    pub keyword: Option<Ident>,
     pub condition: MediaInParens,
 }
 
+impl EqIgnoreSpan for MediaAnd {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.condition.eq_ignore_span(&other.condition)
+    }
+}
+
 #[ast_node("MediaOr")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct MediaOr {
     pub span: Span,
-    pub keyword: Ident,
+    pub keyword: Option<Ident>,
     pub condition: MediaInParens,
+}
+
+impl EqIgnoreSpan for MediaOr {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.condition.eq_ignore_span(&other.condition)
+    }
 }
 
 #[ast_node]
@@ -410,27 +436,45 @@ pub enum SupportsConditionType {
 }
 
 #[ast_node("SupportsNot")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct SupportsNot {
     pub span: Span,
-    pub keyword: Ident,
+    pub keyword: Option<Ident>,
     pub condition: SupportsInParens,
+}
+
+impl EqIgnoreSpan for SupportsNot {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.condition.eq_ignore_span(&other.condition)
+    }
 }
 
 #[ast_node("SupportsAnd")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct SupportsAnd {
     pub span: Span,
-    pub keyword: Ident,
+    pub keyword: Option<Ident>,
     pub condition: SupportsInParens,
 }
 
+impl EqIgnoreSpan for SupportsAnd {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.condition.eq_ignore_span(&other.condition)
+    }
+}
+
 #[ast_node("SupportsOr")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct SupportsOr {
     pub span: Span,
-    pub keyword: Ident,
+    pub keyword: Option<Ident>,
     pub condition: SupportsInParens,
+}
+
+impl EqIgnoreSpan for SupportsOr {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.condition.eq_ignore_span(&other.condition)
+    }
 }
 
 #[ast_node]
