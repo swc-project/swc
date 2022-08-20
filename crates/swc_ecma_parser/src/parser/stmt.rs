@@ -2426,4 +2426,11 @@ const foo;"#;
             |p| p.parse_script(),
         );
     }
+
+    #[test]
+    fn issue_5557_expr_follow_class() {
+        let src = "foo * class {} / bar;";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
 }
