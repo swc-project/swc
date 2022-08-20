@@ -29,11 +29,18 @@ pub enum CollapseWhitespaces {
     All,
     /// Remove and collapse whitespaces based on the `display` CSS property
     Smart,
-    /// Remove and collapse multiple whitespace into one whitespace
+    /// Collapse multiple whitespace into one whitespace, remove
+    /// all whitespace in the `head` element and trim whitespaces for the `body`
+    /// element
     Conservative,
-    /// Remove whitespace in the `head` element, trim whitespaces for the `body`
-    /// element, remove spaces between `metadata` elements (i.e.
-    /// `script`/`style`/etc)
+    /// Collapse multiple whitespace into one whitespace, remove
+    /// all whitespace in the `head` element, trim whitespaces for the `body`
+    /// element and remove spaces between `metadata` elements (i.e.
+    /// `script`/`style`/etc, for elements that have `display: none`)
+    AdvancedConservative,
+    /// Remove all whitespace in the `head` element, trim whitespaces for the
+    /// `body` element, remove spaces between `metadata` elements (i.e.
+    /// `script`/`style`/etc, for elements that have `display: none`)
     OnlyMetadata,
 }
 
