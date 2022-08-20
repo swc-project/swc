@@ -62,7 +62,7 @@ impl ParamMetadata {
         Decorator {
             span: DUMMY_SP,
             expr: Box::new(Expr::Call(CallExpr {
-                span: DUMMY_SP,
+                span: decorator_expr.span(),
                 callee: helper!(ts, ts_param, "__param"),
                 args: vec![param_index.as_arg(), decorator_expr.as_arg()],
                 type_args: Default::default(),
