@@ -1373,7 +1373,7 @@ impl Generator {
 
     fn transform_and_emit_block(&mut self, mut node: BlockStmt) {
         if contains_yield(node) {
-            self.transform_and_emit_stmts(node.statements, 0);
+            self.transform_and_emit_stmts(node.stmts, 0);
         } else {
             node.visit_mut_with(self);
             self.emit_stmt(Stmt::Block(node));
