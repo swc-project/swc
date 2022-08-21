@@ -2022,7 +2022,7 @@ impl Generator {
             self.end_labeled_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_statement(Stmt::Labeled(node));
+            self.emit_stmt(Stmt::Labeled(node));
         }
     }
 
