@@ -1,8 +1,8 @@
 //!
-//!  x `await` cannot be used as an identifier in an async context
+//!  x Expected 'from', got 'await'
 //!   ,----
-//! 4 | declare namespace foo { const await: any; }
-//!   :                               ^^^^^
+//! 7 | import await = foo.await;
+//!   :        ^^^^^
 //!   `----
 //!
 //!

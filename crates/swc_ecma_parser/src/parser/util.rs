@@ -67,7 +67,14 @@ impl Context {
     pub fn is_reserved_word(self, word: &JsWord) -> bool {
         match *word {
             js_word!("let") => self.strict,
-            js_word!("await") => self.in_async || self.strict,
+            // SyntaxError in the module only, not in the strict.
+            // ```JavaScript
+            // function foo() {
+            //     "use strict";
+            //     let await = 1;
+            // }
+            // ```
+            js_word!("await") => self.in_async || self.module,
             js_word!("yield") => self.in_generator || self.strict,
 
             js_word!("null")
