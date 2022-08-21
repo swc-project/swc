@@ -1322,15 +1322,11 @@ impl Generator {
     //     return visitEachChild(node, visitor, context);
     // }
 
-    // function transformAndEmitStatements(
-    //     statements: readonly Statement[],
-    //     start = 0
-    // ) {
-    //     const numStatements = statements.length;
-    //     for (let i = start; i < numStatements; i++) {
-    //         transformAndEmitStatement(statements[i]);
-    //     }
-    // }
+    fn transform_and_emit_stmts(&mut self, stmts: &[Ptr<Stmt>], start: usize) {
+        for s in stmts.iter().skip(start) {
+            self.transform_and_emit_stmt(s);
+        }
+    }
 
     // function transformAndEmitEmbeddedStatement(node: Statement) {
     //     if (isBlock(node)) {
