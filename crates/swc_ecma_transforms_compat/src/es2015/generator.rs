@@ -1335,7 +1335,7 @@ impl Generator {
         }
     }
 
-    fn transformAndEmitEmbeddedStatement(&mut self, node: Stmt) {
+    fn transform_and_emit_embedded_statement(&mut self, node: Stmt) {
         if let Stmt::Block(block) = node {
             self.transform_and_emit_stmts(block.stmts, 0);
         } else {
@@ -1472,12 +1472,12 @@ impl Generator {
                 let span = node.test.span();
                 self.emit_break_when_false(else_label.unwrap_or(end_label), node.test, span);
 
-                self.transformAndEmitEmbeddedStatement(node.cons);
+                self.transform_and_emit_embedded_statement(node.cons);
 
                 if let Some(alt) = node.alt {
                     self.emit_break(end_label, None);
                     self.mark_label(else_label);
-                    self.transformAndEmitEmbeddedStatement(alt);
+                    self.transform_and_emit_embedded_statement(alt);
                 }
                 self.mark_label(end_label);
             } else {
