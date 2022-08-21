@@ -143,10 +143,6 @@ impl<I: Tokens> Parser<I> {
             // It is a Syntax Error if StringValue of IdentifierName is the same String
             // value as the StringValue of any ReservedWord except for yield or await.
             match w {
-                Word::Keyword(Keyword::Await) if p.input.syntax().typescript() => {
-                    Ok(js_word!("await"))
-                }
-
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
                 Word::Keyword(Keyword::Await) if p.ctx().module | p.ctx().in_async => {

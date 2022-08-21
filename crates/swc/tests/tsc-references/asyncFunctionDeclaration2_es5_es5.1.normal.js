@@ -1,4 +1,11 @@
-// @target: ES5
-// @lib: es5,es2015.promise
-// @noEmitHelpers: true
-function f(_await) {}
+//!
+//!  x `await` cannot be used as an identifier in an async context
+//!   ,----
+//! 4 | function f(await) {
+//!   :            ^^^^^
+//!   `----
+//!
+//!
+//!Caused by:
+//!    0: failed to process input file
+//!    1: Syntax Error
