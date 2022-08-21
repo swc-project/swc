@@ -379,7 +379,7 @@ impl<I: Tokens> Parser<I> {
             if id.is_reserved_in_strict_mode(self.ctx().module && !self.ctx().in_declare) {
                 self.emit_strict_mode_err(
                     self.input.prev_span(),
-                    SyntaxError::InvalidIdentInStrict,
+                    SyntaxError::InvalidIdentInStrict(id.sym.clone()),
                 );
             }
 
@@ -1825,7 +1825,7 @@ impl<I: Tokens> Parser<I> {
         // YieldExpression cannot be used within the FormalParameters of a generator
         // function because any expressions that are part of FormalParameters are
         // evaluated before the resulting generator object is in a resumable state.
-        if self.ctx().in_parameters {
+        if self.ctx().in_parameters && !self.ctx().in_function {
             syntax_error!(self, self.input.prev_span(), SyntaxError::YieldParamInGen)
         }
 

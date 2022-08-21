@@ -1,1 +1,11 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+//!
+//!  x `await` cannot be used as an identifier in an async context
+//!   ,----
+//! 3 | async function await(): Promise<void> {
+//!   :                ^^^^^
+//!   `----
+//!
+//!
+//!Caused by:
+//!    0: failed to process input file
+//!    1: Syntax Error

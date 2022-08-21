@@ -319,7 +319,7 @@ impl<I: Tokens> Parser<I> {
 
         if is!(self, "await") {
             let ctx = self.ctx();
-            if ctx.in_function && !ctx.in_async && ctx.strict {
+            if ctx.in_function && !ctx.in_async {
                 self.emit_err(self.input.cur_span(), SyntaxError::AwaitInFunction);
             }
             return self.parse_await_expr();
@@ -362,11 +362,20 @@ impl<I: Tokens> Parser<I> {
             syntax_error!(self, SyntaxError::AwaitStar);
         }
 
+        let ctx = self.ctx();
+
+        let span = span!(self, start);
+
         if is_one_of!(self, ')', ']') && !self.ctx().in_async {
-            return Ok(Box::new(Expr::Ident(Ident::new(
-                js_word!("await"),
-                span!(self, start),
-            ))));
+            if ctx.in_async || ctx.module {
+                self.emit_err(span, SyntaxError::InvalidIdentInAsync);
+            }
+
+            return Ok(Box::new(Expr::Ident(Ident::new(js_word!("await"), span))));
+        }
+
+        if ctx.in_parameters && !ctx.in_function {
+            self.emit_err(span, SyntaxError::AwaitParamInAsync);
         }
 
         let arg = self.parse_unary_expr()?;

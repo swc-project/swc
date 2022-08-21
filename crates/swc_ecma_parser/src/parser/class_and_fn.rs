@@ -1209,7 +1209,9 @@ impl<I: Tokens> Parser<I> {
 
             let arg_ctx = Context {
                 in_parameters: true,
-                // in_generator: prev_in_generator,
+                in_function: false,
+                in_async: is_async,
+                in_generator: is_generator,
                 ..p.ctx()
             };
             let params = p.with_ctx(arg_ctx).parse_with(|p| parse_args(p))?;

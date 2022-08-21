@@ -361,7 +361,10 @@ impl<'a, I: Tokens> Parser<I> {
         };
         if let Expr::Ident(ref ident) = *expr {
             if *ident.sym == js_word!("interface") && self.input.had_line_break_before_cur() {
-                self.emit_strict_mode_err(ident.span, SyntaxError::InvalidIdentInStrict);
+                self.emit_strict_mode_err(
+                    ident.span,
+                    SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
+                );
 
                 eat!(self, ';');
 
@@ -381,7 +384,7 @@ impl<'a, I: Tokens> Parser<I> {
         if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
             match *sym {
                 js_word!("enum") | js_word!("interface") => {
-                    self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict);
+                    self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
                 }
                 _ => {}
             }
@@ -2072,19 +2075,21 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    #[should_panic(expected = "await isn't allowed in non-async function")]
     fn await_in_function_in_script() {
         let src = "function foo (p) { await p; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
     }
 
     #[test]
+    #[should_panic(expected = "await isn't allowed in non-async function")]
     fn await_in_function_in_program() {
         let src = "function foo (p) { await p; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
     }
 
     #[test]
-    #[should_panic(expected = "await isn't allowed in non-async function")]
+    #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
     fn await_in_nested_async_function_in_module() {
         let src = "async function foo () { function bar(x = await) {} }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
@@ -2100,6 +2105,39 @@ export default function waitUntil(callback, options = {}) {
     fn await_in_nested_async_function_in_program() {
         let src = "async function foo () { function bar(x = await) {} }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
+    }
+
+    #[test]
+    #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
+    fn await_as_param_ident_in_module() {
+        let src = "function foo (x = await) { }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
+
+    #[test]
+    fn await_as_param_ident_in_script() {
+        let src = "function foo (x = await) { }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+    }
+
+    #[test]
+    #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
+    fn await_as_ident_in_module() {
+        let src = "let await = 1";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
+
+    #[test]
+    fn await_as_ident_in_script() {
+        let src = "let await = 1";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+    }
+
+    #[test]
+    #[should_panic(expected = "`await` cannot be used as an identifier in an async context")]
+    fn await_as_ident_in_async() {
+        let src = "async function foo() { let await = 1; }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
     }
 
     #[test]

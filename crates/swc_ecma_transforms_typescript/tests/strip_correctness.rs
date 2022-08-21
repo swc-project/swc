@@ -97,6 +97,26 @@ fn identity(entry: PathBuf) {
         "unicodeEscapesInJsxtags",
         // decorator
         "issue-2417",
+        // TODO: Script mode
+        "asyncArrowFunction3_es2017.ts",
+        "asyncArrowFunction3_es5.ts",
+        "asyncArrowFunction3_es6.ts",
+        "asyncArrowFunction4_es2017.ts",
+        "asyncArrowFunction4_es5.ts",
+        "asyncArrowFunction4_es6.ts",
+        "asyncFunctionDeclaration11_es2017.ts",
+        "asyncFunctionDeclaration11_es5.ts",
+        "asyncFunctionDeclaration11_es6.ts",
+        "asyncFunctionDeclaration2_es2017.ts",
+        "asyncFunctionDeclaration2_es5.ts",
+        "asyncFunctionDeclaration2_es6.ts",
+        "asyncFunctionDeclaration3_es2017.ts",
+        "asyncFunctionDeclaration3_es5.ts",
+        "asyncFunctionDeclaration3_es6.ts",
+        "asyncFunctionDeclaration4_es2017.ts",
+        "asyncFunctionDeclaration4_es5.ts",
+        "asyncFunctionDeclaration4_es6.ts",
+        "topLevelAwait.2.ts",
     ];
 
     // TODO: Unignore const enum test

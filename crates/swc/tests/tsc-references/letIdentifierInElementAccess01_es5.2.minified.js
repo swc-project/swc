@@ -1,11 +1,11 @@
 //!
-//!  x 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+//!  x `let` cannot be used as an identifier in strict mode
 //!   ,----
 //! 1 | var let: any = {};
 //!   :     ^^^
 //!   `----
 //!
-//!  x 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+//!  x `let` cannot be used as an identifier in strict mode
 //!   ,----
 //! 2 | (let[0] = 100);
 //!   :  ^^^

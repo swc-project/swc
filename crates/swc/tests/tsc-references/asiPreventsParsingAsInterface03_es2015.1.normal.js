@@ -1,5 +1,5 @@
 //!
-//!  x 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+//!  x `interface` cannot be used as an identifier in strict mode
 //!   ,----
 //! 2 | var interface: number, I: string;
 //!   :     ^^^^^^^^^
