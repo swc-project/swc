@@ -1336,15 +1336,15 @@ impl Generator {
     //     }
     // }
 
-    // function transformAndEmitStatement(node: Statement): void {
-    //     const savedInStatementContainingYield = inStatementContainingYield;
-    //     if (!inStatementContainingYield) {
-    //         inStatementContainingYield = containsYield(node);
-    //     }
+    fn transform_and_emit_stmt(&mut self, node: Stmt) {
+        let saved_in_statement_containing_yield = self.in_statement_containing_yield;
+        if !self.in_statement_containing_yield {
+            self.in_statement_containing_yield = contains_yield(node);
+        }
 
-    //     transformAndEmitStatementWorker(node);
-    //     inStatementContainingYield = savedInStatementContainingYield;
-    // }
+        self.transform_and_emit_stmt_worker(node);
+        self.in_statement_containing_yield = saved_in_statement_containing_yield;
+    }
 
     // function transformAndEmitStatementWorker(node: Statement): void {
     //     switch (node.kind) {
