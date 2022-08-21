@@ -1834,17 +1834,16 @@ impl Generator {
     //     return node;
     // }
 
-    // function transformAndEmitContinueStatement(node: ContinueStatement): void {
-    //     const label = findContinueTarget(
-    //         node.label ? idText(node.label) : undefined
-    //     );
-    //     if (label > 0) {
-    //         emitBreak(label, /*location*/ node);
-    //     } else {
-    //         // invalid continue without a containing loop. Leave the node as is,
-    // per #17875.         emitStatement(node);
-    //     }
-    // }
+    fn transform_and_emit_continue_stmt(&mut self, node: ContinueStmt) {
+        let label = self.find_continue_target(node.label.as_ref().map(|l| l.sym));
+        if label.0 > 0 {
+            self.emit_break(label, node.span);
+        } else {
+            // invalid continue without a containing loop. Leave the node as is,
+            // per #17875.
+            self.emit_stmt(Stmt::Continue(node))
+        }
+    }
 
     // function visitContinueStatement(node: ContinueStatement): Statement {
     //     if (inStatementContainingYield) {
