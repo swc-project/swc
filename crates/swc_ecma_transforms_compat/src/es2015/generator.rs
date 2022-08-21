@@ -1555,7 +1555,7 @@ impl Generator {
             self.mark_label(loop_label);
             node.test.visit_mut_with(self);
             self.emit_break_when_false(end_label, node.test, None);
-            self.transform_and_emit_stmt(node.body);
+            self.transform_and_emit_stmt(*node.body);
             self.emit_break(loop_label, None);
             self.end_loop_block();
         } else {
