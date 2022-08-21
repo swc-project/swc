@@ -2588,6 +2588,7 @@ impl Generator {
             value: instruction as u16 as _,
             raw: None,
         };
+        // TODO(kdy1):
         // self.add_synthetic_trailing_comment(
         //     literal,
         //     SyntaxKind::MultiLineCommentTrivia,
