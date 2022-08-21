@@ -6921,7 +6921,7 @@ let Test = /*#__PURE__*/function (Foo) {
   _createClass(Test, null, [{
     key: "test",
     value: function test() {
-      return _get(Test.prototype, "wow", this).call(this); 
+      return _get(Test, "wow", this).call(this);
     }
   }]);
   return Test;
@@ -6964,7 +6964,7 @@ let Test = /*#__PURE__*/function () {
   _createClass(Test, null, [{
     key: "test",
     value: function test() {
-      return _get(Test.prototype, "constructor", this);
+      return _get(Test, "constructor", this);
     }
   }]);
   return Test;

@@ -442,14 +442,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
     }
 
     fn proto_arg(&mut self) -> Expr {
-        if self.constant_super {
-            return self
-                .class_name
-                .clone()
-                .make_member(quote_ident!("prototype"));
-        }
-
-        let mut proto_arg = get_prototype_of(if self.is_static {
+        let expr = if self.is_static {
             // Foo
             Expr::Ident(self.class_name.clone())
         } else {
@@ -457,7 +450,13 @@ impl<'a> SuperFieldAccessFolder<'a> {
             self.class_name
                 .clone()
                 .make_member(quote_ident!("prototype"))
-        });
+        };
+
+        if self.constant_super {
+            return expr;
+        }
+
+        let mut proto_arg = get_prototype_of(expr);
 
         if let Some(mark) = self.constructor_this_mark {
             let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");

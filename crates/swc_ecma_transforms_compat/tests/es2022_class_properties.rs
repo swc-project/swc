@@ -6023,7 +6023,7 @@ var _B;
 
 class A extends (_B = class B {}) {}
 
-_defineProperty(A, "x", _get(A.prototype, "x", A));
+_defineProperty(A, "x", _get(A, "x", A));
 "#
 );
 
@@ -6051,7 +6051,7 @@ class A extends B {
   }
 }
 
-_defineProperty(A, "foo", _get(A.prototype, "bar", A));
+_defineProperty(A, "foo", _get(A, "bar", A));
 "#
 );
 
