@@ -242,6 +242,10 @@ impl VisitMut for Generator {
             self.end_labeled_block();
         }
     }
+
+    fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
+        self.visit_elements(&mut node.elems, None, None);
+    }
 }
 
 impl Generator {
@@ -1000,20 +1004,6 @@ impl Generator {
 
     //     markLabel(resumeLabel);
     //     return createGeneratorResume(/*location*/ node);
-    // }
-
-    // /**
-    //  * Visits an ArrayLiteralExpression that contains a YieldExpression.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitArrayLiteralExpression(node: ArrayLiteralExpression) {
-    //     return visitElements(
-    //         node.elements,
-    //         /*leadingElement*/ undefined,
-    //         /*location*/ undefined,
-    //         node.multiLine
-    //     );
     // }
 
     // /**
