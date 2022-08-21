@@ -1346,46 +1346,28 @@ impl Generator {
         self.in_statement_containing_yield = saved_in_statement_containing_yield;
     }
 
-    // function transformAndEmitStatementWorker(node: Statement): void {
-    //     switch (node.kind) {
-    //         case SyntaxKind.IfStatement:
-    //             return transformAndEmitIfStatement(node as IfStatement);
-    //         case SyntaxKind.DoStatement:
-    //             return transformAndEmitDoStatement(node as DoStatement);
-    //         case SyntaxKind.WhileStatement:
-    //             return transformAndEmitWhileStatement(node as WhileStatement);
-    //         case SyntaxKind.ForStatement:
-    //             return transformAndEmitForStatement(node as ForStatement);
-    //         case SyntaxKind.ForInStatement:
-    //             return transformAndEmitForInStatement(node as ForInStatement);
-    //         case SyntaxKind.ContinueStatement:
-    //             return transformAndEmitContinueStatement(
-    //                 node as ContinueStatement
-    //             );
-    //         case SyntaxKind.BreakStatement:
-    //             return transformAndEmitBreakStatement(node as BreakStatement);
-    //         case SyntaxKind.ReturnStatement:
-    //             return transformAndEmitReturnStatement(node as ReturnStatement);
-    //         case SyntaxKind.WithStatement:
-    //             return transformAndEmitWithStatement(node as WithStatement);
-    //         case SyntaxKind.SwitchStatement:
-    //             return transformAndEmitSwitchStatement(node as SwitchStatement);
-    //         case SyntaxKind.LabeledStatement:
-    //             return transformAndEmitLabeledStatement(
-    //                 node as LabeledStatement
-    //             );
-    //         case SyntaxKind.ThrowStatement:
-    //             return transformAndEmitThrowStatement(node as ThrowStatement);
-    //         case SyntaxKind.TryStatement:
-    //             return transformAndEmitTryStatement(node as TryStatement);
-    //         default:
-    //             return emitStatement(visitNode(node, visitor, isStatement));
-    //     }
-    // }
-    fn transform_and_emit_stmt_worker(&mut self, node: Stmt) {
+    fn transform_and_emit_stmt_worker(&mut self, mut node: Stmt) {
         match node {
             Stmt::Block(s) => self.transform_and_emit_block(s),
             Stmt::Expr(s) => self.transform_and_emit_expr_stmt(s),
+            Stmt::If(s) => self.transform_and_emit_if_stmt(s),
+            Stmt::DoWhile(s) => self.transform_and_emit_do_stmt(s),
+            Stmt::While(s) => self.transform_and_emit_while_stmt(s),
+            Stmt::For(s) => self.transform_and_emit_for_stmt(s),
+            Stmt::ForIn(s) => self.transform_and_emit_for_in_stmt(s),
+            Stmt::Continue(s) => self.transform_and_emit_continue_stmt(s),
+            Stmt::Break(s) => self.transform_and_emit_break_stmt(s),
+            Stmt::Return(s) => self.transform_and_emit_return_stmt(s),
+            Stmt::With(s) => self.transform_and_emit_with_stmt(s),
+            Stmt::Switch(s) => self.transform_and_emit_switch_stmt(s),
+            Stmt::Labeled(s) => self.transform_and_emit_labeled_stmt(s),
+            Stmt::Throw(s) => self.transform_and_emit_throw_stmt(s),
+            Stmt::Try(s) => self.transform_and_emit_try_stmt(s),
+            _ => {
+                node.visit_mut_with(self);
+
+                self.emit_stmt(node);
+            }
         }
     }
 
