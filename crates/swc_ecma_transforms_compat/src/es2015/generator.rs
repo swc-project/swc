@@ -246,6 +246,25 @@ impl VisitMut for Generator {
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
         self.visit_elements(&mut node.elems, None, None);
     }
+
+    fn visit_mut_stmt(&mut self, node: &mut Stmt) {
+        match node {
+            Stmt::Break(b) => {
+                if self.in_statement_containing_yield {
+                    let label = self.find_break_target(b.label);
+                    if label.0 > 0 {
+                        *node = Stmt::Return(self.create_inline_break(label, Some(b.span)));
+                        return;
+                    }
+                }
+
+                node.visit_mut_children_with(self);
+            }
+            _ => {
+                node.visit_mut_children_with(self);
+            }
+        }
+    }
 }
 
 impl Generator {
@@ -1848,17 +1867,6 @@ impl Generator {
     //         // invalid break without a containing loop, switch, or labeled
     // statement. Leave the node as is, per #17875.         emitStatement(node);
     //     }
-    // }
-
-    // function visitBreakStatement(node: BreakStatement): Statement {
-    //     if (inStatementContainingYield) {
-    //         const label = findBreakTarget(node.label && idText(node.label));
-    //         if (label > 0) {
-    //             return createInlineBreak(label, /*location*/ node);
-    //         }
-    //     }
-
-    //     return visitEachChild(node, visitor, context);
     // }
 
     fn transform_and_emit_return_stmt(&mut self, mut s: ReturnStmt) {
