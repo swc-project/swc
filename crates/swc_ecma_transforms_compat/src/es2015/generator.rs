@@ -1464,31 +1464,26 @@ impl Generator {
             //      /*elseStatement*/
             //  .mark endLabel
 
-            //         if (
-            //             containsYield(node.thenStatement) ||
-            //             containsYield(node.elseStatement)
-            //         ) {
-            //             const endLabel = defineLabel();
-            //             const elseLabel = node.elseStatement
-            //                 ? defineLabel()
-            //                 : undefined;
-            //             emitBreakWhenFalse(
-            //                 node.elseStatement ? elseLabel! : endLabel,
-            //                 visitNode(node.expression, visitor,
-            // isExpression),                 /*location*/
-            // node.expression             );
-            //
-            // transformAndEmitEmbeddedStatement(node.thenStatement);
-            //             if (node.elseStatement) {
-            //                 emitBreak(endLabel);
-            //                 markLabel(elseLabel!);
-            //
-            // transformAndEmitEmbeddedStatement(node.elseStatement);
-            //             }
-            //             markLabel(endLabel);
-            //         } else {
-            //             emitStatement(visitNode(node, visitor, isStatement));
-            //         }
+            if contains_yield(&node.cons) || contains_yield(&node.alt) {
+                let end_label = self.define_label();
+                let else_label = node.alt.as_ref().map(|_| self.define_label());
+
+                node.test.visit_mut_with(self);
+                let span = node.test.span();
+                self.emit_break_when_false(else_label.unwrap_or(end_label), node.test, span);
+
+                self.transformAndEmitEmbeddedStatement(node.cons);
+
+                if let Some(alt) = node.alt {
+                    self.emit_break(end_label, None);
+                    self.mark_label(else_label);
+                    self.transformAndEmitEmbeddedStatement(alt);
+                }
+                self.mark_label(end_label);
+            } else {
+                node.visit_mut_with(self);
+                self.emit_stmt(Stmt::If(node));
+            }
         } else {
             node.visit_mut_with(self);
             self.emit_stmt(Stmt::If(node));
@@ -3392,4 +3387,8 @@ impl Generator {
             }))),
         }))
     }
+}
+
+fn contains_yield<N>(node: &N) -> bool {
+    todo!()
 }
