@@ -2026,17 +2026,10 @@ impl Generator {
         }
     }
 
-    // function transformAndEmitThrowStatement(node: ThrowStatement): void {
-    //     // TODO(rbuckton): `expression` should be required on `throw`.
-    //     emitThrow(
-    //         visitNode(
-    //             node.expression ?? factory.createVoidZero(),
-    //             visitor,
-    //             isExpression
-    //         ),
-    //         /*location*/ node
-    //     );
-    // }
+    fn transform_and_emit_throw_stmt(&mut self, node: ThrowStmt) {
+        node.arg.visit_mut_with(self);
+        self.emit_throw(node.arg, node.span)
+    }
 
     // function transformAndEmitTryStatement(node: TryStatement) {
     //     if (containsYield(node)) {
