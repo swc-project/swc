@@ -2639,10 +2639,10 @@ impl Generator {
         ];
         ReturnStmt {
             span: span.unwrap_or(DUMMY_SP),
-            arg: Box::new(Expr::Array(ArrayLit {
+            arg: Some(Box::new(Expr::Array(ArrayLit {
                 span: DUMMY_SP,
                 elems: args,
-            })),
+            }))),
         }
     }
 
