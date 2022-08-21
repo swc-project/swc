@@ -1348,12 +1348,6 @@ impl Generator {
 
     // function transformAndEmitStatementWorker(node: Statement): void {
     //     switch (node.kind) {
-    //         case SyntaxKind.Block:
-    //             return transformAndEmitBlock(node as Block);
-    //         case SyntaxKind.ExpressionStatement:
-    //             return transformAndEmitExpressionStatement(
-    //                 node as ExpressionStatement
-    //             );
     //         case SyntaxKind.IfStatement:
     //             return transformAndEmitIfStatement(node as IfStatement);
     //         case SyntaxKind.DoStatement:
@@ -1388,6 +1382,12 @@ impl Generator {
     //             return emitStatement(visitNode(node, visitor, isStatement));
     //     }
     // }
+    fn transform_and_emit_stmt_worker(&mut self, node: Stmt) {
+        match node {
+            Stmt::Block(s) => self.transform_and_emit_block(s),
+            Stmt::Expr(s) => self.transform_and_emit_expr_stmt(s),
+        }
+    }
 
     // function transformAndEmitBlock(node: Block): void {
     //     if (containsYield(node)) {
