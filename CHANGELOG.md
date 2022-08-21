@@ -17,6 +17,9 @@
 - **(es/parser)** Allow expr to follow `ClassExpr` (#5572) ([78dd071](https://github.com/swc-project/swc/commit/78dd071dabf5f9b5ca9b213bb5f5f0e5d76b40ab))
 
 
+- **(es/parser)** Fix false-positives of yield used as a parameter in generator (#5564) ([c3f6258](https://github.com/swc-project/swc/commit/c3f62586bfbad6220cdc8cd7a678d9bec2445088))
+
+
 - **(es/quote)** Allow cloning (#5571) ([82cc3ca](https://github.com/swc-project/swc/commit/82cc3ca7a4f27f932ed4e8b4e620d1d8b5f41bdc))
 
 ### Features
