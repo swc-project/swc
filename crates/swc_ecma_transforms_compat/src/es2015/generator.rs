@@ -2087,12 +2087,6 @@ impl Generator {
     //     }
     // }
 
-    // function containsYield(node: Node | undefined): boolean {
-    //     return (
-    //         !!node && (node.transformFlags & TransformFlags.ContainsYield) !== 0
-    //     );
-    // }
-
     // function countInitialNodesWithoutYield(nodes: NodeArray<Node>) {
     //     const numNodes = nodes.length;
     //     for (let i = 0; i < numNodes; i++) {
