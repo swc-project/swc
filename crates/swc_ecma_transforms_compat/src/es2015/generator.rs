@@ -1534,36 +1534,34 @@ impl Generator {
     //     }
     // }
 
-    // function transformAndEmitWhileStatement(node: WhileStatement) {
-    //     if (containsYield(node)) {
-    //         // [source]
-    //         //      while (i < 10) {
-    //         //          /*body*/
-    //         //      }
-    //         //
-    //         // [intermediate]
-    //         //  .loop loopLabel, endLabel
-    //         //  .mark loopLabel
-    //         //  .brfalse endLabel, (i < 10)
-    //         //      /*body*/
-    //         //  .br loopLabel
-    //         //  .endloop
-    //         //  .mark endLabel
+    fn transform_and_emit_while_stmt(&mut self, node: WhileStmt) {
+        if contains_yield(node) {
+            // [source]
+            //      while (i < 10) {
+            //          /*body*/
+            //      }
+            //
+            // [intermediate]
+            //  .loop loopLabel, endLabel
+            //  .mark loopLabel
+            //  .brfalse endLabel, (i < 10)
+            //      /*body*/
+            //  .br loopLabel
+            //  .endloop
+            //  .mark endLabel
 
-    //         const loopLabel = defineLabel();
-    //         const endLabel = beginLoopBlock(loopLabel);
-    //         markLabel(loopLabel);
-    //         emitBreakWhenFalse(
-    //             endLabel,
-    //             visitNode(node.expression, visitor, isExpression)
-    //         );
-    //         transformAndEmitEmbeddedStatement(node.statement);
-    //         emitBreak(loopLabel);
-    //         endLoopBlock();
-    //     } else {
-    //         emitStatement(visitNode(node, visitor, isStatement));
-    //     }
-    // }
+            let loop_label = self.define_label();
+            let end_label = self.begin_loop_block(loop_label);
+            self.mark_label(loop_label);
+            node.test.visit_mut_with(self);
+            self.emit_break_when_false(end_label, node.test, None);
+            self.transform_and_emit_stmt(node.body);
+            self.emit_break(loop_label, None);
+            self.end_loop_block();
+        } else {
+            self.emit_stmt(Stmt::While(node));
+        }
+    }
 
     // function visitWhileStatement(node: WhileStatement) {
     //     if (inStatementContainingYield) {
