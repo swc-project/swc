@@ -258,7 +258,7 @@ impl VisitMut for Generator {
         match node {
             Stmt::Break(b) => {
                 if self.in_statement_containing_yield {
-                    let label = self.find_break_target(b.label);
+                    let label = self.find_break_target(b.label.as_ref().map(|l| l.sym.clone()));
                     if label.0 > 0 {
                         *node = Stmt::Return(self.create_inline_break(label, Some(b.span)));
                         return;
@@ -1346,7 +1346,7 @@ impl Generator {
     fn transform_and_emit_stmt(&mut self, node: Stmt) {
         let saved_in_statement_containing_yield = self.in_statement_containing_yield;
         if !self.in_statement_containing_yield {
-            self.in_statement_containing_yield = contains_yield(node);
+            self.in_statement_containing_yield = contains_yield(&node);
         }
 
         self.transform_and_emit_stmt_worker(node);
@@ -1379,7 +1379,7 @@ impl Generator {
     }
 
     fn transform_and_emit_block(&mut self, mut node: BlockStmt) {
-        if contains_yield(node) {
+        if contains_yield(&node) {
             self.transform_and_emit_stmts(node.stmts, 0);
         } else {
             node.visit_mut_with(self);
@@ -1449,7 +1449,7 @@ impl Generator {
     // }
 
     fn transform_and_emit_if_stmt(&mut self, mut node: IfStmt) {
-        if contains_yield(node) {
+        if contains_yield(&node) {
             // [source]
             //      if (x)
             //          /*thenStatement*/
@@ -2567,10 +2567,13 @@ impl Generator {
             }
             let mut label_expressions = self.label_exprs.as_mut().unwrap();
             let expr = Number::from(-1.0);
-            if label_expressions.get(label.0).is_none() {
-                label_expressions.insert(label.0, vec![expr]);
+            if label_expressions.get(label.0 as usize).is_none() {
+                label_expressions.insert(label.0 as usize, vec![expr]);
             } else {
-                label_expressions.get_mut(label.0).unwrap().push(expr);
+                label_expressions
+                    .get_mut(label.0 as usize)
+                    .unwrap()
+                    .push(expr);
             }
             return expr.into();
         }
@@ -3258,7 +3261,7 @@ impl Generator {
         self.last_operation_was_abrupt = true;
 
         let inst = self.create_instruction(Instruction::Break);
-        let label = self.create_label(label);
+        let label = self.create_label(Some(label));
         self.write_stmt(Stmt::Return(ReturnStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             arg: Some(Box::new(Expr::Array(ArrayLit {
