@@ -230,6 +230,18 @@ impl VisitMut for Generator {
             self.end_switch_block();
         }
     }
+
+    fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
+        if self.in_statement_containing_yield {
+            self.begin_script_labeled_block(node.label.sym.clone());
+        }
+
+        node.visit_mut_children_with(self);
+
+        if self.in_statement_containing_yield {
+            self.end_labeled_block();
+        }
+    }
 }
 
 impl Generator {
@@ -2031,20 +2043,6 @@ impl Generator {
     //     } else {
     //         emitStatement(visitNode(node, visitor, isStatement));
     //     }
-    // }
-
-    // function visitLabeledStatement(node: LabeledStatement) {
-    //     if (inStatementContainingYield) {
-    //         beginScriptLabeledBlock(idText(node.label));
-    //     }
-
-    //     node = visitEachChild(node, visitor, context);
-
-    //     if (inStatementContainingYield) {
-    //         endLabeledBlock();
-    //     }
-
-    //     return node;
     // }
 
     // function transformAndEmitThrowStatement(node: ThrowStatement): void {
