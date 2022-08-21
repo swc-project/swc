@@ -1842,17 +1842,16 @@ impl Generator {
     //     return visitEachChild(node, visitor, context);
     // }
 
-    // function transformAndEmitBreakStatement(node: BreakStatement): void {
-    //     const label = findBreakTarget(
-    //         node.label ? idText(node.label) : undefined
-    //     );
-    //     if (label > 0) {
-    //         emitBreak(label, /*location*/ node);
-    //     } else {
-    //         // invalid break without a containing loop, switch, or labeled
-    // statement. Leave the node as is, per #17875.         emitStatement(node);
-    //     }
-    // }
+    fn transform_and_emit_break_stmt(&mut self, node: BreakStmt) {
+        let label = self.find_break_target(node.label.as_ref().map(|l| l.sym));
+        if label.0 > 0 {
+            self.emit_break(label, Some(node.span));
+        } else {
+            // invalid break without a containing loop. Leave the node as is,
+            // per #17875.
+            self.emit_stmt(Stmt::Break(node))
+        }
+    }
 
     fn transform_and_emit_return_stmt(&mut self, mut s: ReturnStmt) {
         s.arg.visit_mut_with(self);
