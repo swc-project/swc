@@ -267,6 +267,17 @@ impl VisitMut for Generator {
 
                 node.visit_mut_children_with(self);
             }
+            Stmt::Continue(s) => {
+                if self.in_statement_containing_yield {
+                    let label = self.find_continue_target(s.label.as_ref().map(|l| l.sym.clone()));
+                    if label.0 > 0 {
+                        *node = self.create_inline_break(label, s.span);
+                        return;
+                    }
+                }
+
+                node.visit_mut_children_with(self);
+            }
             _ => {
                 node.visit_mut_children_with(self);
             }
@@ -1829,17 +1840,6 @@ impl Generator {
             self.emit_stmt(Stmt::Continue(node))
         }
     }
-
-    // function visitContinueStatement(node: ContinueStatement): Statement {
-    //     if (inStatementContainingYield) {
-    //         const label = findContinueTarget(node.label && idText(node.label));
-    //         if (label > 0) {
-    //             return createInlineBreak(label, /*location*/ node);
-    //         }
-    //     }
-
-    //     return visitEachChild(node, visitor, context);
-    // }
 
     fn transform_and_emit_break_stmt(&mut self, node: BreakStmt) {
         let label = self.find_break_target(node.label.as_ref().map(|l| l.sym));
