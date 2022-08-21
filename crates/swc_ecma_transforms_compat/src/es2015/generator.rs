@@ -2173,18 +2173,18 @@ impl Generator {
     //     return node;
     // }
 
-    // function cacheExpression(node: Expression): Identifier {
-    //     if (
-    //         isGeneratedIdentifier(node) ||
-    //         getEmitFlags(node) & EmitFlags.HelperName
-    //     ) {
-    //         return node as Identifier;
-    //     }
+    fn cache_expression(&mut self, node: Box<Expr>) -> Ident {
+        match *node {
+            Expr::Ident(i) => i,
+            _ => {
+                let span = node.span();
 
-    //     const temp = factory.createTempVariable(hoistVariableDeclaration);
-    //     emitAssignment(temp, node, /*location*/ node);
-    //     return temp;
-    // }
+                let temp = self.create_temp_variable(hoist_variable_declaration);
+                self.emit_assignment(temp.clone().into(), node, span);
+                temp
+            }
+        }
+    }
 
     fn declare_local(&mut self, name: Option<JsWord>) -> Ident {
         let temp = name
