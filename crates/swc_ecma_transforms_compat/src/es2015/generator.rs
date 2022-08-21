@@ -1322,8 +1322,8 @@ impl Generator {
     //     return visitEachChild(node, visitor, context);
     // }
 
-    fn transform_and_emit_stmts(&mut self, stmts: &[Ptr<Stmt>], start: usize) {
-        for s in stmts.iter().skip(start) {
+    fn transform_and_emit_stmts(&mut self, stmts: Vec<Stmt>, start: usize) {
+        for s in stmts.into_iter().skip(start) {
             self.transform_and_emit_stmt(s);
         }
     }
