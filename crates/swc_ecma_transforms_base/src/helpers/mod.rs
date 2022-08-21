@@ -357,6 +357,7 @@ define_helpers!(Helpers {
     ),
 
     ts_decorate: (),
+    ts_generator: (),
     ts_metadata: (),
     ts_param: (),
 });
