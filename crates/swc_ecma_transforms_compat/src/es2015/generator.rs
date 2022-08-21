@@ -1535,7 +1535,7 @@ impl Generator {
     // }
 
     fn transform_and_emit_while_stmt(&mut self, node: WhileStmt) {
-        if contains_yield(node) {
+        if contains_yield(&node) {
             // [source]
             //      while (i < 10) {
             //          /*body*/
