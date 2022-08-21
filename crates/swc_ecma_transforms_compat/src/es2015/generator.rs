@@ -5,7 +5,7 @@ use std::{
 };
 
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, Span, DUMMY_SP};
+use swc_common::{collections::AHashMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
