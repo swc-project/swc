@@ -2492,7 +2492,7 @@ impl Generator {
         matches!(block, CodeBlock::Loop(..))
     }
 
-    fn hasImmediateContainingLabeledBlock(&mut self, label_text: JsWord, start: usize) -> bool {
+    fn has_immediate_containing_labeled_block(&mut self, label_text: JsWord, start: usize) -> bool {
         for i in (0..start).rev() {
             let block = self.block_stack.as_ref().unwrap()[i].clone();
             if self.supports_labeled_break_or_continue(&block) {
@@ -2549,7 +2549,7 @@ impl Generator {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
                     if self.supportsUnlabeledContinue(block)
-                        || self.hasImmediateContainingLabeledBlock(label_text, i - i)
+                        || self.has_immediate_containing_labeled_block(label_text, i - i)
                     {
                         return block.continue_label;
                     } else {
