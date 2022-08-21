@@ -106,7 +106,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
             Expr::SuperProp(..) => {
                 self.visit_mut_super_member_get(n);
             }
-            Expr::Update(UpdateExpr { arg, .. }) if !self.constant_super && arg.is_super_prop() => {
+            Expr::Update(UpdateExpr { arg, .. }) if arg.is_super_prop() => {
                 if let Expr::SuperProp(SuperPropExpr {
                     obj: Super {
                         span: super_token, ..
@@ -123,13 +123,11 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
                 op: op!("="),
                 right,
                 ..
-            }) if !self.constant_super && is_assign_to_super_prop(left) => {
+            }) if is_assign_to_super_prop(left) => {
                 right.visit_mut_children_with(self);
                 self.visit_mut_super_member_set(n)
             }
-            Expr::Assign(AssignExpr { left, right, .. })
-                if !self.constant_super && is_assign_to_super_prop(left) =>
-            {
+            Expr::Assign(AssignExpr { left, right, .. }) if is_assign_to_super_prop(left) => {
                 right.visit_mut_children_with(self);
                 self.visit_mut_super_member_update(n);
             }
@@ -137,7 +135,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
                 callee: Callee::Expr(callee_expr),
                 args,
                 ..
-            }) if !self.constant_super && callee_expr.is_super_prop() => {
+            }) if callee_expr.is_super_prop() => {
                 args.visit_mut_children_with(self);
 
                 self.visit_mut_super_member_call(n);
@@ -312,9 +310,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             prop.visit_mut_children_with(self);
 
             let prop = prop.take();
-            *n = if self.constant_super {
-                self.super_to_constant_call(super_token, prop)
-            } else if self.in_pat {
+            *n = if self.in_pat {
                 self.super_to_update_call(super_token, prop)
             } else {
                 self.super_to_get_call(super_token, prop)
@@ -354,27 +350,6 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 }
             }
         }
-    }
-
-    fn super_to_constant_call(&mut self, super_token: Span, prop: SuperProp) -> Expr {
-        Expr::Member(MemberExpr {
-            span: super_token,
-            obj: Box::new({
-                let name = self.super_class.clone().unwrap_or_else(|| {
-                    quote_ident!(if self.is_static { "Function" } else { "Object" })
-                });
-                // in static default super class is Function.prototype
-                if self.is_static && self.super_class.is_some() {
-                    Expr::Ident(name)
-                } else {
-                    name.make_member(quote_ident!("prototype"))
-                }
-            }),
-            prop: match prop {
-                SuperProp::Ident(i) => MemberProp::Ident(i),
-                SuperProp::Computed(c) => MemberProp::Computed(c),
-            },
-        })
     }
 
     fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Expr {
@@ -467,6 +442,13 @@ impl<'a> SuperFieldAccessFolder<'a> {
     }
 
     fn proto_arg(&mut self) -> Expr {
+        if self.constant_super {
+            return self
+                .class_name
+                .clone()
+                .make_member(quote_ident!("prototype"));
+        }
+
         let mut proto_arg = get_prototype_of(if self.is_static {
             // Foo
             Expr::Ident(self.class_name.clone())
