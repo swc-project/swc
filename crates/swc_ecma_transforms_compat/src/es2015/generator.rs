@@ -12,7 +12,14 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 
 /// Generator based on tsc generator at https://github.com/microsoft/TypeScript/blob/162224763681465b417274383317ca9a0a573835/src/compiler/transformers/generators.ts
 pub fn generator() -> impl VisitMut + Fold {
-    as_folder(Generator {})
+    as_folder(Wrapper {})
+}
+
+/// Instead of saving state, we just create another instance of [Generator].
+struct Wrapper {}
+
+impl VisitMut for Wrapper {
+    noop_visit_mut_type!();
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
