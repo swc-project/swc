@@ -1448,49 +1448,52 @@ impl Generator {
     //     );
     // }
 
-    // function transformAndEmitIfStatement(node: IfStatement) {
-    //     if (containsYield(node)) {
-    //         // [source]
-    //         //      if (x)
-    //         //          /*thenStatement*/
-    //         //      else
-    //         //          /*elseStatement*/
-    //         //
-    //         // [intermediate]
-    //         //  .brfalse elseLabel, (x)
-    //         //      /*thenStatement*/
-    //         //  .br endLabel
-    //         //  .mark elseLabel
-    //         //      /*elseStatement*/
-    //         //  .mark endLabel
+    fn transform_and_emit_if_stmt(&mut self, mut node: IfStmt) {
+        if contains_yield(node) {
+            // [source]
+            //      if (x)
+            //          /*thenStatement*/
+            //      else
+            //          /*elseStatement*/
+            //
+            // [intermediate]
+            //  .brfalse elseLabel, (x)
+            //      /*thenStatement*/
+            //  .br endLabel
+            //  .mark elseLabel
+            //      /*elseStatement*/
+            //  .mark endLabel
 
-    //         if (
-    //             containsYield(node.thenStatement) ||
-    //             containsYield(node.elseStatement)
-    //         ) {
-    //             const endLabel = defineLabel();
-    //             const elseLabel = node.elseStatement
-    //                 ? defineLabel()
-    //                 : undefined;
-    //             emitBreakWhenFalse(
-    //                 node.elseStatement ? elseLabel! : endLabel,
-    //                 visitNode(node.expression, visitor, isExpression),
-    //                 /*location*/ node.expression
-    //             );
-    //             transformAndEmitEmbeddedStatement(node.thenStatement);
-    //             if (node.elseStatement) {
-    //                 emitBreak(endLabel);
-    //                 markLabel(elseLabel!);
-    //                 transformAndEmitEmbeddedStatement(node.elseStatement);
-    //             }
-    //             markLabel(endLabel);
-    //         } else {
-    //             emitStatement(visitNode(node, visitor, isStatement));
-    //         }
-    //     } else {
-    //         emitStatement(visitNode(node, visitor, isStatement));
-    //     }
-    // }
+            //         if (
+            //             containsYield(node.thenStatement) ||
+            //             containsYield(node.elseStatement)
+            //         ) {
+            //             const endLabel = defineLabel();
+            //             const elseLabel = node.elseStatement
+            //                 ? defineLabel()
+            //                 : undefined;
+            //             emitBreakWhenFalse(
+            //                 node.elseStatement ? elseLabel! : endLabel,
+            //                 visitNode(node.expression, visitor,
+            // isExpression),                 /*location*/
+            // node.expression             );
+            //
+            // transformAndEmitEmbeddedStatement(node.thenStatement);
+            //             if (node.elseStatement) {
+            //                 emitBreak(endLabel);
+            //                 markLabel(elseLabel!);
+            //
+            // transformAndEmitEmbeddedStatement(node.elseStatement);
+            //             }
+            //             markLabel(endLabel);
+            //         } else {
+            //             emitStatement(visitNode(node, visitor, isStatement));
+            //         }
+        } else {
+            node.visit_mut_with(self);
+            self.emit_stmt(Stmt::If(node));
+        }
+    }
 
     // function transformAndEmitDoStatement(node: DoStatement) {
     //     if (containsYield(node)) {
