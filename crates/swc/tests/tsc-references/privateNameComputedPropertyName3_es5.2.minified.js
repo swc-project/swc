@@ -11,7 +11,8 @@ var _name = new WeakMap(), Foo = function() {
         }), _class_private_field_set(this, _name, name);
     }
     return Foo.prototype.getValue = function(x) {
-        var _y = new WeakMap(), tmp = _class_private_field_get(this, _name), Bar = function() {
+        var _y = new WeakMap(), tmp = _class_private_field_get(this, _name);
+        return new (function() {
             function Bar() {
                 _class_call_check(this, Bar), _class_private_field_init(this, _y, {
                     writable: !0,
@@ -21,8 +22,7 @@ var _name = new WeakMap(), Foo = function() {
             return Bar.prototype[tmp] = function() {
                 return x + _class_private_field_get(this, _y);
             }, Bar;
-        }();
-        return new Bar()[_class_private_field_get(this, _name)]();
+        }())()[_class_private_field_get(this, _name)]();
     }, Foo;
 }();
 console.log(new Foo("NAME").getValue(100));

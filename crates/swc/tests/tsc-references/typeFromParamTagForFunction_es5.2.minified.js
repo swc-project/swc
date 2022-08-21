@@ -17,13 +17,9 @@ export var D = function() {
 };
 require("./d-ext").D;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-export var E = function() {
+export var E = function E() {
     "use strict";
     _class_call_check(this, E), this.x = 1;
 };
 require("./e-ext").E;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var H = function() {
-    "use strict";
-    _class_call_check(this, H), this.x = 1;
-};

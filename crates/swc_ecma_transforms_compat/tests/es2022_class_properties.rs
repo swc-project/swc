@@ -756,9 +756,9 @@ export default class {
       _defineProperty(_class, "test", true),
       _class
   ));
-  var _class1 = function _class1() {
+  var _class1 = function _class() {
       "use strict";
-      _classCallCheck(this, _class1);
+      _classCallCheck(this, _class);
   };
   _defineProperty(_class1, "test", true);
   export { _class1 as default };

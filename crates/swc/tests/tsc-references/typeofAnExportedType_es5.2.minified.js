@@ -5,7 +5,7 @@ export var y = {
     foo: ""
 };
 export var r2;
-export var C = function() {
+export var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
@@ -19,7 +19,7 @@ export var r5;
 export var M;
 !function(M) {
     M.foo = "";
-    var C = function() {
+    var C = function C() {
         "use strict";
         _class_call_check(this, C);
     };
@@ -40,7 +40,7 @@ export var r12;
 export function foo() {}
 !function(foo) {
     foo.y = 1;
-    var C = function() {
+    var C = function C() {
         "use strict";
         _class_call_check(this, C);
     };

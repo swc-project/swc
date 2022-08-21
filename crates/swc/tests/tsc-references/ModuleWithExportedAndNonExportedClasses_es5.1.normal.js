@@ -1,9 +1,9 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
 (function(A) {
-    var _$A = function _$A() {
+    var _$A = function A() {
         "use strict";
-        _class_call_check(this, _$A);
+        _class_call_check(this, A);
     };
     A.A = _$A;
     var AG = function AG() {

@@ -2,7 +2,7 @@ var A, C, X, Z, K, M;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(A) {
     A.x = "hello world";
-    var Point = function(x, y) {
+    var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point), this.x = x, this.y = y;
     };
@@ -14,7 +14,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     var Y, Point, Y1 = function() {
         return 42;
     };
-    X.Y = Y1, Y = Y1 = X.Y || (X.Y = {}), Point = function(x, y) {
+    X.Y = Y1, Y = Y1 = X.Y || (X.Y = {}), Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point), this.x = x, this.y = y;
     }, Y.Point = Point;
@@ -22,7 +22,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     var y = X.Y;
     Z.y = y;
 }(Z || (Z = {})), Z.y(), new Z.y.Point(0, 0), function(K) {
-    var L = function(name) {
+    var L = function L(name) {
         "use strict";
         _class_call_check(this, L), this.name = name;
     };

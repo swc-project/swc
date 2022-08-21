@@ -13,9 +13,9 @@ var B;
 (function(B) {
     // re-opened module with colliding name
     // this should add an underscore.
-    var B1 = function B1() {
+    var B1 = function B() {
         "use strict";
-        _class_call_check(this, B1);
+        _class_call_check(this, B);
     };
 })(B || (B = {}));
 var X;

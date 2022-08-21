@@ -41,7 +41,7 @@ export var C = function() {
         }
     ]), C;
 }();
-export var D = function() {
+export var D = function D() {
     "use strict";
     _class_call_check(this, D);
 };
@@ -50,14 +50,14 @@ Object.defineProperty(D.prototype, "x", {
         return 12;
     }
 });
-export var E = function() {
+export var E = function E() {
     "use strict";
     _class_call_check(this, E);
 };
 Object.defineProperty(E.prototype, "x", {
     set: function(_arg) {}
 });
-export var F = function() {
+export var F = function F() {
     "use strict";
     _class_call_check(this, F);
 };

@@ -10,7 +10,7 @@ var _class, _Foo, B = function() {
     }, B;
 }(), _foo = {
     writable: !0,
-    value: ((_class = function() {
+    value: ((_class = function _class() {
         "use strict";
         _class_call_check(this, _class), this.field = 10, console.log("hello"), new (_class_static_private_field_spec_get(B, B, _foo2))();
     }).test = 123, _class)

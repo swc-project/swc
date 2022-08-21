@@ -8,7 +8,7 @@ var Conn = function() {
 }();
 module.exports = Conn;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var Wrap = function(c) {
+var Wrap = function Wrap(c) {
     "use strict";
     _class_call_check(this, Wrap), this.connItem = c.item, this.another = "";
 };

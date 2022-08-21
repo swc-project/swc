@@ -5,7 +5,7 @@ import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _obj, constCall = Symbol();
 Symbol(), Symbol(), Symbol();
-var C = function() {
+var C = function C() {
     "use strict";
     _class_call_check(this, C), this.readonlyCall = Symbol(), this.readwriteCall = Symbol();
 };
@@ -58,7 +58,3 @@ var C0 = function() {
     }, C0;
 }();
 C0.a = s, C0.b = N.s, C0.c = N.s, C0.d = s, C0.e = N.s, C0.f = N.s, o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), N.s, N.s, 2 * Math.random() && N.s, 2 * Math.random() && N.s, _define_property(_obj = {}, s, "a"), _define_property(_obj, N.s, "b");
-var C1 = function() {
-    "use strict";
-    _class_call_check(this, C1);
-};

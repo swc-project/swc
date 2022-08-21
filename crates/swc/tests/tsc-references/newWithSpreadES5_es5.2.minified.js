@@ -4,7 +4,7 @@ import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function f(x, y) {
     for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
 }
-var a, b, c, d, e, g, h, i, B = function(x, y) {
+var a, b, c, d, e, g, h, i, B = function B(x, y) {
     "use strict";
     for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
     _class_call_check(this, B);

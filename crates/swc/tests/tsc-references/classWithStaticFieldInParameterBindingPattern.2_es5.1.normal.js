@@ -28,13 +28,13 @@ var x = "";
 (function(param) {
     var tmp = param[/*#__PURE__*/ (_class1 = function(C) {
         "use strict";
-        _inherits(_class1, C);
-        var _super = _create_super(_class1);
-        function _class1() {
-            _class_call_check(this, _class1);
+        _inherits(_class, C);
+        var _super = _create_super(_class);
+        function _class() {
+            _class_call_check(this, _class);
             return _super.apply(this, arguments);
         }
-        return _class1;
+        return _class;
     }(C), _class1.x = 1, _class1).x], b = tmp === void 0 ? "" : tmp, d = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
     var x1;
 })();

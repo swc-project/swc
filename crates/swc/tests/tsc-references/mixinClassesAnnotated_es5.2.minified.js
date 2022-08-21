@@ -2,10 +2,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _class, Base = function(x, y) {
-    "use strict";
-    _class_call_check(this, Base), this.x = x, this.y = y;
-}, Derived = function(Base) {
+var _class, Derived = function(Base) {
     "use strict";
     _inherits(Derived, Base);
     var _super = _create_super(Derived);
@@ -14,9 +11,12 @@ var _class, Base = function(x, y) {
         return _class_call_check(this, Derived), (_this = _super.call(this, x, y)).z = z, _this;
     }
     return Derived;
-}(Base);
+}(function Base(x, y) {
+    "use strict";
+    _class_call_check(this, Base), this.x = x, this.y = y;
+});
 function Tagged(superClass) {
-    var C = function(superClass) {
+    return function(superClass) {
         "use strict";
         _inherits(C, superClass);
         var _super = _create_super(C);
@@ -28,10 +28,8 @@ function Tagged(superClass) {
         }
         return C;
     }(superClass);
-    return C;
 }
-Tagged(Derived);
-var Thing2 = Tagged(((_class = function(superClass) {
+Tagged(Derived), Tagged(((_class = function(superClass) {
     "use strict";
     _inherits(_class, superClass);
     var _super = _create_super(_class);
@@ -41,17 +39,4 @@ var Thing2 = Tagged(((_class = function(superClass) {
     return _class.prototype.print = function() {
         this.x, this.y;
     }, _class;
-}(Derived)).message = "hello", _class));
-Thing2.message;
-var Thing3 = function(Thing2) {
-    "use strict";
-    _inherits(Thing3, Thing2);
-    var _super = _create_super(Thing3);
-    function Thing3(tag) {
-        var _this;
-        return _class_call_check(this, Thing3), (_this = _super.call(this, 10, 20, 30))._tag = tag, _this;
-    }
-    return Thing3.prototype.test = function() {
-        this.print();
-    }, Thing3;
-}(Thing2);
+}(Derived)).message = "hello", _class)).message;

@@ -35,14 +35,14 @@ var ExpandoExpr2 = function(n) {
 ExpandoExpr2.prop = 2, ExpandoExpr2.m = function(n) {
     return n + 1;
 }, ExpandoExpr2.prop, ExpandoExpr2.m(12), ExpandoExpr2(101).length;
-var ExpandoClass = function() {
+var ExpandoClass = function ExpandoClass() {
     "use strict";
     _class_call_check(this, ExpandoClass), this.n = 1001;
 };
 ExpandoClass.prop = 2, ExpandoClass.m = function(n) {
     return n + 1;
 }, ExpandoClass.prop, ExpandoClass.m(12), new ExpandoClass().n;
-var ExpandoExpr3 = function() {
+var ExpandoExpr3 = function ExpandoExpr3() {
     "use strict";
     _class_call_check(this, ExpandoExpr3), this.n = 10001;
 };

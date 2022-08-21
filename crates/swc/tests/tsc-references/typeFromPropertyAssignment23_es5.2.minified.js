@@ -7,7 +7,8 @@ var _this = this, B = function() {
         _class_call_check(this, B), this.n = 1;
     }
     return B.prototype.foo = function() {}, B;
-}(), C = function(B) {
+}();
+(function(B) {
     "use strict";
     _inherits(C, B);
     var _super = _create_super(C);
@@ -15,9 +16,7 @@ var _this = this, B = function() {
         return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C;
-}(B);
-C.prototype.foo = function() {};
-var D = function(B) {
+})(B).prototype.foo = function() {}, function(B) {
     "use strict";
     _inherits(D, B);
     var _super = _create_super(D);
@@ -25,26 +24,11 @@ var D = function(B) {
         return _class_call_check(this, D), _super.apply(this, arguments);
     }
     return D;
-}(B);
-D.prototype.foo = function() {
+}(B).prototype.foo = function() {
     _this.n = "not checked, so no error";
 };
-var Module = function() {
+var Module = function Module() {
     "use strict";
     _class_call_check(this, Module);
 };
 Module.prototype.identifier = void 0, Module.prototype.size = null;
-var NormalModule = function(Module) {
-    "use strict";
-    _inherits(NormalModule, Module);
-    var _super = _create_super(NormalModule);
-    function NormalModule() {
-        return _class_call_check(this, NormalModule), _super.apply(this, arguments);
-    }
-    var _proto = NormalModule.prototype;
-    return _proto.identifier = function() {
-        return "normal";
-    }, _proto.size = function() {
-        return 0;
-    }, NormalModule;
-}(Module);

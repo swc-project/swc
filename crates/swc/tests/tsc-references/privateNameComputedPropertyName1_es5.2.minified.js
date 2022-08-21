@@ -2,7 +2,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
-var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _d = new WeakMap(), _e = new WeakMap(), A = function() {
+var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _d = new WeakMap(), _e = new WeakMap();
+new (function() {
     "use strict";
     function A() {
         _class_call_check(this, A), _class_private_field_init(this, _a, {
@@ -34,5 +35,4 @@ var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _d = new WeakMap
         var a1 = data[_class_private_field_get(this, _a)], b1 = data[_class_private_field_get(this, _b)], c1 = data[_class_private_field_get(this, _c)], d1 = data[_class_private_field_get(this, _d)];
         data[_class_private_field_get(this, _e)], console.log(a1, b1, c1, d1);
     }, A;
-}();
-new A().test();
+}())().test();

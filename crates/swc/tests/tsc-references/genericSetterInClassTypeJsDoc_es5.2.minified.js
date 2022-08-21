@@ -3,7 +3,8 @@ import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
-var _value = new WeakMap(), Box = function() {
+var _value = new WeakMap();
+new (function() {
     "use strict";
     function Box(initialValue) {
         _class_call_check(this, Box), _class_private_field_init(this, _value, {
@@ -22,5 +23,4 @@ var _value = new WeakMap(), Box = function() {
             }
         }
     ]), Box;
-}();
-new Box(3).value = 3;
+}())(3).value = 3;

@@ -54,12 +54,12 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     }, findEnclosingScopeAt = function(logger, script, text, pos, isMemberCompletion) {
         var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
         return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
-    }, TypeCollectionContext = function(scopeChain, checker) {
+    }, TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
         "use strict";
         _class_call_check(this, TypeCollectionContext), this.scopeChain = scopeChain, this.checker = checker, this.script = null;
     };
     TypeScript1.TypeCollectionContext = TypeCollectionContext;
-    var MemberScopeContext = function(flow, pos, matchFlag) {
+    var MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
         "use strict";
         _class_call_check(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
     };

@@ -10,8 +10,8 @@ var A = function A() {
         value: void 0
     });
     var _foo1 = /*#__PURE__*/ new WeakMap();
-    var A1 = function A1() {
-        _class_call_check(this, A1);
+    var _$A = function A() {
+        _class_call_check(this, A);
         _class_private_field_init(this, _foo1, {
             writable: true,
             value: void 0

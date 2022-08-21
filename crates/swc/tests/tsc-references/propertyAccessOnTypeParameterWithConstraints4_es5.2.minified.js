@@ -1,5 +1,5 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var i, a, C = function() {
+new (function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -8,9 +8,8 @@ var i, a, C = function() {
         var x;
         return x.notHere() + x.notHere();
     }, C;
-}();
-new C().f(), i.foo.notHere(), i.foo.notHere(), a().notHere(), a().notHere();
-var b = {
+}())().f(), i.foo.notHere(), i.foo.notHere(), a().notHere(), a().notHere();
+var i, a, b = {
     foo: function(x) {
         return x.notHere() + x.notHere();
     },

@@ -334,6 +334,7 @@ jobs:
             yarn test
             rm -rf node_modules
             rm -rf target
+            rm -rf bindings/target
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:

@@ -55,7 +55,7 @@ _ref.x, _object_without_properties(_ref, [
 }, [
     "x"
 ]), _tmp.x;
-var Removable = function() {
+var removable = new (function() {
     "use strict";
     function Removable() {
         _class_call_check(this, Removable);
@@ -73,7 +73,7 @@ var Removable = function() {
             set: function(value) {}
         }
     ]), Removable;
-}(), removable = new Removable();
+}())();
 removable.removed, _object_without_properties(removable, [
     "removed"
 ]);

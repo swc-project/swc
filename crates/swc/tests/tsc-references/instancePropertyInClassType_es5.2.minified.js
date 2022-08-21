@@ -2,7 +2,7 @@ var NonGeneric, Generic;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 !function(NonGeneric) {
-    var C = function() {
+    var c = new (function() {
         "use strict";
         function C(a, b) {
             _class_call_check(this, C), this.a = a, this.b = b;
@@ -18,10 +18,10 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
                 set: function(v) {}
             }
         ]), C;
-    }(), c = new C(1, 2), r = c.fn();
+    }())(1, 2), r = c.fn();
     r.x, r.y, r.y = 4, c.y();
 }(NonGeneric || (NonGeneric = {})), function(Generic) {
-    var C = function() {
+    var c = new (function() {
         "use strict";
         function C(a, b) {
             _class_call_check(this, C), this.a = a, this.b = b;
@@ -37,6 +37,6 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
                 set: function(v) {}
             }
         ]), C;
-    }(), c = new C(1, ""), r = c.fn();
+    }())(1, ""), r = c.fn();
     r.x, r.y, r.y = "", c.y();
 }(Generic || (Generic = {}));

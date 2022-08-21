@@ -23,7 +23,7 @@ export var classExpression = function() {
 export function funcInferredReturnType(obj) {
     return obj;
 }
-export var ClassWithPrivateNamedProperties = function() {
+export var ClassWithPrivateNamedProperties = function ClassWithPrivateNamedProperties() {
     "use strict";
     _class_call_check(this, ClassWithPrivateNamedProperties);
 };

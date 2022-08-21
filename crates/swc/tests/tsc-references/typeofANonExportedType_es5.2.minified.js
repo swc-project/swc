@@ -1,10 +1,7 @@
+var M, E;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var r1;
 export var r2;
-var M, E, C = function() {
-    "use strict";
-    _class_call_check(this, C);
-};
 export var c;
 export var r3;
 export var r4;
@@ -14,7 +11,7 @@ export var r5;
 export var r5;
 !function(M) {
     M.foo = "";
-    var C = function() {
+    var C = function C() {
         "use strict";
         _class_call_check(this, C);
     };
@@ -33,7 +30,7 @@ export var r12;
 function foo() {}
 !function(foo) {
     foo.y = 1;
-    var C = function() {
+    var C = function C() {
         "use strict";
         _class_call_check(this, C);
     };

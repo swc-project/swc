@@ -88,7 +88,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             } else ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1;
         }
         return walker.options.goChildren = go, ast;
-    }, AssignScopeContext = function(scopeChain, typeFlow, modDeclChain) {
+    }, AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
         "use strict";
         _class_call_check(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
     };

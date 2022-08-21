@@ -5,12 +5,6 @@ import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 var _obj, o = {
     a: 1,
     b: "no"
-}, PrivateOptionalX = function() {
-    "use strict";
-    _class_call_check(this, PrivateOptionalX);
-}, PublicX = function() {
-    "use strict";
-    _class_call_check(this, PublicX);
 }, o2 = _object_spread({}, publicX, privateOptionalX);
 o2.x, _object_spread({}, optionalString, optionalNumber), _object_spread({}, {
     b: !0
@@ -52,14 +46,12 @@ _object_spread({
 var spreadStr = _object_spread({}, "foo");
 spreadStr.length, spreadStr.charAt(1), _object_spread({}, function() {})(), _object_spread({}, {
     set b (bad){}
-}).b = 12;
-var C = function() {
+}).b = 12, _object_spread({}, new (function() {
     "use strict";
     function C() {
         _class_call_check(this, C), this.p = 1;
     }
     return C.prototype.m = function() {}, C;
-}();
-_object_spread({}, new C()).m(), _object_spread({}, {
+}())()).m(), _object_spread({}, {
     a: 123
 }).a;

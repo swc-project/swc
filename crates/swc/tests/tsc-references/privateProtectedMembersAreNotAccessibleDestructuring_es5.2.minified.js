@@ -1,7 +1,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var K = function() {
+var k = new (function() {
     "use strict";
     function K() {
         _class_call_check(this, K);
@@ -12,15 +12,5 @@ var K = function() {
         var ref = new K();
         ref.priv, ref.prot;
     }, K;
-}(), C = function(K) {
-    "use strict";
-    _inherits(C, K);
-    var _super = _create_super(C);
-    function C() {
-        return _class_call_check(this, C), _super.apply(this, arguments);
-    }
-    return C.prototype.m2 = function() {
-        this.priv, this.prot;
-    }, C;
-}(K), k = new K();
+}())();
 k.priv, k.prot, k.privateMethod, k.priv, k.prot, k.privateMethod;
