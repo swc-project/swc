@@ -1856,28 +1856,27 @@ impl Generator {
         self.emit_return(s.arg, Some(s.span))
     }
 
-    // function transformAndEmitWithStatement(node: WithStatement) {
-    //     if (containsYield(node)) {
-    //         // [source]
-    //         //      with (x) {
-    //         //          /*body*/
-    //         //      }
-    //         //
-    //         // [intermediate]
-    //         //  .with (x)
-    //         //      /*body*/
-    //         //  .endwith
-    //         beginWithBlock(
-    //             cacheExpression(
-    //                 visitNode(node.expression, visitor, isExpression)
-    //             )
-    //         );
-    //         transformAndEmitEmbeddedStatement(node.statement);
-    //         endWithBlock();
-    //     } else {
-    //         emitStatement(visitNode(node, visitor, isStatement));
-    //     }
-    // }
+    fn transform_and_emit_with_stmt(&mut self, mut node: WithStmt) {
+        if contains_yield(&node) {
+            // [source]
+            //      with (x) {
+            //          /*body*/
+            //      }
+            //
+            // [intermediate]
+            //  .with (x)
+            //      /*body*/
+            //  .endwith
+
+            node.obj.visit_mut_with(self);
+            self.begin_with_block(self.cache_expression(node.obj));
+            self.transform_and_emit_embedded_statement(node.body);
+            self.end_with_block();
+        } else {
+            node.visit_mut_with(self);
+            self.emit_stmt(Stmt::With(node));
+        }
+    }
 
     // function transformAndEmitSwitchStatement(node: SwitchStatement) {
     //     if (containsYield(node.caseBlock)) {
