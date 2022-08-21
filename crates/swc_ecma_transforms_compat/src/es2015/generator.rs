@@ -1380,9 +1380,11 @@ impl Generator {
         }
     }
 
-    // function transformAndEmitExpressionStatement(node: ExpressionStatement) {
-    //     emitStatement(visitNode(node, visitor, isStatement));
-    // }
+    fn transform_and_emit_expr_stmt(&mut self, mut node: ExprStmt) {
+        node.visit_mut_with(self);
+
+        self.emit_stmt(Stmt::Expr(node));
+    }
 
     // function transformAndEmitVariableDeclarationList(
     //     node: VariableDeclarationList
