@@ -2005,25 +2005,26 @@ impl Generator {
     //     }
     // }
 
-    // function transformAndEmitLabeledStatement(node: LabeledStatement) {
-    //     if (containsYield(node)) {
-    //         // [source]
-    //         //      x: {
-    //         //          /*body*/
-    //         //      }
-    //         //
-    //         // [intermediate]
-    //         //  .labeled "x", endLabel
-    //         //      /*body*/
-    //         //  .endlabeled
-    //         //  .mark endLabel
-    //         beginLabeledBlock(idText(node.label));
-    //         transformAndEmitEmbeddedStatement(node.statement);
-    //         endLabeledBlock();
-    //     } else {
-    //         emitStatement(visitNode(node, visitor, isStatement));
-    //     }
-    // }
+    fn transform_and_emit_labeled_stmt(&mut self, mut node: LabeledStmt) {
+        if contains_yield(&node) {
+            // [source]
+            //      x: {
+            //          /*body*/
+            //      }
+            //
+            // [intermediate]
+            //  .labeled "x", endLabel
+            //      /*body*/
+            //  .endlabeled
+            //  .mark endLabel
+            self.begin_labeled_block(node.label.sym);
+            self.transform_and_emit_embedded_stmt(node.body);
+            self.end_labeled_block();
+        } else {
+            node.visit_mut_with(self);
+            self.emit_statement(Stmt::Labeled(node));
+        }
+    }
 
     // function transformAndEmitThrowStatement(node: ThrowStatement): void {
     //     // TODO(rbuckton): `expression` should be required on `throw`.
