@@ -1335,13 +1335,13 @@ impl Generator {
         }
     }
 
-    // function transformAndEmitEmbeddedStatement(node: Statement) {
-    //     if (isBlock(node)) {
-    //         transformAndEmitStatements(node.statements);
-    //     } else {
-    //         transformAndEmitStatement(node);
-    //     }
-    // }
+    fn transformAndEmitEmbeddedStatement(&mut self, node: Stmt) {
+        if let Stmt::Block(block) = node {
+            self.transform_and_emit_stmts(block.stmts, 0);
+        } else {
+            self.transform_and_emit_stmt(node);
+        }
+    }
 
     fn transform_and_emit_stmt(&mut self, node: Stmt) {
         let saved_in_statement_containing_yield = self.in_statement_containing_yield;
