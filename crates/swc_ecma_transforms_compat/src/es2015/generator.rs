@@ -1490,38 +1490,39 @@ impl Generator {
         }
     }
 
-    // function transformAndEmitDoStatement(node: DoStatement) {
-    //     if (containsYield(node)) {
-    //         // [source]
-    //         //      do {
-    //         //          /*body*/
-    //         //      }
-    //         //      while (i < 10);
-    //         //
-    //         // [intermediate]
-    //         //  .loop conditionLabel, endLabel
-    //         //  .mark loopLabel
-    //         //      /*body*/
-    //         //  .mark conditionLabel
-    //         //  .brtrue loopLabel, (i < 10)
-    //         //  .endloop
-    //         //  .mark endLabel
+    fn transform_and_emit_do_stmt(&mut self, mut node: DoWhileStmt) {
+        if contains_yield(&node) {
+            // [source]
+            //      do {
+            //          /*body*/
+            //      }
+            //      while (i < 10);
+            //
+            // [intermediate]
+            //  .loop conditionLabel, endLabel
+            //  .mark loopLabel
+            //      /*body*/
+            //  .mark conditionLabel
+            //  .brtrue loopLabel, (i < 10)
+            //  .endloop
+            //  .mark endLabel
 
-    //         const conditionLabel = defineLabel();
-    //         const loopLabel = defineLabel();
-    //         beginLoopBlock(/*continueLabel*/ conditionLabel);
-    //         markLabel(loopLabel);
-    //         transformAndEmitEmbeddedStatement(node.statement);
-    //         markLabel(conditionLabel);
-    //         emitBreakWhenTrue(
-    //             loopLabel,
-    //             visitNode(node.expression, visitor, isExpression)
-    //         );
-    //         endLoopBlock();
-    //     } else {
-    //         emitStatement(visitNode(node, visitor, isStatement));
-    //     }
-    // }
+            let condition_label = self.define_label();
+            let loop_label = self.define_label();
+
+            self.begin_loop_block(condition_label);
+            self.mark_label(loop_label);
+            self.transform_and_emit_embedded_statement(node.body);
+            self.mark_label(condition_label);
+            node.test.visit_mut_with(self);
+            let span = node.test.span();
+            self.emit_break_when_true(loop_label, node.test, span);
+            self.end_loop_block();
+        } else {
+            node.visit_mut_with(self);
+            self.emit_stmt(Stmt::DoWhile(node));
+        }
+    }
 
     // function visitDoStatement(node: DoStatement) {
     //     if (inStatementContainingYield) {
