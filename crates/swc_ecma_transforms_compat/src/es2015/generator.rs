@@ -2294,14 +2294,14 @@ impl Generator {
             CodeBlock::Exception(v) => v,
             _ => unreachable!(),
         });
-        debug_assert!(exception.state < ExceptionBlockState.Catch);
+        debug_assert!(exception.state < ExceptionBlockState::Catch);
 
         let end_label = exception.borrow().end_label();
         self.emit_break(end_label, None);
 
         let catch_label = self.define_label();
         self.mark_label(catch_label);
-        exception.state = ExceptionBlockState.Catch;
+        exception.state = ExceptionBlockState::Catch;
         exception.catch_variable = name;
         exception.catch_label = catch_label;
 
