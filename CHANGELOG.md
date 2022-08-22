@@ -20,6 +20,9 @@
 - **(es/compat)** Fix destructuring assignments and updates of super properties in async method (#5580) ([8645251](https://github.com/swc-project/swc/commit/86452511e715a7ba8447add81a60ce49905bb45c))
 
 
+- **(es/helpers)** Fix an import (#5587) ([610296c](https://github.com/swc-project/swc/commit/610296cfa444d1f004cc5967c7f94347a7ccb0e8))
+
+
 - **(es/parser)** Allow expr to follow `ClassExpr` (#5572) ([78dd071](https://github.com/swc-project/swc/commit/78dd071dabf5f9b5ca9b213bb5f5f0e5d76b40ab))
 
 
