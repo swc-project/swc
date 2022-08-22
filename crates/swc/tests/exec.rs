@@ -197,8 +197,33 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
 #[testing::fixture("tests/exec/**/exec.js")]
 #[testing::fixture("tests/exec/**/exec.mjs")]
 #[testing::fixture("tests/exec/**/exec.ts")]
-#[testing::fixture("tests/babel-exec/**/exec.js")]
 fn run_fixture_test(entry: PathBuf) {
+    let _ = init_helpers();
+
+    let _guard = testing::init();
+
+    let matrix = create_matrix(&entry);
+    let expected_stdout = get_expected_stdout(&entry).expect("failed to get stdout");
+
+    eprintln!(
+        "----- {} -----\n{}\n-----",
+        ansi_term::Color::Green.bold().paint("Expected stdout"),
+        expected_stdout
+    );
+
+    let _ = matrix
+        .into_iter()
+        .enumerate()
+        .map(|(idx, opts)| test_file_with_opts(&entry, &opts, &expected_stdout, idx).unwrap())
+        .collect::<Vec<_>>();
+
+    // Test was successful.
+
+    unignore(&entry);
+}
+
+#[testing::fixture("tests/babel-exec/**/exec.js")]
+fn run_babel_fixture_exec_test(entry: PathBuf) {
     let _ = init_helpers();
 
     let _guard = testing::init();
