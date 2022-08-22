@@ -1584,34 +1584,6 @@ impl Generator {
         }
     }
 
-    // function transformAndEmitForStatement(node: ForStatement) {
-    //     if (containsYield(node)) {
-    //         if (node.condition) {
-    //             emitBreakWhenFalse(
-    //                 endLabel,
-    //                 visitNode(node.condition, visitor, isExpression)
-    //             );
-    //         }
-
-    //         transformAndEmitEmbeddedStatement(node.statement);
-
-    //         markLabel(incrementLabel);
-    //         if (node.incrementor) {
-    //             emitStatement(
-    //                 setTextRange(
-    //                     factory.createExpressionStatement(
-    //                         visitNode(node.incrementor, visitor, isExpression)
-    //                     ),
-    //                     node.incrementor
-    //                 )
-    //             );
-    //         }
-    //         emitBreak(conditionLabel);
-    //         endLoopBlock();
-    //     } else {
-    //         emitStatement(visitNode(node, visitor, isStatement));
-    //     }
-    // }
     fn transform_and_emit_for_stmt(&mut self, mut node: ForStmt) {
         if contains_yield(&node) {
             // [source]
@@ -1652,6 +1624,27 @@ impl Generator {
             }
 
             self.mark_label(condition_label);
+
+            if let Some(mut cond) = node.test {
+                cond.visit_mut_with(self);
+                self.emit_break_when_false(end_label, cond, None);
+            }
+
+            self.transform_and_emit_embedded_stmt(*node.body);
+
+            self.mark_label(increment_label);
+
+            if let Some(mut incrementor) = node.update {
+                incrementor.visit_mut_with(self);
+
+                self.emit_stmt(Stmt::Expr(ExprStmt {
+                    span: incrementor.span(),
+                    expr: incrementor,
+                }));
+            }
+
+            self.emit_break(condition_label, None);
+            self.end_loop_block();
         } else {
             node.visit_mut_with(self);
             self.emit_stmt(Stmt::For(node));
