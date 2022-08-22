@@ -1502,7 +1502,7 @@ impl Generator {
 
                 node.test.visit_mut_with(self);
                 let span = node.test.span();
-                self.emit_break_when_false(else_label.unwrap_or(end_label), node.test, span);
+                self.emit_break_when_false(else_label.unwrap_or(end_label), node.test, Some(span));
 
                 self.transform_and_emit_embedded_stmt(*node.cons);
 
@@ -1544,11 +1544,11 @@ impl Generator {
 
             self.begin_loop_block(condition_label);
             self.mark_label(loop_label);
-            self.transform_and_emit_embedded_stmt(node.body);
+            self.transform_and_emit_embedded_stmt(*node.body);
             self.mark_label(condition_label);
             node.test.visit_mut_with(self);
             let span = node.test.span();
-            self.emit_break_when_true(loop_label, node.test, span);
+            self.emit_break_when_true(loop_label, node.test, Some(span));
             self.end_loop_block();
         } else {
             node.visit_mut_with(self);
@@ -1950,7 +1950,9 @@ impl Generator {
                         pending_clauses.push(SwitchCase {
                             span: DUMMY_SP,
                             test: clause.test.take(),
-                            cons: vec![self.create_inline_break(clause_labels[i], span)],
+                            cons: vec![self
+                                .create_inline_break(clause_labels[i], Some(span))
+                                .into()],
                         })
                     } else {
                         default_clauses_skipped += 1;
