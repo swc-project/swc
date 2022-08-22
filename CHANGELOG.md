@@ -14,6 +14,9 @@
 - **(es/compat)** Use separate `SyntaxContext` for class names (#5566) ([b717a68](https://github.com/swc-project/swc/commit/b717a68199fc965632e9513d2c57a47af23231d8))
 
 
+- **(es/compat)** Fix destructuring assignments and updates of super properties (#5576) ([bee26a9](https://github.com/swc-project/swc/commit/bee26a9abb0478147aec2bedd533150204807057))
+
+
 - **(es/parser)** Allow expr to follow `ClassExpr` (#5572) ([78dd071](https://github.com/swc-project/swc/commit/78dd071dabf5f9b5ca9b213bb5f5f0e5d76b40ab))
 
 
