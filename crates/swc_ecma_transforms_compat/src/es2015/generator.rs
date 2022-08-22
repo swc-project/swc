@@ -2031,55 +2031,57 @@ impl Generator {
         self.emit_throw(node.arg, node.span)
     }
 
-    // function transformAndEmitTryStatement(node: TryStatement) {
-    //     if (containsYield(node)) {
-    //         // [source]
-    //         //      try {
-    //         //          /*tryBlock*/
-    //         //      }
-    //         //      catch (e) {
-    //         //          /*catchBlock*/
-    //         //      }
-    //         //      finally {
-    //         //          /*finallyBlock*/
-    //         //      }
-    //         //
-    //         // [intermediate]
-    //         //  .local _a
-    //         //  .try tryLabel, catchLabel, finallyLabel, endLabel
-    //         //  .mark tryLabel
-    //         //  .nop
-    //         //      /*tryBlock*/
-    //         //  .br endLabel
-    //         //  .catch
-    //         //  .mark catchLabel
-    //         //      _a = %error%;
-    //         //      /*catchBlock*/
-    //         //  .br endLabel
-    //         //  .finally
-    //         //  .mark finallyLabel
-    //         //      /*finallyBlock*/
-    //         //  .endfinally
-    //         //  .endtry
-    //         //  .mark endLabel
+    fn transform_and_emit_try_stmt(&mut self, mut node: TryStmt) {
+        if contains_yield(&node) {
+            // [source]
+            //      try {
+            //          /*tryBlock*/
+            //      }
+            //      catch (e) {
+            //          /*catchBlock*/
+            //      }
+            //      finally {
+            //          /*finallyBlock*/
+            //      }
+            //
+            // [intermediate]
+            //  .local _a
+            //  .try tryLabel, catchLabel, finallyLabel, endLabel
+            //  .mark tryLabel
+            //  .nop
+            //      /*tryBlock*/
+            //  .br endLabel
+            //  .catch
+            //  .mark catchLabel
+            //      _a = %error%;
+            //      /*catchBlock*/
+            //  .br endLabel
+            //  .finally
+            //  .mark finallyLabel
+            //      /*finallyBlock*/
+            //  .endfinally
+            //  .endtry
+            //  .mark endLabel
 
-    //         beginExceptionBlock();
-    //         transformAndEmitEmbeddedStatement(node.tryBlock);
-    //         if (node.catchClause) {
-    //             beginCatchBlock(node.catchClause.variableDeclaration!); // TODO:
-    // GH#18217
-    // transformAndEmitEmbeddedStatement(node.catchClause.block);         }
+            self.begin_exception_block();
+            self.transform_and_emit_embedded_statement(Stmt::Block(node.block));
+            if let Some(catch) = node.handler {
+                self.begin_catch_block(catch.param);
+                self.transform_and_emit_embedded_statement(Stmt::Block(catch.body));
+                self.end_catch_block();
+            }
 
-    //         if (node.finallyBlock) {
-    //             beginFinallyBlock();
-    //             transformAndEmitEmbeddedStatement(node.finallyBlock);
-    //         }
+            if let Some(finalizer) = node.finalizer {
+                self.begin_finally_block();
+                self.transform_and_emit_embedded_statement(Stmt::Block(finalizer));
+            }
 
-    //         endExceptionBlock();
-    //     } else {
-    //         emitStatement(visitEachChild(node, visitor, context));
-    //     }
-    // }
+            self.end_exception_block();
+        } else {
+            node.visit_mut_with(self);
+            self.emit_stmt(Stmt::Try(node));
+        }
+    }
 
     // function countInitialNodesWithoutYield(nodes: NodeArray<Node>) {
     //     const numNodes = nodes.length;
