@@ -1503,12 +1503,12 @@ impl Generator {
                 let span = node.test.span();
                 self.emit_break_when_false(else_label.unwrap_or(end_label), node.test, span);
 
-                self.transform_and_emit_embedded_stmt(node.cons);
+                self.transform_and_emit_embedded_stmt(*node.cons);
 
                 if let Some(alt) = node.alt {
                     self.emit_break(end_label, None);
-                    self.mark_label(else_label);
-                    self.transform_and_emit_embedded_stmt(alt);
+                    self.mark_label(else_label.unwrap());
+                    self.transform_and_emit_embedded_stmt(*alt);
                 }
                 self.mark_label(end_label);
             } else {
@@ -1831,7 +1831,7 @@ impl Generator {
     fn transform_and_emit_continue_stmt(&mut self, node: ContinueStmt) {
         let label = self.find_continue_target(node.label.as_ref().map(|l| l.sym));
         if label.0 > 0 {
-            self.emit_break(label, node.span);
+            self.emit_break(label, Some(node.span));
         } else {
             // invalid continue without a containing loop. Leave the node as is,
             // per #17875.
@@ -1869,7 +1869,7 @@ impl Generator {
 
             node.obj.visit_mut_with(self);
             self.begin_with_block(self.cache_expression(node.obj));
-            self.transform_and_emit_embedded_stmt(node.body);
+            self.transform_and_emit_embedded_stmt(*node.body);
             self.end_with_block();
         } else {
             node.visit_mut_with(self);
@@ -2016,7 +2016,7 @@ impl Generator {
             //  .endlabeled
             //  .mark endLabel
             self.begin_labeled_block(node.label.sym);
-            self.transform_and_emit_embedded_stmt(node.body);
+            self.transform_and_emit_embedded_stmt(*node.body);
             self.end_labeled_block();
         } else {
             node.visit_mut_with(self);
@@ -2026,7 +2026,7 @@ impl Generator {
 
     fn transform_and_emit_throw_stmt(&mut self, node: ThrowStmt) {
         node.arg.visit_mut_with(self);
-        self.emit_throw(node.arg, node.span)
+        self.emit_throw(node.arg, Some(node.span))
     }
 
     fn transform_and_emit_try_stmt(&mut self, mut node: TryStmt) {
