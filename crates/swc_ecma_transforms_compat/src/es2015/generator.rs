@@ -1,5 +1,6 @@
 use std::{
     cell::{Cell, Ref, RefCell, RefMut},
+    mem::take,
     rc::Rc,
     slice::SliceIndex,
 };
@@ -1877,74 +1878,6 @@ impl Generator {
         }
     }
 
-    // function transformAndEmitSwitchStatement(node: SwitchStatement) {
-
-    //         // Emit switch statements for each run of case clauses either from
-    // the first case         // clause or the next case clause with a `yield`
-    // in its expression, up to the next         // case clause with a `yield`
-    // in its expression.         let clausesWritten = 0;
-    //         let pendingClauses: CaseClause[] = [];
-    //         while (clausesWritten < numClauses) {
-    //             let defaultClausesSkipped = 0;
-    //             for (let i = clausesWritten; i < numClauses; i++) {
-    //                 const clause = caseBlock.clauses[i];
-    //                 if (clause.kind === SyntaxKind.CaseClause) {
-    //                     if (
-    //                         containsYield(clause.expression) &&
-    //                         pendingClauses.length > 0
-    //                     ) {
-    //                         break;
-    //                     }
-
-    //                     pendingClauses.push(
-    //                         factory.createCaseClause(
-    //                             visitNode(
-    //                                 clause.expression,
-    //                                 visitor,
-    //                                 isExpression
-    //                             ),
-    //                             [
-    //                                 createInlineBreak(
-    //                                     clauseLabels[i],
-    //                                     /*location*/ clause.expression
-    //                                 ),
-    //                             ]
-    //                         )
-    //                     );
-    //                 } else {
-    //                     defaultClausesSkipped++;
-    //                 }
-    //             }
-
-    //             if (pendingClauses.length) {
-    //                 emitStatement(
-    //                     factory.createSwitchStatement(
-    //                         expression,
-    //                         factory.createCaseBlock(pendingClauses)
-    //                     )
-    //                 );
-    //                 clausesWritten += pendingClauses.length;
-    //                 pendingClauses = [];
-    //             }
-    //             if (defaultClausesSkipped > 0) {
-    //                 clausesWritten += defaultClausesSkipped;
-    //                 defaultClausesSkipped = 0;
-    //             }
-    //         }
-
-    //         if (defaultClauseIndex >= 0) {
-    //             emitBreak(clauseLabels[defaultClauseIndex]);
-    //         } else {
-    //             emitBreak(endLabel);
-    //         }
-
-    //         for (let i = 0; i < numClauses; i++) {
-    //             markLabel(clauseLabels[i]);
-    //             transformAndEmitStatements(caseBlock.clauses[i].statements);
-    //         }
-
-    //         endSwitchBlock();
-    // }
     fn transform_and_emit_switch_stmt(&mut self, mut node: SwitchStmt) {
         if contains_yield(&node) {
             // [source]
@@ -1987,14 +1920,70 @@ impl Generator {
             // default clause.
 
             let mut clause_labels = Vec::new();
-            let mut default_clause_index = -1isize;
+            let mut default_clause_index = -1i32;
 
             for (i, clause) in node.cases.iter().enumerate() {
                 clause_labels.push(self.define_label());
                 if clause.test.is_none() && default_clause_index == -1 {
-                    default_clause_index = i;
+                    default_clause_index = i as _;
                 }
             }
+
+            // Emit switch statements for each run of case clauses either from
+            // the first case clause or the next case clause with a
+            // `yield` in its expression, up to the next case clause
+            // with a `yield` in its expression.
+            let mut clauses_written = 0;
+            let mut pending_clauses = vec![];
+
+            while clauses_written < node.cases.len() {
+                let mut default_clauses_skipped = 0;
+
+                for (i, clause) in node.cases.iter_mut().enumerate() {
+                    if clause.test.is_some() {
+                        if contains_yield(&clause.test) && !pending_clauses.is_empty() {
+                            break;
+                        }
+
+                        clause.test.visit_mut_with(self);
+                        let span = clause.test.span();
+                        pending_clauses.push(SwitchCase {
+                            span: DUMMY_SP,
+                            test: clause.test.take(),
+                            cons: vec![self.create_inline_break(clause_labels[i], span)],
+                        })
+                    } else {
+                        default_clauses_skipped += 1;
+                    }
+                }
+
+                if !pending_clauses.is_empty() {
+                    clauses_written += pending_clauses.len();
+                    self.emit_stmt(Stmt::Switch(SwitchStmt {
+                        span: DUMMY_SP,
+                        discriminant: Box::new(Expr::Ident(expression)),
+                        cases: take(&mut pending_clauses),
+                    }));
+                }
+
+                if default_clauses_skipped > 0 {
+                    clauses_written += default_clauses_skipped;
+                    default_clauses_skipped = 0;
+                }
+            }
+
+            if default_clause_index >= 0 {
+                self.emit_break(clause_labels[default_clause_index as usize], None);
+            } else {
+                self.emit_break(end_label, None);
+            }
+
+            for (i, clause) in node.cases.into_iter().enumerate() {
+                self.mark_label(clause_labels[i]);
+                self.transform_and_emit_stmts(clause.cons, 0);
+            }
+
+            self.end_switch_block()
         } else {
             node.visit_mut_with(self);
             self.emit_stmt(Stmt::Switch(node))
