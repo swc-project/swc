@@ -197,6 +197,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
 #[testing::fixture("tests/exec/**/exec.js")]
 #[testing::fixture("tests/exec/**/exec.mjs")]
 #[testing::fixture("tests/exec/**/exec.ts")]
+#[testing::fixture("tests/babel-exec/**/exec.js")]
 fn run_fixture_test(entry: PathBuf) {
     let _ = init_helpers();
 
