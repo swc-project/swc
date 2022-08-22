@@ -221,6 +221,40 @@ type Ptr<T> = Rc<RefCell<T>>;
 impl VisitMut for Generator {
     noop_visit_mut_type!();
 
+    fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
+        if self.in_statement_containing_yield {
+            self.begin_script_loop_block();
+        }
+
+        if let Some(VarDeclOrExpr::VarDecl(initializer)) = &mut node.init {
+            for variable in initializer.decls.iter_mut() {
+                self.hoist_variable_declaration(variable.name.clone());
+            }
+
+            let variables = self.get_initialize_variables(initializer);
+
+            node.init = if variables.is_empty() {
+                None
+            } else {
+                Some(
+                    variables
+                        .into_iter()
+                        .map(|v| self.transform_initialized_variable(v))
+                        .collect(),
+                )
+            };
+            node.test.visit_mut_with(self);
+            node.update.visit_mut_with(self);
+            node.body.visit_mut_with(self);
+        } else {
+            node.visit_mut_children_with(self);
+        }
+
+        if self.in_statement_containing_yield {
+            self.end_loop_block();
+        }
+    }
+
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
         if self.in_statement_containing_yield {
             self.begin_script_loop_block();
@@ -1651,40 +1685,6 @@ impl Generator {
             self.emit_stmt(Stmt::For(node));
         }
     }
-
-    // function visitForStatement(node: ForStatement) {
-    //     if (inStatementContainingYield) {
-    //         beginScriptLoopBlock();
-    //     }
-
-    //     const initializer = node.initializer;
-    //     if (initializer && isVariableDeclarationList(initializer)) {
-    //         for (const variable of initializer.declarations) {
-    //             hoistVariableDeclaration(variable.name as Identifier);
-    //         }
-
-    //         const variables = getInitializedVariables(initializer);
-    //         node = factory.updateForStatement(
-    //             node,
-    //             variables.length > 0
-    //                 ? factory.inlineExpressions(
-    //                       map(variables, transformInitializedVariable)
-    //                   )
-    //                 : undefined,
-    //             visitNode(node.condition, visitor, isExpression),
-    //             visitNode(node.incrementor, visitor, isExpression),
-    //             visitIterationBody(node.statement, visitor, context)
-    //         );
-    //     } else {
-    //         node = visitEachChild(node, visitor, context);
-    //     }
-
-    //     if (inStatementContainingYield) {
-    //         endLoopBlock();
-    //     }
-
-    //     return node;
-    // }
 
     // function transformAndEmitForInStatement(node: ForInStatement) {
     //     // TODO(rbuckton): Source map locations
