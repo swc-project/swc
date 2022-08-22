@@ -1878,38 +1878,6 @@ impl Generator {
     }
 
     // function transformAndEmitSwitchStatement(node: SwitchStatement) {
-    //     if (containsYield(node.caseBlock)) {
-    //         // [source]
-    //         //      switch (x) {
-    //         //          case a:
-    //         //              /*caseStatements*/
-    //         //          case b:
-    //         //              /*caseStatements*/
-    //         //          default:
-    //         //              /*defaultStatements*/
-    //         //      }
-    //         //
-    //         // [intermediate]
-    //         //  .local _a
-    //         //  .switch endLabel
-    //         //      _a = x;
-    //         //      switch (_a) {
-    //         //          case a:
-    //         //  .br clauseLabels[0]
-    //         //      }
-    //         //      switch (_a) {
-    //         //          case b:
-    //         //  .br clauseLabels[1]
-    //         //      }
-    //         //  .br clauseLabels[2]
-    //         //  .mark clauseLabels[0]
-    //         //      /*caseStatements*/
-    //         //  .mark clauseLabels[1]
-    //         //      /*caseStatements*/
-    //         //  .mark clauseLabels[2]
-    //         //      /*caseStatements*/
-    //         //  .endswitch
-    //         //  .mark endLabel
 
     //         const caseBlock = node.caseBlock;
     //         const numClauses = caseBlock.clauses.length;
@@ -1998,10 +1966,45 @@ impl Generator {
     //         }
 
     //         endSwitchBlock();
-    //     } else {
-    //         emitStatement(visitNode(node, visitor, isStatement));
-    //     }
     // }
+    fn transform_and_emit_switch_stmt(&mut self, mut node: SwitchStmt) {
+        if contains_yield(&node) {
+            // [source]
+            //      switch (x) {
+            //          case a:
+            //              /*caseStatements*/
+            //          case b:
+            //              /*caseStatements*/
+            //          default:
+            //              /*defaultStatements*/
+            //      }
+            //
+            // [intermediate]
+            //  .local _a
+            //  .switch endLabel
+            //      _a = x;
+            //      switch (_a) {
+            //          case a:
+            //  .br clauseLabels[0]
+            //      }
+            //      switch (_a) {
+            //          case b:
+            //  .br clauseLabels[1]
+            //      }
+            //  .br clauseLabels[2]
+            //  .mark clauseLabels[0]
+            //      /*caseStatements*/
+            //  .mark clauseLabels[1]
+            //      /*caseStatements*/
+            //  .mark clauseLabels[2]
+            //      /*caseStatements*/
+            //  .endswitch
+            //  .mark endLabel
+        } else {
+            node.visit_mut_with(self);
+            self.emit_stmt(Stmt::Switch(node))
+        }
+    }
 
     fn transform_and_emit_labeled_stmt(&mut self, mut node: LabeledStmt) {
         if contains_yield(&node) {
