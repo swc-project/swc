@@ -1459,45 +1459,41 @@ impl Generator {
         self.emit_stmt(Stmt::Expr(node));
     }
 
-    // function transformAndEmitVariableDeclarationList(
-    //     node: VariableDeclarationList
-    // ): VariableDeclarationList | undefined {
-    //     for (const variable of node.declarations) {
-    //         const name = factory.cloneNode(variable.name as Identifier);
-    //         setCommentRange(name, variable.name);
-    //         hoistVariableDeclaration(name);
-    //     }
+    fn transform_and_emit_var_decl_list(&mut self, mut node: VarDecl) {
+        for variable in node.decls {
+            self.hoistVariableDeclaration(variable.name);
+        }
 
-    //     const variables = getInitializedVariables(node);
-    //     const numVariables = variables.length;
-    //     let variablesWritten = 0;
-    //     let pendingExpressions: Expression[] = [];
-    //     while (variablesWritten < numVariables) {
-    //         for (let i = variablesWritten; i < numVariables; i++) {
-    //             const variable = variables[i];
-    //             if (
-    //                 containsYield(variable.initializer) &&
-    //                 pendingExpressions.length > 0
-    //             ) {
-    //                 break;
-    //             }
+        let variables = self.get_initialized_variables(&node);
+        let mut variables_written = 0;
+        let mut pending_expressions = vec![];
 
-    //             pendingExpressions.push(transformInitializedVariable(variable));
-    //         }
+        while variables_written < node.decls.len() {
+            for (i, variable) in variables.iter().enumerate() {
+                if contains_yield(&variable) && !pending_expressions.is_empty() {
+                    break;
+                }
 
-    //         if (pendingExpressions.length) {
-    //             emitStatement(
-    //                 factory.createExpressionStatement(
-    //                     factory.inlineExpressions(pendingExpressions)
-    //                 )
-    //             );
-    //             variablesWritten += pendingExpressions.length;
-    //             pendingExpressions = [];
-    //         }
-    //     }
+                pending_expressions.push(variable.init);
+            }
 
-    //     return undefined;
-    // }
+            if !pending_expressions.is_empty() {
+                variables_written += pending_expressions.len();
+
+                self.emit_stmt(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: if pending_expressions.len() == 1 {
+                        pending_expressions.pop().unwrap()
+                    } else {
+                        Box::new(Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: take(&mut pending_expressions),
+                        }))
+                    },
+                }))
+            }
+        }
+    }
 
     // function transformInitializedVariable(
     //     node: InitializedVariableDeclaration
