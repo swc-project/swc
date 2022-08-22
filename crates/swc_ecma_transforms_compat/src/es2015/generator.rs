@@ -2961,10 +2961,10 @@ impl Generator {
                     }
                 };
 
-                let start_label = self.create_label(start_label);
+                let start_label = self.create_label(Some(start_label));
                 let catch_label = self.create_label(catch_label);
                 let finally_label = self.create_label(finally_label);
-                let end_label = self.create_label(end_label);
+                let end_label = self.create_label(Some(end_label));
 
                 stmts.insert(
                     0,
@@ -3139,7 +3139,8 @@ impl Generator {
 
         let args = self.operation_args.as_ref().unwrap()[op_index].unwrap();
         if opcode == OpCode::Statement {
-            self.write_stmt(args[0]);
+            let args = args.expect_stmt();
+            self.write_stmt(*args);
             return;
         }
 
