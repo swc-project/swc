@@ -223,7 +223,7 @@ impl VisitMut for Generator {
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
         if self.in_statement_containing_yield {
             self.begin_script_loop_block();
-            self.visit_mut_children_with(node);
+            node.visit_mut_children_with(self);
             self.end_loop_block();
         } else {
             node.visit_mut_children_with(self);
@@ -233,7 +233,7 @@ impl VisitMut for Generator {
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
         if self.in_statement_containing_yield {
             self.begin_script_loop_block();
-            self.visit_mut_children_with(node);
+            node.visit_mut_children_with(self);
             self.end_loop_block();
         } else {
             node.visit_mut_children_with(self);
@@ -291,7 +291,7 @@ impl VisitMut for Generator {
                 if self.in_statement_containing_yield {
                     let label = self.find_continue_target(s.label.as_ref().map(|l| l.sym.clone()));
                     if label.0 > 0 {
-                        *node = self.create_inline_break(label, s.span);
+                        *node = self.create_inline_break(label, Some(s.span)).into();
                         return;
                     }
                 }
