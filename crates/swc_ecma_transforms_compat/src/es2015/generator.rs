@@ -2520,7 +2520,7 @@ impl Generator {
             } else {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
-                    if self.supportsUnlabeledBreak(block) {
+                    if self.supports_unlabeled_break(block) {
                         return block.continue_label;
                     }
                 }
@@ -3034,7 +3034,7 @@ impl Generator {
 
         self.clauses.as_mut().unwrap().push(SwitchCase {
             span: DUMMY_SP,
-            test: self.label_number.into(),
+            test: Some(self.label_number.into()),
             cons: stmts,
         });
     }
