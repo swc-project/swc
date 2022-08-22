@@ -2492,7 +2492,7 @@ impl Generator {
             if let Some(label_text) = label_text {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
-                    if self.supportsLabeledBreakOrContinue(block) {
+                    if self.supports_labeled_break_or_continue(&block.borrow()) {
                         if block.label_text == label_text {
                             return block.break_label;
                         }
