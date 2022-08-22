@@ -3532,30 +3532,28 @@ class A extends B {
   }
 }
 ",
-    "
+    r#"
 class A extends B {
   foo() {
-    var _superprop_get_foo = () => super.foo,
-      _superprop_get_bar = () => super.bar,
-      _superprop_get = (_prop) => super[_prop],
-      _superprop_set_foo = (_value) => super.foo = _value,
-      _superprop_set_bar = (_value) => super.bar = _value,
-      _superprop_set = (_prop, _value) => super[_prop] = _value;
+      var _superprop_update_foo = { get _() { return _superprop_get_foo(); }, set _(v) { _superprop_set_foo(v); } },
+          _superprop_update_bar = { get _() { return _superprop_get_bar(); }, set _(v) { _superprop_set_bar(v); } },
+          _superprop_update = (_prop) => ({ get _() { return _superprop_get(_prop); }, set _(v) { return _superprop_set(_prop, v); } }),
+          _superprop_get_foo = () => super.foo,
+          _superprop_get_bar = () => super.bar,
+          _superprop_get = (_prop) => super[_prop],
+          _superprop_set_foo = (_value) => super.foo = _value,
+          _superprop_set_bar = (_value) => super.bar = _value,
+          _superprop_set = (_prop, _value) => super[_prop] = _value;
 
-    return _asyncToGenerator(function* () {
-      var tmp, tmp1, tmp2, prop, tmp3, prop1;
-
-      tmp = _superprop_get_foo(), _superprop_set_foo(tmp + 1), tmp;
-      tmp1 = _superprop_get_bar(), _superprop_set_bar(tmp1 - 1);
-      tmp2 = _superprop_get(prop = 'foo'),
-        _superprop_set(prop, tmp2 + 1),
-        tmp2;
-      tmp3 = _superprop_get(prop1 = 'bar'),
-        _superprop_set(prop1, tmp3 - 1);
-    })();
+      return _asyncToGenerator(function* () {
+          _superprop_update_foo._++;
+          --_superprop_update_bar._;
+          _superprop_update('foo')._++;
+          --_superprop_update('bar')._;
+      })();
   }
 }
-"
+"#
 );
 
 test!(
