@@ -2949,10 +2949,10 @@ impl Generator {
                 let current_exception_block =
                     &self.blocks.as_ref().unwrap()[current_exception_block.get()];
                 let ExceptionBlock {
-                    start_label: startLabel,
-                    catch_label: catchLabel,
-                    finally_label: finallyLabel,
-                    end_label: endLabel,
+                    start_label,
+                    catch_label,
+                    finally_label,
+                    end_label,
                     ..
                 } = match current_exception_block {
                     CodeBlock::Exception(v) => v,
@@ -2961,10 +2961,10 @@ impl Generator {
                     }
                 };
 
-                let startLabel = self.create_label(startLabel);
-                let catchLabel = self.create_label(catchLabel);
-                let finallyLabel = self.create_label(finallyLabel);
-                let endLabel = self.create_label(endLabel);
+                let startLabel = self.create_label(start_label);
+                let catchLabel = self.create_label(catch_label);
+                let finallyLabel = self.create_label(finally_label);
+                let endLabel = self.create_label(end_label);
 
                 stmts.insert(
                     0,
