@@ -9,6 +9,7 @@ use parking_lot::Mutex;
 use swc_common::plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
 use swc_common::{
     plugin::{
+        diagnostics::PluginCorePkgDiagnostics,
         metadata::TransformPluginMetadataContext,
         serialized::{PluginError, PluginSerializedBytes},
     },
@@ -22,15 +23,6 @@ use crate::memory_interop::write_into_memory_view;
 pub struct TransformExecutor {
     // Main transform interface plugin exports
     exported_plugin_transform: wasmer::NativeFunc<(i32, i32, u32, i32), i32>,
-    // Schema version interface exports
-    #[cfg_attr(
-        not(any(
-            feature = "plugin_transform_schema_v1",
-            feature = "plugin_transform_schema_vtest"
-        )),
-        allow(unused)
-    )]
-    exported_plugin_transform_schema_version: wasmer::NativeFunc<(), u32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
     // memory space
     exported_plugin_free: wasmer::NativeFunc<(i32, i32), i32>,
@@ -41,6 +33,8 @@ pub struct TransformExecutor {
     // Reference to the pointers successfully allocated which'll be freed by Drop.
     allocated_ptr_vec: Vec<(i32, i32)>,
     transform_result: Arc<Mutex<Vec<u8>>>,
+    // diagnostic metadata for the swc_core plugin binary uses.
+    pub plugin_core_diag: PluginCorePkgDiagnostics,
 }
 
 impl TransformExecutor {
@@ -55,13 +49,34 @@ impl TransformExecutor {
         metadata_context: &Arc<TransformPluginMetadataContext>,
         plugin_config: Option<serde_json::Value>,
     ) -> Result<TransformExecutor, Error> {
-        let (instance, transform_result) = crate::load_plugin::load_plugin(
+        let transform_result = Arc::new(Mutex::new(vec![]));
+        let core_diag_buffer = Arc::new(Mutex::new(vec![]));
+
+        let instance = crate::load_plugin::load_plugin(
             path,
             cache,
             source_map,
             metadata_context,
             plugin_config,
+            &transform_result,
+            &core_diag_buffer,
         )?;
+
+        // As soon as instance is ready, host calls a fn to read plugin's swc_core pkg
+        // diagnostics as `handshake`. Once read those values will be available across
+        // whole plugin transform execution.
+
+        // IMPORTANT NOTE
+        // Note this is `handshake`, which we expect to success ALL TIME. Do not try to
+        // expand `PluginCorePkgDiagnostics` as it'll cause deserialization failure
+        // until we have forward-compat schema changes.
+        instance
+            .exports
+            .get_native_function::<(), i32>("__get_transform_plugin_core_pkg_diag")?
+            .call()?;
+
+        let diag_result: PluginCorePkgDiagnostics =
+            PluginSerializedBytes::from_slice(&(&(*core_diag_buffer.lock()))[..]).deserialize()?;
 
         let tracker = TransformExecutor {
             exported_plugin_transform: instance
@@ -69,9 +84,6 @@ impl TransformExecutor {
                 .get_native_function::<(i32, i32, u32, i32), i32>(
                     "__transform_plugin_process_impl",
                 )?,
-            exported_plugin_transform_schema_version: instance
-                .exports
-                .get_native_function::<(), u32>("__get_transform_plugin_schema_version")?,
             exported_plugin_free: instance
                 .exports
                 .get_native_function::<(i32, i32), i32>("__free")?,
@@ -81,6 +93,7 @@ impl TransformExecutor {
             instance,
             allocated_ptr_vec: Vec::with_capacity(3),
             transform_result,
+            plugin_core_diag: diag_result,
         };
 
         Ok(tracker)
@@ -107,7 +120,7 @@ impl TransformExecutor {
 
     /// Copy guest's memory into host, construct serialized struct from raw
     /// bytes.
-    fn read_bytes_from_guest(
+    fn read_transformed_result_bytes_from_guest(
         &mut self,
         returned_ptr_result: i32,
     ) -> Result<PluginSerializedBytes, Error> {
@@ -146,18 +159,15 @@ impl TransformExecutor {
             feature = "plugin_transform_schema_v1",
             feature = "plugin_transform_schema_vtest"
         ))]
-        return match self.exported_plugin_transform_schema_version.call() {
-            Ok(plugin_schema_version) => {
-                let host_schema_version = PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
+        return {
+            let host_schema_version = PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
 
-                // TODO: this is incomplete
-                if host_schema_version >= plugin_schema_version {
-                    Ok(true)
-                } else {
-                    Ok(false)
-                }
+            // TODO: this is incomplete
+            if host_schema_version >= self.plugin_core_diag.ast_schema_version {
+                Ok(true)
+            } else {
+                Ok(false)
             }
-            Err(e) => Err(anyhow!("Failed to call plugin's schema version: {}", e)),
         };
 
         #[cfg(not(all(
@@ -187,7 +197,7 @@ impl TransformExecutor {
             should_enable_comments_proxy,
         )?;
 
-        self.read_bytes_from_guest(result)
+        self.read_transformed_result_bytes_from_guest(result)
     }
 }
 
