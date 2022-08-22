@@ -220,6 +220,16 @@ type Ptr<T> = Rc<RefCell<T>>;
 impl VisitMut for Generator {
     noop_visit_mut_type!();
 
+    fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
+        if self.in_statement_containing_yield {
+            self.begin_script_loop_block();
+            self.visit_mut_each_child(node);
+            self.end_loop_block();
+        } else {
+            node.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
         node.arg.visit_mut_with(self);
 
@@ -1535,17 +1545,6 @@ impl Generator {
         }
     }
 
-    // function visitDoStatement(node: DoStatement) {
-    //     if (inStatementContainingYield) {
-    //         beginScriptLoopBlock();
-    //         node = visitEachChild(node, visitor, context);
-    //         endLoopBlock();
-    //         return node;
-    //     } else {
-    //         return visitEachChild(node, visitor, context);
-    //     }
-    // }
-
     fn transform_and_emit_while_stmt(&mut self, node: WhileStmt) {
         if contains_yield(&node) {
             // [source]
@@ -2367,7 +2366,7 @@ impl Generator {
 
     /// Begins a code block that supports `break` or `continue` statements that
     /// are defined in the source tree and not from generated code.
-    fn begin_script_loop_label(&mut self) {
+    fn begin_script_loop_block(&mut self) {
         self.begin_block(CodeBlock::Loop(LoopBlock {
             is_script: true,
             break_label: Label(-1),
