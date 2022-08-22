@@ -2274,7 +2274,7 @@ impl Generator {
     fn begin_catch_block(&mut self, variable: VarDeclarator) {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Exception));
 
-        let name = variable.name.expect_ident();
+        let name = variable.name.expect_ident().id;
         self.hoist_variable_declaration(name);
 
         // ExceptionBlock
@@ -2296,6 +2296,7 @@ impl Generator {
         self.emit_assignment(
             Box::new(Expr::Ident(name)),
             Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
                 callee: self
                     .state
                     .clone()
@@ -2467,7 +2468,7 @@ impl Generator {
     fn has_immediate_containing_labeled_block(&mut self, label_text: JsWord, start: usize) -> bool {
         for i in (0..start).rev() {
             let block = self.block_stack.as_ref().unwrap()[i].clone();
-            if self.supports_labeled_break_or_continue(&block) {
+            if self.supports_labeled_break_or_continue(&block.borrow()) {
                 if let CodeBlock::Labeled(block) = &*block.borrow() {
                     if block.label_text == label_text {
                         return true;
@@ -2520,7 +2521,7 @@ impl Generator {
             if let Some(label_text) = label_text {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
-                    if self.supportsUnlabeledContinue(block)
+                    if self.supports_unlabeled_continue(block)
                         || self.has_immediate_containing_labeled_block(label_text, i - i)
                     {
                         return block.continue_label;
@@ -2531,7 +2532,7 @@ impl Generator {
             } else {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
-                    if self.supportsUnlabeledContinue(block) {
+                    if self.supports_unlabeled_continue(block) {
                         return block.continue_label;
                     }
                 }
