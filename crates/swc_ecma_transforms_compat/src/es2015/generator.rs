@@ -223,6 +223,44 @@ type Ptr<T> = Rc<RefCell<T>>;
 impl VisitMut for Generator {
     noop_visit_mut_type!();
 
+    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
+        if !node.callee.is_import() && node.args.iter().any(|arg| contains_yield(arg)) {
+            // [source]
+            //      a.b(1, yield, 2);
+            //
+            // [intermediate]
+            //  .local _a, _b, _c
+            //      _b = (_a = a).b;
+            //      _c = [1];
+            //  .yield resumeLabel
+            //  .mark resumeLabel
+            //      _b.apply(_a, _c.concat([%sent%, 2]));
+
+            // TODO(kdy1):
+            // const { target, thisArg } = factory.createCallBinding(
+            //     node.expression,
+            //     hoistVariableDeclaration,
+            //     languageVersion,
+            //     /*cacheIdentifiers*/ true
+            // );
+            // return setOriginalNode(
+            //     setTextRange(
+            //         factory.createFunctionApplyCall(
+            //             cacheExpression(
+            //                 visitNode(target, visitor,
+            // isLeftHandSideExpression)             ),
+            //             thisArg,
+            //             visitElements(node.arguments)
+            //         ),
+            //         node
+            //     ),
+            //     node
+            // );
+        }
+
+        node.visit_mut_children_with(self);
+    }
+
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
         if self.in_statement_containing_yield {
             self.begin_script_loop_block();
@@ -1314,42 +1352,6 @@ impl Generator {
     //                 )
     //             ),
     //             visitNode(node.argumentExpression, visitor, isExpression)
-    //         );
-    //     }
-
-    //     return visitEachChild(node, visitor, context);
-    // }
-
-    // function visitCallExpression(node: CallExpression) {
-    //     if (!isImportCall(node) && forEach(node.arguments, containsYield)) {
-    //         // [source]
-    //         //      a.b(1, yield, 2);
-    //         //
-    //         // [intermediate]
-    //         //  .local _a, _b, _c
-    //         //      _b = (_a = a).b;
-    //         //      _c = [1];
-    //         //  .yield resumeLabel
-    //         //  .mark resumeLabel
-    //         //      _b.apply(_a, _c.concat([%sent%, 2]));
-    //         const { target, thisArg } = factory.createCallBinding(
-    //             node.expression,
-    //             hoistVariableDeclaration,
-    //             languageVersion,
-    //             /*cacheIdentifiers*/ true
-    //         );
-    //         return setOriginalNode(
-    //             setTextRange(
-    //                 factory.createFunctionApplyCall(
-    //                     cacheExpression(
-    //                         visitNode(target, visitor, isLeftHandSideExpression)
-    //                     ),
-    //                     thisArg,
-    //                     visitElements(node.arguments)
-    //                 ),
-    //                 node
-    //             ),
-    //             node
     //         );
     //     }
 
