@@ -34,7 +34,7 @@ swc_bundler = { version = "0.179.0", path = "../swc_bundler", features = [
 swc_common = { version = "0.27.7", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "0.90.10", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "0.90.12", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.122.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "0.39.4", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "0.118.0", path = "../swc_ecma_parser" }

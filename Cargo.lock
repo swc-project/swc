@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.11.0"
+version = "0.11.1"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3241,7 +3241,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.11"
+version = "0.90.12"
 dependencies = [
  "arbitrary",
  "bitflags",
@@ -3756,7 +3756,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.100.1"
+version = "0.100.2"
 dependencies = [
  "indexmap",
  "once_cell",
