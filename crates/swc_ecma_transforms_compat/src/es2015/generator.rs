@@ -2961,10 +2961,10 @@ impl Generator {
                     }
                 };
 
-                let startLabel = self.create_label(start_label);
-                let catchLabel = self.create_label(catch_label);
-                let finallyLabel = self.create_label(finally_label);
-                let endLabel = self.create_label(end_label);
+                let start_label = self.create_label(start_label);
+                let catch_label = self.create_label(catch_label);
+                let finally_label = self.create_label(finally_label);
+                let end_label = self.create_label(end_label);
 
                 stmts.insert(
                     0,
@@ -2976,15 +2976,15 @@ impl Generator {
                                 .state
                                 .clone()
                                 .make_member(quote_ident!("trys"))
-                                .make_member(quote_ident("push"))
+                                .make_member(quote_ident!("push"))
                                 .as_callee(),
                             args: vec![ArrayLit {
                                 span: DUMMY_SP,
                                 elems: vec![
-                                    Some(startLabel.as_arg()),
-                                    Some(catchLabel.as_arg()),
-                                    Some(finallyLabel.as_arg()),
-                                    Some(endLabel.as_arg()),
+                                    Some(start_label.as_arg()),
+                                    Some(catch_label.as_arg()),
+                                    Some(finally_label.as_arg()),
+                                    Some(end_label.as_arg()),
                                 ],
                             }
                             .as_arg()],
