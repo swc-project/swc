@@ -2296,7 +2296,7 @@ impl Generator {
         });
         debug_assert!(exception.state < ExceptionBlockState::Catch);
 
-        let end_label = exception.borrow().end_label();
+        let end_label = exception.end_label;
         self.emit_break(end_label, None);
 
         let catch_label = self.define_label();
