@@ -6,7 +6,7 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
