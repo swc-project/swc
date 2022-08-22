@@ -1,6 +1,6 @@
 use std::{
     env,
-    fs::{create_dir_all, rename},
+    fs::{self, create_dir_all, rename},
     path::{Component, Path, PathBuf},
     process::Command,
     sync::Arc,
@@ -229,7 +229,10 @@ fn run_babel_fixture_exec_test(entry: PathBuf) {
     let _guard = testing::init();
 
     let matrix = create_matrix(&entry);
-    let expected_stdout = get_expected_stdout(&entry).expect("failed to get stdout");
+    let expected_stdout = get_expected_stdout(&entry).unwrap_or_else(|_| {
+        fs::remove_file(&entry).unwrap();
+        panic!("Removed")
+    });
 
     eprintln!(
         "----- {} -----\n{}\n-----",
@@ -260,6 +263,13 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
         },
         |handler| {
             let fm = cm.load_file(input).context("failed to load file")?;
+
+            if let Ok(output) = stdout_of(&fm.src, NodeModuleType::Module) {
+                return Ok(output);
+            }
+            if let Ok(output) = stdout_of(&fm.src, NodeModuleType::CommonJs) {
+                return Ok(output);
+            }
 
             let res = c
                 .process_js_file(
