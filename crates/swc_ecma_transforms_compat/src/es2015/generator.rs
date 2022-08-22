@@ -5,6 +5,7 @@ use std::{
     slice::SliceIndex,
 };
 
+use is_macro::Is;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -55,6 +56,7 @@ enum OpCode {
     Endfinally,
 }
 
+#[derive(Debug, Is)]
 enum OpArgs {
     Label(Label),
     LabelExpr(Label, Box<Expr>),
@@ -231,7 +233,7 @@ impl VisitMut for Generator {
                 self.hoist_variable_declaration(variable.name.clone());
             }
 
-            let variables = self.get_initialize_variables(initializer);
+            let variables = self.get_initialized_variables(initializer);
 
             node.init = if variables.is_empty() {
                 None
@@ -3148,28 +3150,40 @@ impl Generator {
 
         match opcode {
             OpCode::Assign => {
-                self.write_assign(args[0], args[1], loc);
+                let args = args.expect_exprs();
+                self.write_assign(args.0, args.1, loc);
             }
             OpCode::Break => {
-                self.write_break(args[0], loc);
+                let args = args.expect_label();
+                self.write_break(args, loc);
             }
             OpCode::BreakWhenTrue => {
-                self.write_break_when_true(args[0], args[1], loc);
+                let args = args.expect_label_expr();
+                self.write_break_when_true(args.0, args.1, loc);
             }
             OpCode::BreakWhenFalse => {
-                self.write_break_when_false(args[0], args[1], loc);
+                let args = args.expect_label_expr();
+                self.write_break_when_false(args.0, args.1, loc);
             }
             OpCode::Yield => {
-                self.write_yield(args[0], loc);
+                let args = args.opt_expr();
+
+                self.write_yield(args, loc);
             }
             OpCode::YieldStar => {
-                self.write_yield_star(args[0], loc);
+                let args = args.opt_expr().unwrap();
+
+                self.write_yield_star(args, loc);
             }
             OpCode::Return => {
-                self.write_return(args[0], loc);
+                let args = args.opt_expr();
+
+                self.write_return(args, loc);
             }
             OpCode::Throw => {
-                self.write_throw(args[0], loc);
+                let args = args.opt_expr().unwrap();
+
+                self.write_throw(args, loc);
             }
         }
     }
