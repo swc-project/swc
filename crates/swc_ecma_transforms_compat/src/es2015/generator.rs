@@ -2291,11 +2291,11 @@ impl Generator {
 
         // ExceptionBlock
         let exception = self.peek_block().unwrap();
-        // TODO:
+        // TODO(kdy1):
         //     Debug.assert(exception.state < ExceptionBlockState.Catch);
 
         let end_label = exception.borrow().end_label();
-        self.emit_break(end_label);
+        self.emit_break(end_label, None);
 
         let catch_label = self.define_label();
         self.mark_label(catch_label);
