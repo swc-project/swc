@@ -9,13 +9,13 @@ class A {
 class B extends A {
     // async method with only call/get on 'super' does not require a binding
     simple() {
-        var _this = this, // call with property access
-        _superprop_get_x = ()=>super.x, // call additional property.
-        _superprop_get_y = ()=>super.y, // call with element access
-        _superprop_get = (_prop)=>super[_prop];
+        var _this = this, _superprop_get_x = ()=>super.x, _superprop_get_y = ()=>super.y, _superprop_get = (_prop)=>super[_prop];
         return _async_to_generator(function*() {
+            // call with property access
             _superprop_get_x().call(_this);
+            // call additional property.
             _superprop_get_y().call(_this);
+            // call with element access
             _superprop_get("x").call(_this);
             // property access (read)
             const a = _superprop_get_x();
@@ -27,32 +27,32 @@ class B extends A {
     advanced() {
         var _this = this, _superprop_update_x = {
             get _ () {
-                return(// call with property access
-                _superprop_get_x());
+                return _superprop_get_x();
             },
             set _ (v){
-                // property access (assign)
                 _superprop_set_x(v);
             }
         }, _superprop_update = (_prop)=>({
                 get _ () {
-                    return(// call with element access
-                    _superprop_get(_prop));
+                    return _superprop_get(_prop);
                 },
                 set _ (v){
-                    return(// element access (assign)
-                    _superprop_set(_prop, v));
+                    return _superprop_set(_prop, v);
                 }
             }), _superprop_get_x = ()=>super.x, _superprop_get = (_prop)=>super[_prop], _superprop_set_x = (_value)=>super.x = _value, _superprop_set = (_prop, _value)=>super[_prop] = _value;
         return _async_to_generator(function*() {
             const f = ()=>{};
+            // call with property access
             _superprop_get_x().call(_this);
+            // call with element access
             _superprop_get("x").call(_this);
             // property access (read)
             const a = _superprop_get_x();
             // element access (read)
             const b = _superprop_get("x");
+            // property access (assign)
             _superprop_set_x(f);
+            // element access (assign)
             _superprop_set("x", f);
             // destructuring assign with property access
             ({ f: _superprop_update_x._  } = {

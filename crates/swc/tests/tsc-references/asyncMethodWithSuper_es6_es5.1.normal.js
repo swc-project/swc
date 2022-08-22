@@ -32,14 +32,11 @@ var B = /*#__PURE__*/ function(A) {
     // async method with only call/get on 'super' does not require a binding
     _proto.simple = function simple() {
         var _this = this;
-        var _this1 = this, // call with property access
-        _superprop_get_x = function() {
+        var _this1 = this, _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
-        }, // call additional property.
-        _superprop_get_y = function() {
+        }, _superprop_get_y = function() {
             return _get(_get_prototype_of(B.prototype), "y", _this);
-        }, // call with element access
-        _superprop_get = function(_prop) {
+        }, _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
         return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
@@ -47,8 +44,11 @@ var B = /*#__PURE__*/ function(A) {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
+                        // call with property access
                         _superprop_get_x().call(_this1);
+                        // call additional property.
                         _superprop_get_y().call(_this1);
+                        // call with element access
                         _superprop_get("x").call(_this1);
                         a = _superprop_get_x();
                         b = _superprop_get("x");
@@ -64,22 +64,18 @@ var B = /*#__PURE__*/ function(A) {
         var _this = this;
         var _this1 = this, _superprop_update_x = {
             get _ () {
-                return(// call with property access
-                _superprop_get_x());
+                return _superprop_get_x();
             },
             set _ (v){
-                // property access (assign)
                 _superprop_set_x(v);
             }
         }, _superprop_update = function(_prop) {
             return {
                 get _ () {
-                    return(// call with element access
-                    _superprop_get(_prop));
+                    return _superprop_get(_prop);
                 },
                 set _ (v){
-                    return(// element access (assign)
-                    _superprop_set(_prop, v));
+                    return _superprop_set(_prop, v);
                 }
             };
         }, _superprop_get_x = function() {
@@ -97,11 +93,15 @@ var B = /*#__PURE__*/ function(A) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         f = function() {};
+                        // call with property access
                         _superprop_get_x().call(_this1);
+                        // call with element access
                         _superprop_get("x").call(_this1);
                         a = _superprop_get_x();
                         b = _superprop_get("x");
+                        // property access (assign)
                         _superprop_set_x(f);
+                        // element access (assign)
                         _superprop_set("x", f);
                         ;
                         // destructuring assign with property access
@@ -154,8 +154,7 @@ var B = /*#__PURE__*/ function(A) {
     };
     _proto.property_access_only_read_only = function property_access_only_read_only() {
         var _this = this;
-        var _this1 = this, // call with property access
-        _superprop_get_x = function() {
+        var _this1 = this, _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         };
         return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
@@ -163,6 +162,7 @@ var B = /*#__PURE__*/ function(A) {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
+                        // call with property access
                         _superprop_get_x().call(_this1);
                         a = _superprop_get_x();
                         // property access in arrow
@@ -195,7 +195,6 @@ var B = /*#__PURE__*/ function(A) {
                 return _superprop_get_x();
             },
             set _ (v){
-                // property access (assign)
                 _superprop_set_x(v);
             }
         }, _superprop_get_x = function() {
@@ -209,6 +208,7 @@ var B = /*#__PURE__*/ function(A) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         f = function() {};
+                        // property access (assign)
                         _superprop_set_x(f);
                         ;
                         // destructuring assign with property access
@@ -240,8 +240,7 @@ var B = /*#__PURE__*/ function(A) {
     };
     _proto.element_access_only_read_only = function element_access_only_read_only() {
         var _this = this;
-        var _this1 = this, // call with element access
-        _superprop_get = function(_prop) {
+        var _this1 = this, _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
         return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
@@ -249,6 +248,7 @@ var B = /*#__PURE__*/ function(A) {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
+                        // call with element access
                         _superprop_get("x").call(_this1);
                         a = _superprop_get("x");
                         // element access in arrow
@@ -282,8 +282,7 @@ var B = /*#__PURE__*/ function(A) {
                     return _superprop_get(_prop);
                 },
                 set _ (v){
-                    return(// element access (assign)
-                    _superprop_set(_prop, v));
+                    return _superprop_set(_prop, v);
                 }
             };
         }, _superprop_get = function(_prop) {
@@ -297,6 +296,7 @@ var B = /*#__PURE__*/ function(A) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         f = function() {};
+                        // element access (assign)
                         _superprop_set("x", f);
                         ;
                         // destructuring assign with element access
@@ -328,8 +328,7 @@ var B = /*#__PURE__*/ function(A) {
     };
     _proto.property_access_only_read_only_in_generator = function property_access_only_read_only_in_generator() {
         var _this = this;
-        var _this1 = this, // call with property access
-        _superprop_get_x = function() {
+        var _this1 = this, _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         };
         return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
@@ -337,6 +336,7 @@ var B = /*#__PURE__*/ function(A) {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
+                        // call with property access
                         _superprop_get_x().call(_this1);
                         a = _superprop_get_x();
                         // property access in arrow
@@ -369,7 +369,6 @@ var B = /*#__PURE__*/ function(A) {
                 return _superprop_get_x();
             },
             set _ (v){
-                // property access (assign)
                 _superprop_set_x(v);
             }
         }, _superprop_get_x = function() {
@@ -383,6 +382,7 @@ var B = /*#__PURE__*/ function(A) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         f = function() {};
+                        // property access (assign)
                         _superprop_set_x(f);
                         ;
                         // destructuring assign with property access
@@ -414,8 +414,7 @@ var B = /*#__PURE__*/ function(A) {
     };
     _proto.element_access_only_read_only_in_generator = function element_access_only_read_only_in_generator() {
         var _this = this;
-        var _this1 = this, // call with element access
-        _superprop_get = function(_prop) {
+        var _this1 = this, _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
         return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
@@ -423,6 +422,7 @@ var B = /*#__PURE__*/ function(A) {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
+                        // call with element access
                         _superprop_get("x").call(_this1);
                         a = _superprop_get("x");
                         // element access in arrow
@@ -456,8 +456,7 @@ var B = /*#__PURE__*/ function(A) {
                     return _superprop_get(_prop);
                 },
                 set _ (v){
-                    return(// element access (assign)
-                    _superprop_set(_prop, v));
+                    return _superprop_set(_prop, v);
                 }
             };
         }, _superprop_get = function(_prop) {
@@ -471,6 +470,7 @@ var B = /*#__PURE__*/ function(A) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         f = function() {};
+                        // element access (assign)
                         _superprop_set("x", f);
                         ;
                         // destructuring assign with element access

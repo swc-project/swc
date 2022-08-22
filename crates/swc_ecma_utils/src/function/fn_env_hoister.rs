@@ -620,7 +620,11 @@ fn extend_super(
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
                             stmts: vec![Expr::Ident(
-                                get.ident.get(&key).cloned().expect("getter not found"),
+                                get.ident
+                                    .get(&key)
+                                    .cloned()
+                                    .expect("getter not found")
+                                    .without_loc(),
                             )
                             .as_call(DUMMY_SP, Default::default())
                             .into_return_stmt()
@@ -634,7 +638,11 @@ fn extend_super(
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
                             stmts: vec![Expr::Ident(
-                                set.ident.get(&key).cloned().expect("setter not found"),
+                                set.ident
+                                    .get(&key)
+                                    .cloned()
+                                    .expect("setter not found")
+                                    .without_loc(),
                             )
                             .as_call(DUMMY_SP, vec![value.as_arg()])
                             .into_stmt()],
@@ -669,7 +677,10 @@ fn extend_super(
                             body: Some(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: vec![Expr::Ident(
-                                    get.computed.clone().expect("getter computed not found"),
+                                    get.computed
+                                        .clone()
+                                        .expect("getter computed not found")
+                                        .without_loc(),
                                 )
                                 .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
                                 .into_return_stmt()
@@ -683,7 +694,10 @@ fn extend_super(
                             body: Some(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: vec![Expr::Ident(
-                                    set.computed.clone().expect("setter computed not found"),
+                                    set.computed
+                                        .clone()
+                                        .expect("setter computed not found")
+                                        .without_loc(),
                                 )
                                 .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
                                 .into_return_stmt()
@@ -706,7 +720,7 @@ fn extend_super(
     }
     decls.extend(get.ident.into_iter().map(|(key, ident)| VarDeclarator {
         span: DUMMY_SP,
-        name: ident.into(),
+        name: ident.without_loc().into(),
         init: Some(Box::new(Expr::Arrow(ArrowExpr {
             span: DUMMY_SP,
             params: Vec::new(),
@@ -726,7 +740,7 @@ fn extend_super(
         let param = private_ident!("_prop");
         decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: id.into(),
+            name: id.without_loc().into(),
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![param.clone().into()],
@@ -750,7 +764,7 @@ fn extend_super(
         let value = private_ident!("_value");
         VarDeclarator {
             span: DUMMY_SP,
-            name: ident.into(),
+            name: ident.without_loc().into(),
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![value.clone().into()],
@@ -777,7 +791,7 @@ fn extend_super(
         let value = private_ident!("_value");
         decls.push(VarDeclarator {
             span: DUMMY_SP,
-            name: id.into(),
+            name: id.without_loc().into(),
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![prop.clone().into(), value.clone().into()],
