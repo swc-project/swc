@@ -1,5 +1,5 @@
 use std::{
-    cell::{Cell, RefCell},
+    cell::{Cell, Ref, RefCell, RefMut},
     rc::Rc,
     slice::SliceIndex,
 };
@@ -2290,29 +2290,34 @@ impl Generator {
         self.hoist_variable_declaration(name);
 
         // ExceptionBlock
-        let exception = self.peek_block().unwrap();
-        // TODO(kdy1):
-        //     Debug.assert(exception.state < ExceptionBlockState.Catch);
+        let exception = RefMut::map(self.peek_block().unwrap().borrow_mut(), |v| match v {
+            CodeBlock::Exception(v) => v,
+            _ => unreachable!(),
+        });
+        debug_assert!(exception.state < ExceptionBlockState.Catch);
 
         let end_label = exception.borrow().end_label();
         self.emit_break(end_label, None);
 
         let catch_label = self.define_label();
         self.mark_label(catch_label);
-        // TODO(kdy1):
-        //     exception.state = ExceptionBlockState.Catch;
-        //     exception.catchVariable = name;
-        //     exception.catchLabel = catchLabel;
+        exception.state = ExceptionBlockState.Catch;
+        exception.catch_variable = name;
+        exception.catch_label = catch_label;
 
-        // TODO(kdy1):
-        //     emitAssignment(
-        //         name,
-        //         factory.createCallExpression(
-        //             factory.createPropertyAccessExpression(state, "sent"),
-        //             /*typeArguments*/ undefined,
-        //             []
-        //         )
-        //     );
+        self.emit_assignment(
+            name,
+            Expr::Call(CallExpr {
+                callee: self
+                    .state
+                    .clone()
+                    .make_member(quote_ident!("sent"))
+                    .as_callee(),
+                args: vec![],
+                type_args: Default::default(),
+            }),
+            None,
+        );
 
         self.emit_nop();
     }
