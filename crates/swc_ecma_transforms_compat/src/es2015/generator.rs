@@ -223,7 +223,7 @@ impl VisitMut for Generator {
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
         if self.in_statement_containing_yield {
             self.begin_script_loop_block();
-            self.visit_mut_each_child(node);
+            self.visit_mut_children_with(node);
             self.end_loop_block();
         } else {
             node.visit_mut_children_with(self);
@@ -233,7 +233,7 @@ impl VisitMut for Generator {
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
         if self.in_statement_containing_yield {
             self.begin_script_loop_block();
-            self.visit_mut_each_child(node);
+            self.visit_mut_children_with(node);
             self.end_loop_block();
         } else {
             node.visit_mut_children_with(self);
