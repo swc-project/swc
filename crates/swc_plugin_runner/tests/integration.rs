@@ -119,6 +119,8 @@ fn internal() -> Result<(), Error> {
         )
         .expect("Should load plugin");
 
+        assert!(plugin_transform_executor.plugin_core_diag.pkg_version.len() > 0);
+
         let program_bytes = plugin_transform_executor
             .transform(&program, Mark::new(), false)
             .expect("Plugin should apply transform");

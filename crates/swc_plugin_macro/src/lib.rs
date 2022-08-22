@@ -21,8 +21,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
     let ident = func.sig.ident.clone();
     let transform_process_impl_ident =
         Ident::new("__transform_plugin_process_impl", Span::call_site());
-    let transform_schema_version_ident =
-        Ident::new("__get_transform_plugin_schema_version", Span::call_site());
+    let transform_core_pkg_diag_ident =
+        Ident::new("__get_transform_plugin_core_pkg_diag", Span::call_site());
 
     let ret = quote! {
         #func
@@ -32,8 +32,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
         #[cfg(target_arch = "wasm32")] // Allow testing
         extern "C" {
             fn __set_transform_result(bytes_ptr: i32, bytes_ptr_len: i32);
+            fn __set_transform_plugin_core_pkg_diagnostics(bytes_ptr: i32, bytes_ptr_len: i32);
             fn __emit_diagnostics(bytes_ptr: i32, bytes_ptr_len: i32);
-            fn __free(bytes_ptr: i32, size: i32) -> i32;
         }
 
         /// An emitter for the Diagnostic in plugin's context by borrowing host's
@@ -80,8 +80,28 @@ fn handle_func(func: ItemFn) -> TokenStream {
         }
 
         #[no_mangle]
-        pub fn #transform_schema_version_ident() -> u32 {
-            swc_core::common::plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION
+        pub fn #transform_core_pkg_diag_ident() -> i32 {
+            let schema_version = swc_core::common::plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
+            let core_pkg_diag = swc_core::diagnostics::get_core_engine_diagnostics();
+
+            let result = swc_core::common::plugin::diagnostics::PluginCorePkgDiagnostics {
+                ast_schema_version: schema_version,
+                pkg_version: core_pkg_diag.package_semver,
+                git_sha: core_pkg_diag.git_sha,
+                cargo_features: core_pkg_diag.cargo_features,
+            };
+
+            let serialized_result = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(
+                &result
+            ).expect("Diagnostics should be always serializable");
+
+            let (serialized_result_ptr, serialized_result_ptr_len) = serialized_result.as_ptr();
+
+            #[cfg(target_arch = "wasm32")] // Allow testing
+            unsafe {
+                __set_transform_plugin_core_pkg_diagnostics(serialized_result_ptr as _, serialized_result_ptr_len as i32);
+            }
+            0
         }
 
         // Macro to allow compose plugin's transform function without manual pointer operation.
