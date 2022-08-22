@@ -395,8 +395,5 @@ fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
         },
     )?;
 
-    if s.trim().is_empty() {
-        bail!("empty stdout");
-    }
     Ok(s)
 }
