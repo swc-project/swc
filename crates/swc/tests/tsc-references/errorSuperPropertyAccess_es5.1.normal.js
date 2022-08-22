@@ -144,22 +144,22 @@ var SomeDerived3 = /*#__PURE__*/ function(SomeBase) {
         return _super.apply(this, arguments);
     }
     SomeDerived3.fn = function fn() {
-        _set(_get_prototype_of(SomeDerived3.prototype), "publicStaticMember", 3, this, true);
-        _set(_get_prototype_of(SomeDerived3.prototype), "privateStaticMember", 3, this, true);
+        _set(_get_prototype_of(SomeDerived3), "publicStaticMember", 3, this, true);
+        _set(_get_prototype_of(SomeDerived3), "privateStaticMember", 3, this, true);
         _get(_get_prototype_of(SomeDerived3), "privateStaticFunc", this).call(this);
     };
     _create_class(SomeDerived3, null, [
         {
             key: "a",
             get: function get() {
-                _set(_get_prototype_of(SomeDerived3.prototype), "publicStaticMember", 3, this, true);
-                _set(_get_prototype_of(SomeDerived3.prototype), "privateStaticMember", 3, this, true);
+                _set(_get_prototype_of(SomeDerived3), "publicStaticMember", 3, this, true);
+                _set(_get_prototype_of(SomeDerived3), "privateStaticMember", 3, this, true);
                 _get(_get_prototype_of(SomeDerived3), "privateStaticFunc", this).call(this);
                 return "";
             },
             set: function set(n) {
-                _set(_get_prototype_of(SomeDerived3.prototype), "publicStaticMember", 3, this, true);
-                _set(_get_prototype_of(SomeDerived3.prototype), "privateStaticMember", 3, this, true);
+                _set(_get_prototype_of(SomeDerived3), "publicStaticMember", 3, this, true);
+                _set(_get_prototype_of(SomeDerived3), "privateStaticMember", 3, this, true);
                 _get(_get_prototype_of(SomeDerived3), "privateStaticFunc", this).call(this);
             }
         }

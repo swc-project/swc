@@ -335,6 +335,7 @@ impl Decorators {
                     // TODO: loose mode
                     constant_super: false,
                     super_class: &None,
+                    in_pat: false,
                 });
 
                 let method = method.fold_with(&mut folder);

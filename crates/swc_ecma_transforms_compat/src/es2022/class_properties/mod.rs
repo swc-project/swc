@@ -648,6 +648,7 @@ impl<C: Comments> ClassProperties<C> {
                             this_alias_mark: None,
                             constant_super: self.c.constant_super,
                             super_class: &super_ident,
+                            in_pat: false,
                         });
                         value.visit_mut_with(&mut ThisInStaticFolder {
                             ident: class_ident.clone(),

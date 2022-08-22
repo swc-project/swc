@@ -832,6 +832,7 @@ where
             this_alias_mark: None,
             constant_super: self.config.constant_super,
             super_class: super_class_ident,
+            in_pat: false,
         };
 
         body.visit_mut_with(&mut folder);
@@ -1014,6 +1015,7 @@ where
                 this_alias_mark: None,
                 constant_super: self.config.constant_super,
                 super_class: super_class_ident,
+                in_pat: false,
             };
             m.function.visit_mut_with(&mut folder);
 
