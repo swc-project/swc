@@ -2946,25 +2946,23 @@ impl Generator {
             }
 
             if let Some(current_exception_block) = self.current_exception_block.take() {
-                let current_exception_block =
-                    &self.blocks.as_ref().unwrap()[current_exception_block.get()];
                 let ExceptionBlock {
                     start_label,
                     catch_label,
                     finally_label,
                     end_label,
                     ..
-                } = match current_exception_block {
+                } = match &*current_exception_block.borrow() {
                     CodeBlock::Exception(v) => v,
                     _ => {
                         unreachable!()
                     }
                 };
 
-                let start_label = self.create_label(Some(start_label));
-                let catch_label = self.create_label(catch_label);
-                let finally_label = self.create_label(finally_label);
-                let end_label = self.create_label(Some(end_label));
+                let start_label = self.create_label(Some(*start_label));
+                let catch_label = self.create_label(*catch_label);
+                let finally_label = self.create_label(*finally_label);
+                let end_label = self.create_label(Some(*end_label));
 
                 stmts.insert(
                     0,
