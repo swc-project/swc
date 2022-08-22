@@ -193,7 +193,7 @@ struct Generator {
     /// Index to `blocks`
     block_stack: Option<Vec<Ptr<CodeBlock>>>,
 
-    label_offsets: Option<Vec<isize>>,
+    label_offsets: Option<Vec<i32>>,
     label_exprs: Option<Vec<Vec<Number>>>,
     next_label_id: usize,
 
@@ -3037,7 +3037,7 @@ impl Generator {
             .copied()
             .enumerate()
         {
-            if label_offset == op_index {
+            if label_offset as usize == op_index {
                 self.flush_label();
 
                 if self.label_numbers.is_none() {
@@ -3103,10 +3103,7 @@ impl Generator {
                                 self.with_block_stack = Some(Default::default());
                             }
 
-                            self.with_block_stack
-                                .as_mut()
-                                .unwrap()
-                                .push(block_index.clone());
+                            self.with_block_stack.as_mut().unwrap().push(block.clone());
                         } else if block_action == BlockAction::Close {
                             self.with_block_stack.as_mut().unwrap().pop();
                         }
@@ -3132,7 +3129,7 @@ impl Generator {
         self.last_operation_was_abrupt = false;
         self.last_operation_was_completion = false;
 
-        let opcode = self.operations[op_index];
+        let opcode = self.operations.as_ref().unwrap()[op_index];
         if (opcode == OpCode::Nop) {
             return;
         } else if (opcode == OpCode::Endfinally) {
@@ -3151,7 +3148,7 @@ impl Generator {
         match opcode {
             OpCode::Assign => {
                 let args = args.expect_exprs();
-                self.write_assign(args.0, args.1, Some(loc));
+                self.write_assign(PatOrExpr::Expr(args.0), args.1, Some(loc));
             }
             OpCode::Break => {
                 let args = args.expect_label();
