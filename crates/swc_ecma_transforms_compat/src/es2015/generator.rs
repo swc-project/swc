@@ -2918,7 +2918,7 @@ impl Generator {
                 // blocks, so we surround the statements in
                 // generated `with` blocks to create the same environment.
 
-                for (i, with_block_idx) in self
+                for (i, with_block) in self
                     .with_block_stack
                     .as_ref()
                     .unwrap()
@@ -2926,8 +2926,7 @@ impl Generator {
                     .enumerate()
                     .rev()
                 {
-                    let with_block = &self.blocks.as_ref().unwrap()[with_block_idx.get()];
-                    let with_block = match with_block {
+                    let with_block = match &*with_block.borrow() {
                         CodeBlock::With(v) => v,
                         _ => {
                             unreachable!()
