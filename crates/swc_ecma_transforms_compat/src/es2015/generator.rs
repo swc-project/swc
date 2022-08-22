@@ -1586,24 +1586,6 @@ impl Generator {
 
     // function transformAndEmitForStatement(node: ForStatement) {
     //     if (containsYield(node)) {
-    //         // [source]
-    //         //      for (var i = 0; i < 10; i++) {
-    //         //          /*body*/
-    //         //      }
-    //         //
-    //         // [intermediate]
-    //         //  .local i
-    //         //      i = 0;
-    //         //  .loop incrementLabel, endLoopLabel
-    //         //  .mark conditionLabel
-    //         //  .brfalse endLoopLabel, (i < 10)
-    //         //      /*body*/
-    //         //  .mark incrementLabel
-    //         //      i++;
-    //         //  .br conditionLabel
-    //         //  .endloop
-    //         //  .mark endLoopLabel
-
     //         const conditionLabel = defineLabel();
     //         const incrementLabel = defineLabel();
     //         const endLabel = beginLoopBlock(incrementLabel);
@@ -1650,6 +1632,30 @@ impl Generator {
     //         emitStatement(visitNode(node, visitor, isStatement));
     //     }
     // }
+    fn transform_and_emit_for_stmt(&mut self, mut node: ForStmt) {
+        if contains_yield(&node) {
+            // [source]
+            //      for (var i = 0; i < 10; i++) {
+            //          /*body*/
+            //      }
+            //
+            // [intermediate]
+            //  .local i
+            //      i = 0;
+            //  .loop incrementLabel, endLoopLabel
+            //  .mark conditionLabel
+            //  .brfalse endLoopLabel, (i < 10)
+            //      /*body*/
+            //  .mark incrementLabel
+            //      i++;
+            //  .br conditionLabel
+            //  .endloop
+            //  .mark endLoopLabel
+        } else {
+            node.visit_mut_with(self);
+            self.emit_stmt(Stmt::For(node));
+        }
+    }
 
     // function visitForStatement(node: ForStatement) {
     //     if (inStatementContainingYield) {
