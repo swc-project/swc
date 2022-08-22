@@ -34,6 +34,12 @@
 
 - **(html/minifier)** Improve minification modes (#5568) ([3cb6fc2](https://github.com/swc-project/swc/commit/3cb6fc2a29b541c32ff95baf0a07021ffe0dd089))
 
+### Testing
+
+
+
+- **(es/transforms)** Enable tests for fixed issues (#5583) ([0f6649c](https://github.com/swc-project/swc/commit/0f6649c44fbd35cbb7f0b64bf9b5a175f002fdd9))
+
 ## [1.2.241] - 2022-08-19
 
 ### Bug Fixes
