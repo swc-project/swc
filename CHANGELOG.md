@@ -38,6 +38,9 @@
 - **(css/ast)** Make `keyword` optional (#5543) ([a3c1ac6](https://github.com/swc-project/swc/commit/a3c1ac67d708b6c95ef9a9b0892df90bdb26ffe5))
 
 
+- **(es/plugin)** Provide `swc_core` diagnostic from plugin (#5591) ([a3e855f](https://github.com/swc-project/swc/commit/a3e855f720ade3b823c1f7e59f0e6dfac197895c))
+
+
 - **(html/minifier)** Improve minification modes (#5568) ([3cb6fc2](https://github.com/swc-project/swc/commit/3cb6fc2a29b541c32ff95baf0a07021ffe0dd089))
 
 ### Testing
