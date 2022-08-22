@@ -693,6 +693,13 @@ impl Fixer<'_> {
                 self.wrap(e);
             }
 
+            Expr::Bin(BinExpr { left, .. })
+                if self.ctx == Context::Default
+                    && matches!(&**left, Expr::Object(..) | Expr::Fn(..) | Expr::Class(..)) =>
+            {
+                self.wrap(left);
+            }
+
             // Flatten seq expr
             Expr::Seq(SeqExpr { span, exprs }) => {
                 let len = exprs
