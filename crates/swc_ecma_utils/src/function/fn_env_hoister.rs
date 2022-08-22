@@ -221,6 +221,20 @@ impl FnEnvHoister {
         if let Some(callee) = self.super_update.ident.get(prop_name) {
             callee.clone()
         } else {
+            self.super_get
+                .ident
+                .entry(prop_name.clone())
+                .or_insert_with(|| {
+                    private_ident!(prop_span, format!("_superprop_get_{}", prop_name))
+                });
+
+            self.super_set
+                .ident
+                .entry(prop_name.clone())
+                .or_insert_with(|| {
+                    private_ident!(prop_span, format!("_superprop_set_{}", prop_name))
+                });
+
             let ident = private_ident!(prop_span, format!("_superprop_update_{}", prop_name));
             self.super_update
                 .ident
@@ -230,6 +244,12 @@ impl FnEnvHoister {
     }
 
     fn super_update_computed(&mut self, span: Span) -> Ident {
+        self.super_get
+            .computed
+            .get_or_insert_with(|| private_ident!(span, "_superprop_get"));
+        self.super_set
+            .computed
+            .get_or_insert_with(|| private_ident!(span, "_superprop_set"));
         self.super_update
             .computed
             .get_or_insert_with(|| private_ident!(span, "_superprop_update"))
@@ -427,13 +447,8 @@ impl VisitMut for FnEnvHoister {
                 }
                 SuperProp::Ident(id) => {
                     *e = if self.in_pat {
-                        Expr::Call(CallExpr {
-                            span: *span,
-                            args: Vec::new(),
-                            callee: self.super_update(&id.sym, *span).as_callee(),
-                            type_args: None,
-                        })
-                        .make_member(quote_ident!("_"))
+                        self.super_update(&id.sym, *span)
+                            .make_member(quote_ident!("_"))
                     } else {
                         Expr::Call(CallExpr {
                             span: *span,
@@ -590,6 +605,105 @@ fn extend_super(
     set: SuperField,
     update: SuperField,
 ) {
+    decls.extend(update.ident.into_iter().map(|(key, ident)| {
+        let value = private_ident!("v");
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: ident.into(),
+            init: Some(Box::new(Expr::Object(ObjectLit {
+                span: DUMMY_SP,
+                props: vec![
+                    Prop::Getter(GetterProp {
+                        span: DUMMY_SP,
+                        key: PropName::Ident(quote_ident!("_")),
+                        type_ann: None,
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![Expr::Ident(
+                                get.ident.get(&key).cloned().expect("getter not found"),
+                            )
+                            .as_call(DUMMY_SP, Default::default())
+                            .into_return_stmt()
+                            .into()],
+                        }),
+                    }),
+                    Prop::Setter(SetterProp {
+                        span: DUMMY_SP,
+                        key: PropName::Ident(quote_ident!("_")),
+                        param: value.clone().into(),
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![Expr::Ident(
+                                set.ident.get(&key).cloned().expect("setter not found"),
+                            )
+                            .as_call(DUMMY_SP, vec![value.as_arg()])
+                            .into_stmt()],
+                        }),
+                    }),
+                ]
+                .into_iter()
+                .map(Box::new)
+                .map(Into::into)
+                .collect(),
+            }))),
+            definite: false,
+        }
+    }));
+    if let Some(id) = update.computed {
+        let prop = private_ident!("_prop");
+        let value = private_ident!("v");
+
+        decls.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: id.into(),
+            init: Some(Box::new(Expr::Arrow(ArrowExpr {
+                span: DUMMY_SP,
+                params: vec![prop.clone().into()],
+                body: BlockStmtOrExpr::Expr(Box::new(Expr::Object(ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![
+                        Prop::Getter(GetterProp {
+                            span: DUMMY_SP,
+                            key: PropName::Ident(quote_ident!("_")),
+                            type_ann: None,
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Expr::Ident(
+                                    get.computed.clone().expect("getter computed not found"),
+                                )
+                                .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
+                                .into_return_stmt()
+                                .into()],
+                            }),
+                        }),
+                        Prop::Setter(SetterProp {
+                            span: DUMMY_SP,
+                            key: PropName::Ident(quote_ident!("_")),
+                            param: value.clone().into(),
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Expr::Ident(
+                                    set.computed.clone().expect("setter computed not found"),
+                                )
+                                .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
+                                .into_return_stmt()
+                                .into()],
+                            }),
+                        }),
+                    ]
+                    .into_iter()
+                    .map(Box::new)
+                    .map(Into::into)
+                    .collect(),
+                }))),
+                is_async: false,
+                is_generator: false,
+                return_type: None,
+                type_params: None,
+            }))),
+            definite: false,
+        });
+    }
     decls.extend(get.ident.into_iter().map(|(key, ident)| VarDeclarator {
         span: DUMMY_SP,
         name: ident.into(),
@@ -679,127 +793,6 @@ fn extend_super(
                     }))),
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
-                }))),
-                is_async: false,
-                is_generator: false,
-                return_type: None,
-                type_params: None,
-            }))),
-            definite: false,
-        });
-    }
-    decls.extend(update.ident.into_iter().map(|(key, ident)| {
-        let value = private_ident!("v");
-        VarDeclarator {
-            span: DUMMY_SP,
-            name: ident.into(),
-            init: Some(Box::new(Expr::Object(ObjectLit {
-                span: DUMMY_SP,
-                props: vec![
-                    Prop::Getter(GetterProp {
-                        span: DUMMY_SP,
-                        key: PropName::Ident(quote_ident!("_")),
-                        type_ann: None,
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![Expr::SuperProp(SuperPropExpr {
-                                obj: Super { span: DUMMY_SP },
-                                prop: SuperProp::Ident(quote_ident!(key.clone())),
-                                span: DUMMY_SP,
-                            })
-                            .into_return_stmt()
-                            .into()],
-                        }),
-                    }),
-                    Prop::Setter(SetterProp {
-                        span: DUMMY_SP,
-                        key: PropName::Ident(quote_ident!("_")),
-                        param: value.clone().into(),
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![Expr::Ident(value)
-                                .make_assign_to(
-                                    op!("="),
-                                    PatOrExpr::Expr(Box::new(
-                                        SuperPropExpr {
-                                            obj: Super { span: DUMMY_SP },
-                                            prop: SuperProp::Ident(quote_ident!(key)),
-                                            span: DUMMY_SP,
-                                        }
-                                        .into(),
-                                    )),
-                                )
-                                .into_stmt()],
-                        }),
-                    }),
-                ]
-                .into_iter()
-                .map(Box::new)
-                .map(Into::into)
-                .collect(),
-            }))),
-            definite: false,
-        }
-    }));
-    if let Some(id) = update.computed {
-        let prop = private_ident!("_prop");
-        let value = private_ident!("v");
-        decls.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: id.into(),
-            init: Some(Box::new(Expr::Arrow(ArrowExpr {
-                span: DUMMY_SP,
-                params: vec![prop.clone().into()],
-                body: BlockStmtOrExpr::Expr(Box::new(Expr::Object(ObjectLit {
-                    span: DUMMY_SP,
-                    props: vec![
-                        Prop::Getter(GetterProp {
-                            span: DUMMY_SP,
-                            key: PropName::Ident(quote_ident!("_")),
-                            type_ann: None,
-                            body: Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![Expr::SuperProp(SuperPropExpr {
-                                    obj: Super { span: DUMMY_SP },
-                                    prop: SuperProp::Computed(ComputedPropName {
-                                        span: DUMMY_SP,
-                                        expr: Box::new(Expr::Ident(prop.clone())),
-                                    }),
-                                    span: DUMMY_SP,
-                                })
-                                .into_return_stmt()
-                                .into()],
-                            }),
-                        }),
-                        Prop::Setter(SetterProp {
-                            span: DUMMY_SP,
-                            key: PropName::Ident(quote_ident!("_")),
-                            param: value.clone().into(),
-                            body: Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![Expr::Ident(value)
-                                    .make_assign_to(
-                                        op!("="),
-                                        PatOrExpr::Expr(Box::new(
-                                            SuperPropExpr {
-                                                obj: Super { span: DUMMY_SP },
-                                                prop: SuperProp::Computed(ComputedPropName {
-                                                    span: DUMMY_SP,
-                                                    expr: Box::new(Expr::Ident(prop)),
-                                                }),
-                                                span: DUMMY_SP,
-                                            }
-                                            .into(),
-                                        )),
-                                    )
-                                    .into_stmt()],
-                            }),
-                        }),
-                    ]
-                    .into_iter()
-                    .map(Box::new)
-                    .map(Into::into)
-                    .collect(),
                 }))),
                 is_async: false,
                 is_generator: false,

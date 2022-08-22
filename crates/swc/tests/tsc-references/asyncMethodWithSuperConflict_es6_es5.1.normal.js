@@ -61,34 +61,34 @@ var B = /*#__PURE__*/ function(A) {
     // async method with assignment/destructuring on 'super' requires a binding
     _proto.advanced = function advanced() {
         var _this = this;
-        var _this1 = this, // call with property access
-        _superprop_get_x = function() {
-            return _get(_get_prototype_of(B.prototype), "x", _this);
-        }, // call with element access
-        _superprop_get = function(_prop) {
-            return _get(_get_prototype_of(B.prototype), _prop, _this);
-        }, // property access (assign)
-        _superprop_set_x = function(_value) {
-            return _set(_get_prototype_of(B.prototype), "x", _value, _this, true);
-        }, // element access (assign)
-        _superprop_set = function(_prop, _value) {
-            return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
-        }, _superprop_update_x = {
+        var _this1 = this, _superprop_update_x = {
             get _ () {
-                return _get(_get_prototype_of(B.prototype), "x", this);
+                return(// call with property access
+                _superprop_get_x());
             },
             set _ (v){
-                _set(_get_prototype_of(B.prototype), "x", v, this, true);
+                // property access (assign)
+                _superprop_set_x(v);
             }
         }, _superprop_update = function(_prop) {
             return {
                 get _ () {
-                    return _get(_get_prototype_of(B.prototype), _prop, this);
+                    return(// call with element access
+                    _superprop_get(_prop));
                 },
                 set _ (v){
-                    _set(_get_prototype_of(B.prototype), _prop, v, this, true);
+                    return(// element access (assign)
+                    _superprop_set(_prop, v));
                 }
             };
+        }, _superprop_get_x = function() {
+            return _get(_get_prototype_of(B.prototype), "x", _this);
+        }, _superprop_get = function(_prop) {
+            return _get(_get_prototype_of(B.prototype), _prop, _this);
+        }, _superprop_set_x = function(_value) {
+            return _set(_get_prototype_of(B.prototype), "x", _value, _this, true);
+        }, _superprop_set = function(_prop, _value) {
+            return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
         };
         return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var _super, _superIndex, f, a, b, ref, ref1;
@@ -108,7 +108,7 @@ var B = /*#__PURE__*/ function(A) {
                         // destructuring assign with property access
                         (ref = {
                             f: f
-                        }, _superprop_update_x()._ = ref.f, ref);
+                        }, _superprop_update_x._ = ref.f, ref);
                         ;
                         // destructuring assign with element access
                         (ref1 = {

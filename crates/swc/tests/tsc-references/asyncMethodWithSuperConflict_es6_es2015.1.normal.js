@@ -25,25 +25,25 @@ class B extends A {
     }
     // async method with assignment/destructuring on 'super' requires a binding
     advanced() {
-        var _this = this, // call with property access
-        _superprop_get_x = ()=>super.x, // call with element access
-        _superprop_get = (_prop)=>super[_prop], // property access (assign)
-        _superprop_set_x = (_value)=>super.x = _value, // element access (assign)
-        _superprop_set = (_prop, _value)=>super[_prop] = _value, _superprop_update_x = {
+        var _this = this, _superprop_update_x = {
             get _ () {
-                return super.x;
+                return(// call with property access
+                _superprop_get_x());
             },
             set _ (v){
-                super.x = v;
+                // property access (assign)
+                _superprop_set_x(v);
             }
         }, _superprop_update = (_prop)=>({
                 get _ () {
-                    return super[_prop];
+                    return(// call with element access
+                    _superprop_get(_prop));
                 },
                 set _ (v){
-                    super[_prop] = v;
+                    return(// element access (assign)
+                    _superprop_set(_prop, v));
                 }
-            });
+            }), _superprop_get_x = ()=>super.x, _superprop_get = (_prop)=>super[_prop], _superprop_set_x = (_value)=>super.x = _value, _superprop_set = (_prop, _value)=>super[_prop] = _value;
         return _async_to_generator(function*() {
             const _super = null;
             const _superIndex = null;
@@ -57,7 +57,7 @@ class B extends A {
             _superprop_set_x(f);
             _superprop_set("x", f);
             // destructuring assign with property access
-            ({ f: _superprop_update_x()._  } = {
+            ({ f: _superprop_update_x._  } = {
                 f
             });
             // destructuring assign with element access
