@@ -368,7 +368,26 @@ enum NodeModuleType {
 
 fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
     let s = exec_node_js(
-        code,
+        &match module_type {
+            NodeModuleType::CommonJs => {
+                format!(
+                    "
+                    const expect = require('expect');
+                    {}
+                    ",
+                    code
+                )
+            }
+            NodeModuleType::Module => {
+                format!(
+                    "
+                    import expect from 'expect';
+                    {}
+                    ",
+                    code
+                )
+            }
+        },
         JsExecOptions {
             cache: true,
             module: matches!(module_type, NodeModuleType::Module),
