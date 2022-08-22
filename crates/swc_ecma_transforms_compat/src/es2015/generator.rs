@@ -1879,28 +1879,6 @@ impl Generator {
 
     // function transformAndEmitSwitchStatement(node: SwitchStatement) {
 
-    //         const caseBlock = node.caseBlock;
-    //         const numClauses = caseBlock.clauses.length;
-    //         const endLabel = beginSwitchBlock();
-
-    //         const expression = cacheExpression(
-    //             visitNode(node.expression, visitor, isExpression)
-    //         );
-
-    //         // Create labels for each clause and find the index of the first
-    // default clause.         const clauseLabels: Label[] = [];
-    //         let defaultClauseIndex = -1;
-    //         for (let i = 0; i < numClauses; i++) {
-    //             const clause = caseBlock.clauses[i];
-    //             clauseLabels.push(defineLabel());
-    //             if (
-    //                 clause.kind === SyntaxKind.DefaultClause &&
-    //                 defaultClauseIndex === -1
-    //             ) {
-    //                 defaultClauseIndex = i;
-    //             }
-    //         }
-
     //         // Emit switch statements for each run of case clauses either from
     // the first case         // clause or the next case clause with a `yield`
     // in its expression, up to the next         // case clause with a `yield`
@@ -2000,6 +1978,23 @@ impl Generator {
             //      /*caseStatements*/
             //  .endswitch
             //  .mark endLabel
+
+            let end_label = self.begin_switch_block();
+            node.discriminant.visit_mut_with(self);
+            let expression = self.cache_expression(node.discriminant);
+
+            // Create labels for each clause and find the index of the first
+            // default clause.
+
+            let mut clause_labels = Vec::new();
+            let mut default_clause_index = -1isize;
+
+            for (i, clause) in node.cases.iter().enumerate() {
+                clause_labels.push(self.define_label());
+                if clause.test.is_none() && default_clause_index == -1 {
+                    default_clause_index = i;
+                }
+            }
         } else {
             node.visit_mut_with(self);
             self.emit_stmt(Stmt::Switch(node))
