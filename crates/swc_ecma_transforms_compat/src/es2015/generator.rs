@@ -2278,55 +2278,44 @@ impl Generator {
         end_label
     }
 
-    // /**
-    //  * Enters the `catch` clause of a generated `try` statement.
-    //  *
-    //  * @param variable The catch variable.
-    //  */
-    // function beginCatchBlock(variable: VariableDeclaration): void {
-    //     Debug.assert(peekBlockKind() === CodeBlockKind.Exception);
+    /**
+     * Enters the `catch` clause of a generated `try` statement.
+     *
+     * @param variable The catch variable.
+     */
+    fn begin_catch_block(&mut self, variable: VarDeclarator) {
+        debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Exception));
 
-    //     // generated identifiers should already be unique within a file
-    //     let name: Identifier;
-    //     if (isGeneratedIdentifier(variable.name)) {
-    //         name = variable.name;
-    //         hoistVariableDeclaration(variable.name);
-    //     } else {
-    //         const text = idText(variable.name as Identifier);
-    //         name = declareLocal(text);
-    //         if (!renamedCatchVariables) {
-    //             renamedCatchVariables = new Map<string, boolean>();
-    //             renamedCatchVariableDeclarations = [];
-    //             context.enableSubstitution(SyntaxKind.Identifier);
-    //         }
+        let name = variable.name.expect_ident();
+        self.hoist_variable_declaration(name);
 
-    //         renamedCatchVariables.set(text, true);
-    //         renamedCatchVariableDeclarations[getOriginalNodeId(variable)] =
-    //             name;
-    //     }
+        // ExceptionBlock
+        let exception = self.peek_block().unwrap();
+        // TODO:
+        //     Debug.assert(exception.state < ExceptionBlockState.Catch);
 
-    //     const exception = peekBlock() as ExceptionBlock;
-    //     Debug.assert(exception.state < ExceptionBlockState.Catch);
+        let end_label = exception.borrow().end_label();
+        self.emit_break(end_label);
 
-    //     const endLabel = exception.endLabel;
-    //     emitBreak(endLabel);
+        let catch_label = self.define_label();
+        self.mark_label(catch_label);
+        // TODO(kdy1):
+        //     exception.state = ExceptionBlockState.Catch;
+        //     exception.catchVariable = name;
+        //     exception.catchLabel = catchLabel;
 
-    //     const catchLabel = defineLabel();
-    //     markLabel(catchLabel);
-    //     exception.state = ExceptionBlockState.Catch;
-    //     exception.catchVariable = name;
-    //     exception.catchLabel = catchLabel;
+        // TODO(kdy1):
+        //     emitAssignment(
+        //         name,
+        //         factory.createCallExpression(
+        //             factory.createPropertyAccessExpression(state, "sent"),
+        //             /*typeArguments*/ undefined,
+        //             []
+        //         )
+        //     );
 
-    //     emitAssignment(
-    //         name,
-    //         factory.createCallExpression(
-    //             factory.createPropertyAccessExpression(state, "sent"),
-    //             /*typeArguments*/ undefined,
-    //             []
-    //         )
-    //     );
-    //     emitNop();
-    // }
+        self.emit_nop();
+    }
 
     /// Enters the `finally` block of a generated `try` statement.
     fn begin_finally_block(&mut self) {
