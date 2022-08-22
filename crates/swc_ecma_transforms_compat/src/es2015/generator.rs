@@ -1586,26 +1586,6 @@ impl Generator {
 
     // function transformAndEmitForStatement(node: ForStatement) {
     //     if (containsYield(node)) {
-    //         const conditionLabel = defineLabel();
-    //         const incrementLabel = defineLabel();
-    //         const endLabel = beginLoopBlock(incrementLabel);
-    //         if (node.initializer) {
-    //             const initializer = node.initializer;
-    //             if (isVariableDeclarationList(initializer)) {
-    //                 transformAndEmitVariableDeclarationList(initializer);
-    //             } else {
-    //                 emitStatement(
-    //                     setTextRange(
-    //                         factory.createExpressionStatement(
-    //                             visitNode(initializer, visitor, isExpression)
-    //                         ),
-    //                         initializer
-    //                     )
-    //                 );
-    //             }
-    //         }
-
-    //         markLabel(conditionLabel);
     //         if (node.condition) {
     //             emitBreakWhenFalse(
     //                 endLabel,
@@ -1651,6 +1631,27 @@ impl Generator {
             //  .br conditionLabel
             //  .endloop
             //  .mark endLoopLabel
+
+            let condition_label = self.define_label();
+            let increment_label = self.define_label();
+            let end_label = self.begin_loop_block(increment_label);
+
+            if let Some(init) = node.init {
+                match init {
+                    VarDeclOrExpr::VarDecl(init) => {
+                        self.transform_and_emit_var_decl_list(init);
+                    }
+                    VarDeclOrExpr::Expr(init) => {
+                        init.visit_mut_with(self);
+                        self.emit_stmt(Stmt::Expr(ExprStmt {
+                            span: init.span(),
+                            expr: init,
+                        }));
+                    }
+                }
+            }
+
+            self.mark_label(condition_label);
         } else {
             node.visit_mut_with(self);
             self.emit_stmt(Stmt::For(node));
