@@ -34,7 +34,7 @@ where
     }
 
     fn matrix_bool(self) -> Vec<(T, bool)> {
-        self.matrix(|| [true, false])
+        self.matrix(|| [false, true])
     }
 }
 
