@@ -2523,7 +2523,7 @@ impl Generator {
             if let Some(label_text) = label_text {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
-                    if self.supports_unlabeled_continue(block)
+                    if self.supports_unlabeled_continue(&block.borrow())
                         || self.has_immediate_containing_labeled_block(label_text, i - i)
                     {
                         return block.continue_label;
@@ -2534,7 +2534,7 @@ impl Generator {
             } else {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
-                    if self.supports_unlabeled_continue(block) {
+                    if self.supports_unlabeled_continue(&block.borrow()) {
                         return block.continue_label;
                     }
                 }
