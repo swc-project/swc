@@ -1346,7 +1346,7 @@ impl Generator {
         }
     }
 
-    fn transform_and_emit_embedded_statement(&mut self, node: Stmt) {
+    fn transform_and_emit_embedded_stmt(&mut self, node: Stmt) {
         if let Stmt::Block(block) = node {
             self.transform_and_emit_stmts(block.stmts, 0);
         } else {
@@ -1483,12 +1483,12 @@ impl Generator {
                 let span = node.test.span();
                 self.emit_break_when_false(else_label.unwrap_or(end_label), node.test, span);
 
-                self.transform_and_emit_embedded_statement(node.cons);
+                self.transform_and_emit_embedded_stmt(node.cons);
 
                 if let Some(alt) = node.alt {
                     self.emit_break(end_label, None);
                     self.mark_label(else_label);
-                    self.transform_and_emit_embedded_statement(alt);
+                    self.transform_and_emit_embedded_stmt(alt);
                 }
                 self.mark_label(end_label);
             } else {
@@ -1523,7 +1523,7 @@ impl Generator {
 
             self.begin_loop_block(condition_label);
             self.mark_label(loop_label);
-            self.transform_and_emit_embedded_statement(node.body);
+            self.transform_and_emit_embedded_stmt(node.body);
             self.mark_label(condition_label);
             node.test.visit_mut_with(self);
             let span = node.test.span();
@@ -1871,7 +1871,7 @@ impl Generator {
 
             node.obj.visit_mut_with(self);
             self.begin_with_block(self.cache_expression(node.obj));
-            self.transform_and_emit_embedded_statement(node.body);
+            self.transform_and_emit_embedded_stmt(node.body);
             self.end_with_block();
         } else {
             node.visit_mut_with(self);
@@ -2064,16 +2064,16 @@ impl Generator {
             //  .mark endLabel
 
             self.begin_exception_block();
-            self.transform_and_emit_embedded_statement(Stmt::Block(node.block));
+            self.transform_and_emit_embedded_stmt(Stmt::Block(node.block));
             if let Some(catch) = node.handler {
                 self.begin_catch_block(catch.param);
-                self.transform_and_emit_embedded_statement(Stmt::Block(catch.body));
+                self.transform_and_emit_embedded_stmt(Stmt::Block(catch.body));
                 self.end_catch_block();
             }
 
             if let Some(finalizer) = node.finalizer {
                 self.begin_finally_block();
-                self.transform_and_emit_embedded_statement(Stmt::Block(finalizer));
+                self.transform_and_emit_embedded_stmt(Stmt::Block(finalizer));
             }
 
             self.end_exception_block();
