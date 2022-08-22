@@ -6,7 +6,7 @@ use std::{
 };
 
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, Span, Spanned, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -2049,7 +2049,10 @@ impl Generator {
             self.begin_exception_block();
             self.transform_and_emit_embedded_stmt(Stmt::Block(node.block));
             if let Some(catch) = node.handler {
-                self.begin_catch_block(catch.param);
+                self.begin_catch_block(VarDeclarator {
+                    name: catch.param.clone().unwrap(),
+                    ..Take::dummy()
+                });
                 self.transform_and_emit_embedded_stmt(Stmt::Block(catch.body));
                 self.end_catch_block();
             }
