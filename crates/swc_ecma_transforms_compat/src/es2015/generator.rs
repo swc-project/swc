@@ -3151,39 +3151,39 @@ impl Generator {
         match opcode {
             OpCode::Assign => {
                 let args = args.expect_exprs();
-                self.write_assign(args.0, args.1, loc);
+                self.write_assign(args.0, args.1, Some(loc));
             }
             OpCode::Break => {
                 let args = args.expect_label();
-                self.write_break(args, loc);
+                self.write_break(args, Some(loc));
             }
             OpCode::BreakWhenTrue => {
                 let args = args.expect_label_expr();
-                self.write_break_when_true(args.0, args.1, loc);
+                self.write_break_when_true(args.0, args.1, Some(loc));
             }
             OpCode::BreakWhenFalse => {
                 let args = args.expect_label_expr();
-                self.write_break_when_false(args.0, args.1, loc);
+                self.write_break_when_false(args.0, args.1, Some(loc));
             }
             OpCode::Yield => {
-                let args = args.opt_expr();
+                let args = args.expect_opt_expr();
 
-                self.write_yield(args, loc);
+                self.write_yield(args, Some(loc));
             }
             OpCode::YieldStar => {
-                let args = args.opt_expr().unwrap();
+                let args = args.expect_opt_expr().unwrap();
 
-                self.write_yield_star(args, loc);
+                self.write_yield_star(args, Some(loc));
             }
             OpCode::Return => {
-                let args = args.opt_expr();
+                let args = args.expect_opt_expr();
 
-                self.write_return(args, loc);
+                self.write_return(args, Some(loc));
             }
             OpCode::Throw => {
-                let args = args.opt_expr().unwrap();
+                let args = args.expect_opt_expr().unwrap();
 
-                self.write_throw(args, loc);
+                self.write_throw(args, Some(loc));
             }
         }
     }
