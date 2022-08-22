@@ -2302,12 +2302,12 @@ impl Generator {
         let catch_label = self.define_label();
         self.mark_label(catch_label);
         exception.state = ExceptionBlockState::Catch;
-        exception.catch_variable = name;
+        exception.catch_variable = Some(name);
         exception.catch_label = catch_label;
 
         self.emit_assignment(
-            name,
-            Expr::Call(CallExpr {
+            Box::new(Expr::Ident(name)),
+            Box::new(Expr::Call(CallExpr {
                 callee: self
                     .state
                     .clone()
@@ -2315,7 +2315,7 @@ impl Generator {
                     .as_callee(),
                 args: vec![],
                 type_args: Default::default(),
-            }),
+            })),
             None,
         );
 
