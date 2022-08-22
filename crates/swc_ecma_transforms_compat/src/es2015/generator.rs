@@ -230,6 +230,16 @@ impl VisitMut for Generator {
         }
     }
 
+    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
+        if self.in_statement_containing_yield {
+            self.begin_script_loop_block();
+            self.visit_mut_each_child(node);
+            self.end_loop_block();
+        } else {
+            node.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
         node.arg.visit_mut_with(self);
 
@@ -1573,17 +1583,6 @@ impl Generator {
             self.emit_stmt(Stmt::While(node));
         }
     }
-
-    // function visitWhileStatement(node: WhileStatement) {
-    //     if (inStatementContainingYield) {
-    //         beginScriptLoopBlock();
-    //         node = visitEachChild(node, visitor, context);
-    //         endLoopBlock();
-    //         return node;
-    //     } else {
-    //         return visitEachChild(node, visitor, context);
-    //     }
-    // }
 
     // function transformAndEmitForStatement(node: ForStatement) {
     //     if (containsYield(node)) {
