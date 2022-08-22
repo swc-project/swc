@@ -29,7 +29,21 @@ class B extends A {
         _superprop_get_x = ()=>super.x, // call with element access
         _superprop_get = (_prop)=>super[_prop], // property access (assign)
         _superprop_set_x = (_value)=>super.x = _value, // element access (assign)
-        _superprop_set = (_prop, _value)=>super[_prop] = _value;
+        _superprop_set = (_prop, _value)=>super[_prop] = _value, _superprop_update_x = {
+            get _ () {
+                return super.x;
+            },
+            set _ (v){
+                super.x = v;
+            }
+        }, _superprop_update = (_prop)=>({
+                get _ () {
+                    return super[_prop];
+                },
+                set _ (v){
+                    super[_prop] = v;
+                }
+            });
         return _async_to_generator(function*() {
             const f = ()=>{};
             _superprop_get_x().call(_this);
@@ -41,11 +55,11 @@ class B extends A {
             _superprop_set_x(f);
             _superprop_set("x", f);
             // destructuring assign with property access
-            ({ f: _superprop_get_x()  } = {
+            ({ f: _superprop_update_x()._  } = {
                 f
             });
             // destructuring assign with element access
-            ({ f: _superprop_get("x")  } = {
+            ({ f: _superprop_update("x")._  } = {
                 f
             });
         })();

@@ -30,7 +30,21 @@ class B extends A {
         _superprop_get_x = ()=>super.x, // call with element access
         _superprop_get = (_prop)=>super[_prop], // property access (assign)
         _superprop_set_x = (_value)=>super.x = _value, // element access (assign)
-        _superprop_set = (_prop, _value)=>super[_prop] = _value;
+        _superprop_set = (_prop, _value)=>super[_prop] = _value, _superprop_update_x = {
+            get _ () {
+                return super.x;
+            },
+            set _ (v){
+                super.x = v;
+            }
+        }, _superprop_update = (_prop)=>({
+                get _ () {
+                    return super[_prop];
+                },
+                set _ (v){
+                    super[_prop] = v;
+                }
+            });
         return _async_to_generator(function*() {
             const f = ()=>{};
             _superprop_get_x().call(_this);
@@ -42,11 +56,11 @@ class B extends A {
             _superprop_set_x(f);
             _superprop_set("x", f);
             // destructuring assign with property access
-            ({ f: _superprop_get_x()  } = {
+            ({ f: _superprop_update_x()._  } = {
                 f
             });
             // destructuring assign with element access
-            ({ f: _superprop_get("x")  } = {
+            ({ f: _superprop_update("x")._  } = {
                 f
             });
             // property access in arrow
@@ -79,13 +93,20 @@ class B extends A {
         })();
     }
     property_access_only_write_only() {
-        var _superprop_get_x = ()=>super.x, // property access (assign)
-        _superprop_set_x = (_value)=>super.x = _value;
+        var // property access (assign)
+        _superprop_set_x = (_value)=>super.x = _value, _superprop_update_x = {
+            get _ () {
+                return super.x;
+            },
+            set _ (v){
+                super.x = v;
+            }
+        };
         return _async_to_generator(function*() {
             const f = ()=>{};
             _superprop_set_x(f);
             // destructuring assign with property access
-            ({ f: _superprop_get_x()  } = {
+            ({ f: _superprop_update_x()._  } = {
                 f
             });
             // property access (assign) in arrow
@@ -112,13 +133,20 @@ class B extends A {
         })();
     }
     element_access_only_write_only() {
-        var _superprop_get = (_prop)=>super[_prop], // element access (assign)
-        _superprop_set = (_prop, _value)=>super[_prop] = _value;
+        var // element access (assign)
+        _superprop_set = (_prop, _value)=>super[_prop] = _value, _superprop_update = (_prop)=>({
+                get _ () {
+                    return super[_prop];
+                },
+                set _ (v){
+                    super[_prop] = v;
+                }
+            });
         return _async_to_generator(function*() {
             const f = ()=>{};
             _superprop_set("x", f);
             // destructuring assign with element access
-            ({ f: _superprop_get("x")  } = {
+            ({ f: _superprop_update("x")._  } = {
                 f
             });
             // element access (assign) in arrow
@@ -145,13 +173,20 @@ class B extends A {
         })();
     }
     property_access_only_write_only_in_generator() {
-        var _superprop_get_x = ()=>super.x, // property access (assign)
-        _superprop_set_x = (_value)=>super.x = _value;
+        var // property access (assign)
+        _superprop_set_x = (_value)=>super.x = _value, _superprop_update_x = {
+            get _ () {
+                return super.x;
+            },
+            set _ (v){
+                super.x = v;
+            }
+        };
         return _wrap_async_generator(function*() {
             const f = ()=>{};
             _superprop_set_x(f);
             // destructuring assign with property access
-            ({ f: _superprop_get_x()  } = {
+            ({ f: _superprop_update_x()._  } = {
                 f
             });
             // property access (assign) in arrow
@@ -178,13 +213,20 @@ class B extends A {
         })();
     }
     element_access_only_write_only_in_generator() {
-        var _superprop_get = (_prop)=>super[_prop], // element access (assign)
-        _superprop_set = (_prop, _value)=>super[_prop] = _value;
+        var // element access (assign)
+        _superprop_set = (_prop, _value)=>super[_prop] = _value, _superprop_update = (_prop)=>({
+                get _ () {
+                    return super[_prop];
+                },
+                set _ (v){
+                    super[_prop] = v;
+                }
+            });
         return _wrap_async_generator(function*() {
             const f = ()=>{};
             _superprop_set("x", f);
             // destructuring assign with element access
-            ({ f: _superprop_get("x")  } = {
+            ({ f: _superprop_update("x")._  } = {
                 f
             });
             // element access (assign) in arrow

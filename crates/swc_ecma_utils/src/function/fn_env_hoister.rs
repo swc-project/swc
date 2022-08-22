@@ -25,6 +25,9 @@ pub struct FnEnvHoister {
     new_target: Option<Ident>,
     super_get: SuperField,
     super_set: SuperField,
+    super_update: SuperField,
+
+    in_pat: bool,
 
     // extra ident for super["xx"] += 123
     extra_ident: Vec<Ident>,
@@ -56,6 +59,7 @@ impl FnEnvHoister {
             new_target,
             super_get,
             super_set,
+            super_update,
             ..
         } = self;
 
@@ -90,7 +94,7 @@ impl FnEnvHoister {
                 definite: false,
             });
         }
-        extend_super(&mut decls, super_get, super_set);
+        extend_super(&mut decls, super_get, super_set, super_update);
         decls
     }
 
@@ -116,6 +120,7 @@ impl FnEnvHoister {
             new_target,
             super_get,
             super_set,
+            super_update,
             ..
         } = self;
 
@@ -151,7 +156,7 @@ impl FnEnvHoister {
             });
         }
 
-        extend_super(&mut decls, super_get, super_set);
+        extend_super(&mut decls, super_get, super_set, super_update);
 
         if decls.is_empty() {
             (None, None)
@@ -174,12 +179,14 @@ impl FnEnvHoister {
             .clone()
     }
 
-    fn super_get(&mut self, id: &mut Ident, span: Span) -> Ident {
-        if let Some(callee) = self.super_get.ident.get(&id.sym) {
+    fn super_get(&mut self, prop_name: &JsWord, prop_span: Span) -> Ident {
+        if let Some(callee) = self.super_get.ident.get(prop_name) {
             callee.clone()
         } else {
-            let ident = private_ident!(span, format!("_superprop_get_{}", id.sym));
-            self.super_get.ident.insert(id.take().sym, ident.clone());
+            let ident = private_ident!(prop_span, format!("_superprop_get_{}", prop_name));
+            self.super_get
+                .ident
+                .insert(prop_name.clone(), ident.clone());
             ident
         }
     }
@@ -191,12 +198,14 @@ impl FnEnvHoister {
             .clone()
     }
 
-    fn super_set(&mut self, id: &mut Ident, span: Span) -> Ident {
-        if let Some(callee) = self.super_set.ident.get(&id.sym) {
+    fn super_set(&mut self, prop_name: &JsWord, prop_span: Span) -> Ident {
+        if let Some(callee) = self.super_set.ident.get(prop_name) {
             callee.clone()
         } else {
-            let ident = private_ident!(span, format!("_superprop_set_{}", id.sym));
-            self.super_set.ident.insert(id.take().sym, ident.clone());
+            let ident = private_ident!(prop_span, format!("_superprop_set_{}", prop_name));
+            self.super_set
+                .ident
+                .insert(prop_name.clone(), ident.clone());
             ident
         }
     }
@@ -207,10 +216,36 @@ impl FnEnvHoister {
             .get_or_insert_with(|| private_ident!(span, "_superprop_set"))
             .clone()
     }
+
+    fn super_update(&mut self, prop_name: &JsWord, prop_span: Span) -> Ident {
+        if let Some(callee) = self.super_update.ident.get(prop_name) {
+            callee.clone()
+        } else {
+            let ident = private_ident!(prop_span, format!("_superprop_update_{}", prop_name));
+            self.super_update
+                .ident
+                .insert(prop_name.clone(), ident.clone());
+            ident
+        }
+    }
+
+    fn super_update_computed(&mut self, span: Span) -> Ident {
+        self.super_update
+            .computed
+            .get_or_insert_with(|| private_ident!(span, "_superprop_update"))
+            .clone()
+    }
 }
 
 impl VisitMut for FnEnvHoister {
     noop_visit_mut_type!();
+
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        let in_pat = self.in_pat;
+        self.in_pat = true;
+        n.visit_mut_children_with(self);
+        self.in_pat = in_pat;
+    }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
@@ -296,14 +331,14 @@ impl VisitMut for FnEnvHoister {
                             });
                         }
                         SuperProp::Ident(id) => {
-                            let callee = self.super_set(&mut id.clone(), left_span);
+                            let callee = self.super_set(&id.sym, left_span);
                             *e = Expr::Call(CallExpr {
                                 span: *span,
                                 args: vec![(if let Some(op) = op.to_update() {
                                     Box::new(Expr::Bin(BinExpr {
                                         span: DUMMY_SP,
                                         left: Box::new(
-                                            self.super_get(id, id.span)
+                                            self.super_get(&id.sym, id.span)
                                                 .as_call(id.span, Vec::new()),
                                         ),
                                         op,
@@ -345,7 +380,7 @@ impl VisitMut for FnEnvHoister {
                             *e = call.call_fn(*span, new_args);
                         }
                         SuperProp::Ident(id) => {
-                            let callee = self.super_get(id, super_prop.span);
+                            let callee = self.super_get(&id.sym, super_prop.span);
                             let call = Expr::Call(CallExpr {
                                 span: *span,
                                 args: Vec::new(),
@@ -363,101 +398,50 @@ impl VisitMut for FnEnvHoister {
                 e.visit_mut_children_with(self)
             }
             // super.foo ++
-            Expr::Update(UpdateExpr {
-                span,
-                op,
-                prefix,
-                arg,
-            }) => {
-                if let Expr::SuperProp(SuperPropExpr {
-                    span: arg_span,
-                    prop,
-                    ..
-                }) = &mut **arg
-                {
-                    let tmp = private_ident!("tmp");
-                    self.extra_ident.push(tmp.clone());
-
-                    let op = match op {
-                        op!("++") => op!(bin, "+"),
-                        op!("--") => op!(bin, "-"),
-                    };
-
-                    let update_expr = Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: Box::new(Expr::Ident(tmp.clone())),
-                        right: 1_f64.into(),
-                        op,
-                    })
-                    .as_arg();
-
-                    let mut exprs = match prop {
-                        SuperProp::Ident(id) => vec![
-                            Box::new(Expr::Assign(AssignExpr {
-                                left: PatOrExpr::Pat(tmp.clone().into()),
-                                op: op!("="),
-                                right: Box::new(
-                                    self.super_get(&mut id.clone(), *arg_span)
-                                        .as_call(*arg_span, Vec::new()),
-                                ),
-                                span: *arg_span,
-                            })),
-                            Box::new(
-                                self.super_set(&mut id.clone(), *arg_span)
-                                    .as_call(*arg_span, vec![update_expr]),
-                            ),
-                        ],
-                        SuperProp::Computed(c) => {
-                            let prop = private_ident!("prop");
-                            self.extra_ident.push(prop.clone());
-                            vec![
-                                Box::new(Expr::Assign(AssignExpr {
-                                    span: *arg_span,
-                                    left: PatOrExpr::Pat(tmp.clone().into()),
-                                    op: op!("="),
-                                    right: Box::new(self.super_get_computed(*arg_span).as_call(
-                                        *arg_span,
-                                        vec![Expr::Assign(AssignExpr {
-                                                span: c.span,
-                                                left: PatOrExpr::Pat(prop.clone().into()),
-                                                right: c.expr.take(),
-                                                op: op!("="),
-                                            })
-                                            .as_arg()],
-                                    )),
-                                })),
-                                Box::new(
-                                    self.super_set_computed(*arg_span)
-                                        .as_call(*arg_span, vec![prop.as_arg(), update_expr]),
-                                ),
-                            ]
-                        }
-                    };
-                    if !*prefix {
-                        exprs.push(Box::new(Expr::Ident(tmp)))
-                    }
-                    *e = Expr::Seq(SeqExpr { span: *span, exprs })
-                } else {
-                    e.visit_mut_children_with(self)
-                }
+            Expr::Update(UpdateExpr { arg, .. }) if arg.is_super_prop() => {
+                let in_pat = self.in_pat;
+                // NOTE: It's not in pat, but we need the `update` trick
+                self.in_pat = true;
+                arg.visit_mut_with(self);
+                self.in_pat = in_pat;
             }
             Expr::SuperProp(SuperPropExpr { prop, span, .. }) => match prop {
                 SuperProp::Computed(c) => {
                     c.expr.visit_mut_children_with(self);
-                    *e = Expr::Call(CallExpr {
-                        span: *span,
-                        args: vec![c.expr.take().as_arg()],
-                        callee: self.super_get_computed(*span).as_callee(),
-                        type_args: None,
-                    })
+                    *e = if self.in_pat {
+                        Expr::Call(CallExpr {
+                            span: *span,
+                            args: vec![c.expr.take().as_arg()],
+                            callee: self.super_update_computed(*span).as_callee(),
+                            type_args: None,
+                        })
+                        .make_member(quote_ident!("_"))
+                    } else {
+                        Expr::Call(CallExpr {
+                            span: *span,
+                            args: vec![c.expr.take().as_arg()],
+                            callee: self.super_get_computed(*span).as_callee(),
+                            type_args: None,
+                        })
+                    };
                 }
                 SuperProp::Ident(id) => {
-                    *e = Expr::Call(CallExpr {
-                        span: *span,
-                        args: Vec::new(),
-                        callee: self.super_get(id, *span).as_callee(),
-                        type_args: None,
-                    })
+                    *e = if self.in_pat {
+                        Expr::Call(CallExpr {
+                            span: *span,
+                            args: Vec::new(),
+                            callee: self.super_update(&id.sym, *span).as_callee(),
+                            type_args: None,
+                        })
+                        .make_member(quote_ident!("_"))
+                    } else {
+                        Expr::Call(CallExpr {
+                            span: *span,
+                            args: Vec::new(),
+                            callee: self.super_get(&id.sym, *span).as_callee(),
+                            type_args: None,
+                        })
+                    };
                 }
             },
             _ => e.visit_mut_children_with(self),
@@ -600,7 +584,12 @@ impl<'a> VisitMut for InitThis<'a> {
     }
 }
 
-fn extend_super(decls: &mut Vec<VarDeclarator>, get: SuperField, set: SuperField) {
+fn extend_super(
+    decls: &mut Vec<VarDeclarator>,
+    get: SuperField,
+    set: SuperField,
+    update: SuperField,
+) {
     decls.extend(get.ident.into_iter().map(|(key, ident)| VarDeclarator {
         span: DUMMY_SP,
         name: ident.into(),
@@ -690,6 +679,127 @@ fn extend_super(decls: &mut Vec<VarDeclarator>, get: SuperField, set: SuperField
                     }))),
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
+                }))),
+                is_async: false,
+                is_generator: false,
+                return_type: None,
+                type_params: None,
+            }))),
+            definite: false,
+        });
+    }
+    decls.extend(update.ident.into_iter().map(|(key, ident)| {
+        let value = private_ident!("v");
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: ident.into(),
+            init: Some(Box::new(Expr::Object(ObjectLit {
+                span: DUMMY_SP,
+                props: vec![
+                    Prop::Getter(GetterProp {
+                        span: DUMMY_SP,
+                        key: PropName::Ident(quote_ident!("_")),
+                        type_ann: None,
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![Expr::SuperProp(SuperPropExpr {
+                                obj: Super { span: DUMMY_SP },
+                                prop: SuperProp::Ident(quote_ident!(key.clone())),
+                                span: DUMMY_SP,
+                            })
+                            .into_return_stmt()
+                            .into()],
+                        }),
+                    }),
+                    Prop::Setter(SetterProp {
+                        span: DUMMY_SP,
+                        key: PropName::Ident(quote_ident!("_")),
+                        param: value.clone().into(),
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![Expr::Ident(value)
+                                .make_assign_to(
+                                    op!("="),
+                                    PatOrExpr::Expr(Box::new(
+                                        SuperPropExpr {
+                                            obj: Super { span: DUMMY_SP },
+                                            prop: SuperProp::Ident(quote_ident!(key)),
+                                            span: DUMMY_SP,
+                                        }
+                                        .into(),
+                                    )),
+                                )
+                                .into_stmt()],
+                        }),
+                    }),
+                ]
+                .into_iter()
+                .map(Box::new)
+                .map(Into::into)
+                .collect(),
+            }))),
+            definite: false,
+        }
+    }));
+    if let Some(id) = update.computed {
+        let prop = private_ident!("_prop");
+        let value = private_ident!("v");
+        decls.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: id.into(),
+            init: Some(Box::new(Expr::Arrow(ArrowExpr {
+                span: DUMMY_SP,
+                params: vec![prop.clone().into()],
+                body: BlockStmtOrExpr::Expr(Box::new(Expr::Object(ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![
+                        Prop::Getter(GetterProp {
+                            span: DUMMY_SP,
+                            key: PropName::Ident(quote_ident!("_")),
+                            type_ann: None,
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Expr::SuperProp(SuperPropExpr {
+                                    obj: Super { span: DUMMY_SP },
+                                    prop: SuperProp::Computed(ComputedPropName {
+                                        span: DUMMY_SP,
+                                        expr: Box::new(Expr::Ident(prop.clone())),
+                                    }),
+                                    span: DUMMY_SP,
+                                })
+                                .into_return_stmt()
+                                .into()],
+                            }),
+                        }),
+                        Prop::Setter(SetterProp {
+                            span: DUMMY_SP,
+                            key: PropName::Ident(quote_ident!("_")),
+                            param: value.clone().into(),
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Expr::Ident(value)
+                                    .make_assign_to(
+                                        op!("="),
+                                        PatOrExpr::Expr(Box::new(
+                                            SuperPropExpr {
+                                                obj: Super { span: DUMMY_SP },
+                                                prop: SuperProp::Computed(ComputedPropName {
+                                                    span: DUMMY_SP,
+                                                    expr: Box::new(Expr::Ident(prop)),
+                                                }),
+                                                span: DUMMY_SP,
+                                            }
+                                            .into(),
+                                        )),
+                                    )
+                                    .into_stmt()],
+                            }),
+                        }),
+                    ]
+                    .into_iter()
+                    .map(Box::new)
+                    .map(Into::into)
+                    .collect(),
                 }))),
                 is_async: false,
                 is_generator: false,

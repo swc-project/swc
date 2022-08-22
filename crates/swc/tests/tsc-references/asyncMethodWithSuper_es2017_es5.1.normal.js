@@ -72,6 +72,22 @@ var B = /*#__PURE__*/ function(A) {
         }, // element access (assign)
         _superprop_set = function(_prop, _value) {
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
+        }, _superprop_update_x = {
+            get _ () {
+                return _get(_get_prototype_of(B.prototype), "x", this);
+            },
+            set _ (v){
+                _set(_get_prototype_of(B.prototype), "x", v, this, true);
+            }
+        }, _superprop_update = function(_prop) {
+            return {
+                get _ () {
+                    return _get(_get_prototype_of(B.prototype), _prop, this);
+                },
+                set _ (v){
+                    _set(_get_prototype_of(B.prototype), _prop, v, this, true);
+                }
+            };
         };
         return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var f, a, b, ref, ref1;
@@ -89,12 +105,12 @@ var B = /*#__PURE__*/ function(A) {
                         // destructuring assign with property access
                         (ref = {
                             f: f
-                        }, _superprop_get_x() = ref.f, ref);
+                        }, _superprop_update_x()._ = ref.f, ref);
                         ;
                         // destructuring assign with element access
                         (ref1 = {
                             f: f
-                        }, _superprop_get("x") = ref1.f, ref1);
+                        }, _superprop_update("x")._ = ref1.f, ref1);
                     case 11:
                     case "end":
                         return _ctx.stop();
