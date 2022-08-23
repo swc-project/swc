@@ -1687,28 +1687,6 @@ impl Generator {
     }
 
     // function transformAndEmitForInStatement(node: ForInStatement) {
-    //     // TODO(rbuckton): Source map locations
-    //     if (containsYield(node)) {
-    //         // [source]
-    //         //      for (var p in o) {
-    //         //          /*body*/
-    //         //      }
-    //         //
-    //         // [intermediate]
-    //         //  .local _a, _b, _i
-    //         //      _a = [];
-    //         //      for (_b in o) _a.push(_b);
-    //         //      _i = 0;
-    //         //  .loop incrementLabel, endLoopLabel
-    //         //  .mark conditionLabel
-    //         //  .brfalse endLoopLabel, (_i < _a.length)
-    //         //      p = _a[_i];
-    //         //      /*body*/
-    //         //  .mark incrementLabel
-    //         //      _b++;
-    //         //  .br conditionLabel
-    //         //  .endloop
-    //         //  .mark endLoopLabel
 
     //         const keysArray = declareLocal(); // _a
     //         const key = declareLocal(); // _b
@@ -1778,10 +1756,34 @@ impl Generator {
 
     //         emitBreak(conditionLabel);
     //         endLoopBlock();
-    //     } else {
-    //         emitStatement(visitNode(node, visitor, isStatement));
-    //     }
     // }
+    fn transform_and_emit_for_in_stmt(&mut self, mut node: ForInStmt) {
+        if contains_yield(&node) {
+            // [source]
+            //      for (var p in o) {
+            //          /*body*/
+            //      }
+            //
+            // [intermediate]
+            //  .local _a, _b, _i
+            //      _a = [];
+            //      for (_b in o) _a.push(_b);
+            //      _i = 0;
+            //  .loop incrementLabel, endLoopLabel
+            //  .mark conditionLabel
+            //  .brfalse endLoopLabel, (_i < _a.length)
+            //      p = _a[_i];
+            //      /*body*/
+            //  .mark incrementLabel
+            //      _b++;
+            //  .br conditionLabel
+            //  .endloop
+            //  .mark endLoopLabel
+        } else {
+            node.visit_mut_with(self);
+            self.emit_stmt(Stmt::ForIn(node));
+        }
+    }
 
     // function visitForInStatement(node: ForInStatement) {
     //     // [source]
