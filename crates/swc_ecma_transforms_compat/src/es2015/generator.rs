@@ -54,7 +54,7 @@ impl VisitMut for Wrapper {
                     ThisExpr { span: DUMMY_SP }.as_arg(),
                     FnExpr {
                         ident: None,
-                        function: f.take(),
+                        function: inner_fn,
                     }
                     .as_arg(),
                 ],
