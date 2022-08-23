@@ -1711,7 +1711,7 @@ impl Generator {
 
             let keys_array = self.declare_local(None);
             let key = self.declare_local(None);
-            let keys_index = self.define_loop_variable();
+            let keys_index = private_ident!("_i");
 
             self.hoist_variable_declaration(&keys_index);
 
@@ -1737,7 +1737,7 @@ impl Generator {
                 })),
             }));
 
-            self.emit_assignment(keys_index, 0.into(), None);
+            self.emit_assignment(PatOrExpr::Pat(keys_index.clone().into()), 0.into(), None);
 
             let condition_label = self.define_label();
             let increment_label = self.define_label();
