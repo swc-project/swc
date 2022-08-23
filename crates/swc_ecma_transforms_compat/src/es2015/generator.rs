@@ -1554,7 +1554,7 @@ impl Generator {
 
         while variables_written < var_len {
             for (i, variable) in variables.iter_mut().enumerate() {
-                if contains_yield(&variable) && !pending_expressions.is_empty() {
+                if contains_yield(&**variable) && !pending_expressions.is_empty() {
                     break;
                 }
 
