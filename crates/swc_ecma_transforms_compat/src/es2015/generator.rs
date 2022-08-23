@@ -561,8 +561,8 @@ impl VisitMut for Generator {
 
                 let mut exprs = variables
                     .into_iter()
-                    .map(|v| self.transform_initialized_variable(v))
-                    .map(|v| v.init.take().unwrap())
+                    .map(|v| self.transform_initialized_variable(v.take()))
+                    .map(|mut v| v.init.take().unwrap())
                     .collect::<Vec<_>>();
 
                 *node = Stmt::Expr(ExprStmt {
@@ -570,10 +570,10 @@ impl VisitMut for Generator {
                     expr: if exprs.len() == 1 {
                         exprs.remove(0)
                     } else {
-                        Expr::Seq(SeqExpr {
+                        Box::new(Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
                             exprs,
-                        })
+                        }))
                     },
                 });
             }
