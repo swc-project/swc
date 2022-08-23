@@ -248,7 +248,7 @@ impl VisitMut for Generator {
     noop_visit_mut_type!();
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        if !node.callee.is_import() && node.args.iter().any(|arg| contains_yield(arg)) {
+        if !node.callee.is_import() && node.args.iter().any(contains_yield) {
             // [source]
             //      a.b(1, yield, 2);
             //
@@ -2192,7 +2192,7 @@ impl Generator {
             .unwrap_or_else(|| private_ident!("_tmp"));
 
         self.hoist_variable_declaration(&temp);
-        return temp;
+        temp
     }
 
     /// Defines a label, uses as the target of a Break operation.
@@ -2457,7 +2457,7 @@ impl Generator {
             is_script: false,
             break_label,
         }));
-        return break_label;
+        break_label
     }
 
     /// Ends a code block that supports `break` statements that are defined in
