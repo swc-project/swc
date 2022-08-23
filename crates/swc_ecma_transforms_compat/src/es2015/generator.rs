@@ -2351,7 +2351,7 @@ impl Generator {
         let label = Label(self.next_label_id as _);
         self.next_label_id += 1;
         #[cfg(debug_assertions)]
-        debug!("define_label: {}", label);
+        debug!("define_label: {:?}", label);
 
         if label.0 as usize >= self.label_offsets.as_ref().unwrap().len() {
             self.label_offsets
