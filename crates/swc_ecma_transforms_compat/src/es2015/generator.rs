@@ -34,6 +34,10 @@ impl VisitMut for Wrapper {
             v.transform_and_emit_stmts(f.body.as_mut().unwrap().stmts.take(), 0);
             f.is_generator = false;
 
+            let mut stmts = v.build_stmts();
+            stmts.visit_mut_with(&mut InvalidToLit {
+                map: v.label_exprs.as_deref(),
+            });
             let inner_fn = Function {
                 span: DUMMY_SP,
                 // TODO
@@ -45,7 +49,7 @@ impl VisitMut for Wrapper {
                 decorators: Default::default(),
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    stmts: v.build_stmts(),
+                    stmts,
                 }),
                 is_generator: false,
                 is_async: false,
@@ -283,7 +287,7 @@ struct Generator {
     block_stack: Option<Vec<Ptr<CodeBlock>>>,
 
     label_offsets: Option<Vec<i32>>,
-    label_exprs: Option<Vec<Vec<Number>>>,
+    label_exprs: Option<Vec<Vec<Loc>>>,
     next_label_id: usize,
 
     operations: Option<Vec<OpCode>>,
@@ -2714,7 +2718,10 @@ impl Generator {
                     self.label_exprs = Some(Default::default());
                 }
                 let mut label_expressions = self.label_exprs.as_mut().unwrap();
-                let expr = Number::from(-1.0);
+                let expr = Loc {
+                    pos: BytePos(label.0 as _),
+                    value: -1,
+                };
                 if label_expressions.get(label.0 as usize).is_none() {
                     if label.0 as usize >= label_expressions.len() {
                         label_expressions.resize(label.0 as usize + 1, vec![]);
@@ -2727,7 +2734,13 @@ impl Generator {
                         .unwrap()
                         .push(expr.clone());
                 }
-                return expr.into();
+                return Box::new(Expr::Invalid(Invalid {
+                    span: Span::new(
+                        BytePos(label.0 as _),
+                        BytePos(label.0 as _),
+                        Default::default(),
+                    ),
+                }));
             }
         }
 
@@ -3235,7 +3248,6 @@ impl Generator {
                     if let Some(exprs) = exprs {
                         for expr in exprs {
                             expr.value = label_number as _;
-                            expr.raw = None;
                         }
                     }
                 }
@@ -3632,13 +3644,13 @@ impl Visit for YieldFinder {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {
     pos: BytePos,
-    value: u32,
+    value: i32,
 }
 
 /// Convert <invalid> to case number
 struct InvalidToLit<'a> {
     // Map from loc-id to stmt index
-    map: &'a [Loc],
+    map: Option<&'a [Vec<Loc>]>,
 }
 
 impl VisitMut for InvalidToLit<'_> {
@@ -3648,8 +3660,14 @@ impl VisitMut for InvalidToLit<'_> {
         e.visit_mut_children_with(self);
 
         if let Expr::Invalid(Invalid { span }) = e {
-            if span.lo == span.hi {
-                if let Some(Loc { value, .. }) = self.map.iter().find(|loc| loc.pos == span.lo) {
+            if span.lo != BytePos(0) && span.lo == span.hi {
+                if let Some(Loc { value, .. }) = self
+                    .map
+                    .iter()
+                    .flat_map(|v| v.iter())
+                    .flatten()
+                    .find(|loc| loc.pos == span.lo)
+                {
                     *e = (*value as usize).into();
                 }
             }
