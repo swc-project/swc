@@ -2325,13 +2325,12 @@ impl Generator {
         self.hoist_variable_declaration(&name);
 
         // ExceptionBlock
-        let mut exception = RefMut::map(
-            self.peek_block().clone().unwrap().borrow_mut(),
-            |v| match v {
-                CodeBlock::Exception(v) => v,
-                _ => unreachable!(),
-            },
-        );
+        let peeked = self.peek_block().unwrap();
+        let exception = peeked.borrow_mut();
+        let mut exception = RefMut::map(exception, |v| match v {
+            CodeBlock::Exception(v) => v,
+            _ => unreachable!(),
+        });
         debug_assert!(exception.state < ExceptionBlockState::Catch);
 
         let end_label = exception.end_label;
@@ -2340,7 +2339,7 @@ impl Generator {
         let catch_label = self.define_label();
         self.mark_label(catch_label);
         exception.state = ExceptionBlockState::Catch;
-        exception.catch_variable = Some(name);
+        exception.catch_variable = Some(name.clone());
         exception.catch_label = Some(catch_label);
 
         self.emit_assignment(
