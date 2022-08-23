@@ -1527,16 +1527,10 @@ impl Generator {
         }
     }
 
-    fn transform_initialized_variable(&mut self, node: VarDeclarator) -> AssignExpr {
-        let name = node.name.expect_ident();
+    fn transform_initialized_variable(&mut self, node: VarDeclarator) -> VarDeclarator {
         node.init.visit_mut_with(self);
 
-        AssignExpr {
-            span: node.span,
-            op: op!("="),
-            left: PatOrExpr::Pat(name.into()),
-            right: node.init.unwrap(),
-        }
+        node
     }
 
     fn transform_and_emit_if_stmt(&mut self, mut node: IfStmt) {
