@@ -2317,7 +2317,7 @@ impl Generator {
     fn mark_label(&mut self, label: Label) {
         debug_assert!(self.label_offsets.is_some(), "No labels were defined.");
 
-        if label.0 as usize <= self.label_offsets.as_ref().unwrap().len() {
+        if label.0 as usize >= self.label_offsets.as_ref().unwrap().len() {
             self.label_offsets
                 .as_mut()
                 .unwrap()
