@@ -2068,7 +2068,7 @@ impl Generator {
     }
 
     fn transform_and_emit_switch_stmt(&mut self, mut node: SwitchStmt) {
-        if contains_yield(&node) {
+        if contains_yield(&node.cases) {
             // [source]
             //      switch (x) {
             //          case a:
@@ -2131,7 +2131,7 @@ impl Generator {
 
                 let mut default_clauses_skipped = 0;
 
-                for (i, clause) in node.cases.iter_mut().enumerate() {
+                for (i, clause) in node.cases.iter_mut().enumerate().skip(clauses_written) {
                     if clause.test.is_some() {
                         if contains_yield(&clause.test) && !pending_clauses.is_empty() {
                             break;
