@@ -3260,7 +3260,7 @@ impl Generator {
                     CodeBlock::Exception(_) => {
                         if block_action == BlockAction::Open {
                             self.exception_block_stack
-                                .push(self.current_exception_block.clone().unwrap());
+                                .extend(self.current_exception_block.clone());
 
                             #[cfg(debug_assertions)]
                             debug!("Current exception block: open = Some({:?})", block);
