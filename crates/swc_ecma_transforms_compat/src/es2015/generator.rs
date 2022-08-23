@@ -373,9 +373,10 @@ impl VisitMut for Generator {
         }
     }
 
-    fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
-        self.visit_elements(&mut node.elems, None, None);
-    }
+    // TODO(kdy1):
+    // fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
+    //     self.visit_elements(&mut node.elems, None, None);
+    // }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         match node {
