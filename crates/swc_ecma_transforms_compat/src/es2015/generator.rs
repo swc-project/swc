@@ -28,8 +28,10 @@ impl VisitMut for Wrapper {
         f.visit_mut_children_with(self);
 
         if f.function.is_generator {
-            f.visit_mut_with(&mut Generator::default());
+            let mut v = Generator::default();
+            f.visit_mut_with(&mut v);
             f.function.is_generator = false;
+            f.function.body.as_mut().unwrap().stmts = v.build_stmts();
         }
     }
 
@@ -37,8 +39,10 @@ impl VisitMut for Wrapper {
         f.visit_mut_children_with(self);
 
         if f.function.is_generator {
-            f.visit_mut_with(&mut Generator::default());
+            let mut v = Generator::default();
+            f.visit_mut_with(&mut v);
             f.function.is_generator = false;
+            f.function.body.as_mut().unwrap().stmts = v.build_stmts();
         }
     }
 }
