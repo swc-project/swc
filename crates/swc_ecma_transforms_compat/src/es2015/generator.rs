@@ -29,6 +29,7 @@ impl VisitMut for Wrapper {
 
         if f.function.is_generator {
             f.visit_mut_with(&mut Generator::default());
+            f.function.is_generator = false;
         }
     }
 
@@ -37,6 +38,7 @@ impl VisitMut for Wrapper {
 
         if f.function.is_generator {
             f.visit_mut_with(&mut Generator::default());
+            f.function.is_generator = false;
         }
     }
 }
