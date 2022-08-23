@@ -348,6 +348,7 @@ impl Default for Generator {
             with_block_stack: Default::default(),
             temp_vars: Default::default(),
             hoisted_vars: Default::default(),
+            hoisted_fns: Default::default(),
         }
     }
 }
