@@ -3167,10 +3167,7 @@ impl Generator {
                 {
                     v.push(label);
                 } else {
-                    self.label_numbers
-                        .as_mut()
-                        .unwrap()
-                        .insert(self.label_number, vec![label]);
+                    self.label_numbers.as_mut().unwrap()[self.label_number] = vec![label];
                 }
             }
         }
