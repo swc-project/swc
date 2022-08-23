@@ -8,6 +8,7 @@ use is_macro::Is;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -24,14 +25,32 @@ struct Wrapper {}
 impl VisitMut for Wrapper {
     noop_visit_mut_type!();
 
-    fn visit_mut_fn_expr(&mut self, f: &mut FnExpr) {
-        f.visit_mut_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Fn(
+                f @ FnExpr {
+                    function:
+                        Function {
+                            is_generator: true, ..
+                        },
+                    ..
+                },
+            ) => {
+                let mut v = Generator::default();
+                f.visit_mut_with(&mut v);
+                f.function.is_generator = false;
+                f.function.body.as_mut().unwrap().stmts = v.build_stmts();
 
-        if f.function.is_generator {
-            let mut v = Generator::default();
-            f.visit_mut_with(&mut v);
-            f.function.is_generator = false;
-            f.function.body.as_mut().unwrap().stmts = v.build_stmts();
+                *e = Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(ts, ts_generator, "__generator"),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), f.take().as_arg()],
+                    type_args: Default::default(),
+                });
+            }
+            _ => {
+                e.visit_mut_children_with(self);
+            }
         }
     }
 
