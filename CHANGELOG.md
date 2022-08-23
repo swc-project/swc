@@ -49,6 +49,12 @@
 
 - **(es/transforms)** Enable tests for fixed issues (#5583) ([0f6649c](https://github.com/swc-project/swc/commit/0f6649c44fbd35cbb7f0b64bf9b5a175f002fdd9))
 
+### Build
+
+
+
+- **(swc_core)** Fix dependency version (#5593) ([9bc40e3](https://github.com/swc-project/swc/commit/9bc40e3d087f502904821f9fdbcfff6f8c52116f))
+
 ## [1.2.241] - 2022-08-19
 
 ### Bug Fixes
