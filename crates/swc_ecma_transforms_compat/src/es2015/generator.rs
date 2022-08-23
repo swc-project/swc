@@ -1751,7 +1751,10 @@ impl Generator {
                     span: DUMMY_SP,
                     expr: Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: keys_array.make_member(quote_ident!("push")).as_callee(),
+                        callee: keys_array
+                            .clone()
+                            .make_member(quote_ident!("push"))
+                            .as_callee(),
                         args: vec![key.as_arg()],
                         type_args: Default::default(),
                     })),
@@ -1767,9 +1770,10 @@ impl Generator {
             self.mark_label(condition_label);
             self.emit_break_when_false(
                 end_label,
-                Box::new(
-                    keys_index.make_bin(op!("<"), keys_array.make_member(quote_ident!("length"))),
-                ),
+                Box::new(keys_index.clone().make_bin(
+                    op!("<"),
+                    keys_array.clone().make_member(quote_ident!("length")),
+                )),
                 None,
             );
 
@@ -1869,7 +1873,7 @@ impl Generator {
     // }
 
     fn transform_and_emit_continue_stmt(&mut self, node: ContinueStmt) {
-        let label = self.find_continue_target(node.label.as_ref().map(|l| l.sym));
+        let label = self.find_continue_target(node.label.as_ref().map(|l| l.sym.clone()));
         if label.0 > 0 {
             self.emit_break(label, Some(node.span));
         } else {
@@ -1880,7 +1884,7 @@ impl Generator {
     }
 
     fn transform_and_emit_break_stmt(&mut self, node: BreakStmt) {
-        let label = self.find_break_target(node.label.as_ref().map(|l| l.sym));
+        let label = self.find_break_target(node.label.as_ref().map(|l| l.sym.clone()));
         if label.0 > 0 {
             self.emit_break(label, Some(node.span));
         } else {
