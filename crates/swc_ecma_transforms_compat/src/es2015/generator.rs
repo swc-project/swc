@@ -25,32 +25,45 @@ struct Wrapper {}
 impl VisitMut for Wrapper {
     noop_visit_mut_type!();
 
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Fn(
-                f @ FnExpr {
-                    function:
-                        Function {
-                            is_generator: true, ..
-                        },
-                    ..
-                },
-            ) => {
-                let mut v = Generator::default();
-                f.visit_mut_with(&mut v);
-                f.function.is_generator = false;
-                f.function.body.as_mut().unwrap().stmts = v.build_stmts();
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        f.visit_mut_children_with(self);
 
-                *e = Expr::Call(CallExpr {
+        if f.is_generator {
+            let mut v = Generator::default();
+            f.visit_mut_with(&mut v);
+            f.is_generator = false;
+
+            let inner_fn = Function {
+                span: DUMMY_SP,
+                // TODO
+                params: Default::default(),
+                decorators: Default::default(),
+                body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    callee: helper!(ts, ts_generator, "__generator"),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), f.take().as_arg()],
-                    type_args: Default::default(),
-                });
-            }
-            _ => {
-                e.visit_mut_children_with(self);
-            }
+                    stmts: v.build_stmts(),
+                }),
+                is_generator: false,
+                is_async: false,
+                type_params: Default::default(),
+                return_type: Default::default(),
+            };
+            let generator_object = Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(ts, ts_generator, "__generator"),
+                args: vec![
+                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                    FnExpr {
+                        ident: None,
+                        function: f.take(),
+                    }
+                    .as_arg(),
+                ],
+                type_args: Default::default(),
+            }));
+            f.body.as_mut().unwrap().stmts = vec![Stmt::Return(ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(generator_object),
+            })];
         }
     }
 
