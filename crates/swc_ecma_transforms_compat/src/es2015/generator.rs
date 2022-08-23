@@ -21,6 +21,22 @@ struct Wrapper {}
 
 impl VisitMut for Wrapper {
     noop_visit_mut_type!();
+
+    fn visit_mut_fn_expr(&mut self, f: &mut FnExpr) {
+        f.visit_mut_children_with(self);
+
+        if f.function.is_generator {
+            f.visit_mut_with(&mut Generator::default());
+        }
+    }
+
+    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        f.visit_mut_children_with(self);
+
+        if f.function.is_generator {
+            f.visit_mut_with(&mut Generator::default());
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -243,6 +259,39 @@ struct Generator {
 }
 
 type Ptr<T> = Rc<RefCell<T>>;
+
+impl Default for Generator {
+    fn default() -> Self {
+        Self {
+            renamed_catch_variables: Default::default(),
+            renamed_catch_variables_declaration: Default::default(),
+            is_generator_function_body: Default::default(),
+            in_statement_containing_yield: Default::default(),
+            blocks: Default::default(),
+            block_offsets: Default::default(),
+            block_actions: Default::default(),
+            block_stack: Default::default(),
+            label_offsets: Default::default(),
+            label_exprs: Default::default(),
+            next_label_id: Default::default(),
+            operations: Default::default(),
+            operation_args: Default::default(),
+            operation_locs: Default::default(),
+            state: private_ident!("_state"),
+            block_index: Default::default(),
+            label_number: Default::default(),
+            label_numbers: Default::default(),
+            last_operation_was_abrupt: Default::default(),
+            last_operation_was_completion: Default::default(),
+            clauses: Default::default(),
+            stmts: Default::default(),
+            exception_block_stack: Default::default(),
+            current_exception_block: Default::default(),
+            with_block_stack: Default::default(),
+            temp_vars: Default::default(),
+        }
+    }
+}
 
 impl VisitMut for Generator {
     noop_visit_mut_type!();
