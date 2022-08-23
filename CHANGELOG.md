@@ -23,6 +23,9 @@
 - **(es/helpers)** Fix an import (#5587) ([610296c](https://github.com/swc-project/swc/commit/610296cfa444d1f004cc5967c7f94347a7ccb0e8))
 
 
+- **(es/helpers)** Fix `_classStaticPrivateFieldSpecSet` (#5597) ([0533d56](https://github.com/swc-project/swc/commit/0533d56155316e6e9077c7a291ee945f61c0ab96))
+
+
 - **(es/parser)** Allow expr to follow `ClassExpr` (#5572) ([78dd071](https://github.com/swc-project/swc/commit/78dd071dabf5f9b5ca9b213bb5f5f0e5d76b40ab))
 
 
