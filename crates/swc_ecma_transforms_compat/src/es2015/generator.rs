@@ -2374,11 +2374,15 @@ impl Generator {
                 .resize(label.0 as usize + 1, Default::default());
         }
 
-        #[cfg(debug_assertions)]
-        debug!("mark_label: {:?}", label);
-
         self.label_offsets.as_mut().unwrap()[label.0 as usize] =
             self.operations.as_deref().map_or(0, |v| v.len() as _);
+
+        #[cfg(debug_assertions)]
+        debug!(
+            "mark_label: {:?}; offset: {}",
+            label,
+            self.label_offsets.as_mut().unwrap()[label.0 as usize]
+        );
     }
 
     //// Begins a block operation (With, Break/Continue, Try/Catch/Finally)
