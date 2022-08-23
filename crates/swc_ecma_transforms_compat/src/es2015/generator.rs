@@ -2290,7 +2290,8 @@ impl Generator {
     fn end_with_block(&mut self) {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::With));
         let block = self.end_block();
-        if let CodeBlock::With(block) = &*block.borrow() {
+        let b = block.borrow();
+        if let CodeBlock::With(block) = &*b {
             self.mark_label(block.end_label);
         }
     }
@@ -2324,10 +2325,13 @@ impl Generator {
         self.hoist_variable_declaration(&name);
 
         // ExceptionBlock
-        let mut exception = RefMut::map(self.peek_block().unwrap().borrow_mut(), |v| match v {
-            CodeBlock::Exception(v) => v,
-            _ => unreachable!(),
-        });
+        let mut exception = RefMut::map(
+            self.peek_block().clone().unwrap().borrow_mut(),
+            |v| match v {
+                CodeBlock::Exception(v) => v,
+                _ => unreachable!(),
+            },
+        );
         debug_assert!(exception.state < ExceptionBlockState::Catch);
 
         let end_label = exception.end_label;
@@ -2380,7 +2384,8 @@ impl Generator {
     fn end_exception_block(&mut self) {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Exception));
         let block = self.end_block();
-        if let CodeBlock::Exception(block) = &*block.borrow() {
+        let mut b = block.borrow_mut();
+        if let CodeBlock::Exception(block) = &mut *b {
             let state = block.state;
             if state < ExceptionBlockState::Finally {
                 self.emit_break(block.end_label, None);
