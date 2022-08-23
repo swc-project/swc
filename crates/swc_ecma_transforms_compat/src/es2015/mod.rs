@@ -22,7 +22,7 @@ pub mod destructuring;
 mod duplicate_keys;
 pub mod for_of;
 mod function_name;
-mod generator;
+pub mod generator;
 mod instanceof;
 pub mod new_target;
 mod object_super;
