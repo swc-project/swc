@@ -2978,7 +2978,7 @@ impl Generator {
     /// Flush the final label of the generator function body.
     fn flush_final_label(&mut self, op_index: usize) {
         if self.is_final_label_reachable(op_index) {
-            self.try_enter_level(op_index);
+            self.try_enter_label(op_index);
             self.with_block_stack = None;
             self.write_return(None, None);
         }
@@ -3146,7 +3146,7 @@ impl Generator {
         });
     }
 
-    fn try_enter_level(&mut self, op_index: usize) {
+    fn try_enter_label(&mut self, op_index: usize) {
         if self.label_offsets.is_none() {
             return;
         }
@@ -3239,7 +3239,7 @@ impl Generator {
     /// Writes an operation as a statement to the current label's statement
     /// list.
     fn write_operation(&mut self, op_index: usize) {
-        self.try_enter_level(op_index);
+        self.try_enter_label(op_index);
         self.try_enter_or_leave_block(op_index);
 
         // early termination, nothing else to process in this label
