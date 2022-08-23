@@ -1633,8 +1633,8 @@ impl Generator {
             self.hoist_variable_declaration(variable.name.as_ident().unwrap());
         }
 
-        let var_len = node.decls.len();
         let mut variables = self.get_initialized_variables(&mut node);
+        let var_len = variables.len();
         let mut variables_written = 0;
         let mut pending_expressions = vec![];
         let mut cnt = 0;
@@ -1644,7 +1644,7 @@ impl Generator {
             debug!("variables_written: {} / {}", variables_written, var_len);
 
             for (i, variable) in variables.iter_mut().enumerate().skip(variables_written) {
-                if contains_yield(&**variable) && !pending_expressions.is_empty() {
+                if contains_yield(&**variable) && cnt != 0 {
                     break;
                 }
 
