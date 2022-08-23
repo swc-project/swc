@@ -1721,22 +1721,21 @@ impl Generator {
                 None,
             );
 
-            // emitStatement(
-            //     factory.createForInStatement(
-            //         key,
-            //         visitNode(node.expression, visitor, isExpression),
-            //         factory.createExpressionStatement(
-            //             factory.createCallExpression(
-            //                 factory.createPropertyAccessExpression(
-            //                     keysArray,
-            //                     "push"
-            //                 ),
-            //                 /*typeArguments*/ undefined,
-            //                 [key]
-            //             )
-            //         )
-            //     )
-            // );
+            node.right.visit_mut_with(self);
+            self.emit_stmt(Stmt::ForIn(ForInStmt {
+                span: DUMMY_SP,
+                left: key,
+                right: node.right.take(),
+                body: Box::new(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: keys_array.make_member(quote_ident!("push")).as_callee(),
+                        args: vec![key],
+                        type_args: Default::default(),
+                    })),
+                })),
+            }));
 
             self.emit_assignment(keys_index, 0.into(), None);
 
