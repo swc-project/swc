@@ -1498,12 +1498,12 @@ impl Generator {
         }
 
         let var_len = node.decls.len();
-        let variables = self.get_initialized_variables(&mut node);
+        let mut variables = self.get_initialized_variables(&mut node);
         let mut variables_written = 0;
         let mut pending_expressions = vec![];
 
         while variables_written < var_len {
-            for (i, variable) in variables.into_iter().enumerate() {
+            for (i, variable) in variables.iter_mut().enumerate() {
                 if contains_yield(&variable) && !pending_expressions.is_empty() {
                     break;
                 }
@@ -1529,7 +1529,7 @@ impl Generator {
         }
     }
 
-    fn transform_initialized_variable(&mut self, node: VarDeclarator) -> VarDeclarator {
+    fn transform_initialized_variable(&mut self, mut node: VarDeclarator) -> VarDeclarator {
         node.init.visit_mut_with(self);
 
         node
@@ -1745,7 +1745,7 @@ impl Generator {
             node.right.visit_mut_with(self);
             self.emit_stmt(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
-                left: VarDeclOrPat::Pat(key.into()),
+                left: VarDeclOrPat::Pat(key.clone().into()),
                 right: node.right.take(),
                 body: Box::new(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
