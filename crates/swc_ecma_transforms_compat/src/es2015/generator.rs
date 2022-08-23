@@ -2427,8 +2427,8 @@ impl Generator {
     /// are defined in generated code or in the source tree.
     fn end_loop_block(&mut self) {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Loop));
-        let block = self.end_block();
-        if let CodeBlock::Loop(block) = &*block.borrow() {
+        let block = self.end_block().borrow();
+        if let CodeBlock::Loop(block) = &*block {
             let break_label = block.break_label;
             if !block.is_script {
                 self.mark_label(break_label);
@@ -2463,8 +2463,8 @@ impl Generator {
     /// generated code.
     fn end_switch_block(&mut self) {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Switch));
-        let block = self.end_block();
-        if let CodeBlock::Switch(block) = &*block.borrow() {
+        let block = self.end_block().borrow();
+        if let CodeBlock::Switch(block) = &*block {
             let break_label = block.break_label;
             if !block.is_script {
                 self.mark_label(break_label);
@@ -2516,12 +2516,12 @@ impl Generator {
         matches!(block, CodeBlock::Loop(..))
     }
 
-    fn has_immediate_containing_labeled_block(&self, label_text: JsWord, start: usize) -> bool {
+    fn has_immediate_containing_labeled_block(&self, label_text: &JsWord, start: usize) -> bool {
         for i in (0..start).rev() {
             let block = self.block_stack.as_ref().unwrap()[i].clone();
             if self.supports_labeled_break_or_continue(&block.borrow()) {
                 if let CodeBlock::Labeled(block) = &*block.borrow() {
-                    if block.label_text == label_text {
+                    if block.label_text == *label_text {
                         return true;
                     }
                 }
@@ -2546,7 +2546,7 @@ impl Generator {
                             return block.borrow().break_label().unwrap();
                         }
                     } else if self.supports_unlabeled_break(&block.borrow())
-                        && self.has_immediate_containing_labeled_block(label_text, i - 1)
+                        && self.has_immediate_containing_labeled_block(&label_text, i - 1)
                     {
                         return block.borrow().break_label().unwrap();
                     }
@@ -2573,7 +2573,7 @@ impl Generator {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
                     if self.supports_unlabeled_continue(&block.borrow())
-                        || self.has_immediate_containing_labeled_block(label_text, i - i)
+                        || self.has_immediate_containing_labeled_block(&label_text, i - i)
                     {
                         return block.borrow().continue_label().unwrap();
                     } else {
