@@ -329,7 +329,7 @@ impl Default for Generator {
             block_stack: Default::default(),
             label_offsets: Default::default(),
             label_exprs: Default::default(),
-            next_label_id: Default::default(),
+            next_label_id: 1,
             operations: Default::default(),
             operation_args: Default::default(),
             operation_locs: Default::default(),
