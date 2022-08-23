@@ -239,6 +239,8 @@ struct Generator {
     current_exception_block: Option<Ptr<CodeBlock>>,
     /// Index to `blocks`
     with_block_stack: Option<Vec<Ptr<CodeBlock>>>,
+
+    temp_vars: Vec<VarDeclarator>,
 }
 
 type Ptr<T> = Rc<RefCell<T>>;
@@ -1525,20 +1527,17 @@ impl Generator {
         }
     }
 
-    // function transformInitializedVariable(
-    //     node: InitializedVariableDeclaration
-    // ) {
-    //     return setSourceMapRange(
-    //         factory.createAssignment(
-    //             setSourceMapRange(
-    //                 factory.cloneNode(node.name) as Identifier,
-    //                 node.name
-    //             ),
-    //             visitNode(node.initializer, visitor, isExpression)
-    //         ),
-    //         node
-    //     );
-    // }
+    fn transform_initialized_variable(&mut self, node: VarDeclarator) -> AssignExpr {
+        let name = node.name.expect_ident();
+        node.init.visit_mut_with(self);
+
+        AssignExpr {
+            span: node.span,
+            op: op!("="),
+            left: PatOrExpr::Pat(name.into()),
+            right: node.init.unwrap(),
+        }
+    }
 
     fn transform_and_emit_if_stmt(&mut self, mut node: IfStmt) {
         if contains_yield(&node) {
