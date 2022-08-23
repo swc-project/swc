@@ -1642,7 +1642,7 @@ impl Generator {
             #[cfg(debug_assertions)]
             debug!("variables_written: {}", variables_written);
 
-            for (i, variable) in variables.iter_mut().enumerate() {
+            for (i, variable) in variables.iter_mut().enumerate().skip(variables_written) {
                 if contains_yield(&**variable) && !pending_expressions.is_empty() {
                     break;
                 }
