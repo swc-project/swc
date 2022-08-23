@@ -9,7 +9,9 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, VisitMut, VisitMutWith,
+};
 
 /// Generator based on tsc generator at https://github.com/microsoft/TypeScript/blob/162224763681465b417274383317ca9a0a573835/src/compiler/transformers/generators.ts
 pub fn generator() -> impl VisitMut + Fold {
@@ -3505,5 +3507,28 @@ impl Generator {
 }
 
 fn contains_yield<N>(node: &N) -> bool {
-    todo!()
+    let mut v = YieldFinder { found: false };
+    node.visit_with(&mut v);
+    v.found
+}
+
+struct YieldFinder {
+    found: bool,
+}
+
+impl Visit for YieldFinder {
+    noop_visit_type!();
+
+    fn visit_yield_expr(&mut self, _: &YieldExpr) {
+        self.found = true;
+    }
+
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr) {
+        f.params.visit_with(self);
+    }
+
+    fn visit_function(&mut self, f: &Function) {
+        f.decorators.visit_with(self);
+        f.params.visit_with(self);
+    }
 }
