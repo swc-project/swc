@@ -2536,19 +2536,19 @@ impl Generator {
                     let block = &block_stack[i];
                     if self.supports_labeled_break_or_continue(&block.borrow()) {
                         if block.borrow().label_text().unwrap() == label_text {
-                            return block.borrow().break_label();
+                            return block.borrow().break_label().unwrap();
                         }
                     } else if self.supports_unlabeled_break(&block.borrow())
                         && self.has_immediate_containing_labeled_block(label_text, i - 1)
                     {
-                        return block.borrow().break_label();
+                        return block.borrow().break_label().unwrap();
                     }
                 }
             } else {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
                     if self.supports_unlabeled_break(&block.borrow()) {
-                        return block.borrow().continue_label();
+                        return block.borrow().continue_label().unwrap();
                     }
                 }
             }
