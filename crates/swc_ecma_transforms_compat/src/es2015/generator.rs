@@ -1637,6 +1637,7 @@ impl Generator {
         let mut variables = self.get_initialized_variables(&mut node);
         let mut variables_written = 0;
         let mut pending_expressions = vec![];
+        let mut cnt = 0;
 
         while variables_written < var_len {
             #[cfg(debug_assertions)]
@@ -1647,11 +1648,14 @@ impl Generator {
                     break;
                 }
 
+                // We use cnt because variable.init can be None.
                 pending_expressions.extend(variable.init.take());
+                cnt += 1;
             }
 
             if !pending_expressions.is_empty() {
-                variables_written += pending_expressions.len();
+                variables_written += cnt;
+                cnt = 0;
 
                 self.emit_stmt(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
