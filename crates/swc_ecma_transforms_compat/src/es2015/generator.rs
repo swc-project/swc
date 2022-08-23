@@ -3167,6 +3167,13 @@ impl Generator {
                 {
                     v.push(label);
                 } else {
+                    if self.label_number >= self.label_numbers.as_ref().unwrap().len() {
+                        self.label_numbers
+                            .as_mut()
+                            .unwrap()
+                            .resize(self.label_number + 1, vec![]);
+                    }
+
                     self.label_numbers.as_mut().unwrap()[self.label_number] = vec![label];
                 }
             }
