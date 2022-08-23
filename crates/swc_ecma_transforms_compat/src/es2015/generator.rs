@@ -2181,7 +2181,7 @@ impl Generator {
                 let span = node.span();
 
                 let temp = self.create_temp_variable();
-                self.emit_assignment(temp.clone().into(), node, Some(span));
+                self.emit_assignment(PatOrExpr::Pat(temp.clone().into()), node, Some(span));
                 temp
             }
         }
