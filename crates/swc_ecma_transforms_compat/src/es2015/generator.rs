@@ -1,8 +1,7 @@
 use std::{
-    cell::{Cell, Ref, RefCell, RefMut},
+    cell::{RefCell, RefMut},
     mem::take,
     rc::Rc,
-    slice::SliceIndex,
 };
 
 use is_macro::Is;
@@ -2007,7 +2006,7 @@ impl Generator {
                     clauses_written += pending_clauses.len();
                     self.emit_stmt(Stmt::Switch(SwitchStmt {
                         span: DUMMY_SP,
-                        discriminant: Box::new(Expr::Ident(expression)),
+                        discriminant: Box::new(Expr::Ident(expression.clone())),
                         cases: take(&mut pending_clauses),
                     }));
                 }
@@ -2057,7 +2056,7 @@ impl Generator {
         }
     }
 
-    fn transform_and_emit_throw_stmt(&mut self, node: ThrowStmt) {
+    fn transform_and_emit_throw_stmt(&mut self, mut node: ThrowStmt) {
         node.arg.visit_mut_with(self);
         self.emit_throw(node.arg, Some(node.span))
     }
@@ -2325,7 +2324,7 @@ impl Generator {
         self.hoist_variable_declaration(&name);
 
         // ExceptionBlock
-        let exception = RefMut::map(self.peek_block().unwrap().borrow_mut(), |v| match v {
+        let mut exception = RefMut::map(self.peek_block().unwrap().borrow_mut(), |v| match v {
             CodeBlock::Exception(v) => v,
             _ => unreachable!(),
         });
@@ -2794,7 +2793,8 @@ impl Generator {
         }
         if self.label_offsets.is_none() {
             // mark entry point
-            self.mark_label(self.define_label());
+            let label = self.define_label();
+            self.mark_label(label);
         }
         debug_assert!(self.operations.is_some());
         debug_assert_eq!(
@@ -2858,7 +2858,7 @@ impl Generator {
 
     /// Builds the statements for the generator function body.
     fn build_stmts(&mut self) -> Vec<Stmt> {
-        if let Some(ops) = &self.operations {
+        if let Some(ops) = self.operations.clone() {
             for (op_index, _) in ops.iter().enumerate() {
                 self.write_operation(op_index);
             }
