@@ -3100,6 +3100,10 @@ impl Generator {
     /// fall-through from a previous case clause and the change in labels should
     /// be reflected on the `state` object.
     fn append_label(&mut self, mark_label_end: bool) {
+        if cfg!(debug_assertions) {
+            debug!(mark_label_end = mark_label_end, "append_label");
+        }
+
         if self.clauses.is_none() {
             self.clauses = Some(Default::default());
         }
@@ -3135,6 +3139,13 @@ impl Generator {
                         })),
                     })];
                 }
+            }
+
+            if cfg!(debug_assertions) {
+                debug!(
+                    "current_exception_block = {:?}",
+                    self.current_exception_block
+                );
             }
 
             if let Some(current_exception_block) = self.current_exception_block.take() {
