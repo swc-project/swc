@@ -38,6 +38,9 @@
 
 
 
+- **(bindings)** Update `swc_core` (#5594) ([e211ad6](https://github.com/swc-project/swc/commit/e211ad6d10f9e05e1ccade2c3cba60e3a53dbee7))
+
+
 - **(css/ast)** Make `keyword` optional (#5543) ([a3c1ac6](https://github.com/swc-project/swc/commit/a3c1ac67d708b6c95ef9a9b0892df90bdb26ffe5))
 
 
