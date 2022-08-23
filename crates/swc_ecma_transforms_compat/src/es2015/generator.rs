@@ -1610,7 +1610,7 @@ impl Generator {
         }
     }
 
-    fn transform_and_emit_while_stmt(&mut self, node: WhileStmt) {
+    fn transform_and_emit_while_stmt(&mut self, mut node: WhileStmt) {
         if contains_yield(&node) {
             // [source]
             //      while (i < 10) {
@@ -1668,7 +1668,7 @@ impl Generator {
                     VarDeclOrExpr::VarDecl(init) => {
                         self.transform_and_emit_var_decl_list(init);
                     }
-                    VarDeclOrExpr::Expr(init) => {
+                    VarDeclOrExpr::Expr(mut init) => {
                         init.visit_mut_with(self);
                         self.emit_stmt(Stmt::Expr(ExprStmt {
                             span: init.span(),
@@ -3119,7 +3119,7 @@ impl Generator {
                 self.block_index += 1;
 
                 //
-                let block = blocks[block_index];
+                let block = blocks[block_index].clone();
                 let block_action = self.block_actions.as_ref().unwrap()[block_index];
 
                 match &*block.borrow() {
@@ -3166,9 +3166,9 @@ impl Generator {
         self.last_operation_was_completion = false;
 
         let opcode = self.operations.as_ref().unwrap()[op_index];
-        if (opcode == OpCode::Nop) {
+        if opcode == OpCode::Nop {
             return;
-        } else if (opcode == OpCode::Endfinally) {
+        } else if opcode == OpCode::Endfinally {
             self.write_end_finally();
             return;
         }
@@ -3219,6 +3219,7 @@ impl Generator {
 
                 self.write_throw(args, Some(loc));
             }
+            _ => {}
         }
     }
 
