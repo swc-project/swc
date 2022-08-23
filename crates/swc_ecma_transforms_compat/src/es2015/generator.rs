@@ -306,7 +306,7 @@ impl VisitMut for Generator {
                     kind: VarDeclKind::Var,
                     decls: variables
                         .into_iter()
-                        .map(|v| self.transform_initialized_variable(v))
+                        .map(|v| self.transform_initialized_variable(v.take()))
                         .collect(),
                     declare: Default::default(),
                 }))
