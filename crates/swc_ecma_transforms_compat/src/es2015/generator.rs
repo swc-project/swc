@@ -2075,7 +2075,6 @@ impl Generator {
                     ..Take::dummy()
                 });
                 self.transform_and_emit_embedded_stmt(Stmt::Block(catch.body));
-                self.end_catch_block();
             }
 
             if let Some(finalizer) = node.finalizer {
