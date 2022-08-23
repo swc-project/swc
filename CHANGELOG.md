@@ -58,6 +58,9 @@
 
 - **(es/transforms)** Enable tests for fixed issues (#5583) ([0f6649c](https://github.com/swc-project/swc/commit/0f6649c44fbd35cbb7f0b64bf9b5a175f002fdd9))
 
+
+- **(es/transforms)** Copy execution tests from babel (#5578) ([e2fedb9](https://github.com/swc-project/swc/commit/e2fedb93452e54f4146f725ae07c6c2f0a4067a5))
+
 ### Build
 
 
