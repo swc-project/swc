@@ -2301,7 +2301,7 @@ impl Generator {
         }
 
         debug_assert_eq!(
-            self.label_offsets.as_ref().unwrap().len(),
+            self.label_offsets.as_ref().unwrap().len() + 1,
             self.next_label_id
         );
         let label = Label(self.next_label_id as _);
