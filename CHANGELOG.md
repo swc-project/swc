@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(swc_core)** Re-export `swc_cached` (#5605) ([7fcecb8](https://github.com/swc-project/swc/commit/7fcecb8e63faa64226b87e34b8cd4fdd0a6a7ab7))
+
 ### Features
 
 
