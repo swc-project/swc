@@ -568,7 +568,7 @@ impl VisitMut for Generator {
                         AssignExpr {
                             span: v.span,
                             op: op!("="),
-                            left: PatOrExpr::Pat(v.name.clone()),
+                            left: PatOrExpr::Pat(Box::new(v.name.clone())),
                             right: init,
                         }
                     })
