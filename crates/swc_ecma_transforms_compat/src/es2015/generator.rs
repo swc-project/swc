@@ -447,6 +447,8 @@ impl VisitMut for Generator {
                         Some(alt_span),
                     );
 
+                    self.mark_label(result_local);
+
                     *e = Expr::Ident(result_local);
                 } else {
                     node.visit_mut_with(self);
@@ -3320,9 +3322,6 @@ impl Generator {
 
     /// Updates literal expressions for labels with actual label numbers.
     fn update_label_expression(&mut self) {
-        dbg!(&self.label_numbers);
-        dbg!(&self.label_offsets);
-        dbg!(&self.label_exprs);
         if self.label_exprs.is_some() && self.label_numbers.is_some() {
             for (label_number, labels) in self.label_numbers.as_ref().unwrap().iter().enumerate() {
                 for &label in labels {
