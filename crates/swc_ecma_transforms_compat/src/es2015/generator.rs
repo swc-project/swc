@@ -3291,6 +3291,10 @@ impl Generator {
     /// list.
     #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
     fn write_operation(&mut self, op_index: usize) {
+        if cfg!(debug_assertions) {
+            debug!("Writing operation {}", op_index);
+        }
+
         self.try_enter_label(op_index);
         self.try_enter_or_leave_block(op_index);
 
