@@ -2180,7 +2180,7 @@ impl Generator {
             _ => {
                 let span = node.span();
 
-                let temp = self.create_temp_variable(hoist_variable_declaration);
+                let temp = self.create_temp_variable();
                 self.emit_assignment(temp.clone().into(), node, Some(span));
                 temp
             }
@@ -3427,6 +3427,19 @@ impl Generator {
             .iter_mut()
             .filter(|v| v.init.is_some())
             .collect()
+    }
+
+    fn create_temp_variable(&mut self) -> Ident {
+        let i = private_ident!("_");
+
+        self.temp_vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: i.clone().into(),
+            init: None,
+            definite: Default::default(),
+        });
+
+        i
     }
 }
 
