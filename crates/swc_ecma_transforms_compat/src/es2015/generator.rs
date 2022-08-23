@@ -6,7 +6,7 @@ use std::{
 
 use is_macro::Is;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::take::Take, BytePos, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
@@ -3626,5 +3626,33 @@ impl Visit for YieldFinder {
     fn visit_function(&mut self, f: &Function) {
         f.decorators.visit_with(self);
         f.params.visit_with(self);
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub(super) struct Loc {
+    pos: BytePos,
+    value: u32,
+}
+
+/// Convert <invalid> to case number
+struct InvalidToLit<'a> {
+    // Map from loc-id to stmt index
+    map: &'a [Loc],
+}
+
+impl VisitMut for InvalidToLit<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Expr::Invalid(Invalid { span }) = e {
+            if span.lo == span.hi {
+                if let Some(Loc { value, .. }) = self.map.iter().find(|loc| loc.pos == span.lo) {
+                    *e = (*value as usize).into();
+                }
+            }
+        }
     }
 }
