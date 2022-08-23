@@ -1688,13 +1688,6 @@ impl Generator {
 
     // function transformAndEmitForInStatement(node: ForInStatement) {
 
-    //         const keysArray = declareLocal(); // _a
-    //         const key = declareLocal(); // _b
-    //         const keysIndex = factory.createLoopVariable(); // _i
-    //         const initializer = node.initializer;
-    //         hoistVariableDeclaration(keysIndex);
-    //         emitAssignment(keysArray, factory.createArrayLiteralExpression());
-
     //         emitStatement(
     //             factory.createForInStatement(
     //                 key,
@@ -1779,6 +1772,14 @@ impl Generator {
             //  .br conditionLabel
             //  .endloop
             //  .mark endLoopLabel
+
+            let keys_array = self.define_local();
+            let key = self.define_local();
+            let keys_index = self.define_loop_variable();
+
+            self.hoistVariableDeclaration(keys_index);
+
+            self.emit_assignment(keys_array, Box::new(ArrayLit {}.into()), None);
         } else {
             node.visit_mut_with(self);
             self.emit_stmt(Stmt::ForIn(node));
