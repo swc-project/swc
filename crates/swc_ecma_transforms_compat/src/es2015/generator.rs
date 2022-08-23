@@ -3247,6 +3247,10 @@ impl Generator {
                 let block_index = self.block_index;
                 self.block_index += 1;
 
+                if cfg!(debug_assertions) {
+                    debug!(block_index = block_index, "try_enter_or_leave_block")
+                }
+
                 //
                 let block = blocks[block_index].clone();
                 let block_action = self.block_actions.as_ref().unwrap()[block_index];
