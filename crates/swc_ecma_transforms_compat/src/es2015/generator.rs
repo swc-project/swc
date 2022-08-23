@@ -367,7 +367,18 @@ impl VisitMut for Generator {
                 let resume_label = self.define_label();
                 node.arg.visit_mut_with(self);
                 if node.delegate {
-                    self.emit_yield_star(node.arg.take(), Some(node.span))
+                    let arg = node
+                        .arg
+                        .take()
+                        .map(|e| CallExpr {
+                            span: DUMMY_SP,
+                            callee: helper!(ts, ts_values, "__values"),
+                            args: vec![e.as_arg()],
+                            type_args: Default::default(),
+                        })
+                        .map(Expr::from)
+                        .map(Box::new);
+                    self.emit_yield_star(arg, Some(node.span))
                 } else {
                     self.emit_yield(node.arg.take(), Some(node.span));
                 }
