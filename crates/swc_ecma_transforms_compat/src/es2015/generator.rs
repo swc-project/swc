@@ -78,6 +78,7 @@ impl VisitMut for Wrapper {
                     decls: v.hoisted_vars.take(),
                 })))
             }
+            stmts.extend(v.hoisted_fns.into_iter().map(Decl::Fn).map(Stmt::Decl));
 
             stmts.push(Stmt::Return(ReturnStmt {
                 span: DUMMY_SP,
@@ -312,6 +313,7 @@ struct Generator {
 
     temp_vars: Vec<VarDeclarator>,
     hoisted_vars: Vec<VarDeclarator>,
+    hoisted_fns: Vec<FnDecl>,
 }
 
 type Ptr<T> = Rc<RefCell<T>>;
@@ -661,6 +663,10 @@ impl VisitMut for Generator {
                         }))
                     },
                 });
+            }
+            Stmt::Decl(Decl::Fn(f)) => {
+                self.hoisted_fns.push(f.take());
+                node.take();
             }
             _ => {
                 node.visit_mut_children_with(self);
