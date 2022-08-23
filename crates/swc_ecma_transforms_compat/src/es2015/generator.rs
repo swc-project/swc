@@ -3073,14 +3073,7 @@ impl Generator {
             return;
         }
 
-        for (label, label_offset) in self
-            .label_offsets
-            .as_ref()
-            .unwrap()
-            .iter()
-            .copied()
-            .enumerate()
-        {
+        for (label, label_offset) in self.label_offsets.clone().unwrap().into_iter().enumerate() {
             if label_offset as usize == op_index {
                 self.flush_label();
 
@@ -3088,7 +3081,7 @@ impl Generator {
                     self.label_numbers = Some(vec![]);
                 }
 
-                if let Some(v) = self.label_numbers.as_ref().unwrap().get(self.label_number) {
+                if let Some(v) = self.label_numbers.as_mut().unwrap().get(self.label_number) {
                     v.push(label);
                 } else {
                     self.label_numbers
