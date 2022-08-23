@@ -62,7 +62,7 @@ enum OpArgs {
     LabelExpr(Label, Box<Expr>),
     Stmt(Box<Stmt>),
     OptExpr(Option<Box<Expr>>),
-    Exprs(Box<Expr>, Box<Expr>),
+    PatAndExpr(PatOrExpr, Box<Expr>),
 }
 
 /// whether a generated code block is opening or closing at the current
@@ -1757,7 +1757,7 @@ impl Generator {
             match node.left {
                 VarDeclOrPat::VarDecl(initializer) => {
                     for variable in initializer.decls.iter() {
-                        self.hoist_variable_declaration(variable.name);
+                        self.hoist_variable_declaration(variable.name.as_ident().unwrap());
                     }
 
                     variable = initializer.decls[0].name.clone();
@@ -2514,7 +2514,7 @@ impl Generator {
                         if block.label_text == label_text {
                             return block.break_label;
                         }
-                    } else if self.supports_unlabeled_break(block)
+                    } else if self.supports_unlabeled_break(&block.borrow())
                         && self.has_immediate_containing_labeled_block(label_text, i - 1)
                     {
                         return block.break_label;
@@ -2523,7 +2523,7 @@ impl Generator {
             } else {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
-                    if self.supports_unlabeled_break(block) {
+                    if self.supports_unlabeled_break(&block.borrow()) {
                         return block.continue_label;
                     }
                 }
@@ -2676,8 +2676,8 @@ impl Generator {
     /// - `left`: The left-hand side of the assignment.
     /// - `right`: The right-hand side of the assignment.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_assignment(&mut self, left: Box<Expr>, right: Box<Expr>, loc: Option<Span>) {
-        self.emit_worker(OpCode::Assign, Some(OpArgs::Exprs(left, right)), loc);
+    fn emit_assignment(&mut self, left: PatOrExpr, right: Box<Expr>, loc: Option<Span>) {
+        self.emit_worker(OpCode::Assign, Some(OpArgs::PatAndExpr(left, right)), loc);
     }
 
     /// Emits a Break operation to the specified label.
@@ -3163,8 +3163,8 @@ impl Generator {
 
         match opcode {
             OpCode::Assign => {
-                let args = args.expect_exprs();
-                self.write_assign(PatOrExpr::Expr(args.0), args.1, Some(loc));
+                let args = args.expect_pat_and_expr();
+                self.write_assign(args.0, args.1, Some(loc));
             }
             OpCode::Break => {
                 let args = args.expect_label();
