@@ -1653,7 +1653,7 @@ impl Generator {
                 cnt += 1;
             }
 
-            if !pending_expressions.is_empty() {
+            if cnt > 0 {
                 variables_written += cnt;
                 cnt = 0;
 
