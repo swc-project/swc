@@ -1650,6 +1650,18 @@ var store = global[SHARED] || (global[SHARED] = {});
 
     identical!(issue_2550_2, "({ isNewPrefsActive }) && { a: 1 }");
 
+    test_fixer!(paren_of_bin_left_1, "({} && 1)", "({}) && 1");
+    identical!(paren_of_bin_left_2, "({}) && 1");
+    test_fixer!(
+        paren_of_bin_left_3,
+        "(function () {} || 2)",
+        "(function () {}) || 2"
+    );
+    identical!(paren_of_bin_left_4, "(function () {}) || 2");
+
+    test_fixer!(paren_of_bin_left_5, "(class{} ?? 3)", "(class{}) ?? 3");
+    identical!(paren_of_bin_left_6, "(class{}) ?? 3");
+
     identical!(issue_4761, "x = { ...(0, foo) }");
 
     identical!(issue_4914, "(a ?? b)?.()");
