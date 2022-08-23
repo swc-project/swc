@@ -3414,6 +3414,17 @@ impl Generator {
     fn hoist_variable_declaration(&mut self, id: &Ident) {
         // TODO(kdy1): Implement this by looking at tests
     }
+
+    fn get_initialized_variables<'a>(
+        &self,
+        initializer: &'a mut VarDecl,
+    ) -> Vec<&'a mut VarDeclarator> {
+        initializer
+            .decls
+            .iter_mut()
+            .filter(|v| v.init.is_some())
+            .collect()
+    }
 }
 
 fn contains_yield<N>(node: &N) -> bool {
