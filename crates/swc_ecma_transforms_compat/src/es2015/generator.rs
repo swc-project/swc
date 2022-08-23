@@ -153,6 +153,7 @@ enum ExceptionBlockState {
 }
 
 /// A generated code block
+#[derive(Debug)]
 enum CodeBlock {
     Exception(ExceptionBlock),
     Labeled(LabeledBlock),
@@ -197,6 +198,7 @@ impl CodeBlock {
 }
 
 /// a generated exception block, used for 'try' statements
+#[derive(Debug)]
 struct ExceptionBlock {
     state: ExceptionBlockState,
     start_label: Label,
@@ -208,6 +210,7 @@ struct ExceptionBlock {
 
 /// A generated code that tracks the target for 'break' statements in a
 /// LabeledStatement.
+#[derive(Debug)]
 struct LabeledBlock {
     label_text: JsWord,
     is_script: bool,
@@ -216,6 +219,7 @@ struct LabeledBlock {
 
 /// a generated block that tracks the target for 'break' statements in a
 /// 'switch' statement
+#[derive(Debug)]
 struct SwitchBlock {
     is_script: bool,
     break_label: Label,
@@ -224,6 +228,7 @@ struct SwitchBlock {
 /// a generated block that tracks the targets for 'break' and 'continue'
 /// statements, used for iteration statements
 
+#[derive(Debug)]
 struct LoopBlock {
     continue_label: Label,
     is_script: bool,
@@ -232,6 +237,7 @@ struct LoopBlock {
 
 /// a generated block associated with a 'with' statement
 
+#[derive(Debug)]
 struct WithBlock {
     expression: Ident,
     start_label: Label,
@@ -3255,7 +3261,7 @@ impl Generator {
                             self.current_exception_block = self.exception_block_stack.pop();
                             #[cfg(debug_assertions)]
                             debug!(
-                                "Current exception block: close = {:?)",
+                                "Current exception block: close = {:?}",
                                 self.current_exception_block
                             );
                         }
