@@ -2300,10 +2300,6 @@ impl Generator {
             self.label_offsets = Some(Default::default());
         }
 
-        debug_assert_eq!(
-            self.label_offsets.as_ref().unwrap().len() + 1,
-            self.next_label_id
-        );
         let label = Label(self.next_label_id as _);
         self.next_label_id += 1;
         self.label_offsets.as_mut().unwrap().push(-1);
@@ -2313,6 +2309,14 @@ impl Generator {
     /// Marks the current operation with the specified label.
     fn mark_label(&mut self, label: Label) {
         debug_assert!(self.label_offsets.is_some(), "No labels were defined.");
+
+        if label.0 as usize <= self.label_offsets.as_ref().unwrap().len() {
+            self.label_offsets
+                .as_mut()
+                .unwrap()
+                .resize(label.0 as usize + 1, Default::default());
+        }
+
         self.label_offsets.as_mut().unwrap()[label.0 as usize] =
             self.operations.as_deref().map_or(0, |v| v.len() as _);
     }
