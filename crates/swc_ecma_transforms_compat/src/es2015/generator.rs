@@ -1715,7 +1715,11 @@ impl Generator {
 
             self.hoistVariableDeclaration(keys_index);
 
-            self.emit_assignment(keys_array, Box::new(ArrayLit {}.into()), None);
+            self.emit_assignment(
+                keys_array,
+                Box::new(ArrayLit { ..Take::dummy() }.into()),
+                None,
+            );
 
             // emitStatement(
             //     factory.createForInStatement(
@@ -1734,11 +1738,11 @@ impl Generator {
             //     )
             // );
 
-            // emitAssignment(keysIndex, factory.createNumericLiteral(0));
+            self.emit_assignment(keys_index, 0.into(), None);
 
-            // const conditionLabel = defineLabel();
-            // const incrementLabel = defineLabel();
-            // const endLabel = beginLoopBlock(incrementLabel);
+            let condition_label = self.define_label();
+            let increment_label = self.define_label();
+            let end_label = self.begin_loop_block(increment_label);
 
             // markLabel(conditionLabel);
             // emitBreakWhenFalse(
