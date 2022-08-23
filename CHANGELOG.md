@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(swc_core)** Expand features (#5602) ([633a23a](https://github.com/swc-project/swc/commit/633a23a13438cb3891ea1cdef349cde882672bec))
+
+## [1.2.242] - 2022-08-23
+
 ### Bug Fixes
 
 
