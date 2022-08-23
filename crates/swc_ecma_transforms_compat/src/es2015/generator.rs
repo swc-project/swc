@@ -1753,22 +1753,24 @@ impl Generator {
                 None,
             );
 
-            // let variable: Expression;
-            // if (isVariableDeclarationList(initializer)) {
-            //     for (const variable of initializer.declarations) {
-            //         hoistVariableDeclaration(variable.name as Identifier);
-            //     }
+            let variable;
 
-            //     variable = factory.cloneNode(
-            //         initializer.declarations[0].name
-            //     ) as Identifier;
-            // } else {
-            //     variable = visitNode(initializer, visitor, isExpression);
-            //     Debug.assert(isLeftHandSideExpression(variable));
-            // }
+            match node.left {
+                VarDeclOrPat::VarDecl(initializer) => {
+                    for variable in initializer.decls.iter() {
+                        self.hoistVariableDeclaration(variable.name);
+                    }
+
+                    variable = initializer.decls[0].name.clone();
+                }
+                VarDeclOrPat::Pat(mut initializer) => {
+                    initializer.visit_mut_with(self);
+                    variable = initializer;
+                }
+            }
 
             self.emit_assignment(
-                variable,
+                PatOrExpr::Pat(Box::new(variable)),
                 Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
                     obj: keys_array.into(),
