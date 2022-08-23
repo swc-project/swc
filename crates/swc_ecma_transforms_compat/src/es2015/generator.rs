@@ -1744,14 +1744,14 @@ impl Generator {
             let increment_label = self.define_label();
             let end_label = self.begin_loop_block(increment_label);
 
-            // markLabel(conditionLabel);
-            // emitBreakWhenFalse(
-            //     endLabel,
-            //     factory.createLessThan(
-            //         keysIndex,
-            //         factory.createPropertyAccessExpression(keysArray,
-            // "length")     )
-            // );
+            self.mark_label(condition_label);
+            self.emit_break_when_false(
+                end_label,
+                Box::new(
+                    keys_index.make_bin(op!("<"), keys_array.make_member(quote_ident!("length"))),
+                ),
+                None,
+            );
 
             // let variable: Expression;
             // if (isVariableDeclarationList(initializer)) {
