@@ -2738,7 +2738,7 @@ impl Generator {
                     }
                 }
             } else {
-                for i in (0..block_stack.len() - 1).rev() {
+                for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
                     if self.supports_unlabeled_break(&block.borrow()) {
                         return block.borrow().break_label().unwrap();
