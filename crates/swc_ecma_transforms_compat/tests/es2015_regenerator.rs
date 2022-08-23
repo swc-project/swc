@@ -4,7 +4,11 @@ use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
-    es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator, es2018, es2021, es2022,
+    es2015,
+    es2015::{generator::generator, regenerator},
+    es2016, es2017,
+    es2017::async_to_generator,
+    es2018, es2021, es2022,
 };
 use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
@@ -18,7 +22,7 @@ fn tr(_: ()) -> impl Fold {
     let top_level_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+        generator()
     )
 }
 
@@ -28,7 +32,7 @@ fn tr_with_async() -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-        regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+        generator()
     )
 }
 
