@@ -138,6 +138,12 @@ pub mod minifier {
     pub use swc_ecma_minifier::*;
 }
 
+#[cfg(feature = "__cached")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__cached")))]
+pub mod cached {
+    pub use swc_cached::*;
+}
+
 #[cfg(feature = "allocator_node")]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
 extern crate swc_node_base;
