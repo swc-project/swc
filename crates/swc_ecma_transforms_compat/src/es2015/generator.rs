@@ -2336,10 +2336,16 @@ impl Generator {
         let block = self.peek_block().expect("beginBlock was never called.");
 
         let index = self.block_actions.as_ref().unwrap().len();
-        self.block_actions.as_mut().unwrap()[index] = BlockAction::Close;
-        self.block_offsets.as_mut().unwrap()[index] =
-            self.operations.as_ref().map_or(0, |v| v.len());
-        self.blocks.as_mut().unwrap()[index] = block.clone();
+
+        self.block_actions
+            .as_mut()
+            .unwrap()
+            .push(BlockAction::Close);
+        self.block_offsets
+            .as_mut()
+            .unwrap()
+            .push(self.operations.as_ref().map_or(0, |v| v.len()));
+        self.blocks.as_mut().unwrap().push(block.clone());
         self.block_stack.as_mut().unwrap().pop();
         block
     }
