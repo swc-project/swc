@@ -1713,7 +1713,7 @@ impl Generator {
             let key = self.declare_local(None);
             let keys_index = self.define_loop_variable();
 
-            self.hoist_variable_declaration(keys_index);
+            self.hoist_variable_declaration(&keys_index);
 
             self.emit_assignment(
                 PatOrExpr::Pat(keys_array.clone().into()),
@@ -1772,10 +1772,10 @@ impl Generator {
                 PatOrExpr::Pat(Box::new(variable)),
                 Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
-                    obj: keys_array.into(),
+                    obj: Box::new(keys_array.into()),
                     prop: MemberProp::Computed(ComputedPropName {
                         span: DUMMY_SP,
-                        expr: keys_index,
+                        expr: Box::new(keys_index.clone().into()),
                     }),
                 })),
                 None,
@@ -1789,6 +1789,7 @@ impl Generator {
                     span: DUMMY_SP,
                     prefix: false,
                     op: op!("++"),
+                    arg: Box::new(keys_index.clone().into()),
                 })),
             }));
 
