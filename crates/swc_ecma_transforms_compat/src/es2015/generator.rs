@@ -1493,16 +1493,17 @@ impl Generator {
     }
 
     fn transform_and_emit_var_decl_list(&mut self, mut node: VarDecl) {
-        for variable in node.decls {
+        for variable in &node.decls {
             self.hoist_variable_declaration(variable.name.as_ident().unwrap());
         }
 
+        let var_len = node.decls.len();
         let variables = self.get_initialized_variables(&mut node);
         let mut variables_written = 0;
         let mut pending_expressions = vec![];
 
-        while variables_written < node.decls.len() {
-            for (i, variable) in variables.iter_mut().enumerate() {
+        while variables_written < var_len {
+            for (i, variable) in variables.into_iter().enumerate() {
                 if contains_yield(&variable) && !pending_expressions.is_empty() {
                     break;
                 }
@@ -2506,7 +2507,7 @@ impl Generator {
         matches!(block, CodeBlock::Loop(..))
     }
 
-    fn has_immediate_containing_labeled_block(&mut self, label_text: JsWord, start: usize) -> bool {
+    fn has_immediate_containing_labeled_block(&self, label_text: JsWord, start: usize) -> bool {
         for i in (0..start).rev() {
             let block = self.block_stack.as_ref().unwrap()[i].clone();
             if self.supports_labeled_break_or_continue(&block.borrow()) {
@@ -2984,13 +2985,14 @@ impl Generator {
             }
 
             if let Some(current_exception_block) = self.current_exception_block.take() {
+                let b = current_exception_block.borrow();
                 let ExceptionBlock {
                     start_label,
                     catch_label,
                     finally_label,
                     end_label,
                     ..
-                } = match &*current_exception_block.borrow() {
+                } = match &*b {
                     CodeBlock::Exception(v) => v,
                     _ => {
                         unreachable!()
