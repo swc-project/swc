@@ -360,6 +360,7 @@ define_helpers!(Helpers {
     ts_generator: (),
     ts_metadata: (),
     ts_param: (),
+    ts_values: (),
 });
 
 pub fn inject_helpers() -> impl Fold + VisitMut {
