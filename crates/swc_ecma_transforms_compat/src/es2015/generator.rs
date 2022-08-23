@@ -2154,7 +2154,7 @@ impl Generator {
                 let span = node.span();
 
                 let temp = self.create_temp_variable(hoist_variable_declaration);
-                self.emit_assignment(temp.clone().into(), node, span);
+                self.emit_assignment(temp.clone().into(), node, Some(span));
                 temp
             }
         }
@@ -2165,7 +2165,7 @@ impl Generator {
             .map(|name| private_ident!(name))
             .unwrap_or_else(|| private_ident!("_tmp"));
 
-        self.hoist_variable_declaration(temp);
+        self.hoist_variable_declaration(&temp);
         return temp;
     }
 
