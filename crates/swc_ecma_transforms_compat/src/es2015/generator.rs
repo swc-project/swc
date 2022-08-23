@@ -334,6 +334,7 @@ impl Default for Generator {
             current_exception_block: Default::default(),
             with_block_stack: Default::default(),
             temp_vars: Default::default(),
+            hoisted_vars: Default::default(),
         }
     }
 }
