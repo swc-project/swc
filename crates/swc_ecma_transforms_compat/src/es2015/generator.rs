@@ -118,6 +118,15 @@ impl CodeBlock {
             _ => None,
         }
     }
+
+    fn break_label(&self) -> Option<Label> {
+        match self {
+            Self::Labeled(b) => b.break_label,
+            Self::Switch(b) => b.break_label,
+            Self::Loop(b) => b.break_label,
+            _ => None,
+        }
+    }
 }
 
 /// a generated exception block, used for 'try' statements
@@ -2520,19 +2529,19 @@ impl Generator {
                     let block = &block_stack[i];
                     if self.supports_labeled_break_or_continue(&block.borrow()) {
                         if block.borrow().label_text().unwrap() == label_text {
-                            return block.break_label;
+                            return block.borrow().break_label();
                         }
                     } else if self.supports_unlabeled_break(&block.borrow())
                         && self.has_immediate_containing_labeled_block(label_text, i - 1)
                     {
-                        return block.break_label;
+                        return block.borrow().break_label();
                     }
                 }
             } else {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
                     if self.supports_unlabeled_break(&block.borrow()) {
-                        return block.continue_label;
+                        return block.borrow().continue_label();
                     }
                 }
             }
