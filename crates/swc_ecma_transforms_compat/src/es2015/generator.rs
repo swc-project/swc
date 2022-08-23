@@ -1912,7 +1912,8 @@ impl Generator {
             //  .endwith
 
             node.obj.visit_mut_with(self);
-            self.begin_with_block(self.cache_expression(node.obj));
+            let obj = self.cache_expression(node.obj);
+            self.begin_with_block(obj);
             self.transform_and_emit_embedded_stmt(*node.body);
             self.end_with_block();
         } else {
@@ -2362,7 +2363,8 @@ impl Generator {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Exception));
 
         let block = self.peek_block().unwrap();
-        if let CodeBlock::Exception(block) = &*block.borrow() {
+        let mut b = block.borrow_mut();
+        if let CodeBlock::Exception(block) = &mut *b {
             debug_assert!(block.state < ExceptionBlockState::Finally);
 
             let end_label = block.end_label;
