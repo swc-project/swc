@@ -376,6 +376,61 @@ impl VisitMut for Generator {
 
                 *e = *self.create_generator_resume(Some(node.span));
             }
+
+            Expr::Cond(node) => {
+                // [source]
+                //      x = a() ? yield : b();
+                //
+                // [intermediate]
+                //  .local _a
+                //  .brfalse whenFalseLabel, (a())
+                //  .yield resumeLabel
+                //  .mark resumeLabel
+                //      _a = %sent%;
+                //  .br resultLabel
+                //  .mark whenFalseLabel
+                //      _a = b();
+                //  .mark resultLabel
+                //      x = _a;
+
+                // We only need to perform a specific transformation if a
+                // `yield` expression exists in either the
+                // `whenTrue` or `whenFalse` branches. A `yield`
+                // in the condition will be handled by the normal visitor.
+
+                if contains_yield(&node.cons) || contains_yield(&node.alt) {
+                    let when_false_label = self.define_label();
+                    let result_label = self.define_label();
+                    let result_local = self.declare_local(None);
+
+                    node.test.visit_mut_with(self);
+                    let cond_span = node.test.span();
+                    self.emit_break_when_false(when_false_label, node.test.take(), Some(cond_span));
+
+                    let cons_span = node.cons.span();
+                    node.cons.visit_mut_with(self);
+                    self.emit_assignment(
+                        PatOrExpr::Pat(result_local.clone().into()),
+                        node.cons.take(),
+                        Some(cons_span),
+                    );
+                    self.emit_break(result_label, None);
+
+                    self.mark_label(when_false_label);
+                    let alt_span = node.cons.span();
+                    node.alt.visit_mut_with(self);
+                    self.emit_assignment(
+                        PatOrExpr::Pat(result_local.clone().into()),
+                        node.alt.take(),
+                        Some(alt_span),
+                    );
+
+                    *e = Expr::Ident(result_local);
+                } else {
+                    node.visit_mut_with(self);
+                }
+            }
+
             _ => {
                 e.visit_mut_children_with(self);
             }
@@ -1220,60 +1275,6 @@ impl Generator {
     //     );
     //     markLabel(resultLabel);
     //     return resultLocal;
-    // }
-
-    // /**
-    //  * Visits a conditional expression containing `yield`.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitConditionalExpression(
-    //     node: ConditionalExpression
-    // ): Expression {
-    //     // [source]
-    //     //      x = a() ? yield : b();
-    //     //
-    //     // [intermediate]
-    //     //  .local _a
-    //     //  .brfalse whenFalseLabel, (a())
-    //     //  .yield resumeLabel
-    //     //  .mark resumeLabel
-    //     //      _a = %sent%;
-    //     //  .br resultLabel
-    //     //  .mark whenFalseLabel
-    //     //      _a = b();
-    //     //  .mark resultLabel
-    //     //      x = _a;
-
-    //     // We only need to perform a specific transformation if a `yield`
-    // expression exists     // in either the `whenTrue` or `whenFalse`
-    // branches.     // A `yield` in the condition will be handled by the normal
-    // visitor.     if (containsYield(node.whenTrue) ||
-    // containsYield(node.whenFalse)) {         const whenFalseLabel =
-    // defineLabel();         const resultLabel = defineLabel();
-    //         const resultLocal = declareLocal();
-    //         emitBreakWhenFalse(
-    //             whenFalseLabel,
-    //             visitNode(node.condition, visitor, isExpression),
-    //             /*location*/ node.condition
-    //         );
-    //         emitAssignment(
-    //             resultLocal,
-    //             visitNode(node.whenTrue, visitor, isExpression),
-    //             /*location*/ node.whenTrue
-    //         );
-    //         emitBreak(resultLabel);
-    //         markLabel(whenFalseLabel);
-    //         emitAssignment(
-    //             resultLocal,
-    //             visitNode(node.whenFalse, visitor, isExpression),
-    //             /*location*/ node.whenFalse
-    //         );
-    //         markLabel(resultLabel);
-    //         return resultLocal;
-    //     }
-
-    //     return visitEachChild(node, visitor, context);
     // }
 
     // /**
