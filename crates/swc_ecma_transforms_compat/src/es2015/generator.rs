@@ -2470,7 +2470,7 @@ impl Generator {
     }
 
     /// Indicates whether the provided block supports `break` statements.
-    fn supports_unlabeled_break(block: &CodeBlock) -> bool {
+    fn supports_unlabeled_break(&self, block: &CodeBlock) -> bool {
         matches!(block, CodeBlock::Switch(..) | CodeBlock::Loop(..))
     }
 
