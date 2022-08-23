@@ -2878,7 +2878,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.218.3"
+version = "0.218.4"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.11.2"
+version = "0.11.3"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3496,7 +3496,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.185.0"
+version = "0.185.1"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3521,7 +3521,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.104.0"
+version = "0.104.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
