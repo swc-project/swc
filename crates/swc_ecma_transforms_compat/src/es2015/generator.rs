@@ -104,11 +104,18 @@ enum CodeBlock {
 impl CodeBlock {
     fn is_script(&self) -> bool {
         match self {
-            CodeBlock::Exception(b) => false,
-            CodeBlock::Labeled(b) => b.is_script,
-            CodeBlock::Switch(b) => b.is_script,
-            CodeBlock::Loop(b) => b.is_script,
-            CodeBlock::With(b) => false,
+            Self::Exception(b) => false,
+            Self::Labeled(b) => b.is_script,
+            Self::Switch(b) => b.is_script,
+            Self::Loop(b) => b.is_script,
+            Self::With(b) => false,
+        }
+    }
+
+    fn label_text(&self) -> Option<JsWord> {
+        match self {
+            Self::Labeled(s) => Some(s.label_text.clone()),
+            _ => None,
         }
     }
 }
@@ -2512,7 +2519,7 @@ impl Generator {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
                     if self.supports_labeled_break_or_continue(&block.borrow()) {
-                        if block.label_text == label_text {
+                        if block.borrow().label_text().unwrap() == label_text {
                             return block.break_label;
                         }
                     } else if self.supports_unlabeled_break(&block.borrow())
