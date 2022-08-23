@@ -1,12 +1,12 @@
 use std::{
     env,
-    fs::{create_dir_all, rename},
+    fs::{self, create_dir_all, rename},
     path::{Component, Path, PathBuf},
     process::Command,
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
@@ -34,7 +34,7 @@ where
     }
 
     fn matrix_bool(self) -> Vec<(T, bool)> {
-        self.matrix(|| [true, false])
+        self.matrix(|| [false, true])
     }
 }
 
@@ -222,6 +222,35 @@ fn run_fixture_test(entry: PathBuf) {
     unignore(&entry);
 }
 
+#[testing::fixture("tests/babel-exec/**/exec.js")]
+fn run_babel_fixture_exec_test(entry: PathBuf) {
+    let _ = init_helpers();
+
+    let _guard = testing::init();
+
+    let matrix = create_matrix(&entry);
+    let expected_stdout = get_expected_stdout(&entry).unwrap_or_else(|_| {
+        fs::remove_file(&entry).unwrap();
+        panic!("Removed")
+    });
+
+    eprintln!(
+        "----- {} -----\n{}\n-----",
+        ansi_term::Color::Green.bold().paint("Expected stdout"),
+        expected_stdout
+    );
+
+    let _ = matrix
+        .into_iter()
+        .enumerate()
+        .map(|(idx, opts)| test_file_with_opts(&entry, &opts, &expected_stdout, idx).unwrap())
+        .collect::<Vec<_>>();
+
+    // Test was successful.
+
+    unignore(&entry);
+}
+
 fn get_expected_stdout(input: &Path) -> Result<String, Error> {
     let cm = Arc::new(SourceMap::default());
     let c = Compiler::new(cm.clone());
@@ -234,6 +263,13 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
         },
         |handler| {
             let fm = cm.load_file(input).context("failed to load file")?;
+
+            if let Ok(output) = stdout_of(&fm.src, NodeModuleType::Module) {
+                return Ok(output);
+            }
+            if let Ok(output) = stdout_of(&fm.src, NodeModuleType::CommonJs) {
+                return Ok(output);
+            }
 
             let res = c
                 .process_js_file(
@@ -368,15 +404,31 @@ enum NodeModuleType {
 
 fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
     let s = exec_node_js(
-        code,
+        &match module_type {
+            NodeModuleType::CommonJs => {
+                format!(
+                    "
+                    const expect = require('expect');
+                    {}
+                    ",
+                    code
+                )
+            }
+            NodeModuleType::Module => {
+                format!(
+                    "
+                    import expect from 'expect';
+                    {}
+                    ",
+                    code
+                )
+            }
+        },
         JsExecOptions {
             cache: true,
             module: matches!(module_type, NodeModuleType::Module),
         },
     )?;
 
-    if s.trim().is_empty() {
-        bail!("empty stdout");
-    }
     Ok(s)
 }
