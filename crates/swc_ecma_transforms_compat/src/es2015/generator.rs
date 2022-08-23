@@ -3673,4 +3673,10 @@ impl VisitMut for InvalidToLit<'_> {
             }
         }
     }
+
+    fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
+        e.visit_mut_children_with(self);
+
+        e.exprs.retain(|e| !e.is_invalid());
+    }
 }
