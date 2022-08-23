@@ -1716,7 +1716,7 @@ impl Generator {
             self.hoist_variable_declaration(keys_index);
 
             self.emit_assignment(
-                Box::new(keys_array.clone().into()),
+                PatOrExpr::Pat(keys_array.clone().into()),
                 Box::new(ArrayLit { ..Take::dummy() }.into()),
                 None,
             );
@@ -2295,7 +2295,7 @@ impl Generator {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Exception));
 
         let name = variable.name.expect_ident().id;
-        self.hoist_variable_declaration(name);
+        self.hoist_variable_declaration(&name);
 
         // ExceptionBlock
         let exception = RefMut::map(self.peek_block().unwrap().borrow_mut(), |v| match v {
@@ -2314,7 +2314,7 @@ impl Generator {
         exception.catch_label = Some(catch_label);
 
         self.emit_assignment(
-            Box::new(Expr::Ident(name)),
+            PatOrExpr::Pat(name.clone().into()),
             Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: self
