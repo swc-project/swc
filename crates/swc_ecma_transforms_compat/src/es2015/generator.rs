@@ -3679,4 +3679,19 @@ impl VisitMut for InvalidToLit<'_> {
 
         e.exprs.retain(|e| !e.is_invalid());
     }
+
+    fn visit_mut_expr_or_spreads(&mut self, e: &mut Vec<ExprOrSpread>) {
+        e.visit_mut_children_with(self);
+
+        e.retain(|e| !e.expr.is_invalid());
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, e: &mut Vec<Option<ExprOrSpread>>) {
+        e.visit_mut_children_with(self);
+
+        e.retain(|e| match e {
+            Some(e) => !e.expr.is_invalid(),
+            _ => true,
+        });
+    }
 }
