@@ -353,6 +353,14 @@ impl Default for Generator {
 impl VisitMut for Generator {
     noop_visit_mut_type!();
 
+    fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
+        e.params.visit_mut_with(self);
+    }
+
+    fn visit_mut_function(&mut self, e: &mut Function) {
+        e.params.visit_mut_with(self);
+    }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Yield(node) => {
