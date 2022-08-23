@@ -300,6 +300,35 @@ impl Default for Generator {
 impl VisitMut for Generator {
     noop_visit_mut_type!();
 
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Yield(node) => {
+                // [source]
+                //      x = yield a();
+                //
+                // [intermediate]
+                //  .yield resumeLabel, (a())
+                //  .mark resumeLabel
+                //      x = %sent%;
+
+                let resume_label = self.define_label();
+                node.arg.visit_mut_with(self);
+                if node.delegate {
+                    self.emit_yield_star(node.arg.take(), Some(node.span))
+                } else {
+                    self.emit_yield(node.arg.take(), Some(node.span));
+                }
+
+                self.mark_label(resume_label);
+
+                *e = *self.create_generator_resume(Some(node.span));
+            }
+            _ => {
+                e.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         if !node.callee.is_import() && node.args.iter().any(contains_yield) {
             // [source]
@@ -1181,42 +1210,6 @@ impl Generator {
     //     }
 
     //     return visitEachChild(node, visitor, context);
-    // }
-
-    // /**
-    //  * Visits a `yield` expression.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitYieldExpression(
-    //     node: YieldExpression
-    // ): LeftHandSideExpression {
-    //     // [source]
-    //     //      x = yield a();
-    //     //
-    //     // [intermediate]
-    //     //  .yield resumeLabel, (a())
-    //     //  .mark resumeLabel
-    //     //      x = %sent%;
-
-    //     const resumeLabel = defineLabel();
-    //     const expression = visitNode(node.expression, visitor, isExpression);
-    //     if (node.asteriskToken) {
-    //         // NOTE: `expression` must be defined for `yield*`.
-    //         const iterator =
-    //             (getEmitFlags(node.expression!) & EmitFlags.Iterator) === 0
-    //                 ? setTextRange(
-    //                       emitHelpers().createValuesHelper(expression!),
-    //                       node
-    //                   )
-    //                 : expression;
-    //         emitYieldStar(iterator, /*location*/ node);
-    //     } else {
-    //         emitYield(expression, /*location*/ node);
-    //     }
-
-    //     markLabel(resumeLabel);
-    //     return createGeneratorResume(/*location*/ node);
     // }
 
     // /**
