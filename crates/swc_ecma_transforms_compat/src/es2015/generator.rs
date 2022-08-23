@@ -1709,8 +1709,8 @@ impl Generator {
             //  .endloop
             //  .mark endLoopLabel
 
-            let keys_array = self.define_local();
-            let key = self.define_local();
+            let keys_array = self.declare_local();
+            let key = self.declare_local();
             let keys_index = self.define_loop_variable();
 
             self.hoistVariableDeclaration(keys_index);
