@@ -66,17 +66,6 @@ impl VisitMut for Wrapper {
             })];
         }
     }
-
-    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        f.visit_mut_children_with(self);
-
-        if f.function.is_generator {
-            let mut v = Generator::default();
-            f.visit_mut_with(&mut v);
-            f.function.is_generator = false;
-            f.function.body.as_mut().unwrap().stmts = v.build_stmts();
-        }
-    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
