@@ -562,7 +562,18 @@ impl VisitMut for Generator {
                 let mut exprs = variables
                     .into_iter()
                     .map(|v| self.transform_initialized_variable(v.take()))
-                    .map(|mut v| v.init.take().unwrap())
+                    .map(|mut v| {
+                        let init = v.init.take().unwrap();
+
+                        AssignExpr {
+                            span: v.span,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(v.name.clone()),
+                            right: init,
+                        }
+                    })
+                    .map(Expr::from)
+                    .map(Box::new)
                     .collect::<Vec<_>>();
 
                 *node = Stmt::Expr(ExprStmt {
