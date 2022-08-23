@@ -299,12 +299,15 @@ impl VisitMut for Generator {
             node.init = if variables.is_empty() {
                 None
             } else {
-                Some(
-                    variables
+                Some(VarDeclOrExpr::VarDecl(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: variables
                         .into_iter()
                         .map(|v| self.transform_initialized_variable(v))
                         .collect(),
-                )
+                    declare: Default::default(),
+                }))
             };
             node.test.visit_mut_with(self);
             node.update.visit_mut_with(self);
