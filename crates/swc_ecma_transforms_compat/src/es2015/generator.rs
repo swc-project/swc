@@ -64,10 +64,21 @@ impl VisitMut for Wrapper {
                 ],
                 type_args: Default::default(),
             }));
-            f.body.as_mut().unwrap().stmts = vec![Stmt::Return(ReturnStmt {
+            let mut stmts = vec![];
+            if !v.hoisted_vars.is_empty() {
+                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: v.hoisted_vars.take(),
+                })))
+            }
+
+            stmts.push(Stmt::Return(ReturnStmt {
                 span: DUMMY_SP,
                 arg: Some(generator_object),
-            })];
+            }));
+            f.body.as_mut().unwrap().stmts = stmts;
         }
     }
 }
@@ -289,6 +300,7 @@ struct Generator {
     with_block_stack: Option<Vec<Ptr<CodeBlock>>>,
 
     temp_vars: Vec<VarDeclarator>,
+    hoisted_vars: Vec<VarDeclarator>,
 }
 
 type Ptr<T> = Rc<RefCell<T>>;
@@ -3506,7 +3518,12 @@ impl Generator {
     }
 
     fn hoist_variable_declaration(&mut self, id: &Ident) {
-        // TODO(kdy1): Implement this by looking at tests
+        self.hoisted_vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: id.clone().into(),
+            init: None,
+            definite: Default::default(),
+        })
     }
 
     fn get_initialized_variables<'a>(
