@@ -2327,7 +2327,9 @@ impl Generator {
         let index = self.block_actions.as_ref().unwrap().len();
 
         #[cfg(debug_assertions)]
-        debug!("Begin block {}", index);
+        if cfg!(debug_assertions) {
+            debug!("Begin block {}: {:?}", index, block);
+        }
 
         let block = Rc::new(RefCell::new(block));
 
