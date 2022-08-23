@@ -559,17 +559,23 @@ impl VisitMut for Generator {
                     return;
                 }
 
-                // return setSourceMapRange(
-                //     factory.createExpressionStatement(
-                //         factory.inlineExpressions(
-                //             map(variables, transformInitializedVariable)
-                //         )
-                //     ),
-                //     node
-                // );
-                // *node = Stmt::Expr(ExprStmt {
-                //     span:v.span,
-                // });
+                let mut exprs = variables
+                    .into_iter()
+                    .map(|v| self.transform_initialized_variable(v))
+                    .map(|v| v.init.take().unwrap())
+                    .collect::<Vec<_>>();
+
+                *node = Stmt::Expr(ExprStmt {
+                    span: v.span,
+                    expr: if exprs.len() == 1 {
+                        exprs.remove(0)
+                    } else {
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
+                        })
+                    },
+                });
             }
             _ => {
                 node.visit_mut_children_with(self);
