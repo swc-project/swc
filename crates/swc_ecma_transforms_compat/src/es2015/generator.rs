@@ -3113,7 +3113,7 @@ impl Generator {
                 }
             }
 
-            if let Some(current_exception_block) = self.current_exception_block.clone() {
+            if let Some(current_exception_block) = self.current_exception_block.take() {
                 let b = current_exception_block.borrow();
                 let ExceptionBlock {
                     start_label,
