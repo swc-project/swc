@@ -3388,7 +3388,7 @@ impl Generator {
         }))
     }
 
-    fn hoist_variable_declaration(&mut self, pat: &Pat) {
+    fn hoist_variable_declaration(&mut self, id: &Ident) {
         // TODO(kdy1): Implement this by looking at tests
     }
 }
