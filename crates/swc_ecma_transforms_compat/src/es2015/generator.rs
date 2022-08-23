@@ -447,7 +447,7 @@ impl VisitMut for Generator {
                         Some(alt_span),
                     );
 
-                    self.mark_label(result_local);
+                    self.mark_label(result_label);
 
                     *e = Expr::Ident(result_local);
                 } else {
