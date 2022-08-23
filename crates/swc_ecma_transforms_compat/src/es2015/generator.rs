@@ -1494,17 +1494,17 @@ impl Generator {
             self.hoist_variable_declaration(variable.name.as_ident().unwrap());
         }
 
-        let variables = self.get_initialized_variables(&node);
+        let variables = self.get_initialized_variables(&mut node);
         let mut variables_written = 0;
         let mut pending_expressions = vec![];
 
         while variables_written < node.decls.len() {
-            for (i, variable) in variables.iter().enumerate() {
+            for (i, variable) in variables.iter_mut().enumerate() {
                 if contains_yield(&variable) && !pending_expressions.is_empty() {
                     break;
                 }
 
-                pending_expressions.push(variable.init);
+                pending_expressions.extend(variable.init.take());
             }
 
             if !pending_expressions.is_empty() {
