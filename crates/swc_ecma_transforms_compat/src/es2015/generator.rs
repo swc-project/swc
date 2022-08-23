@@ -1767,11 +1767,19 @@ impl Generator {
             //     Debug.assert(isLeftHandSideExpression(variable));
             // }
 
-            // emitAssignment(
-            //     variable,
-            //     factory.createElementAccessExpression(keysArray, keysIndex)
-            // );
-            // transformAndEmitEmbeddedStatement(node.statement);
+            self.emit_assignment(
+                variable,
+                Box::new(Expr::Member(MemberExpr {
+                    span: DUMMY_SP,
+                    obj: keys_array.into(),
+                    prop: MemberProp::Computed(ComputedPropName {
+                        span: DUMMY_SP,
+                        expr: keys_index,
+                    }),
+                })),
+                None,
+            );
+            self.transform_and_emit_embedded_stmt(node.body);
 
             self.mark_label(increment_label);
             self.emit_stmt(Stmt::Expr(ExprStmt {
