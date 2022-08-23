@@ -3183,6 +3183,7 @@ impl Generator {
         });
     }
 
+    #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
     fn try_enter_label(&mut self, op_index: usize) {
         if self.label_offsets.is_none() {
             return;
@@ -3235,6 +3236,7 @@ impl Generator {
     }
 
     /// Tries to enter or leave a code block.
+    #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
     fn try_enter_or_leave_block(&mut self, op_index: usize) {
         if let Some(blocks) = &self.blocks {
             while self.block_index < self.block_actions.as_ref().unwrap().len()
@@ -3287,6 +3289,7 @@ impl Generator {
 
     /// Writes an operation as a statement to the current label's statement
     /// list.
+    #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
     fn write_operation(&mut self, op_index: usize) {
         self.try_enter_label(op_index);
         self.try_enter_or_leave_block(op_index);
