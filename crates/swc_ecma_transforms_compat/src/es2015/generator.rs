@@ -2320,6 +2320,7 @@ impl Generator {
 
         let index = self.block_actions.as_ref().unwrap().len();
 
+        #[cfg(debug_assertions)]
         debug!("Begin block {}", index);
 
         let block = Rc::new(RefCell::new(block));
@@ -2341,6 +2342,7 @@ impl Generator {
 
         let index = self.block_actions.as_ref().unwrap().len();
 
+        #[cfg(debug_assertions)]
         debug!("End block {}", index);
 
         self.block_actions
@@ -3245,9 +3247,17 @@ impl Generator {
                         if block_action == BlockAction::Open {
                             self.exception_block_stack
                                 .push(self.current_exception_block.clone().unwrap());
+
+                            #[cfg(debug_assertions)]
+                            debug!("Current exception block: open = Some({:?})", block);
                             self.current_exception_block = Some(block.clone());
                         } else if block_action == BlockAction::Close {
                             self.current_exception_block = self.exception_block_stack.pop();
+                            #[cfg(debug_assertions)]
+                            debug!(
+                                "Current exception block: close = {:?)",
+                                self.current_exception_block
+                            );
                         }
                     }
 
