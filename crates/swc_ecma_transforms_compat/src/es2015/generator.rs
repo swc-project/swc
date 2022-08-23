@@ -120,12 +120,19 @@ impl CodeBlock {
     }
 
     fn break_label(&self) -> Option<Label> {
-        match self {
+        Some(match self {
             Self::Labeled(b) => b.break_label,
             Self::Switch(b) => b.break_label,
             Self::Loop(b) => b.break_label,
-            _ => None,
-        }
+            _ => return None,
+        })
+    }
+
+    fn continue_label(&self) -> Option<Label> {
+        Some(match self {
+            Self::Loop(b) => b.continue_label,
+            _ => return None,
+        })
     }
 }
 
