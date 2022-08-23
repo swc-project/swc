@@ -1465,7 +1465,7 @@ impl Generator {
 
     fn transform_and_emit_var_decl_list(&mut self, mut node: VarDecl) {
         for variable in node.decls {
-            self.hoistVariableDeclaration(variable.name);
+            self.hoist_variable_declaration(variable.name);
         }
 
         let variables = self.get_initialized_variables(&node);
@@ -1713,7 +1713,7 @@ impl Generator {
             let key = self.declare_local(None);
             let keys_index = self.define_loop_variable();
 
-            self.hoistVariableDeclaration(keys_index);
+            self.hoist_variable_declaration(keys_index);
 
             self.emit_assignment(
                 keys_array.clone().into(),
@@ -1757,7 +1757,7 @@ impl Generator {
             match node.left {
                 VarDeclOrPat::VarDecl(initializer) => {
                     for variable in initializer.decls.iter() {
-                        self.hoistVariableDeclaration(variable.name);
+                        self.hoist_variable_declaration(variable.name);
                     }
 
                     variable = initializer.decls[0].name.clone();
@@ -2312,7 +2312,7 @@ impl Generator {
         self.mark_label(catch_label);
         exception.state = ExceptionBlockState::Catch;
         exception.catch_variable = Some(name);
-        exception.catch_label = catch_label;
+        exception.catch_label = Some(catch_label);
 
         self.emit_assignment(
             Box::new(Expr::Ident(name)),
@@ -3386,6 +3386,10 @@ impl Generator {
                 elems: vec![Some(arg.as_arg())],
             }))),
         }))
+    }
+
+    fn hoist_variable_declaration(&mut self, pat: &Pat) {
+        // TODO(kdy1): Implement this by looking at tests
     }
 }
 
