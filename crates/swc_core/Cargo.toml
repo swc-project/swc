@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.11.3"
+version       = "0.11.4"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -39,6 +39,13 @@ doctest = false
 
 # swc_common/perf
 common_perf = ["swc_common/perf"]
+
+# swc_ecma_loader/cache*
+loader_lru         = ["swc_ecma_loader/lru"]
+loader_parking_lot = ["swc_ecma_loader/parking_lot"]
+
+# swc_ecma_minifier/concurrent
+minifier_concurrent = ["swc_ecma_minifier/concurrent"]
 
 # configures specific memory allocator.
 # node.js binding should depend on this.
@@ -86,7 +93,10 @@ quote = [
 utils = ["__utils", "__common"]
 
 # Enable swc_ecma_transforms base features
-transforms = ["__transforms", "__testing_transform"]
+transforms              = ["__transforms", "__testing_transform"]
+transforms_optimization = ["__transforms", "swc_ecma_transforms/optimization"]
+transforms_react        = ["__transforms", "swc_ecma_transforms/react"]
+transforms_typescript   = ["__transforms", "swc_ecma_transforms/typescript"]
 
 # Enable swc_bundler
 bundler         = ["__bundler"]
@@ -94,7 +104,9 @@ bundler_node_v1 = ["__bundler", "swc_node_bundler/swc_v1"]
 bundler_node_v2 = ["__bundler", "swc_node_bundler/swc_v2"]
 
 # Enable swc_ecma_loader
-loader = ["swc_ecma_loader"]
+loader      = ["__loader"]
+loader_node = ["__loader", "swc_ecma_loader/node"]
+loader_tsc  = ["__loader", "swc_ecma_loader/tsc"]
 
 # Enable swc_ecma_transforms_testing
 testing_transform = ["__testing_transform"]
@@ -102,6 +114,19 @@ testing_transform = ["__testing_transform"]
 # Enable swc_ecma_ast / swc_atoms support.
 # TODO: currently both are enabled at once, we may want to separate them.
 ast = ["swc_ecma_ast", "swc_atoms"]
+
+# Enable swc_ecma_parser support.
+parser            = ["__parser"]
+parser_typescript = ["__parser", "swc_ecma_parser/typescript"]
+
+# Enable swc_cached support
+cached = ["__cached"]
+
+# Enable swc_ecma_codegen
+codegen = ["swc_ecma_codegen"]
+
+# Enable swc_ecma_minifier
+minifier = ["swc_ecma_minifier"]
 
 # Enable trace macro support.
 # TODO: Once all top-level package (node, wasm, cli..) imports swc_core,
@@ -212,7 +237,10 @@ __plugin_transform_schema_test = [
 __base              = ["swc"]
 __binding_macros    = ["common", "__base", "__transforms", "ast", "binding_macros"]
 __bundler           = ["swc_bundler"]
+__cached            = ["swc_cached"]
 __common            = ["swc_common"]
+__loader            = ["swc_ecma_loader"]
+__parser            = ["swc_ecma_parser"]
 __testing_transform = ["swc_ecma_transforms_testing"]
 __transforms        = ["swc_ecma_transforms"]
 __utils             = ["swc_ecma_utils"]
@@ -228,9 +256,12 @@ binding_macros              = { optional = true, version = "0.6.1", path = "../b
 swc                         = { optional = true, version = "0.218.4", path = "../swc" }
 swc_atoms                   = { optional = true, version = "0.4.8", path = "../swc_atoms" }
 swc_bundler                 = { optional = true, version = "0.179.0", path = "../swc_bundler" }
+swc_cached                  = { optional = true, version = "0.3.5", path = "../swc_cached" }
 swc_common                  = { optional = true, version = "0.27.12", path = "../swc_common" }
 swc_ecma_ast                = { optional = true, version = "0.90.10", path = "../swc_ecma_ast" }
+swc_ecma_codegen            = { optional = true, version = "0.122.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader             = { optional = true, version = "0.39.4", path = "../swc_ecma_loader" }
+swc_ecma_minifier           = { optional = true, version = "0.146.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser             = { optional = true, version = "0.118.0", path = "../swc_ecma_parser" }
 swc_ecma_quote_macros       = { optional = true, version = "0.29.0", path = "../swc_ecma_quote_macros" }
 swc_ecma_transforms         = { optional = true, version = "0.185.1", path = "../swc_ecma_transforms" }
