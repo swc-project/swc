@@ -4080,7 +4080,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.9.7"
+version = "0.9.8"
 dependencies = [
  "proc-macro2",
  "quote",
