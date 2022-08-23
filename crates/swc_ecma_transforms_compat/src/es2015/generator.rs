@@ -268,7 +268,7 @@ impl VisitMut for Generator {
 
         if let Some(VarDeclOrExpr::VarDecl(initializer)) = &mut node.init {
             for variable in initializer.decls.iter_mut() {
-                self.hoist_variable_declaration(&variable.name);
+                self.hoist_variable_declaration(variable.name.as_ident().unwrap());
             }
 
             let variables = self.get_initialized_variables(initializer);
@@ -1465,7 +1465,7 @@ impl Generator {
 
     fn transform_and_emit_var_decl_list(&mut self, mut node: VarDecl) {
         for variable in node.decls {
-            self.hoist_variable_declaration(&variable.name);
+            self.hoist_variable_declaration(variable.name.as_ident().unwrap());
         }
 
         let variables = self.get_initialized_variables(&node);
@@ -1724,14 +1724,14 @@ impl Generator {
             node.right.visit_mut_with(self);
             self.emit_stmt(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
-                left: key,
+                left: VarDeclOrPat::Pat(key.into()),
                 right: node.right.take(),
                 body: Box::new(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: keys_array.make_member(quote_ident!("push")).as_callee(),
-                        args: vec![key],
+                        args: vec![key.as_arg()],
                         type_args: Default::default(),
                     })),
                 })),
