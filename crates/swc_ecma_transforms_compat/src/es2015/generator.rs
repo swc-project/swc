@@ -1780,7 +1780,7 @@ impl Generator {
                 })),
                 None,
             );
-            self.transform_and_emit_embedded_stmt(node.body);
+            self.transform_and_emit_embedded_stmt(*node.body);
 
             self.mark_label(increment_label);
             self.emit_stmt(Stmt::Expr(ExprStmt {
