@@ -3097,7 +3097,7 @@ impl Generator {
         if self.label_exprs.is_some() && self.label_numbers.is_some() {
             for (label_number, labels) in self.label_numbers.as_ref().unwrap().iter().enumerate() {
                 for &label in labels {
-                    let exprs = self.label_exprs.unwrap().get(label);
+                    let exprs = self.label_exprs.as_mut().unwrap().get_mut(label);
                     if let Some(exprs) = exprs {
                         for expr in exprs {
                             expr.value = label_number as _;
@@ -3122,7 +3122,8 @@ impl Generator {
                 let block = blocks[block_index].clone();
                 let block_action = self.block_actions.as_ref().unwrap()[block_index];
 
-                match &*block.borrow() {
+                let b = block.borrow();
+                match &*b {
                     CodeBlock::Exception(_) => {
                         if block_action == BlockAction::Open {
                             self.exception_block_stack
