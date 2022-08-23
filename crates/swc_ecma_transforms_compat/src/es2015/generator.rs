@@ -30,7 +30,7 @@ impl VisitMut for Wrapper {
 
         if f.is_generator {
             let mut v = Generator::default();
-            f.visit_mut_with(&mut v);
+            v.transform_and_emit_stmts(f.body.take().unwrap().stmts, 0);
             f.is_generator = false;
 
             let inner_fn = Function {
