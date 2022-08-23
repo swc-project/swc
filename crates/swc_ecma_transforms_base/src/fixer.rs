@@ -928,13 +928,9 @@ impl Fixer<'_> {
                 expr,
                 ..
             }) => {
-                match &**expr {
-                    // `(a?.b).c !== a?.b.c`
-                    Expr::OptChain(..) => return,
-                    Expr::Bin(bin_expr) if bin_expr.left.is_object() => {
-                        return;
-                    }
-                    _ => (),
+                // `(a?.b).c !== a?.b.c`
+                if expr.is_opt_chain() {
+                    return;
                 }
 
                 let expr_span = expr.span();
@@ -1652,7 +1648,7 @@ var store = global[SHARED] || (global[SHARED] = {});
 
     test_fixer!(issue_2550_1, "(1 && { a: 1 })", "1 && { a:1 }");
 
-    identical!(issue_2550_2, "({ isNewPrefsActive } && { a: 1 })");
+    identical!(issue_2550_2, "({ isNewPrefsActive }) && { a: 1 }");
 
     identical!(issue_4761, "x = { ...(0, foo) }");
 
