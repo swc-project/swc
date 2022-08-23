@@ -57,7 +57,7 @@ serde_json = "1"
 sourcemap = "6"
 swc_atoms = { version = "0.4.5", path = "../swc_atoms" }
 swc_cached = { version = "0.3.5", path = "../swc_cached" }
-swc_common = { version = "0.27.7", path = "../swc_common", features = [
+swc_common = { version = "0.27.13", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
@@ -85,7 +85,7 @@ swc_ecma_transforms = { version = "0.185.0", path = "../swc_ecma_transforms", fe
 swc_ecma_transforms_base = { version = "0.104.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "0.124.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_optimization = { version = "0.154.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils = { version = "0.100.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "0.100.2", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.76.6", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "0.11.4", path = "../swc_error_reporters" }
 swc_node_comments = { version = "0.14.4", path = "../swc_node_comments" }

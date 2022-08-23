@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.6.0"
+version = "0.6.1"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2947,7 +2947,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.179.0"
+version = "0.179.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3005,7 +3005,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.12"
+version = "0.27.13"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.11.1"
+version = "0.11.2"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3107,7 +3107,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.108.0"
+version = "0.108.1"
 dependencies = [
  "bytecheck",
  "is-macro",
@@ -3120,7 +3120,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.118.0"
+version = "0.118.1"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3148,7 +3148,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "0.27.0"
+version = "0.27.1"
 dependencies = [
  "auto_impl",
  "parking_lot",
@@ -3167,7 +3167,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.83.0"
+version = "0.83.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3182,7 +3182,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.117.0"
+version = "0.117.1"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3199,7 +3199,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.119.0"
+version = "0.119.1"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -3217,7 +3217,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.105.0"
+version = "0.105.1"
 dependencies = [
  "once_cell",
  "serde",
@@ -4097,7 +4097,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.73.0"
+version = "0.73.1"
 dependencies = [
  "anyhow",
  "criterion",

@@ -21,12 +21,12 @@ rayon = "1.5.1"
 regex = "1"
 serde = { version = "1.0.133", features = ["derive"] }
 swc_atoms = { version = "0.4.5", path = "../swc_atoms" }
-swc_common = { version = "0.27.7", path = "../swc_common", features = [
+swc_common = { version = "0.27.13", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_config = { version = "0.1.0", path = "../swc_config" }
 swc_ecma_ast = { version = "0.90.12", path = "../swc_ecma_ast" }
-swc_ecma_utils = { version = "0.100.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "0.100.2", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.76.6", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
