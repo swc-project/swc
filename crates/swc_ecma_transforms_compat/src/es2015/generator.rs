@@ -2716,7 +2716,7 @@ impl Generator {
                 let mut label_expressions = self.label_exprs.as_mut().unwrap();
                 let expr = Number::from(-1.0);
                 if label_expressions.get(label.0 as usize).is_none() {
-                    label_expressions.insert(label.0 as usize, vec![expr.clone()]);
+                    label_expressions[label.0 as usize] = vec![expr.clone()];
                 } else {
                     label_expressions
                         .get_mut(label.0 as usize)
