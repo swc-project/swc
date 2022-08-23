@@ -2709,20 +2709,22 @@ impl Generator {
     /// label.
     fn create_label(&mut self, label: Option<Label>) -> Box<Expr> {
         if let Some(label) = label {
-            if self.label_exprs.is_none() {
-                self.label_exprs = Some(Default::default());
+            if label.0 > 0 {
+                if self.label_exprs.is_none() {
+                    self.label_exprs = Some(Default::default());
+                }
+                let mut label_expressions = self.label_exprs.as_mut().unwrap();
+                let expr = Number::from(-1.0);
+                if label_expressions.get(label.0 as usize).is_none() {
+                    label_expressions.insert(label.0 as usize, vec![expr.clone()]);
+                } else {
+                    label_expressions
+                        .get_mut(label.0 as usize)
+                        .unwrap()
+                        .push(expr.clone());
+                }
+                return expr.into();
             }
-            let mut label_expressions = self.label_exprs.as_mut().unwrap();
-            let expr = Number::from(-1.0);
-            if label_expressions.get(label.0 as usize).is_none() {
-                label_expressions.insert(label.0 as usize, vec![expr.clone()]);
-            } else {
-                label_expressions
-                    .get_mut(label.0 as usize)
-                    .unwrap()
-                    .push(expr.clone());
-            }
-            return expr.into();
         }
 
         Box::new(Invalid { span: DUMMY_SP }.into())
