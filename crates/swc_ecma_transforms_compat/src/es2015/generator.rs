@@ -1773,15 +1773,18 @@ impl Generator {
             // );
             // transformAndEmitEmbeddedStatement(node.statement);
 
-            // markLabel(incrementLabel);
-            // emitStatement(
-            //     factory.createExpressionStatement(
-            //         factory.createPostfixIncrement(keysIndex)
-            //     )
-            // );
+            self.mark_label(increment_label);
+            self.emit_stmt(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Update(UpdateExpr {
+                    span: DUMMY_SP,
+                    prefix: false,
+                    op: op!("++"),
+                })),
+            }));
 
-            // emitBreak(conditionLabel);
-            // endLoopBlock();
+            self.emit_break(condition_label, None);
+            self.end_loop_block();
         } else {
             node.visit_mut_with(self);
             self.emit_stmt(Stmt::ForIn(node));
