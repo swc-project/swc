@@ -1709,14 +1709,14 @@ impl Generator {
             //  .endloop
             //  .mark endLoopLabel
 
-            let keys_array = self.declare_local();
-            let key = self.declare_local();
+            let keys_array = self.declare_local(None);
+            let key = self.declare_local(None);
             let keys_index = self.define_loop_variable();
 
             self.hoistVariableDeclaration(keys_index);
 
             self.emit_assignment(
-                keys_array,
+                keys_array.clone().into(),
                 Box::new(ArrayLit { ..Take::dummy() }.into()),
                 None,
             );
