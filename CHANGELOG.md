@@ -7,6 +7,12 @@
 
 - **(swc_core)** Expand features (#5602) ([633a23a](https://github.com/swc-project/swc/commit/633a23a13438cb3891ea1cdef349cde882672bec))
 
+### Build
+
+
+
+- **(swc_core)** Bump `swc_core` (#5604) ([52117f7](https://github.com/swc-project/swc/commit/52117f71e3f710af9f6095e4022b393abf7bb050))
+
 ## [1.2.242] - 2022-08-23
 
 ### Bug Fixes
