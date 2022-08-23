@@ -20,7 +20,7 @@ plugin-mode = []
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
 bytecheck = "0.6.9"
 rkyv = "=0.7.37"
-swc_common = { version = "0.27.7", path = "../swc_common", features = [
+swc_common = { version = "0.27.13", path = "../swc_common", features = [
   "plugin-base",
 ] }
 swc_ecma_ast = { version = "0.90.12", path = "../swc_ecma_ast" }
