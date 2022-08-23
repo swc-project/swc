@@ -13,6 +13,7 @@ use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use tracing::debug;
 
 /// Generator based on tsc generator at https://github.com/microsoft/TypeScript/blob/162224763681465b417274383317ca9a0a573835/src/compiler/transformers/generators.ts
 pub fn generator() -> impl VisitMut + Fold {
@@ -2318,6 +2319,9 @@ impl Generator {
         }
 
         let index = self.block_actions.as_ref().unwrap().len();
+
+        debug!("Begin block {}", index);
+
         let block = Rc::new(RefCell::new(block));
 
         self.block_actions.as_mut().unwrap().push(BlockAction::Open);
@@ -2336,6 +2340,8 @@ impl Generator {
         let block = self.peek_block().expect("beginBlock was never called.");
 
         let index = self.block_actions.as_ref().unwrap().len();
+
+        debug!("End block {}", index);
 
         self.block_actions
             .as_mut()
