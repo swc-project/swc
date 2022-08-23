@@ -3506,7 +3506,10 @@ impl Generator {
     }
 }
 
-fn contains_yield<N>(node: &N) -> bool {
+fn contains_yield<N>(node: &N) -> bool
+where
+    N: VisitWith<YieldFinder>,
+{
     let mut v = YieldFinder { found: false };
     node.visit_with(&mut v);
     v.found
