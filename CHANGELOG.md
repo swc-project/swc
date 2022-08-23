@@ -43,6 +43,12 @@
 
 - **(html/minifier)** Improve minification modes (#5568) ([3cb6fc2](https://github.com/swc-project/swc/commit/3cb6fc2a29b541c32ff95baf0a07021ffe0dd089))
 
+### Miscellaneous Tasks
+
+
+
+- **(swc_core)** Update dependency version (#5595) ([1769191](https://github.com/swc-project/swc/commit/1769191f9ac7decfde86dcca1248ec15a0763a17))
+
 ### Testing
 
 
