@@ -1639,6 +1639,9 @@ impl Generator {
         let mut pending_expressions = vec![];
 
         while variables_written < var_len {
+            #[cfg(debug_assertions)]
+            debug!("variables_written: {}", variables_written);
+
             for (i, variable) in variables.iter_mut().enumerate() {
                 if contains_yield(&**variable) && !pending_expressions.is_empty() {
                     break;
@@ -2117,6 +2120,9 @@ impl Generator {
             let mut pending_clauses = vec![];
 
             while clauses_written < node.cases.len() {
+                #[cfg(debug_assertions)]
+                debug!("clauses_written: {}", clauses_written);
+
                 let mut default_clauses_skipped = 0;
 
                 for (i, clause) in node.cases.iter_mut().enumerate() {
@@ -3322,6 +3328,9 @@ impl Generator {
             while self.block_index < self.block_actions.as_ref().unwrap().len()
                 && self.block_offsets.as_ref().unwrap()[self.block_index] <= op_index
             {
+                #[cfg(debug_assertions)]
+                debug!("try_enter_or_leave_block: iter");
+
                 let block_index = self.block_index;
                 self.block_index += 1;
 
