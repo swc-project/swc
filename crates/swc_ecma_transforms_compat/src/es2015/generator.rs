@@ -2972,7 +2972,8 @@ impl Generator {
                     .enumerate()
                     .rev()
                 {
-                    let with_block = match &*with_block.borrow() {
+                    let b = with_block.borrow();
+                    let with_block = match &*b {
                         CodeBlock::With(v) => v,
                         _ => {
                             unreachable!()
@@ -3049,7 +3050,7 @@ impl Generator {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: PatOrExpr::Expr(Box::new(
-                            self.state.make_member(quote_ident!("label")),
+                            self.state.clone().make_member(quote_ident!("label")),
                         )),
                         right: (self.label_number + 1).into(),
                     })),
@@ -3081,7 +3082,12 @@ impl Generator {
                     self.label_numbers = Some(vec![]);
                 }
 
-                if let Some(v) = self.label_numbers.as_mut().unwrap().get(self.label_number) {
+                if let Some(v) = self
+                    .label_numbers
+                    .as_mut()
+                    .unwrap()
+                    .get_mut(self.label_number)
+                {
                     v.push(label);
                 } else {
                     self.label_numbers
