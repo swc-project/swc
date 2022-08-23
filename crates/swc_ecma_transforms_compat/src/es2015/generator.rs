@@ -2374,6 +2374,9 @@ impl Generator {
                 .resize(label.0 as usize + 1, Default::default());
         }
 
+        #[cfg(debug_assertions)]
+        debug!("mark_label: {:?}", label);
+
         self.label_offsets.as_mut().unwrap()[label.0 as usize] =
             self.operations.as_deref().map_or(0, |v| v.len() as _);
     }
@@ -3313,6 +3316,9 @@ impl Generator {
 
     /// Updates literal expressions for labels with actual label numbers.
     fn update_label_expression(&mut self) {
+        dbg!(&self.label_numbers);
+        dbg!(&self.label_offsets);
+        dbg!(&self.label_exprs);
         if self.label_exprs.is_some() && self.label_numbers.is_some() {
             for (label_number, labels) in self.label_numbers.as_ref().unwrap().iter().enumerate() {
                 for &label in labels {
@@ -3327,6 +3333,7 @@ impl Generator {
                 }
             }
         }
+        dbg!(&self.label_exprs);
     }
 
     /// Tries to enter or leave a code block.
