@@ -55,7 +55,7 @@ enum OpCode {
     Endfinally,
 }
 
-#[derive(Debug, Is)]
+#[derive(Debug, Is, Clone)]
 enum OpArgs {
     Label(Label),
     LabelExpr(Label, Box<Expr>),
@@ -2427,7 +2427,8 @@ impl Generator {
     /// are defined in generated code or in the source tree.
     fn end_loop_block(&mut self) {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Loop));
-        let block = self.end_block().borrow();
+        let block = self.end_block();
+        let block = block.borrow();
         if let CodeBlock::Loop(block) = &*block {
             let break_label = block.break_label;
             if !block.is_script {
@@ -2463,7 +2464,8 @@ impl Generator {
     /// generated code.
     fn end_switch_block(&mut self) {
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Switch));
-        let block = self.end_block().borrow();
+        let block = self.end_block();
+        let block = block.borrow();
         if let CodeBlock::Switch(block) = &*block {
             let break_label = block.break_label;
             if !block.is_script {
@@ -2603,12 +2605,12 @@ impl Generator {
             let mut label_expressions = self.label_exprs.as_mut().unwrap();
             let expr = Number::from(-1.0);
             if label_expressions.get(label.0 as usize).is_none() {
-                label_expressions.insert(label.0 as usize, vec![expr]);
+                label_expressions.insert(label.0 as usize, vec![expr.clone()]);
             } else {
                 label_expressions
                     .get_mut(label.0 as usize)
                     .unwrap()
-                    .push(expr);
+                    .push(expr.clone());
             }
             return expr.into();
         }
@@ -3185,7 +3187,10 @@ impl Generator {
             return;
         }
 
-        let args = self.operation_args.as_ref().unwrap()[op_index].unwrap();
+        // TODO(kdy1): Remove clone()
+        let args = self.operation_args.as_ref().unwrap()[op_index]
+            .clone()
+            .unwrap();
         if opcode == OpCode::Statement {
             let args = args.expect_stmt();
             self.write_stmt(*args);
