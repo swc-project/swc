@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.11.4"
+version       = "0.11.5"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -93,7 +93,7 @@ quote = [
 utils = ["__utils", "__common"]
 
 # Enable swc_ecma_transforms base features
-transforms              = ["__transforms", "__testing_transform"]
+transforms              = ["__transforms"]
 transforms_optimization = ["__transforms", "swc_ecma_transforms/optimization"]
 transforms_react        = ["__transforms", "swc_ecma_transforms/react"]
 transforms_typescript   = ["__transforms", "swc_ecma_transforms/typescript"]
