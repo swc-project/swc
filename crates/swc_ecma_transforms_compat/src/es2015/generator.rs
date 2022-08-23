@@ -536,6 +536,41 @@ impl VisitMut for Generator {
 
                 node.visit_mut_children_with(self);
             }
+
+            Stmt::Decl(Decl::Var(v)) => {
+                if contains_yield(&*v) {
+                    self.transform_and_emit_var_decl_list(v.take());
+                    node.take();
+                    return;
+                }
+
+                // // Do not hoist custom prologues.
+                // if (getEmitFlags(node) & EmitFlags.CustomPrologue) {
+                //     return node;
+                // }
+
+                for decl in v.decls.iter() {
+                    self.hoist_variable_declaration(decl.name.as_ident().unwrap());
+                }
+
+                let variables = self.get_initialized_variables(v);
+                if variables.is_empty() {
+                    node.take();
+                    return;
+                }
+
+                // return setSourceMapRange(
+                //     factory.createExpressionStatement(
+                //         factory.inlineExpressions(
+                //             map(variables, transformInitializedVariable)
+                //         )
+                //     ),
+                //     node
+                // );
+                // *node = Stmt::Expr(ExprStmt {
+                //     span:v.span,
+                // });
+            }
             _ => {
                 node.visit_mut_children_with(self);
             }
@@ -883,47 +918,6 @@ impl Generator {
     //         factory.createBlock(statements, body.multiLine),
     //         body
     //     );
-    // }
-
-    // /**
-    //  * Visits a variable statement.
-    //  *
-    //  * This will be called when one of the following conditions are met:
-    //  * - The variable statement is contained within the body of a generator
-    //    function.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitVariableStatement(
-    //     node: VariableStatement
-    // ): Statement | undefined {
-    //     if (node.transformFlags & TransformFlags.ContainsYield) {
-    //         transformAndEmitVariableDeclarationList(node.declarationList);
-    //         return undefined;
-    //     } else {
-    //         // Do not hoist custom prologues.
-    //         if (getEmitFlags(node) & EmitFlags.CustomPrologue) {
-    //             return node;
-    //         }
-
-    //         for (const variable of node.declarationList.declarations) {
-    //             hoistVariableDeclaration(variable.name as Identifier);
-    //         }
-
-    //         const variables = getInitializedVariables(node.declarationList);
-    //         if (variables.length === 0) {
-    //             return undefined;
-    //         }
-
-    //         return setSourceMapRange(
-    //             factory.createExpressionStatement(
-    //                 factory.inlineExpressions(
-    //                     map(variables, transformInitializedVariable)
-    //                 )
-    //             ),
-    //             node
-    //         );
-    //     }
     // }
 
     // /**
