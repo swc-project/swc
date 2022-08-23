@@ -36,7 +36,11 @@ impl VisitMut for Wrapper {
             let inner_fn = Function {
                 span: DUMMY_SP,
                 // TODO
-                params: Default::default(),
+                params: vec![Param {
+                    span: DUMMY_SP,
+                    decorators: Default::default(),
+                    pat: Pat::Ident(v.state.clone().into()),
+                }],
                 decorators: Default::default(),
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
