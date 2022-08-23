@@ -3320,6 +3320,8 @@ impl Generator {
                     if let Some(exprs) = exprs {
                         for expr in exprs {
                             expr.value = label_number as _;
+                            #[cfg(debug_assertions)]
+                            debug!("Label {:?} = {:?} ({:?})", label, expr.value, expr.pos);
                         }
                     }
                 }
