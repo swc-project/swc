@@ -1686,70 +1686,6 @@ impl Generator {
         }
     }
 
-    // function transformAndEmitForInStatement(node: ForInStatement) {
-
-    //         emitStatement(
-    //             factory.createForInStatement(
-    //                 key,
-    //                 visitNode(node.expression, visitor, isExpression),
-    //                 factory.createExpressionStatement(
-    //                     factory.createCallExpression(
-    //                         factory.createPropertyAccessExpression(
-    //                             keysArray,
-    //                             "push"
-    //                         ),
-    //                         /*typeArguments*/ undefined,
-    //                         [key]
-    //                     )
-    //                 )
-    //             )
-    //         );
-
-    //         emitAssignment(keysIndex, factory.createNumericLiteral(0));
-
-    //         const conditionLabel = defineLabel();
-    //         const incrementLabel = defineLabel();
-    //         const endLabel = beginLoopBlock(incrementLabel);
-
-    //         markLabel(conditionLabel);
-    //         emitBreakWhenFalse(
-    //             endLabel,
-    //             factory.createLessThan(
-    //                 keysIndex,
-    //                 factory.createPropertyAccessExpression(keysArray, "length")
-    //             )
-    //         );
-
-    //         let variable: Expression;
-    //         if (isVariableDeclarationList(initializer)) {
-    //             for (const variable of initializer.declarations) {
-    //                 hoistVariableDeclaration(variable.name as Identifier);
-    //             }
-
-    //             variable = factory.cloneNode(
-    //                 initializer.declarations[0].name
-    //             ) as Identifier;
-    //         } else {
-    //             variable = visitNode(initializer, visitor, isExpression);
-    //             Debug.assert(isLeftHandSideExpression(variable));
-    //         }
-
-    //         emitAssignment(
-    //             variable,
-    //             factory.createElementAccessExpression(keysArray, keysIndex)
-    //         );
-    //         transformAndEmitEmbeddedStatement(node.statement);
-
-    //         markLabel(incrementLabel);
-    //         emitStatement(
-    //             factory.createExpressionStatement(
-    //                 factory.createPostfixIncrement(keysIndex)
-    //             )
-    //         );
-
-    //         emitBreak(conditionLabel);
-    //         endLoopBlock();
-    // }
     fn transform_and_emit_for_in_stmt(&mut self, mut node: ForInStmt) {
         if contains_yield(&node) {
             // [source]
@@ -1780,6 +1716,68 @@ impl Generator {
             self.hoistVariableDeclaration(keys_index);
 
             self.emit_assignment(keys_array, Box::new(ArrayLit {}.into()), None);
+
+            // emitStatement(
+            //     factory.createForInStatement(
+            //         key,
+            //         visitNode(node.expression, visitor, isExpression),
+            //         factory.createExpressionStatement(
+            //             factory.createCallExpression(
+            //                 factory.createPropertyAccessExpression(
+            //                     keysArray,
+            //                     "push"
+            //                 ),
+            //                 /*typeArguments*/ undefined,
+            //                 [key]
+            //             )
+            //         )
+            //     )
+            // );
+
+            // emitAssignment(keysIndex, factory.createNumericLiteral(0));
+
+            // const conditionLabel = defineLabel();
+            // const incrementLabel = defineLabel();
+            // const endLabel = beginLoopBlock(incrementLabel);
+
+            // markLabel(conditionLabel);
+            // emitBreakWhenFalse(
+            //     endLabel,
+            //     factory.createLessThan(
+            //         keysIndex,
+            //         factory.createPropertyAccessExpression(keysArray,
+            // "length")     )
+            // );
+
+            // let variable: Expression;
+            // if (isVariableDeclarationList(initializer)) {
+            //     for (const variable of initializer.declarations) {
+            //         hoistVariableDeclaration(variable.name as Identifier);
+            //     }
+
+            //     variable = factory.cloneNode(
+            //         initializer.declarations[0].name
+            //     ) as Identifier;
+            // } else {
+            //     variable = visitNode(initializer, visitor, isExpression);
+            //     Debug.assert(isLeftHandSideExpression(variable));
+            // }
+
+            // emitAssignment(
+            //     variable,
+            //     factory.createElementAccessExpression(keysArray, keysIndex)
+            // );
+            // transformAndEmitEmbeddedStatement(node.statement);
+
+            // markLabel(incrementLabel);
+            // emitStatement(
+            //     factory.createExpressionStatement(
+            //         factory.createPostfixIncrement(keysIndex)
+            //     )
+            // );
+
+            // emitBreak(conditionLabel);
+            // endLoopBlock();
         } else {
             node.visit_mut_with(self);
             self.emit_stmt(Stmt::ForIn(node));
