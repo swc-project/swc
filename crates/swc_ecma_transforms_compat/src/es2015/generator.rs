@@ -995,7 +995,7 @@ impl Generator {
         elements: &mut [Option<ExprOrSpread>],
         leading_element: Option<ExprOrSpread>,
         loc: Option<Span>,
-    ) {
+    ) -> Box<Expr> {
         // [source]
         //      ar = [1, yield, 2];
         //
@@ -1033,33 +1033,46 @@ impl Generator {
             );
         }
 
-        // TODO(kdy1):
-        // const expressions = reduceLeft(
-        //     elements,
-        //     reduceElement,
-        //     [] as Expression[],
-        //     numInitialElements
-        // );
-        // return temp
-        //     ? factory.createArrayConcatCall(temp, [
-        //           factory.createArrayLiteralExpression(expressions,
-        // multiLine),       ])
-        //     : setTextRange(
-        //           factory.createArrayLiteralExpression(
-        //               leadingElement
-        //                   ? [leadingElement, ...expressions]
-        //                   : expressions,
-        //               multiLine
-        //           ),
-        //           location
-        //       );
+        let expressions = elements
+            .iter_mut()
+            .skip(num_initial_elements)
+            .fold(vec![], |exprs, element| {});
+
+        if let Some(temp) = temp {
+            Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: temp
+                    .clone()
+                    .unwrap()
+                    .make_member(quote_ident!("concat"))
+                    .as_callee(),
+                args: expressions
+                    .take()
+                    .into_iter()
+                    .map(|expr| ExprOrSpread { spread: None, expr })
+                    .collect(),
+                type_args: Default::default(),
+            }))
+        } else {
+            Box::new(Expr::Array(ArrayLit {
+                span: DUMMY_SP,
+                elems: once(leading_element)
+                    .chain(
+                        expressions
+                            .take()
+                            .into_iter()
+                            .map(|expr| Some(ExprOrSpread { spread: None, expr })),
+                    )
+                    .collect(),
+            }))
+        }
     }
 
     fn reduce_element(
         &mut self,
         expressions: Vec<Box<Expr>>,
         element: Option<ExprOrSpread>,
-        leading_element: Option<ExprOrSpread>,
+        leading_element: &mut Option<ExprOrSpread>,
         temp: &mut Option<Ident>,
     ) -> Vec<Box<Expr>> {
         if (contains_yield(&element) && expressions.length > 0) {
