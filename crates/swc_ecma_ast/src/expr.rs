@@ -330,6 +330,15 @@ impl From<Prop> for PropOrSpread {
     }
 }
 
+impl Take for PropOrSpread {
+    fn dummy() -> Self {
+        PropOrSpread::Spread(SpreadElement {
+            dot3_token: DUMMY_SP,
+            expr: Take::dummy(),
+        })
+    }
+}
+
 #[ast_node("SpreadElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
