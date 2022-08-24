@@ -552,7 +552,7 @@ impl VisitMut for Generator {
                     //  .mark resumeLabel
                     //      a = _a[%sent%]
 
-                    *obj = Box::new(Expr::Ident(self.cache_expression(node.obj.take())));
+                    *obj = Box::new(Expr::Ident(self.cache_expression(obj.take())));
                     prop.visit_mut_with(self);
                     return;
                 }
