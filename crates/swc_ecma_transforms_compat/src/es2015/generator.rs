@@ -14,7 +14,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::AsOptExpr, helper};
 use swc_ecma_utils::{
-    function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
+    function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, undefined,
+    ExprFactory,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -760,7 +761,8 @@ impl VisitMut for Generator {
             target.visit_mut_with(self);
             let callee = self.cache_expression(target);
 
-            self.visit_elements(&mut node.args, None, None);
+            let mut args = node.args.take().into_iter().map(Some).collect::<Vec<_>>();
+            self.visit_elements(&mut args, None, None);
 
             let apply = callee.make_member(Ident::new(js_word!("apply"), node.span));
 
@@ -794,6 +796,27 @@ impl VisitMut for Generator {
 
             target.visit_mut_with(self);
             let callee = self.cache_expression(target);
+
+            if let some(args) = node.args.take() {
+                let mut args = args.into_iter().map(Some).collect::<Vec<_>>();
+                self.visit_elements(
+                    &mut args,
+                    Some(ExprOrSpread {
+                        spread: None,
+                        expr: undefined(DUMMY_SP),
+                    }),
+                    None,
+                );
+            }
+
+            let apply = callee.make_member(Ident::new(js_word!("apply"), node.span));
+
+            *node = NewExpr {
+                span: node.span,
+                callee: Box::new(apply),
+                args: once(this_arg.as_arg()).chain(node.args.take()).collect(),
+                type_args: None,
+            };
 
             // return setOriginalNode(
             //     setTextRange(
