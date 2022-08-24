@@ -1,6 +1,10 @@
 #![allow(clippy::unit_arg)]
 
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
+use swc_common::{
+    chain,
+    comments::{NoopComments, SingleThreadedComments},
+    Mark,
+};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -22,7 +26,7 @@ fn tr(_: ()) -> impl Fold {
     let top_level_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        generator(unresolved_mark)
+        generator(unresolved_mark, NoopComments)
     )
 }
 
@@ -32,7 +36,7 @@ fn tr_with_async() -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-        generator(unresolved_mark)
+        generator(unresolved_mark, NoopComments)
     )
 }
 
