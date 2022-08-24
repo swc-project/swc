@@ -992,8 +992,8 @@ impl VisitMut for Generator {
 impl Generator {
     fn visit_elements(
         &mut self,
-        elements: &mut [Option<ExprOrSpread>],
-        leading_element: Option<ExprOrSpread>,
+        mut elements: &mut [Option<ExprOrSpread>],
+        mut leading_element: Option<ExprOrSpread>,
         loc: Option<Span>,
     ) -> Box<Expr> {
         // [source]
@@ -1020,7 +1020,7 @@ impl Generator {
                 PatOrExpr::Pat(temp.clone().unwrap().into()),
                 Box::new(Expr::Array(ArrayLit {
                     span: DUMMY_SP,
-                    elems: once(leading_element)
+                    elems: once(leading_element.take())
                         .chain(
                             elements
                                 .iter_mut()
@@ -1069,8 +1069,8 @@ impl Generator {
 
     fn reduce_element(
         &mut self,
-        expressions: Vec<Box<Expr>>,
-        element: Option<ExprOrSpread>,
+        mut expressions: Vec<Box<Expr>>,
+        mut element: Option<ExprOrSpread>,
         leading_element: &mut Option<ExprOrSpread>,
         temp: &mut Option<Ident>,
     ) -> Vec<Box<Expr>> {
