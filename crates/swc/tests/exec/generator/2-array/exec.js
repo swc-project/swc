@@ -7,12 +7,20 @@ function* foo() {
         2,
     ];
 
+    expect(arr[1]).toEqual('1');
+
+    yield 2;
+
     return arr[2];
 }
 
 const g = foo();
-expect(g.next()).toEqual({
+expect(g.next('1')).toEqual({
     value: true,
+    done: false,
+})
+expect(g.next(2)).toEqual({
+    value: 2,
     done: false,
 })
 expect(g.next()).toEqual({
