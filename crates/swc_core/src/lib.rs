@@ -52,6 +52,12 @@ pub mod common {
     pub use swc_common::*;
 }
 
+#[cfg(feature = "__parser")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__parser")))]
+pub mod parser {
+    pub use swc_ecma_parser::*;
+}
+
 // swc_plugin_runner
 #[cfg(feature = "__plugin_transform_host")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__plugin_transform_host")))]
@@ -90,8 +96,8 @@ pub mod bundler {
 }
 
 // swc_ecma_loader
-#[cfg(feature = "loader")]
-#[cfg_attr(docsrs, doc(cfg(feature = "loader")))]
+#[cfg(feature = "__loader")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__loader")))]
 pub mod loader {
     pub use swc_ecma_loader::*;
 }
@@ -118,6 +124,24 @@ pub mod binding_macros {
 #[cfg_attr(docsrs, doc(cfg(feature = "base_node")))]
 pub mod node {
     pub use swc_nodejs_common::*;
+}
+
+#[cfg(feature = "codegen")]
+#[cfg_attr(docsrs, doc(cfg(feature = "codegen")))]
+pub mod codegen {
+    pub use swc_ecma_codegen::*;
+}
+
+#[cfg(feature = "minifier")]
+#[cfg_attr(docsrs, doc(cfg(feature = "minifier")))]
+pub mod minifier {
+    pub use swc_ecma_minifier::*;
+}
+
+#[cfg(feature = "__cached")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__cached")))]
+pub mod cached {
+    pub use swc_cached::*;
 }
 
 #[cfg(feature = "allocator_node")]

@@ -5,6 +5,26 @@
 
 
 
+- **(swc_core)** Re-export `swc_cached` (#5605) ([7fcecb8](https://github.com/swc-project/swc/commit/7fcecb8e63faa64226b87e34b8cd4fdd0a6a7ab7))
+
+### Features
+
+
+
+- **(swc_core)** Expand features (#5602) ([633a23a](https://github.com/swc-project/swc/commit/633a23a13438cb3891ea1cdef349cde882672bec))
+
+### Build
+
+
+
+- **(swc_core)** Bump `swc_core` (#5604) ([52117f7](https://github.com/swc-project/swc/commit/52117f71e3f710af9f6095e4022b393abf7bb050))
+
+## [1.2.242] - 2022-08-23
+
+### Bug Fixes
+
+
+
 - **(es)** Improve sourcemap (#5569) ([2f7e322](https://github.com/swc-project/swc/commit/2f7e3222140aba2a0e13e307f18b42f6b39f084d))
 
 
@@ -15,6 +35,15 @@
 
 
 - **(es/compat)** Fix destructuring assignments and updates of super properties (#5576) ([bee26a9](https://github.com/swc-project/swc/commit/bee26a9abb0478147aec2bedd533150204807057))
+
+
+- **(es/compat)** Fix destructuring assignments and updates of super properties in async method (#5580) ([8645251](https://github.com/swc-project/swc/commit/86452511e715a7ba8447add81a60ce49905bb45c))
+
+
+- **(es/helpers)** Fix an import (#5587) ([610296c](https://github.com/swc-project/swc/commit/610296cfa444d1f004cc5967c7f94347a7ccb0e8))
+
+
+- **(es/helpers)** Fix `_classStaticPrivateFieldSpecSet` (#5597) ([0533d56](https://github.com/swc-project/swc/commit/0533d56155316e6e9077c7a291ee945f61c0ab96))
 
 
 - **(es/parser)** Allow expr to follow `ClassExpr` (#5572) ([78dd071](https://github.com/swc-project/swc/commit/78dd071dabf5f9b5ca9b213bb5f5f0e5d76b40ab))
@@ -29,16 +58,37 @@
 
 
 
+- **(bindings)** Update `swc_core` (#5594) ([e211ad6](https://github.com/swc-project/swc/commit/e211ad6d10f9e05e1ccade2c3cba60e3a53dbee7))
+
+
 - **(css/ast)** Make `keyword` optional (#5543) ([a3c1ac6](https://github.com/swc-project/swc/commit/a3c1ac67d708b6c95ef9a9b0892df90bdb26ffe5))
 
 
+- **(es/plugin)** Provide `swc_core` diagnostic from plugin (#5591) ([a3e855f](https://github.com/swc-project/swc/commit/a3e855f720ade3b823c1f7e59f0e6dfac197895c))
+
+
 - **(html/minifier)** Improve minification modes (#5568) ([3cb6fc2](https://github.com/swc-project/swc/commit/3cb6fc2a29b541c32ff95baf0a07021ffe0dd089))
+
+### Miscellaneous Tasks
+
+
+
+- **(swc_core)** Update dependency version (#5595) ([1769191](https://github.com/swc-project/swc/commit/1769191f9ac7decfde86dcca1248ec15a0763a17))
 
 ### Testing
 
 
 
 - **(es/transforms)** Enable tests for fixed issues (#5583) ([0f6649c](https://github.com/swc-project/swc/commit/0f6649c44fbd35cbb7f0b64bf9b5a175f002fdd9))
+
+
+- **(es/transforms)** Copy execution tests from babel (#5578) ([e2fedb9](https://github.com/swc-project/swc/commit/e2fedb93452e54f4146f725ae07c6c2f0a4067a5))
+
+### Build
+
+
+
+- **(swc_core)** Fix dependency version (#5593) ([9bc40e3](https://github.com/swc-project/swc/commit/9bc40e3d087f502904821f9fdbcfff6f8c52116f))
 
 ## [1.2.241] - 2022-08-19
 
