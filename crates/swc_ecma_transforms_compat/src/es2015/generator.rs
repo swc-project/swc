@@ -1357,10 +1357,15 @@ impl Generator {
         }
     }
 
-    fn transform_initialized_variable(&mut self, mut node: VarDeclarator) -> VarDeclarator {
+    fn transform_initialized_variable(&mut self, mut node: VarDeclarator) -> AssignExpr {
         node.init.visit_mut_with(self);
 
-        node
+        AssignExpr {
+            span: node.span,
+            op: op!("="),
+            left: PatOrExpr::Pat(Box::new(node.name.clone())),
+            right: node.init.take().unwrap(),
+        }
     }
 
     fn transform_and_emit_if_stmt(&mut self, mut node: IfStmt) {
