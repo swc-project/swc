@@ -38,7 +38,7 @@ impl VisitMut for Wrapper {
         if f.is_generator {
             let mut v = Generator::default();
             let mut hoister = FnEnvHoister::new(self.unresolved_ctxt);
-            f.visit_mut_with(&mut hoister);
+            f.visit_mut_children_with(&mut hoister);
 
             v.transform_and_emit_stmts(f.body.as_mut().unwrap().stmts.take(), 0);
             f.is_generator = false;
