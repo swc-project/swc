@@ -1093,7 +1093,7 @@ impl Generator {
 
     fn reduce_property(
         &mut self,
-        expressions: Vec<Box<Expr>>,
+        mut expressions: Vec<Box<Expr>>,
         property: PropOrSpread,
         temp: &mut Ident,
     ) -> Vec<Box<Expr>> {
