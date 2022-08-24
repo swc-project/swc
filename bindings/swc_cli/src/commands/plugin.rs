@@ -159,6 +159,9 @@ edition = "2021"
 [lib]
 crate-type = ["cdylib"]
 
+[profile.release]
+lto = true
+
 [dependencies]
 serde = "1"
 swc_core = {{ version = "{}", features = ["plugin_transform"] }}
