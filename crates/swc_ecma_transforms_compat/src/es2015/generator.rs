@@ -58,7 +58,6 @@ impl VisitMut for Wrapper {
             });
             let inner_fn = Function {
                 span: DUMMY_SP,
-                // TODO
                 params: vec![Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
