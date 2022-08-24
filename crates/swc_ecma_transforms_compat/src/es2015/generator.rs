@@ -797,7 +797,7 @@ impl VisitMut for Generator {
             target.visit_mut_with(self);
             let callee = self.cache_expression(target);
 
-            if let some(args) = node.args.take() {
+            if let Some(args) = node.args.take() {
                 let mut args = args.into_iter().map(Some).collect::<Vec<_>>();
                 self.visit_elements(
                     &mut args,
@@ -814,7 +814,11 @@ impl VisitMut for Generator {
             *node = NewExpr {
                 span: node.span,
                 callee: Box::new(apply),
-                args: once(this_arg.as_arg()).chain(node.args.take()).collect(),
+                args: Some(
+                    once(this_arg.as_arg())
+                        .chain(node.args.take().into_iter().flatten())
+                        .collect(),
+                ),
                 type_args: None,
             };
 
@@ -3426,6 +3430,15 @@ impl Generator {
         });
 
         i
+    }
+
+    /// Returns `(target, this_arg)`
+    fn create_call_binding(
+        &self,
+        expr: Box<Expr>,
+        cache_identifier: bool,
+    ) -> (Box<Expr>, Box<Expr>) {
+        match expr {}
     }
 }
 
