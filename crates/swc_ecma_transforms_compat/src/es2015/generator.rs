@@ -477,7 +477,7 @@ impl VisitMut for Generator {
                 let mut pending_expressions = vec![];
 
                 for mut elem in node.exprs.take() {
-                    if let Expr::Seq(elem) = *elem {
+                    if let Expr::Seq(mut elem) = *elem {
                         elem.visit_mut_with(self);
                         pending_expressions.extend(elem.exprs.take());
                     } else {
