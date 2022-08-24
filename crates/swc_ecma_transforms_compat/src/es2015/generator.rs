@@ -862,105 +862,91 @@ impl VisitMut for Generator {
 }
 
 impl Generator {
-    // /**
-    //  * Visits an array of expressions containing one or more YieldExpression
-    //    nodes
-    //  * and returns an expression for the resulting value.
-    //  *
-    //  * @param elements The elements to visit.
-    //  * @param multiLine Whether array literals created should be emitted on
-    //    multiple lines.
-    //  */
-    // function visitElements(
-    //     elements: NodeArray<Expression>,
-    //     leadingElement?: Expression,
-    //     location?: TextRange,
-    //     multiLine?: boolean
-    // ) {
-    //     // [source]
-    //     //      ar = [1, yield, 2];
-    //     //
-    //     // [intermediate]
-    //     //  .local _a
-    //     //      _a = [1];
-    //     //  .yield resumeLabel
-    //     //  .mark resumeLabel
-    //     //      ar = _a.concat([%sent%, 2]);
+    fn visit_elements(&mut self, elements: &mut [Option<ExprOrSpread>]) {
+        // [source]
+        //      ar = [1, yield, 2];
+        //
+        // [intermediate]
+        //  .local _a
+        //      _a = [1];
+        //  .yield resumeLabel
+        //  .mark resumeLabel
+        //      ar = _a.concat([%sent%, 2]);
 
-    //     const numInitialElements = countInitialNodesWithoutYield(elements);
+        // const numInitialElements = countInitialNodesWithoutYield(elements);
 
-    //     let temp: Identifier | undefined;
-    //     if (numInitialElements > 0) {
-    //         temp = declareLocal();
-    //         const initialElements = visitNodes(
-    //             elements,
-    //             visitor,
-    //             isExpression,
-    //             0,
-    //             numInitialElements
-    //         );
-    //         emitAssignment(
-    //             temp,
-    //             factory.createArrayLiteralExpression(
-    //                 leadingElement
-    //                     ? [leadingElement, ...initialElements]
-    //                     : initialElements
-    //             )
-    //         );
-    //         leadingElement = undefined;
-    //     }
+        // let temp: Identifier | undefined;
+        // if (numInitialElements > 0) {
+        //     temp = declareLocal();
+        //     const initialElements = visitNodes(
+        //         elements,
+        //         visitor,
+        //         isExpression,
+        //         0,
+        //         numInitialElements
+        //     );
+        //     emitAssignment(
+        //         temp,
+        //         factory.createArrayLiteralExpression(
+        //             leadingElement
+        //                 ? [leadingElement, ...initialElements]
+        //                 : initialElements
+        //         )
+        //     );
+        //     leadingElement = undefined;
+        // }
 
-    //     const expressions = reduceLeft(
-    //         elements,
-    //         reduceElement,
-    //         [] as Expression[],
-    //         numInitialElements
-    //     );
-    //     return temp
-    //         ? factory.createArrayConcatCall(temp, [
-    //               factory.createArrayLiteralExpression(expressions, multiLine),
-    //           ])
-    //         : setTextRange(
-    //               factory.createArrayLiteralExpression(
-    //                   leadingElement
-    //                       ? [leadingElement, ...expressions]
-    //                       : expressions,
-    //                   multiLine
-    //               ),
-    //               location
-    //           );
+        // const expressions = reduceLeft(
+        //     elements,
+        //     reduceElement,
+        //     [] as Expression[],
+        //     numInitialElements
+        // );
+        // return temp
+        //     ? factory.createArrayConcatCall(temp, [
+        //           factory.createArrayLiteralExpression(expressions,
+        // multiLine),       ])
+        //     : setTextRange(
+        //           factory.createArrayLiteralExpression(
+        //               leadingElement
+        //                   ? [leadingElement, ...expressions]
+        //                   : expressions,
+        //               multiLine
+        //           ),
+        //           location
+        //       );
 
-    //     function reduceElement(expressions: Expression[], element: Expression) {
-    //         if (containsYield(element) && expressions.length > 0) {
-    //             const hasAssignedTemp = temp !== undefined;
-    //             if (!temp) {
-    //                 temp = declareLocal();
-    //             }
+        // function reduceElement(expressions: Expression[], element:
+        // Expression) {     if (containsYield(element) &&
+        // expressions.length > 0) {         const hasAssignedTemp =
+        // temp !== undefined;         if (!temp) {
+        //             temp = declareLocal();
+        //         }
 
-    //             emitAssignment(
-    //                 temp,
-    //                 hasAssignedTemp
-    //                     ? factory.createArrayConcatCall(temp, [
-    //                           factory.createArrayLiteralExpression(
-    //                               expressions,
-    //                               multiLine
-    //                           ),
-    //                       ])
-    //                     : factory.createArrayLiteralExpression(
-    //                           leadingElement
-    //                               ? [leadingElement, ...expressions]
-    //                               : expressions,
-    //                           multiLine
-    //                       )
-    //             );
-    //             leadingElement = undefined;
-    //             expressions = [];
-    //         }
+        //         emitAssignment(
+        //             temp,
+        //             hasAssignedTemp
+        //                 ? factory.createArrayConcatCall(temp, [
+        //                       factory.createArrayLiteralExpression(
+        //                           expressions,
+        //                           multiLine
+        //                       ),
+        //                   ])
+        //                 : factory.createArrayLiteralExpression(
+        //                       leadingElement
+        //                           ? [leadingElement, ...expressions]
+        //                           : expressions,
+        //                       multiLine
+        //                   )
+        //         );
+        //         leadingElement = undefined;
+        //         expressions = [];
+        //     }
 
-    //         expressions.push(visitNode(element, visitor, isExpression));
-    //         return expressions;
-    //     }
-    // }
+        //     expressions.push(visitNode(element, visitor, isExpression));
+        //     return expressions;
+        // }
+    }
 
     // function visitObjectLiteralExpression(node: ObjectLiteralExpression) {
     //     // [source]
