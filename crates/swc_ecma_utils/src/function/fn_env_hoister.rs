@@ -289,7 +289,8 @@ impl VisitMut for FnEnvHoister {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Ident(Ident { span, sym, .. })
-                if *sym == js_word!("arguments")
+                if !self.disable_args
+                    && *sym == js_word!("arguments")
                     && (span.ctxt == self.unresolved_ctxt
                         || span.ctxt == SyntaxContext::empty()) =>
             {
@@ -298,7 +299,7 @@ impl VisitMut for FnEnvHoister {
                     .get_or_insert_with(|| private_ident!("_arguments"));
                 *e = Expr::Ident(arguments.clone());
             }
-            Expr::This(..) => {
+            Expr::This(..) if !self.disable_this => {
                 let this = self.get_this();
                 *e = Expr::Ident(this);
             }
@@ -329,69 +330,73 @@ impl VisitMut for FnEnvHoister {
                         }
                     }
                 };
-                if let Expr::SuperProp(super_prop) = &mut **expr {
-                    let left_span = super_prop.span;
-                    match &mut super_prop.prop {
-                        SuperProp::Computed(c) => {
-                            let callee = self.super_set_computed(left_span);
+                if !self.disable_super {
+                    if let Expr::SuperProp(super_prop) = &mut **expr {
+                        let left_span = super_prop.span;
+                        match &mut super_prop.prop {
+                            SuperProp::Computed(c) => {
+                                let callee = self.super_set_computed(left_span);
 
-                            let op = op.to_update();
+                                let op = op.to_update();
 
-                            let args = if let Some(op) = op {
-                                let tmp = private_ident!("tmp");
-                                self.extra_ident.push(tmp.clone());
-                                vec![
-                                    Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Pat(tmp.clone().into()),
-                                        op: op!("="),
-                                        right: c.expr.take(),
-                                    })
-                                    .as_arg(),
-                                    Expr::Bin(BinExpr {
-                                        span: DUMMY_SP,
-                                        left: Box::new(Expr::Call(CallExpr {
+                                let args = if let Some(op) = op {
+                                    let tmp = private_ident!("tmp");
+                                    self.extra_ident.push(tmp.clone());
+                                    vec![
+                                        Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            callee: self.super_get_computed(DUMMY_SP).as_callee(),
-                                            args: vec![tmp.as_arg()],
-                                            type_args: None,
-                                        })),
-                                        op,
-                                        right: right.take(),
-                                    })
-                                    .as_arg(),
-                                ]
-                            } else {
-                                vec![c.expr.take().as_arg(), right.take().as_arg()]
-                            };
-                            *e = Expr::Call(CallExpr {
-                                span: *span,
-                                args,
-                                callee: callee.as_callee(),
-                                type_args: None,
-                            });
-                        }
-                        SuperProp::Ident(id) => {
-                            let callee = self.super_set(&id.sym, left_span);
-                            *e = Expr::Call(CallExpr {
-                                span: *span,
-                                args: vec![(if let Some(op) = op.to_update() {
-                                    Box::new(Expr::Bin(BinExpr {
-                                        span: DUMMY_SP,
-                                        left: Box::new(
-                                            self.super_get(&id.sym, id.span)
-                                                .as_call(id.span, Vec::new()),
-                                        ),
-                                        op,
-                                        right: right.take(),
-                                    }))
+                                            left: PatOrExpr::Pat(tmp.clone().into()),
+                                            op: op!("="),
+                                            right: c.expr.take(),
+                                        })
+                                        .as_arg(),
+                                        Expr::Bin(BinExpr {
+                                            span: DUMMY_SP,
+                                            left: Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: self
+                                                    .super_get_computed(DUMMY_SP)
+                                                    .as_callee(),
+                                                args: vec![tmp.as_arg()],
+                                                type_args: None,
+                                            })),
+                                            op,
+                                            right: right.take(),
+                                        })
+                                        .as_arg(),
+                                    ]
                                 } else {
-                                    right.take()
-                                })
-                                .as_arg()],
-                                callee: callee.as_callee(),
-                                type_args: None,
-                            });
+                                    vec![c.expr.take().as_arg(), right.take().as_arg()]
+                                };
+                                *e = Expr::Call(CallExpr {
+                                    span: *span,
+                                    args,
+                                    callee: callee.as_callee(),
+                                    type_args: None,
+                                });
+                            }
+                            SuperProp::Ident(id) => {
+                                let callee = self.super_set(&id.sym, left_span);
+                                *e = Expr::Call(CallExpr {
+                                    span: *span,
+                                    args: vec![(if let Some(op) = op.to_update() {
+                                        Box::new(Expr::Bin(BinExpr {
+                                            span: DUMMY_SP,
+                                            left: Box::new(
+                                                self.super_get(&id.sym, id.span)
+                                                    .as_call(id.span, Vec::new()),
+                                            ),
+                                            op,
+                                            right: right.take(),
+                                        }))
+                                    } else {
+                                        right.take()
+                                    })
+                                    .as_arg()],
+                                    callee: callee.as_callee(),
+                                    type_args: None,
+                                });
+                            }
                         }
                     }
                 }
@@ -404,38 +409,40 @@ impl VisitMut for FnEnvHoister {
                 args,
                 ..
             }) => {
-                if let Expr::SuperProp(super_prop) = &mut **expr {
-                    match &mut super_prop.prop {
-                        SuperProp::Computed(c) => {
-                            let callee = self.super_get_computed(super_prop.span);
-                            let call = Expr::Call(CallExpr {
-                                span: *span,
-                                args: vec![c.expr.take().as_arg()],
-                                callee: callee.as_callee(),
-                                type_args: None,
-                            });
-                            let mut new_args = args.take();
+                if !self.disable_super {
+                    if let Expr::SuperProp(super_prop) = &mut **expr {
+                        match &mut super_prop.prop {
+                            SuperProp::Computed(c) => {
+                                let callee = self.super_get_computed(super_prop.span);
+                                let call = Expr::Call(CallExpr {
+                                    span: *span,
+                                    args: vec![c.expr.take().as_arg()],
+                                    callee: callee.as_callee(),
+                                    type_args: None,
+                                });
+                                let mut new_args = args.take();
 
-                            new_args.insert(0, self.get_this().as_arg());
+                                new_args.insert(0, self.get_this().as_arg());
 
-                            *e = call.call_fn(*span, new_args);
+                                *e = call.call_fn(*span, new_args);
+                            }
+                            SuperProp::Ident(id) => {
+                                let callee = self.super_get(&id.sym, super_prop.span);
+                                let call = Expr::Call(CallExpr {
+                                    span: *span,
+                                    args: Vec::new(),
+                                    callee: callee.as_callee(),
+                                    type_args: None,
+                                });
+                                let mut new_args = args.take();
+
+                                new_args.insert(0, self.get_this().as_arg());
+
+                                *e = call.call_fn(*span, new_args);
+                            }
                         }
-                        SuperProp::Ident(id) => {
-                            let callee = self.super_get(&id.sym, super_prop.span);
-                            let call = Expr::Call(CallExpr {
-                                span: *span,
-                                args: Vec::new(),
-                                callee: callee.as_callee(),
-                                type_args: None,
-                            });
-                            let mut new_args = args.take();
-
-                            new_args.insert(0, self.get_this().as_arg());
-
-                            *e = call.call_fn(*span, new_args);
-                        }
-                    }
-                };
+                    };
+                }
                 e.visit_mut_children_with(self)
             }
             // super.foo ++
@@ -446,40 +453,42 @@ impl VisitMut for FnEnvHoister {
                 arg.visit_mut_with(self);
                 self.in_pat = in_pat;
             }
-            Expr::SuperProp(SuperPropExpr { prop, span, .. }) => match prop {
-                SuperProp::Computed(c) => {
-                    c.expr.visit_mut_children_with(self);
-                    *e = if self.in_pat {
-                        Expr::Call(CallExpr {
-                            span: *span,
-                            args: vec![c.expr.take().as_arg()],
-                            callee: self.super_update_computed(*span).as_callee(),
-                            type_args: None,
-                        })
-                        .make_member(quote_ident!("_"))
-                    } else {
-                        Expr::Call(CallExpr {
-                            span: *span,
-                            args: vec![c.expr.take().as_arg()],
-                            callee: self.super_get_computed(*span).as_callee(),
-                            type_args: None,
-                        })
-                    };
-                }
-                SuperProp::Ident(id) => {
-                    *e = if self.in_pat {
-                        self.super_update(&id.sym, *span)
+            Expr::SuperProp(SuperPropExpr { prop, span, .. }) if !self.disable_super => {
+                match prop {
+                    SuperProp::Computed(c) => {
+                        c.expr.visit_mut_children_with(self);
+                        *e = if self.in_pat {
+                            Expr::Call(CallExpr {
+                                span: *span,
+                                args: vec![c.expr.take().as_arg()],
+                                callee: self.super_update_computed(*span).as_callee(),
+                                type_args: None,
+                            })
                             .make_member(quote_ident!("_"))
-                    } else {
-                        Expr::Call(CallExpr {
-                            span: *span,
-                            args: Vec::new(),
-                            callee: self.super_get(&id.sym, *span).as_callee(),
-                            type_args: None,
-                        })
-                    };
+                        } else {
+                            Expr::Call(CallExpr {
+                                span: *span,
+                                args: vec![c.expr.take().as_arg()],
+                                callee: self.super_get_computed(*span).as_callee(),
+                                type_args: None,
+                            })
+                        };
+                    }
+                    SuperProp::Ident(id) => {
+                        *e = if self.in_pat {
+                            self.super_update(&id.sym, *span)
+                                .make_member(quote_ident!("_"))
+                        } else {
+                            Expr::Call(CallExpr {
+                                span: *span,
+                                args: Vec::new(),
+                                callee: self.super_get(&id.sym, *span).as_callee(),
+                                type_args: None,
+                            })
+                        };
+                    }
                 }
-            },
+            }
             _ => e.visit_mut_children_with(self),
         }
     }
