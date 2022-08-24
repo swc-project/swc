@@ -1011,13 +1011,7 @@ impl Generator {
         let mut temp = None;
         if num_initial_elements > 0 {
             temp = Some(self.declare_local(None));
-            // const initialElements = visitNodes(
-            //     elements,
-            //     visitor,
-            //     isExpression,
-            //     0,
-            //     numInitialElements
-            // );
+
             elements[0..num_initial_elements]
                 .iter_mut()
                 .for_each(|e| e.visit_mut_with(self));
