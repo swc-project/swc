@@ -22,7 +22,7 @@ fn tr(_: ()) -> impl Fold {
     let top_level_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        generator()
+        generator(unresolved_mark)
     )
 }
 
@@ -32,7 +32,7 @@ fn tr_with_async() -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-        generator()
+        generator(unresolved_mark)
     )
 }
 
