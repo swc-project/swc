@@ -995,7 +995,7 @@ impl Generator {
         mut elements: &mut [Option<ExprOrSpread>],
         mut leading_element: Option<ExprOrSpread>,
         loc: Option<Span>,
-    ) -> Box<Expr> {
+    ) -> Expr {
         // [source]
         //      ar = [1, yield, 2];
         //
@@ -1045,7 +1045,7 @@ impl Generator {
             });
 
         if let Some(temp) = temp {
-            Box::new(Expr::Call(CallExpr {
+            Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: temp.clone().make_member(quote_ident!("concat")).as_callee(),
                 args: expressions
@@ -1054,9 +1054,9 @@ impl Generator {
                     .map(|expr| ExprOrSpread { spread: None, expr })
                     .collect(),
                 type_args: Default::default(),
-            }))
+            })
         } else {
-            Box::new(Expr::Array(ArrayLit {
+            Expr::Array(ArrayLit {
                 span: DUMMY_SP,
                 elems: leading_element
                     .take()
@@ -1069,7 +1069,7 @@ impl Generator {
                             .map(|expr| Some(ExprOrSpread { spread: None, expr })),
                     )
                     .collect(),
-            }))
+            })
         }
     }
 
