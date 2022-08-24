@@ -770,7 +770,9 @@ impl VisitMut for Generator {
             *node = CallExpr {
                 span: node.span,
                 callee: apply.as_callee(),
-                args: once(this_arg.as_arg()).chain(node.args.take()).collect(),
+                args: once(this_arg.as_arg())
+                    .chain(args.take().into_iter().flatten())
+                    .collect(),
                 type_args: None,
             };
             return;
@@ -810,6 +812,7 @@ impl VisitMut for Generator {
                     }),
                     None,
                 );
+                node.args = Some(args.into_iter().flatten().collect());
             }
 
             let apply = callee.make_member(Ident::new(js_word!("apply"), node.span));
