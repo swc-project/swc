@@ -763,16 +763,14 @@ impl VisitMut for Generator {
             let callee = self.cache_expression(target);
 
             let mut args = node.args.take().into_iter().map(Some).collect::<Vec<_>>();
-            self.visit_elements(&mut args, None, None);
+            let arg = self.visit_elements(&mut args, None, None);
 
             let apply = callee.make_member(Ident::new(js_word!("apply"), node.span));
 
             *node = CallExpr {
                 span: node.span,
                 callee: apply.as_callee(),
-                args: once(this_arg.as_arg())
-                    .chain(args.take().into_iter().flatten())
-                    .collect(),
+                args: once(this_arg.as_arg()).chain(once(arg.as_arg())).collect(),
                 type_args: None,
             };
             return;
@@ -802,18 +800,19 @@ impl VisitMut for Generator {
             target.visit_mut_with(self);
             let callee = self.cache_expression(target);
 
-            if let Some(args) = node.args.take() {
+            let mut arg = if let Some(args) = node.args.take() {
                 let mut args = args.into_iter().map(Some).collect::<Vec<_>>();
-                self.visit_elements(
+                Some(self.visit_elements(
                     &mut args,
                     Some(ExprOrSpread {
                         spread: None,
                         expr: undefined(DUMMY_SP),
                     }),
                     None,
-                );
-                node.args = Some(args.into_iter().flatten().collect());
-            }
+                ))
+            } else {
+                None
+            };
 
             let apply = callee.make_member(Ident::new(js_word!("apply"), node.span));
 
@@ -822,7 +821,7 @@ impl VisitMut for Generator {
                 callee: Box::new(apply),
                 args: Some(
                     once(this_arg.as_arg())
-                        .chain(node.args.take().into_iter().flatten())
+                        .chain(arg.take().into_iter().flatten())
                         .collect(),
                 ),
                 type_args: None,
