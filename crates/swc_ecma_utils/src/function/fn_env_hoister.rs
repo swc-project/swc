@@ -270,7 +270,9 @@ impl VisitMut for FnEnvHoister {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Ident(Ident { span, sym, .. })
-                if *sym == js_word!("arguments") && span.ctxt == self.unresolved_ctxt =>
+                if *sym == js_word!("arguments")
+                    && (span.ctxt == self.unresolved_ctxt
+                        || span.ctxt == SyntaxContext::empty()) =>
             {
                 let arguments = self
                     .args
