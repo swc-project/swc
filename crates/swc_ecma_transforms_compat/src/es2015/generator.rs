@@ -614,20 +614,17 @@ impl VisitMut for Generator {
                         }
                     }
                     if node.op != op!("=") {
-                        return setTextRange(
-                            factory.createAssignment(
-                                target,
-                                setTextRange(
-                                    factory.createBinaryExpression(
-                                        cacheExpression(target),
-                                        getNonAssignmentOperatorForCompoundAssignment(operator),
-                                        visitNode(right, visitor, isExpression),
-                                    ),
-                                    node,
-                                ),
-                            ),
-                            node,
-                        );
+                        let left_of_right = self.cache_expression(node.left.take());
+
+                        let op = node.op.to_update().unwrap();
+                        node.right.visit_mut_with(self);
+
+                        node.right = Box::new(Expr::Bin(BinExpr {
+                            span: node.right.span(),
+                            op,
+                            left: Box::new(Expr::Ident(left_of_right)),
+                            right: node.right.take(),
+                        }));
                     } else {
                         node.right.visit_mut_with(self);
                         return;
