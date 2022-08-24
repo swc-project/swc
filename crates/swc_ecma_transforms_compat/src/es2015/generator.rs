@@ -1058,32 +1058,57 @@ impl Generator {
     fn reduce_element(
         &mut self,
         expressions: Vec<Box<Expr>>,
-        elem: Option<ExprOrSpread>,
+        element: Option<ExprOrSpread>,
         leading_element: Option<ExprOrSpread>,
-        temp: &mut Ident,
-    ) {
-        if (containsYield(element) && expressions.length > 0) {
-            let hasAssignedTemp = temp != undefined;
-            if (!temp) {
-                temp = declareLocal();
+        temp: &mut Option<Ident>,
+    ) -> Vec<Box<Expr>> {
+        if (contains_yield(&element) && expressions.length > 0) {
+            let has_assigned_temp = temp.is_some();
+            if temp.is_none() {
+                *temp = Some(self.declare_local(None));
             }
 
-            emitAssignment(
-                temp,
-                if hasAssignedTemp {
-                    factory.createArrayConcatCall(
-                        temp,
-                        [factory.createArrayLiteralExpression(expressions, multiLine)],
-                    )
+            self.emit_assignment(
+                temp.clone().unwrap().into(),
+                if has_assigned_temp {
+                    Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: temp
+                            .clone()
+                            .unwrap()
+                            .make_member(quote_ident!("concat"))
+                            .as_callee(),
+                        args: expressions
+                            .take()
+                            .into_iter()
+                            .map(|expr| ExprOrSpread { spread: None, expr })
+                            .collect(),
+                        type_args: Default::default(),
+                    }))
                 } else {
-                    factory.createArrayLiteralExpression(once(leading_element).chain(expressions))
+                    Box::new(
+                        ArrayLit {
+                            span: DUMMY_SP,
+                            elems: once(leading_element)
+                                .chain(
+                                    expressions
+                                        .take()
+                                        .into_iter()
+                                        .map(|expr| Some(ExprOrSpread { spread: None, expr })),
+                                )
+                                .collect(),
+                        }
+                        .into(),
+                    )
                 },
+                None,
             );
-            leadingElement = undefined;
+            leading_element = None;
             expressions = [];
         }
 
-        expressions.push(visitNode(element, visitor, isExpression));
+        element.visit_mut_with(self);
+        expressions.extend(element.map(|v| v.expr));
         return expressions;
     }
 
