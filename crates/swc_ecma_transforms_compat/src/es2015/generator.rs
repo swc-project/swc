@@ -1872,8 +1872,7 @@ impl Generator {
     where
         N: VisitWith<YieldFinder>,
     {
-        let num_nodes = nodes.len();
-        for i in 0..num_nodes {
+        for i in 0..nodes.len() {
             if contains_yield(&nodes[i]) {
                 return i;
             }
