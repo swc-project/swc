@@ -641,6 +641,42 @@ impl VisitMut for Generator {
         }
     }
 
+    fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
+        // [source]
+        //      for (var x in a) {
+        //          /*body*/
+        //      }
+        //
+        // [intermediate]
+        //  .local x
+        //  .loop
+        //      for (x in a) {
+        //          /*body*/
+        //      }
+        //  .endloop
+
+        if self.in_statement_containing_yield {
+            self.begin_script_loop_block();
+        }
+
+        if let VarDeclOrPat::VarDecl(initializer) = &mut node.left {
+            for variable in &initializer.decls {
+                self.hoist_variable_declaration(&variable.name.as_ident().unwrap());
+            }
+
+            node.right.visit_mut_with(self);
+            node.body.visit_mut_with(self);
+        } else {
+            node.visit_mut_children_with(self);
+        }
+
+        if self.in_statement_containing_yield {
+            self.end_loop_block();
+        }
+
+        return node;
+    }
+
     // TODO(kdy1):
     // fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
     //     self.visit_elements(&mut node.elems, None, None);
@@ -1665,52 +1701,6 @@ impl Generator {
             self.emit_stmt(Stmt::ForIn(node));
         }
     }
-
-    // function visitForInStatement(node: ForInStatement) {
-    //     // [source]
-    //     //      for (var x in a) {
-    //     //          /*body*/
-    //     //      }
-    //     //
-    //     // [intermediate]
-    //     //  .local x
-    //     //  .loop
-    //     //      for (x in a) {
-    //     //          /*body*/
-    //     //      }
-    //     //  .endloop
-
-    //     if (inStatementContainingYield) {
-    //         beginScriptLoopBlock();
-    //     }
-
-    //     const initializer = node.initializer;
-    //     if (isVariableDeclarationList(initializer)) {
-    //         for (const variable of initializer.declarations) {
-    //             hoistVariableDeclaration(variable.name as Identifier);
-    //         }
-
-    //         node = factory.updateForInStatement(
-    //             node,
-    //             initializer.declarations[0].name as Identifier,
-    //             visitNode(node.expression, visitor, isExpression),
-    //             visitNode(
-    //                 node.statement,
-    //                 visitor,
-    //                 isStatement,
-    //                 factory.liftToBlock
-    //             )
-    //         );
-    //     } else {
-    //         node = visitEachChild(node, visitor, context);
-    //     }
-
-    //     if (inStatementContainingYield) {
-    //         endLoopBlock();
-    //     }
-
-    //     return node;
-    // }
 
     fn transform_and_emit_continue_stmt(&mut self, node: ContinueStmt) {
         let label = self.find_continue_target(node.label.as_ref().map(|l| l.sym.clone()));
