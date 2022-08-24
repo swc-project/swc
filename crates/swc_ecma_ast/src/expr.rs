@@ -1173,6 +1173,7 @@ impl From<Expr> for PatOrExpr {
 }
 
 bridge_from!(PatOrExpr, Pat, Ident);
+bridge_from!(PatOrExpr, Pat, Id);
 
 impl PatOrExpr {
     /// Returns the [Pat] if this is a pattern, otherwise returns [None].
