@@ -481,7 +481,7 @@ impl VisitMut for Generator {
                         elem.visit_mut_with(self);
                         pending_expressions.extend(elem.exprs.take());
                     } else {
-                        if contains_yield(&elem) && pending_expressions.len() > 0 {
+                        if contains_yield(&elem) && !pending_expressions.is_empty() {
                             self.emit_worker(
                                 OpCode::Statement,
                                 Some(OpArgs::Stmt(Box::new(Stmt::Expr(ExprStmt {
