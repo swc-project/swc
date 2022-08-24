@@ -812,48 +812,6 @@ impl Generator {
     // }
 
     // /**
-    //  * Visits a comma expression containing `yield`.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitCommaExpression(node: BinaryExpression) {
-    //     // [source]
-    //     //      x = a(), yield, b();
-    //     //
-    //     // [intermediate]
-    //     //      a();
-    //     //  .yield resumeLabel
-    //     //  .mark resumeLabel
-    //     //      x = %sent%, b();
-
-    //     let pendingExpressions: Expression[] = [];
-    //     visit(node.left);
-    //     visit(node.right);
-    //     return factory.inlineExpressions(pendingExpressions);
-
-    //     function visit(node: Expression) {
-    //         if (
-    //             isBinaryExpression(node) &&
-    //             node.operatorToken.kind === SyntaxKind.CommaToken
-    //         ) {
-    //             visit(node.left);
-    //             visit(node.right);
-    //         } else {
-    //             if (containsYield(node) && pendingExpressions.length > 0) {
-    //                 emitWorker(OpCode.Statement, [
-    //                     factory.createExpressionStatement(
-    //                         factory.inlineExpressions(pendingExpressions)
-    //                     ),
-    //                 ]);
-    //                 pendingExpressions = [];
-    //             }
-
-    //             pendingExpressions.push(visitNode(node, visitor, isExpression));
-    //         }
-    //     }
-    // }
-
-    // /**
     //  * Visits an array of expressions containing one or more YieldExpression
     //    nodes
     //  * and returns an expression for the resulting value.
