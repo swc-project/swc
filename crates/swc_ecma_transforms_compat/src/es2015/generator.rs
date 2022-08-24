@@ -604,6 +604,49 @@ impl VisitMut for Generator {
         node.visit_mut_children_with(self);
     }
 
+    fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
+        if contains_yield(&node.args) {
+            // [source]
+            //      new a.b(1, yield, 2);
+            //
+            // [intermediate]
+            //  .local _a, _b, _c
+            //      _b = (_a = a.b).bind;
+            //      _c = [1];
+            //  .yield resumeLabel
+            //  .mark resumeLabel
+            //      new (_b.apply(_a, _c.concat([%sent%, 2])));
+
+            // TODO(kdy1):
+            // const { target, thisArg } = factory.createCallBinding(
+            //     factory.createPropertyAccessExpression(node.expression,
+            // "bind"),     hoistVariableDeclaration
+            // );
+            // return setOriginalNode(
+            //     setTextRange(
+            //         factory.createNewExpression(
+            //             factory.createFunctionApplyCall(
+            //                 cacheExpression(
+            //                     visitNode(target, visitor, isExpression)
+            //                 ),
+            //                 thisArg,
+            //                 visitElements(
+            //                     node.arguments!,
+            //                     /*leadingElement*/ factory.createVoidZero()
+            //                 )
+            //             ),
+            //             /*typeArguments*/ undefined,
+            //             []
+            //         ),
+            //         node
+            //     ),
+            //     node
+            // );
+        }
+
+        node.visit_mut_children_with(self);
+    }
+
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
         if self.in_statement_containing_yield {
             self.begin_script_loop_block();
@@ -1004,47 +1047,6 @@ impl Generator {
     //         }
     //         return expressions;
     //     }
-    // }
-
-    // function visitNewExpression(node: NewExpression) {
-    //     if (forEach(node.arguments, containsYield)) {
-    //         // [source]
-    //         //      new a.b(1, yield, 2);
-    //         //
-    //         // [intermediate]
-    //         //  .local _a, _b, _c
-    //         //      _b = (_a = a.b).bind;
-    //         //      _c = [1];
-    //         //  .yield resumeLabel
-    //         //  .mark resumeLabel
-    //         //      new (_b.apply(_a, _c.concat([%sent%, 2])));
-
-    //         const { target, thisArg } = factory.createCallBinding(
-    //             factory.createPropertyAccessExpression(node.expression, "bind"),
-    //             hoistVariableDeclaration
-    //         );
-    //         return setOriginalNode(
-    //             setTextRange(
-    //                 factory.createNewExpression(
-    //                     factory.createFunctionApplyCall(
-    //                         cacheExpression(
-    //                             visitNode(target, visitor, isExpression)
-    //                         ),
-    //                         thisArg,
-    //                         visitElements(
-    //                             node.arguments!,
-    //                             /*leadingElement*/ factory.createVoidZero()
-    //                         )
-    //                     ),
-    //                     /*typeArguments*/ undefined,
-    //                     []
-    //                 ),
-    //                 node
-    //             ),
-    //             node
-    //         );
-    //     }
-    //     return visitEachChild(node, visitor, context);
     // }
 
     fn visit_left_associative_bin_expr(&mut self, node: &mut BinExpr) -> Option<Expr> {
