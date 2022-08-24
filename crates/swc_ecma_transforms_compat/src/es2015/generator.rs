@@ -1129,7 +1129,9 @@ impl Generator {
                     }))),
                     right: p.value,
                 }),
-                Prop::Assign(_) => todo!(),
+                Prop::Assign(_) => {
+                    unreachable!("assignment property be removed before generator pass")
+                }
                 Prop::Getter(_) => todo!(),
                 Prop::Setter(_) => todo!(),
                 Prop::Method(p) => Expr::Assign(AssignExpr {
