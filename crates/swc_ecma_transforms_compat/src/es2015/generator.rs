@@ -1125,14 +1125,7 @@ impl Generator {
                     left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
-                        prop: match p.key {
-                            PropName::Ident(i) => MemberProp::Ident(i),
-                            PropName::Computed(e) => MemberProp::Computed(e),
-                            _ => MemberProp::Computed(ComputedPropName {
-                                span: DUMMY_SP,
-                                expr: Box::new(prop_name_to_expr_value(p.key)),
-                            }),
-                        },
+                        prop: p.key.into(),
                     }))),
                     right: p.value,
                 }),
