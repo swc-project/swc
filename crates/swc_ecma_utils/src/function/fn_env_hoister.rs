@@ -27,6 +27,10 @@ pub struct FnEnvHoister {
     super_set: SuperField,
     super_update: SuperField,
 
+    disable_args: bool,
+    disable_this: bool,
+    disable_super: bool,
+
     in_pat: bool,
 
     // extra ident for super["xx"] += 123
@@ -39,6 +43,21 @@ impl FnEnvHoister {
             unresolved_ctxt,
             ..Default::default()
         }
+    }
+
+    /// Disable hoisting of `arguments`
+    pub fn disable_arguments(&mut self) {
+        self.disable_args = true;
+    }
+
+    /// Disable hoisting of `this`
+    pub fn disable_this(&mut self) {
+        self.disable_this = true;
+    }
+
+    /// Disable hoisting of nodes realted to `super`
+    pub fn disable_super(&mut self) {
+        self.disable_super = true;
     }
 
     pub fn take(&mut self) -> Self {
