@@ -1,11 +1,12 @@
 use std::{
     cell::{RefCell, RefMut},
+    iter::once,
     mem::take,
     rc::Rc,
 };
 
 use is_macro::Is;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::AHashMap, comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span,
     Spanned, SyntaxContext, DUMMY_SP,
@@ -754,26 +755,22 @@ impl VisitMut for Generator {
             //  .mark resumeLabel
             //      _b.apply(_a, _c.concat([%sent%, 2]));
 
-            // TODO(kdy1):
-            // const { target, thisArg } = factory.createCallBinding(
-            //     node.expression,
-            //     hoistVariableDeclaration,
-            //     languageVersion,
-            //     /*cacheIdentifiers*/ true
-            // );
-            // return setOriginalNode(
-            //     setTextRange(
-            //         factory.createFunctionApplyCall(
-            //             cacheExpression(
-            //                 visitNode(target, visitor,
-            // isLeftHandSideExpression)             ),
-            //             thisArg,
-            //             visitElements(node.arguments)
-            //         ),
-            //         node
-            //     ),
-            //     node
-            // );
+            let (target, this_arg) = self.create_call_binding(node.callee.expect_expr(), true);
+
+            target.visit_mut_with(self);
+            let callee = self.cache_expression(target);
+
+            self.visit_elements(&mut node.args, None, None);
+
+            let apply = callee.make_member(Ident::new(js_word!("apply"), node.span));
+
+            *node = CallExpr {
+                span: node.span,
+                callee: apply.as_callee(),
+                args: once(this_arg.as_arg()).chain(node.args.take()).collect(),
+                type_args: None,
+            };
+            return;
         }
 
         node.visit_mut_children_with(self);
@@ -792,11 +789,12 @@ impl VisitMut for Generator {
             //  .mark resumeLabel
             //      new (_b.apply(_a, _c.concat([%sent%, 2])));
 
-            // TODO(kdy1):
-            // const { target, thisArg } = factory.createCallBinding(
-            //     factory.createPropertyAccessExpression(node.expression,
-            // "bind"),     hoistVariableDeclaration
-            // );
+            let (target, this_arg) = self
+                .create_call_binding(node.callee.take().make_member(quote_ident!("bind")), true);
+
+            target.visit_mut_with(self);
+            let callee = self.cache_expression(target);
+
             // return setOriginalNode(
             //     setTextRange(
             //         factory.createNewExpression(
