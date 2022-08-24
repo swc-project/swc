@@ -1145,7 +1145,9 @@ impl Generator {
     ) -> Vec<Box<Expr>> {
         if match &property {
             CompiledProp::Prop(p) => contains_yield(p),
-            CompiledProp::Accessor(g, s) => contains_yield(g) || contains_yield(s),
+            CompiledProp::Accessor(g, s) => {
+                g.as_ref().map_or(false, contains_yield) || s.as_ref().map_or(false, contains_yield)
+            }
         } && expressions.len() > 0
         {
             self.emit_stmt(Stmt::Expr(ExprStmt {
@@ -1155,7 +1157,6 @@ impl Generator {
         }
 
         let mut expression = match property {
-            CompiledProp::Accessor(getter, setter) => {}
             CompiledProp::Prop(p) => match p {
                 Prop::Shorthand(p) => Expr::Assign(AssignExpr {
                     span: p.span.with_ctxt(SyntaxContext::empty()),
@@ -1194,6 +1195,7 @@ impl Generator {
                     right: p.function.into(),
                 }),
             },
+            CompiledProp::Accessor(getter, setter) => {}
         };
 
         expression.visit_mut_with(self);
