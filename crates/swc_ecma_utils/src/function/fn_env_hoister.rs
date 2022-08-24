@@ -27,9 +27,9 @@ pub struct FnEnvHoister {
     super_set: SuperField,
     super_update: SuperField,
 
-    disable_args: bool,
-    disable_this: bool,
-    disable_super: bool,
+    arguments_disabled: bool,
+    this_disabled: bool,
+    super_disabled: bool,
 
     in_pat: bool,
 
@@ -47,17 +47,17 @@ impl FnEnvHoister {
 
     /// Disable hoisting of `arguments`
     pub fn disable_arguments(&mut self) {
-        self.disable_args = true;
+        self.arguments_disabled = true;
     }
 
     /// Disable hoisting of `this`
     pub fn disable_this(&mut self) {
-        self.disable_this = true;
+        self.this_disabled = true;
     }
 
     /// Disable hoisting of nodes realted to `super`
     pub fn disable_super(&mut self) {
-        self.disable_super = true;
+        self.super_disabled = true;
     }
 
     pub fn take(&mut self) -> Self {
@@ -289,7 +289,7 @@ impl VisitMut for FnEnvHoister {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Ident(Ident { span, sym, .. })
-                if !self.disable_args
+                if !self.arguments_disabled
                     && *sym == js_word!("arguments")
                     && (span.ctxt == self.unresolved_ctxt
                         || span.ctxt == SyntaxContext::empty()) =>
@@ -299,7 +299,7 @@ impl VisitMut for FnEnvHoister {
                     .get_or_insert_with(|| private_ident!("_arguments"));
                 *e = Expr::Ident(arguments.clone());
             }
-            Expr::This(..) if !self.disable_this => {
+            Expr::This(..) if !self.this_disabled => {
                 let this = self.get_this();
                 *e = Expr::Ident(this);
             }
@@ -330,7 +330,7 @@ impl VisitMut for FnEnvHoister {
                         }
                     }
                 };
-                if !self.disable_super {
+                if !self.super_disabled {
                     if let Expr::SuperProp(super_prop) = &mut **expr {
                         let left_span = super_prop.span;
                         match &mut super_prop.prop {
@@ -409,7 +409,7 @@ impl VisitMut for FnEnvHoister {
                 args,
                 ..
             }) => {
-                if !self.disable_super {
+                if !self.super_disabled {
                     if let Expr::SuperProp(super_prop) = &mut **expr {
                         match &mut super_prop.prop {
                             SuperProp::Computed(c) => {
@@ -453,42 +453,41 @@ impl VisitMut for FnEnvHoister {
                 arg.visit_mut_with(self);
                 self.in_pat = in_pat;
             }
-            Expr::SuperProp(SuperPropExpr { prop, span, .. }) if !self.disable_super => {
-                match prop {
-                    SuperProp::Computed(c) => {
-                        c.expr.visit_mut_children_with(self);
-                        *e = if self.in_pat {
-                            Expr::Call(CallExpr {
-                                span: *span,
-                                args: vec![c.expr.take().as_arg()],
-                                callee: self.super_update_computed(*span).as_callee(),
-                                type_args: None,
-                            })
-                            .make_member(quote_ident!("_"))
-                        } else {
-                            Expr::Call(CallExpr {
-                                span: *span,
-                                args: vec![c.expr.take().as_arg()],
-                                callee: self.super_get_computed(*span).as_callee(),
-                                type_args: None,
-                            })
-                        };
-                    }
-                    SuperProp::Ident(id) => {
-                        *e = if self.in_pat {
-                            self.super_update(&id.sym, *span)
-                                .make_member(quote_ident!("_"))
-                        } else {
-                            Expr::Call(CallExpr {
-                                span: *span,
-                                args: Vec::new(),
-                                callee: self.super_get(&id.sym, *span).as_callee(),
-                                type_args: None,
-                            })
-                        };
-                    }
+            Expr::SuperProp(SuperPropExpr { prop, span, .. }) if !self.super_disabled => match prop
+            {
+                SuperProp::Computed(c) => {
+                    c.expr.visit_mut_children_with(self);
+                    *e = if self.in_pat {
+                        Expr::Call(CallExpr {
+                            span: *span,
+                            args: vec![c.expr.take().as_arg()],
+                            callee: self.super_update_computed(*span).as_callee(),
+                            type_args: None,
+                        })
+                        .make_member(quote_ident!("_"))
+                    } else {
+                        Expr::Call(CallExpr {
+                            span: *span,
+                            args: vec![c.expr.take().as_arg()],
+                            callee: self.super_get_computed(*span).as_callee(),
+                            type_args: None,
+                        })
+                    };
                 }
-            }
+                SuperProp::Ident(id) => {
+                    *e = if self.in_pat {
+                        self.super_update(&id.sym, *span)
+                            .make_member(quote_ident!("_"))
+                    } else {
+                        Expr::Call(CallExpr {
+                            span: *span,
+                            args: Vec::new(),
+                            callee: self.super_get(&id.sym, *span).as_callee(),
+                            type_args: None,
+                        })
+                    };
+                }
+            },
             _ => e.visit_mut_children_with(self),
         }
     }
