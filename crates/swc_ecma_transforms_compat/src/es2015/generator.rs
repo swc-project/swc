@@ -504,7 +504,7 @@ impl VisitMut for Generator {
                 }
 
                 if pending_expressions.len() == 1 {
-                    *e = pending_expressions.remove(0);
+                    *e = *pending_expressions.remove(0);
                 } else {
                     node.exprs = pending_expressions;
                 }
