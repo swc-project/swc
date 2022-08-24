@@ -6,22 +6,26 @@ use std::{
 
 use is_macro::Is;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, util::take::Take, BytePos, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    collections::AHashMap, util::take::Take, BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{function::FnEnvHoister, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::debug;
 
 /// Generator based on tsc generator at https://github.com/microsoft/TypeScript/blob/162224763681465b417274383317ca9a0a573835/src/compiler/transformers/generators.ts
-pub fn generator() -> impl VisitMut + Fold {
-    as_folder(Wrapper {})
+pub fn generator(unresolved_ctxt: SyntaxContext) -> impl VisitMut + Fold {
+    as_folder(Wrapper { unresolved_ctxt })
 }
 
 /// Instead of saving state, we just create another instance of [Generator].
-struct Wrapper {}
+struct Wrapper {
+    unresolved_ctxt: SyntaxContext,
+}
 
 impl VisitMut for Wrapper {
     noop_visit_mut_type!();
@@ -31,6 +35,9 @@ impl VisitMut for Wrapper {
 
         if f.is_generator {
             let mut v = Generator::default();
+            let mut hoister = FnEnvHoister::new(self.unresolved_ctxt);
+            f.visit_mut_with(&mut hoister);
+
             v.transform_and_emit_stmts(f.body.as_mut().unwrap().stmts.take(), 0);
             f.is_generator = false;
 
@@ -76,6 +83,15 @@ impl VisitMut for Wrapper {
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: v.hoisted_vars.take(),
+                })))
+            }
+            let vars = hoister.to_decl();
+            if !vars.is_empty() {
+                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: vars,
                 })))
             }
             stmts.extend(v.hoisted_fns.into_iter().map(Decl::Fn).map(Stmt::Decl));
