@@ -1142,9 +1142,6 @@ impl Generator {
     //     return visitEachChild(node, visitor, context);
     // }
 
-    //     return visitEachChild(node, visitor, context);
-    // }
-
     // /**
     //  * Visits a comma expression containing `yield`.
     //  *
