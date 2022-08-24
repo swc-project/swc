@@ -614,7 +614,7 @@ impl VisitMut for Generator {
                         }
                     }
                     if node.op != op!("=") {
-                        let left_of_right = self.cache_expression(node.left.take());
+                        let left_of_right = self.cache_expression(node.left.take().expect_expr());
 
                         let op = node.op.to_update().unwrap();
                         node.right.visit_mut_with(self);
@@ -627,7 +627,6 @@ impl VisitMut for Generator {
                         }));
                     } else {
                         node.right.visit_mut_with(self);
-                        return;
                     }
                 }
             }
