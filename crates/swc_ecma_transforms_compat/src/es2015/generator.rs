@@ -689,6 +689,10 @@ impl VisitMut for Generator {
                 *e = *Expr::from_exprs(expressions);
             }
 
+            Expr::Array(node) => {
+                *e = *self.visit_elements(&mut node.elems, None, None);
+            }
+
             _ => {
                 e.visit_mut_children_with(self);
             }
@@ -902,10 +906,6 @@ impl VisitMut for Generator {
         }
     }
 
-    fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
-        self.visit_elements(&mut node.elems, None, None);
-    }
-
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         match node {
@@ -1017,7 +1017,7 @@ impl Generator {
                 .for_each(|e| e.visit_mut_with(self));
 
             self.emit_assignment(
-                PatOrExpr::Pat(temp.clone().unwrap().into()),
+                temp.clone().unwrap().into(),
                 Box::new(Expr::Array(ArrayLit {
                     span: DUMMY_SP,
                     elems: leading_element
