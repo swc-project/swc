@@ -651,7 +651,7 @@ impl VisitMut for Generator {
 
                 let num_initial_properties = self.count_initial_nodes_without_yield(&node.props);
 
-                let temp = self.declare_local(None);
+                let mut temp = self.declare_local(None);
                 node.props
                     .iter_mut()
                     .take(num_initial_properties)
