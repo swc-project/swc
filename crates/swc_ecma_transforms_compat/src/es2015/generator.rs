@@ -653,21 +653,34 @@ impl VisitMut for Generator {
                 let num_initial_properties = self.count_initial_nodes_without_yield(&node.props);
 
                 let temp = self.declare_local(None);
+                node.props
+                    .iter_mut()
+                    .take(num_initial_properties)
+                    .for_each(|p| {
+                        p.visit_mut_with(self);
+                    });
+
                 self.emit_assignment(
                     temp,
-                    factory.createObjectLiteralExpression(visitNodes(
-                        properties,
-                        visitor,
-                        isObjectLiteralElementLike,
-                        0,
-                        num_initial_properties,
-                    )),
+                    Box::new(Expr::Object(ObjectLit {
+                        span: DUMMY_SP,
+                        props: node
+                            .props
+                            .iter_mut()
+                            .take(num_initial_properties)
+                            .map(|v| v.take())
+                            .collect(),
+                    })),
+                    None,
                 );
 
-                let expressions =
-                    self.reduce_left(properties, reduceProperty, vec![], num_initial_properties);
-                expressions.push(temp);
-                return factory.inlineExpressions(expressions);
+                // TODO(kdy1):
+                // let expressions =
+                //     self.reduce_left(properties, reduceProperty, vec![],
+                // num_initial_properties); expressions.
+                // push(temp);
+
+                // *e = *Expr::from_exprs(expressions);
             }
 
             _ => {
