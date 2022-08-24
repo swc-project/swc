@@ -824,27 +824,7 @@ impl VisitMut for Generator {
                 ),
                 type_args: None,
             };
-
-            // return setOriginalNode(
-            //     setTextRange(
-            //         factory.createNewExpression(
-            //             factory.createFunctionApplyCall(
-            //                 cacheExpression(
-            //                     visitNode(target, visitor, isExpression)
-            //                 ),
-            //                 thisArg,
-            //                 visitElements(
-            //                     node.arguments!,
-            //                     /*leadingElement*/ factory.createVoidZero()
-            //                 )
-            //             ),
-            //             /*typeArguments*/ undefined,
-            //             []
-            //         ),
-            //         node
-            //     ),
-            //     node
-            // );
+            return;
         }
 
         node.visit_mut_children_with(self);
