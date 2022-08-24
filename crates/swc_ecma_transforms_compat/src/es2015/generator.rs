@@ -13,7 +13,9 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::AsOptExpr, helper};
-use swc_ecma_utils::{function::FnEnvHoister, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
+};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -1104,11 +1106,47 @@ impl Generator {
             }));
         }
 
-        // let expression = createExpressionForObjectLiteralElementLike(factory, node,
-        // property, temp); let visited = visitNode(expression, visitor,
-        // isExpression); if (visited) {
-        //     expressions.push(visited);
-        // }
+        let mut expression = match property {
+            PropOrSpread::Spread(_) => unreachable!("spread must be removed before generator pass"),
+            PropOrSpread::Prop(p) => match *p {
+                Prop::Shorthand(p) => Expr::Assign(AssignExpr {
+                    span: p.span.with_ctxt(SyntaxContext::empty()),
+                    op: op!("="),
+                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(temp.clone())),
+                        prop: MemberProp::Ident(p.clone()),
+                    }))),
+                    right: Box::new(Expr::Ident(p)),
+                }),
+                Prop::KeyValue(p) => Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(temp.clone())),
+                        prop: match p.key {
+                            PropName::Ident(i) => MemberProp::Ident(i),
+                            PropName::Computed(e) => MemberProp::Computed(e),
+                            _ => MemberProp::Computed(ComputedPropName {
+                                span: DUMMY_SP,
+                                expr: Box::new(prop_name_to_expr_value(p.key)),
+                            }),
+                        },
+                    }))),
+                    right: p.value,
+                }),
+                Prop::Assign(_) => todo!(),
+                Prop::Getter(_) => todo!(),
+                Prop::Setter(_) => todo!(),
+                Prop::Method(p) => todo!(),
+            },
+        };
+
+        expression.visit_mut_with(self);
+        if !expression.is_invalid() {
+            expressions.push(Box::new(expression));
+        }
         expressions
     }
 
