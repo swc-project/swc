@@ -690,7 +690,7 @@ impl VisitMut for Generator {
             }
 
             Expr::Array(node) => {
-                *e = *self.visit_elements(&mut node.elems, None, None);
+                *e = self.visit_elements(&mut node.elems, None, None);
             }
 
             _ => {
