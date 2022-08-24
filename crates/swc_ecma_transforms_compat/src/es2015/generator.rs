@@ -821,7 +821,7 @@ impl VisitMut for Generator {
                 callee: Box::new(apply),
                 args: Some(
                     once(this_arg.as_arg())
-                        .chain(arg.take().into_iter().flatten())
+                        .chain(arg.take().map(|v| v.as_arg()).into_iter())
                         .collect(),
                 ),
                 type_args: None,
