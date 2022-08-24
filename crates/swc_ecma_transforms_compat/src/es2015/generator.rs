@@ -741,6 +741,7 @@ impl VisitMut for Generator {
             Stmt::Break(b) => {
                 if self.in_statement_containing_yield {
                     let label = self.find_break_target(b.label.as_ref().map(|l| l.sym.clone()));
+                    dbg!(label);
                     if label.0 > 0 {
                         *node = Stmt::Return(self.create_inline_break(label, Some(b.span)));
                         return;
@@ -1661,6 +1662,7 @@ impl Generator {
 
     fn transform_and_emit_break_stmt(&mut self, node: BreakStmt) {
         let label = self.find_break_target(node.label.as_ref().map(|l| l.sym.clone()));
+        dbg!(label);
         if label.0 > 0 {
             self.emit_break(label, Some(node.span));
         } else {
@@ -2362,7 +2364,7 @@ impl Generator {
 
         if let Some(block_stack) = &self.block_stack {
             if let Some(label_text) = label_text {
-                for i in (0..block_stack.len() - 1).rev() {
+                for i in (0..=block_stack.len() - 1).rev() {
                     let block = &block_stack[i];
                     if self.supports_labeled_break_or_continue(&block.borrow())
                         && block.borrow().label_text().unwrap() == label_text
@@ -2375,8 +2377,10 @@ impl Generator {
                     }
                 }
             } else {
-                for i in (0..block_stack.len() - 1).rev() {
+                dbg!(&self.block_stack);
+                for i in (0..=block_stack.len() - 1).rev() {
                     let block = &block_stack[i];
+                    dbg!(&self.block_stack);
                     if self.supports_unlabeled_break(&block.borrow()) {
                         return block.borrow().break_label().unwrap();
                     }
