@@ -673,13 +673,18 @@ impl VisitMut for Generator {
                     None,
                 );
 
-                // TODO(kdy1):
-                // let expressions =
-                //     self.reduce_left(properties, reduceProperty, vec![],
-                // num_initial_properties); expressions.
-                // push(temp);
+                let mut expressions = node
+                    .props
+                    .iter_mut()
+                    .skip(num_initial_properties)
+                    .map(|v| v.take())
+                    .fold(vec![], |exprs, property| {
+                        self.reduce_property(exprs, property, &mut temp)
+                    });
 
-                // *e = *Expr::from_exprs(expressions);
+                expressions.push(Box::new(Expr::Ident(temp)));
+
+                *e = *Expr::from_exprs(expressions);
             }
 
             _ => {
@@ -1084,36 +1089,27 @@ impl Generator {
         //     expressions.push(visitNode(element, visitor, isExpression));
         //     return expressions;
         // }
+    }
 
-        // TODO(kdy1):
-        // function reduceProperty(
-        //     expressions: Expression[],
-        //     property: ObjectLiteralElementLike
-        // ) {
-        //     if (containsYield(property) && expressions.length > 0) {
-        //         emitStatement(
-        //             factory.createExpressionStatement(
-        //                 factory.inlineExpressions(expressions)
-        //             )
-        //         );
-        //         expressions = [];
-        //     }
+    fn reduce_property(
+        &mut self,
+        expressions: Vec<Box<Expr>>,
+        property: PropOrSpread,
+        temp: &mut Option<Ident>,
+    ) -> Vec<Box<Expr>> {
+        if contains_yield(&property) && expressions.len() > 0 {
+            self.emit_stmt(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Expr::from_exprs(expressions.take()),
+            }));
+        }
 
-        //     const expression = createExpressionForObjectLiteralElementLike(
-        //         factory,
-        //         node,
-        //         property,
-        //         temp
-        //     );
-        //     const visited = visitNode(expression, visitor, isExpression);
-        //     if (visited) {
-        //         if (multiLine) {
-        //             startOnNewLine(visited);
-        //         }
-        //         expressions.push(visited);
-        //     }
-        //     return expressions;
+        // let expression = createExpressionForObjectLiteralElementLike(factory, node,
+        // property, temp); let visited = visitNode(expression, visitor,
+        // isExpression); if (visited) {
+        //     expressions.push(visited);
         // }
+        expressions
     }
 
     fn visit_left_associative_bin_expr(&mut self, node: &mut BinExpr) -> Option<Expr> {
