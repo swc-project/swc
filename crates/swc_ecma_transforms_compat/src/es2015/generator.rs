@@ -364,6 +364,12 @@ impl VisitMut for Generator {
         e.params.visit_mut_with(self);
     }
 
+    fn visit_mut_getter_prop(&mut self, e: &mut GetterProp) {}
+
+    fn visit_mut_setter_prop(&mut self, e: &mut SetterProp) {
+        e.params.visit_mut_with(self);
+    }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Yield(node) => {
@@ -690,25 +696,6 @@ impl VisitMut for Generator {
 }
 
 impl Generator {
-    // /**
-    //  * Visits a get or set accessor declaration.
-    //  *
-    //  * This will be called when one of the following conditions are met:
-    //  * - The accessor is contained within the body of a generator function.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitAccessorDeclaration(node: AccessorDeclaration) {
-    //     const savedInGeneratorFunctionBody = inGeneratorFunctionBody;
-    //     const savedInStatementContainingYield = inStatementContainingYield;
-    //     inGeneratorFunctionBody = false;
-    //     inStatementContainingYield = false;
-    //     node = visitEachChild(node, visitor, context);
-    //     inGeneratorFunctionBody = savedInGeneratorFunctionBody;
-    //     inStatementContainingYield = savedInStatementContainingYield;
-    //     return node;
-    // }
-
     // /**
     //  * Transforms the body of a generator function declaration.
     //  *
