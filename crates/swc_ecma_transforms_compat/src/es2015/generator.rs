@@ -3443,8 +3443,8 @@ impl Generator {
     ) -> (Box<Expr>, Box<Expr>) {
         let callee = expr;
 
-        match *callee {
-            Expr::SuperProp(e) => (callee, Box::new(Expr::This(ThisExpr { span: e.span }))),
+        match &*callee {
+            Expr::SuperProp(..) => (callee, Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
 
             _ => (callee, undefined(DUMMY_SP)),
         }
