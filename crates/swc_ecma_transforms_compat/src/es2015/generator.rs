@@ -2337,7 +2337,7 @@ impl Generator {
     }
 
     fn has_immediate_containing_labeled_block(&self, label_text: &JsWord, start: usize) -> bool {
-        for i in (0..start).rev() {
+        for i in (0..=start).rev() {
             let block = self.block_stack.as_ref().unwrap()[i].clone();
             if self.supports_labeled_break_or_continue(&block.borrow()) {
                 if let CodeBlock::Labeled(block) = &*block.borrow() {
