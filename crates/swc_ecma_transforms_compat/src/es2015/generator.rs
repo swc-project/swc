@@ -2412,6 +2412,7 @@ impl Generator {
             let block = self.block_stack.as_ref().unwrap()[i].clone();
             if self.supports_labeled_break_or_continue(&block.borrow()) {
                 if let CodeBlock::Labeled(block) = &*block.borrow() {
+                    dbg!(block);
                     if block.label_text == *label_text {
                         return true;
                     }
@@ -2433,8 +2434,10 @@ impl Generator {
 
         if let Some(block_stack) = &self.block_stack {
             if let Some(label_text) = label_text {
-                for i in (0..block_stack.len()).rev() {
+                dbg!(&self.block_stack);
+                for i in (0..block_stack.len() - 1).rev() {
                     let block = &block_stack[i];
+                    dbg!(&block);
                     if self.supports_labeled_break_or_continue(&block.borrow())
                         && block.borrow().label_text().unwrap() == label_text
                     {
@@ -2446,7 +2449,7 @@ impl Generator {
                     }
                 }
             } else {
-                for i in (0..block_stack.len()).rev() {
+                for i in (0..block_stack.len() - 1).rev() {
                     let block = &block_stack[i];
                     if self.supports_unlabeled_break(&block.borrow()) {
                         return block.borrow().break_label().unwrap();
