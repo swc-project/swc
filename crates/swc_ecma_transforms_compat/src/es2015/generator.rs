@@ -661,7 +661,7 @@ impl VisitMut for Generator {
                     });
 
                 self.emit_assignment(
-                    temp,
+                    PatOrExpr::Pat(temp.clone().into()),
                     Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: node
