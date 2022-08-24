@@ -1426,7 +1426,7 @@ impl Generator {
 
     fn visit_left_associative_bin_expr(&mut self, node: &mut BinExpr) {
         if contains_yield(&node.right) {
-            if matches!(node.op, op!("||") || op!("&&") || op!("??")) {
+            if matches!(node.op, op!("||") | op!("&&") | op!("??")) {
                 return self.visit_logical_bin_expr(node);
             }
 
