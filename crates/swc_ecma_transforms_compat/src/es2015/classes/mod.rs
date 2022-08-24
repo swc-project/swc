@@ -7,9 +7,9 @@ use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, default_constructor, is_valid_prop_ident, prepend_stmt, private_ident,
-    prop_name_to_expr, quote_expr, quote_ident, quote_str, replace_ident, ExprFactory, IdentExt,
-    IsDirective, ModuleItemLike, StmtLike,
+    alias_if_required, default_constructor, is_valid_ident, is_valid_prop_ident, prepend_stmt,
+    private_ident, prop_name_to_expr, quote_expr, quote_ident, quote_str, replace_ident,
+    ExprFactory, IdentExt, IsDirective, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -1052,7 +1052,7 @@ where
                 ident: if m.kind == MethodKind::Method && !computed {
                     match prop_name {
                         Expr::Ident(ident) => Some(private_ident!(ident.span, ident.sym)),
-                        Expr::Lit(Lit::Str(Str { span, value, .. })) => {
+                        Expr::Lit(Lit::Str(Str { span, value, .. })) if is_valid_ident(&value) => {
                             Some(Ident::new(value, span.private()))
                         }
                         _ => None,
