@@ -189,6 +189,25 @@ impl Expr {
             _ => self,
         }
     }
+
+    /// Creates an expression from `exprs`. This will return first element if
+    /// the length is 1 and a sequential expression otherwise.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `exprs` is empty.
+    pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Box<Expr> {
+        debug_assert_ne!(exprs, vec![], "exprs must not be empty");
+
+        if exprs.len() == 1 {
+            exprs.remove(0)
+        } else {
+            Box::new(Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs,
+            }))
+        }
+    }
 }
 
 // Implement Clone without inline to avoid multiple copies of the
