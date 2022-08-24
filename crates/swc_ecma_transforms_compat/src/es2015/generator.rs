@@ -3022,7 +3022,7 @@ impl Generator {
 
         let args = self.operation_args.as_mut().unwrap()[op_index]
             .take()
-            .unwrap();
+            .expect("failed to take operation arguments");
         if opcode == OpCode::Statement {
             let args = args.expect_stmt();
             self.write_stmt(*args);
