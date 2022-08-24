@@ -690,19 +690,6 @@ impl VisitMut for Generator {
 }
 
 impl Generator {
-    // function transformSourceFile(node: SourceFile) {
-    //     if (
-    //         node.isDeclarationFile ||
-    //         (node.transformFlags & TransformFlags.ContainsGenerator) === 0
-    //     ) {
-    //         return node;
-    //     }
-
-    //     const visited = visitEachChild(node, visitor, context);
-    //     addEmitHelpers(visited, context.readEmitHelpers());
-    //     return visited;
-    // }
-
     // /**
     //  * Visits a get or set accessor declaration.
     //  *
