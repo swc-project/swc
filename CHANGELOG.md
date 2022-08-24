@@ -5,6 +5,9 @@
 
 
 
+- **(es/fixer)** Wrap expressions in the left of a binary expression (#5586) ([3d485d2](https://github.com/swc-project/swc/commit/3d485d26814516351bd5591502c64811f77f5385))
+
+
 - **(swc_core)** Re-export `swc_cached` (#5605) ([7fcecb8](https://github.com/swc-project/swc/commit/7fcecb8e63faa64226b87e34b8cd4fdd0a6a7ab7))
 
 ### Features
