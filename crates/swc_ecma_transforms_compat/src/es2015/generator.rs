@@ -455,6 +455,14 @@ impl VisitMut for Generator {
                 }
             }
 
+            Expr::Bin(node) => {
+                if node.op == op!("**") {
+                    todo!("right-associative binary expression")
+                } else {
+                    self.visit_left_associative_bin_expr(node)
+                }
+            }
+
             _ => {
                 e.visit_mut_children_with(self);
             }
@@ -1021,128 +1029,6 @@ impl Generator {
     // }
 
     // /**
-    //  * Visits a binary expression.
-    //  *
-    //  * This will be called when one of the following conditions are met:
-    //  * - The node contains a YieldExpression.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitBinaryExpression(node: BinaryExpression): Expression {
-    //     const assoc = getExpressionAssociativity(node);
-    //     switch (assoc) {
-    //         case Associativity.Left:
-    //             return visitLeftAssociativeBinaryExpression(node);
-    //         case Associativity.Right:
-    //             return visitRightAssociativeBinaryExpression(node);
-    //         default:
-    //             return Debug.assertNever(assoc);
-    //     }
-    // }
-
-    // /**
-    //  * Visits a right-associative binary expression containing `yield`.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitRightAssociativeBinaryExpression(node: BinaryExpression) {
-    //     const { left, right } = node;
-    //     if (containsYield(right)) {
-    //         let target: Expression;
-    //         switch (left.kind) {
-    //             case SyntaxKind.PropertyAccessExpression:
-    //                 // [source]
-    //                 //      a.b = yield;
-    //                 //
-    //                 // [intermediate]
-    //                 //  .local _a
-    //                 //      _a = a;
-    //                 //  .yield resumeLabel
-    //                 //  .mark resumeLabel
-    //                 //      _a.b = %sent%;
-
-    //                 target = factory.updatePropertyAccessExpression(
-    //                     left as PropertyAccessExpression,
-    //                     cacheExpression(
-    //                         visitNode(
-    //                             (left as PropertyAccessExpression).expression,
-    //                             visitor,
-    //                             isLeftHandSideExpression
-    //                         )
-    //                     ),
-    //                     (left as PropertyAccessExpression).name
-    //                 );
-    //                 break;
-
-    //             case SyntaxKind.ElementAccessExpression:
-    //                 // [source]
-    //                 //      a[b] = yield;
-    //                 //
-    //                 // [intermediate]
-    //                 //  .local _a, _b
-    //                 //      _a = a;
-    //                 //      _b = b;
-    //                 //  .yield resumeLabel
-    //                 //  .mark resumeLabel
-    //                 //      _a[_b] = %sent%;
-
-    //                 target = factory.updateElementAccessExpression(
-    //                     left as ElementAccessExpression,
-    //                     cacheExpression(
-    //                         visitNode(
-    //                             (left as ElementAccessExpression).expression,
-    //                             visitor,
-    //                             isLeftHandSideExpression
-    //                         )
-    //                     ),
-    //                     cacheExpression(
-    //                         visitNode(
-    //                             (left as ElementAccessExpression)
-    //                                 .argumentExpression,
-    //                             visitor,
-    //                             isExpression
-    //                         )
-    //                     )
-    //                 );
-    //                 break;
-
-    //             default:
-    //                 target = visitNode(left, visitor, isExpression);
-    //                 break;
-    //         }
-
-    //         const operator = node.operatorToken.kind;
-    //         if (isCompoundAssignment(operator)) {
-    //             return setTextRange(
-    //                 factory.createAssignment(
-    //                     target,
-    //                     setTextRange(
-    //                         factory.createBinaryExpression(
-    //                             cacheExpression(target),
-    //                             getNonAssignmentOperatorForCompoundAssignment(
-    //                                 operator
-    //                             ),
-    //                             visitNode(right, visitor, isExpression)
-    //                         ),
-    //                         node
-    //                     )
-    //                 ),
-    //                 node
-    //             );
-    //         } else {
-    //             return factory.updateBinaryExpression(
-    //                 node,
-    //                 target,
-    //                 node.operatorToken,
-    //                 visitNode(right, visitor, isExpression)
-    //             );
-    //         }
-    //     }
-
-    //     return visitEachChild(node, visitor, context);
-    // }
-
-    // /**
     //  * Visits a comma expression containing `yield`.
     //  *
     //  * @param node The node to visit.
@@ -1561,6 +1447,101 @@ impl Generator {
 
         node.visit_mut_children_with(self);
     }
+
+    // function visitRightAssociativeBinaryExpression(node: BinaryExpression) {
+    //     const { left, right } = node;
+    //     if (containsYield(right)) {
+    //         let target: Expression;
+    //         switch (left.kind) {
+    //             case SyntaxKind.PropertyAccessExpression:
+    //                 // [source]
+    //                 //      a.b = yield;
+    //                 //
+    //                 // [intermediate]
+    //                 //  .local _a
+    //                 //      _a = a;
+    //                 //  .yield resumeLabel
+    //                 //  .mark resumeLabel
+    //                 //      _a.b = %sent%;
+
+    //                 target = factory.updatePropertyAccessExpression(
+    //                     left as PropertyAccessExpression,
+    //                     cacheExpression(
+    //                         visitNode(
+    //                             (left as PropertyAccessExpression).expression,
+    //                             visitor,
+    //                             isLeftHandSideExpression
+    //                         )
+    //                     ),
+    //                     (left as PropertyAccessExpression).name
+    //                 );
+    //                 break;
+
+    //             case SyntaxKind.ElementAccessExpression:
+    //                 // [source]
+    //                 //      a[b] = yield;
+    //                 //
+    //                 // [intermediate]
+    //                 //  .local _a, _b
+    //                 //      _a = a;
+    //                 //      _b = b;
+    //                 //  .yield resumeLabel
+    //                 //  .mark resumeLabel
+    //                 //      _a[_b] = %sent%;
+
+    //                 target = factory.updateElementAccessExpression(
+    //                     left as ElementAccessExpression,
+    //                     cacheExpression(
+    //                         visitNode(
+    //                             (left as ElementAccessExpression).expression,
+    //                             visitor,
+    //                             isLeftHandSideExpression
+    //                         )
+    //                     ),
+    //                     cacheExpression(
+    //                         visitNode(
+    //                             (left as ElementAccessExpression)
+    //                                 .argumentExpression,
+    //                             visitor,
+    //                             isExpression
+    //                         )
+    //                     )
+    //                 );
+    //                 break;
+
+    //             default:
+    //                 target = visitNode(left, visitor, isExpression);
+    //                 break;
+    //         }
+
+    //         const operator = node.operatorToken.kind;
+    //         if (isCompoundAssignment(operator)) {
+    //             return setTextRange(
+    //                 factory.createAssignment(
+    //                     target,
+    //                     setTextRange(
+    //                         factory.createBinaryExpression(
+    //                             cacheExpression(target),
+    //                             getNonAssignmentOperatorForCompoundAssignment(
+    //                                 operator
+    //                             ),
+    //                             visitNode(right, visitor, isExpression)
+    //                         ),
+    //                         node
+    //                     )
+    //                 ),
+    //                 node
+    //             );
+    //         } else {
+    //             return factory.updateBinaryExpression(
+    //                 node,
+    //                 target,
+    //                 node.operatorToken,
+    //                 visitNode(right, visitor, isExpression)
+    //             );
+    //         }
+    //     }
+    // }
 
     fn visit_logical_bin_expr(&mut self, node: &mut BinExpr) {}
 
