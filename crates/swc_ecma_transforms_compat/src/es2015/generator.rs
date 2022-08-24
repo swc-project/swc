@@ -3441,7 +3441,13 @@ impl Generator {
         expr: Box<Expr>,
         cache_identifier: bool,
     ) -> (Box<Expr>, Box<Expr>) {
-        match expr {}
+        let callee = expr;
+
+        match *callee {
+            Expr::SuperProp(e) => (callee, Box::new(Expr::This(ThisExpr { span: e.span }))),
+
+            _ => (callee, undefined(DUMMY_SP)),
+        }
     }
 }
 
