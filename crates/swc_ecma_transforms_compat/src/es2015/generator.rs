@@ -1142,31 +1142,6 @@ impl Generator {
     //     return visitEachChild(node, visitor, context);
     // }
 
-    // function visitLeftAssociativeBinaryExpression(node: BinaryExpression) {
-    //     if (containsYield(node.right)) {
-    //         if (isLogicalOperator(node.operatorToken.kind)) {
-    //             return visitLogicalBinaryExpression(node);
-    //         } else if (node.operatorToken.kind === SyntaxKind.CommaToken) {
-    //             return visitCommaExpression(node);
-    //         }
-
-    //         // [source]
-    //         //      a() + (yield) + c()
-    //         //
-    //         // [intermediate]
-    //         //  .local _a
-    //         //      _a = a();
-    //         //  .yield resumeLabel
-    //         //      _a + %sent% + c()
-
-    //         return factory.updateBinaryExpression(
-    //             node,
-    //             cacheExpression(visitNode(node.left, visitor, isExpression)),
-    //             node.operatorToken,
-    //             visitNode(node.right, visitor, isExpression)
-    //         );
-    //     }
-
     //     return visitEachChild(node, visitor, context);
     // }
 
@@ -1565,6 +1540,32 @@ impl Generator {
     //     }
     //     return visitEachChild(node, visitor, context);
     // }
+
+    fn visit_left_associative_bin_expr(&mut self, node: &mut BinExpr) {
+        if contains_yield(&node.right) {
+            if matches!(node.op, op!("||") || op!("&&") || op!("??")) {
+                return self.visit_logical_bin_expr(node);
+            }
+
+            // [source]
+            //      a() + (yield) + c()
+            //
+            // [intermediate]
+            //  .local _a
+            //      _a = a();
+            //  .yield resumeLabel
+            //      _a + %sent% + c()
+
+            node.left.visit_mut_with(self);
+            node.left = Box::new(Expr::Ident(self.cache_expression(node.left.take())));
+            node.right.visit_mut_with(self);
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_logical_bin_expr(&mut self, node: &mut BinExpr) {}
 
     fn transform_and_emit_stmts(&mut self, stmts: Vec<Stmt>, start: usize) {
         for s in stmts.into_iter().skip(start) {
