@@ -1399,7 +1399,19 @@ impl Generator {
 
                 // We use cnt because variable.init can be None.
                 **variable = self.transform_initialized_variable(variable.take());
-                pending_expressions.extend(variable.init.take());
+
+                let init = variable.init.take();
+
+                pending_expressions.extend(
+                    init.map(|right| AssignExpr {
+                        span: variable.span,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(Box::new(variable.name.clone())),
+                        right,
+                    })
+                    .map(Expr::from)
+                    .map(Box::new),
+                );
                 cnt += 1;
             }
 
