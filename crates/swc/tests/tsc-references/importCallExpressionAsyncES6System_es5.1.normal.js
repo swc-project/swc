@@ -3,27 +3,28 @@
 // @filename: test.ts
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 export function fn() {
     return _fn.apply(this, arguments);
 }
 function _fn() {
-    _fn = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+    _fn = _async_to_generator(function() {
         var req;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    _ctx.next = 2;
-                    return import("./test") // ONE
-                    ;
-                case 2:
-                    req = _ctx.sent;
-                case 3:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        import("./test") // ONE
+                    ];
+                case 1:
+                    req = _state.sent();
+                    return [
+                        2
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return _fn.apply(this, arguments);
 }
 export var cl1 = /*#__PURE__*/ function() {
@@ -33,82 +34,86 @@ export var cl1 = /*#__PURE__*/ function() {
     }
     var _proto = cl1.prototype;
     _proto.m = function m() {
-        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(function() {
             var req;
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        _ctx.next = 2;
-                        return import("./test") // TWO
-                        ;
-                    case 2:
-                        req = _ctx.sent;
-                    case 3:
-                    case "end":
-                        return _ctx.stop();
+                        return [
+                            4,
+                            import("./test") // TWO
+                        ];
+                    case 1:
+                        req = _state.sent();
+                        return [
+                            2
+                        ];
                 }
-            }, _callee);
-        }))();
+            });
+        })();
     };
     return cl1;
 }();
 export var obj = {
-    m: /*#__PURE__*/ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+    m: /*#__PURE__*/ _async_to_generator(function() {
         var req;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    _ctx.next = 2;
-                    return import("./test") // THREE
-                    ;
-                case 2:
-                    req = _ctx.sent;
-                case 3:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        import("./test") // THREE
+                    ];
+                case 1:
+                    req = _state.sent();
+                    return [
+                        2
+                    ];
             }
-        }, _callee);
-    }))
+        });
+    })
 };
 export var cl2 = function cl2() {
     "use strict";
     _class_call_check(this, cl2);
     this.p = {
-        m: /*#__PURE__*/ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        m: /*#__PURE__*/ _async_to_generator(function() {
             var req;
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        _ctx.next = 2;
-                        return import("./test") // FOUR
-                        ;
-                    case 2:
-                        req = _ctx.sent;
-                    case 3:
-                    case "end":
-                        return _ctx.stop();
+                        return [
+                            4,
+                            import("./test") // FOUR
+                        ];
+                    case 1:
+                        req = _state.sent();
+                        return [
+                            2
+                        ];
                 }
-            }, _callee);
-        }))
+            });
+        })
     };
 };
 export var l = function() {
-    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+    var _ref = _async_to_generator(function() {
         var req;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    _ctx.next = 2;
-                    return import("./test") // FIVE
-                    ;
-                case 2:
-                    req = _ctx.sent;
-                case 3:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        import("./test") // FIVE
+                    ];
+                case 1:
+                    req = _state.sent();
+                    return [
+                        2
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return function l() {
         return _ref.apply(this, arguments);
     };

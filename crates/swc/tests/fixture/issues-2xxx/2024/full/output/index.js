@@ -3,12 +3,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenerator-runtime"));
-_asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _callee() {
+var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
+_asyncToGenerator(function() {
     var sleep, result;
-    return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _tsGenerator(this, function(_state) {
+        switch(_state.label){
             case 0:
                 sleep = function() {
                     return new Promise(function(resolve) {
@@ -17,21 +16,16 @@ _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _calle
                         }, 500);
                     });
                 };
-                _ctx.next = 3;
-                return sleep();
-            case 3:
-                _ctx.t0 = _ctx.sent;
-                if (_ctx.t0) {
-                    _ctx.next = 6;
-                    break;
-                }
-                _ctx.t0 = "fallback";
-            case 6:
-                result = _ctx.t0;
+                return [
+                    4,
+                    sleep()
+                ];
+            case 1:
+                result = _state.sent() || "fallback";
                 console.log(result);
-            case 8:
-            case "end":
-                return _ctx.stop();
+                return [
+                    2
+                ];
         }
-    }, _callee);
-}))();
+    });
+})();

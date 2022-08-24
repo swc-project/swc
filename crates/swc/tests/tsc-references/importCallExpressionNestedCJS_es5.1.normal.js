@@ -6,28 +6,31 @@
 export default "./foo";
 // @filename: index.ts
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function foo() {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _foo = _async_to_generator(function() {
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    _ctx.next = 2;
-                    return import("./foo");
+                    return [
+                        4,
+                        import("./foo")
+                    ];
+                case 1:
+                    return [
+                        4,
+                        import(_state.sent().default)
+                    ];
                 case 2:
-                    _ctx.t0 = _ctx.sent.default;
-                    _ctx.next = 5;
-                    return import(_ctx.t0);
-                case 5:
-                    return _ctx.abrupt("return", _ctx.sent);
-                case 6:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        2,
+                        _state.sent()
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return _foo.apply(this, arguments);
 }

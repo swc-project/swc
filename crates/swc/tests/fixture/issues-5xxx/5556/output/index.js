@@ -1,4 +1,4 @@
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 var app;
 var ctx;
 x = function x() {
@@ -9,24 +9,25 @@ x = function x() {
                 type: "all",
                 disable: app.config.env === "local"
             },
-            task: regeneratorRuntime.mark(function task(ctx) {
-                var res;
-                return regeneratorRuntime.wrap(function task$(_ctx) {
-                    while(1)switch(_ctx.prev = _ctx.next){
+            task: function task(ctx) {
+                var res, _tmp;
+                return _ts_generator(this, function(_state) {
+                    switch(_state.label){
                         case 0:
-                            _ctx.next = 2;
-                            return ctx.curl("http://www.api.com/cache", {
-                                contentType: "json"
-                            });
-                        case 2:
-                            res = _ctx.sent;
+                            _tmp = {};
+                            return [
+                                4,
+                                ctx.curl("http://www.api.com/cache", (_tmp.contentType = "json", _tmp))
+                            ];
+                        case 1:
+                            res = _state.sent();
                             ctx.app.cache = res.data;
-                        case 4:
-                        case "end":
-                            return _ctx.stop();
+                            return [
+                                2
+                            ];
                     }
-                }, task);
-            })
+                });
+            }
         };
     };
 };

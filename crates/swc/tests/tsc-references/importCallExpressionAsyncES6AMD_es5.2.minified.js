@@ -1,95 +1,105 @@
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 export function fn() {
     return _fn.apply(this, arguments);
 }
 function _fn() {
-    return (_fn = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    return (_fn = _async_to_generator(function() {
         var req;
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    return _ctx.next = 2, import("./test");
-                case 2:
-                    req = _ctx.sent;
-                case 3:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        import("./test")
+                    ];
+                case 1:
+                    return req = _state.sent(), [
+                        2
+                    ];
             }
-        }, _callee);
-    }))).apply(this, arguments);
+        });
+    })).apply(this, arguments);
 }
 export var cl1 = function() {
     "use strict";
     function cl1() {}
     return cl1.prototype.m = function() {
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(function() {
             var req;
-            return regeneratorRuntime.wrap(function(_ctx) {
-                for(;;)switch(_ctx.prev = _ctx.next){
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        return _ctx.next = 2, import("./test");
-                    case 2:
-                        req = _ctx.sent;
-                    case 3:
-                    case "end":
-                        return _ctx.stop();
+                        return [
+                            4,
+                            import("./test")
+                        ];
+                    case 1:
+                        return req = _state.sent(), [
+                            2
+                        ];
                 }
-            }, _callee);
-        }))();
+            });
+        })();
     }, cl1;
 }();
 export var obj = {
-    m: _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    m: _async_to_generator(function() {
         var req;
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    return _ctx.next = 2, import("./test");
-                case 2:
-                    req = _ctx.sent;
-                case 3:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        import("./test")
+                    ];
+                case 1:
+                    return req = _state.sent(), [
+                        2
+                    ];
             }
-        }, _callee);
-    }))
+        });
+    })
 };
 export var cl2 = function() {
     "use strict";
     this.p = {
-        m: _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        m: _async_to_generator(function() {
             var req;
-            return regeneratorRuntime.wrap(function(_ctx) {
-                for(;;)switch(_ctx.prev = _ctx.next){
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        return _ctx.next = 2, import("./test");
-                    case 2:
-                        req = _ctx.sent;
-                    case 3:
-                    case "end":
-                        return _ctx.stop();
+                        return [
+                            4,
+                            import("./test")
+                        ];
+                    case 1:
+                        return req = _state.sent(), [
+                            2
+                        ];
                 }
-            }, _callee);
-        }))
+            });
+        })
     };
 };
 export var l = function() {
-    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _async_to_generator(function() {
         var req;
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    return _ctx.next = 2, import("./test");
-                case 2:
-                    req = _ctx.sent;
-                case 3:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        import("./test")
+                    ];
+                case 1:
+                    return req = _state.sent(), [
+                        2
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return function() {
         return _ref.apply(this, arguments);
     };

@@ -12,14 +12,14 @@ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function _foo() {
-    return (_foo = _async_to_generator(regeneratorRuntime.mark(function _callee() {
+    return (_foo = _async_to_generator(function() {
         var C, c;
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    return _ctx.t0 = function(_B) {
+                    return _ = function(_B) {
                         "use strict";
                         _inherits(C, _B);
                         var _super = _create_super(C);
@@ -27,15 +27,19 @@ function _foo() {
                             return _class_call_check(this, C), _super.apply(this, arguments);
                         }
                         return C;
-                    }, _ctx.next = 3, import("./0");
-                case 3:
-                    _ctx.t1 = _ctx.sent.B, (c = new (C = (0, _ctx.t0)(_ctx.t1))()).print();
-                case 7:
-                case "end":
-                    return _ctx.stop();
+                    }, [
+                        4,
+                        import("./0")
+                    ];
+                case 1:
+                    return (c = new (C = _.apply(void 0, [
+                        _state.sent().B
+                    ]))()).print(), [
+                        2
+                    ];
             }
-        }, _callee);
-    }))).apply(this, arguments);
+        });
+    })).apply(this, arguments);
 }
 !function() {
     return _foo.apply(this, arguments);

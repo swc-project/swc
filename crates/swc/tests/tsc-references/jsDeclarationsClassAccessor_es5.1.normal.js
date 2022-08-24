@@ -28,7 +28,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import { Base } from "./base.js";
 export var Argument = /*#__PURE__*/ function(Base) {
     "use strict";
@@ -41,15 +41,13 @@ export var Argument = /*#__PURE__*/ function(Base) {
     var _proto = Argument.prototype;
     /**
      * @param {*} defs
-     */ _proto.validate = /*#__PURE__*/ regeneratorRuntime.mark(function validate(defs) {
-        return regeneratorRuntime.wrap(function validate$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, validate);
-    });
+     */ _proto.validate = function validate(defs) {
+        return _ts_generator(this, function(_state) {
+            return [
+                2
+            ];
+        });
+    };
     /**
      * @param {*} tokeniser
      */ Argument.parse = function parse(tokeniser) {

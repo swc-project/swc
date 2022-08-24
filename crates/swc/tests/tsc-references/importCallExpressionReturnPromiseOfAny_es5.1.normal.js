@@ -8,10 +8,9 @@ export var C = function C() {
     _class_call_check(this, C);
 };
 // @filename: 1.ts
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = /*#__PURE__*/ regeneratorRuntime.mark(loadModule);
 import("".concat(directory, "\\").concat(moduleFile));
 import(getSpecifier());
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 var p1 = import(ValidSomeCondition() ? "./0" : "externalModule");
 var p1 = import(getSpecifier());
 var p11 = import(getSpecifier());
@@ -22,71 +21,72 @@ p1.then(function(zero) {
 var j;
 var p3 = import(j = getSpecifier());
 function loadModule(directories) {
-    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _$directory, path;
-    return regeneratorRuntime.wrap(function loadModule$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _$directory, path, err;
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
                 _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-                _ctx.prev = 1;
+                _state.label = 1;
+            case 1:
+                _state.trys.push([
+                    1,
+                    6,
+                    7,
+                    8
+                ]);
                 _iterator = directories[Symbol.iterator]();
-            case 3:
-                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                    _ctx.next = 13;
-                    break;
-                }
+                _state.label = 2;
+            case 2:
+                if (!!(_iteratorNormalCompletion = (_step = _iterator.next()).done)) return [
+                    3,
+                    5
+                ];
                 _$directory = _step.value;
                 path = "".concat(_$directory, "\\moduleFile");
-                _ctx.next = 8;
-                return path;
-            case 8:
-                _ctx.t0 = _ctx.sent;
-                import(_ctx.t0);
-            case 10:
+                return [
+                    4,
+                    path
+                ];
+            case 3:
+                import(_state.sent());
+                _state.label = 4;
+            case 4:
                 _iteratorNormalCompletion = true;
-                _ctx.next = 3;
-                break;
-            case 13:
-                _ctx.next = 19;
-                break;
-            case 15:
-                _ctx.prev = 15;
-                _ctx.t1 = _ctx["catch"](1);
+                return [
+                    3,
+                    2
+                ];
+            case 5:
+                return [
+                    3,
+                    8
+                ];
+            case 6:
+                err = _state.sent();
                 _didIteratorError = true;
-                _iteratorError = _ctx.t1;
-            case 19:
-                _ctx.prev = 19;
-                _ctx.prev = 20;
-                if (!_iteratorNormalCompletion && _iterator.return != null) {
-                    _iterator.return();
+                _iteratorError = err;
+                return [
+                    3,
+                    8
+                ];
+            case 7:
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return != null) {
+                        _iterator.return();
+                    }
+                } finally{
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
                 }
-            case 22:
-                _ctx.prev = 22;
-                if (!_didIteratorError) {
-                    _ctx.next = 25;
-                    break;
-                }
-                throw _iteratorError;
-            case 25:
-                return _ctx.finish(22);
-            case 26:
-                return _ctx.finish(19);
-            case 27:
-            case "end":
-                return _ctx.stop();
+                return [
+                    7
+                ];
+            case 8:
+                return [
+                    2
+                ];
         }
-    }, _marked, null, [
-        [
-            1,
-            15,
-            19,
-            27
-        ],
-        [
-            20,
-            ,
-            22,
-            26
-        ]
-    ]);
+    });
 }
 export { };

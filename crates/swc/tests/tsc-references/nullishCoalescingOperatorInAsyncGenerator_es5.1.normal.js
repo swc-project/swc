@@ -4,33 +4,39 @@
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/37686
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function f(a) {
     return _f.apply(this, arguments);
 }
 function _f() {
-    _f = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(a) {
+    _f = _wrap_async_generator(function(a) {
         var _b, c;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    ;
                     c = (_b = a.b) !== null && _b !== void 0 ? _b : 10;
+                    _state.label = 1;
+                case 1:
+                    if (!c) return [
+                        3,
+                        3
+                    ];
+                    return [
+                        4,
+                        c--
+                    ];
                 case 2:
-                    if (!c) {
-                        _ctx.next = 7;
-                        break;
-                    }
-                    _ctx.next = 5;
-                    return c--;
-                case 5:
-                    _ctx.next = 2;
-                    break;
-                case 7:
-                case "end":
-                    return _ctx.stop();
+                    _state.sent();
+                    return [
+                        3,
+                        1
+                    ];
+                case 3:
+                    return [
+                        2
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return _f.apply(this, arguments);
 }

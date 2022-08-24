@@ -3,17 +3,20 @@
 // @noemit: true
 // @strict: true
 // Allow generators to fallback to IterableIterator if they do not need a type for the sent value while in strictNullChecks mode.
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = /*#__PURE__*/ regeneratorRuntime.mark(f);
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function f() {
-    return regeneratorRuntime.wrap(function f$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                _ctx.next = 2;
-                return 1;
-            case 2:
-            case "end":
-                return _ctx.stop();
+                return [
+                    4,
+                    1
+                ];
+            case 1:
+                _state.sent();
+                return [
+                    2
+                ];
         }
-    }, _marked);
+    });
 }

@@ -1,7 +1,7 @@
 // @strict: true
 // @target: esnext
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 var a1 = f1(1, 2); // 1 | 2
 var a2 = f1(1, "hello"); // 1
 var a3 = f1(1, sn); // number
@@ -32,79 +32,85 @@ function fun(deepPromised) {
     return _fun.apply(this, arguments);
 }
 function _fun() {
-    _fun = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(deepPromised) {
-        var deepPromisedWithIndexer, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, value, awaitedValue;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _fun = _async_to_generator(function(deepPromised) {
+        var deepPromisedWithIndexer, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, value, awaitedValue, err;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
                     deepPromisedWithIndexer = deepPromised;
                     _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-                    _ctx.prev = 2;
+                    _state.label = 1;
+                case 1:
+                    _state.trys.push([
+                        1,
+                        7,
+                        8,
+                        9
+                    ]);
                     _iterator = Object.values(deepPromisedWithIndexer)[Symbol.iterator]();
-                case 4:
-                    if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                        _ctx.next = 15;
-                        break;
-                    }
+                    _state.label = 2;
+                case 2:
+                    if (!!(_iteratorNormalCompletion = (_step = _iterator.next()).done)) return [
+                        3,
+                        6
+                    ];
                     value = _step.value;
-                    _ctx.next = 8;
-                    return value;
-                case 8:
-                    awaitedValue = _ctx.sent;
-                    if (!awaitedValue) {
-                        _ctx.next = 12;
-                        break;
-                    }
-                    _ctx.next = 12;
-                    return fun(awaitedValue);
-                case 12:
+                    return [
+                        4,
+                        value
+                    ];
+                case 3:
+                    awaitedValue = _state.sent();
+                    if (!awaitedValue) return [
+                        3,
+                        5
+                    ];
+                    return [
+                        4,
+                        fun(awaitedValue)
+                    ];
+                case 4:
+                    _state.sent();
+                    _state.label = 5;
+                case 5:
                     _iteratorNormalCompletion = true;
-                    _ctx.next = 4;
-                    break;
-                case 15:
-                    _ctx.next = 21;
-                    break;
-                case 17:
-                    _ctx.prev = 17;
-                    _ctx.t0 = _ctx["catch"](2);
+                    return [
+                        3,
+                        2
+                    ];
+                case 6:
+                    return [
+                        3,
+                        9
+                    ];
+                case 7:
+                    err = _state.sent();
                     _didIteratorError = true;
-                    _iteratorError = _ctx.t0;
-                case 21:
-                    _ctx.prev = 21;
-                    _ctx.prev = 22;
-                    if (!_iteratorNormalCompletion && _iterator.return != null) {
-                        _iterator.return();
+                    _iteratorError = err;
+                    return [
+                        3,
+                        9
+                    ];
+                case 8:
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return != null) {
+                            _iterator.return();
+                        }
+                    } finally{
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
                     }
-                case 24:
-                    _ctx.prev = 24;
-                    if (!_didIteratorError) {
-                        _ctx.next = 27;
-                        break;
-                    }
-                    throw _iteratorError;
-                case 27:
-                    return _ctx.finish(24);
-                case 28:
-                    return _ctx.finish(21);
-                case 29:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        7
+                    ];
+                case 9:
+                    return [
+                        2
+                    ];
             }
-        }, _callee, null, [
-            [
-                2,
-                17,
-                21,
-                29
-            ],
-            [
-                22,
-                ,
-                24,
-                28
-            ]
-        ]);
-    }));
+        });
+    });
     return _fun.apply(this, arguments);
 }
 baz(xx);

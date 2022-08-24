@@ -1,23 +1,25 @@
 // @target: esnext 
 // @noImplicitReturns: true 
 // @strictNullChecks: false 
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = /*#__PURE__*/ regeneratorRuntime.mark(testGenerator);
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function testGenerator() {
-    return regeneratorRuntime.wrap(function testGenerator$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                if (!(Math.random() > 0.5)) {
-                    _ctx.next = 2;
-                    break;
+                if (Math.random() > 0.5) {
+                    return [
+                        2
+                    ];
                 }
-                return _ctx.abrupt("return");
-            case 2:
-                _ctx.next = 4;
-                return "hello";
-            case 4:
-            case "end":
-                return _ctx.stop();
+                return [
+                    4,
+                    "hello"
+                ];
+            case 1:
+                _state.sent();
+                return [
+                    2
+                ];
         }
-    }, _marked);
+    });
 }

@@ -4,7 +4,7 @@
 // https://github.com/Microsoft/TypeScript/issues/20744
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 var _B;
 var A = function A() {
     "use strict";
@@ -27,18 +27,22 @@ A.B = (_B = /*#__PURE__*/ function() {
         _class_call_check(this, C);
     }
     C.func = function func() {
-        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
+        return _async_to_generator(function() {
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        _ctx.next = 2;
-                        return _B.func2();
-                    case 2:
-                    case "end":
-                        return _ctx.stop();
+                        return [
+                            4,
+                            _B.func2()
+                        ];
+                    case 1:
+                        _state.sent();
+                        return [
+                            2
+                        ];
                 }
-            }, _callee);
-        }))();
+            });
+        })();
     };
     return C;
 }(), _B);

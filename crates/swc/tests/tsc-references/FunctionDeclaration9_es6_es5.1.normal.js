@@ -1,23 +1,23 @@
 // @target: es6
 import _define_property from "@swc/helpers/src/_define_property.mjs";
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = /*#__PURE__*/ regeneratorRuntime.mark(foo);
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function foo() {
-    var v;
-    return regeneratorRuntime.wrap(function foo$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    var v, _tmp, _tmp1;
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                _ctx.t0 = _define_property;
-                _ctx.t1 = {};
-                _ctx.next = 4;
-                return;
-            case 4:
-                _ctx.t2 = _ctx.sent;
-                _ctx.t3 = foo;
-                v = (0, _ctx.t0)(_ctx.t1, _ctx.t2, _ctx.t3);
-            case 7:
-            case "end":
-                return _ctx.stop();
+                _tmp1 = {};
+                _tmp = [
+                    _tmp1
+                ];
+                return [
+                    4
+                ];
+            case 1:
+                v = _define_property.apply(void 0, _tmp.concat(_state.sent(), foo));
+                return [
+                    2
+                ];
         }
-    }, _marked);
+    });
 }
