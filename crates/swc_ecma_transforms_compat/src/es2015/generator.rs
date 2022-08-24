@@ -790,6 +790,11 @@ impl VisitMut for Generator {
                     .map(Box::new)
                     .collect::<Vec<_>>();
 
+                if exprs.is_empty() {
+                    node.take();
+                    return;
+                }
+
                 *node = Stmt::Expr(ExprStmt {
                     span: v.span,
                     expr: if exprs.len() == 1 {
