@@ -6,7 +6,7 @@ use crate::{
     ident::{BindingIdent, Ident},
     prop::PropName,
     typescript::TsTypeAnn,
-    Invalid,
+    Id, Invalid,
 };
 
 #[ast_node(no_clone)]

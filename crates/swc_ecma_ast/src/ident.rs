@@ -56,6 +56,8 @@ impl From<Ident> for BindingIdent {
     }
 }
 
+bridge_from!(BindingIdent, Ident, Id);
+
 /// A complete identifier with span.
 ///
 /// Identifier of swc consists of two parts. The first one is symbol, which is
