@@ -8,6 +8,9 @@
 - **(es/compat)** Ignore invalid class method names (#5612) ([1181d0f](https://github.com/swc-project/swc/commit/1181d0ffe2b432a202398dfc99dcc89da7480b84))
 
 
+- **(es/compat)** Handle `super` in a private method (#5613) ([35d3558](https://github.com/swc-project/swc/commit/35d3558535c3bee2cbbd8adec162f9c4cb9a4bbc))
+
+
 - **(es/fixer)** Wrap expressions in the left of a binary expression (#5586) ([3d485d2](https://github.com/swc-project/swc/commit/3d485d26814516351bd5591502c64811f77f5385))
 
 
