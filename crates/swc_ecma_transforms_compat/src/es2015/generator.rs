@@ -756,7 +756,8 @@ impl VisitMut for Generator {
             //  .mark resumeLabel
             //      _b.apply(_a, _c.concat([%sent%, 2]));
 
-            let (target, this_arg) = self.create_call_binding(node.callee.expect_expr(), true);
+            let (mut target, this_arg) =
+                self.create_call_binding(node.callee.take().expect_expr(), true);
 
             target.visit_mut_with(self);
             let callee = self.cache_expression(target);
@@ -791,7 +792,7 @@ impl VisitMut for Generator {
             //  .mark resumeLabel
             //      new (_b.apply(_a, _c.concat([%sent%, 2])));
 
-            let (target, this_arg) = self.create_call_binding(
+            let (mut target, this_arg) = self.create_call_binding(
                 Box::new(node.callee.take().make_member(quote_ident!("bind"))),
                 true,
             );
