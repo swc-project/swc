@@ -631,6 +631,48 @@ impl VisitMut for Generator {
                 }
             }
 
+            Expr::Object(node) => {
+                // [source]
+                //      o = {
+                //          a: 1,
+                //          b: yield,
+                //          c: 2
+                //      };
+                //
+                // [intermediate]
+                //  .local _a
+                //      _a = {
+                //          a: 1
+                //      };
+                //  .yield resumeLabel
+                //  .mark resumeLabel
+                //      o = (_a.b = %sent%,
+                //          _a.c = 2,
+                //          _a);
+
+                let numInitialProperties = self.count_initial_nodes_without_yield(&node.props);
+
+                let temp = declareLocal();
+                emitAssignment(
+                    temp,
+                    factory.createObjectLiteralExpression(
+                        visitNodes(
+                            properties,
+                            visitor,
+                            isObjectLiteralElementLike,
+                            0,
+                            numInitialProperties,
+                        ),
+                        multiLine,
+                    ),
+                );
+
+                let expressions =
+                    reduceLeft(properties, reduceProperty, vec![], numInitialProperties);
+                expressions.push(temp);
+                return factory.inlineExpressions(expressions);
+            }
+
             _ => {
                 e.visit_mut_children_with(self);
             }
@@ -1002,6 +1044,7 @@ impl Generator {
         //           location
         //       );
 
+        // TODO(kdy1):
         // function reduceElement(expressions: Expression[], element:
         // Expression) {     if (containsYield(element) &&
         // expressions.length > 0) {         const hasAssignedTemp =
@@ -1032,94 +1075,37 @@ impl Generator {
         //     expressions.push(visitNode(element, visitor, isExpression));
         //     return expressions;
         // }
+
+        // TODO(kdy1):
+        // function reduceProperty(
+        //     expressions: Expression[],
+        //     property: ObjectLiteralElementLike
+        // ) {
+        //     if (containsYield(property) && expressions.length > 0) {
+        //         emitStatement(
+        //             factory.createExpressionStatement(
+        //                 factory.inlineExpressions(expressions)
+        //             )
+        //         );
+        //         expressions = [];
+        //     }
+
+        //     const expression = createExpressionForObjectLiteralElementLike(
+        //         factory,
+        //         node,
+        //         property,
+        //         temp
+        //     );
+        //     const visited = visitNode(expression, visitor, isExpression);
+        //     if (visited) {
+        //         if (multiLine) {
+        //             startOnNewLine(visited);
+        //         }
+        //         expressions.push(visited);
+        //     }
+        //     return expressions;
+        // }
     }
-
-    // function visitObjectLiteralExpression(node: ObjectLiteralExpression) {
-    //     // [source]
-    //     //      o = {
-    //     //          a: 1,
-    //     //          b: yield,
-    //     //          c: 2
-    //     //      };
-    //     //
-    //     // [intermediate]
-    //     //  .local _a
-    //     //      _a = {
-    //     //          a: 1
-    //     //      };
-    //     //  .yield resumeLabel
-    //     //  .mark resumeLabel
-    //     //      o = (_a.b = %sent%,
-    //     //          _a.c = 2,
-    //     //          _a);
-
-    //     const properties = node.properties;
-    //     const multiLine = node.multiLine;
-    //     const numInitialProperties = countInitialNodesWithoutYield(properties);
-
-    //     const temp = declareLocal();
-    //     emitAssignment(
-    //         temp,
-    //         factory.createObjectLiteralExpression(
-    //             visitNodes(
-    //                 properties,
-    //                 visitor,
-    //                 isObjectLiteralElementLike,
-    //                 0,
-    //                 numInitialProperties
-    //             ),
-    //             multiLine
-    //         )
-    //     );
-
-    //     const expressions = reduceLeft(
-    //         properties,
-    //         reduceProperty,
-    //         [] as Expression[],
-    //         numInitialProperties
-    //     );
-    //     // TODO(rbuckton): Does this need to be parented?
-    //     expressions.push(
-    //         multiLine
-    //             ? startOnNewLine(
-    //                   setParent(
-    //                       setTextRange(factory.cloneNode(temp), temp),
-    //                       temp.parent
-    //                   )
-    //               )
-    //             : temp
-    //     );
-    //     return factory.inlineExpressions(expressions);
-
-    //     function reduceProperty(
-    //         expressions: Expression[],
-    //         property: ObjectLiteralElementLike
-    //     ) {
-    //         if (containsYield(property) && expressions.length > 0) {
-    //             emitStatement(
-    //                 factory.createExpressionStatement(
-    //                     factory.inlineExpressions(expressions)
-    //                 )
-    //             );
-    //             expressions = [];
-    //         }
-
-    //         const expression = createExpressionForObjectLiteralElementLike(
-    //             factory,
-    //             node,
-    //             property,
-    //             temp
-    //         );
-    //         const visited = visitNode(expression, visitor, isExpression);
-    //         if (visited) {
-    //             if (multiLine) {
-    //                 startOnNewLine(visited);
-    //             }
-    //             expressions.push(visited);
-    //         }
-    //         return expressions;
-    //     }
-    // }
 
     fn visit_left_associative_bin_expr(&mut self, node: &mut BinExpr) -> Option<Expr> {
         if contains_yield(&node.right) {
