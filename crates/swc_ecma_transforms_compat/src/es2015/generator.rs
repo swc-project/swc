@@ -1053,38 +1053,38 @@ impl Generator {
         //           ),
         //           location
         //       );
+    }
 
-        // TODO(kdy1):
-        // function reduceElement(expressions: Expression[], element:
-        // Expression) {     if (containsYield(element) &&
-        // expressions.length > 0) {         const hasAssignedTemp =
-        // temp !== undefined;         if (!temp) {
-        //             temp = declareLocal();
-        //         }
+    fn reduce_element(
+        &mut self,
+        expressions: Vec<Box<Expr>>,
+        elem: Option<ExprOrSpread>,
+        leading_element: Option<ExprOrSpread>,
+        temp: &mut Ident,
+    ) {
+        if (containsYield(element) && expressions.length > 0) {
+            let hasAssignedTemp = temp != undefined;
+            if (!temp) {
+                temp = declareLocal();
+            }
 
-        //         emitAssignment(
-        //             temp,
-        //             hasAssignedTemp
-        //                 ? factory.createArrayConcatCall(temp, [
-        //                       factory.createArrayLiteralExpression(
-        //                           expressions,
-        //                           multiLine
-        //                       ),
-        //                   ])
-        //                 : factory.createArrayLiteralExpression(
-        //                       leadingElement
-        //                           ? [leadingElement, ...expressions]
-        //                           : expressions,
-        //                       multiLine
-        //                   )
-        //         );
-        //         leadingElement = undefined;
-        //         expressions = [];
-        //     }
+            emitAssignment(
+                temp,
+                if hasAssignedTemp {
+                    factory.createArrayConcatCall(
+                        temp,
+                        [factory.createArrayLiteralExpression(expressions, multiLine)],
+                    )
+                } else {
+                    factory.createArrayLiteralExpression(once(leading_element).chain(expressions))
+                },
+            );
+            leadingElement = undefined;
+            expressions = [];
+        }
 
-        //     expressions.push(visitNode(element, visitor, isExpression));
-        //     return expressions;
-        // }
+        expressions.push(visitNode(element, visitor, isExpression));
+        return expressions;
     }
 
     fn reduce_property(
