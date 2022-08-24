@@ -1519,7 +1519,7 @@ impl Generator {
         let left_span = node.left.span();
         node.left.visit_mut_with(self);
         self.emit_assignment(
-            PatOrExpr::Pat(result_local.into()),
+            PatOrExpr::Pat(result_local.clone().into()),
             node.left.take(),
             Some(left_span),
         );
