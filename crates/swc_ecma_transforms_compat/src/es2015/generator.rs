@@ -1887,6 +1887,9 @@ impl Generator {
     }
 
     fn transform_and_emit_labeled_stmt(&mut self, mut node: LabeledStmt) {
+        #[cfg(debug_assertions)]
+        debug!("transform_and_emit_labeled_stmt: {:?}", node.label);
+
         if contains_yield(&node) {
             // [source]
             //      x: {
@@ -2432,6 +2435,7 @@ impl Generator {
             if let Some(label_text) = label_text {
                 for i in (0..block_stack.len()).rev() {
                     let block = &block_stack[i];
+                    dbg!(&*block.borrow());
                     if self.supports_labeled_break_or_continue(&block.borrow()) {
                         if block.borrow().label_text().unwrap() == label_text {
                             return block.borrow().break_label().unwrap();
