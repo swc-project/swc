@@ -472,6 +472,44 @@ impl VisitMut for Generator {
                 }
             }
 
+            Expr::Seq(node) => {
+                //     // flattened version of `visitCommaExpression`
+                let mut pending_expressions = vec![];
+
+                for mut elem in node.exprs.take() {
+                    if let Expr::Seq(elem) = *elem {
+                        elem.visit_mut_with(self);
+                        pending_expressions.extend(elem.exprs.take());
+                    } else {
+                        if contains_yield(&elem) && pending_expressions.len() > 0 {
+                            self.emit_worker(
+                                OpCode::Statement,
+                                Some(OpArgs::Stmt(Box::new(Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: if pending_expressions.len() == 1 {
+                                        pending_expressions.remove(0)
+                                    } else {
+                                        Box::new(Expr::Seq(SeqExpr {
+                                            span: DUMMY_SP,
+                                            exprs: pending_expressions.take(),
+                                        }))
+                                    },
+                                })))),
+                                None,
+                            );
+                        }
+                        elem.visit_mut_with(self);
+                        pending_expressions.push(elem);
+                    }
+                }
+
+                if pending_expressions.len() == 1 {
+                    *e = pending_expressions.remove(0);
+                } else {
+                    node.exprs = pending_expressions;
+                }
+            }
+
             _ => {
                 e.visit_mut_children_with(self);
             }
@@ -813,35 +851,6 @@ impl Generator {
     //             pendingExpressions.push(visitNode(node, visitor, isExpression));
     //         }
     //     }
-    // }
-
-    // /**
-    //  * Visits a comma-list expression.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitCommaListExpression(node: CommaListExpression) {
-    //     // flattened version of `visitCommaExpression`
-    //     let pendingExpressions: Expression[] = [];
-    //     for (const elem of node.elements) {
-    //         if (
-    //             isBinaryExpression(elem) &&
-    //             elem.operatorToken.kind === SyntaxKind.CommaToken
-    //         ) {
-    //             pendingExpressions.push(visitCommaExpression(elem));
-    //         } else {
-    //             if (containsYield(elem) && pendingExpressions.length > 0) {
-    //                 emitWorker(OpCode.Statement, [
-    //                     factory.createExpressionStatement(
-    //                         factory.inlineExpressions(pendingExpressions)
-    //                     ),
-    //                 ]);
-    //                 pendingExpressions = [];
-    //             }
-    //             pendingExpressions.push(visitNode(elem, visitor, isExpression));
-    //         }
-    //     }
-    //     return factory.inlineExpressions(pendingExpressions);
     // }
 
     // /**
