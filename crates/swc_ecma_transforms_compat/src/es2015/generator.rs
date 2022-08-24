@@ -1095,7 +1095,7 @@ impl Generator {
         &mut self,
         expressions: Vec<Box<Expr>>,
         property: PropOrSpread,
-        temp: &mut Option<Ident>,
+        temp: &mut Ident,
     ) -> Vec<Box<Expr>> {
         if contains_yield(&property) && expressions.len() > 0 {
             self.emit_stmt(Stmt::Expr(ExprStmt {
