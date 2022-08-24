@@ -1526,16 +1526,24 @@ impl Generator {
 
         if node.op == op!("&&") {
             // Logical `&&` shortcuts when the left-hand operand is falsey.
-            self.emit_break_when_false(result_label, Box::new(result_local.into()), Some(left_span))
+            self.emit_break_when_false(
+                result_label,
+                Box::new(result_local.clone().into()),
+                Some(left_span),
+            )
         } else {
             // Logical `||` shortcuts when the left-hand operand is truthy.
-            self.emit_break_when_true(result_label, Box::new(result_local.into()), Some(left_span))
+            self.emit_break_when_true(
+                result_label,
+                Box::new(result_local.clone().into()),
+                Some(left_span),
+            )
         }
 
         let right_span = node.right.span();
         node.right.visit_mut_with(self);
         self.emit_assignment(
-            PatOrExpr::Pat(result_local.into()),
+            PatOrExpr::Pat(result_local.clone().into()),
             node.right.take(),
             Some(right_span),
         );
