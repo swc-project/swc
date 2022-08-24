@@ -1132,7 +1132,16 @@ impl Generator {
                 Prop::Assign(_) => todo!(),
                 Prop::Getter(_) => todo!(),
                 Prop::Setter(_) => todo!(),
-                Prop::Method(p) => todo!(),
+                Prop::Method(p) => Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(temp.clone())),
+                        prop: p.key.into(),
+                    }))),
+                    right: p.function.into(),
+                }),
             },
         };
 
