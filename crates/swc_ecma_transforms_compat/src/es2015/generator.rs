@@ -820,83 +820,6 @@ impl VisitMut for Generator {
 
 impl Generator {
     // /**
-    //  * Transforms the body of a generator function declaration.
-    //  *
-    //  * @param node The function body to transform.
-    //  */
-    // function transformGeneratorFunctionBody(body: Block) {
-    //     // Save existing generator state
-    //     const statements: Statement[] = [];
-    //     const savedInGeneratorFunctionBody = inGeneratorFunctionBody;
-    //     const savedInStatementContainingYield = inStatementContainingYield;
-    //     const savedBlocks = blocks;
-    //     const savedBlockOffsets = blockOffsets;
-    //     const savedBlockActions = blockActions;
-    //     const savedBlockStack = blockStack;
-    //     const savedLabelOffsets = labelOffsets;
-    //     const savedLabelExpressions = labelExpressions;
-    //     const savedNextLabelId = nextLabelId;
-    //     const savedOperations = operations;
-    //     const savedOperationArguments = operationArguments;
-    //     const savedOperationLocations = operationLocations;
-    //     const savedState = state;
-
-    //     // Initialize generator state
-    //     inGeneratorFunctionBody = true;
-    //     inStatementContainingYield = false;
-    //     blocks = undefined;
-    //     blockOffsets = undefined;
-    //     blockActions = undefined;
-    //     blockStack = undefined;
-    //     labelOffsets = undefined;
-    //     labelExpressions = undefined;
-    //     nextLabelId = 1;
-    //     operations = undefined;
-    //     operationArguments = undefined;
-    //     operationLocations = undefined;
-    //     state = factory.createTempVariable(/*recordTempVariable*/ undefined);
-
-    //     // Build the generator
-    //     resumeLexicalEnvironment();
-
-    //     const statementOffset = factory.copyPrologue(
-    //         body.statements,
-    //         statements,
-    //         /*ensureUseStrict*/ false,
-    //         visitor
-    //     );
-
-    //     transformAndEmitStatements(body.statements, statementOffset);
-
-    //     const buildResult = build();
-    //     insertStatementsAfterStandardPrologue(
-    //         statements,
-    //         endLexicalEnvironment()
-    //     );
-    //     statements.push(factory.createReturnStatement(buildResult));
-
-    //     // Restore previous generator state
-    //     inGeneratorFunctionBody = savedInGeneratorFunctionBody;
-    //     inStatementContainingYield = savedInStatementContainingYield;
-    //     blocks = savedBlocks;
-    //     blockOffsets = savedBlockOffsets;
-    //     blockActions = savedBlockActions;
-    //     blockStack = savedBlockStack;
-    //     labelOffsets = savedLabelOffsets;
-    //     labelExpressions = savedLabelExpressions;
-    //     nextLabelId = savedNextLabelId;
-    //     operations = savedOperations;
-    //     operationArguments = savedOperationArguments;
-    //     operationLocations = savedOperationLocations;
-    //     state = savedState;
-
-    //     return setTextRange(
-    //         factory.createBlock(statements, body.multiLine),
-    //         body
-    //     );
-    // }
-
-    // /**
     //  * Visits an array of expressions containing one or more YieldExpression
     //    nodes
     //  * and returns an expression for the resulting value.
@@ -2739,47 +2662,6 @@ impl Generator {
             .unwrap()
             .push(loc.unwrap_or(DUMMY_SP));
     }
-
-    // /**
-    //  * Builds the generator function body.
-    //  */
-    // function build() {
-    //     blockIndex = 0;
-    //     labelNumber = 0;
-    //     labelNumbers = undefined;
-    //     lastOperationWasAbrupt = false;
-    //     lastOperationWasCompletion = false;
-    //     clauses = undefined;
-    //     statements = undefined;
-    //     exceptionBlockStack = undefined;
-    //     currentExceptionBlock = undefined;
-    //     withBlockStack = undefined;
-
-    //     const buildResult = buildStatements();
-    //     return emitHelpers().createGeneratorHelper(
-    //         setEmitFlags(
-    //             factory.createFunctionExpression(
-    //                 /*modifiers*/ undefined,
-    //                 /*asteriskToken*/ undefined,
-    //                 /*name*/ undefined,
-    //                 /*typeParameters*/ undefined,
-    //                 [
-    //                     factory.createParameterDeclaration(
-    //                         /*modifiers*/ undefined,
-    //                         /*dotDotDotToken*/ undefined,
-    //                         state
-    //                     ),
-    //                 ],
-    //                 /*type*/ undefined,
-    //                 factory.createBlock(
-    //                     buildResult,
-    //                     /*multiLine*/ buildResult.length > 0
-    //                 )
-    //             ),
-    //             EmitFlags.ReuseTempVariableScope
-    //         )
-    //     );
-    // }
 
     /// Builds the statements for the generator function body.
     fn build_stmts(&mut self) -> Vec<Stmt> {
