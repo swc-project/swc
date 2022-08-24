@@ -266,6 +266,11 @@ impl Take for Expr {
 bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
 
+bridge_from!(Box<Expr>, Expr, ArrayLit);
+bridge_from!(Box<Expr>, Expr, ObjectLit);
+bridge_from!(Box<Expr>, Expr, MemberExpr);
+bridge_from!(Box<Expr>, Expr, SuperPropExpr);
+
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -1160,18 +1165,7 @@ pub enum PatOrExpr {
     Pat(Box<Pat>),
 }
 
-impl From<Pat> for PatOrExpr {
-    fn from(p: Pat) -> Self {
-        Self::Pat(Box::new(p))
-    }
-}
-
-impl From<Box<Expr>> for PatOrExpr {
-    fn from(e: Box<Expr>) -> Self {
-        Self::Expr(e)
-    }
-}
-
+bridge_from!(PatOrExpr, Box<Pat>, Pat);
 bridge_from!(PatOrExpr, Pat, Ident);
 bridge_from!(PatOrExpr, Pat, Id);
 bridge_from!(PatOrExpr, Box<Expr>, Expr);
