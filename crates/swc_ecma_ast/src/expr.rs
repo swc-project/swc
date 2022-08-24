@@ -1166,16 +1166,17 @@ impl From<Pat> for PatOrExpr {
     }
 }
 
-impl From<Expr> for PatOrExpr {
-    fn from(e: Expr) -> Self {
-        Self::Expr(Box::new(e))
+impl From<Box<Expr>> for PatOrExpr {
+    fn from(e: Box<Expr>) -> Self {
+        Self::Expr(e)
     }
 }
 
 bridge_from!(PatOrExpr, Pat, Ident);
 bridge_from!(PatOrExpr, Pat, Id);
-bridge_from!(PatOrExpr, Expr, MemberExpr);
-bridge_from!(PatOrExpr, Expr, SuperPropExpr);
+bridge_from!(PatOrExpr, Box<Expr>, Expr);
+bridge_from!(PatOrExpr, Box<Expr>, MemberExpr);
+bridge_from!(PatOrExpr, Box<Expr>, SuperPropExpr);
 
 impl PatOrExpr {
     /// Returns the [Pat] if this is a pattern, otherwise returns [None].
