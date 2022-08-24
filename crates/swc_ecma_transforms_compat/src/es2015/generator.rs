@@ -1033,7 +1033,7 @@ impl Generator {
             );
         }
 
-        let expressions = elements
+        let mut expressions = elements
             .iter_mut()
             .skip(num_initial_elements)
             .map(|v| v.take())
