@@ -19,6 +19,9 @@
 
 - **(swc_core)** Add css features (#5609) ([7461e40](https://github.com/swc-project/swc/commit/7461e404b1946cb8b421c314f4b57dc8d836721a))
 
+
+- **(swc_core)** Update dependencies and fix build script (#5610) ([fad1367](https://github.com/swc-project/swc/commit/fad1367e137288dd0e15591d7ecb4aaee222d327))
+
 ### Build
 
 
