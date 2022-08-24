@@ -730,6 +730,7 @@ impl VisitMut for Generator {
     //     self.visit_elements(&mut node.elems, None, None);
     // }
 
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         match node {
             Stmt::Break(b) => {
