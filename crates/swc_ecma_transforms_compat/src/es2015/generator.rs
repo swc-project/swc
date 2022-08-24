@@ -989,6 +989,11 @@ impl VisitMut for Generator {
     }
 }
 
+enum CompiledProp {
+    Prop(Prop),
+    Accessor(Option<GetterProp>, Option<SetterProp>),
+}
+
 impl Generator {
     fn visit_elements(
         &mut self,
@@ -1047,7 +1052,7 @@ impl Generator {
         if let Some(temp) = temp {
             Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: temp.clone().make_member(quote_ident!("concat")).as_callee(),
+                callee: temp.make_member(quote_ident!("concat")).as_callee(),
                 args: expressions
                     .take()
                     .into_iter()
@@ -1135,10 +1140,14 @@ impl Generator {
     fn reduce_property(
         &mut self,
         mut expressions: Vec<Box<Expr>>,
-        property: PropOrSpread,
+        property: CompiledProp,
         temp: &mut Ident,
     ) -> Vec<Box<Expr>> {
-        if contains_yield(&property) && expressions.len() > 0 {
+        if match &property {
+            CompiledProp::Prop(p) => contains_yield(p),
+            CompiledProp::Accessor(g, s) => contains_yield(g) || contains_yield(s),
+        } && expressions.len() > 0
+        {
             self.emit_stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Expr::from_exprs(expressions.take()),
@@ -1146,8 +1155,8 @@ impl Generator {
         }
 
         let mut expression = match property {
-            PropOrSpread::Spread(_) => unreachable!("spread must be removed before generator pass"),
-            PropOrSpread::Prop(p) => match *p {
+            CompiledProp::Accessor(getter, setter) => {}
+            CompiledProp::Prop(p) => match p {
                 Prop::Shorthand(p) => Expr::Assign(AssignExpr {
                     span: p.span.with_ctxt(SyntaxContext::empty()),
                     op: op!("="),
@@ -1171,8 +1180,9 @@ impl Generator {
                 Prop::Assign(_) => {
                     unreachable!("assignment property be removed before generator pass")
                 }
-                Prop::Getter(_) => todo!(),
-                Prop::Setter(_) => todo!(),
+                Prop::Getter(_) | Prop::Setter(_) => {
+                    unreachable!("getter/setter property be compiled as CompiledProp::Accessor")
+                }
                 Prop::Method(p) => Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
