@@ -264,6 +264,7 @@ impl Take for Expr {
 }
 
 bridge_expr_from!(Ident, Id);
+bridge_expr_from!(FnExpr, Function);
 
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
@@ -453,6 +454,15 @@ impl Take for FnExpr {
         FnExpr {
             ident: None,
             function: Take::dummy(),
+        }
+    }
+}
+
+impl From<Function> for FnExpr {
+    fn from(function: Function) -> Self {
+        Self {
+            ident: None,
+            function,
         }
     }
 }
