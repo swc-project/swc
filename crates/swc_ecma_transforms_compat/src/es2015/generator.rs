@@ -536,6 +536,30 @@ impl VisitMut for Generator {
                 }
             }
 
+            Expr::Member(MemberExpr {
+                span,
+                obj,
+                prop: MemberProp::Computed(prop),
+            }) => {
+                if contains_yield(prop) {
+                    // [source]
+                    //      a = x[yield];
+                    //
+                    // [intermediate]
+                    //  .local _a
+                    //      _a = x;
+                    //  .yield resumeLabel
+                    //  .mark resumeLabel
+                    //      a = _a[%sent%]
+
+                    *obj = Box::new(Expr::Ident(self.cache_expression(node.obj.take())));
+                    prop.visit_mut_with(self);
+                    return;
+                }
+
+                e.visit_mut_children_with(self);
+            }
+
             _ => {
                 e.visit_mut_children_with(self);
             }
@@ -1056,39 +1080,6 @@ impl Generator {
     //         }
     //         return expressions;
     //     }
-    // }
-
-    // /**
-    //  * Visits an ElementAccessExpression that contains a YieldExpression.
-    //  *
-    //  * @param node The node to visit.
-    //  */
-    // function visitElementAccessExpression(node: ElementAccessExpression) {
-    //     if (containsYield(node.argumentExpression)) {
-    //         // [source]
-    //         //      a = x[yield];
-    //         //
-    //         // [intermediate]
-    //         //  .local _a
-    //         //      _a = x;
-    //         //  .yield resumeLabel
-    //         //  .mark resumeLabel
-    //         //      a = _a[%sent%]
-
-    //         return factory.updateElementAccessExpression(
-    //             node,
-    //             cacheExpression(
-    //                 visitNode(
-    //                     node.expression,
-    //                     visitor,
-    //                     isLeftHandSideExpression
-    //                 )
-    //             ),
-    //             visitNode(node.argumentExpression, visitor, isExpression)
-    //         );
-    //     }
-
-    //     return visitEachChild(node, visitor, context);
     // }
 
     // function visitNewExpression(node: NewExpression) {
