@@ -459,7 +459,10 @@ impl VisitMut for Generator {
                 if node.op == op!("**") {
                     todo!("right-associative binary expression")
                 } else {
-                    self.visit_left_associative_bin_expr(node)
+                    let new = self.visit_left_associative_bin_expr(node);
+                    if let Some(new) = new {
+                        *e = new;
+                    }
                 }
             }
 
@@ -1100,70 +1103,6 @@ impl Generator {
     // }
 
     // /**
-    //  * Visits a logical binary expression containing `yield`.
-    //  *
-    //  * @param node A node to visit.
-    //  */
-    // function visitLogicalBinaryExpression(node: BinaryExpression) {
-    //     // Logical binary expressions (`&&` and `||`) are shortcutting
-    // expressions and need     // to be transformed as such:
-    //     //
-    //     // [source]
-    //     //      x = a() && yield;
-    //     //
-    //     // [intermediate]
-    //     //  .local _a
-    //     //      _a = a();
-    //     //  .brfalse resultLabel, (_a)
-    //     //  .yield resumeLabel
-    //     //  .mark resumeLabel
-    //     //      _a = %sent%;
-    //     //  .mark resultLabel
-    //     //      x = _a;
-    //     //
-    //     // [source]
-    //     //      x = a() || yield;
-    //     //
-    //     // [intermediate]
-    //     //  .local _a
-    //     //      _a = a();
-    //     //  .brtrue resultLabel, (_a)
-    //     //  .yield resumeLabel
-    //     //  .mark resumeLabel
-    //     //      _a = %sent%;
-    //     //  .mark resultLabel
-    //     //      x = _a;
-
-    //     const resultLabel = defineLabel();
-    //     const resultLocal = declareLocal();
-
-    //     emitAssignment(
-    //         resultLocal,
-    //         visitNode(node.left, visitor, isExpression),
-    //         /*location*/ node.left
-    //     );
-    //     if (node.operatorToken.kind === SyntaxKind.AmpersandAmpersandToken) {
-    //         // Logical `&&` shortcuts when the left-hand operand is falsey.
-    //         emitBreakWhenFalse(
-    //             resultLabel,
-    //             resultLocal,
-    //             /*location*/ node.left
-    //         );
-    //     } else {
-    //         // Logical `||` shortcuts when the left-hand operand is truthy.
-    //         emitBreakWhenTrue(resultLabel, resultLocal, /*location*/ node.left);
-    //     }
-
-    //     emitAssignment(
-    //         resultLocal,
-    //         visitNode(node.right, visitor, isExpression),
-    //         /*location*/ node.right
-    //     );
-    //     markLabel(resultLabel);
-    //     return resultLocal;
-    // }
-
-    // /**
     //  * Visits an array of expressions containing one or more YieldExpression
     //    nodes
     //  * and returns an expression for the resulting value.
@@ -1424,10 +1363,10 @@ impl Generator {
     //     return visitEachChild(node, visitor, context);
     // }
 
-    fn visit_left_associative_bin_expr(&mut self, node: &mut BinExpr) {
+    fn visit_left_associative_bin_expr(&mut self, node: &mut BinExpr) -> Option<Expr> {
         if contains_yield(&node.right) {
-            if matches!(node.op, op!("||") | op!("&&") | op!("??")) {
-                return self.visit_logical_bin_expr(node);
+            if matches!(node.op, op!("||") | op!("&&")) {
+                return Some(self.visit_logical_bin_expr(node));
             }
 
             // [source]
@@ -1442,10 +1381,11 @@ impl Generator {
             node.left.visit_mut_with(self);
             node.left = Box::new(Expr::Ident(self.cache_expression(node.left.take())));
             node.right.visit_mut_with(self);
-            return;
+            return None;
         }
 
         node.visit_mut_children_with(self);
+        None
     }
 
     // function visitRightAssociativeBinaryExpression(node: BinaryExpression) {
@@ -1543,7 +1483,66 @@ impl Generator {
     //     }
     // }
 
-    fn visit_logical_bin_expr(&mut self, node: &mut BinExpr) {}
+    fn visit_logical_bin_expr(&mut self, node: &mut BinExpr) -> Expr {
+        // Logical binary expressions (`&&` and `||`) are shortcutting
+        // expressions and need to be transformed as such:
+        //
+        // [source]
+        //      x = a() && yield;
+        //
+        // [intermediate]
+        //  .local _a
+        //      _a = a();
+        //  .brfalse resultLabel, (_a)
+        //  .yield resumeLabel
+        //  .mark resumeLabel
+        //      _a = %sent%;
+        //  .mark resultLabel
+        //      x = _a;
+        //
+        // [source]
+        //      x = a() || yield;
+        //
+        // [intermediate]
+        //  .local _a
+        //      _a = a();
+        //  .brtrue resultLabel, (_a)
+        //  .yield resumeLabel
+        //  .mark resumeLabel
+        //      _a = %sent%;
+        //  .mark resultLabel
+        //      x = _a;
+
+        let result_label = self.define_label();
+        let result_local = self.declare_local(None);
+
+        let left_span = node.left.span();
+        node.left.visit_mut_with(self);
+        self.emit_assignment(
+            PatOrExpr::Pat(result_local.into()),
+            node.left.take(),
+            Some(left_span),
+        );
+
+        if node.op == op!("&&") {
+            // Logical `&&` shortcuts when the left-hand operand is falsey.
+            self.emit_break_when_false(result_label, Box::new(result_local.into()), Some(left_span))
+        } else {
+            // Logical `||` shortcuts when the left-hand operand is truthy.
+            self.emit_break_when_true(result_label, Box::new(result_local.into()), Some(left_span))
+        }
+
+        let right_span = node.right.span();
+        node.right.visit_mut_with(self);
+        self.emit_assignment(
+            PatOrExpr::Pat(result_local.into()),
+            node.right.take(),
+            Some(right_span),
+        );
+        self.mark_label(result_label);
+
+        Expr::Ident(result_local)
+    }
 
     fn transform_and_emit_stmts(&mut self, stmts: Vec<Stmt>, start: usize) {
         for s in stmts.into_iter().skip(start) {
