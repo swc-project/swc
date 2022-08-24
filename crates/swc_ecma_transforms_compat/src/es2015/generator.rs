@@ -561,6 +561,92 @@ impl VisitMut for Generator {
                 e.visit_mut_children_with(self);
             }
 
+            Expr::Assign(node) => {
+                if (containsYield(&node.right)) {
+                    let target: Expr;
+                    match node.left.as_expr() {
+                        Expr::Member(left) => {
+                            match left.prop {
+                                MemberProp::Ident(..) | MemberProp::PrivateName(..) => {
+                                    //      a.b = yield;
+                                    //
+                                    // [intermediate]
+                                    //  .local _a
+                                    //      _a = a;
+                                    //  .yield resumeLabel
+                                    //  .mark resumeLabel
+                                    //      _a.b = %sent%;
+
+                                    target = factory.updatePropertyAccessExpression(
+                                        left as PropertyAccessExpression,
+                                        cacheExpression(visitNode(
+                                            (left as PropertyAccessExpression).expression,
+                                            visitor,
+                                            isLeftHandSideExpression,
+                                        )),
+                                        (left as PropertyAccessExpression).name,
+                                    );
+                                }
+                                MemberProp::Computed(prop) => {
+                                    // [source]
+                                    //      a[b] = yield;
+                                    //
+                                    // [intermediate]
+                                    //  .local _a, _b
+                                    //      _a = a;
+                                    //      _b = b;
+                                    //  .yield resumeLabel
+                                    //  .mark resumeLabel
+                                    //      _a[_b] = %sent%;
+
+                                    target = factory.updateElementAccessExpression(
+                                        left as ElementAccessExpression,
+                                        cacheExpression(visitNode(
+                                            (left as ElementAccessExpression).expression,
+                                            visitor,
+                                            isLeftHandSideExpression,
+                                        )),
+                                        cacheExpression(visitNode(
+                                            (left as ElementAccessExpression).argumentExpression,
+                                            visitor,
+                                            isExpression,
+                                        )),
+                                    );
+                                }
+                            }
+                            // [source]
+                        }
+                        _ => {
+                            node.left.visit_mut_with(self);
+                            node.left
+                        }
+                    };
+                    if node.op != op!("=") {
+                        return setTextRange(
+                            factory.createAssignment(
+                                target,
+                                setTextRange(
+                                    factory.createBinaryExpression(
+                                        cacheExpression(target),
+                                        getNonAssignmentOperatorForCompoundAssignment(operator),
+                                        visitNode(right, visitor, isExpression),
+                                    ),
+                                    node,
+                                ),
+                            ),
+                            node,
+                        );
+                    } else {
+                        return factory.updateBinaryExpression(
+                            node,
+                            target,
+                            node.operatorToken,
+                            visitNode(right, visitor, isExpression),
+                        );
+                    }
+                }
+            }
+
             _ => {
                 e.visit_mut_children_with(self);
             }
@@ -1075,101 +1161,6 @@ impl Generator {
         node.visit_mut_children_with(self);
         None
     }
-
-    // function visitRightAssociativeBinaryExpression(node: BinaryExpression) {
-    //     const { left, right } = node;
-    //     if (containsYield(right)) {
-    //         let target: Expression;
-    //         switch (left.kind) {
-    //             case SyntaxKind.PropertyAccessExpression:
-    //                 // [source]
-    //                 //      a.b = yield;
-    //                 //
-    //                 // [intermediate]
-    //                 //  .local _a
-    //                 //      _a = a;
-    //                 //  .yield resumeLabel
-    //                 //  .mark resumeLabel
-    //                 //      _a.b = %sent%;
-
-    //                 target = factory.updatePropertyAccessExpression(
-    //                     left as PropertyAccessExpression,
-    //                     cacheExpression(
-    //                         visitNode(
-    //                             (left as PropertyAccessExpression).expression,
-    //                             visitor,
-    //                             isLeftHandSideExpression
-    //                         )
-    //                     ),
-    //                     (left as PropertyAccessExpression).name
-    //                 );
-    //                 break;
-
-    //             case SyntaxKind.ElementAccessExpression:
-    //                 // [source]
-    //                 //      a[b] = yield;
-    //                 //
-    //                 // [intermediate]
-    //                 //  .local _a, _b
-    //                 //      _a = a;
-    //                 //      _b = b;
-    //                 //  .yield resumeLabel
-    //                 //  .mark resumeLabel
-    //                 //      _a[_b] = %sent%;
-
-    //                 target = factory.updateElementAccessExpression(
-    //                     left as ElementAccessExpression,
-    //                     cacheExpression(
-    //                         visitNode(
-    //                             (left as ElementAccessExpression).expression,
-    //                             visitor,
-    //                             isLeftHandSideExpression
-    //                         )
-    //                     ),
-    //                     cacheExpression(
-    //                         visitNode(
-    //                             (left as ElementAccessExpression)
-    //                                 .argumentExpression,
-    //                             visitor,
-    //                             isExpression
-    //                         )
-    //                     )
-    //                 );
-    //                 break;
-
-    //             default:
-    //                 target = visitNode(left, visitor, isExpression);
-    //                 break;
-    //         }
-
-    //         const operator = node.operatorToken.kind;
-    //         if (isCompoundAssignment(operator)) {
-    //             return setTextRange(
-    //                 factory.createAssignment(
-    //                     target,
-    //                     setTextRange(
-    //                         factory.createBinaryExpression(
-    //                             cacheExpression(target),
-    //                             getNonAssignmentOperatorForCompoundAssignment(
-    //                                 operator
-    //                             ),
-    //                             visitNode(right, visitor, isExpression)
-    //                         ),
-    //                         node
-    //                     )
-    //                 ),
-    //                 node
-    //             );
-    //         } else {
-    //             return factory.updateBinaryExpression(
-    //                 node,
-    //                 target,
-    //                 node.operatorToken,
-    //                 visitNode(right, visitor, isExpression)
-    //             );
-    //         }
-    //     }
-    // }
 
     fn visit_logical_bin_expr(&mut self, node: &mut BinExpr) -> Expr {
         // Logical binary expressions (`&&` and `||`) are shortcutting
