@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.11.7"
+version = "0.11.8"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3526,7 +3526,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.104.1"
+version = "0.104.2"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
