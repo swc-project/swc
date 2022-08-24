@@ -1020,7 +1020,10 @@ impl Generator {
                 PatOrExpr::Pat(temp.clone().unwrap().into()),
                 Box::new(Expr::Array(ArrayLit {
                     span: DUMMY_SP,
-                    elems: once(leading_element.take())
+                    elems: leading_element
+                        .take()
+                        .into_iter()
+                        .map(Some)
                         .chain(
                             elements
                                 .iter_mut()
@@ -1055,7 +1058,10 @@ impl Generator {
         } else {
             Box::new(Expr::Array(ArrayLit {
                 span: DUMMY_SP,
-                elems: once(leading_element)
+                elems: leading_element
+                    .take()
+                    .into_iter()
+                    .map(Some)
                     .chain(
                         expressions
                             .take()
@@ -1074,7 +1080,7 @@ impl Generator {
         leading_element: &mut Option<ExprOrSpread>,
         temp: &mut Option<Ident>,
     ) -> Vec<Box<Expr>> {
-        if (contains_yield(&element) && expressions.len() > 0) {
+        if contains_yield(&element) && expressions.len() > 0 {
             let has_assigned_temp = temp.is_some();
             if temp.is_none() {
                 *temp = Some(self.declare_local(None));
@@ -1101,7 +1107,10 @@ impl Generator {
                     Box::new(
                         ArrayLit {
                             span: DUMMY_SP,
-                            elems: once(leading_element.take())
+                            elems: leading_element
+                                .take()
+                                .into_iter()
+                                .map(Some)
                                 .chain(
                                     expressions
                                         .take()
