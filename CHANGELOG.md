@@ -13,6 +13,9 @@
 
 - **(swc_core)** Expand features (#5602) ([633a23a](https://github.com/swc-project/swc/commit/633a23a13438cb3891ea1cdef349cde882672bec))
 
+
+- **(swc_core)** Add css features (#5609) ([7461e40](https://github.com/swc-project/swc/commit/7461e404b1946cb8b421c314f4b57dc8d836721a))
+
 ### Build
 
 
