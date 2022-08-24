@@ -42,7 +42,7 @@ impl VisitMut for Wrapper {
 
         if f.is_generator {
             let mut v = Generator::default();
-            // TODO(kdy1): Use argument replacer instead
+
             let mut hoister = FnEnvHoister::new(self.unresolved_ctxt);
             hoister.disable_super();
             hoister.disable_this();
