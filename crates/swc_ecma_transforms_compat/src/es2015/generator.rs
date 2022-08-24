@@ -773,10 +773,9 @@ impl VisitMut for Generator {
         }
     }
 
-    // TODO(kdy1):
-    // fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
-    //     self.visit_elements(&mut node.elems, None, None);
-    // }
+    fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
+        self.visit_elements(&mut node.elems, None, None);
+    }
 
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
