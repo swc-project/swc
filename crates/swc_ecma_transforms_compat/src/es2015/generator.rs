@@ -12,7 +12,7 @@ use swc_common::{
     SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{ext::AsOptExpr, helper};
 use swc_ecma_utils::{function::FnEnvHoister, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -562,11 +562,10 @@ impl VisitMut for Generator {
             }
 
             Expr::Assign(node) => {
-                if (containsYield(&node.right)) {
-                    let target: Expr;
-                    match node.left.as_expr() {
-                        Expr::Member(left) => {
-                            match left.prop {
+                if contains_yield(&node.right) {
+                    match node.left.as_expr_mut() {
+                        Some(Expr::Member(left)) => {
+                            match &mut left.prop {
                                 MemberProp::Ident(..) | MemberProp::PrivateName(..) => {
                                     //      a.b = yield;
                                     //
@@ -577,15 +576,10 @@ impl VisitMut for Generator {
                                     //  .mark resumeLabel
                                     //      _a.b = %sent%;
 
-                                    target = factory.updatePropertyAccessExpression(
-                                        left as PropertyAccessExpression,
-                                        cacheExpression(visitNode(
-                                            (left as PropertyAccessExpression).expression,
-                                            visitor,
-                                            isLeftHandSideExpression,
-                                        )),
-                                        (left as PropertyAccessExpression).name,
-                                    );
+                                    left.obj.visit_mut_with(self);
+                                    let obj = self.cache_expression(left.obj.take());
+
+                                    left.obj = Box::new(Expr::Ident(obj));
                                 }
                                 MemberProp::Computed(prop) => {
                                     // [source]
@@ -598,29 +592,27 @@ impl VisitMut for Generator {
                                     //  .yield resumeLabel
                                     //  .mark resumeLabel
                                     //      _a[_b] = %sent%;
+                                    let prop_span = prop.span;
 
-                                    target = factory.updateElementAccessExpression(
-                                        left as ElementAccessExpression,
-                                        cacheExpression(visitNode(
-                                            (left as ElementAccessExpression).expression,
-                                            visitor,
-                                            isLeftHandSideExpression,
-                                        )),
-                                        cacheExpression(visitNode(
-                                            (left as ElementAccessExpression).argumentExpression,
-                                            visitor,
-                                            isExpression,
-                                        )),
-                                    );
+                                    left.obj.visit_mut_with(self);
+                                    let obj = self.cache_expression(left.obj.take());
+
+                                    prop.visit_mut_with(self);
+                                    let prop = self.cache_expression(prop.expr.take());
+
+                                    left.obj = Box::new(Expr::Ident(obj));
+                                    left.prop = MemberProp::Computed(ComputedPropName {
+                                        span: prop_span,
+                                        expr: Box::new(Expr::Ident(prop)),
+                                    });
                                 }
                             }
                             // [source]
                         }
                         _ => {
                             node.left.visit_mut_with(self);
-                            node.left
                         }
-                    };
+                    }
                     if node.op != op!("=") {
                         return setTextRange(
                             factory.createAssignment(
@@ -637,12 +629,8 @@ impl VisitMut for Generator {
                             node,
                         );
                     } else {
-                        return factory.updateBinaryExpression(
-                            node,
-                            target,
-                            node.operatorToken,
-                            visitNode(right, visitor, isExpression),
-                        );
+                        node.right.visit_mut_with(self);
+                        return;
                     }
                 }
             }
