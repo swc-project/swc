@@ -885,15 +885,22 @@ impl Generator {
             //     0,
             //     numInitialElements
             // );
-            // emitAssignment(
-            //     temp,
-            //     factory.createArrayLiteralExpression(
-            //         leadingElement
-            //             ? [leadingElement, ...initialElements]
-            //             : initialElements
-            //     )
-            // );
-            // leadingElement = undefined;
+            elements[0..num_initial_elements]
+                .iter_mut()
+                .for_each(|e| e.visit_mut_with(self));
+
+            self.emit_assignment(
+                PatOrExpr::Pat(temp.clone().unwrap().into()),
+                Box::new(Expr::Array(ArrayLit {
+                    span: DUMMY_SP,
+                    elems: elements
+                        .iter_mut()
+                        .take(num_initial_elements)
+                        .map(|e| e.take())
+                        .collect(),
+                })),
+                None,
+            );
         }
 
         // const expressions = reduceLeft(
