@@ -650,25 +650,22 @@ impl VisitMut for Generator {
                 //          _a.c = 2,
                 //          _a);
 
-                let numInitialProperties = self.count_initial_nodes_without_yield(&node.props);
+                let num_initial_properties = self.count_initial_nodes_without_yield(&node.props);
 
-                let temp = declareLocal();
-                emitAssignment(
+                let temp = self.declare_local(None);
+                self.emit_assignment(
                     temp,
-                    factory.createObjectLiteralExpression(
-                        visitNodes(
-                            properties,
-                            visitor,
-                            isObjectLiteralElementLike,
-                            0,
-                            numInitialProperties,
-                        ),
-                        multiLine,
-                    ),
+                    factory.createObjectLiteralExpression(visitNodes(
+                        properties,
+                        visitor,
+                        isObjectLiteralElementLike,
+                        0,
+                        num_initial_properties,
+                    )),
                 );
 
                 let expressions =
-                    reduceLeft(properties, reduceProperty, vec![], numInitialProperties);
+                    self.reduce_left(properties, reduceProperty, vec![], num_initial_properties);
                 expressions.push(temp);
                 return factory.inlineExpressions(expressions);
             }
@@ -1877,6 +1874,7 @@ impl Generator {
         0
     }
 
+    // TODO(kdy1):
     // function onSubstituteNode(hint: EmitHint, node: Node): Node {
     //     node = previousOnSubstituteNode(hint, node);
     //     if (hint === EmitHint.Expression) {
@@ -1885,6 +1883,7 @@ impl Generator {
     //     return node;
     // }
 
+    // TODO(kdy1):
     // function substituteExpression(node: Expression): Expression {
     //     if (isIdentifier(node)) {
     //         return substituteExpressionIdentifier(node);
@@ -1892,6 +1891,7 @@ impl Generator {
     //     return node;
     // }
 
+    // TODO(kdy1):
     // function substituteExpressionIdentifier(node: Identifier) {
     //     if (
     //         !isGeneratedIdentifier(node) &&
