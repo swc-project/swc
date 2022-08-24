@@ -1,6 +1,5 @@
 use std::{
     cell::{RefCell, RefMut},
-    iter::once,
     mem::take,
     rc::Rc,
 };
@@ -8,8 +7,8 @@ use std::{
 use is_macro::Is;
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashMap, comments::Comments, util::take::Take, BytePos, Mark, Span, Spanned,
-    SyntaxContext, DUMMY_SP,
+    collections::AHashMap, comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span,
+    Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::AsOptExpr, helper};
@@ -680,6 +679,49 @@ impl VisitMut for Generator {
                     .iter_mut()
                     .skip(num_initial_properties)
                     .map(|v| v.take())
+                    .fold(Vec::<CompiledProp>::new(), |mut props, p| {
+                        match p {
+                            PropOrSpread::Spread(_) => {
+                                unreachable!("spread should be removed before applying generator")
+                            }
+                            PropOrSpread::Prop(p) => match *p {
+                                Prop::Getter(p) => {
+                                    if let Some(CompiledProp::Accessor(g, _)) =
+                                        props.iter_mut().find(|prev| match prev {
+                                            CompiledProp::Accessor(_, Some(s)) => {
+                                                s.key.eq_ignore_span(&p.key)
+                                            }
+                                            _ => false,
+                                        })
+                                    {
+                                        *g = Some(p);
+                                    } else {
+                                        props.push(CompiledProp::Accessor(Some(p), None))
+                                    }
+                                }
+                                Prop::Setter(p) => {
+                                    if let Some(CompiledProp::Accessor(_, s)) =
+                                        props.iter_mut().find(|prev| match prev {
+                                            CompiledProp::Accessor(Some(prev), _) => {
+                                                prev.key.eq_ignore_span(&p.key)
+                                            }
+                                            _ => false,
+                                        })
+                                    {
+                                        *s = Some(p);
+                                    } else {
+                                        props.push(CompiledProp::Accessor(None, Some(p)))
+                                    }
+                                }
+                                p => {
+                                    props.push(CompiledProp::Prop(p));
+                                }
+                            },
+                        }
+
+                        props
+                    })
+                    .into_iter()
                     .fold(vec![], |exprs, property| {
                         self.reduce_property(exprs, property, &mut temp)
                     });
