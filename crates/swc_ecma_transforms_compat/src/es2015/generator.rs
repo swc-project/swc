@@ -1237,7 +1237,37 @@ impl Generator {
                     right: p.function.into(),
                 }),
             },
-            CompiledProp::Accessor(getter, setter) => {}
+            CompiledProp::Accessor(getter, setter) => {
+                let key = getter
+                    .as_ref()
+                    .map(|v| v.key.clone())
+                    .unwrap_or_else(|| setter.unwrap().key.clone());
+
+                let desc = ObjectLit {
+                    span: DUMMY_SP,
+                    props: getter
+                        .map(|g| KeyValueProp {
+                            key: quote_ident!("get").into(),
+                            value: Function {}.into(),
+                        })
+                        .into_iter()
+                        .chain(setter.map(|g| KeyValueProp {
+                            key: quote_ident!("set").into(),
+                            value: Function {}.into(),
+                        }))
+                        .map(Prop::KeyValue)
+                        .map(Box::new)
+                        .map(PropOrSpread::Prop)
+                        .collect(),
+                };
+
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(define_property, "defineProperty"),
+                    args: vec![temp.as_arg(), key.as_arg(), desc.as_arg()],
+                    type_args: Default::default(),
+                })
+            }
         };
 
         expression.visit_mut_with(self);
