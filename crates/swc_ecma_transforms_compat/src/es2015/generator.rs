@@ -2425,6 +2425,9 @@ impl Generator {
     ///
     ///  - `label_text`: An optional name of a containing labeled statement.
     fn find_break_target(&self, label_text: Option<JsWord>) -> Label {
+        #[cfg(debug_assertions)]
+        debug!("find_break_target: label_text={:?}", label_text);
+
         if let Some(block_stack) = &self.block_stack {
             if let Some(label_text) = label_text {
                 for i in (0..block_stack.len()).rev() {
