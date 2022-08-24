@@ -3020,9 +3020,8 @@ impl Generator {
             return;
         }
 
-        // TODO(kdy1): Remove clone()
-        let args = self.operation_args.as_ref().unwrap()[op_index]
-            .clone()
+        let args = self.operation_args.as_mut().unwrap()[op_index]
+            .take()
             .unwrap();
         if opcode == OpCode::Statement {
             let args = args.expect_stmt();
