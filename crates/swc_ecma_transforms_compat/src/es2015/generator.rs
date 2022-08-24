@@ -367,7 +367,7 @@ impl VisitMut for Generator {
     fn visit_mut_getter_prop(&mut self, e: &mut GetterProp) {}
 
     fn visit_mut_setter_prop(&mut self, e: &mut SetterProp) {
-        e.params.visit_mut_with(self);
+        e.param.visit_mut_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
