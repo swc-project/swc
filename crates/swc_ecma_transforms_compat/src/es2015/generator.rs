@@ -3037,7 +3037,6 @@ impl Generator {
                 }
             }
         }
-        dbg!(&self.label_exprs);
     }
 
     /// Tries to enter or leave a code block.
