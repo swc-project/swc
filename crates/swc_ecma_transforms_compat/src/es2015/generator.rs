@@ -7,7 +7,8 @@ use std::{
 use is_macro::Is;
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashMap, util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    collections::AHashMap, comments::Comments, util::take::Take, BytePos, Mark, Span, Spanned,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -18,7 +19,10 @@ use swc_ecma_visit::{
 use tracing::debug;
 
 /// Generator based on tsc generator at https://github.com/microsoft/TypeScript/blob/162224763681465b417274383317ca9a0a573835/src/compiler/transformers/generators.ts
-pub fn generator(unresolved_mark: Mark) -> impl VisitMut + Fold {
+pub fn generator<C>(unresolved_mark: Mark, _comments: C) -> impl VisitMut + Fold
+where
+    C: Comments,
+{
     as_folder(Wrapper {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
     })
