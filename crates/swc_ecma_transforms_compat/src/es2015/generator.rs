@@ -616,17 +616,22 @@ impl VisitMut for Generator {
 
             let variables = self.get_initialized_variables(initializer);
 
-            node.init = if variables.is_empty() {
+            let mut exprs = variables
+                .into_iter()
+                .map(|v| self.transform_initialized_variable(v.take()))
+                .map(Expr::from)
+                .map(Box::new)
+                .collect::<Vec<_>>();
+            node.init = if exprs.is_empty() {
                 None
             } else {
-                Some(VarDeclOrExpr::VarDecl(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: variables
-                        .into_iter()
-                        .map(|v| self.transform_initialized_variable(v.take()))
-                        .collect(),
-                    declare: Default::default(),
+                Some(VarDeclOrExpr::Expr(if exprs.len() == 1 {
+                    exprs.remove(0)
+                } else {
+                    Box::new(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    }))
                 }))
             };
             node.test.visit_mut_with(self);
