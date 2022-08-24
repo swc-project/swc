@@ -1397,6 +1397,7 @@ impl Generator {
                 }
 
                 // We use cnt because variable.init can be None.
+                **variable = self.transform_initialized_variable(variable.take());
                 pending_expressions.extend(variable.init.take());
                 cnt += 1;
             }
