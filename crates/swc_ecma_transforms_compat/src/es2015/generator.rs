@@ -1241,7 +1241,7 @@ impl Generator {
                 let key = getter
                     .as_ref()
                     .map(|v| v.key.clone())
-                    .unwrap_or_else(|| setter.unwrap().key.clone());
+                    .unwrap_or_else(|| setter.as_ref().unwrap().key.clone());
 
                 let desc = ObjectLit {
                     span: DUMMY_SP,
@@ -1287,7 +1287,7 @@ impl Generator {
                     span: DUMMY_SP,
                     callee: helper!(define_property, "defineProperty"),
                     args: vec![
-                        temp.as_arg(),
+                        temp.clone().as_arg(),
                         prop_name_to_expr_value(key).as_arg(),
                         desc.as_arg(),
                     ],
