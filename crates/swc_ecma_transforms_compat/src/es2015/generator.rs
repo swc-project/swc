@@ -618,7 +618,7 @@ impl VisitMut for Generator {
 
             let mut exprs = variables
                 .into_iter()
-                .map(|v| self.transform_initialized_variable(v.take()))
+                .filter_map(|v| self.transform_initialized_variable(v.take()))
                 .map(Expr::from)
                 .map(Box::new)
                 .collect::<Vec<_>>();
@@ -785,7 +785,7 @@ impl VisitMut for Generator {
 
                 let mut exprs = variables
                     .into_iter()
-                    .map(|v| self.transform_initialized_variable(v.take()))
+                    .filter_map(|v| self.transform_initialized_variable(v.take()))
                     .map(Expr::from)
                     .map(Box::new)
                     .collect::<Vec<_>>();
