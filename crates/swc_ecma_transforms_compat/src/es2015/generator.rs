@@ -1248,12 +1248,34 @@ impl Generator {
                     props: getter
                         .map(|g| KeyValueProp {
                             key: quote_ident!("get").into(),
-                            value: Function {}.into(),
+                            value: Function {
+                                params: vec![],
+                                decorators: Default::default(),
+                                span: g.span,
+                                body: g.body,
+                                is_generator: false,
+                                is_async: false,
+                                type_params: Default::default(),
+                                return_type: Default::default(),
+                            }
+                            .into(),
                         })
                         .into_iter()
-                        .chain(setter.map(|g| KeyValueProp {
-                            key: quote_ident!("set").into(),
-                            value: Function {}.into(),
+                        .chain(setter.map(|s| {
+                            KeyValueProp {
+                                key: quote_ident!("set").into(),
+                                value: Function {
+                                    params: vec![s.param.into()],
+                                    decorators: Default::default(),
+                                    span: s.span,
+                                    body: s.body,
+                                    is_generator: false,
+                                    is_async: false,
+                                    type_params: Default::default(),
+                                    return_type: Default::default(),
+                                }
+                                .into(),
+                            }
                         }))
                         .map(Prop::KeyValue)
                         .map(Box::new)
@@ -1264,7 +1286,11 @@ impl Generator {
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(define_property, "defineProperty"),
-                    args: vec![temp.as_arg(), key.as_arg(), desc.as_arg()],
+                    args: vec![
+                        temp.as_arg(),
+                        prop_name_to_expr_value(key).as_arg(),
+                        desc.as_arg(),
+                    ],
                     type_args: Default::default(),
                 })
             }
