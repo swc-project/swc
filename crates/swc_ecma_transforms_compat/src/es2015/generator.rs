@@ -1962,56 +1962,6 @@ impl Generator {
         0
     }
 
-    // TODO(kdy1):
-    // function onSubstituteNode(hint: EmitHint, node: Node): Node {
-    //     node = previousOnSubstituteNode(hint, node);
-    //     if (hint === EmitHint.Expression) {
-    //         return substituteExpression(node as Expression);
-    //     }
-    //     return node;
-    // }
-
-    // TODO(kdy1):
-    // function substituteExpression(node: Expression): Expression {
-    //     if (isIdentifier(node)) {
-    //         return substituteExpressionIdentifier(node);
-    //     }
-    //     return node;
-    // }
-
-    // TODO(kdy1):
-    // function substituteExpressionIdentifier(node: Identifier) {
-    //     if (
-    //         !isGeneratedIdentifier(node) &&
-    //         renamedCatchVariables &&
-    //         renamedCatchVariables.has(idText(node))
-    //     ) {
-    //         const original = getOriginalNode(node);
-    //         if (isIdentifier(original) && original.parent) {
-    //             const declaration =
-    //                 resolver.getReferencedValueDeclaration(original);
-    //             if (declaration) {
-    //                 const name =
-    //                     renamedCatchVariableDeclarations[
-    //                         getOriginalNodeId(declaration)
-    //                     ];
-    //                 if (name) {
-    //                     // TODO(rbuckton): Does this need to be parented?
-    //                     const clone = setParent(
-    //                         setTextRange(factory.cloneNode(name), name),
-    //                         name.parent
-    //                     );
-    //                     setSourceMapRange(clone, node);
-    //                     setCommentRange(clone, node);
-    //                     return clone;
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     return node;
-    // }
-
     fn cache_expression(&mut self, node: Box<Expr>) -> Ident {
         match *node {
             Expr::Ident(i) => i,
