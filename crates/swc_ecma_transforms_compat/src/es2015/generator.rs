@@ -1036,16 +1036,15 @@ impl Generator {
         let expressions = elements
             .iter_mut()
             .skip(num_initial_elements)
-            .fold(vec![], |exprs, element| {});
+            .map(|v| v.take())
+            .fold(vec![], |exprs, element| {
+                self.reduce_element(exprs, element, &mut leading_element, &mut temp)
+            });
 
         if let Some(temp) = temp {
             Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: temp
-                    .clone()
-                    .unwrap()
-                    .make_member(quote_ident!("concat"))
-                    .as_callee(),
+                callee: temp.clone().make_member(quote_ident!("concat")).as_callee(),
                 args: expressions
                     .take()
                     .into_iter()
@@ -1075,7 +1074,7 @@ impl Generator {
         leading_element: &mut Option<ExprOrSpread>,
         temp: &mut Option<Ident>,
     ) -> Vec<Box<Expr>> {
-        if (contains_yield(&element) && expressions.length > 0) {
+        if (contains_yield(&element) && expressions.len() > 0) {
             let has_assigned_temp = temp.is_some();
             if temp.is_none() {
                 *temp = Some(self.declare_local(None));
@@ -1102,7 +1101,7 @@ impl Generator {
                     Box::new(
                         ArrayLit {
                             span: DUMMY_SP,
-                            elems: once(leading_element)
+                            elems: once(leading_element.take())
                                 .chain(
                                     expressions
                                         .take()
@@ -1116,8 +1115,7 @@ impl Generator {
                 },
                 None,
             );
-            leading_element = None;
-            expressions = [];
+            *leading_element = None;
         }
 
         element.visit_mut_with(self);
