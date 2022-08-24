@@ -781,16 +781,6 @@ impl VisitMut for Generator {
                 let mut exprs = variables
                     .into_iter()
                     .map(|v| self.transform_initialized_variable(v.take()))
-                    .map(|mut v| {
-                        let init = v.init.take().unwrap();
-
-                        AssignExpr {
-                            span: v.span,
-                            op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(v.name.clone())),
-                            right: init,
-                        }
-                    })
                     .map(Expr::from)
                     .map(Box::new)
                     .collect::<Vec<_>>();
@@ -1321,20 +1311,9 @@ impl Generator {
                 }
 
                 // We use cnt because variable.init can be None.
-                **variable = self.transform_initialized_variable(variable.take());
+                let expr = self.transform_initialized_variable(variable.take());
 
-                let init = variable.init.take();
-
-                pending_expressions.extend(
-                    init.map(|right| AssignExpr {
-                        span: variable.span,
-                        op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(variable.name.clone())),
-                        right,
-                    })
-                    .map(Expr::from)
-                    .map(Box::new),
-                );
+                pending_expressions.extend(expr.map(Expr::from).map(Box::new));
                 cnt += 1;
             }
 
@@ -1357,15 +1336,15 @@ impl Generator {
         }
     }
 
-    fn transform_initialized_variable(&mut self, mut node: VarDeclarator) -> AssignExpr {
+    fn transform_initialized_variable(&mut self, mut node: VarDeclarator) -> Option<AssignExpr> {
         node.init.visit_mut_with(self);
 
-        AssignExpr {
+        node.init.map(|right| AssignExpr {
             span: node.span,
             op: op!("="),
             left: PatOrExpr::Pat(Box::new(node.name.clone())),
-            right: node.init.take().unwrap(),
-        }
+            right,
+        })
     }
 
     fn transform_and_emit_if_stmt(&mut self, mut node: IfStmt) {
