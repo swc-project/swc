@@ -673,8 +673,6 @@ impl VisitMut for Generator {
         if self.in_statement_containing_yield {
             self.end_loop_block();
         }
-
-        return node;
     }
 
     // TODO(kdy1):
