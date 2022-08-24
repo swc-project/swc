@@ -15,11 +15,11 @@ function* foo() {
 }
 
 const g = foo();
-expect(g.next(1)).toEqual({
+expect(g.next(0)).toEqual({
     value: true,
     done: false,
 })
-expect(g.next(2)).toEqual({
+expect(g.next(1)).toEqual({
     value: 2,
     done: false,
 })
