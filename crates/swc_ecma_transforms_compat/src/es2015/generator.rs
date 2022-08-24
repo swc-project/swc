@@ -1,5 +1,6 @@
 use std::{
     cell::{RefCell, RefMut},
+    iter::once,
     mem::take,
     rc::Rc,
 };
@@ -861,7 +862,12 @@ impl VisitMut for Generator {
 }
 
 impl Generator {
-    fn visit_elements(&mut self, elements: &mut [Option<ExprOrSpread>]) {
+    fn visit_elements(
+        &mut self,
+        elements: &mut [Option<ExprOrSpread>],
+        leading_element: Option<ExprOrSpread>,
+        loc: Option<Span>,
+    ) {
         // [source]
         //      ar = [1, yield, 2];
         //
@@ -892,10 +898,13 @@ impl Generator {
                 PatOrExpr::Pat(temp.clone().unwrap().into()),
                 Box::new(Expr::Array(ArrayLit {
                     span: DUMMY_SP,
-                    elems: elements
-                        .iter_mut()
-                        .take(num_initial_elements)
-                        .map(|e| e.take())
+                    elems: once(leading_element)
+                        .chain(
+                            elements
+                                .iter_mut()
+                                .take(num_initial_elements)
+                                .map(|e| e.take()),
+                        )
                         .collect(),
                 })),
                 None,
