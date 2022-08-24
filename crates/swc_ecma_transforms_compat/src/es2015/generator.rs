@@ -873,28 +873,28 @@ impl Generator {
         //  .mark resumeLabel
         //      ar = _a.concat([%sent%, 2]);
 
-        // const numInitialElements = countInitialNodesWithoutYield(elements);
+        let num_initial_elements = self.count_initial_nodes_without_yield(elements);
 
-        // let temp: Identifier | undefined;
-        // if (numInitialElements > 0) {
-        //     temp = declareLocal();
-        //     const initialElements = visitNodes(
-        //         elements,
-        //         visitor,
-        //         isExpression,
-        //         0,
-        //         numInitialElements
-        //     );
-        //     emitAssignment(
-        //         temp,
-        //         factory.createArrayLiteralExpression(
-        //             leadingElement
-        //                 ? [leadingElement, ...initialElements]
-        //                 : initialElements
-        //         )
-        //     );
-        //     leadingElement = undefined;
-        // }
+        let mut temp = None;
+        if num_initial_elements > 0 {
+            temp = Some(self.declare_local(None));
+            // const initialElements = visitNodes(
+            //     elements,
+            //     visitor,
+            //     isExpression,
+            //     0,
+            //     numInitialElements
+            // );
+            // emitAssignment(
+            //     temp,
+            //     factory.createArrayLiteralExpression(
+            //         leadingElement
+            //             ? [leadingElement, ...initialElements]
+            //             : initialElements
+            //     )
+            // );
+            // leadingElement = undefined;
+        }
 
         // const expressions = reduceLeft(
         //     elements,
