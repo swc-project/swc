@@ -1894,16 +1894,19 @@ impl Generator {
         }
     }
 
-    // function countInitialNodesWithoutYield(nodes: NodeArray<Node>) {
-    //     const numNodes = nodes.length;
-    //     for (let i = 0; i < numNodes; i++) {
-    //         if (containsYield(nodes[i])) {
-    //             return i;
-    //         }
-    //     }
+    fn count_initial_nodes_without_yield<N>(&self, nodes: &[N]) -> usize
+    where
+        N: VisitWith<YieldFinder>,
+    {
+        let num_nodes = nodes.len();
+        for i in 0..num_nodes {
+            if contains_yield(&nodes[i]) {
+                return i;
+            }
+        }
 
-    //     return -1;
-    // }
+        0
+    }
 
     // function onSubstituteNode(hint: EmitHint, node: Node): Node {
     //     node = previousOnSubstituteNode(hint, node);
