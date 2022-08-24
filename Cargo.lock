@@ -3063,7 +3063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.11.6"
+version = "0.11.7"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3072,6 +3072,8 @@ dependencies = [
  "swc_bundler",
  "swc_cached",
  "swc_common",
+ "swc_css",
+ "swc_css_prefixer",
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_loader",
@@ -4078,7 +4080,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.9.7"
+version = "0.9.8"
 dependencies = [
  "proc-macro2",
  "quote",

@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.11.6"
+version       = "0.11.7"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -46,6 +46,9 @@ loader_parking_lot = ["swc_ecma_loader/parking_lot"]
 
 # swc_ecma_minifier/concurrent
 minifier_concurrent = ["swc_ecma_minifier/concurrent"]
+
+# swc_bundler/concurrent
+bundler_concurrent = ["swc_bundler/concurrent"]
 
 # configures specific memory allocator.
 # node.js binding should depend on this.
@@ -127,6 +130,10 @@ codegen = ["swc_ecma_codegen"]
 
 # Enable swc_ecma_minifier
 minifier = ["swc_ecma_minifier"]
+
+# Enable swc_css
+css          = ["__css"]
+css_prefixer = ["__css", "swc_css_prefixer"]
 
 # Enable trace macro support.
 # TODO: Once all top-level package (node, wasm, cli..) imports swc_core,
@@ -239,6 +246,7 @@ __binding_macros    = ["common", "__base", "__transforms", "ast", "binding_macro
 __bundler           = ["swc_bundler"]
 __cached            = ["swc_cached"]
 __common            = ["swc_common"]
+__css               = ["swc_css"]
 __loader            = ["swc_ecma_loader"]
 __parser            = ["swc_ecma_parser"]
 __testing_transform = ["swc_ecma_transforms_testing"]
@@ -258,6 +266,8 @@ swc_atoms                   = { optional = true, version = "0.4.8", path = "../s
 swc_bundler                 = { optional = true, version = "0.179.0", path = "../swc_bundler" }
 swc_cached                  = { optional = true, version = "0.3.5", path = "../swc_cached" }
 swc_common                  = { optional = true, version = "0.27.12", path = "../swc_common" }
+swc_css                     = { optional = true, version = "0.121.0", path = "../swc_css" }
+swc_css_prefixer            = { optional = true, version = "0.119.1", path = "../swc_css_prefixer" }
 swc_ecma_ast                = { optional = true, version = "0.90.10", path = "../swc_ecma_ast" }
 swc_ecma_codegen            = { optional = true, version = "0.122.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader             = { optional = true, version = "0.39.4", path = "../swc_ecma_loader" }
@@ -272,7 +282,7 @@ swc_node_base               = { optional = true, version = "0.5.5", path = "../s
 swc_node_bundler            = { optional = true, version = "0.4.0", path = "../swc_node_bundler" }
 swc_nodejs_common           = { optional = true, version = "0.0.1", path = "../swc_nodejs_common" }
 swc_plugin                  = { optional = true, version = "0.90.0", path = "../swc_plugin" }
-swc_plugin_macro            = { optional = true, version = "0.9.7", path = "../swc_plugin_macro" }
+swc_plugin_macro            = { optional = true, version = "0.9.8", path = "../swc_plugin_macro" }
 swc_plugin_proxy            = { optional = true, version = "0.18.13", path = "../swc_plugin_proxy" }
 swc_trace_macro             = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 # TODO: eventually swc_plugin_runner needs to remove default features

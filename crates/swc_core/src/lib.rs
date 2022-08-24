@@ -138,6 +138,18 @@ pub mod minifier {
     pub use swc_ecma_minifier::*;
 }
 
+#[cfg(feature = "__css")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__css")))]
+pub mod css {
+    pub use swc_css::*;
+}
+
+#[cfg(feature = "css_prefixer")]
+#[cfg_attr(docsrs, doc(cfg(feature = "css_prefixer")))]
+pub mod css_prefixer {
+    pub use swc_css_prefixer::*;
+}
+
 #[cfg(feature = "__cached")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__cached")))]
 pub mod cached {
