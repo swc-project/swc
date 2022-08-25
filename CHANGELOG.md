@@ -11,6 +11,9 @@
 - **(es/compat)** Handle `super` in a private method (#5613) ([35d3558](https://github.com/swc-project/swc/commit/35d3558535c3bee2cbbd8adec162f9c4cb9a4bbc))
 
 
+- **(es/compat)** Revert generator reimplementation (#5624) ([927ae7e](https://github.com/swc-project/swc/commit/927ae7e8d38813e65b0bc67cbf6559cbb7f9f6a1))
+
+
 - **(es/fixer)** Wrap expressions in the left of a binary expression (#5586) ([3d485d2](https://github.com/swc-project/swc/commit/3d485d26814516351bd5591502c64811f77f5385))
 
 
