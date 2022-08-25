@@ -993,11 +993,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator::<SingleThreadedComments>(
-        Default::default(),
-        None,
-        Mark::fresh(Mark::root())
-    ),
+    |t| generator(Mark::new(), t.comments.clone()),
     issue_600_min,
     "function* foo() {
         try {
@@ -1021,11 +1017,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator::<SingleThreadedComments>(
-        Default::default(),
-        None,
-        Mark::fresh(Mark::root())
-    ),
+    |t| generator(Mark::new(), t.comments.clone()),
     issue_831_1,
     "function* myGenerator() {
         yield* [1,2,3];
@@ -1042,11 +1034,7 @@ test_exec!(
 // test interop between export and regenerator
 test!(
     syntax(),
-    |_| {
-        let mark = Mark::fresh(Mark::root());
-
-        es2015::regenerator::<SingleThreadedComments>(Default::default(), None, mark)
-    },
+    |t| generator(Mark::new(), t.comments.clone()),
     issue_831_3,
     "export function* myGenerator() {
         yield* [1,2,3];
@@ -1073,11 +1061,7 @@ export function myGenerator() {
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator::<SingleThreadedComments>(
-        Default::default(),
-        None,
-        Mark::fresh(Mark::root())
-    ),
+    |t| generator(Mark::new(), t.comments.clone()),
     delegate_context,
     "function* a() {
         yield 5;
@@ -1092,11 +1076,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator::<SingleThreadedComments>(
-        Default::default(),
-        None,
-        Mark::fresh(Mark::root())
-    ),
+    |t| generator(Mark::new(), t.comments.clone()),
     issue_849_1,
     "function* gen() { yield 1 };
 function genFactory() { return function*() { yield 1 }; }
@@ -1107,11 +1087,7 @@ expect(v.next()).toEqual({ done: true })"
 
 test_exec!(
     syntax(),
-    |_| es2015::regenerator::<SingleThreadedComments>(
-        Default::default(),
-        None,
-        Mark::fresh(Mark::root())
-    ),
+    |t| generator(Mark::new(), t.comments.clone()),
     issue_853_1,
     "function throwingFn() { throw 'Error' }
 function* gen() {
