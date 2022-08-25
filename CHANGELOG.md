@@ -40,6 +40,12 @@
 
 - **(swc_core)** Update dependencies and fix build script (#5610) ([fad1367](https://github.com/swc-project/swc/commit/fad1367e137288dd0e15591d7ecb4aaee222d327))
 
+### Testing
+
+
+
+- **(es/transforms)** Add more execution tests (#5598) ([cfcd54a](https://github.com/swc-project/swc/commit/cfcd54a2c7618ee5f789c8db1726755f0473848b))
+
 ### Build
 
 
