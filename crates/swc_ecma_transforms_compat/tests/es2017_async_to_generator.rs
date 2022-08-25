@@ -2760,11 +2760,11 @@ expect(tmp.fun()).resolves.toEqual({ foo: 'bar' });
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_2402_2,
@@ -2927,11 +2927,11 @@ myclass.handle();
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_2677_1,
@@ -3649,11 +3649,7 @@ fn exec_regenerator(input: PathBuf) {
                 ),
                 es2015::for_of(Default::default()),
                 block_scoping(unresolved_mark),
-                regenerator(
-                    Default::default(),
-                    Some(t.comments.clone()),
-                    unresolved_mark
-                )
+                generator(unresolved_mark, t.comments.clone())
             )
         },
         &input,
