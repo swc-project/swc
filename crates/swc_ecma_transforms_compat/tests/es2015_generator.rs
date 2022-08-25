@@ -1710,7 +1710,7 @@ test!(
                 return _ref.apply(this, arguments);
             };
         }());
-    };
+    }
 "
 );
 
@@ -1752,7 +1752,7 @@ test!(
                 return _ref.apply(this, arguments);
             };
         }());
-    };
+    }
 "
 );
 
@@ -1795,7 +1795,7 @@ test!(
                 return _ref.apply(this, arguments);
             };
         }());
-    };
+    }
 "
 );
 
@@ -1819,21 +1819,24 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
-                return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                    while(1)switch(_ctx.prev = _ctx.next){
+            var _ref = _asyncToGenerator(function(e) {
+                return __generator(this, function(_state) {
+                    switch(_state.label){
                         case 0:
-                            _ctx.next = 2;
-                            return doSomething();
-                        case 2:
-                        case \"end\":
-                            return _ctx.stop();
+                            return [
+                                4,
+                                doSomething()
+                            ];
+                        case 1:
+                            _state.sent();
+                            return [
+                                2
+                            ];
                     }
-                }, _callee);
-            }));
+                });
+            });
             return function(e) {
                 return _ref.apply(this, arguments);
             };
@@ -1889,125 +1892,161 @@ test!(
 
 "#,
     r#"
-    var regeneratorRuntime = require("regenerator-runtime");
-    var _marked = regeneratorRuntime.mark(gen);
     function gen() {
-            var firstTime;
-        return regeneratorRuntime.wrap(function gen$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
-                    case 0:
+        var firstTime;
+        return __generator(this, function(_state) {
+            switch(_state.label){
+                case 0:
                     firstTime = true;
+                    _state.label = 1;
                 case 1:
-                    if (!true) {
-                            _ctx.next = 31;
-                        break;
-                    }
-                    _ctx.next = 4;
-                    return 0;
+                    if (!true) return [
+                        3,
+                        15
+                    ];
+                    return [
+                        4,
+                        0
+                    ];
+                case 2:
+                    _state.sent();
+                    _state.label = 3;
+                case 3:
+                    _state.trys.push([
+                        3,
+                        ,
+                        11,
+                        13
+                    ]);
+                    if (!true) return [
+                        3,
+                        9
+                    ];
+                    return [
+                        4,
+                        1
+                    ];
                 case 4:
-                    _ctx.prev = 4;
-                case 5:
-                    if (!true) {
-                            _ctx.next = 20;
-                        break;
-                    }
-                    _ctx.next = 8;
-                    return 1;
-                case 8:
-                    if (!firstTime) {
-                            _ctx.next = 15;
-                        break;
-                    }
+                    _state.sent();
+                    if (!firstTime) return [
+                        3,
+                        6
+                    ];
                     firstTime = false;
-                    _ctx.next = 12;
-                    return 2;
+                    return [
+                        4,
+                        2
+                    ];
+                case 5:
+                    _state.sent();
+                    return [
+                        3,
+                        1
+                    ];
+                case 6:
+                    return [
+                        4,
+                        3
+                    ];
+                case 7:
+                    _state.sent();
+                    return [
+                        3,
+                        9
+                    ];
+                case 8:
+                    return [
+                        3,
+                        3
+                    ];
+                case 9:
+                    return [
+                        4,
+                        4
+                    ];
+                case 10:
+                    _state.sent();
+                    return [
+                        3,
+                        15
+                    ];
+                case 11:
+                    return [
+                        4,
+                        5
+                    ];
                 case 12:
-                    return _ctx.abrupt("continue", 1);
+                    _state.sent();
+                    return [
+                        7
+                    ];
+                case 13:
+                    return [
+                        4,
+                        6
+                    ];
+                case 14:
+                    _state.sent();
+                    return [
+                        3,
+                        1
+                    ];
                 case 15:
-                    _ctx.next = 17;
-                    return 3;
-                case 17:
-                    return _ctx.abrupt("break", 20);
-                case 18:
-                    _ctx.next = 5;
-                    break;
-                case 20:
-                    _ctx.next = 22;
-                    return 4;
-                case 22:
-                    return _ctx.abrupt("break", 31);
-                case 23:
-                    _ctx.prev = 23;
-                    _ctx.next = 26;
-                    return 5;
-                case 26:
-                    return _ctx.finish(23);
-                case 27:
-                    _ctx.next = 29;
-                    return 6;
-                case 29:
-                    _ctx.next = 1;
-                    break;
-                case 31:
-                    _ctx.next = 33;
-                    return 7;
-                case 33:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        7
+                    ];
+                case 16:
+                    _state.sent();
+                    return [
+                        2
+                    ];
             }
-        }, _marked, null, [
-            [
-                4,
-                ,
-                23,
-                27
-            ]
-        ]);
+        });
     }
-
     const iter = gen();
     expect(iter.next()).toEqual({
-            value: 0,
+        value: 0,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: 1,
+        value: 1,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: 2,
+        value: 2,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: 5,
+        value: 5,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: 0,
+        value: 0,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: 1,
+        value: 1,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: 3,
+        value: 3,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: 4,
+        value: 4,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: 5,
+        value: 5,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: 7,
+        value: 7,
         done: false
     });
     expect(iter.next()).toEqual({
-            value: undefined,
+        value: undefined,
         done: true
     });
 "#
