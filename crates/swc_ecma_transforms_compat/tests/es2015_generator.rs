@@ -1020,23 +1020,27 @@ test!(
     "export function* myGenerator() {
         yield* [1,2,3];
     }",
-    "var regeneratorRuntime = require(\"regenerator-runtime\");
-var _marked = regeneratorRuntime.mark(myGenerator);
-export function myGenerator() {
-    return regeneratorRuntime.wrap(function myGenerator$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.delegateYield([
-                    1,
-                    2,
-                    3
-                ], \"t0\", 1);
-            case 1:
-            case \"end\":
-                return _ctx.stop();
-        }
-    }, _marked);
-}
+    "
+    export function myGenerator() {
+        return __generator(this, function(_state) {
+            switch(_state.label){
+                case 0:
+                    return [
+                        5,
+                        __values([
+                            1,
+                            2,
+                            3
+                        ])
+                    ];
+                case 1:
+                    _state.sent();
+                    return [
+                        2
+                    ];
+            }
+        });
+    }
 "
 );
 
@@ -2067,11 +2071,10 @@ test!(
     })();
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-    _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _asyncToGenerator(function() {
         var sleep, result;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+        return __generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
                     sleep = function() {
                         return new Promise(function(resolve) {
@@ -2080,24 +2083,19 @@ test!(
                             }, 500);
                         });
                     };
-                    _ctx.next = 3;
-                    return sleep();
-                case 3:
-                    _ctx.t0 = _ctx.sent;
-                    if (_ctx.t0) {
-                        _ctx.next = 6;
-                        break;
-                    }
-                    _ctx.t0 = 'fallback';
-                case 6:
-                    result = _ctx.t0;
+                    return [
+                        4,
+                        sleep()
+                    ];
+                case 1:
+                    result = _state.sent() || 'fallback';
                     console.log(result);
-                case 8:
-                case \"end\":
-                    return _ctx.stop();
+                    return [
+                        2
+                    ];
             }
-        }, _callee);
-    }))();
+        });
+    })();    
     "
 );
 
