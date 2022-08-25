@@ -119,10 +119,7 @@ fn internal() -> Result<(), Error> {
         )
         .expect("Should load plugin");
 
-        assert!(!plugin_transform_executor
-            .plugin_core_diag
-            .pkg_version
-            .is_empty());
+        assert!(plugin_transform_executor.plugin_core_diag.pkg_version.len() > 0);
 
         let program_bytes = plugin_transform_executor
             .transform(&program, Mark::new(), false)
@@ -249,7 +246,7 @@ fn internal() -> Result<(), Error> {
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
-                Some(experimental_metadata),
+                Some(experimental_metadata.clone()),
             )),
             Some(json!({ "pluginConfig": "testValue" })),
         )

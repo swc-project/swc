@@ -6,7 +6,7 @@
  * @callback FunctionReturningPromise
  * @returns {Promise<number>}
  */ /** @type {FunctionReturningPromise} */ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function testPromise1() {
     console.log("Nope");
 }
@@ -14,14 +14,17 @@ function testPromise2() {
     return _testPromise2.apply(this, arguments);
 }
 function _testPromise2() {
-    _testPromise2 = /** @type {FunctionReturningPromise} */ _async_to_generator(function() {
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                "asd"
-            ];
-        });
-    });
+    _testPromise2 = /** @type {FunctionReturningPromise} */ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", "asd");
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _testPromise2.apply(this, arguments);
 }
 var testPromise3 = /** @type {FunctionReturningPromise} */ function testPromise3() {
@@ -38,14 +41,17 @@ function testNever2() {
     return _testNever2.apply(this, arguments);
 }
 function _testNever2() {
-    _testNever2 = /** @type {FunctionReturningNever} */ _async_to_generator(function() {
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                "asd"
-            ];
-        });
-    });
+    _testNever2 = /** @type {FunctionReturningNever} */ _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", "asd");
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _testNever2.apply(this, arguments);
 }
 var testNever3 = /** @type {FunctionReturningNever} */ function testNever3() {

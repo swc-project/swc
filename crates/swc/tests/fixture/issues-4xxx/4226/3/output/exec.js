@@ -3,17 +3,21 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
+var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));
 require("reflect-metadata");
 var v0 = function() {
-    var _ref = _asyncToGenerator(function(v1) {
-        return _tsGenerator(this, function(_state) {
-            return [
-                2,
-                v1
-            ];
-        });
-    });
+    var _ref = _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee(v1) {
+        return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", v1);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return function(v1) {
         return _ref.apply(this, arguments);
     };

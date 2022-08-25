@@ -2,8 +2,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import _ts_values from "@swc/helpers/src/_ts_values.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
@@ -22,46 +21,29 @@ var Baz = function Baz() {
     "use strict";
     _class_call_check(this, Baz);
 };
-var g3 = function g3() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+var g3 = /*#__PURE__*/ regeneratorRuntime.mark(function g3() {
+    return regeneratorRuntime.wrap(function g3$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    4,
-                    new Bar
-                ];
+                _ctx.next = 2;
+                return;
             case 2:
-                _state.sent();
-                return [
-                    4,
-                    new Baz
-                ];
-            case 3:
-                _state.sent();
-                return [
-                    5,
-                    _ts_values([
-                        new Bar
-                    ])
-                ];
+                _ctx.next = 4;
+                return new Bar;
             case 4:
-                _state.sent();
-                return [
-                    5,
-                    _ts_values([
-                        new Baz
-                    ])
-                ];
-            case 5:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 6;
+                return new Baz;
+            case 6:
+                return _ctx.delegateYield([
+                    new Bar
+                ], "t0", 7);
+            case 7:
+                return _ctx.delegateYield([
+                    new Baz
+                ], "t1", 8);
+            case 8:
+            case "end":
+                return _ctx.stop();
         }
-    });
-};
+    }, g3);
+});

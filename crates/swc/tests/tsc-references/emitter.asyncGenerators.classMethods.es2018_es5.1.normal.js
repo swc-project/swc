@@ -3,7 +3,7 @@
 // @filename: C1.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
@@ -11,20 +11,22 @@ var C1 = /*#__PURE__*/ function() {
     }
     var _proto = C1.prototype;
     _proto.f = function f() {
-        return _wrap_async_generator(function() {
-            return _ts_generator(this, function(_state) {
-                return [
-                    2
-                ];
-            });
-        })();
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     };
     return C1;
 }();
 // @filename: C2.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
@@ -32,29 +34,28 @@ var C2 = /*#__PURE__*/ function() {
     }
     var _proto = C2.prototype;
     _proto.f = function f() {
-        return _wrap_async_generator(function() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var x;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return [
-                            4
-                        ];
-                    case 1:
-                        x = _state.sent();
-                        return [
-                            2
-                        ];
+                        _ctx.next = 2;
+                        return;
+                    case 2:
+                        x = _ctx.sent;
+                    case 3:
+                    case "end":
+                        return _ctx.stop();
                 }
-            });
-        })();
+            }, _callee);
+        }))();
     };
     return C2;
 }();
 // @filename: C3.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C3 = /*#__PURE__*/ function() {
     "use strict";
     function C3() {
@@ -62,23 +63,21 @@ var C3 = /*#__PURE__*/ function() {
     }
     var _proto = C3.prototype;
     _proto.f = function f() {
-        return _wrap_async_generator(function() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var x;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return [
-                            4,
-                            1
-                        ];
-                    case 1:
-                        x = _state.sent();
-                        return [
-                            2
-                        ];
+                        _ctx.next = 2;
+                        return 1;
+                    case 2:
+                        x = _ctx.sent;
+                    case 3:
+                    case "end":
+                        return _ctx.stop();
                 }
-            });
-        })();
+            }, _callee);
+        }))();
     };
     return C3;
 }();
@@ -88,8 +87,7 @@ import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import _ts_values from "@swc/helpers/src/_ts_values.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C4 = /*#__PURE__*/ function() {
     "use strict";
     function C4() {
@@ -97,25 +95,22 @@ var C4 = /*#__PURE__*/ function() {
     }
     var _proto = C4.prototype;
     _proto.f = function f() {
-        return _wrap_async_generator(function() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var x;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return [
-                            5,
-                            _ts_values(_async_generator_delegate(_async_iterator([
-                                1
-                            ]), _await_async_generator))
-                        ];
+                        return _ctx.delegateYield(_async_generator_delegate(_async_iterator([
+                            1
+                        ]), _await_async_generator), "t0", 1);
                     case 1:
-                        x = _state.sent();
-                        return [
-                            2
-                        ];
+                        x = _ctx.t0;
+                    case 2:
+                    case "end":
+                        return _ctx.stop();
                 }
-            });
-        })();
+            }, _callee);
+        }))();
     };
     return C4;
 }();
@@ -125,8 +120,7 @@ import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import _ts_values from "@swc/helpers/src/_ts_values.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C5 = /*#__PURE__*/ function() {
     "use strict";
     function C5() {
@@ -134,38 +128,31 @@ var C5 = /*#__PURE__*/ function() {
     }
     var _proto = C5.prototype;
     _proto.f = function f() {
-        return _wrap_async_generator(function() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var x;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return [
-                            5,
-                            _ts_values(_async_generator_delegate(_async_iterator(_wrap_async_generator(function() {
-                                return _ts_generator(this, function(_state) {
-                                    switch(_state.label){
-                                        case 0:
-                                            return [
-                                                4,
-                                                1
-                                            ];
-                                        case 1:
-                                            _state.sent();
-                                            return [
-                                                2
-                                            ];
-                                    }
-                                });
-                            })()), _await_async_generator))
-                        ];
+                        return _ctx.delegateYield(_async_generator_delegate(_async_iterator(_wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+                            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                                while(1)switch(_ctx.prev = _ctx.next){
+                                    case 0:
+                                        _ctx.next = 2;
+                                        return 1;
+                                    case 2:
+                                    case "end":
+                                        return _ctx.stop();
+                                }
+                            }, _callee);
+                        }))()), _await_async_generator), "t0", 1);
                     case 1:
-                        x = _state.sent();
-                        return [
-                            2
-                        ];
+                        x = _ctx.t0;
+                    case 2:
+                    case "end":
+                        return _ctx.stop();
                 }
-            });
-        })();
+            }, _callee);
+        }))();
     };
     return C5;
 }();
@@ -173,7 +160,7 @@ var C5 = /*#__PURE__*/ function() {
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C6 = /*#__PURE__*/ function() {
     "use strict";
     function C6() {
@@ -181,30 +168,28 @@ var C6 = /*#__PURE__*/ function() {
     }
     var _proto = C6.prototype;
     _proto.f = function f() {
-        return _wrap_async_generator(function() {
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var x;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return [
-                            4,
-                            _await_async_generator(1)
-                        ];
-                    case 1:
-                        x = _state.sent();
-                        return [
-                            2
-                        ];
+                        _ctx.next = 2;
+                        return _await_async_generator(1);
+                    case 2:
+                        x = _ctx.sent;
+                    case 3:
+                    case "end":
+                        return _ctx.stop();
                 }
-            });
-        })();
+            }, _callee);
+        }))();
     };
     return C6;
 }();
 // @filename: C7.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C7 = /*#__PURE__*/ function() {
     "use strict";
     function C7() {
@@ -212,21 +197,24 @@ var C7 = /*#__PURE__*/ function() {
     }
     var _proto = C7.prototype;
     _proto.f = function f() {
-        return _wrap_async_generator(function() {
-            return _ts_generator(this, function(_state) {
-                return [
-                    2,
-                    1
-                ];
-            });
-        })();
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        return _ctx.abrupt("return", 1);
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     };
     return C7;
 }();
 // @filename: C8.ts
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C8 = /*#__PURE__*/ function() {
     "use strict";
     function C8() {
@@ -236,14 +224,17 @@ var C8 = /*#__PURE__*/ function() {
     _proto.g = function g() {};
     _proto.f = function f() {
         var _this = this;
-        return _wrap_async_generator(function() {
-            return _ts_generator(this, function(_state) {
-                _this.g();
-                return [
-                    2
-                ];
-            });
-        })();
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _this.g();
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     };
     return C8;
 }();
@@ -254,7 +245,7 @@ import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var B9 = /*#__PURE__*/ function() {
     "use strict";
     function B9() {
@@ -278,14 +269,17 @@ var C9 = /*#__PURE__*/ function(B9) {
         var _this1 = this, _superprop_get_g = function() {
             return _get(_get_prototype_of(C9.prototype), "g", _this);
         };
-        return _wrap_async_generator(function() {
-            return _ts_generator(this, function(_state) {
-                _superprop_get_g().call(_this1);
-                return [
-                    2
-                ];
-            });
-        })();
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _superprop_get_g().call(_this1);
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     };
     return C9;
 }(B9);

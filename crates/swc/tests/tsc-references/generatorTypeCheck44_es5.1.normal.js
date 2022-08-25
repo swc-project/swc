@@ -1,33 +1,42 @@
 //@target: ES6
 import _define_enumerable_properties from "@swc/helpers/src/_define_enumerable_properties.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 function g() {
-    var _obj, _mutatorMap, _tmp, x, _tmp1;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    var _obj, _mutatorMap, x;
+    return regeneratorRuntime.wrap(function g$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                _tmp = {};
-                _mutatorMap = _tmp;
+                _mutatorMap = {};
                 _obj = {};
-                return [
-                    4,
-                    0
-                ];
-            case 1:
-                _ = _state.sent();
-                return [
-                    4,
-                    0
-                ];
-            case 2:
-                _tmp1 = {};
-                _mutatorMap[_] = _mutatorMap[_state.sent()] || _tmp1;
-                x = (_mutatorMap[yield 0].get = function() {
+                _ctx.next = 4;
+                return 0;
+            case 4:
+                _ctx.t0 = _ctx.sent;
+                _ctx.next = 7;
+                return 0;
+            case 7:
+                _ctx.t2 = _ctx.sent;
+                _ctx.t1 = _mutatorMap[_ctx.t2];
+                if (_ctx.t1) {
+                    _ctx.next = 11;
+                    break;
+                }
+                _ctx.t1 = {};
+            case 11:
+                _mutatorMap[_ctx.t0] = _ctx.t1;
+                _ctx.next = 14;
+                return 0;
+            case 14:
+                _ctx.t3 = _ctx.sent;
+                _mutatorMap[_ctx.t3].get = function() {
                     return 0;
-                }, _define_enumerable_properties(_obj, _mutatorMap), _obj);
-                return [
-                    2
-                ];
+                };
+                _define_enumerable_properties(_obj, _mutatorMap);
+                x = (0, _obj);
+            case 18:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked);
 }

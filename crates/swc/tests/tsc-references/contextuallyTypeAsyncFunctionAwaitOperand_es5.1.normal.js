@@ -2,45 +2,41 @@
 // @noImplicitAny: true
 // @noEmit: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function fn1() {
     return _fn1.apply(this, arguments);
 }
 function _fn1() {
-    _fn1 = _async_to_generator(function() {
-        var obj1, _tmp, obj2, _tmp1;
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+    _fn1 = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        var obj1, obj2;
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    _tmp = {};
-                    return [
-                        4,
-                        (_tmp.key = "value", _tmp)
-                    ];
-                case 1:
-                    obj1 = _state.sent();
-                    return [
-                        4,
-                        new Promise(function(resolve) {
-                            return resolve({
-                                key: "value"
-                            });
-                        })
-                    ];
+                    _ctx.next = 2;
+                    return {
+                        key: "value"
+                    };
                 case 2:
-                    obj2 = _state.sent();
-                    _tmp1 = {};
-                    return [
-                        4,
-                        (_tmp1.key = "value", _tmp1)
-                    ];
-                case 3:
-                    return [
-                        2,
-                        _state.sent()
-                    ];
+                    obj1 = _ctx.sent;
+                    _ctx.next = 5;
+                    return new Promise(function(resolve) {
+                        return resolve({
+                            key: "value"
+                        });
+                    });
+                case 5:
+                    obj2 = _ctx.sent;
+                    _ctx.next = 8;
+                    return {
+                        key: "value"
+                    };
+                case 8:
+                    return _ctx.abrupt("return", _ctx.sent);
+                case 9:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    });
+        }, _callee);
+    }));
     return _fn1.apply(this, arguments);
 }
