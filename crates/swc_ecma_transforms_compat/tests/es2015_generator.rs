@@ -1688,26 +1688,29 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
-                return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                    while(1)switch(_ctx.prev = _ctx.next){
+            var _ref = _asyncToGenerator(function(e) {
+                return __generator(this, function(_state) {
+                    switch(_state.label){
                         case 0:
-                            _ctx.next = 2;
-                            return doSomething();
-                        case 2:
-                        case \"end\":
-                            return _ctx.stop();
+                            return [
+                                4,
+                                doSomething()
+                            ];
+                        case 1:
+                            _state.sent();
+                            return [
+                                2
+                            ];
                     }
-                }, _callee);
-            }));
+                });
+            });
             return function(e) {
                 return _ref.apply(this, arguments);
             };
         }());
-    }
+    };
 "
 );
 
@@ -1727,26 +1730,29 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
-                return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                    while(1)switch(_ctx.prev = _ctx.next){
+            var _ref = _asyncToGenerator(function(e) {
+                return __generator(this, function(_state) {
+                    switch(_state.label){
                         case 0:
-                            _ctx.next = 2;
-                            return doSomething();
-                        case 2:
-                        case \"end\":
-                            return _ctx.stop();
+                            return [
+                                4,
+                                doSomething()
+                            ];
+                        case 1:
+                            _state.sent();
+                            return [
+                                2
+                            ];
                     }
-                }, _callee);
-            }));
+                });
+            });
             return function(e) {
                 return _ref.apply(this, arguments);
             };
         }());
-    }
+    };
 "
 );
 
@@ -1767,26 +1773,29 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
-                return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                    while(1)switch(_ctx.prev = _ctx.next){
+            var _ref = _asyncToGenerator(function(e) {
+                return __generator(this, function(_state) {
+                    switch(_state.label){
                         case 0:
-                            _ctx.next = 2;
-                            return doSomething();
-                        case 2:
-                        case \"end\":
-                            return _ctx.stop();
+                            return [
+                                4,
+                                doSomething()
+                            ];
+                        case 1:
+                            _state.sent();
+                            return [
+                                2
+                            ];
                     }
-                }, _callee);
-            }));
+                });
+            });
             return function(e) {
                 return _ref.apply(this, arguments);
             };
         }());
-    }
+    };
 "
 );
 
