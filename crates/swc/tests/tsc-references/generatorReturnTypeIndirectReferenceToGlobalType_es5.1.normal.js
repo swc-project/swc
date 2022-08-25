@@ -1,20 +1,21 @@
 // @strict: true
 // @target: esnext
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = /*#__PURE__*/ regeneratorRuntime.mark(f1);
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function f1() {
     var a;
-    return regeneratorRuntime.wrap(function f1$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                _ctx.next = 2;
-                return 0;
-            case 2:
-                a = _ctx.sent;
-                return _ctx.abrupt("return", 1);
-            case 4:
-            case "end":
-                return _ctx.stop();
+                return [
+                    4,
+                    0
+                ];
+            case 1:
+                a = _state.sent();
+                return [
+                    2,
+                    1
+                ];
         }
-    }, _marked);
+    });
 }

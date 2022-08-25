@@ -2,7 +2,7 @@ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _define_property from "@swc/helpers/src/_define_property.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 var _obj, constCall = Symbol();
 Symbol(), Symbol(), Symbol();
 var C = function C() {
@@ -19,40 +19,45 @@ var C0 = function() {
     return _proto.method1 = function() {
         return s;
     }, _proto.method2 = function() {
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function(_ctx) {
-                for(;;)switch(_ctx.prev = _ctx.next){
-                    case 0:
-                        return _ctx.abrupt("return", s);
-                    case 1:
-                    case "end":
-                        return _ctx.stop();
-                }
-            }, _callee);
-        }))();
+        return _async_to_generator(function() {
+            return _ts_generator(this, function(_state) {
+                return [
+                    2,
+                    s
+                ];
+            });
+        })();
     }, _proto.method3 = function() {
-        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function(_ctx) {
-                for(;;)switch(_ctx.prev = _ctx.next){
+        return _wrap_async_generator(function() {
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        return _ctx.next = 2, s;
-                    case 2:
-                    case "end":
-                        return _ctx.stop();
+                        return [
+                            4,
+                            s
+                        ];
+                    case 1:
+                        return _state.sent(), [
+                            2
+                        ];
                 }
-            }, _callee);
-        }))();
-    }, _proto.method4 = regeneratorRuntime.mark(function method4() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
+            });
+        })();
+    }, _proto.method4 = function() {
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    return _ctx.next = 2, s;
-                case 2:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        s
+                    ];
+                case 1:
+                    return _state.sent(), [
+                        2
+                    ];
             }
-        }, method4);
-    }), _proto.method5 = function() {
+        });
+    }, _proto.method5 = function() {
         var p = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : s;
         return p;
     }, C0;

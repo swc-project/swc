@@ -2,20 +2,16 @@
 // @lib: es5,es2015.promise
 // @noEmitHelpers: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 var foo = function() {
-    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+    var _ref = _async_to_generator(function() {
         var v;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    ;
-                case 1:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }));
+        return _ts_generator(this, function(_state) {
+            return [
+                2
+            ];
+        });
+    });
     return function foo() {
         return _ref.apply(this, arguments);
     };

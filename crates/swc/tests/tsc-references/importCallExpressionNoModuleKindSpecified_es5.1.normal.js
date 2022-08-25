@@ -22,7 +22,7 @@ export function backup() {
 // @filename: 2.ts
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -35,23 +35,25 @@ var C = /*#__PURE__*/ function() {
         this.myModule.then(function(Zero) {
             console.log(Zero.foo());
         }, function() {
-            var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(err) {
+            var _ref = _async_to_generator(function(err) {
                 var one;
-                return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                    while(1)switch(_ctx.prev = _ctx.next){
+                return _ts_generator(this, function(_state) {
+                    switch(_state.label){
                         case 0:
                             console.log(err);
-                            _ctx.next = 3;
-                            return import("./1");
-                        case 3:
-                            one = _ctx.sent;
+                            return [
+                                4,
+                                import("./1")
+                            ];
+                        case 1:
+                            one = _state.sent();
                             console.log(one.backup());
-                        case 5:
-                        case "end":
-                            return _ctx.stop();
+                            return [
+                                2
+                            ];
                     }
-                }, _callee);
-            }));
+                });
+            });
             return function(err) {
                 return _ref.apply(this, arguments);
             };

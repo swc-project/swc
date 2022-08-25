@@ -16,7 +16,7 @@ export function backup() {
 }
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 export var D = function() {
     "use strict";
     function D() {
@@ -26,20 +26,22 @@ export var D = function() {
         var _ref;
         import("./0"), this.myModule.then(function(Zero) {
             console.log(Zero.foo());
-        }, (_ref = _async_to_generator(regeneratorRuntime.mark(function _callee(err) {
+        }, (_ref = _async_to_generator(function(err) {
             var one;
-            return regeneratorRuntime.wrap(function(_ctx) {
-                for(;;)switch(_ctx.prev = _ctx.next){
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        return console.log(err), _ctx.next = 3, import("./1");
-                    case 3:
-                        one = _ctx.sent, console.log(one.backup());
-                    case 5:
-                    case "end":
-                        return _ctx.stop();
+                        return console.log(err), [
+                            4,
+                            import("./1")
+                        ];
+                    case 1:
+                        return one = _state.sent(), console.log(one.backup()), [
+                            2
+                        ];
                 }
-            }, _callee);
-        })), function(err) {
+            });
+        }), function(err) {
             return _ref.apply(this, arguments);
         }));
     }, D;
