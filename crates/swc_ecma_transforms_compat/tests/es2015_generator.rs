@@ -1392,7 +1392,6 @@ foo(1)
     .then(console.log);
 "#,
     r#"
-var regeneratorRuntime = require("regenerator-runtime");
 function foo(a) {
     return _foo.apply(this, arguments);
 }
