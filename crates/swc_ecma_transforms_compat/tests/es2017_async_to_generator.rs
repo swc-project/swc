@@ -6,7 +6,9 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_transforms_compat::{
     es2015,
-    es2015::{arrow, block_scoping, destructuring, function_name, parameters},
+    es2015::{
+        arrow, block_scoping, destructuring, function_name, generator::generator, parameters,
+    },
     es2017::async_to_generator,
     es2022::class_properties,
 };
@@ -2455,11 +2457,11 @@ test_exec!(
 
 test_exec!(
     Syntax::default(),
-    |_| {
+    |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, mark)
+            generator(mark, t.comments.clone())
         )
     },
     issue_1575_2,
