@@ -3,13 +3,10 @@ $DIR/tests/stacktrace/issue-622/input/index.js:3
         ^
 
 ReferenceError: call is not defined
-    at null.<anonymous> ($DIR/tests/stacktrace/issue-622/input/index.js:3:9)
-    at null.step ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
-    at Object.next ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
+    at null._callee$ ($DIR/tests/stacktrace/issue-622/input/index.js:3:9)
     at null.asyncGeneratorStep ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
     at null._next ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
     at null.<anonymous> ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
     at new Promise (<anonymous>)
     at null.<anonymous> ($DIR/tests/stacktrace/issue-622/input/index.js:1:1)
     at null._foo ($DIR/tests/stacktrace/issue-622/input/index.js:1:19)
-    at null.foo ($DIR/tests/stacktrace/issue-622/input/index.js:1:19)

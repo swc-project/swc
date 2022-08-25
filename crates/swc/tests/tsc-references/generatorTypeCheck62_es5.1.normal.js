@@ -1,117 +1,110 @@
 // @module: commonjs
 // @target: es6
 // @noImplicitAny: true
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 export function strategy(stratName, gen) {
-    return function(state) {
-        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, next, err;
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+    return /*#__PURE__*/ regeneratorRuntime.mark(function _callee(state) {
+        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, next;
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-                    _state.label = 1;
-                case 1:
-                    _state.trys.push([
-                        1,
-                        6,
-                        7,
-                        8
-                    ]);
+                    _ctx.prev = 1;
                     _iterator = gen(state)[Symbol.iterator]();
-                    _state.label = 2;
-                case 2:
-                    if (!!(_iteratorNormalCompletion = (_step = _iterator.next()).done)) return [
-                        3,
-                        5
-                    ];
+                case 3:
+                    if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                        _ctx.next = 11;
+                        break;
+                    }
                     next = _step.value;
                     if (next) {
                         next.lastStrategyApplied = stratName;
                     }
-                    return [
-                        4,
-                        next
-                    ];
-                case 3:
-                    _state.sent();
-                    _state.label = 4;
-                case 4:
-                    _iteratorNormalCompletion = true;
-                    return [
-                        3,
-                        2
-                    ];
-                case 5:
-                    return [
-                        3,
-                        8
-                    ];
-                case 6:
-                    err = _state.sent();
-                    _didIteratorError = true;
-                    _iteratorError = err;
-                    return [
-                        3,
-                        8
-                    ];
-                case 7:
-                    try {
-                        if (!_iteratorNormalCompletion && _iterator.return != null) {
-                            _iterator.return();
-                        }
-                    } finally{
-                        if (_didIteratorError) {
-                            throw _iteratorError;
-                        }
-                    }
-                    return [
-                        7
-                    ];
+                    _ctx.next = 8;
+                    return next;
                 case 8:
-                    return [
-                        2
-                    ];
+                    _iteratorNormalCompletion = true;
+                    _ctx.next = 3;
+                    break;
+                case 11:
+                    _ctx.next = 17;
+                    break;
+                case 13:
+                    _ctx.prev = 13;
+                    _ctx.t0 = _ctx["catch"](1);
+                    _didIteratorError = true;
+                    _iteratorError = _ctx.t0;
+                case 17:
+                    _ctx.prev = 17;
+                    _ctx.prev = 18;
+                    if (!_iteratorNormalCompletion && _iterator.return != null) {
+                        _iterator.return();
+                    }
+                case 20:
+                    _ctx.prev = 20;
+                    if (!_didIteratorError) {
+                        _ctx.next = 23;
+                        break;
+                    }
+                    throw _iteratorError;
+                case 23:
+                    return _ctx.finish(20);
+                case 24:
+                    return _ctx.finish(17);
+                case 25:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    };
+        }, _callee, null, [
+            [
+                1,
+                13,
+                17,
+                25
+            ],
+            [
+                18,
+                ,
+                20,
+                24
+            ]
+        ]);
+    });
 }
-export var Nothing1 = strategy("Nothing", function(state) {
-    return _ts_generator(this, function(_state) {
-        return [
-            2,
-            state
-        ];
-    });
-});
-export var Nothing2 = strategy("Nothing", function(state) {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+export var Nothing1 = strategy("Nothing", /*#__PURE__*/ regeneratorRuntime.mark(function _callee(state) {
+    return regeneratorRuntime.wrap(function _callee$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    state
-                ];
+                return _ctx.abrupt("return", state);
             case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+            case "end":
+                return _ctx.stop();
         }
-    });
-});
-export var Nothing3 = strategy("Nothing", function(state) {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    }, _callee);
+}));
+export var Nothing2 = strategy("Nothing", /*#__PURE__*/ regeneratorRuntime.mark(function _callee(state) {
+    return regeneratorRuntime.wrap(function _callee$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2,
-                    state
-                ];
+                _ctx.next = 2;
+                return state;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-    });
-});
+    }, _callee);
+}));
+export var Nothing3 = strategy("Nothing", /*#__PURE__*/ regeneratorRuntime.mark(function _callee(state) {
+    return regeneratorRuntime.wrap(function _callee$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
+            case 0:
+                _ctx.next = 2;
+                return;
+            case 2:
+                return _ctx.abrupt("return", state);
+            case 3:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _callee);
+}));

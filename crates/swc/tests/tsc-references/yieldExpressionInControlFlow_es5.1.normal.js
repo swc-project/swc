@@ -4,63 +4,54 @@
 // @noImplicitAny: true
 // @lib: esnext
 // @Filename: bug25149.js
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(f);
 function f() {
     var o;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function f$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                if (!true) return [
-                    3,
-                    2
-                ];
-                return [
-                    4,
-                    o
-                ];
+                ;
             case 1:
-                o = _state.sent();
-                return [
-                    3,
-                    0
-                ];
-            case 2:
-                return [
-                    2
-                ];
+                if (!true) {
+                    _ctx.next = 7;
+                    break;
+                }
+                _ctx.next = 4;
+                return o;
+            case 4:
+                o = _ctx.sent;
+                _ctx.next = 1;
+                break;
+            case 7:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked);
 }
 // @Filename: alsoFails.ts
 // fails in Typescript too
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import _ts_values from "@swc/helpers/src/_ts_values.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 function g() {
     var o;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 o = [];
-                _state.label = 1;
             case 1:
-                if (!true) return [
-                    3,
-                    3
-                ];
-                return [
-                    5,
-                    _ts_values(o)
-                ];
-            case 2:
-                o = _state.sent();
-                return [
-                    3,
-                    1
-                ];
+                if (!true) {
+                    _ctx.next = 6;
+                    break;
+                }
+                return _ctx.delegateYield(o, "t0", 3);
             case 3:
-                return [
-                    2
-                ];
+                o = _ctx.t0;
+                _ctx.next = 1;
+                break;
+            case 6:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked);
 }

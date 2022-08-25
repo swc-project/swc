@@ -3,30 +3,28 @@
 // test for #12203
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function rootConnection(name) {
     return {
         resolve: function() {
-            var _ref = _async_to_generator(function(context, args) {
-                var objects, _tmp, _tmp1;
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
+            var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(context, args) {
+                var objects;
+                return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                    while(1)switch(_ctx.prev = _ctx.next){
                         case 0:
-                            _tmp = {};
-                            return [
-                                4,
-                                (_tmp.objects = 12, _tmp)
-                            ];
-                        case 1:
-                            objects = _state.sent().objects;
-                            _tmp1 = {};
-                            return [
-                                2,
-                                _object_spread(_tmp1, connectionFromArray(objects, args))
-                            ];
+                            _ctx.next = 2;
+                            return {
+                                objects: 12
+                            };
+                        case 2:
+                            objects = _ctx.sent.objects;
+                            return _ctx.abrupt("return", _object_spread({}, connectionFromArray(objects, args)));
+                        case 4:
+                        case "end":
+                            return _ctx.stop();
                     }
-                });
-            });
+                }, _callee);
+            }));
             return function(context, args) {
                 return _ref.apply(this, arguments);
             };

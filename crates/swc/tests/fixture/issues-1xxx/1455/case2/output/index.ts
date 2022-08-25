@@ -1,5 +1,5 @@
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var obj = {
     find: function find(param) {
         var platform = param.platform;
@@ -8,27 +8,26 @@ var obj = {
         };
     },
     byPlatform: function() {
-        var _ref = _async_to_generator(function(platform) {
-            var result, _tmp;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
+        var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(platform) {
+            var result;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        _tmp = {};
-                        return [
-                            4,
-                            this.find((_tmp.platform = {
+                        _ctx.next = 2;
+                        return this.find({
+                            platform: {
                                 $eq: platform
-                            }, _tmp))
-                        ];
-                    case 1:
-                        result = _state.sent();
-                        return [
-                            2,
-                            result
-                        ];
+                            }
+                        });
+                    case 2:
+                        result = _ctx.sent;
+                        return _ctx.abrupt("return", result);
+                    case 4:
+                    case "end":
+                        return _ctx.stop();
                 }
-            });
-        });
+            }, _callee, this);
+        }));
         return function(platform) {
             return _ref.apply(this, arguments);
         };

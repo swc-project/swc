@@ -1,15 +1,18 @@
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 import "reflect-metadata";
 var v0 = function() {
-    var _ref = _async_to_generator(function(v1) {
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                v1
-            ];
-        });
-    });
+    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(v1) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", v1);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return function(v1) {
         return _ref.apply(this, arguments);
     };

@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _defineProperty = require("@swc/helpers/lib/_define_property.js").default;
-var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
+var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenerator-runtime"));
 function _asyncIterator(iterable) {
     var method;
     if (typeof Symbol === "function") {
@@ -47,159 +48,137 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-_asyncToGenerator(function() {
-    var counter, resolve, promise, iterable, _tmp, res, _i, _iter, v, oldresolve, _tmp1, _tmp2;
-    return _tsGenerator(this, function(_state) {
-        switch(_state.label){
+_asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _callee() {
+    var counter, resolve, promise, iterable, res, _i, _iter, v, oldresolve;
+    return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 counter = 0;
+                ;
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                _tmp = {};
-                iterable = _defineProperty(_tmp, Symbol.asyncIterator, function() {
+                iterable = _defineProperty({}, Symbol.asyncIterator, function() {
                     return {
                         next: function next() {
                             return promise;
                         }
                     };
                 });
-                res = _asyncToGenerator(function() {
-                    var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value, err;
-                    return _tsGenerator(this, function(_state) {
-                        switch(_state.label){
+                res = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _callee() {
+                    var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value;
+                    return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
+                        while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
                                 _iteratorAbruptCompletion = false, _didIteratorError = false;
-                                _state.label = 1;
-                            case 1:
-                                _state.trys.push([
-                                    1,
-                                    6,
-                                    7,
-                                    12
-                                ]);
+                                _ctx.prev = 1;
                                 _iterator = _asyncIterator(iterable);
-                                _state.label = 2;
-                            case 2:
-                                return [
-                                    4,
-                                    _iterator.next()
-                                ];
                             case 3:
-                                if (!(_iteratorAbruptCompletion = !(_step = _state.sent()).done)) return [
-                                    3,
-                                    5
-                                ];
-                                _value = _step.value;
-                                value = _value;
-                                counter++;
-                                console.log(value);
-                                _state.label = 4;
-                            case 4:
-                                _iteratorAbruptCompletion = false;
-                                return [
-                                    3,
-                                    2
-                                ];
+                                _ctx.next = 5;
+                                return _iterator.next();
                             case 5:
-                                return [
-                                    3,
-                                    12
-                                ];
-                            case 6:
-                                err = _state.sent();
-                                _didIteratorError = true;
-                                _iteratorError = err;
-                                return [
-                                    3,
-                                    12
-                                ];
+                                if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
+                                    _ctx.next = 10;
+                                    break;
+                                }
+                                {
+                                    _value = _step.value;
+                                    value = _value;
+                                    counter++;
+                                    console.log(value);
+                                }
                             case 7:
-                                _state.trys.push([
-                                    7,
-                                    ,
-                                    10,
-                                    11
-                                ]);
-                                if (!(_iteratorAbruptCompletion && _iterator.return != null)) return [
-                                    3,
-                                    9
-                                ];
-                                return [
-                                    4,
-                                    _iteratorError.return()
-                                ];
-                            case 8:
-                                _state.sent();
-                                _state.label = 9;
-                            case 9:
-                                return [
-                                    3,
-                                    11
-                                ];
+                                _iteratorAbruptCompletion = false;
+                                _ctx.next = 3;
+                                break;
                             case 10:
-                                if (_didIteratorError) {
-                                    throw _iteratorError;
-                                }
-                                return [
-                                    7
-                                ];
-                            case 11:
-                                return [
-                                    7
-                                ];
+                                _ctx.next = 16;
+                                break;
                             case 12:
-                                if (counter !== 2) {
-                                    throw new Error("");
+                                _ctx.prev = 12;
+                                _ctx.t0 = _ctx["catch"](1);
+                                _didIteratorError = true;
+                                _iteratorError = _ctx.t0;
+                            case 16:
+                                _ctx.prev = 16;
+                                _ctx.prev = 17;
+                                if (!(_iteratorAbruptCompletion && _iterator.return != null)) {
+                                    _ctx.next = 21;
+                                    break;
                                 }
-                                return [
-                                    2
-                                ];
+                                _ctx.next = 21;
+                                return _iteratorError.return();
+                            case 21:
+                                _ctx.prev = 21;
+                                if (!_didIteratorError) {
+                                    _ctx.next = 24;
+                                    break;
+                                }
+                                throw _iteratorError;
+                            case 24:
+                                return _ctx.finish(21);
+                            case 25:
+                                return _ctx.finish(16);
+                            case 26:
+                                if (!(counter !== 2)) {
+                                    _ctx.next = 28;
+                                    break;
+                                }
+                                throw new Error("");
+                            case 28:
+                            case "end":
+                                return _ctx.stop();
                         }
-                    });
-                })();
+                    }, _callee, null, [
+                        [
+                            1,
+                            12,
+                            16,
+                            26
+                        ],
+                        [
+                            17,
+                            ,
+                            21,
+                            25
+                        ]
+                    ]);
+                }))();
                 _i = 0, _iter = [
                     0,
                     1
                 ];
-                _state.label = 1;
-            case 1:
-                if (!(_i < _iter.length)) return [
-                    3,
-                    4
-                ];
+            case 6:
+                if (!(_i < _iter.length)) {
+                    _ctx.next = 16;
+                    break;
+                }
                 v = _iter[_i];
-                return [
-                    4,
-                    null
-                ];
-            case 2:
-                _state.sent();
+                _ctx.next = 10;
+                return null;
+            case 10:
                 oldresolve = resolve;
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                _tmp1 = {};
-                oldresolve((_tmp1.value = v, _tmp1.done = false, _tmp1));
-                _state.label = 3;
-            case 3:
+                oldresolve({
+                    value: v,
+                    done: false
+                });
+            case 13:
                 _i++;
-                return [
-                    3,
-                    1
-                ];
-            case 4:
-                _tmp2 = {};
-                resolve((_tmp2.value = undefined, _tmp2.done = true, _tmp2));
-                return [
-                    4,
-                    res
-                ];
-            case 5:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 6;
+                break;
+            case 16:
+                resolve({
+                    value: undefined,
+                    done: true
+                });
+                _ctx.next = 19;
+                return res;
+            case 19:
+            case "end":
+                return _ctx.stop();
         }
-    });
-})();
+    }, _callee);
+}))();

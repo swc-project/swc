@@ -6,7 +6,7 @@ import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
@@ -34,15 +34,19 @@ var Derived = /*#__PURE__*/ function(Base) {
         var _this1 = this, _superprop_get_method = function() {
             return _get(_get_prototype_of(Derived.prototype), "method", _this);
         };
-        return _async_to_generator(function() {
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
             var ref;
-            return _ts_generator(this, function(_state) {
-                return [
-                    2,
-                    (ref = _superprop_get_method()) === null || ref === void 0 ? void 0 : ref.call(_this1)
-                ];
-            });
-        })();
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        ;
+                        return _ctx.abrupt("return", (ref = _superprop_get_method()) === null || ref === void 0 ? void 0 : ref.call(_this1));
+                    case 2:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     };
     return Derived;
 }(Base);

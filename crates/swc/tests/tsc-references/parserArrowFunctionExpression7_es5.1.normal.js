@@ -1,15 +1,18 @@
 // @target: esnext
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 ({
     m: function m() {
-        return _async_to_generator(function() {
-            return _ts_generator(this, function(_state) {
-                for(;;){}
-                return [
-                    2
-                ];
-            });
-        })();
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        for(;;){}
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     }
 });

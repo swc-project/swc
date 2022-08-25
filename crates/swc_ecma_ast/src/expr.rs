@@ -189,25 +189,6 @@ impl Expr {
             _ => self,
         }
     }
-
-    /// Creates an expression from `exprs`. This will return first element if
-    /// the length is 1 and a sequential expression otherwise.
-    ///
-    /// # Panics
-    ///
-    /// Panics if `exprs` is empty.
-    pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Box<Expr> {
-        debug_assert_ne!(exprs, vec![], "exprs must not be empty");
-
-        if exprs.len() == 1 {
-            exprs.remove(0)
-        } else {
-            Box::new(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs,
-            }))
-        }
-    }
 }
 
 // Implement Clone without inline to avoid multiple copies of the
@@ -264,12 +245,6 @@ impl Take for Expr {
 }
 
 bridge_expr_from!(Ident, Id);
-bridge_expr_from!(FnExpr, Function);
-
-bridge_from!(Box<Expr>, Expr, ArrayLit);
-bridge_from!(Box<Expr>, Expr, ObjectLit);
-bridge_from!(Box<Expr>, Expr, MemberExpr);
-bridge_from!(Box<Expr>, Expr, SuperPropExpr);
 
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
@@ -333,15 +308,6 @@ pub enum PropOrSpread {
 impl From<Prop> for PropOrSpread {
     fn from(p: Prop) -> Self {
         Self::Prop(Box::new(p))
-    }
-}
-
-impl Take for PropOrSpread {
-    fn dummy() -> Self {
-        PropOrSpread::Spread(SpreadElement {
-            dot3_token: DUMMY_SP,
-            expr: Take::dummy(),
-        })
     }
 }
 
@@ -459,15 +425,6 @@ impl Take for FnExpr {
         FnExpr {
             ident: None,
             function: Take::dummy(),
-        }
-    }
-}
-
-impl From<Function> for FnExpr {
-    fn from(function: Function) -> Self {
-        Self {
-            ident: None,
-            function,
         }
     }
 }
@@ -1165,12 +1122,17 @@ pub enum PatOrExpr {
     Pat(Box<Pat>),
 }
 
-bridge_from!(PatOrExpr, Box<Pat>, Pat);
-bridge_from!(PatOrExpr, Pat, Ident);
-bridge_from!(PatOrExpr, Pat, Id);
-bridge_from!(PatOrExpr, Box<Expr>, Expr);
-bridge_from!(PatOrExpr, Box<Expr>, MemberExpr);
-bridge_from!(PatOrExpr, Box<Expr>, SuperPropExpr);
+impl From<Pat> for PatOrExpr {
+    fn from(p: Pat) -> Self {
+        Self::Pat(Box::new(p))
+    }
+}
+
+impl From<Expr> for PatOrExpr {
+    fn from(e: Expr) -> Self {
+        Self::Expr(Box::new(e))
+    }
+}
 
 impl PatOrExpr {
     /// Returns the [Pat] if this is a pattern, otherwise returns [None].

@@ -2,7 +2,7 @@
 // @noEmitHelpers: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -12,22 +12,20 @@ var C = /*#__PURE__*/ function() {
     _proto.method = function method() {
         var _this = this;
         var fn = function() {
-            var _ref = _async_to_generator(function() {
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
+            var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+                return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                    while(1)switch(_ctx.prev = _ctx.next){
                         case 0:
-                            return [
-                                4,
-                                _this
-                            ];
-                        case 1:
-                            return [
-                                2,
-                                _state.sent()
-                            ];
+                            _ctx.next = 2;
+                            return _this;
+                        case 2:
+                            return _ctx.abrupt("return", _ctx.sent);
+                        case 3:
+                        case "end":
+                            return _ctx.stop();
                     }
-                });
-            });
+                }, _callee);
+            }));
             return function fn() {
                 return _ref.apply(this, arguments);
             };

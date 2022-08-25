@@ -10,44 +10,37 @@ export function backup() {
 }
 // @filename: 2.ts
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function compute(promise) {
     return _compute.apply(this, arguments);
 }
 function _compute() {
-    _compute = _async_to_generator(function(promise) {
+    _compute = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(promise) {
         var j;
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return [
-                        4,
-                        promise
-                    ];
-                case 1:
-                    j = _state.sent();
-                    if (!!j) return [
-                        3,
-                        3
-                    ];
-                    return [
-                        4,
-                        import("./1")
-                    ];
+                    _ctx.next = 2;
+                    return promise;
                 case 2:
-                    j = _state.sent();
-                    return [
-                        2,
-                        j.backup()
-                    ];
-                case 3:
-                    return [
-                        2,
-                        j.foo()
-                    ];
+                    j = _ctx.sent;
+                    if (j) {
+                        _ctx.next = 8;
+                        break;
+                    }
+                    _ctx.next = 6;
+                    return import("./1");
+                case 6:
+                    j = _ctx.sent;
+                    return _ctx.abrupt("return", j.backup());
+                case 8:
+                    return _ctx.abrupt("return", j.foo());
+                case 9:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    });
+        }, _callee);
+    }));
     return _compute.apply(this, arguments);
 }
 compute(import("./0"));

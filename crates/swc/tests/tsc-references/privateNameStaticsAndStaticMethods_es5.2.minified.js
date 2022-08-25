@@ -7,7 +7,7 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var A = function A() {
     "use strict";
     _class_call_check(this, A), _class_static_private_method_get(A, A, foo).call(A, 30), _class_static_private_method_get(A, A, bar).call(A, 30), _class_static_private_method_get(A, A, bar).call(A, 30), _class_static_private_field_spec_set(A, A, _quux, _class_static_private_field_spec_get(A, A, _quux) + 1), _class_static_private_field_update(A, A, _quux).value++;
@@ -27,11 +27,13 @@ function bar(a) {
     return _bar.apply(this, arguments);
 }
 function _bar() {
-    return (_bar = _async_to_generator(function(a) {
-        return _ts_generator(this, function(_state) {
-            return [
-                2
-            ];
-        });
-    })).apply(this, arguments);
+    return (_bar = _async_to_generator(regeneratorRuntime.mark(function _callee(a) {
+        return regeneratorRuntime.wrap(function(_ctx) {
+            for(;;)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }))).apply(this, arguments);
 }

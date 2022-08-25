@@ -6,7 +6,7 @@ use crate::{
     ident::{BindingIdent, Ident},
     prop::PropName,
     typescript::TsTypeAnn,
-    Id, Invalid,
+    Invalid,
 };
 
 #[ast_node(no_clone)]
@@ -60,7 +60,6 @@ impl Take for Pat {
 }
 
 bridge_pat_from!(BindingIdent, Ident);
-bridge_pat_from!(BindingIdent, Id);
 bridge_from!(crate::Param, crate::Pat, BindingIdent);
 bridge_from!(Box<crate::Pat>, crate::Pat, BindingIdent);
 

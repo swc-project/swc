@@ -1,15 +1,10 @@
 #![allow(clippy::unit_arg)]
 
-use swc_common::{
-    chain,
-    comments::{NoopComments, SingleThreadedComments},
-    Mark,
-};
+use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
-    es2015, es2015::generator::generator, es2016, es2017, es2017::async_to_generator, es2018,
-    es2021, es2022,
+    es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator, es2018, es2021, es2022,
 };
 use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
@@ -23,7 +18,7 @@ fn tr(_: ()) -> impl Fold {
     let top_level_mark = Mark::new();
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        generator(unresolved_mark, NoopComments)
+        regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
     )
 }
 
@@ -33,7 +28,7 @@ fn tr_with_async() -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-        generator(unresolved_mark, NoopComments)
+        regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
     )
 }
 
@@ -51,16 +46,26 @@ var o = {
 
 "#,
     r#"
-    var o = {
-        foo () {
-            return __generator(this, function(_state) {
-                return [
-                    2,
-                    "foo"
-                ];
-            });
-        }
-    };
+var regeneratorRuntime = require("regenerator-runtime");
+
+var o = {
+  foo() {
+    return regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+          while (1) switch (_ctx.prev = _ctx.next) {
+            case 0:
+              return _ctx.abrupt("return", "foo");
+
+            case 1:
+            case "end":
+              return _ctx.stop();
+          }
+        }, _callee);
+      })()
+    ;
+  }
+
+};
 
 "#
 );
@@ -125,13 +130,19 @@ test!(
     "function* foo(a,b,c){}
 ",
     r#"
-    function foo(a, b, c) {
-        return __generator(this, function(_state) {
-            return [
-                2
-            ];
-        });
-    }
+var regeneratorRuntime = require("regenerator-runtime");
+var _marked = regeneratorRuntime.mark(foo);
+
+function foo(a, b, c) {
+  return regeneratorRuntime.wrap(function foo$(_ctx) {
+    while (1)
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+        case "end":
+          return _ctx.stop();
+      }
+  }, _marked);
+}
 "#
 );
 
@@ -956,12 +967,16 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
             es2015::for_of(Default::default()),
-            generator(unresolved_mark, t.comments.clone()),
+            es2015::regenerator::<SingleThreadedComments>(
+                Default::default(),
+                None,
+                unresolved_mark
+            ),
         )
     },
     issue_600_exact_passes,
@@ -974,7 +989,11 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |t| generator(Mark::new(), t.comments.clone()),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     issue_600_min,
     "function* foo() {
         try {
@@ -998,7 +1017,11 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |t| generator(Mark::new(), t.comments.clone()),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     issue_831_1,
     "function* myGenerator() {
         yield* [1,2,3];
@@ -1015,38 +1038,42 @@ test_exec!(
 // test interop between export and regenerator
 test!(
     syntax(),
-    |t| generator(Mark::new(), t.comments.clone()),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+
+        es2015::regenerator::<SingleThreadedComments>(Default::default(), None, mark)
+    },
     issue_831_3,
     "export function* myGenerator() {
         yield* [1,2,3];
     }",
-    "
-    export function myGenerator() {
-        return __generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    return [
-                        5,
-                        __values([
-                            1,
-                            2,
-                            3
-                        ])
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        2
-                    ];
-            }
-        });
-    }
+    "var regeneratorRuntime = require(\"regenerator-runtime\");
+var _marked = regeneratorRuntime.mark(myGenerator);
+export function myGenerator() {
+    return regeneratorRuntime.wrap(function myGenerator$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.delegateYield([
+                    1,
+                    2,
+                    3
+                ], \"t0\", 1);
+            case 1:
+            case \"end\":
+                return _ctx.stop();
+        }
+    }, _marked);
+}
 "
 );
 
 test_exec!(
     syntax(),
-    |t| generator(Mark::new(), t.comments.clone()),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     delegate_context,
     "function* a() {
         yield 5;
@@ -1061,7 +1088,11 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |t| generator(Mark::new(), t.comments.clone()),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     issue_849_1,
     "function* gen() { yield 1 };
 function genFactory() { return function*() { yield 1 }; }
@@ -1072,7 +1103,11 @@ expect(v.next()).toEqual({ done: true })"
 
 test_exec!(
     syntax(),
-    |t| generator(Mark::new(), t.comments.clone()),
+    |_| es2015::regenerator::<SingleThreadedComments>(
+        Default::default(),
+        None,
+        Mark::fresh(Mark::root())
+    ),
     issue_853_1,
     "function throwingFn() { throw 'Error' }
 function* gen() {
@@ -1113,32 +1148,38 @@ test!(
     }
     ",
     r#"
-    const x = function() {
-        return __generator(this, function(_state) {
-            return [
-                2,
-                Promise.all([
-                    [
-                        1
-                    ],
-                    [
-                        2
-                    ],
-                    [
-                        3
-                    ]
-                ].map(function([a]) {
-                    return __generator(this, function(_state) {
-                        Promise.resolve().then(()=>a * 2);
-                        return [
+    var regeneratorRuntime = require("regenerator-runtime");
+    const x = regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", Promise.all([
+                        [
+                            1
+                        ],
+                        [
                             2
-                        ];
-                    });
-                }))
-            ];
-        });
-    };
-    
+                        ],
+                        [
+                            3
+                        ]
+                    ].map(regeneratorRuntime.mark(function _callee([a]) {
+                        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                            while(1)switch(_ctx.prev = _ctx.next){
+                                case 0:
+                                    Promise.resolve().then(()=>a * 2);
+                                case 1:
+                                case "end":
+                                    return _ctx.stop();
+                            }
+                        }, _callee);
+                    }))));
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    });
     "#
 );
 
@@ -1187,15 +1228,24 @@ function* foo() {
 }
 "#,
     r#"
-    function foo() {
-        function bar() {}
-        return __generator(this, function(_state) {
-            return [
-                2,
-                bar
-            ];
-        });
-    }
+var regeneratorRuntime = require("regenerator-runtime");
+var _marked = regeneratorRuntime.mark(foo);
+function foo() {
+  var bar;
+
+  return regeneratorRuntime.wrap(function foo$(_ctx) {
+    while (1)
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+          bar = function _bar() {};
+
+          return _ctx.abrupt("return", bar);
+        case 3:
+        case "end":
+          return _ctx.stop();
+      }
+  }, _marked);
+}
 "#
 );
 
@@ -1244,46 +1294,52 @@ function requester() {
 }
 "#,
     r#"
-
-    function requester() {
-        return pureRequester;
-        function pureRequester() {
-            return _pureRequester.apply(this, arguments);
-        }
-        function _pureRequester() {
-            _pureRequester = _asyncToGenerator(function() {
-                function refreshThenRequest() {
-                    return _refreshThenRequest.apply(this, arguments);
-                }
-                function _refreshThenRequest() {
-                    _refreshThenRequest = _asyncToGenerator(function() {
-                        return __generator(this, function(_state) {
-                            return [
-                                2
-                            ];
-                        });
-                    });
-                    return _refreshThenRequest.apply(this, arguments);
-                }
-                return __generator(this, function(_state) {
-                    switch(_state.label){
-                        case 0:
-                            return [
-                                4,
-                                refreshThenRequest()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2,
-                                true
-                            ];
-                    }
-                });
-            });
-            return _pureRequester.apply(this, arguments);
-        }
-    }
+var regeneratorRuntime = require("regenerator-runtime");
+function requester() {
+  return pureRequester;
+  function pureRequester() {
+    return _pureRequester.apply(this, arguments);
+  }
+  function _pureRequester() {
+    _pureRequester = _asyncToGenerator(
+      regeneratorRuntime.mark(function _callee() {
+        var refreshThenRequest, _refreshThenRequest;
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+          while (1)
+            switch (_ctx.prev = _ctx.next) {
+              case 0:
+                refreshThenRequest = function _refreshThenRequest1() {
+                  return _refreshThenRequest.apply(this, arguments);
+                };
+                _refreshThenRequest = function __refreshThenRequest() {
+                  _refreshThenRequest = _asyncToGenerator(
+                    regeneratorRuntime.mark(function _callee() {
+                      return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                        while (1)
+                          switch (_ctx.prev = _ctx.next) {
+                            case 0:
+                            case "end":
+                              return _ctx.stop();
+                          }
+                      }, _callee);
+                    })
+                  );
+                  return _refreshThenRequest.apply(this, arguments);
+                };
+                _ctx.next = 4;
+                return refreshThenRequest();
+              case 4:
+                return _ctx.abrupt("return", true);
+              case 7:
+              case "end":
+                return _ctx.stop();
+            }
+        }, _callee);
+      })
+    );
+    return _pureRequester.apply(this, arguments);
+  }
+}
 "#
 );
 
@@ -1383,32 +1439,54 @@ foo(1)
     .then(console.log);
 "#,
     r#"
+var regeneratorRuntime = require("regenerator-runtime");
 function foo(a) {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _asyncToGenerator(function(a) {
-        function bar1(b) {
-            return _bar1.apply(this, arguments);
-        }
-        function _bar1() {
-            _bar1 = _asyncToGenerator(function(b) {
-                return __generator(this, function(_state) {
-                    return [
-                        2,
-                        a + b
-                    ];
-                });
-            });
-            return _bar1.apply(this, arguments);
-        }
-        return __generator(this, function(_state) {
-            return [
-                2,
-                bar1
-            ];
-        });
-    });
+    _foo = _asyncToGenerator(
+        regeneratorRuntime.mark(function _callee(a) {
+            var bar1, _bar1;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while (1)
+                    switch (_ctx.prev = _ctx.next) {
+                        case 0:
+                            bar1 = function _bar11(b) {
+                                return _bar1.apply(this, arguments);
+                            };
+                            _bar1 = function __bar1() {
+                                _bar1 = _asyncToGenerator(
+                                    regeneratorRuntime.mark(function _callee(
+                                        b
+                                    ) {
+                                        return regeneratorRuntime.wrap(
+                                            function _callee$(_ctx) {
+                                                while (1)
+                                                    switch (_ctx.prev = _ctx.next) {
+                                                        case 0:
+                                                            return _ctx.abrupt(
+                                                                "return",
+                                                                a + b
+                                                            );
+                                                        case 1:
+                                                        case "end":
+                                                            return _ctx.stop();
+                                                    }
+                                            },
+                                            _callee
+                                        );
+                                    })
+                                );
+                                return _bar1.apply(this, arguments);
+                            };
+                            return _ctx.abrupt("return", bar1);
+                        case 5:
+                        case "end":
+                            return _ctx.stop();
+                    }
+            }, _callee);
+        })
+    );
     return _foo.apply(this, arguments);
 }
 foo(1)
@@ -1460,59 +1538,77 @@ async function init() {
 }
 "#,
     r#"
-    var fib = function fib() {
-        return 42;
-    };
-    function init() {
-        return _init.apply(this, arguments);
-    }
-    function _init() {
-        _init = _asyncToGenerator(function() {
-            function fib(n) {
-                return _fib.apply(this, arguments);
-            }
-            function _fib() {
-                _fib = _asyncToGenerator(function(n) {
-                    var x, y;
-                    return __generator(this, function(_state) {
-                        switch(_state.label){
-                            case 0:
-                                if (n <= 1) {
-                                    return [
-                                        2,
+var regeneratorRuntime = require("regenerator-runtime");
+var fib = function fib() {
+    return 42;
+};
+function init() {
+    return _init.apply(this, arguments);
+}
+function _init() {
+    _init = _asyncToGenerator(
+        regeneratorRuntime.mark(function _callee() {
+            var fib, _fib;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while (1)
+                    switch (_ctx.prev = _ctx.next) {
+                        case 0:
+                            fib = function _fib1(n) {
+                                return _fib.apply(this, arguments);
+                            };
+                            _fib = function __fib() {
+                                _fib = _asyncToGenerator(
+                                    regeneratorRuntime.mark(function _callee(
                                         n
-                                    ];
-                                }
-                                return [
-                                    4,
-                                    fib(n - 1)
-                                ];
-                            case 1:
-                                x = _state.sent();
-                                return [
-                                    4,
-                                    fib(n - 2)
-                                ];
-                            case 2:
-                                y = _state.sent();
-                                return [
-                                    2,
-                                    x + y
-                                ];
-                        }
-                    });
-                });
-                return _fib.apply(this, arguments);
-            }
-            return __generator(this, function(_state) {
-                return [
-                    2,
-                    fib
-                ];
-            });
-        });
-        return _init.apply(this, arguments);
-    }
+                                    ) {
+                                        var x, y;
+                                        return regeneratorRuntime.wrap(
+                                            function _callee$(_ctx) {
+                                                while (1)
+                                                    switch (_ctx.prev = _ctx.next) {
+                                                        case 0:
+                                                            if (!(n <= 1)) {
+                                                                _ctx.next = 2;
+                                                                break;
+                                                            }
+                                                            return _ctx.abrupt(
+                                                                "return",
+                                                                n
+                                                            );
+                                                        case 2:
+                                                            _ctx.next = 4;
+                                                            return fib(n - 1);
+                                                        case 4:
+                                                            x = _ctx.sent;
+                                                            _ctx.next = 7;
+                                                            return fib(n - 2);
+                                                        case 7:
+                                                            y = _ctx.sent;
+                                                            return _ctx.abrupt(
+                                                                "return",
+                                                                x + y
+                                                            );
+                                                        case 9:
+                                                        case "end":
+                                                            return _ctx.stop();
+                                                    }
+                                            },
+                                            _callee
+                                        );
+                                    })
+                                );
+                                return _fib.apply(this, arguments);
+                            };
+                            return _ctx.abrupt("return", fib);
+                        case 5:
+                        case "end":
+                            return _ctx.stop();
+                    }
+            }, _callee);
+        })
+    );
+    return _init.apply(this, arguments);
+}
 "#
 );
 
@@ -1539,45 +1635,37 @@ test!(
     test();
     ",
     "
+    var regeneratorRuntime = require(\"regenerator-runtime\");
+
     function _test() {
-        _test = _asyncToGenerator(function() {
-            return __generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        _state.trys.push([
-                            0,
-                            ,
-                            2,
-                            3
-                        ]);
-                        return [
-                            4,
-                            1
-                        ];
-                    case 1:
-                        _state.sent();
-                        return [
-                            3,
-                            3
-                        ];
-                    case 2:
-                        console.log(2);
-                        return [
-                            7
-                        ];
-                    case 3:
-                        return [
-                            2
-                        ];
-                }
-            });
-        });
+        _test = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+          return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while (1)
+              switch (_ctx.prev = _ctx.next) {
+                case 0:
+                  _ctx.prev = 0;
+                  _ctx.next = 3;
+                  return 1;
+
+                case 3:
+                  _ctx.prev = 3;
+                  console.log(2);
+                  return _ctx.finish(3);
+
+                case 6:
+                case \"end\":
+                  return _ctx.stop();
+              }
+          }, _callee, null, [[0,, 3, 6]]);
+        }));
         return _test.apply(this, arguments);
-    }
-    function test() {
+      }
+
+      function test() {
         return _test.apply(this, arguments);
-    }
-    test();
+      }
+
+      test();
     "
 );
 
@@ -1595,37 +1683,28 @@ test!(
     }
     ",
     "
+    var regeneratorRuntime = require(\"regenerator-runtime\");
+    var _marked = regeneratorRuntime.mark(foo);
+
     function foo() {
-        return __generator(this, function(_state) {
-            switch(_state.label){
+        return regeneratorRuntime.wrap(function foo$(_ctx) {
+            while (1)
+            switch (_ctx.prev = _ctx.next) {
                 case 0:
-                    _state.trys.push([
-                        0,
-                        ,
-                        2,
-                        3
-                    ]);
-                    return [
-                        4,
-                        1
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        3,
-                        3
-                    ];
-                case 2:
-                    console.log(2);
-                    return [
-                        7
-                    ];
+                _ctx.prev = 0;
+                _ctx.next = 3;
+                return 1;
+
                 case 3:
-                    return [
-                        2
-                    ];
+                _ctx.prev = 3;
+                console.log(2);
+                return _ctx.finish(3);
+
+                case 6:
+                case \"end\":
+                return _ctx.stop();
             }
-        });
+        }, _marked, null, [[0,, 3, 6]]);
     }
     "
 );
@@ -1644,40 +1723,32 @@ test!(
     }
     ",
     "
+    var regeneratorRuntime = require(\"regenerator-runtime\");
+    var _marked = regeneratorRuntime.mark(foo);
+
     function foo() {
-        var e;
-        return __generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    _state.trys.push([
-                        0,
-                        2,
-                        ,
-                        3
-                    ]);
-                    return [
-                        4,
-                        1
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        3,
-                        3
-                    ];
-                case 2:
-                    e = _state.sent();
-                    console.log(2);
-                    return [
-                        3,
-                        3
-                    ];
-                case 3:
-                    return [
-                        2
-                    ];
-            }
-        });
+      return regeneratorRuntime.wrap(function foo$(_ctx) {
+        while (1)
+          switch (_ctx.prev = _ctx.next) {
+            case 0:
+              _ctx.prev = 0;
+              _ctx.next = 3;
+              return 1;
+
+            case 3:
+              _ctx.next = 8;
+              break;
+
+            case 5:
+              _ctx.prev = 5;
+              _ctx.t0 = _ctx[\"catch\"](0);
+              console.log(2);
+
+            case 8:
+            case \"end\":
+              return _ctx.stop();
+          }
+      }, _marked, null, [[0, 5]]);
     }
     "
 );
@@ -1692,24 +1763,21 @@ test!(
     }
     ",
     "
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
-                return __generator(this, function(_state) {
-                    switch(_state.label){
+            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+                return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                    while(1)switch(_ctx.prev = _ctx.next){
                         case 0:
-                            return [
-                                4,
-                                doSomething()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2
-                            ];
+                            _ctx.next = 2;
+                            return doSomething();
+                        case 2:
+                        case \"end\":
+                            return _ctx.stop();
                     }
-                });
-            });
+                }, _callee);
+            }));
             return function(e) {
                 return _ref.apply(this, arguments);
             };
@@ -1734,24 +1802,21 @@ test!(
     }
     ",
     "
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
-                return __generator(this, function(_state) {
-                    switch(_state.label){
+            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+                return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                    while(1)switch(_ctx.prev = _ctx.next){
                         case 0:
-                            return [
-                                4,
-                                doSomething()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2
-                            ];
+                            _ctx.next = 2;
+                            return doSomething();
+                        case 2:
+                        case \"end\":
+                            return _ctx.stop();
                     }
-                });
-            });
+                }, _callee);
+            }));
             return function(e) {
                 return _ref.apply(this, arguments);
             };
@@ -1777,24 +1842,21 @@ test!(
     }
     ",
     "
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
-                return __generator(this, function(_state) {
-                    switch(_state.label){
+            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+                return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                    while(1)switch(_ctx.prev = _ctx.next){
                         case 0:
-                            return [
-                                4,
-                                doSomething()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2
-                            ];
+                            _ctx.next = 2;
+                            return doSomething();
+                        case 2:
+                        case \"end\":
+                            return _ctx.stop();
                     }
-                });
-            });
+                }, _callee);
+            }));
             return function(e) {
                 return _ref.apply(this, arguments);
             };
@@ -1823,24 +1885,21 @@ test!(
     }
     ",
     "
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
-                return __generator(this, function(_state) {
-                    switch(_state.label){
+            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+                return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                    while(1)switch(_ctx.prev = _ctx.next){
                         case 0:
-                            return [
-                                4,
-                                doSomething()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2
-                            ];
+                            _ctx.next = 2;
+                            return doSomething();
+                        case 2:
+                        case \"end\":
+                            return _ctx.stop();
                     }
-                });
-            });
+                }, _callee);
+            }));
             return function(e) {
                 return _ref.apply(this, arguments);
             };
@@ -1896,161 +1955,125 @@ test!(
 
 "#,
     r#"
+    var regeneratorRuntime = require("regenerator-runtime");
+    var _marked = regeneratorRuntime.mark(gen);
     function gen() {
-        var firstTime;
-        return __generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
+            var firstTime;
+        return regeneratorRuntime.wrap(function gen$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
                     firstTime = true;
-                    _state.label = 1;
                 case 1:
-                    if (!true) return [
-                        3,
-                        15
-                    ];
-                    return [
-                        4,
-                        0
-                    ];
-                case 2:
-                    _state.sent();
-                    _state.label = 3;
-                case 3:
-                    _state.trys.push([
-                        3,
-                        ,
-                        11,
-                        13
-                    ]);
-                    if (!true) return [
-                        3,
-                        9
-                    ];
-                    return [
-                        4,
-                        1
-                    ];
+                    if (!true) {
+                            _ctx.next = 31;
+                        break;
+                    }
+                    _ctx.next = 4;
+                    return 0;
                 case 4:
-                    _state.sent();
-                    if (!firstTime) return [
-                        3,
-                        6
-                    ];
-                    firstTime = false;
-                    return [
-                        4,
-                        2
-                    ];
+                    _ctx.prev = 4;
                 case 5:
-                    _state.sent();
-                    return [
-                        3,
-                        1
-                    ];
-                case 6:
-                    return [
-                        4,
-                        3
-                    ];
-                case 7:
-                    _state.sent();
-                    return [
-                        3,
-                        9
-                    ];
+                    if (!true) {
+                            _ctx.next = 20;
+                        break;
+                    }
+                    _ctx.next = 8;
+                    return 1;
                 case 8:
-                    return [
-                        3,
-                        3
-                    ];
-                case 9:
-                    return [
-                        4,
-                        4
-                    ];
-                case 10:
-                    _state.sent();
-                    return [
-                        3,
-                        15
-                    ];
-                case 11:
-                    return [
-                        4,
-                        5
-                    ];
+                    if (!firstTime) {
+                            _ctx.next = 15;
+                        break;
+                    }
+                    firstTime = false;
+                    _ctx.next = 12;
+                    return 2;
                 case 12:
-                    _state.sent();
-                    return [
-                        7
-                    ];
-                case 13:
-                    return [
-                        4,
-                        6
-                    ];
-                case 14:
-                    _state.sent();
-                    return [
-                        3,
-                        1
-                    ];
+                    return _ctx.abrupt("continue", 1);
                 case 15:
-                    return [
-                        4,
-                        7
-                    ];
-                case 16:
-                    _state.sent();
-                    return [
-                        2
-                    ];
+                    _ctx.next = 17;
+                    return 3;
+                case 17:
+                    return _ctx.abrupt("break", 20);
+                case 18:
+                    _ctx.next = 5;
+                    break;
+                case 20:
+                    _ctx.next = 22;
+                    return 4;
+                case 22:
+                    return _ctx.abrupt("break", 31);
+                case 23:
+                    _ctx.prev = 23;
+                    _ctx.next = 26;
+                    return 5;
+                case 26:
+                    return _ctx.finish(23);
+                case 27:
+                    _ctx.next = 29;
+                    return 6;
+                case 29:
+                    _ctx.next = 1;
+                    break;
+                case 31:
+                    _ctx.next = 33;
+                    return 7;
+                case 33:
+                case "end":
+                    return _ctx.stop();
             }
-        });
+        }, _marked, null, [
+            [
+                4,
+                ,
+                23,
+                27
+            ]
+        ]);
     }
+
     const iter = gen();
     expect(iter.next()).toEqual({
-        value: 0,
+            value: 0,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: 1,
+            value: 1,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: 2,
+            value: 2,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: 5,
+            value: 5,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: 0,
+            value: 0,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: 1,
+            value: 1,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: 3,
+            value: 3,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: 4,
+            value: 4,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: 5,
+            value: 5,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: 7,
+            value: 7,
         done: false
     });
     expect(iter.next()).toEqual({
-        value: undefined,
+            value: undefined,
         done: true
     });
 "#
@@ -2071,10 +2094,11 @@ test!(
     })();
     ",
     "
-    _asyncToGenerator(function() {
+    var regeneratorRuntime = require(\"regenerator-runtime\");
+    _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var sleep, result;
-        return __generator(this, function(_state) {
-            switch(_state.label){
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     sleep = function() {
                         return new Promise(function(resolve) {
@@ -2083,30 +2107,35 @@ test!(
                             }, 500);
                         });
                     };
-                    return [
-                        4,
-                        sleep()
-                    ];
-                case 1:
-                    result = _state.sent() || 'fallback';
+                    _ctx.next = 3;
+                    return sleep();
+                case 3:
+                    _ctx.t0 = _ctx.sent;
+                    if (_ctx.t0) {
+                        _ctx.next = 6;
+                        break;
+                    }
+                    _ctx.t0 = 'fallback';
+                case 6:
+                    result = _ctx.t0;
                     console.log(result);
-                    return [
-                        2
-                    ];
+                case 8:
+                case \"end\":
+                    return _ctx.stop();
             }
-        });
-    })();    
+        }, _callee);
+    }))();
     "
 );
 
 test_exec!(
     Syntax::default(),
-    |t| {
+    |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
             es2015::for_of(Default::default()),
-            generator(mark, t.comments.clone())
+            regenerator::<SingleThreadedComments>(Default::default(), None, mark)
         )
     },
     issue_1918_1,

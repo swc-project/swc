@@ -8,6 +8,7 @@ use std::{
 };
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use once_cell::sync::Lazy;
 use swc_common::{
     collections::AHashMap,
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
@@ -15,6 +16,7 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
+use swc_plugin_runner::cache::PluginModuleCache;
 
 static SOURCE: &str = include_str!("./assets/input.js");
 
@@ -42,6 +44,8 @@ fn plugin_group(c: &mut Criterion) {
 }
 
 fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
+    let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
+
     b.iter(|| {
         let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
@@ -76,7 +80,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         .unwrap();
 
         let experimental_metadata: AHashMap<String, String> = AHashMap::default();
-        let _experimental_metadata = PluginSerializedBytes::try_serialize(&experimental_metadata)
+        let experimental_metadata = PluginSerializedBytes::try_serialize(&experimental_metadata)
             .expect("Should be a hashmap");
 
         let res = transform_plugin_executor

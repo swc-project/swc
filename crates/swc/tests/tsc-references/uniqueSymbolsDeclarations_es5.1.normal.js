@@ -7,7 +7,11 @@ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _define_property from "@swc/helpers/src/_define_property.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(genFuncYieldConstCallWithTypeQuery);
+var _marked1 = /*#__PURE__*/ regeneratorRuntime.mark(genFuncYieldVarCall);
+var _marked2 = /*#__PURE__*/ regeneratorRuntime.mark(genFuncYieldLetCall);
+var _marked3 = /*#__PURE__*/ regeneratorRuntime.mark(genFuncYieldConstCall);
 var constCall = Symbol();
 var letCall = Symbol();
 var varCall = Symbol();
@@ -45,111 +49,104 @@ function funcReturnConstCallWithTypeQuery() {
 }
 // generator function yield inference
 function genFuncYieldConstCall() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function genFuncYieldConstCall$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    constCall
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return constCall;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked3);
 }
 function genFuncYieldLetCall() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function genFuncYieldLetCall$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    letCall
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return letCall;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked2);
 }
 function genFuncYieldVarCall() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function genFuncYieldVarCall$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    varCall
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return varCall;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked1);
 }
 // generator function yield with return type query
 function genFuncYieldConstCallWithTypeQuery() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function genFuncYieldConstCallWithTypeQuery$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    constCall
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return constCall;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked);
 }
 function asyncFuncReturnConstCall() {
     return _asyncFuncReturnConstCall.apply(this, arguments);
 }
 function _asyncFuncReturnConstCall() {
     _asyncFuncReturnConstCall = // async function return inference
-    _async_to_generator(function() {
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                constCall
-            ];
-        });
-    });
+    _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", constCall);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _asyncFuncReturnConstCall.apply(this, arguments);
 }
 function asyncFuncReturnLetCall() {
     return _asyncFuncReturnLetCall.apply(this, arguments);
 }
 function _asyncFuncReturnLetCall() {
-    _asyncFuncReturnLetCall = _async_to_generator(function() {
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                letCall
-            ];
-        });
-    });
+    _asyncFuncReturnLetCall = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", letCall);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _asyncFuncReturnLetCall.apply(this, arguments);
 }
 function asyncFuncReturnVarCall() {
     return _asyncFuncReturnVarCall.apply(this, arguments);
 }
 function _asyncFuncReturnVarCall() {
-    _asyncFuncReturnVarCall = _async_to_generator(function() {
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                varCall
-            ];
-        });
-    });
+    _asyncFuncReturnVarCall = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", varCall);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _asyncFuncReturnVarCall.apply(this, arguments);
 }
 function asyncGenFuncYieldConstCall() {
@@ -157,66 +154,54 @@ function asyncGenFuncYieldConstCall() {
 }
 function _asyncGenFuncYieldConstCall() {
     _asyncGenFuncYieldConstCall = // async generator function yield inference
-    _wrap_async_generator(function() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+    _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return [
-                        4,
-                        constCall
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        2
-                    ];
+                    _ctx.next = 2;
+                    return constCall;
+                case 2:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    });
+        }, _callee);
+    }));
     return _asyncGenFuncYieldConstCall.apply(this, arguments);
 }
 function asyncGenFuncYieldLetCall() {
     return _asyncGenFuncYieldLetCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldLetCall() {
-    _asyncGenFuncYieldLetCall = _wrap_async_generator(function() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+    _asyncGenFuncYieldLetCall = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return [
-                        4,
-                        letCall
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        2
-                    ];
+                    _ctx.next = 2;
+                    return letCall;
+                case 2:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    });
+        }, _callee);
+    }));
     return _asyncGenFuncYieldLetCall.apply(this, arguments);
 }
 function asyncGenFuncYieldVarCall() {
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldVarCall() {
-    _asyncGenFuncYieldVarCall = _wrap_async_generator(function() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+    _asyncGenFuncYieldVarCall = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return [
-                        4,
-                        varCall
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        2
-                    ];
+                    _ctx.next = 2;
+                    return varCall;
+                case 2:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    });
+        }, _callee);
+    }));
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
 }
 // classes
@@ -281,49 +266,44 @@ var o2 = {
         return s;
     },
     method2: function method2() {
-        return _async_to_generator(function() {
-            return _ts_generator(this, function(_state) {
-                return [
-                    2,
-                    s
-                ];
-            });
-        })();
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        return _ctx.abrupt("return", s);
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     },
     method3: function method3() {
-        return _wrap_async_generator(function() {
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return [
-                            4,
-                            s
-                        ];
-                    case 1:
-                        _state.sent();
-                        return [
-                            2
-                        ];
+                        _ctx.next = 2;
+                        return s;
+                    case 2:
+                    case "end":
+                        return _ctx.stop();
                 }
-            });
-        })();
+            }, _callee);
+        }))();
     },
-    method4: function method4() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+    method4: /*#__PURE__*/ regeneratorRuntime.mark(function method4() {
+        return regeneratorRuntime.wrap(function method4$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return [
-                        4,
-                        s
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        2
-                    ];
+                    _ctx.next = 2;
+                    return s;
+                case 2:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    },
+        }, method4);
+    }),
     method5: function method5() {
         var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
         return p;
@@ -346,49 +326,44 @@ var C0 = /*#__PURE__*/ function() {
         return s;
     };
     _proto.method2 = function method2() {
-        return _async_to_generator(function() {
-            return _ts_generator(this, function(_state) {
-                return [
-                    2,
-                    s
-                ];
-            });
-        })();
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        return _ctx.abrupt("return", s);
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     };
     _proto.method3 = function method3() {
-        return _wrap_async_generator(function() {
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return [
-                            4,
-                            s
-                        ];
-                    case 1:
-                        _state.sent();
-                        return [
-                            2
-                        ];
+                        _ctx.next = 2;
+                        return s;
+                    case 2:
+                    case "end":
+                        return _ctx.stop();
                 }
-            });
-        })();
+            }, _callee);
+        }))();
     };
-    _proto.method4 = function method4() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+    _proto.method4 = /*#__PURE__*/ regeneratorRuntime.mark(function method4() {
+        return regeneratorRuntime.wrap(function method4$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return [
-                        4,
-                        s
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        2
-                    ];
+                    _ctx.next = 2;
+                    return s;
+                case 2:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    };
+        }, method4);
+    });
     _proto.method5 = function method5() {
         var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
         return p;
@@ -433,49 +408,44 @@ var o4 = {
         return s; // return type should not widen due to contextual type
     },
     method2: function method2() {
-        return _async_to_generator(function() {
-            return _ts_generator(this, function(_state) {
-                return [
-                    2,
-                    s
-                ]; // return type should not widen due to contextual type
-            });
-        })();
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        return _ctx.abrupt("return", s);
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     },
     method3: function method3() {
-        return _wrap_async_generator(function() {
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
+        return _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return [
-                            4,
-                            s
-                        ];
-                    case 1:
-                        _state.sent(); // yield type should not widen due to contextual type
-                        return [
-                            2
-                        ];
+                        _ctx.next = 2;
+                        return s;
+                    case 2:
+                    case "end":
+                        return _ctx.stop();
                 }
-            });
-        })();
+            }, _callee);
+        }))();
     },
-    method4: function method4() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+    method4: /*#__PURE__*/ regeneratorRuntime.mark(function method4() {
+        return regeneratorRuntime.wrap(function method4$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return [
-                        4,
-                        s
-                    ];
-                case 1:
-                    _state.sent(); // yield type should not widen due to contextual type
-                    return [
-                        2
-                    ];
+                    _ctx.next = 2;
+                    return s;
+                case 2:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    },
+        }, method4);
+    }),
     method5: function method5() {
         var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
         return p;
