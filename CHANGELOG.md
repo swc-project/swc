@@ -23,6 +23,9 @@
 - **(cli)** Enable LTO by default for the plugins (#5617) ([3d2ee6d](https://github.com/swc-project/swc/commit/3d2ee6d0ae29899ae3a492a0e4b963e40b1d60ff))
 
 
+- **(es/generator)** Replace generator implementation with one from tsc (#5173) ([2aa0090](https://github.com/swc-project/swc/commit/2aa009018f9bdbe4de6d59f9226b7ddd320db127))
+
+
 - **(swc_core)** Expand features (#5602) ([633a23a](https://github.com/swc-project/swc/commit/633a23a13438cb3891ea1cdef349cde882672bec))
 
 
