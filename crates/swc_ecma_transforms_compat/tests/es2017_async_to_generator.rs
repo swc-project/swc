@@ -15,8 +15,6 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::{Fold, FoldWith};
 
-use crate::es2015::regenerator;
-
 struct ParenRemover;
 impl Fold for ParenRemover {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
