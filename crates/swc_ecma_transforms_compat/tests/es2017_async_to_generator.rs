@@ -2884,42 +2884,38 @@ test!(
     myclass.handle()
   ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-function MyClass() {
-}
-MyClass.prototype.handle = function() {
-    console.log('this is MyClass handle');
-};
-MyClass.prototype.init = function() {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param1) {
-        var a;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    a = 1;
-                    if (!param1) {
-                        console.log(this);
-                        this.handle();
-                    }
-                    if (!(param1 === a)) {
-                        _ctx.next = 4;
-                        break;
-                    }
-                    return _ctx.abrupt(\"return\", false);
-                case 4:
-                    return _ctx.abrupt(\"return\", true);
-                case 5:
-                case \"end\":
-                    return _ctx.stop();
-            }
-        }, _callee, this);
-    }));
-    return function(param1) {
-        return _ref.apply(this, arguments);
+    
+    function MyClass() {}
+    MyClass.prototype.handle = function() {
+        console.log('this is MyClass handle');
     };
-}();
-const myclass = new MyClass();
-myclass.handle();
+    MyClass.prototype.init = function() {
+        var _ref = _asyncToGenerator(function(param1) {
+            var a;
+            return __generator(this, function(_state) {
+                a = 1;
+                if (!param1) {
+                    console.log(this);
+                    this.handle();
+                }
+                if (param1 === a) {
+                    return [
+                        2,
+                        false
+                    ];
+                }
+                return [
+                    2,
+                    true
+                ];
+            });
+        });
+        return function(param1) {
+            return _ref.apply(this, arguments);
+        };
+    }();
+    const myclass = new MyClass();
+    myclass.handle();
   "
 );
 
@@ -2983,7 +2979,7 @@ export default async function someCall() {
   }
   export default function someCall() {
       return _someCall.apply(this, arguments);
-  };
+  }
   function _someCall() {
       _someCall = _asyncToGenerator(function() {
           return __generator(this, function(_state) {
