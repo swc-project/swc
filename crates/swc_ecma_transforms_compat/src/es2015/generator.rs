@@ -278,6 +278,7 @@ struct WithBlock {
     end_label: Label,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum Instruction {
     Next = 0,
@@ -2547,7 +2548,7 @@ impl Generator {
                 if self.label_exprs.is_none() {
                     self.label_exprs = Some(Default::default());
                 }
-                let mut label_expressions = self.label_exprs.as_mut().unwrap();
+                let label_expressions = self.label_exprs.as_mut().unwrap();
                 let expr = Loc {
                     pos: BytePos(label.0 as _),
                     value: -1,
@@ -2557,12 +2558,12 @@ impl Generator {
                         label_expressions.resize(label.0 as usize + 1, vec![]);
                     }
 
-                    label_expressions[label.0 as usize] = vec![expr.clone()];
+                    label_expressions[label.0 as usize] = vec![expr];
                 } else {
                     label_expressions
                         .get_mut(label.0 as usize)
                         .unwrap()
-                        .push(expr.clone());
+                        .push(expr);
                 }
                 return Box::new(Expr::Invalid(Invalid {
                     span: Span::new(
@@ -2579,18 +2580,17 @@ impl Generator {
 
     /// Creates a numeric literal for the provided instruction.
     fn create_instruction(&mut self, instruction: Instruction) -> Number {
-        let literal = Number {
-            span: DUMMY_SP,
-            value: instruction as u16 as _,
-            raw: None,
-        };
         // TODO(kdy1):
         // self.add_synthetic_trailing_comment(
         //     literal,
         //     SyntaxKind::MultiLineCommentTrivia,
         //     get_instruction_name(instruction),
         // );
-        literal
+        Number {
+            span: DUMMY_SP,
+            value: instruction as u16 as _,
+            raw: None,
+        }
     }
 
     /// Creates a statement that can be used indicate a Break operation to the
