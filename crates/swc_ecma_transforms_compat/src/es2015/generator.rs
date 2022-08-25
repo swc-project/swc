@@ -199,11 +199,11 @@ enum CodeBlock {
 impl CodeBlock {
     fn is_script(&self) -> bool {
         match self {
-            Self::Exception(b) => false,
+            Self::Exception(..) => false,
             Self::Labeled(b) => b.is_script,
             Self::Switch(b) => b.is_script,
             Self::Loop(b) => b.is_script,
-            Self::With(b) => false,
+            Self::With(..) => false,
         }
     }
 
@@ -2481,12 +2481,10 @@ impl Generator {
             if let Some(label_text) = label_text {
                 for i in (0..=block_stack.len() - 1).rev() {
                     let block = &block_stack[i];
-                    if self.supports_labeled_break_or_continue(&block.borrow())
-                        && block.borrow().label_text().unwrap() == label_text
-                    {
-                        return block.borrow().break_label().unwrap();
-                    } else if self.supports_unlabeled_break(&block.borrow())
-                        && self.has_immediate_containing_labeled_block(&label_text, i - 1)
+                    if (self.supports_labeled_break_or_continue(&block.borrow())
+                        && block.borrow().label_text().unwrap() == label_text)
+                        || (self.supports_unlabeled_break(&block.borrow())
+                            && self.has_immediate_containing_labeled_block(&label_text, i - 1))
                     {
                         return block.borrow().break_label().unwrap();
                     }
