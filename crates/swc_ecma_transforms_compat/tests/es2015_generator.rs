@@ -1591,28 +1591,37 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-    var _marked = regeneratorRuntime.mark(foo);
-
     function foo() {
-        return regeneratorRuntime.wrap(function foo$(_ctx) {
-            while (1)
-            switch (_ctx.prev = _ctx.next) {
+        return __generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                _ctx.prev = 0;
-                _ctx.next = 3;
-                return 1;
-
+                    _state.trys.push([
+                        0,
+                        ,
+                        2,
+                        3
+                    ]);
+                    return [
+                        4,
+                        1
+                    ];
+                case 1:
+                    _state.sent();
+                    return [
+                        3,
+                        3
+                    ];
+                case 2:
+                    console.log(2);
+                    return [
+                        7
+                    ];
                 case 3:
-                _ctx.prev = 3;
-                console.log(2);
-                return _ctx.finish(3);
-
-                case 6:
-                case \"end\":
-                return _ctx.stop();
+                    return [
+                        2
+                    ];
             }
-        }, _marked, null, [[0,, 3, 6]]);
+        });
     }
     "
 );
@@ -1631,32 +1640,40 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-    var _marked = regeneratorRuntime.mark(foo);
-
     function foo() {
-      return regeneratorRuntime.wrap(function foo$(_ctx) {
-        while (1)
-          switch (_ctx.prev = _ctx.next) {
-            case 0:
-              _ctx.prev = 0;
-              _ctx.next = 3;
-              return 1;
-
-            case 3:
-              _ctx.next = 8;
-              break;
-
-            case 5:
-              _ctx.prev = 5;
-              _ctx.t0 = _ctx[\"catch\"](0);
-              console.log(2);
-
-            case 8:
-            case \"end\":
-              return _ctx.stop();
-          }
-      }, _marked, null, [[0, 5]]);
+        var e;
+        return __generator(this, function(_state) {
+            switch(_state.label){
+                case 0:
+                    _state.trys.push([
+                        0,
+                        2,
+                        ,
+                        3
+                    ]);
+                    return [
+                        4,
+                        1
+                    ];
+                case 1:
+                    _state.sent();
+                    return [
+                        3,
+                        3
+                    ];
+                case 2:
+                    e = _state.sent();
+                    console.log(2);
+                    return [
+                        3,
+                        3
+                    ];
+                case 3:
+                    return [
+                        2
+                    ];
+            }
+        });
     }
     "
 );
