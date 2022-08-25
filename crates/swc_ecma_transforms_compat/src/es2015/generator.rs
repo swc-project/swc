@@ -2511,7 +2511,7 @@ impl Generator {
                 for i in (0..=block_stack.len() - 1).rev() {
                     let block = &block_stack[i];
                     if self.supports_unlabeled_continue(&block.borrow())
-                        && self.has_immediate_containing_labeled_block(&label_text, i - i)
+                        && self.has_immediate_containing_labeled_block(&label_text, i - 1)
                     {
                         return block.borrow().continue_label().unwrap();
                     }
