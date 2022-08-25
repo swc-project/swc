@@ -8,8 +8,8 @@ use std::{
 use is_macro::Is;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    collections::AHashMap, comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span,
-    Spanned, SyntaxContext, DUMMY_SP,
+    comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::AsOptExpr, helper};
@@ -292,23 +292,19 @@ enum Instruction {
 }
 
 impl Instruction {
-    fn name(self) -> Option<&'static str> {
-        match self {
-            Instruction::Return => Some("return"),
-            Instruction::Break => Some("break"),
-            Instruction::Yield => Some("yield"),
-            Instruction::YieldStar => Some("yield*"),
-            Instruction::Endfinally => Some("endfinally"),
-            _ => None,
-        }
-    }
+    // fn name(self) -> Option<&'static str> {
+    //     match self {
+    //         Instruction::Return => Some("return"),
+    //         Instruction::Break => Some("break"),
+    //         Instruction::Yield => Some("yield"),
+    //         Instruction::YieldStar => Some("yield*"),
+    //         Instruction::Endfinally => Some("endfinally"),
+    //         _ => None,
+    //     }
+    // }
 }
 
 struct Generator {
-    renamed_catch_variables: AHashMap<JsWord, bool>,
-    renamed_catch_variables_declaration: Vec<Ident>,
-
-    is_generator_function_body: bool,
     in_statement_containing_yield: bool,
 
     blocks: Option<Vec<Ptr<CodeBlock>>>,
@@ -351,9 +347,6 @@ type Ptr<T> = Rc<RefCell<T>>;
 impl Default for Generator {
     fn default() -> Self {
         Self {
-            renamed_catch_variables: Default::default(),
-            renamed_catch_variables_declaration: Default::default(),
-            is_generator_function_body: Default::default(),
             in_statement_containing_yield: Default::default(),
             blocks: Default::default(),
             block_offsets: Default::default(),
@@ -2071,8 +2064,8 @@ impl Generator {
     where
         N: VisitWith<YieldFinder>,
     {
-        for i in 0..nodes.len() {
-            if contains_yield(&nodes[i]) {
+        for (i, node) in nodes.iter().enumerate() {
+            if contains_yield(node) {
                 return i;
             }
         }
