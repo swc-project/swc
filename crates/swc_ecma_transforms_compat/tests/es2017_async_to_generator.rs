@@ -2609,11 +2609,11 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_1684_2,
@@ -2852,11 +2852,11 @@ expect(myclass.init(2)).resolves.toEqual(true);
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_2305_2,
@@ -3005,11 +3005,11 @@ function _someCall() {
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_2677_2,
