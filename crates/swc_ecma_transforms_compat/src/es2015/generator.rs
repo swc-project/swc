@@ -388,7 +388,7 @@ impl VisitMut for Generator {
         e.params.visit_mut_with(self);
     }
 
-    fn visit_mut_getter_prop(&mut self, e: &mut GetterProp) {}
+    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {}
 
     fn visit_mut_setter_prop(&mut self, e: &mut SetterProp) {
         e.param.visit_mut_with(self);
@@ -535,9 +535,9 @@ impl VisitMut for Generator {
             }
 
             Expr::Member(MemberExpr {
-                span,
                 obj,
                 prop: MemberProp::Computed(prop),
+                ..
             }) => {
                 if contains_yield(prop) {
                     // [source]
@@ -1044,9 +1044,9 @@ enum CompiledProp {
 impl Generator {
     fn visit_elements(
         &mut self,
-        mut elements: &mut [Option<ExprOrSpread>],
+        elements: &mut [Option<ExprOrSpread>],
         mut leading_element: Option<ExprOrSpread>,
-        loc: Option<Span>,
+        _loc: Option<Span>,
     ) -> Expr {
         // [source]
         //      ar = [1, yield, 2];
@@ -1481,7 +1481,7 @@ impl Generator {
             #[cfg(debug_assertions)]
             debug!("variables_written: {} / {}", variables_written, var_len);
 
-            for (i, variable) in variables.iter_mut().enumerate().skip(variables_written) {
+            for (_i, variable) in variables.iter_mut().enumerate().skip(variables_written) {
                 if contains_yield(&**variable) && cnt != 0 {
                     break;
                 }
@@ -1956,7 +1956,6 @@ impl Generator {
 
                 if default_clauses_skipped > 0 {
                     clauses_written += default_clauses_skipped;
-                    default_clauses_skipped = 0;
                 }
             }
 
@@ -2590,7 +2589,7 @@ impl Generator {
     /// - `location`: An optional source map location for the statement.
     fn create_inline_break(&mut self, label: Label, span: Option<Span>) -> ReturnStmt {
         debug_assert!(label.0 >= 0, "Invalid label");
-        let mut args = vec![
+        let args = vec![
             Some(self.create_instruction(Instruction::Break).as_arg()),
             Some(self.create_label(Some(label)).as_arg()),
         ];
@@ -2761,7 +2760,6 @@ impl Generator {
             self.operation_locs.as_ref().unwrap().len()
         );
 
-        let operation_index = self.operations.as_mut().unwrap().len();
         self.operations.as_mut().unwrap().push(code);
         self.operation_args.as_mut().unwrap().push(args);
         self.operation_locs
@@ -2882,7 +2880,7 @@ impl Generator {
                 // blocks, so we surround the statements in
                 // generated `with` blocks to create the same environment.
 
-                for (i, with_block) in self
+                for (_i, with_block) in self
                     .with_block_stack
                     .as_ref()
                     .unwrap()
