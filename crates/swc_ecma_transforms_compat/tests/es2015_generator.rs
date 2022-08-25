@@ -125,11 +125,13 @@ test!(
     "function* foo(a,b,c){}
 ",
     r#"
-    return __generator(this, function(_state) {
-        return [
-            2
-        ];
-    });
+    function foo(a, b, c) {
+        return __generator(this, function(_state) {
+            return [
+                2
+            ];
+        });
+    }
 "#
 );
 
@@ -1107,38 +1109,32 @@ test!(
     }
     ",
     r#"
-    var regeneratorRuntime = require("regenerator-runtime");
-    const x = regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.abrupt("return", Promise.all([
-                        [
-                            1
-                        ],
-                        [
+    const x = function() {
+        return __generator(this, function(_state) {
+            return [
+                2,
+                Promise.all([
+                    [
+                        1
+                    ],
+                    [
+                        2
+                    ],
+                    [
+                        3
+                    ]
+                ].map(function([a]) {
+                    return __generator(this, function(_state) {
+                        Promise.resolve().then(()=>a * 2);
+                        return [
                             2
-                        ],
-                        [
-                            3
-                        ]
-                    ].map(regeneratorRuntime.mark(function _callee([a]) {
-                        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                            while(1)switch(_ctx.prev = _ctx.next){
-                                case 0:
-                                    Promise.resolve().then(()=>a * 2);
-                                case 1:
-                                case "end":
-                                    return _ctx.stop();
-                            }
-                        }, _callee);
-                    }))));
-                case 1:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    });
+                        ];
+                    });
+                }))
+            ];
+        });
+    };
+    
     "#
 );
 
@@ -1539,37 +1535,45 @@ test!(
     test();
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-
     function _test() {
-        _test = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-          return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while (1)
-              switch (_ctx.prev = _ctx.next) {
-                case 0:
-                  _ctx.prev = 0;
-                  _ctx.next = 3;
-                  return 1;
-
-                case 3:
-                  _ctx.prev = 3;
-                  console.log(2);
-                  return _ctx.finish(3);
-
-                case 6:
-                case \"end\":
-                  return _ctx.stop();
-              }
-          }, _callee, null, [[0,, 3, 6]]);
-        }));
+        _test = _asyncToGenerator(function() {
+            return __generator(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        _state.trys.push([
+                            0,
+                            ,
+                            2,
+                            3
+                        ]);
+                        return [
+                            4,
+                            1
+                        ];
+                    case 1:
+                        _state.sent();
+                        return [
+                            3,
+                            3
+                        ];
+                    case 2:
+                        console.log(2);
+                        return [
+                            7
+                        ];
+                    case 3:
+                        return [
+                            2
+                        ];
+                }
+            });
+        });
         return _test.apply(this, arguments);
-      }
-
-      function test() {
+    }
+    function test() {
         return _test.apply(this, arguments);
-      }
-
-      test();
+    }
+    test();
     "
 );
 
