@@ -32,6 +32,9 @@
 - **(es/generator)** Replace generator implementation with one from tsc (#5173) ([2aa0090](https://github.com/swc-project/swc/commit/2aa009018f9bdbe4de6d59f9226b7ddd320db127))
 
 
+- **(es/generator)** Use new generator implementation (#5627) ([83fec33](https://github.com/swc-project/swc/commit/83fec333597c7854c694e9913e13dc7c4a1e327a))
+
+
 - **(swc_core)** Expand features (#5602) ([633a23a](https://github.com/swc-project/swc/commit/633a23a13438cb3891ea1cdef349cde882672bec))
 
 
