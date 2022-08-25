@@ -1,12 +1,14 @@
 //@target: ES6
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var M;
 (function(M) {
-    var f = function f(s) {
-        return _ts_generator(this, function(_state) {
-            return [
-                2
-            ];
-        });
-    };
+    var f = /*#__PURE__*/ regeneratorRuntime.mark(function f(s) {
+        return regeneratorRuntime.wrap(function f$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, f);
+    });
 })(M || (M = {}));

@@ -1,19 +1,14 @@
 // @target: es6
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import _ts_values from "@swc/helpers/src/_ts_values.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 function g() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    5,
-                    _ts_values([])
-                ];
+                return _ctx.delegateYield([], "t0", 1);
             case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked);
 }

@@ -7,28 +7,26 @@ export function foo() {
 // @filename: 1.ts
 // https://github.com/microsoft/TypeScript/issues/36780
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function func() {
     return _func.apply(this, arguments);
 }
 function _func() {
-    _func = _async_to_generator(function() {
+    _func = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var packageName, packageJson;
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     packageName = ".";
-                    return [
-                        4,
-                        import(packageName + "/package.json")
-                    ];
-                case 1:
-                    packageJson = _state.sent();
-                    return [
-                        2
-                    ];
+                    _ctx.next = 3;
+                    return import(packageName + "/package.json");
+                case 3:
+                    packageJson = _ctx.sent;
+                case 4:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    });
+        }, _callee);
+    }));
     return _func.apply(this, arguments);
 }

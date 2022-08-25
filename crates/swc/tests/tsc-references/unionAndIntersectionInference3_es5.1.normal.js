@@ -2,7 +2,7 @@
 // @target: esnext
 // Repro from #30720
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 concatMaybe([
     1,
     2,
@@ -10,11 +10,17 @@ concatMaybe([
 ], 4);
 // Repros from #32247
 var g = function() {
-    var _ref = _async_to_generator(function(com) {
-        return _ts_generator(this, function(_state) {
-            throw com;
-        });
-    });
+    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(com) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    throw com;
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return function g(com) {
         return _ref.apply(this, arguments);
     };

@@ -2,7 +2,8 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
@@ -18,23 +19,17 @@ var Bar = /*#__PURE__*/ function(Foo) {
     return Bar;
 }(Foo);
 function g() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    4,
-                    new Bar
-                ];
+                _ctx.next = 2;
+                return;
             case 2:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 4;
+                return new Bar;
+            case 4:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked);
 }

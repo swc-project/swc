@@ -6,7 +6,7 @@
 // @filename: file.js
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var X = /*#__PURE__*/ function() {
     "use strict";
     function X() {
@@ -21,13 +21,15 @@ var X = /*#__PURE__*/ function() {
       * @returns {Promise.<*>} resolves when the event has been sent.
       */ _proto.cancel = function cancel(param) {
         var reason = param.reason, code = param.code;
-        return _async_to_generator(function() {
-            return _ts_generator(this, function(_state) {
-                return [
-                    2
-                ];
-            });
-        })();
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     };
     return X;
 }();
@@ -47,13 +49,15 @@ var Y = /*#__PURE__*/ function() {
       * @returns {Promise.<*>} resolves when the event has been sent.
       */ _proto.cancel = function cancel(param) {
         var reason = param.reason, suberr = param.suberr;
-        return _async_to_generator(function() {
-            return _ts_generator(this, function(_state) {
-                return [
-                    2
-                ];
-            });
-        })();
+        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
     };
     return Y;
 }();

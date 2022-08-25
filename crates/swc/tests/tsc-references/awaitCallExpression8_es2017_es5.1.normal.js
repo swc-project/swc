@@ -1,29 +1,27 @@
 // @target: es2017
 // @noEmitHelpers: true
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 function func() {
     return _func.apply(this, arguments);
 }
 function _func() {
-    _func = _async_to_generator(function() {
+    _func = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
         var b;
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     before();
-                    return [
-                        4,
-                        po
-                    ];
-                case 1:
-                    b = _state.sent().fn(a, a, a);
+                    _ctx.next = 3;
+                    return po;
+                case 3:
+                    b = _ctx.sent.fn(a, a, a);
                     after();
-                    return [
-                        2
-                    ];
+                case 5:
+                case "end":
+                    return _ctx.stop();
             }
-        });
-    });
+        }, _callee);
+    }));
     return _func.apply(this, arguments);
 }

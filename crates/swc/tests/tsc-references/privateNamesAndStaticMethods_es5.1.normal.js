@@ -11,7 +11,7 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var A = function A() {
     "use strict";
     _class_call_check(this, A);
@@ -34,27 +34,32 @@ function bar(a) {
     return _bar.apply(this, arguments);
 }
 function _bar() {
-    _bar = _async_to_generator(function(a) {
-        return _ts_generator(this, function(_state) {
-            return [
-                2
-            ];
-        });
-    });
+    _bar = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(a) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _bar.apply(this, arguments);
 }
 function baz(a) {
     return _baz.apply(this, arguments);
 }
 function _baz() {
-    _baz = _wrap_async_generator(function(a) {
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                3
-            ];
-        });
-    });
+    _baz = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(a) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", 3);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _baz.apply(this, arguments);
 }
 function get_quux() {

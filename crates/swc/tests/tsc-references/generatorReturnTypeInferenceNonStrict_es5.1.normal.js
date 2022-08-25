@@ -3,461 +3,432 @@
 // @noImplicitReturns: true
 // @noImplicitAny: true
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import _ts_values from "@swc/helpers/src/_ts_values.mjs";
+import regeneratorRuntime from "regenerator-runtime";
+var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g311);
+var _marked1 = /*#__PURE__*/ regeneratorRuntime.mark(g310);
+var _marked2 = /*#__PURE__*/ regeneratorRuntime.mark(g309);
+var _marked3 = /*#__PURE__*/ regeneratorRuntime.mark(g308);
+var _marked4 = /*#__PURE__*/ regeneratorRuntime.mark(g307);
+var _marked5 = /*#__PURE__*/ regeneratorRuntime.mark(g306);
+var _marked6 = /*#__PURE__*/ regeneratorRuntime.mark(g305);
+var _marked7 = /*#__PURE__*/ regeneratorRuntime.mark(g304);
+var _marked8 = /*#__PURE__*/ regeneratorRuntime.mark(g303);
+var _marked9 = /*#__PURE__*/ regeneratorRuntime.mark(g302);
+var _marked10 = /*#__PURE__*/ regeneratorRuntime.mark(g301);
+var _marked11 = /*#__PURE__*/ regeneratorRuntime.mark(g204);
+var _marked12 = /*#__PURE__*/ regeneratorRuntime.mark(g203);
+var _marked13 = /*#__PURE__*/ regeneratorRuntime.mark(g202);
+var _marked14 = /*#__PURE__*/ regeneratorRuntime.mark(g201);
+var _marked15 = /*#__PURE__*/ regeneratorRuntime.mark(g104);
+var _marked16 = /*#__PURE__*/ regeneratorRuntime.mark(g103);
+var _marked17 = /*#__PURE__*/ regeneratorRuntime.mark(g102);
+var _marked18 = /*#__PURE__*/ regeneratorRuntime.mark(g007);
+var _marked19 = /*#__PURE__*/ regeneratorRuntime.mark(g006);
+var _marked20 = /*#__PURE__*/ regeneratorRuntime.mark(g005);
+var _marked21 = /*#__PURE__*/ regeneratorRuntime.mark(g004);
+var _marked22 = /*#__PURE__*/ regeneratorRuntime.mark(g003);
+var _marked23 = /*#__PURE__*/ regeneratorRuntime.mark(g002);
+var _marked24 = /*#__PURE__*/ regeneratorRuntime.mark(g001);
+var _marked25 = /*#__PURE__*/ regeneratorRuntime.mark(g000);
 function g000() {
-    return _ts_generator(this, function(_state) {
-        return [
-            2
-        ];
-    });
+    return regeneratorRuntime.wrap(function g000$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
+            case 0:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked25);
 }
 // 'yield' iteration type inference
 function g001() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g001$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked24);
 }
 function g002() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g002$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return 1;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked23);
 }
 function g003() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g003$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 // NOTE: In strict mode, `[]` produces the type `never[]`.
                 //       In non-strict mode, `[]` produces the type `undefined[]` which is implicitly any.
-                return [
-                    5,
-                    _ts_values([])
-                ];
+                return _ctx.delegateYield([], "t0", 1);
             case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked22);
 }
 function g004() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g004$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    5,
-                    _ts_values(iterableIterator)
-                ];
+                return _ctx.delegateYield(iterableIterator, "t0", 1);
             case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked21);
 }
 function g005() {
     var x;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g005$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    5,
-                    _ts_values(generator)
-                ];
+                return _ctx.delegateYield(generator, "t0", 1);
             case 1:
-                x = _state.sent();
-                return [
-                    2
-                ];
+                x = _ctx.t0;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked20);
 }
 function g006() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g006$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    4,
-                    2
-                ];
+                _ctx.next = 2;
+                return 1;
             case 2:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 4;
+                return 2;
+            case 4:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked19);
 }
 function g007() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g007$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    never
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return never;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked18);
 }
 // 'return' iteration type inference
 function g102() {
-    return _ts_generator(this, function(_state) {
-        return [
-            2,
-            1
-        ];
-    });
+    return regeneratorRuntime.wrap(function g102$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.abrupt("return", 1);
+            case 1:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked17);
 }
 function g103() {
-    return _ts_generator(this, function(_state) {
-        if (Math.random()) return [
-            2,
-            1
-        ];
-        return [
-            2,
-            2
-        ];
-    });
+    return regeneratorRuntime.wrap(function g103$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
+            case 0:
+                if (!Math.random()) {
+                    _ctx.next = 2;
+                    break;
+                }
+                return _ctx.abrupt("return", 1);
+            case 2:
+                return _ctx.abrupt("return", 2);
+            case 3:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked16);
 }
 function g104() {
-    return _ts_generator(this, function(_state) {
-        return [
-            2,
-            never
-        ];
-    });
+    return regeneratorRuntime.wrap(function g104$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.abrupt("return", never);
+            case 1:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked15);
 }
 // 'next' iteration type inference
 function g201() {
     var a;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g201$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                a = _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return 1;
+            case 2:
+                a = _ctx.sent;
+            case 3:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked14);
 }
 function g202() {
     var a, b;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g202$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                a = _state.sent();
-                return [
-                    4,
-                    2
-                ];
+                _ctx.next = 2;
+                return 1;
             case 2:
-                b = _state.sent();
-                return [
-                    2
-                ];
+                a = _ctx.sent;
+                _ctx.next = 5;
+                return 2;
+            case 5:
+                b = _ctx.sent;
+            case 6:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked13);
 }
 function g203() {
     var x;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g203$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                x = f1.apply(void 0, [
-                    _state.sent()
-                ]);
-                return [
-                    2
-                ];
+                _ctx.t0 = f1;
+                _ctx.next = 3;
+                return 1;
+            case 3:
+                _ctx.t1 = _ctx.sent;
+                x = (0, _ctx.t0)(_ctx.t1);
+            case 5:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked12);
 }
 function g204() {
     var x;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g204$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                x = f2.apply(void 0, [
-                    _state.sent()
-                ]);
-                return [
-                    2
-                ];
+                _ctx.t0 = f2;
+                _ctx.next = 3;
+                return 1;
+            case 3:
+                _ctx.t1 = _ctx.sent;
+                x = (0, _ctx.t0)(_ctx.t1);
+            case 5:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked11);
 }
 // mixed iteration types inference
 function g301() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g301$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return;
+            case 2:
+                return _ctx.abrupt("return");
+            case 3:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked10);
 }
 function g302() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g302$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+                _ctx.next = 2;
+                return 1;
+            case 2:
+                return _ctx.abrupt("return");
+            case 3:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked9);
 }
 function g303() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g303$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2,
-                    "a"
-                ];
+                _ctx.next = 2;
+                return;
+            case 2:
+                return _ctx.abrupt("return", "a");
+            case 3:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked8);
 }
 function g304() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g304$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                _state.sent();
-                return [
-                    2,
-                    "a"
-                ];
+                _ctx.next = 2;
+                return 1;
+            case 2:
+                return _ctx.abrupt("return", "a");
+            case 3:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked7);
 }
 function g305() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g305$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                if (!Math.random()) return [
-                    3,
-                    2
-                ];
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                _state.sent();
-                _state.label = 2;
-            case 2:
-                return [
-                    4,
-                    2
-                ];
+                if (!Math.random()) {
+                    _ctx.next = 3;
+                    break;
+                }
+                _ctx.next = 3;
+                return 1;
             case 3:
-                _state.sent();
-                if (Math.random()) return [
-                    2,
-                    "a"
-                ];
-                return [
-                    2,
-                    "b"
-                ];
+                _ctx.next = 5;
+                return 2;
+            case 5:
+                if (!Math.random()) {
+                    _ctx.next = 7;
+                    break;
+                }
+                return _ctx.abrupt("return", "a");
+            case 7:
+                return _ctx.abrupt("return", "b");
+            case 8:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked6);
 }
 function g306() {
     var a;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g306$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    1
-                ];
-            case 1:
-                a = _state.sent();
-                return [
-                    2,
-                    true
-                ];
+                _ctx.next = 2;
+                return 1;
+            case 2:
+                a = _ctx.sent;
+                return _ctx.abrupt("return", true);
+            case 4:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked5);
 }
 function g307() {
     var a;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g307$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    0
-                ];
-            case 1:
-                a = _state.sent();
-                return [
-                    2,
-                    a
-                ];
+                _ctx.next = 2;
+                return 0;
+            case 2:
+                a = _ctx.sent;
+                return _ctx.abrupt("return", a);
+            case 4:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked4);
 }
 function g308(x) {
     var a;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g308$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    x
-                ];
-            case 1:
-                a = _state.sent();
-                return [
-                    2,
-                    a
-                ];
+                _ctx.next = 2;
+                return x;
+            case 2:
+                a = _ctx.sent;
+                return _ctx.abrupt("return", a);
+            case 4:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked3);
 }
 function g309(x, y) {
     var a;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g309$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4,
-                    x
-                ];
-            case 1:
-                a = _state.sent();
-                return [
-                    2,
-                    y
-                ];
+                _ctx.next = 2;
+                return x;
+            case 2:
+                a = _ctx.sent;
+                return _ctx.abrupt("return", y);
+            case 4:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked2);
 }
 function g310() {
     var ref, tmp, a, tmp1, b;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g310$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    4
-                ];
-            case 1:
-                ref = _sliced_to_array.apply(void 0, [
-                    _state.sent(),
-                    2
-                ]), tmp = ref[0], a = tmp === void 0 ? 1 : tmp, tmp1 = ref[1], b = tmp1 === void 0 ? 2 : tmp1;
-                return [
-                    2
-                ];
+                _ctx.t0 = _sliced_to_array;
+                _ctx.next = 3;
+                return;
+            case 3:
+                _ctx.t1 = _ctx.sent;
+                ref = (0, _ctx.t0)(_ctx.t1, 2);
+                tmp = ref[0];
+                a = tmp === void 0 ? 1 : tmp;
+                tmp1 = ref[1];
+                b = tmp1 === void 0 ? 2 : tmp1;
+            case 9:
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked1);
 }
 function g311() {
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
+    return regeneratorRuntime.wrap(function g311$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                return [
-                    5,
-                    _ts_values(function() {
-                        var y;
-                        return _ts_generator(this, function(_state) {
-                            switch(_state.label){
-                                case 0:
-                                    return [
-                                        4
-                                    ];
-                                case 1:
-                                    y = _state.sent();
-                                    return [
-                                        2
-                                    ];
-                            }
-                        });
-                    }())
-                ];
+                return _ctx.delegateYield(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+                    var y;
+                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                        while(1)switch(_ctx.prev = _ctx.next){
+                            case 0:
+                                _ctx.next = 2;
+                                return;
+                            case 2:
+                                y = _ctx.sent;
+                            case 3:
+                            case "end":
+                                return _ctx.stop();
+                        }
+                    }, _callee);
+                })(), "t0", 1);
             case 1:
-                _state.sent();
-                return [
-                    2
-                ];
+            case "end":
+                return _ctx.stop();
         }
-    });
+    }, _marked);
 }

@@ -13,7 +13,7 @@ import _class_private_method_init from "@swc/helpers/src/_class_private_method_i
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 var _foo = /*#__PURE__*/ new WeakSet(), _bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), __quux = /*#__PURE__*/ new WeakMap(), _quux = /*#__PURE__*/ new WeakMap();
 var A = function A() {
     "use strict";
@@ -40,27 +40,32 @@ function bar(a) {
     return _bar1.apply(this, arguments);
 }
 function _bar1() {
-    _bar1 = _async_to_generator(function(a) {
-        return _ts_generator(this, function(_state) {
-            return [
-                2
-            ];
-        });
-    });
+    _bar1 = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(a) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _bar1.apply(this, arguments);
 }
 function baz(a) {
     return _baz1.apply(this, arguments);
 }
 function _baz1() {
-    _baz1 = _wrap_async_generator(function(a) {
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                3
-            ];
-        });
-    });
+    _baz1 = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(a) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", 3);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _baz1.apply(this, arguments);
 }
 function get_quux() {

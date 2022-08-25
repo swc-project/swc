@@ -7,7 +7,7 @@ import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import regeneratorRuntime from "regenerator-runtime";
 import * as React from "react";
 var AsyncLoader = /*#__PURE__*/ function(_Component) {
     "use strict";
@@ -27,16 +27,19 @@ function load() {
     return _load.apply(this, arguments);
 }
 function _load() {
-    _load = _async_to_generator(function() {
-        var _tmp;
-        return _ts_generator(this, function(_state) {
-            _tmp = {};
-            return [
-                2,
-                (_tmp.success = true, _tmp)
-            ];
-        });
-    });
+    _load = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", {
+                        success: true
+                    });
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
     return _load.apply(this, arguments);
 }
 var loader = /*#__PURE__*/ React.createElement(AsyncLoader, {
