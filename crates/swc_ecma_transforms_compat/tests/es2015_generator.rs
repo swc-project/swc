@@ -1253,52 +1253,46 @@ function requester() {
 }
 "#,
     r#"
-var regeneratorRuntime = require("regenerator-runtime");
-function requester() {
-  return pureRequester;
-  function pureRequester() {
-    return _pureRequester.apply(this, arguments);
-  }
-  function _pureRequester() {
-    _pureRequester = _asyncToGenerator(
-      regeneratorRuntime.mark(function _callee() {
-        var refreshThenRequest, _refreshThenRequest;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-          while (1)
-            switch (_ctx.prev = _ctx.next) {
-              case 0:
-                refreshThenRequest = function _refreshThenRequest1() {
-                  return _refreshThenRequest.apply(this, arguments);
-                };
-                _refreshThenRequest = function __refreshThenRequest() {
-                  _refreshThenRequest = _asyncToGenerator(
-                    regeneratorRuntime.mark(function _callee() {
-                      return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while (1)
-                          switch (_ctx.prev = _ctx.next) {
-                            case 0:
-                            case "end":
-                              return _ctx.stop();
-                          }
-                      }, _callee);
-                    })
-                  );
-                  return _refreshThenRequest.apply(this, arguments);
-                };
-                _ctx.next = 4;
-                return refreshThenRequest();
-              case 4:
-                return _ctx.abrupt("return", true);
-              case 7:
-              case "end":
-                return _ctx.stop();
-            }
-        }, _callee);
-      })
-    );
-    return _pureRequester.apply(this, arguments);
-  }
-}
+
+    function requester() {
+        return pureRequester;
+        function pureRequester() {
+            return _pureRequester.apply(this, arguments);
+        }
+        function _pureRequester() {
+            _pureRequester = _asyncToGenerator(function() {
+                function refreshThenRequest() {
+                    return _refreshThenRequest.apply(this, arguments);
+                }
+                function _refreshThenRequest() {
+                    _refreshThenRequest = _asyncToGenerator(function() {
+                        return __generator(this, function(_state) {
+                            return [
+                                2
+                            ];
+                        });
+                    });
+                    return _refreshThenRequest.apply(this, arguments);
+                }
+                return __generator(this, function(_state) {
+                    switch(_state.label){
+                        case 0:
+                            return [
+                                4,
+                                refreshThenRequest()
+                            ];
+                        case 1:
+                            _state.sent();
+                            return [
+                                2,
+                                true
+                            ];
+                    }
+                });
+            });
+            return _pureRequester.apply(this, arguments);
+        }
+    }
 "#
 );
 
@@ -1403,49 +1397,28 @@ function foo(a) {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _asyncToGenerator(
-        regeneratorRuntime.mark(function _callee(a) {
-            var bar1, _bar1;
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while (1)
-                    switch (_ctx.prev = _ctx.next) {
-                        case 0:
-                            bar1 = function _bar11(b) {
-                                return _bar1.apply(this, arguments);
-                            };
-                            _bar1 = function __bar1() {
-                                _bar1 = _asyncToGenerator(
-                                    regeneratorRuntime.mark(function _callee(
-                                        b
-                                    ) {
-                                        return regeneratorRuntime.wrap(
-                                            function _callee$(_ctx) {
-                                                while (1)
-                                                    switch (_ctx.prev = _ctx.next) {
-                                                        case 0:
-                                                            return _ctx.abrupt(
-                                                                "return",
-                                                                a + b
-                                                            );
-                                                        case 1:
-                                                        case "end":
-                                                            return _ctx.stop();
-                                                    }
-                                            },
-                                            _callee
-                                        );
-                                    })
-                                );
-                                return _bar1.apply(this, arguments);
-                            };
-                            return _ctx.abrupt("return", bar1);
-                        case 5:
-                        case "end":
-                            return _ctx.stop();
-                    }
-            }, _callee);
-        })
-    );
+    _foo = _asyncToGenerator(function(a) {
+        function bar1(b) {
+            return _bar1.apply(this, arguments);
+        }
+        function _bar1() {
+            _bar1 = _asyncToGenerator(function(b) {
+                return __generator(this, function(_state) {
+                    return [
+                        2,
+                        a + b
+                    ];
+                });
+            });
+            return _bar1.apply(this, arguments);
+        }
+        return __generator(this, function(_state) {
+            return [
+                2,
+                bar1
+            ];
+        });
+    });
     return _foo.apply(this, arguments);
 }
 foo(1)
