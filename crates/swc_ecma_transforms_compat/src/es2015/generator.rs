@@ -271,6 +271,7 @@ struct LoopBlock {
 
 /// a generated block associated with a 'with' statement
 
+#[allow(unused)]
 #[derive(Debug)]
 struct WithBlock {
     expression: Ident,
