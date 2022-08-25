@@ -51,26 +51,16 @@ var o = {
 
 "#,
     r#"
-var regeneratorRuntime = require("regenerator-runtime");
-
-var o = {
-  foo() {
-    return regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-          while (1) switch (_ctx.prev = _ctx.next) {
-            case 0:
-              return _ctx.abrupt("return", "foo");
-
-            case 1:
-            case "end":
-              return _ctx.stop();
-          }
-        }, _callee);
-      })()
-    ;
-  }
-
-};
+    var o = {
+        foo () {
+            return __generator(this, function(_state) {
+                return [
+                    2,
+                    "foo"
+                ];
+            });
+        }
+    };
 
 "#
 );
@@ -135,19 +125,11 @@ test!(
     "function* foo(a,b,c){}
 ",
     r#"
-var regeneratorRuntime = require("regenerator-runtime");
-var _marked = regeneratorRuntime.mark(foo);
-
-function foo(a, b, c) {
-  return regeneratorRuntime.wrap(function foo$(_ctx) {
-    while (1)
-      switch (_ctx.prev = _ctx.next) {
-        case 0:
-        case "end":
-          return _ctx.stop();
-      }
-  }, _marked);
-}
+    return __generator(this, function(_state) {
+        return [
+            2
+        ];
+    });
 "#
 );
 
