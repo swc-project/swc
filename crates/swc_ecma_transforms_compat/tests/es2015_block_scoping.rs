@@ -514,52 +514,52 @@ test!(
         }
         ",
     r#"
-    var regeneratorRuntime = require("regenerator-runtime");
     function foo() {
         return _foo.apply(this, arguments);
     }
     function _foo() {
-        _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
+        _foo = _asyncToGenerator(function() {
+            return __generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        _ctx.next = 2;
-                        return Promise.all([
-                            [
-                                1
-                            ],
-                            [
-                                2
-                            ],
-                            [
-                                3
-                            ]
-                        ].map(function() {
-                            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param) {
-                                var _param, a;
-                                return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                                    while(1)switch(_ctx.prev = _ctx.next){
-                                        case 0:
-                                            _param = _slicedToArray(param, 1), a = _param[0];
-                                            return _ctx.abrupt("return", Promise.resolve().then(function() {
+                        return [
+                            4,
+                            Promise.all([
+                                [
+                                    1
+                                ],
+                                [
+                                    2
+                                ],
+                                [
+                                    3
+                                ]
+                            ].map(function() {
+                                var _ref = _asyncToGenerator(function(param) {
+                                    var _param, a;
+                                    return __generator(this, function(_state) {
+                                        _param = _slicedToArray(param, 1), a = _param[0];
+                                        return [
+                                            2,
+                                            Promise.resolve().then(function() {
                                                 return a * 2;
-                                            }));
-                                        case 2:
-                                        case "end":
-                                            return _ctx.stop();
-                                    }
-                                }, _callee);
-                            }));
-                            return function(_) {
-                                return _ref.apply(this, arguments);
-                            };
-                        }()));
-                    case 2:
-                    case "end":
-                        return _ctx.stop();
+                                            })
+                                        ];
+                                    });
+                                });
+                                return function(_) {
+                                    return _ref.apply(this, arguments);
+                                };
+                            }()))
+                        ];
+                    case 1:
+                        _state.sent();
+                        return [
+                            2
+                        ];
                 }
-            }, _callee);
-        }));
+            });
+        });
         return _foo.apply(this, arguments);
     }
 "#

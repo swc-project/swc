@@ -7,20 +7,22 @@ var x = new Promise(function(resolve, reject) {
 export default x;
 // @filename: b.ts
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import x from "./a";
-_async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
+_async_to_generator(function() {
     var value;
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                _ctx.next = 2;
-                return x;
-            case 2:
-                value = _ctx.sent;
-            case 3:
-            case "end":
-                return _ctx.stop();
+                return [
+                    4,
+                    x
+                ];
+            case 1:
+                value = _state.sent();
+                return [
+                    2
+                ];
         }
-    }, _callee);
-}))();
+    });
+})();

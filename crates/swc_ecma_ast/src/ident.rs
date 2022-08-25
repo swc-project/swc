@@ -44,7 +44,7 @@ impl std::ops::Deref for BindingIdent {
 }
 
 impl BindingIdent {
-    /// See [Ident#to_id] for documentation.
+    /// See [`Ident::to_id`] for documentation.
     pub fn to_id(&self) -> Id {
         self.id.to_id()
     }
@@ -55,6 +55,8 @@ impl From<Ident> for BindingIdent {
         Self { id, type_ann: None }
     }
 }
+
+bridge_from!(BindingIdent, Ident, Id);
 
 /// A complete identifier with span.
 ///

@@ -1,57 +1,71 @@
+var _bar, _baz, _qux;
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
-var _bar, _baz, _qux, _marked = regeneratorRuntime.mark(baz);
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function bar() {
     return _bar1.apply(this, arguments);
 }
 function _bar1() {
-    return (_bar1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
+    return (_bar1 = _async_to_generator(function() {
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    return _ctx.next = 2, Promise.resolve(42);
-                case 2:
-                    return _ctx.abrupt("return", _ctx.sent);
-                case 3:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        Promise.resolve(42)
+                    ];
+                case 1:
+                    return [
+                        2,
+                        _state.sent()
+                    ];
             }
-        }, _callee);
-    }))).apply(this, arguments);
+        });
+    })).apply(this, arguments);
 }
 function baz() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                return _ctx.next = 2, 42;
-            case 2:
-            case "end":
-                return _ctx.stop();
+                return [
+                    4,
+                    42
+                ];
+            case 1:
+                return _state.sent(), [
+                    2
+                ];
         }
-    }, _marked);
+    });
 }
 function qux() {
     return _qux1.apply(this, arguments);
 }
 function _qux1() {
-    return (_qux1 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
+    return (_qux1 = _wrap_async_generator(function() {
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    return _ctx.next = 2, _await_async_generator(Promise.resolve(42));
+                    return [
+                        4,
+                        _await_async_generator(Promise.resolve(42))
+                    ];
+                case 1:
+                    return [
+                        4,
+                        _state.sent()
+                    ];
                 case 2:
-                    return _ctx.next = 4, _ctx.sent;
-                case 4:
-                case "end":
-                    return _ctx.stop();
+                    return _state.sent(), [
+                        2
+                    ];
             }
-        }, _callee);
-    }))).apply(this, arguments);
+        });
+    })).apply(this, arguments);
 }
 new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), function() {
     "use strict";
@@ -60,27 +74,27 @@ new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), function(
     }
     return _class.prototype.foo = function() {
         var _this = this;
-        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(function() {
             var b;
-            return regeneratorRuntime.wrap(function(_ctx) {
-                for(;;)switch(_ctx.prev = _ctx.next){
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        return _ctx.next = 2, _class_private_method_get(_this, _bar, bar).call(_this);
+                        return [
+                            4,
+                            _class_private_method_get(_this, _bar, bar).call(_this)
+                        ];
+                    case 1:
+                        return _ = (b = _state.sent()) + (_class_private_method_get(_this, _baz, baz).call(_this).next().value || 0), [
+                            4,
+                            _class_private_method_get(_this, _qux, qux).call(_this).next()
+                        ];
                     case 2:
-                        return b = _ctx.sent, _ctx.t0 = b + (_class_private_method_get(_this, _baz, baz).call(_this).next().value || 0), _ctx.next = 6, _class_private_method_get(_this, _qux, qux).call(_this).next();
-                    case 6:
-                        if (_ctx.t1 = _ctx.sent.value, _ctx.t1) {
-                            _ctx.next = 9;
-                            break;
-                        }
-                        _ctx.t1 = 0;
-                    case 9:
-                        return _ctx.t2 = _ctx.t1, _ctx.abrupt("return", _ctx.t0 + _ctx.t2);
-                    case 11:
-                    case "end":
-                        return _ctx.stop();
+                        return [
+                            2,
+                            _ + (_state.sent().value || 0)
+                        ];
                 }
-            }, _callee);
-        }))();
+            });
+        })();
     }, _class;
 }())().foo().then(console.log);

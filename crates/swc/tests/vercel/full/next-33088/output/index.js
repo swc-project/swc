@@ -1,46 +1,51 @@
 import t from "@swc/helpers/src/_async_to_generator.mjs";
 import r from "@swc/helpers/src/_sliced_to_array.mjs";
-import e from "regenerator-runtime";
-import { jsx as n, jsxs as a, Fragment as o } from "react/jsx-runtime";
-import * as s from "react";
-export default function i() {
-    var i = r(s.useState({
+import e from "@swc/helpers/src/_ts_generator.mjs";
+import { jsx as n, jsxs as i, Fragment as u } from "react/jsx-runtime";
+import * as o from "react";
+export default function s() {
+    var s = r(o.useState({
         hits: []
-    }), 2), u = i[0], c = i[1], f = r(s.useState("react"), 2), p = f[0], m = f[1];
-    return s.useEffect(function() {
-        "" !== p && function() {
+    }), 2), a = s[0], c = s[1], f = r(o.useState("react"), 2), l = f[0], h = f[1];
+    return o.useEffect(function() {
+        "" !== l && function() {
             r.apply(this, arguments);
         }();
         function r() {
-            return (r = t(e.mark(function t() {
-                var r, n;
-                return e.wrap(function(t) {
-                    for(;;)switch(t.prev = t.next){
+            return (r = t(function() {
+                var t, r;
+                return e(this, function(e) {
+                    switch(e.label){
                         case 0:
-                            return t.next = 2, fetch("https://hn.algolia.com/api/v1/search?query=" + p);
+                            return [
+                                4,
+                                fetch("https://hn.algolia.com/api/v1/search?query=" + l)
+                            ];
+                        case 1:
+                            return [
+                                4,
+                                (t = e.sent()).json()
+                            ];
                         case 2:
-                            return r = t.sent, t.next = 5, r.json();
-                        case 5:
-                            c(n = t.sent);
-                        case 7:
-                        case "end":
-                            return t.stop();
+                            return c(r = e.sent()), [
+                                2
+                            ];
                     }
-                }, t);
-            }))).apply(this, arguments);
+                });
+            })).apply(this, arguments);
         }
     }, [
-        p
-    ]), a(o, {
+        l
+    ]), i(u, {
         children: [
             n("input", {
-                value: p,
+                value: l,
                 onChange: function(t) {
-                    return m(t.target.value);
+                    return h(t.target.value);
                 }
             }),
             n("ul", {
-                children: u.hits.map(function(t) {
+                children: a.hits.map(function(t) {
                     return n("li", {
                         children: n("a", {
                             href: t.url,
