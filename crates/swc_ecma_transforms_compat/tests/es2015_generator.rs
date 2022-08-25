@@ -975,16 +975,12 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::new();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
             es2015::for_of(Default::default()),
-            es2015::regenerator::<SingleThreadedComments>(
-                Default::default(),
-                None,
-                unresolved_mark
-            ),
+            generator(unresolved_mark, t.comments.clone()),
         )
     },
     issue_600_exact_passes,
