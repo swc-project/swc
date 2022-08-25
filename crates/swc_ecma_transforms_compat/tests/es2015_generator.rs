@@ -2110,12 +2110,12 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| {
+    |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
             es2015::for_of(Default::default()),
-            regenerator::<SingleThreadedComments>(Default::default(), None, mark)
+            generator(mark, t.comments.clone())
         )
     },
     issue_1918_1,
