@@ -3215,7 +3215,7 @@ impl Generator {
         self.last_operation_was_abrupt = true;
         self.last_operation_was_completion = true;
 
-        let inst = self.create_instruction(Instruction::Return);
+        // let inst = self.create_instruction(Instruction::Return);
         self.write_stmt(Stmt::Throw(ThrowStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             arg: expr,
@@ -3406,7 +3406,7 @@ impl Generator {
     fn create_call_binding(
         &self,
         expr: Box<Expr>,
-        cache_identifier: bool,
+        _cache_identifier: bool,
     ) -> (Box<Expr>, Box<Expr>) {
         let callee = expr;
 
