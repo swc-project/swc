@@ -2946,58 +2946,63 @@ export default async function someCall() {
 }
   ",
     "
-            var regeneratorRuntime = require(\"regenerator-runtime\");
-function region() {
-  return _region.apply(this, arguments);
-}
-function _region() {
-    _region = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                case \"end\":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }));
-    return _region.apply(this, arguments);
-}
-export function otherCall() {
-  return _otherCall.apply(this, arguments);
-}
-function _otherCall() {
-    _otherCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    _ctx.next = 2;
-                    return region();
-                case 2:
-                case \"end\":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }));
-    return _otherCall.apply(this, arguments);
-}
-export default function someCall() {
-  return _someCall.apply(this, arguments);
-}
-function _someCall() {
-  _someCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_ctx) {
-          while(1)switch(_ctx.prev = _ctx.next){
-              case 0:
-                  _ctx.next = 2;
-                  return region();
-              case 2:
-              case \"end\":
-                  return _ctx.stop();
-          }
-      }, _callee);
-  }));
-  return _someCall.apply(this, arguments);
-}
+    function region() {
+      return _region.apply(this, arguments);
+  }
+  function _region() {
+      _region = _asyncToGenerator(function() {
+          return __generator(this, function(_state) {
+              return [
+                  2
+              ];
+          });
+      });
+      return _region.apply(this, arguments);
+  }
+  export function otherCall() {
+      return _otherCall.apply(this, arguments);
+  }
+  function _otherCall() {
+      _otherCall = _asyncToGenerator(function() {
+          return __generator(this, function(_state) {
+              switch(_state.label){
+                  case 0:
+                      return [
+                          4,
+                          region()
+                      ];
+                  case 1:
+                      _state.sent();
+                      return [
+                          2
+                      ];
+              }
+          });
+      });
+      return _otherCall.apply(this, arguments);
+  }
+  export default function someCall() {
+      return _someCall.apply(this, arguments);
+  };
+  function _someCall() {
+      _someCall = _asyncToGenerator(function() {
+          return __generator(this, function(_state) {
+              switch(_state.label){
+                  case 0:
+                      return [
+                          4,
+                          region()
+                      ];
+                  case 1:
+                      _state.sent();
+                      return [
+                          2
+                      ];
+              }
+          });
+      });
+      return _someCall.apply(this, arguments);
+  }
   "
 );
 
@@ -3020,38 +3025,39 @@ export default async function() {
 }
 ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
     function region() {
       return _region.apply(this, arguments);
     }
     function _region() {
-        _region = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
-                    case 0:
-                    case \"end\":
-                        return _ctx.stop();
-                }
-            }, _callee);
-        }));
+        _region = _asyncToGenerator(function() {
+            return __generator(this, function(_state) {
+                return [
+                    2
+                ];
+            });
+        });
         return _region.apply(this, arguments);
     }
     export default function() {
-      return _ref.apply(this, arguments);
+        return _ref.apply(this, arguments);
     }
     function _ref() {
-        _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
+        _ref = _asyncToGenerator(function() {
+            return __generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        _ctx.next = 2;
-                        return region();
-                    case 2:
-                    case \"end\":
-                        return _ctx.stop();
+                        return [
+                            4,
+                            region()
+                        ];
+                    case 1:
+                        _state.sent();
+                        return [
+                            2
+                        ];
                 }
-            }, _callee);
-        }));
+            });
+        });
         return _ref.apply(this, arguments);
     }
 "
