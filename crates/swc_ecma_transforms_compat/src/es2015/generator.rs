@@ -2508,18 +2508,16 @@ impl Generator {
     fn find_continue_target(&self, label_text: Option<JsWord>) -> Label {
         if let Some(block_stack) = &self.block_stack {
             if let Some(label_text) = label_text {
-                for i in (0..block_stack.len()).rev() {
+                for i in (0..=block_stack.len() - 1).rev() {
                     let block = &block_stack[i];
                     if self.supports_unlabeled_continue(&block.borrow())
-                        || self.has_immediate_containing_labeled_block(&label_text, i - i)
+                        && self.has_immediate_containing_labeled_block(&label_text, i - i)
                     {
                         return block.borrow().continue_label().unwrap();
-                    } else {
-                        break;
                     }
                 }
             } else {
-                for i in (0..block_stack.len()).rev() {
+                for i in (0..=block_stack.len() - 1).rev() {
                     let block = &block_stack[i];
                     if self.supports_unlabeled_continue(&block.borrow()) {
                         return block.borrow().continue_label().unwrap();
