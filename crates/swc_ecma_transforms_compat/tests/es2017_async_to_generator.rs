@@ -2628,41 +2628,41 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-    const cache = {
-    };
+    const cache = {};
     function getThing(key) {
-      return _getThing.apply(this, arguments);
+        return _getThing.apply(this, arguments);
     }
     function _getThing() {
-        _getThing = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key) {
-            var it;
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
+        _getThing = _asyncToGenerator(function(key) {
+            var it, _tmp;
+            return __generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        _ctx.t0 = cache[key];
-                        if (_ctx.t0) {
-                            _ctx.next = 5;
-                            break;
-                        }
-                        _ctx.next = 4;
-                        return fetchThing(key);
-                    case 4:
-                        _ctx.t0 = _ctx.sent;
-                    case 5:
-                        it = _ctx.t0;
-                        return _ctx.abrupt(\"return\", it);
-                    case 7:
-                    case \"end\":
-                        return _ctx.stop();
+                        _tmp = cache[key];
+                        if (_tmp) return [
+                            3,
+                            2
+                        ];
+                        return [
+                            4,
+                            fetchThing(key)
+                        ];
+                    case 1:
+                        _tmp = _state.sent();
+                        _state.label = 2;
+                    case 2:
+                        it = _tmp;
+                        return [
+                            2,
+                            it
+                        ];
                 }
-            }, _callee);
-        }));
+            });
+        });
         return _getThing.apply(this, arguments);
     }
     function fetchThing(key) {
-      return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
-      );
+        return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val);
     }
     "
 );
