@@ -2784,35 +2784,31 @@ test!(
   });
 ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-function MyClass(item) {
-    this.item = item;
-    console.log('Constructor | this.item', this.item);
-}
-MyClass.prototype.fun = function() {
-    var _fun = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    console.log('fun | this.item', this.item);
-                    return _ctx.abrupt(\"return\", this.item);
-                case 2:
-                case \"end\":
-                    return _ctx.stop();
-            }
-        }, _callee, this);
-    }));
-    function fun() {
-        return _fun.apply(this, arguments);
+    function MyClass(item) {
+      this.item = item;
+      console.log('Constructor | this.item', this.item);
     }
-    return fun;
-}();
-const tmp = new MyClass({
-    foo: 'bar'
-});
-tmp.fun().then((res)=>{
-    console.log('fun result | item', res);
-});
+    MyClass.prototype.fun = function() {
+        var _fun = _asyncToGenerator(function() {
+            return __generator(this, function(_state) {
+                console.log('fun | this.item', this.item);
+                return [
+                    2,
+                    this.item
+                ];
+            });
+        });
+        function fun() {
+            return _fun.apply(this, arguments);
+        }
+        return fun;
+    }();
+    const tmp = new MyClass({
+        foo: 'bar'
+    });
+    tmp.fun().then((res)=>{
+        console.log('fun result | item', res);
+    });
 "
 );
 
