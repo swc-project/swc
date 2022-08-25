@@ -10,22 +10,26 @@ Object.defineProperty(exports, "default", {
 });
 var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
 var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _regeneratorRuntime = /*#__PURE__*/ _interopRequireDefault(require("regenerator-runtime"));
+var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
 var _react = /*#__PURE__*/ _interopRequireDefault(require("react"));
 function Foo() {
     return /*#__PURE__*/ _react.default.createElement("div", {
-        onClick: /*#__PURE__*/ _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime.default.mark(function _callee(e) {
-            return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
+        onClick: /*#__PURE__*/ _asyncToGenerator(function(e) {
+            return _tsGenerator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        _ctx.next = 2;
-                        return doSomething();
-                    case 2:
-                    case "end":
-                        return _ctx.stop();
+                        return [
+                            4,
+                            doSomething()
+                        ];
+                    case 1:
+                        _state.sent();
+                        return [
+                            2
+                        ];
                 }
-            }, _callee);
-        }))
+            });
+        })
     });
 }
 Foo.displayName = "Foo";

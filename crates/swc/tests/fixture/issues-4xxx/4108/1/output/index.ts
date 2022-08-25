@@ -1,22 +1,28 @@
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 export var getErrorForTransaction = function() {
-    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, txid) {
+    var _ref = _async_to_generator(function(connection, txid) {
         var tx, errors;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    _ctx.next = 2;
-                    return connection.confirmTransaction(txid, "max");
+                    // wait for all confirmation before geting transaction
+                    return [
+                        4,
+                        connection.confirmTransaction(txid, "max")
+                    ];
+                case 1:
+                    _state.sent();
+                    return [
+                        4,
+                        connection.getParsedConfirmedTransaction(txid)
+                    ];
                 case 2:
-                    _ctx.next = 4;
-                    return connection.getParsedConfirmedTransaction(txid);
-                case 4:
-                    tx = _ctx.sent;
+                    tx = _state.sent();
                     errors = [];
                     if ((tx === null || tx === void 0 ? void 0 : tx.meta) && tx.meta.logMessages) {
                         tx.meta.logMessages.forEach(function(log) {
@@ -33,13 +39,13 @@ export var getErrorForTransaction = function() {
                             }
                         });
                     }
-                    return _ctx.abrupt("return", errors);
-                case 8:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        2,
+                        errors
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return function getErrorForTransaction(connection, txid) {
         return _ref.apply(this, arguments);
     };
@@ -54,15 +60,16 @@ export function sendTransactionsWithManualRetry(connection, wallet, instructions
     return _sendTransactionsWithManualRetry.apply(this, arguments);
 }
 function _sendTransactionsWithManualRetry() {
-    _sendTransactionsWithManualRetry = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
-        var stopPoint, tries, lastInstructionsLength, toRemoveSigners, ids, filteredSigners, id, txs;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _sendTransactionsWithManualRetry = _async_to_generator(function(connection, wallet, instructions, signers) {
+        var stopPoint, tries, lastInstructionsLength, toRemoveSigners, _tmp, ids, filteredSigners, id, txs, e;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
                     stopPoint = 0;
                     tries = 0;
                     lastInstructionsLength = null;
-                    toRemoveSigners = {};
+                    _tmp = {};
+                    toRemoveSigners = _tmp;
                     instructions = instructions.filter(function(instr, i) {
                         if (instr.length > 0) {
                             return true;
@@ -75,68 +82,86 @@ function _sendTransactionsWithManualRetry() {
                     filteredSigners = signers.filter(function(_, i) {
                         return !toRemoveSigners[i];
                     });
-                case 7:
-                    if (!(stopPoint < instructions.length && tries < 3)) {
-                        _ctx.next = 33;
-                        break;
-                    }
+                    _state.label = 1;
+                case 1:
+                    if (!(stopPoint < instructions.length && tries < 3)) return [
+                        3,
+                        9
+                    ];
                     instructions = instructions.slice(stopPoint, instructions.length);
                     filteredSigners = filteredSigners.slice(stopPoint, filteredSigners.length);
                     if (instructions.length === lastInstructionsLength) tries = tries + 1;
                     else tries = 0;
-                    _ctx.prev = 11;
-                    if (!(instructions.length === 1)) {
-                        _ctx.next = 20;
-                        break;
-                    }
-                    _ctx.next = 15;
-                    return sendTransactionWithRetry(connection, wallet, instructions[0], filteredSigners[0], "single");
-                case 15:
-                    id = _ctx.sent;
+                    _state.label = 2;
+                case 2:
+                    _state.trys.push([
+                        2,
+                        7,
+                        ,
+                        8
+                    ]);
+                    if (!(instructions.length === 1)) return [
+                        3,
+                        4
+                    ];
+                    return [
+                        4,
+                        sendTransactionWithRetry(connection, wallet, instructions[0], filteredSigners[0], "single")
+                    ];
+                case 3:
+                    id = _state.sent();
                     ids.push(id.txid);
                     stopPoint = 1;
-                    _ctx.next = 24;
-                    break;
-                case 20:
-                    _ctx.next = 22;
-                    return sendTransactions(connection, wallet, instructions, filteredSigners, SequenceType.StopOnFailure, "single");
-                case 22:
-                    txs = _ctx.sent.txs;
+                    return [
+                        3,
+                        6
+                    ];
+                case 4:
+                    return [
+                        4,
+                        sendTransactions(connection, wallet, instructions, filteredSigners, SequenceType.StopOnFailure, "single")
+                    ];
+                case 5:
+                    txs = _state.sent().txs;
                     ids = ids.concat(txs.map(function(t) {
                         return t.txid;
                     }));
-                case 24:
-                    _ctx.next = 29;
-                    break;
-                case 26:
-                    _ctx.prev = 26;
-                    _ctx.t0 = _ctx["catch"](11);
-                    console.error(_ctx.t0);
-                case 29:
+                    _state.label = 6;
+                case 6:
+                    return [
+                        3,
+                        8
+                    ];
+                case 7:
+                    e = _state.sent();
+                    console.error(e);
+                    return [
+                        3,
+                        8
+                    ];
+                case 8:
                     console.log("Died on ", stopPoint, "retrying from instruction", instructions[stopPoint], "instructions length is", instructions.length);
                     lastInstructionsLength = instructions.length;
-                    _ctx.next = 7;
-                    break;
-                case 33:
-                    return _ctx.abrupt("return", ids);
-                case 34:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        3,
+                        1
+                    ];
+                case 9:
+                    return [
+                        2,
+                        ids
+                    ];
             }
-        }, _callee, null, [
-            [
-                11,
-                26
-            ]
-        ]);
-    }));
+        });
+    });
     return _sendTransactionsWithManualRetry.apply(this, arguments);
 }
 export var sendTransactions = function() {
-    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, wallet, instructionSet, signersSet) {
-        var _loop, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, signedTxnPromise, result, _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    var _ref = _async_to_generator(function(connection, wallet, instructionSet, signersSet) {
+        var _loop, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, signedTxnPromise, _tmp, e, _tmp1, result, _tmp2, _tmp3;
+        var _arguments = arguments;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
                     _loop = function(i) {
                         var _transaction;
@@ -162,26 +187,23 @@ export var sendTransactions = function() {
                         }
                         unsignedTxns.push(transaction);
                     };
-                    sequenceType = _args.length > 4 && _args[4] !== void 0 ? _args[4] : SequenceType.Parallel, commitment = _args.length > 5 && _args[5] !== void 0 ? _args[5] : "singleGossip", successCallback = _args.length > 6 && _args[6] !== void 0 ? _args[6] : function(txid, ind) {}, failCallback = _args.length > 7 && _args[7] !== void 0 ? _args[7] : function(txid, ind) {
+                    sequenceType = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : SequenceType.Parallel, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", successCallback = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : function(txid, ind) {}, failCallback = _arguments.length > 7 && _arguments[7] !== void 0 ? _arguments[7] : function(txid, ind) {
                         return false;
-                    }, block = _args.length > 8 ? _args[8] : void 0, beforeTransactions = _args.length > 9 && _args[9] !== void 0 ? _args[9] : [], afterTransactions = _args.length > 10 && _args[10] !== void 0 ? _args[10] : [];
-                    ;
-                    if (wallet.publicKey) {
-                        _ctx.next = 5;
-                        break;
-                    }
-                    throw new WalletNotConnectedError();
-                case 5:
+                    }, block = _arguments.length > 8 ? _arguments[8] : void 0, beforeTransactions = _arguments.length > 9 && _arguments[9] !== void 0 ? _arguments[9] : [], afterTransactions = _arguments.length > 10 && _arguments[10] !== void 0 ? _arguments[10] : [];
+                    if (!wallet.publicKey) throw new WalletNotConnectedError();
                     unsignedTxns = beforeTransactions;
-                    if (block) {
-                        _ctx.next = 10;
-                        break;
-                    }
-                    _ctx.next = 9;
-                    return connection.getRecentBlockhash(commitment);
-                case 9:
-                    block = _ctx.sent;
-                case 10:
+                    if (!!block) return [
+                        3,
+                        2
+                    ];
+                    return [
+                        4,
+                        connection.getRecentBlockhash(commitment)
+                    ];
+                case 1:
+                    block = _state.sent();
+                    _state.label = 2;
+                case 2:
                     for(i = 0; i < instructionSet.length; i++)_loop(i);
                     (_unsignedTxns = unsignedTxns).push.apply(_unsignedTxns, _to_consumable_array(afterTransactions));
                     partiallySignedTransactions = unsignedTxns.filter(function(t) {
@@ -194,144 +216,163 @@ export var sendTransactions = function() {
                             return sig.publicKey.equals(wallet.publicKey);
                         });
                     });
-                    _ctx.next = 16;
-                    return wallet.signAllTransactions(partiallySignedTransactions);
-                case 16:
-                    signedTxns = _ctx.sent;
+                    return [
+                        4,
+                        wallet.signAllTransactions(partiallySignedTransactions)
+                    ];
+                case 3:
+                    signedTxns = _state.sent();
                     signedTxns = fullySignedTransactions.concat(signedTxns);
                     pendingTxns = [];
                     console.log("Signed txns length", signedTxns.length, "vs handed in length", instructionSet.length);
                     i1 = 0;
-                case 21:
-                    if (!(i1 < signedTxns.length)) {
-                        _ctx.next = 47;
-                        break;
-                    }
-                    signedTxnPromise = sendSignedTransaction({
-                        connection: connection,
-                        signedTransaction: signedTxns[i1]
-                    });
-                    if (!(sequenceType !== SequenceType.Parallel)) {
-                        _ctx.next = 43;
-                        break;
-                    }
-                    _ctx.prev = 24;
-                    _ctx.next = 27;
-                    return signedTxnPromise.then(function(param) {
-                        var txid = param.txid, slot = param.slot;
-                        return successCallback(txid, i1);
-                    });
-                case 27:
+                    _state.label = 4;
+                case 4:
+                    if (!(i1 < signedTxns.length)) return [
+                        3,
+                        13
+                    ];
+                    _tmp = {};
+                    signedTxnPromise = sendSignedTransaction((_tmp.connection = connection, _tmp.signedTransaction = signedTxns[i1], _tmp));
+                    if (!(sequenceType !== SequenceType.Parallel)) return [
+                        3,
+                        11
+                    ];
+                    _state.label = 5;
+                case 5:
+                    _state.trys.push([
+                        5,
+                        7,
+                        ,
+                        10
+                    ]);
+                    return [
+                        4,
+                        signedTxnPromise.then(function(param) {
+                            var txid = param.txid, slot = param.slot;
+                            return successCallback(txid, i1);
+                        })
+                    ];
+                case 6:
+                    _state.sent();
                     pendingTxns.push(signedTxnPromise);
-                    _ctx.next = 41;
-                    break;
-                case 30:
-                    _ctx.prev = 30;
-                    _ctx.t0 = _ctx["catch"](24);
+                    return [
+                        3,
+                        10
+                    ];
+                case 7:
+                    e = _state.sent();
                     console.log("Failed at txn index:", i1);
-                    console.log("Caught failure:", _ctx.t0);
+                    console.log("Caught failure:", e);
                     failCallback(signedTxns[i1], i1);
-                    if (!(sequenceType === SequenceType.StopOnFailure)) {
-                        _ctx.next = 41;
-                        break;
-                    }
-                    _ctx.t1 = i1;
-                    _ctx.next = 39;
-                    return Promise.all(pendingTxns);
-                case 39:
-                    _ctx.t2 = _ctx.sent;
-                    return _ctx.abrupt("return", {
-                        number: _ctx.t1,
-                        txs: _ctx.t2
-                    });
-                case 41:
-                    _ctx.next = 44;
-                    break;
-                case 43:
-                    {
-                        pendingTxns.push(signedTxnPromise);
-                    }
-                case 44:
+                    if (!(sequenceType === SequenceType.StopOnFailure)) return [
+                        3,
+                        9
+                    ];
+                    _tmp1 = {
+                        number: i1
+                    };
+                    return [
+                        4,
+                        Promise.all(pendingTxns)
+                    ];
+                case 8:
+                    return [
+                        2,
+                        (_tmp1.txs = _state.sent(), _tmp1)
+                    ];
+                case 9:
+                    return [
+                        3,
+                        10
+                    ];
+                case 10:
+                    return [
+                        3,
+                        12
+                    ];
+                case 11:
+                    pendingTxns.push(signedTxnPromise);
+                    _state.label = 12;
+                case 12:
                     i1++;
-                    _ctx.next = 21;
-                    break;
-                case 47:
-                    if (!(sequenceType !== SequenceType.Parallel)) {
-                        _ctx.next = 52;
-                        break;
-                    }
-                    _ctx.next = 50;
-                    return Promise.all(pendingTxns);
-                case 50:
-                    result = _ctx.sent;
-                    return _ctx.abrupt("return", {
-                        number: signedTxns.length,
-                        txs: result
-                    });
-                case 52:
-                    _ctx.t3 = signedTxns.length;
-                    _ctx.next = 55;
-                    return Promise.all(pendingTxns);
-                case 55:
-                    _ctx.t4 = _ctx.sent;
-                    return _ctx.abrupt("return", {
-                        number: _ctx.t3,
-                        txs: _ctx.t4
-                    });
-                case 57:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        3,
+                        4
+                    ];
+                case 13:
+                    if (!(sequenceType !== SequenceType.Parallel)) return [
+                        3,
+                        15
+                    ];
+                    return [
+                        4,
+                        Promise.all(pendingTxns)
+                    ];
+                case 14:
+                    result = _state.sent();
+                    _tmp2 = {};
+                    return [
+                        2,
+                        (_tmp2.number = signedTxns.length, _tmp2.txs = result, _tmp2)
+                    ];
+                case 15:
+                    _tmp3 = {
+                        number: signedTxns.length
+                    };
+                    return [
+                        4,
+                        Promise.all(pendingTxns)
+                    ];
+                case 16:
+                    return [
+                        2,
+                        (_tmp3.txs = _state.sent(), _tmp3)
+                    ];
             }
-        }, _callee, null, [
-            [
-                24,
-                30
-            ]
-        ]);
-    }));
+        });
+    });
     return function sendTransactions(connection, wallet, instructionSet, signersSet) {
         return _ref.apply(this, arguments);
     };
 }();
 export var sendTransaction = function() {
-    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
-        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors, _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
+        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, _tmp1, txid, slot, confirmation, errors, _tmp2;
+        var _arguments = arguments;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    awaitConfirmation = _args.length > 4 && _args[4] !== void 0 ? _args[4] : true, commitment = _args.length > 5 && _args[5] !== void 0 ? _args[5] : "singleGossip", includesFeePayer = _args.length > 6 && _args[6] !== void 0 ? _args[6] : false, block = _args.length > 7 ? _args[7] : void 0;
-                    if (wallet.publicKey) {
-                        _ctx.next = 3;
-                        break;
-                    }
-                    throw new WalletNotConnectedError();
-                case 3:
-                    ;
-                    if (!_instanceof(instructions, Transaction)) {
-                        _ctx.next = 8;
-                        break;
-                    }
-                    {
-                        transaction = instructions;
-                    }
-                    _ctx.next = 22;
-                    break;
-                case 8:
+                    awaitConfirmation = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : true, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", includesFeePayer = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : false, block = _arguments.length > 7 ? _arguments[7] : void 0;
+                    if (!wallet.publicKey) throw new WalletNotConnectedError();
+                    if (!_instanceof(instructions, Transaction)) return [
+                        3,
+                        1
+                    ];
+                    transaction = instructions;
+                    return [
+                        3,
+                        5
+                    ];
+                case 1:
                     transaction = new Transaction();
                     instructions.forEach(function(instruction) {
                         return transaction.add(instruction);
                     });
-                    _ctx.t0 = block;
-                    if (_ctx.t0) {
-                        _ctx.next = 15;
-                        break;
-                    }
-                    _ctx.next = 14;
-                    return connection.getRecentBlockhash(commitment);
-                case 14:
-                    _ctx.t0 = _ctx.sent;
-                case 15:
-                    transaction.recentBlockhash = _ctx.t0.blockhash;
+                    _tmp = block;
+                    if (_tmp) return [
+                        3,
+                        3
+                    ];
+                    return [
+                        4,
+                        connection.getRecentBlockhash(commitment)
+                    ];
+                case 2:
+                    _tmp = _state.sent();
+                    _state.label = 3;
+                case 3:
+                    transaction.recentBlockhash = _tmp.blockhash;
                     if (includesFeePayer) {
                         ;
                         (_transaction = transaction).setSigners.apply(_transaction, _to_consumable_array(signers.map(function(s) {
@@ -350,93 +391,92 @@ export var sendTransaction = function() {
                         ;
                         (_transaction2 = transaction).partialSign.apply(_transaction2, _to_consumable_array(signers));
                     }
-                    if (includesFeePayer) {
-                        _ctx.next = 22;
-                        break;
-                    }
-                    _ctx.next = 21;
-                    return wallet.signTransaction(transaction);
-                case 21:
-                    transaction = _ctx.sent;
-                case 22:
+                    if (!!includesFeePayer) return [
+                        3,
+                        5
+                    ];
+                    return [
+                        4,
+                        wallet.signTransaction(transaction)
+                    ];
+                case 4:
+                    transaction = _state.sent();
+                    _state.label = 5;
+                case 5:
                     rawTransaction = transaction.serialize();
-                    options = {
-                        skipPreflight: true,
-                        commitment: commitment
-                    };
-                    _ctx.next = 26;
-                    return connection.sendRawTransaction(rawTransaction, options);
-                case 26:
-                    txid = _ctx.sent;
+                    _tmp1 = {};
+                    options = (_tmp1.skipPreflight = true, _tmp1.commitment = commitment, _tmp1);
+                    return [
+                        4,
+                        connection.sendRawTransaction(rawTransaction, options)
+                    ];
+                case 6:
+                    txid = _state.sent();
                     slot = 0;
-                    if (!awaitConfirmation) {
-                        _ctx.next = 41;
-                        break;
-                    }
-                    _ctx.next = 31;
-                    return awaitTransactionSignatureConfirmation(txid, DEFAULT_TIMEOUT, connection, commitment);
-                case 31:
-                    confirmation = _ctx.sent;
-                    if (confirmation) {
-                        _ctx.next = 34;
-                        break;
-                    }
-                    throw new Error("Timed out awaiting confirmation on transaction");
-                case 34:
+                    if (!awaitConfirmation) return [
+                        3,
+                        9
+                    ];
+                    return [
+                        4,
+                        awaitTransactionSignatureConfirmation(txid, DEFAULT_TIMEOUT, connection, commitment)
+                    ];
+                case 7:
+                    confirmation = _state.sent();
+                    if (!confirmation) throw new Error("Timed out awaiting confirmation on transaction");
                     slot = (confirmation === null || confirmation === void 0 ? void 0 : confirmation.slot) || 0;
-                    if (!(confirmation === null || confirmation === void 0 ? void 0 : confirmation.err)) {
-                        _ctx.next = 41;
-                        break;
-                    }
-                    _ctx.next = 38;
-                    return getErrorForTransaction(connection, txid);
-                case 38:
-                    errors = _ctx.sent;
+                    if (!(confirmation === null || confirmation === void 0 ? void 0 : confirmation.err)) return [
+                        3,
+                        9
+                    ];
+                    return [
+                        4,
+                        getErrorForTransaction(connection, txid)
+                    ];
+                case 8:
+                    errors = _state.sent();
                     console.log(errors);
                     throw new Error("Raw transaction ".concat(txid, " failed"));
-                case 41:
-                    return _ctx.abrupt("return", {
-                        txid: txid,
-                        slot: slot
-                    });
-                case 42:
-                case "end":
-                    return _ctx.stop();
+                case 9:
+                    _tmp2 = {};
+                    return [
+                        2,
+                        (_tmp2.txid = txid, _tmp2.slot = slot, _tmp2)
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return function sendTransaction(connection, wallet, instructions, signers) {
         return _ref.apply(this, arguments);
     };
 }();
 export var sendTransactionWithRetry = function() {
-    var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
-        var commitment, includesFeePayer, block, beforeSend, transaction, _transaction, _transaction1, _transaction2, ref, txid, slot, _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
+        var commitment, includesFeePayer, block, beforeSend, transaction, _tmp, _transaction, _transaction1, _transaction2, ref, txid, slot, _tmp1, _tmp2;
+        var _arguments = arguments;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    commitment = _args.length > 4 && _args[4] !== void 0 ? _args[4] : "singleGossip", includesFeePayer = _args.length > 5 && _args[5] !== void 0 ? _args[5] : false, block = _args.length > 6 ? _args[6] : void 0, beforeSend = _args.length > 7 ? _args[7] : void 0;
-                    if (wallet.publicKey) {
-                        _ctx.next = 3;
-                        break;
-                    }
-                    throw new WalletNotConnectedError();
-                case 3:
+                    commitment = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : "singleGossip", includesFeePayer = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : false, block = _arguments.length > 6 ? _arguments[6] : void 0, beforeSend = _arguments.length > 7 ? _arguments[7] : void 0;
+                    if (!wallet.publicKey) throw new WalletNotConnectedError();
                     transaction = new Transaction();
                     instructions.forEach(function(instruction) {
                         return transaction.add(instruction);
                     });
-                    _ctx.t0 = block;
-                    if (_ctx.t0) {
-                        _ctx.next = 10;
-                        break;
-                    }
-                    _ctx.next = 9;
-                    return connection.getRecentBlockhash(commitment);
-                case 9:
-                    _ctx.t0 = _ctx.sent;
-                case 10:
-                    transaction.recentBlockhash = _ctx.t0.blockhash;
+                    _tmp = block;
+                    if (_tmp) return [
+                        3,
+                        2
+                    ];
+                    return [
+                        4,
+                        connection.getRecentBlockhash(commitment)
+                    ];
+                case 1:
+                    _tmp = _state.sent();
+                    _state.label = 2;
+                case 2:
+                    transaction.recentBlockhash = _tmp.blockhash;
                     if (includesFeePayer) {
                         ;
                         (_transaction = transaction).setSigners.apply(_transaction, _to_consumable_array(signers.map(function(s) {
@@ -455,37 +495,36 @@ export var sendTransactionWithRetry = function() {
                         ;
                         (_transaction2 = transaction).partialSign.apply(_transaction2, _to_consumable_array(signers));
                     }
-                    if (includesFeePayer) {
-                        _ctx.next = 17;
-                        break;
-                    }
-                    _ctx.next = 16;
-                    return wallet.signTransaction(transaction);
-                case 16:
-                    transaction = _ctx.sent;
-                case 17:
+                    if (!!includesFeePayer) return [
+                        3,
+                        4
+                    ];
+                    return [
+                        4,
+                        wallet.signTransaction(transaction)
+                    ];
+                case 3:
+                    transaction = _state.sent();
+                    _state.label = 4;
+                case 4:
                     if (beforeSend) {
                         beforeSend();
                     }
-                    _ctx.next = 20;
-                    return sendSignedTransaction({
-                        connection: connection,
-                        signedTransaction: transaction
-                    });
-                case 20:
-                    ref = _ctx.sent;
-                    txid = ref.txid;
-                    slot = ref.slot;
-                    return _ctx.abrupt("return", {
-                        txid: txid,
-                        slot: slot
-                    });
-                case 24:
-                case "end":
-                    return _ctx.stop();
+                    _tmp1 = {};
+                    return [
+                        4,
+                        sendSignedTransaction((_tmp1.connection = connection, _tmp1.signedTransaction = transaction, _tmp1))
+                    ];
+                case 5:
+                    ref = _state.sent(), txid = ref.txid, slot = ref.slot;
+                    _tmp2 = {};
+                    return [
+                        2,
+                        (_tmp2.txid = txid, _tmp2.slot = slot, _tmp2)
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return function sendTransactionWithRetry(connection, wallet, instructions, signers) {
         return _ref.apply(this, arguments);
     };
@@ -498,322 +537,333 @@ export function sendSignedTransaction(_) {
     return _sendSignedTransaction.apply(this, arguments);
 }
 function _sendSignedTransaction() {
-    _sendSignedTransaction = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(param) {
-        var signedTransaction, connection, _timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, simulateResult, i, line;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _sendSignedTransaction = _async_to_generator(function(param) {
+        var signedTransaction, connection, _timeout, timeout, rawTransaction, startTime, slot, txid, _tmp, done, confirmation, err, simulateResult, e, i, line, _tmp1;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
                     signedTransaction = param.signedTransaction, connection = param.connection, _timeout = param.timeout, timeout = _timeout === void 0 ? DEFAULT_TIMEOUT : _timeout;
                     rawTransaction = signedTransaction.serialize();
                     startTime = getUnixTs();
                     slot = 0;
-                    _ctx.next = 6;
-                    return connection.sendRawTransaction(rawTransaction, {
-                        skipPreflight: true
-                    });
-                case 6:
-                    txid = _ctx.sent;
+                    _tmp = {};
+                    return [
+                        4,
+                        connection.sendRawTransaction(rawTransaction, (_tmp.skipPreflight = true, _tmp))
+                    ];
+                case 1:
+                    txid = _state.sent();
                     console.log("Started awaiting confirmation for", txid);
                     done = false;
-                    _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-                        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                            while(1)switch(_ctx.prev = _ctx.next){
+                    _async_to_generator(function() {
+                        var _tmp;
+                        return _ts_generator(this, function(_state) {
+                            switch(_state.label){
                                 case 0:
-                                    if (!(!done && getUnixTs() - startTime < timeout)) {
-                                        _ctx.next = 6;
-                                        break;
-                                    }
-                                    connection.sendRawTransaction(rawTransaction, {
-                                        skipPreflight: true
-                                    });
-                                    _ctx.next = 4;
-                                    return sleep(500);
-                                case 4:
-                                    _ctx.next = 0;
-                                    break;
-                                case 6:
-                                case "end":
-                                    return _ctx.stop();
+                                    if (!(!done && getUnixTs() - startTime < timeout)) return [
+                                        3,
+                                        2
+                                    ];
+                                    _tmp = {};
+                                    connection.sendRawTransaction(rawTransaction, (_tmp.skipPreflight = true, _tmp));
+                                    return [
+                                        4,
+                                        sleep(500)
+                                    ];
+                                case 1:
+                                    _state.sent();
+                                    return [
+                                        3,
+                                        0
+                                    ];
+                                case 2:
+                                    return [
+                                        2
+                                    ];
                             }
-                        }, _callee);
-                    }))();
-                    _ctx.prev = 10;
-                    _ctx.next = 13;
-                    return awaitTransactionSignatureConfirmation(txid, timeout, connection, "recent", true);
-                case 13:
-                    confirmation = _ctx.sent;
-                    if (confirmation) {
-                        _ctx.next = 16;
-                        break;
+                        });
+                    })();
+                    _state.label = 2;
+                case 2:
+                    _state.trys.push([
+                        2,
+                        4,
+                        9,
+                        10
+                    ]);
+                    return [
+                        4,
+                        awaitTransactionSignatureConfirmation(txid, timeout, connection, "recent", true)
+                    ];
+                case 3:
+                    confirmation = _state.sent();
+                    if (!confirmation) throw new Error("Timed out awaiting confirmation on transaction");
+                    if (confirmation.err) {
+                        console.error(confirmation.err);
+                        throw new Error("Transaction failed: Custom instruction error");
                     }
-                    throw new Error("Timed out awaiting confirmation on transaction");
-                case 16:
-                    if (!confirmation.err) {
-                        _ctx.next = 19;
-                        break;
-                    }
-                    console.error(confirmation.err);
-                    throw new Error("Transaction failed: Custom instruction error");
-                case 19:
                     slot = (confirmation === null || confirmation === void 0 ? void 0 : confirmation.slot) || 0;
-                    _ctx.next = 47;
-                    break;
-                case 22:
-                    _ctx.prev = 22;
-                    _ctx.t0 = _ctx["catch"](10);
-                    console.error("Timeout Error caught", _ctx.t0);
-                    if (!_ctx.t0.timeout) {
-                        _ctx.next = 27;
-                        break;
+                    return [
+                        3,
+                        10
+                    ];
+                case 4:
+                    err = _state.sent();
+                    console.error("Timeout Error caught", err);
+                    if (err.timeout) {
+                        throw new Error("Timed out awaiting confirmation on transaction");
                     }
-                    throw new Error("Timed out awaiting confirmation on transaction");
-                case 27:
                     simulateResult = null;
-                    _ctx.prev = 28;
-                    _ctx.next = 31;
-                    return simulateTransaction(connection, signedTransaction, "single");
-                case 31:
-                    simulateResult = _ctx.sent.value;
-                    _ctx.next = 36;
-                    break;
-                case 34:
-                    _ctx.prev = 34;
-                    _ctx.t1 = _ctx["catch"](28);
-                case 36:
-                    if (!(simulateResult && simulateResult.err)) {
-                        _ctx.next = 47;
-                        break;
+                    _state.label = 5;
+                case 5:
+                    _state.trys.push([
+                        5,
+                        7,
+                        ,
+                        8
+                    ]);
+                    return [
+                        4,
+                        simulateTransaction(connection, signedTransaction, "single")
+                    ];
+                case 6:
+                    simulateResult = _state.sent().value;
+                    return [
+                        3,
+                        8
+                    ];
+                case 7:
+                    e = _state.sent();
+                    return [
+                        3,
+                        8
+                    ];
+                case 8:
+                    if (simulateResult && simulateResult.err) {
+                        if (simulateResult.logs) {
+                            for(i = simulateResult.logs.length - 1; i >= 0; --i){
+                                line = simulateResult.logs[i];
+                                if (line.startsWith("Program log: ")) {
+                                    throw new Error("Transaction failed: " + line.slice("Program log: ".length));
+                                }
+                            }
+                        }
+                        throw new Error(JSON.stringify(simulateResult.err));
                     }
-                    if (!simulateResult.logs) {
-                        _ctx.next = 46;
-                        break;
-                    }
-                    i = simulateResult.logs.length - 1;
-                case 39:
-                    if (!(i >= 0)) {
-                        _ctx.next = 46;
-                        break;
-                    }
-                    line = simulateResult.logs[i];
-                    if (!line.startsWith("Program log: ")) {
-                        _ctx.next = 43;
-                        break;
-                    }
-                    throw new Error("Transaction failed: " + line.slice("Program log: ".length));
-                case 43:
-                    --i;
-                    _ctx.next = 39;
-                    break;
-                case 46:
-                    throw new Error(JSON.stringify(simulateResult.err));
-                case 47:
-                    _ctx.prev = 47;
+                    return [
+                        3,
+                        10
+                    ];
+                case 9:
                     done = true;
-                    return _ctx.finish(47);
-                case 50:
+                    return [
+                        7
+                    ];
+                case 10:
                     console.log("Latency", txid, getUnixTs() - startTime);
-                    return _ctx.abrupt("return", {
-                        txid: txid,
-                        slot: slot
-                    });
-                case 52:
-                case "end":
-                    return _ctx.stop();
+                    _tmp1 = {};
+                    return [
+                        2,
+                        (_tmp1.txid = txid, _tmp1.slot = slot, _tmp1)
+                    ];
             }
-        }, _callee, null, [
-            [
-                10,
-                22,
-                47,
-                50
-            ],
-            [
-                28,
-                34
-            ]
-        ]);
-    }));
+        });
+    });
     return _sendSignedTransaction.apply(this, arguments);
 }
 function simulateTransaction(connection, transaction, commitment) {
     return _simulateTransaction.apply(this, arguments);
 }
 function _simulateTransaction() {
-    _simulateTransaction = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(connection, transaction, commitment) {
-        var signData, wireTransaction, encodedTransaction, config, args, res;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _simulateTransaction = _async_to_generator(function(connection, transaction, commitment) {
+        var signData, wireTransaction, encodedTransaction, config, _tmp, args, res;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    _ctx.next = 2;
-                    return connection._recentBlockhash(// @ts-ignore
-                    connection._disableBlockhashCaching);
-                case 2:
+                    return [
+                        4,
+                        connection._recentBlockhash(// @ts-ignore
+                        connection._disableBlockhashCaching)
+                    ];
+                case 1:
                     // @ts-ignore
-                    transaction.recentBlockhash = _ctx.sent;
+                    transaction.recentBlockhash = _state.sent();
                     signData = transaction.serializeMessage();
                     wireTransaction = transaction._serialize(signData);
                     encodedTransaction = wireTransaction.toString("base64");
-                    config = {
-                        encoding: "base64",
-                        commitment: commitment
-                    };
+                    _tmp = {};
+                    config = (_tmp.encoding = "base64", _tmp.commitment = commitment, _tmp);
                     args = [
                         encodedTransaction,
                         config
                     ];
-                    _ctx.next = 10;
-                    return connection._rpcRequest("simulateTransaction", args);
-                case 10:
-                    res = _ctx.sent;
-                    if (!res.error) {
-                        _ctx.next = 13;
-                        break;
+                    return [
+                        4,
+                        connection._rpcRequest("simulateTransaction", args)
+                    ];
+                case 2:
+                    res = _state.sent();
+                    if (res.error) {
+                        throw new Error("failed to simulate transaction: " + res.error.message);
                     }
-                    throw new Error("failed to simulate transaction: " + res.error.message);
-                case 13:
-                    return _ctx.abrupt("return", res.result);
-                case 14:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        2,
+                        res.result
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return _simulateTransaction.apply(this, arguments);
 }
 function awaitTransactionSignatureConfirmation(txid, timeout, connection) {
     return _awaitTransactionSignatureConfirmation.apply(this, arguments);
 }
 function _awaitTransactionSignatureConfirmation() {
-    _awaitTransactionSignatureConfirmation = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(txid, timeout, connection) {
-        var commitment, queryStatus, done, status, subId, _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _awaitTransactionSignatureConfirmation = _async_to_generator(function(txid, timeout, connection) {
+        var commitment, queryStatus, done, status, _tmp, subId;
+        var _arguments = arguments;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    commitment = _args.length > 3 && _args[3] !== void 0 ? _args[3] : "recent", queryStatus = _args.length > 4 && _args[4] !== void 0 ? _args[4] : false;
+                    commitment = _arguments.length > 3 && _arguments[3] !== void 0 ? _arguments[3] : "recent", queryStatus = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : false;
                     done = false;
-                    status = {
-                        slot: 0,
-                        confirmations: 0,
-                        err: null
-                    };
+                    _tmp = {};
+                    status = (_tmp.slot = 0, _tmp.confirmations = 0, _tmp.err = null, _tmp);
                     subId = 0;
-                    _ctx.next = 6;
-                    return new Promise(function() {
-                        var _ref = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee(resolve, reject) {
-                            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                                while(1)switch(_ctx.prev = _ctx.next){
-                                    case 0:
-                                        setTimeout(function() {
-                                            if (done) {
-                                                return;
-                                            }
-                                            done = true;
-                                            console.log("Rejecting for timeout...");
-                                            reject({
-                                                timeout: true
-                                            });
-                                        }, timeout);
-                                        try {
-                                            subId = connection.onSignature(txid, function(result, context) {
+                    return [
+                        4,
+                        new Promise(function() {
+                            var _ref = _async_to_generator(function(resolve, reject) {
+                                return _ts_generator(this, function(_state) {
+                                    switch(_state.label){
+                                        case 0:
+                                            setTimeout(function() {
+                                                if (done) {
+                                                    return;
+                                                }
                                                 done = true;
-                                                status = {
-                                                    err: result.err,
-                                                    slot: context.slot,
-                                                    confirmations: 0
-                                                };
-                                                if (result.err) {
-                                                    console.log("Rejected via websocket", result.err);
-                                                    reject(status);
-                                                } else {
-                                                    console.log("Resolved via websocket", result);
-                                                    resolve(status);
-                                                }
-                                            }, commitment);
-                                        } catch (e) {
-                                            done = true;
-                                            console.error("WS error in setup", txid, e);
-                                        }
-                                    case 2:
-                                        if (!(!done && queryStatus)) {
-                                            _ctx.next = 8;
-                                            break;
-                                        }
-                                        // eslint-disable-next-line no-loop-func
-                                        _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-                                            var signatureStatuses;
-                                            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                                                while(1)switch(_ctx.prev = _ctx.next){
-                                                    case 0:
-                                                        _ctx.prev = 0;
-                                                        _ctx.next = 3;
-                                                        return connection.getSignatureStatuses([
-                                                            txid
-                                                        ]);
-                                                    case 3:
-                                                        signatureStatuses = _ctx.sent;
-                                                        status = signatureStatuses && signatureStatuses.value[0];
-                                                        if (!done) {
-                                                            if (!status) {
-                                                                console.log("REST null result for", txid, status);
-                                                            } else if (status.err) {
-                                                                console.log("REST error for", txid, status);
-                                                                done = true;
-                                                                reject(status.err);
-                                                            } else if (!status.confirmations) {
-                                                                console.log("REST no confirmations for", txid, status);
-                                                            } else {
-                                                                console.log("REST confirmation for", txid, status);
-                                                                done = true;
-                                                                resolve(status);
+                                                console.log("Rejecting for timeout...");
+                                                reject({
+                                                    timeout: true
+                                                });
+                                            }, timeout);
+                                            try {
+                                                subId = connection.onSignature(txid, function(result, context) {
+                                                    done = true;
+                                                    status = {
+                                                        err: result.err,
+                                                        slot: context.slot,
+                                                        confirmations: 0
+                                                    };
+                                                    if (result.err) {
+                                                        console.log("Rejected via websocket", result.err);
+                                                        reject(status);
+                                                    } else {
+                                                        console.log("Resolved via websocket", result);
+                                                        resolve(status);
+                                                    }
+                                                }, commitment);
+                                            } catch (e) {
+                                                done = true;
+                                                console.error("WS error in setup", txid, e);
+                                            }
+                                            _state.label = 1;
+                                        case 1:
+                                            if (!(!done && queryStatus)) return [
+                                                3,
+                                                3
+                                            ];
+                                            // eslint-disable-next-line no-loop-func
+                                            _async_to_generator(function() {
+                                                var signatureStatuses, e;
+                                                return _ts_generator(this, function(_state) {
+                                                    switch(_state.label){
+                                                        case 0:
+                                                            _state.trys.push([
+                                                                0,
+                                                                2,
+                                                                ,
+                                                                3
+                                                            ]);
+                                                            return [
+                                                                4,
+                                                                connection.getSignatureStatuses([
+                                                                    txid
+                                                                ])
+                                                            ];
+                                                        case 1:
+                                                            signatureStatuses = _state.sent();
+                                                            status = signatureStatuses && signatureStatuses.value[0];
+                                                            if (!done) {
+                                                                if (!status) {
+                                                                    console.log("REST null result for", txid, status);
+                                                                } else if (status.err) {
+                                                                    console.log("REST error for", txid, status);
+                                                                    done = true;
+                                                                    reject(status.err);
+                                                                } else if (!status.confirmations) {
+                                                                    console.log("REST no confirmations for", txid, status);
+                                                                } else {
+                                                                    console.log("REST confirmation for", txid, status);
+                                                                    done = true;
+                                                                    resolve(status);
+                                                                }
                                                             }
-                                                        }
-                                                        _ctx.next = 11;
-                                                        break;
-                                                    case 8:
-                                                        _ctx.prev = 8;
-                                                        _ctx.t0 = _ctx["catch"](0);
-                                                        if (!done) {
-                                                            console.log("REST connection error: txid", txid, _ctx.t0);
-                                                        }
-                                                    case 11:
-                                                    case "end":
-                                                        return _ctx.stop();
-                                                }
-                                            }, _callee, null, [
-                                                [
-                                                    0,
-                                                    8
-                                                ]
-                                            ]);
-                                        }))();
-                                        _ctx.next = 6;
-                                        return sleep(2000);
-                                    case 6:
-                                        _ctx.next = 2;
-                                        break;
-                                    case 8:
-                                    case "end":
-                                        return _ctx.stop();
-                                }
-                            }, _callee);
-                        }));
-                        return function(resolve, reject) {
-                            return _ref.apply(this, arguments);
-                        };
-                    }());
-                case 6:
-                    status = _ctx.sent;
+                                                            return [
+                                                                3,
+                                                                3
+                                                            ];
+                                                        case 2:
+                                                            e = _state.sent();
+                                                            if (!done) {
+                                                                console.log("REST connection error: txid", txid, e);
+                                                            }
+                                                            return [
+                                                                3,
+                                                                3
+                                                            ];
+                                                        case 3:
+                                                            return [
+                                                                2
+                                                            ];
+                                                    }
+                                                });
+                                            })();
+                                            return [
+                                                4,
+                                                sleep(2000)
+                                            ];
+                                        case 2:
+                                            _state.sent();
+                                            return [
+                                                3,
+                                                1
+                                            ];
+                                        case 3:
+                                            return [
+                                                2
+                                            ];
+                                    }
+                                });
+                            });
+                            return function(resolve, reject) {
+                                return _ref.apply(this, arguments);
+                            };
+                        }())
+                    ];
+                case 1:
+                    status = _state.sent();
                     //@ts-ignore
                     if (connection._signatureSubscriptions[subId]) connection.removeSignatureListener(subId);
                     done = true;
                     console.log("Returning status", status);
-                    return _ctx.abrupt("return", status);
-                case 11:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        2,
+                        status
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return _awaitTransactionSignatureConfirmation.apply(this, arguments);
 }
 export function sleep(ms) {

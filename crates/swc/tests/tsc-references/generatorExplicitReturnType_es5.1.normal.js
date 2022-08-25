@@ -2,76 +2,88 @@
 // @strictNullChecks: true
 // @noImplicitReturns: true
 // @noImplicitAny: true
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g4);
-var _marked1 = /*#__PURE__*/ regeneratorRuntime.mark(g3);
-var _marked2 = /*#__PURE__*/ regeneratorRuntime.mark(g2);
-var _marked3 = /*#__PURE__*/ regeneratorRuntime.mark(g1);
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import _ts_values from "@swc/helpers/src/_ts_values.mjs";
 function g1() {
     var x;
-    return regeneratorRuntime.wrap(function g1$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                _ctx.next = 2;
-                return;
+                return [
+                    4
+                ];
+            case 1:
+                _state.sent(); // error
+                return [
+                    4,
+                    "a"
+                ];
             case 2:
-                _ctx.next = 4;
-                return "a";
-            case 4:
-                _ctx.next = 6;
-                return 1;
-            case 6:
-                x = _ctx.sent;
-                return _ctx.abrupt("return", 10);
-            case 8:
-            case "end":
-                return _ctx.stop();
+                _state.sent(); // error
+                return [
+                    4,
+                    1
+                ];
+            case 3:
+                x = _state.sent();
+                return [
+                    2,
+                    10
+                ]; // error
         }
-    }, _marked3);
+    });
 }
 function g2() {
     var x;
-    return regeneratorRuntime.wrap(function g2$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                _ctx.next = 2;
-                return 1;
-            case 2:
-                x = _ctx.sent;
-                return _ctx.abrupt("return", true);
-            case 4:
-            case "end":
-                return _ctx.stop();
+                return [
+                    4,
+                    1
+                ];
+            case 1:
+                x = _state.sent();
+                return [
+                    2,
+                    true
+                ];
         }
-    }, _marked2);
+    });
 }
 function g3() {
     var x;
-    return regeneratorRuntime.wrap(function g3$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                return _ctx.delegateYield(generator, "t0", 1);
+                return [
+                    5,
+                    _ts_values(generator)
+                ];
             case 1:
-                x = _ctx.t0;
-                return _ctx.abrupt("return", true);
-            case 3:
-            case "end":
-                return _ctx.stop();
+                x = _state.sent();
+                return [
+                    2,
+                    true
+                ];
         }
-    }, _marked1);
+    });
 }
 function g4() {
     var x;
-    return regeneratorRuntime.wrap(function g4$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                return _ctx.delegateYield(generator, "t0", 1);
+                return [
+                    5,
+                    _ts_values(generator)
+                ];
             case 1:
-                x = _ctx.t0;
-                return _ctx.abrupt("return", true);
-            case 3:
-            case "end":
-                return _ctx.stop();
+                x = _state.sent();
+                return [
+                    2,
+                    true
+                ];
         }
-    }, _marked);
+    });
 }

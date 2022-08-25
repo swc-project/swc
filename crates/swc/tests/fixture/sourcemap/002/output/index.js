@@ -1,5 +1,5 @@
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 export default function StaticPage(param) {
     var data = param.data;
     return /*#__PURE__*/ React.createElement("div", null, data.foo);
@@ -8,22 +8,19 @@ export function getStaticProps() {
     return _getStaticProps.apply(this, arguments);
 }
 function _getStaticProps() {
-    _getStaticProps = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.abrupt("return", {
-                        props: {
-                            data: {
-                                foo: "bar"
-                            }
-                        }
-                    });
-                case 1:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }));
+    _getStaticProps = _async_to_generator(function() {
+        var _tmp;
+        return _ts_generator(this, function(_state) {
+            _tmp = {};
+            return [
+                2,
+                (_tmp.props = {
+                    data: {
+                        foo: "bar"
+                    }
+                }, _tmp)
+            ];
+        });
+    });
     return _getStaticProps.apply(this, arguments);
 }

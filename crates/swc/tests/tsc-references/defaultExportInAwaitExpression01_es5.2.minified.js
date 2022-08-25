@@ -3,19 +3,21 @@ var x = new Promise(function(resolve, reject) {
 });
 export default x;
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import x from "./a";
-_async_to_generator(regeneratorRuntime.mark(function _callee() {
+_async_to_generator(function() {
     var value;
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                return _ctx.next = 2, x;
-            case 2:
-                value = _ctx.sent;
-            case 3:
-            case "end":
-                return _ctx.stop();
+                return [
+                    4,
+                    x
+                ];
+            case 1:
+                return value = _state.sent(), [
+                    2
+                ];
         }
-    }, _callee);
-}))();
+    });
+})();

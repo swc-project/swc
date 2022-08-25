@@ -1,7 +1,7 @@
 // @strictNullChecks: true
 // @target: ES2017
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function f1() {
     var x = getStringOrNumber();
     if (typeof x === "string") {
@@ -53,37 +53,42 @@ function f4() {
 }
 function f5() {
     var v;
-    /*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    (function() {
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    _ctx.next = 2;
-                    return 1;
-                case 2:
+                    return [
+                        4,
+                        1
+                    ];
+                case 1:
+                    _state.sent();
                     v = 1;
-                case 3:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        2
+                    ];
             }
-        }, _callee);
+        });
     })();
     v; // still undefined
 }
 function f6() {
     var v;
-    _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _async_to_generator(function() {
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    _ctx.next = 2;
-                    return 1;
-                case 2:
-                    v = _ctx.sent;
-                case 3:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        4,
+                        1
+                    ];
+                case 1:
+                    v = _state.sent();
+                    return [
+                        2
+                    ];
             }
-        }, _callee);
-    }))();
+        });
+    })();
     v; // still undefined
 }

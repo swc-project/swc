@@ -12,7 +12,9 @@ use swc_common::{chain, collections::AHashSet, comments::Comments, FromVariant, 
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{
-        bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3,
+        bugfixes,
+        es2015::{self, generator::generator},
+        es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3,
         regexp::{self, regexp},
     },
     feature::FeatureFlag,
@@ -260,12 +262,7 @@ where
         es2015::destructuring(es2015::destructuring::Config { loose }),
         true
     );
-    let pass = add!(
-        pass,
-        Regenerator,
-        es2015::regenerator(Default::default(), comments, global_mark),
-        true
-    );
+    let pass = add!(pass, Regenerator, generator(global_mark, comments), true);
     let pass = add!(pass, BlockScoping, es2015::block_scoping(global_mark), true);
 
     let pass = add!(pass, NewTarget, es2015::new_target(), true);
