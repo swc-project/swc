@@ -944,7 +944,7 @@ impl VisitMut for Generator {
 
         if let VarDeclOrPat::VarDecl(initializer) = &mut node.left {
             for variable in &initializer.decls {
-                self.hoist_variable_declaration(&variable.name.as_ident().unwrap());
+                self.hoist_variable_declaration(variable.name.as_ident().unwrap());
             }
 
             node.right.visit_mut_with(self);
@@ -1137,7 +1137,7 @@ impl Generator {
         leading_element: &mut Option<ExprOrSpread>,
         temp: &mut Option<Ident>,
     ) -> Vec<Box<Expr>> {
-        if contains_yield(&element) && expressions.len() > 0 {
+        if contains_yield(&element) && !expressions.is_empty() {
             let has_assigned_temp = temp.is_some();
             if temp.is_none() {
                 *temp = Some(self.declare_local(None));
@@ -1186,7 +1186,7 @@ impl Generator {
 
         element.visit_mut_with(self);
         expressions.extend(element.map(|v| v.expr));
-        return expressions;
+        expressions
     }
 
     fn reduce_property(
@@ -1200,7 +1200,7 @@ impl Generator {
             CompiledProp::Accessor(g, s) => {
                 g.as_ref().map_or(false, contains_yield) || s.as_ref().map_or(false, contains_yield)
             }
-        } && expressions.len() > 0
+        } && !expressions.is_empty()
         {
             self.emit_stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
@@ -1770,22 +1770,19 @@ impl Generator {
                 None,
             );
 
-            let variable;
-
-            match node.left {
+            let variable = match node.left {
                 VarDeclOrPat::VarDecl(initializer) => {
                     for variable in initializer.decls.iter() {
                         self.hoist_variable_declaration(variable.name.as_ident().unwrap());
                     }
 
-                    variable = initializer.decls[0].name.clone();
+                    initializer.decls[0].name.clone()
                 }
                 VarDeclOrPat::Pat(mut initializer) => {
                     initializer.visit_mut_with(self);
-                    variable = initializer;
+                    initializer
                 }
-            }
-
+            };
             self.emit_assignment(
                 PatOrExpr::Pat(Box::new(variable)),
                 Box::new(Expr::Member(MemberExpr {
