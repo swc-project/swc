@@ -204,7 +204,7 @@ impl EnsureSize {
 
 fn gzipped_size(code: &str) -> usize {
     let mut e = ZlibEncoder::new(Vec::new(), Compression::new(9));
-    e.write_all(code.as_bytes());
+    e.write_all(code.as_bytes()).unwrap();
     let compressed_bytes = e.finish().unwrap();
     compressed_bytes.len()
 }
