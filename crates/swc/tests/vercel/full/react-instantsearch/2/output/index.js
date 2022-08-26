@@ -119,10 +119,8 @@ export default function S(u) {
     }, C = function() {
         if (!z) {
             var e;
-            z = setTimeout(function() {
-                var e = K.getState(), n = (e.resultsFacetValues, a(e, [
             z = e = setTimeout(function() {
-                var e = K.getState(), a = (e.resultsFacetValues, n(e, [
+                var e = K.getState(), n = (e.resultsFacetValues, a(e, [
                     "resultsFacetValues"
                 ]));
                 K.setState(r(t({}, n), {
@@ -287,10 +285,8 @@ export default function S(u) {
             b(e, a);
         }
     }(S, x);
-    var K = (U = O = {
+    var K = (O = {
         widgets: void 0 === l ? {} : l,
-    var K = (B = {
-        widgets: void 0 === f ? {} : f,
         metadata: v(x),
         results: (k = x) ? Array.isArray(k.results) ? k.results.reduce(function(a, n) {
             return r(t({}, a), e({}, n._internalIndexId, new s.SearchResults(new s.SearchParameters(n.state), n.rawResults)));
@@ -299,8 +295,7 @@ export default function S(u) {
         searching: !1,
         isSearchStalled: !0,
         searchingForFacetValues: !1
-    }, B = [], {
-    }, D = B, O = [], {
+    }, U = O, B = [], {
         getState: function() {
             return U;
         },
