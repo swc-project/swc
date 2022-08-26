@@ -267,7 +267,7 @@ bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
 
 macro_rules! boxed_expr {
-    ($T:ident) => {
+    ($T:ty) => {
         bridge_from!(Box<Expr>, Expr, $T);
     };
 }
