@@ -32,11 +32,7 @@ struct TestSnapshot {
 
 #[derive(Debug, Default)]
 pub(crate) struct ModuleInfo {
-    // /// Named exports without `src`.
-    // ///
-    // /// e.g. `export { foo }`.
-    // pub exports: AHashSet<Id>,
-    pub imports: AHashSet<Id>,
+    pub blackbox_imports: AHashSet<Id>,
 }
 
 pub(crate) fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
@@ -200,7 +196,7 @@ impl ProgramData {
                     let iid = ids.get(index).unwrap();
 
                     // Abort on imported variables, because we can't analyze them
-                    if module_info.imports.contains(iid) {
+                    if module_info.blackbox_imports.contains(iid) {
                         return Err(());
                     }
                     if !res.insert(iid.clone()) {

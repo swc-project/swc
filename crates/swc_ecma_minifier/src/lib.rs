@@ -102,7 +102,7 @@ pub fn optimize(
     let module_info = match &m {
         Program::Script(_) => ModuleInfo::default(),
         Program::Module(m) => ModuleInfo {
-            imports: m
+            blackbox_imports: m
                 .body
                 .iter()
                 .filter_map(|v| v.as_module_decl())
