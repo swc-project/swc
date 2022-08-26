@@ -14,9 +14,10 @@
                 return !(index <= -1) && (hooks_[type] = hooks_[type].slice(), hooks_[type].splice(index, 1), !0);
             }, hookOnce = function(type, fn) {
                 hooks(type, [].concat(fn).map(function(original) {
-                    return function wrapper() {
+                    var wrapper = function wrapper() {
                         return removeHook(type, wrapper), original.apply(void 0, arguments);
                     };
+                    return wrapper;
                 }));
             }, FullscreenApi = {
                 prefixed: !0
@@ -161,7 +162,7 @@
                 if (!match) return null;
                 var major = match[1] && parseFloat(match[1]), minor = match[2] && parseFloat(match[2]);
                 return major && minor ? parseFloat(match[1] + "." + match[2]) : major || null;
-            }(), IS_NATIVE_ANDROID = IS_ANDROID && ANDROID_VERSION < 5 && appleWebkitVersion < 537, IS_FIREFOX = /Firefox/i.test(USER_AGENT), IS_EDGE = /Edg/i.test(USER_AGENT), IS_CHROME = !IS_EDGE && (/Chrome/i.test(USER_AGENT) || /CriOS/i.test(USER_AGENT)), CHROME_VERSION = (match1 = USER_AGENT.match(/(Chrome|CriOS)\/(\d+)/)) && match1[2] ? parseFloat(match1[2]) : null, IE_VERSION = (!(version = (result = /MSIE\s(\d+)\.\d/.exec(USER_AGENT)) && parseFloat(result[1])) && /Trident\/7.0/i.test(USER_AGENT) && /rv:11.0/.test(USER_AGENT) && (version = 11.0), version), IS_SAFARI = /Safari/i.test(USER_AGENT) && !IS_CHROME && !IS_ANDROID && !IS_EDGE, IS_WINDOWS = /Windows/i.test(USER_AGENT), TOUCH_ENABLED = Boolean(isReal() && ("ontouchstart" in global_window__WEBPACK_IMPORTED_MODULE_0___default() || global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.maxTouchPoints || global_window__WEBPACK_IMPORTED_MODULE_0___default().DocumentTouch && global_window__WEBPACK_IMPORTED_MODULE_0___default().document instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().DocumentTouch)), IS_IPAD = /iPad/i.test(USER_AGENT) || IS_SAFARI && TOUCH_ENABLED && !/iPhone/i.test(USER_AGENT), IS_IPHONE = /iPhone/i.test(USER_AGENT) && !IS_IPAD, IS_IOS = IS_IPHONE || IS_IPAD || IS_IPOD, IS_ANY_SAFARI = (IS_SAFARI || IS_IOS) && !IS_CHROME, browser = Object.freeze({
+            }(), IS_NATIVE_ANDROID = IS_ANDROID && ANDROID_VERSION < 5 && appleWebkitVersion < 537, IS_FIREFOX = /Firefox/i.test(USER_AGENT), IS_EDGE = /Edg/i.test(USER_AGENT), IS_CHROME = !IS_EDGE && (/Chrome/i.test(USER_AGENT) || /CriOS/i.test(USER_AGENT)), CHROME_VERSION = (match1 = USER_AGENT.match(/(Chrome|CriOS)\/(\d+)/)) && match1[2] ? parseFloat(match1[2]) : null, IE_VERSION = (version = (result = /MSIE\s(\d+)\.\d/.exec(USER_AGENT)) && parseFloat(result[1]), !version && /Trident\/7.0/i.test(USER_AGENT) && /rv:11.0/.test(USER_AGENT) && (version = 11.0), version), IS_SAFARI = /Safari/i.test(USER_AGENT) && !IS_CHROME && !IS_ANDROID && !IS_EDGE, IS_WINDOWS = /Windows/i.test(USER_AGENT), TOUCH_ENABLED = Boolean(isReal() && ("ontouchstart" in global_window__WEBPACK_IMPORTED_MODULE_0___default() || global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.maxTouchPoints || global_window__WEBPACK_IMPORTED_MODULE_0___default().DocumentTouch && global_window__WEBPACK_IMPORTED_MODULE_0___default().document instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().DocumentTouch)), IS_IPAD = /iPad/i.test(USER_AGENT) || IS_SAFARI && TOUCH_ENABLED && !/iPhone/i.test(USER_AGENT), IS_IPHONE = /iPhone/i.test(USER_AGENT) && !IS_IPAD, IS_IOS = IS_IPHONE || IS_IPAD || IS_IPOD, IS_ANY_SAFARI = (IS_SAFARI || IS_IOS) && !IS_CHROME, browser = Object.freeze({
                 __proto__: null,
                 IS_IPOD: IS_IPOD,
                 IOS_VERSION: IOS_VERSION,
@@ -857,7 +858,7 @@
                         if ("function" != typeof ComponentClass) return null;
                         component = new ComponentClass(this.player_ || this, options);
                     } else component = child;
-                    if (component.parentComponent_ && component.parentComponent_.removeChild(component), this.children_.splice(index, 0, component), component.parentComponent_ = this, "function" == typeof component.id && (this.childIndex_[component.id()] = component), (componentName = componentName || component.name && toTitleCase$1(component.name())) && (this.childNameIndex_[componentName] = component, this.childNameIndex_[toLowerCase(componentName)] = component), "function" == typeof component.el && component.el()) {
+                    if (component.parentComponent_ && component.parentComponent_.removeChild(component), this.children_.splice(index, 0, component), component.parentComponent_ = this, "function" == typeof component.id && (this.childIndex_[component.id()] = component), componentName = componentName || component.name && toTitleCase$1(component.name()), componentName && (this.childNameIndex_[componentName] = component, this.childNameIndex_[toLowerCase(componentName)] = component), "function" == typeof component.el && component.el()) {
                         var refNode = null;
                         this.children_[index + 1] && (this.children_[index + 1].el_ ? refNode = this.children_[index + 1].el_ : isEl(this.children_[index + 1]) && (refNode = this.children_[index + 1])), this.contentEl().insertBefore(component.el(), refNode);
                     }
@@ -885,7 +886,7 @@
                                 newChild && (_this[name] = newChild);
                             }
                         }, Tech = Component.getComponent("Tech");
-                        (workingChildren = Array.isArray(children) ? children : Object.keys(children)).concat(Object.keys(this.options_).filter(function(child) {
+                        workingChildren = Array.isArray(children) ? children : Object.keys(children), workingChildren.concat(Object.keys(this.options_).filter(function(child) {
                             return !workingChildren.some(function(wchild) {
                                 return "string" == typeof wchild ? child === wchild : child === wchild.name;
                             });
@@ -960,7 +961,7 @@
                 }, _proto.currentDimension = function(widthOrHeight) {
                     var computedWidthOrHeight = 0;
                     if ("width" !== widthOrHeight && "height" !== widthOrHeight) throw Error("currentDimension only accepts width or height value");
-                    if (computedWidthOrHeight = computedStyle(this.el_, widthOrHeight), 0 === (computedWidthOrHeight = parseFloat(computedWidthOrHeight)) || isNaN(computedWidthOrHeight)) {
+                    if (computedWidthOrHeight = computedStyle(this.el_, widthOrHeight), computedWidthOrHeight = parseFloat(computedWidthOrHeight), 0 === computedWidthOrHeight || isNaN(computedWidthOrHeight)) {
                         var rule = "offset" + toTitleCase$1(widthOrHeight);
                         computedWidthOrHeight = this.el_[rule];
                     }
@@ -1000,7 +1001,10 @@
                         couldBeTap = !1;
                     };
                     this.on("touchleave", noTap), this.on("touchcancel", noTap), this.on("touchend", function(event) {
-                        firstTouch = null, !0 === couldBeTap && global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now() - touchStart < 200 && (event.preventDefault(), this.trigger("tap"));
+                        if (firstTouch = null, !0 === couldBeTap) {
+                            var touchTime = global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now() - touchStart;
+                            touchTime < 200 && (event.preventDefault(), this.trigger("tap"));
+                        }
                     });
                 }, _proto.enableTouchActivity = function() {
                     if (this.player() && this.player().reportUserActivity) {
@@ -1152,7 +1156,7 @@
                 isPromise(value) && value.then(null, function(e) {});
             }
             var trackToJson_ = function(track) {
-                return [
+                var ret = [
                     "kind",
                     "label",
                     "language",
@@ -1172,15 +1176,16 @@
                         };
                     })
                 });
+                return ret;
             }, textTrackConverter = {
                 textTracksToJson: function(tech) {
                     var trackEls = tech.$$("track"), trackObjs = Array.prototype.map.call(trackEls, function(t) {
                         return t.track;
-                    });
-                    return Array.prototype.map.call(trackEls, function(trackEl) {
+                    }), tracks = Array.prototype.map.call(trackEls, function(trackEl) {
                         var json = trackToJson_(trackEl.track);
                         return trackEl.src && (json.src = trackEl.src), json;
-                    }).concat(Array.prototype.filter.call(tech.textTracks(), function(track) {
+                    });
+                    return tracks.concat(Array.prototype.filter.call(tech.textTracks(), function(track) {
                         return -1 === trackObjs.indexOf(track);
                     }).map(trackToJson_));
                 },
@@ -2180,10 +2185,11 @@
                 return _proto.dispose = function() {
                     this.player().off("posterchange", this.update_), _ClickableComponent.prototype.dispose.call(this);
                 }, _proto.createEl = function() {
-                    return createEl("div", {
+                    var el = createEl("div", {
                         className: "vjs-poster",
                         tabIndex: -1
                     });
+                    return el;
                 }, _proto.update = function(event) {
                     var url = this.player().poster();
                     this.setSrc(url), url ? this.show() : this.hide();
@@ -2319,7 +2325,9 @@
                 function LoadingSpinner() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(LoadingSpinner, _Component), LoadingSpinner.prototype.createEl = function() {
+                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(LoadingSpinner, _Component);
+                var _proto = LoadingSpinner.prototype;
+                return _proto.createEl = function() {
                     var isAudio = this.player_.isAudio(), playerType = this.localize(isAudio ? "Audio Player" : "Video Player"), controlText = createEl("span", {
                         className: "vjs-control-text",
                         textContent: this.localize("{1} is loading.", [
@@ -2453,8 +2461,8 @@
             }(Button);
             PlayToggle.prototype.controlText_ = "Play", Component$1.registerComponent("PlayToggle", PlayToggle);
             var defaultImplementation = function(seconds, guide) {
-                var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600), gm = Math.floor(guide / 60 % 60), gh = Math.floor(guide / 3600);
-                return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || gh > 0 ? h + ":" : "") || gm >= 10) && m < 10 ? "0" + m : m) + ":", s = s < 10 ? "0" + s : s, h + m + s;
+                var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600);
+                return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || Math.floor(guide / 3600) > 0 ? h + ":" : "") || Math.floor(guide / 60 % 60) >= 10) && m < 10 ? "0" + m : m) + ":", h + m + (s = s < 10 ? "0" + s : s);
             }, implementation = defaultImplementation;
             function setFormatTime(customImplementation) {
                 implementation = customImplementation;
@@ -2538,7 +2546,9 @@
                 function TimeDivider() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TimeDivider, _Component), TimeDivider.prototype.createEl = function() {
+                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TimeDivider, _Component);
+                var _proto = TimeDivider.prototype;
+                return _proto.createEl = function() {
                     var el = _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-time-control vjs-time-divider"
                     }, {
@@ -3056,7 +3066,9 @@
                 function VolumeLevel() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VolumeLevel, _Component), VolumeLevel.prototype.createEl = function() {
+                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VolumeLevel, _Component);
+                var _proto = VolumeLevel.prototype;
+                return _proto.createEl = function() {
                     var el = _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-volume-level"
                     });
@@ -3543,7 +3555,7 @@
                         if ("object" != typeof global_window__WEBPACK_IMPORTED_MODULE_0___default().Event) try {
                             event = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).Event("change");
                         } catch (err) {}
-                        event || (event = global_document__WEBPACK_IMPORTED_MODULE_1___default().createEvent("Event")).initEvent("change", !0, !0), tracks.dispatchEvent(event);
+                        event || (event = global_document__WEBPACK_IMPORTED_MODULE_1___default().createEvent("Event"), event.initEvent("change", !0, !0)), tracks.dispatchEvent(event);
                     }), _this.handleTracksChange(), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TextTrackMenuItem, _MenuItem);
@@ -3785,7 +3797,9 @@
                 function SubsCapsMenuItem() {
                     return _TextTrackMenuItem.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SubsCapsMenuItem, _TextTrackMenuItem), SubsCapsMenuItem.prototype.createEl = function(type, props, attrs) {
+                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SubsCapsMenuItem, _TextTrackMenuItem);
+                var _proto = SubsCapsMenuItem.prototype;
+                return _proto.createEl = function(type, props, attrs) {
                     var el = _TextTrackMenuItem.prototype.createEl.call(this, type, props, attrs), parentSpan = el.querySelector(".vjs-menu-item-text");
                     return "captions" === this.options_.track.kind && (parentSpan.appendChild(createEl("span", {
                         className: "vjs-icon-placeholder"
@@ -3982,7 +3996,9 @@
                 function ControlBar() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ControlBar, _Component), ControlBar.prototype.createEl = function() {
+                (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ControlBar, _Component);
+                var _proto = ControlBar.prototype;
+                return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-control-bar",
                         dir: "ltr"
@@ -4760,7 +4776,7 @@
                             el.parentNode && el.parentNode.insertBefore(clone, el), Html5.disposeMediaElement(el), el = clone;
                         } else {
                             el = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("video");
-                            var tagAttributes = this.options_.tag && getAttributes(this.options_.tag), attributes = mergeOptions$3({}, tagAttributes);
+                            var attributes = mergeOptions$3({}, this.options_.tag && getAttributes(this.options_.tag));
                             TOUCH_ENABLED && !0 === this.options_.nativeControlsForTouch || delete attributes.controls, setAttributes(el, assign(attributes, {
                                 id: this.options_.techId,
                                 class: "vjs-tech"
@@ -5167,7 +5183,7 @@
                 huge: 1 / 0
             }, Player = function(_Component) {
                 function Player(tag, options, ready) {
-                    if (tag.id = tag.id || options.id || "vjs_video_" + newGUID(), (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) {
+                    if (tag.id = tag.id || options.id || "vjs_video_" + newGUID(), options = assign(Player.getTagSettings(tag), options), options.initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) {
                         if ("function" == typeof tag.closest) {
                             var _this, closest = tag.closest("[lang]");
                             closest && closest.getAttribute && (options.language = closest.getAttribute("lang"));
@@ -5516,9 +5532,12 @@
                 }, _proto.handleTechClick_ = function(event) {
                     this.controls_ && (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.click || !1 !== this.options_.userActions.click) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.click ? this.options_.userActions.click.call(this, event) : this.paused() ? silencePromise(this.play()) : this.pause());
                 }, _proto.handleTechDoubleClick_ = function(event) {
-                    this.controls_ && (Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
-                        return el.contains(event.target);
-                    }) || void 0 !== this.options_ && void 0 !== this.options_.userActions && void 0 !== this.options_.userActions.doubleClick && !1 === this.options_.userActions.doubleClick || (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen()));
+                    if (this.controls_) {
+                        var inAllowedEls = Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
+                            return el.contains(event.target);
+                        });
+                        inAllowedEls || void 0 !== this.options_ && void 0 !== this.options_.userActions && void 0 !== this.options_.userActions.doubleClick && !1 === this.options_.userActions.doubleClick || (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen());
+                    }
                 }, _proto.handleTechTap_ = function() {
                     this.userActive(!this.userActive());
                 }, _proto.handleTechTouchStart_ = function() {
@@ -5654,7 +5673,7 @@
                     this.currentTime(this.cache_.initTime);
                 }, _proto.duration = function(seconds) {
                     if (void 0 === seconds) return void 0 !== this.cache_.duration ? this.cache_.duration : NaN;
-                    (seconds = parseFloat(seconds)) < 0 && (seconds = 1 / 0), seconds === this.cache_.duration || (this.cache_.duration = seconds, seconds === 1 / 0 ? this.addClass("vjs-live") : this.removeClass("vjs-live"), isNaN(seconds) || this.trigger("durationchange"));
+                    seconds = parseFloat(seconds), seconds < 0 && (seconds = 1 / 0), seconds === this.cache_.duration || (this.cache_.duration = seconds, seconds === 1 / 0 ? this.addClass("vjs-live") : this.removeClass("vjs-live"), isNaN(seconds) || this.trigger("durationchange"));
                 }, _proto.remainingTime = function() {
                     return this.duration() - this.currentTime();
                 }, _proto.remainingTimeDisplay = function() {
@@ -5796,11 +5815,19 @@
                         event.preventDefault(), event.stopPropagation();
                         var FSToggle = Component$1.getComponent("FullscreenToggle");
                         !1 !== global_document__WEBPACK_IMPORTED_MODULE_1___default()[this.fsApi_.fullscreenEnabled] && FSToggle.prototype.handleClick.call(this, event);
-                    } else (void 0 === _hotkeys$muteKey ? function(keydownEvent) {
+                    } else if ((void 0 === _hotkeys$muteKey ? function(keydownEvent) {
                         return keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "m");
-                    } : _hotkeys$muteKey).call(this, event) ? (event.preventDefault(), event.stopPropagation(), Component$1.getComponent("MuteToggle").prototype.handleClick.call(this, event)) : (void 0 === _hotkeys$playPauseKey ? function(keydownEvent) {
+                    } : _hotkeys$muteKey).call(this, event)) {
+                        event.preventDefault(), event.stopPropagation();
+                        var MuteToggle = Component$1.getComponent("MuteToggle");
+                        MuteToggle.prototype.handleClick.call(this, event);
+                    } else if ((void 0 === _hotkeys$playPauseKey ? function(keydownEvent) {
                         return keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "k") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "Space");
-                    } : _hotkeys$playPauseKey).call(this, event) && (event.preventDefault(), event.stopPropagation(), Component$1.getComponent("PlayToggle").prototype.handleClick.call(this, event));
+                    } : _hotkeys$playPauseKey).call(this, event)) {
+                        event.preventDefault(), event.stopPropagation();
+                        var PlayToggle = Component$1.getComponent("PlayToggle");
+                        PlayToggle.prototype.handleClick.call(this, event);
+                    }
                 }, _proto.canPlayType = function(type) {
                     for(var can, i = 0, j = this.options_.techOrder; i < j.length; i++){
                         var techName = j[i], tech = Tech.getTech(techName);
@@ -6082,7 +6109,7 @@
                     options.tracks = [];
                     for(var i = 0; i < tracks.length; i++){
                         var track = tracks[i];
-                        (track = mergeOptions$3(track)).player = void 0, options.tracks[i] = track;
+                        track = mergeOptions$3(track), track.player = void 0, options.tracks[i] = track;
                     }
                     return options;
                 }, _proto.createModal = function(content, options) {
@@ -6128,16 +6155,16 @@
                     }
                 }, _proto.getMedia = function() {
                     if (!this.cache_.media) {
-                        var poster = this.poster(), media = {
-                            src: this.currentSources(),
-                            textTracks: Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
-                                return {
-                                    kind: tt.kind,
-                                    label: tt.label,
-                                    language: tt.language,
-                                    src: tt.src
-                                };
-                            })
+                        var poster = this.poster(), src = this.currentSources(), textTracks = Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
+                            return {
+                                kind: tt.kind,
+                                label: tt.label,
+                                language: tt.language,
+                                src: tt.src
+                            };
+                        }), media = {
+                            src: src,
+                            textTracks: textTracks
                         };
                         return poster && (media.poster = poster, media.artwork = [
                             {
@@ -6324,14 +6351,16 @@
                 if (player) return options && log$1.warn('Player "' + id + '" is already initialised. Options will not be applied.'), ready && player.ready(ready), player;
                 var el = "string" == typeof id ? $("#" + normalizeId(id)) : id;
                 if (!isEl(el)) throw TypeError("The element or ID supplied is not valid. (videojs)");
-                return el.ownerDocument.defaultView && el.ownerDocument.body.contains(el) || log$1.warn("The element supplied is not included in the DOM"), options = options || {}, hooks("beforesetup").forEach(function(hookFunction) {
+                el.ownerDocument.defaultView && el.ownerDocument.body.contains(el) || log$1.warn("The element supplied is not included in the DOM"), options = options || {}, hooks("beforesetup").forEach(function(hookFunction) {
                     var opts = hookFunction(el, mergeOptions$3(options));
                     if (!isObject(opts) || Array.isArray(opts)) {
                         log$1.error("please return an object in beforesetup hooks");
                         return;
                     }
                     options = mergeOptions$3(options, opts);
-                }), player = new (Component$1.getComponent("Player"))(el, options, ready), hooks("setup").forEach(function(hookFunction) {
+                });
+                var PlayerComponent = Component$1.getComponent("Player");
+                return player = new PlayerComponent(el, options, ready), hooks("setup").forEach(function(hookFunction) {
                     return hookFunction(player);
                 }), player;
             }
@@ -6602,69 +6631,6 @@
                 expired = expired || 0;
                 var lastSegmentEndTime = intervalDuration(playlist, playlist.mediaSequence + playlist.segments.length, expired);
                 return useSafeLiveEnd && (liveEdgePadding = "number" == typeof liveEdgePadding ? liveEdgePadding : liveEdgeDelay(null, playlist), lastSegmentEndTime -= liveEdgePadding), Math.max(0, lastSegmentEndTime);
-            }, seekable = function(playlist, expired, liveEdgePadding) {
-                var seekableEnd = playlistEnd(playlist, expired, !0, liveEdgePadding);
-                return null === seekableEnd ? createTimeRange() : createTimeRange(expired || 0, seekableEnd);
-            }, getMediaInfoForTime = function(_ref4) {
-                for(var playlist = _ref4.playlist, currentTime = _ref4.currentTime, startingSegmentIndex = _ref4.startingSegmentIndex, startingPartIndex = _ref4.startingPartIndex, startTime = _ref4.startTime, experimentalExactManifestTimings = _ref4.experimentalExactManifestTimings, time = currentTime - startTime, partsAndSegments = getPartsAndSegments(playlist), startIndex = 0, i = 0; i < partsAndSegments.length; i++){
-                    var partAndSegment = partsAndSegments[i];
-                    if (startingSegmentIndex === partAndSegment.segmentIndex && ("number" != typeof startingPartIndex || "number" != typeof partAndSegment.partIndex || startingPartIndex === partAndSegment.partIndex)) {
-                        startIndex = i;
-                        break;
-                    }
-                }
-                if (time < 0) {
-                    if (startIndex > 0) for(var _i2 = startIndex - 1; _i2 >= 0; _i2--){
-                        var _partAndSegment = partsAndSegments[_i2];
-                        if (time += _partAndSegment.duration, experimentalExactManifestTimings) {
-                            if (time < 0) continue;
-                        } else if (time + TIME_FUDGE_FACTOR <= 0) continue;
-                        return {
-                            partIndex: _partAndSegment.partIndex,
-                            segmentIndex: _partAndSegment.segmentIndex,
-                            startTime: startTime - sumDurations({
-                                defaultDuration: playlist.targetDuration,
-                                durationList: partsAndSegments,
-                                startIndex: startIndex,
-                                endIndex: _i2
-                            })
-                        };
-                    }
-                    return {
-                        partIndex: partsAndSegments[0] && partsAndSegments[0].partIndex || null,
-                        segmentIndex: partsAndSegments[0] && partsAndSegments[0].segmentIndex || 0,
-                        startTime: currentTime
-                    };
-                }
-                if (startIndex < 0) {
-                    for(var _i3 = startIndex; _i3 < 0; _i3++)if ((time -= playlist.targetDuration) < 0) return {
-                        partIndex: partsAndSegments[0] && partsAndSegments[0].partIndex || null,
-                        segmentIndex: partsAndSegments[0] && partsAndSegments[0].segmentIndex || 0,
-                        startTime: currentTime
-                    };
-                    startIndex = 0;
-                }
-                for(var _i4 = startIndex; _i4 < partsAndSegments.length; _i4++){
-                    var _partAndSegment2 = partsAndSegments[_i4];
-                    if (time -= _partAndSegment2.duration, experimentalExactManifestTimings) {
-                        if (time > 0) continue;
-                    } else if (time - TIME_FUDGE_FACTOR >= 0) continue;
-                    return {
-                        partIndex: _partAndSegment2.partIndex,
-                        segmentIndex: _partAndSegment2.segmentIndex,
-                        startTime: startTime + sumDurations({
-                            defaultDuration: playlist.targetDuration,
-                            durationList: partsAndSegments,
-                            startIndex: startIndex,
-                            endIndex: _i4
-                        })
-                    };
-                }
-                return {
-                    segmentIndex: partsAndSegments[partsAndSegments.length - 1].segmentIndex,
-                    partIndex: partsAndSegments[partsAndSegments.length - 1].partIndex,
-                    startTime: currentTime
-                };
             }, isBlacklisted = function(playlist) {
                 return playlist.excludeUntil && playlist.excludeUntil > Date.now();
             }, isIncompatible = function(playlist) {
@@ -6712,8 +6678,71 @@
             }, Playlist = {
                 liveEdgeDelay: liveEdgeDelay,
                 duration: duration,
-                seekable: seekable,
-                getMediaInfoForTime: getMediaInfoForTime,
+                seekable: function(playlist, expired, liveEdgePadding) {
+                    var seekableEnd = playlistEnd(playlist, expired, !0, liveEdgePadding);
+                    return null === seekableEnd ? createTimeRange() : createTimeRange(expired || 0, seekableEnd);
+                },
+                getMediaInfoForTime: function(_ref4) {
+                    for(var playlist = _ref4.playlist, currentTime = _ref4.currentTime, startingSegmentIndex = _ref4.startingSegmentIndex, startingPartIndex = _ref4.startingPartIndex, startTime = _ref4.startTime, experimentalExactManifestTimings = _ref4.experimentalExactManifestTimings, time = currentTime - startTime, partsAndSegments = getPartsAndSegments(playlist), startIndex = 0, i = 0; i < partsAndSegments.length; i++){
+                        var partAndSegment = partsAndSegments[i];
+                        if (startingSegmentIndex === partAndSegment.segmentIndex && ("number" != typeof startingPartIndex || "number" != typeof partAndSegment.partIndex || startingPartIndex === partAndSegment.partIndex)) {
+                            startIndex = i;
+                            break;
+                        }
+                    }
+                    if (time < 0) {
+                        if (startIndex > 0) for(var _i2 = startIndex - 1; _i2 >= 0; _i2--){
+                            var _partAndSegment = partsAndSegments[_i2];
+                            if (time += _partAndSegment.duration, experimentalExactManifestTimings) {
+                                if (time < 0) continue;
+                            } else if (time + TIME_FUDGE_FACTOR <= 0) continue;
+                            return {
+                                partIndex: _partAndSegment.partIndex,
+                                segmentIndex: _partAndSegment.segmentIndex,
+                                startTime: startTime - sumDurations({
+                                    defaultDuration: playlist.targetDuration,
+                                    durationList: partsAndSegments,
+                                    startIndex: startIndex,
+                                    endIndex: _i2
+                                })
+                            };
+                        }
+                        return {
+                            partIndex: partsAndSegments[0] && partsAndSegments[0].partIndex || null,
+                            segmentIndex: partsAndSegments[0] && partsAndSegments[0].segmentIndex || 0,
+                            startTime: currentTime
+                        };
+                    }
+                    if (startIndex < 0) {
+                        for(var _i3 = startIndex; _i3 < 0; _i3++)if ((time -= playlist.targetDuration) < 0) return {
+                            partIndex: partsAndSegments[0] && partsAndSegments[0].partIndex || null,
+                            segmentIndex: partsAndSegments[0] && partsAndSegments[0].segmentIndex || 0,
+                            startTime: currentTime
+                        };
+                        startIndex = 0;
+                    }
+                    for(var _i4 = startIndex; _i4 < partsAndSegments.length; _i4++){
+                        var _partAndSegment2 = partsAndSegments[_i4];
+                        if (time -= _partAndSegment2.duration, experimentalExactManifestTimings) {
+                            if (time > 0) continue;
+                        } else if (time - TIME_FUDGE_FACTOR >= 0) continue;
+                        return {
+                            partIndex: _partAndSegment2.partIndex,
+                            segmentIndex: _partAndSegment2.segmentIndex,
+                            startTime: startTime + sumDurations({
+                                defaultDuration: playlist.targetDuration,
+                                durationList: partsAndSegments,
+                                startIndex: startIndex,
+                                endIndex: _i4
+                            })
+                        };
+                    }
+                    return {
+                        segmentIndex: partsAndSegments[partsAndSegments.length - 1].segmentIndex,
+                        partIndex: partsAndSegments[partsAndSegments.length - 1].partIndex,
+                        startTime: currentTime
+                    };
+                },
                 isEnabled: isEnabled,
                 isDisabled: function(playlist) {
                     return playlist.disabled;
@@ -7107,7 +7136,7 @@
                         var newOptions = beforeRequest(options);
                         newOptions && (options = newOptions);
                     }
-                    var request = (!0 === videojs.Vhs.xhr.original ? videojsXHR : videojs.Vhs.xhr)(options, function(error, response) {
+                    var xhrMethod = !0 === videojs.Vhs.xhr.original ? videojsXHR : videojs.Vhs.xhr, request = xhrMethod(options, function(error, response) {
                         return callbackWrapper(request, error, response, callback);
                     }), originalAbort = request.abort;
                     return request.abort = function() {
@@ -7183,8 +7212,8 @@
                     var nextSegmentStart = playlist.segments[i + 1].dateTimeObject;
                     if (dateTimeObject < nextSegmentStart) break;
                 }
-                var videoTimingInfo, lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration, lastSegmentEnd = new Date(lastSegmentStart.getTime() + 1000 * lastSegmentDuration);
-                return dateTimeObject > lastSegmentEnd ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
+                var videoTimingInfo, lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration;
+                return dateTimeObject > new Date(lastSegmentStart.getTime() + 1000 * lastSegmentDuration) ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
                     segment: segment,
                     estimatedStart: segment.videoTimingInfo ? segment.videoTimingInfo.transmuxedPresentationStart : Playlist.duration(playlist, playlist.mediaSequence + playlist.segments.indexOf(segment)),
                     type: segment.videoTimingInfo ? "accurate" : "estimate"
@@ -8412,11 +8441,11 @@
                     ];
                 }, videoTrun = function(track, offset) {
                     var bytesOffest, bytes, header, samples, sample, i;
-                    for(offset += 20 + 16 * (samples = track.samples || []).length, header = trunHeader(samples, offset), (bytes = new Uint8Array(header.length + 16 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size, bytes[bytesOffest++] = sample.flags.isLeading << 2 | sample.flags.dependsOn, bytes[bytesOffest++] = sample.flags.isDependedOn << 6 | sample.flags.hasRedundancy << 4 | sample.flags.paddingValue << 1 | sample.flags.isNonSyncSample, bytes[bytesOffest++] = 61440 & sample.flags.degradationPriority, bytes[bytesOffest++] = 0x0f & sample.flags.degradationPriority, bytes[bytesOffest++] = (0xff000000 & sample.compositionTimeOffset) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.compositionTimeOffset) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.compositionTimeOffset) >>> 8, bytes[bytesOffest++] = 0xff & sample.compositionTimeOffset;
+                    for(offset += 20 + 16 * (samples = track.samples || []).length, header = trunHeader(samples, offset), bytes = new Uint8Array(header.length + 16 * samples.length), bytes.set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size, bytes[bytesOffest++] = sample.flags.isLeading << 2 | sample.flags.dependsOn, bytes[bytesOffest++] = sample.flags.isDependedOn << 6 | sample.flags.hasRedundancy << 4 | sample.flags.paddingValue << 1 | sample.flags.isNonSyncSample, bytes[bytesOffest++] = 61440 & sample.flags.degradationPriority, bytes[bytesOffest++] = 0x0f & sample.flags.degradationPriority, bytes[bytesOffest++] = (0xff000000 & sample.compositionTimeOffset) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.compositionTimeOffset) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.compositionTimeOffset) >>> 8, bytes[bytesOffest++] = 0xff & sample.compositionTimeOffset;
                     return box(types.trun, bytes);
                 }, audioTrun = function(track, offset) {
                     var bytes, bytesOffest, header, samples, sample, i;
-                    for(offset += 20 + 8 * (samples = track.samples || []).length, header = trunHeader(samples, offset), (bytes = new Uint8Array(header.length + 8 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size;
+                    for(offset += 20 + 8 * (samples = track.samples || []).length, header = trunHeader(samples, offset), bytes = new Uint8Array(header.length + 8 * samples.length), bytes.set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size;
                     return box(types.trun, bytes);
                 }, trun$1 = function(track, offset) {
                     return "audio" === track.type ? audioTrun(track, offset) : videoTrun(track, offset);
@@ -8428,7 +8457,7 @@
                     moov: moov,
                     initSegment: function(tracks) {
                         var result, fileType = ftyp(), movie = moov(tracks);
-                        return (result = new Uint8Array(fileType.byteLength + movie.byteLength)).set(fileType), result.set(movie, fileType.byteLength), result;
+                        return result = new Uint8Array(fileType.byteLength + movie.byteLength), result.set(fileType), result.set(movie, fileType.byteLength), result;
                     }
                 }, sampleForFrame = function(frame, dataOffset) {
                     var sample = {
@@ -9182,7 +9211,7 @@
                     0x033f: 0x2518
                 }, getCharFromCode = function(code) {
                     return null === code ? "" : String.fromCharCode(code = CHARACTER_TRANSLATION[code] || code);
-                }, BOTTOM_ROW = 14, ROWS = [
+                }, ROWS = [
                     0x1100,
                     0x1120,
                     0x1200,
@@ -9199,7 +9228,7 @@
                     0x1400,
                     0x1420, 
                 ], createDisplayBuffer = function() {
-                    for(var result = [], i = BOTTOM_ROW + 1; i--;)result.push("");
+                    for(var result = [], i = 15; i--;)result.push("");
                     return result;
                 }, Cea608Stream = function Cea608Stream(field, dataChannel) {
                     Cea608Stream.prototype.init.call(this), this.field_ = field || 0, this.dataChannel_ = dataChannel || 0, this.name_ = "CC" + ((this.field_ << 1 | this.dataChannel_) + 1), this.setConstants(), this.reset(), this.push = function(packet) {
@@ -9256,7 +9285,7 @@
                         stream: this.name_
                     });
                 }, Cea608Stream.prototype.reset = function() {
-                    this.mode_ = "popOn", this.topRow_ = 0, this.startPts_ = 0, this.displayed_ = createDisplayBuffer(), this.nonDisplayed_ = createDisplayBuffer(), this.lastControlCode_ = null, this.column_ = 0, this.row_ = BOTTOM_ROW, this.rollUpRows_ = 2, this.formatting_ = [];
+                    this.mode_ = "popOn", this.topRow_ = 0, this.startPts_ = 0, this.displayed_ = createDisplayBuffer(), this.nonDisplayed_ = createDisplayBuffer(), this.lastControlCode_ = null, this.column_ = 0, this.row_ = 14, this.rollUpRows_ = 2, this.formatting_ = [];
                 }, Cea608Stream.prototype.setConstants = function() {
                     0 === this.dataChannel_ ? (this.BASE_ = 0x10, this.EXT_ = 0x11, this.CONTROL_ = (0x14 | this.field_) << 8, this.OFFSET_ = 0x17) : 1 === this.dataChannel_ && (this.BASE_ = 0x18, this.EXT_ = 0x19, this.CONTROL_ = (0x1c | this.field_) << 8, this.OFFSET_ = 0x1f), this.PADDING_ = 0x0000, this.RESUME_CAPTION_LOADING_ = 0x20 | this.CONTROL_, this.END_OF_CAPTION_ = 0x2f | this.CONTROL_, this.ROLL_UP_2_ROWS_ = 0x25 | this.CONTROL_, this.ROLL_UP_3_ROWS_ = 0x26 | this.CONTROL_, this.ROLL_UP_4_ROWS_ = 0x27 | this.CONTROL_, this.CARRIAGE_RETURN_ = 0x2d | this.CONTROL_, this.RESUME_DIRECT_CAPTIONING_ = 0x29 | this.CONTROL_, this.BACKSPACE_ = 0x21 | this.CONTROL_, this.ERASE_DISPLAYED_MEMORY_ = 0x2c | this.CONTROL_, this.ERASE_NON_DISPLAYED_MEMORY_ = 0x2e | this.CONTROL_;
                 }, Cea608Stream.prototype.isSpecialCharacter = function(char0, char1) {
@@ -9274,7 +9303,7 @@
                 }, Cea608Stream.prototype.isNormalChar = function(_char2) {
                     return _char2 >= 0x20 && _char2 <= 0x7f;
                 }, Cea608Stream.prototype.setRollUp = function(pts, newBaseRow) {
-                    if ("rollUp" !== this.mode_ && (this.row_ = BOTTOM_ROW, this.mode_ = "rollUp", this.flushDisplayed(pts), this.nonDisplayed_ = createDisplayBuffer(), this.displayed_ = createDisplayBuffer()), void 0 !== newBaseRow && newBaseRow !== this.row_) for(var i = 0; i < this.rollUpRows_; i++)this.displayed_[newBaseRow - i] = this.displayed_[this.row_ - i], this.displayed_[this.row_ - i] = "";
+                    if ("rollUp" !== this.mode_ && (this.row_ = 14, this.mode_ = "rollUp", this.flushDisplayed(pts), this.nonDisplayed_ = createDisplayBuffer(), this.displayed_ = createDisplayBuffer()), void 0 !== newBaseRow && newBaseRow !== this.row_) for(var i = 0; i < this.rollUpRows_; i++)this.displayed_[newBaseRow - i] = this.displayed_[this.row_ - i], this.displayed_[this.row_ - i] = "";
                     void 0 === newBaseRow && (newBaseRow = this.row_), this.topRow_ = newBaseRow - this.rollUpRows_ + 1;
                 }, Cea608Stream.prototype.addFormatting = function(pts, format) {
                     this.formatting_ = this.formatting_.concat(format);
@@ -9298,7 +9327,7 @@
                 }, Cea608Stream.prototype.shiftRowsUp_ = function() {
                     var i;
                     for(i = 0; i < this.topRow_; i++)this.displayed_[i] = "";
-                    for(i = this.row_ + 1; i < BOTTOM_ROW + 1; i++)this.displayed_[i] = "";
+                    for(i = this.row_ + 1; i < 15; i++)this.displayed_[i] = "";
                     for(i = this.topRow_; i < this.row_; i++)this.displayed_[i] = this.displayed_[i + 1];
                     this.displayed_[this.row_] = "";
                 }, Cea608Stream.prototype.paintOn = function(pts, text) {
@@ -9422,7 +9451,7 @@
                     var buffer = new Uint8Array(188), bytesInBuffer = 0;
                     _TransportPacketStream.prototype.init.call(this), this.push = function(bytes) {
                         var everything, startIndex = 0, endIndex = 188;
-                        for(bytesInBuffer ? ((everything = new Uint8Array(bytes.byteLength + bytesInBuffer)).set(buffer.subarray(0, bytesInBuffer)), everything.set(bytes, bytesInBuffer), bytesInBuffer = 0) : everything = bytes; endIndex < everything.byteLength;){
+                        for(bytesInBuffer ? (everything = new Uint8Array(bytes.byteLength + bytesInBuffer), everything.set(buffer.subarray(0, bytesInBuffer)), everything.set(bytes, bytesInBuffer), bytesInBuffer = 0) : everything = bytes; endIndex < everything.byteLength;){
                             if (0x47 === everything[startIndex] && 0x47 === everything[endIndex]) {
                                 this.trigger("data", everything.subarray(startIndex, endIndex)), startIndex += 188, endIndex += 188;
                                 continue;
@@ -9603,7 +9632,7 @@
                     }, this.push = function(packet) {
                         var skip, frameLength, protectionSkipBytes, oldBuffer, sampleCount, adtsFrameDuration, i = 0;
                         if (handlePartialSegments || (frameNum = 0), "audio" === packet.type) {
-                            for(buffer && buffer.length ? (oldBuffer = buffer, (buffer = new Uint8Array(oldBuffer.byteLength + packet.data.byteLength)).set(oldBuffer), buffer.set(packet.data, oldBuffer.byteLength)) : buffer = packet.data; i + 7 < buffer.length;){
+                            for(buffer && buffer.length ? (oldBuffer = buffer, buffer = new Uint8Array(oldBuffer.byteLength + packet.data.byteLength), buffer.set(oldBuffer), buffer.set(packet.data, oldBuffer.byteLength)) : buffer = packet.data; i + 7 < buffer.length;){
                                 if (0xff !== buffer[i] || (0xf6 & buffer[i + 1]) != 0xf0) {
                                     "number" != typeof skip && (skip = i), i++;
                                     continue;
@@ -9670,7 +9699,7 @@
                 (_NalByteStream = function() {
                     var i, buffer, syncPoint = 0;
                     _NalByteStream.prototype.init.call(this), this.push = function(data) {
-                        buffer ? ((swapBuffer = new Uint8Array(buffer.byteLength + data.data.byteLength)).set(buffer), swapBuffer.set(data.data, buffer.byteLength), buffer = swapBuffer) : buffer = data.data;
+                        buffer ? (swapBuffer = new Uint8Array(buffer.byteLength + data.data.byteLength), swapBuffer.set(buffer), swapBuffer.set(data.data, buffer.byteLength), buffer = swapBuffer) : buffer = data.data;
                         for(var swapBuffer, len = buffer.byteLength; syncPoint < len - 3; syncPoint++)if (1 === buffer[syncPoint + 2]) {
                             i = syncPoint + 5;
                             break;
@@ -9926,24 +9955,6 @@
                     var i, result = "";
                     for(i = start; i < end; i++)result += "%" + ("00" + bytes[i].toString(16)).slice(-2);
                     return result;
-                }, parseAacTimestamp = function(packet) {
-                    var frameStart, frameSize, frame;
-                    frameStart = 10, 0x40 & packet[5] && (frameStart += 4, frameStart += parseSyncSafeInteger(packet.subarray(10, 14)));
-                    do {
-                        if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) break;
-                        if ("PRIV" === String.fromCharCode(packet[frameStart], packet[frameStart + 1], packet[frameStart + 2], packet[frameStart + 3])) {
-                            frame = packet.subarray(frameStart + 10, frameStart + frameSize + 10);
-                            for(var i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
-                                if ("com.apple.streaming.transportStreamTimestamp" === unescape(percentEncode(frame, 0, i))) {
-                                    var d = frame.subarray(i + 1), size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
-                                    return size *= 4, size += 0x03 & d[7];
-                                }
-                                break;
-                            }
-                        }
-                        frameStart += 10, frameStart += frameSize;
-                    }while (frameStart < packet.byteLength)
-                    return null;
                 }, utils = {
                     isLikelyAacData: function(data) {
                         var offset = function getId3Offset(data, offset) {
@@ -9969,7 +9980,25 @@
                         }
                         return null;
                     },
-                    parseAacTimestamp: parseAacTimestamp
+                    parseAacTimestamp: function(packet) {
+                        var frameStart, frameSize, frame;
+                        frameStart = 10, 0x40 & packet[5] && (frameStart += 4, frameStart += parseSyncSafeInteger(packet.subarray(10, 14)));
+                        do {
+                            if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) break;
+                            if ("PRIV" === String.fromCharCode(packet[frameStart], packet[frameStart + 1], packet[frameStart + 2], packet[frameStart + 3])) {
+                                frame = packet.subarray(frameStart + 10, frameStart + frameSize + 10);
+                                for(var i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
+                                    if ("com.apple.streaming.transportStreamTimestamp" === unescape(percentEncode(frame, 0, i))) {
+                                        var d = frame.subarray(i + 1), size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
+                                        return size *= 4, size += 0x03 & d[7];
+                                    }
+                                    break;
+                                }
+                            }
+                            frameStart += 10, frameStart += frameSize;
+                        }while (frameStart < packet.byteLength)
+                        return null;
+                    }
                 };
                 (_AacStream = function() {
                     var everything = new Uint8Array(), timeStamp = 0;
@@ -9977,7 +10006,7 @@
                         timeStamp = timestamp;
                     }, this.push = function(bytes) {
                         var chunk, packet, tempLength, frameSize = 0, byteIndex = 0;
-                        for(everything.length ? (tempLength = everything.length, (everything = new Uint8Array(bytes.byteLength + tempLength)).set(everything.subarray(0, tempLength)), everything.set(bytes, tempLength)) : everything = bytes; everything.length - byteIndex >= 3;){
+                        for(everything.length ? (tempLength = everything.length, everything = new Uint8Array(bytes.byteLength + tempLength), everything.set(everything.subarray(0, tempLength)), everything.set(bytes, tempLength)) : everything = bytes; everything.length - byteIndex >= 3;){
                             if (73 === everything[byteIndex] && 68 === everything[byteIndex + 1] && 51 === everything[byteIndex + 2]) {
                                 if (everything.length - byteIndex < 10 || (frameSize = utils.parseId3TagSize(everything, byteIndex), byteIndex + frameSize > everything.length)) break;
                                 chunk = {
@@ -10373,14 +10402,14 @@
                             traf: matchingTraf
                         });
                     }), mdatTrafPairs.forEach(function(pair) {
-                        var samples, result, mdat = pair.mdat, traf = pair.traf, tfhd = findBox_1(traf, [
+                        var result, mdat = pair.mdat, traf = pair.traf, tfhd = findBox_1(traf, [
                             "tfhd"
                         ]), headerInfo = parseTfhd(tfhd[0]), trackId = headerInfo.trackId, tfdt = findBox_1(traf, [
                             "tfdt"
                         ]), baseMediaDecodeTime = tfdt.length > 0 ? parseTfdt(tfdt[0]).baseMediaDecodeTime : 0, truns = findBox_1(traf, [
                             "trun"
                         ]);
-                        videoTrackId === trackId && truns.length > 0 && (samples = parseSamples(truns, baseMediaDecodeTime, headerInfo), result = findSeiNals(mdat, samples, trackId), captionNals[trackId] || (captionNals[trackId] = {
+                        videoTrackId === trackId && truns.length > 0 && (result = findSeiNals(mdat, parseSamples(truns, baseMediaDecodeTime, headerInfo), trackId), captionNals[trackId] || (captionNals[trackId] = {
                             seiNals: [],
                             logs: []
                         }), captionNals[trackId].seiNals = captionNals[trackId].seiNals.concat(result.seiNals), captionNals[trackId].logs = captionNals[trackId].logs.concat(result.logs));
@@ -10465,12 +10494,12 @@
                             "tfhd"
                         ]).map(function(tfhd) {
                             var scale, baseTime;
-                            return scale = timescale[toUnsigned(tfhd[4] << 24 | tfhd[5] << 16 | tfhd[6] << 8 | tfhd[7])] || 90e3, (baseTime = "number" != typeof (baseTime = findBox_1(traf, [
+                            return scale = timescale[toUnsigned(tfhd[4] << 24 | tfhd[5] << 16 | tfhd[6] << 8 | tfhd[7])] || 90e3, baseTime = "number" != typeof (baseTime = findBox_1(traf, [
                                 "tfdt"
                             ]).map(function(tfdt) {
                                 var version, result;
                                 return version = tfdt[0], result = toUnsigned(tfdt[4] << 24 | tfdt[5] << 16 | tfdt[6] << 8 | tfdt[7]), 1 === version && (result *= 4294967296, result += toUnsigned(tfdt[8] << 24 | tfdt[9] << 16 | tfdt[10] << 8 | tfdt[11])), result;
-                            })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime) / scale;
+                            })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime, baseTime / scale;
                         });
                     })), isFinite(result = Math.min.apply(null, baseTimes)) ? result : 0;
                 }, compositionStartTime = function(timescales, fragment) {
@@ -10658,8 +10687,8 @@
                     parsePesTime: parsePesTime,
                     videoPacketContainsKeyFrame: videoPacketContainsKeyFrame
                 }, probe.aac = utils;
-                var ONE_SECOND_IN_TS = clock.ONE_SECOND_IN_TS, MP2T_PACKET_LENGTH = 188, parsePsi_ = function(bytes, pmt) {
-                    for(var packet, startIndex = 0, endIndex = MP2T_PACKET_LENGTH; endIndex < bytes.byteLength;){
+                var ONE_SECOND_IN_TS = clock.ONE_SECOND_IN_TS, parsePsi_ = function(bytes, pmt) {
+                    for(var packet, startIndex = 0, endIndex = 188; endIndex < bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
                             switch(packet = bytes.subarray(startIndex, endIndex), probe.ts.parseType(packet, pmt.pid)){
                                 case "pat":
@@ -10671,30 +10700,30 @@
                                         pmt.table[key] = table[key];
                                     });
                             }
-                            startIndex += MP2T_PACKET_LENGTH, endIndex += MP2T_PACKET_LENGTH;
+                            startIndex += 188, endIndex += 188;
                             continue;
                         }
                         startIndex++, endIndex++;
                     }
                 }, parseAudioPes_ = function(bytes, pmt, result) {
-                    for(var packet, pesType, pusi, parsed, startIndex = 0, endIndex = MP2T_PACKET_LENGTH, endLoop = !1; endIndex <= bytes.byteLength;){
+                    for(var packet, pesType, pusi, parsed, startIndex = 0, endIndex = 188, endLoop = !1; endIndex <= bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && (0x47 === bytes[endIndex] || endIndex === bytes.byteLength)) {
                             if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "audio" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "audio", result.audio.push(parsed), endLoop = !0)), endLoop) break;
-                            startIndex += MP2T_PACKET_LENGTH, endIndex += MP2T_PACKET_LENGTH;
+                            startIndex += 188, endIndex += 188;
                             continue;
                         }
                         startIndex++, endIndex++;
                     }
-                    for(startIndex = (endIndex = bytes.byteLength) - MP2T_PACKET_LENGTH, endLoop = !1; startIndex >= 0;){
+                    for(startIndex = (endIndex = bytes.byteLength) - 188, endLoop = !1; startIndex >= 0;){
                         if (0x47 === bytes[startIndex] && (0x47 === bytes[endIndex] || endIndex === bytes.byteLength)) {
                             if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "audio" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "audio", result.audio.push(parsed), endLoop = !0)), endLoop) break;
-                            startIndex -= MP2T_PACKET_LENGTH, endIndex -= MP2T_PACKET_LENGTH;
+                            startIndex -= 188, endIndex -= 188;
                             continue;
                         }
                         startIndex--, endIndex--;
                     }
                 }, parseVideoPes_ = function(bytes, pmt, result) {
-                    for(var packet, pesType, pusi, parsed, frame, i, pes, startIndex = 0, endIndex = MP2T_PACKET_LENGTH, endLoop = !1, currentFrame = {
+                    for(var packet, pesType, pusi, parsed, frame, i, pes, startIndex = 0, endIndex = 188, endLoop = !1, currentFrame = {
                         data: [],
                         size: 0
                     }; endIndex < bytes.byteLength;){
@@ -10711,15 +10740,15 @@
                                 currentFrame.data.push(packet), currentFrame.size += packet.byteLength;
                             }
                             if (endLoop && result.firstKeyFrame) break;
-                            startIndex += MP2T_PACKET_LENGTH, endIndex += MP2T_PACKET_LENGTH;
+                            startIndex += 188, endIndex += 188;
                             continue;
                         }
                         startIndex++, endIndex++;
                     }
-                    for(startIndex = (endIndex = bytes.byteLength) - MP2T_PACKET_LENGTH, endLoop = !1; startIndex >= 0;){
+                    for(startIndex = (endIndex = bytes.byteLength) - 188, endLoop = !1; startIndex >= 0;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
                             if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "video" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "video", result.video.push(parsed), endLoop = !0)), endLoop) break;
-                            startIndex -= MP2T_PACKET_LENGTH, endIndex -= MP2T_PACKET_LENGTH;
+                            startIndex -= 188, endIndex -= 188;
                             continue;
                         }
                         startIndex--, endIndex--;
@@ -11049,31 +11078,31 @@
                     return;
                 }
                 transmuxer.transmuxQueue.push(processAction.bind(null, transmuxer, action));
-            }, reset = function(transmuxer) {
-                enqueueAction("reset", transmuxer);
-            }, endTimeline = function(transmuxer) {
-                enqueueAction("endTimeline", transmuxer);
             }, transmux = function(options) {
                 if (!options.transmuxer.currentTransmux) {
                     options.transmuxer.currentTransmux = options, processTransmux(options);
                     return;
                 }
                 options.transmuxer.transmuxQueue.push(options);
-            }, createTransmuxer = function(options) {
-                var transmuxer = new TransmuxWorker();
-                transmuxer.currentTransmux = null, transmuxer.transmuxQueue = [];
-                var term = transmuxer.terminate;
-                return transmuxer.terminate = function() {
-                    return transmuxer.currentTransmux = null, transmuxer.transmuxQueue.length = 0, term.call(transmuxer);
-                }, transmuxer.postMessage({
-                    action: "init",
-                    options: options
-                }), transmuxer;
             }, segmentTransmuxer = {
-                reset: reset,
-                endTimeline: endTimeline,
+                reset: function(transmuxer) {
+                    enqueueAction("reset", transmuxer);
+                },
+                endTimeline: function(transmuxer) {
+                    enqueueAction("endTimeline", transmuxer);
+                },
                 transmux: transmux,
-                createTransmuxer: createTransmuxer
+                createTransmuxer: function(options) {
+                    var transmuxer = new TransmuxWorker();
+                    transmuxer.currentTransmux = null, transmuxer.transmuxQueue = [];
+                    var term = transmuxer.terminate;
+                    return transmuxer.terminate = function() {
+                        return transmuxer.currentTransmux = null, transmuxer.transmuxQueue.length = 0, term.call(transmuxer);
+                    }, transmuxer.postMessage({
+                        action: "init",
+                        options: options
+                    }), transmuxer;
+                }
             }, workerCallback = function(options) {
                 var transmuxer = options.transmuxer, endAction = options.endAction || options.action, callback = options.callback, message = (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__.Z)({}, options, {
                     endAction: null,
@@ -11446,7 +11475,7 @@
                     var keyRequestOptions = videojs.mergeOptions(xhrOptions, {
                         uri: segment.key.resolvedUri,
                         responseType: "arraybuffer"
-                    }), keyRequestCallback = handleKeyResponse(segment, objects, finishProcessingFn), keyXhr = xhr(keyRequestOptions, keyRequestCallback);
+                    }), keyXhr = xhr(keyRequestOptions, handleKeyResponse(segment, objects, finishProcessingFn));
                     activeXhrs.push(keyXhr);
                 }
                 if (segment.map && !segment.map.bytes) {
@@ -11454,19 +11483,19 @@
                         var mapKeyRequestOptions = videojs.mergeOptions(xhrOptions, {
                             uri: segment.map.key.resolvedUri,
                             responseType: "arraybuffer"
-                        }), mapKeyRequestCallback = handleKeyResponse(segment, [
+                        }), mapKeyXhr = xhr(mapKeyRequestOptions, handleKeyResponse(segment, [
                             segment.map.key
-                        ], finishProcessingFn), mapKeyXhr = xhr(mapKeyRequestOptions, mapKeyRequestCallback);
+                        ], finishProcessingFn));
                         activeXhrs.push(mapKeyXhr);
                     }
                     var initSegmentOptions = videojs.mergeOptions(xhrOptions, {
                         uri: segment.map.resolvedUri,
                         responseType: "arraybuffer",
                         headers: segmentXhrHeaders(segment.map)
-                    }), initSegmentRequestCallback = handleInitSegmentResponse({
+                    }), initSegmentXhr = xhr(initSegmentOptions, handleInitSegmentResponse({
                         segment: segment,
                         finishProcessingFn: finishProcessingFn
-                    }), initSegmentXhr = xhr(initSegmentOptions, initSegmentRequestCallback);
+                    }));
                     activeXhrs.push(initSegmentXhr);
                 }
                 var segmentRequestOptions = videojs.mergeOptions(xhrOptions, {
@@ -11570,9 +11599,9 @@
                     }, playlists = master.playlists;
                     Playlist.isAudioOnly(master) && (playlists = masterPlaylistController.getAudioTrackPlaylists_(), options.audioOnly = !0);
                     var sortedPlaylistReps = playlists.map(function(playlist) {
-                        var width = playlist.attributes && playlist.attributes.RESOLUTION && playlist.attributes.RESOLUTION.width, height = playlist.attributes && playlist.attributes.RESOLUTION && playlist.attributes.RESOLUTION.height;
-                        return {
-                            bandwidth: playlist.attributes && playlist.attributes.BANDWIDTH || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE,
+                        var bandwidth, width = playlist.attributes && playlist.attributes.RESOLUTION && playlist.attributes.RESOLUTION.width, height = playlist.attributes && playlist.attributes.RESOLUTION && playlist.attributes.RESOLUTION.height;
+                        return bandwidth = (bandwidth = playlist.attributes && playlist.attributes.BANDWIDTH) || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, {
+                            bandwidth: bandwidth,
                             width: width,
                             height: height,
                             playlist: playlist
@@ -13088,9 +13117,9 @@
                             continue;
                         }
                         cue.endTime += segment.duration;
-                    } else if ("cueOut" in segment && ((cue = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).VTTCue(mediaTime, mediaTime + segment.duration, segment.cueOut)).adStartTime = mediaTime, cue.adEndTime = mediaTime + parseFloat(segment.cueOut), track.addCue(cue)), "cueOutCont" in segment) {
+                    } else if ("cueOut" in segment && (cue = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).VTTCue(mediaTime, mediaTime + segment.duration, segment.cueOut), cue.adStartTime = mediaTime, cue.adEndTime = mediaTime + parseFloat(segment.cueOut), track.addCue(cue)), "cueOutCont" in segment) {
                         var _segment$cueOutCont$s = segment.cueOutCont.split("/").map(parseFloat), adOffset = _segment$cueOutCont$s[0], adTotal = _segment$cueOutCont$s[1];
-                        (cue = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).VTTCue(mediaTime, mediaTime + segment.duration, "")).adStartTime = mediaTime - adOffset, cue.adEndTime = cue.adStartTime + adTotal, track.addCue(cue);
+                        cue = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).VTTCue(mediaTime, mediaTime + segment.duration, ""), cue.adStartTime = mediaTime - adOffset, cue.adEndTime = cue.adStartTime + adTotal, track.addCue(cue);
                     }
                     mediaTime += segment.duration;
                 }
@@ -13320,13 +13349,13 @@
                 }, TimelineChangeController;
             }(videojs.EventTarget), workerCode = transform(getWorkerString(function() {
                 function createCommonjsModule(fn, basedir, module) {
-                    return module = {
+                    return fn(module = {
                         path: basedir,
                         exports: {},
                         require: function(path, base) {
                             return commonjsRequire(path, null == base ? module.path : base);
                         }
-                    }, fn(module, module.exports), module.exports;
+                    }, module.exports), module.exports;
                 }
                 function commonjsRequire() {
                     throw Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
@@ -13461,7 +13490,8 @@
                             done(null, (padded = decrypted).subarray(0, padded.byteLength - padded[padded.byteLength - 1]));
                         });
                     }
-                    return Decrypter.prototype.decryptChunk_ = function(encrypted, key, initVector, decrypted) {
+                    var _proto = Decrypter.prototype;
+                    return _proto.decryptChunk_ = function(encrypted, key, initVector, decrypted) {
                         return function() {
                             var bytes = decrypt(encrypted, key, initVector);
                             decrypted.set(bytes, encrypted.byteOffset);
@@ -14784,7 +14814,7 @@
             }, Vhs.isSupported = function() {
                 return videojs.log.warn("HLS is no longer a tech. Please remove it from your player's techOrder.");
             };
-            var VhsHandler = function(_Component) {
+            var Component = videojs.getComponent("Component"), VhsHandler = function(_Component) {
                 function VhsHandler(source, tech, options) {
                     var _this;
                     if (_this = _Component.call(this, tech, videojs.mergeOptions(options.hls, options.vhs)) || this, options.hls && Object.keys(options.hls).length && videojs.log.warn("Using hls options is deprecated. Use vhs instead."), "number" == typeof options.initialBandwidth && (_this.options_.bandwidth = options.initialBandwidth), _this.logger_ = logger("VhsHandler"), tech.options_ && tech.options_.playerId) {
@@ -15169,7 +15199,7 @@
                         callback: callback
                     });
                 }, VhsHandler;
-            }(videojs.getComponent("Component")), VhsSourceHandler = {
+            }(Component), VhsSourceHandler = {
                 name: "videojs-http-streaming",
                 VERSION: version$4,
                 canHandleSource: function(srcObj, options) {
@@ -15189,11 +15219,11 @@
                 },
                 canPlayType: function(type, options) {
                     void 0 === options && (options = {});
-                    var _videojs$mergeOptions2 = videojs.mergeOptions(videojs.options, options).vhs.overrideNative, overrideNative = void 0 === _videojs$mergeOptions2 ? !videojs.browser.IS_ANY_SAFARI : _videojs$mergeOptions2, supportedType = (0, _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__.t)(type);
+                    var _videojs$mergeOptions = videojs.mergeOptions(videojs.options, options), _videojs$mergeOptions2 = _videojs$mergeOptions.vhs.overrideNative, overrideNative = void 0 === _videojs$mergeOptions2 ? !videojs.browser.IS_ANY_SAFARI : _videojs$mergeOptions2, supportedType = (0, _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__.t)(type);
                     return supportedType && (!Vhs.supportsTypeNatively(supportedType) || overrideNative) ? "maybe" : "";
                 }
             };
-            (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.p7)("avc1.4d400d,mp4a.40.2") && videojs.getTech("Html5").registerSourceHandler(VhsSourceHandler, 0), videojs.VhsHandler = VhsHandler, Object.defineProperty(videojs, "HlsHandler", {
+            if ((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.p7)("avc1.4d400d,mp4a.40.2") && videojs.getTech("Html5").registerSourceHandler(VhsSourceHandler, 0), videojs.VhsHandler = VhsHandler, Object.defineProperty(videojs, "HlsHandler", {
                 get: function() {
                     return videojs.log.warn("videojs.HlsHandler is deprecated. Use videojs.VhsHandler instead."), VhsHandler;
                 },
@@ -15208,7 +15238,11 @@
                     return videojs.log.warn("videojs.Hls is deprecated. Use videojs.Vhs instead."), Vhs;
                 },
                 configurable: !0
-            }), videojs.use || (videojs.registerComponent("Hls", Vhs), videojs.registerComponent("Vhs", Vhs)), videojs.options.vhs = videojs.options.vhs || {}, videojs.options.hls = videojs.options.hls || {}, videojs.getPlugin && videojs.getPlugin("reloadSourceOnError") || (videojs.registerPlugin || videojs.plugin)("reloadSourceOnError", reloadSourceOnError), __webpack_exports__.Z = videojs;
+            }), videojs.use || (videojs.registerComponent("Hls", Vhs), videojs.registerComponent("Vhs", Vhs)), videojs.options.vhs = videojs.options.vhs || {}, videojs.options.hls = videojs.options.hls || {}, !videojs.getPlugin || !videojs.getPlugin("reloadSourceOnError")) {
+                var registerPlugin = videojs.registerPlugin || videojs.plugin;
+                registerPlugin("reloadSourceOnError", reloadSourceOnError);
+            }
+            __webpack_exports__.Z = videojs;
         }
     }, 
 ]);
