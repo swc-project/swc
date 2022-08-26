@@ -184,4 +184,7 @@ struct FileSize {
 struct MinifierOutput {
     mangled_size: usize,
     no_mangle_size: usize,
+
+    /// Minify + mangle + gzip
+    gzipped_size: usize,
 }
