@@ -76,13 +76,13 @@ impl EnsureSize {
             }
         }
 
-        let swc_total = results.iter().map(|f| f.swc.mangled_size).sum::<usize>();
+        let swc_total = results.iter().map(|f| f.swc.gzipped_size).sum::<usize>();
         let terser_total = results
             .iter()
-            .flat_map(|f| f.terser.map(|v| v.mangled_size))
+            .flat_map(|f| f.terser.map(|v| v.gzipped_size))
             .sum::<usize>();
 
-        println!("Total");
+        println!("Total (gzipped)");
         println!("  swc: {} bytes", swc_total);
         println!("  terser: {} bytes", terser_total);
         println!("  Size ratio: {}", swc_total as f64 / terser_total as f64);
@@ -91,7 +91,7 @@ impl EnsureSize {
             .iter()
             .filter(|f| {
                 if let Some(terser) = &f.terser {
-                    f.swc.mangled_size <= terser.mangled_size
+                    f.swc.gzipped_size <= terser.gzipped_size
                 } else {
                     false
                 }
