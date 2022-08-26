@@ -158,12 +158,14 @@ impl<I: Tokens> Parser<I> {
                         .map(Box::new)
                         .map(PatOrExpr::Pat)?
                 } else {
-                    //It is an early Reference Error if IsValidSimpleAssignmentTarget of
+                    // It is an early Reference Error if IsValidSimpleAssignmentTarget of
                     // LeftHandSideExpression is false.
-                    if !self.input.syntax().typescript()
-                        && !cond.is_valid_simple_assignment_target(self.ctx().strict)
-                    {
-                        self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
+                    if !cond.is_valid_simple_assignment_target(self.ctx().strict) {
+                        if self.input.syntax().typescript() {
+                            self.emit_err(cond.span(), SyntaxError::TS2406);
+                        } else {
+                            self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
+                        }
                     }
                     if self.input.syntax().typescript()
                         && cond
