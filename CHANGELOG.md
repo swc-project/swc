@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Fix alias analyzer (#5639) ([a06e6e9](https://github.com/swc-project/swc/commit/a06e6e9ce5c8628e75c19619d003ceb623b4a5e3))
 
+
+- **(es/parser)** Handle more `TS2406` errors (#5640) ([838438d](https://github.com/swc-project/swc/commit/838438dc9d090402756ecc038b5b091f51dada66))
+
 ### Features
 
 
