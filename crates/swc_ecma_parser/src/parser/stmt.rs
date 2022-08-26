@@ -1187,7 +1187,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.include_in_expr(false).parse_expr_or_pat()?
         };
 
-        // ```spec
+        // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
         // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
         // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
         // ```
