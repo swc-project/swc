@@ -32,6 +32,10 @@ struct TestSnapshot {
 
 #[derive(Debug, Default)]
 pub(crate) struct ModuleInfo {
+    /// Imported identifiers which should be treated as a black box.
+    ///
+    /// Imports from `@swc/helpers` are excluded as helpers are not modified by
+    /// accessing/calling other modules.
     pub blackbox_imports: AHashSet<Id>,
 }
 

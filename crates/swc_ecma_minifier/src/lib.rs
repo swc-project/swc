@@ -110,6 +110,7 @@ pub fn optimize(
                     ModuleDecl::Import(i) => Some(i),
                     _ => None,
                 })
+                .filter(|i| !i.src.value.starts_with("@swc/helpers"))
                 .flat_map(|v| v.specifiers.iter())
                 .map(|v| match v {
                     ImportSpecifier::Named(v) => v.local.to_id(),
