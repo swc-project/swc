@@ -1,29 +1,35 @@
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
-f1(regeneratorRuntime.mark(function _callee() {
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+f1(function() {
     var a;
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                return _ctx.next = 2, 0;
-            case 2:
-                return a = _ctx.sent, _ctx.abrupt("return", 0);
-            case 4:
-            case "end":
-                return _ctx.stop();
+                return [
+                    4,
+                    0
+                ];
+            case 1:
+                return a = _state.sent(), [
+                    2,
+                    0
+                ];
         }
-    }, _callee);
-})), f2(_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+    });
+}), f2(_wrap_async_generator(function() {
     var a;
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                return _ctx.next = 2, 0;
-            case 2:
-                return a = _ctx.sent, _ctx.abrupt("return", 0);
-            case 4:
-            case "end":
-                return _ctx.stop();
+                return [
+                    4,
+                    0
+                ];
+            case 1:
+                return a = _state.sent(), [
+                    2,
+                    0
+                ];
         }
-    }, _callee);
-})));
+    });
+}));

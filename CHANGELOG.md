@@ -11,13 +11,28 @@
 - **(es/compat)** Handle `super` in a private method (#5613) ([35d3558](https://github.com/swc-project/swc/commit/35d3558535c3bee2cbbd8adec162f9c4cb9a4bbc))
 
 
+- **(es/compat)** Revert generator reimplementation (#5624) ([927ae7e](https://github.com/swc-project/swc/commit/927ae7e8d38813e65b0bc67cbf6559cbb7f9f6a1))
+
+
 - **(es/fixer)** Wrap expressions in the left of a binary expression (#5586) ([3d485d2](https://github.com/swc-project/swc/commit/3d485d26814516351bd5591502c64811f77f5385))
+
+
+- **(es/helpers)** Fix `_classStaticPrivateFieldUpdate` (#5620) ([d483eb1](https://github.com/swc-project/swc/commit/d483eb12f458fb86675d8146c84032524fd7ccde))
 
 
 - **(swc_core)** Re-export `swc_cached` (#5605) ([7fcecb8](https://github.com/swc-project/swc/commit/7fcecb8e63faa64226b87e34b8cd4fdd0a6a7ab7))
 
 ### Features
 
+
+
+- **(cli)** Enable LTO by default for the plugins (#5617) ([3d2ee6d](https://github.com/swc-project/swc/commit/3d2ee6d0ae29899ae3a492a0e4b963e40b1d60ff))
+
+
+- **(es/generator)** Replace generator implementation with one from tsc (#5173) ([2aa0090](https://github.com/swc-project/swc/commit/2aa009018f9bdbe4de6d59f9226b7ddd320db127))
+
+
+- **(es/generator)** Use new generator implementation (#5627) ([83fec33](https://github.com/swc-project/swc/commit/83fec333597c7854c694e9913e13dc7c4a1e327a))
 
 
 - **(swc_core)** Expand features (#5602) ([633a23a](https://github.com/swc-project/swc/commit/633a23a13438cb3891ea1cdef349cde882672bec))
@@ -27,6 +42,12 @@
 
 
 - **(swc_core)** Update dependencies and fix build script (#5610) ([fad1367](https://github.com/swc-project/swc/commit/fad1367e137288dd0e15591d7ecb4aaee222d327))
+
+### Testing
+
+
+
+- **(es/transforms)** Add more execution tests (#5598) ([cfcd54a](https://github.com/swc-project/swc/commit/cfcd54a2c7618ee5f789c8db1726755f0473848b))
 
 ### Build
 

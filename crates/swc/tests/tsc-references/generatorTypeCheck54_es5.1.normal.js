@@ -1,7 +1,7 @@
 //@target: ES6
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = /*#__PURE__*/ regeneratorRuntime.mark(g);
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import _ts_values from "@swc/helpers/src/_ts_values.mjs";
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
@@ -11,19 +11,28 @@ var Baz = function Baz() {
     _class_call_check(this, Baz);
 };
 function g() {
-    return regeneratorRuntime.wrap(function g$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
+    return _ts_generator(this, function(_state) {
+        switch(_state.label){
             case 0:
-                return _ctx.delegateYield([
-                    new Foo
-                ], "t0", 1);
+                return [
+                    5,
+                    _ts_values([
+                        new Foo
+                    ])
+                ];
             case 1:
-                return _ctx.delegateYield([
-                    new Baz
-                ], "t1", 2);
+                _state.sent();
+                return [
+                    5,
+                    _ts_values([
+                        new Baz
+                    ])
+                ];
             case 2:
-            case "end":
-                return _ctx.stop();
+                _state.sent();
+                return [
+                    2
+                ];
         }
-    }, _marked);
+    });
 }

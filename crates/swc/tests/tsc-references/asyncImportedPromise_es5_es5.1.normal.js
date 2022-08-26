@@ -19,7 +19,7 @@ export var Task = /*#__PURE__*/ function(Promise1) {
 // @filename: test.ts
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 var Test = /*#__PURE__*/ function() {
     "use strict";
     function Test() {
@@ -27,17 +27,13 @@ var Test = /*#__PURE__*/ function() {
     }
     var _proto = Test.prototype;
     _proto.example = function example() {
-        return _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
-                    case 0:
-                        return _ctx.abrupt("return");
-                    case 1:
-                    case "end":
-                        return _ctx.stop();
-                }
-            }, _callee);
-        }))();
+        return _async_to_generator(function() {
+            return _ts_generator(this, function(_state) {
+                return [
+                    2
+                ];
+            });
+        })();
     };
     return Test;
 }();

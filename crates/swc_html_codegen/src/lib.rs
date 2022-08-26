@@ -1,5 +1,4 @@
 #![deny(clippy::all)]
-#![allow(clippy::explicit_auto_deref)]
 #![allow(clippy::needless_update)]
 #![allow(clippy::match_like_matches_macro)]
 

@@ -1,29 +1,28 @@
 // @target: es6
-import regeneratorRuntime from "regenerator-runtime";
-var _marked = /*#__PURE__*/ regeneratorRuntime.mark(foo);
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function foo() {
     var bar;
-    return regeneratorRuntime.wrap(function foo$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                bar = function bar() {
-                    var _marked = /*#__PURE__*/ regeneratorRuntime.mark(quux);
-                    function quux() {
-                        return regeneratorRuntime.wrap(function quux$(_ctx) {
-                            while(1)switch(_ctx.prev = _ctx.next){
-                                case 0:
-                                    _ctx.next = 2;
-                                    return foo;
-                                case 2:
-                                case "end":
-                                    return _ctx.stop();
-                            }
-                        }, _marked);
+    return _ts_generator(this, function(_state) {
+        bar = function bar() {
+            function quux() {
+                return _ts_generator(this, function(_state) {
+                    switch(_state.label){
+                        case 0:
+                            return [
+                                4,
+                                foo
+                            ];
+                        case 1:
+                            _state.sent();
+                            return [
+                                2
+                            ];
                     }
-                };
-            case 1:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _marked);
+                });
+            }
+        };
+        return [
+            2
+        ];
+    });
 }

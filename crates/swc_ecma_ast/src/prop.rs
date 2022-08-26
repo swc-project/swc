@@ -9,6 +9,7 @@ use crate::{
     pat::Pat,
     stmt::BlockStmt,
     typescript::TsTypeAnn,
+    MemberProp,
 };
 
 #[ast_node]
@@ -111,6 +112,27 @@ pub enum PropName {
 impl Take for PropName {
     fn dummy() -> Self {
         PropName::Ident(Take::dummy())
+    }
+}
+
+impl From<PropName> for MemberProp {
+    fn from(p: PropName) -> Self {
+        match p {
+            PropName::Ident(p) => MemberProp::Ident(p),
+            PropName::Computed(p) => MemberProp::Computed(p),
+            PropName::Str(p) => MemberProp::Computed(ComputedPropName {
+                span: DUMMY_SP,
+                expr: p.into(),
+            }),
+            PropName::Num(p) => MemberProp::Computed(ComputedPropName {
+                span: DUMMY_SP,
+                expr: p.into(),
+            }),
+            PropName::BigInt(p) => MemberProp::Computed(ComputedPropName {
+                span: DUMMY_SP,
+                expr: p.into(),
+            }),
+        }
     }
 }
 

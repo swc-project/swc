@@ -7,9 +7,8 @@ pub use self::{
     classes::classes, computed_props::computed_properties, destructuring::destructuring,
     duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
     instanceof::instance_of, new_target::new_target, object_super::object_super,
-    parameters::parameters, regenerator::regenerator, shorthand_property::shorthand,
-    spread::spread, sticky_regex::sticky_regex, template_literal::template_literal,
-    typeof_symbol::typeof_symbol,
+    parameters::parameters, shorthand_property::shorthand, spread::spread,
+    sticky_regex::sticky_regex, template_literal::template_literal, typeof_symbol::typeof_symbol,
 };
 use crate::regexp::{self, regexp};
 
@@ -22,6 +21,7 @@ pub mod destructuring;
 mod duplicate_keys;
 pub mod for_of;
 mod function_name;
+pub mod generator;
 mod instanceof;
 pub mod new_target;
 mod object_super;
@@ -85,7 +85,7 @@ where
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
         block_scoping(unresolved_mark),
-        regenerator(c.regenerator, comments, unresolved_mark),
+        generator::generator(unresolved_mark, comments),
     )
 }
 
