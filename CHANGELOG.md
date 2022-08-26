@@ -10,6 +10,12 @@
 
 - **(es/fixer)** Handle `async` in the left of `for of` (#5625) ([eb3b0e9](https://github.com/swc-project/swc/commit/eb3b0e96e5de2dadb8021e459d2915d68dfba708))
 
+### Features
+
+
+
+- **(es/minifier)** Improve gzipped size (#5631) ([d81fe67](https://github.com/swc-project/swc/commit/d81fe67e4b0ef655c3223b17ba44d1d845a8fd96))
+
 ## [1.2.244] - 2022-08-26
 
 ### Bug Fixes
