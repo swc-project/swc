@@ -26,7 +26,8 @@ export var Argument = function(Base) {
     function Argument() {
         return _class_call_check(this, Argument), _super.apply(this, arguments);
     }
-    return Argument.prototype.validate = function(defs) {
+    var _proto = Argument.prototype;
+    return _proto.validate = function(defs) {
         return _ts_generator(this, function(_state) {
             return [
                 2

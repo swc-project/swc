@@ -374,10 +374,10 @@
                     width: inputWidth,
                     height: inputHeight
                 }, parsedArea = Object.keys(area).reduce(function(result, key) {
-                    var value, parsed = {
-                        value: parseFloat(value = area[key]),
+                    var value, parsed = (value = area[key], {
+                        value: parseFloat(value),
                         unit: (value.indexOf("%"), value.length, "%")
-                    }, calculated = _dimensionsConverters[key](parsed, context);
+                    }), calculated = _dimensionsConverters[key](parsed, context);
                     return result[key] = calculated, result;
                 }, {});
                 return {
@@ -1215,7 +1215,7 @@
         },
         function(module1, exports1, __webpack_require__) {
             (function(module1) {
-                var root = __webpack_require__(17), stubFalse = __webpack_require__(134), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && "object" == typeof module1 && module1 && !module1.nodeType && module1, moduleExports = freeModule && freeModule.exports === freeExports, Buffer = moduleExports ? root.Buffer : void 0, nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0;
+                var root = __webpack_require__(17), stubFalse = __webpack_require__(134), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && "object" == typeof module1 && module1 && !module1.nodeType && module1, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0;
                 module1.exports = nativeIsBuffer || stubFalse;
             }).call(this, __webpack_require__(38)(module1));
         },
@@ -1730,10 +1730,12 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var assocIndexOf = __webpack_require__(25), splice = Array.prototype.splice;
+            var assocIndexOf = __webpack_require__(25), arrayProto = Array.prototype, splice = arrayProto.splice;
             module1.exports = function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
+                if (index < 0) return !1;
+                var lastIndex = data.length - 1;
+                return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -2185,11 +2187,11 @@
             };
         },
         function(module1, exports1) {
-            var HOT_SPAN = 16, nativeNow = Date.now;
+            var nativeNow = Date.now;
             module1.exports = function(func) {
                 var count = 0, lastCalled = 0;
                 return function() {
-                    var stamp = nativeNow(), remaining = HOT_SPAN - (stamp - lastCalled);
+                    var stamp = nativeNow(), remaining = 16 - (stamp - lastCalled);
                     if (lastCalled = stamp, remaining > 0) {
                         if (++count >= 800) return arguments[0];
                     } else count = 0;
@@ -3270,7 +3272,7 @@
             };
             var BarcodeDirection1, bresenham = Bresenham, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
             (BarcodeDirection1 = BarcodeDirection || (BarcodeDirection = {}))[BarcodeDirection1.Forward = 1] = "Forward", BarcodeDirection1[BarcodeDirection1.Reverse = -1] = "Reverse";
-            var barcode_reader_BarcodeReader = function() {
+            var barcode_reader = function() {
                 function BarcodeReader(config, supplements) {
                     return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {}), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", "unknown"), defineProperty_default()(this, "CONFIG_KEYS", {}), this._row = [], this.config = config || {}, supplements && (this.supplements = supplements), this;
                 }
@@ -3360,7 +3362,7 @@
                         }
                     }, 
                 ]), BarcodeReader;
-            }(), barcode_reader = barcode_reader_BarcodeReader, code_128_reader = function(_BarcodeReader) {
+            }(), code_128_reader_Code128Reader = function(_BarcodeReader) {
                 inherits_default()(Code128Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code128Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -4438,7 +4440,7 @@
                         }
                     }, 
                 ]), Code128Reader;
-            }(barcode_reader);
+            }(barcode_reader), code_128_reader = code_128_reader_Code128Reader;
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
                 if (Object.getOwnPropertySymbols) {
@@ -4606,7 +4608,7 @@
                 21,
                 22,
                 26
-            ], ean_reader = function(_BarcodeReader) {
+            ], ean_reader_EANReader = function(_BarcodeReader) {
                 inherits_default()(EANReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EANReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -4713,7 +4715,7 @@
                         key: "_decodePayload",
                         value: function(inCode, result, decodedCodes) {
                             for(var outCode = _objectSpread({}, inCode), codeFrequency = 0x0, i = 0; i < 6; i++){
-                                if (!(outCode = this._decodeCode(outCode.end))) return null;
+                                if (outCode = this._decodeCode(outCode.end), !outCode) return null;
                                 outCode.code >= 10 ? (outCode.code -= 10, codeFrequency |= 1 << 5 - i) : codeFrequency |= 0 << 5 - i, result.push(outCode.code), decodedCodes.push(outCode);
                             }
                             var firstDigit = this._calculateFirstDigit(codeFrequency);
@@ -4723,7 +4725,7 @@
                             if (null === middlePattern || !middlePattern.end) return null;
                             decodedCodes.push(middlePattern);
                             for(var _i = 0; _i < 6; _i++){
-                                if (!(middlePattern = this._decodeCode(middlePattern.end, 10))) return null;
+                                if (middlePattern = this._decodeCode(middlePattern.end, 10), !middlePattern) return null;
                                 decodedCodes.push(middlePattern), result.push(middlePattern.code);
                             }
                             return middlePattern;
@@ -4808,7 +4810,7 @@
                         }
                     }, 
                 ]), EANReader;
-            }(barcode_reader), toConsumableArray = __webpack_require__(33), toConsumableArray_default = __webpack_require__.n(toConsumableArray), ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%").map(function(_char) {
+            }(barcode_reader), ean_reader = ean_reader_EANReader, toConsumableArray = __webpack_require__(33), toConsumableArray_default = __webpack_require__.n(toConsumableArray), ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%").map(function(_char) {
                 return _char.charCodeAt(0);
             })), CHARACTER_ENCODINGS = new Uint16Array([
                 0x034,
@@ -4855,7 +4857,7 @@
                 0x0a2,
                 0x08a,
                 0x02a, 
-            ]), code_39_reader = function(_BarcodeReader) {
+            ]), code_39_reader_Code39Reader = function(_BarcodeReader) {
                 inherits_default()(Code39Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -4968,7 +4970,7 @@
                             do {
                                 counters = this._toCounters(nextStart, counters);
                                 var pattern = this._toPattern(counters);
-                                if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
+                                if (pattern < 0 || (decodedChar = this._patternToChar(pattern), null === decodedChar)) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyTrailingWhitespace(lastStart, nextStart, counters)) ? {
@@ -4982,10 +4984,10 @@
                         }
                     }, 
                 ]), Code39Reader;
-            }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns = {
+            }(barcode_reader), code_39_reader = code_39_reader_Code39Reader, get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns = {
                 IOQ: /[IOQ]/g,
                 AZ09: /[A-Z0-9]{17}/
-            }, code_39_vin_reader = function(_Code39Reader) {
+            }, code_39_vin_reader_Code39VINReader = function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39VINReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5028,7 +5030,7 @@
                         }
                     }, 
                 ]), Code39VINReader;
-            }(code_39_reader), codabar_reader_ALPHABET = [
+            }(code_39_reader), code_39_vin_reader = code_39_vin_reader_Code39VINReader, codabar_reader_ALPHABET = [
                 48,
                 49,
                 50,
@@ -5075,7 +5077,7 @@
                 0x029,
                 0x00b,
                 0x00e
-            ], codabar_reader = function(_BarcodeReader) {
+            ], codabar_reader_NewCodabarReader = function(_BarcodeReader) {
                 inherits_default()(NewCodabarReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = NewCodabarReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5263,7 +5265,7 @@
                         }
                     }, 
                 ]), NewCodabarReader;
-            }(barcode_reader), upc_reader = function(_EANReader) {
+            }(barcode_reader), codabar_reader = codabar_reader_NewCodabarReader, upc_reader_UPCReader = function(_EANReader) {
                 inherits_default()(UPCReader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = UPCReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5298,7 +5300,7 @@
                         }
                     }, 
                 ]), UPCReader;
-            }(ean_reader), ean_8_reader = function(_EANReader) {
+            }(ean_reader), upc_reader = upc_reader_UPCReader, ean_8_reader_EAN8Reader = function(_EANReader) {
                 inherits_default()(EAN8Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN8Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5332,7 +5334,7 @@
                                 if (!(code = this._decodeCode(code.end, 10))) return null;
                                 result.push(code.code), decodedCodes.push(code);
                             }
-                            if (null === (code = this._findPattern(MIDDLE_PATTERN, code.end, !0, !1))) return null;
+                            if (code = this._findPattern(MIDDLE_PATTERN, code.end, !0, !1), null === code) return null;
                             decodedCodes.push(code);
                             for(var _i = 0; _i < 4; _i++){
                                 if (!(code = this._decodeCode(code.end, 10))) return null;
@@ -5342,7 +5344,7 @@
                         }
                     }, 
                 ]), EAN8Reader;
-            }(ean_reader), ean_2_reader = function(_EANReader) {
+            }(ean_reader), ean_8_reader = ean_8_reader_EAN8Reader, ean_2_reader_EAN2Reader = function(_EANReader) {
                 inherits_default()(EAN2Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN2Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5392,7 +5394,7 @@
                         }
                     }, 
                 ]), EAN2Reader;
-            }(ean_reader), CHECK_DIGIT_ENCODINGS = [
+            }(ean_reader), ean_2_reader = ean_2_reader_EAN2Reader, CHECK_DIGIT_ENCODINGS = [
                 24,
                 20,
                 18,
@@ -5403,7 +5405,7 @@
                 10,
                 9,
                 5, 
-            ], ean_5_reader = function(_EANReader) {
+            ], ean_5_reader_EAN5Reader = function(_EANReader) {
                 inherits_default()(EAN5Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN5Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5460,7 +5462,7 @@
                         }
                     }, 
                 ]), EAN5Reader;
-            }(ean_reader);
+            }(ean_reader), ean_5_reader = ean_5_reader_EAN5Reader;
             function upc_e_reader_ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
                 if (Object.getOwnPropertySymbols) {
@@ -5471,7 +5473,7 @@
                 }
                 return keys;
             }
-            var upc_e_reader = function(_EANReader) {
+            var upc_e_reader_UPCEReader = function(_EANReader) {
                 inherits_default()(UPCEReader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = UPCEReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5544,7 +5546,7 @@
                                 }
                                 return target;
                             }({}, inCode), codeFrequency = 0x0, i = 0; i < 6; i++){
-                                if (!(outCode = this._decodeCode(outCode.end))) return null;
+                                if (outCode = this._decodeCode(outCode.end), !outCode) return null;
                                 outCode.code >= 10 && (outCode.code = outCode.code - 10, codeFrequency |= 1 << 5 - i), result.push(outCode.code), decodedCodes.push(outCode);
                             }
                             return this._determineParity(codeFrequency, result) ? outCode : null;
@@ -5611,7 +5613,7 @@
                         }
                     }, 
                 ]), UPCEReader;
-            }(ean_reader), i2of5_reader = function(_BarcodeReader) {
+            }(ean_reader), upc_e_reader = upc_e_reader_UPCEReader, i2of5_reader_I2of5Reader = function(_BarcodeReader) {
                 inherits_default()(I2of5Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = I2of5Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5869,7 +5871,7 @@
                         }
                     }, 
                 ]), I2of5Reader;
-            }(barcode_reader), _2of5_reader_START_PATTERN = [
+            }(barcode_reader), i2of5_reader = i2of5_reader_I2of5Reader, _2of5_reader_START_PATTERN = [
                 3,
                 1,
                 3,
@@ -5955,7 +5957,7 @@
                 ], 
             ], START_PATTERN_LENGTH = _2of5_reader_START_PATTERN.reduce(function(sum, val) {
                 return sum + val;
-            }, 0), _2of5_reader = function(_BarcodeReader) {
+            }, 0), _2of5_reader_TwoOfFiveReader = function(_BarcodeReader) {
                 inherits_default()(TwoOfFiveReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = TwoOfFiveReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6015,7 +6017,7 @@
                         key: "_findStart",
                         value: function() {
                             for(var startInfo = null, offset = this._nextSet(this._row), narrowBarWidth = 1, leadingWhitespaceStart = 0; !startInfo;){
-                                if (!(startInfo = this._findPattern(_2of5_reader_START_PATTERN, offset, !1, !0))) return null;
+                                if (startInfo = this._findPattern(_2of5_reader_START_PATTERN, offset, !1, !0), !startInfo) return null;
                                 if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / START_PATTERN_LENGTH), leadingWhitespaceStart = startInfo.start - 5 * narrowBarWidth, leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) break;
                                 offset = startInfo.end, startInfo = null;
                             }
@@ -6100,7 +6102,7 @@
                         }
                     }, 
                 ]), TwoOfFiveReader;
-            }(barcode_reader), code_93_reader_ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*").map(function(_char) {
+            }(barcode_reader), _2of5_reader = _2of5_reader_TwoOfFiveReader, code_93_reader_ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*").map(function(_char) {
                 return _char.charCodeAt(0);
             })), code_93_reader_CHARACTER_ENCODINGS = new Uint16Array([
                 0x114,
@@ -6151,7 +6153,7 @@
                 0x1d6,
                 0x132,
                 0x15e, 
-            ]), code_93_reader = function(_BarcodeReader) {
+            ]), code_93_reader_Code93Reader = function(_BarcodeReader) {
                 inherits_default()(Code93Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code93Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6280,10 +6282,11 @@
                     {
                         key: "_matchCheckChar",
                         value: function(charArray, index, maxWeight) {
-                            var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length;
-                            return code_93_reader_ALPHABET[arrayToCheck.reduce(function(sum, _char3, i) {
-                                return sum + ((-1 * i + (length - 1)) % maxWeight + 1) * code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
-                            }, 0) % 47] === charArray[index].charCodeAt(0);
+                            var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length, checkChar = code_93_reader_ALPHABET[arrayToCheck.reduce(function(sum, _char3, i) {
+                                var value = code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
+                                return sum + ((-1 * i + (length - 1)) % maxWeight + 1) * value;
+                            }, 0) % 47];
+                            return checkChar === charArray[index].charCodeAt(0);
                         }
                     },
                     {
@@ -6307,7 +6310,7 @@
                             do {
                                 counters = this._toCounters(nextStart, counters);
                                 var pattern = this._toPattern(counters);
-                                if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
+                                if (pattern < 0 || (decodedChar = this._patternToChar(pattern), null === decodedChar)) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyEnd(lastStart, nextStart) && this._verifyChecksums(result)) ? (result = result.slice(0, result.length - 2), null === (result = this._decodeExtended(result))) ? null : {
@@ -6321,10 +6324,10 @@
                         }
                     }, 
                 ]), Code93Reader;
-            }(barcode_reader), code_32_reader_patterns = {
+            }(barcode_reader), code_93_reader = code_93_reader_Code93Reader, code_32_reader_patterns = {
                 AEIO: /[AEIO]/g,
                 AZ09: /[A-Z0-9]/
-            }, code_32_reader = function(_Code39Reader) {
+            }, code_32_reader_Code32Reader = function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code32Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6378,7 +6381,7 @@
                         }
                     }, 
                 ]), Code32Reader;
-            }(code_39_reader), READERS = {
+            }(code_39_reader), code_32_reader = code_32_reader_Code32Reader, READERS = {
                 code_128_reader: code_128_reader,
                 ean_reader: ean_reader,
                 ean_5_reader: ean_5_reader,
@@ -6624,14 +6627,16 @@
                 try {
                     return navigator.mediaDevices.enumerateDevices();
                 } catch (err) {
-                    return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
+                    var error = new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1);
+                    return Promise.reject(error);
                 }
             }
             function getUserMedia(constraints) {
                 try {
                     return navigator.mediaDevices.getUserMedia(constraints);
                 } catch (err) {
-                    return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
+                    var error = new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1);
+                    return Promise.reject(error);
                 }
             }
             function waitForVideo(video) {
@@ -6815,7 +6820,7 @@
                 return "undefined" == typeof document ? null : target instanceof HTMLElement && target.nodeName && 1 === target.nodeType ? target : document.querySelector("string" == typeof target ? target : "#interactive.viewport");
             }
             function getCanvasAndContext(selector, className) {
-                var selector1, className1, canvas, canvas1 = (selector1 = selector, className1 = className, (canvas = document.querySelector(selector1)) || ((canvas = document.createElement("canvas")).className = className1), canvas), context = canvas1.getContext("2d");
+                var selector1, className1, canvas, canvas1 = (selector1 = selector, className1 = className, canvas = document.querySelector(selector1), canvas || ((canvas = document.createElement("canvas")).className = className1), canvas), context = canvas1.getContext("2d");
                 return {
                     canvas: canvas1,
                     context: context
@@ -7208,8 +7213,8 @@
                     "(" + workerInterface.toString() + ")(" + factorySource + ");", 
                 ], {
                     type: "text/javascript"
-                }), window.URL.createObjectURL(blob)), workerThread = {
-                    worker: new Worker(blobURL),
+                }), window.URL.createObjectURL(blob)), worker = new Worker(blobURL), workerThread = {
+                    worker: worker,
                     imageData: new Uint8Array(inputStream.getWidth() * inputStream.getHeight()),
                     busy: !0
                 };
@@ -7595,7 +7600,7 @@
                 },
                 decodeSingle: function(config, resultCallback) {
                     var _this = this, quaggaInstance = new quagga_Quagga();
-                    return (config = merge_default()({
+                    return config = merge_default()({
                         inputStream: {
                             type: "ImageStream",
                             sequence: !1,
@@ -7606,7 +7611,7 @@
                         locator: {
                             halfSample: !1
                         }
-                    }, config)).numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ("undefined" == typeof Blob || "undefined" == typeof Worker) && (console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0"), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
+                    }, config), config.numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ("undefined" == typeof Blob || "undefined" == typeof Worker) && (console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0"), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
                         try {
                             _this.init(config, function() {
                                 events.once("processed", function(result) {

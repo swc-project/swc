@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use crate::{
-    analyzer::{analyze, ProgramData, UsageAnalyzer},
+    analyzer::{analyze, ModuleInfo, ProgramData, UsageAnalyzer},
     marks::Marks,
     maybe_par,
     option::CompressOptions,
@@ -14,9 +14,14 @@ use crate::{
 /// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
-pub(crate) fn precompress_optimizer(options: &CompressOptions, marks: Marks) -> impl '_ + VisitMut {
+pub(crate) fn precompress_optimizer<'a>(
+    module_info: &'a ModuleInfo,
+    options: &'a CompressOptions,
+    marks: Marks,
+) -> impl 'a + VisitMut {
     PrecompressOptimizer {
         options,
+        module_info,
         marks,
         data: Default::default(),
         ctx: Default::default(),
@@ -26,6 +31,8 @@ pub(crate) fn precompress_optimizer(options: &CompressOptions, marks: Marks) -> 
 #[derive(Debug)]
 pub(crate) struct PrecompressOptimizer<'a> {
     options: &'a CompressOptions,
+    module_info: &'a ModuleInfo,
+
     marks: Marks,
 
     data: Option<ProgramData>,
@@ -57,10 +64,11 @@ impl PrecompressOptimizer<'_> {
             );
 
             if has_decl {
-                let data = Some(analyze(&*stmts, Some(self.marks)));
+                let data = Some(analyze(&*stmts, self.module_info, Some(self.marks)));
 
                 stmts.visit_mut_children_with(&mut PrecompressOptimizer {
                     options: self.options,
+                    module_info: self.module_info,
                     marks: self.marks,
                     data,
                     ctx: self.ctx,
@@ -70,6 +78,7 @@ impl PrecompressOptimizer<'_> {
             stmts.iter_mut().for_each(|stmt| {
                 stmt.visit_mut_with(&mut PrecompressOptimizer {
                     options: self.options,
+                    module_info: self.module_info,
                     marks: self.marks,
                     data: None,
                     ctx: self.ctx,

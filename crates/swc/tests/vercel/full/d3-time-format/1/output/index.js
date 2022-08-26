@@ -34,13 +34,13 @@ export default function s(e) {
         };
     }, c = function(n, e) {
         return function(u) {
-            var c, f, l = _(1900, void 0, 1);
-            if (o(l, n, u += "", 0) != u.length) return null;
+            var c, f, l = _(1900, void 0, 1), s = o(l, n, u += "", 0);
+            if (s != u.length) return null;
             if ("Q" in l) return new Date(l.Q);
             if ("s" in l) return new Date(1000 * l.s + ("L" in l ? l.L : 0));
             if (!e || "Z" in l || (l.Z = 0), "p" in l && (l.H = l.H % 12 + 12 * l.p), void 0 === l.m && (l.m = "q" in l ? l.q : 0), "V" in l) {
                 if (l.V < 1 || l.V > 53) return null;
-                "w" in l || (l.w = 1), "Z" in l ? (c = (f = (c = g(_(l.y, 0, 1))).getUTCDay()) > 4 || 0 === f ? $.ceil(c) : $(c), c = i.offset(c, (l.V - 1) * 7), l.y = c.getUTCFullYear(), l.m = c.getUTCMonth(), l.d = c.getUTCDate() + (l.w + 6) % 7) : (c = (f = (c = a(_(l.y, 0, 1))).getDay()) > 4 || 0 === f ? r.ceil(c) : r(c), c = t.offset(c, (l.V - 1) * 7), l.y = c.getFullYear(), l.m = c.getMonth(), l.d = c.getDate() + (l.w + 6) % 7);
+                "w" in l || (l.w = 1), "Z" in l ? (c = g(_(l.y, 0, 1)), c = (f = c.getUTCDay()) > 4 || 0 === f ? $.ceil(c) : $(c), c = i.offset(c, (l.V - 1) * 7), l.y = c.getUTCFullYear(), l.m = c.getUTCMonth(), l.d = c.getUTCDate() + (l.w + 6) % 7) : (c = a(_(l.y, 0, 1)), c = (f = c.getDay()) > 4 || 0 === f ? r.ceil(c) : r(c), c = t.offset(c, (l.V - 1) * 7), l.y = c.getFullYear(), l.m = c.getMonth(), l.d = c.getDate() + (l.w + 6) % 7);
             } else ("W" in l || "U" in l) && ("w" in l || (l.w = "u" in l ? l.u % 7 : "W" in l ? 1 : 0), f = "Z" in l ? g(_(l.y, 0, 1)).getUTCDay() : a(_(l.y, 0, 1)).getDay(), l.m = 0, l.d = "W" in l ? (l.w + 6) % 7 + 7 * l.W - (f + 5) % 7 : l.w + 7 * l.U - (f + 6) % 7);
             return "Z" in l ? (l.H += l.Z / 100 | 0, l.M += l.Z % 100, g(l)) : a(l);
         };
@@ -48,7 +48,7 @@ export default function s(e) {
         for(var u, c, i = 0, o = t.length, $ = e.length; i < o;){
             if (r >= $) return -1;
             if (37 === (u = t.charCodeAt(i++))) {
-                if (!(c = nN[(u = t.charAt(i++)) in h ? t.charAt(i++) : u]) || (r = c(n, e, r)) < 0) return -1;
+                if (c = nN[(u = t.charAt(i++)) in h ? t.charAt(i++) : u], !c || (r = c(n, e, r)) < 0) return -1;
             } else if (u != e.charCodeAt(r++)) return -1;
         }
         return r;
@@ -378,14 +378,14 @@ function nu(n, t) {
     return U(n.getFullYear() % 100, t, 2);
 }
 function nc(n, t) {
-    return U((n = nn(n)).getFullYear() % 100, t, 2);
+    return n = nn(n), U(n.getFullYear() % 100, t, 2);
 }
 function ni(n, t) {
     return U(n.getFullYear() % 10000, t, 4);
 }
 function no(n, t) {
     var e = n.getDay();
-    return U((n = e >= 4 || 0 === e ? u(n) : u.ceil(n)).getFullYear() % 10000, t, 4);
+    return n = e >= 4 || 0 === e ? u(n) : u.ceil(n), U(n.getFullYear() % 10000, t, 4);
 }
 function n$(n) {
     var t = n.getTimezoneOffset();
@@ -442,14 +442,14 @@ function nx(n, t) {
     return U(n.getUTCFullYear() % 100, t, 2);
 }
 function nw(n, t) {
-    return U((n = nU(n)).getUTCFullYear() % 100, t, 2);
+    return n = nU(n), U(n.getUTCFullYear() % 100, t, 2);
 }
 function nM(n, t) {
     return U(n.getUTCFullYear() % 10000, t, 4);
 }
 function nD(n, t) {
     var e = n.getUTCDay();
-    return U((n = e >= 4 || 0 === e ? f(n) : f.ceil(n)).getUTCFullYear() % 10000, t, 4);
+    return n = e >= 4 || 0 === e ? f(n) : f.ceil(n), U(n.getUTCFullYear() % 10000, t, 4);
 }
 function np() {
     return "+0000";

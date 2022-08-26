@@ -31,7 +31,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(_param) {
-                var sizerSvgUrl, _obj, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyRoot = _param.lazyRoot, lazyRoot = void 0 === _lazyRoot ? null : _lazyRoot, lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, style = _param.style, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = _object_without_properties_loose(_param, [
+                var sizerSvgUrl, _obj, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyRoot = _param.lazyRoot, lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, style = _param.style, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = _object_without_properties_loose(_param, [
                     "src",
                     "sizes",
                     "unoptimized",
@@ -87,7 +87,7 @@
                 var isLazy = !priority && ("lazy" === loading || void 0 === loading);
                 (src.startsWith("data:") || src.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
                 var ref = _slicedToArray(_react.useState(!1), 2), blurComplete = ref[0], setBlurComplete = ref[1], ref1 = _slicedToArray(_useIntersection.useIntersection({
-                    rootRef: lazyRoot,
+                    rootRef: void 0 === _lazyRoot ? null : _lazyRoot,
                     rootMargin: lazyBoundary || "200px",
                     disabled: !isLazy
                 }), 3), setIntersection = ref1[0], isIntersected = ref1[1], resetIntersected = ref1[2], isVisible = !isLazy || isIntersected, wrapperStyle = {
@@ -340,18 +340,20 @@
                             kind: "w"
                         };
                     }
-                    return "number" != typeof width || "fill" === layout || "responsive" === layout ? {
+                    if ("number" != typeof width || "fill" === layout || "responsive" === layout) return {
                         widths: deviceSizes,
                         kind: "w"
-                    } : {
-                        widths: _toConsumableArray(new Set([
-                            width,
-                            2 * width
-                        ].map(function(w) {
-                            return allSizes.find(function(p) {
-                                return p >= w;
-                            }) || allSizes[allSizes.length - 1];
-                        }))),
+                    };
+                    var widths = _toConsumableArray(new Set([
+                        width,
+                        2 * width
+                    ].map(function(w) {
+                        return allSizes.find(function(p) {
+                            return p >= w;
+                        }) || allSizes[allSizes.length - 1];
+                    })));
+                    return {
+                        widths: widths,
                         kind: "x"
                     };
                 }(config, width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
@@ -527,15 +529,15 @@
                     return obj.root === id.root && obj.margin === id.margin;
                 });
                 if (existing && (instance = observers.get(existing))) return instance;
-                var elements = new Map(), observer = new IntersectionObserver(function(entries) {
-                    entries.forEach(function(entry) {
-                        var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
-                        callback && isVisible && callback(isVisible);
-                    });
-                }, options);
+                var elements = new Map();
                 return instance = {
                     id: id,
-                    observer: observer,
+                    observer: new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+                            callback && isVisible && callback(isVisible);
+                        });
+                    }, options),
                     elements: elements
                 }, idList.push(id), observers.set(id, instance), instance;
             }

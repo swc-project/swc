@@ -973,7 +973,12 @@ where
                     //
                     let ids_used_by_a_init = match a {
                         Mergable::Var(a) => a.init.as_ref().map(|init| {
-                            collect_infects_from(init, AliasConfig { marks: self.marks })
+                            collect_infects_from(
+                                init,
+                                AliasConfig {
+                                    marks: Some(self.marks),
+                                },
+                            )
                         }),
                         Mergable::Expr(a) => match a {
                             Expr::Assign(AssignExpr {
@@ -985,7 +990,9 @@ where
                                 if left.as_ident().is_some() {
                                     Some(collect_infects_from(
                                         right,
-                                        AliasConfig { marks: self.marks },
+                                        AliasConfig {
+                                            marks: Some(self.marks),
+                                        },
                                     ))
                                 } else {
                                     None
@@ -997,7 +1004,9 @@ where
                     };
 
                     if let Some(ids_used_by_a_init) = ids_used_by_a_init {
-                        let deps = self.data.expand_infected(ids_used_by_a_init, 64);
+                        let deps =
+                            self.data
+                                .expand_infected(self.module_info, ids_used_by_a_init, 64);
 
                         let deps = match deps {
                             Ok(v) => v,
@@ -1079,6 +1088,10 @@ where
                             }
                         }
                     }
+                }
+
+                if !self.is_skippable_for_seq(a, &Expr::Ident(left_id.clone())) {
+                    return false;
                 }
 
                 if let Expr::Lit(..) = &*e.right {
@@ -1883,6 +1896,11 @@ where
             // rand should not be inlined because of `index`.
 
             let deps = idents_used_by_ignoring_nested(&*a_right);
+            let deps = self.data.expand_infected(self.module_info, deps, 64);
+            let deps = match deps {
+                Ok(v) => v,
+                Err(_) => return Ok(false),
+            };
 
             let used_by_b = idents_used_by(&*b);
 

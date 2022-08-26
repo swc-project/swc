@@ -5,5 +5,15 @@ var C = function C() {
 }, D = function D() {
     "use strict";
     _class_call_check(this, D);
-};
-new C(), new C(), new C(), new D();
+}, unionTuple = [
+    new C(),
+    "foo"
+], unionTuple1 = [
+    new C(),
+    "foo"
+], unionTuple2 = [
+    new C(),
+    "foo",
+    new D()
+];
+unionTuple = unionTuple1, unionTuple = unionTuple2, unionTuple2 = unionTuple;

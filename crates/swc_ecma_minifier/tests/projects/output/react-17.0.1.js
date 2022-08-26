@@ -294,7 +294,7 @@
                 return 1;
             }
             var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
-            if (Array.isArray(children)) for(var i = 0; i < children.length; i++)nextName = nextNamePrefix + getElementKey(child = children[i], i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
+            if (Array.isArray(children)) for(var i = 0; i < children.length; i++)child = children[i], nextName = nextNamePrefix + getElementKey(child, i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
             else {
                 var iteratorFn = getIteratorFn(children);
                 if ("function" == typeof iteratorFn) {

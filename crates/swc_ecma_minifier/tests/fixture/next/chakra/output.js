@@ -201,11 +201,11 @@
             }, EnvironmentContext = (0, react.createContext)(defaultEnv);
             function EnvironmentProvider(props) {
                 var children = props.children, environmentProp = props.environment, _useState = (0, react.useState)(null), node = _useState[0], setNode = _useState[1], context = (0, react.useMemo)(function() {
-                    var _ref, doc = null == node ? void 0 : node.ownerDocument, win = null == node ? void 0 : node.ownerDocument.defaultView;
-                    return null != (_ref = null != environmentProp ? environmentProp : doc ? {
+                    var _ref, doc = null == node ? void 0 : node.ownerDocument, win = null == node ? void 0 : node.ownerDocument.defaultView, env = null != (_ref = null != environmentProp ? environmentProp : doc ? {
                         document: doc,
                         window: win
                     } : void 0) ? _ref : defaultEnv;
+                    return env;
                 }, [
                     node,
                     environmentProp
@@ -561,16 +561,16 @@
             var module_TinyColor = function() {
                 function TinyColor(color, opts) {
                     if (void 0 === color && (color = ""), void 0 === opts && (opts = {}), color instanceof TinyColor) return color;
-                    "number" == typeof color && (color = {
-                        r: (color1 = color) >> 16,
+                    "number" == typeof color && (color = (color1 = color, {
+                        r: color1 >> 16,
                         g: (0xff00 & color1) >> 8,
                         b: 0xff & color1
-                    }), this.originalInput = color;
-                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (rgb = {
+                    })), this.originalInput = color;
+                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
                         r: 0,
                         g: 0,
                         b: 0
-                    }, a = 1, s1 = null, v1 = null, l = null, ok = !1, format = !1, "string" == typeof (color2 = color) && (color2 = function(color) {
+                    }, a = 1, s1 = null, v1 = null, l = null, ok = !1, format = !1, "string" == typeof color2 && (color2 = function(color) {
                         if (0 === (color = color.trim().toLowerCase()).length) return !1;
                         var named = !1;
                         if (names[color]) color = names[color], named = !0;
@@ -1207,8 +1207,8 @@
                     ]
                 }, 
             ], getColor = function(theme, color, fallback) {
-                var hex = (0, chakra_ui_utils_esm.Wf)(theme, "colors." + color, color);
-                return new module_TinyColor(hex).isValid ? hex : fallback;
+                var hex = (0, chakra_ui_utils_esm.Wf)(theme, "colors." + color, color), _TinyColor = new module_TinyColor(hex), isValid = _TinyColor.isValid;
+                return isValid ? hex : fallback;
             }, transparentize = function(color, opacity) {
                 return function(theme) {
                     var raw = getColor(theme, color);
@@ -1293,25 +1293,27 @@
                     {
                         key: "selectors",
                         get: function() {
-                            return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref) {
+                            var value = (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref) {
                                 var key = _ref[0], part = _ref[1];
                                 return [
                                     key,
                                     part.selector
                                 ];
                             }));
+                            return value;
                         }
                     },
                     {
                         key: "classNames",
                         get: function() {
-                            return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref2) {
+                            var value = (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref2) {
                                 var key = _ref2[0], part = _ref2[1];
                                 return [
                                     key,
                                     part.className
                                 ];
                             }));
+                            return value;
                         }
                     },
                     {
@@ -1401,7 +1403,7 @@
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
-                var value, prefix, value1, prefix1, name1, fallback, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, void 0 === (prefix1 = prefix) && (prefix1 = ""), [
+                var value, prefix, value1, prefix1, name1, fallback, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, prefix1 = prefix, void 0 === prefix1 && (prefix1 = ""), [
                     prefix1,
                     chakra_ui_theme_tools_esm_escape(value1)
                 ].filter(Boolean).join("-")));
@@ -1708,11 +1710,11 @@
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
-                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = (color = bg, function(theme) {
+                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors, list[Math.floor(Math.random() * list.length)]) : fallback) : "gray.400", isBgDark = (color = bg, function(theme) {
                     var color1;
                     return "dark" === (color1 = color, function(theme) {
-                        var hex = getColor(theme, color1);
-                        return new module_TinyColor(hex).isDark() ? "dark" : "light";
+                        var hex = getColor(theme, color1), isDark = new module_TinyColor(hex).isDark();
+                        return isDark ? "dark" : "light";
                     })(theme);
                 })(theme), color1 = "white";
                 isBgDark || (color1 = "gray.800");
@@ -2713,7 +2715,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleControl = function(props) {
-                var _Checkbox$baseStyle$c = Checkbox.baseStyle(props).control, control = void 0 === _Checkbox$baseStyle$c ? {} : _Checkbox$baseStyle$c;
+                var _Checkbox$baseStyle = Checkbox.baseStyle(props), _Checkbox$baseStyle$c = _Checkbox$baseStyle.control, control = void 0 === _Checkbox$baseStyle$c ? {} : _Checkbox$baseStyle$c;
                 return sizes_501602a9_esm_extends({}, control, {
                     borderRadius: "full",
                     _checked: sizes_501602a9_esm_extends({}, control._checked, {

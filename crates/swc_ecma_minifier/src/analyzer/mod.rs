@@ -3,9 +3,12 @@ use std::{collections::HashSet, hash::BuildHasherDefault};
 use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashSet, SyntaxContext};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    SyntaxContext,
+};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, find_pat_ids, ident::IdentLike, BindingCollector, IsEmpty};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -14,8 +17,9 @@ use self::{
     storage::{Storage, *},
 };
 use crate::{
+    alias::{collect_infects_from, AliasConfig},
     marks::Marks,
-    util::{can_end_conditionally, idents_used_by, IdentUsageCollector},
+    util::can_end_conditionally,
 };
 
 mod ctx;
@@ -26,7 +30,16 @@ struct TestSnapshot {
     vars: Vec<(Id, VarUsageInfo)>,
 }
 
-pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
+#[derive(Debug, Default)]
+pub(crate) struct ModuleInfo {
+    /// Imported identifiers which should be treated as a black box.
+    ///
+    /// Imports from `@swc/helpers` are excluded as helpers are not modified by
+    /// accessing/calling other modules.
+    pub blackbox_imports: AHashSet<Id>,
+}
+
+pub(crate) fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
@@ -96,7 +109,7 @@ pub(crate) struct VarUsageInfo {
 
     pub has_property_access: bool,
     pub has_property_mutation: bool,
-    pub accessed_props: AHashSet<JsWord>,
+    pub accessed_props: AHashMap<JsWord, usize>,
 
     pub exported: bool,
     /// True if used **above** the declaration. (Not eval order).
@@ -171,6 +184,7 @@ pub(crate) struct ProgramData {
 impl ProgramData {
     pub(crate) fn expand_infected(
         &self,
+        module_info: &ModuleInfo,
         ids: FxHashSet<Id>,
         max_num: usize,
     ) -> Result<FxHashSet<Id>, ()> {
@@ -184,6 +198,11 @@ impl ProgramData {
                 let range = ranges.remove(0);
                 for index in range {
                     let iid = ids.get(index).unwrap();
+
+                    // Abort on imported variables, because we can't analyze them
+                    if module_info.blackbox_imports.contains(iid) {
+                        return Err(());
+                    }
                     if !res.insert(iid.clone()) {
                         continue;
                     }
@@ -703,7 +722,7 @@ where
         self.used_recursively.remove(&id);
 
         {
-            for id in get_infects_of(&n.function) {
+            for id in collect_infects_from(&n.function, AliasConfig { marks: self.marks }) {
                 self.data
                     .var_or_default(n.ident.to_id())
                     .add_infects_to(id.clone());
@@ -721,7 +740,7 @@ where
                 .mark_declared_as_fn_expr();
 
             {
-                for id in get_infects_of(&n.function) {
+                for id in collect_infects_from(&n.function, AliasConfig { marks: self.marks }) {
                     self.data
                         .var_or_default(n_id.to_id())
                         .add_infects_to(id.to_id());
@@ -1081,12 +1100,11 @@ where
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                for id in get_infects_of(init) {
+                for id in collect_infects_from(init, AliasConfig { marks: self.marks }) {
                     self.data
-                        .var_or_default(id.clone())
-                        .add_infects_to(var.to_id());
-
-                    self.data.var_or_default(var.to_id()).add_infects_to(id);
+                        .var_or_default(var.to_id())
+                        .add_infects_to(id.clone());
+                    self.data.var_or_default(id).add_infects_to(var.to_id());
                 }
             }
         }
@@ -1180,24 +1198,12 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
     }
 }
 
-fn get_infects_of<N>(init: &N) -> impl 'static + Iterator<Item = Id>
-where
-    N: VisitWith<IdentUsageCollector> + VisitWith<BindingCollector<Id>>,
-{
-    let used_idents = idents_used_by(init);
-    let excluded: AHashSet<Id> = collect_decls(init);
-
-    used_idents
-        .into_iter()
-        .filter(move |id| !excluded.contains(id))
-}
-
 /// This is **NOT** a public api.
 #[doc(hidden)]
 pub fn dump_snapshot(program: &Module) -> String {
     let marks = Marks::new();
 
-    let data = analyze(program, Some(marks));
+    let data = analyze(program, &Default::default(), Some(marks));
 
     // Iteration order of hashmap is not deterministic
     let mut snapshot = TestSnapshot {
