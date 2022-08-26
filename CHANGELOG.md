@@ -5,6 +5,17 @@
 
 
 
+- **(es/compat)** Fix evaluation order of computed class keys (#5621) ([d18ee54](https://github.com/swc-project/swc/commit/d18ee54aef2476e27375da9b1a05396584eade02))
+
+
+- **(es/fixer)** Handle `async` in the left of `for of` (#5625) ([eb3b0e9](https://github.com/swc-project/swc/commit/eb3b0e96e5de2dadb8021e459d2915d68dfba708))
+
+## [1.2.244] - 2022-08-26
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Ignore invalid class method names (#5612) ([1181d0f](https://github.com/swc-project/swc/commit/1181d0ffe2b432a202398dfc99dcc89da7480b84))
 
 

@@ -22,7 +22,7 @@ use self::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
         ReturningMode, SuperCallFinder, SuperFoldingMode,
     },
-    prop_name::HashKey,
+    prop_name::{is_pure_prop_name, should_extract_class_prop_key, HashKey},
 };
 
 mod constructor;
@@ -37,6 +37,9 @@ where
         in_strict: false,
         comments,
         config,
+
+        params: Default::default(),
+        args: Default::default(),
     })
 }
 
@@ -73,7 +76,7 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, ahash::RandomState>;
 ///   return Test;
 /// }();
 /// ```
-#[derive(Default, Clone, Copy)]
+#[derive(Default, Clone)]
 struct Classes<C>
 where
     C: Comments,
@@ -81,6 +84,9 @@ where
     in_strict: bool,
     comments: Option<C>,
     config: Config,
+
+    params: Vec<Param>,
+    args: Vec<ExprOrSpread>,
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -409,7 +415,7 @@ where
             .as_ref()
             .map(|e| alias_if_required(e, "_superClass").0);
         let has_super = super_ident.is_some();
-        let (params, args, super_ident) = if let Some(ref super_ident) = super_ident {
+        let (mut params, mut args, super_ident) = if let Some(ref super_ident) = super_ident {
             // Param should have a separate syntax context from arg.
             let super_param = private_ident!(super_ident.sym.clone());
             let params = vec![Param {
@@ -443,6 +449,8 @@ where
         };
 
         let mut stmts = self.class_to_stmts(class_name, super_ident, class);
+        params.extend(self.params.take());
+        args.extend(self.args.take());
 
         let cnt_of_non_directive = stmts
             .iter()
@@ -991,11 +999,28 @@ where
 
         let (mut props, mut static_props) = (IndexMap::default(), IndexMap::default());
 
+        let should_extract = should_extract_class_prop_key(&methods);
+
         for mut m in methods {
             let key = HashKey::from(&m.key);
+            let key_is_pure = is_pure_prop_name(&m.key);
             let key_prop = Box::new(m.key.clone());
             let computed = matches!(m.key, PropName::Computed(..));
             let prop_name = prop_name_to_expr(m.key);
+
+            let key_prop = if should_extract && !key_is_pure {
+                let ident = private_ident!("_prop");
+
+                self.params.push(ident.clone().into());
+                self.args.push(prop_name.clone().into());
+
+                Box::new(PropName::Computed(ComputedPropName {
+                    span: DUMMY_SP,
+                    expr: Box::new(ident.into()),
+                }))
+            } else {
+                key_prop
+            };
 
             let append_to: &mut IndexMap<_, _> = if m.is_static {
                 &mut static_props

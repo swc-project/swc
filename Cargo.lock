@@ -3546,7 +3546,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.104.3"
+version = "0.104.4"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -3585,7 +3585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.127.0"
+version = "0.127.1"
 dependencies = [
  "ahash",
  "arrayvec",

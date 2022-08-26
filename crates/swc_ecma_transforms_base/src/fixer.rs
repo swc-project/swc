@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -460,6 +461,31 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
+
+        if s.await_token.is_none() {
+            if let VarDeclOrPat::Pat(Pat::Ident(BindingIdent {
+                id:
+                    id @ Ident {
+                        sym: js_word!("async"),
+                        ..
+                    },
+                ..
+            })) = &mut s.left
+            {
+                let expr = Expr::Ident(id.take());
+                s.left = VarDeclOrPat::Pat(Pat::Expr(Box::new(expr)));
+            }
+
+            if let VarDeclOrPat::Pat(Pat::Expr(expr)) = &mut s.left {
+                if let Expr::Ident(Ident {
+                    sym: js_word!("async"),
+                    ..
+                }) = &**expr
+                {
+                    self.wrap(&mut *expr);
+                }
+            }
+        }
 
         if let Expr::Seq(..) | Expr::Await(..) = &*s.right {
             self.wrap(&mut s.right)
