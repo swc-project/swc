@@ -190,6 +190,8 @@ pub trait StmtOrModuleItem: Send + Sync {
     fn into_stmt(self) -> Result<Stmt, ModuleDecl>;
 
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl>;
+
+    fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl>;
 }
 
 impl StmtOrModuleItem for Stmt {
