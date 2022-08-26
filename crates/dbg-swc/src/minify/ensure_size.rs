@@ -1,5 +1,7 @@
 use std::{
+    io::Write,
     path::{Path, PathBuf},
+    process::{Command, Stdio},
     sync::Arc,
 };
 
@@ -132,6 +134,7 @@ impl EnsureSize {
                 swc: MinifierOutput {
                     mangled_size: code_mangled.len(),
                     no_mangle_size: swc_no_mangle.len(),
+                    gzipped_size: gzipped_size(&code_mangled),
                 },
                 terser: Default::default(),
                 esbuild: Default::default(),
@@ -144,6 +147,7 @@ impl EnsureSize {
                 file_size.terser = Some(MinifierOutput {
                     mangled_size: terser_mangled.len(),
                     no_mangle_size: terser_no_mangle.len(),
+                    gzipped_size: gzipped_size(&terser_mangled),
                 });
             }
 
@@ -154,6 +158,7 @@ impl EnsureSize {
                 file_size.esbuild = Some(MinifierOutput {
                     mangled_size: esbuild_mangled.len(),
                     no_mangle_size: esbuild_no_mangle.len(),
+                    gzipped_size: gzipped_size(&esbuild_mangled),
                 });
             }
 
@@ -165,6 +170,27 @@ impl EnsureSize {
         })
         .with_context(|| format!("failed to check file: {}", js_file.display()))
     }
+}
+
+fn gzipped_size(code: &str) -> usize {
+    let mut c = Command::new("gzip");
+    c.stdin(Stdio::piped());
+    c.arg("-c").stdout(Stdio::piped());
+
+    let mut child = c.spawn().unwrap();
+    child
+        .stdin
+        .as_mut()
+        .unwrap()
+        .write_all(code.as_bytes())
+        .unwrap();
+
+    let output = child.wait_with_output().expect("failed to wait");
+
+    if !output.status.success() {
+        panic!("gzip failed");
+    }
+    output.stdout.len()
 }
 
 #[allow(unused)]
