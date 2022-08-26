@@ -22,7 +22,6 @@ pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     }))
 }
 
-#[deprecated = "Use StmtOrModuleItem instead"]
 pub trait ModuleItemExt:
     StmtLike + ModuleItemLike + From<Stmt> + Spanned + std::fmt::Debug
 {
