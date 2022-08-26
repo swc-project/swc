@@ -18,6 +18,7 @@
         "webpack",
         "tsc"
     ],
+    "packageManager": "yarn@3.2.2",
     "engines": {
         "node": ">=10"
     },
@@ -96,7 +97,6 @@
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
         "@napi-rs/cli": "^2.10.0",
-        "@swc/core": "^1.2.220",
         "@swc/helpers": "^0.4.2",
         "@taplo/cli": "^0.3.2",
         "@types/jest": "^28.1.4",

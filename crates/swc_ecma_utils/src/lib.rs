@@ -808,6 +808,17 @@ pub trait ExprExt {
                 Unknown
             }
 
+            Expr::Bin(BinExpr {
+                left,
+                right,
+                op: op @ op!("===") | op @ op!("!=="),
+                ..
+            }) if matches!(&**left, Expr::Object(..) | Expr::Array(..))
+                || matches!(&**right, Expr::Object(..) | Expr::Array(..)) =>
+            {
+                Known(*op == op!("!=="))
+            }
+
             Expr::Fn(..) | Expr::Class(..) | Expr::New(..) | Expr::Array(..) | Expr::Object(..) => {
                 Known(true)
             }
