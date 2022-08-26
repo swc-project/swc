@@ -281,7 +281,6 @@ harmony/classes_extending_classes_out_of_pure_iifes/input.js
 harmony/default_assign/input.js
 harmony/expansion/input.js
 harmony/fat_arrow_as_param/input.js
-harmony/import_statement_mangling/input.js
 harmony/inline_arrow_using_arguments/input.js
 harmony/issue_1753_disable/input.js
 harmony/issue_1898/input.js
@@ -325,7 +324,6 @@ ie8/dont_screw_try_catch/input.js
 ie8/dont_screw_try_catch_undefined/input.js
 ie8/issue_1586_1/input.js
 ie8/issue_2120_1/input.js
-ie8/issue_2254_1/input.js
 ie8/reduce_vars/input.js
 if_return/if_return_same_value/input.js
 if_return/if_var_return/input.js
@@ -352,7 +350,6 @@ issue_1105/check_drop_unused_in_peer_function/input.js
 issue_1105/compress_with_with_in_other_scope/input.js
 issue_1105/with_in_function_scope/input.js
 issue_1105/with_using_existing_variable_outside_scope/input.js
-issue_1202/mangle_keep_fnames_false/input.js
 issue_1261/pure_function_calls/input.js
 issue_1261/pure_function_calls_toplevel/input.js
 issue_1321/issue_1321_debug/input.js
@@ -374,7 +371,6 @@ issue_1466/same_variable_in_multiple_forOf_sequences_const/input.js
 issue_1466/same_variable_in_multiple_forOf_sequences_let/input.js
 issue_1466/same_variable_in_multiple_for_loop/input.js
 issue_1569/inner_reference/input.js
-issue_1588/screw_ie8/input.js
 issue_1588/unsafe_undefined/input.js
 issue_1639/issue_1639_1/input.js
 issue_1639/issue_1639_2/input.js
@@ -431,7 +427,6 @@ issue_t120/issue_t120_5/input.js
 issue_t120/pr_152_regression/input.js
 issue_t292/no_flatten_with_arg_colliding_with_arg_value_inner_scope/input.js
 issue_t292/no_flatten_with_var_colliding_with_arg_value_inner_scope/input.js
-keep_names/drop_fnames/input.js
 keep_names/keep_some_classnames/input.js
 keep_names/keep_some_fnames/input.js
 keep_names/keep_some_fnames_reduce/input.js
