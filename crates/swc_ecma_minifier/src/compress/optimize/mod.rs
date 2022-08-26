@@ -26,7 +26,7 @@ use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    analyzer::{ProgramData, UsageAnalyzer},
+    analyzer::{ModuleInfo, ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
     debug::AssertValid,
     marks::Marks,
@@ -62,6 +62,7 @@ mod util;
 pub(super) fn optimizer<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
+    module_info: &'a ModuleInfo,
     data: &'a mut ProgramData,
     mode: &'a M,
     debug_infinite_loop: bool,
@@ -82,6 +83,7 @@ where
         },
         changed: false,
         options,
+        module_info,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         vars: Default::default(),
@@ -200,6 +202,7 @@ struct Optimizer<'a, M> {
 
     changed: bool,
     options: &'a CompressOptions,
+    module_info: &'a ModuleInfo,
 
     /// Statements prepended to the current statement.
     prepend_stmts: SynthesizedStmts,

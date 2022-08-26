@@ -1,20 +1,20 @@
 function o() {
     console.log("should be dropped");
 }
-function n() {
+function d() {
     console.log("should be dropped");
 }
-function i() {
+function e() {
+    console.log("should be dropped");
+}
+function p() {
     console.log("should be dropped");
 }
 function u() {
     console.log("should be dropped");
 }
-function t() {
-    console.log("should be dropped");
-}
-function f() {
+function l() {
     console.log("should be kept");
 }
 export { add, div as divide, sub as minus, mul } from "path";
-export { f as keep };
+export { l as keep };

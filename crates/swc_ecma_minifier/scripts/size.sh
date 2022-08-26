@@ -4,6 +4,5 @@ set -eu
 export UPDATE=1
 export DIFF=0
 export RUST_LOG=off
-cargo test --test compress --features concurrent full_libs || true
 
-for f in ./tests/lib-output/*.js; do echo "$f:" && gzip -9 -c $f | wc -c; done
+for f in ./benches/full/*.js; do RUST_LOG=off cargo run --example minifier -- $f && gzip -c output.js | wc -c; done

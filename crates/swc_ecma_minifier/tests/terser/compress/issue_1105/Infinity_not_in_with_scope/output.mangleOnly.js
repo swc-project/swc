@@ -1,5 +1,5 @@
-var a = {
+var i = {
     Infinity: "oInfinity"
 };
-var i = "Infinity";
-i = Infinity;
+var n = "Infinity";
+n = Infinity;

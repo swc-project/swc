@@ -11,7 +11,7 @@ function r(r) {
     function e(r) {
         return 7 - r;
     }
-    function f() {}
+    function i() {}
     return t || u;
 }
 console.log(r(0), r(1));

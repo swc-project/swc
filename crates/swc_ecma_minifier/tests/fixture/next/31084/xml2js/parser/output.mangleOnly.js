@@ -1,61 +1,61 @@
 (function() {
     "use strict";
-    var t, r, s, e, i, n, o, a, h = function(t, r) {
+    var t, r, e, s, i, n, o, a, h = function(t, r) {
         return function() {
             return t.apply(r, arguments);
         };
     }, p = function(t, r) {
-        for(var s in r){
-            if (u.call(r, s)) t[s] = r[s];
+        for(var e in r){
+            if (u.call(r, e)) t[e] = r[e];
         }
-        function e() {
+        function s() {
             this.constructor = t;
         }
-        e.prototype = r.prototype;
-        t.prototype = new e();
+        s.prototype = r.prototype;
+        t.prototype = new s();
         t.__super__ = r.prototype;
         return t;
     }, u = {}.hasOwnProperty;
     o = require("sax");
-    s = require("events");
+    e = require("events");
     t = require("./bom");
     n = require("./processors");
     a = require("timers").setImmediate;
     r = require("./defaults").defaults;
-    e = function(t) {
+    s = function(t) {
         return (typeof t === "object" && t != null && Object.keys(t).length === 0);
     };
-    i = function(t, r, s) {
-        var e, i, n;
-        for(e = 0, i = t.length; e < i; e++){
-            n = t[e];
-            r = n(r, s);
+    i = function(t, r, e) {
+        var s, i, n;
+        for(s = 0, i = t.length; s < i; s++){
+            n = t[s];
+            r = n(r, e);
         }
         return r;
     };
-    exports.Parser = (function(s) {
-        p(c, s);
+    exports.Parser = (function(e) {
+        p(c, e);
         function c(t) {
             this.parseStringPromise = h(this.parseStringPromise, this);
             this.parseString = h(this.parseString, this);
             this.reset = h(this.reset, this);
             this.assignOrPush = h(this.assignOrPush, this);
             this.processAsync = h(this.processAsync, this);
-            var s, e, i;
+            var e, s, i;
             if (!(this instanceof exports.Parser)) {
                 return new exports.Parser(t);
             }
             this.options = {};
-            e = r["0.2"];
-            for(s in e){
-                if (!u.call(e, s)) continue;
-                i = e[s];
-                this.options[s] = i;
+            s = r["0.2"];
+            for(e in s){
+                if (!u.call(s, e)) continue;
+                i = s[e];
+                this.options[e] = i;
             }
-            for(s in t){
-                if (!u.call(t, s)) continue;
-                i = t[s];
-                this.options[s] = i;
+            for(e in t){
+                if (!u.call(t, e)) continue;
+                i = t[e];
+                this.options[e] = i;
             }
             if (this.options.xmlns) {
                 this.options.xmlnskey = this.options.attrkey + "ns";
@@ -82,21 +82,21 @@
                     this.saxParser = this.saxParser.write(t);
                     return a(this.processAsync);
                 }
-            } catch (s) {
-                r = s;
+            } catch (e) {
+                r = e;
                 if (!this.saxParser.errThrown) {
                     this.saxParser.errThrown = true;
                     return this.emit(r);
                 }
             }
         };
-        c.prototype.assignOrPush = function(t, r, s) {
+        c.prototype.assignOrPush = function(t, r, e) {
             if (!(r in t)) {
                 if (!this.options.explicitArray) {
-                    return (t[r] = s);
+                    return (t[r] = e);
                 } else {
                     return (t[r] = [
-                        s
+                        e
                     ]);
                 }
             } else {
@@ -105,11 +105,11 @@
                         t[r]
                     ];
                 }
-                return t[r].push(s);
+                return t[r].push(e);
             }
         };
         c.prototype.reset = function() {
-            var t, r, s, n;
+            var t, r, e, n;
             this.removeAllListeners();
             this.saxParser = o.parser(this.options.strict, {
                 trim: false,
@@ -140,32 +140,32 @@
             n = [];
             t = this.options.attrkey;
             r = this.options.charkey;
-            this.saxParser.onopentag = (function(s) {
-                return function(e) {
+            this.saxParser.onopentag = (function(e) {
+                return function(s) {
                     var o, a, h, p, c;
                     h = {};
                     h[r] = "";
-                    if (!s.options.ignoreAttrs) {
-                        c = e.attributes;
+                    if (!e.options.ignoreAttrs) {
+                        c = s.attributes;
                         for(o in c){
                             if (!u.call(c, o)) continue;
-                            if (!(t in h) && !s.options.mergeAttrs) {
+                            if (!(t in h) && !e.options.mergeAttrs) {
                                 h[t] = {};
                             }
-                            a = s.options.attrValueProcessors ? i(s.options.attrValueProcessors, e.attributes[o], o) : e.attributes[o];
-                            p = s.options.attrNameProcessors ? i(s.options.attrNameProcessors, o) : o;
-                            if (s.options.mergeAttrs) {
-                                s.assignOrPush(h, p, a);
+                            a = e.options.attrValueProcessors ? i(e.options.attrValueProcessors, s.attributes[o], o) : s.attributes[o];
+                            p = e.options.attrNameProcessors ? i(e.options.attrNameProcessors, o) : o;
+                            if (e.options.mergeAttrs) {
+                                e.assignOrPush(h, p, a);
                             } else {
                                 h[t][p] = a;
                             }
                         }
                     }
-                    h["#name"] = s.options.tagNameProcessors ? i(s.options.tagNameProcessors, e.name) : e.name;
-                    if (s.options.xmlns) {
-                        h[s.options.xmlnskey] = {
-                            uri: e.uri,
-                            local: e.local
+                    h["#name"] = e.options.tagNameProcessors ? i(e.options.tagNameProcessors, s.name) : s.name;
+                    if (e.options.xmlns) {
+                        h[e.options.xmlnskey] = {
+                            uri: s.uri,
+                            local: s.local
                         };
                     }
                     return n.push(h);
@@ -173,18 +173,18 @@
             })(this);
             this.saxParser.onclosetag = (function(t) {
                 return function() {
-                    var s, o, a, h, p, c, l, f, m, P;
+                    var e, o, a, h, p, c, l, f, m, P;
                     c = n.pop();
                     p = c["#name"];
                     if (!t.options.explicitChildren || !t.options.preserveChildrenOrder) {
                         delete c["#name"];
                     }
                     if (c.cdata === true) {
-                        s = c.cdata;
+                        e = c.cdata;
                         delete c.cdata;
                     }
                     m = n[n.length - 1];
-                    if (c[r].match(/^\s*$/) && !s) {
+                    if (c[r].match(/^\s*$/) && !e) {
                         o = c[r];
                         delete c[r];
                     } else {
@@ -199,25 +199,25 @@
                             c = c[r];
                         }
                     }
-                    if (e(c)) {
+                    if (s(c)) {
                         c = t.options.emptyTag !== "" ? t.options.emptyTag : o;
                     }
                     if (t.options.validator != null) {
                         P = "/" + (function() {
-                            var t, r, s;
-                            s = [];
+                            var t, r, e;
+                            e = [];
                             for(t = 0, r = n.length; t < r; t++){
                                 h = n[t];
-                                s.push(h["#name"]);
+                                e.push(h["#name"]);
                             }
-                            return s;
+                            return e;
                         })().concat(p).join("/");
                         (function() {
                             var r;
                             try {
                                 return (c = t.options.validator(P, m && m[p], c));
-                            } catch (s) {
-                                r = s;
+                            } catch (e) {
+                                r = e;
                                 return t.emit("error", r);
                             }
                         })();
@@ -265,48 +265,48 @@
                     }
                 };
             })(this);
-            s = (function(t) {
-                return function(s) {
-                    var e, i;
+            e = (function(t) {
+                return function(e) {
+                    var s, i;
                     i = n[n.length - 1];
                     if (i) {
-                        i[r] += s;
-                        if (t.options.explicitChildren && t.options.preserveChildrenOrder && t.options.charsAsChildren && (t.options.includeWhiteChars || s.replace(/\\n/g, "").trim() !== "")) {
+                        i[r] += e;
+                        if (t.options.explicitChildren && t.options.preserveChildrenOrder && t.options.charsAsChildren && (t.options.includeWhiteChars || e.replace(/\\n/g, "").trim() !== "")) {
                             i[t.options.childkey] = i[t.options.childkey] || [];
-                            e = {
+                            s = {
                                 "#name": "__text__"
                             };
-                            e[r] = s;
+                            s[r] = e;
                             if (t.options.normalize) {
-                                e[r] = e[r].replace(/\s{2,}/g, " ").trim();
+                                s[r] = s[r].replace(/\s{2,}/g, " ").trim();
                             }
-                            i[t.options.childkey].push(e);
+                            i[t.options.childkey].push(s);
                         }
                         return i;
                     }
                 };
             })(this);
-            this.saxParser.ontext = s;
+            this.saxParser.ontext = e;
             return (this.saxParser.oncdata = (function(t) {
                 return function(t) {
                     var r;
-                    r = s(t);
+                    r = e(t);
                     if (r) {
                         return (r.cdata = true);
                     }
                 };
             })(this));
         };
-        c.prototype.parseString = function(r, s) {
-            var e;
-            if (s != null && typeof s === "function") {
+        c.prototype.parseString = function(r, e) {
+            var s;
+            if (e != null && typeof e === "function") {
                 this.on("end", function(t) {
                     this.reset();
-                    return s(null, t);
+                    return e(null, t);
                 });
                 this.on("error", function(t) {
                     this.reset();
-                    return s(t);
+                    return e(t);
                 });
             }
             try {
@@ -323,54 +323,54 @@
                 }
                 return this.saxParser.write(r).close();
             } catch (i) {
-                e = i;
+                s = i;
                 if (!(this.saxParser.errThrown || this.saxParser.ended)) {
-                    this.emit("error", e);
+                    this.emit("error", s);
                     return (this.saxParser.errThrown = true);
                 } else if (this.saxParser.ended) {
-                    throw e;
+                    throw s;
                 }
             }
         };
         c.prototype.parseStringPromise = function(t) {
             return new Promise((function(r) {
-                return function(s, e) {
+                return function(e, s) {
                     return r.parseString(t, function(t, r) {
                         if (t) {
-                            return e(t);
+                            return s(t);
                         } else {
-                            return s(r);
+                            return e(r);
                         }
                     });
                 };
             })(this));
         };
         return c;
-    })(s);
-    exports.parseString = function(t, r, s) {
-        var e, i, n;
-        if (s != null) {
-            if (typeof s === "function") {
-                e = s;
+    })(e);
+    exports.parseString = function(t, r, e) {
+        var s, i, n;
+        if (e != null) {
+            if (typeof e === "function") {
+                s = e;
             }
             if (typeof r === "object") {
                 i = r;
             }
         } else {
             if (typeof r === "function") {
-                e = r;
+                s = r;
             }
             i = {};
         }
         n = new exports.Parser(i);
-        return n.parseString(t, e);
+        return n.parseString(t, s);
     };
     exports.parseStringPromise = function(t, r) {
-        var s, e;
+        var e, s;
         if (typeof r === "object") {
-            s = r;
+            e = r;
         }
-        e = new exports.Parser(s);
-        return e.parseStringPromise(t);
+        s = new exports.Parser(e);
+        return s.parseStringPromise(t);
     };
 }.call(this));

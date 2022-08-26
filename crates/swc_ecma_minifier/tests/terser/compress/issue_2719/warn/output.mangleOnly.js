@@ -1,7 +1,7 @@
 function n() {
-    return t();
+    return r();
 }
-function t() {
-    return t["call" + "er"].arguments;
+function r() {
+    return r["call" + "er"].arguments;
 }
 console.log(n(1, 2, 3).length);

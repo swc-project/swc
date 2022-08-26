@@ -1,10 +1,10 @@
-console.log((function(r) {
-    var t, o, e, n, i;
-    n = r.trim().split(" ");
-    i = [];
-    for(o = 0, e = n.length; o < e; o++){
-        t = n[o];
-        i.push(t.toLowerCase());
+console.log((function(t) {
+    var r, e, o, n, s;
+    n = t.trim().split(" ");
+    s = [];
+    for(e = 0, o = n.length; e < o; e++){
+        r = n[e];
+        s.push(r.toLowerCase());
     }
-    return i;
+    return s;
 })("test"));

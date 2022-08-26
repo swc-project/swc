@@ -9,11 +9,11 @@ export const exported = {
                     a = Object.toQueryString(r, n);
                     break;
                 case "array":
-                    var i = {};
+                    var o = {};
                     r.each(function(r, t) {
-                        i[t] = r;
+                        o[t] = r;
                     });
-                    a = Object.toQueryString(i, n);
+                    a = Object.toQueryString(o, n);
                     break;
                 default:
                     a = n + "=" + encodeURIComponent(r);

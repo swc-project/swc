@@ -1,7 +1,7 @@
-var n = [
+var o = [
     null
 ].join();
-var l = [
+var n = [
     , 
 ].join();
 var a = [
@@ -10,20 +10,20 @@ var a = [
     ,
     3
 ].join();
-var i = [
+var l = [
     foo
 ].join();
-var j = [
+var r = [
     foo,
     null,
     undefined,
     bar
 ].join("-");
-var o = [
+var i = [
     foo,
     bar
 ].join("");
-var r = [
+var j = [
     null,
     "foo",
     null,
@@ -40,15 +40,15 @@ var u = [
     null,
     baz + "moo"
 ].join("");
-var _ = [
+var b = [
     foo + "bar",
     baz
 ].join("");
-var b = [
+var f = [
     foo,
     "bar" + baz
 ].join("");
-var c = [
+var z = [
     foo,
     bar + "baz"
 ].join("");

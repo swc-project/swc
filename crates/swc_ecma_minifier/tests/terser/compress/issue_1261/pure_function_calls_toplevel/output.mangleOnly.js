@@ -13,7 +13,7 @@ var n = (function() {
         return n;
     })();
 })();
-var o = (function() {
+var i = (function() {
     function n() {}
     n.prototype.method = function() {};
     return n;

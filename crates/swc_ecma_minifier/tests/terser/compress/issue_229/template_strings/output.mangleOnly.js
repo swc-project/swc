@@ -1,5 +1,5 @@
-var a = {};
-var l = {
-    ...a
+var l = {};
+var r = {
+    ...l
 };
-l.hello = "world";
+r.hello = "world";

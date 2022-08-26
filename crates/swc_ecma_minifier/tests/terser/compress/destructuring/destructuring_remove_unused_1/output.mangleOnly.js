@@ -24,7 +24,7 @@ function v() {
     var [[v]] = r;
     f(v);
 }
-function n() {
+function o() {
     var a = "foo";
     var r = {
         b: {
@@ -34,7 +34,7 @@ function n() {
     var { b: { b: v  } ,  } = r;
     f(v);
 }
-function _() {
+function n() {
     var a = "foo";
     var r = [
         1,
@@ -50,11 +50,11 @@ function _() {
             3
         ]
     ];
-    var n = {
+    var o = {
         h: 1
     };
-    var [_, ...b] = r;
-    var [...[c, i]] = v;
-    var [...{ g: o  }] = n;
-    i(_, b, c, i, g);
+    var [n, ..._] = r;
+    var [...[b, c]] = v;
+    var [...{ g: i  }] = o;
+    c(n, _, b, c, g);
 }

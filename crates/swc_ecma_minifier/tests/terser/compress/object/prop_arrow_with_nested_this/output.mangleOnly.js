@@ -23,4 +23,4 @@ var n = {
         })();
     }
 };
-for(var t in n)n[t]();
+for(var o in n)n[o]();

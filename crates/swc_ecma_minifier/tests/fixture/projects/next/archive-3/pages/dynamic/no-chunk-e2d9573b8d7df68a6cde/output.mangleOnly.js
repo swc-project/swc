@@ -366,7 +366,7 @@
             var y = [];
             var h = [];
             var m = false;
-            function g(e) {
+            function b(e) {
                 var t = e();
                 var r = {
                     loading: true,
@@ -384,10 +384,10 @@
                 });
                 return r;
             }
-            function $(e) {
+            function g(e) {
                 return e && e.__esModule ? e["default"] : e;
             }
-            function b(e, t) {
+            function $(e, t) {
                 var r = Object.assign({
                     loader: null,
                     loading: null,
@@ -452,7 +452,7 @@
                                 retry: n.retry
                             });
                         } else if (a.loaded) {
-                            return c["default"].createElement($(a.loaded), t);
+                            return c["default"].createElement(g(a.loaded), t);
                         } else {
                             return null;
                         }
@@ -565,9 +565,9 @@
                 return e;
             })();
             function P(e) {
-                return b(g, e);
+                return $(b, e);
             }
-            function O(e, t) {
+            function k(e, t) {
                 var r = [];
                 while(e.length){
                     var n = e.pop();
@@ -575,13 +575,13 @@
                 }
                 return Promise.all(r).then(function() {
                     if (e.length) {
-                        return O(e, t);
+                        return k(e, t);
                     }
                 });
             }
             P.preloadAll = function() {
                 return new Promise(function(e, t) {
-                    O(y).then(e, t);
+                    k(y).then(e, t);
                 });
             };
             P.preloadReady = function() {
@@ -591,14 +591,14 @@
                         m = true;
                         return t();
                     };
-                    O(h, e).then(r, r);
+                    k(h, e).then(r, r);
                 });
             };
             if (true) {
                 window.__NEXT_PRELOADREADY = P.preloadReady;
             }
-            var _ = P;
-            t.default = _;
+            var O = P;
+            t.default = O;
         },
         9087: function(e, t, r) {
             "use strict";

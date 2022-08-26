@@ -5,6 +5,26 @@
 
 
 
+- **(es/compat)** Fix evaluation order of computed class keys (#5621) ([d18ee54](https://github.com/swc-project/swc/commit/d18ee54aef2476e27375da9b1a05396584eade02))
+
+
+- **(es/fixer)** Handle `async` in the left of `for of` (#5625) ([eb3b0e9](https://github.com/swc-project/swc/commit/eb3b0e96e5de2dadb8021e459d2915d68dfba708))
+
+
+- **(es/minifier)** Improve alias analyzer (#5500) ([00e635b](https://github.com/swc-project/swc/commit/00e635b9eaf6f66ffd2ca0bbbc454dbbf37d668f))
+
+### Features
+
+
+
+- **(es/minifier)** Improve gzipped size (#5631) ([d81fe67](https://github.com/swc-project/swc/commit/d81fe67e4b0ef655c3223b17ba44d1d845a8fd96))
+
+## [1.2.244] - 2022-08-26
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Ignore invalid class method names (#5612) ([1181d0f](https://github.com/swc-project/swc/commit/1181d0ffe2b432a202398dfc99dcc89da7480b84))
 
 

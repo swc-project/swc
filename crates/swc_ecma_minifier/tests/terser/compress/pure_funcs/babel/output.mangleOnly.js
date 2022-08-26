@@ -1,6 +1,6 @@
-function n(n, i) {
-    if (!(n instanceof i)) throw new TypeError("Cannot call a class as a function");
+function n(n, a) {
+    if (!(n instanceof a)) throw new TypeError("Cannot call a class as a function");
 }
-var i = function i() {
-    n(this, i);
+var a = function a() {
+    n(this, a);
 };

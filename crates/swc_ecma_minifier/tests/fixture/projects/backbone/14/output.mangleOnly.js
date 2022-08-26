@@ -1,6 +1,6 @@
 export const obj = {
     set: function(i, t, e) {
-        var s, h, n, r, u, f, g, a;
+        var s, h, n, r, g, a, u, f;
         if (i == null) return this;
         if (typeof i === "object") {
             h = i;
@@ -11,34 +11,34 @@ export const obj = {
         e || (e = {});
         if (!this._validate(h, e)) return false;
         n = e.unset;
-        u = e.silent;
+        g = e.silent;
         r = [];
-        f = this._changing;
+        a = this._changing;
         this._changing = true;
-        if (!f) {
+        if (!a) {
             this._previousAttributes = _.clone(this.attributes);
             this.changed = {};
         }
-        (a = this.attributes), (g = this._previousAttributes);
+        (f = this.attributes), (u = this._previousAttributes);
         if (this.idAttribute in h) this.id = h[this.idAttribute];
         for(s in h){
             t = h[s];
-            if (!_.isEqual(a[s], t)) r.push(s);
-            if (!_.isEqual(g[s], t)) {
+            if (!_.isEqual(f[s], t)) r.push(s);
+            if (!_.isEqual(u[s], t)) {
                 this.changed[s] = t;
             } else {
                 delete this.changed[s];
             }
-            n ? delete a[s] : (a[s] = t);
+            n ? delete f[s] : (f[s] = t);
         }
-        if (!u) {
+        if (!g) {
             if (r.length) this._pending = true;
             for(var l = 0, d = r.length; l < d; l++){
-                this.trigger("change:" + r[l], this, a[r[l]], e);
+                this.trigger("change:" + r[l], this, f[r[l]], e);
             }
         }
-        if (f) return this;
-        if (!u) {
+        if (a) return this;
+        if (!g) {
             while(this._pending){
                 this._pending = false;
                 this.trigger("change", this, e);

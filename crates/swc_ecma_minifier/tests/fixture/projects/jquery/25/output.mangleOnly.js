@@ -1,45 +1,45 @@
 export const obj = {
     domManip: function(t, e, i) {
         t = core_concat.apply([], t);
-        var n, a, l, o, s, r, h = 0, f = this.length, c = this, p = f - 1, u = t[0], m = jQuery.isFunction(u);
-        if (m || !(f <= 1 || typeof u !== "string" || jQuery.support.checkClone || !rchecked.test(u))) {
+        var n, l, a, s, r, o, c = 0, h = this.length, f = this, p = h - 1, u = t[0], d = jQuery.isFunction(u);
+        if (d || !(h <= 1 || typeof u !== "string" || jQuery.support.checkClone || !rchecked.test(u))) {
             return this.each(function(n) {
-                var a = c.eq(n);
-                if (m) {
-                    t[0] = u.call(this, n, e ? a.html() : undefined);
+                var l = f.eq(n);
+                if (d) {
+                    t[0] = u.call(this, n, e ? l.html() : undefined);
                 }
-                a.domManip(t, e, i);
+                l.domManip(t, e, i);
             });
         }
-        if (f) {
-            r = jQuery.buildFragment(t, this[0].ownerDocument, false, this);
-            n = r.firstChild;
-            if (r.childNodes.length === 1) {
-                r = n;
+        if (h) {
+            o = jQuery.buildFragment(t, this[0].ownerDocument, false, this);
+            n = o.firstChild;
+            if (o.childNodes.length === 1) {
+                o = n;
             }
             if (n) {
                 e = e && jQuery.nodeName(n, "tr");
-                o = jQuery.map(getAll(r, "script"), disableScript);
-                l = o.length;
-                for(; h < f; h++){
-                    a = r;
-                    if (h !== p) {
-                        a = jQuery.clone(a, true, true);
-                        if (l) {
-                            jQuery.merge(o, getAll(a, "script"));
+                s = jQuery.map(getAll(o, "script"), disableScript);
+                a = s.length;
+                for(; c < h; c++){
+                    l = o;
+                    if (c !== p) {
+                        l = jQuery.clone(l, true, true);
+                        if (a) {
+                            jQuery.merge(s, getAll(l, "script"));
                         }
                     }
-                    i.call(e && jQuery.nodeName(this[h], "table") ? findOrAppend(this[h], "tbody") : this[h], a, h);
+                    i.call(e && jQuery.nodeName(this[c], "table") ? findOrAppend(this[c], "tbody") : this[c], l, c);
                 }
-                if (l) {
-                    s = o[o.length - 1].ownerDocument;
-                    jQuery.map(o, restoreScript);
-                    for(h = 0; h < l; h++){
-                        a = o[h];
-                        if (rscriptType.test(a.type || "") && !jQuery._data(a, "globalEval") && jQuery.contains(s, a)) {
-                            if (a.src) {
+                if (a) {
+                    r = s[s.length - 1].ownerDocument;
+                    jQuery.map(s, restoreScript);
+                    for(c = 0; c < a; c++){
+                        l = s[c];
+                        if (rscriptType.test(l.type || "") && !jQuery._data(l, "globalEval") && jQuery.contains(r, l)) {
+                            if (l.src) {
                                 jQuery.ajax({
-                                    url: a.src,
+                                    url: l.src,
                                     type: "GET",
                                     dataType: "script",
                                     async: false,
@@ -47,12 +47,12 @@ export const obj = {
                                     throws: true
                                 });
                             } else {
-                                jQuery.globalEval((a.text || a.textContent || a.innerHTML || "").replace(rcleanScript, ""));
+                                jQuery.globalEval((l.text || l.textContent || l.innerHTML || "").replace(rcleanScript, ""));
                             }
                         }
                     }
                 }
-                r = n = null;
+                o = n = null;
             }
         }
         return this;

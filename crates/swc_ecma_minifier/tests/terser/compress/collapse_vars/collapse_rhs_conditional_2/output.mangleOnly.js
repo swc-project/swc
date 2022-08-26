@@ -1,3 +1,3 @@
-var l = "FAIL", a;
-while(((l = "PASS"), --a) && "PASS" == a);
-console.log(l, a);
+var S = "FAIL", A;
+while(((S = "PASS"), --A) && "PASS" == A);
+console.log(S, A);

@@ -3,7 +3,7 @@
         657
     ],
     {
-        4816: function(e, i, a) {
+        4816: function(e, a, n) {
             "use strict";
             return new Error([
                 `MUI: \`<DataGrid pageSize={${props.pageSize}} />\` is not a valid prop.`,

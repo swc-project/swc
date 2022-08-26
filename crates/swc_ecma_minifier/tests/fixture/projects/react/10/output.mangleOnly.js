@@ -1,41 +1,41 @@
-function r(e, t, n) {
-    function u(r) {
-        var e = r.prototype;
-        return !!(e && e.isReactComponent);
+function e(r, t, n) {
+    function u(e) {
+        var r = e.prototype;
+        return !!(r && r.isReactComponent);
     }
-    if (e == null) {
+    if (r == null) {
         return "";
     }
-    if (typeof e === "function") {
+    if (typeof r === "function") {
         {
-            return describeNativeComponentFrame(e, u(e));
+            return describeNativeComponentFrame(r, u(r));
         }
     }
-    if (typeof e === "string") {
-        return describeBuiltInComponentFrame(e);
+    if (typeof r === "string") {
+        return describeBuiltInComponentFrame(r);
     }
-    switch(e){
+    switch(r){
         case exports.Suspense:
             return describeBuiltInComponentFrame("Suspense");
         case REACT_SUSPENSE_LIST_TYPE:
             return describeBuiltInComponentFrame("SuspenseList");
     }
-    if (typeof e === "object") {
-        switch(e.$$typeof){
+    if (typeof r === "object") {
+        switch(r.$$typeof){
             case REACT_FORWARD_REF_TYPE:
-                return describeFunctionComponentFrame(e.render);
+                return describeFunctionComponentFrame(r.render);
             case REACT_MEMO_TYPE:
-                return r(e.type, t, n);
+                return e(r.type, t, n);
             case REACT_BLOCK_TYPE:
-                return describeFunctionComponentFrame(e._render);
+                return describeFunctionComponentFrame(r._render);
             case REACT_LAZY_TYPE:
                 {
-                    var a = e;
-                    var c = a._payload;
-                    var i = a._init;
+                    var s = r;
+                    var c = s._payload;
+                    var a = s._init;
                     try {
-                        return r(i(c), t, n);
-                    } catch (o) {}
+                        return e(a(c), t, n);
+                    } catch (i) {}
                 }
         }
     }

@@ -5,8 +5,8 @@ var t = {
             e
         ]) || !s) return this;
         this._events || (this._events = {});
-        var i = this._events[t] || (this._events[t] = []);
-        i.push({
+        var n = this._events[t] || (this._events[t] = []);
+        n.push({
             callback: s,
             context: e,
             ctx: e || this

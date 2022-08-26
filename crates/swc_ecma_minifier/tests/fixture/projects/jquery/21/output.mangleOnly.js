@@ -1,19 +1,19 @@
-jQuery.fn.load = function(e, t, n) {
+jQuery.fn.load = function(e, t, i) {
     if (typeof e !== "string" && _load) {
         return _load.apply(this, arguments);
     }
-    var i, f, a, p = this, l = e.indexOf(" ");
-    if (l >= 0) {
-        i = e.slice(l, e.length);
-        e = e.slice(0, l);
+    var n, f, a, l = this, o = e.indexOf(" ");
+    if (o >= 0) {
+        n = e.slice(o, e.length);
+        e = e.slice(0, o);
     }
     if (jQuery.isFunction(t)) {
-        n = t;
+        i = t;
         t = undefined;
     } else if (t && typeof t === "object") {
         a = "POST";
     }
-    if (p.length > 0) {
+    if (l.length > 0) {
         jQuery.ajax({
             url: e,
             type: a,
@@ -21,9 +21,9 @@ jQuery.fn.load = function(e, t, n) {
             data: t
         }).done(function(e) {
             f = arguments;
-            p.html(i ? jQuery("<div>").append(jQuery.parseHTML(e)).find(i) : e);
-        }).complete(n && function(e, t) {
-            p.each(n, f || [
+            l.html(n ? jQuery("<div>").append(jQuery.parseHTML(e)).find(n) : e);
+        }).complete(i && function(e, t) {
+            l.each(i, f || [
                 e.responseText,
                 t,
                 e

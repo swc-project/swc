@@ -1,8 +1,8 @@
 "use strict";
-var a = "PASS", r;
+var t = "PASS", r;
 try {
     r = c = 0;
-    a = "FAIL";
+    t = "FAIL";
     r();
-} catch (t) {}
-console.log(a);
+} catch (a) {}
+console.log(t);

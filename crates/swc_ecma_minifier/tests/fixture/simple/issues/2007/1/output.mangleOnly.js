@@ -1,8 +1,8 @@
-const t = {};
-for(let o in t){
-    t[o] = t[o].trim();
+const o = {};
+for(let t in o){
+    o[t] = o[t].trim();
 }
-let r = [
+let f = [
     "foo"
 ];
-r.forEach(()=>{});
+f.forEach(()=>{});

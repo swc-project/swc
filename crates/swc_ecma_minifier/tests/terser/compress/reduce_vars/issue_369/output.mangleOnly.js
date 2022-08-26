@@ -1,7 +1,7 @@
-var n = (function(n) {
-    function n() {
+var e = (function(e) {
+    function e() {
         console.log("Value after override");
     }
-    return n;
+    return e;
 })("Value before override");
-n();
+e();

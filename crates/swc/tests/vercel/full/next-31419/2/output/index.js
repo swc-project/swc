@@ -2,10 +2,10 @@ import n from "@swc/helpers/src/_async_to_generator.mjs";
 Promise.all(assignAll).then(function() {
     var t = n(function*(n) {
         for(let t in obj){
-            let i = obj[t];
-            i.id;
-            (yield listOfUser(i.id)).forEach((n)=>{
-                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${i.id}', now());`;
+            let r = obj[t];
+            r.id;
+            (yield listOfUser(r.id)).forEach((n)=>{
+                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${r.id}', now());`;
             });
         }
     });
@@ -14,13 +14,13 @@ Promise.all(assignAll).then(function() {
     };
 }());
 export const listOfUser = function(t) {
-    var i;
-    return new Promise((i = n(function*(n, i) {
-        let r = `Select Distinct id from "TABLE" Where id = '${t}' And user_id IS not null`;
-        postgreSQL.query(r, null, function(t, r) {
-            t ? i(t) : n(r.rows);
+    var r;
+    return new Promise((r = n(function*(n, r) {
+        let e = `Select Distinct id from "TABLE" Where id = '${t}' And user_id IS not null`;
+        postgreSQL.query(e, null, function(t, e) {
+            t ? r(t) : n(e.rows);
         });
-    }), function(n, i) {
-        return i.apply(this, arguments);
+    }), function(n, r) {
+        return r.apply(this, arguments);
     }));
 };

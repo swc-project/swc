@@ -2,7 +2,7 @@ let n = "PASS";
 function t() {
     return n;
 }
-function o() {
+function e() {
     n = {
         value: 42
     };

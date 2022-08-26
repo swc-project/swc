@@ -48,13 +48,13 @@ var a = {
     strokeOpacity: 1,
     strokeWidth: 1
 };
-var f = a;
-var n = function e(r) {
+var n = a;
+var f = function e(r) {
     return r.charCodeAt(1) === 45;
 };
 var i = /label:\s*([^\s;\n{]+)\s*(;|$)/g;
-var l;
-var o = u;
+var o;
+var l = u;
 function s(e, r, t) {
     if (t == null) {
         return "";
@@ -71,10 +71,10 @@ function s(e, r, t) {
         case "object":
             {
                 if (t.anim === 1) {
-                    l = {
+                    o = {
                         name: t.name,
                         styles: t.styles,
-                        next: l
+                        next: o
                     };
                     return t.name;
                 }
@@ -82,33 +82,33 @@ function s(e, r, t) {
                     var a = t.next;
                     if (a !== undefined) {
                         while(a !== undefined){
-                            l = {
+                            o = {
                                 name: a.name,
                                 styles: a.styles,
-                                next: l
+                                next: o
                             };
                             a = a.next;
                         }
                     }
-                    var f = t.styles + ";";
+                    var n = t.styles + ";";
                     if (false) {}
-                    return f;
+                    return n;
                 }
                 return _(e, r, t);
             }
         case "function":
             {
                 if (e !== undefined) {
-                    var n = l;
+                    var f = o;
                     var i = t(e);
-                    l = n;
+                    o = f;
                     return s(e, r, i);
                 } else if (false) {}
                 break;
             }
         case "string":
             if (false) {
-                var o, u;
+                var l, u;
             }
             break;
     }
@@ -123,21 +123,21 @@ export function serializeStyles(e, r, t) {
         return e[0];
     }
     var a = true;
-    var f = "";
-    l = undefined;
-    var n = e[0];
-    if (n == null || n.raw === undefined) {
+    var n = "";
+    o = undefined;
+    var f = e[0];
+    if (f == null || f.raw === undefined) {
         a = false;
-        f += s(t, r, n);
+        n += s(t, r, f);
     } else {
         if (false) {}
-        f += n[0];
+        n += f[0];
     }
     for(var _ = 1; _ < e.length; _++){
-        f += s(t, r, e[_]);
+        n += s(t, r, e[_]);
         if (a) {
             if (false) {}
-            f += n[_];
+            n += f[_];
         }
     }
     var u;
@@ -145,53 +145,53 @@ export function serializeStyles(e, r, t) {
     i.lastIndex = 0;
     var c = "";
     var x;
-    while((x = i.exec(f)) !== null){
+    while((x = i.exec(n)) !== null){
         c += "-" + x[1];
     }
-    var d = o(f) + c;
+    var d = l(n) + c;
     if (false) {}
     return {
         name: d,
-        styles: f,
-        next: l
+        styles: n,
+        next: o
     };
 }
 function _(e, r, t) {
     var a = "";
     if (Array.isArray(t)) {
-        for(var f = 0; f < t.length; f++){
-            a += s(e, r, t[f]) + ";";
+        for(var n = 0; n < t.length; n++){
+            a += s(e, r, t[n]) + ";";
         }
     } else {
-        for(var n in t){
-            var i = t[n];
+        for(var f in t){
+            var i = t[f];
             if (typeof i !== "object") {
                 if (r != null && r[i] !== undefined) {
-                    a += n + "{" + r[i] + "}";
+                    a += f + "{" + r[i] + "}";
                 } else if (c(i)) {
-                    a += x(n) + ":" + d(n, i) + ";";
+                    a += x(f) + ":" + d(f, i) + ";";
                 }
             } else {
-                if (n === "NO_COMPONENT_SELECTOR" && "production" !== "production") {}
+                if (f === "NO_COMPONENT_SELECTOR" && "production" !== "production") {}
                 if (Array.isArray(i) && typeof i[0] === "string" && (r == null || r[i[0]] === undefined)) {
-                    for(var l = 0; l < i.length; l++){
-                        if (c(i[l])) {
-                            a += x(n) + ":" + d(n, i[l]) + ";";
+                    for(var o = 0; o < i.length; o++){
+                        if (c(i[o])) {
+                            a += x(f) + ":" + d(f, i[o]) + ";";
                         }
                     }
                 } else {
-                    var o = s(e, r, i);
-                    switch(n){
+                    var l = s(e, r, i);
+                    switch(f){
                         case "animation":
                         case "animationName":
                             {
-                                a += x(n) + ":" + o + ";";
+                                a += x(f) + ":" + l + ";";
                                 break;
                             }
                         default:
                             {
                                 if (false) {}
-                                a += n + "{" + o + "}";
+                                a += f + "{" + l + "}";
                             }
                     }
                 }
@@ -202,14 +202,14 @@ function _(e, r, t) {
 }
 function u(e) {
     var r = 0;
-    var t, a = 0, f = e.length;
-    for(; f >= 4; ++a, f -= 4){
+    var t, a = 0, n = e.length;
+    for(; n >= 4; ++a, n -= 4){
         t = (e.charCodeAt(a) & 0xff) | ((e.charCodeAt(++a) & 0xff) << 8) | ((e.charCodeAt(++a) & 0xff) << 16) | ((e.charCodeAt(++a) & 0xff) << 24);
         t = (t & 0xffff) * 0x5bd1e995 + (((t >>> 16) * 0xe995) << 16);
         t ^= t >>> 24;
         r = ((t & 0xffff) * 0x5bd1e995 + (((t >>> 16) * 0xe995) << 16)) ^ ((r & 0xffff) * 0x5bd1e995 + (((r >>> 16) * 0xe995) << 16));
     }
-    switch(f){
+    switch(n){
         case 3:
             r ^= (e.charCodeAt(a + 2) & 0xff) << 16;
         case 2:
@@ -226,7 +226,7 @@ function c(e) {
     return e != null && typeof e !== "boolean";
 }
 var x = e(function(e) {
-    return n(e) ? e : e.replace(r, "-$&").toLowerCase();
+    return f(e) ? e : e.replace(r, "-$&").toLowerCase();
 });
 var d = function e(r, a) {
     switch(r){
@@ -235,17 +235,17 @@ var d = function e(r, a) {
             {
                 if (typeof a === "string") {
                     return a.replace(t, function(e, r, t) {
-                        l = {
+                        o = {
                             name: r,
                             styles: t,
-                            next: l
+                            next: o
                         };
                         return r;
                     });
                 }
             }
     }
-    if (f[r] !== 1 && !n(r) && typeof a === "number" && a !== 0) {
+    if (n[r] !== 1 && !f(r) && typeof a === "number" && a !== 0) {
         return a + "px";
     }
     return a;
