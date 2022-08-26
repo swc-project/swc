@@ -2065,14 +2065,14 @@ pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
 }
 
 /// inject `stmts` after directives
-pub fn prepend_stmts<T: StmtLike>(
+pub fn prepend_stmts<T: StmtOrModuleItem>(
     to: &mut Vec<T>,
     stmts: impl Iterator + ExactSizeIterator<Item = T>,
 ) {
     let idx = to
         .iter()
         .position(|item| {
-            if let Some(&Stmt::Expr(ExprStmt { ref expr, .. })) = item.as_stmt() {
+            if let Ok(&Stmt::Expr(ExprStmt { ref expr, .. })) = item.as_stmt() {
                 match &**expr {
                     Expr::Lit(Lit::Str(..)) => return false,
                     Expr::Call(expr) => match expr.callee {
