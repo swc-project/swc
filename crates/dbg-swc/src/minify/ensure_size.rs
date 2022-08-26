@@ -1,12 +1,12 @@
 use std::{
     io::Write,
     path::{Path, PathBuf},
-    process::{Command, Stdio},
     sync::Arc,
 };
 
 use anyhow::{Context, Result};
 use clap::Args;
+use flate2::{write::ZlibEncoder, Compression};
 use rayon::prelude::*;
 use swc_common::{SourceFile, SourceMap, GLOBALS};
 use tracing::info;
@@ -173,24 +173,10 @@ impl EnsureSize {
 }
 
 fn gzipped_size(code: &str) -> usize {
-    let mut c = Command::new("gzip");
-    c.stdin(Stdio::piped());
-    c.arg("-c").stdout(Stdio::piped());
-
-    let mut child = c.spawn().unwrap();
-    child
-        .stdin
-        .as_mut()
-        .unwrap()
-        .write_all(code.as_bytes())
-        .unwrap();
-
-    let output = child.wait_with_output().expect("failed to wait");
-
-    if !output.status.success() {
-        panic!("gzip failed");
-    }
-    output.stdout.len()
+    let mut e = ZlibEncoder::new(Vec::new(), Compression::new(9));
+    e.write_all(code.as_bytes());
+    let compressed_bytes = e.finish().unwrap();
+    compressed_bytes.len()
 }
 
 #[allow(unused)]
