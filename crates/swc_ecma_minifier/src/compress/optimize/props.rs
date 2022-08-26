@@ -73,14 +73,10 @@ where
 
                         match &p.key {
                             PropName::Str(s) => {
-                                if let Some(v) = unknown_used_props.get_mut(&s.value) {
-                                    *v -= 1;
-                                }
+                                unknown_used_props.remove(&s.value);
                             }
                             PropName::Ident(i) => {
-                                if let Some(v) = unknown_used_props.get_mut(&i.sym) {
-                                    *v -= 1;
-                                }
+                                unknown_used_props.remove(&i.sym);
                             }
                             _ => {}
                         }
@@ -88,7 +84,7 @@ where
                 }
             }
 
-            if !unknown_used_props.iter().all(|(_, v)| *v == 0) {
+            if !unknown_used_props.is_empty() {
                 log_abort!("[x] unknown used props: {:?}", unknown_used_props);
                 return;
             }

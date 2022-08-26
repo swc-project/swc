@@ -273,7 +273,7 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn add_accessed_property(&mut self, name: swc_atoms::JsWord) {
-        *self.accessed_props.entry(name).or_default() += 1;
+        self.accessed_props.insert(name);
     }
 
     fn mark_mutated(&mut self) {

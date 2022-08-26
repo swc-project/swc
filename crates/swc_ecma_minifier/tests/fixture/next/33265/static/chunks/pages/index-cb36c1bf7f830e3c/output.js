@@ -71,8 +71,8 @@
                 return Number(number);
             }), numberToBytes = function(number, _temp2) {
                 var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
-                ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0);
-                for(var byteCount = Math.ceil((number = BigInt(number)).toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
+                for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
@@ -245,6 +245,12 @@
             ]);
             var normalizePath = function(path) {
                 return "string" == typeof path ? (0, byte_helpers.qX)(path) : path;
+            }, normalizePaths = function(paths) {
+                return Array.isArray(paths) ? paths.map(function(p) {
+                    return normalizePath(p);
+                }) : [
+                    normalizePath(paths)
+                ];
             }, parseDescriptors = function(bytes) {
                 bytes = (0, byte_helpers.Ki)(bytes);
                 for(var results = [], i = 0; bytes.length > i;){
@@ -317,12 +323,8 @@
                 }, 
             ];
             var findBox = function findBox(bytes, paths, complete) {
-                void 0 === complete && (complete = !1), paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
-                    return normalizePath(p);
-                }) : [
-                    normalizePath(paths1)
-                ], bytes = (0, byte_helpers.Ki)(bytes);
-                var paths1, results = [];
+                void 0 === complete && (complete = !1), paths = normalizePaths(paths), bytes = (0, byte_helpers.Ki)(bytes);
+                var results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var size = (bytes[i] << 24 | bytes[i + 1] << 16 | bytes[i + 2] << 8 | bytes[i + 3]) >>> 0, type = bytes.subarray(i + 4, i + 8);
@@ -853,9 +855,9 @@
                 }
                 function loadFunc() {
                     if (!aborted) {
-                        clearTimeout(timeoutTimer), status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status;
+                        clearTimeout(timeoutTimer);
                         var status, response = failureResponse, err = null;
-                        return 0 !== status ? (response = {
+                        return 0 !== (status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status) ? (response = {
                             body: function() {
                                 var body = void 0;
                                 if (body = xhr.response ? xhr.response : xhr.responseText || getXml(xhr), isJson) try {
@@ -1645,8 +1647,7 @@
                     this.replaceData(offset, count, "");
                 },
                 replaceData: function(offset, count, text) {
-                    var start = this.data.substring(0, offset), end = this.data.substring(offset + count);
-                    text = start + text + end, this.nodeValue = this.data = text, this.length = text.length;
+                    text = this.data.substring(0, offset) + text + this.data.substring(offset + count), this.nodeValue = this.data = text, this.length = text.length;
                 }
             }, _extends(CharacterData, Node), Text.prototype = {
                 nodeName: "#text",
@@ -2388,8 +2389,10 @@
             }(Stream), parseByterange = function(byterangeString) {
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ""), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
+            }, attributeSeparator = function() {
+                return RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
             }, parseAttributes = function(attributes) {
-                for(var attr, attrs = attributes.split(RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)"" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
+                for(var attr, attrs = attributes.split(attributeSeparator()), result = {}, i = attrs.length; i--;)"" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
                 return result;
             }, ParseStream = function(_Stream) {
                 function ParseStream() {
@@ -3483,6 +3486,33 @@
                 return Object.keys(segmentInfo).forEach(function(key) {
                     segmentInfo[key] || delete segmentInfo[key];
                 }), segmentInfo;
+            }, parseCaptionServiceMetadata = function(service) {
+                return "urn:scte:dash:cc:cea-608:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                    if (language = value, /^CC\d=/.test(value)) {
+                        var channel, language, _value$split = value.split("=");
+                        channel = _value$split[0], language = _value$split[1];
+                    } else /^CC\d$/.test(value) && (channel = value);
+                    return {
+                        channel: channel,
+                        language: language
+                    };
+                }) : "urn:scte:dash:cc:cea-708:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                    var flags = {
+                        channel: void 0,
+                        language: void 0,
+                        aspectRatio: 1,
+                        easyReader: 0,
+                        "3D": 0
+                    };
+                    if (/=/.test(value)) {
+                        var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1];
+                        flags.channel = channel, flags.language = value, (void 0 === _value$split2$ ? "" : _value$split2$).split(",").forEach(function(opt) {
+                            var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
+                            "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
+                        });
+                    } else flags.language = value;
+                    return flags.channel && (flags.channel = "SERVICE" + flags.channel), flags;
+                }) : void 0;
             }, getPeriodStart = function(_ref) {
                 var attributes = _ref.attributes, priorPeriodAttributes = _ref.priorPeriodAttributes, mpdType = _ref.mpdType;
                 return "number" == typeof attributes.start ? attributes.start : priorPeriodAttributes && "number" == typeof priorPeriodAttributes.start && "number" == typeof priorPeriodAttributes.duration ? priorPeriodAttributes.start + priorPeriodAttributes.duration : priorPeriodAttributes || "static" !== mpdType ? null : 0;
@@ -3515,34 +3545,9 @@
                         "number" == typeof period.attributes.duration && (periodAttributes.periodDuration = period.attributes.duration);
                         var periodAttributes1, periodBaseUrls1, periodSegmentInfo, adaptationSets = findChildren(period.node, "AdaptationSet"), periodSegmentInfo1 = getSegmentInformation(period.node);
                         return flatten(adaptationSets.map((periodAttributes1 = periodAttributes, periodBaseUrls1 = periodBaseUrls, periodSegmentInfo = periodSegmentInfo1, function(adaptationSet) {
-                            var service, adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls1, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
+                            var adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls1, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
                                 role: parseAttributes(role)
-                            }, attrs = merge(periodAttributes1, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(accessibility)).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
-                                if (language = value, /^CC\d=/.test(value)) {
-                                    var channel, language, _value$split = value.split("=");
-                                    channel = _value$split[0], language = _value$split[1];
-                                } else /^CC\d$/.test(value) && (channel = value);
-                                return {
-                                    channel: channel,
-                                    language: language
-                                };
-                            }) : "urn:scte:dash:cc:cea-708:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
-                                var flags = {
-                                    channel: void 0,
-                                    language: void 0,
-                                    aspectRatio: 1,
-                                    easyReader: 0,
-                                    "3D": 0
-                                };
-                                if (/=/.test(value)) {
-                                    var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1];
-                                    flags.channel = channel, flags.language = value, (void 0 === _value$split2$ ? "" : _value$split2$).split(",").forEach(function(opt) {
-                                        var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
-                                        "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
-                                    });
-                                } else flags.language = value;
-                                return flags.channel && (flags.channel = "SERVICE" + flags.channel), flags;
-                            }) : void 0;
+                            }, attrs = merge(periodAttributes1, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = parseCaptionServiceMetadata(parseAttributes(accessibility));
                             captionServices && (attrs = merge(attrs, {
                                 captionServices: captionServices
                             }));
@@ -3569,7 +3574,7 @@
                             }));
                             var adaptationSetAttributes1, adaptationSetBaseUrls1, adaptationSetSegmentInfo, segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo1 = merge(periodSegmentInfo, segmentInfo);
                             return flatten(representations.map((adaptationSetAttributes1 = attrs, adaptationSetBaseUrls1 = adaptationSetBaseUrls, adaptationSetSegmentInfo = adaptationSetSegmentInfo1, function(representation) {
-                                var repBaseUrls = buildBaseUrls(adaptationSetBaseUrls1, findChildren(representation, "BaseURL")), attributes = merge(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
+                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls1, repBaseUrlElements), attributes = merge(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
                                 return repBaseUrls.map(function(baseUrl) {
                                     return {
                                         segmentInfo: merge(adaptationSetSegmentInfo, representationSegmentInfo),
@@ -3615,8 +3620,8 @@
                 return attributes;
             }, parse = function(manifestString, options) {
                 void 0 === options && (options = {});
-                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options);
-                return toM3u8((0, parsedManifestInfo.representationInfo).map(generateSegments), parsedManifestInfo.locations, options.sidxMapping);
+                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = (0, parsedManifestInfo.representationInfo).map(generateSegments);
+                return toM3u8(playlists, parsedManifestInfo.locations, options.sidxMapping);
             }, parseUTCTiming = function(manifestString) {
                 return parseUTCTimingScheme(stringToMpdXml(manifestString));
             };

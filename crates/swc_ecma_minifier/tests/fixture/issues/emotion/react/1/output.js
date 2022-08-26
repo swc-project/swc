@@ -540,10 +540,7 @@
                     for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
                 });
-                var container, _insert, currentSheet, collection, length, serializer = (collection = [
-                    compat,
-                    removeLabel
-                ].concat(stylisPlugins, [
+                var container, _insert, currentSheet, collection, length, finalizingPlugins = [
                     stringify,
                     function(callback) {
                         return function(element) {
@@ -552,7 +549,10 @@
                     }(function(rule) {
                         currentSheet.insert(rule);
                     }), 
-                ]), length = Utility_sizeof(collection), function(element, index, children, callback) {
+                ], serializer = (collection = [
+                    compat,
+                    removeLabel
+                ].concat(stylisPlugins, finalizingPlugins), length = Utility_sizeof(collection), function(element, index, children, callback) {
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
                 }), stylis = function(styles) {
@@ -677,7 +677,8 @@
                 }
             }, Global = function(func) {
                 return (0, react.forwardRef)(function(props, ref) {
-                    return func(props, (0, react.useContext)(EmotionCacheContext), ref);
+                    var cache = (0, react.useContext)(EmotionCacheContext);
+                    return func(props, cache, ref);
                 });
             }(function(props, cache) {
                 var serialized = emotion_serialize_browser_esm_serializeStyles([

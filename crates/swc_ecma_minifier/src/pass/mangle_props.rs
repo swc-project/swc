@@ -10,7 +10,7 @@ use swc_ecma_ast::{
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
-    analyzer::{analyze, ModuleInfo, ProgramData},
+    analyzer::{analyze, ProgramData},
     option::ManglePropertiesOptions,
     util::base54,
 };
@@ -96,17 +96,13 @@ impl ManglePropertiesState {
     }
 }
 
-pub(crate) fn mangle_properties(
-    m: &mut Program,
-    module_info: &ModuleInfo,
-    options: ManglePropertiesOptions,
-) {
+pub(crate) fn mangle_properties(m: &mut Program, options: ManglePropertiesOptions) {
     let mut state = ManglePropertiesState {
         options,
         ..Default::default()
     };
 
-    let data = analyze(&*m, module_info, None);
+    let data = analyze(&*m, None);
     m.visit_mut_with(&mut PropertyCollector {
         state: &mut state,
         data,

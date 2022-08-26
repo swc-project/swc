@@ -321,7 +321,7 @@
                 return "string" == typeof n && -1 !== n.indexOf("%");
             }
             function boundAlpha(a) {
-                return (isNaN(a = parseFloat(a)) || a < 0 || a > 1) && (a = 1), a;
+                return a = parseFloat(a), (isNaN(a) || a < 0 || a > 1) && (a = 1), a;
             }
             function convertToPercentage(n) {
                 return n <= 1 ? "".concat(100 * Number(n), "%") : n;
@@ -330,7 +330,8 @@
                 return 1 === c.length ? "0" + c : String(c);
             }
             function rgbToHsl(r, g, b) {
-                var max = Math.max(r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r, g, b), h = 0, s = 0, l = (max + min) / 2;
+                r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255);
+                var max = Math.max(r, g, b), min = Math.min(r, g, b), h = 0, s = 0, l = (max + min) / 2;
                 if (max === min) s = 0, h = 0;
                 else {
                     var d = max - min;
@@ -356,7 +357,8 @@
                 return (t < 0 && (t += 1), t > 1 && (t -= 1), t < 1 / 6) ? p + (q - p) * (6 * t) : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p;
             }
             function rgbToHsv(r, g, b) {
-                var max = Math.max(r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r, g, b), h = 0, d = max - min;
+                r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255);
+                var max = Math.max(r, g, b), min = Math.min(r, g, b), h = 0, d = max - min;
                 if (max === min) h = 0;
                 else {
                     switch(max){
@@ -1616,7 +1618,7 @@
                         for(options.count = void 0; totalColors > colors.length;)options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
                         return options.count = totalColors, colors;
                     }
-                    var hue, seed, res, h = (hue = options.hue, seed = options.seed, res = randomWithin(function(colorInput) {
+                    var hue, seed, hueRange, res, h = (hue = options.hue, seed = options.seed, hueRange = function(colorInput) {
                         var num = parseInt(colorInput, 10);
                         if (!Number.isNaN(num) && num < 360 && num > 0) return [
                             num,
@@ -1643,7 +1645,7 @@
                             0,
                             360
                         ];
-                    }(hue), seed), res < 0 && (res = 360 + res), res), s = function(hue, options) {
+                    }(hue), res = randomWithin(hueRange, seed), res < 0 && (res = 360 + res), res), s = function(hue, options) {
                         if ("monochrome" === options.hue) return 0;
                         if ("random" === options.luminosity) return randomWithin([
                             0,
@@ -4343,9 +4345,9 @@
                     __css: styles.title
                 }));
             }), AlertDescription = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
-                var descriptionStyles = chakra_ui_alert_esm_extends({
+                var styles = useStyles(), descriptionStyles = chakra_ui_alert_esm_extends({
                     display: "inline"
-                }, useStyles().description);
+                }, styles.description);
                 return react.createElement(chakra_ui_system_esm.m$.div, chakra_ui_alert_esm_extends({
                     ref: ref
                 }, props, {
