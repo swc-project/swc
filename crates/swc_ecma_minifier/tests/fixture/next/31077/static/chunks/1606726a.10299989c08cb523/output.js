@@ -601,7 +601,7 @@
                         if (dom) {
                             if (3 != dom.nodeType) throw RangeError("Text must be rendered as a DOM text node");
                         } else dom = document.createTextNode(node.text);
-                    } else dom || (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
+                    } else dom || (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node)), dom = assign.dom, contentDOM = assign.contentDOM);
                     contentDOM || node.isText || "BR" == dom.nodeName || (dom.hasAttribute("contenteditable") || (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
                     var nodeDOM = dom;
                     return (dom = applyOuterDeco(dom, outerDeco, node), spec) ? descObj = new CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos + 1) : node.isText ? new TextViewDesc(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) : new NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos + 1);
@@ -804,7 +804,7 @@
                     var deco = curComputed[i], prev = prevComputed[i];
                     if (i) {
                         var parent = void 0;
-                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
+                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || (parent = document.createElement(deco.nodeName), parent.pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
                     }
                     patchAttributes(curDOM, prev || noDeco[0], deco);
                 }
@@ -1040,8 +1040,8 @@
                     if (next instanceof NodeViewDesc) {
                         var preMatch = this.preMatch.matched.get(next);
                         if (null != preMatch && preMatch != index) return !1;
-                        var nextDOM = next.dom;
-                        if (!(this.lock && (nextDOM == this.lock || 1 == nextDOM.nodeType && nextDOM.contains(this.lock.parentNode)) && !(node.isText && next.node && next.node.isText && next.nodeDOM.nodeValue == node.text && 3 != next.dirty && sameOuterDeco(outerDeco, next.outerDeco))) && next.update(node, outerDeco, innerDeco, view)) return this.destroyBetween(this.index, i), next.dom != nextDOM && (this.changed = !0), this.index++, !0;
+                        var nextDOM = next.dom, locked = this.lock && (nextDOM == this.lock || 1 == nextDOM.nodeType && nextDOM.contains(this.lock.parentNode)) && !(node.isText && next.node && next.node.isText && next.nodeDOM.nodeValue == node.text && 3 != next.dirty && sameOuterDeco(outerDeco, next.outerDeco));
+                        if (!locked && next.update(node, outerDeco, innerDeco, view)) return this.destroyBetween(this.index, i), next.dom != nextDOM && (this.changed = !0), this.index++, !0;
                         break;
                     }
                 }
@@ -1279,13 +1279,11 @@
                     }
                     firstChild = wrap.firstChild;
                 }
-                firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context));
-                var text = view.someProp("clipboardTextSerializer", function(f) {
-                    return f(slice);
-                }) || slice.content.textBetween(0, slice.content.size, "\n\n");
-                return {
+                return firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context)), {
                     dom: wrap,
-                    text: text
+                    text: view.someProp("clipboardTextSerializer", function(f) {
+                        return f(slice);
+                    }) || slice.content.textBetween(0, slice.content.size, "\n\n")
                 };
             }
             function parseFromClipboard(view, text, html, plainText, $context) {
@@ -1326,24 +1324,24 @@
             }
             function normalizeSiblings(fragment, $context) {
                 if (fragment.childCount < 2) return fragment;
-                for(var loop = function(d) {
-                    var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
-                    if (fragment.forEach(function(node) {
-                        if (result) {
-                            var inLast, wrap = match.findWrapping(node.type);
-                            if (!wrap) return result = null;
-                            if (inLast = result.length && lastWrap.length && addToSibling(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
-                            else {
-                                result.length && (result[result.length - 1] = closeRight(result[result.length - 1], lastWrap.length));
-                                var wrapped = withWrappers(node, wrap);
-                                result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
+                for(var d = $context.depth; d >= 0; d--){
+                    var returned = function(d) {
+                        var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
+                        if (fragment.forEach(function(node) {
+                            if (result) {
+                                var inLast, wrap = match.findWrapping(node.type);
+                                if (!wrap) return result = null;
+                                if (inLast = result.length && lastWrap.length && addToSibling(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
+                                else {
+                                    result.length && (result[result.length - 1] = closeRight(result[result.length - 1], lastWrap.length));
+                                    var wrapped = withWrappers(node, wrap);
+                                    result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
+                                }
                             }
-                        }
-                    }), result) return {
-                        v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
-                    };
-                }, d = $context.depth; d >= 0; d--){
-                    var returned = loop(d);
+                        }), result) return {
+                            v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
+                        };
+                    }(d);
                     if (returned) return returned.v;
                 }
                 return fragment;
@@ -1696,8 +1694,8 @@
             var selectNodeModifier = result.mac ? "metaKey" : "ctrlKey";
             handlers.mousedown = function(view, event) {
                 view.shiftKey = event.shiftKey;
-                var event1, click, dx, dy, flushed = endComposition(view), now = Date.now(), type = "singleClick";
-                now - view.lastClick.time < 500 && (event1 = event, dx = (click = view.lastClick).x - event1.clientX, dy = click.y - event1.clientY, dx * dx + dy * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
+                var view1, event1, click, dx, dy, flushed = (view1 = view, endComposition(view1)), now = Date.now(), type = "singleClick";
+                now - view.lastClick.time < 500 && (event1 = event, click = view.lastClick, dx = click.x - event1.clientX, dy = click.y - event1.clientY, dx * dx + dy * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
                     time: now,
                     x: event.clientX,
                     y: event.clientY,

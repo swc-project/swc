@@ -2715,15 +2715,16 @@
                 addMutationBatch(t, e, n, s) {
                     const i = Di(t), r = Si(t);
                     return r.add({}).next((o)=>{
-                        "number" == typeof o || L();
+                        var t1;
+                        t1 = "number" == typeof o, t1 || L();
                         const c = new ni(o, e, n, s), a = function(t, e, n) {
                             const s = n.baseMutations.map((e)=>ss(t.Wt, e)), i = n.mutations.map((e)=>ss(t.Wt, e));
                             return new Vs(e, n.batchId, n.localWriteTime.toMillis(), s, i);
                         }(this.N, this.userId, c), u = [];
                         let h = new gn((t, e)=>et(t.canonicalString(), e.canonicalString()));
-                        for (const t1 of s){
-                            const e1 = Ss.key(this.userId, t1.key.path, o);
-                            h = h.add(t1.key.path.popLast()), u.push(r.put(a)), u.push(i.put(e1, Ss.PLACEHOLDER));
+                        for (const t2 of s){
+                            const e1 = Ss.key(this.userId, t2.key.path, o);
+                            h = h.add(t2.key.path.popLast()), u.push(r.put(a)), u.push(i.put(e1, Ss.PLACEHOLDER));
                         }
                         return h.forEach((e)=>{
                             u.push(this.Ht.addToCollectionParentIndex(t, e));
@@ -4146,9 +4147,9 @@
                     const e = function(t, e) {
                         let n;
                         if ("targetChange" in e) {
-                            var t1, t2, e1;
+                            var t1, t2, e1, t3;
                             e.targetChange;
-                            const s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t1 ? 1 : "REMOVE" === t1 ? 2 : "CURRENT" === t1 ? 3 : "RESET" === t1 ? 4 : L(), i = e.targetChange.targetIds || [], r = (t2 = t, e1 = e.targetChange.resumeToken, t2.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (void 0 === e1 || e1 instanceof Uint8Array || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause, c = o && function(t) {
+                            const s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t1 ? 1 : "REMOVE" === t1 ? 2 : "CURRENT" === t1 ? 3 : "RESET" === t1 ? 4 : L(), i = e.targetChange.targetIds || [], r = (t2 = t, e1 = e.targetChange.resumeToken, t2.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (t3 = void 0 === e1 || e1 instanceof Uint8Array, t3 || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause, c = o && function(t) {
                                 const e = void 0 === t.code ? K.UNKNOWN : dn(t.code);
                                 return new j(e, t.message || "");
                             }(o);
@@ -4179,9 +4180,9 @@
                             if (!("filter" in e)) return L();
                             {
                                 e.filter;
-                                const t3 = e.filter;
-                                t3.targetId;
-                                const s4 = t3.count || 0, i4 = new un(s4), r4 = t3.targetId;
+                                const t4 = e.filter;
+                                t4.targetId;
+                                const s4 = t4.count || 0, i4 = new un(s4), r4 = t4.targetId;
                                 n = new Nn(r4, i4);
                             }
                         }
@@ -4330,7 +4331,7 @@
                         const e1 = (t1 = t.writeResults, e = t.commitTime, t1 && t1.length > 0 ? (void 0 !== e || L(), t1.map((t)=>{
                             var t1, e1;
                             let n;
-                            return t1 = t, e1 = e, (n = t1.updateTime ? jn(t1.updateTime) : jn(e1)).isEqual(rt.min()) && (n = jn(e1)), new We(n, t1.transformResults || []);
+                            return t1 = t, e1 = e, n = t1.updateTime ? jn(t1.updateTime) : jn(e1), n.isEqual(rt.min()) && (n = jn(e1)), new We(n, t1.transformResults || []);
                         })) : []), n = jn(t.commitTime);
                         return this.listener.Dr(n, e1);
                     }
@@ -4970,7 +4971,7 @@
                             return (null === s || t.snapshotVersion.compareTo(s.snapshotVersion) > 0) && (n.Un = n.Un.insert(t.targetId, t), n.qn.set(e, t.targetId)), t;
                         });
                     }(n.localStore, Ee(e)), r1 = n.sharedClientState.addLocalQueryTarget(t1.targetId);
-                    i = await sc(n, e, s = t1.targetId, "current" === r1), n.isPrimaryClient && co(n.remoteStore, t1);
+                    s = t1.targetId, i = await sc(n, e, s, "current" === r1), n.isPrimaryClient && co(n.remoteStore, t1);
                 }
                 return i;
             }
@@ -5818,7 +5819,7 @@
             }
             function Eu(t, e, n) {
                 var t1;
-                if (!Tu(n) || "object" != typeof (t1 = n) || null === t1 || Object.getPrototypeOf(t1) !== Object.prototype && null !== Object.getPrototypeOf(t1)) {
+                if (!Tu(n) || (t1 = n, "object" != typeof t1 || null === t1 || Object.getPrototypeOf(t1) !== Object.prototype && null !== Object.getPrototypeOf(t1))) {
                     const s = ma(n);
                     throw "an object" === s ? e.Uc(t + " a custom object") : e.Uc(t + " " + s);
                 }
@@ -6053,7 +6054,7 @@
             function lh(t) {
                 var t1;
                 t = ga(t, Aa);
-                const e = ga(t.firestore, ka), n = ((t1 = e)._firestoreClient || Ma(t1), t1._firestoreClient.verifyNotTerminated(), t1._firestoreClient), s = new ah(e);
+                const e = ga(t.firestore, ka), n = (t1 = e, t1._firestoreClient || Ma(t1), t1._firestoreClient.verifyNotTerminated(), t1._firestoreClient), s = new ah(e);
                 return function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
                 }(t._query), (function(t, e, n = {}) {

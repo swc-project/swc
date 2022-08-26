@@ -986,7 +986,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         });
         return wrapper;
     }, implement = function(key, value, retain) {
-        if (Class1.Mutators.hasOwnProperty(key) && null == (value = Class1.Mutators[key].call(this, value))) return this;
+        if (Class1.Mutators.hasOwnProperty(key) && (value = Class1.Mutators[key].call(this, value), null == value)) return this;
         if ("function" == typeOf(value)) {
             if (value.$hidden) return this;
             this.prototype[key] = retain ? value : wrap(this, key, value);
@@ -2024,7 +2024,7 @@ Elements.prototype = {
         var value = node.value;
         node.type = type, node.value = value;
     }), input = null;
-    var pollutesGetAttribute = ((div = document.createElement("div")).random = "attribute", "attribute" == div.getAttribute("random"));
+    var pollutesGetAttribute = (div = document.createElement("div"), div.random = "attribute", "attribute" == div.getAttribute("random"));
     Element.implement({
         setProperty: function(name, value) {
             var setter = propertySetters[name.toLowerCase()];
@@ -2107,7 +2107,7 @@ Elements.prototype = {
             return inserters[where || "bottom"](this, document.id(el, !0)), this;
         },
         replaces: function(el) {
-            return (el = document.id(el, !0)).parentNode.replaceChild(this, el), this;
+            return el = document.id(el, !0), el.parentNode.replaceChild(this, el), this;
         },
         wraps: function(el, where) {
             return el = document.id(el, !0), this.replaces(el).grab(el, where);
@@ -2225,7 +2225,8 @@ Elements.prototype = {
     if (!supportsHTML5Elements) for(var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(" "), fragment = document.createDocumentFragment(), l = tags.length; l--;)fragment.createElement(tags[l]);
     div1 = null;
     var supportsTableInnerHTML = Function.attempt(function() {
-        return document.createElement("table").innerHTML = "<tr><td></td></tr>", !0;
+        var table = document.createElement("table");
+        return table.innerHTML = "<tr><td></td></tr>", !0;
     }), tr = document.createElement("tr"), html = "<td></td>";
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
@@ -2512,7 +2513,8 @@ Elements.prototype = {
             }, this)), this;
         },
         cloneEvents: function(from, type) {
-            var events = (from = document.id(from)).retrieve("events");
+            from = document.id(from);
+            var events = from.retrieve("events");
             if (!events) return this;
             if (type) events[type] && events[type].keys.each(function(fn) {
                 this.addEvent(type, fn);
@@ -3032,7 +3034,7 @@ Elements.prototype = {
         };
     },
     parse: function(value) {
-        return (value = "string" == typeof (value = Function.from(value)()) ? value.split(" ") : Array.from(value)).map(function(val) {
+        return value = Function.from(value)(), (value = "string" == typeof value ? value.split(" ") : Array.from(value)).map(function(val) {
             val = String(val);
             var found = !1;
             return Object.each(Fx.CSS.Parsers, function(parser, key) {
@@ -3389,11 +3391,13 @@ Elements.prototype = {
             ("string" == type || "element" == type) && (options = {
                 data: options
             });
-            var old = this.options, data = (options = Object.append({
+            var old = this.options;
+            options = Object.append({
                 data: old.data,
                 url: old.url,
                 method: old.method
-            }, options)).data, url = String(options.url), method = options.method.toLowerCase();
+            }, options);
+            var data = options.data, url = String(options.url), method = options.method.toLowerCase();
             switch(typeOf(data)){
                 case "element":
                     data = document.id(data).toQueryString();
@@ -3711,7 +3715,7 @@ Cookie.write = function(key, value, options) {
             build += "</object>", this.object = (container ? container.empty() : new Element("div")).set("html", build).firstChild;
         },
         replaces: function(element) {
-            return (element = document.id(element, !0)).parentNode.replaceChild(this.toElement(), element), this;
+            return element = document.id(element, !0), element.parentNode.replaceChild(this.toElement(), element), this;
         },
         inject: function(element) {
             return document.id(element, !0).appendChild(this.toElement()), this;

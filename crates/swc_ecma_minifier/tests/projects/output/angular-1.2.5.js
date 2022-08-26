@@ -255,11 +255,11 @@
     }
     function bootstrap(element, modules) {
         var doBootstrap = function() {
-            if ((element = jqLite(element)).injector()) {
+            if (element = jqLite(element), element.injector()) {
                 var tag = element[0] === document1 ? "document" : startingTag(element);
                 throw ngMinErr("btstrpd", "App Already Bootstrapped with this Element '{0}'", tag);
             }
-            (modules = modules || []).unshift([
+            modules = modules || [], modules.unshift([
                 "$provide",
                 function($provide) {
                     $provide.value("$rootElement", element);
@@ -365,7 +365,9 @@
         }
         if (isString(element)) {
             var div = document1.createElement("div");
-            div.innerHTML = "<div>&#160;</div>" + element, div.removeChild(div.firstChild), jqLiteAddNodes(this, div.childNodes), jqLite(document1.createDocumentFragment()).append(this);
+            div.innerHTML = "<div>&#160;</div>" + element, div.removeChild(div.firstChild), jqLiteAddNodes(this, div.childNodes);
+            var fragment = jqLite(document1.createDocumentFragment());
+            fragment.append(this);
         } else jqLiteAddNodes(this, element);
     }
     function jqLiteClone(element) {
@@ -377,8 +379,8 @@
     }
     function jqLiteOff(element, type, fn, unsupported) {
         if (isDefined(unsupported)) throw jqLiteMinErr("offargs", "jqLite#off() does not support the `selector` argument");
-        var events = jqLiteExpandoStore(element, "events");
-        jqLiteExpandoStore(element, "handle") && (isUndefined(type) ? forEach(events, function(eventHandler, type) {
+        var events = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
+        handle && (isUndefined(type) ? forEach(events, function(eventHandler, type) {
             removeEventListenerFn(element, type, eventHandler), delete events[type];
         }) : forEach(type.split(" "), function(type) {
             isUndefined(fn) ? (removeEventListenerFn(element, type, events[type]), delete events[type]) : arrayRemove(events[type] || [], fn);
@@ -436,7 +438,7 @@
         return jqLiteInheritedData(element, "$" + (name || "ngController") + "Controller");
     }
     function jqLiteInheritedData(element, name, value) {
-        9 == (element = jqLite(element))[0].nodeType && (element = element.find("html"));
+        element = jqLite(element), 9 == element[0].nodeType && (element = element.find("html"));
         for(var names = isArray(name) ? name : [
             name
         ]; element.length;){
@@ -809,7 +811,7 @@
             function invoke(fn, self, locals) {
                 var length, i, key, args = [], $inject = annotate(fn);
                 for(i = 0, length = $inject.length; i < length; i++){
-                    if ("string" != typeof (key = $inject[i])) throw $injectorMinErr("itkn", "Incorrect injection token! Expected service name as string, got {0}", key);
+                    if (key = $inject[i], "string" != typeof key) throw $injectorMinErr("itkn", "Incorrect injection token! Expected service name as string, got {0}", key);
                     args.push(locals && locals.hasOwnProperty(key) ? locals[key] : getService(key));
                 }
                 return fn.$inject || (fn = fn[length]), fn.apply(self, args);
@@ -1122,7 +1124,7 @@
                     } catch (e) {}
                 }
                 function compileNodes(nodeList, transcludeFn, $rootElement, maxPriority, ignoreDirective, previousCompileContext) {
-                    for(var nodeLinkFn, childLinkFn, directives, attrs, linkFnFound, linkFns = [], i = 0; i < nodeList.length; i++)attrs = new Attributes(), childLinkFn = (nodeLinkFn = (directives = collectDirectives(nodeList[i], [], attrs, 0 === i ? maxPriority : undefined, ignoreDirective)).length ? applyDirectivesToNode(directives, nodeList[i], attrs, transcludeFn, $rootElement, null, [], [], previousCompileContext) : null) && nodeLinkFn.terminal || !nodeList[i].childNodes || !nodeList[i].childNodes.length ? null : compileNodes(nodeList[i].childNodes, nodeLinkFn ? nodeLinkFn.transclude : transcludeFn), linkFns.push(nodeLinkFn), linkFns.push(childLinkFn), linkFnFound = linkFnFound || nodeLinkFn || childLinkFn, previousCompileContext = null;
+                    for(var nodeLinkFn, childLinkFn, directives, attrs, linkFnFound, linkFns = [], i = 0; i < nodeList.length; i++)attrs = new Attributes(), directives = collectDirectives(nodeList[i], [], attrs, 0 === i ? maxPriority : undefined, ignoreDirective), nodeLinkFn = directives.length ? applyDirectivesToNode(directives, nodeList[i], attrs, transcludeFn, $rootElement, null, [], [], previousCompileContext) : null, childLinkFn = nodeLinkFn && nodeLinkFn.terminal || !nodeList[i].childNodes || !nodeList[i].childNodes.length ? null : compileNodes(nodeList[i].childNodes, nodeLinkFn ? nodeLinkFn.transclude : transcludeFn), linkFns.push(nodeLinkFn), linkFns.push(childLinkFn), linkFnFound = linkFnFound || nodeLinkFn || childLinkFn, previousCompileContext = null;
                     return linkFnFound ? function(scope, nodeList, $rootElement, boundTranscludeFn) {
                         var nodeLinkFn, childLinkFn, node, $node, childScope, childTranscludeFn, i, ii, n, stableNodeList = [];
                         for(i = 0, ii = nodeList.length; i < ii; i++)stableNodeList.push(nodeList[i]);
@@ -1180,10 +1182,10 @@
                     for(var newScopeDirective, directive, directiveName, $template, linkFn, directiveValue, terminalPriority = -Number.MAX_VALUE, controllerDirectives = (previousCompileContext = previousCompileContext || {}).controllerDirectives, newIsolateScopeDirective = previousCompileContext.newIsolateScopeDirective, templateDirective = previousCompileContext.templateDirective, nonTlbTranscludeDirective = previousCompileContext.nonTlbTranscludeDirective, hasTranscludeDirective = !1, hasElementTranscludeDirective = !1, $compileNode = templateAttrs.$$element = jqLite(compileNode), replaceDirective = originalReplaceDirective, childTranscludeFn = transcludeFn, i = 0, ii = directives.length; i < ii; i++){
                         var attrStart = (directive = directives[i]).$$start, attrEnd = directive.$$end;
                         if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = undefined, terminalPriority > directive.priority) break;
-                        if ((directiveValue = directive.scope) && (newScopeDirective = newScopeDirective || directive, !directive.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive))), directiveName = directive.name, !directive.templateUrl && directive.controller && (directiveValue = directive.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {})[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
+                        if ((directiveValue = directive.scope) && (newScopeDirective = newScopeDirective || directive, !directive.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive))), directiveName = directive.name, !directive.templateUrl && directive.controller && (directiveValue = directive.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {})[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), $compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")), compileNode = $compileNode[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
                             nonTlbTranscludeDirective: nonTlbTranscludeDirective
                         })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template, directiveValue = denormalizeTemplate(directiveValue), directive.replace) {
-                            if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
+                            if (replaceDirective = directive, $template = jqLite("<div>" + trim(directiveValue) + "</div>").contents(), compileNode = $template[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
                             replaceWith(jqCollection, $compileNode, compileNode);
                             var newTemplateAttrs = {
                                 $attr: {}
@@ -1223,10 +1225,10 @@
                     }
                     function nodeLinkFn(childLinkFn, scope, linkNode, $rootElement, boundTranscludeFn) {
                         var attrs, $element, i, ii, linkFn, controller, isolateScope, transcludeFn, elementControllers = {};
-                        if ($element = (attrs = compileNode === linkNode ? templateAttrs : function(src, dst) {
+                        if (attrs = compileNode === linkNode ? templateAttrs : function(src, dst) {
                             for(var key in dst = dst || {}, src)src.hasOwnProperty(key) && "$$" !== key.substr(0, 2) && (dst[key] = src[key]);
                             return dst;
-                        }(templateAttrs, new Attributes(jqLite(linkNode), templateAttrs.$attr))).$$element, newIsolateScopeDirective) {
+                        }(templateAttrs, new Attributes(jqLite(linkNode), templateAttrs.$attr)), $element = attrs.$$element, newIsolateScopeDirective) {
                             var LOCAL_REGEXP = /^\s*([@=&])(\??)\s*(\w*)\s*$/, $linkNode = jqLite(linkNode);
                             isolateScope = scope.$new(!0), templateDirective && templateDirective === newIsolateScopeDirective.$$originalDirective ? $linkNode.data("$isolateScope", isolateScope) : $linkNode.data("$isolateScopeNoTemplate", isolateScope), safeAddClass($linkNode, "ng-isolate-scope"), forEach(newIsolateScopeDirective.scope, function(definition, scopeName) {
                                 var lastValue, parentGet, parentSet, compare, match = definition.match(LOCAL_REGEXP) || [], attrName = match[3] || scopeName, optional = "?" == match[2], mode = match[1];
@@ -1319,7 +1321,7 @@
                     }).success(function(content) {
                         var compileNode, tempTemplateAttrs, $template, childBoundTranscludeFn;
                         if (content = denormalizeTemplate(content), origAsyncDirective.replace) {
-                            if (compileNode = ($template = jqLite("<div>" + trim(content) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", origAsyncDirective.name, templateUrl);
+                            if ($template = jqLite("<div>" + trim(content) + "</div>").contents(), compileNode = $template[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", origAsyncDirective.name, templateUrl);
                             tempTemplateAttrs = {
                                 $attr: {}
                             }, replaceWith($rootElement, $compileNode, compileNode);
@@ -1696,7 +1698,7 @@
             }
             function completeRequest(callback, status, response, headersString) {
                 var protocol = urlResolve(url).protocol;
-                timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, callback(status = 1223 == (status = "file" == protocol && 0 === status ? response ? 200 : 404 : status) ? 204 : status, response, headersString), $browser.$$completeOutstandingRequest(noop);
+                timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, status = "file" == protocol && 0 === status ? response ? 200 : 404 : status, callback(status = 1223 == status ? 204 : status, response, headersString), $browser.$$completeOutstandingRequest(noop);
             }
         };
         function jsonpReq(url, done) {
@@ -2257,14 +2259,15 @@
     function setter(obj, path, setValue, fullExp, options) {
         options = options || {};
         for(var key, element = path.split("."), i = 0; element.length > 1; i++){
-            var propertyObj = obj[key = ensureSafeMemberName(element.shift(), fullExp)];
+            key = ensureSafeMemberName(element.shift(), fullExp);
+            var propertyObj = obj[key];
             propertyObj || (propertyObj = {}, obj[key] = propertyObj), (obj = propertyObj).then && options.unwrapPromises && (promiseWarning(fullExp), "$$v" in obj || function(promise) {
                 promise.then(function(val) {
                     promise.$$v = val;
                 });
             }(obj), undefined === obj.$$v && (obj.$$v = {}), obj = obj.$$v);
         }
-        return obj[key = ensureSafeMemberName(element.shift(), fullExp)] = setValue, setValue;
+        return key = ensureSafeMemberName(element.shift(), fullExp), obj[key] = setValue, setValue;
     }
     Parser.ZERO = function() {
         return 0;
@@ -2419,13 +2422,13 @@
             var parser = this, indexFn = this.expression();
             return this.consume("]"), extend(function(self, locals) {
                 var v, p, o = obj(self, locals), i = indexFn(self, locals);
-                if (o) return (v = ensureSafeObject(o[i], parser.text)) && v.then && parser.options.unwrapPromises && (p = v, "$$v" in v || (p.$$v = undefined, p.then(function(val) {
+                if (o) return v = ensureSafeObject(o[i], parser.text), v && v.then && parser.options.unwrapPromises && (p = v, "$$v" in v || (p.$$v = undefined, p.then(function(val) {
                     p.$$v = val;
                 })), v = v.$$v), v;
             }, {
                 assign: function(self, value, locals) {
-                    var key = indexFn(self, locals);
-                    return ensureSafeObject(obj(self, locals), parser.text)[key] = value;
+                    var key = indexFn(self, locals), safe = ensureSafeObject(obj(self, locals), parser.text);
+                    return safe[key] = value;
                 }
             });
         },
@@ -2545,8 +2548,8 @@
                     switch(typeof exp){
                         case "string":
                             if (cache.hasOwnProperty(exp)) return cache[exp];
-                            var lexer = new Lexer($parseOptions);
-                            return parsedExpression = new Parser(lexer, $filter, $parseOptions).parse(exp, !1), "hasOwnProperty" !== exp && (cache[exp] = parsedExpression), parsedExpression;
+                            var lexer = new Lexer($parseOptions), parser = new Parser(lexer, $filter, $parseOptions);
+                            return parsedExpression = parser.parse(exp, !1), "hasOwnProperty" !== exp && (cache[exp] = parsedExpression), parsedExpression;
                         case "function":
                             return exp;
                         default:
@@ -2898,7 +2901,7 @@
                             event
                         ], arguments, 1);
                         do {
-                            for(i = 0, current = next, event.currentScope = current, length = (listeners = current.$$listeners[name] || []).length; i < length; i++){
+                            for(i = 0, current = next, event.currentScope = current, listeners = current.$$listeners[name] || [], length = listeners.length; i < length; i++){
                                 if (!listeners[i]) {
                                     listeners.splice(i, 1), i--, length--;
                                     continue;
@@ -2940,7 +2943,7 @@
         }, this.$get = function() {
             return function(uri, isImage) {
                 var normalizedVal, regex = isImage ? imgSrcSanitizationWhitelist : aHrefSanitizationWhitelist;
-                return msie && !(msie >= 8) || "" === (normalizedVal = urlResolve(uri).href) || normalizedVal.match(regex) ? uri : "unsafe:" + normalizedVal;
+                return msie && !(msie >= 8) || (normalizedVal = urlResolve(uri).href, "" === normalizedVal || normalizedVal.match(regex)) ? uri : "unsafe:" + normalizedVal;
             };
         };
     }
@@ -3293,8 +3296,8 @@
     }
     function dateStrGetter(name, shortForm) {
         return function(date, formats) {
-            var value = date["get" + name]();
-            return formats[uppercase(shortForm ? "SHORT" + name : name)][value];
+            var value = date["get" + name](), get = uppercase(shortForm ? "SHORT" + name : name);
+            return formats[get][value];
         };
     }
     var DATE_FORMATS = {
@@ -3342,7 +3345,7 @@
             }(date)), isNumber(date) && (date = new Date(date)), !isDate(date)) return date;
             for(; format;)(match = DATE_FORMATS_SPLIT.exec(format)) ? format = (parts = concat(parts, match, 1)).pop() : (parts.push(format), format = null);
             return forEach(parts, function(value) {
-                text += (fn = DATE_FORMATS[value]) ? fn(date, $locale.DATETIME_FORMATS) : value.replace(/(^'|'$)/g, "").replace(/''/g, "'");
+                fn = DATE_FORMATS[value], text += fn ? fn(date, $locale.DATETIME_FORMATS) : value.replace(/(^'|'$)/g, "").replace(/''/g, "'");
             }), text;
         };
     }
@@ -3367,14 +3370,14 @@
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
             if (!isArray(array) || !sortPredicate) return array;
-            sortPredicate = function(obj, iterator, context) {
+            sortPredicate = isArray(sortPredicate) ? sortPredicate : [
+                sortPredicate
+            ], sortPredicate = function(obj, iterator, context) {
                 var results = [];
                 return forEach(obj, function(value, index, list) {
                     results.push(iterator.call(void 0, value, index, list));
                 }), results;
-            }(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
-                sortPredicate
-            ], function(predicate) {
+            }(sortPredicate, function(predicate) {
                 var descending = !1, get = predicate || identity;
                 return isString(predicate) && (("+" == predicate.charAt(0) || "-" == predicate.charAt(0)) && (descending = "-" == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
                     return compare(get(a), get(b));
@@ -4223,12 +4226,12 @@
                                         for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
                                     } else selectedSet = new HashMap(modelValue);
                                 }
-                                for(index = 0; index < (length = keys.length); index++){
+                                for(index = 0; length = keys.length, index < length; index++){
                                     if (key = index, keyName) {
-                                        if ("$" === (key = keys[index]).charAt(0)) continue;
+                                        if (key = keys[index], "$" === key.charAt(0)) continue;
                                         locals[keyName] = key;
                                     }
-                                    if (locals[valueName] = values[key], (optionGroup = optionGroups[optionGroupName = groupByFn(scope, locals) || ""]) || (optionGroup = optionGroups[optionGroupName] = [], optionGroupNames.push(optionGroupName)), multiple) selected = isDefined(selectedSet.remove(trackFn ? trackFn(scope, locals) : valueFn(scope, locals)));
+                                    if (locals[valueName] = values[key], optionGroupName = groupByFn(scope, locals) || "", (optionGroup = optionGroups[optionGroupName]) || (optionGroup = optionGroups[optionGroupName] = [], optionGroupNames.push(optionGroupName)), multiple) selected = isDefined(selectedSet.remove(trackFn ? trackFn(scope, locals) : valueFn(scope, locals)));
                                     else {
                                         if (trackFn) {
                                             var modelCast = {};
@@ -4251,11 +4254,11 @@
                                     label: "",
                                     selected: !0
                                 })), groupIndex = 0, groupLength = optionGroupNames.length; groupIndex < groupLength; groupIndex++){
-                                    for(optionGroup = optionGroups[optionGroupName = optionGroupNames[groupIndex]], optionGroupsCache.length <= groupIndex ? (existingOptions = [
-                                        existingParent = {
-                                            element: optGroupTemplate.clone().attr("label", optionGroupName),
-                                            label: optionGroup.label
-                                        }
+                                    for(optionGroup = optionGroups[optionGroupName = optionGroupNames[groupIndex]], optionGroupsCache.length <= groupIndex ? (existingParent = {
+                                        element: optGroupTemplate.clone().attr("label", optionGroupName),
+                                        label: optionGroup.label
+                                    }, existingOptions = [
+                                        existingParent
                                     ], optionGroupsCache.push(existingOptions), selectElement.append(existingParent.element)) : (existingParent = (existingOptions = optionGroupsCache[groupIndex])[0]).label != optionGroupName && existingParent.element.attr("label", existingParent.label = optionGroupName), lastElement = null, index = 0, length = optionGroup.length; index < length; index++)option = optionGroup[index], (existingOption = existingOptions[index + 1]) ? (lastElement = existingOption.element, existingOption.label !== option.label && lastElement.text(existingOption.label = option.label), existingOption.id !== option.id && lastElement.val(existingOption.id = option.id), lastElement[0].selected !== option.selected && lastElement.prop("selected", existingOption.selected = option.selected)) : ("" === option.id && nullOption ? element = nullOption : (element = optionTemplate.clone()).val(option.id).attr("selected", option.selected).text(option.label), existingOptions.push(existingOption = {
                                         element: element,
                                         label: option.label,
@@ -4342,7 +4345,7 @@
         restrict: "E",
         terminal: !0
     });
-    (jQuery = window1.jQuery) ? (jqLite = jQuery, extend(jQuery.fn, {
+    jQuery = window1.jQuery, jQuery ? (jqLite = jQuery, extend(jQuery.fn, {
         scope: JQLitePrototype.scope,
         isolateScope: JQLitePrototype.isolateScope,
         controller: JQLitePrototype.controller,

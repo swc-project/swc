@@ -85,7 +85,7 @@ var computed = "b", computed2 = "a", o = (o[computed], o[computed2], _object_wit
     computed,
     computed2
 ].map(_to_property_key)));
-o = _object_without_properties(_o = o, [
+_o = o, o = _object_without_properties(_o, [
     computed,
     computed2
 ].map(_to_property_key)), ref1 = _o, ref1[computed], ref1[computed2];

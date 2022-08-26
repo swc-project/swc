@@ -16,6 +16,9 @@
 
 - **(es/minifier)** Revert alias analyzer work (#5634) ([d44bbff](https://github.com/swc-project/swc/commit/d44bbffa02a620d1daf3f7a61b410adc0818d69c))
 
+
+- **(es/minifier)** Fix alias analyzer (#5639) ([a06e6e9](https://github.com/swc-project/swc/commit/a06e6e9ce5c8628e75c19619d003ceb623b4a5e3))
+
 ### Features
 
 
