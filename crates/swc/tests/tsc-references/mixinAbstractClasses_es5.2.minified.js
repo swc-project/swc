@@ -21,7 +21,7 @@ var ConcreteBase = function() {
 }(), AbstractBase = function AbstractBase() {
     "use strict";
     _class_call_check(this, AbstractBase);
-}, DerivedFromConcrete = function(_superClass) {
+}, wasConcrete = new (function(_superClass) {
     "use strict";
     _inherits(DerivedFromConcrete, _superClass);
     var _super = _create_super(DerivedFromConcrete);
@@ -29,9 +29,9 @@ var ConcreteBase = function() {
         return _class_call_check(this, DerivedFromConcrete), _super.apply(this, arguments);
     }
     return DerivedFromConcrete;
-}(Mixin(ConcreteBase)), wasConcrete = new DerivedFromConcrete();
+}(Mixin(ConcreteBase)))();
 wasConcrete.baseMethod(), wasConcrete.mixinMethod();
-var DerivedFromAbstract = function(_superClass) {
+var wasAbstract = new (function(_superClass) {
     "use strict";
     _inherits(DerivedFromAbstract, _superClass);
     var _super = _create_super(DerivedFromAbstract);
@@ -39,5 +39,5 @@ var DerivedFromAbstract = function(_superClass) {
         return _class_call_check(this, DerivedFromAbstract), _super.apply(this, arguments);
     }
     return DerivedFromAbstract.prototype.abstractBaseMethod = function() {}, DerivedFromAbstract;
-}(Mixin(AbstractBase)), wasAbstract = new DerivedFromAbstract();
+}(Mixin(AbstractBase)))();
 wasAbstract.abstractBaseMethod(), wasAbstract.mixinMethod();

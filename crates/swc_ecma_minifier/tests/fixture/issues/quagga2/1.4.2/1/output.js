@@ -1209,8 +1209,8 @@
         function(module1, exports1) {
             var objectProto = Object.prototype;
             module1.exports = function(value) {
-                var Ctor = value && value.constructor;
-                return value === ("function" == typeof Ctor && Ctor.prototype || objectProto);
+                var Ctor = value && value.constructor, proto = "function" == typeof Ctor && Ctor.prototype || objectProto;
+                return value === proto;
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -1733,9 +1733,7 @@
             var assocIndexOf = __webpack_require__(25), splice = Array.prototype.splice;
             module1.exports = function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                if (index < 0) return !1;
-                var lastIndex = data.length - 1;
-                return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
+                return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -2187,11 +2185,11 @@
             };
         },
         function(module1, exports1) {
-            var nativeNow = Date.now;
+            var HOT_SPAN = 16, nativeNow = Date.now;
             module1.exports = function(func) {
                 var count = 0, lastCalled = 0;
                 return function() {
-                    var stamp = nativeNow(), remaining = 16 - (stamp - lastCalled);
+                    var stamp = nativeNow(), remaining = HOT_SPAN - (stamp - lastCalled);
                     if (lastCalled = stamp, remaining > 0) {
                         if (++count >= 800) return arguments[0];
                     } else count = 0;
@@ -3272,7 +3270,7 @@
             };
             var BarcodeDirection1, bresenham = Bresenham, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
             (BarcodeDirection1 = BarcodeDirection || (BarcodeDirection = {}))[BarcodeDirection1.Forward = 1] = "Forward", BarcodeDirection1[BarcodeDirection1.Reverse = -1] = "Reverse";
-            var barcode_reader = function() {
+            var barcode_reader_BarcodeReader = function() {
                 function BarcodeReader(config, supplements) {
                     return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {}), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", "unknown"), defineProperty_default()(this, "CONFIG_KEYS", {}), this._row = [], this.config = config || {}, supplements && (this.supplements = supplements), this;
                 }
@@ -3362,7 +3360,7 @@
                         }
                     }, 
                 ]), BarcodeReader;
-            }(), code_128_reader = function(_BarcodeReader) {
+            }(), barcode_reader = barcode_reader_BarcodeReader, code_128_reader = function(_BarcodeReader) {
                 inherits_default()(Code128Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code128Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;

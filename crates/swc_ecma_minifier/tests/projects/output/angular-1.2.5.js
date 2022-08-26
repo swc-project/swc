@@ -113,7 +113,7 @@
     function isScope(obj) {
         return obj && obj.$evalAsync && obj.$watch;
     }
-    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
+    msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1]), isNaN(msie) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
     var trim = String.prototype.trim ? function(value) {
         return isString(value) ? value.trim() : value;
     } : function(value) {
@@ -230,7 +230,7 @@
     function parseKeyValue(keyValue) {
         var key_value, key, obj = {};
         return forEach((keyValue || "").split("&"), function(keyValue) {
-            if (keyValue && isDefined(key = tryDecodeURIComponent((key_value = keyValue.split("="))[0]))) {
+            if (keyValue && (key = tryDecodeURIComponent((key_value = keyValue.split("="))[0]), isDefined(key))) {
                 var val = !isDefined(key_value[1]) || tryDecodeURIComponent(key_value[1]);
                 obj[key] ? isArray(obj[key]) ? obj[key].push(val) : obj[key] = [
                     obj[key],
@@ -255,7 +255,10 @@
     }
     function bootstrap(element, modules) {
         var doBootstrap = function() {
-            if ((element = jqLite(element)).injector()) throw ngMinErr("btstrpd", "App Already Bootstrapped with this Element '{0}'", element[0] === document1 ? "document" : startingTag(element));
+            if ((element = jqLite(element)).injector()) {
+                var tag = element[0] === document1 ? "document" : startingTag(element);
+                throw ngMinErr("btstrpd", "App Already Bootstrapped with this Element '{0}'", tag);
+            }
             (modules = modules || []).unshift([
                 "$provide",
                 function($provide) {
@@ -577,7 +580,7 @@
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
             var element1, events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", handle = (element1 = element, events = events1, eventHandler = function(event, type) {
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", handle = (element1 = element, events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -593,7 +596,7 @@
                 }, forEach(events[type || event.type], function(fn) {
                     fn.call(element1, event);
                 }), msie <= 8 ? (event.preventDefault = null, event.stopPropagation = null, event.isDefaultPrevented = null) : (delete event.preventDefault, delete event.stopPropagation, delete event.isDefaultPrevented);
-            }, eventHandler.elem = element1, eventHandler)), forEach(type.split(" "), function(type) {
+            }).elem = element1, eventHandler)), forEach(type.split(" "), function(type) {
                 var eventFns = events1[type];
                 if (!eventFns) {
                     if ("mouseenter" == type || "mouseleave" == type) {
@@ -1119,7 +1122,7 @@
                     } catch (e) {}
                 }
                 function compileNodes(nodeList, transcludeFn, $rootElement, maxPriority, ignoreDirective, previousCompileContext) {
-                    for(var nodeLinkFn, childLinkFn, directives, attrs, linkFnFound, linkFns = [], i = 0; i < nodeList.length; i++)attrs = new Attributes(), directives = collectDirectives(nodeList[i], [], attrs, 0 === i ? maxPriority : undefined, ignoreDirective), nodeLinkFn = directives.length ? applyDirectivesToNode(directives, nodeList[i], attrs, transcludeFn, $rootElement, null, [], [], previousCompileContext) : null, childLinkFn = nodeLinkFn && nodeLinkFn.terminal || !nodeList[i].childNodes || !nodeList[i].childNodes.length ? null : compileNodes(nodeList[i].childNodes, nodeLinkFn ? nodeLinkFn.transclude : transcludeFn), linkFns.push(nodeLinkFn), linkFns.push(childLinkFn), linkFnFound = linkFnFound || nodeLinkFn || childLinkFn, previousCompileContext = null;
+                    for(var nodeLinkFn, childLinkFn, directives, attrs, linkFnFound, linkFns = [], i = 0; i < nodeList.length; i++)attrs = new Attributes(), childLinkFn = (nodeLinkFn = (directives = collectDirectives(nodeList[i], [], attrs, 0 === i ? maxPriority : undefined, ignoreDirective)).length ? applyDirectivesToNode(directives, nodeList[i], attrs, transcludeFn, $rootElement, null, [], [], previousCompileContext) : null) && nodeLinkFn.terminal || !nodeList[i].childNodes || !nodeList[i].childNodes.length ? null : compileNodes(nodeList[i].childNodes, nodeLinkFn ? nodeLinkFn.transclude : transcludeFn), linkFns.push(nodeLinkFn), linkFns.push(childLinkFn), linkFnFound = linkFnFound || nodeLinkFn || childLinkFn, previousCompileContext = null;
                     return linkFnFound ? function(scope, nodeList, $rootElement, boundTranscludeFn) {
                         var nodeLinkFn, childLinkFn, node, $node, childScope, childTranscludeFn, i, ii, n, stableNodeList = [];
                         for(i = 0, ii = nodeList.length; i < ii; i++)stableNodeList.push(nodeList[i]);
@@ -1170,7 +1173,7 @@
                 }
                 function groupElementsLinkFnWrapper(linkFn, attrStart, attrEnd) {
                     return function(scope, element, attrs, controllers, transcludeFn) {
-                        return linkFn(scope, element = groupScan(element[0], attrStart, attrEnd), attrs, controllers, transcludeFn);
+                        return element = groupScan(element[0], attrStart, attrEnd), linkFn(scope, element, attrs, controllers, transcludeFn);
                     };
                 }
                 function applyDirectivesToNode(directives, compileNode, templateAttrs, transcludeFn, jqCollection, originalReplaceDirective, preLinkFns, postLinkFns, previousCompileContext) {
@@ -1432,7 +1435,7 @@
             function($injector, $window) {
                 return function(expression, locals) {
                     var instance, match, constructor, identifier;
-                    if (isString(expression) && (constructor = (match = expression.match(CNTRL_REG))[1], identifier = match[3], assertArgFn(expression = controllers.hasOwnProperty(constructor) ? controllers[constructor] : getter(locals.$scope, constructor, !0) || getter($window, constructor, !0), constructor, !0)), instance = $injector.instantiate(expression, locals), identifier) {
+                    if (isString(expression) && (constructor = (match = expression.match(CNTRL_REG))[1], identifier = match[3], expression = controllers.hasOwnProperty(constructor) ? controllers[constructor] : getter(locals.$scope, constructor, !0) || getter($window, constructor, !0), assertArgFn(expression, constructor, !0)), instance = $injector.instantiate(expression, locals), identifier) {
                         if (!(locals && "object" == typeof locals.$scope)) throw minErr("$controller")("noscp", "Cannot export controller '{0}' as '{1}'! No $scope object provided via `locals`.", constructor || expression.name, identifier);
                         locals.$scope[identifier] = instance;
                     }
@@ -1602,7 +1605,7 @@
                 }("post", "put"), $http.defaults = defaults, $http;
                 function sendReq(config, reqData, reqHeaders) {
                     var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = buildUrl(config.url, config.params);
-                    if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) {
+                    if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (cachedResp = cache.get(url), isDefined(cachedResp)) {
                         if (cachedResp.then) return cachedResp.then(removePendingReq, removePendingReq), cachedResp;
                         isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
                     } else cache.put(url, promise);
@@ -1728,7 +1731,8 @@
                             for(var part, i = 0, ii = length; i < ii; i++)"function" == typeof (part = parts[i]) && (part = part(context), part = trustedContext ? $sce.getTrusted(trustedContext, part) : $sce.valueOf(part), null === part || isUndefined(part) ? part = "" : "string" != typeof part && (part = toJson(part))), concat[i] = part;
                             return concat.join("");
                         } catch (err) {
-                            $exceptionHandler($interpolateMinErr("interr", "Can't interpolate: {0}\n{1}", text, err.toString()));
+                            var newErr = $interpolateMinErr("interr", "Can't interpolate: {0}\n{1}", text, err.toString());
+                            $exceptionHandler(newErr);
                         }
                     }).exp = text, fn.parts = parts, fn;
                 }
@@ -2154,7 +2158,9 @@
             return "-" === ch || "+" === ch || this.isNumber(ch);
         },
         throwError: function(error, start, end) {
-            throw end = end || this.index, $parseMinErr("lexerr", "Lexer Error: {0} at column{1} in expression [{2}].", error, isDefined(start) ? "s " + start + "-" + this.index + " [" + this.text.substring(start, end) + "]" : " " + end, this.text);
+            end = end || this.index;
+            var colStr = isDefined(start) ? "s " + start + "-" + this.index + " [" + this.text.substring(start, end) + "]" : " " + end;
+            throw $parseMinErr("lexerr", "Lexer Error: {0} at column{1} in expression [{2}].", error, colStr, this.text);
         },
         readNumber: function() {
             for(var number = "", start = this.index; this.index < this.text.length;){
@@ -2418,8 +2424,8 @@
                 })), v = v.$$v), v;
             }, {
                 assign: function(self, value, locals) {
-                    var key = indexFn(self, locals), safe = ensureSafeObject(obj(self, locals), parser.text);
-                    return safe[key] = value;
+                    var key = indexFn(self, locals);
+                    return ensureSafeObject(obj(self, locals), parser.text)[key] = value;
                 }
             });
         },
@@ -2432,7 +2438,9 @@
             return function(scope, locals) {
                 for(var args = [], context = contextGetter ? contextGetter(scope, locals) : scope, i = 0; i < argsFn.length; i++)args.push(argsFn[i](scope, locals));
                 var fnPtr = fn(scope, locals, context) || noop;
-                return ensureSafeObject(context, parser.text), ensureSafeObject(fnPtr, parser.text), ensureSafeObject(fnPtr.apply ? fnPtr.apply(context, args) : fnPtr(args[0], args[1], args[2], args[3], args[4]), parser.text);
+                ensureSafeObject(context, parser.text), ensureSafeObject(fnPtr, parser.text);
+                var v = fnPtr.apply ? fnPtr.apply(context, args) : fnPtr(args[0], args[1], args[2], args[3], args[4]);
+                return ensureSafeObject(v, parser.text);
             };
         },
         arrayDeclaration: function() {
@@ -2879,9 +2887,9 @@
                         return event;
                     },
                     $broadcast: function(name, args) {
-                        var listeners, i, length, current = this, next = this, event = {
+                        var listeners, i, length, target = this, current = target, next = target, event = {
                             name: name,
-                            targetScope: this,
+                            targetScope: target,
                             preventDefault: function() {
                                 event.defaultPrevented = !0;
                             },
@@ -2901,7 +2909,7 @@
                                     $exceptionHandler(e);
                                 }
                             }
-                            if (!(next = current.$$childHead || current !== this && current.$$nextSibling)) for(; current !== this && !(next = current.$$nextSibling);)current = current.$parent;
+                            if (!(next = current.$$childHead || current !== target && current.$$nextSibling)) for(; current !== target && !(next = current.$$nextSibling);)current = current.$parent;
                         }while (current = next)
                         return event;
                     }
@@ -3243,6 +3251,14 @@
             return formatNumber(number, formats.PATTERNS[0], formats.GROUP_SEP, formats.DECIMAL_SEP, fractionSize);
         };
     }
+    $FilterProvider.$inject = [
+        "$provide"
+    ], currencyFilter.$inject = [
+        "$locale"
+    ], numberFilter.$inject = [
+        "$locale"
+    ];
+    var DECIMAL_SEP = ".";
     function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
         if (isNaN(number) || !isFinite(number)) return "";
         var isNegative = number < 0, numStr = (number = Math.abs(number)) + "", formatedText = "", parts = [], hasExponent = !1;
@@ -3252,9 +3268,9 @@
         }
         if (hasExponent) fractionSize > 0 && number > -1 && number < 1 && (formatedText = number.toFixed(fractionSize));
         else {
-            var fractionLen = (numStr.split(".")[1] || "").length;
+            var fractionLen = (numStr.split(DECIMAL_SEP)[1] || "").length;
             isUndefined(fractionSize) && (fractionSize = Math.min(Math.max(pattern.minFrac, fractionLen), pattern.maxFrac));
-            var pow = Math.pow(10, fractionSize), fraction = ("" + (number = Math.round(number * pow) / pow)).split("."), whole = fraction[0];
+            var pow = Math.pow(10, fractionSize), fraction = ("" + (number = Math.round(number * pow) / pow)).split(DECIMAL_SEP), whole = fraction[0];
             fraction = fraction[1] || "";
             var i, pos = 0, lgroup = pattern.lgSize, group = pattern.gSize;
             if (whole.length >= lgroup + group) for(i = 0, pos = whole.length - lgroup; i < pos; i++)(pos - i) % group == 0 && 0 !== i && (formatedText += groupSep), formatedText += whole.charAt(i);
@@ -3281,13 +3297,6 @@
             return formats[uppercase(shortForm ? "SHORT" + name : name)][value];
         };
     }
-    $FilterProvider.$inject = [
-        "$provide"
-    ], currencyFilter.$inject = [
-        "$locale"
-    ], numberFilter.$inject = [
-        "$locale"
-    ];
     var DATE_FORMATS = {
         yyyy: dateGetter("FullYear", 4),
         yy: dateGetter("FullYear", 2, 0, !0),
@@ -4227,7 +4236,7 @@
                                         } else selected = modelValue === valueFn(scope, locals);
                                         selectedSet = selectedSet || selected;
                                     }
-                                    label = isDefined(label = displayFn(scope, locals)) ? label : "", optionGroup.push({
+                                    label = displayFn(scope, locals), label = isDefined(label) ? label : "", optionGroup.push({
                                         id: trackFn ? trackFn(scope, locals) : keyName ? keys[index] : index,
                                         label: label,
                                         selected: selected

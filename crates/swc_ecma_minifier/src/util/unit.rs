@@ -48,9 +48,6 @@ impl CompileUnit for Module {
     }
 
     fn force_dump(&self) -> String {
-        let _noop_sub =
-            tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
-
         dump(
             &self
                 .clone()
@@ -83,9 +80,6 @@ impl CompileUnit for FnExpr {
     }
 
     fn force_dump(&self) -> String {
-        let _noop_sub =
-            tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
-
         dump(
             &self
                 .clone()
