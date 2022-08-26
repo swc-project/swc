@@ -269,6 +269,7 @@ bridge_expr_from!(FnExpr, Function);
 macro_rules! boxed_expr {
     ($T:ty) => {
         bridge_from!(Box<Expr>, Expr, $T);
+        bridge_from!(PatOrExpr, Box<Expr>, $T);
     };
 }
 
@@ -286,7 +287,7 @@ boxed_expr!(CondExpr);
 boxed_expr!(CallExpr);
 boxed_expr!(NewExpr);
 boxed_expr!(SeqExpr);
-boxed_expr!(Ident);
+bridge_from!(Box<Expr>, Expr, Ident);
 boxed_expr!(Lit);
 boxed_expr!(Tpl);
 boxed_expr!(TaggedTpl);
@@ -1207,9 +1208,6 @@ pub enum PatOrExpr {
 bridge_from!(PatOrExpr, Box<Pat>, Pat);
 bridge_from!(PatOrExpr, Pat, Ident);
 bridge_from!(PatOrExpr, Pat, Id);
-bridge_from!(PatOrExpr, Box<Expr>, Expr);
-bridge_from!(PatOrExpr, Box<Expr>, MemberExpr);
-bridge_from!(PatOrExpr, Box<Expr>, SuperPropExpr);
 
 impl PatOrExpr {
     /// Returns the [Pat] if this is a pattern, otherwise returns [None].
