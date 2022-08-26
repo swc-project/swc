@@ -27,23 +27,14 @@ export var Argument = function(Base) {
     function Argument() {
         return _class_call_check(this, Argument), _super.apply(this, arguments);
     }
-    return Argument.prototype.validate = function(defs) {
+    var _proto = Argument.prototype;
+    return _proto.validate = function(defs) {
         return _ts_generator(this, function(_state) {
             return [
                 2
             ];
         });
     }, Argument.parse = function(tokeniser) {}, _create_class(Argument, [
-    var _proto = Argument.prototype;
-    return _proto.validate = regeneratorRuntime.mark(function validate(defs) {
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, validate);
-    }), Argument.parse = function(tokeniser) {}, _create_class(Argument, [
         {
             key: "type",
             get: function() {

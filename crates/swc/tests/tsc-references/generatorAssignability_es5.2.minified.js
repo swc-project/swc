@@ -9,8 +9,6 @@ import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import _ts_values from "@swc/helpers/src/_ts_values.mjs";
-_to_consumable_array(g1), _to_consumable_array(g2), _sliced_to_array(g1, 1)[0], _sliced_to_array(g2, 1)[0], _to_array(g1).slice(0), _to_array(g2).slice(0), _ = _sliced_to_array(g1, 1)[0], _ = _sliced_to_array(g2, 1)[0], _ = _to_array(g1).slice(0), _ = _to_array(g2).slice(0);
-import regeneratorRuntime from "regenerator-runtime";
 _to_consumable_array(g1), _to_consumable_array(g2);
 var _g1 = _sliced_to_array(g1, 1);
 _g1[0];
