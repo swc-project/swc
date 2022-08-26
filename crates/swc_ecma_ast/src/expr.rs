@@ -265,6 +265,7 @@ impl Take for Expr {
 
 bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
+bridge_expr_from!(ClassExpr, Class);
 
 macro_rules! boxed_expr {
     ($T:ty) => {
@@ -531,6 +532,12 @@ impl Take for ClassExpr {
             ident: None,
             class: Take::dummy(),
         }
+    }
+}
+
+impl From<Class> for ClassExpr {
+    fn from(class: Class) -> Self {
+        Self { ident: None, class }
     }
 }
 
