@@ -4,8 +4,7 @@ export var Crunch = function() {
     function Crunch(n) {
         _class_call_check(this, Crunch), this.n = n;
     }
-    var _proto = Crunch.prototype;
-    return _proto.m = function() {
+    return Crunch.prototype.m = function() {
         return this.n;
     }, Crunch;
 }();

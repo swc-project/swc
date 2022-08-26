@@ -8,8 +8,7 @@ var C = function() {
             return _this.ia;
         };
     }
-    var _proto = C.prototype;
-    return _proto.baz = function(x) {
+    return C.prototype.baz = function(x) {
         return "";
     }, C.foo = function(x) {}, C.bar = function(x) {}, _create_class(C, [
         {

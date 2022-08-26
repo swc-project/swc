@@ -1,7 +1,7 @@
-var ref, ref1;
+var ref;
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_array from "@swc/helpers/src/_to_array.mjs";
-ref = _to_array([
+(ref = _sliced_to_array(_to_array([
     "",
     1
-]), ref1 = _sliced_to_array(ref.slice(0), 2), ref1[0], ref1[1];
+]).slice(0), 2))[0], ref[1];

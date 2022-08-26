@@ -5,8 +5,7 @@ var c, C = function() {
     function C() {
         _class_call_check(this, C);
     }
-    var _proto = C.prototype;
-    return _proto.foo = function() {}, C.foo = function() {}, _create_class(C, [
+    return C.prototype.foo = function() {}, C.foo = function() {}, _create_class(C, [
         {
             key: "y",
             get: function() {

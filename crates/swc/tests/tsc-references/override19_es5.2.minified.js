@@ -9,7 +9,6 @@ var Context = function Context() {
     function A() {
         _class_call_check(this, A);
     }
-    var _proto = A.prototype;
-    return _proto.doSomething = function() {}, A;
+    return A.prototype.doSomething = function() {}, A;
 }();
 CreateMixin(Context, A), CreateMixin(Context, A);

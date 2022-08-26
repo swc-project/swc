@@ -4,8 +4,7 @@ var C = function() {
     function C() {
         _class_call_check(this, C), this.p = 1;
     }
-    var _proto = C.prototype;
-    return _proto.method = function() {}, C;
+    return C.prototype.method = function() {}, C;
 }();
 C.s = 0;
 export { C as default };

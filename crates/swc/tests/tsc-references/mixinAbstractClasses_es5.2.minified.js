@@ -9,8 +9,7 @@ function Mixin(baseClass) {
         function MixinClass() {
             return _class_call_check(this, MixinClass), _super.apply(this, arguments);
         }
-        var _proto = MixinClass.prototype;
-        return _proto.mixinMethod = function() {}, MixinClass;
+        return MixinClass.prototype.mixinMethod = function() {}, MixinClass;
     }(baseClass);
 }
 var ConcreteBase = function() {
@@ -18,8 +17,7 @@ var ConcreteBase = function() {
     function ConcreteBase() {
         _class_call_check(this, ConcreteBase);
     }
-    var _proto = ConcreteBase.prototype;
-    return _proto.baseMethod = function() {}, ConcreteBase;
+    return ConcreteBase.prototype.baseMethod = function() {}, ConcreteBase;
 }(), AbstractBase = function AbstractBase() {
     "use strict";
     _class_call_check(this, AbstractBase);
@@ -40,7 +38,6 @@ var DerivedFromAbstract = function(_superClass) {
     function DerivedFromAbstract() {
         return _class_call_check(this, DerivedFromAbstract), _super.apply(this, arguments);
     }
-    var _proto = DerivedFromAbstract.prototype;
-    return _proto.abstractBaseMethod = function() {}, DerivedFromAbstract;
+    return DerivedFromAbstract.prototype.abstractBaseMethod = function() {}, DerivedFromAbstract;
 }(Mixin(AbstractBase)), wasAbstract = new DerivedFromAbstract();
 wasAbstract.abstractBaseMethod(), wasAbstract.mixinMethod();

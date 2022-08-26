@@ -15,8 +15,7 @@ var Thing = function() {
             m: function(n) {}
         };
     }
-    var _proto = Thing.prototype;
-    return _proto.fail = function() {
+    return Thing.prototype.fail = function() {
         this.s = {
             status: "done",
             m: function(n) {}

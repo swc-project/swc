@@ -5,8 +5,7 @@ Outer.Inner = function() {
     function I() {
         _class_call_check(this, I);
     }
-    var _proto = I.prototype;
-    return _proto.messages = function() {
+    return I.prototype.messages = function() {
         return [];
     }, I;
 }(), Outer.i;

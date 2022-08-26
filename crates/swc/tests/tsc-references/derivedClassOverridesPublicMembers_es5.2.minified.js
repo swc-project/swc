@@ -9,8 +9,7 @@ var x, y, d2, Derived = function(Base) {
     function Derived(a) {
         return _class_call_check(this, Derived), _super.call(this, x);
     }
-    var _proto = Derived.prototype;
-    return _proto.b = function(a) {}, Derived.s = function(a) {}, _create_class(Derived, [
+    return Derived.prototype.b = function(a) {}, Derived.s = function(a) {}, _create_class(Derived, [
         {
             key: "c",
             get: function() {
@@ -32,8 +31,7 @@ var x, y, d2, Derived = function(Base) {
     function Base(a) {
         _class_call_check(this, Base);
     }
-    var _proto = Base.prototype;
-    return _proto.b = function(a) {}, Base.s = function(a) {}, _create_class(Base, [
+    return Base.prototype.b = function(a) {}, Base.s = function(a) {}, _create_class(Base, [
         {
             key: "c",
             get: function() {

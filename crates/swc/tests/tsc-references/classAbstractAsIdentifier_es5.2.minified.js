@@ -4,8 +4,7 @@ new (function() {
     function abstract() {
         _class_call_check(this, abstract);
     }
-    var _proto = abstract.prototype;
-    return _proto.foo = function() {
+    return abstract.prototype.foo = function() {
         return 1;
     }, abstract;
 }());

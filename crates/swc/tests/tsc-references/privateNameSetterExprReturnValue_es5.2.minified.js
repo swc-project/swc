@@ -9,8 +9,7 @@ var _foo = new WeakMap(), C = function() {
             set: set_foo
         });
     }
-    var _proto = C.prototype;
-    return _proto.bar = function() {
+    return C.prototype.bar = function() {
         var x = _class_private_field_set(this, _foo, 84);
         console.log(x);
     }, C;

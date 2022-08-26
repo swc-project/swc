@@ -7,8 +7,7 @@ export var C = function() {
     function C() {
         _class_call_check(this, C);
     }
-    var _proto = C.prototype;
-    return _proto.m = function() {
+    return C.prototype.m = function() {
         return _instanceof(this, D);
     }, C;
 }();

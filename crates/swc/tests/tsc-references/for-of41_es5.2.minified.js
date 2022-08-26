@@ -11,8 +11,8 @@ try {
             }
         }
     ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
-        var _value = _step.value, _x = _sliced_to_array(_value.x, 1);
-        _x[0], _value.y.p;
+        var _value = _step.value;
+        _sliced_to_array(_value.x, 1)[0], _value.y.p;
     }
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;

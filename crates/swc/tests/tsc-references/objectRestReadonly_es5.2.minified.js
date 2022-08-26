@@ -4,8 +4,6 @@ var obj = {
     baz: "qux",
     quux: "quuz"
 };
-obj.foo;
-var rest = _object_without_properties(obj, [
+obj.foo, delete _object_without_properties(obj, [
     "foo"
-]);
-delete rest.baz;
+]).baz;

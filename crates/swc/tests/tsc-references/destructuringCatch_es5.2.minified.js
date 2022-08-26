@@ -26,6 +26,6 @@ try {
         }
     ];
 } catch (param2) {
-    var _param1 = _sliced_to_array(param2, 1), ref = _param1[0], _x = _sliced_to_array(ref.x, 1);
-    _x[0], ref.z;
+    var ref = _sliced_to_array(param2, 1)[0];
+    _sliced_to_array(ref.x, 1)[0], ref.z;
 }

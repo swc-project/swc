@@ -11,7 +11,6 @@ var getX, _x = new WeakMap(), tmp = (getX = function(a) {
             value: 100
         });
     }
-    var _proto = A.prototype;
-    return _proto[tmp] = function() {}, A;
+    return A.prototype[tmp] = function() {}, A;
 }();
 console.log(getX(new A));

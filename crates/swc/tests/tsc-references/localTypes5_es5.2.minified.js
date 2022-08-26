@@ -4,11 +4,9 @@ new (function() {
     function X() {
         _class_call_check(this, X);
     }
-    var _proto = X.prototype;
-    return _proto.m = function() {
-        var Y;
-        return Y = function Y() {
+    return X.prototype.m = function() {
+        return new function Y() {
             _class_call_check(this, Y);
-        }, new Y();
+        }();
     }, X;
 }())().m();

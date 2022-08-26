@@ -5,7 +5,6 @@ export var Aleph = function() {
     function Aleph(a, b) {
         _class_call_check(this, Aleph), this.field = b;
     }
-    var _proto = Aleph.prototype;
-    return _proto.doIt = function() {}, Aleph;
+    return Aleph.prototype.doIt = function() {}, Aleph;
 }();
 export var c = 12;

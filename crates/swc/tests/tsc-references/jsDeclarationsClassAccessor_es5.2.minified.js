@@ -5,8 +5,7 @@ export var Base = function() {
     function Base() {
         _class_call_check(this, Base);
     }
-    var _proto = Base.prototype;
-    return _proto.toJSON = function() {
+    return Base.prototype.toJSON = function() {
         return {
             type: void 0,
             name: void 0,
@@ -27,8 +26,7 @@ export var Argument = function(Base) {
     function Argument() {
         return _class_call_check(this, Argument), _super.apply(this, arguments);
     }
-    var _proto = Argument.prototype;
-    return _proto.validate = function(defs) {
+    return Argument.prototype.validate = function(defs) {
         return _ts_generator(this, function(_state) {
             return [
                 2

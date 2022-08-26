@@ -6,8 +6,7 @@ export var A = function() {
     function A() {
         _class_call_check(this, A);
     }
-    var _proto = A.prototype;
-    return _proto.method = function() {
+    return A.prototype.method = function() {
         return this;
     }, A;
 }();
@@ -18,7 +17,6 @@ var Base = function(A) {
     function Base() {
         return _class_call_check(this, Base), _super.apply(this, arguments);
     }
-    var _proto = Base.prototype;
-    return _proto.verify = function() {}, Base;
+    return Base.prototype.verify = function() {}, Base;
 }(A);
 export { Base as default };

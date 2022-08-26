@@ -11,8 +11,7 @@ export function makeP(Ctor) {
         function _class() {
             return _class_call_check(this, _class), _super.apply(this, arguments);
         }
-        var _proto = _class.prototype;
-        return _proto.render = function() {
+        return _class.prototype.render = function() {
             return React.createElement(Ctor, _extends({}, this.props));
         }, _class;
     }(React.PureComponent);

@@ -5,7 +5,7 @@ function C1() {
     this.x = 1;
 }
 C1(), new C1();
-var c5_v2, C2 = function() {
+var C2 = function() {
     if (!_instanceof(this, C2)) return new C2();
     this.x = 1;
 };
@@ -16,10 +16,10 @@ C2(), new C2(), C3(), new C3();
 var C4 = function() {
     if (!_instanceof(this, C4)) return new C4();
 };
-C4(), new C4(), c5_v2 = function c5_v2() {
+C4(), new C4(), new function c5_v2() {
     "use strict";
     _class_call_check(this, c5_v2);
-}, new c5_v2(), new function() {
+}(), new function() {
     this.functions = [
         function(x) {
             return x;

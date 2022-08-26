@@ -1,6 +1,6 @@
+var f, a;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var f, a, C = function C() {
+new function C() {
     "use strict";
     _class_call_check(this, C);
-};
-new C(), new f(), new a();
+}(), new f(), new a();

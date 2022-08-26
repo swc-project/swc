@@ -11,8 +11,7 @@ var A = function A() {
     function B() {
         return _class_call_check(this, B), _super.apply(this, arguments);
     }
-    var _proto = B.prototype;
-    return _proto.foo = function() {
+    return B.prototype.foo = function() {
         return 1;
     }, B;
 }(A), C = function(A) {

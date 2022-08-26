@@ -6,8 +6,7 @@ var k = new (function() {
     function K() {
         _class_call_check(this, K), this.p = 12;
     }
-    var _proto = K.prototype;
-    return _proto.m = function() {}, _create_class(K, [
+    return K.prototype.m = function() {}, _create_class(K, [
         {
             key: "g",
             get: function() {

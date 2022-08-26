@@ -5,8 +5,7 @@ var Handler = function() {
     function Handler() {
         _class_call_check(this, Handler);
     }
-    var _proto = Handler.prototype;
-    return _proto.process = function() {}, _create_class(Handler, null, [
+    return Handler.prototype.process = function() {}, _create_class(Handler, null, [
         {
             key: "OPTIONS",
             get: function() {

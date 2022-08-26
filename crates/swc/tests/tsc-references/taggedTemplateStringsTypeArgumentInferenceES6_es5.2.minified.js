@@ -332,6 +332,4 @@ _templateObject(), _templateObject1(), _templateObject2(), _templateObject3(), _
     return n;
 }, function(n) {
     return n;
-});
-var x = (_templateObject21(), someGenerics7);
-x(_templateObject22(), null, null, null), _templateObject23(), _templateObject24(), _templateObject25(), _templateObject26(), _templateObject27();
+}), (_templateObject21(), someGenerics7)(_templateObject22(), null, null, null), _templateObject23(), _templateObject24(), _templateObject25(), _templateObject26(), _templateObject27();

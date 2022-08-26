@@ -42,29 +42,16 @@ _object_spread({
     d: "maybe new"
 }), _object_spread({
     a: "wrong type?"
-}, o3), _object_spread(_object_spread_props(_object_spread({}, o3), (_define_property(_obj = {}, "in the middle", 13), _define_property(_obj, "b", "maybe?"), _obj)), o4), _object_spread({}, 12), _object_spread({}, 2);
-var spreadZero = _object_spread({}, 0);
-spreadZero.toFixed();
-var spreadBool = _object_spread({}, !0);
-spreadBool.valueOf();
+}, o3), _object_spread(_object_spread_props(_object_spread({}, o3), (_define_property(_obj = {}, "in the middle", 13), _define_property(_obj, "b", "maybe?"), _obj)), o4), _object_spread({}, 12), _object_spread({}, 2), _object_spread({}, 0).toFixed(), _object_spread({}, !0).valueOf();
 var spreadStr = _object_spread({}, "foo");
-spreadStr.length, spreadStr.charAt(1);
-var spreadFunc = _object_spread({}, function() {});
-spreadFunc();
-var setterOnly = _object_spread({}, {
+spreadStr.length, spreadStr.charAt(1), _object_spread({}, function() {})(), _object_spread({}, {
     set b (bad){}
-});
-setterOnly.b = 12;
-var c = new (function() {
+}).b = 12, _object_spread({}, new (function() {
     "use strict";
     function C() {
         _class_call_check(this, C), this.p = 1;
     }
-    var _proto = C.prototype;
-    return _proto.m = function() {}, C;
-}())(), spreadC = _object_spread({}, c);
-spreadC.m();
-var spreadObj = _object_spread({}, {
+    return C.prototype.m = function() {}, C;
+}())()).m(), _object_spread({}, {
     a: 123
-});
-spreadObj.a;
+}).a;

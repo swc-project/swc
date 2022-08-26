@@ -9,8 +9,7 @@ export var Empty = function(_Component) {
     function Empty() {
         return _class_call_check(this, Empty), _super.apply(this, arguments);
     }
-    var _proto = Empty.prototype;
-    return _proto.render = function() {
+    return Empty.prototype.render = function() {
         return React.createElement("div", null, "Hello");
     }, Empty;
 }(React.Component);

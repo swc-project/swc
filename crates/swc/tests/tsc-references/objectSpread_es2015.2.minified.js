@@ -29,33 +29,29 @@ _object_spread_props(_object_spread({}, o), {
     c: 'overriden'
 })), {
     c: -1
-}), _object_spread({}, o);
-let getter = _object_spread_props(_object_spread({}, {
+}), _object_spread({}, o), _object_spread_props(_object_spread({}, {
     get a () {
         return 6;
     }
 }), {
     c: 7
-});
-getter.a = 12, _object_spread({}, function() {}), _object_spread({}, void 0);
+}).a = 12, _object_spread({}, function() {}), _object_spread({}, void 0);
 let c = new class {
     m() {}
     constructor(){
         this.p = 1;
     }
 }();
-_object_spread({}, c);
-let cplus = _object_spread_props(_object_spread({}, c), {
-    plus () {
-        return this.p + 1;
-    }
-});
 function f(t, u) {
     return _object_spread_props(_object_spread({}, t, u), {
         id: 'id'
     });
 }
-cplus.plus(), _object_spread_props(_object_spread({}, o), {
+_object_spread({}, c), _object_spread_props(_object_spread({}, c), {
+    plus () {
+        return this.p + 1;
+    }
+}).plus(), _object_spread_props(_object_spread({}, o), {
     a: 'wrong type?'
 }), _object_spread({}, o, {
     a: 'yes',

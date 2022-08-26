@@ -31,35 +31,30 @@ _object_spread_props(_object_spread({}, o), {
     c: "overriden"
 })), {
     c: -1
-}), _object_spread({}, o);
-var getter = _object_spread_props(_object_spread({}, {
+}), _object_spread({}, o), _object_spread_props(_object_spread({}, {
     get a () {
         return 6;
     }
 }), {
     c: 7
-});
-getter.a = 12, _object_spread({}, function() {}), _object_spread({}, anything);
+}).a = 12, _object_spread({}, function() {}), _object_spread({}, anything);
 var c = new (function() {
     "use strict";
     function C() {
         _class_call_check(this, C), this.p = 1;
     }
-    var _proto = C.prototype;
-    return _proto.m = function() {}, C;
+    return C.prototype.m = function() {}, C;
 }())();
-_object_spread({}, c);
-var cplus = _object_spread_props(_object_spread({}, c), {
-    plus: function() {
-        return this.p + 1;
-    }
-});
 function f(t, u) {
     return _object_spread_props(_object_spread({}, t, u), {
         id: "id"
     });
 }
-cplus.plus(), _object_spread_props(_object_spread({}, o), {
+_object_spread({}, c), _object_spread_props(_object_spread({}, c), {
+    plus: function() {
+        return this.p + 1;
+    }
+}).plus(), _object_spread_props(_object_spread({}, o), {
     a: "wrong type?"
 }), _object_spread({}, o, {
     a: "yes",

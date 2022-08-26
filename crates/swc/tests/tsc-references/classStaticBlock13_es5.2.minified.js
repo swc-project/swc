@@ -5,8 +5,7 @@ var C = function() {
     function C() {
         _class_call_check(this, C);
     }
-    var _proto = C.prototype;
-    return _proto.foo = function() {
+    return C.prototype.foo = function() {
         return _class_static_private_field_spec_get(C, C, _x);
     }, C;
 }(), _x = {

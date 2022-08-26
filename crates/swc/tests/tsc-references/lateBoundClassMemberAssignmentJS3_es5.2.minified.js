@@ -7,8 +7,7 @@ export var MyClass = function() {
         var self = this;
         self[_sym] = "ok";
     }
-    var _proto = MyClass.prototype;
-    return _proto.method = function() {
+    return MyClass.prototype.method = function() {
         var self = this;
         self[_sym] = "yep", self[_sym];
     }, MyClass;

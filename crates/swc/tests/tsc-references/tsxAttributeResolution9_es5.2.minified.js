@@ -4,6 +4,5 @@ export var MyComponent = function() {
     function MyComponent() {
         _class_call_check(this, MyComponent);
     }
-    var _proto = MyComponent.prototype;
-    return _proto.render = function() {}, MyComponent;
+    return MyComponent.prototype.render = function() {}, MyComponent;
 }();

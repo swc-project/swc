@@ -20,8 +20,7 @@ var b, crate, RoyalGuard = function() {
     function LeadGuard() {
         return _class_call_check(this, LeadGuard), _super.apply(this, arguments);
     }
-    var _proto = LeadGuard.prototype;
-    return _proto.lead = function() {}, LeadGuard;
+    return LeadGuard.prototype.lead = function() {}, LeadGuard;
 }(RoyalGuard), FollowerGuard = function(RoyalGuard) {
     "use strict";
     _inherits(FollowerGuard, RoyalGuard);
@@ -29,8 +28,7 @@ var b, crate, RoyalGuard = function() {
     function FollowerGuard() {
         return _class_call_check(this, FollowerGuard), _super.apply(this, arguments);
     }
-    var _proto = FollowerGuard.prototype;
-    return _proto.follow = function() {}, FollowerGuard;
+    return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard();
 a.isLeader() ? a.lead() : a.isFollower() && a.follow(), b.isLeader() ? b.lead() : b.isFollower() && b.follow();
 var holder2 = {
@@ -52,8 +50,7 @@ var ArrowGuard = function ArrowGuard() {
     function ArrowElite() {
         return _class_call_check(this, ArrowElite), _super.apply(this, arguments);
     }
-    var _proto = ArrowElite.prototype;
-    return _proto.defend = function() {}, ArrowElite;
+    return ArrowElite.prototype.defend = function() {}, ArrowElite;
 }(ArrowGuard), ArrowMedic = function(ArrowGuard) {
     "use strict";
     _inherits(ArrowMedic, ArrowGuard);
@@ -61,8 +58,7 @@ var ArrowGuard = function ArrowGuard() {
     function ArrowMedic() {
         return _class_call_check(this, ArrowMedic), _super.apply(this, arguments);
     }
-    var _proto = ArrowMedic.prototype;
-    return _proto.heal = function() {}, ArrowMedic;
+    return ArrowMedic.prototype.heal = function() {}, ArrowMedic;
 }(ArrowGuard), guard = new ArrowGuard();
 guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), a.isFollower = b.isFollower, a.isLeader = b.isLeader;
 var MimicGuard = function() {
@@ -83,8 +79,7 @@ var MimicGuard = function() {
     function MimicLeader() {
         return _class_call_check(this, MimicLeader), _super.apply(this, arguments);
     }
-    var _proto = MimicLeader.prototype;
-    return _proto.lead = function() {}, MimicLeader;
+    return MimicLeader.prototype.lead = function() {}, MimicLeader;
 }(MimicGuard), MimicFollower = function(MimicGuard) {
     "use strict";
     _inherits(MimicFollower, MimicGuard);
@@ -92,7 +87,6 @@ var MimicGuard = function() {
     function MimicFollower() {
         return _class_call_check(this, MimicFollower), _super.apply(this, arguments);
     }
-    var _proto = MimicFollower.prototype;
-    return _proto.follow = function() {}, MimicFollower;
+    return MimicFollower.prototype.follow = function() {}, MimicFollower;
 }(MimicGuard), mimic = new MimicGuard();
 a.isLeader = mimic.isLeader, a.isFollower = mimic.isFollower, mimic.isFollower() && (mimic.follow(), mimic.isFollower = a.isFollower);

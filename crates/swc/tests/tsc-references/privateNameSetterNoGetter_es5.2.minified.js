@@ -10,8 +10,7 @@ var _x, C = (_x = new WeakMap(), function() {
             set: set_x
         });
     }
-    var _proto = _class.prototype;
-    return _proto.m = function() {
+    return _class.prototype.m = function() {
         _class_private_field_set(this, _x, _class_private_field_get(this, _x) + 2);
     }, _class;
 }());

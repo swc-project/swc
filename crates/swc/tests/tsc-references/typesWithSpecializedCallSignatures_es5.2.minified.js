@@ -6,8 +6,7 @@ var i, a, c = new (function() {
     function C() {
         _class_call_check(this, C);
     }
-    var _proto = C.prototype;
-    return _proto.foo = function(x) {
+    return C.prototype.foo = function(x) {
         return x;
     }, C;
 }())();

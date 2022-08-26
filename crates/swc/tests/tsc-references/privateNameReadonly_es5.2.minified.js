@@ -6,8 +6,7 @@ var _bar, C = (_bar = new WeakSet(), function() {
     function _class() {
         _class_call_check(this, _class), _class_private_method_init(this, _bar);
     }
-    var _proto = _class.prototype;
-    return _proto.foo = function() {
+    return _class.prototype.foo = function() {
         _class_private_field_set(this, _bar, console.log("should log this then throw"));
     }, _class;
 }());

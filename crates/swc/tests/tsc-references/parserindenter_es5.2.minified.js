@@ -149,7 +149,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             return this.ApplyIndentationDelta2(currentIndent, delta);
         }, _proto.ApplyIndentationDelta2 = function(currentIndent, delta) {
             if (0 == delta) return null;
-            var currentIndentSize = Indenter.GetIndentSizeFromIndentText(currentIndent, this.editorOptions), newIndentSize = currentIndentSize + delta;
+            var newIndentSize = Indenter.GetIndentSizeFromIndentText(currentIndent, this.editorOptions) + delta;
             newIndentSize < 0 && (newIndentSize = 0);
             var newIndent = this.GetIndentString(null, newIndentSize, this.editorOptions.TabSize, this.editorOptions.ConvertTabsToSpaces);
             return null != newIndent ? new IndentationInfo(newIndent, 0) : null;
@@ -161,8 +161,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
                 if (null == indentEditInfo) return null;
                 var origIndentText = this.snapshot.GetText(new Span(indentEditInfo.OrigIndentPosition, indentEditInfo.OrigIndentLength())), newIndentText = indentEditInfo.Indentation(), origIndentSize = Indenter.GetIndentSizeFromText(origIndentText, this.editorOptions, !0), newIndentSize = Indenter.GetIndentSizeFromIndentText(newIndentText, this.editorOptions);
                 if (null !== childTokenStartPosition) {
-                    var childTokenLineStartPosition = this.snapshot.GetLineFromPosition(childTokenStartPosition).startPosition(), childIndentText = this.snapshot.GetText(new Span(childTokenLineStartPosition, childTokenStartPosition - childTokenLineStartPosition)), childIndentSize = Indenter.GetIndentSizeFromIndentText(childIndentText, this.editorOptions);
-                    childIndentSize < origIndentSize && (origIndentSize = Indenter.GetIndentSizeFromIndentText(origIndentText, this.editorOptions));
+                    var childTokenLineStartPosition = this.snapshot.GetLineFromPosition(childTokenStartPosition).startPosition(), childIndentText = this.snapshot.GetText(new Span(childTokenLineStartPosition, childTokenStartPosition - childTokenLineStartPosition));
+                    Indenter.GetIndentSizeFromIndentText(childIndentText, this.editorOptions) < origIndentSize && (origIndentSize = Indenter.GetIndentSizeFromIndentText(origIndentText, this.editorOptions));
                 }
                 indentationDeltaSize = newIndentSize - origIndentSize, this.offsetIndentationDeltas.Add(tokenStartPosition, indentationDeltaSize);
             }

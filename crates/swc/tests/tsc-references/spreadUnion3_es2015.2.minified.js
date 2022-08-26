@@ -1,7 +1,6 @@
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 function g(t) {
-    let b = _object_spread({}, t);
-    b.a;
+    _object_spread({}, t).a;
 }
 _object_spread({
     y: 123

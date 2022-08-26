@@ -4,8 +4,7 @@ export var Z = function() {
     function Z() {
         _class_call_check(this, Z);
     }
-    var _proto = Z.prototype;
-    return _proto.f = function() {
+    return Z.prototype.f = function() {
         var x = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 1, y = arguments.length > 1 ? arguments[1] : void 0;
         return [
             x,

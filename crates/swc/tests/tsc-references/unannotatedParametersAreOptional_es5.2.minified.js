@@ -4,8 +4,7 @@ var C = function() {
     function C() {
         _class_call_check(this, C), this.p = function(x) {};
     }
-    var _proto = C.prototype;
-    return _proto.m = function(x) {}, C.m = function(x) {}, C;
+    return C.prototype.m = function(x) {}, C.m = function(x) {}, C;
 }();
 C.m(), new C().m(), new C().p();
 var obj = {

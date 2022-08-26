@@ -10,8 +10,7 @@ export var Text = function(_Component) {
         var _this;
         return _class_call_check(this, Text), _this = _super.apply(this, arguments), _this._tagName = "div", _this;
     }
-    var _proto = Text.prototype;
-    return _proto.render = function() {
+    return Text.prototype.render = function() {
         return React.createElement(this._tagName, null, " Hello world ");
     }, Text;
 }(React.Component);

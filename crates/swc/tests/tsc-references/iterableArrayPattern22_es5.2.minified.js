@@ -1,6 +1,5 @@
 import _to_array from "@swc/helpers/src/_to_array.mjs";
-var ref = _to_array({
+_to_array({
     0: "",
     1: !0
-});
-ref.slice(0);
+}).slice(0);

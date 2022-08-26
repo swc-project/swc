@@ -21,8 +21,7 @@ var db = new (function(Wagon) {
         var _this;
         return _class_call_check(this, Sql), (_this = _super.call(this)).foonly = 12, _this;
     }
-    var _proto = Sql.prototype;
-    return _proto.load = function(files, format) {
+    return Sql.prototype.load = function(files, format) {
         if ("xmlolololol" === format) throw Error("please do not use XML. It was a joke.");
         _get(_get_prototype_of(Sql.prototype), "speed", this).call(this), _get(_get_prototype_of(Sql.prototype), "weight", this).call(this);
     }, Sql;
@@ -57,8 +56,7 @@ var Chowder = function(Soup) {
     function Chowder() {
         return _class_call_check(this, Chowder), _super.apply(this, arguments);
     }
-    var _proto = Chowder.prototype;
-    return _proto.log = function() {
+    return Chowder.prototype.log = function() {
         return this.flavour;
     }, Chowder;
 }(Soup);

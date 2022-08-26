@@ -30,10 +30,8 @@ var A = function() {
         _class_call_check(this, A);
     }
     return A.test = function() {
-        _class_static_private_field_spec_get(this, A, _fieldFunc).call(A);
-        var _instance, func = _class_static_private_field_spec_get(this, A, _fieldFunc);
-        func(), new (_class_static_private_field_spec_get(this, A, _fieldFunc))();
-        var arr = [
+        _class_static_private_field_spec_get(this, A, _fieldFunc).call(A), _class_static_private_field_spec_get(this, A, _fieldFunc)(), new (_class_static_private_field_spec_get(this, A, _fieldFunc))();
+        var _instance, arr = [
             1,
             2
         ];

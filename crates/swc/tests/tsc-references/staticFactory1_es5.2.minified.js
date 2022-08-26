@@ -8,8 +8,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     function Derived() {
         return _class_call_check(this, Derived), _super.apply(this, arguments);
     }
-    var _proto = Derived.prototype;
-    return _proto.foo = function() {
+    return Derived.prototype.foo = function() {
         return 2;
     }, Derived;
 })(function() {
@@ -17,8 +16,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     function Base() {
         _class_call_check(this, Base);
     }
-    var _proto = Base.prototype;
-    return _proto.foo = function() {
+    return Base.prototype.foo = function() {
         return 1;
     }, Base.create = function() {
         return new this();

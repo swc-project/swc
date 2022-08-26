@@ -8,8 +8,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
             return "";
         };
     }
-    var _proto = C.prototype;
-    return _proto.c = function() {
+    return C.prototype.c = function() {
         return "";
     }, C.f = function() {
         return "";

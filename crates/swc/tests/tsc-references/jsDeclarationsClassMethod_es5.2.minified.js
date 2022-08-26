@@ -14,8 +14,7 @@ var C2 = function() {
     function C2() {
         _class_call_check(this, C2);
     }
-    var _proto = C2.prototype;
-    return _proto.method1 = function(x, y) {
+    return C2.prototype.method1 = function(x, y) {
         return x + y;
     }, C2;
 }();

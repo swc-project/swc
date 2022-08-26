@@ -10,8 +10,7 @@ export var BB = function() {
     function BB() {
         _class_call_check(this, BB);
     }
-    var _proto = BB.prototype;
-    return _proto.update = function(id) {
+    return BB.prototype.update = function(id) {
         this.get(id);
     }, BB;
 }();

@@ -1,3 +1,4 @@
+var E, Flag;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
@@ -14,12 +15,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 }).get("hello"), dispatchMethod("someMethod", [
     "hello",
     35
-]);
-var E, Flag, SampleClass = function SampleClass(props) {
-    "use strict";
-    _class_call_check(this, SampleClass), this.props = Object.freeze(props);
-};
-new (function(SampleClass) {
+]), new (function(SampleClass) {
     "use strict";
     _inherits(AnotherSampleClass, SampleClass);
     var _super = _create_super(AnotherSampleClass);
@@ -28,10 +24,12 @@ new (function(SampleClass) {
             foo: "bar"
         }));
     }
-    var _proto = AnotherSampleClass.prototype;
-    return _proto.brokenMethod = function() {
+    return AnotherSampleClass.prototype.brokenMethod = function() {
         this.props.foo.concat;
     }, AnotherSampleClass;
-}(SampleClass))({}), function(Flag) {
+}(function SampleClass(props) {
+    "use strict";
+    _class_call_check(this, SampleClass), this.props = Object.freeze(props);
+}))({}), function(Flag) {
     Flag.FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
 }(Flag || (Flag = {}));

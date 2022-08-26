@@ -12,8 +12,7 @@ export var D = function() {
     function D() {
         _class_call_check(this, D);
     }
-    var _proto = D.prototype;
-    return _proto.method = function() {
+    return D.prototype.method = function() {
         import("./0");
     }, D;
 }();

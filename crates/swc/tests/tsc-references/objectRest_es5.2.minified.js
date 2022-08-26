@@ -60,8 +60,7 @@ var removable = new (function() {
     function Removable() {
         _class_call_check(this, Removable);
     }
-    var _proto = Removable.prototype;
-    return _proto.m = function() {}, _create_class(Removable, [
+    return Removable.prototype.m = function() {}, _create_class(Removable, [
         {
             key: "z",
             set: function(value) {}
@@ -89,4 +88,4 @@ var o = _object_without_properties(o, [
 o = _object_without_properties(_o = o, [
     "b",
     "a"
-].map(_to_property_key)), (ref1 = _o).b, ref1.a;
+].map(_to_property_key)), ref1 = _o, ref1.b, ref1.a;

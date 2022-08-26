@@ -6,8 +6,7 @@ var _this = this, B = function() {
     function B() {
         _class_call_check(this, B), this.n = 1;
     }
-    var _proto = B.prototype;
-    return _proto.foo = function() {}, B;
+    return B.prototype.foo = function() {}, B;
 }();
 (function(B) {
     "use strict";

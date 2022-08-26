@@ -10,8 +10,7 @@ export var App = function(_Component) {
     function App() {
         return _class_call_check(this, App), _super.apply(this, arguments);
     }
-    var _proto = App.prototype;
-    return _proto.render = function() {
+    return App.prototype.render = function() {
         return React.createElement(Button, null);
     }, App;
 }(React.Component);
@@ -26,8 +25,7 @@ export var Button = function(_Component) {
     function Button() {
         return _class_call_check(this, Button), _super.apply(this, arguments);
     }
-    var _proto = Button.prototype;
-    return _proto.render = function() {
+    return Button.prototype.render = function() {
         return React.createElement("button", null, "Some button");
     }, Button;
 }(React.Component);

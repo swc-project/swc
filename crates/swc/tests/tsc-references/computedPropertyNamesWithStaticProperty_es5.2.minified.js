@@ -6,8 +6,7 @@ var _staticProp = (_class_name_tdz_error("C"), C).staticProp, _staticProp1 = (_c
     function C() {
         _class_call_check(this, C);
     }
-    var _proto = C.prototype;
-    return _proto[_staticProp2] = function() {}, _create_class(C, [
+    return C.prototype[_staticProp2] = function() {}, _create_class(C, [
         {
             key: _staticProp,
             get: function() {
