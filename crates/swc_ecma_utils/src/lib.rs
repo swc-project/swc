@@ -186,12 +186,18 @@ impl Visit for ArgumentsFinder {
     }
 }
 
-pub trait StmtOrModuleItem: Send + Sync {
+/// A bound for methods which can handle module items or statements
+
+pub trait StmtOrModuleItem: Send + Sync + Sized {
     fn into_stmt(self) -> Result<Stmt, ModuleDecl>;
 
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl>;
 
     fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl>;
+
+    fn from_stmt(stmt: Stmt) -> Self;
+
+    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl>;
 }
 
 impl StmtOrModuleItem for Stmt {
@@ -237,6 +243,7 @@ impl StmtOrModuleItem for ModuleItem {
     }
 }
 
+#[deprecated = "Use StmtOrModuleItem instead"]
 pub trait ModuleItemLike: StmtLike {
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
         Err(self)
@@ -246,6 +253,7 @@ pub trait ModuleItemLike: StmtLike {
     }
 }
 
+#[deprecated = "Use StmtOrModuleItem instead"]
 pub trait StmtLike: Sized + 'static + Send + Sync {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
