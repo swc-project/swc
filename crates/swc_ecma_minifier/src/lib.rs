@@ -23,28 +23,27 @@
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
 
-use compress::{pure_optimizer, PureOptimizerConfig};
-use mode::Mode;
 use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
-use swc_ecma_ast::Program;
+use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
-use timing::Timings;
 
 pub use self::analyzer::dump_snapshot;
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
-    compress::compressor,
+    analyzer::ModuleInfo,
+    compress::{compressor, pure_optimizer, PureOptimizerConfig},
     marks::Marks,
     metadata::info_marker,
-    mode::Minification,
+    mode::{Minification, Mode},
     option::{ExtraOptions, MinifyOptions},
     pass::{
         expand_names::name_expander, global_defs, mangle_names::name_mangler,
         mangle_props::mangle_properties, merge_exports::merge_exports,
         postcompress::postcompress_optimizer, precompress::precompress_optimizer,
     },
+    timing::Timings,
 };
 
 #[macro_use]
@@ -100,10 +99,50 @@ pub fn optimize(
         }
     }
 
+    let module_info = match &m {
+        Program::Script(_) => ModuleInfo::default(),
+        Program::Module(m) => ModuleInfo {
+            blackbox_imports: m
+                .body
+                .iter()
+                .filter_map(|v| v.as_module_decl())
+                .filter_map(|v| match v {
+                    ModuleDecl::Import(i) => Some(i),
+                    _ => None,
+                })
+                .filter(|i| !i.src.value.starts_with("@swc/helpers"))
+                .flat_map(|v| v.specifiers.iter())
+                .map(|v| match v {
+                    ImportSpecifier::Named(v) => v.local.to_id(),
+                    ImportSpecifier::Default(v) => v.local.to_id(),
+                    ImportSpecifier::Namespace(v) => v.local.to_id(),
+                })
+                .collect(),
+            // exports: m
+            //     .body
+            //     .iter()
+            //     .filter_map(|v| v.as_module_decl())
+            //     .filter_map(|v| match v {
+            //         ModuleDecl::ExportNamed(i) if i.src.is_none() => Some(i),
+            //         _ => None,
+            //     })
+            //     .flat_map(|v| v.specifiers.iter())
+            //     .filter_map(|v| match v {
+            //         ExportSpecifier::Named(v) => Some(v),
+            //         _ => None,
+            //     })
+            //     .filter_map(|v| match &v.orig {
+            //         ModuleExportName::Ident(i) => Some(i.to_id()),
+            //         ModuleExportName::Str(_) => None,
+            //     })
+            //     .collect(),
+        },
+    };
+
     if let Some(options) = &options.compress {
         let _timer = timer!("precompress");
 
-        m.visit_mut_with(&mut precompress_optimizer(options, marks));
+        m.visit_mut_with(&mut precompress_optimizer(&module_info, options, marks));
     }
 
     if options.compress.is_some() {
@@ -148,7 +187,13 @@ pub fn optimize(
             let _timer = timer!("compress ast");
 
             GLOBALS.with(|globals| {
-                m.visit_mut_with(&mut compressor(globals, marks, options, &Minification))
+                m.visit_mut_with(&mut compressor(
+                    globals,
+                    &module_info,
+                    marks,
+                    options,
+                    &Minification,
+                ))
             });
         }
 
@@ -189,7 +234,7 @@ pub fn optimize(
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
-        mangle_properties(&mut m, property_mangle_options.clone());
+        mangle_properties(&mut m, &module_info, property_mangle_options.clone());
     }
 
     m.visit_mut_with(&mut merge_exports());

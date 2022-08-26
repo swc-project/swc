@@ -1279,13 +1279,11 @@
                     }
                     firstChild = wrap.firstChild;
                 }
-                firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context));
-                var text = view.someProp("clipboardTextSerializer", function(f) {
-                    return f(slice);
-                }) || slice.content.textBetween(0, slice.content.size, "\n\n");
-                return {
+                return firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context)), {
                     dom: wrap,
-                    text: text
+                    text: view.someProp("clipboardTextSerializer", function(f) {
+                        return f(slice);
+                    }) || slice.content.textBetween(0, slice.content.size, "\n\n")
                 };
             }
             function parseFromClipboard(view, text, html, plainText, $context) {
@@ -1326,24 +1324,24 @@
             }
             function normalizeSiblings(fragment, $context) {
                 if (fragment.childCount < 2) return fragment;
-                for(var loop = function(d) {
-                    var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
-                    if (fragment.forEach(function(node) {
-                        if (result) {
-                            var inLast, wrap = match.findWrapping(node.type);
-                            if (!wrap) return result = null;
-                            if (inLast = result.length && lastWrap.length && addToSibling(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
-                            else {
-                                result.length && (result[result.length - 1] = closeRight(result[result.length - 1], lastWrap.length));
-                                var wrapped = withWrappers(node, wrap);
-                                result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
+                for(var d = $context.depth; d >= 0; d--){
+                    var returned = function(d) {
+                        var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
+                        if (fragment.forEach(function(node) {
+                            if (result) {
+                                var inLast, wrap = match.findWrapping(node.type);
+                                if (!wrap) return result = null;
+                                if (inLast = result.length && lastWrap.length && addToSibling(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
+                                else {
+                                    result.length && (result[result.length - 1] = closeRight(result[result.length - 1], lastWrap.length));
+                                    var wrapped = withWrappers(node, wrap);
+                                    result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
+                                }
                             }
-                        }
-                    }), result) return {
-                        v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
-                    };
-                }, d = $context.depth; d >= 0; d--){
-                    var returned = loop(d);
+                        }), result) return {
+                            v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
+                        };
+                    }(d);
                     if (returned) return returned.v;
                 }
                 return fragment;
@@ -1557,10 +1555,10 @@
                         var ref = mut.addedNodes[i$1], previousSibling = ref.previousSibling, nextSibling = ref.nextSibling;
                         (!previousSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, previousSibling)) && (prev = previousSibling), (!nextSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, nextSibling)) && (next = nextSibling);
                     }
-                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length, to = desc.localPosFromDOM(mut.target, toOffset, 1);
+                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length;
                     return {
                         from: from,
-                        to: to
+                        to: desc.localPosFromDOM(mut.target, toOffset, 1)
                     };
                 }
                 return "attributes" == mut.type ? {
@@ -2109,7 +2107,7 @@
                     } else mustRebuild = !0;
                 }
                 if (mustRebuild) {
-                    var decorations = mapAndGatherRemainingDecorations(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), built = buildTree(decorations, node, 0, options);
+                    var built = buildTree(mapAndGatherRemainingDecorations(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), node, 0, options);
                     newLocal = built.local;
                     for(var i$2 = 0; i$2 < children.length; i$2 += 3)children[i$2 + 1] < 0 && (children.splice(i$2, 3), i$2 -= 3);
                     for(var i$3 = 0, j = 0; i$3 < built.children.length; i$3 += 3){

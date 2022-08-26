@@ -279,10 +279,6 @@
             function ct(t, e) {
                 for(const n in t)Object.prototype.hasOwnProperty.call(t, n) && e(n, t[n]);
             }
-            function at(t) {
-                for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
-                return !0;
-            }
             class ut {
                 constructor(t, e, n){
                     void 0 === e ? e = 0 : e > t.length && L(), void 0 === n ? n = t.length - e : n > t.length - e && L(), this.segments = t, this.offset = e, this.len = n;
@@ -1117,27 +1113,6 @@
                         return L();
                 }
             }
-            function Se(t, e) {
-                if (t.D) {
-                    if (isNaN(e)) return {
-                        doubleValue: "NaN"
-                    };
-                    if (e === 1 / 0) return {
-                        doubleValue: "Infinity"
-                    };
-                    if (e === -1 / 0) return {
-                        doubleValue: "-Infinity"
-                    };
-                }
-                return {
-                    doubleValue: Rt(e) ? "-0" : e
-                };
-            }
-            function De(t) {
-                return {
-                    integerValue: "" + t
-                };
-            }
             class Ne {
                 constructor(){
                     this._ = void 0;
@@ -1163,7 +1138,24 @@
                     };
                 }(n, e) : t instanceof Fe ? Me(t, e) : t instanceof Le ? Be(t, e) : function(t, e) {
                     const n = $e(t, e), s = qe(n) + qe(t.C);
-                    return $t(n) && $t(t.C) ? De(s) : Se(t.N, s);
+                    return $t(n) && $t(t.C) ? {
+                        integerValue: "" + s
+                    } : function(t, e) {
+                        if (t.D) {
+                            if (isNaN(e)) return {
+                                doubleValue: "NaN"
+                            };
+                            if (e === 1 / 0) return {
+                                doubleValue: "Infinity"
+                            };
+                            if (e === -1 / 0) return {
+                                doubleValue: "-Infinity"
+                            };
+                        }
+                        return {
+                            doubleValue: Rt(e) ? "-0" : e
+                        };
+                    }(t.N, s);
                 }(t, e);
             }
             function ke(t, e, n) {
@@ -1954,9 +1946,6 @@
                     seconds: "" + e.seconds,
                     nanos: e.nanoseconds
                 };
-            }
-            function qn(t, e) {
-                return t.D ? e.toBase64() : e.toUint8Array();
             }
             function jn(t) {
                 return t || L(), rt.fromTimestamp(function(t) {
@@ -2953,7 +2942,10 @@
                     });
                 }
                 isEmpty() {
-                    return at(this.inner);
+                    return function(t) {
+                        for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
+                        return !0;
+                    }(this.inner);
                 }
             }
             class Qi {
@@ -4196,6 +4188,7 @@
                 br(t) {
                     const e = {};
                     e.database = Yn(this.N), e.addTarget = function(t, e) {
+                        var t1, e1;
                         let n;
                         const s = e.target;
                         return (n = Ht(s) ? {
@@ -4281,7 +4274,7 @@
                                 });
                                 return null !== o && (n.structuredQuery.limit = o), e.startAt && (n.structuredQuery.startAt = ls(e.startAt)), e.endAt && (n.structuredQuery.endAt = ls(e.endAt)), n;
                             }(t, s)
-                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = qn(t, e.resumeToken) : e.snapshotVersion.compareTo(rt.min()) > 0 && (n.readTime = Un(t, e.snapshotVersion.toTimestamp())), n;
+                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = (t1 = t, e1 = e.resumeToken, t1.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (n.readTime = Un(t, e.snapshotVersion.toTimestamp())), n;
                     }(this.N, t);
                     const n = function(t, e) {
                         const n = function(t, e) {
@@ -5325,26 +5318,25 @@
             function _a(t) {
                 if (Pt.isDocumentKey(t)) throw new j(K.INVALID_ARGUMENT, `Invalid collection reference. Collection references must have an odd number of segments, but ${t} has ${t.length}.`);
             }
-            function ma(t) {
-                if (void 0 === t) return "undefined";
-                if (null === t) return "null";
-                if ("string" == typeof t) return t.length > 20 && (t = `${t.substring(0, 20)}...`), JSON.stringify(t);
-                if ("number" == typeof t || "boolean" == typeof t) return "" + t;
-                if ("object" == typeof t) {
-                    if (t instanceof Array) return "an array";
-                    {
-                        var t1;
-                        const e = (t1 = t).constructor ? t1.constructor.name : null;
-                        return e ? `a custom ${e} object` : "an object";
-                    }
-                }
-                return "function" == typeof t ? "a function" : L();
-            }
             function ga(t, e) {
                 if ("_delegate" in t && (t = t._delegate), !(t instanceof e)) {
                     if (e.name === t.constructor.name) throw new j(K.INVALID_ARGUMENT, "Type does not match the expected instance. Did you pass a reference from a different Firestore SDK?");
                     {
-                        const n = ma(t);
+                        const n = function(t) {
+                            if (void 0 === t) return "undefined";
+                            if (null === t) return "null";
+                            if ("string" == typeof t) return t.length > 20 && (t = `${t.substring(0, 20)}...`), JSON.stringify(t);
+                            if ("number" == typeof t || "boolean" == typeof t) return "" + t;
+                            if ("object" == typeof t) {
+                                if (t instanceof Array) return "an array";
+                                {
+                                    var t1;
+                                    const e = (t1 = t).constructor ? t1.constructor.name : null;
+                                    return e ? `a custom ${e} object` : "an object";
+                                }
+                            }
+                            return "function" == typeof t ? "a function" : L();
+                        }(t);
                         throw new j(K.INVALID_ARGUMENT, `Expected type '${e.name}', but it was: ${n}`);
                     }
                 }
@@ -5620,11 +5612,6 @@
                     return this._byteString.isEqual(t._byteString);
                 }
             }
-            class Za {
-                constructor(t){
-                    this._methodName = t;
-                }
-            }
             class tu {
                 constructor(t, e){
                     if (!isFinite(t) || t < -90 || t > 90) throw new j(K.INVALID_ARGUMENT, "Latitude must be a number between -90 and 90, but was: " + t);
@@ -5651,19 +5638,6 @@
                 }
             }
             const eu = /^__.*__$/;
-            function iu(t) {
-                switch(t){
-                    case 0:
-                    case 2:
-                    case 1:
-                        return !0;
-                    case 3:
-                    case 4:
-                        return !1;
-                    default:
-                        throw L();
-                }
-            }
             class ru {
                 constructor(t, e, n, s, i, r){
                     this.settings = t, this.databaseId = e, this.N = n, this.ignoreUndefinedProperties = s, void 0 === i && this.xc(), this.fieldTransforms = i || [], this.fieldMask = r || [];
@@ -5710,7 +5684,19 @@
                 }
                 Mc(t) {
                     if (0 === t.length) throw this.Uc("Document fields must not be empty");
-                    if (iu(this.kc) && eu.test(t)) throw this.Uc('Document fields cannot begin and end with "__"');
+                    if (function(t) {
+                        switch(t){
+                            case 0:
+                            case 2:
+                            case 1:
+                                return !0;
+                            case 3:
+                            case 4:
+                                return !1;
+                            default:
+                                throw L();
+                        }
+                    }(this.kc) && eu.test(t)) throw this.Uc('Document fields cannot begin and end with "__"');
                 }
             }
             class uu extends null {
@@ -5728,99 +5714,6 @@
                 }
                 isEqual(t) {
                     return t instanceof lu;
-                }
-            }
-            function yu(t, e) {
-                if (Tu(t = getModularInstance(t))) return Eu("Unsupported field value:", e, t), pu(t, e);
-                if (t instanceof Za) return function(t, e) {
-                    if (!iu(e.kc)) throw e.Uc(`${t._methodName}() can only be used with update() and set()`);
-                    if (!e.path) throw e.Uc(`${t._methodName}() is not currently supported inside arrays`);
-                    const n = t._toFieldTransform(e);
-                    n && e.fieldTransforms.push(n);
-                }(t, e), null;
-                if (void 0 === t && e.ignoreUndefinedProperties) return null;
-                if (e.path && e.fieldMask.push(e.path), t instanceof Array) {
-                    if (e.settings.Fc && 4 !== e.kc) throw e.Uc("Nested arrays are not supported");
-                    return function(t, e) {
-                        const n = [];
-                        let s = 0;
-                        for (const i of t){
-                            let t1 = yu(i, e.Bc(s));
-                            null == t1 && (t1 = {
-                                nullValue: "NULL_VALUE"
-                            }), n.push(t1), s++;
-                        }
-                        return {
-                            arrayValue: {
-                                values: n
-                            }
-                        };
-                    }(t, e);
-                }
-                return function(t, e) {
-                    if (null === (t = getModularInstance(t))) return {
-                        nullValue: "NULL_VALUE"
-                    };
-                    if ("number" == typeof t) {
-                        var t1, e1;
-                        return t1 = e.N, bt(e1 = t) ? De(e1) : Se(t1, e1);
-                    }
-                    if ("boolean" == typeof t) return {
-                        booleanValue: t
-                    };
-                    if ("string" == typeof t) return {
-                        stringValue: t
-                    };
-                    if (t instanceof Date) {
-                        const n = it.fromDate(t);
-                        return {
-                            timestampValue: Un(e.N, n)
-                        };
-                    }
-                    if (t instanceof it) {
-                        const n1 = new it(t.seconds, 1e3 * Math.floor(t.nanoseconds / 1e3));
-                        return {
-                            timestampValue: Un(e.N, n1)
-                        };
-                    }
-                    if (t instanceof tu) return {
-                        geoPointValue: {
-                            latitude: t.latitude,
-                            longitude: t.longitude
-                        }
-                    };
-                    if (t instanceof Xa) return {
-                        bytesValue: qn(e.N, t._byteString)
-                    };
-                    if (t instanceof Ia) {
-                        const n2 = e.databaseId, s = t.firestore._databaseId;
-                        if (!s.isEqual(n2)) throw e.Uc(`Document reference is for database ${s.projectId}/${s.database} but should be for database ${n2.projectId}/${n2.database}`);
-                        return {
-                            referenceValue: Qn(t.firestore._databaseId || e.databaseId, t._key.path)
-                        };
-                    }
-                    throw e.Uc(`Unsupported field value: ${ma(t)}`);
-                }(t, e);
-            }
-            function pu(t, e) {
-                const n = {};
-                return at(t) ? e.path && e.path.length > 0 && e.fieldMask.push(e.path) : ct(t, (t, s)=>{
-                    const i = yu(s, e.Oc(t));
-                    null != i && (n[t] = i);
-                }), {
-                    mapValue: {
-                        fields: n
-                    }
-                };
-            }
-            function Tu(t) {
-                return !("object" != typeof t || null === t || t instanceof Array || t instanceof Date || t instanceof it || t instanceof tu || t instanceof Xa || t instanceof Ia || t instanceof Za);
-            }
-            function Eu(t, e, n) {
-                var t1;
-                if (!Tu(n) || "object" != typeof (t1 = n) || null === t1 || Object.getPrototypeOf(t1) !== Object.prototype && null !== Object.getPrototypeOf(t1)) {
-                    const s = ma(n);
-                    throw "an object" === s ? e.Uc(t + " a custom object") : e.Uc(t + " " + s);
                 }
             }
             const Au = RegExp("[~\\*/\\[\\]]");

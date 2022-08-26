@@ -77,6 +77,8 @@ pub(crate) fn invoke(module: &Module) {
         module.visit_with(&mut AssertValid);
     }
 
+    let _noop_sub = tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
+
     let should_run =
         cfg!(debug_assertions) && cfg!(feature = "debug") && option_env!("SWC_RUN") == Some("1");
     let should_check = cfg!(debug_assertions) && option_env!("SWC_CHECK") == Some("1");
