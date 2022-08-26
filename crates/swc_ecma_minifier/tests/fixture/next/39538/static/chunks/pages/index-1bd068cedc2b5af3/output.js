@@ -68,9 +68,11 @@
                     if (rest.loader) {
                         var customImageLoader = rest.loader;
                         loader = function(obj) {
-                            return obj.config, customImageLoader(_object_without_properties_loose(obj, [
+                            obj.config;
+                            var opts = _object_without_properties_loose(obj, [
                                 "config"
-                            ]));
+                            ]);
+                            return customImageLoader(opts);
                         };
                     }
                     delete rest.loader;
@@ -81,8 +83,9 @@
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
                     if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
                 }
+                src = "string" == typeof src ? src : staticSrc;
                 var isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                ((src = "string" == typeof src ? src : staticSrc).startsWith("data:") || src.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
+                (src.startsWith("data:") || src.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
                 var ref = _slicedToArray(_react.useState(!1), 2), blurComplete = ref[0], setBlurComplete = ref[1], ref1 = _slicedToArray(_useIntersection.useIntersection({
                     rootRef: void 0 === _lazyRoot ? null : _lazyRoot,
                     rootMargin: lazyBoundary || "200px",
@@ -337,18 +340,20 @@
                             kind: "w"
                         };
                     }
-                    return "number" != typeof width || "fill" === layout || "responsive" === layout ? {
+                    if ("number" != typeof width || "fill" === layout || "responsive" === layout) return {
                         widths: deviceSizes,
                         kind: "w"
-                    } : {
-                        widths: _toConsumableArray(new Set([
-                            width,
-                            2 * width
-                        ].map(function(w) {
-                            return allSizes.find(function(p) {
-                                return p >= w;
-                            }) || allSizes[allSizes.length - 1];
-                        }))),
+                    };
+                    var widths = _toConsumableArray(new Set([
+                        width,
+                        2 * width
+                    ].map(function(w) {
+                        return allSizes.find(function(p) {
+                            return p >= w;
+                        }) || allSizes[allSizes.length - 1];
+                    })));
+                    return {
+                        widths: widths,
                         kind: "x"
                     };
                 }(config, width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
@@ -469,7 +474,7 @@
                 value: !0
             }), exports.useIntersection = function(param) {
                 var rootRef = param.rootRef, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = _slicedToArray(_react.useState(!1), 2), visible = ref[0], setVisible = ref[1], ref1 = _slicedToArray(_react.useState(null), 2), element = ref1[0], setElement = ref1[1];
-                return _react.useEffect(function() {
+                _react.useEffect(function() {
                     if (hasIntersectionObserver) {
                         if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) return element && element.tagName && (unobserve.current = observe(element, function(isVisible) {
                             return isVisible && setVisible(isVisible);
@@ -493,12 +498,14 @@
                     rootMargin,
                     rootRef,
                     visible
-                ]), [
+                ]);
+                var resetVisible = _react.useCallback(function() {
+                    setVisible(!1);
+                }, []);
+                return [
                     setElement,
                     visible,
-                    _react.useCallback(function() {
-                        setVisible(!1);
-                    }, [])
+                    resetVisible
                 ];
             };
             var _react = __webpack_require__(959), _requestIdleCallback = __webpack_require__(6501), hasIntersectionObserver = "function" == typeof IntersectionObserver, observers = new Map(), idList = [];

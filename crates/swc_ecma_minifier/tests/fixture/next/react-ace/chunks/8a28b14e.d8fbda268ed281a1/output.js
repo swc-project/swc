@@ -842,7 +842,7 @@
                             if (copied) copied = !1;
                             else {
                                 var text1;
-                                0 === (text1 = text).selectionStart && text1.selectionEnd >= lastValue.length && text1.value === lastValue && lastValue && text1.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection();
+                                (text1 = text, 0 === text1.selectionStart && text1.selectionEnd >= lastValue.length && text1.value === lastValue && lastValue && text1.selectionEnd !== lastSelectionEnd) ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection();
                             }
                         }
                     }, inputHandler = null;
@@ -922,7 +922,11 @@
                     }, onCompositionUpdate = function() {
                         if (inComposition && host.onCompositionUpdate && !host.$readOnly) {
                             if (commandMode) return cancelComposition();
-                            inComposition.useTextareaForIME ? host.onCompositionUpdate(text.value) : (sendText(text.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
+                            if (inComposition.useTextareaForIME) host.onCompositionUpdate(text.value);
+                            else {
+                                var data = text.value;
+                                sendText(data), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd);
+                            }
                         }
                     }, onCompositionEnd = function(e) {
                         host.onCompositionEnd && !host.$readOnly && (inComposition = !1, host.onCompositionEnd(), host.off("mousedown", cancelComposition), e && onInput());
@@ -961,7 +965,7 @@
                     };
                     event.addListener(text, "mouseup", onContextMenu, host), event.addListener(text, "mousedown", function(e) {
                         e.preventDefault(), onContextMenuClose();
-                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && (host1 = host, typingResetTimeout = null, typing = !1, (text1 = text).addEventListener("keydown", function(e) {
+                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && (host1 = host, text1 = text, typingResetTimeout = null, typing = !1, text1.addEventListener("keydown", function(e) {
                         typingResetTimeout && clearTimeout(typingResetTimeout), typing = !0;
                     }, !0), text1.addEventListener("keyup", function(e) {
                         typingResetTimeout = setTimeout(function() {
@@ -1372,7 +1376,8 @@
                 }
                 (function() {
                     this.dragWait = function() {
-                        Date.now() - this.mousedownEvent.time > this.editor.getDragDelay() && this.startDrag();
+                        var interval = Date.now() - this.mousedownEvent.time;
+                        interval > this.editor.getDragDelay() && this.startDrag();
                     }, this.dragWaitEnd = function() {
                         this.editor.container.draggable = !1, this.startSelect(this.mousedownEvent.getDocumentPosition()), this.selectEnd();
                     }, this.dragReadyEnd = function(e) {
@@ -4674,9 +4679,9 @@
                         var length = this.getLength();
                         void 0 === row ? row = length : row < 0 ? row = 0 : row >= length && (row = length - 1, column = void 0);
                         var line = this.getLine(row);
-                        return void 0 == column && (column = line.length), {
+                        return void 0 == column && (column = line.length), column = Math.min(Math.max(column, 0), line.length), {
                             row: row,
-                            column: column = Math.min(Math.max(column, 0), line.length)
+                            column: column
                         };
                     }, this.clonePos = function(pos) {
                         return {
@@ -5372,7 +5377,7 @@
                     }, this.getCommentFoldRange = function(row, column, dir) {
                         var iterator = new TokenIterator(this, row, column), token = iterator.getCurrentToken(), type = token && token.type;
                         if (token && /^comment|string/.test(type)) {
-                            "comment" == (type = type.match(/comment|string/)[0]) && (type += "|doc-start");
+                            type = type.match(/comment|string/)[0], "comment" == type && (type += "|doc-start");
                             var re = RegExp(type), range = new Range();
                             if (1 != dir) {
                                 do token = iterator.stepBackward();
@@ -6314,7 +6319,7 @@
                     },
                     tabSize: {
                         set: function(tabSize) {
-                            (tabSize = parseInt(tabSize)) > 0 && this.$tabSize !== tabSize && (this.$modified = !0, this.$rowLengthCache = [], this.$tabSize = tabSize, this._signal("changeTabSize"));
+                            tabSize = parseInt(tabSize), tabSize > 0 && this.$tabSize !== tabSize && (this.$modified = !0, this.$rowLengthCache = [], this.$tabSize = tabSize, this._signal("changeTabSize"));
                         },
                         initialValue: 4,
                         handlesSet: !0
@@ -8425,10 +8430,13 @@
                         });
                         for(var wordPairs = this.$toggleWordPairs, i = 0; i < wordPairs.length; i++)for(var item = wordPairs[i], j = 0; j <= 1; j++){
                             var negate = +!j, firstCondition = currentState.match(RegExp("^\\s?_?(" + lang.escapeRegExp(item[j]) + ")\\s?$", "i"));
-                            firstCondition && currentState.match(RegExp("([_]|^|\\s)(" + lang.escapeRegExp(firstCondition[1]) + ")($|\\s)", "g")) && (reg = currentState.replace(RegExp(lang.escapeRegExp(item[j]), "i"), function(result) {
-                                var res = item[negate];
-                                return result.toUpperCase() == result ? res = res.toUpperCase() : result.charAt(0).toUpperCase() == result.charAt(0) && (res = res.substr(0, 0) + item[negate].charAt(0).toUpperCase() + res.substr(1)), res;
-                            }), this.insert(reg), reg = "");
+                            if (firstCondition) {
+                                var secondCondition = currentState.match(RegExp("([_]|^|\\s)(" + lang.escapeRegExp(firstCondition[1]) + ")($|\\s)", "g"));
+                                secondCondition && (reg = currentState.replace(RegExp(lang.escapeRegExp(item[j]), "i"), function(result) {
+                                    var res = item[negate];
+                                    return result.toUpperCase() == result ? res = res.toUpperCase() : result.charAt(0).toUpperCase() == result.charAt(0) && (res = res.substr(0, 0) + item[negate].charAt(0).toUpperCase() + res.substr(1)), res;
+                                }), this.insert(reg), reg = "");
+                            }
                         }
                     }, this.removeLines = function() {
                         var rows = this.$getSelectedRows();
@@ -9082,12 +9090,12 @@
                 }
                 function moveDeltasByOne(redoStack, d) {
                     var d1;
-                    d = {
-                        start: clonePos((d1 = d).start),
+                    d = (d1 = d, {
+                        start: clonePos(d1.start),
                         end: clonePos(d1.end),
                         action: d1.action,
                         lines: d1.lines.slice()
-                    };
+                    });
                     for(var j = redoStack.length; j--;){
                         for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
                             var xformed = xform(deltaSet[i], d);

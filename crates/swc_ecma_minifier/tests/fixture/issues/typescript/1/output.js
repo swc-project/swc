@@ -11,7 +11,7 @@ var ts;
         return ts.chainBundle(context, function(node) {
             if (node.isDeclarationFile || !(ts.isEffectiveExternalModule(node, compilerOptions) || 4194304 & node.transformFlags || ts.isJsonSourceFile(node) && ts.hasJsonModuleEmitEnabled(compilerOptions) && ts.outFile(compilerOptions))) return node;
             currentSourceFile = node, currentModuleInfo = ts.collectExternalModuleInfo(context, node, resolver, compilerOptions), moduleInfoMap[ts.getOriginalNodeId(node)] = currentModuleInfo;
-            var updated = (function(moduleKind) {
+            var transformModule = function(moduleKind) {
                 switch(moduleKind){
                     case ts.ModuleKind.AMD:
                         return transformAMDModule;
@@ -20,7 +20,7 @@ var ts;
                     default:
                         return transformCommonJSModule;
                 }
-            })(moduleKind)(node);
+            }(moduleKind), updated = transformModule(node);
             return currentSourceFile = void 0, currentModuleInfo = void 0, needUMDDynamicImportHelper = !1, updated;
         });
         function shouldEmitUnderscoreUnderscoreESModule() {
@@ -453,7 +453,12 @@ var ts;
             return statements;
         }
         function appendExportsOfHoistedDeclaration(statements, decl) {
-            return currentModuleInfo.exportEquals || (ts.hasSyntacticModifier(decl, 1) && (statements = appendExportStatement(statements, ts.hasSyntacticModifier(decl, 512) ? factory.createIdentifier("default") : factory.getDeclarationName(decl), factory.getLocalName(decl), decl)), decl.name && (statements = appendExportsOfDeclaration(statements, decl))), statements;
+            if (currentModuleInfo.exportEquals) return statements;
+            if (ts.hasSyntacticModifier(decl, 1)) {
+                var exportName = ts.hasSyntacticModifier(decl, 512) ? factory.createIdentifier("default") : factory.getDeclarationName(decl);
+                statements = appendExportStatement(statements, exportName, factory.getLocalName(decl), decl);
+            }
+            return decl.name && (statements = appendExportsOfDeclaration(statements, decl)), statements;
         }
         function appendExportsOfDeclaration(statements, decl, liveBinding) {
             var name = factory.getDeclarationName(decl), exportSpecifiers = currentModuleInfo.exportSpecifiers.get(ts.idText(name));

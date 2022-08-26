@@ -865,7 +865,7 @@
             var handle, ontype, cur, bubbleType, special, tmp, i, eventPath = [
                 elem || document
             ], type = core_hasOwn.call(event, "type") ? event.type : event, namespaces = core_hasOwn.call(event, "namespace") ? event.namespace.split(".") : [];
-            if (cur = tmp = elem = elem || document, !(3 === elem.nodeType || 8 === elem.nodeType || rfocusMorph.test(type + jQuery.event.triggered)) && (type.indexOf(".") >= 0 && (type = (namespaces = type.split(".")).shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, (event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event)).isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
+            if (cur = tmp = elem = elem || document, !(3 === elem.nodeType || 8 === elem.nodeType || rfocusMorph.test(type + jQuery.event.triggered)) && (type.indexOf(".") >= 0 && (type = (namespaces = type.split(".")).shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event), event.isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
                 event
             ] : jQuery.makeArray(data, [
                 event
@@ -889,7 +889,7 @@
             event = jQuery.event.fix(event);
             var i, ret, handleObj, matched, j, handlerQueue = [], args = core_slice.call(arguments), handlers = (jQuery._data(this, "events") || {})[event.type] || [], special = jQuery.event.special[event.type] || {};
             if (args[0] = event, event.delegateTarget = this, !special.preDispatch || !1 !== special.preDispatch.call(this, event)) {
-                for(handlerQueue = jQuery.event.handlers.call(this, event, handlers), i = 0; (matched = handlerQueue[i++]) && !event.isPropagationStopped();)for(event.currentTarget = matched.elem, j = 0; (handleObj = matched.handlers[j++]) && !event.isImmediatePropagationStopped();)(!event.namespace_re || event.namespace_re.test(handleObj.namespace)) && (event.handleObj = handleObj, event.data = handleObj.data, undefined !== (ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args)) && !1 === (event.result = ret) && (event.preventDefault(), event.stopPropagation()));
+                for(handlerQueue = jQuery.event.handlers.call(this, event, handlers), i = 0; (matched = handlerQueue[i++]) && !event.isPropagationStopped();)for(event.currentTarget = matched.elem, j = 0; (handleObj = matched.handlers[j++]) && !event.isImmediatePropagationStopped();)(!event.namespace_re || event.namespace_re.test(handleObj.namespace)) && (event.handleObj = handleObj, event.data = handleObj.data, ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args), ret !== undefined && !1 === (event.result = ret) && (event.preventDefault(), event.stopPropagation()));
                 return special.postDispatch && special.postDispatch.call(this, event), event.result;
             }
         },
@@ -1608,7 +1608,7 @@
                 var temp, i, elem, preMap = [], postMap = [], preexisting = results.length, elems = seed || multipleContexts(selector || "*", context.nodeType ? [
                     context
                 ] : context, []), matcherIn = preFilter && (seed || !selector) ? condense(elems, preMap, preFilter, context, xml) : elems, matcherOut = matcher ? postFinder || (seed ? preFilter : preexisting || postFilter) ? [] : results : matcherIn;
-                if (matcher && matcher(matcherIn, matcherOut, context, xml), postFilter) for(postFilter(temp = condense(matcherOut, postMap), [], context, xml), i = temp.length; i--;)(elem = temp[i]) && (matcherOut[postMap[i]] = !(matcherIn[postMap[i]] = elem));
+                if (matcher && matcher(matcherIn, matcherOut, context, xml), postFilter) for(temp = condense(matcherOut, postMap), postFilter(temp, [], context, xml), i = temp.length; i--;)(elem = temp[i]) && (matcherOut[postMap[i]] = !(matcherIn[postMap[i]] = elem));
                 if (seed) {
                     if (postFinder || preFilter) {
                         if (postFinder) {
@@ -1663,7 +1663,7 @@
         compile = Sizzle.compile = function(selector, group) {
             var elementMatchers, setMatchers, matcherCachedRuns, bySet, byElement, superMatcher, i, setMatchers1 = [], elementMatchers1 = [], cached = compilerCache[selector + " "];
             if (!cached) {
-                for(group || (group = tokenize(selector)), i = group.length; i--;)(cached = matcherFromTokens(group[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
+                for(group || (group = tokenize(selector)), i = group.length; i--;)cached = matcherFromTokens(group[i]), cached[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
                 cached = compilerCache(selector, (elementMatchers = elementMatchers1, matcherCachedRuns = 0, bySet = (setMatchers = setMatchers1).length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
                     var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
                     for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
@@ -2535,7 +2535,7 @@
                         finalDataType = finalDataType || firstDataType;
                     }
                     if (finalDataType) return finalDataType !== dataTypes[0] && dataTypes.unshift(finalDataType), responses[finalDataType];
-                }(s, jqXHR, responses)), status >= 200 && status < 300 || 304 === status ? (s.ifModified && ((modified = jqXHR.getResponseHeader("Last-Modified")) && (jQuery.lastModified[cacheURL] = modified), (modified = jqXHR.getResponseHeader("etag")) && (jQuery.etag[cacheURL] = modified)), 204 === status ? (isSuccess = !0, statusText = "nocontent") : 304 === status ? (isSuccess = !0, statusText = "notmodified") : (statusText = (isSuccess = function(s, response) {
+                }(s, jqXHR, responses)), status >= 200 && status < 300 || 304 === status ? (s.ifModified && (modified = jqXHR.getResponseHeader("Last-Modified"), modified && (jQuery.lastModified[cacheURL] = modified), modified = jqXHR.getResponseHeader("etag"), modified && (jQuery.etag[cacheURL] = modified)), 204 === status ? (isSuccess = !0, statusText = "nocontent") : 304 === status ? (isSuccess = !0, statusText = "notmodified") : (statusText = (isSuccess = function(s, response) {
                     var conv2, current, conv, tmp, converters = {}, i = 0, dataTypes = s.dataTypes.slice(), prev = dataTypes[0];
                     if (s.dataFilter && (response = s.dataFilter(response, s.dataType)), dataTypes[1]) for(conv in s.converters)converters[conv.toLowerCase()] = s.converters[conv];
                     for(; current = dataTypes[++i];)if ("*" !== current) {

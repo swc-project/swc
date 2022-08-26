@@ -129,8 +129,8 @@
         null != config && this.set(config);
     }
     function zeroFill(number, targetLength, forceSign) {
-        var absNumber = "" + Math.abs(number);
-        return (number >= 0 ? forceSign ? "+" : "" : "-") + Math.pow(10, Math.max(0, targetLength - absNumber.length)).toString().substr(1) + absNumber;
+        var absNumber = "" + Math.abs(number), zerosToFill = targetLength - absNumber.length;
+        return (number >= 0 ? forceSign ? "+" : "" : "-") + Math.pow(10, Math.max(0, zerosToFill)).toString().substr(1) + absNumber;
     }
     hooks.suppressDeprecationWarnings = !1, hooks.deprecationHandler = null, keys = Object.keys ? Object.keys : function(obj) {
         var i, res = [];
@@ -351,12 +351,12 @@
         return y < 100 && y >= 0 ? (args = Array.prototype.slice.call(arguments), args[0] = y + 400, isFinite((date = new Date(Date.UTC.apply(null, args))).getUTCFullYear()) && date.setUTCFullYear(y)) : date = new Date(Date.UTC.apply(null, arguments)), date;
     }
     function firstWeekOffset(year, dow, doy) {
-        var fwd = 7 + dow - doy;
-        return -((7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7) + fwd - 1;
+        var fwd = 7 + dow - doy, fwdlw = (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7;
+        return -fwdlw + fwd - 1;
     }
     function dayOfYearFromWeeks(year, week, weekday, dow, doy) {
         var resYear, resDayOfYear, weekOffset = firstWeekOffset(year, dow, doy), dayOfYear = 1 + 7 * (week - 1) + (7 + weekday - dow) % 7 + weekOffset;
-        return dayOfYear <= 0 ? resDayOfYear = daysInYear(resYear = year - 1) + dayOfYear : dayOfYear > daysInYear(year) ? (resYear = year + 1, resDayOfYear = dayOfYear - daysInYear(year)) : (resYear = year, resDayOfYear = dayOfYear), {
+        return dayOfYear <= 0 ? (resYear = year - 1, resDayOfYear = daysInYear(resYear) + dayOfYear) : dayOfYear > daysInYear(year) ? (resYear = year + 1, resDayOfYear = dayOfYear - daysInYear(year)) : (resYear = year, resDayOfYear = dayOfYear), {
             year: resYear,
             dayOfYear: resDayOfYear
         };
@@ -1035,7 +1035,7 @@
     }
     function getSetWeekYearHelper(input, week, weekday, dow, doy) {
         var weeksTarget;
-        return null == input ? weekOfYear(this, dow, doy).year : (week > (weeksTarget = weeksInYear(input, dow, doy)) && (week = weeksTarget), setWeekAll.call(this, input, week, weekday, dow, doy));
+        return null == input ? weekOfYear(this, dow, doy).year : (weeksTarget = weeksInYear(input, dow, doy), week > weeksTarget && (week = weeksTarget), setWeekAll.call(this, input, week, weekday, dow, doy));
     }
     function setWeekAll(weekYear, week, weekday, dow, doy) {
         var dayOfYearData = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), date = createUTCDate(dayOfYearData.year, 0, dayOfYearData.dayOfYear);

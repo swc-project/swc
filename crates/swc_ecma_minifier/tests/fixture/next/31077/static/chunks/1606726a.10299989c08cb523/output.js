@@ -601,7 +601,7 @@
                         if (dom) {
                             if (3 != dom.nodeType) throw RangeError("Text must be rendered as a DOM text node");
                         } else dom = document.createTextNode(node.text);
-                    } else dom || (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
+                    } else dom || (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node)), dom = assign.dom, contentDOM = assign.contentDOM);
                     contentDOM || node.isText || "BR" == dom.nodeName || (dom.hasAttribute("contenteditable") || (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
                     var nodeDOM = dom;
                     return (dom = applyOuterDeco(dom, outerDeco, node), spec) ? descObj = new CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos + 1) : node.isText ? new TextViewDesc(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) : new NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos + 1);
@@ -804,7 +804,7 @@
                     var deco = curComputed[i], prev = prevComputed[i];
                     if (i) {
                         var parent = void 0;
-                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
+                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || (parent = document.createElement(deco.nodeName), parent.pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
                     }
                     patchAttributes(curDOM, prev || noDeco[0], deco);
                 }
@@ -1040,8 +1040,8 @@
                     if (next instanceof NodeViewDesc) {
                         var preMatch = this.preMatch.matched.get(next);
                         if (null != preMatch && preMatch != index) return !1;
-                        var nextDOM = next.dom;
-                        if (!(this.lock && (nextDOM == this.lock || 1 == nextDOM.nodeType && nextDOM.contains(this.lock.parentNode)) && !(node.isText && next.node && next.node.isText && next.nodeDOM.nodeValue == node.text && 3 != next.dirty && sameOuterDeco(outerDeco, next.outerDeco))) && next.update(node, outerDeco, innerDeco, view)) return this.destroyBetween(this.index, i), next.dom != nextDOM && (this.changed = !0), this.index++, !0;
+                        var nextDOM = next.dom, locked = this.lock && (nextDOM == this.lock || 1 == nextDOM.nodeType && nextDOM.contains(this.lock.parentNode)) && !(node.isText && next.node && next.node.isText && next.nodeDOM.nodeValue == node.text && 3 != next.dirty && sameOuterDeco(outerDeco, next.outerDeco));
+                        if (!locked && next.update(node, outerDeco, innerDeco, view)) return this.destroyBetween(this.index, i), next.dom != nextDOM && (this.changed = !0), this.index++, !0;
                         break;
                     }
                 }
@@ -1555,10 +1555,10 @@
                         var ref = mut.addedNodes[i$1], previousSibling = ref.previousSibling, nextSibling = ref.nextSibling;
                         (!previousSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, previousSibling)) && (prev = previousSibling), (!nextSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, nextSibling)) && (next = nextSibling);
                     }
-                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length;
+                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length, to = desc.localPosFromDOM(mut.target, toOffset, 1);
                     return {
                         from: from,
-                        to: desc.localPosFromDOM(mut.target, toOffset, 1)
+                        to: to
                     };
                 }
                 return "attributes" == mut.type ? {
@@ -1694,8 +1694,8 @@
             var selectNodeModifier = result.mac ? "metaKey" : "ctrlKey";
             handlers.mousedown = function(view, event) {
                 view.shiftKey = event.shiftKey;
-                var event1, click, dx, dy, flushed = endComposition(view), now = Date.now(), type = "singleClick";
-                now - view.lastClick.time < 500 && (event1 = event, dx = (click = view.lastClick).x - event1.clientX, dy = click.y - event1.clientY, dx * dx + dy * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
+                var view1, event1, click, dx, dy, flushed = (view1 = view, endComposition(view1)), now = Date.now(), type = "singleClick";
+                now - view.lastClick.time < 500 && (event1 = event, click = view.lastClick, dx = click.x - event1.clientX, dy = click.y - event1.clientY, dx * dx + dy * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
                     time: now,
                     x: event.clientX,
                     y: event.clientY,
@@ -2107,7 +2107,7 @@
                     } else mustRebuild = !0;
                 }
                 if (mustRebuild) {
-                    var built = buildTree(mapAndGatherRemainingDecorations(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), node, 0, options);
+                    var decorations = mapAndGatherRemainingDecorations(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), built = buildTree(decorations, node, 0, options);
                     newLocal = built.local;
                     for(var i$2 = 0; i$2 < children.length; i$2 += 3)children[i$2 + 1] < 0 && (children.splice(i$2, 3), i$2 -= 3);
                     for(var i$3 = 0, j = 0; i$3 < built.children.length; i$3 += 3){

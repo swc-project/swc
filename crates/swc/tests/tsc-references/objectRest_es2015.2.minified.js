@@ -86,7 +86,7 @@ var { [computed]: stillNotGreat , [computed2]: soSo  } = o, o = _object_without_
     computed,
     computed2
 ].map(_to_property_key));
-o = _object_without_properties(_o = o, [
+_o = o, o = _object_without_properties(_o, [
     computed,
     computed2
 ].map(_to_property_key)), { [computed]: stillNotGreat , [computed2]: soSo  } = _o;
