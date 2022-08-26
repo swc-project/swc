@@ -4,7 +4,7 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
 var s;
 var n;
 var a;
-var C = /*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function(_prop, _prop1, _prop2, _prop3) {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -21,11 +21,11 @@ var C = /*#__PURE__*/ function() {
             set: function set(v) {}
         },
         {
-            key: s + n,
+            key: _prop1,
             set: function set(v) {}
         },
         {
-            key: +s,
+            key: _prop2,
             get: function get() {
                 return 0;
             }
@@ -45,14 +45,14 @@ var C = /*#__PURE__*/ function() {
             set: function set(v) {}
         },
         {
-            key: "hello ".concat(a, " bye"),
+            key: _prop3,
             get: function get() {
                 return 0;
             }
         }
     ], [
         {
-            key: s + s,
+            key: _prop,
             get: function get() {
                 return 0;
             }
@@ -69,4 +69,4 @@ var C = /*#__PURE__*/ function() {
         }
     ]);
     return C;
-}();
+}(s + s, s + n, +s, "hello ".concat(a, " bye"));
