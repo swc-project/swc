@@ -1187,6 +1187,10 @@ impl<'a, I: Tokens> Parser<I> {
             self.include_in_expr(false).parse_expr_or_pat()?
         };
 
+        // ```spec
+        // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+        // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+        // ```
         if starts_with_async_of && !is_for_await {
             self.emit_err(self.input.prev_span(), SyntaxError::TS1106);
         }
