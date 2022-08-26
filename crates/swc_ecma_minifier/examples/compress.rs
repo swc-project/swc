@@ -61,7 +61,7 @@ fn main() {
 
         let output = output.fold_with(&mut fixer(None));
 
-        let code = print(cm, &[output], false);
+        let code = print(cm, &[output], true);
 
         fs::write("output.js", code.as_bytes()).expect("failed to write output");
 

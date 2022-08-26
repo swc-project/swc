@@ -31,7 +31,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(_param) {
-                var sizerSvgUrl, _obj, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyRoot = _param.lazyRoot, lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, style = _param.style, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = _object_without_properties_loose(_param, [
+                var sizerSvgUrl, _obj, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyRoot = _param.lazyRoot, lazyRoot = void 0 === _lazyRoot ? null : _lazyRoot, lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, style = _param.style, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = _object_without_properties_loose(_param, [
                     "src",
                     "sizes",
                     "unoptimized",
@@ -68,9 +68,11 @@
                     if (rest.loader) {
                         var customImageLoader = rest.loader;
                         loader = function(obj) {
-                            return obj.config, customImageLoader(_object_without_properties_loose(obj, [
+                            obj.config;
+                            var opts = _object_without_properties_loose(obj, [
                                 "config"
-                            ]));
+                            ]);
+                            return customImageLoader(opts);
                         };
                     }
                     delete rest.loader;
@@ -81,10 +83,11 @@
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
                     if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
                 }
+                src = "string" == typeof src ? src : staticSrc;
                 var isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                ((src = "string" == typeof src ? src : staticSrc).startsWith("data:") || src.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
+                (src.startsWith("data:") || src.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
                 var ref = _slicedToArray(_react.useState(!1), 2), blurComplete = ref[0], setBlurComplete = ref[1], ref1 = _slicedToArray(_useIntersection.useIntersection({
-                    rootRef: void 0 === _lazyRoot ? null : _lazyRoot,
+                    rootRef: lazyRoot,
                     rootMargin: lazyBoundary || "200px",
                     disabled: !isLazy
                 }), 3), setIntersection = ref1[0], isIntersected = ref1[1], resetIntersected = ref1[2], isVisible = !isLazy || isIntersected, wrapperStyle = {
@@ -469,7 +472,7 @@
                 value: !0
             }), exports.useIntersection = function(param) {
                 var rootRef = param.rootRef, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = _slicedToArray(_react.useState(!1), 2), visible = ref[0], setVisible = ref[1], ref1 = _slicedToArray(_react.useState(null), 2), element = ref1[0], setElement = ref1[1];
-                return _react.useEffect(function() {
+                _react.useEffect(function() {
                     if (hasIntersectionObserver) {
                         if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) return element && element.tagName && (unobserve.current = observe(element, function(isVisible) {
                             return isVisible && setVisible(isVisible);
@@ -493,12 +496,14 @@
                     rootMargin,
                     rootRef,
                     visible
-                ]), [
+                ]);
+                var resetVisible = _react.useCallback(function() {
+                    setVisible(!1);
+                }, []);
+                return [
                     setElement,
                     visible,
-                    _react.useCallback(function() {
-                        setVisible(!1);
-                    }, [])
+                    resetVisible
                 ];
             };
             var _react = __webpack_require__(959), _requestIdleCallback = __webpack_require__(6501), hasIntersectionObserver = "function" == typeof IntersectionObserver, observers = new Map(), idList = [];
@@ -522,15 +527,15 @@
                     return obj.root === id.root && obj.margin === id.margin;
                 });
                 if (existing && (instance = observers.get(existing))) return instance;
-                var elements = new Map();
+                var elements = new Map(), observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+                        callback && isVisible && callback(isVisible);
+                    });
+                }, options);
                 return instance = {
                     id: id,
-                    observer: new IntersectionObserver(function(entries) {
-                        entries.forEach(function(entry) {
-                            var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
-                            callback && isVisible && callback(isVisible);
-                        });
-                    }, options),
+                    observer: observer,
                     elements: elements
                 }, idList.push(id), observers.set(id, instance), instance;
             }
