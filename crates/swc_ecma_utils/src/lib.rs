@@ -186,18 +186,10 @@ impl Visit for ArgumentsFinder {
     }
 }
 
-/// A bound for methods which can handle module items or statements
-
-pub trait StmtOrModuleItem: Send + Sync + Sized {
+pub trait StmtOrModuleItem: Send + Sync {
     fn into_stmt(self) -> Result<Stmt, ModuleDecl>;
 
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl>;
-
-    fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl>;
-
-    fn from_stmt(stmt: Stmt) -> Self;
-
-    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl>;
 }
 
 impl StmtOrModuleItem for Stmt {
@@ -209,21 +201,6 @@ impl StmtOrModuleItem for Stmt {
     #[inline]
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl> {
         Ok(self)
-    }
-
-    #[inline]
-    fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl> {
-        Ok(self)
-    }
-
-    #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
-        stmt
-    }
-
-    #[inline]
-    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
-        Err(decl)
     }
 }
 
@@ -243,27 +220,8 @@ impl StmtOrModuleItem for ModuleItem {
             ModuleItem::Stmt(v) => Ok(v),
         }
     }
-
-    #[inline]
-    fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl> {
-        match self {
-            ModuleItem::ModuleDecl(v) => Err(v),
-            ModuleItem::Stmt(v) => Ok(v),
-        }
-    }
-
-    #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
-        ModuleItem::Stmt(stmt)
-    }
-
-    #[inline]
-    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
-        Ok(ModuleItem::ModuleDecl(decl))
-    }
 }
 
-#[deprecated = "Use StmtOrModuleItem instead"]
 pub trait ModuleItemLike: StmtLike {
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
         Err(self)
@@ -273,7 +231,6 @@ pub trait ModuleItemLike: StmtLike {
     }
 }
 
-#[deprecated = "Use StmtOrModuleItem instead"]
 pub trait StmtLike: Sized + 'static + Send + Sync {
     fn try_into_stmt(self) -> Result<Stmt, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
@@ -2065,14 +2022,14 @@ pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
 }
 
 /// inject `stmts` after directives
-pub fn prepend_stmts<T: StmtOrModuleItem>(
+pub fn prepend_stmts<T: StmtLike>(
     to: &mut Vec<T>,
     stmts: impl Iterator + ExactSizeIterator<Item = T>,
 ) {
     let idx = to
         .iter()
         .position(|item| {
-            if let Ok(&Stmt::Expr(ExprStmt { ref expr, .. })) = item.as_stmt() {
+            if let Some(&Stmt::Expr(ExprStmt { ref expr, .. })) = item.as_stmt() {
                 match &**expr {
                     Expr::Lit(Lit::Str(..)) => return false,
                     Expr::Call(expr) => match expr.callee {
