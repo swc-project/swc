@@ -61,8 +61,22 @@ impl Take for Pat {
 
 bridge_pat_from!(BindingIdent, Ident);
 bridge_pat_from!(BindingIdent, Id);
-bridge_from!(crate::Param, crate::Pat, BindingIdent);
-bridge_from!(Box<crate::Pat>, crate::Pat, BindingIdent);
+
+macro_rules! pat_to_other {
+    ($T:ty) => {
+        bridge_from!(crate::Param, crate::Pat, $T);
+        bridge_from!(Box<crate::Pat>, crate::Pat, $T);
+        bridge_from!(PatOrExpr, crate::Pat, $T);
+    };
+}
+
+pat_to_other!(BindingIdent);
+pat_to_other!(Ident);
+pat_to_other!(Id);
+pat_to_other!(ArrayPat);
+pat_to_other!(ObjectPat);
+pat_to_other!(AssignPat);
+pat_to_other!(RestPat);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

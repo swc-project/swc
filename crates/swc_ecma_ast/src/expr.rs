@@ -310,7 +310,6 @@ boxed_expr!(TsAsExpr);
 boxed_expr!(TsInstantiation);
 boxed_expr!(PrivateName);
 boxed_expr!(OptChainExpr);
-boxed_expr!(Invalid);
 
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
