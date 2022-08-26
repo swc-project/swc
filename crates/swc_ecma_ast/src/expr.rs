@@ -266,10 +266,16 @@ impl Take for Expr {
 bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
 
-bridge_from!(Box<Expr>, Expr, ArrayLit);
-bridge_from!(Box<Expr>, Expr, ObjectLit);
-bridge_from!(Box<Expr>, Expr, MemberExpr);
-bridge_from!(Box<Expr>, Expr, SuperPropExpr);
+macro_rules! boxed_expr {
+    ($T:ident) => {
+        bridge_from!(Box<Expr>, Expr, $T);
+    };
+}
+
+boxed_expr!(ArrayLit);
+boxed_expr!(ObjectLit);
+boxed_expr!(MemberExpr);
+boxed_expr!(SuperPropExpr);
 
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
