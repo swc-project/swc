@@ -191,6 +191,7 @@ where
                             globals: self.globals,
                             marks: self.marks,
                             options: self.options,
+                            module_info: self.module_info,
                             changed: false,
                             pass: self.pass,
                             left_parallel_depth: self.left_parallel_depth - 1,
