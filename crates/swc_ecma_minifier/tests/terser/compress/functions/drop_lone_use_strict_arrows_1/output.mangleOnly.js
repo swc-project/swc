@@ -1,10 +1,10 @@
-var a = ()=>0;
-var r = ()=>{
+var r = ()=>0;
+var s = ()=>{
     "use strict";
 };
-var v = ()=>{
+var t = ()=>{
     "use strict";
-    var a = ()=>{
+    var r = ()=>{
         "use strict";
     };
 };

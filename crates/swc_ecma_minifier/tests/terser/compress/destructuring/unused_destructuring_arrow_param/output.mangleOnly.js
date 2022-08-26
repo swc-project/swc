@@ -1,7 +1,7 @@
-let l = ({ w: l = console.log("side effect") , x: g , y: o  })=>{
-    console.log(g);
+let e = ({ w: e = console.log("side effect") , x: l , y: f  })=>{
+    console.log(l);
 };
-l({
+e({
     x: 4,
     y: 5,
     z: 6

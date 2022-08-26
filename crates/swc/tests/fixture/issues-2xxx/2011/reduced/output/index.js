@@ -1,8 +1,8 @@
-var n, t = function() {};
-module.exports = ((n = function() {
+var t, n = function() {};
+module.exports = ((t = function() {
     "use strict";
-    function n() {}
-    return n.prototype.it = function() {
-        this.bb = new n.MyA();
-    }, n;
-}()).MyA = t, n);
+    function t() {}
+    return t.prototype.it = function() {
+        this.bb = new t.MyA();
+    }, t;
+}()).MyA = n, t);

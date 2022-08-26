@@ -1,9 +1,9 @@
 "use strict";
-!(function(n) {
-    if (n) return;
-    let t = 1;
+!(function(t) {
+    if (t) return;
+    let n = 1;
     function r() {
-        return t;
+        return n;
     }
     console.log(r());
 })();

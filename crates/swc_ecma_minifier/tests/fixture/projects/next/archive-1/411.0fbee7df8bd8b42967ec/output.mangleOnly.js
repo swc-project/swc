@@ -4,17 +4,17 @@
         411
     ],
     {
-        8411: function(n, r, i) {
-            i.r(r);
-            var s = i(4512);
-            var a = i(266);
-            r["default"] = function() {
-                return (0, s.jsxs)("div", {
+        8411: function(n, e, i) {
+            i.r(e);
+            var c = i(4512);
+            var s = i(266);
+            e["default"] = function() {
+                return (0, c.jsxs)("div", {
                     id: "dynamic-component",
                     className: "jsx-3028949577",
                     children: [
                         "Dynamic Component",
-                        (0, s.jsx)(a.default, {
+                        (0, c.jsx)(s.default, {
                             id: "3028949577",
                             children: [
                                 "div.jsx-3028949577{font-size:100px;}", 

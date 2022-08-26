@@ -1,19 +1,19 @@
 var n = (function() {
     return this;
 })();
-function t() {
+function o() {
     console.log("foo");
 }
-t.c = function() {
-    console.log(this === t ? "bar" : "baz");
+o.c = function() {
+    console.log(this === o ? "bar" : "baz");
 };
-(n, t)();
-(n, t.c)();
+(n, o)();
+(n, o.c)();
 (n, function() {
     console.log(this === n);
 })();
-new (n, t)();
-new (n, t.c)();
+new (n, o)();
+new (n, o.c)();
 new (n, function() {
     console.log(this === n);
 })();

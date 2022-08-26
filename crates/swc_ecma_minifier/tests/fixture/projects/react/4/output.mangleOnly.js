@@ -1,17 +1,17 @@
-function t(t, a, n) {
+function a(a, n, t) {
     {
         var r = ReactSharedInternals.ReactDebugCurrentFrame;
         var e = r.getStackAddendum();
         if (e !== "") {
-            a += "%s";
-            n = n.concat([
+            n += "%s";
+            t = t.concat([
                 e
             ]);
         }
-        var c = n.map(function(t) {
-            return "" + t;
+        var c = t.map(function(a) {
+            return "" + a;
         });
-        c.unshift("Warning: " + a);
-        Function.prototype.apply.call(console[t], console, c);
+        c.unshift("Warning: " + n);
+        Function.prototype.apply.call(console[a], console, c);
     }
 }

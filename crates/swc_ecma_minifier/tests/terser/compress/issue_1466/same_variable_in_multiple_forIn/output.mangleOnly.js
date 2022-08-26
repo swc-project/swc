@@ -3,15 +3,15 @@ var l = [
     "b",
     "c"
 ];
-for(let o in l){
-    console.log(o);
-    let e;
-    e = [
+for(let e in l){
+    console.log(e);
+    let o;
+    o = [
         "e",
         "f",
         "g"
     ];
-    for(let r in l){
-        console.log(r);
+    for(let f in l){
+        console.log(f);
     }
 }

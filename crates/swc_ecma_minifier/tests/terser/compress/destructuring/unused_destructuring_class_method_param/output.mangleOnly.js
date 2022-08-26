@@ -1,6 +1,6 @@
 new (class {
-    baz({ w: a = console.log("side effect") , x: l , y: z  }) {
-        console.log(l);
+    baz({ w: e = console.log("side effect") , x: a , y: l  }) {
+        console.log(a);
     }
 })().baz({
     x: 7,

@@ -1,6 +1,6 @@
-console.log((function(n) {
+console.log((function(t) {
     "use strict";
-    return n;
+    return t;
 })(!(function() {
     return this;
 })()));

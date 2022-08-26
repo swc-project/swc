@@ -4,8 +4,8 @@ define([
     "handlebars"
 ], function(r, a, n) {
     var v = window;
-    var t = (v.Handlebars = n);
-    return t;
+    var e = (v.Handlebars = n);
+    return e;
 });
 def(function(r) {
     var a = window;

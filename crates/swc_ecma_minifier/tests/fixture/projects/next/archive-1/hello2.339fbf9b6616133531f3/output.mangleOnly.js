@@ -4,11 +4,11 @@
         367
     ],
     {
-        4416: function(n, r, u) {
-            u.r(r);
-            var c = u(4512);
-            r["default"] = function() {
-                return (0, c.jsx)("p", {
+        4416: function(n, u, e) {
+            e.r(u);
+            var r = e(4512);
+            u["default"] = function() {
+                return (0, r.jsx)("p", {
                     children: "Hello World 2"
                 });
             };

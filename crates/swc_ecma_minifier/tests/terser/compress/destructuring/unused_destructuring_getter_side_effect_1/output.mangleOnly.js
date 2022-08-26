@@ -1,16 +1,16 @@
-function a(a) {
-    const { a: n , b: o  } = a;
-    console.log(o);
+function e(e) {
+    const { a: t , b: a  } = e;
+    console.log(a);
 }
-a({
+e({
     a: 1,
     b: 2
 });
-a({
+e({
     get a () {
-        var n = "side effect";
-        console.log(n);
-        return n;
+        var t = "side effect";
+        console.log(t);
+        return t;
     },
     b: 4
 });

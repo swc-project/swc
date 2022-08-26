@@ -3,10 +3,10 @@ function e(e, i) {
         return;
     }
     if (Array.isArray(e)) {
-        for(var r = 0; r < e.length; r++){
-            var f = e[r];
-            if (isValidElement(f)) {
-                validateExplicitKey(f, i);
+        for(var f = 0; f < e.length; f++){
+            var r = e[f];
+            if (isValidElement(r)) {
+                validateExplicitKey(r, i);
             }
         }
     } else if (isValidElement(e)) {
@@ -14,12 +14,12 @@ function e(e, i) {
             e._store.validated = true;
         }
     } else if (e) {
-        var a = getIteratorFn(e);
-        if (typeof a === "function") {
-            if (a !== e.entries) {
-                var t = a.call(e);
+        var t = getIteratorFn(e);
+        if (typeof t === "function") {
+            if (t !== e.entries) {
+                var a = t.call(e);
                 var l;
-                while(!(l = t.next()).done){
+                while(!(l = a.next()).done){
                     if (isValidElement(l.value)) {
                         validateExplicitKey(l.value, i);
                     }

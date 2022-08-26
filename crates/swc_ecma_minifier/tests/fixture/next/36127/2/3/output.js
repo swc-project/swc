@@ -83,8 +83,8 @@ class t extends Text {
             let o = h.pop(), f = n(r.text, o.text.slice(), 0, r.length);
             if (f.length <= 32) h.push(new t(f, o.length + r.length));
             else {
-                let c = f.length >> 1;
-                h.push(new t(f.slice(0, c)), new t(f.slice(c)));
+                let u = f.length >> 1;
+                h.push(new t(f.slice(0, u)), new t(f.slice(u)));
             }
         } else h.push(r);
     }
@@ -140,8 +140,8 @@ class e extends Text {
             if (t >= h && n <= r) {
                 let o = l.replace(t - h, n - h, i), f = this.lines - l.lines + o.lines;
                 if (o.lines < f >> 4 && o.lines > f >> 6) {
-                    let c = this.children.slice();
-                    return c[s] = o, new e(c, this.length - (n - t) + i.length);
+                    let u = this.children.slice();
+                    return u[s] = o, new e(u, this.length - (n - t) + i.length);
                 }
                 return super.replace(h, r, o);
             }
@@ -188,17 +188,17 @@ class e extends Text {
             for (let r of n)r.flatten(l);
             return new t(l, i);
         }
-        let o = Math.max(32, s >> 5), f = o << 1, c = o >> 1, u = [], g = 0, a = -1, $ = [];
+        let o = Math.max(32, s >> 5), f = o << 1, u = o >> 1, c = [], g = 0, a = -1, $ = [];
         function _(n) {
             let i;
             if (n.lines > f && n instanceof e) for (let s of n.children)_(s);
-            else n.lines > c && (g > c || !g) ? (p(), u.push(n)) : n instanceof t && g && (i = $[$.length - 1]) instanceof t && n.lines + i.lines <= 32 ? (g += n.lines, a += n.length + 1, $[$.length - 1] = new t(i.text.concat(n.text), i.length + 1 + n.length)) : (g + n.lines > o && p(), g += n.lines, a += n.length + 1, $.push(n));
+            else n.lines > u && (g > u || !g) ? (p(), c.push(n)) : n instanceof t && g && (i = $[$.length - 1]) instanceof t && n.lines + i.lines <= 32 ? (g += n.lines, a += n.length + 1, $[$.length - 1] = new t(i.text.concat(n.text), i.length + 1 + n.length)) : (g + n.lines > o && p(), g += n.lines, a += n.length + 1, $.push(n));
         }
         function p() {
-            0 != g && (u.push(1 == $.length ? $[0] : e.from($, a)), a = -1, g = $.length = 0);
+            0 != g && (c.push(1 == $.length ? $[0] : e.from($, a)), a = -1, g = $.length = 0);
         }
         for (let d of n)_(d);
-        return p(), 1 == u.length ? u[0] : new e(u, i);
+        return p(), 1 == c.length ? c[0] : new e(c, i);
     }
 }
 function n(t, e, n = 0, i = 1e9) {

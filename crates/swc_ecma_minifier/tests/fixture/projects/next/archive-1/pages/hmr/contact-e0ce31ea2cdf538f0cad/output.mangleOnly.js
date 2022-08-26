@@ -3,40 +3,40 @@
         997
     ],
     {
-        8897: function(n, r, u) {
+        8897: function(n, t, c) {
             "use strict";
-            u.r(r);
-            var t = u(4512);
-            r["default"] = function() {
-                return (0, t.jsx)("div", {
+            c.r(t);
+            var r = c(4512);
+            t["default"] = function() {
+                return (0, r.jsx)("div", {
                     className: "hmr-contact-page",
-                    children: (0, t.jsx)("p", {
+                    children: (0, r.jsx)("p", {
                         children: "This is the contact page."
                     })
                 });
             };
         },
-        2574: function(n, r, u) {
+        2574: function(n, t, c) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/hmr/contact",
                 function() {
-                    return u(8897);
+                    return c(8897);
                 }, 
             ]);
         }
     },
     function(n) {
-        var r = function(r) {
-            return n((n.s = r));
+        var t = function(t) {
+            return n((n.s = t));
         };
         n.O(0, [
             774,
             888,
             179
         ], function() {
-            return r(2574);
+            return t(2574);
         });
-        var u = n.O();
-        _N_E = u;
+        var c = n.O();
+        _N_E = c;
     }, 
 ]);

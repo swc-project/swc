@@ -1,8 +1,8 @@
 function r(r, a, v) {
     var n = 3 - a;
-    var t = r;
-    var u = 7;
+    var u = r;
+    var t = 7;
     var c = "run";
-    var e = (t[c](n)[u] = v);
+    var e = (u[c](n)[t] = v);
     return e;
 }

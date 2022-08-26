@@ -1,13 +1,13 @@
-"use strict".split(" ").forEach(function(o) {
-    console.log(o);
+"use strict".split(" ").forEach(function(t) {
+    console.log(t);
 });
 console.log(!this);
 (function() {
     "directive";
     "";
     "use strict";
-    "hello world".split(" ").forEach(function(o) {
-        console.log(o);
+    "hello world".split(" ").forEach(function(t) {
+        console.log(t);
     });
     console.log(!this);
 })();

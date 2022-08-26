@@ -1,7 +1,7 @@
-var o = function() {
-    console.log(f);
+var n = function() {
+    console.log(o);
 };
-var f = 0;
-f++ < 2 && typeof o == "function" && o();
-f++ < 2 && typeof o == "function" && o();
-f++ < 2 && typeof o == "function" && o();
+var o = 0;
+o++ < 2 && typeof n == "function" && n();
+o++ < 2 && typeof n == "function" && n();
+o++ < 2 && typeof n == "function" && n();

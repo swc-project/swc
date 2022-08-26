@@ -3,23 +3,23 @@ export function string_create() {
 }
 export class StringSchema extends BaseSchema {
     matches(e, t) {
-        let r = false;
-        let s;
+        let s = false;
+        let r;
         let a;
         if (t) {
             if (typeof t === "object") {
-                ({ excludeEmptyString: r = false , message: s , name: a  } = t);
+                ({ excludeEmptyString: s = false , message: r , name: a  } = t);
             } else {
-                s = t;
+                r = t;
             }
         }
         return this.test({
             name: a || "matches",
-            message: s || string.matches,
+            message: r || string.matches,
             params: {
                 regex: e
             },
-            test: (t)=>isAbsent(t) || (t === "" && r) || t.search(e) !== -1
+            test: (t)=>isAbsent(t) || (t === "" && s) || t.search(e) !== -1
         });
     }
 }

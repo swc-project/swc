@@ -8,26 +8,26 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 const t = n(require("./config.json"));
-function u({ config: n = t.default  } = {}) {
-    function u(t) {
-        const u = n[t] || null;
-        if (!u) {
+function e({ config: n = t.default  } = {}) {
+    function e(t) {
+        const e = n[t] || null;
+        if (!e) {
             return false;
         }
-        const { available: e , availableBy: r  } = u;
+        const { available: u , availableBy: r  } = e;
         if (!r) {
-            return e;
+            return u;
         }
-        return Date.now() >= r && e;
+        return Date.now() >= r && u;
     }
-    function e(t) {
-        const u = n[t] || null;
-        return u;
+    function u(t) {
+        const e = n[t] || null;
+        return e;
     }
     return {
-        longlong10: e,
-        longlong2: u,
+        longlong10: u,
+        longlong2: e,
         longlong100: n
     };
 }
-exports.default = u;
+exports.default = e;

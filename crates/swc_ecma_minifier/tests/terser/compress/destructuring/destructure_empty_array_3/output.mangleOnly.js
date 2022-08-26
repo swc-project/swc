@@ -1,1 +1,1 @@
-let {} = Object, [] = {}, l = console.log("not reached");
+let {} = Object, [] = {}, e = console.log("not reached");

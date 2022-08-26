@@ -1,30 +1,30 @@
-var e, _, f, i, l;
-if (_) {
-    e = 1 + 1;
+var f, o, e, i, _;
+if (o) {
+    f = 1 + 1;
 } else {
-    e = 2;
+    f = 2;
 }
-if (_) {
-    e = 1 + 1;
-} else if (f) {
-    e = 2;
+if (o) {
+    f = 1 + 1;
+} else if (e) {
+    f = 2;
 } else {
-    e = 3 - 1;
+    f = 3 - 1;
 }
-e = _ ? "foo" : "fo" + "o";
-e = _ ? "foo" : _ ? "foo" : "fo" + "o";
+f = o ? "foo" : "fo" + "o";
+f = o ? "foo" : o ? "foo" : "fo" + "o";
 if (condition()) {
-    e = 10 + 10;
+    f = 10 + 10;
 } else {
-    e = 20;
+    f = 20;
 }
-if (f) {
-    e = "fuji";
+if (e) {
+    f = "fuji";
 } else if (condition()) {
-    e = "fu" + "ji";
+    f = "fu" + "ji";
 } else {
-    e = "fuji";
+    f = "fuji";
 }
-e = condition() ? "foobar" : "foo" + "bar";
-e = _ ? i : l;
-e = _ ? "foo" : "fo";
+f = condition() ? "foobar" : "foo" + "bar";
+f = o ? i : _;
+f = o ? "foo" : "fo";

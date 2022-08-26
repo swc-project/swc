@@ -1,13 +1,13 @@
 "AAAAAAAA";
 "BBBBBBB";
 new (class {
-    f(c) {
+    f(A) {
         try {
             throw {
                 m: "PASS"
             };
-        } catch ({ m: t  }) {
-            console.log(t);
+        } catch ({ m: B  }) {
+            console.log(B);
         }
     }
 })().f();

@@ -1,8 +1,8 @@
 export const E = {
-    test: function(t) {
-        var e = t.config.doc, n = e ? e.documentElement : null;
-        if (n && n.style) {
-            return ("MozTransition" in n.style || "WebkitTransition" in n.style || "transition" in n.style);
+    test: function(n) {
+        var t = n.config.doc, e = t ? t.documentElement : null;
+        if (e && e.style) {
+            return ("MozTransition" in e.style || "WebkitTransition" in e.style || "transition" in e.style);
         }
         return false;
     }

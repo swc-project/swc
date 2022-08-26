@@ -1,3 +1,3 @@
-function f(f, n) {
-    "foo" ^ (n += f), n ? false : (n = f) ? -1 : (n -= f) - (n ^= f), f-- || !f, f;
+function f(f, o) {
+    "foo" ^ (o += f), o ? false : (o = f) ? -1 : (o -= f) - (o ^= f), f-- || !f, f;
 }

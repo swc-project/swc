@@ -1,5 +1,5 @@
 function n(n = []) {
-    var i, l = "unused";
+    var u, i = "unused";
     if (arguments.length == 1) {
         n = [
             n

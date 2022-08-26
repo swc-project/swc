@@ -1,112 +1,112 @@
 const e = 1000;
 const s = e * 60;
 const n = s * 60;
-const t = n * 24;
-const c = t * 7;
-const r = t * 365.25;
+const r = n * 24;
+const c = r * 7;
+const t = r * 365.25;
 function a(e, s) {
     try {
         if (typeof e === "string" && e.length > 0) {
-            return u(e);
+            return o(e);
         } else if (typeof e === "number" && isFinite(e)) {
-            return s?.long ? i(e) : o(e);
+            return s?.long ? i(e) : u(e);
         }
         throw new Error("Value is not a string or number.");
     } catch (n) {
-        const t = d(n) ? `${n.message}. value=${JSON.stringify(e)}` : "An unknown error has occured.";
-        throw new Error(t);
+        const r = d(n) ? `${n.message}. value=${JSON.stringify(e)}` : "An unknown error has occured.";
+        throw new Error(r);
     }
 }
-function u(a) {
+function o(a) {
     a = String(a);
     if (a.length > 100) {
         throw new Error("Value exceeds the maximum length of 100 characters.");
     }
-    const u = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(a);
-    if (!u) {
+    const o = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(a);
+    if (!o) {
         return NaN;
     }
-    const o = parseFloat(u[1]);
-    const i = (u[2] || "ms").toLowerCase();
+    const u = parseFloat(o[1]);
+    const i = (o[2] || "ms").toLowerCase();
     switch(i){
         case "years":
         case "year":
         case "yrs":
         case "yr":
         case "y":
-            return o * r;
+            return u * t;
         case "weeks":
         case "week":
         case "w":
-            return o * c;
+            return u * c;
         case "days":
         case "day":
         case "d":
-            return o * t;
+            return u * r;
         case "hours":
         case "hour":
         case "hrs":
         case "hr":
         case "h":
-            return o * n;
+            return u * n;
         case "minutes":
         case "minute":
         case "mins":
         case "min":
         case "m":
-            return o * s;
+            return u * s;
         case "seconds":
         case "second":
         case "secs":
         case "sec":
         case "s":
-            return o * e;
+            return u * e;
         case "milliseconds":
         case "millisecond":
         case "msecs":
         case "msec":
         case "ms":
-            return o;
+            return u;
         default:
             throw new Error(`The unit ${i} was matched, but no matching case exists.`);
     }
 }
 export default a;
-function o(c) {
-    const r = Math.abs(c);
-    if (r >= t) {
-        return `${Math.round(c / t)}d`;
+function u(c) {
+    const t = Math.abs(c);
+    if (t >= r) {
+        return `${Math.round(c / r)}d`;
     }
-    if (r >= n) {
+    if (t >= n) {
         return `${Math.round(c / n)}h`;
     }
-    if (r >= s) {
+    if (t >= s) {
         return `${Math.round(c / s)}m`;
     }
-    if (r >= e) {
+    if (t >= e) {
         return `${Math.round(c / e)}s`;
     }
     return `${c}ms`;
 }
 function i(c) {
-    const r = Math.abs(c);
-    if (r >= t) {
-        return f(c, r, t, "day");
+    const t = Math.abs(c);
+    if (t >= r) {
+        return m(c, t, r, "day");
     }
-    if (r >= n) {
-        return f(c, r, n, "hour");
+    if (t >= n) {
+        return m(c, t, n, "hour");
     }
-    if (r >= s) {
-        return f(c, r, s, "minute");
+    if (t >= s) {
+        return m(c, t, s, "minute");
     }
-    if (r >= e) {
-        return f(c, r, e, "second");
+    if (t >= e) {
+        return m(c, t, e, "second");
     }
     return `${c} ms`;
 }
-function f(e, s, n, t) {
+function m(e, s, n, r) {
     const c = s >= n * 1.5;
-    return `${Math.round(e / n)} ${t}${c ? "s" : ""}`;
+    return `${Math.round(e / n)} ${r}${c ? "s" : ""}`;
 }
 function d(e) {
     return typeof e === "object" && e !== null && "message" in e;

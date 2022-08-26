@@ -37,7 +37,7 @@ function g(e) {
     };
     return Object.keys(e).map((s)=>r("%s=%s", s, t(e[s]) ? JSON.stringify(e[s]) : e[s])).join("&");
 }
-export default function m({ indexName: a , initialState: n = {} , searchClient: c , resultsState: m , stalledSearchDelay: h ,  }) {
+export default function p({ indexName: a , initialState: n = {} , searchClient: c , resultsState: p , stalledSearchDelay: h ,  }) {
     const S = e(c, a, {
         ...s
     });
@@ -48,21 +48,21 @@ export default function m({ indexName: a , initialState: n = {} , searchClient: 
     let x = false;
     let y = null;
     let w = S.state;
-    const R = t(k);
-    N(c, m);
+    const R = t(j);
+    W(c, p);
     const F = r({
         widgets: n,
-        metadata: p(m),
-        results: b(m),
+        metadata: m(p),
+        results: $(p),
         error: null,
         searching: false,
         isSearchStalled: true,
         searchingForFacetValues: false
     });
-    function V() {
+    function A() {
         x = true;
     }
-    function A(e) {
+    function V(e) {
         o(e);
         S.setClient(e);
         v();
@@ -175,7 +175,7 @@ export default function m({ indexName: a , initialState: n = {} , searchClient: 
             }, h);
         }
     }
-    function N(e, t) {
+    function W(e, t) {
         if (!t) {
             return;
         }
@@ -202,12 +202,12 @@ export default function m({ indexName: a , initialState: n = {} , searchClient: 
             };
         }
         if (Array.isArray(t.results)) {
-            W(e, t.results);
+            b(e, t.results);
             return;
         }
-        $(e, t);
+        N(e, t);
     }
-    function W(e, t) {
+    function b(e, t) {
         if (e.transporter) {
             e.transporter.responsesCache.set({
                 method: "search",
@@ -235,7 +235,7 @@ export default function m({ indexName: a , initialState: n = {} , searchClient: 
             })
         };
     }
-    function $(e, t) {
+    function N(e, t) {
         if (e.transporter) {
             e.transporter.responsesCache.set({
                 method: "search",
@@ -263,7 +263,7 @@ export default function m({ indexName: a , initialState: n = {} , searchClient: 
             })
         };
     }
-    function b(t) {
+    function $(t) {
         if (!t) {
             return null;
         }
@@ -275,7 +275,7 @@ export default function m({ indexName: a , initialState: n = {} , searchClient: 
         }
         return new e.SearchResults(new e.SearchParameters(t.state), t.rawResults);
     }
-    function k() {
+    function j() {
         const e = I(F.getState().widgets);
         F.setState({
             ...F.getState(),
@@ -284,11 +284,11 @@ export default function m({ indexName: a , initialState: n = {} , searchClient: 
         });
         v();
     }
-    function E(e) {
+    function M(e) {
         const t = F.getState().widgets;
         return R.getWidgets().filter((e)=>Boolean(e.transitionState)).reduce((e, r)=>r.transitionState(t, e), e);
     }
-    function M(e) {
+    function k(e) {
         const t = I(e);
         F.setState({
             ...F.getState(),
@@ -298,7 +298,7 @@ export default function m({ indexName: a , initialState: n = {} , searchClient: 
         });
         v();
     }
-    function j({ facetName: e , query: t , maxFacetHits: r = 10  }) {
+    function E({ facetName: e , query: t , maxFacetHits: r = 10  }) {
         const s = Math.max(1, Math.min(r, 100));
         F.setState({
             ...F.getState(),
@@ -330,24 +330,24 @@ export default function m({ indexName: a , initialState: n = {} , searchClient: 
     function B(e) {
         w = w.setIndex(e);
     }
-    function z() {
+    function O() {
         return F.getState().metadata.reduce((e, t)=>typeof t.id !== "undefined" ? e.concat(t.id) : e, []);
     }
     return {
         store: F,
         widgetsManager: R,
-        getWidgetsIds: z,
+        getWidgetsIds: O,
         getSearchParameters: P,
-        onSearchForFacetValues: j,
-        onExternalStateUpdate: M,
-        transitionState: E,
-        updateClient: A,
+        onSearchForFacetValues: E,
+        onExternalStateUpdate: k,
+        transitionState: M,
+        updateClient: V,
         updateIndex: B,
         clearCache: C,
-        skipSearch: V
+        skipSearch: A
     };
 };
-function p(e) {
+function m(e) {
     if (!e) {
         return [];
     }

@@ -3,5 +3,5 @@ function e() {
         message: "Hello there"
     };
 }
-var s = e();
-console.log(s.message);
+var r = e();
+console.log(r.message);

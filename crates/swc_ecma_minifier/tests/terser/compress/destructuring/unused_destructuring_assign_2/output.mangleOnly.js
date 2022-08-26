@@ -1,18 +1,18 @@
-function a(a) {
-    var r;
+function e(e) {
+    var a;
     let t;
-    ({ a: r , b: t  } = a);
+    ({ a: a , b: t  } = e);
     console.log(t);
 }
-a({
+e({
     a: 1,
     b: 2
 });
-a({
+e({
     get a () {
-        var r = "side effect";
-        console.log(r);
-        return r;
+        var a = "side effect";
+        console.log(a);
+        return a;
     },
     b: 4
 });

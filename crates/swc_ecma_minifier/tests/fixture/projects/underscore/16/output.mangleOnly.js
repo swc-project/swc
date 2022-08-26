@@ -1,27 +1,27 @@
 function i() {
     aStack.push(a);
     bStack.push(b);
-    var i = 0, f = true;
+    var i = 0, e = true;
     if (className == "[object Array]") {
         i = a.length;
-        f = i == b.length;
-        if (f) {
+        e = i == b.length;
+        if (e) {
             while(i--){
-                if (!(f = eq(a[i], b[i], aStack, bStack))) break;
+                if (!(e = eq(a[i], b[i], aStack, bStack))) break;
             }
         }
     } else {
-        for(var e in a){
-            if (_.has(a, e)) {
+        for(var f in a){
+            if (_.has(a, f)) {
                 i++;
-                if (!(f = _.has(b, e) && eq(a[e], b[e], aStack, bStack))) break;
+                if (!(e = _.has(b, f) && eq(a[f], b[f], aStack, bStack))) break;
             }
         }
-        if (f) {
-            for(e in b){
-                if (_.has(b, e) && !i--) break;
+        if (e) {
+            for(f in b){
+                if (_.has(b, f) && !i--) break;
             }
-            f = !i;
+            e = !i;
         }
     }
 }
