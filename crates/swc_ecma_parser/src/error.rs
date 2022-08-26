@@ -224,6 +224,7 @@ pub enum SyntaxError {
     TS1100,
     TS1102,
     TS1105,
+    TS1106,
     TS1107,
     TS1109,
     TS1110,
@@ -586,6 +587,9 @@ impl SyntaxError {
             SyntaxError::TS1105 => "A 'break' statement can only be used within an enclosing \
                                     iteration or switch statement"
                 .into(),
+            SyntaxError::TS1106 => {
+                "The left-hand side of a `for...of` statement may not be `async`".into()
+            }
             SyntaxError::TS1107 => "Jump target cannot cross function boundary".into(),
             SyntaxError::TS1109 => "Expression expected".into(),
             SyntaxError::TS1114 => "Duplicate label".into(),

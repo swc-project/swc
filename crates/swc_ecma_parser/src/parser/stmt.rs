@@ -1079,7 +1079,7 @@ impl<'a, I: Tokens> Parser<I> {
             None
         };
         expect!(self, '(');
-        let head = self.parse_for_head()?;
+        let head = self.parse_for_head(await_token.is_some())?;
         expect!(self, ')');
         let ctx = Context {
             is_break_allowed: true,
@@ -1125,7 +1125,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_for_head(&mut self) -> PResult<ForHead> {
+    fn parse_for_head(&mut self, is_for_await: bool) -> PResult<ForHead> {
         let strict = self.ctx().strict;
 
         if is_one_of!(self, "const", "var")
@@ -1171,11 +1171,25 @@ impl<'a, I: Tokens> Parser<I> {
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
+        let starts_with_async_of = is!(self, "async") && peeked_is!(self, "of");
+
         let init = if eat_exact!(self, ';') {
             return self.parse_normal_for_head(None);
+        } else if starts_with_async_of {
+            let async_start = cur_pos!(self);
+            expect!(self, "async");
+
+            Box::new(Expr::Ident(Ident::new(
+                js_word!("async"),
+                span!(self, async_start),
+            )))
         } else {
             self.include_in_expr(false).parse_expr_or_pat()?
         };
+
+        if starts_with_async_of && !is_for_await {
+            self.emit_err(self.input.prev_span(), SyntaxError::TS1106);
+        }
 
         // for (a of b)
         if is_one_of!(self, "of", "in") {
@@ -1939,7 +1953,7 @@ export default function waitUntil(callback, options = {}) {
         assert_eq!(leading.borrow().len(), 1);
     }
     fn parse_for_head(str: &'static str) -> ForHead {
-        test_parser(str, Syntax::default(), |p| p.parse_for_head())
+        test_parser(str, Syntax::default(), |p| p.parse_for_head(false))
     }
 
     #[test]
