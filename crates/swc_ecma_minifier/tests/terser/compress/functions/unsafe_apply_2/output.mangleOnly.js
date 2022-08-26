@@ -1,13 +1,13 @@
-function n() {
+function o() {
     console.log(a, b);
 }
-var o = (function(n, o) {
-    console.log(this, n, o);
+var n = (function(o, n) {
+    console.log(this, o, n);
 })(function() {
-    n.apply("foo", [
+    o.apply("foo", [
         "bar"
     ]);
-    o.apply("foo", [
+    n.apply("foo", [
         "bar"
     ]);
 })();

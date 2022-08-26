@@ -1,19 +1,19 @@
 export const obj = {
     parseXML: function(e) {
-        var r, n;
+        var r, t;
         if (!e || typeof e !== "string") {
             return null;
         }
         try {
             if (window.DOMParser) {
-                n = new DOMParser();
-                r = n.parseFromString(e, "text/xml");
+                t = new DOMParser();
+                r = t.parseFromString(e, "text/xml");
             } else {
                 r = new ActiveXObject("Microsoft.XMLDOM");
                 r.async = "false";
                 r.loadXML(e);
             }
-        } catch (t) {
+        } catch (n) {
             r = undefined;
         }
         if (!r || !r.documentElement || r.getElementsByTagName("parsererror").length) {

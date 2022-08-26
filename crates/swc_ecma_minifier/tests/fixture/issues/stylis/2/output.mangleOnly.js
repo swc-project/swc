@@ -3,11 +3,11 @@ import { strlen as c, indexof as r, replace as t } from "./Utility.js.js";
 function _(e, s) {
     return e.charCodeAt(s) | 0;
 }
-export function prefix(n, u) {
-    function $(e, s) {
+export function prefix(n, i) {
+    function u(e, s) {
         return ((((((((s << 2) ^ _(e, 0)) << 2) ^ _(e, 1)) << 2) ^ _(e, 2)) << 2) ^ _(e, 3));
     }
-    switch($(n, u)){
+    switch(u(n, i)){
         case 5103:
             return a + "print-" + n + n;
         case 5737:
@@ -85,17 +85,17 @@ export function prefix(n, u) {
         case 5789:
         case 5021:
         case 4765:
-            if (c(n) - 1 - u > 6) switch(_(n, u + 1)){
+            if (c(n) - 1 - i > 6) switch(_(n, i + 1)){
                 case 109:
-                    if (_(n, u + 4) !== 45) break;
+                    if (_(n, i + 4) !== 45) break;
                 case 102:
-                    return (t(n, /(.+:)(.+)-([^]+)/, "$1" + a + "$2-$3" + "$1" + s + (_(n, u + 3) == 108 ? "$3" : "$2-$3")) + n);
+                    return (t(n, /(.+:)(.+)-([^]+)/, "$1" + a + "$2-$3" + "$1" + s + (_(n, i + 3) == 108 ? "$3" : "$2-$3")) + n);
                 case 115:
-                    return ~r(n, "stretch") ? prefix(t(n, "stretch", "fill-available"), u) + n : n;
+                    return ~r(n, "stretch") ? prefix(t(n, "stretch", "fill-available"), i) + n : n;
             }
             break;
         case 4949:
-            if (_(n, u + 1) !== 115) break;
+            if (_(n, i + 1) !== 115) break;
         case 6444:
             switch(_(n, c(n) - 3 - (~r(n, "!important") && 10))){
                 case 107:
@@ -105,7 +105,7 @@ export function prefix(n, u) {
             }
             break;
         case 5936:
-            switch(_(n, u + 11)){
+            switch(_(n, i + 11)){
                 case 114:
                     return (a + n + e + t(n, /[svh]\w+-[tblr]{2}/, "tb") + n);
                 case 108:

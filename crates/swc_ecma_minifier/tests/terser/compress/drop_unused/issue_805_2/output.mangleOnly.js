@@ -1,10 +1,10 @@
-(function(n) {
-    function o() {}
-    o.prototype[n()] = 42;
-    (o.prototype.bar = function() {
+(function(o) {
+    function n() {}
+    n.prototype[o()] = 42;
+    (n.prototype.bar = function() {
         console.log("bar");
     })();
-    return o;
+    return n;
 })(function() {
     console.log("foo");
     return "foo";

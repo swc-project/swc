@@ -1,7 +1,7 @@
 var g = "PASS";
 (function(n) {
-    var a = "FAIL";
-    n("console.log(g)", a[a]);
+    var o = "FAIL";
+    n("console.log(g)", o[o]);
 })(function(a) {
     eval(a);
 });

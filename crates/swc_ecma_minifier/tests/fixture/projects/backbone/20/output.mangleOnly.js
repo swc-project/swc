@@ -6,32 +6,32 @@ export const E = {
         t = i ? (t ? [
             t
         ] : []) : _.clone(t);
-        var s, r, h, l, n, o, a;
+        var s, r, h, l, a, o, n;
         var f = e.at;
-        var g = this.model;
-        var d = this.comparator && f == null && e.sort !== false;
+        var d = this.model;
+        var g = this.comparator && f == null && e.sort !== false;
         var u = _.isString(this.comparator) ? this.comparator : null;
         var p = [], v = [], c = {};
         var m = e.add, $ = e.merge, b = e.remove;
-        var y = !d && m && b ? [] : false;
+        var y = !g && m && b ? [] : false;
         for(s = 0, r = t.length; s < r; s++){
-            n = t[s];
-            if (n instanceof Model) {
-                h = l = n;
+            a = t[s];
+            if (a instanceof Model) {
+                h = l = a;
             } else {
-                h = n[g.prototype.idAttribute];
+                h = a[d.prototype.idAttribute];
             }
             if ((o = this.get(h))) {
                 if (b) c[o.cid] = true;
                 if ($) {
-                    n = n === l ? l.attributes : n;
-                    if (e.parse) n = o.parse(n, e);
-                    o.set(n, e);
-                    if (d && !a && o.hasChanged(u)) a = true;
+                    a = a === l ? l.attributes : a;
+                    if (e.parse) a = o.parse(a, e);
+                    o.set(a, e);
+                    if (g && !n && o.hasChanged(u)) n = true;
                 }
                 t[s] = o;
             } else if (m) {
-                l = t[s] = this._prepareModel(n, e);
+                l = t[s] = this._prepareModel(a, e);
                 if (!l) continue;
                 p.push(l);
                 l.on("all", this._onModelEvent, this);
@@ -47,7 +47,7 @@ export const E = {
             if (v.length) this.remove(v, e);
         }
         if (p.length || (y && y.length)) {
-            if (d) a = true;
+            if (g) n = true;
             this.length += p.length;
             if (f != null) {
                 for(s = 0, r = p.length; s < r; s++){
@@ -61,14 +61,14 @@ export const E = {
                 }
             }
         }
-        if (a) this.sort({
+        if (n) this.sort({
             silent: true
         });
         if (!e.silent) {
             for(s = 0, r = p.length; s < r; s++){
                 (l = p[s]).trigger("add", l, this, e);
             }
-            if (a || (y && y.length)) this.trigger("sort", this, e);
+            if (n || (y && y.length)) this.trigger("sort", this, e);
         }
         return i ? t[0] : t;
     }

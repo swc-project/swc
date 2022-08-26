@@ -3,6 +3,6 @@ console.log((function() {
         "a",
         "b"
     ];
-    var n = r.pop();
-    return r + "" + n;
+    var a = r.pop();
+    return r + "" + a;
 })());

@@ -1,6 +1,6 @@
 export default function t(t) {
-    const n = ()=>{
+    const e = ()=>{
         return "test";
     };
-    return t`${n()}`;
+    return t`${e()}`;
 };

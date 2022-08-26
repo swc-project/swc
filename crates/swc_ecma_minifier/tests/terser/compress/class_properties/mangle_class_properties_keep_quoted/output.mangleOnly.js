@@ -1,7 +1,7 @@
-class t {
+class z {
     bar = "bar";
     static zzz = "zzz";
     toString() {
-        return this.bar + t.zzz;
+        return this.bar + z.zzz;
     }
 }

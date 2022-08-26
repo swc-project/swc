@@ -1,33 +1,33 @@
-import t from "@swc/helpers/src/_async_to_generator.mjs";
-import r from "@swc/helpers/src/_sliced_to_array.mjs";
+import r from "@swc/helpers/src/_async_to_generator.mjs";
+import t from "@swc/helpers/src/_sliced_to_array.mjs";
 import e from "@swc/helpers/src/_ts_generator.mjs";
-import { jsx as n, jsxs as i, Fragment as u } from "react/jsx-runtime";
-import * as o from "react";
-export default function s() {
-    var s = r(o.useState({
+import { jsx as n, jsxs as s, Fragment as a } from "react/jsx-runtime";
+import * as c from "react";
+export default function i() {
+    var i = t(c.useState({
         hits: []
-    }), 2), a = s[0], c = s[1], f = r(o.useState("react"), 2), l = f[0], h = f[1];
-    return o.useEffect(function() {
-        "" !== l && function() {
-            r.apply(this, arguments);
+    }), 2), o = i[0], u = i[1], l = t(c.useState("react"), 2), h = l[0], f = l[1];
+    return c.useEffect(function() {
+        "" !== h && function() {
+            t.apply(this, arguments);
         }();
-        function r() {
-            return (r = t(function() {
-                var t, r;
+        function t() {
+            return (t = r(function() {
+                var r, t;
                 return e(this, function(e) {
                     switch(e.label){
                         case 0:
                             return [
                                 4,
-                                fetch("https://hn.algolia.com/api/v1/search?query=" + l)
+                                fetch("https://hn.algolia.com/api/v1/search?query=" + h)
                             ];
                         case 1:
                             return [
                                 4,
-                                (t = e.sent()).json()
+                                (r = e.sent()).json()
                             ];
                         case 2:
-                            return c(r = e.sent()), [
+                            return u(t = e.sent()), [
                                 2
                             ];
                     }
@@ -35,23 +35,23 @@ export default function s() {
             })).apply(this, arguments);
         }
     }, [
-        l
-    ]), i(u, {
+        h
+    ]), s(a, {
         children: [
             n("input", {
-                value: l,
-                onChange: function(t) {
-                    return h(t.target.value);
+                value: h,
+                onChange: function(r) {
+                    return f(r.target.value);
                 }
             }),
             n("ul", {
-                children: a.hits.map(function(t) {
+                children: o.hits.map(function(r) {
                     return n("li", {
                         children: n("a", {
-                            href: t.url,
-                            children: t.title
+                            href: r.url,
+                            children: r.title
                         })
-                    }, t.objectID);
+                    }, r.objectID);
                 })
             })
         ]

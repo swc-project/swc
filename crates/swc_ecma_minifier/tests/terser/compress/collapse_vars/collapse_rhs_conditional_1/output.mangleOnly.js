@@ -1,4 +1,4 @@
-var o = "PASS", a = "FAIL";
-a = o;
+var o = "PASS", n = "FAIL";
+n = o;
 "function" == typeof f && f(o);
-console.log(o, a);
+console.log(o, n);

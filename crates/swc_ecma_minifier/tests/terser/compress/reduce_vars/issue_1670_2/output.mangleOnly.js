@@ -1,10 +1,10 @@
 (function e() {
     switch(1){
         case 0:
-            var t = true;
+            var f = true;
             break;
         default:
-            if (typeof t === "undefined") console.log("PASS");
+            if (typeof f === "undefined") console.log("PASS");
             else console.log("FAIL");
     }
 })();

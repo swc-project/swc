@@ -3,12 +3,12 @@ function e(e) {
     if (e === 0) {
         return null;
     }
-    let l;
+    let t;
     if (e > 2) {
-        l = 4;
+        t = 4;
     } else {
-        l = 5;
+        t = 5;
     }
-    return l;
+    return t;
 }
 console.log(e(0), e(1), e(3));

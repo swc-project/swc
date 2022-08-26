@@ -1,22 +1,22 @@
-var f = {};
-f.top = 1;
-function o() {
-    f["foo"] = "bar";
-    f.color = "red";
-    f.stuff = 2;
+var o = {};
+o.top = 1;
+function r() {
+    o["foo"] = "bar";
+    o.color = "red";
+    o.stuff = 2;
     x = {
         bar: 10,
         size: 7
     };
-    f.size = 9;
+    o.size = 9;
 }
-function i() {
-    f.foo = "bar";
-    f["color"] = "red";
+function f() {
+    o.foo = "bar";
+    o["color"] = "red";
     x = {
         bar: 10,
         size: 7
     };
-    f.size = 9;
-    f.stuff = 3;
+    o.size = 9;
+    o.stuff = 3;
 }

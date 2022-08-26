@@ -1,4 +1,4 @@
-class o {
+class s {
     foo() {
         "use strict";
     }

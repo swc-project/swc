@@ -1,9 +1,9 @@
 var l = {};
 (function(l) {
     l.X = function() {
-        return n;
+        return o;
     };
-    class n {
+    class o {
         static hello() {
             console.log("hello");
         }

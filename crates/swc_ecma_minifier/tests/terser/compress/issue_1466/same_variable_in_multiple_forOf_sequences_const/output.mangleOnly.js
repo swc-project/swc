@@ -5,13 +5,13 @@ var o = [
 ];
 for (const f of o){
     console.log(f);
-    let l;
-    l = [
+    let c;
+    c = [
         "e",
         "f",
         "g"
     ];
-    for (const r of l){
-        console.log(r);
+    for (const g of c){
+        console.log(g);
     }
 }

@@ -56,23 +56,23 @@ export default function s(e) {
         var r = n3.exec(t.slice(e));
         return r ? (n.p = n7.get(r[0].toLowerCase()), e + r[0].length) : -1;
     }, l = function(n, t, e) {
-        var r = nP.exec(t.slice(e));
-        return r ? (n.w = n6.get(r[0].toLowerCase()), e + r[0].length) : -1;
-    }, s = function(n, t, e) {
         var r = nz.exec(t.slice(e));
         return r ? (n.w = nO.get(r[0].toLowerCase()), e + r[0].length) : -1;
+    }, s = function(n, t, e) {
+        var r = n8.exec(t.slice(e));
+        return r ? (n.w = n9.get(r[0].toLowerCase()), e + r[0].length) : -1;
     }, v = function(n, t, e) {
         var r = nk.exec(t.slice(e));
         return r ? (n.m = nE.get(r[0].toLowerCase()), e + r[0].length) : -1;
     }, y = function(n, t, e) {
-        var r = n8.exec(t.slice(e));
-        return r ? (n.m = n9.get(r[0].toLowerCase()), e + r[0].length) : -1;
+        var r = nP.exec(t.slice(e));
+        return r ? (n.m = n6.get(r[0].toLowerCase()), e + r[0].length) : -1;
     }, C = function(n, t, e) {
-        return o(n, nq, t, e);
+        return o(n, nj, t, e);
     }, U = function(n, t, e) {
-        return o(n, nQ, t, e);
+        return o(n, nq, t, e);
     }, d = function(n, t, e) {
-        return o(n, nW, t, e);
+        return o(n, nQ, t, e);
     }, nn = function(n) {
         return nB[n.getDay()];
     }, nU = function(n) {
@@ -87,17 +87,17 @@ export default function s(e) {
         return 1 + ~~(n.getMonth() / 3);
     }, n2 = function(n) {
         return nB[n.getUTCDay()];
-    }, nA = function(n) {
+    }, nZ = function(n) {
         return nb[n.getUTCDay()];
-    }, n4 = function(n) {
+    }, nA = function(n) {
         return nI[n.getUTCMonth()];
     }, nV = function(n) {
         return nG[n.getUTCMonth()];
-    }, nZ = function(n) {
+    }, n4 = function(n) {
         return nX[+(n.getUTCHours() >= 12)];
-    }, nj = function(n) {
+    }, nW = function(n) {
         return 1 + ~~(n.getUTCMonth() / 3);
-    }, nq = e.dateTime, nQ = e.date, nW = e.time, nX = e.periods, nb = e.days, nB = e.shortDays, nG = e.months, nI = e.shortMonths, n3 = T(nX), n7 = x(nX), nz = T(nb), nO = x(nb), nP = T(nB), n6 = x(nB), n8 = T(nG), n9 = x(nG), nk = T(nI), nE = x(nI), nJ = {
+    }, nj = e.dateTime, nq = e.date, nQ = e.time, nX = e.periods, nb = e.days, nB = e.shortDays, nG = e.months, nI = e.shortMonths, n3 = T(nX), n7 = m(nX), n8 = T(nb), n9 = m(nb), nz = T(nB), nO = m(nB), nP = T(nG), n6 = m(nG), nk = T(nI), nE = m(nI), nJ = {
         a: nn,
         A: nU,
         b: nY,
@@ -116,7 +116,7 @@ export default function s(e) {
         M: J,
         p: n5,
         q: nF,
-        Q: np,
+        Q: nL,
         s: nS,
         S: K,
         u: N,
@@ -129,11 +129,11 @@ export default function s(e) {
         y: nu,
         Y: ni,
         Z: n$,
-        "%": nL
+        "%": nH
     }, nK = {
         a: n2,
-        A: nA,
-        b: n4,
+        A: nZ,
+        b: nA,
         B: nV,
         c: null,
         d: nf,
@@ -147,57 +147,57 @@ export default function s(e) {
         L: n_,
         m: nh,
         M: nv,
-        p: nZ,
-        q: nj,
-        Q: np,
+        p: n4,
+        q: nW,
+        Q: nL,
         s: nS,
         S: n0,
         u: ny,
         U: nC,
         V: nd,
         w: nT,
-        W: nx,
+        W: nm,
         x: null,
         X: null,
-        y: nm,
+        y: nx,
         Y: nM,
-        Z: nH,
-        "%": nL
+        Z: np,
+        "%": nH
     }, nN = {
         a: l,
         A: s,
         b: v,
         B: y,
         c: C,
-        d: A,
-        e: A,
-        f: W,
-        g: p,
-        G: L,
-        H: Z,
-        I: Z,
-        j: V,
-        L: Q,
+        d: Z,
+        e: Z,
+        f: Q,
+        g: L,
+        G: H,
+        H: V,
+        I: V,
+        j: A,
+        L: q,
         m: F,
-        M: j,
+        M: W,
         p: f,
         q: Y,
         Q: b,
         s: B,
-        S: q,
+        S: j,
         u: w,
         U: M,
         V: D,
-        w: m,
-        W: H,
+        w: x,
+        W: p,
         x: U,
         X: d,
-        y: p,
-        Y: L,
+        y: L,
+        Y: H,
         Z: S,
         "%": X
     };
-    return nJ.x = u(nQ, nJ), nJ.X = u(nW, nJ), nJ.c = u(nq, nJ), nK.x = u(nQ, nK), nK.X = u(nW, nK), nK.c = u(nq, nK), {
+    return nJ.x = u(nq, nJ), nJ.X = u(nQ, nJ), nJ.c = u(nj, nJ), nK.x = u(nq, nK), nK.X = u(nQ, nK), nK.c = u(nj, nK), {
         format: function(n) {
             var t = u(n += "", nJ);
             return t.toString = function() {
@@ -239,7 +239,7 @@ function d(n) {
 function T(n) {
     return RegExp("^(?:" + n.map(d).join("|") + ")", "i");
 }
-function x(n) {
+function m(n) {
     return new Map(n.map(function(n, t) {
         return [
             n.toLowerCase(),
@@ -247,7 +247,7 @@ function x(n) {
         ];
     }));
 }
-function m(n, t, e) {
+function x(n, t, e) {
     var r = v.exec(t.slice(e, e + 1));
     return r ? (n.w = +r[0], e + r[0].length) : -1;
 }
@@ -263,15 +263,15 @@ function D(n, t, e) {
     var r = v.exec(t.slice(e, e + 2));
     return r ? (n.V = +r[0], e + r[0].length) : -1;
 }
-function H(n, t, e) {
+function p(n, t, e) {
     var r = v.exec(t.slice(e, e + 2));
     return r ? (n.W = +r[0], e + r[0].length) : -1;
 }
-function L(n, t, e) {
+function H(n, t, e) {
     var r = v.exec(t.slice(e, e + 4));
     return r ? (n.y = +r[0], e + r[0].length) : -1;
 }
-function p(n, t, e) {
+function L(n, t, e) {
     var r = v.exec(t.slice(e, e + 2));
     return r ? (n.y = +r[0] + (+r[0] > 68 ? 1900 : 2000), e + r[0].length) : -1;
 }
@@ -287,31 +287,31 @@ function F(n, t, e) {
     var r = v.exec(t.slice(e, e + 2));
     return r ? (n.m = r[0] - 1, e + r[0].length) : -1;
 }
-function A(n, t, e) {
+function Z(n, t, e) {
     var r = v.exec(t.slice(e, e + 2));
     return r ? (n.d = +r[0], e + r[0].length) : -1;
 }
-function V(n, t, e) {
+function A(n, t, e) {
     var r = v.exec(t.slice(e, e + 3));
     return r ? (n.m = 0, n.d = +r[0], e + r[0].length) : -1;
 }
-function Z(n, t, e) {
+function V(n, t, e) {
     var r = v.exec(t.slice(e, e + 2));
     return r ? (n.H = +r[0], e + r[0].length) : -1;
 }
-function j(n, t, e) {
+function W(n, t, e) {
     var r = v.exec(t.slice(e, e + 2));
     return r ? (n.M = +r[0], e + r[0].length) : -1;
 }
-function q(n, t, e) {
+function j(n, t, e) {
     var r = v.exec(t.slice(e, e + 2));
     return r ? (n.S = +r[0], e + r[0].length) : -1;
 }
-function Q(n, t, e) {
+function q(n, t, e) {
     var r = v.exec(t.slice(e, e + 3));
     return r ? (n.L = +r[0], e + r[0].length) : -1;
 }
-function W(n, t, e) {
+function Q(n, t, e) {
     var r = v.exec(t.slice(e, e + 6));
     return r ? (n.L = Math.floor(r[0] / 1000), e + r[0].length) : -1;
 }
@@ -435,10 +435,10 @@ function nd(n, t) {
 function nT(n) {
     return n.getUTCDay();
 }
-function nx(n, t) {
+function nm(n, t) {
     return U($.count(l(n) - 1, n), t, 2);
 }
-function nm(n, t) {
+function nx(n, t) {
     return U(n.getUTCFullYear() % 100, t, 2);
 }
 function nw(n, t) {
@@ -451,13 +451,13 @@ function nD(n, t) {
     var e = n.getUTCDay();
     return U((n = e >= 4 || 0 === e ? f(n) : f.ceil(n)).getUTCFullYear() % 10000, t, 4);
 }
-function nH() {
+function np() {
     return "+0000";
 }
-function nL() {
+function nH() {
     return "%";
 }
-function np(n) {
+function nL(n) {
     return +n;
 }
 function nS(n) {

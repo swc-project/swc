@@ -6,7 +6,7 @@ function e(t, e) {
 async function n(n) {
     const a = await e(n);
     const r = t();
-    const p = new Set([
+    const o = new Set([
         ...r.links.map((t)=>({
                 type: "link",
                 props: t
@@ -28,7 +28,7 @@ async function n(n) {
         head: {
             title: r.title,
             lang: r.lang,
-            elements: p
+            elements: o
         }
     };
 }

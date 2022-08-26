@@ -1,5 +1,5 @@
 var r = "bar";
-var t = {
+var e = {
     bar () {
         return this.get;
     },

@@ -1,6 +1,6 @@
-var n = console.log.bind(console);
-function a(a) {
-    var i = a * 2;
-    n("Foo:", i);
+var o = console.log.bind(console);
+function n(n) {
+    var a = n * 2;
+    o("Foo:", a);
 }
-a(10);
+n(10);

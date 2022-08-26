@@ -1,5 +1,5 @@
-var n = (this.Hash = new Type("Hash", function(n) {
-    if (typeOf(n) == "hash") n = Object.clone(n.getClean());
-    for(var i in n)this[i] = n[i];
+var h = (this.Hash = new Type("Hash", function(h) {
+    if (typeOf(h) == "hash") h = Object.clone(h.getClean());
+    for(var n in h)this[n] = h[n];
     return this;
 }));

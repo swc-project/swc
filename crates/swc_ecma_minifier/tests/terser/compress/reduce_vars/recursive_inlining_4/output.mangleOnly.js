@@ -1,16 +1,16 @@
 !(function() {
-    function n(n) {
-        console.log("foo", n);
-        if (n) f(n - 1);
+    function o(o) {
+        console.log("foo", o);
+        if (o) f(o - 1);
     }
-    function f(n) {
-        console.log("bar", n);
-        if (n) i(n - 1);
+    function f(o) {
+        console.log("bar", o);
+        if (o) n(o - 1);
     }
-    function i(f) {
+    function n(f) {
         console.log("qux", f);
-        if (f) n(f - 1);
+        if (f) o(f - 1);
     }
-    i(4);
+    n(4);
     f(5);
 })();
