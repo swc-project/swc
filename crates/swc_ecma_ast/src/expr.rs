@@ -265,11 +265,51 @@ impl Take for Expr {
 
 bridge_expr_from!(Ident, Id);
 bridge_expr_from!(FnExpr, Function);
+bridge_expr_from!(ClassExpr, Class);
 
-bridge_from!(Box<Expr>, Expr, ArrayLit);
-bridge_from!(Box<Expr>, Expr, ObjectLit);
-bridge_from!(Box<Expr>, Expr, MemberExpr);
-bridge_from!(Box<Expr>, Expr, SuperPropExpr);
+macro_rules! boxed_expr {
+    ($T:ty) => {
+        bridge_from!(Box<Expr>, Expr, $T);
+        bridge_from!(PatOrExpr, Box<Expr>, $T);
+    };
+}
+
+boxed_expr!(ThisExpr);
+boxed_expr!(ArrayLit);
+boxed_expr!(ObjectLit);
+boxed_expr!(FnExpr);
+boxed_expr!(UnaryExpr);
+boxed_expr!(UpdateExpr);
+boxed_expr!(BinExpr);
+boxed_expr!(AssignExpr);
+boxed_expr!(MemberExpr);
+boxed_expr!(SuperPropExpr);
+boxed_expr!(CondExpr);
+boxed_expr!(CallExpr);
+boxed_expr!(NewExpr);
+boxed_expr!(SeqExpr);
+bridge_from!(Box<Expr>, Expr, Ident);
+boxed_expr!(Lit);
+boxed_expr!(Tpl);
+boxed_expr!(TaggedTpl);
+boxed_expr!(ArrowExpr);
+boxed_expr!(ClassExpr);
+boxed_expr!(YieldExpr);
+boxed_expr!(MetaPropExpr);
+boxed_expr!(AwaitExpr);
+boxed_expr!(ParenExpr);
+boxed_expr!(JSXMemberExpr);
+boxed_expr!(JSXNamespacedName);
+boxed_expr!(JSXEmptyExpr);
+boxed_expr!(Box<JSXElement>);
+boxed_expr!(JSXFragment);
+boxed_expr!(TsTypeAssertion);
+boxed_expr!(TsConstAssertion);
+boxed_expr!(TsNonNullExpr);
+boxed_expr!(TsAsExpr);
+boxed_expr!(TsInstantiation);
+boxed_expr!(PrivateName);
+boxed_expr!(OptChainExpr);
 
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
@@ -491,6 +531,12 @@ impl Take for ClassExpr {
             ident: None,
             class: Take::dummy(),
         }
+    }
+}
+
+impl From<Class> for ClassExpr {
+    fn from(class: Class) -> Self {
+        Self { ident: None, class }
     }
 }
 
@@ -1168,9 +1214,6 @@ pub enum PatOrExpr {
 bridge_from!(PatOrExpr, Box<Pat>, Pat);
 bridge_from!(PatOrExpr, Pat, Ident);
 bridge_from!(PatOrExpr, Pat, Id);
-bridge_from!(PatOrExpr, Box<Expr>, Expr);
-bridge_from!(PatOrExpr, Box<Expr>, MemberExpr);
-bridge_from!(PatOrExpr, Box<Expr>, SuperPropExpr);
 
 impl PatOrExpr {
     /// Returns the [Pat] if this is a pattern, otherwise returns [None].
