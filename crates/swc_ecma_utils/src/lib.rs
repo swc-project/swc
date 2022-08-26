@@ -204,6 +204,11 @@ impl StmtOrModuleItem for Stmt {
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl> {
         Ok(self)
     }
+
+    #[inline]
+    fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl> {
+        Ok(self)
+    }
 }
 
 impl StmtOrModuleItem for ModuleItem {
@@ -217,6 +222,14 @@ impl StmtOrModuleItem for ModuleItem {
 
     #[inline]
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Err(v),
+            ModuleItem::Stmt(v) => Ok(v),
+        }
+    }
+
+    #[inline]
+    fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl> {
         match self {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
