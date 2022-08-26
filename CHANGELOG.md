@@ -20,6 +20,9 @@
 
 
 
+- **(es)** Improve APIs for plugin authors (#5632) ([e8edb67](https://github.com/swc-project/swc/commit/e8edb67def8bf88dda610a2d8cc405ad36cd5b52))
+
+
 - **(es/minifier)** Improve gzipped size (#5631) ([d81fe67](https://github.com/swc-project/swc/commit/d81fe67e4b0ef655c3223b17ba44d1d845a8fd96))
 
 ## [1.2.244] - 2022-08-26
