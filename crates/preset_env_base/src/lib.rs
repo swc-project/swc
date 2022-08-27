@@ -69,10 +69,12 @@ pub struct BrowserData<T: Default> {
 pub type Versions = BrowserData<Option<Version>>;
 
 impl BrowserData<Option<Version>> {
+    /// Returns true if all fields are [None].
     pub fn is_any_target(&self) -> bool {
         self.iter().all(|(_, v)| v.is_none())
     }
 
+    /// Parses the value returned from `browserslist` as [Versions].
     pub fn parse_versions(distribs: Vec<browserslist::Distrib>) -> Result<Self, Error> {
         fn remap(key: &str) -> &str {
             match key {
