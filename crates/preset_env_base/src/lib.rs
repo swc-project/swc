@@ -1,3 +1,8 @@
+//! Base crate for `preset-env`-like crates.
+//!
+//! This crate provides an interface to convert `browserslist` query to
+//! something usable.
+
 #![deny(missing_docs)]
 
 use anyhow::Error;
