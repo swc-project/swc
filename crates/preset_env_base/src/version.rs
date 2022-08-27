@@ -13,8 +13,11 @@ use crate::Versions;
 /// `alpha`)
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Version {
+    /// `a` in `a.b.c`
     pub major: u32,
+    /// `b` in `a.b.c`
     pub minor: u32,
+    /// `c` in `a.b.c`
     pub patch: u32,
 }
 
