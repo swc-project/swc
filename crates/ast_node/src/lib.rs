@@ -11,6 +11,8 @@ mod ast_node_macro;
 mod enum_deserialize;
 mod spanned;
 
+/// Derives [`swc_common::Spanned`]. See [`swc_common::Spanned`] for
+/// documentation.
 #[proc_macro_derive(Spanned, attributes(span))]
 pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
