@@ -390,6 +390,24 @@ impl<I: Tokens> Parser<I> {
                 && !self.input.had_line_break_before_cur()
                 && is!(self, BindingIdent)
             {
+                // ```js
+                // for(async of
+                // for(async of x);
+                // for(async of =>{};;);
+                // ```
+                if ctx.expr_ctx.for_loop_init && is!(self, "of") && !peeked_is!(self, "=>") {
+                    // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
+                    // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+                    // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+                    // ```
+
+                    if !ctx.expr_ctx.for_await_loop_init {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1106);
+                    }
+
+                    return Ok(Box::new(Expr::Ident(id)));
+                }
+
                 let ident = self.parse_binding_ident()?;
                 if self.input.syntax().typescript()
                     && ident.id.sym == js_word!("as")

@@ -1079,7 +1079,12 @@ impl<'a, I: Tokens> Parser<I> {
             None
         };
         expect!(self, '(');
-        let head = self.parse_for_head(await_token.is_some())?;
+
+        let mut ctx = self.ctx();
+        ctx.expr_ctx.for_loop_init = true;
+        ctx.expr_ctx.for_await_loop_init = await_token.is_some();
+
+        let head = self.with_ctx(ctx).parse_for_head()?;
         expect!(self, ')');
         let ctx = Context {
             is_break_allowed: true,
@@ -1125,7 +1130,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_for_head(&mut self, is_for_await: bool) -> PResult<ForHead> {
+    fn parse_for_head(&mut self) -> PResult<ForHead> {
         let strict = self.ctx().strict;
 
         if is_one_of!(self, "const", "var")
@@ -1173,20 +1178,6 @@ impl<'a, I: Tokens> Parser<I> {
 
         let init = if eat_exact!(self, ';') {
             return self.parse_normal_for_head(None);
-        } else if is!(self, "async") && peeked_is!(self, "of") {
-            let async_start = cur_pos!(self);
-            expect!(self, "async");
-            let span = span!(self, async_start);
-
-            // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
-            // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-            // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-            // ```
-            if !is_for_await {
-                self.emit_err(span, SyntaxError::TS1106);
-            }
-
-            Box::new(Expr::Ident(Ident::new(js_word!("async"), span)))
         } else {
             self.include_in_expr(false).parse_expr_or_pat()?
         };
@@ -1953,7 +1944,7 @@ export default function waitUntil(callback, options = {}) {
         assert_eq!(leading.borrow().len(), 1);
     }
     fn parse_for_head(str: &'static str) -> ForHead {
-        test_parser(str, Syntax::default(), |p| p.parse_for_head(false))
+        test_parser(str, Syntax::default(), |p| p.parse_for_head())
     }
 
     #[test]
@@ -2079,6 +2070,12 @@ export default function waitUntil(callback, options = {}) {
             }),
             |p| p.parse_program(),
         );
+    }
+
+    #[test]
+    fn for_async_of_eqgt() {
+        let src = "for (async of => {};;);";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
     }
 
     #[test]
