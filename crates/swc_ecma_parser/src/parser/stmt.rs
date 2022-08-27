@@ -1079,7 +1079,12 @@ impl<'a, I: Tokens> Parser<I> {
             None
         };
         expect!(self, '(');
-        let head = self.parse_for_head()?;
+
+        let mut ctx = self.ctx();
+        ctx.expr_ctx.for_loop_init = true;
+        ctx.expr_ctx.for_await_loop_init = await_token.is_some();
+
+        let head = self.with_ctx(ctx).parse_for_head()?;
         expect!(self, ')');
         let ctx = Context {
             is_break_allowed: true,
@@ -2065,6 +2070,18 @@ export default function waitUntil(callback, options = {}) {
             }),
             |p| p.parse_program(),
         );
+    }
+
+    #[test]
+    fn for_of_head_lhs_async_dot() {
+        let src = "for (async.x of [1]) ;";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
+
+    #[test]
+    fn for_head_init_async_of() {
+        let src = "for (async of => {}; i < 10; ++i) { ++counter; }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
     }
 
     #[test]

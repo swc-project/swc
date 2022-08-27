@@ -341,6 +341,9 @@ pub struct Context {
     module: bool,
     can_be_module: bool,
     strict: bool,
+
+    expr_ctx: ExpressionContext,
+
     include_in_expr: bool,
     /// If true, await expression is parsed, and "await" is treated as a
     /// keyword.
@@ -387,6 +390,14 @@ pub struct Context {
     ignore_else_clause: bool,
 
     disallow_conditional_types: bool,
+}
+
+#[derive(Debug, Clone, Copy, Default)]
+struct ExpressionContext {
+    // TODO:
+    // - include_in
+    for_loop_init: bool,
+    for_await_loop_init: bool,
 }
 
 #[cfg(test)]

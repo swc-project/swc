@@ -1,11 +1,2 @@
-//!
-//!  x Expected '=>', got 'x'
-//!   ,----
-//! 5 | for await (async of x) {}
-//!   :                     ^
-//!   `----
-//!
-//!
-//!Caused by:
-//!    0: failed to process input file
-//!    1: Syntax Error
+import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
