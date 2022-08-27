@@ -4,6 +4,8 @@ use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
 use syn::*;
 
+/// Derives [`From`] for all variants. This only supports an enum where every
+/// variant has a single field.
 #[proc_macro_derive(FromVariant)]
 pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");

@@ -1,3 +1,8 @@
+//! Base crate for `preset-env`-like crates.
+//!
+//! This crate provides an interface to convert `browserslist` query to
+//! something usable.
+
 use anyhow::Error;
 use serde::Deserialize;
 use st_map::StaticMap;
@@ -55,13 +60,19 @@ pub struct BrowserData<T: Default> {
     pub bun: T,
 }
 
+/// A map of browser names to data for feature support in browser.
+///
+/// This type mainly stores `minimum version for each browsers with support for
+/// a feature`.
 pub type Versions = BrowserData<Option<Version>>;
 
 impl BrowserData<Option<Version>> {
+    /// Returns true if all fields are [None].
     pub fn is_any_target(&self) -> bool {
         self.iter().all(|(_, v)| v.is_none())
     }
 
+    /// Parses the value returned from `browserslist` as [Versions].
     pub fn parse_versions(distribs: Vec<browserslist::Distrib>) -> Result<Self, Error> {
         fn remap(key: &str) -> &str {
             match key {

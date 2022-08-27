@@ -166,6 +166,7 @@ pub struct AtomGenerator {
 }
 
 impl AtomGenerator {
+    /// Get an interned [Atom] or create one from `s`.
     pub fn intern<S>(&mut self, s: S) -> Atom
     where
         Arc<str>: From<S>,
@@ -259,6 +260,9 @@ where
     }
 }
 
+/// NOT A PUBLIC API.
+///
+/// This type exists to allow serializing [JsWord] using `rkyv`.
 #[cfg(feature = "rkyv")]
 #[derive(Debug, Clone, Copy)]
 pub struct EncodeJsWord;

@@ -22,6 +22,12 @@
 
 - **(es/parser)** Handle more `TS2406` errors (#5640) ([838438d](https://github.com/swc-project/swc/commit/838438dc9d090402756ecc038b5b091f51dada66))
 
+### Documentation
+
+
+
+- **(rustdoc)** Document rust APIs (#5647) ([488562b](https://github.com/swc-project/swc/commit/488562baacf45a0b1c8510bed6428991effe7914))
+
 ### Features
 
 
