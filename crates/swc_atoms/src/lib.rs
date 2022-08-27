@@ -261,6 +261,9 @@ where
     }
 }
 
+/// NOT A PUBLIC API.
+///
+/// This type exists to allow serializing [JsWord] using `rkyv`.
 #[cfg(feature = "rkyv")]
 #[derive(Debug, Clone, Copy)]
 pub struct EncodeJsWord;
