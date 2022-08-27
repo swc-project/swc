@@ -1171,29 +1171,25 @@ impl<'a, I: Tokens> Parser<I> {
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
-        let starts_with_async_of = is!(self, "async") && peeked_is!(self, "of");
-
         let init = if eat_exact!(self, ';') {
             return self.parse_normal_for_head(None);
-        } else if starts_with_async_of {
+        } else if is!(self, "async") && peeked_is!(self, "of") {
             let async_start = cur_pos!(self);
             expect!(self, "async");
+            let span = span!(self, async_start);
 
-            Box::new(Expr::Ident(Ident::new(
-                js_word!("async"),
-                span!(self, async_start),
-            )))
+            // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
+            // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+            // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+            // ```
+            if !is_for_await {
+                self.emit_err(span, SyntaxError::TS1106);
+            }
+
+            Box::new(Expr::Ident(Ident::new(js_word!("async"), span)))
         } else {
             self.include_in_expr(false).parse_expr_or_pat()?
         };
-
-        // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
-        // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-        // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-        // ```
-        if starts_with_async_of && !is_for_await {
-            self.emit_err(self.input.prev_span(), SyntaxError::TS1106);
-        }
 
         // for (a of b)
         if is_one_of!(self, "of", "in") {
