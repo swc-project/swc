@@ -12,6 +12,7 @@ use std::{
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::de::DeserializeOwned;
+use serde_json::from_str;
 use swc::{
     config::{Config, IsModule, JsMinifyOptions, JscConfig, ModuleConfig, Options},
     try_with_handler, Compiler,
@@ -21,7 +22,16 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
 use testing::NormalizedOutput;
 
-#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.ts")]
+#[testing::fixture(
+    "../swc_ecma_parser/tests/tsc/**/*.ts",
+    exclude(
+        "enumConstantMembers.ts",
+        "privateNameAndAny.ts",
+        "privateNameAndIndexSignature.ts",
+        "privateNameImplicitDeclaration.ts",
+        "privateNameStaticAccessorsDerivedClasses.ts",
+    )
+)]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
 fn fixture(input: PathBuf) {
     if input.to_string_lossy().contains("jsdoc") {
@@ -173,8 +183,21 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
         let mut versions = AHashSet::<EsVersion>::default();
 
         value.split(',').into_iter().for_each(|v| {
-            let v = v.trim();
+            let mut v = v.trim();
             match v {
+                "*" => {
+                    versions.extend(vec![
+                        EsVersion::Es5,
+                        EsVersion::Es2015,
+                        EsVersion::Es2016,
+                        EsVersion::Es2017,
+                        EsVersion::Es2018,
+                        EsVersion::Es2019,
+                        EsVersion::Es2020,
+                        EsVersion::Es2021,
+                        EsVersion::Es2022,
+                    ]);
+                }
                 "esnext" => {
                     versions.insert(EsVersion::latest());
                 }
@@ -182,8 +205,18 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                     versions.insert(EsVersion::Es2015);
                 }
                 _ => {
-                    if let Some(v) = from_json(v) {
-                        versions.insert(v);
+                    let mut is_remove = false;
+                    if v.starts_with('-') {
+                        is_remove = true;
+                        v = &v[1..];
+                    }
+
+                    if let Some(v) = from_str(&format!(r##""{}""##, v)).unwrap_or_default() {
+                        if is_remove {
+                            versions.remove(&v);
+                        } else {
+                            versions.insert(v);
+                        }
                     }
                 }
             }
@@ -281,19 +314,16 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
     let base_name = input.with_extension("");
     let base_name = base_name.file_name().map(OsStr::to_string_lossy).unwrap();
 
-    let modules_len = modules.len();
-    let targets_len = targets.len();
-
     for minify in [None, Some(default_minify)] {
-        for target in targets.drain(..) {
-            for module in modules.drain(..) {
+        for target in targets.clone() {
+            for module in modules.clone() {
                 let mut vary_name = vec![];
 
-                if modules_len > 1 {
+                if modules.len() > 1 {
                     vary_name.push(format!("module={}", &module));
                 }
 
-                if targets_len > 1 {
+                if targets.len() > 1 {
                     vary_name.push(format!(
                         "target={}",
                         serde_json::to_string(&target).unwrap().replace('"', "")
@@ -324,6 +354,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                             })),
                             external_helpers: true.into(),
                             target: Some(target),
+                            minify: minify.clone(),
                             ..Default::default()
                         },
                         module: Some(module.into()),
