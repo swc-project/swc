@@ -1,3 +1,5 @@
+//! Cached configuration for swc.
+
 #![deny(missing_docs)]
 #![deny(warnings)]
 
