@@ -2073,8 +2073,14 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    fn for_async_of_eqgt() {
-        let src = "for (async of => {};;);";
+    fn for_of_head_lhs_async_dot() {
+        let src = "for (async.x of [1]) ;";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
+
+    #[test]
+    fn for_head_init_async_of() {
+        let src = "for (async of => {}; i < 10; ++i) { ++counter; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
     }
 
