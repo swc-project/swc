@@ -9,7 +9,6 @@
 //!  - reduces memory usage.
 
 #![allow(clippy::unreadable_literal)]
-#![deny(missing_docs)]
 
 /// Not a publish API.
 #[doc(hidden)]
