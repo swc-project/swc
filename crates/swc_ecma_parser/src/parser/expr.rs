@@ -390,6 +390,7 @@ impl<I: Tokens> Parser<I> {
                 && !self.input.had_line_break_before_cur()
                 && is!(self, BindingIdent)
             {
+                // see https://github.com/tc39/ecma262/issues/2034
                 // ```js
                 // for(async of
                 // for(async of x);
