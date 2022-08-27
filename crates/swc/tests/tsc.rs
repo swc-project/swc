@@ -1,4 +1,7 @@
 use std::{
+    borrow::Cow,
+    ffi::OsStr,
+    fmt::Write,
     fs::create_dir_all,
     mem,
     panic::{catch_unwind, resume_unwind, AssertUnwindSafe},
@@ -6,47 +9,28 @@ use std::{
     sync::Arc,
 };
 
+use once_cell::sync::Lazy;
+use regex::Regex;
 use serde::de::DeserializeOwned;
 use swc::{
-    config::{Config, IsModule, JscConfig, Options, SourceMapsConfig},
+    config::{Config, IsModule, JsMinifyOptions, JscConfig, ModuleConfig, Options},
     try_with_handler, Compiler,
 };
-use swc_common::{errors::ColorConfig, SourceMap};
+use swc_common::{collections::AHashSet, errors::ColorConfig, FileName, SourceFile, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
 use testing::NormalizedOutput;
 
-#[testing::fixture(
-    "../swc_ecma_parser/tests/tsc/**/*.ts",
-    exclude(
-        "privateNameFieldDestructuredBinding.ts",
-        "restPropertyWithBindingPattern.ts",
-        "elementAccessChain\\.3.ts",
-        "propertyAccessChain\\.3.ts",
-        "objectRestNegative.ts",
-        "objectRestPropertyMustBeLast.ts",
-        "privateNameAndAny.ts",
-        "privateNameAndIndexSignature.ts",
-        "privateNameImplicitDeclaration.ts",
-        "privateNameStaticAccessorsDerivedClasses.ts",
-        "privateNameErrorsOnNotUseDefineForClassFieldsInEsNext.ts",
-        "enumConstantMembers.ts",
-        "jsDeclarationsDocCommentsOnConsts.ts",
-        "jsDeclarationsReexportedCjsAlias.ts",
-    )
-)]
-#[testing::fixture(
-    "../swc_ecma_parser/tests/tsc/**/*.tsx",
-    exclude("checkJsxNamespaceNamesQuestionableForms.tsx")
-)]
+#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.ts")]
+#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
 fn fixture(input: PathBuf) {
     if input.to_string_lossy().contains("jsdoc") {
         return;
     }
 
-    let panics = matrix()
+    let panics = matrix(&input)
         .into_iter()
-        .filter_map(|(name, opts)| {
+        .filter_map(|test_unit_data| {
             //
 
             catch_unwind(AssertUnwindSafe(|| {
@@ -54,13 +38,9 @@ fn fixture(input: PathBuf) {
 
                 let _ = create_dir_all(&output_dir);
 
-                let output_path = output_dir.join(format!(
-                    "{}_{}.js",
-                    input.file_stem().unwrap().to_str().unwrap(),
-                    name
-                ));
+                let output_path = output_dir.join(&test_unit_data.output);
 
-                compile(&input, &output_path, opts);
+                compile(&output_path, test_unit_data);
             }))
             .err()
         })
@@ -80,143 +60,321 @@ where
     serde_json::from_str(s).unwrap()
 }
 
-fn matrix() -> Vec<(String, Options)> {
-    // If we use `es5` as target, we can also verify es2015+ transforms.
-    // But we test using es2015 to verify hygiene pass.
-    let targets = vec![EsVersion::Es5, EsVersion::Es2015];
-
-    let mut res = vec![];
-
-    for target in targets {
-        for minify in [true, false] {
-            let opts = Options {
-                config: Config {
-                    jsc: JscConfig {
-                        target: Some(target),
-                        minify: if minify {
-                            Some(from_json(
-                                "{ \"compress\": { \"toplevel\": true, \"module\": true, \
-                                 \"passes\": 0 }, \"mangle\": false, \"toplevel\": true }",
-                            ))
-                        } else {
-                            None
-                        },
-                        ..Default::default()
-                    },
-                    ..Default::default()
-                },
-                ..Default::default()
-            };
-
-            let s = serde_json::to_string(&target).unwrap().replace('"', "");
-
-            if minify {
-                res.push((format!("{}.2.minified", s), opts));
-            } else {
-                res.push((format!("{}.1.normal", s), opts));
-            }
-        }
-    }
-
-    res
+struct TestUnitData {
+    cm: Arc<SourceMap>,
+    files: Vec<Arc<SourceFile>>,
+    opts: Options,
+    output: String,
 }
 
-fn is_filename_directives(line: &str) -> bool {
-    line.starts_with("// @Filename:")
-        || line.starts_with("// @filename:")
-        || line.starts_with("//@Filename:")
-        || line.starts_with("//@filename:")
-}
+static OPTION_REGEX: Lazy<Regex> =
+    Lazy::new(|| Regex::new(r#"^[\\/]{2}\s*@(\w+)\s*:\s*([^\r\n]*)"#).unwrap());
 
-fn compile(input: &Path, output: &Path, opts: Options) {
+fn matrix(input: &Path) -> Vec<TestUnitData> {
     let cm = Arc::<SourceMap>::default();
-
-    let c = Compiler::new(cm.clone());
-
     let fm = cm.load_file(input).expect("failed to load file");
+
+    let mut targets = Vec::<EsVersion>::default();
+
+    let mut modules = Vec::<Module>::default();
+    let mut decorators = false;
+    let filename = input
+        .file_name()
+        .map(OsStr::to_string_lossy)
+        .unwrap_or_else(|| "input.ts".into());
+
+    let mut sub_filename = filename;
 
     let mut files = vec![];
 
-    if fm.src.lines().any(is_filename_directives) {
-        let mut buffer = String::default();
-
-        let mut iter = fm.src.lines();
-
-        let mut meta_line = None;
-
-        loop {
-            let line = iter.next();
-            if line.map_or(true, is_filename_directives) {
-                if !buffer.is_empty() {
-                    let mut source = String::default();
-                    mem::swap(&mut source, &mut buffer);
-
-                    files.push((
-                        meta_line,
-                        cm.new_source_file(swc_common::FileName::Anon, source),
-                    ));
+    let mut buffer = String::default();
+    for line in fm.src.lines() {
+        if let Some(cap) = OPTION_REGEX.captures(line) {
+            let meta_data_name = cap.get(1).unwrap().as_str().to_lowercase();
+            let meta_data_value = cap.get(2).unwrap().as_str();
+            // https://github.com/microsoft/TypeScript/blob/71b2ba6111e934f2b4ee112bc4d8d2f47ced22f5/src/testRunner/compilerRunner.ts#L118-L148
+            match &*meta_data_name {
+                "module" => {
+                    modules.extend(module(&meta_data_value.to_lowercase()));
                 }
-                meta_line = line;
-            }
+                "moduleResolution" => {}
+                "moduleDetection" => {}
+                "target" => {
+                    targets.extend(target(&meta_data_value.to_lowercase()));
+                }
+                "jsx" => {}
+                "removeComments" => {}
+                "importHelpers" => {}
+                "downlevelIteration" => {}
+                "isolatedModules" => {}
+                "strict" => {}
+                "noImplicitAny" => {}
+                "strictNullChecks" => {}
+                "strictFunctionTypes" => {}
+                "strictBindCallApply" => {}
+                "strictPropertyInitialization" => {}
+                "noImplicitThis" => {}
+                "alwaysStrict" => {}
+                "allowSyntheticDefaultImports" => {}
+                "esModuleInterop" => {}
+                "emitDecoratorMetadata" => {
+                    if meta_data_value.trim() == "true" {
+                        decorators = true;
+                    }
+                }
+                "skipDefaultLibCheck" => {}
+                "preserveConstEnums" => {}
+                "skipLibCheck" => {}
+                "exactOptionalPropertyTypes" => {}
+                "useDefineForClassFields" => {}
+                "useUnknownInCatchVariables" => {}
+                "noUncheckedIndexedAccess" => {}
+                "noPropertyAccessFromIndexSignature" => {}
+                "filename" => {
+                    files.extend(sub_file(cm.clone(), &mut buffer, sub_filename));
 
-            if let Some(line) = line {
-                buffer += line;
-                buffer.push('\n');
-            } else {
-                break;
+                    sub_filename = Cow::from(meta_data_value.trim());
+                }
+                _ => {}
+            }
+        } else {
+            buffer += line;
+            buffer.push('\n');
+        }
+    }
+    files.extend(sub_file(cm.clone(), &mut buffer, sub_filename));
+
+    if targets.is_empty() {
+        targets = vec![EsVersion::default()]
+    }
+
+    if modules.is_empty() {
+        modules = vec![Module::Es6]
+    }
+
+    fn sub_file(
+        cm: Arc<SourceMap>,
+        buffer: &mut String,
+        filename: Cow<str>,
+    ) -> Option<Arc<SourceFile>> {
+        if !buffer.is_empty() {
+            let mut source = String::default();
+            mem::swap(&mut source, buffer);
+
+            Some(cm.new_source_file(swc_common::FileName::Custom(filename.to_string()), source))
+        } else {
+            None
+        }
+    }
+
+    // "ES3", "ES5", "ES6", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019",
+    // "ES2020", "ES2021", "ES2022", "ESNext"
+    fn target(value: &str) -> AHashSet<EsVersion> {
+        let mut versions = AHashSet::<EsVersion>::default();
+
+        value.split(',').into_iter().for_each(|v| {
+            let v = v.trim();
+            match v {
+                "esnext" => {
+                    versions.insert(EsVersion::latest());
+                }
+                "es6" | "es2015" => {
+                    versions.insert(EsVersion::Es2015);
+                }
+                _ => {
+                    if let Some(v) = from_json(v) {
+                        versions.insert(v);
+                    }
+                }
+            }
+        });
+
+        versions
+    }
+
+    // "CommonJS", "AMD", "System", "UMD", "ES6", "ES2015", "ES2020", "ESNext",
+    // "None", "ES2022", "Node16", "NodeNext"
+    fn module(value: &str) -> AHashSet<Module> {
+        let mut modules = AHashSet::<Module>::default();
+
+        value.split(',').into_iter().for_each(|v| {
+            let v = v.trim();
+            match v {
+                "es6" | "es2015" | "es2020" | "esnext" | "none" | "es2022" => {
+                    modules.insert(Module::Es6);
+                }
+                "commonjs" => {
+                    modules.insert(Module::CommonJs);
+                }
+                "amd" => {
+                    modules.insert(Module::Amd);
+                }
+                "umd" => {
+                    modules.insert(Module::Umd);
+                }
+                "system" => {
+                    modules.insert(Module::SystemJs);
+                }
+                "node16" | "nodenext" => {
+                    modules.insert(Module::NodeNext);
+                }
+                _ => {}
+            };
+        });
+
+        modules
+    }
+
+    #[derive(Debug, Clone, PartialEq, Eq, Hash)]
+    enum Module {
+        CommonJs,
+        Umd,
+        Amd,
+        SystemJs,
+        Es6,
+        NodeNext,
+    }
+
+    impl std::fmt::Display for Module {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match &self {
+                Module::CommonJs => f.write_str("commonjs"),
+                Module::Umd => f.write_str("umd"),
+                Module::Amd => f.write_str("amd"),
+                Module::SystemJs => f.write_str("system"),
+                Module::Es6 => f.write_str("es6"),
+                Module::NodeNext => f.write_str("nodenext"),
             }
         }
-    } else {
-        files = vec![(None, fm)];
     }
+
+    #[allow(clippy::from_over_into)]
+    impl Into<ModuleConfig> for Module {
+        fn into(self) -> ModuleConfig {
+            match self {
+                Self::CommonJs => ModuleConfig::CommonJs(Default::default()),
+                Self::Umd => ModuleConfig::Umd(Default::default()),
+                Self::Amd => ModuleConfig::Amd(Default::default()),
+                Self::SystemJs => ModuleConfig::SystemJs(Default::default()),
+                Self::Es6 => ModuleConfig::Es6,
+                Self::NodeNext => ModuleConfig::NodeNext,
+            }
+        }
+    }
+
+    let default_minify: JsMinifyOptions = from_json(
+        r#"
+        {
+            "compress": {
+                "toplevel": true,
+                "module": true,
+                "passes": 0
+            },
+            "mangle": false,
+            "toplevel": true
+        }
+    "#,
+    );
+
+    let mut test_unit_data_list = vec![];
+
+    let base_name = input.with_extension("");
+    let base_name = base_name.file_name().map(OsStr::to_string_lossy).unwrap();
+
+    let modules_len = modules.len();
+    let targets_len = targets.len();
+
+    for minify in [None, Some(default_minify)] {
+        for target in targets.drain(..) {
+            for module in modules.drain(..) {
+                let mut vary_name = vec![];
+
+                if modules_len > 1 {
+                    vary_name.push(format!("module={}", &module));
+                }
+
+                if targets_len > 1 {
+                    vary_name.push(format!(
+                        "target={}",
+                        serde_json::to_string(&target).unwrap().replace('"', "")
+                    ));
+                }
+
+                let mut filename = base_name.to_string();
+                if !vary_name.is_empty() {
+                    filename.push('(');
+                    filename.push_str(&vary_name.join(","));
+                    filename.push(')');
+                }
+
+                if minify.is_some() {
+                    filename.push_str(".2.minified.js");
+                } else {
+                    filename.push_str(".1.normal.js");
+                }
+
+                let opts = Options {
+                    config: Config {
+                        jsc: JscConfig {
+                            syntax: Some(Syntax::Typescript(TsConfig {
+                                tsx: filename.ends_with(".tsx"),
+                                decorators,
+                                dts: false,
+                                no_early_errors: false,
+                            })),
+                            external_helpers: true.into(),
+                            target: Some(target),
+                            ..Default::default()
+                        },
+                        module: Some(module.into()),
+                        is_module: IsModule::Bool(true),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                };
+
+                test_unit_data_list.push(TestUnitData {
+                    cm: cm.clone(),
+                    files: files.clone(),
+                    opts,
+                    output: filename,
+                })
+            }
+        }
+    }
+
+    test_unit_data_list
+}
+
+fn compile(output: &Path, test_unit_data: TestUnitData) {
+    let cm = test_unit_data.cm;
+
+    let c = Compiler::new(cm.clone());
 
     let mut result = String::default();
 
-    let options = Options {
-        config: Config {
-            jsc: JscConfig {
-                syntax: Some(Syntax::Typescript(TsConfig {
-                    tsx: input.to_string_lossy().ends_with(".tsx"),
-                    decorators: true,
-                    dts: false,
-                    no_early_errors: false,
-                })),
-                external_helpers: true.into(),
-                ..opts.config.jsc
-            },
-            source_maps: Some(SourceMapsConfig::Bool(
-                !input.to_string_lossy().contains("Unicode"),
-            )),
-            is_module: IsModule::Bool(true),
-            ..opts.config
-        },
-        ..opts
-    };
+    for file in test_unit_data.files {
+        let filename = match &file.name {
+            FileName::Custom(filename) => filename,
+            _ => unreachable!(),
+        };
 
-    for (meta_line, file) in files {
+        writeln!(result, "//// [{}]", filename).unwrap();
+
         match try_with_handler(
             cm.clone(),
             swc::HandlerOpts {
                 color: ColorConfig::Never,
                 skip_filename: true,
             },
-            |handler| c.process_js_file(file, handler, &options),
+            |handler| c.process_js_file(file, handler, &test_unit_data.opts),
         ) {
             Ok(res) => {
                 result += &res.code;
             }
             Err(ref err) => {
-                let error_text = format!("{:?}", err);
-
-                if let Some(meta_line) = meta_line {
-                    result += meta_line;
-                    result.push('\n');
-                }
-
-                for line in error_text.lines() {
-                    result.push_str("//!");
-                    result.push_str(line);
-                    result.push('\n');
+                for line in err.to_string().lines() {
+                    writeln!(result, "//! {}", line).unwrap();
                 }
             }
         }
