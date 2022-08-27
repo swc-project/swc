@@ -3,8 +3,6 @@
 //! This crate provides an interface to convert `browserslist` query to
 //! something usable.
 
-#![deny(missing_docs)]
-
 use anyhow::Error;
 use serde::Deserialize;
 use st_map::StaticMap;
