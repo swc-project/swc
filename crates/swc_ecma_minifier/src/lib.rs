@@ -13,6 +13,7 @@
 //! `SWC_RUN` to `1`, the minifier will validate the code using node before each
 //! step.
 #![deny(clippy::all)]
+#![deny(missing_docs)]
 #![deny(unused)]
 #![allow(clippy::blocks_in_if_conditions)]
 #![allow(clippy::collapsible_else_if)]

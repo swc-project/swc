@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 #![deny(clippy::all)]
+#![deny(missing_docs)]
 #![deny(unused)]
 #![allow(clippy::result_unit_err)]
 

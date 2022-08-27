@@ -1,3 +1,5 @@
+#![deny(missing_docs)]
+
 extern crate proc_macro;
 
 use std::iter::once;

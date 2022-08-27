@@ -1,3 +1,4 @@
+#![deny(missing_docs)]
 #![deny(clippy::all)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
