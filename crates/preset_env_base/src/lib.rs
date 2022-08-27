@@ -62,6 +62,10 @@ pub struct BrowserData<T: Default> {
     pub bun: T,
 }
 
+/// A map of browser names to data for feature support in browser.
+///
+/// This type mainly stores `minimum version for each browsers with support for
+/// a feature`.
 pub type Versions = BrowserData<Option<Version>>;
 
 impl BrowserData<Option<Version>> {
