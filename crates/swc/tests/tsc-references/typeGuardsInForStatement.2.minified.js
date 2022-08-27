@@ -1,0 +1,1 @@
+//// [typeGuardsInForStatement.ts]

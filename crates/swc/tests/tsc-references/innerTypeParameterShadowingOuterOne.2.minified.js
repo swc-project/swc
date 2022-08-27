@@ -1,0 +1,1 @@
+//// [innerTypeParameterShadowingOuterOne.ts]

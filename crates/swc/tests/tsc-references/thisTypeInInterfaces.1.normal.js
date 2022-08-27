@@ -1,0 +1,1 @@
+//// [thisTypeInInterfaces.ts]

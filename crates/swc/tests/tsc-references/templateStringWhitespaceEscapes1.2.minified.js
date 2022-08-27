@@ -1,0 +1,1 @@
+//// [templateStringWhitespaceEscapes1.ts]

@@ -1,0 +1,1 @@
+//// [parserAmbiguityWithBinaryOperator4.ts]

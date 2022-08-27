@@ -1,0 +1,1 @@
+//// [stringLiteralTypesInUnionTypes04.ts]

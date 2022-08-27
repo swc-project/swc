@@ -1,0 +1,1 @@
+//// [emitDefaultParametersFunctionES6.ts]

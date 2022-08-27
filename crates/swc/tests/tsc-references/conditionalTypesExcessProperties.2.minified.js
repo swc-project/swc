@@ -1,0 +1,1 @@
+//// [conditionalTypesExcessProperties.ts]

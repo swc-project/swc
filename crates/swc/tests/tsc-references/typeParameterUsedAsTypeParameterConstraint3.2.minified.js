@@ -1,0 +1,1 @@
+//// [typeParameterUsedAsTypeParameterConstraint3.ts]

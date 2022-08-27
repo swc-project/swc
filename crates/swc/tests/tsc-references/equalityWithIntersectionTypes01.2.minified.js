@@ -1,0 +1,1 @@
+//// [equalityWithIntersectionTypes01.ts]

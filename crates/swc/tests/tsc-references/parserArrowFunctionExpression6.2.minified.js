@@ -1,0 +1,1 @@
+//// [parserArrowFunctionExpression6.ts]

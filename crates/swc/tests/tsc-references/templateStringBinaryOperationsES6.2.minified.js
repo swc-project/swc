@@ -1,0 +1,1 @@
+//// [templateStringBinaryOperationsES6.ts]

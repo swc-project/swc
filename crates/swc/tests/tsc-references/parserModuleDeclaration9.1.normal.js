@@ -1,0 +1,1 @@
+//// [parserModuleDeclaration9.ts]

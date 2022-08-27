@@ -1,0 +1,1 @@
+//// [InvalidNonInstantiatedModule.ts]

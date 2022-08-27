@@ -1,0 +1,1 @@
+//// [objectTypeLiteralSyntax.ts]

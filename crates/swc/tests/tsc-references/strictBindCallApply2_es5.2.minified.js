@@ -1,3 +1,0 @@
-(function() {}).bind({
-    blub: "blub"
-});

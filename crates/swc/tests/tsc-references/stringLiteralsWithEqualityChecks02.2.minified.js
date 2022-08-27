@@ -1,0 +1,1 @@
+//// [stringLiteralsWithEqualityChecks02.ts]

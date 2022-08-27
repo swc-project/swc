@@ -1,0 +1,3 @@
+//// [optionalProperty.ts]
+class C {
+}

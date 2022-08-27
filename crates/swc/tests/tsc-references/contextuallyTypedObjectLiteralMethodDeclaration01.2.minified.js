@@ -1,0 +1,1 @@
+//// [contextuallyTypedObjectLiteralMethodDeclaration01.ts]

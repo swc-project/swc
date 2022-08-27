@@ -1,0 +1,1 @@
+//// [contextuallyTypeAsyncFunctionAwaitOperand.ts]

@@ -1,0 +1,1 @@
+//// [parservoidInQualifiedName2.ts]

@@ -1,0 +1,1 @@
+//// [emitClassDeclarationWithGetterSetterInES6.ts]

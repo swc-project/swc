@@ -1,0 +1,1 @@
+//// [classthisboth.js]

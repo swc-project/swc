@@ -1,2 +1,0 @@
-var Generics;
-Generics || (Generics = {});

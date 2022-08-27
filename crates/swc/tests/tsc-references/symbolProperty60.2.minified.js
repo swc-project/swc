@@ -1,0 +1,1 @@
+//// [symbolProperty60.ts]

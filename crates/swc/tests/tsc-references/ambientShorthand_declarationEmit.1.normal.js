@@ -1,0 +1,1 @@
+//// [ambientShorthand_declarationEmit.ts]

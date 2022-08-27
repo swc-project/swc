@@ -1,1 +1,0 @@
-throw void 0;

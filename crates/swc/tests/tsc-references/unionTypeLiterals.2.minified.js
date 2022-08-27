@@ -1,0 +1,1 @@
+//// [unionTypeLiterals.ts]

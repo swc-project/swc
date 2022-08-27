@@ -1,0 +1,1 @@
+//// [typeofThisWithImplicitThis.ts]

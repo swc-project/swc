@@ -1,1 +1,0 @@
-"".charAt("invalid");

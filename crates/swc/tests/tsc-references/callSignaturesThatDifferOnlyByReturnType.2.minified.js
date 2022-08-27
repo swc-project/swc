@@ -1,0 +1,1 @@
+//// [callSignaturesThatDifferOnlyByReturnType.ts]

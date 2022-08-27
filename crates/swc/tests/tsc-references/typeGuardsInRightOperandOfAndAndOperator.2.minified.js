@@ -1,0 +1,1 @@
+//// [typeGuardsInRightOperandOfAndAndOperator.ts]

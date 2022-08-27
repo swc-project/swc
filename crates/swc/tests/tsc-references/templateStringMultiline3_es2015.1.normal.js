@@ -1,3 +1,0 @@
-// newlines are <CR>
-`
-\`;

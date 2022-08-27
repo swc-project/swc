@@ -1,0 +1,1 @@
+//// [parserUsingConstructorAsIdentifier.ts]

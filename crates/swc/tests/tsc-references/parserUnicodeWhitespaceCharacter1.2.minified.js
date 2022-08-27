@@ -1,0 +1,1 @@
+//// [parserUnicodeWhitespaceCharacter1.ts]

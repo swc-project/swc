@@ -1,0 +1,1 @@
+//// [templateStringInArrowFunction.ts]

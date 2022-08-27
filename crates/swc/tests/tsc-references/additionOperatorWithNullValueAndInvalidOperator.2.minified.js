@@ -1,0 +1,1 @@
+//// [additionOperatorWithNullValueAndInvalidOperator.ts]

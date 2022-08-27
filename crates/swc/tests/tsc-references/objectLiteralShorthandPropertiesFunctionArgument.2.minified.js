@@ -1,0 +1,1 @@
+//// [objectLiteralShorthandPropertiesFunctionArgument.ts]

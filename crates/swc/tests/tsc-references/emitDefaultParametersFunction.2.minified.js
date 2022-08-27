@@ -1,0 +1,1 @@
+//// [emitDefaultParametersFunction.ts]

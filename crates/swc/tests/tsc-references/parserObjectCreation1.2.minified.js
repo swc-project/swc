@@ -1,0 +1,1 @@
+//// [parserObjectCreation1.ts]

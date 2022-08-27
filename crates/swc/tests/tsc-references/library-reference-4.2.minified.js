@@ -1,0 +1,6 @@
+//// [library-reference-4.ts]
+//// [/node_modules/foo/index.d.ts]
+//// [/node_modules/foo/node_modules/alpha/index.d.ts]
+//// [/node_modules/bar/index.d.ts]
+//// [/node_modules/bar/node_modules/alpha/index.d.ts]
+//// [/src/root.ts]

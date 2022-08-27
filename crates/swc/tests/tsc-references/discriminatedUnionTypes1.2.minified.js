@@ -1,0 +1,1 @@
+//// [discriminatedUnionTypes1.ts]

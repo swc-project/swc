@@ -1,0 +1,1 @@
+//// [templateStringWithEmbeddedArrayES6.ts]

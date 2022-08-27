@@ -1,0 +1,2 @@
+//// [keyofIntersection.ts]
+ // "x" | "y"

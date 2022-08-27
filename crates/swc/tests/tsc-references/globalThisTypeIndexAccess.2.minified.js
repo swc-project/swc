@@ -1,0 +1,1 @@
+//// [globalThisTypeIndexAccess.ts]
