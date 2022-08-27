@@ -1,3 +1,5 @@
+//! Configuration for swc
+
 #![deny(missing_docs)]
 
 #[macro_use]
