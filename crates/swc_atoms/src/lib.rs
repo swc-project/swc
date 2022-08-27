@@ -167,6 +167,7 @@ pub struct AtomGenerator {
 }
 
 impl AtomGenerator {
+    /// Get an interned [Atom] or create one from `s`.
     pub fn intern<S>(&mut self, s: S) -> Atom
     where
         Arc<str>: From<S>,
