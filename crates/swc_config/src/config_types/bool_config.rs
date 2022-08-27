@@ -9,11 +9,13 @@ use crate::merge::Merge;
 pub struct BoolConfig<const DEFAULT: bool>(#[serde(default)] Option<bool>);
 
 impl<const DEFAULT: bool> BoolConfig<DEFAULT> {
+    /// Creates a new `BoolConfig` with the given value.
     #[inline]
     pub fn new(value: Option<bool>) -> Self {
         Self(value)
     }
 
+    /// Returns the value specified by the user or the default value.
     #[inline]
     pub fn into_bool(self) -> bool {
         self.into()
