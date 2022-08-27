@@ -1,3 +1,5 @@
+#![deny(missing_docs)]
+
 use anyhow::Error;
 use serde::Deserialize;
 use st_map::StaticMap;
