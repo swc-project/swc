@@ -117,7 +117,6 @@
 #![cfg_attr(test, feature(bench_black_box))]
 #![cfg_attr(test, feature(test))]
 #![deny(clippy::all)]
-#![deny(missing_docs)]
 #![deny(unused)]
 #![allow(clippy::nonminimal_bool)]
 #![allow(clippy::too_many_arguments)]

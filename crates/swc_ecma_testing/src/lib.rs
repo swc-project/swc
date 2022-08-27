@@ -1,5 +1,3 @@
-#![deny(missing_docs)]
-
 use std::{env, fs, path::PathBuf, process::Command};
 
 use anyhow::{bail, Context, Result};

@@ -1,7 +1,6 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(unreachable_patterns)]
 #![deny(missing_copy_implementations)]
-#![deny(missing_docs)]
 #![deny(trivial_casts)]
 #![deny(trivial_numeric_casts)]
 #![deny(unreachable_pub)]

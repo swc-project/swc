@@ -1,4 +1,3 @@
-#![deny(missing_docs)]
 #![deny(clippy::all)]
 #![allow(dead_code)]
 #![recursion_limit = "256"]
