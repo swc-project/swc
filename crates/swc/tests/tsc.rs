@@ -14,7 +14,9 @@ use regex::Regex;
 use serde::de::DeserializeOwned;
 use serde_json::from_str;
 use swc::{
-    config::{Config, IsModule, JsMinifyOptions, JscConfig, ModuleConfig, Options},
+    config::{
+        Config, IsModule, JsMinifyOptions, JscConfig, ModuleConfig, Options, TransformConfig,
+    },
     try_with_handler, Compiler,
 };
 use swc_common::{collections::AHashSet, errors::ColorConfig, FileName, SourceFile, SourceMap};
@@ -88,6 +90,8 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
 
     let mut modules = Vec::<Module>::default();
     let mut decorators = false;
+    let mut use_define_for_class_fields = false;
+
     let filename = input
         .file_name()
         .map(OsStr::to_string_lossy)
@@ -107,39 +111,43 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                 "module" => {
                     modules.extend(module(&meta_data_value.to_lowercase()));
                 }
-                "moduleResolution" => {}
-                "moduleDetection" => {}
+                "moduleresolution" => {}
+                "moduledetection" => {}
                 "target" => {
                     targets.extend(target(&meta_data_value.to_lowercase()));
                 }
                 "jsx" => {}
-                "removeComments" => {}
-                "importHelpers" => {}
-                "downlevelIteration" => {}
-                "isolatedModules" => {}
+                "removecomments" => {}
+                "importhelpers" => {}
+                "downleveliteration" => {}
+                "isolatedmodules" => {}
                 "strict" => {}
-                "noImplicitAny" => {}
-                "strictNullChecks" => {}
-                "strictFunctionTypes" => {}
-                "strictBindCallApply" => {}
-                "strictPropertyInitialization" => {}
-                "noImplicitThis" => {}
-                "alwaysStrict" => {}
-                "allowSyntheticDefaultImports" => {}
-                "esModuleInterop" => {}
-                "emitDecoratorMetadata" => {
+                "noimplicitany" => {}
+                "strictnullchecks" => {}
+                "strictfunctiontypes" => {}
+                "strictbindcallapply" => {}
+                "strictpropertyinitialization" => {}
+                "noimplicitthis" => {}
+                "alwaysstrict" => {}
+                "allowsyntheticdefaultimports" => {}
+                "esmoduleinterop" => {}
+                "emitdecoratormetadata" => {
                     if meta_data_value.trim() == "true" {
                         decorators = true;
                     }
                 }
-                "skipDefaultLibCheck" => {}
-                "preserveConstEnums" => {}
-                "skipLibCheck" => {}
-                "exactOptionalPropertyTypes" => {}
-                "useDefineForClassFields" => {}
-                "useUnknownInCatchVariables" => {}
-                "noUncheckedIndexedAccess" => {}
-                "noPropertyAccessFromIndexSignature" => {}
+                "skipdefaultlibcheck" => {}
+                "preserveconstenums" => {}
+                "skiplibcheck" => {}
+                "exactoptionalpropertytypes" => {}
+                "usedefineforclassfields" => {
+                    if meta_data_value.trim() == "true" {
+                        use_define_for_class_fields = true;
+                    }
+                }
+                "useunknownincatchvariables" => {}
+                "nouncheckedindexedaccess" => {}
+                "nopropertyaccessfromindexsignature" => {}
                 "filename" => {
                     files.extend(sub_file(cm.clone(), &mut buffer, sub_filename));
 
@@ -355,6 +363,11 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                             external_helpers: true.into(),
                             target: Some(target),
                             minify: minify.clone(),
+                            transform: Some(TransformConfig {
+                                use_define_for_class_fields: use_define_for_class_fields.into(),
+                                ..Default::default()
+                            })
+                            .into(),
                             ..Default::default()
                         },
                         module: Some(module.into()),

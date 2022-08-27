@@ -1,4 +1,5 @@
 //// [propertyOverridesAccessors.ts]
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 class A {
     get p() {
         return 'oh no';
@@ -7,8 +8,8 @@ class A {
 class B extends A {
     constructor(...args){
         super(...args);
-        this.p = 'yep' // error
-        ;
+        _define_property(this, "p", 'yep' // error
+        );
     }
 }
 class C {
@@ -19,13 +20,13 @@ class C {
         this._secret = value;
     }
     constructor(){
-        this._secret = 11;
+        _define_property(this, "_secret", 11);
     }
 }
 class D extends C {
     constructor(...args){
         super(...args);
-        this.p = 101 // error
-        ;
+        _define_property(this, "p", 101 // error
+        );
     }
 }

@@ -9,4 +9,5 @@ class B extends A {
         super();
         this.p = p;
     }
+    p;
 }

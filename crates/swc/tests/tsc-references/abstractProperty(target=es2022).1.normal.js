@@ -1,5 +1,6 @@
 //// [abstractProperty.ts]
 class A {
+    x;
     foo() {
         console.log(this.x);
     }

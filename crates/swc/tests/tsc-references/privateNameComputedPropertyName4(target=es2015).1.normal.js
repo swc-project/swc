@@ -1,5 +1,6 @@
 //// [privateNameComputedPropertyName4.ts]
 // https://github.com/microsoft/TypeScript/issues/44113
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 class C1 {
     ["bar"]() {}
 }
@@ -20,4 +21,4 @@ var _qux2 = {
     writable: true,
     value: 42
 };
-C3["bar"] = "test";
+_define_property(C3, "bar", "test");
