@@ -31,9 +31,9 @@ var A = function A() {
         return _class_call_check(this, _class), _super.apply(this, arguments);
     }
     return _class;
-}(A)), C = function(_superClass) {
+}(A)), C = function(_anon) {
     "use strict";
-    _inherits(C, _superClass);
+    _inherits(C, _anon);
     var _super = _create_super(C);
     function C() {
         return _class_call_check(this, C), _super.apply(this, arguments);

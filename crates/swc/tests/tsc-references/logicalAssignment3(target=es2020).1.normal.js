@@ -1,4 +1,5 @@
 //// [logicalAssignment3.ts]
-a.baz && (a.baz = result.baz);
-b.baz || (b.baz = result.baz);
-c.baz ?? (c.baz = result.baz);
+var _a, _b, _c;
+(_a = a).baz && (_a.baz = result.baz);
+(_b = b).baz || (_b.baz = result.baz);
+(_c = c).baz ?? (_c.baz = result.baz);

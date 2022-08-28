@@ -1,6 +1,6 @@
 //// [fixSignatureCaching.ts]
-// Repro from #10697
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+// Repro from #10697
 (function(define1, undefined) {
     define1(function() {
         "use strict";

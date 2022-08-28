@@ -30,14 +30,14 @@ function foo6(x) {
     return typeof x === "string" // string | number | boolean
      || (typeof x !== "number" // number | boolean
      ? x // boolean
-     : x === 10) // number 
-    ;
+     : x === 10 // number 
+    );
 }
 function foo7(x) {
     var y;
     var z;
     // Mixing typeguard narrowing
-    return typeof x === "string" || (z = x) // number | boolean
-     || (typeof x === "number" ? (x = 10) && x.toString() // number | boolean | string
+    return typeof x === "string" || (z = x // number | boolean
+    ) || (typeof x === "number" ? (x = 10) && x.toString() // number | boolean | string
      : (y = x) && x.toString()); // number | boolean | string
 }
