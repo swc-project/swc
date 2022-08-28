@@ -1,1 +1,1 @@
-﻿delete `abc${0}abc`;
+delete `abc${0}abc`;

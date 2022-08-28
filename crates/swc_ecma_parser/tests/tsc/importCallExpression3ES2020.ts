@@ -1,4 +1,4 @@
-﻿// @module: es2020
+// @module: es2020
 // @target: es2020
 // @filename: 0.ts
 export class B {

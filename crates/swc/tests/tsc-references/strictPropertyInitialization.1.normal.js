@@ -126,3 +126,12 @@ class C11 {
         _class_private_field_set(this, _b3, someValue());
     }
 }
+const a = 'a';
+const b = Symbol();
+class C12 {
+    constructor(){
+        this[a] = 1;
+        this[b] = 1;
+        this['c'] = 1;
+    }
+}

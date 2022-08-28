@@ -13,3 +13,11 @@
 /** @type {(a: number, b: number, c: number) => number} */ function add3(a, b) {
     return a + b;
 }
+// Confirm initializers are compatible.
+// They can't have more parameters than the type/context.
+/** @type {() => void} */ function funcWithMoreParameters(more) {} // error
+/** @type {() => void} */ var variableWithMoreParameters = function variableWithMoreParameters(more) {}; // error
+/** @type {() => void} */ var arrowWithMoreParameters = function(more) {}; // error
+({
+    /** @type {() => void} */ methodWithMoreParameters: function methodWithMoreParameters(more) {}
+});

@@ -1,4 +1,4 @@
-﻿// @target: es6
+// @target: es6
 class B {
     x = 10;
     constructor() {

@@ -1,4 +1,4 @@
-﻿// @module: amd
+// @module: amd
 // @target: es5
 // @lib: es6
 // @filename: 0.ts

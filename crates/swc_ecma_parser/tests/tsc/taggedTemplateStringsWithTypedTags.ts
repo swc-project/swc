@@ -1,4 +1,4 @@
-﻿interface I {
+interface I {
     (stringParts: TemplateStringsArray, ...rest: number[]): I;
     g: I;
     h: I;

@@ -1,4 +1,4 @@
-﻿// ElementList:  ( Modified )
+// ElementList:  ( Modified )
 //      Elisionopt   AssignmentExpression
 //      Elisionopt   SpreadElement
 //      ElementList, Elisionopt   AssignmentExpression

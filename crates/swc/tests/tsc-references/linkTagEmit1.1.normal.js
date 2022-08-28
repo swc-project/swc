@@ -10,3 +10,4 @@
     return integer + 1 // pls pls pls
     ;
 }
+/** {@link https://hvad} */ var see3 = true /** @typedef {number} Attempt {@link https://wat} {@linkcode I think lingcod is better} {@linkplain or lutefisk}*/ ;

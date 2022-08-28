@@ -1,4 +1,4 @@
-﻿interface A {
+interface A {
     (x: number): number;
     (x: string, y?: string): boolean;
     (x: Date): void;

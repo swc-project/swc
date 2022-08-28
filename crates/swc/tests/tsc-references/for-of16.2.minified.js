@@ -6,3 +6,4 @@ class StringIterator {
     }
 }
 for (v of new StringIterator);
+for (v of new StringIterator);

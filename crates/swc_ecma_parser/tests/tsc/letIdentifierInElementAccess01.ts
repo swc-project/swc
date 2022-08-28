@@ -1,2 +1,2 @@
-﻿var let: any = {};
+var let: any = {};
 (let[0] = 100);

@@ -99,3 +99,40 @@ C.apply(c, [
     "hello",
     30
 ]); // Error
+function bar(callback) {
+    callback.bind(1);
+    callback.bind(2); // Error
+}
+function baz(callback) {
+    callback.bind(1);
+    callback.bind(2); // Error
+}
+// Repro from #32964
+var Foo = /*#__PURE__*/ function() {
+    "use strict";
+    function Foo() {
+        _class_call_check(this, Foo);
+        this.fn.bind(this);
+    }
+    var _proto = Foo.prototype;
+    _proto.fn = function fn() {
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
+        }
+    };
+    return Foo;
+}();
+var Bar = /*#__PURE__*/ function() {
+    "use strict";
+    function Bar() {
+        _class_call_check(this, Bar);
+        this.fn.bind(this);
+    }
+    var _proto = Bar.prototype;
+    _proto.fn = function fn() {
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
+        }
+    };
+    return Bar;
+}();

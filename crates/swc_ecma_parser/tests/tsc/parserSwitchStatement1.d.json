@@ -1,0 +1,30 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 17,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 1,
+        "end": 17,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "Identifier",
+        "span": {
+          "start": 9,
+          "end": 12,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "cases": []
+    }
+  ],
+  "interpreter": null
+}

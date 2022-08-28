@@ -1,0 +1,49 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 19,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 1,
+        "end": 19,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 6,
+          "end": 9,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": []
+      },
+      "right": {
+        "type": "Identifier",
+        "span": {
+          "start": 13,
+          "end": 14,
+          "ctxt": 0
+        },
+        "value": "X",
+        "optional": false
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 16,
+          "end": 19,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    }
+  ],
+  "interpreter": null
+}

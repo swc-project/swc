@@ -1,9 +1,9 @@
 //// [templateLiteralTypes2.ts]
 function ft1(s, n, u, t) {
-    var c1 = "abc".concat(s); // `abc${string}`
-    var c2 = "abc".concat(n); // `abc${number}`
-    var c3 = "abc".concat(u); // "abcfoo" | "abcbar" | "abcbaz"
-    var c4 = "abc".concat(t); // `abc${T}
+    var c1 = "abc".concat(s);
+    var c2 = "abc".concat(n);
+    var c3 = "abc".concat(u);
+    var c4 = "abc".concat(t);
     var d1 = "abc".concat(s);
     var d2 = "abc".concat(n);
     var d3 = "abc".concat(u);
@@ -13,9 +13,9 @@ function ft2(s) {
     return "abc".concat(s);
 }
 function ft10(s) {
-    var c1 = "abc".concat(s); // Widening type `abc${string}`
+    var c1 = "abc".concat(s); // Type string
     var v1 = c1; // Type string
-    var c2 = c1; // Widening type `abc${string}`
+    var c2 = c1; // Type string
     var v2 = c2; // Type string
     var c3 = "abc".concat(s);
     var v3 = c3; // Type `abc${string}`
@@ -23,14 +23,14 @@ function ft10(s) {
     var v4 = c4; // Type `abc${string}`
 }
 function ft11(s, cond) {
-    var c1 = cond ? "foo".concat(s) : "bar".concat(s); // widening `foo${string}` | widening `bar${string}`
+    var c1 = cond ? "foo".concat(s) : "bar".concat(s); // string
     var c2 = c1; // `foo${string}` | `bar${string}`
-    var c3 = cond ? c1 : c2; // `foo${string}` | `bar${string}`
-    var c4 = cond ? c3 : "baz".concat(s); // `foo${string}` | `bar${string}` | widening `baz${string}`
+    var c3 = cond ? c1 : c2; // string
+    var c4 = cond ? c3 : "baz".concat(s); // string
     var c5 = c4; // `foo${string}` | `bar${string}` | `baz${string}`
     var v1 = c1; // string
     var v2 = c2; // `foo${string}` | `bar${string}`
-    var v3 = c3; // `foo${string}` | `bar${string}`
+    var v3 = c3; // string
     var v4 = c4; // string
     var v5 = c5; // `foo${string}` | `bar${string}` | `baz${string}`
 }
@@ -68,7 +68,7 @@ var id2 = "foo.bar.baz";
 var t2 = takesLiteral(id2); // "baz"
 var t3 = takesLiteral("foo.bar.".concat(someString)); // string
 var id4 = "foo.bar.".concat(someString);
-var t4 = takesLiteral(id4); // string
+var t4 = takesLiteral(id4); // unknown
 var t5 = takesLiteral("foo.bar.".concat(someUnion)); // "abc" | "def" | "ghi"
 // Repro from #41732
 var pixelValue = 22;

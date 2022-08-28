@@ -36,7 +36,7 @@ function f2() {
     var ref = {
         x: 5,
         y: "hello"
-    }, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")); // Error, no x and y in target
+    }, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")); // Ok, empty binding pattern means nothing
     var x = {
         x: 5,
         y: "hello"

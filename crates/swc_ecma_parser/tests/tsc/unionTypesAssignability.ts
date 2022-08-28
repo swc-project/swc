@@ -1,4 +1,4 @@
-﻿var unionNumberString: number | string;
+var unionNumberString: number | string;
 class C { }
 class D extends C { foo1() { } }
 class E extends C { foo2() { } }

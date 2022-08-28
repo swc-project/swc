@@ -1,4 +1,4 @@
-﻿interface I { }
+interface I { }
 class A { a = 10; }
 class C implements I { c };
 class D implements I { d };

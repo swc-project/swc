@@ -1,4 +1,4 @@
-﻿// @filename: file.tsx
+// @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
 // @skipLibCheck: true

@@ -1,4 +1,4 @@
-﻿
+
 
 var a = `hello\world`;
 var b = `hello\\world`;

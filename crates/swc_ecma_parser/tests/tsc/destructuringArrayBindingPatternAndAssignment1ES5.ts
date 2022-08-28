@@ -1,4 +1,4 @@
-﻿/* AssignmentPattern:
+/* AssignmentPattern:
  *      ObjectAssignmentPattern
  *      ArrayAssignmentPattern
  * ArrayAssignmentPattern:

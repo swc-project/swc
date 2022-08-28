@@ -1,0 +1,1 @@
+//// [awaitAndYieldInProperty.ts]

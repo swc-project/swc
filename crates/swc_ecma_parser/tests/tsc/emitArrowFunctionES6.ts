@@ -1,4 +1,4 @@
-﻿// @target:es6
+// @target:es6
 var f1 = () => { }
 var f2 = (x: string, y: string) => { }
 var f3 = (x: string, y: number, ...rest) => { }

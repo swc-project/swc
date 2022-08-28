@@ -1,4 +1,4 @@
-﻿type F1 = (a: string, b?: string) => void;
+type F1 = (a: string, b?: string) => void;
 type F2 = (a: string, b?: string, c?: string) => void;
 type F3 = (a: string, ...rest: string[]) => void;
 type F4 = (a: string, b?: string, ...rest: string[]) => void;

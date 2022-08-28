@@ -36,3 +36,11 @@ try {
     }
 }
 for(var n1 in f4()){}
+function f5() {
+    var x = []; // Ok
+}
+function func() {
+    return {
+        value: []
+    };
+}

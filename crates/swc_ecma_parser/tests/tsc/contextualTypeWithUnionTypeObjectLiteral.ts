@@ -1,4 +1,4 @@
-﻿var str: string;
+var str: string;
 var num: number;
 var strOrNumber: string | number = str || num;
 var objStr: { prop: string };

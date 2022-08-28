@@ -1,0 +1,68 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 18,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 18,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ArrowFunctionExpression",
+        "span": {
+          "start": 1,
+          "end": 17,
+          "ctxt": 0
+        },
+        "params": [
+          {
+            "type": "RestElement",
+            "span": {
+              "start": 2,
+              "end": 9,
+              "ctxt": 0
+            },
+            "rest": {
+              "start": 2,
+              "end": 5,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 5,
+                "end": 8,
+                "ctxt": 0
+              },
+              "value": "arg",
+              "optional": true,
+              "typeAnnotation": null
+            },
+            "typeAnnotation": null
+          }
+        ],
+        "body": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 14,
+            "end": 17,
+            "ctxt": 0
+          },
+          "value": 102.0,
+          "raw": "102"
+        },
+        "async": false,
+        "generator": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    }
+  ],
+  "interpreter": null
+}

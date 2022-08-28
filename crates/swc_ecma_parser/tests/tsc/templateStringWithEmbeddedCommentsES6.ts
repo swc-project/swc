@@ -1,4 +1,4 @@
-﻿// @target: ES6
+// @target: ES6
 `head${ // single line comment
 10
 }

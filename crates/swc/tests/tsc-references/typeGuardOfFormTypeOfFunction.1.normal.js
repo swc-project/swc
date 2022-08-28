@@ -74,3 +74,13 @@ function f100(obj, keys) {
         }
     }
 }
+// Repro from #49316
+function configureStore(reducer) {
+    var rootReducer;
+    if (typeof reducer === "function") {
+        rootReducer = reducer;
+    }
+}
+function f101(x) {
+    return typeof x === "object" && x.anything;
+}

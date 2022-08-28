@@ -15,21 +15,29 @@
     ]] = [];
     const bb1 = b1;
 }{
-    let a2 = 0;
-    const [{ [a2 = 1]: b2  } = [
+    let a2 = 1;
+    const [{ [a2]: b2  } = [
         9,
-        a2
+        a2 = 0,
+        5
+    ]] = [];
+    const bb2 = b2;
+}{
+    let a3 = 0;
+    const [{ [a3 = 1]: b3  } = [
+        9,
+        a3
     ]] = [
         [
             9,
             8
         ]
     ];
-    const bb2 = b2;
+    const bb3 = b3;
 }{
-    let a3 = 1;
-    const [{ [a3]: b3  } = [
-        a3 = 0,
+    let a4 = 1;
+    const [{ [a4]: b4  } = [
+        a4 = 0,
         9
     ]] = [
         [
@@ -37,5 +45,5 @@
             9
         ]
     ];
-    const bb3 = b3;
+    const bb4 = b4;
 }

@@ -1,4 +1,4 @@
-﻿// @filename: file.tsx
+// @filename: file.tsx
 // @jsx: preserve
 // @module: amd
 // @noLib: true

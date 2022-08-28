@@ -1,4 +1,4 @@
-﻿// An intersection type has those members that are present in any of its constituent types,
+// An intersection type has those members that are present in any of its constituent types,
 // with types that are intersections of the respective members in the constituent types
 
 interface A { a: string }

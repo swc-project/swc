@@ -11,4 +11,4 @@ class Derived extends Base {
     }
 }
 const obj = new Derived(); // nothing printed
-console.log(obj.x); // 1
+console.log(obj.x); // number

@@ -1,4 +1,4 @@
-﻿// @jsx: react
+// @jsx: react
 declare module JSX {
     interface Element {
         div: string;

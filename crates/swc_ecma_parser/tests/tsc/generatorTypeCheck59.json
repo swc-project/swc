@@ -1,0 +1,155 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 90,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "g",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 16,
+        "end": 90,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 30,
+          "end": 90,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ClassDeclaration",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 42,
+                "end": 43,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "declare": false,
+            "span": {
+              "start": 36,
+              "end": 87,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "body": [
+              {
+                "type": "ClassMethod",
+                "span": {
+                  "start": 54,
+                  "end": 81,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 74,
+                    "end": 75,
+                    "ctxt": 0
+                  },
+                  "value": "m",
+                  "optional": false
+                },
+                "function": {
+                  "params": [],
+                  "decorators": [
+                    {
+                      "type": "Decorator",
+                      "span": {
+                        "start": 54,
+                        "end": 65,
+                        "ctxt": 0
+                      },
+                      "expression": {
+                        "type": "YieldExpression",
+                        "span": {
+                          "start": 56,
+                          "end": 64,
+                          "ctxt": 0
+                        },
+                        "argument": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 62,
+                            "end": 64,
+                            "ctxt": 0
+                          },
+                          "value": "",
+                          "raw": "\"\""
+                        },
+                        "delegate": false
+                      }
+                    }
+                  ],
+                  "span": {
+                    "start": 54,
+                    "end": 81,
+                    "ctxt": 0
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 78,
+                      "end": 81,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                },
+                "kind": "method",
+                "isStatic": false,
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false
+              }
+            ],
+            "superClass": null,
+            "isAbstract": false,
+            "typeParams": null,
+            "superTypeParams": null,
+            "implements": []
+          },
+          {
+            "type": "EmptyStatement",
+            "span": {
+              "start": 87,
+              "end": 88,
+              "ctxt": 0
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

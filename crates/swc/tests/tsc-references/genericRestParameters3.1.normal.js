@@ -18,10 +18,10 @@ f1("foo", 10); // Error
 f1("foo"); // Error
 f2 = f1;
 f3 = f1;
-f4 = f1; // Error, misaligned complex rest types
+f4 = f1;
 f1 = f2; // Error
 f1 = f3; // Error
-f1 = f4; // Error, misaligned complex rest types
+f1 = f4;
 foo(); // Error
 foo(100); // Error
 foo(foo); // Error
@@ -44,3 +44,9 @@ var x2 = [
     "hello"
 ];
 foo2.apply(void 0, _to_consumable_array(x2));
+ff1 = ff2;
+ff2 = ff1;
+function ff3(s1, s2) {
+    s1 = s2;
+    s2 = s1;
+}

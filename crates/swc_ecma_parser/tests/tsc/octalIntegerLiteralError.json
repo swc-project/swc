@@ -1,0 +1,206 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 10,
+    "end": 133,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 10,
+        "end": 32,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 14,
+            "end": 28,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "oct1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 21,
+              "end": 28,
+              "ctxt": 0
+            },
+            "value": 5852.0,
+            "raw": "0O13334"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 33,
+        "end": 55,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 37,
+            "end": 50,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 37,
+              "end": 41,
+              "ctxt": 0
+            },
+            "value": "oct2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 44,
+              "end": 50,
+              "ctxt": 0
+            },
+            "value": 1817.0,
+            "raw": "0o3431"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 57,
+        "end": 133,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 61,
+            "end": 132,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 61,
+              "end": 65,
+              "ctxt": 0
+            },
+            "value": "obj1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 68,
+              "end": 132,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 74,
+                    "end": 81,
+                    "ctxt": 0
+                  },
+                  "value": 19230.0,
+                  "raw": "0O45436"
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 83,
+                    "end": 87,
+                    "ctxt": 0
+                  },
+                  "value": "hi",
+                  "raw": "\"hi\""
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 93,
+                    "end": 98,
+                    "ctxt": 0
+                  },
+                  "value": 19230.0,
+                  "raw": "19230"
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 100,
+                    "end": 107,
+                    "ctxt": 0
+                  },
+                  "value": "Hello",
+                  "raw": "\"Hello\""
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 113,
+                    "end": 120,
+                    "ctxt": 0
+                  },
+                  "value": "19230",
+                  "raw": "\"19230\""
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 122,
+                    "end": 129,
+                    "ctxt": 0
+                  },
+                  "value": "world",
+                  "raw": "\"world\""
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

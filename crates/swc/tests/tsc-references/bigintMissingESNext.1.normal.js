@@ -1,3 +1,3 @@
 //// [bigintMissingESNext.ts]
 test();
-test(); // should have global error when bigint is used but ES2020 lib is not present
+test(); // no error when bigint is used even when ES2020 lib is not present

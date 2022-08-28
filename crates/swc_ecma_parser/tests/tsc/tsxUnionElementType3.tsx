@@ -1,4 +1,4 @@
-﻿// @filename: file.tsx
+// @filename: file.tsx
 // @jsx: react
 // @noLib: true
 // @skipLibCheck: true

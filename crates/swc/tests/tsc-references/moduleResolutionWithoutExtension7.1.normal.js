@@ -1,8 +1,7 @@
 //// [moduleResolutionWithoutExtension7.ts]
 //// [/src/bar.cts]
-//! 
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,----
-//!  2 | import foo = require("./foo"); // should error, should not ask for extension
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!    `----
+// Extensionless relative path cjs import in a cjs module
+import { createRequire as _createRequire } from "module";
+var __require = _createRequire(import.meta.url);
+var foo = __require("./foo") // should error, should not ask for extension
+;

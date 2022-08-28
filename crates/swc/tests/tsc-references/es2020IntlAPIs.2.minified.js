@@ -27,4 +27,13 @@ console.log(regionNamesInEnglish.of('US')), console.log(regionNamesInTraditional
     'de-ID'
 ], {
     localeMatcher: 'lookup'
-}).join(', '));
+}).join(', ')), new Intl.Locale(), new Intl.Locale(new Intl.Locale('en-US')), new Intl.DisplayNames(), new Intl.DisplayNames('en'), new Intl.DisplayNames('en', {}), console.log(new Intl.DisplayNames(void 0, {
+    type: 'language'
+}).of('en-GB'));
+const localesArg = [
+    "es-ES",
+    new Intl.Locale("en-US")
+];
+console.log(new Intl.DisplayNames(localesArg, {
+    type: 'language'
+}).resolvedOptions().locale), console.log(Intl.DisplayNames.supportedLocalesOf(localesArg)), console.log(Intl.DisplayNames.supportedLocalesOf()), console.log(Intl.DisplayNames.supportedLocalesOf(localesArg, {}));

@@ -11,4 +11,10 @@ export var B = function B() {
 //// [/b.ts]
 var A;
 var B;
+var t = {
+    // error: while you can ask for `typeof types.A`,
+    // `typeof types` does not include `A`
+    A: undefined,
+    B: undefined
+};
 export { };

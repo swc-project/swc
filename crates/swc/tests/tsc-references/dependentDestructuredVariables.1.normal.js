@@ -1,4 +1,6 @@
 //// [dependentDestructuredVariables.ts]
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 function f10({ kind , payload  }) {
     if (kind === 'A') {
         payload.toFixed();
@@ -172,3 +174,89 @@ reducer("concat", {
         4
     ]
 });
+let fooM = {
+    method (type, cb) {
+        if (type == 'num') {
+            cb(123);
+        } else {
+            cb("abc");
+        }
+    }
+};
+let fooAsyncM = {
+    method (type, cb) {
+        return _async_to_generator(function*() {
+            if (type == 'num') {
+                cb(123);
+            } else {
+                cb("abc");
+            }
+        })();
+    }
+};
+let fooGenM = {
+    *method (type, cb) {
+        if (type == 'num') {
+            cb(123);
+        } else {
+            cb("abc");
+        }
+    }
+};
+let fooAsyncGenM = {
+    method (type, cb) {
+        return _wrap_async_generator(function*() {
+            if (type == 'num') {
+                cb(123);
+            } else {
+                cb("abc");
+            }
+        })();
+    }
+};
+const f60 = (kind, payload)=>{
+    if (kind === "a") {
+        payload.toFixed(); // error
+    }
+    if (kind === "b") {
+        payload.toUpperCase(); // error
+    }
+};
+// Repro from #48902
+function foo({ value1 , test1 =value1.test1 , test2 =value1.test2 , test3 =value1.test3 , test4 =value1.test4 , test5 =value1.test5 , test6 =value1.test6 , test7 =value1.test7 , test8 =value1.test8 , test9 =value1.test9  }) {}
+// Repro from #49772
+function fa1(x) {
+    const [guard, value] = x;
+    if (guard) {
+        for(;;){
+            value; // number
+        }
+    } else {
+        while(!!true){
+            value; // string
+        }
+    }
+}
+function fa2(x) {
+    const { guard , value  } = x;
+    if (guard) {
+        for(;;){
+            value; // number
+        }
+    } else {
+        while(!!true){
+            value; // string
+        }
+    }
+}
+const fa3 = (guard, value)=>{
+    if (guard) {
+        for(;;){
+            value; // number
+        }
+    } else {
+        while(!!true){
+            value; // string
+        }
+    }
+};

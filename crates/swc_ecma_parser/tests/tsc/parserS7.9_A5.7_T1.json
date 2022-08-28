@@ -1,0 +1,163 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 518,
+    "end": 548,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 518,
+        "end": 531,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 522,
+            "end": 525,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 522,
+              "end": 523,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 524,
+              "end": 525,
+              "ctxt": 0
+            },
+            "value": 0.0,
+            "raw": "0"
+          },
+          "definite": false
+        },
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 527,
+            "end": 530,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 527,
+              "end": 528,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 529,
+              "end": 530,
+              "ctxt": 0
+            },
+            "value": 0.0,
+            "raw": "0"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 532,
+        "end": 540,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 536,
+            "end": 540,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 536,
+              "end": 537,
+              "ctxt": 0
+            },
+            "value": "z",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "Identifier",
+            "span": {
+              "start": 539,
+              "end": 540,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 541,
+        "end": 548,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UpdateExpression",
+        "span": {
+          "start": 541,
+          "end": 548,
+          "ctxt": 0
+        },
+        "operator": "++",
+        "prefix": true,
+        "argument": {
+          "type": "UpdateExpression",
+          "span": {
+            "start": 544,
+            "end": 548,
+            "ctxt": 0
+          },
+          "operator": "++",
+          "prefix": true,
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 547,
+              "end": 548,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

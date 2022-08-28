@@ -1,4 +1,4 @@
-﻿//@target: es6
+//@target: es6
 
 // Generic tag with one parameter
 function noParams<T>(n: T) { }

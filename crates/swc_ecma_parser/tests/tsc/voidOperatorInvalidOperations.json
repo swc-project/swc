@@ -1,0 +1,102 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 48,
+    "end": 124,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 48,
+        "end": 68,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 52,
+            "end": 61,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 52,
+              "end": 55,
+              "ctxt": 0
+            },
+            "value": "ANY",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "Identifier",
+            "span": {
+              "start": 58,
+              "end": 61,
+              "ctxt": 0
+            },
+            "value": "ANY",
+            "optional": false
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 107,
+        "end": 124,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 111,
+            "end": 122,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 111,
+              "end": 115,
+              "ctxt": 0
+            },
+            "value": "ANY1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "UnaryExpression",
+            "span": {
+              "start": 118,
+              "end": 122,
+              "ctxt": 0
+            },
+            "operator": "void",
+            "argument": {
+              "type": "Invalid",
+              "span": {
+                "start": 122,
+                "end": 122,
+                "ctxt": 0
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

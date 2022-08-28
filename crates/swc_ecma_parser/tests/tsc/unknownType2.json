@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 19,
-    "end": 5451,
+    "end": 5447,
     "ctxt": 0
   },
   "body": [
@@ -8234,14 +8234,14 @@
       "decorators": [],
       "span": {
         "start": 4897,
-        "end": 5451,
+        "end": 5447,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 4932,
-          "end": 5451,
+          "end": 5447,
           "ctxt": 0
         },
         "stmts": [
@@ -8517,39 +8517,39 @@
           {
             "type": "IfStatement",
             "span": {
-              "start": 5105,
-              "end": 5262,
+              "start": 5101,
+              "end": 5258,
               "ctxt": 0
             },
             "test": {
               "type": "BinaryExpression",
               "span": {
-                "start": 5109,
-                "end": 5171,
+                "start": 5105,
+                "end": 5167,
                 "ctxt": 0
               },
               "operator": "&&",
               "left": {
                 "type": "BinaryExpression",
                 "span": {
-                  "start": 5109,
-                  "end": 5149,
+                  "start": 5105,
+                  "end": 5145,
                   "ctxt": 0
                 },
                 "operator": "&&",
                 "left": {
                   "type": "BinaryExpression",
                   "span": {
-                    "start": 5109,
-                    "end": 5127,
+                    "start": 5105,
+                    "end": 5123,
                     "ctxt": 0
                   },
                   "operator": "!==",
                   "left": {
                     "type": "Identifier",
                     "span": {
-                      "start": 5109,
-                      "end": 5110,
+                      "start": 5105,
+                      "end": 5106,
                       "ctxt": 0
                     },
                     "value": "u",
@@ -8558,15 +8558,15 @@
                   "right": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 5115,
-                      "end": 5127,
+                      "start": 5111,
+                      "end": 5123,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
-                        "start": 5115,
-                        "end": 5125,
+                        "start": 5111,
+                        "end": 5121,
                         "ctxt": 0
                       },
                       "value": "NumberEnum",
@@ -8575,8 +8575,8 @@
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 5126,
-                        "end": 5127,
+                        "start": 5122,
+                        "end": 5123,
                         "ctxt": 0
                       },
                       "value": "A",
@@ -8587,16 +8587,16 @@
                 "right": {
                   "type": "BinaryExpression",
                   "span": {
-                    "start": 5131,
-                    "end": 5149,
+                    "start": 5127,
+                    "end": 5145,
                     "ctxt": 0
                   },
                   "operator": "!==",
                   "left": {
                     "type": "Identifier",
                     "span": {
-                      "start": 5131,
-                      "end": 5132,
+                      "start": 5127,
+                      "end": 5128,
                       "ctxt": 0
                     },
                     "value": "u",
@@ -8605,15 +8605,15 @@
                   "right": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 5137,
-                      "end": 5149,
+                      "start": 5133,
+                      "end": 5145,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
-                        "start": 5137,
-                        "end": 5147,
+                        "start": 5133,
+                        "end": 5143,
                         "ctxt": 0
                       },
                       "value": "NumberEnum",
@@ -8622,8 +8622,8 @@
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 5148,
-                        "end": 5149,
+                        "start": 5144,
+                        "end": 5145,
                         "ctxt": 0
                       },
                       "value": "B",
@@ -8635,16 +8635,16 @@
               "right": {
                 "type": "BinaryExpression",
                 "span": {
-                  "start": 5153,
-                  "end": 5171,
+                  "start": 5149,
+                  "end": 5167,
                   "ctxt": 0
                 },
                 "operator": "!==",
                 "left": {
                   "type": "Identifier",
                   "span": {
-                    "start": 5153,
-                    "end": 5154,
+                    "start": 5149,
+                    "end": 5150,
                     "ctxt": 0
                   },
                   "value": "u",
@@ -8653,15 +8653,15 @@
                 "right": {
                   "type": "MemberExpression",
                   "span": {
-                    "start": 5159,
-                    "end": 5171,
+                    "start": 5155,
+                    "end": 5167,
                     "ctxt": 0
                   },
                   "object": {
                     "type": "Identifier",
                     "span": {
-                      "start": 5159,
-                      "end": 5169,
+                      "start": 5155,
+                      "end": 5165,
                       "ctxt": 0
                     },
                     "value": "StringEnum",
@@ -8670,8 +8670,8 @@
                   "property": {
                     "type": "Identifier",
                     "span": {
-                      "start": 5170,
-                      "end": 5171,
+                      "start": 5166,
+                      "end": 5167,
                       "ctxt": 0
                     },
                     "value": "A",
@@ -8683,8 +8683,8 @@
             "consequent": {
               "type": "BlockStatement",
               "span": {
-                "start": 5173,
-                "end": 5176,
+                "start": 5169,
+                "end": 5172,
                 "ctxt": 0
               },
               "stmts": []
@@ -8692,16 +8692,16 @@
             "alternate": {
               "type": "BlockStatement",
               "span": {
-                "start": 5186,
-                "end": 5262,
+                "start": 5182,
+                "end": 5258,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "VariableDeclaration",
                   "span": {
-                    "start": 5196,
-                    "end": 5256,
+                    "start": 5192,
+                    "end": 5252,
                     "ctxt": 0
                   },
                   "kind": "const",
@@ -8710,15 +8710,15 @@
                     {
                       "type": "VariableDeclarator",
                       "span": {
-                        "start": 5202,
-                        "end": 5255,
+                        "start": 5198,
+                        "end": 5251,
                         "ctxt": 0
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
-                          "start": 5202,
-                          "end": 5206,
+                          "start": 5198,
+                          "end": 5202,
                           "ctxt": 0
                         },
                         "value": "aOrB",
@@ -8726,23 +8726,23 @@
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
-                            "start": 5206,
-                            "end": 5250,
+                            "start": 5202,
+                            "end": 5246,
                             "ctxt": 0
                           },
                           "typeAnnotation": {
                             "type": "TsUnionType",
                             "span": {
-                              "start": 5208,
-                              "end": 5250,
+                              "start": 5204,
+                              "end": 5246,
                               "ctxt": 0
                             },
                             "types": [
                               {
                                 "type": "TsTypeReference",
                                 "span": {
-                                  "start": 5208,
-                                  "end": 5220,
+                                  "start": 5204,
+                                  "end": 5216,
                                   "ctxt": 0
                                 },
                                 "typeName": {
@@ -8750,8 +8750,8 @@
                                   "left": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5208,
-                                      "end": 5218,
+                                      "start": 5204,
+                                      "end": 5214,
                                       "ctxt": 0
                                     },
                                     "value": "NumberEnum",
@@ -8760,8 +8760,8 @@
                                   "right": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5219,
-                                      "end": 5220,
+                                      "start": 5215,
+                                      "end": 5216,
                                       "ctxt": 0
                                     },
                                     "value": "A",
@@ -8773,8 +8773,8 @@
                               {
                                 "type": "TsTypeReference",
                                 "span": {
-                                  "start": 5223,
-                                  "end": 5235,
+                                  "start": 5219,
+                                  "end": 5231,
                                   "ctxt": 0
                                 },
                                 "typeName": {
@@ -8782,8 +8782,8 @@
                                   "left": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5223,
-                                      "end": 5233,
+                                      "start": 5219,
+                                      "end": 5229,
                                       "ctxt": 0
                                     },
                                     "value": "NumberEnum",
@@ -8792,8 +8792,8 @@
                                   "right": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5234,
-                                      "end": 5235,
+                                      "start": 5230,
+                                      "end": 5231,
                                       "ctxt": 0
                                     },
                                     "value": "B",
@@ -8805,8 +8805,8 @@
                               {
                                 "type": "TsTypeReference",
                                 "span": {
-                                  "start": 5238,
-                                  "end": 5250,
+                                  "start": 5234,
+                                  "end": 5246,
                                   "ctxt": 0
                                 },
                                 "typeName": {
@@ -8814,8 +8814,8 @@
                                   "left": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5238,
-                                      "end": 5248,
+                                      "start": 5234,
+                                      "end": 5244,
                                       "ctxt": 0
                                     },
                                     "value": "StringEnum",
@@ -8824,8 +8824,8 @@
                                   "right": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5249,
-                                      "end": 5250,
+                                      "start": 5245,
+                                      "end": 5246,
                                       "ctxt": 0
                                     },
                                     "value": "A",
@@ -8841,8 +8841,8 @@
                       "init": {
                         "type": "Identifier",
                         "span": {
-                          "start": 5254,
-                          "end": 5255,
+                          "start": 5250,
+                          "end": 5251,
                           "ctxt": 0
                         },
                         "value": "u",
@@ -8858,54 +8858,54 @@
           {
             "type": "IfStatement",
             "span": {
-              "start": 5289,
-              "end": 5449,
+              "start": 5285,
+              "end": 5445,
               "ctxt": 0
             },
             "test": {
               "type": "UnaryExpression",
               "span": {
-                "start": 5293,
-                "end": 5358,
+                "start": 5289,
+                "end": 5354,
                 "ctxt": 0
               },
               "operator": "!",
               "argument": {
                 "type": "ParenthesisExpression",
                 "span": {
-                  "start": 5294,
-                  "end": 5358,
+                  "start": 5290,
+                  "end": 5354,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "BinaryExpression",
                   "span": {
-                    "start": 5295,
-                    "end": 5357,
+                    "start": 5291,
+                    "end": 5353,
                     "ctxt": 0
                   },
                   "operator": "||",
                   "left": {
                     "type": "BinaryExpression",
                     "span": {
-                      "start": 5295,
-                      "end": 5335,
+                      "start": 5291,
+                      "end": 5331,
                       "ctxt": 0
                     },
                     "operator": "||",
                     "left": {
                       "type": "BinaryExpression",
                       "span": {
-                        "start": 5295,
-                        "end": 5313,
+                        "start": 5291,
+                        "end": 5309,
                         "ctxt": 0
                       },
                       "operator": "===",
                       "left": {
                         "type": "Identifier",
                         "span": {
-                          "start": 5295,
-                          "end": 5296,
+                          "start": 5291,
+                          "end": 5292,
                           "ctxt": 0
                         },
                         "value": "u",
@@ -8914,15 +8914,15 @@
                       "right": {
                         "type": "MemberExpression",
                         "span": {
-                          "start": 5301,
-                          "end": 5313,
+                          "start": 5297,
+                          "end": 5309,
                           "ctxt": 0
                         },
                         "object": {
                           "type": "Identifier",
                           "span": {
-                            "start": 5301,
-                            "end": 5311,
+                            "start": 5297,
+                            "end": 5307,
                             "ctxt": 0
                           },
                           "value": "NumberEnum",
@@ -8931,8 +8931,8 @@
                         "property": {
                           "type": "Identifier",
                           "span": {
-                            "start": 5312,
-                            "end": 5313,
+                            "start": 5308,
+                            "end": 5309,
                             "ctxt": 0
                           },
                           "value": "A",
@@ -8943,16 +8943,16 @@
                     "right": {
                       "type": "BinaryExpression",
                       "span": {
-                        "start": 5317,
-                        "end": 5335,
+                        "start": 5313,
+                        "end": 5331,
                         "ctxt": 0
                       },
                       "operator": "===",
                       "left": {
                         "type": "Identifier",
                         "span": {
-                          "start": 5317,
-                          "end": 5318,
+                          "start": 5313,
+                          "end": 5314,
                           "ctxt": 0
                         },
                         "value": "u",
@@ -8961,15 +8961,15 @@
                       "right": {
                         "type": "MemberExpression",
                         "span": {
-                          "start": 5323,
-                          "end": 5335,
+                          "start": 5319,
+                          "end": 5331,
                           "ctxt": 0
                         },
                         "object": {
                           "type": "Identifier",
                           "span": {
-                            "start": 5323,
-                            "end": 5333,
+                            "start": 5319,
+                            "end": 5329,
                             "ctxt": 0
                           },
                           "value": "NumberEnum",
@@ -8978,8 +8978,8 @@
                         "property": {
                           "type": "Identifier",
                           "span": {
-                            "start": 5334,
-                            "end": 5335,
+                            "start": 5330,
+                            "end": 5331,
                             "ctxt": 0
                           },
                           "value": "B",
@@ -8991,16 +8991,16 @@
                   "right": {
                     "type": "BinaryExpression",
                     "span": {
-                      "start": 5339,
-                      "end": 5357,
+                      "start": 5335,
+                      "end": 5353,
                       "ctxt": 0
                     },
                     "operator": "===",
                     "left": {
                       "type": "Identifier",
                       "span": {
-                        "start": 5339,
-                        "end": 5340,
+                        "start": 5335,
+                        "end": 5336,
                         "ctxt": 0
                       },
                       "value": "u",
@@ -9009,15 +9009,15 @@
                     "right": {
                       "type": "MemberExpression",
                       "span": {
-                        "start": 5345,
-                        "end": 5357,
+                        "start": 5341,
+                        "end": 5353,
                         "ctxt": 0
                       },
                       "object": {
                         "type": "Identifier",
                         "span": {
-                          "start": 5345,
-                          "end": 5355,
+                          "start": 5341,
+                          "end": 5351,
                           "ctxt": 0
                         },
                         "value": "StringEnum",
@@ -9026,8 +9026,8 @@
                       "property": {
                         "type": "Identifier",
                         "span": {
-                          "start": 5356,
-                          "end": 5357,
+                          "start": 5352,
+                          "end": 5353,
                           "ctxt": 0
                         },
                         "value": "A",
@@ -9041,8 +9041,8 @@
             "consequent": {
               "type": "BlockStatement",
               "span": {
-                "start": 5360,
-                "end": 5363,
+                "start": 5356,
+                "end": 5359,
                 "ctxt": 0
               },
               "stmts": []
@@ -9050,16 +9050,16 @@
             "alternate": {
               "type": "BlockStatement",
               "span": {
-                "start": 5373,
-                "end": 5449,
+                "start": 5369,
+                "end": 5445,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "VariableDeclaration",
                   "span": {
-                    "start": 5383,
-                    "end": 5443,
+                    "start": 5379,
+                    "end": 5439,
                     "ctxt": 0
                   },
                   "kind": "const",
@@ -9068,15 +9068,15 @@
                     {
                       "type": "VariableDeclarator",
                       "span": {
-                        "start": 5389,
-                        "end": 5442,
+                        "start": 5385,
+                        "end": 5438,
                         "ctxt": 0
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
-                          "start": 5389,
-                          "end": 5393,
+                          "start": 5385,
+                          "end": 5389,
                           "ctxt": 0
                         },
                         "value": "aOrB",
@@ -9084,23 +9084,23 @@
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
-                            "start": 5393,
-                            "end": 5437,
+                            "start": 5389,
+                            "end": 5433,
                             "ctxt": 0
                           },
                           "typeAnnotation": {
                             "type": "TsUnionType",
                             "span": {
-                              "start": 5395,
-                              "end": 5437,
+                              "start": 5391,
+                              "end": 5433,
                               "ctxt": 0
                             },
                             "types": [
                               {
                                 "type": "TsTypeReference",
                                 "span": {
-                                  "start": 5395,
-                                  "end": 5407,
+                                  "start": 5391,
+                                  "end": 5403,
                                   "ctxt": 0
                                 },
                                 "typeName": {
@@ -9108,8 +9108,8 @@
                                   "left": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5395,
-                                      "end": 5405,
+                                      "start": 5391,
+                                      "end": 5401,
                                       "ctxt": 0
                                     },
                                     "value": "NumberEnum",
@@ -9118,8 +9118,8 @@
                                   "right": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5406,
-                                      "end": 5407,
+                                      "start": 5402,
+                                      "end": 5403,
                                       "ctxt": 0
                                     },
                                     "value": "A",
@@ -9131,8 +9131,8 @@
                               {
                                 "type": "TsTypeReference",
                                 "span": {
-                                  "start": 5410,
-                                  "end": 5422,
+                                  "start": 5406,
+                                  "end": 5418,
                                   "ctxt": 0
                                 },
                                 "typeName": {
@@ -9140,8 +9140,8 @@
                                   "left": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5410,
-                                      "end": 5420,
+                                      "start": 5406,
+                                      "end": 5416,
                                       "ctxt": 0
                                     },
                                     "value": "NumberEnum",
@@ -9150,8 +9150,8 @@
                                   "right": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5421,
-                                      "end": 5422,
+                                      "start": 5417,
+                                      "end": 5418,
                                       "ctxt": 0
                                     },
                                     "value": "B",
@@ -9163,8 +9163,8 @@
                               {
                                 "type": "TsTypeReference",
                                 "span": {
-                                  "start": 5425,
-                                  "end": 5437,
+                                  "start": 5421,
+                                  "end": 5433,
                                   "ctxt": 0
                                 },
                                 "typeName": {
@@ -9172,8 +9172,8 @@
                                   "left": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5425,
-                                      "end": 5435,
+                                      "start": 5421,
+                                      "end": 5431,
                                       "ctxt": 0
                                     },
                                     "value": "StringEnum",
@@ -9182,8 +9182,8 @@
                                   "right": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 5436,
-                                      "end": 5437,
+                                      "start": 5432,
+                                      "end": 5433,
                                       "ctxt": 0
                                     },
                                     "value": "A",
@@ -9199,8 +9199,8 @@
                       "init": {
                         "type": "Identifier",
                         "span": {
-                          "start": 5441,
-                          "end": 5442,
+                          "start": 5437,
+                          "end": 5438,
                           "ctxt": 0
                         },
                         "value": "u",
