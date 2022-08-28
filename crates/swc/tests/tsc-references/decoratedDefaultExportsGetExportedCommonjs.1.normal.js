@@ -1,16 +1,32 @@
 //// [a.ts]
-//! 
-//!   x Unexpected token `@`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  3 | @decorator
-//!    : ^
-//!    `----
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: ()=>Foo
+});
+const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+var decorator;
+let Foo = class Foo {
+};
+Foo = _tsDecorate([
+    decorator
+], Foo);
 //// [b.ts]
-//! 
-//!   x Unexpected token `@`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  3 | @decorator
-//!    : ^
-//!    `----
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: ()=>_class
+});
+const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+var decorator;
+let _class = class _class {
+};
+_class = _tsDecorate([
+    decorator
+], _class);

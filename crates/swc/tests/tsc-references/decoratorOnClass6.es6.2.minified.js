@@ -1,8 +1,11 @@
 //// [decoratorOnClass6.es6.ts]
-//! 
-//!   x Unexpected token `@`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  3 | @dec
-//!    : ^
-//!    `----
+var _C;
+import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
+export let C = ((_C = class {
+    static x() {
+        return C.y;
+    }
+}).y = 1, _C);
+C = _ts_decorate([
+    dec
+], C), new C();

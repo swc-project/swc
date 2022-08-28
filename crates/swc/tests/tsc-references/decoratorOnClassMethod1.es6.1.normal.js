@@ -1,7 +1,9 @@
 //// [decoratorOnClassMethod1.es6.ts]
-//! 
-//!   x Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key
-//!    ,----
-//!  4 | @dec method() {}
-//!    : ^
-//!    `----
+import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
+class _class {
+    method() {}
+}
+export { _class as default };
+_ts_decorate([
+    dec
+], _class.prototype, "method", null);

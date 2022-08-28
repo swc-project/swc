@@ -90,6 +90,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
 
     let mut modules = Vec::<Module>::default();
     let mut decorators = false;
+    let mut decorator_metadata = false;
     let mut use_define_for_class_fields = false;
 
     let filename = input
@@ -132,6 +133,11 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                 "allowsyntheticdefaultimports" => {}
                 "esmoduleinterop" => {}
                 "emitdecoratormetadata" => {
+                    if meta_data_value.trim() == "true" {
+                        decorator_metadata = true;
+                    }
+                }
+                "experimentaldecorators" => {
                     if meta_data_value.trim() == "true" {
                         decorators = true;
                     }
@@ -365,6 +371,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                             minify: minify.clone(),
                             transform: Some(TransformConfig {
                                 use_define_for_class_fields: use_define_for_class_fields.into(),
+                                decorator_metadata: decorator_metadata.into(),
                                 ..Default::default()
                             })
                             .into(),
