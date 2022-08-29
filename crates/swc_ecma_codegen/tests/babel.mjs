@@ -3,7 +3,8 @@ import generate from "@babel/generator";
 
 const code = process.argv[2];
 const ast = parse(code, {
-    sourceFilename: 'input.js'
+    sourceFilename: 'input.js',
+    sourceType: process.argv[3],
 });
 
 const output = generate.default(
@@ -12,7 +13,6 @@ const output = generate.default(
         sourceMaps: true,
         minified: true,
         comments: false,
-        sourceType: process.argv[3]
     },
     code
 );
