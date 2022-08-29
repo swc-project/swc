@@ -468,6 +468,7 @@ impl Compiler {
                             minify,
                             target,
                             ascii_only,
+                            ..Default::default()
                         },
                         comments,
                         cm: self.cm.clone(),
