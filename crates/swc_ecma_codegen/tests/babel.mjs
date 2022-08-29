@@ -15,5 +15,5 @@ const output = generate.default(
 
 console.log(JSON.stringify({
     code: output.code,
-    map: output.map,
+    map: JSON.stringify(output.map),
 }))
