@@ -83,7 +83,7 @@ fn identity(entry: PathBuf) {
         return;
     }
 
-    let module = file_name.contains("module");
+    let is_module = file_name.contains("module");
 
     let msg = format!(
         "\n\n========== Running codegen test {}\nSource:\n{}\n",
@@ -100,7 +100,7 @@ fn identity(entry: PathBuf) {
             fm.end_pos,
             fm.count_lines()
         );
-        let (expected_code, expected_map) = get_expected(&fm.src);
+        let (expected_code, expected_map) = get_expected(&fm.src, is_module);
         println!("Expected code:\n{}", expected_code);
         dbg!(&expected_map);
 
@@ -136,7 +136,7 @@ fn identity(entry: PathBuf) {
             };
 
             // Parse source
-            if module {
+            if is_module {
                 emitter
                     .emit_module(
                         &parser
@@ -174,10 +174,11 @@ fn identity(entry: PathBuf) {
     .expect("failed to run test");
 }
 
-fn get_expected(code: &str) -> (String, SourceMap) {
+fn get_expected(code: &str, is_module: bool) -> (String, SourceMap) {
     let mut c = Command::new("node");
     c.arg("tests/babel.mjs");
     c.arg(code);
+    c.arg(if is_module { "module" } else { "script" });
     c.stderr(Stdio::inherit());
 
     let output = c.output().expect("failed to get output");

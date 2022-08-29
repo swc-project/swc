@@ -10,7 +10,7 @@ const output = generate.default(
         sourceMaps: true,
         minified: true,
         comments: false,
-        sourceType: 'unambiguous'
+        sourceType: process.argv[3]
     },
     code
 );
