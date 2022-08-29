@@ -62,33 +62,37 @@ impl<'a, W: Write> JsWriter<'a, W> {
         Ok(())
     }
 
-    fn write(&mut self, span: Option<Span>, data: &str, force_srcmap: bool) -> Result {
+    fn write(&mut self, span: Option<Span>, data: &str) -> Result {
         if !data.is_empty() {
             if self.line_start {
                 self.write_indent_string()?;
                 self.line_start = false;
 
                 if let Some(pending) = self.pending_srcmap.take() {
-                    self.srcmap(pending, false);
+                    self.srcmap(pending);
                 }
             }
 
             if let Some(span) = span {
-                self.srcmap(span.lo(), force_srcmap)
+                if !span.is_dummy() {
+                    self.srcmap(span.lo())
+                }
             }
 
             self.raw_write(data)?;
 
             if let Some(span) = span {
-                self.srcmap(span.hi(), force_srcmap)
+                if !span.is_dummy() {
+                    self.srcmap(span.hi())
+                }
             }
         }
 
         Ok(())
     }
 
-    fn srcmap(&mut self, byte_pos: BytePos, force: bool) {
-        if !force && byte_pos.is_dummy() {
+    fn srcmap(&mut self, byte_pos: BytePos) {
+        if byte_pos.is_dummy() {
             return;
         }
 
@@ -119,32 +123,32 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     fn write_semi(&mut self, span: Option<Span>) -> Result {
-        self.write(span, ";", true)?;
+        self.write(span, ";")?;
         Ok(())
     }
 
     fn write_space(&mut self) -> Result {
-        self.write(None, " ", false)?;
+        self.write(None, " ")?;
         Ok(())
     }
 
     fn write_keyword(&mut self, span: Option<Span>, s: &'static str) -> Result {
-        self.write(span, s, false)?;
+        self.write(span, s)?;
         Ok(())
     }
 
     fn write_operator(&mut self, span: Option<Span>, s: &str) -> Result {
-        self.write(span, s, false)?;
+        self.write(span, s)?;
         Ok(())
     }
 
     fn write_param(&mut self, s: &str) -> Result {
-        self.write(None, s, false)?;
+        self.write(None, s)?;
         Ok(())
     }
 
     fn write_property(&mut self, s: &str) -> Result {
-        self.write(None, s, false)?;
+        self.write(None, s)?;
         Ok(())
     }
 
@@ -157,7 +161,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             self.line_start = true;
 
             if let Some(pending) = pending {
-                self.srcmap(pending, false)
+                self.srcmap(pending)
             }
         }
 
@@ -167,10 +171,10 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn write_lit(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
             if !span.is_dummy() {
-                self.srcmap(span.lo(), false)
+                self.srcmap(span.lo())
             }
 
-            self.write(None, s, false)?;
+            self.write(None, s)?;
 
             if self.srcmap.is_some() {
                 let line_start_of_s = compute_line_starts(s);
@@ -182,7 +186,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             }
 
             if !span.is_dummy() {
-                self.srcmap(span.hi(), false)
+                self.srcmap(span.hi())
             }
         }
 
@@ -207,10 +211,10 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn write_str_lit(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
             if !span.is_dummy() {
-                self.srcmap(span.lo(), false)
+                self.srcmap(span.lo())
             }
 
-            self.write(None, s, false)?;
+            self.write(None, s)?;
 
             if self.srcmap.is_some() {
                 let line_start_of_s = compute_line_starts(s);
@@ -222,7 +226,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
             }
 
             if !span.is_dummy() {
-                self.srcmap(span.hi(), false)
+                self.srcmap(span.hi())
             }
         }
 
@@ -230,17 +234,17 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     fn write_str(&mut self, s: &str) -> Result {
-        self.write(None, s, false)?;
+        self.write(None, s)?;
         Ok(())
     }
 
     fn write_symbol(&mut self, span: Span, s: &str) -> Result {
-        self.write(Some(span), s, false)?;
+        self.write(Some(span), s)?;
         Ok(())
     }
 
     fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
-        self.write(span, s, false)?;
+        self.write(span, s)?;
         Ok(())
     }
 
@@ -252,7 +256,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         if self.line_start {
             self.pending_srcmap = Some(pos);
         } else {
-            self.srcmap(pos, false);
+            self.srcmap(pos);
         }
         Ok(())
     }
