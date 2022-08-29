@@ -226,7 +226,8 @@ fn get_expected(code: &str, is_module: bool) -> (String, SourceMap) {
 }
 
 fn print_source_map(map: &SourceMap) -> Vec<String> {
-    map.tokens()
+    let mut v = map
+        .tokens()
         .map(|t| {
             format!(
                 "Token: {}:{} => {}:{}",
@@ -236,7 +237,10 @@ fn print_source_map(map: &SourceMap) -> Vec<String> {
                 t.get_dst_col()
             )
         })
-        .collect()
+        .collect::<Vec<_>>();
+
+    v.sort();
+    v
 }
 
 fn assert_eq_same_map(expected: &SourceMap, actual: &SourceMap) {
