@@ -1444,6 +1444,25 @@ test!(
   "#
 );
 
+test!(
+    Syntax::Es(EsConfig {
+        jsx: JSXKind::Preserve,
+        ..Default::default()
+    }),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            display_name()
+        )
+    },
+    preserve_jsx,
+    r#"<a />"#,
+    r#"<a />"#
+);
+
 #[testing::fixture("tests/jsx/fixture/**/input.js")]
 fn fixture(input: PathBuf) {
     let mut output = input.with_file_name("output.js");
@@ -1481,24 +1500,6 @@ fn integration(input: PathBuf) {
             let options = parse_options(input.parent().unwrap());
             integration_tr(t, options)
         },
-        &input,
-        &output,
-    );
-}
-
-#[testing::fixture("tests/preserve-jsx/fixture/**/input.js")]
-fn preserve(input: PathBuf) {
-    let mut output = input.with_file_name("output.js");
-    if !output.exists() {
-        output = input.with_file_name("output.mjs");
-    }
-
-    test_fixture_allowing_error(
-        Syntax::Es(EsConfig {
-            jsx: JSXKind::Preserve,
-            ..Default::default()
-        }),
-        &|t| chain!(resolver(Mark::new(), Mark::new(), false), display_name(),),
         &input,
         &output,
     );

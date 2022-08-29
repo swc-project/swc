@@ -184,6 +184,12 @@ impl Syntax {
             }) | Syntax::Typescript(TsConfig {
                 tsx: JSXKind::Bool(true),
                 ..
+            }) | Syntax::Es(EsConfig {
+                jsx: JSXKind::Preserve,
+                ..
+            }) | Syntax::Typescript(TsConfig {
+                tsx: JSXKind::Preserve,
+                ..
             })
         )
     }
