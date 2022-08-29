@@ -157,10 +157,11 @@ fn identity(entry: PathBuf) {
             }
         }
 
-        dbg!(&src_map);
         let actual_map = cm.build_source_map(&mut src_map);
         eprintln!("---- Actual ----");
         print_map(&actual_map);
+
+        dbg!(&src_map);
 
         let actual_code = String::from_utf8(wr).unwrap();
 
