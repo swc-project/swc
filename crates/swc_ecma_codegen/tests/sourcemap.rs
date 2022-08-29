@@ -100,6 +100,8 @@ fn identity(entry: PathBuf) {
             fm.end_pos,
             fm.count_lines()
         );
+        let (expected_code, expected_map) = get_expected(&fm.src);
+        println!("Expected code:\n{}", expected_code);
 
         let comments = SingleThreadedComments::default();
         let lexer = Lexer::new(
@@ -153,8 +155,6 @@ fn identity(entry: PathBuf) {
         }
 
         let map = cm.build_source_map(&mut src_map);
-
-        let (expected_code, expected_map) = get_expected(&fm.src);
 
         let actual_code = String::from_utf8(wr).unwrap();
         assert_eq!(actual_code, expected_code);
