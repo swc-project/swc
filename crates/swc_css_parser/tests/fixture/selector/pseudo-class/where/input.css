@@ -21,3 +21,9 @@ a:where(:not(:hover)) {}
        :nth-last-child(6),
        :nth-of-type(6),
        :nth-last-of-type(6)) {}
+
+/* Forgiving */
+h1:where(<> p) {}
+h1:where(a, <> p) {}
+h1:where(<> p,a) {}
+h1:where(a, <> p,a) {}

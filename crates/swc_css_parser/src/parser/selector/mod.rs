@@ -1,5 +1,5 @@
 use swc_atoms::JsWord;
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -15,7 +15,7 @@ where
     fn parse(&mut self) -> PResult<SelectorList> {
         self.input.skip_ws()?;
 
-        let child = self.parse()?;
+        let child: ComplexSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
@@ -33,19 +33,89 @@ where
         }
 
         let start_pos = match children.first() {
-            Some(ComplexSelector { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(ComplexSelector { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
         };
 
         Ok(SelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            children,
+        })
+    }
+}
+
+impl<I> Parse<ForgivingSelectorList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ForgivingSelectorList> {
+        let parse_forgiving_complex_selector =
+            |parser: &mut Parser<I>| -> PResult<ForgivingComplexSelector> {
+                let state = parser.input.state();
+
+                parser.input.skip_ws()?;
+
+                match parser.parse() {
+                    Ok(child) => Ok(ForgivingComplexSelector::ComplexSelector(child)),
+                    Err(_) => {
+                        parser.input.reset(&state);
+
+                        let span = parser.input.cur_span()?;
+                        let mut children = vec![];
+
+                        while !is_one_of!(parser, EOF, ",", ")") {
+                            if let Some(token_and_span) = parser.input.bump()? {
+                                children.push(ComponentValue::PreservedToken(token_and_span));
+                            }
+                        }
+
+                        Ok(ForgivingComplexSelector::ListOfComponentValues(
+                            ListOfComponentValues {
+                                span: span!(parser, span.lo),
+                                children,
+                            },
+                        ))
+                    }
+                }
+            };
+
+        let child = parse_forgiving_complex_selector(self)?;
+        let mut children = vec![child];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            let child = parse_forgiving_complex_selector(self)?;
+
+            children.push(child);
+        }
+
+        let start_pos = match children.first() {
+            Some(first) => first.span_lo(),
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(last) => last.span_hi(),
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(ForgivingSelectorList {
             span: Span::new(start_pos, last_pos, Default::default()),
             children,
         })
@@ -59,7 +129,7 @@ where
     fn parse(&mut self) -> PResult<CompoundSelectorList> {
         self.input.skip_ws()?;
 
-        let child = self.parse()?;
+        let child: CompoundSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
@@ -77,13 +147,13 @@ where
         }
 
         let start_pos = match children.first() {
-            Some(CompoundSelector { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(CompoundSelector { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
@@ -103,7 +173,7 @@ where
     fn parse(&mut self) -> PResult<RelativeSelectorList> {
         self.input.skip_ws()?;
 
-        let child = self.parse()?;
+        let child: RelativeSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
@@ -121,19 +191,89 @@ where
         }
 
         let start_pos = match children.first() {
-            Some(RelativeSelector { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(RelativeSelector { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
         };
 
         Ok(RelativeSelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            children,
+        })
+    }
+}
+
+impl<I> Parse<ForgivingRelativeSelectorList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ForgivingRelativeSelectorList> {
+        let parse_forgiving_relative_selector =
+            |parser: &mut Parser<I>| -> PResult<ForgivingRelativeSelector> {
+                let state = parser.input.state();
+
+                parser.input.skip_ws()?;
+
+                match parser.parse() {
+                    Ok(child) => Ok(ForgivingRelativeSelector::RelativeSelector(child)),
+                    Err(_) => {
+                        parser.input.reset(&state);
+
+                        let span = parser.input.cur_span()?;
+                        let mut children = vec![];
+
+                        while !is_one_of!(parser, EOF, ",", ")") {
+                            if let Some(token_and_span) = parser.input.bump()? {
+                                children.push(ComponentValue::PreservedToken(token_and_span));
+                            }
+                        }
+
+                        Ok(ForgivingRelativeSelector::ListOfComponentValues(
+                            ListOfComponentValues {
+                                span: span!(parser, span.lo),
+                                children,
+                            },
+                        ))
+                    }
+                }
+            };
+
+        let child = parse_forgiving_relative_selector(self)?;
+        let mut children = vec![child];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            let child = parse_forgiving_relative_selector(self)?;
+
+            children.push(child);
+        }
+
+        let start_pos = match children.first() {
+            Some(first) => first.span_lo(),
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(last) => last.span_hi(),
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(ForgivingRelativeSelectorList {
             span: Span::new(start_pos, last_pos, Default::default()),
             children,
         })
@@ -717,15 +857,11 @@ where
 
                     match &*names.0.to_ascii_lowercase() {
                         "-moz-any" | "-webkit-any" => {
-                            self.input.skip_ws()?;
-
                             let compound_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::CompoundSelectorList(
                                 compound_selector_list,
                             ));
-
-                            self.input.skip_ws()?;
                         }
                         "dir" => {
                             self.input.skip_ws()?;
@@ -737,6 +873,8 @@ where
                             self.input.skip_ws()?;
                         }
                         "lang" => {
+                            self.input.skip_ws()?;
+
                             let child = match cur!(self) {
                                 tok!("ident") => PseudoClassSelectorChildren::Ident(self.parse()?),
                                 tok!("string") => PseudoClassSelectorChildren::Str(self.parse()?),
@@ -782,42 +920,35 @@ where
                             }
                         }
                         "current" | "past" | "future" => {
-                            self.input.skip_ws()?;
-
                             let compound_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::CompoundSelectorList(
                                 compound_selector_list,
                             ));
-
-                            self.input.skip_ws()?;
                         }
-                        "not" | "is" | "where" | "matches" => {
-                            self.input.skip_ws()?;
-
-                            // TODO forgiving parsing
+                        "not" | "matches" => {
                             let selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
+                        }
+                        "is" | "where" => {
+                            let forgiving_selector_list = self.parse()?;
 
-                            self.input.skip_ws()?;
+                            children.push(PseudoClassSelectorChildren::ForgivingSelectorList(
+                                forgiving_selector_list,
+                            ));
                         }
                         "has" => {
-                            self.input.skip_ws()?;
+                            let forgiving_relative_selector_list = self.parse()?;
 
-                            // TODO forgiving parsing
-                            let relative_selector_list = self.parse()?;
-
-                            children.push(PseudoClassSelectorChildren::RelativeSelectorList(
-                                relative_selector_list,
-                            ));
-
-                            self.input.skip_ws()?;
+                            children.push(
+                                PseudoClassSelectorChildren::ForgivingRelativeSelectorList(
+                                    forgiving_relative_selector_list,
+                                ),
+                            );
                         }
                         "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
                         | "nth-col" | "nth-last-col" => {
-                            self.input.skip_ws()?;
-
                             let an_plus_b = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::AnPlusB(an_plus_b));

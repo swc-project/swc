@@ -3,13 +3,29 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{Delimiter, Ident, Str, TokenAndSpan};
+use crate::{Delimiter, Ident, ListOfComponentValues, Str, TokenAndSpan};
 
 #[ast_node("SelectorList")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct SelectorList {
     pub span: Span,
     pub children: Vec<ComplexSelector>,
+}
+
+#[ast_node("SelectorList")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ForgivingSelectorList {
+    pub span: Span,
+    pub children: Vec<ForgivingComplexSelector>,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum ForgivingComplexSelector {
+    #[tag("ComplexSelector")]
+    ComplexSelector(ComplexSelector),
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(ListOfComponentValues),
 }
 
 #[ast_node("CompoundSelectorList")]
@@ -24,6 +40,22 @@ pub struct CompoundSelectorList {
 pub struct RelativeSelectorList {
     pub span: Span,
     pub children: Vec<RelativeSelector>,
+}
+
+#[ast_node("ForgivingRelativeSelectorList")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ForgivingRelativeSelectorList {
+    pub span: Span,
+    pub children: Vec<ForgivingRelativeSelector>,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum ForgivingRelativeSelector {
+    #[tag("RelativeSelector")]
+    RelativeSelector(RelativeSelector),
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(ListOfComponentValues),
 }
 
 #[ast_node("ComplexSelector")]
@@ -273,11 +305,17 @@ pub enum PseudoClassSelectorChildren {
     #[tag("SelectorList")]
     SelectorList(SelectorList),
 
+    #[tag("ForgivingSelectorList")]
+    ForgivingSelectorList(ForgivingSelectorList),
+
     #[tag("CompoundSelectorList")]
     CompoundSelectorList(CompoundSelectorList),
 
     #[tag("RelativeSelectorList")]
     RelativeSelectorList(RelativeSelectorList),
+
+    #[tag("ForgivingRelativeSelectorList")]
+    ForgivingRelativeSelectorList(ForgivingRelativeSelectorList),
 
     #[tag("CompoundSelector")]
     CompoundSelector(CompoundSelector),

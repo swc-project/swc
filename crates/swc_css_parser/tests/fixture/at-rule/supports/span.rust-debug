@@ -7422,7 +7422,7 @@
      :                            ^^^^
      `----
 
-  x SelectorList
+  x ForgivingSelectorList
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:106:1]
  106 | @supports not selector(:is(a, b)) {
      :                            ^^^^
@@ -8049,7 +8049,7 @@
  116 | `->       details > summary
      `----
 
-  x SelectorList
+  x ForgivingSelectorList
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:115:7]
  115 | ,-> :nth-child(1n of ul, ol) a,
  116 | `->       details > summary

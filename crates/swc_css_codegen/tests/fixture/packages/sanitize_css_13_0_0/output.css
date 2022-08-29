@@ -26,19 +26,14 @@
   font-size: 2em;
   margin: 0.67em 0;
 }
-:where(dl, 
-ol, 
-ul) :where(dl, 
-ol, 
-ul) {
+:where(dl, ol, ul) :where(dl, ol, ul) {
   margin: 0;
 }
 :where(hr) {
   color: inherit;
   height: 0;
 }
-:where(nav) :where(ol, 
-ul) {
+:where(nav) :where(ol, ul) {
   list-style-type: none;
   padding: 0;
 }
@@ -55,25 +50,17 @@ ul) {
   text-decoration: underline;
   text-decoration: underline dotted;
 }
-:where(b, 
-strong) {
+:where(b, strong) {
   font-weight: bolder;
 }
-:where(code, 
-kbd, 
-samp) {
+:where(code, kbd, samp) {
   font-family: monospace, monospace;
   font-size: 1em;
 }
 :where(small) {
   font-size: 80%;
 }
-:where(audio, 
-canvas, 
-iframe, 
-img, 
-svg, 
-video) {
+:where(audio, canvas, iframe, img, svg, video) {
   vertical-align: middle;
 }
 :where(iframe) {
@@ -87,15 +74,10 @@ video) {
   border-color: currentColor;
   text-indent: 0;
 }
-:where(button, 
-input, 
-select) {
+:where(button, input, select) {
   margin: 0;
 }
-:where(button, 
-[type="button" i], 
-[type="reset" i], 
-[type="submit" i]) {
+:where(button, [type="button" i], [type="reset" i], [type="submit" i]) {
   -webkit-appearance: button;
 }
 :where(fieldset) {
@@ -150,8 +132,7 @@ select) {
 :where([aria-busy="true" i]) {
   cursor: progress;
 }
-:where([aria-disabled="true" i], 
-[disabled]) {
+:where([aria-disabled="true" i], [disabled]) {
   cursor: not-allowed;
 }
 :where([aria-hidden="false" i][hidden]) {

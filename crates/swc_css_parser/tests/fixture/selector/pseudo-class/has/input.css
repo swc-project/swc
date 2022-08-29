@@ -8,3 +8,11 @@ section:not(:has(h1, h2, h3, h4, h5, h6)) {}
 section:has(:not(h1, h2, h3, h4, h5, h6)) {}
 div:has(p) {}
 .header-group:has(h2):has(.subtitle) h2 {}
+
+/* Forgiving */
+a:has(<>  img, > img) {}
+a:has(   <>  img, > img) {}
+a:has(> img, <>  img) {}
+a:has(> img, <>  img   ) {}
+
+a:has(> img,    <>  img   , > img) {}

@@ -1,0 +1,7 @@
+h1:where(a) {}
+h1:where(a > b) {}
+h1:where(a > b, a > b) {}
+h1:where(<> p) {}
+h1:where(a, <> p) {}
+h1:where(<> p, a) {}
+h1:where(a, <> p, a) {}

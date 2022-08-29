@@ -95,7 +95,7 @@ where
         if let Some(prelude) = &n.prelude {
             emit!(
                 &mut *self.with_ctx(Ctx {
-                    in_at_rule_prelude: true,
+                    in_single_line_selectors: true,
                     ..self.ctx
                 }),
                 prelude
@@ -1730,12 +1730,37 @@ where
     fn emit_selector_list(&mut self, n: &SelectorList) -> Result {
         self.emit_list(
             &n.children,
-            if self.config.minify || self.ctx.in_at_rule_prelude {
+            if self.config.minify || self.ctx.in_single_line_selectors {
                 ListFormat::CommaDelimited
             } else {
                 ListFormat::CommaDelimited | ListFormat::MultiLine
             },
         )?;
+    }
+
+    #[emitter]
+    fn emit_forgiving_selector_list(&mut self, n: &ForgivingSelectorList) -> Result {
+        for (idx, node) in n.children.iter().enumerate() {
+            if idx != 0 {
+                write_raw!(self, ",");
+
+                let need_space = matches!(node, ForgivingComplexSelector::ComplexSelector(_));
+
+                if need_space {
+                    formatting_space!(self);
+                }
+            }
+
+            emit!(self, node)
+        }
+    }
+
+    #[emitter]
+    fn emit_forgiving_complex_list(&mut self, n: &ForgivingComplexSelector) -> Result {
+        match n {
+            ForgivingComplexSelector::ComplexSelector(n) => emit!(self, n),
+            ForgivingComplexSelector::ListOfComponentValues(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -1746,6 +1771,34 @@ where
     #[emitter]
     fn emit_relative_selector_list(&mut self, n: &RelativeSelectorList) -> Result {
         self.emit_list(&n.children, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_forgiving_relative_selector_list(
+        &mut self,
+        n: &ForgivingRelativeSelectorList,
+    ) -> Result {
+        for (idx, node) in n.children.iter().enumerate() {
+            if idx != 0 {
+                write_raw!(self, ",");
+
+                let need_space = matches!(node, ForgivingRelativeSelector::RelativeSelector(_));
+
+                if need_space {
+                    formatting_space!(self);
+                }
+            }
+
+            emit!(self, node)
+        }
+    }
+
+    #[emitter]
+    fn emit_forgiving_relative_selector(&mut self, n: &ForgivingRelativeSelector) -> Result {
+        match n {
+            ForgivingRelativeSelector::RelativeSelector(n) => emit!(self, n),
+            ForgivingRelativeSelector::ListOfComponentValues(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -1982,9 +2035,23 @@ where
             PseudoClassSelectorChildren::Ident(n) => emit!(self, n),
             PseudoClassSelectorChildren::Str(n) => emit!(self, n),
             PseudoClassSelectorChildren::Delimiter(n) => emit!(self, n),
-            PseudoClassSelectorChildren::SelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::SelectorList(n) => emit!(
+                &mut *self.with_ctx(Ctx {
+                    in_single_line_selectors: true,
+                    ..self.ctx
+                }),
+                n
+            ),
+            PseudoClassSelectorChildren::ForgivingSelectorList(n) => emit!(
+                &mut *self.with_ctx(Ctx {
+                    in_single_line_selectors: true,
+                    ..self.ctx
+                }),
+                n
+            ),
             PseudoClassSelectorChildren::CompoundSelectorList(n) => emit!(self, n),
             PseudoClassSelectorChildren::RelativeSelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::ForgivingRelativeSelectorList(n) => emit!(self, n),
             PseudoClassSelectorChildren::CompoundSelector(n) => emit!(self, n),
         }
     }

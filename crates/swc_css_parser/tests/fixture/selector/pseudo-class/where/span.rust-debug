@@ -23,7 +23,13 @@
  20 | |   :where(:nth-child(6),
  21 | |          :nth-last-child(6),
  22 | |          :nth-of-type(6),
- 23 | `->        :nth-last-of-type(6)) {}
+ 23 | |          :nth-last-of-type(6)) {}
+ 24 | |   
+ 25 | |   /* Forgiving */
+ 26 | |   h1:where(<> p) {}
+ 27 | |   h1:where(a, <> p) {}
+ 28 | |   h1:where(<> p,a) {}
+ 29 | `-> h1:where(a, <> p,a) {}
     `----
 
   x Rule
@@ -80,7 +86,7 @@
    :        ^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1]
  1 | :where(ul) li {}
    :        ^^
@@ -218,7 +224,7 @@
    :        ^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1]
  2 | :where(ul, ol) li {}
    :        ^^^^^^
@@ -392,7 +398,7 @@
    :        ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1]
  3 | :where(header, main, footer) p:hover {}
    :        ^^^^^^^^^^^^^^^^^^^^
@@ -644,7 +650,7 @@
    :           ^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1]
  4 | div:where(.cool, .fun) {}
    :           ^^^^^^^^^^^
@@ -770,7 +776,7 @@
    :        ^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1]
  5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
    :        ^^^^^^^^^^^^^^^^^
@@ -956,7 +962,7 @@
    :                                  ^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1]
  5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
    :                                  ^^^^^^^^^^^^^^^^^
@@ -1142,7 +1148,7 @@
    :                                                            ^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1]
  5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
    :                                                            ^^^^^^^^^^^^^
@@ -1340,7 +1346,7 @@
    :           ^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1]
  6 | *|*:where(:hover, :focus) {}
    :           ^^^^^^^^^^^^^^
@@ -1490,7 +1496,7 @@
    :           ^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1]
  7 | *|*:where(*:hover, *:focus) {}
    :           ^^^^^^^^^^^^^^^^
@@ -1640,7 +1646,7 @@
    :        ^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1]
  8 | :where(ul, ol, .lwheret) > [hidden] {}
    :        ^^^^^^^^^^^^^^^^
@@ -1844,7 +1850,7 @@
    :        ^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ForgivingSelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1]
  9 | :where(p, p:unsupported) {}
    :        ^^^^^^^^^^^^^^^^
@@ -2000,7 +2006,7 @@
     :        ^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1]
  10 | :where(:valid, :unsupported) {}
     :        ^^^^^^^^^^^^^^^^^^^^
@@ -2150,7 +2156,7 @@
     :         ^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1]
  11 | a:where(:not(:hover)) {}
     :         ^^^^^^^^^^^^
@@ -2288,7 +2294,7 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1]
  12 | :where(:nth-child(6), :nth-child(6) #id){}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2480,7 +2486,7 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1]
  13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2672,7 +2678,7 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1]
  14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2996,7 +3002,7 @@
  19 | `->        :nth-last-of-type(9)   #e) {}
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:1]
  15 | ,-> :where(:nth-last-of-type(9)   #a,
  16 | |          :nth-last-of-type(9 )  #b,
@@ -3471,7 +3477,7 @@
  23 | `->        :nth-last-of-type(6)) {}
     `----
 
-  x SelectorList
+  x ForgivingSelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1]
  20 | ,-> :where(:nth-child(6),
  21 | |          :nth-last-child(6),
@@ -3675,4 +3681,724 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
  23 | :nth-last-of-type(6)) {}
     :                       ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    : ^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    : ^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    : ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    : ^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :   ^^^^^^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :   ^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :    ^^^^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :          ^^^^
+    `----
+
+  x ForgivingSelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :          ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :          ^
+    `----
+
+  x Delim { value: '<' }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :          ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :           ^
+    `----
+
+  x Delim { value: '>' }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :            ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :            ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :             ^
+    `----
+
+  x Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :             ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :                ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    : ^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    : ^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    : ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    : ^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :   ^^^^^^^^^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :   ^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :    ^^^^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :          ^^^^^^^
+    `----
+
+  x ForgivingSelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :          ^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :          ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :          ^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :          ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :          ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :          ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :          ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :            ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :            ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :             ^
+    `----
+
+  x Delim { value: '<' }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :             ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :              ^
+    `----
+
+  x Delim { value: '>' }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :              ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :               ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :               ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :                ^
+    `----
+
+  x Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :                ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :                   ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    : ^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    : ^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    : ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    : ^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :   ^^^^^^^^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :   ^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :    ^^^^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :          ^^^^^^
+    `----
+
+  x ForgivingSelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :          ^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :          ^
+    `----
+
+  x Delim { value: '<' }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :          ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :           ^
+    `----
+
+  x Delim { value: '>' }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :            ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :            ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :             ^
+    `----
+
+  x Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :             ^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :               ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :               ^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :               ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :               ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :               ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :               ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :                  ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    : ^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    : ^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    : ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    : ^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :   ^^^^^^^^^^^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :   ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :    ^^^^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :          ^^^^^^^^^
+    `----
+
+  x ForgivingSelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :          ^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :          ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :          ^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :          ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :          ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :          ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :          ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :            ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :            ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :             ^
+    `----
+
+  x Delim { value: '<' }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :             ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :              ^
+    `----
+
+  x Delim { value: '>' }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :              ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :               ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :               ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                ^
+    `----
+
+  x Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                ^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                  ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                  ^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                  ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                  ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                  ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                  ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                     ^^
     `----
