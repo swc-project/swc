@@ -157,7 +157,7 @@ fn identity(entry: PathBuf) {
 
         dbg!(&src_map);
 
-        let map = cm.build_source_map(&mut src_map);
+        let actual_map = cm.build_source_map(&mut src_map);
 
         let actual_code = String::from_utf8(wr).unwrap();
 
@@ -168,7 +168,7 @@ fn identity(entry: PathBuf) {
             panic!("Generated code is different");
         }
 
-        assert_eq_same_map(&map, &expected_map);
+        assert_eq_same_map(&expected_map, &actual_map);
         Ok(())
     })
     .expect("failed to run test");
@@ -195,9 +195,9 @@ fn get_expected(code: &str) -> (String, SourceMap) {
     (code.to_string(), map)
 }
 
-fn assert_eq_same_map(a: &SourceMap, b: &SourceMap) {
-    for at in a.tokens() {
-        let bt = b
+fn assert_eq_same_map(expected: &SourceMap, actual: &SourceMap) {
+    for at in expected.tokens() {
+        let bt = actual
             .lookup_token(at.get_dst_line(), at.get_dst_col())
             .unwrap_or_else(|| panic!("token not found: {:?}", at));
 
