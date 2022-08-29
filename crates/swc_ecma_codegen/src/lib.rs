@@ -1626,7 +1626,7 @@ where
             semi!();
         }
 
-        srcmap!(node, false);
+        // srcmap!(node, false);
     }
 
     #[emitter]
