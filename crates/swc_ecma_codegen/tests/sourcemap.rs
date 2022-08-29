@@ -102,6 +102,7 @@ fn identity(entry: PathBuf) {
         );
         let (expected_code, expected_map) = get_expected(&fm.src, is_module);
         println!("Expected code:\n{}", expected_code);
+        eprintln!("---- Expected ----");
         print_map(&expected_map);
 
         let comments = SingleThreadedComments::default();
@@ -156,6 +157,7 @@ fn identity(entry: PathBuf) {
         }
 
         let actual_map = cm.build_source_map(&mut src_map);
+        eprintln!("---- Actual ----");
         print_map(&actual_map);
 
         let actual_code = String::from_utf8(wr).unwrap();
@@ -198,7 +200,7 @@ fn get_expected(code: &str, is_module: bool) -> (String, SourceMap) {
 
 fn print_map(map: &SourceMap) {
     for t in map.tokens() {
-        println!(
+        eprintln!(
             "Token: {}:{} => {}:{}",
             t.get_src_line(),
             t.get_src_col(),
