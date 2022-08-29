@@ -1,0 +1,1 @@
+//// [literalTypes3.ts]

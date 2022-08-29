@@ -1,4 +1,4 @@
-﻿// @declaration: true
+// @declaration: true
 
 declare function myRandBool(): boolean;
 

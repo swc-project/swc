@@ -1,0 +1,2 @@
+//// [enumTagOnExports.js]
+module.exports = {};

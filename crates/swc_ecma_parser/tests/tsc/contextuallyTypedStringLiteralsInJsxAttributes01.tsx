@@ -1,4 +1,4 @@
-﻿// @jsx: preserve
+// @jsx: preserve
 // @declaration: true
 
 namespace JSX {

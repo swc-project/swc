@@ -1,0 +1,1 @@
+//// [stringLiteralsWithTypeAssertions01.ts]

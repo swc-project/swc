@@ -1,0 +1,1 @@
+//// [emitClassDeclarationWithExtensionInES6.ts]

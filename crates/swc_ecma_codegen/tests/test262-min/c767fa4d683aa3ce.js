@@ -1,1 +1,1 @@
-({get a(){new.target}})
+({get a(){new.target}});

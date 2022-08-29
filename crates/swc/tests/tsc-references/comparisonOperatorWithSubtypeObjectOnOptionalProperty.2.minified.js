@@ -1,0 +1,1 @@
+//// [comparisonOperatorWithSubtypeObjectOnOptionalProperty.ts]

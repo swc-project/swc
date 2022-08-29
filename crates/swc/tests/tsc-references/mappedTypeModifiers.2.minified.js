@@ -1,0 +1,1 @@
+//// [mappedTypeModifiers.ts]

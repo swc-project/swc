@@ -1,1 +1,1 @@
-(class{set a(b){}})
+(class{set a(b){}});

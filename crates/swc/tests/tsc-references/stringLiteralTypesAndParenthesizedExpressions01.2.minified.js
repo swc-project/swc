@@ -1,0 +1,1 @@
+//// [stringLiteralTypesAndParenthesizedExpressions01.ts]

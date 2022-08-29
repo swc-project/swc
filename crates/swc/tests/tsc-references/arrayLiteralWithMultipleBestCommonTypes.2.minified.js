@@ -1,0 +1,1 @@
+//// [arrayLiteralWithMultipleBestCommonTypes.ts]

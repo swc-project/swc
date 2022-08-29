@@ -1,2 +1,2 @@
-﻿class 剩下 {
+class 剩下 {
 }

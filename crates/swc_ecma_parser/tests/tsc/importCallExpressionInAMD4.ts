@@ -1,4 +1,4 @@
-﻿// @module: amd
+// @module: amd
 // @target: esnext
 // @useDefineForClassFields: false
 

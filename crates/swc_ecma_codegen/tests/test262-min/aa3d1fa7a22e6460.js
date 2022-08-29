@@ -1,1 +1,1 @@
-while(true)var a
+while(true)var a;

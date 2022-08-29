@@ -1,0 +1,1 @@
+//// [iterableContextualTyping1.ts]

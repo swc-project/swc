@@ -1,0 +1,1 @@
+//// [parserObjectLiterals1.ts]

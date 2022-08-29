@@ -1,1 +1,1 @@
-var Infinity,NaN;Infinity.a();NaN.a()
+var Infinity,NaN;Infinity.a();NaN.a();

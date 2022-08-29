@@ -1,1 +1,0 @@
-"abc".concat(Infinity, "def");

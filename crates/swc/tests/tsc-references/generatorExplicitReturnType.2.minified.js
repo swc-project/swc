@@ -1,0 +1,1 @@
+//// [generatorExplicitReturnType.ts]

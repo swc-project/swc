@@ -1,4 +1,4 @@
-﻿// A parameter declaration may specify either an identifier or a binding pattern.
+// A parameter declaration may specify either an identifier or a binding pattern.
 // The identifiers specified in parameter declarations and binding patterns
 // in a parameter list must be unique within that parameter list.
 

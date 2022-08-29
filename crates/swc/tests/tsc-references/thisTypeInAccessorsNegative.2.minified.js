@@ -1,0 +1,1 @@
+//// [thisTypeInAccessorsNegative.ts]

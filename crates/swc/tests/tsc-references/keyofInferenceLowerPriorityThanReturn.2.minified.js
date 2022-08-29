@@ -1,0 +1,1 @@
+//// [keyofInferenceLowerPriorityThanReturn.ts]

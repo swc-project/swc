@@ -1,0 +1,1 @@
+//// [arithmeticOperatorWithTypeParameter.ts]

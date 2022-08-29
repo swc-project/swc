@@ -1,1 +1,1 @@
-import{default as a}from"foo"
+import{default as a}from"foo";

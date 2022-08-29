@@ -1,0 +1,1 @@
+//// [overrideInterfaceProperty.ts]

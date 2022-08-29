@@ -1,0 +1,1 @@
+//// [typeGuardsInConditionalExpression.ts]

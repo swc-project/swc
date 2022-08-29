@@ -1,0 +1,2 @@
+//// [typeFromPrivatePropertyAssignmentJs.js]
+//// [a.js]

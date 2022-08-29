@@ -1,0 +1,1 @@
+//// [commonTypeIntersection.ts]

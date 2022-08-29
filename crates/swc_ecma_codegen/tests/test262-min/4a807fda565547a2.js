@@ -1,1 +1,1 @@
-for(let a in b)c(a)
+for(let a in b)c(a);

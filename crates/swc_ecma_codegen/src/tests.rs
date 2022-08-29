@@ -90,6 +90,7 @@ pub(crate) fn assert_min(from: &str, to: &str) {
         Config {
             minify: true,
             target: EsVersion::latest(),
+            omit_last_semi: true,
             ..Default::default()
         },
         Syntax::Es(EsConfig {
@@ -105,6 +106,7 @@ pub(crate) fn assert_min_target(from: &str, to: &str, target: EsVersion) {
         from,
         Config {
             minify: true,
+            omit_last_semi: true,
             target,
             ..Default::default()
         },
@@ -120,6 +122,7 @@ pub(crate) fn assert_min_typescript(from: &str, to: &str) {
         from,
         Config {
             minify: true,
+            omit_last_semi: true,
             target: EsVersion::latest(),
             ..Default::default()
         },
@@ -170,7 +173,14 @@ fn test_identical(from: &str) {
 }
 
 fn test_from_to_custom_config(from: &str, to: &str, cfg: Config, syntax: Syntax) {
-    let out = parse_then_emit(from, cfg, syntax);
+    let out = parse_then_emit(
+        from,
+        Config {
+            omit_last_semi: true,
+            ..cfg
+        },
+        syntax,
+    );
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
@@ -773,6 +783,7 @@ fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) 
             src,
             Config {
                 minify: false,
+                omit_last_semi: true,
                 ..config
             },
             Syntax::default(),
@@ -792,6 +803,7 @@ fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) 
             src,
             Config {
                 minify: true,
+                omit_last_semi: true,
                 ..config
             },
             Syntax::default(),

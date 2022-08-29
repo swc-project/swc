@@ -1,1 +1,1 @@
-var a=1;this.b=2
+var a=1;this.b=2;

@@ -1,0 +1,38 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 14,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "WhileStatement",
+      "span": {
+        "start": 1,
+        "end": 14,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "Identifier",
+        "span": {
+          "start": 8,
+          "end": 9,
+          "ctxt": 0
+        },
+        "value": "e",
+        "optional": false
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 11,
+          "end": 14,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    }
+  ],
+  "interpreter": null
+}

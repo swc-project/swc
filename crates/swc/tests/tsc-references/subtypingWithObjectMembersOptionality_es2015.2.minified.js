@@ -1,2 +1,0 @@
-var TwoLevels;
-TwoLevels || (TwoLevels = {});

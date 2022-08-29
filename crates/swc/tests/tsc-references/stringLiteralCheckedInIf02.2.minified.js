@@ -1,0 +1,1 @@
+//// [stringLiteralCheckedInIf02.ts]

@@ -1,0 +1,1 @@
+//// [templateStringWithEmbeddedFunctionExpressionES6.ts]

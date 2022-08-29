@@ -1,1 +1,1 @@
-c:for(var a in b)continue c
+c:for(var a in b)continue c;

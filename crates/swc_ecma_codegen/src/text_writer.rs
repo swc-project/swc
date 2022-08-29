@@ -40,6 +40,8 @@ pub trait WriteJs {
     fn care_about_srcmap(&self) -> bool;
 
     fn add_srcmap(&mut self, pos: BytePos) -> Result;
+
+    fn commit_pending_semi(&mut self) -> Result;
 }
 
 impl<W> WriteJs for Box<W>
@@ -129,5 +131,9 @@ where
     #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
         (**self).add_srcmap(pos)
+    }
+
+    fn commit_pending_semi(&mut self) -> Result {
+        (**self).commit_pending_semi()
     }
 }

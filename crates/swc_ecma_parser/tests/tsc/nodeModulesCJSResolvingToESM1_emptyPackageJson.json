@@ -1,0 +1,116 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 148,
+    "end": 440,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 148,
+        "end": 150,
+        "ctxt": 0
+      },
+      "stmts": []
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 178,
+        "end": 188,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 220,
+        "end": 250,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 235,
+          "end": 249,
+          "ctxt": 0
+        },
+        "value": "./module.mjs",
+        "raw": "\"./module.mjs\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 282,
+        "end": 312,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 297,
+          "end": 311,
+          "ctxt": 0
+        },
+        "value": "./module.mjs",
+        "raw": "\"./module.mjs\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 346,
+        "end": 376,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 361,
+          "end": 375,
+          "ctxt": 0
+        },
+        "value": "./module.mjs",
+        "raw": "\"./module.mjs\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 410,
+        "end": 440,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 425,
+          "end": 439,
+          "ctxt": 0
+        },
+        "value": "./module.mjs",
+        "raw": "\"./module.mjs\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

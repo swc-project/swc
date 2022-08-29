@@ -1,1 +1,1 @@
-for(var a of b)c(a)
+for(var a of b)c(a);

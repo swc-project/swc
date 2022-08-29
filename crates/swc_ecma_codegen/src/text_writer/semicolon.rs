@@ -1,18 +1,18 @@
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, DUMMY_SP};
 
 use super::{Result, WriteJs};
 
 pub fn omit_trailing_semi<W: WriteJs>(w: W) -> impl WriteJs {
     OmitTrailingSemi {
         inner: w,
-        pending_semi: false,
+        pending_semi: None,
     }
 }
 
 #[derive(Debug, Clone)]
 struct OmitTrailingSemi<W: WriteJs> {
     inner: W,
-    pending_semi: bool,
+    pending_semi: Option<Span>,
 }
 
 macro_rules! with_semi {
@@ -61,8 +61,8 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 
     with_semi!(write_symbol(span: Span, s: &str));
 
-    fn write_semi(&mut self, _: Option<Span>) -> Result {
-        self.pending_semi = true;
+    fn write_semi(&mut self, span: Option<Span>) -> Result {
+        self.pending_semi = Some(span.unwrap_or(DUMMY_SP));
         Ok(())
     }
 
@@ -73,7 +73,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
             }
 
             _ => {
-                self.pending_semi = false;
+                self.pending_semi = None;
             }
         }
 
@@ -89,13 +89,11 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
         self.inner.add_srcmap(pos)
     }
-}
 
-impl<W: WriteJs> OmitTrailingSemi<W> {
     fn commit_pending_semi(&mut self) -> Result {
-        if self.pending_semi {
-            self.inner.write_punct(None, ";")?;
-            self.pending_semi = false;
+        if let Some(span) = self.pending_semi {
+            self.inner.write_semi(Some(span))?;
+            self.pending_semi = None;
         }
         Ok(())
     }

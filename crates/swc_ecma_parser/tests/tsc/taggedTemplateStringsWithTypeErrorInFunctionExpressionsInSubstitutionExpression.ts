@@ -1,4 +1,4 @@
-﻿
+
 
 function foo(...rest: any[]) {
 }

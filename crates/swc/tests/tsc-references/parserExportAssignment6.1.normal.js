@@ -1,0 +1,1 @@
+//// [parserExportAssignment6.ts]

@@ -1,4 +1,4 @@
-﻿// @declaration: true
+// @declaration: true
 
 function f(x: "foo"): number;
 function f(x: string): number {

@@ -1,0 +1,1 @@
+//// [redeclaredProperty.ts]

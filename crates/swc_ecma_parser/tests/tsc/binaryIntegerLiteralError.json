@@ -1,0 +1,206 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 10,
+    "end": 126,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 10,
+        "end": 31,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 14,
+            "end": 26,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "bin1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 21,
+              "end": 26,
+              "ctxt": 0
+            },
+            "value": 6.0,
+            "raw": "0B110"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 32,
+        "end": 54,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 36,
+            "end": 48,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 36,
+              "end": 40,
+              "ctxt": 0
+            },
+            "value": "bin1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 43,
+              "end": 48,
+              "ctxt": 0
+            },
+            "value": 6.0,
+            "raw": "0b110"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 56,
+        "end": 126,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 60,
+            "end": 125,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 60,
+              "end": 64,
+              "ctxt": 0
+            },
+            "value": "obj1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 67,
+              "end": 125,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 73,
+                    "end": 80,
+                    "ctxt": 0
+                  },
+                  "value": 26.0,
+                  "raw": "0b11010"
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 82,
+                    "end": 86,
+                    "ctxt": 0
+                  },
+                  "value": "hi",
+                  "raw": "\"hi\""
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 92,
+                    "end": 94,
+                    "ctxt": 0
+                  },
+                  "value": 26.0,
+                  "raw": "26"
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 96,
+                    "end": 103,
+                    "ctxt": 0
+                  },
+                  "value": "Hello",
+                  "raw": "\"Hello\""
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 109,
+                    "end": 113,
+                    "ctxt": 0
+                  },
+                  "value": "26",
+                  "raw": "\"26\""
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 115,
+                    "end": 122,
+                    "ctxt": 0
+                  },
+                  "value": "world",
+                  "raw": "\"world\""
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

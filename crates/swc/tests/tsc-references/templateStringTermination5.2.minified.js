@@ -1,0 +1,1 @@
+//// [templateStringTermination5.ts]

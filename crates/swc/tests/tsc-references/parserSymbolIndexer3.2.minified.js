@@ -1,0 +1,1 @@
+//// [parserSymbolIndexer3.ts]

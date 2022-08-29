@@ -1,0 +1,62 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 44,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 1,
+        "end": 44,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 16,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": "M",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 18,
+          "end": 44,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsEnumDeclaration",
+            "span": {
+              "start": 22,
+              "end": 42,
+              "ctxt": 0
+            },
+            "declare": true,
+            "isConst": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 35,
+                "end": 36,
+                "ctxt": 0
+              },
+              "value": "E",
+              "optional": false
+            },
+            "members": []
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

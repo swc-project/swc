@@ -1,0 +1,1 @@
+//// [exponentiationOperatorWithAnyAndNumber.ts]

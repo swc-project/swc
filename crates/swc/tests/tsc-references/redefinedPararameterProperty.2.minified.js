@@ -1,0 +1,1 @@
+//// [redefinedPararameterProperty.ts]

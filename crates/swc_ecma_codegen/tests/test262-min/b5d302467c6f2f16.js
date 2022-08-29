@@ -1,1 +1,1 @@
-(class{a(b){"use strict"}})
+(class{a(b){"use strict"}});

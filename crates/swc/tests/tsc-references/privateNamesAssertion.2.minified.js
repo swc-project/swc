@@ -1,0 +1,1 @@
+//// [privateNamesAssertion.ts]

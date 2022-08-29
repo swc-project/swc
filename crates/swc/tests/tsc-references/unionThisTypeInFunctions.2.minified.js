@@ -1,0 +1,1 @@
+//// [unionThisTypeInFunctions.ts]

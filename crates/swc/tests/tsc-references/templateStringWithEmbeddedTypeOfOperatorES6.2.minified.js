@@ -1,0 +1,1 @@
+//// [templateStringWithEmbeddedTypeOfOperatorES6.ts]

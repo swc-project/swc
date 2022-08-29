@@ -1,1 +1,1 @@
-var a=class extends(b,c){}
+var a=class extends(b,c){};

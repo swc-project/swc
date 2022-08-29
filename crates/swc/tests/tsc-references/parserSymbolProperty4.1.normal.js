@@ -1,0 +1,1 @@
+//// [parserSymbolProperty4.ts]

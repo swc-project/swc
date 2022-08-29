@@ -1,0 +1,1 @@
+//// [assignFromBooleanInterface.ts]

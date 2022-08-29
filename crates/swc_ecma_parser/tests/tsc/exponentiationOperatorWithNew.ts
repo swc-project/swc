@@ -1,4 +1,4 @@
-﻿var a: any;
+var a: any;
 var b: any;
 var c: any;
 new a ** b ** c;

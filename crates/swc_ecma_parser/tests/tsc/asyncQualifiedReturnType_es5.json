@@ -1,0 +1,234 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 69,
+    "end": 184,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 69,
+        "end": 141,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 79,
+          "end": 80,
+          "ctxt": 0
+        },
+        "value": "X",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 81,
+          "end": 141,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 87,
+              "end": 139,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "ClassDeclaration",
+              "identifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 100,
+                  "end": 109,
+                  "ctxt": 0
+                },
+                "value": "MyPromise",
+                "optional": false
+              },
+              "declare": false,
+              "span": {
+                "start": 94,
+                "end": 139,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [],
+              "superClass": {
+                "type": "Identifier",
+                "span": {
+                  "start": 121,
+                  "end": 128,
+                  "ctxt": 0
+                },
+                "value": "Promise",
+                "optional": false
+              },
+              "isAbstract": false,
+              "typeParams": {
+                "type": "TsTypeParameterDeclaration",
+                "span": {
+                  "start": 109,
+                  "end": 112,
+                  "ctxt": 0
+                },
+                "parameters": [
+                  {
+                    "type": "TsTypeParameter",
+                    "span": {
+                      "start": 110,
+                      "end": 111,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 110,
+                        "end": 111,
+                        "ctxt": 0
+                      },
+                      "value": "T",
+                      "optional": false
+                    },
+                    "in": false,
+                    "out": false,
+                    "constraint": null,
+                    "default": null
+                  }
+                ]
+              },
+              "superTypeParams": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 128,
+                  "end": 131,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 129,
+                      "end": 130,
+                      "ctxt": 0
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 129,
+                        "end": 130,
+                        "ctxt": 0
+                      },
+                      "value": "T",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              },
+              "implements": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 158,
+          "end": 159,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 143,
+        "end": 184,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 181,
+          "end": 184,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 161,
+          "end": 180,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 163,
+            "end": 180,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "TsQualifiedName",
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 163,
+                "end": 164,
+                "ctxt": 0
+              },
+              "value": "X",
+              "optional": false
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 165,
+                "end": 174,
+                "ctxt": 0
+              },
+              "value": "MyPromise",
+              "optional": false
+            }
+          },
+          "typeParams": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 174,
+              "end": 180,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 175,
+                  "end": 179,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

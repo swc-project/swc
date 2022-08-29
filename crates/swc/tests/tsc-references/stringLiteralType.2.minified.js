@@ -1,0 +1,1 @@
+//// [stringLiteralType.ts]

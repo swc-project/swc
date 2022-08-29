@@ -1,0 +1,1 @@
+//// [parserModifierOnStatementInBlock2.ts]

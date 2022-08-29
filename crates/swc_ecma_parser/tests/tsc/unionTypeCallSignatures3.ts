@@ -1,4 +1,4 @@
-﻿function f1(s: string) { }
+function f1(s: string) { }
 function f2(s?: string) { }
 function f3(...s: string[]) { }
 function f4(s: string, s2?: string) { }

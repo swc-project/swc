@@ -1,0 +1,1 @@
+//// [augmentedTypeBracketAccessIndexSignature.ts]

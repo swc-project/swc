@@ -1,1 +1,1 @@
-(function({a:b,a:c}){})
+(function({a:b,a:c}){});

@@ -1,0 +1,1 @@
+//// [switchCaseWithUnionTypes01.ts]

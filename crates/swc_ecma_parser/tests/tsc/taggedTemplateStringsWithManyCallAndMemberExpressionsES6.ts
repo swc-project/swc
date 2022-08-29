@@ -1,4 +1,4 @@
-﻿// @target: ES6
+// @target: ES6
 interface I {
     (strs: TemplateStringsArray, ...subs: number[]): I;
     member: {

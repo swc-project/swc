@@ -1,0 +1,1 @@
+//// [typedefDuplicateTypeDeclaration.js]

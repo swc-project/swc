@@ -1,1 +1,1 @@
-﻿var x = `abc${ +Infinity }def`;
+var x = `abc${ +Infinity }def`;

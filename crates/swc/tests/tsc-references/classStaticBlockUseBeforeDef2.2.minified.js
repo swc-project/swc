@@ -1,0 +1,1 @@
+//// [classStaticBlockUseBeforeDef2.ts]

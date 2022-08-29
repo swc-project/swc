@@ -1,4 +1,4 @@
-﻿// In ambient enum declarations, all values specified in enum member declarations must be classified as constant enum expressions.
+// In ambient enum declarations, all values specified in enum member declarations must be classified as constant enum expressions.
 
 declare enum E {
     a = 10,

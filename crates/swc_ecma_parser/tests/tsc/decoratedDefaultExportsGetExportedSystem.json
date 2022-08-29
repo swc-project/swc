@@ -1,0 +1,224 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 88,
+    "end": 245,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 88,
+        "end": 118,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 92,
+            "end": 117,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 92,
+              "end": 101,
+              "ctxt": 0
+            },
+            "value": "decorator",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 101,
+                "end": 117,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 103,
+                  "end": 117,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 103,
+                    "end": 117,
+                    "ctxt": 0
+                  },
+                  "value": "ClassDecorator",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 131,
+        "end": 158,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "ClassExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 152,
+            "end": 155,
+            "ctxt": 0
+          },
+          "value": "Foo",
+          "optional": false
+        },
+        "span": {
+          "start": 146,
+          "end": 158,
+          "ctxt": 0
+        },
+        "decorators": [
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 120,
+              "end": 130,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 121,
+                "end": 130,
+                "ctxt": 0
+              },
+              "value": "decorator",
+              "optional": false
+            }
+          }
+        ],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 179,
+        "end": 209,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 183,
+            "end": 208,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 183,
+              "end": 192,
+              "ctxt": 0
+            },
+            "value": "decorator",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 192,
+                "end": 208,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 194,
+                  "end": 208,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 194,
+                    "end": 208,
+                    "ctxt": 0
+                  },
+                  "value": "ClassDecorator",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 222,
+        "end": 245,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "ClassExpression",
+        "identifier": null,
+        "span": {
+          "start": 237,
+          "end": 245,
+          "ctxt": 0
+        },
+        "decorators": [
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 211,
+              "end": 221,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 212,
+                "end": 221,
+                "ctxt": 0
+              },
+              "value": "decorator",
+              "optional": false
+            }
+          }
+        ],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}

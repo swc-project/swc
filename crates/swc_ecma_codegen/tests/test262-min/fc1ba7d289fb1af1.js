@@ -1,1 +1,1 @@
-a={b:function(c,...d){}}
+a={b:function(c,...d){}};

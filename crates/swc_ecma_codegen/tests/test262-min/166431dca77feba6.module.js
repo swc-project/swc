@@ -1,1 +1,1 @@
-import a,{b,d as c}from"a"
+import a,{b,d as c}from"a";

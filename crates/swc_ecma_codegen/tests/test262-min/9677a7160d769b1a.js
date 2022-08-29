@@ -1,1 +1,1 @@
-var a={delete:1}
+var a={delete:1};

@@ -1,0 +1,1 @@
+//// [parserComputedPropertyName22.ts]

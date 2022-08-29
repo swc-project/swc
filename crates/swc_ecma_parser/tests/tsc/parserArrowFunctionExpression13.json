@@ -1,0 +1,203 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 98,
+    "end": 242,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 98,
+        "end": 130,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 98,
+          "end": 129,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 98,
+            "end": 99,
+            "ctxt": 0
+          },
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 102,
+            "end": 111,
+            "ctxt": 0
+          },
+          "params": [],
+          "body": {
+            "type": "CallExpression",
+            "span": {
+              "start": 108,
+              "end": 111,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 108,
+                "end": 109,
+                "ctxt": 0
+              },
+              "value": "a",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "async": false,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": null
+        },
+        "alternate": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 114,
+            "end": 129,
+            "ctxt": 0
+          },
+          "params": [],
+          "body": {
+            "type": "NullLiteral",
+            "span": {
+              "start": 125,
+              "end": 129,
+              "ctxt": 0
+            }
+          },
+          "async": false,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 116,
+              "end": 121,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 118,
+                "end": 121,
+                "ctxt": 0
+              },
+              "kind": "any"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 210,
+        "end": 242,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 210,
+          "end": 241,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 210,
+            "end": 211,
+            "ctxt": 0
+          },
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 214,
+            "end": 223,
+            "ctxt": 0
+          },
+          "params": [],
+          "body": {
+            "type": "CallExpression",
+            "span": {
+              "start": 220,
+              "end": 223,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 220,
+                "end": 221,
+                "ctxt": 0
+              },
+              "value": "a",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "async": false,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": null
+        },
+        "alternate": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 226,
+            "end": 241,
+            "ctxt": 0
+          },
+          "params": [],
+          "body": {
+            "type": "NullLiteral",
+            "span": {
+              "start": 237,
+              "end": 241,
+              "ctxt": 0
+            }
+          },
+          "async": false,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 228,
+              "end": 233,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 230,
+                "end": 233,
+                "ctxt": 0
+              },
+              "kind": "any"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

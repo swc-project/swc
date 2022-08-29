@@ -1,0 +1,1 @@
+//// [optionalMethodDeclarations.ts]

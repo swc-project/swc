@@ -1,0 +1,1 @@
+//// [parserAutomaticSemicolonInsertion1.ts]

@@ -1,1 +1,1 @@
-b:while(a)break b;c:while(a)break
+b:while(a)break b;c:while(a)break;

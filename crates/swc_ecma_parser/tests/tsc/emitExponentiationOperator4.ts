@@ -1,4 +1,4 @@
-﻿// @target: es5
+// @target: es5
 var temp: any;
 
 (<number>temp) ** 3;

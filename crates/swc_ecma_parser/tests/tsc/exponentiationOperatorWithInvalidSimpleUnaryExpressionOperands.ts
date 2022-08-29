@@ -1,4 +1,4 @@
-﻿var temp: any;
+var temp: any;
 
 // Error: incorrect type on left-hand side 
 (! --temp) ** 3;

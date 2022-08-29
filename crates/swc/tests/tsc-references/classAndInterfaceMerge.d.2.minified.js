@@ -1,0 +1,1 @@
+//// [classAndInterfaceMerge.d.ts]

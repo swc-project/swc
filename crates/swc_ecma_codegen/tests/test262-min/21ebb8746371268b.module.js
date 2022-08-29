@@ -1,1 +1,1 @@
-import{b as a,c}from"foo"
+import{b as a,c}from"foo";

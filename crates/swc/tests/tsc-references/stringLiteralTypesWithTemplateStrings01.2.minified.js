@@ -1,0 +1,1 @@
+//// [stringLiteralTypesWithTemplateStrings01.ts]

@@ -1,0 +1,1 @@
+//// [typeParameterAsTypeParameterConstraintTransitively2.ts]

@@ -1,0 +1,1 @@
+//// [stringLiteralsWithSwitchStatements04.ts]

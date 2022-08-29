@@ -1,4 +1,4 @@
-﻿// @target: es6
+// @target: es6
 
 async function bar1() {
     delete await 42;

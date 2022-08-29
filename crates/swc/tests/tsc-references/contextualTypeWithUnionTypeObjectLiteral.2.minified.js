@@ -1,0 +1,1 @@
+//// [contextualTypeWithUnionTypeObjectLiteral.ts]

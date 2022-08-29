@@ -1,0 +1,1 @@
+//// [parserComputedPropertyName15.ts]

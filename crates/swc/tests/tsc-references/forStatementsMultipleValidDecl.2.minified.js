@@ -1,0 +1,23 @@
+//// [forStatementsMultipleValidDecl.ts]
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
+for(;;);
