@@ -38,6 +38,9 @@
 
 
 
+- **(css)** Support forgiving selector (#5539) ([e2aca46](https://github.com/swc-project/swc/commit/e2aca468897a57401bee6a604aeeddb91ea7b8e9))
+
+
 - **(es)** Improve APIs for plugin authors (#5632) ([e8edb67](https://github.com/swc-project/swc/commit/e8edb67def8bf88dda610a2d8cc405ad36cd5b52))
 
 
@@ -45,6 +48,9 @@
 
 
 - **(es/parser)** Handle `async` in `for...of` (#5646) ([0f0d1db](https://github.com/swc-project/swc/commit/0f0d1db3013b5dda88e4e73bfd335c8f7e3ad840))
+
+### Miscellaneous Tasks
+- **general**: Update download count image url ([7c554fc](https://github.com/swc-project/swc/commit/7c554fcc61b5b1123f6838f65e0a2a23228174c4))
 
 ### Performance
 
