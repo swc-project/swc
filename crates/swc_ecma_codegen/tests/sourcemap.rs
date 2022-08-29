@@ -92,20 +92,20 @@ fn identity(entry: PathBuf) {
     let mut wr = vec![];
 
     ::testing::run_test(false, |cm, handler| {
-        let src = cm.load_file(&entry).expect("failed to load file");
+        let fm = cm.load_file(&entry).expect("failed to load file");
         eprintln!(
             "{}\nPos: {:?} ~ {:?} (L{})",
             msg,
-            src.start_pos,
-            src.end_pos,
-            src.count_lines()
+            fm.start_pos,
+            fm.end_pos,
+            fm.count_lines()
         );
 
         let comments = SingleThreadedComments::default();
         let lexer = Lexer::new(
             Syntax::default(),
             Default::default(),
-            (&*src).into(),
+            (&*fm).into(),
             Some(&comments),
         );
         let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
@@ -154,6 +154,11 @@ fn identity(entry: PathBuf) {
 
         let map = cm.build_source_map(&mut src_map);
 
+        let (expected_code, expected_map) = get_expected(&fm.src);
+
+        let actual_code = String::from_utf8(wr).unwrap();
+        assert_eq!(actual_code, expected_code);
+        assert_eq!(map, expected_map);
         Ok(())
     })
     .expect("failed to run test");
