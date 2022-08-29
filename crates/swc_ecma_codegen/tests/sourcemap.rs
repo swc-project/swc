@@ -2,9 +2,11 @@
 
 use std::{
     fs::read_to_string,
-    path::{Path, PathBuf},
+    path::PathBuf,
+    process::{Command, Stdio},
 };
 
+use sourcemap::SourceMap;
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
@@ -65,14 +67,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
-fn identity(input: PathBuf) {
-    if !cfg!(target_os = "windows") {
-        do_test(&input, true);
-    }
-    do_test(&input, false);
-}
-
-fn do_test(entry: &Path, minify: bool) {
+fn identity(entry: PathBuf) {
     let file_name = entry
         .file_name()
         .unwrap()
@@ -97,7 +92,7 @@ fn do_test(entry: &Path, minify: bool) {
     let mut wr = vec![];
 
     ::testing::run_test(false, |cm, handler| {
-        let src = cm.load_file(entry).expect("failed to load file");
+        let src = cm.load_file(&entry).expect("failed to load file");
         eprintln!(
             "{}\nPos: {:?} ~ {:?} (L{})",
             msg,
@@ -124,19 +119,17 @@ fn do_test(entry: &Path, minify: bool) {
                 Some(&mut src_map),
             )) as Box<dyn WriteJs>;
 
-            if minify {
-                wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
-            }
+            wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
 
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::Config {
-                    minify,
+                    minify: true,
                     target: EsVersion::Es5,
                     ..Default::default()
                 },
                 cm: cm.clone(),
                 wr,
-                comments: if minify { None } else { Some(&comments) },
+                comments: None,
             };
 
             // Parse source
@@ -164,4 +157,25 @@ fn do_test(entry: &Path, minify: bool) {
         Ok(())
     })
     .expect("failed to run test");
+}
+
+fn get_expected(code: &str) -> (String, SourceMap) {
+    let mut c = Command::new("node");
+    c.arg("tests/babel.mjs");
+    c.arg(code);
+    c.stderr(Stdio::inherit());
+
+    let output = c.output().expect("failed to get output");
+
+    let v = serde_json::from_str::<serde_json::Map<String, serde_json::Value>>(
+        &String::from_utf8_lossy(&output.stdout),
+    )
+    .unwrap();
+
+    let code = v.get("code").unwrap().as_str().unwrap();
+    let map = v.get("map").unwrap().as_str().unwrap();
+
+    let map = SourceMap::from_slice(map.as_bytes()).expect("invalid sourcemap");
+
+    (code.to_string(), map)
 }
