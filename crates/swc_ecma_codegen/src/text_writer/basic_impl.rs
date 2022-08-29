@@ -55,6 +55,9 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     fn raw_write(&mut self, data: &str) -> Result {
+        #[cfg(debug_assertions)]
+        tracing::trace!("Write: `{:?}`", data);
+
         self.wr.write_all(data.as_bytes())?;
         if self.srcmap.is_some() {
             self.line_pos += data.chars().count();
