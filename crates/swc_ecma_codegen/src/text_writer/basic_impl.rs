@@ -59,6 +59,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
         if self.srcmap.is_some() {
             self.line_pos += data.chars().count();
         }
+        self.line_pos += data.chars().count();
+
         Ok(())
     }
 
@@ -101,6 +103,10 @@ impl<'a, W: Write> JsWriter<'a, W> {
                     line: self.line_count as _,
                     col: self.line_pos as _,
                 };
+
+                #[cfg(debug_assertions)]
+                tracing::trace!("SourceMap: {:?} => {:?}", byte_pos, loc);
+
                 srcmap.push((byte_pos, loc));
             }
         }
