@@ -29,7 +29,7 @@ fn run(input: &Path, minify: bool) {
             &fm,
             Syntax::Typescript(TsConfig {
                 decorators: true,
-                tsx: true,
+                tsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             EsVersion::latest(),

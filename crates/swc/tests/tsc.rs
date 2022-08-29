@@ -21,7 +21,7 @@ use swc::{
 };
 use swc_common::{collections::AHashSet, errors::ColorConfig, FileName, SourceFile, SourceMap};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::{JSXKind, Syntax, TsConfig};
 use testing::NormalizedOutput;
 
 #[testing::fixture(
@@ -361,10 +361,11 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                     config: Config {
                         jsc: JscConfig {
                             syntax: Some(Syntax::Typescript(TsConfig {
-                                tsx: filename.ends_with(".tsx"),
+                                tsx: JSXKind::Bool(filename.ends_with(".tsx")),
                                 decorators,
                                 dts: false,
                                 no_early_errors: false,
+                                ..Default::default()
                             })),
                             external_helpers: true.into(),
                             target: Some(target),

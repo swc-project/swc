@@ -7,7 +7,7 @@ use swc_ecma_lints::{
     rule::Rule,
     rules::{all, LintParams},
 };
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, JSXKind, Parser, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
 
@@ -25,7 +25,7 @@ fn pass(input: PathBuf) {
                 })
             } else if input.extension().unwrap() == "tsx" {
                 Syntax::Typescript(swc_ecma_parser::TsConfig {
-                    tsx: true,
+                    tsx: JSXKind::Bool(true),
                     ..Default::default()
                 })
             } else {

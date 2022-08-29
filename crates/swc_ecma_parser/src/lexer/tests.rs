@@ -1882,7 +1882,7 @@ fn issue_2853_5_jsx() {
 fn issue_2853_6_tsx() {
     let (tokens, errors) = lex_errors(
         crate::Syntax::Typescript(crate::TsConfig {
-            tsx: true,
+            tsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         "const a = \"\\0a\"",
@@ -1932,7 +1932,7 @@ fn issue_2853_7_jsx() {
 fn issue_2853_8_tsx() {
     let (tokens, errors) = lex_errors(
         crate::Syntax::Typescript(crate::TsConfig {
-            tsx: true,
+            tsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         "const a = \"\u{0000}a\"",

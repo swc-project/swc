@@ -178,7 +178,26 @@ impl Syntax {
     pub fn jsx(self) -> bool {
         matches!(
             self,
-            Syntax::Es(EsConfig { jsx: true, .. }) | Syntax::Typescript(TsConfig { tsx: true, .. })
+            Syntax::Es(EsConfig {
+                jsx: JSXKind::Bool(true),
+                ..
+            }) | Syntax::Typescript(TsConfig {
+                tsx: JSXKind::Bool(true),
+                ..
+            })
+        )
+    }
+
+    pub fn preserve_jsx(self) -> bool {
+        matches!(
+            self,
+            Syntax::Es(EsConfig {
+                jsx: JSXKind::Preserve,
+                ..
+            }) | Syntax::Typescript(TsConfig {
+                tsx: JSXKind::Preserve,
+                ..
+            })
         )
     }
 
@@ -275,11 +294,28 @@ impl Syntax {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum JSXKind {
+    #[serde(rename = "preserve")]
+    Preserve,
+    Bool(bool),
+}
+
+impl Default for JSXKind {
+    fn default() -> Self {
+        Self::Bool(false)
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TsConfig {
     #[serde(default)]
-    pub tsx: bool,
+    pub tsx: JSXKind,
+
+    #[serde(default)]
+    pub preserve_jsx: bool,
 
     #[serde(default)]
     pub decorators: bool,
@@ -296,7 +332,7 @@ pub struct TsConfig {
 #[serde(rename_all = "camelCase")]
 pub struct EsConfig {
     #[serde(default)]
-    pub jsx: bool,
+    pub jsx: JSXKind,
 
     /// Support function bind expression.
     #[serde(rename = "functionBind")]

@@ -18,7 +18,7 @@ use swc_common::{
     BytePos, FileName,
 };
 use swc_ecma_ast::{EsVersion, *};
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsConfig, JSXKind, Syntax, TsConfig};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
     pass::noop,
@@ -564,7 +564,7 @@ fn issue_879() {
                 module: Some(ModuleConfig::CommonJs(Default::default())),
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
-                        tsx: true,
+                        tsx: JSXKind::Bool(true),
                         decorators: true,
                         ..Default::default()
                     })),
@@ -735,7 +735,7 @@ fn should_visit() {
                             is_module: IsModule::Bool(true),
                             jsc: JscConfig {
                                 syntax: Some(Syntax::Es(EsConfig {
-                                    jsx: true,
+                                    jsx: JSXKind::Bool(true),
                                     ..Default::default()
                                 })),
                                 ..Default::default()

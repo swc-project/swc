@@ -26,7 +26,7 @@ fn tr(t: &mut Tester) -> impl Fold {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -1111,7 +1111,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
-        tsx: true,
+        tsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| {
@@ -1247,7 +1247,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
-        tsx: true,
+        tsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -1428,7 +1428,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
-        tsx: true,
+        tsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,

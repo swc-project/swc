@@ -3,7 +3,7 @@
 use std::path::PathBuf;
 
 use swc_common::{chain, Mark};
-use swc_ecma_parser::EsConfig;
+use swc_ecma_parser::{EsConfig, JSXKind};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, classes},
@@ -1481,6 +1481,24 @@ fn integration(input: PathBuf) {
             let options = parse_options(input.parent().unwrap());
             integration_tr(t, options)
         },
+        &input,
+        &output,
+    );
+}
+
+#[testing::fixture("tests/preserve-jsx/fixture/**/input.js")]
+fn preserve(input: PathBuf) {
+    let mut output = input.with_file_name("output.js");
+    if !output.exists() {
+        output = input.with_file_name("output.mjs");
+    }
+
+    test_fixture_allowing_error(
+        Syntax::Es(EsConfig {
+            jsx: JSXKind::Preserve,
+            ..Default::default()
+        }),
+        &|t| chain!(resolver(Mark::new(), Mark::new(), false), display_name(),),
         &input,
         &output,
     );

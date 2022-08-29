@@ -23,13 +23,13 @@ fn span(entry: PathBuf) {
         let lexer = Lexer::new(
             if file_name.ends_with(".js") {
                 Syntax::Es(EsConfig {
-                    jsx: true,
+                    jsx: JSXKind::Bool(true),
                     decorators: true,
                     ..Default::default()
                 })
             } else {
                 Syntax::Typescript(TsConfig {
-                    tsx: true,
+                    tsx: JSXKind::Bool(true),
                     decorators: true,
                     no_early_errors: true,
                     ..Default::default()

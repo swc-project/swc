@@ -1,7 +1,7 @@
 use swc_common::{comments::SingleThreadedComments, BytePos};
 
 use super::*;
-use crate::{test_parser, EsConfig, TsConfig};
+use crate::{test_parser, EsConfig, JSXKind, TsConfig};
 
 fn program(src: &'static str) -> Program {
     test_parser(src, Default::default(), |p| p.parse_program())
@@ -196,7 +196,7 @@ fn issue_2264_1() {
         &c,
         s,
         Syntax::Typescript(TsConfig {
-            tsx: true,
+            tsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         |p| p.parse_typescript_module(),
@@ -239,7 +239,7 @@ fn issue_2264_3() {
         &c,
         s,
         Syntax::Typescript(TsConfig {
-            tsx: true,
+            tsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         |p| p.parse_typescript_module(),
@@ -266,7 +266,7 @@ fn issue_2339_1() {
         &c,
         s,
         Syntax::Typescript(TsConfig {
-            tsx: true,
+            tsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         |p| p.parse_typescript_module(),

@@ -144,7 +144,7 @@ use swc_ecma_loader::resolvers::{
 };
 use swc_ecma_minifier::option::{MinifyOptions, TopLevelOptions};
 use swc_ecma_parser::{
-    parse_file_as_module, parse_file_as_program, parse_file_as_script, EsConfig, Syntax,
+    parse_file_as_module, parse_file_as_program, parse_file_as_script, EsConfig, JSXKind, Syntax,
 };
 use swc_ecma_transforms::{
     fixer,
@@ -995,7 +995,7 @@ impl Compiler {
                     handler,
                     target,
                     Syntax::Es(EsConfig {
-                        jsx: true,
+                        jsx: JSXKind::Bool(true),
                         decorators: true,
                         decorators_before_export: true,
                         import_assertions: true,

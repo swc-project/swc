@@ -47,7 +47,7 @@ use swc_ecma_minifier::option::{
 };
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
-use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_expr, JSXKind, Syntax, TsConfig};
 use swc_ecma_transforms::{
     feature::FeatureFlag,
     hygiene, modules,
@@ -632,14 +632,14 @@ impl Options {
                     comments,
                     top_level_mark
                 ),
-                syntax.typescript()
+                syntax.typescript() && !syntax.preserve_jsx()
             ),
             plugins,
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
                 react::react(cm.clone(), comments, transform.react, top_level_mark),
-                syntax.jsx()
+                syntax.jsx() && !syntax.preserve_jsx()
             ),
             pass,
             Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
@@ -741,7 +741,7 @@ impl Default for Rc {
                 exclude: None,
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
-                        tsx: true,
+                        tsx: JSXKind::Bool(true),
                         ..Default::default()
                     })),
                     ..Default::default()
@@ -754,7 +754,7 @@ impl Default for Rc {
                 exclude: None,
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
-                        tsx: false,
+                        tsx: JSXKind::Bool(false),
                         ..Default::default()
                     })),
                     ..Default::default()
@@ -1033,9 +1033,9 @@ impl Config {
             }
 
             if file.extension() == Some("tsx".as_ref()) {
-                *tsx = true;
+                *tsx = JSXKind::Bool(true);
             } else if file.extension() == Some("ts".as_ref()) {
-                *tsx = false;
+                *tsx = JSXKind::Bool(false);
             }
         }
     }

@@ -175,6 +175,7 @@ fn identity(entry: PathBuf) {
                 decorators: true,
                 dts: false,
                 no_early_errors: false,
+                ..Default::default()
             }),
             (&*src).into(),
             None,

@@ -6,7 +6,7 @@ use swc::{
 };
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsConfig, JSXKind, Syntax, TsConfig};
 use swc_ecma_transforms::{modules::common_js, pass::noop};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -89,7 +89,7 @@ fn shopify_1_check_filename() {
                     is_module: IsModule::Bool(true),
                     jsc: JscConfig {
                         syntax: Some(Syntax::Es(EsConfig {
-                            jsx: true,
+                            jsx: JSXKind::Bool(true),
                             ..Default::default()
                         })),
                         ..Default::default()
@@ -134,10 +134,11 @@ fn shopify_2_same_opt() {
                 exclude: None,
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
-                        tsx: true,
+                        tsx: JSXKind::Bool(true),
                         decorators: false,
                         dts: false,
                         no_early_errors: false,
+                        ..Default::default()
                     })),
                     transform: None.into(),
                     external_helpers: false.into(),
@@ -209,7 +210,7 @@ fn shopify_3_reduce_defaults() {
                 is_module: IsModule::Bool(true),
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
-                        tsx: true,
+                        tsx: JSXKind::Bool(true),
                         ..Default::default()
                     })),
                     ..Default::default()
@@ -271,7 +272,7 @@ fn shopify_4_reduce_more() {
                 is_module: IsModule::Bool(true),
                 jsc: JscConfig {
                     syntax: Some(Syntax::Es(EsConfig {
-                        jsx: true,
+                        jsx: JSXKind::Bool(true),
                         ..Default::default()
                     })),
                     ..Default::default()
