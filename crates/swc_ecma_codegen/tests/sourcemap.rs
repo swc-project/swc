@@ -102,7 +102,7 @@ fn identity(entry: PathBuf) {
         );
         let (expected_code, expected_map) = get_expected(&fm.src, is_module);
         println!("Expected code:\n{}", expected_code);
-        dbg!(&expected_map);
+        print_map(&expected_map);
 
         let comments = SingleThreadedComments::default();
         let lexer = Lexer::new(
@@ -155,9 +155,8 @@ fn identity(entry: PathBuf) {
             }
         }
 
-        dbg!(&src_map);
-
         let actual_map = cm.build_source_map(&mut src_map);
+        print_map(&actual_map);
 
         let actual_code = String::from_utf8(wr).unwrap();
 
@@ -195,6 +194,18 @@ fn get_expected(code: &str, is_module: bool) -> (String, SourceMap) {
     let map = SourceMap::from_slice(map.as_bytes()).expect("invalid sourcemap");
 
     (code.to_string(), map)
+}
+
+fn print_map(map: &SourceMap) {
+    for t in map.tokens() {
+        println!(
+            "Token: {}:{} => {}:{}",
+            t.get_src_line(),
+            t.get_src_col(),
+            t.get_dst_line(),
+            t.get_dst_col()
+        );
+    }
 }
 
 fn assert_eq_same_map(expected: &SourceMap, actual: &SourceMap) {
