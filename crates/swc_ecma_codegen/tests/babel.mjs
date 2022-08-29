@@ -1,14 +1,14 @@
 import { parse } from "@babel/parser";
 import generate from "@babel/generator";
 
-const code = "class Example {}";
+const code = process.argv[2];
 const ast = parse(code);
 
-const output = generate(
+const output = generate.default(
     ast,
     {
         sourceMaps: true,
-        minified: true
+        minified: true,
     },
     code
 );
