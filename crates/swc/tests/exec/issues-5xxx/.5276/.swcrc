@@ -1,0 +1,9 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "decorators": true
+        }
+    }
+}
