@@ -10,7 +10,7 @@
 
 <p align="center">
    <a href="https://www.npmjs.com/package/@swc/core">
-      <img alt="npm Downloads" src="https://img.shields.io/npm/dm/@swc/core">
+      <img alt="npm Downloads" src="https://img.shields.io/npm/dm/@swc/helpers">
    </a>
     <a href="https://crates.io/crates/swc_ecma_parser">
       <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20downloads">
