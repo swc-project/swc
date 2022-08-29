@@ -153,6 +153,7 @@ fn identity(entry: PathBuf) {
                     .unwrap();
             }
         }
+        wr.push(b';');
 
         let map = cm.build_source_map(&mut src_map);
 
