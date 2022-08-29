@@ -1,5 +1,5 @@
 use swc_atoms::JsWord;
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -15,7 +15,7 @@ where
     fn parse(&mut self) -> PResult<SelectorList> {
         self.input.skip_ws()?;
 
-        let child = self.parse()?;
+        let child: ComplexSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
@@ -33,13 +33,13 @@ where
         }
 
         let start_pos = match children.first() {
-            Some(ComplexSelector { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(ComplexSelector { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
@@ -103,25 +103,13 @@ where
         }
 
         let start_pos = match children.first() {
-            Some(ForgivingComplexSelector::ComplexSelector(ComplexSelector { span, .. })) => {
-                span.lo
-            }
-            Some(ForgivingComplexSelector::ListOfComponentValues(ListOfComponentValues {
-                span,
-                ..
-            })) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(ForgivingComplexSelector::ComplexSelector(ComplexSelector { span, .. })) => {
-                span.hi
-            }
-            Some(ForgivingComplexSelector::ListOfComponentValues(ListOfComponentValues {
-                span,
-                ..
-            })) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
@@ -141,7 +129,7 @@ where
     fn parse(&mut self) -> PResult<CompoundSelectorList> {
         self.input.skip_ws()?;
 
-        let child = self.parse()?;
+        let child: CompoundSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
@@ -159,13 +147,13 @@ where
         }
 
         let start_pos = match children.first() {
-            Some(CompoundSelector { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(CompoundSelector { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
@@ -185,7 +173,7 @@ where
     fn parse(&mut self) -> PResult<RelativeSelectorList> {
         self.input.skip_ws()?;
 
-        let child = self.parse()?;
+        let child: RelativeSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
@@ -203,13 +191,13 @@ where
         }
 
         let start_pos = match children.first() {
-            Some(RelativeSelector { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(RelativeSelector { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
@@ -273,25 +261,13 @@ where
         }
 
         let start_pos = match children.first() {
-            Some(ForgivingRelativeSelector::RelativeSelector(RelativeSelector {
-                span, ..
-            })) => span.lo,
-            Some(ForgivingRelativeSelector::ListOfComponentValues(ListOfComponentValues {
-                span,
-                ..
-            })) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(ForgivingRelativeSelector::RelativeSelector(RelativeSelector {
-                span, ..
-            })) => span.hi,
-            Some(ForgivingRelativeSelector::ListOfComponentValues(ListOfComponentValues {
-                span,
-                ..
-            })) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
