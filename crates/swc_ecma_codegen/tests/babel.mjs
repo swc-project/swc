@@ -10,6 +10,7 @@ const output = generate.default(
         sourceMaps: true,
         minified: true,
         comments: false,
+        sourceType: 'unambiguous'
     },
     code
 );
