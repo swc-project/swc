@@ -20,6 +20,9 @@
 - **(es/minifier)** Fix alias analyzer (#5639) ([a06e6e9](https://github.com/swc-project/swc/commit/a06e6e9ce5c8628e75c19619d003ceb623b4a5e3))
 
 
+- **(es/minifier)** Fix optimization of template literals with escape (#5650) ([100f359](https://github.com/swc-project/swc/commit/100f359e5ddb49e3a7df039aba1c2caa71534ba4))
+
+
 - **(es/parser)** Handle more `TS2406` errors (#5640) ([838438d](https://github.com/swc-project/swc/commit/838438dc9d090402756ecc038b5b091f51dada66))
 
 ### Documentation
@@ -39,6 +42,12 @@
 
 
 - **(es/parser)** Handle `async` in `for...of` (#5646) ([0f0d1db](https://github.com/swc-project/swc/commit/0f0d1db3013b5dda88e4e73bfd335c8f7e3ad840))
+
+### Testing
+
+
+
+- **(es/transforms)** Enable tests for resolved issues (#5651) ([efd6a36](https://github.com/swc-project/swc/commit/efd6a3603c280a12a76eb14994cb0caa0ef38479))
 
 ## [1.2.244] - 2022-08-26
 

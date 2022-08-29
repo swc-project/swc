@@ -105,7 +105,7 @@ impl Pure<'_> {
             Expr::Tpl(t) => t
                 .quasis
                 .iter()
-                .all(|q| q.cooked.is_some() || !q.raw.contains('\\')),
+                .all(|q| q.cooked.is_some() && !q.raw.contains('\\')),
             _ => false,
         }) {
             return;
