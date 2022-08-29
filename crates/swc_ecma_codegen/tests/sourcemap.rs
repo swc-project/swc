@@ -158,7 +158,7 @@ fn identity(entry: PathBuf) {
 
         let actual_code = String::from_utf8(wr).unwrap();
         assert_eq!(actual_code, expected_code);
-        assert_eq!(map, expected_map);
+        assert_eq_same_map(&map, &expected_map);
         Ok(())
     })
     .expect("failed to run test");
@@ -183,4 +183,27 @@ fn get_expected(code: &str) -> (String, SourceMap) {
     let map = SourceMap::from_slice(map.as_bytes()).expect("invalid sourcemap");
 
     (code.to_string(), map)
+}
+
+fn assert_eq_same_map(a: &SourceMap, b: &SourceMap) {
+    for at in a.tokens() {
+        let bt = b
+            .lookup_token(at.get_dst_line(), at.get_dst_col())
+            .unwrap_or_else(|| panic!("token not found: {:?}", at));
+
+        assert_eq!(
+            at.get_src_line(),
+            bt.get_src_line(),
+            "line mismatch at {}:{}",
+            at.get_dst_line(),
+            at.get_dst_col()
+        );
+        assert_eq!(
+            at.get_src_col(),
+            bt.get_src_col(),
+            "col mismatch at {}:{}",
+            at.get_dst_line(),
+            at.get_dst_col()
+        );
+    }
 }
