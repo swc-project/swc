@@ -3362,6 +3362,7 @@ dependencies = [
 name = "swc_ecma_codegen"
 version = "0.127.1"
 dependencies = [
+ "base64 0.13.0",
  "criterion",
  "memchr",
  "num-bigint",
