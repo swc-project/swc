@@ -1,1 +1,1 @@
-(function*(a,b,c){yield*a})
+(function*(a,b,c){yield*a});

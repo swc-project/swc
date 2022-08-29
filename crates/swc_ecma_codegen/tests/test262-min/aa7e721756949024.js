@@ -1,1 +1,1 @@
-({set a(b){super.c[1]=2}})
+({set a(b){super.c[1]=2}});

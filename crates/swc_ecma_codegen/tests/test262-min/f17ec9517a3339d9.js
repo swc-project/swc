@@ -1,1 +1,1 @@
-({set if(a){a}})
+({set if(a){a}});

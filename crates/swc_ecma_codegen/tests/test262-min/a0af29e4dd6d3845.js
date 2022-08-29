@@ -1,1 +1,1 @@
-(function(){while(false){a()}b()}())
+(function(){while(false){a()}b()}());

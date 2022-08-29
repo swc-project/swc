@@ -1,1 +1,1 @@
-delete(1,a)
+delete(1,a);

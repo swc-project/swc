@@ -1,1 +1,1 @@
-var a={*[b](){yield*c}}
+var a={*[b](){yield*c}};

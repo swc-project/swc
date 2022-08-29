@@ -1,1 +1,1 @@
-({get a(){return b}})
+({get a(){return b}});

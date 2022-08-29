@@ -1,1 +1,1 @@
-(void a)
+(void a);

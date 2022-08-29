@@ -1,1 +1,1 @@
-"use strict";var a={"b":1}
+"use strict";var a={"b":1};

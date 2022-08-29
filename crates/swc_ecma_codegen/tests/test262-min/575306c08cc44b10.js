@@ -1,1 +1,1 @@
-(function(){a["NaN"]=1}())
+(function(){a["NaN"]=1}());

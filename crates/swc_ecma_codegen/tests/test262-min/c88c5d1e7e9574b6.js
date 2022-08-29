@@ -1,1 +1,1 @@
-var a=/[a-c]/i
+var a=/[a-c]/i;

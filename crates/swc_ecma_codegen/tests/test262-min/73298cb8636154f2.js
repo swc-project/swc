@@ -1,1 +1,1 @@
-var a=function eval(){}
+var a=function eval(){};

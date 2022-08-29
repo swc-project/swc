@@ -1,1 +1,1 @@
-a={get null(){}}
+a={get null(){}};

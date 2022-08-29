@@ -1,1 +1,1 @@
-(function(){var a={"b":1}}())
+(function(){var a={"b":1}}());

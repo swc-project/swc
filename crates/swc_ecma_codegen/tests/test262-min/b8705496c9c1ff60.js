@@ -1,1 +1,1 @@
-(function(){var a={};with(a){(1,b)()}}())
+(function(){var a={};with(a){(1,b)()}}());

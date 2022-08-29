@@ -1,1 +1,1 @@
-"use strict";var a={set b(a){},b:1}
+"use strict";var a={set b(a){},b:1};

@@ -1,1 +1,1 @@
-do{(function(){a("b")}())}while(c)
+do{(function(){a("b")}())}while(c);
