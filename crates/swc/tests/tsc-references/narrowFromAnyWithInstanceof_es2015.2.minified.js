@@ -1,1 +1,0 @@
-x instanceof Function && (x(), x(1, 2, 3), x("hello!"), x.prop), x instanceof Object && (x.method(), x()), x instanceof Error && (x.message, x.mesage), x instanceof Date && (x.getDate(), x.getHuors());

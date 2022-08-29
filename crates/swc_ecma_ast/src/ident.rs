@@ -4,7 +4,7 @@ use scoped_tls::scoped_thread_local;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
+    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use unicode_id::UnicodeID;
 
@@ -44,7 +44,7 @@ impl std::ops::Deref for BindingIdent {
 }
 
 impl BindingIdent {
-    /// See [Ident#to_id] for documentation.
+    /// See [`Ident::to_id`] for documentation.
     pub fn to_id(&self) -> Id {
         self.id.to_id()
     }
@@ -55,6 +55,8 @@ impl From<Ident> for BindingIdent {
         Self { id, type_ann: None }
     }
 }
+
+bridge_from!(BindingIdent, Ident, Id);
 
 /// A complete identifier with span.
 ///
@@ -154,6 +156,13 @@ impl Ident {
         F: FnOnce() -> Ret,
     {
         EQ_IGNORE_SPAN_IGNORE_CTXT.set(&(), op)
+    }
+
+    /// Preserve syntax context while drop `span.lo` and `span.hi`.
+    pub fn without_loc(mut self) -> Ident {
+        self.span.lo = BytePos::DUMMY;
+        self.span.hi = BytePos::DUMMY;
+        self
     }
 
     /// Creates `Id` using `JsWord` and `SyntaxContext` of `self`.

@@ -1,0 +1,2 @@
+//// [validMultipleVariableDeclarations.ts]
+for(;;);

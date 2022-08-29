@@ -125,6 +125,9 @@ impl<C: Comments> VisitMut for Actual<C> {
         if m.function.body.is_none() {
             return;
         }
+
+        m.visit_mut_children_with(self);
+
         if m.kind != MethodKind::Method || !m.function.is_async {
             return;
         }

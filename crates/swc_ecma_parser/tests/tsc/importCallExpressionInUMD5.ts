@@ -1,4 +1,4 @@
-﻿// @module: umd
+// @module: umd
 // @target: es2015
 // @filename: 0.ts
 export function foo() { return "foo"; }

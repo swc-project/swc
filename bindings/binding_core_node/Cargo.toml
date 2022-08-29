@@ -48,7 +48,7 @@ tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_core = { version = "0.7.20", features = [
+swc_core = { version = "0.14.0", features = [
   "ast",
   "common_concurrent",
   "bundler",

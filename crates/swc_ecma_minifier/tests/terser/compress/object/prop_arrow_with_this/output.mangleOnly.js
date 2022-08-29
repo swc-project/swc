@@ -1,7 +1,7 @@
 function i(i) {
-    console.log(i === this ? "global" : i === t ? "foo" : i);
+    console.log(i === this ? "global" : i === o ? "foo" : i);
 }
-var t = {
+var o = {
     func_no_this: function() {
         i();
     },
@@ -15,4 +15,4 @@ var t = {
         i(this);
     }
 };
-for(var n in t)t[n]();
+for(var t in o)o[t]();

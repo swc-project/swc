@@ -39,7 +39,7 @@ var n = {
     ["get"]: "foo",
     ["set"]: "bar"
 };
-var s = {
+var i = {
     get: "foo",
     set: "bar"
 };

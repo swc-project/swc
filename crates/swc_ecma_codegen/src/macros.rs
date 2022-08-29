@@ -113,9 +113,18 @@ macro_rules! srcmap {
         }
     }};
     ($emitter:expr, $n:expr, false) => {
+        srcmap!($emitter, $n, false, false)
+    };
+    ($emitter:expr, $n:expr, false, $subtract:expr) => {
         let hi = $n.span_hi();
         if !hi.is_dummy() {
-            $emitter.wr.add_srcmap(hi)?;
+            if $subtract {
+                // hi is exclusive
+                $emitter.wr.add_srcmap(hi - swc_common::BytePos(1))?;
+            } else {
+                // TODO(kdy1): Remove this branch.
+                $emitter.wr.add_srcmap(hi)?;
+            }
         }
     };
 }

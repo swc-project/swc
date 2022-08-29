@@ -1,0 +1,1 @@
+//// [literalTypesAndTypeAssertions.ts]

@@ -1,6 +1,6 @@
-(function(l, c) {
-    console.log(l, c);
+(function(o, l) {
+    console.log(o, l);
 }.call("foo", "bar"));
-(function(l, c) {
-    console.log(this, l, c);
+(function(o, l) {
+    console.log(this, o, l);
 }.call("foo", "bar"));

@@ -1,1 +1,1 @@
-(function(){if(true){var a=1}}())
+(function(){if(true){var a=1}}());

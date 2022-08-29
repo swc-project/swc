@@ -1,2 +1,2 @@
-﻿// @target: ES6
+// @target: ES6
 var x = `abc${ " " }def` ? `abc${ " " }def` : `abc${ " " }def`;

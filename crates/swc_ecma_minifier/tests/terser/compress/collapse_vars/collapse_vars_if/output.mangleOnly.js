@@ -1,15 +1,15 @@
 function r() {
     var r = sideeffect(), e = g1 + g2;
-    var n = e / 4, t = "Bar" + n;
-    if ("x" != t) {
+    var n = e / 4, a = "Bar" + n;
+    if ("x" != a) {
         return g9;
     } else return g5;
 }
 function e() {
     var r = g1 + g2, e = sideeffect();
     var n = r / 4;
-    var t = "Bar" + n;
-    if ("x" != t) {
+    var a = "Bar" + n;
+    if ("x" != a) {
         return g9;
     } else return g5;
 }

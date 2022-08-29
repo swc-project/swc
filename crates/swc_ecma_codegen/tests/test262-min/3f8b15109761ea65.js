@@ -1,1 +1,1 @@
-var a=/[a-z]/u
+var a=/[a-z]/u;

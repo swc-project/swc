@@ -1,7 +1,7 @@
-function string_create() {
+export function string_create() {
     return new StringSchema();
 }
-class StringSchema extends BaseSchema {
+export class StringSchema extends BaseSchema {
     matches(regex, options) {
         let excludeEmptyString = false;
         let message;

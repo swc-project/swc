@@ -93,9 +93,11 @@ pub enum SyntaxError {
     NumLitTerminatedWithExp,
     LegacyCommentInModule,
 
-    /// "implements", "interface", "let", "package",\
-    ///  "private", "protected",  "public", "static", or "yield"
-    InvalidIdentInStrict,
+    /// "implements", "interface", "let", "package", "private", "protected",
+    /// "public", "static", or "yield"
+    InvalidIdentInStrict(JsWord),
+
+    InvalidIdentInAsync,
     /// 'eval' and 'arguments' are invalid identifier in strict mode.
     EvalAndArgumentsInStrict,
     ArgumentsInClassField,
@@ -152,6 +154,7 @@ pub enum SyntaxError {
     LabelledGeneratorOrAsync,
     LabelledFunctionInStrict,
     YieldParamInGen,
+    AwaitParamInAsync,
 
     AwaitForStmt,
 
@@ -221,6 +224,7 @@ pub enum SyntaxError {
     TS1100,
     TS1102,
     TS1105,
+    TS1106,
     TS1107,
     TS1109,
     TS1110,
@@ -318,10 +322,13 @@ impl SyntaxError {
             }
             SyntaxError::NumLitTerminatedWithExp => "Expected +, - or decimal digit after e".into(),
 
-            SyntaxError::InvalidIdentInStrict => {
-                "'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', \
-                 'static', or 'yield' cannot be used as an identifier in strict mode"
-                    .into()
+            SyntaxError::InvalidIdentInStrict(identifier_name) => format!(
+                "`{}` cannot be used as an identifier in strict mode",
+                identifier_name
+            )
+            .into(),
+            SyntaxError::InvalidIdentInAsync => {
+                "`await` cannot be used as an identifier in an async context".into()
             }
             SyntaxError::EvalAndArgumentsInStrict => "'eval' and 'arguments' cannot be used as a \
                                                       binding identifier in strict mode"
@@ -406,6 +413,9 @@ impl SyntaxError {
             }
             SyntaxError::YieldParamInGen => {
                 "'yield' cannot be used as a parameter within generator".into()
+            }
+            SyntaxError::AwaitParamInAsync => {
+                "`await` expressions cannot be used in a parameter initializer.".into()
             }
             SyntaxError::AwaitForStmt => {
                 "for await syntax is valid only for for-of statement".into()
@@ -577,6 +587,9 @@ impl SyntaxError {
             SyntaxError::TS1105 => "A 'break' statement can only be used within an enclosing \
                                     iteration or switch statement"
                 .into(),
+            SyntaxError::TS1106 => {
+                "The left-hand side of a `for...of` statement may not be `async`".into()
+            }
             SyntaxError::TS1107 => "Jump target cannot cross function boundary".into(),
             SyntaxError::TS1109 => "Expression expected".into(),
             SyntaxError::TS1114 => "Duplicate label".into(),

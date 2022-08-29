@@ -1,2 +1,0 @@
-var Errors;
-Errors || (Errors = {});

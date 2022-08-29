@@ -1,0 +1,1 @@
+//// [symbolDeclarationEmit7.ts]

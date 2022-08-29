@@ -1,0 +1,1 @@
+//// [mappedTypeAsClauses.ts]

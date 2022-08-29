@@ -1,0 +1,379 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 21,
+    "end": 313,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 36,
+          "end": 40,
+          "ctxt": 0
+        },
+        "value": "bar1",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 21,
+        "end": 71,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 43,
+          "end": 71,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 49,
+              "end": 60,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "UpdateExpression",
+              "span": {
+                "start": 49,
+                "end": 59,
+                "ctxt": 0
+              },
+              "operator": "++",
+              "prefix": true,
+              "argument": {
+                "type": "AwaitExpression",
+                "span": {
+                  "start": 51,
+                  "end": 59,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 57,
+                    "end": 59,
+                    "ctxt": 0
+                  },
+                  "value": 42.0,
+                  "raw": "42"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 88,
+          "end": 92,
+          "ctxt": 0
+        },
+        "value": "bar2",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 73,
+        "end": 123,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 95,
+          "end": 123,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 101,
+              "end": 112,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "UpdateExpression",
+              "span": {
+                "start": 101,
+                "end": 111,
+                "ctxt": 0
+              },
+              "operator": "--",
+              "prefix": true,
+              "argument": {
+                "type": "AwaitExpression",
+                "span": {
+                  "start": 103,
+                  "end": 111,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 109,
+                    "end": 111,
+                    "ctxt": 0
+                  },
+                  "value": 42.0,
+                  "raw": "42"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 140,
+          "end": 144,
+          "ctxt": 0
+        },
+        "value": "bar3",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 125,
+        "end": 218,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 147,
+          "end": 218,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 153,
+              "end": 164,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 157,
+                  "end": 163,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 157,
+                    "end": 158,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 161,
+                    "end": 163,
+                    "ctxt": 0
+                  },
+                  "value": 42.0,
+                  "raw": "42"
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 169,
+              "end": 179,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 169,
+                "end": 178,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "UpdateExpression",
+                "span": {
+                  "start": 175,
+                  "end": 178,
+                  "ctxt": 0
+                },
+                "operator": "++",
+                "prefix": false,
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 175,
+                    "end": 176,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 235,
+          "end": 239,
+          "ctxt": 0
+        },
+        "value": "bar4",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 220,
+        "end": 313,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 242,
+          "end": 313,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 248,
+              "end": 259,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 252,
+                  "end": 258,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 252,
+                    "end": 253,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 256,
+                    "end": 258,
+                    "ctxt": 0
+                  },
+                  "value": 42.0,
+                  "raw": "42"
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 264,
+              "end": 274,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 264,
+                "end": 273,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "UpdateExpression",
+                "span": {
+                  "start": 270,
+                  "end": 273,
+                  "ctxt": 0
+                },
+                "operator": "--",
+                "prefix": false,
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 270,
+                    "end": 271,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

@@ -1,4 +1,4 @@
-﻿// @target: es6
+// @target: es6
 class B {
     baz(a: string, y = 10) { }
 }

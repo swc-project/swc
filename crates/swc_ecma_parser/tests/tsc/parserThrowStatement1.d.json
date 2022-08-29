@@ -1,0 +1,29 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 9,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ThrowStatement",
+      "span": {
+        "start": 1,
+        "end": 9,
+        "ctxt": 0
+      },
+      "argument": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "e",
+        "optional": false
+      }
+    }
+  ],
+  "interpreter": null
+}

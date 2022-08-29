@@ -9,6 +9,6 @@ function t() {
     var t = EXTERNAL();
     return (function(t) {
         n(t);
-        function e() {}
+        function f() {}
     })(t);
 }

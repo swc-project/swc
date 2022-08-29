@@ -1579,16 +1579,12 @@ function (Base) {
   _createClass(Obj, [{
     key: "update",
     value: function update() {
-      var _prop, _super_prop;
-
-      _set(_getPrototypeOf(Obj.prototype), _prop = proper.prop, (_super_prop = +_get(_getPrototypeOf(Obj.prototype), _prop, this)) + 1, this, true), _super_prop;
+      _update(_getPrototypeOf(Obj.prototype), proper.prop, this, true)._++;
     }
   }, {
     key: "update2",
     value: function update2() {
-      var _i, _super_i
-
-      _set(_getPrototypeOf(Obj.prototype), _i = i, (_super_i = +_get(_getPrototypeOf(Obj.prototype), _i, this)) + 1, this, true), _super_i;
+      _update(_getPrototypeOf(Obj.prototype), i, this, true)._++; 
     }
   }]);
 
@@ -2871,9 +2867,9 @@ var t = new Example();
     r#"
 var Example = function Example() {
   "use strict";
-_classCallCheck(this, Example);
+  _classCallCheck(this, Example);
 
-  var Example1;
+  var _$Example;
 };
 
 var t = new Example();
@@ -4287,16 +4283,12 @@ function (Base) {
   _createClass(Obj, [{
     key: "assign",
     value: function assign() {
-      var _prop;
-
-      _set(_getPrototypeOf(Obj.prototype), _prop = proper.prop, _get(_getPrototypeOf(Obj.prototype), _prop, this) + 1, this, true);
+      _update(_getPrototypeOf(Obj.prototype), proper.prop, this, true)._ += 1;
     }
   }, {
     key: "assign2",
     value: function assign2() {
-      var _i;
-
-      _set(_getPrototypeOf(Obj.prototype), _i = i, _get(_getPrototypeOf(Obj.prototype), _i, this) + 1, this, true);
+      _update(_getPrototypeOf(Obj.prototype), i, this, true)._ += 1;
     }
   }]);
 
@@ -6444,12 +6436,11 @@ let A = function(B) {
   var _super = _createSuper(A);
   function A() {
       _classCallCheck(this, A);
-      var _super_foo, _baz, _super_baz, _quz;
       var _this;
-      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "foo", (_super_foo = +_get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "foo", _this)) + 1, _this, true), _super_foo;
-      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "bar", _get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "bar", _this) + 123, _this, true);
-      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _baz = baz, (_super_baz = +_get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _baz, _this)) - 1, _this, true), _super_baz;
-      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _quz = quz, _get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _quz, _this) - 456, _this, true);
+      _update((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "foo", _this, true)._++;
+      _update((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "bar", _this, true)._ += 123;
+      _update((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), baz, _this, true)._--;
+      _update((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), quz, _this, true)._ -= 456;
       return _possibleConstructorReturn(_this);
   }
   return A;
@@ -6481,8 +6472,7 @@ let A = function(B) {
     {
         key: "foo",
         value: function foo() {
-            var _baz;
-            _set(_getPrototypeOf(A.prototype), _baz = baz, _get(_getPrototypeOf(A.prototype), _baz, this) - 1, this, true);
+            --_update(_getPrototypeOf(A.prototype), baz, this, true)._;
         }
     }
   ]);
@@ -6833,11 +6823,11 @@ function Test() {
   var _this;
   woops.super.test();
   _this = _super.call(this);
-  Foo.prototype.test.call(_assertThisInitialized(_this));
+  _get(Test.prototype, "test", _this).call(_assertThisInitialized(_this));
   _this = _super.call(this, ...arguments);
   _this = _super.call(this, "test", ...arguments);
-  Foo.prototype.test.apply(_assertThisInitialized(_this), arguments);
-  Foo.prototype.test.call(_assertThisInitialized(_this), "test", ...arguments);
+  _get(Test.prototype, "test", _this).apply(_assertThisInitialized(_this), arguments);
+  _get(Test.prototype, "test", _this).call(_assertThisInitialized(_this), "test", ...arguments);
   return _this;
 }
 
@@ -6876,8 +6866,8 @@ let Test = /*#__PURE__*/function (Foo) {
   function Test() {
     _classCallCheck(this, Test);
     var _this = _super.call(this);
-    Foo.prototype.test;
-    Foo.prototype.test.whatever;
+    _get(Test.prototype, "test", _this);
+    _get(Test.prototype, "test", _this).whatever;
     return _this;
   }
 
@@ -6921,9 +6911,9 @@ let Test = /*#__PURE__*/function (Foo) {
     _classCallCheck(this, Test);
     var _this = _super.call(this);
 
-    Foo.prototype.test.whatever();
+    _get(Test.prototype, "test", _this).whatever();
 
-    Foo.prototype.test.call(_assertThisInitialized(_this));
+    _get(Test.prototype, "test", _this).call(_assertThisInitialized(_this));
 
     return _this;
   }
@@ -6931,7 +6921,7 @@ let Test = /*#__PURE__*/function (Foo) {
   _createClass(Test, null, [{
     key: "test",
     value: function test() {
-      return Foo.wow.call(this);
+      return _get(Test, "wow", this).call(this);
     }
   }]);
   return Test;
@@ -6967,14 +6957,14 @@ let Test = /*#__PURE__*/function () {
 
   function Test() {
     _classCallCheck(this, Test);
-    Object.prototype.hasOwnProperty.call(this, "test");
-    return Object.prototype.constructor;
+    _get(Test.prototype, "hasOwnProperty", this).call(this, "test");
+    return _get(Test.prototype, "constructor", this);
   }
 
   _createClass(Test, null, [{
     key: "test",
     value: function test() {
-      return Function.prototype.constructor;
+      return _get(Test, "constructor", this);
     }
   }]);
   return Test;
@@ -7008,14 +6998,13 @@ let A = function(B) {
   _inherits(A, B);
   var _super = _createSuper(A);
   function A() {
-    _classCallCheck(this, A);
-    var _super_foo, _baz, _super_baz, _quz;
-    var _this;
-    _this.foo = (_super_foo = +B.prototype.foo) + 1, _super_foo;
-    _this.bar = B.prototype.bar + 123;
-    _this[_baz = baz] = (_super_baz = +B.prototype[_baz]) - 1, _super_baz;
-    _this[_quz = quz] = B.prototype[_quz] - 456;
-    return _possibleConstructorReturn(_this);
+      _classCallCheck(this, A);
+      var _this;
+      _update(A.prototype, "foo", _this, true)._++;
+      _update(A.prototype, "bar", _this, true)._ += 123;
+      _update(A.prototype, baz, _this, true)._--;
+      _update(A.prototype, quz, _this, true)._ -= 456;
+      return _possibleConstructorReturn(_this);
   }
   return A;
 }(B);

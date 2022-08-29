@@ -438,7 +438,10 @@ impl State {
 
                     // let a = function(){}
                     if out == TokenContext::BraceStmt
-                        && context.current() == Some(TokenContext::FnExpr)
+                        && matches!(
+                            context.current(),
+                            Some(TokenContext::FnExpr | TokenContext::ClassExpr)
+                        )
                     {
                         context.pop();
                         return false;
@@ -463,6 +466,15 @@ impl State {
                         && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
                     {
                         context.push(TokenContext::FnExpr);
+                    }
+                    false
+                }
+
+                tok!("class") => {
+                    if is_expr_allowed
+                        && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
+                    {
+                        context.push(TokenContext::ClassExpr);
                     }
                     false
                 }
@@ -726,6 +738,8 @@ pub enum TokenContext {
     },
     #[kind(is_expr)]
     FnExpr,
+    #[kind(is_expr)]
+    ClassExpr,
     JSXOpeningTag,
     JSXClosingTag,
     #[kind(is_expr, preserve_space)]

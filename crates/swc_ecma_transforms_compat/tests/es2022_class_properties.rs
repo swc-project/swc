@@ -756,9 +756,9 @@ export default class {
       _defineProperty(_class, "test", true),
       _class
   ));
-  var _class1 = function _class1() {
+  var _class1 = function _class() {
       "use strict";
-      _classCallCheck(this, _class1);
+      _classCallCheck(this, _class);
   };
   _defineProperty(_class1, "test", true);
   export { _class1 as default };
@@ -6018,13 +6018,13 @@ class A extends class B {} {
   static x = super.x;
 }
 ",
-    "
+    r#"
 var _B;
 
 class A extends (_B = class B {}) {}
 
-_defineProperty(A, \"x\", _B.x);
-"
+_defineProperty(A, "x", _get(A, "x", A));
+"#
 );
 
 test!(
@@ -6043,16 +6043,16 @@ class A extends B {
   static foo = super.bar;
 }
 ",
-    "
+    r#"
 class A extends B {
   constructor(...args) {
     super(...args);
-    _defineProperty(this, \"foo\", super.bar);
+    _defineProperty(this, "foo", super.bar);
   }
 }
 
-_defineProperty(A, \"foo\", B.bar)
-"
+_defineProperty(A, "foo", _get(A, "bar", A));
+"#
 );
 
 test!(

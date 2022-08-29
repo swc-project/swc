@@ -1,0 +1,1 @@
+//// [emitArrowFunctionThisCapturing.ts]

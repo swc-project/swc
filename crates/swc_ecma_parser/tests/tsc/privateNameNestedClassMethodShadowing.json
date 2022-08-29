@@ -1,0 +1,580 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 21,
+    "end": 299,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 27,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 21,
+        "end": 299,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateMethod",
+          "span": {
+            "start": 38,
+            "end": 46,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 38,
+              "end": 40,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 39,
+                "end": 40,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 38,
+              "end": 46,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 43,
+                "end": 46,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "EmptyStatement",
+          "span": {
+            "start": 46,
+            "end": 47,
+            "ctxt": 0
+          }
+        },
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 52,
+            "end": 297,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 52,
+              "end": 63,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 66,
+              "end": 297,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ClassDeclaration",
+                "identifier": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 82,
+                    "end": 89,
+                    "ctxt": 0
+                  },
+                  "value": "Derived",
+                  "optional": false
+                },
+                "declare": false,
+                "span": {
+                  "start": 76,
+                  "end": 291,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "body": [
+                  {
+                    "type": "PrivateMethod",
+                    "span": {
+                      "start": 104,
+                      "end": 112,
+                      "ctxt": 0
+                    },
+                    "key": {
+                      "type": "PrivateName",
+                      "span": {
+                        "start": 104,
+                        "end": 106,
+                        "ctxt": 0
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 105,
+                          "end": 106,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      }
+                    },
+                    "function": {
+                      "params": [],
+                      "decorators": [],
+                      "span": {
+                        "start": 104,
+                        "end": 112,
+                        "ctxt": 0
+                      },
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 109,
+                          "end": 112,
+                          "ctxt": 0
+                        },
+                        "stmts": []
+                      },
+                      "generator": false,
+                      "async": false,
+                      "typeParameters": null,
+                      "returnType": null
+                    },
+                    "kind": "method",
+                    "isStatic": false,
+                    "accessibility": null,
+                    "isAbstract": false,
+                    "isOptional": false,
+                    "isOverride": false
+                  },
+                  {
+                    "type": "EmptyStatement",
+                    "span": {
+                      "start": 112,
+                      "end": 113,
+                      "ctxt": 0
+                    }
+                  },
+                  {
+                    "type": "ClassMethod",
+                    "span": {
+                      "start": 126,
+                      "end": 194,
+                      "ctxt": 0
+                    },
+                    "key": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 126,
+                        "end": 134,
+                        "ctxt": 0
+                      },
+                      "value": "testBase",
+                      "optional": false
+                    },
+                    "function": {
+                      "params": [
+                        {
+                          "type": "Parameter",
+                          "span": {
+                            "start": 135,
+                            "end": 142,
+                            "ctxt": 0
+                          },
+                          "decorators": [],
+                          "pat": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 135,
+                              "end": 142,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "optional": false,
+                            "typeAnnotation": {
+                              "type": "TsTypeAnnotation",
+                              "span": {
+                                "start": 136,
+                                "end": 142,
+                                "ctxt": 0
+                              },
+                              "typeAnnotation": {
+                                "type": "TsTypeReference",
+                                "span": {
+                                  "start": 138,
+                                  "end": 142,
+                                  "ctxt": 0
+                                },
+                                "typeName": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 138,
+                                    "end": 142,
+                                    "ctxt": 0
+                                  },
+                                  "value": "Base",
+                                  "optional": false
+                                },
+                                "typeParams": null
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "decorators": [],
+                      "span": {
+                        "start": 126,
+                        "end": 194,
+                        "ctxt": 0
+                      },
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 144,
+                          "end": 194,
+                          "ctxt": 0
+                        },
+                        "stmts": [
+                          {
+                            "type": "ExpressionStatement",
+                            "span": {
+                              "start": 162,
+                              "end": 180,
+                              "ctxt": 0
+                            },
+                            "expression": {
+                              "type": "CallExpression",
+                              "span": {
+                                "start": 162,
+                                "end": 179,
+                                "ctxt": 0
+                              },
+                              "callee": {
+                                "type": "MemberExpression",
+                                "span": {
+                                  "start": 162,
+                                  "end": 173,
+                                  "ctxt": 0
+                                },
+                                "object": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 162,
+                                    "end": 169,
+                                    "ctxt": 0
+                                  },
+                                  "value": "console",
+                                  "optional": false
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 170,
+                                    "end": 173,
+                                    "ctxt": 0
+                                  },
+                                  "value": "log",
+                                  "optional": false
+                                }
+                              },
+                              "arguments": [
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 174,
+                                      "end": 178,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 174,
+                                        "end": 175,
+                                        "ctxt": 0
+                                      },
+                                      "value": "x",
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "PrivateName",
+                                      "span": {
+                                        "start": 176,
+                                        "end": 178,
+                                        "ctxt": 0
+                                      },
+                                      "id": {
+                                        "type": "Identifier",
+                                        "span": {
+                                          "start": 177,
+                                          "end": 178,
+                                          "ctxt": 0
+                                        },
+                                        "value": "x",
+                                        "optional": false
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "typeArguments": null
+                            }
+                          }
+                        ]
+                      },
+                      "generator": false,
+                      "async": false,
+                      "typeParameters": null,
+                      "returnType": null
+                    },
+                    "kind": "method",
+                    "isStatic": false,
+                    "accessibility": null,
+                    "isAbstract": false,
+                    "isOptional": false,
+                    "isOverride": false
+                  },
+                  {
+                    "type": "ClassMethod",
+                    "span": {
+                      "start": 207,
+                      "end": 281,
+                      "ctxt": 0
+                    },
+                    "key": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 207,
+                        "end": 218,
+                        "ctxt": 0
+                      },
+                      "value": "testDerived",
+                      "optional": false
+                    },
+                    "function": {
+                      "params": [
+                        {
+                          "type": "Parameter",
+                          "span": {
+                            "start": 219,
+                            "end": 229,
+                            "ctxt": 0
+                          },
+                          "decorators": [],
+                          "pat": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 219,
+                              "end": 229,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "optional": false,
+                            "typeAnnotation": {
+                              "type": "TsTypeAnnotation",
+                              "span": {
+                                "start": 220,
+                                "end": 229,
+                                "ctxt": 0
+                              },
+                              "typeAnnotation": {
+                                "type": "TsTypeReference",
+                                "span": {
+                                  "start": 222,
+                                  "end": 229,
+                                  "ctxt": 0
+                                },
+                                "typeName": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 222,
+                                    "end": 229,
+                                    "ctxt": 0
+                                  },
+                                  "value": "Derived",
+                                  "optional": false
+                                },
+                                "typeParams": null
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "decorators": [],
+                      "span": {
+                        "start": 207,
+                        "end": 281,
+                        "ctxt": 0
+                      },
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 231,
+                          "end": 281,
+                          "ctxt": 0
+                        },
+                        "stmts": [
+                          {
+                            "type": "ExpressionStatement",
+                            "span": {
+                              "start": 249,
+                              "end": 267,
+                              "ctxt": 0
+                            },
+                            "expression": {
+                              "type": "CallExpression",
+                              "span": {
+                                "start": 249,
+                                "end": 266,
+                                "ctxt": 0
+                              },
+                              "callee": {
+                                "type": "MemberExpression",
+                                "span": {
+                                  "start": 249,
+                                  "end": 260,
+                                  "ctxt": 0
+                                },
+                                "object": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 249,
+                                    "end": 256,
+                                    "ctxt": 0
+                                  },
+                                  "value": "console",
+                                  "optional": false
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 257,
+                                    "end": 260,
+                                    "ctxt": 0
+                                  },
+                                  "value": "log",
+                                  "optional": false
+                                }
+                              },
+                              "arguments": [
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 261,
+                                      "end": 265,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 261,
+                                        "end": 262,
+                                        "ctxt": 0
+                                      },
+                                      "value": "x",
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "PrivateName",
+                                      "span": {
+                                        "start": 263,
+                                        "end": 265,
+                                        "ctxt": 0
+                                      },
+                                      "id": {
+                                        "type": "Identifier",
+                                        "span": {
+                                          "start": 264,
+                                          "end": 265,
+                                          "ctxt": 0
+                                        },
+                                        "value": "x",
+                                        "optional": false
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "typeArguments": null
+                            }
+                          }
+                        ]
+                      },
+                      "generator": false,
+                      "async": false,
+                      "typeParameters": null,
+                      "returnType": null
+                    },
+                    "kind": "method",
+                    "isStatic": false,
+                    "accessibility": null,
+                    "isAbstract": false,
+                    "isOptional": false,
+                    "isOverride": false
+                  }
+                ],
+                "superClass": null,
+                "isAbstract": false,
+                "typeParams": null,
+                "superTypeParams": null,
+                "implements": []
+              }
+            ]
+          },
+          "accessibility": null,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

@@ -1,4 +1,4 @@
-﻿var f: any;
+var f: any;
 
 f `abc`
 

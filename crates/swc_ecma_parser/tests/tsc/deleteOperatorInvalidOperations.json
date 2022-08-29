@@ -1,0 +1,278 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 26,
+    "end": 291,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 26,
+        "end": 34,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 30,
+            "end": 33,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 30,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": "ANY",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 70,
+        "end": 97,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 74,
+            "end": 88,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 74,
+              "end": 82,
+              "ctxt": 0
+            },
+            "value": "BOOLEAN1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "Identifier",
+            "span": {
+              "start": 85,
+              "end": 88,
+              "ctxt": 0
+            },
+            "value": "ANY",
+            "optional": false
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 137,
+        "end": 160,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 141,
+            "end": 158,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 141,
+              "end": 149,
+              "ctxt": 0
+            },
+            "value": "BOOLEAN2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "UnaryExpression",
+            "span": {
+              "start": 152,
+              "end": 158,
+              "ctxt": 0
+            },
+            "operator": "delete",
+            "argument": {
+              "type": "Invalid",
+              "span": {
+                "start": 158,
+                "end": 158,
+                "ctxt": 0
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 196,
+          "end": 205,
+          "ctxt": 0
+        },
+        "value": "testADelx",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 190,
+        "end": 291,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 212,
+            "end": 289,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 212,
+              "end": 223,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "TsParameterProperty",
+              "span": {
+                "start": 224,
+                "end": 242,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "accessibility": "public",
+              "override": false,
+              "readonly": false,
+              "param": {
+                "type": "Identifier",
+                "span": {
+                  "start": 231,
+                  "end": 242,
+                  "ctxt": 0
+                },
+                "value": "s",
+                "optional": false,
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 232,
+                    "end": 242,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsFunctionType",
+                    "span": {
+                      "start": 234,
+                      "end": 242,
+                      "ctxt": 0
+                    },
+                    "params": [],
+                    "typeParams": null,
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 237,
+                        "end": 242,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsTypeLiteral",
+                        "span": {
+                          "start": 240,
+                          "end": 242,
+                          "ctxt": 0
+                        },
+                        "members": []
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 244,
+              "end": 289,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 254,
+                  "end": 263,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "UnaryExpression",
+                  "span": {
+                    "start": 254,
+                    "end": 262,
+                    "ctxt": 0
+                  },
+                  "operator": "delete",
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 261,
+                      "end": 262,
+                      "ctxt": 0
+                    },
+                    "value": "s",
+                    "optional": false
+                  }
+                }
+              }
+            ]
+          },
+          "accessibility": null,
+          "isOptional": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

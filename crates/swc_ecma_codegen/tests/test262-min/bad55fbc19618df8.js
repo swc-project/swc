@@ -1,1 +1,1 @@
-a=typeof b.c!="d"
+a=typeof b.c!="d";

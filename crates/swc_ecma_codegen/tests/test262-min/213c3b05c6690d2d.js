@@ -1,1 +1,1 @@
-([yield]=a)
+([yield]=a);

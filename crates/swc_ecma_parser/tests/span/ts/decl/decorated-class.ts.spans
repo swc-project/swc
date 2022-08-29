@@ -1,0 +1,1443 @@
+
+  x Module
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+  2 | ,-> @Controller(COMMENT_CONTROLLER_ROUTE)
+  3 | |   @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+  4 | |   export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x ModuleItem
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:4:1]
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x ModuleDecl
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:4:1]
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x ExportDecl
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:4:1]
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x Decl
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:4:1]
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x ClassDecl
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:4:1]
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:4:1]
+ 4 | export class CommentController {
+   :              ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Class
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:4:1]
+  4 | ,-> export class CommentController {
+  5 | |       constructor(private commentService: CommentService) { }
+  6 | |   
+  7 | |       @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | |       }
+ 16 | |   
+ 17 | |       @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x Decorator
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Callee
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :  ^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :  ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :  ^^^^^^^^^^
+   `----
+
+  x ExprOrSpread
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+ 2 | @Controller(COMMENT_CONTROLLER_ROUTE)
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Decorator
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Callee
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :  ^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :  ^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :  ^^^^^^^^^^^^^^^
+   `----
+
+  x ExprOrSpread
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Callee
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ExprOrSpread
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                                                     ^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                                                     ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:3:1]
+ 3 | @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
+   :                                                     ^^^^^^^
+   `----
+
+  x ClassMember
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Constructor
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PropName
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   : ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   : ^^^^^^^^^^^
+   `----
+
+  x ParamOrTsParamProp
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TsParamProp
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TsParamPropParam
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TsTypeAnn
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :                                   ^^^^^^^^^^^^^^^^
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :                                     ^^^^^^^^^^^^^^
+   `----
+
+  x TsTypeRef
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :                                     ^^^^^^^^^^^^^^
+   `----
+
+  x TsEntityName
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :                                     ^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :                                     ^^^^^^^^^^^^^^
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:5:5]
+ 5 | constructor(private commentService: CommentService) { }
+   :                                                     ^^^
+   `----
+
+  x ClassMember
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+  7 | ,-> @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | `->     }
+    `----
+
+  x ClassMethod
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+  7 | ,-> @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | `->     }
+    `----
+
+  x PropName
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:9:5]
+ 9 | public updateComment(
+   :        ^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:9:5]
+ 9 | public updateComment(
+   :        ^^^^^^^^^^^^^
+   `----
+
+  x Function
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+  7 | ,-> @UseGuards(JwtAuthGuard)
+  8 | |       @Put(COMMENT_UPDATE_ENDPOINT)
+  9 | |       public updateComment(
+ 10 | |           @Param('id') id: string,
+ 11 | |           @Body() updateCommentDto: UpdateCommentDto,
+ 12 | |           @User() user: UserType,
+ 13 | |       ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | `->     }
+    `----
+
+  x Param
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Decorator
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    : ^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :  ^^^^^^^^^^^
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :  ^^^^^^^^^^^
+    `----
+
+  x Callee
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :  ^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :  ^^^^^
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :        ^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :        ^^^^
+    `----
+
+  x Lit
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :        ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :        ^^^^
+    `----
+
+  x Pat
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :              ^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :              ^^^^^^^^^^
+    `----
+
+  x TsTypeAnn
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :                ^^^^^^^^
+    `----
+
+  x TsType
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :                  ^^^^^^
+    `----
+
+  x TsKeywordType
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:10:9]
+ 10 | @Param('id') id: string,
+    :                  ^^^^^^
+    `----
+
+  x Param
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Decorator
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    : ^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :  ^^^^^^
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :  ^^^^^^
+    `----
+
+  x Callee
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :  ^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :  ^^^^
+    `----
+
+  x Pat
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x TsTypeAnn
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :                         ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x TsType
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :                           ^^^^^^^^^^^^^^^^
+    `----
+
+  x TsTypeRef
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :                           ^^^^^^^^^^^^^^^^
+    `----
+
+  x TsEntityName
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :                           ^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:11:9]
+ 11 | @Body() updateCommentDto: UpdateCommentDto,
+    :                           ^^^^^^^^^^^^^^^^
+    `----
+
+  x Param
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Decorator
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    : ^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :  ^^^^^^
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :  ^^^^^^
+    `----
+
+  x Callee
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :  ^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :  ^^^^
+    `----
+
+  x Pat
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :         ^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :         ^^^^^^^^^^^^^^
+    `----
+
+  x TsTypeAnn
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :             ^^^^^^^^^^
+    `----
+
+  x TsType
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :               ^^^^^^^^
+    `----
+
+  x TsTypeRef
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :               ^^^^^^^^
+    `----
+
+  x TsEntityName
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :               ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:12:9]
+ 12 | @User() user: UserType,
+    :               ^^^^^^^^
+    `----
+
+  x Decorator
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+ 7 | @UseGuards(JwtAuthGuard)
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+ 7 | @UseGuards(JwtAuthGuard)
+   :  ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+ 7 | @UseGuards(JwtAuthGuard)
+   :  ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Callee
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+ 7 | @UseGuards(JwtAuthGuard)
+   :  ^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+ 7 | @UseGuards(JwtAuthGuard)
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+ 7 | @UseGuards(JwtAuthGuard)
+   :  ^^^^^^^^^
+   `----
+
+  x ExprOrSpread
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+ 7 | @UseGuards(JwtAuthGuard)
+   :            ^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+ 7 | @UseGuards(JwtAuthGuard)
+   :            ^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:7:5]
+ 7 | @UseGuards(JwtAuthGuard)
+   :            ^^^^^^^^^^^^
+   `----
+
+  x Decorator
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:8:5]
+ 8 | @Put(COMMENT_UPDATE_ENDPOINT)
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:8:5]
+ 8 | @Put(COMMENT_UPDATE_ENDPOINT)
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:8:5]
+ 8 | @Put(COMMENT_UPDATE_ENDPOINT)
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Callee
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:8:5]
+ 8 | @Put(COMMENT_UPDATE_ENDPOINT)
+   :  ^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:8:5]
+ 8 | @Put(COMMENT_UPDATE_ENDPOINT)
+   :  ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:8:5]
+ 8 | @Put(COMMENT_UPDATE_ENDPOINT)
+   :  ^^^
+   `----
+
+  x ExprOrSpread
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:8:5]
+ 8 | @Put(COMMENT_UPDATE_ENDPOINT)
+   :      ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:8:5]
+ 8 | @Put(COMMENT_UPDATE_ENDPOINT)
+   :      ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/decl/decorated-class.ts:8:5]
+ 8 | @Put(COMMENT_UPDATE_ENDPOINT)
+   :      ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x BlockStmt
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:13:5]
+ 13 | ,-> ) {
+ 14 | |           return this.commentService.update(id, updateCommentDto, user.id);
+ 15 | `->     }
+    `----
+
+  x Stmt
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ReturnStmt
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Callee
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MemberExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MemberExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :        ^^^^
+    `----
+
+  x ThisExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :        ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :             ^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                            ^^^^^^
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                   ^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                   ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                   ^^
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                       ^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                       ^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                       ^^^^^^^^^^^^^^^^
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                                         ^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                                         ^^^^^^^
+    `----
+
+  x MemberExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                                         ^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                                         ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                                         ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:14:9]
+ 14 | return this.commentService.update(id, updateCommentDto, user.id);
+    :                                                              ^^
+    `----
+
+  x ClassMember
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | ,-> @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | `->     }
+    `----
+
+  x ClassMethod
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | ,-> @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | `->     }
+    `----
+
+  x PropName
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :        ^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :        ^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | ,-> @UseGuards(JwtAuthGuard)
+ 18 | |       @Delete(COMMENT_DELETE_ENDPOINT)
+ 19 | |       public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | `->     }
+    `----
+
+  x Param
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Decorator
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                      ^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                       ^^^^^^^^^^^
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                       ^^^^^^^^^^^
+    `----
+
+  x Callee
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                       ^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                       ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                       ^^^^^
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                             ^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                             ^^^^
+    `----
+
+  x Lit
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                             ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                             ^^^^
+    `----
+
+  x Pat
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                   ^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                   ^^^^^^^^^^
+    `----
+
+  x TsTypeAnn
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                     ^^^^^^^^
+    `----
+
+  x TsType
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                       ^^^^^^
+    `----
+
+  x TsKeywordType
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                       ^^^^^^
+    `----
+
+  x Param
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                               ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Decorator
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                               ^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                ^^^^^^
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                ^^^^^^
+    `----
+
+  x Callee
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                ^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                ^^^^
+    `----
+
+  x Pat
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                       ^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                       ^^^^^^^^^^^^^^
+    `----
+
+  x TsTypeAnn
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                           ^^^^^^^^^^
+    `----
+
+  x TsType
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                             ^^^^^^^^
+    `----
+
+  x TsTypeRef
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                             ^^^^^^^^
+    `----
+
+  x TsEntityName
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                             ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | public deleteComment(@Param('id') id: string, @User() user: UserType) {
+    :                                                             ^^^^^^^^
+    `----
+
+  x Decorator
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | @UseGuards(JwtAuthGuard)
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | @UseGuards(JwtAuthGuard)
+    :  ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | @UseGuards(JwtAuthGuard)
+    :  ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Callee
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | @UseGuards(JwtAuthGuard)
+    :  ^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | @UseGuards(JwtAuthGuard)
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | @UseGuards(JwtAuthGuard)
+    :  ^^^^^^^^^
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | @UseGuards(JwtAuthGuard)
+    :            ^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | @UseGuards(JwtAuthGuard)
+    :            ^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:17:5]
+ 17 | @UseGuards(JwtAuthGuard)
+    :            ^^^^^^^^^^^^
+    `----
+
+  x Decorator
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:18:5]
+ 18 | @Delete(COMMENT_DELETE_ENDPOINT)
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:18:5]
+ 18 | @Delete(COMMENT_DELETE_ENDPOINT)
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:18:5]
+ 18 | @Delete(COMMENT_DELETE_ENDPOINT)
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Callee
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:18:5]
+ 18 | @Delete(COMMENT_DELETE_ENDPOINT)
+    :  ^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:18:5]
+ 18 | @Delete(COMMENT_DELETE_ENDPOINT)
+    :  ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:18:5]
+ 18 | @Delete(COMMENT_DELETE_ENDPOINT)
+    :  ^^^^^^
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:18:5]
+ 18 | @Delete(COMMENT_DELETE_ENDPOINT)
+    :         ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:18:5]
+ 18 | @Delete(COMMENT_DELETE_ENDPOINT)
+    :         ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:18:5]
+ 18 | @Delete(COMMENT_DELETE_ENDPOINT)
+    :         ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x BlockStmt
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:19:5]
+ 19 | ,-> public deleteComment(@Param('id') id: string, @User() user: UserType) {
+ 20 | |           return this.commentService.delete(id, user.id);
+ 21 | `->     }
+    `----
+
+  x Stmt
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ReturnStmt
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Callee
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MemberExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MemberExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :        ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :        ^^^^
+    `----
+
+  x ThisExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :        ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :             ^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                            ^^^^^^
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                                   ^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                                   ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                                   ^^
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                                       ^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                                       ^^^^^^^
+    `----
+
+  x MemberExpr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                                       ^^^^^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                                       ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                                       ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:20:9]
+ 20 | return this.commentService.delete(id, user.id);
+    :                                            ^^
+    `----

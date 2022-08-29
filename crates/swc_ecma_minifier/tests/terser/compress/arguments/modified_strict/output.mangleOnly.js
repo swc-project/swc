@@ -1,10 +1,10 @@
 "use strict";
-(function(a, r) {
-    var v = arguments[0];
-    var $ = arguments[1];
-    var a = "foo";
+(function(o, r) {
+    var a = arguments[0];
+    var t = arguments[1];
+    var o = "foo";
     r++;
     arguments[0] = "moo";
     arguments[1] *= 2;
-    console.log(a, r, v, $, arguments[0], arguments[1]);
+    console.log(o, r, a, t, arguments[0], arguments[1]);
 })("bar", 42);

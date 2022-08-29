@@ -1,40 +1,41 @@
-import e from "regenerator-runtime";
-var t = e.mark(saveTheme);
-import { takeLatest as r, select as o } from "redux-saga/effects";
-import { CHANGE_THEME as s, CHANGE_THEME_CUSTOM_PALETTE as a, CHANGE_THEME_SWITCH_MODE as n } from "core/actions/changeTheme";
+import e from "@swc/helpers/src/_ts_generator.mjs";
+import { takeLatest as t, select as r } from "redux-saga/effects";
+import { CHANGE_THEME as s, CHANGE_THEME_CUSTOM_PALETTE as o, CHANGE_THEME_SWITCH_MODE as c } from "core/actions/changeTheme";
 export var selectThemeObject = function(e) {
     return e.theme;
 };
-export function saveTheme(r) {
-    var s, a, c;
-    return e.wrap(function(e) {
-        for(;;)switch(e.prev = e.next){
+export function saveTheme(t) {
+    var s, o, a, n;
+    return e(this, function(e) {
+        switch(e.label){
             case 0:
-                return s = r.type, e.next = 3, o(selectThemeObject);
-            case 3:
-                a = e.sent, window.localStorage.setItem("theme", JSON.stringify({
-                    theme: a.theme,
-                    mode: a.mode,
-                    palette: a.palette
-                })), s === n && (c = window.document.querySelector("body")) && (c.classList.add("light" === a.mode ? "light" : "dark"), c.classList.remove("light" === a.mode ? "dark" : "light"));
-            case 6:
-            case "end":
-                return e.stop();
+                return s = t.type, [
+                    4,
+                    r(selectThemeObject)
+                ];
+            case 1:
+                return o = e.sent(), a = {}, window.localStorage.setItem("theme", JSON.stringify((a.theme = o.theme, a.mode = o.mode, a.palette = o.palette, a))), s === c && (n = window.document.querySelector("body")) && (n.classList.add("light" === o.mode ? "light" : "dark"), n.classList.remove("light" === o.mode ? "dark" : "light")), [
+                    2
+                ];
         }
-    }, t);
+    });
 }
-export default function c() {
-    return e.wrap(function(e) {
-        for(;;)switch(e.prev = e.next){
+export default function a() {
+    return e(this, function(e) {
+        switch(e.label){
             case 0:
-                return e.next = 2, r([
-                    s,
-                    a,
-                    n
-                ], saveTheme);
-            case 2:
-            case "end":
-                return e.stop();
+                return [
+                    4,
+                    t([
+                        s,
+                        o,
+                        c
+                    ], saveTheme)
+                ];
+            case 1:
+                return e.sent(), [
+                    2
+                ];
         }
-    }, c);
+    });
 };

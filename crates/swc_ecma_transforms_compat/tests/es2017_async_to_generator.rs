@@ -6,14 +6,14 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_transforms_compat::{
     es2015,
-    es2015::{arrow, block_scoping, destructuring, function_name, parameters},
+    es2015::{
+        arrow, block_scoping, destructuring, function_name, generator::generator, parameters,
+    },
     es2017::async_to_generator,
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::{Fold, FoldWith};
-
-use crate::es2015::regenerator;
 
 struct ParenRemover;
 impl Fold for ParenRemover {
@@ -2455,11 +2455,11 @@ test_exec!(
 
 test_exec!(
     Syntax::default(),
-    |_| {
+    |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, mark)
+            generator(mark, t.comments.clone())
         )
     },
     issue_1575_2,
@@ -2607,11 +2607,11 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_1684_2,
@@ -2628,41 +2628,41 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-    const cache = {
-    };
+    const cache = {};
     function getThing(key) {
-      return _getThing.apply(this, arguments);
+        return _getThing.apply(this, arguments);
     }
     function _getThing() {
-        _getThing = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key) {
-            var it;
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
+        _getThing = _asyncToGenerator(function(key) {
+            var it, _tmp;
+            return __generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        _ctx.t0 = cache[key];
-                        if (_ctx.t0) {
-                            _ctx.next = 5;
-                            break;
-                        }
-                        _ctx.next = 4;
-                        return fetchThing(key);
-                    case 4:
-                        _ctx.t0 = _ctx.sent;
-                    case 5:
-                        it = _ctx.t0;
-                        return _ctx.abrupt(\"return\", it);
-                    case 7:
-                    case \"end\":
-                        return _ctx.stop();
+                        _tmp = cache[key];
+                        if (_tmp) return [
+                            3,
+                            2
+                        ];
+                        return [
+                            4,
+                            fetchThing(key)
+                        ];
+                    case 1:
+                        _tmp = _state.sent();
+                        _state.label = 2;
+                    case 2:
+                        it = _tmp;
+                        return [
+                            2,
+                            it
+                        ];
                 }
-            }, _callee);
-        }));
+            });
+        });
         return _getThing.apply(this, arguments);
     }
     function fetchThing(key) {
-      return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
-      );
+        return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val);
     }
     "
 );
@@ -2758,11 +2758,11 @@ expect(tmp.fun()).resolves.toEqual({ foo: 'bar' });
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_2402_2,
@@ -2784,35 +2784,31 @@ test!(
   });
 ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-function MyClass(item) {
-    this.item = item;
-    console.log('Constructor | this.item', this.item);
-}
-MyClass.prototype.fun = function() {
-    var _fun = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    console.log('fun | this.item', this.item);
-                    return _ctx.abrupt(\"return\", this.item);
-                case 2:
-                case \"end\":
-                    return _ctx.stop();
-            }
-        }, _callee, this);
-    }));
-    function fun() {
-        return _fun.apply(this, arguments);
+    function MyClass(item) {
+      this.item = item;
+      console.log('Constructor | this.item', this.item);
     }
-    return fun;
-}();
-const tmp = new MyClass({
-    foo: 'bar'
-});
-tmp.fun().then((res)=>{
-    console.log('fun result | item', res);
-});
+    MyClass.prototype.fun = function() {
+        var _fun = _asyncToGenerator(function() {
+            return __generator(this, function(_state) {
+                console.log('fun | this.item', this.item);
+                return [
+                    2,
+                    this.item
+                ];
+            });
+        });
+        function fun() {
+            return _fun.apply(this, arguments);
+        }
+        return fun;
+    }();
+    const tmp = new MyClass({
+        foo: 'bar'
+    });
+    tmp.fun().then((res)=>{
+        console.log('fun result | item', res);
+    });
 "
 );
 
@@ -2850,11 +2846,11 @@ expect(myclass.init(2)).resolves.toEqual(true);
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_2305_2,
@@ -2884,52 +2880,48 @@ test!(
     myclass.handle()
   ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
-function MyClass() {
-}
-MyClass.prototype.handle = function() {
-    console.log('this is MyClass handle');
-};
-MyClass.prototype.init = function() {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param1) {
-        var a;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    a = 1;
-                    if (!param1) {
-                        console.log(this);
-                        this.handle();
-                    }
-                    if (!(param1 === a)) {
-                        _ctx.next = 4;
-                        break;
-                    }
-                    return _ctx.abrupt(\"return\", false);
-                case 4:
-                    return _ctx.abrupt(\"return\", true);
-                case 5:
-                case \"end\":
-                    return _ctx.stop();
-            }
-        }, _callee, this);
-    }));
-    return function(param1) {
-        return _ref.apply(this, arguments);
+    
+    function MyClass() {}
+    MyClass.prototype.handle = function() {
+        console.log('this is MyClass handle');
     };
-}();
-const myclass = new MyClass();
-myclass.handle();
+    MyClass.prototype.init = function() {
+        var _ref = _asyncToGenerator(function(param1) {
+            var a;
+            return __generator(this, function(_state) {
+                a = 1;
+                if (!param1) {
+                    console.log(this);
+                    this.handle();
+                }
+                if (param1 === a) {
+                    return [
+                        2,
+                        false
+                    ];
+                }
+                return [
+                    2,
+                    true
+                ];
+            });
+        });
+        return function(param1) {
+            return _ref.apply(this, arguments);
+        };
+    }();
+    const myclass = new MyClass();
+    myclass.handle();
   "
 );
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_2677_1,
@@ -2946,68 +2938,73 @@ export default async function someCall() {
 }
   ",
     "
-            var regeneratorRuntime = require(\"regenerator-runtime\");
-function region() {
-  return _region.apply(this, arguments);
-}
-function _region() {
-    _region = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                case \"end\":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }));
-    return _region.apply(this, arguments);
-}
-export function otherCall() {
-  return _otherCall.apply(this, arguments);
-}
-function _otherCall() {
-    _otherCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    _ctx.next = 2;
-                    return region();
-                case 2:
-                case \"end\":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }));
-    return _otherCall.apply(this, arguments);
-}
-export default function someCall() {
-  return _someCall.apply(this, arguments);
-}
-function _someCall() {
-  _someCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_ctx) {
-          while(1)switch(_ctx.prev = _ctx.next){
-              case 0:
-                  _ctx.next = 2;
-                  return region();
-              case 2:
-              case \"end\":
-                  return _ctx.stop();
-          }
-      }, _callee);
-  }));
-  return _someCall.apply(this, arguments);
-}
+    function region() {
+      return _region.apply(this, arguments);
+  }
+  function _region() {
+      _region = _asyncToGenerator(function() {
+          return __generator(this, function(_state) {
+              return [
+                  2
+              ];
+          });
+      });
+      return _region.apply(this, arguments);
+  }
+  export function otherCall() {
+      return _otherCall.apply(this, arguments);
+  }
+  function _otherCall() {
+      _otherCall = _asyncToGenerator(function() {
+          return __generator(this, function(_state) {
+              switch(_state.label){
+                  case 0:
+                      return [
+                          4,
+                          region()
+                      ];
+                  case 1:
+                      _state.sent();
+                      return [
+                          2
+                      ];
+              }
+          });
+      });
+      return _otherCall.apply(this, arguments);
+  }
+  export default function someCall() {
+      return _someCall.apply(this, arguments);
+  }
+  function _someCall() {
+      _someCall = _asyncToGenerator(function() {
+          return __generator(this, function(_state) {
+              switch(_state.label){
+                  case 0:
+                      return [
+                          4,
+                          region()
+                      ];
+                  case 1:
+                      _state.sent();
+                      return [
+                          2
+                      ];
+              }
+          });
+      });
+      return _someCall.apply(this, arguments);
+  }
   "
 );
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let unresolved_mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
-            regenerator::<SingleThreadedComments>(Default::default(), None, unresolved_mark)
+            generator(unresolved_mark, t.comments.clone())
         )
     },
     issue_2677_2,
@@ -3020,38 +3017,39 @@ export default async function() {
 }
 ",
     "
-    var regeneratorRuntime = require(\"regenerator-runtime\");
     function region() {
       return _region.apply(this, arguments);
     }
     function _region() {
-        _region = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
-                    case 0:
-                    case \"end\":
-                        return _ctx.stop();
-                }
-            }, _callee);
-        }));
+        _region = _asyncToGenerator(function() {
+            return __generator(this, function(_state) {
+                return [
+                    2
+                ];
+            });
+        });
         return _region.apply(this, arguments);
     }
     export default function() {
-      return _ref.apply(this, arguments);
+        return _ref.apply(this, arguments);
     }
     function _ref() {
-        _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
+        _ref = _asyncToGenerator(function() {
+            return __generator(this, function(_state) {
+                switch(_state.label){
                     case 0:
-                        _ctx.next = 2;
-                        return region();
-                    case 2:
-                    case \"end\":
-                        return _ctx.stop();
+                        return [
+                            4,
+                            region()
+                        ];
+                    case 1:
+                        _state.sent();
+                        return [
+                            2
+                        ];
                 }
-            }, _callee);
-        }));
+            });
+        });
         return _ref.apply(this, arguments);
     }
 "
@@ -3532,30 +3530,28 @@ class A extends B {
   }
 }
 ",
-    "
+    r#"
 class A extends B {
   foo() {
-    var _superprop_get_foo = () => super.foo,
-      _superprop_get_bar = () => super.bar,
-      _superprop_get = (_prop) => super[_prop],
-      _superprop_set_foo = (_value) => super.foo = _value,
-      _superprop_set_bar = (_value) => super.bar = _value,
-      _superprop_set = (_prop, _value) => super[_prop] = _value;
+      var _superprop_update_foo = { get _() { return _superprop_get_foo(); }, set _(v) { _superprop_set_foo(v); } },
+          _superprop_update_bar = { get _() { return _superprop_get_bar(); }, set _(v) { _superprop_set_bar(v); } },
+          _superprop_update = (_prop) => ({ get _() { return _superprop_get(_prop); }, set _(v) { return _superprop_set(_prop, v); } }),
+          _superprop_get_foo = () => super.foo,
+          _superprop_get_bar = () => super.bar,
+          _superprop_get = (_prop) => super[_prop],
+          _superprop_set_foo = (_value) => super.foo = _value,
+          _superprop_set_bar = (_value) => super.bar = _value,
+          _superprop_set = (_prop, _value) => super[_prop] = _value;
 
-    return _asyncToGenerator(function* () {
-      var tmp, tmp1, tmp2, prop, tmp3, prop1;
-
-      tmp = _superprop_get_foo(), _superprop_set_foo(tmp + 1), tmp;
-      tmp1 = _superprop_get_bar(), _superprop_set_bar(tmp1 - 1);
-      tmp2 = _superprop_get(prop = 'foo'),
-        _superprop_set(prop, tmp2 + 1),
-        tmp2;
-      tmp3 = _superprop_get(prop1 = 'bar'),
-        _superprop_set(prop1, tmp3 - 1);
-    })();
+      return _asyncToGenerator(function* () {
+          _superprop_update_foo._++;
+          --_superprop_update_bar._;
+          _superprop_update('foo')._++;
+          --_superprop_update('bar')._;
+      })();
   }
 }
-"
+"#
 );
 
 test!(
@@ -3649,11 +3645,7 @@ fn exec_regenerator(input: PathBuf) {
                 ),
                 es2015::for_of(Default::default()),
                 block_scoping(unresolved_mark),
-                regenerator(
-                    Default::default(),
-                    Some(t.comments.clone()),
-                    unresolved_mark
-                )
+                generator(unresolved_mark, t.comments.clone())
             )
         },
         &input,

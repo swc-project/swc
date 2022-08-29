@@ -1,4 +1,4 @@
-﻿//@jsx: preserve
+//@jsx: preserve
 //@module: amd
 
 //@filename: react.d.ts

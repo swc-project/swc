@@ -1,46 +1,46 @@
-var n = [
-    "foo",
-    "bar",
-    "baz"
-].join("");
-var i = [
-    "foo",
-    "bar",
-    "baz"
-].join();
 var o = [
     "foo",
     "bar",
     "baz"
-].join(null);
-var v = [
-    "foo",
-    "bar",
-    "baz"
-].join(void 0);
+].join("");
 var a = [
     "foo",
-    ,
-    "baz"
-].join();
-var j = [
-    "foo",
-    null,
+    "bar",
     "baz"
 ].join();
 var r = [
     "foo",
+    "bar",
+    "baz"
+].join(null);
+var n = [
+    "foo",
+    "bar",
+    "baz"
+].join(void 0);
+var b = [
+    "foo",
+    ,
+    "baz"
+].join();
+var i = [
+    "foo",
+    null,
+    "baz"
+].join();
+var v = [
+    "foo",
     void 0,
     "baz"
 ].join();
-var _ = [
+var f = [
     "foo",
     1,
     2,
     3,
     "bar"
 ].join("");
-var l = [
+var j = [
     boo(),
     "foo",
     1,
@@ -49,7 +49,7 @@ var l = [
     "bar",
     bar()
 ].join("");
-var u = [
+var _ = [
     boo(),
     bar(),
     "foo",
@@ -59,22 +59,39 @@ var u = [
     "bar",
     bar()
 ].join("");
+var l = [
+    1,
+    2,
+    "foo",
+    "bar",
+    baz()
+].join("");
+var z = [
+    boo() + bar() + "foo",
+    1,
+    2,
+    3,
+    "bar",
+    bar() + "foo"
+].join("");
+var u = [
+    1,
+    2,
+    null,
+    undefined,
+    "foo",
+    "bar",
+    baz()
+].join("");
 var d = [
+    boo() + bar() + "foo",
     1,
     2,
-    "foo",
+    3,
     "bar",
-    baz()
-].join("");
+    bar() + "foo"
+].join();
 var $ = [
-    boo() + bar() + "foo",
-    1,
-    2,
-    3,
-    "bar",
-    bar() + "foo"
-].join("");
-var b = [
     1,
     2,
     null,
@@ -82,29 +99,12 @@ var b = [
     "foo",
     "bar",
     baz()
-].join("");
+].join();
 var c = [
-    boo() + bar() + "foo",
-    1,
-    2,
-    3,
-    "bar",
-    bar() + "foo"
-].join();
-var e = [
-    1,
-    2,
-    null,
-    undefined,
-    "foo",
-    "bar",
-    baz()
-].join();
-var f = [
     "foo",
     1 + 2 + "bar",
     "baz"
 ].join("-");
-var g = [].join(foo + bar);
-var h = [].join("");
-var k = [].join("foo");
+var e = [].join(foo + bar);
+var g = [].join("");
+var h = [].join("foo");

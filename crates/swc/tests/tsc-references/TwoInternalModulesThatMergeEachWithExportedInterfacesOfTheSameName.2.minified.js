@@ -1,0 +1,1 @@
+//// [TwoInternalModulesThatMergeEachWithExportedInterfacesOfTheSameName.ts]

@@ -457,7 +457,7 @@ pub enum Keyword {
 }
 
 impl Keyword {
-    fn into_js_word(self) -> JsWord {
+    pub(crate) fn into_js_word(self) -> JsWord {
         match self {
             Await => js_word!("await"),
             Break => js_word!("break"),

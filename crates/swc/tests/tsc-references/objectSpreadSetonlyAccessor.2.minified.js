@@ -1,0 +1,1 @@
+//// [objectSpreadSetonlyAccessor.ts]

@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "target": "es2021",
+        "minify": {
+            "compress": false,
+            "mangle": false
+        },
+        "loose": false
+    },
+    "minify": false
+}

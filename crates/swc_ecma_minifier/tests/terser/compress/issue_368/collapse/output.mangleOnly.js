@@ -3,26 +3,26 @@ function n() {
     n = typeof b === "function" ? b() : b;
     return n !== undefined && c();
 }
-function r(n) {
-    var r;
-    n = c();
-    r = typeof n === "function" ? n() : n;
-    return "stirng" == typeof r && d();
-}
 function t(n) {
-    var r;
-    r = b(r / 2);
-    if (r < 0) {
-        r++;
+    var t;
+    n = c();
+    t = typeof n === "function" ? n() : n;
+    return "stirng" == typeof t && d();
+}
+function r(n) {
+    var t;
+    t = b(t / 2);
+    if (t < 0) {
+        t++;
         ++n;
         return n / 2;
     }
 }
 function f(n) {
-    var r;
-    r = b(r / 2);
-    if (r < 0) {
-        r++;
+    var t;
+    t = b(t / 2);
+    if (t < 0) {
+        t++;
         n++;
         return n / 2;
     }

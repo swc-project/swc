@@ -1,0 +1,1 @@
+//// [templateStringInSwitchAndCaseES6.ts]

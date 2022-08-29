@@ -158,12 +158,14 @@ impl<I: Tokens> Parser<I> {
                         .map(Box::new)
                         .map(PatOrExpr::Pat)?
                 } else {
-                    //It is an early Reference Error if IsValidSimpleAssignmentTarget of
+                    // It is an early Reference Error if IsValidSimpleAssignmentTarget of
                     // LeftHandSideExpression is false.
-                    if !self.input.syntax().typescript()
-                        && !cond.is_valid_simple_assignment_target(self.ctx().strict)
-                    {
-                        self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
+                    if !cond.is_valid_simple_assignment_target(self.ctx().strict) {
+                        if self.input.syntax().typescript() {
+                            self.emit_err(cond.span(), SyntaxError::TS2406);
+                        } else {
+                            self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
+                        }
                     }
                     if self.input.syntax().typescript()
                         && cond
@@ -379,7 +381,7 @@ impl<I: Tokens> Parser<I> {
             if id.is_reserved_in_strict_mode(self.ctx().module && !self.ctx().in_declare) {
                 self.emit_strict_mode_err(
                     self.input.prev_span(),
-                    SyntaxError::InvalidIdentInStrict,
+                    SyntaxError::InvalidIdentInStrict(id.sym.clone()),
                 );
             }
 
@@ -388,6 +390,25 @@ impl<I: Tokens> Parser<I> {
                 && !self.input.had_line_break_before_cur()
                 && is!(self, BindingIdent)
             {
+                // see https://github.com/tc39/ecma262/issues/2034
+                // ```js
+                // for(async of
+                // for(async of x);
+                // for(async of =>{};;);
+                // ```
+                if ctx.expr_ctx.for_loop_init && is!(self, "of") && !peeked_is!(self, "=>") {
+                    // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
+                    // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+                    // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+                    // ```
+
+                    if !ctx.expr_ctx.for_await_loop_init {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1106);
+                    }
+
+                    return Ok(Box::new(Expr::Ident(id)));
+                }
+
                 let ident = self.parse_binding_ident()?;
                 if self.input.syntax().typescript()
                     && ident.id.sym == js_word!("as")
@@ -1825,7 +1846,7 @@ impl<I: Tokens> Parser<I> {
         // YieldExpression cannot be used within the FormalParameters of a generator
         // function because any expressions that are part of FormalParameters are
         // evaluated before the resulting generator object is in a resumable state.
-        if self.ctx().in_parameters {
+        if self.ctx().in_parameters && !self.ctx().in_function {
             syntax_error!(self, self.input.prev_span(), SyntaxError::YieldParamInGen)
         }
 

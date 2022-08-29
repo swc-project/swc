@@ -1,4 +1,4 @@
-﻿declare var Factory: any
+declare var Factory: any
 
 class Base {
     constructor(c) { }

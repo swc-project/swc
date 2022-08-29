@@ -1,9 +1,9 @@
-var o = 1;
+var n = 1;
+function o() {
+    n-- && o();
+}
+typeof f == "function" && f();
 function f() {
-    o-- && f();
+    typeof o == "function" && o();
 }
-typeof n == "function" && n();
-function n() {
-    typeof f == "function" && f();
-}
-console.log(o);
+console.log(n);

@@ -2,8 +2,8 @@ import { D as e, F as r, y as t, b as n } from "../index.f66dda46.js";
 var a = typeof document === "undefined";
 var u = "M";
 var c = "T";
-var o = "L";
-var i = "P";
+var i = "L";
+var o = "P";
 var f = "S";
 var s = function e(r, t) {
     return t ? t.replace(/%s/g, r || "") : r;
@@ -31,7 +31,7 @@ var v = function e() {
     var r;
     var t = [];
     var n = [];
-    var o = [];
+    var i = [];
     var v = [];
     var l = [];
     var h = 0;
@@ -44,7 +44,7 @@ var v = function e() {
             e = setTimeout(function() {
                 e = null;
                 var r = new Set();
-                document.title = s(o[0], v[0]);
+                document.title = s(i[0], v[0]);
                 l.forEach(function(e) {
                     if (!r.has(e.charset ? e.keyword : e[e.keyword])) {
                         r.add(e.charset ? e.keyword : e[e.keyword]);
@@ -64,8 +64,8 @@ var v = function e() {
             if (r === f) {
                 n.push(s);
             } else if (r === c) {
-                o.splice(h++, 0, s);
-            } else if (r === i) {
+                i.splice(h++, 0, s);
+            } else if (r === o) {
                 v.splice(y++, 0, s);
             } else if (r === u) {
                 l.splice(k++, 0, s);
@@ -74,11 +74,11 @@ var v = function e() {
             }
         },
         _removeFromQueue: function e(r, t) {
-            if (r === c || r === i) {
-                var n = r === i ? v : o;
+            if (r === c || r === o) {
+                var n = r === o ? v : i;
                 var a = n.indexOf(t);
                 n.splice(a, 1);
-                if (a === 0) document.title = s(o[0] || "", v[0]);
+                if (a === 0) document.title = s(i[0] || "", v[0]);
             } else {
                 var u = l[l.indexOf(t)];
                 if (u) {
@@ -96,8 +96,8 @@ var v = function e() {
             }
         },
         _change: function e(r, t, n) {
-            if (r === c || r === i) {
-                var a = r === i ? v : o;
+            if (r === c || r === o) {
+                var a = r === o ? v : i;
                 a[a.indexOf(t)] = n;
                 if (a.indexOf(n) === 0) {
                     document.title = s(a[a.indexOf(n)], v[0]);
@@ -108,10 +108,10 @@ var v = function e() {
         },
         _reset: undefined,
         toStatic: function e() {
-            var a = s(o[o.length - 1], v[v.length - 1]);
+            var a = s(i[i.length - 1], v[v.length - 1]);
             var u = new Set();
             var c = [].concat(t);
-            var i = [].concat(n);
+            var o = [].concat(n);
             l.reverse();
             var f = [].concat(l).filter(function(e) {
                 if (!u.has(e.charset ? e.keyword : e[e.keyword])) {
@@ -119,7 +119,7 @@ var v = function e() {
                     return true;
                 }
             });
-            o = [];
+            i = [];
             v = [];
             l = [];
             t = [];
@@ -129,7 +129,7 @@ var v = function e() {
                 lang: r,
                 title: a,
                 links: c,
-                scripts: i,
+                scripts: o,
                 metas: f.map(function(e) {
                     var r;
                     return e.keyword === "charset" ? {
@@ -155,14 +155,14 @@ var y = function e(n) {
 };
 var k = function e(u) {
     var c = r(h);
-    var i = n(false);
+    var o = n(false);
     var f = n();
     var s = n();
-    if (a && !i.current) {
-        c._addToQueue(o, u);
+    if (a && !o.current) {
+        c._addToQueue(i, u);
     }
     t(function() {
-        if (i.current) {
+        if (o.current) {
             Object.keys(u).forEach(function(e) {
                 f.current.setAttribute(e, u[e]);
             });
@@ -177,7 +177,7 @@ var k = function e(u) {
         u.hreflang, 
     ]);
     t(function() {
-        i.current = true;
+        o.current = true;
         var e = document.querySelectorAll('link[rel="' + u.rel + '"]');
         e.forEach(function(e) {
             var r = true;
@@ -203,7 +203,7 @@ var k = function e(u) {
             document.head.appendChild(f.current);
         }
         return function() {
-            i.current = false;
+            o.current = false;
             if (s.current) {
                 Object.keys(s.current).forEach(function(e) {
                     f.current.setAttribute(e, s.current[e]);
@@ -217,9 +217,9 @@ var k = function e(u) {
 function p(e) {
     return e.charset ? "charset" : e.name ? "name" : e.property ? "property" : "http-equiv";
 }
-var w = function e(c) {
-    var o = r(h);
-    var i = n(false);
+var m = function e(c) {
+    var i = r(h);
+    var o = n(false);
     var f = n();
     var s = n({
         keyword: (f.current = p(c)),
@@ -229,12 +229,12 @@ var w = function e(c) {
         property: c.property,
         content: c.content
     });
-    if (a && !i.current) {
-        o._addToQueue(u, s.current);
+    if (a && !o.current) {
+        i._addToQueue(u, s.current);
     }
     t(function() {
-        if (i.current) {
-            o._change(u, s.current, (s.current = {
+        if (o.current) {
+            i._change(u, s.current, (s.current = {
                 keyword: f.current,
                 name: c.name,
                 charset: c.charset,
@@ -247,42 +247,42 @@ var w = function e(c) {
         c.content
     ]);
     t(function() {
-        o._addToQueue(u, s.current);
-        i.current = true;
+        i._addToQueue(u, s.current);
+        o.current = true;
         return function() {
-            i.current = false;
-            o._removeFromQueue(u, s.current);
+            o.current = false;
+            i._removeFromQueue(u, s.current);
         };
     }, []);
 };
-var $ = function e(u, o) {
+var w = function e(u, i) {
     var f = r(h);
     var s = n(false);
     var d = n();
     if (a && !s.current) {
-        f._addToQueue(o ? i : c, u);
+        f._addToQueue(i ? o : c, u);
     }
     t(function() {
         if (s.current) {
-            f._change(o ? i : c, d.current, (d.current = u));
+            f._change(i ? o : c, d.current, (d.current = u));
         }
     }, [
         u,
-        o
+        i
     ]);
     t(function() {
         s.current = true;
-        f._addToQueue(o ? i : c, (d.current = u));
+        f._addToQueue(i ? o : c, (d.current = u));
         return function() {
             s.current = false;
-            f._removeFromQueue(o ? i : c, d.current);
+            f._removeFromQueue(i ? o : c, d.current);
         };
     }, [
-        o
+        i
     ]);
 };
-var m = function e(r) {
-    $(r, true);
+var $ = function e(r) {
+    w(r, true);
 };
 var g = l.toStatic;
-export { m as a, $ as b, w as c, k as d, g as t, y as u };
+export { $ as a, w as b, m as c, k as d, g as t, y as u };

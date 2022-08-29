@@ -1,1 +1,1 @@
-﻿var x = (`abc${0}abc`);
+var x = (`abc${0}abc`);

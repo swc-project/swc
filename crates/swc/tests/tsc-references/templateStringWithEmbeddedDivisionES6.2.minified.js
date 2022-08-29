@@ -1,0 +1,1 @@
+//// [templateStringWithEmbeddedDivisionES6.ts]

@@ -1,0 +1,20 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 3,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 1,
+        "end": 3,
+        "ctxt": 0
+      },
+      "stmts": []
+    }
+  ],
+  "interpreter": null
+}

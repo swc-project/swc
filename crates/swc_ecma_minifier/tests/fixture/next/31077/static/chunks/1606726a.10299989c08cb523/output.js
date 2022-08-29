@@ -132,63 +132,8 @@
                 }
             }
             var preventScrollSupported = null;
-            function findOffsetInNode(node, coords) {
-                for(var closest, coordsClosest, dxClosest = 2e8, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
-                    var rects = void 0;
-                    if (1 == child.nodeType) rects = child.getClientRects();
-                    else {
-                        if (3 != child.nodeType) continue;
-                        rects = textRange(child).getClientRects();
-                    }
-                    for(var i = 0; i < rects.length; i++){
-                        var rect = rects[i];
-                        if (rect.top <= rowBot && rect.bottom >= rowTop) {
-                            rowBot = Math.max(rect.bottom, rowBot), rowTop = Math.min(rect.top, rowTop);
-                            var dx = rect.left > coords.left ? rect.left - coords.left : rect.right < coords.left ? coords.left - rect.right : 0;
-                            if (dx < dxClosest) {
-                                closest = child, dxClosest = dx, coordsClosest = dx && 3 == closest.nodeType ? {
-                                    left: rect.right < coords.left ? rect.right : rect.left,
-                                    top: coords.top
-                                } : coords, 1 == child.nodeType && dx && (offset = childIndex + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0));
-                                continue;
-                            }
-                        }
-                        !closest && (coords.left >= rect.right && coords.top >= rect.top || coords.left >= rect.left && coords.top >= rect.bottom) && (offset = childIndex + 1);
-                    }
-                }
-                return closest && 3 == closest.nodeType ? findOffsetInText(closest, coordsClosest) : !closest || dxClosest && 1 == closest.nodeType ? {
-                    node: node,
-                    offset: offset
-                } : findOffsetInNode(closest, coordsClosest);
-            }
-            function findOffsetInText(node, coords) {
-                for(var len = node.nodeValue.length, range = document.createRange(), i = 0; i < len; i++){
-                    range.setEnd(node, i + 1), range.setStart(node, i);
-                    var rect = singleRect(range, 1);
-                    if (rect.top != rect.bottom && inRect(coords, rect)) return {
-                        node: node,
-                        offset: i + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0)
-                    };
-                }
-                return {
-                    node: node,
-                    offset: 0
-                };
-            }
             function inRect(coords, rect) {
                 return coords.left >= rect.left - 1 && coords.left <= rect.right + 1 && coords.top >= rect.top - 1 && coords.top <= rect.bottom + 1;
-            }
-            function elementFromPoint(element, coords, box) {
-                var len = element.childNodes.length;
-                if (len && box.top < box.bottom) for(var startI = Math.max(0, Math.min(len - 1, Math.floor(len * (coords.top - box.top) / (box.bottom - box.top)) - 2)), i = startI;;){
-                    var child = element.childNodes[i];
-                    if (1 == child.nodeType) for(var rects = child.getClientRects(), j = 0; j < rects.length; j++){
-                        var rect = rects[j];
-                        if (inRect(coords, rect)) return elementFromPoint(child, coords, rect);
-                    }
-                    if ((i = (i + 1) % len) == startI) break;
-                }
-                return element;
             }
             function singleRect(object, bias) {
                 var rects = object.getClientRects();
@@ -656,7 +601,7 @@
                         if (dom) {
                             if (3 != dom.nodeType) throw RangeError("Text must be rendered as a DOM text node");
                         } else dom = document.createTextNode(node.text);
-                    } else dom || (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
+                    } else dom || (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node)), dom = assign.dom, contentDOM = assign.contentDOM);
                     contentDOM || node.isText || "BR" == dom.nodeName || (dom.hasAttribute("contenteditable") || (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
                     var nodeDOM = dom;
                     return (dom = applyOuterDeco(dom, outerDeco, node), spec) ? descObj = new CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos + 1) : node.isText ? new TextViewDesc(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) : new NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos + 1);
@@ -859,7 +804,7 @@
                     var deco = curComputed[i], prev = prevComputed[i];
                     if (i) {
                         var parent = void 0;
-                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
+                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || (parent = document.createElement(deco.nodeName), parent.pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
                     }
                     patchAttributes(curDOM, prev || noDeco[0], deco);
                 }
@@ -1095,8 +1040,8 @@
                     if (next instanceof NodeViewDesc) {
                         var preMatch = this.preMatch.matched.get(next);
                         if (null != preMatch && preMatch != index) return !1;
-                        var nextDOM = next.dom;
-                        if (!(this.lock && (nextDOM == this.lock || 1 == nextDOM.nodeType && nextDOM.contains(this.lock.parentNode)) && !(node.isText && next.node && next.node.isText && next.nodeDOM.nodeValue == node.text && 3 != next.dirty && sameOuterDeco(outerDeco, next.outerDeco))) && next.update(node, outerDeco, innerDeco, view)) return this.destroyBetween(this.index, i), next.dom != nextDOM && (this.changed = !0), this.index++, !0;
+                        var nextDOM = next.dom, locked = this.lock && (nextDOM == this.lock || 1 == nextDOM.nodeType && nextDOM.contains(this.lock.parentNode)) && !(node.isText && next.node && next.node.isText && next.nodeDOM.nodeValue == node.text && 3 != next.dirty && sameOuterDeco(outerDeco, next.outerDeco));
+                        if (!locked && next.update(node, outerDeco, innerDeco, view)) return this.destroyBetween(this.index, i), next.dom != nextDOM && (this.changed = !0), this.index++, !0;
                         break;
                     }
                 }
@@ -1334,13 +1279,11 @@
                     }
                     firstChild = wrap.firstChild;
                 }
-                firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context));
-                var text = view.someProp("clipboardTextSerializer", function(f) {
-                    return f(slice);
-                }) || slice.content.textBetween(0, slice.content.size, "\n\n");
-                return {
+                return firstChild && 1 == firstChild.nodeType && firstChild.setAttribute("data-pm-slice", openStart + " " + openEnd + " " + JSON.stringify(context)), {
                     dom: wrap,
-                    text: text
+                    text: view.someProp("clipboardTextSerializer", function(f) {
+                        return f(slice);
+                    }) || slice.content.textBetween(0, slice.content.size, "\n\n")
                 };
             }
             function parseFromClipboard(view, text, html, plainText, $context) {
@@ -1381,24 +1324,24 @@
             }
             function normalizeSiblings(fragment, $context) {
                 if (fragment.childCount < 2) return fragment;
-                for(var loop = function(d) {
-                    var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
-                    if (fragment.forEach(function(node) {
-                        if (result) {
-                            var inLast, wrap = match.findWrapping(node.type);
-                            if (!wrap) return result = null;
-                            if (inLast = result.length && lastWrap.length && addToSibling(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
-                            else {
-                                result.length && (result[result.length - 1] = closeRight(result[result.length - 1], lastWrap.length));
-                                var wrapped = withWrappers(node, wrap);
-                                result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
+                for(var d = $context.depth; d >= 0; d--){
+                    var returned = function(d) {
+                        var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
+                        if (fragment.forEach(function(node) {
+                            if (result) {
+                                var inLast, wrap = match.findWrapping(node.type);
+                                if (!wrap) return result = null;
+                                if (inLast = result.length && lastWrap.length && addToSibling(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
+                                else {
+                                    result.length && (result[result.length - 1] = closeRight(result[result.length - 1], lastWrap.length));
+                                    var wrapped = withWrappers(node, wrap);
+                                    result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
+                                }
                             }
-                        }
-                    }), result) return {
-                        v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
-                    };
-                }, d = $context.depth; d >= 0; d--){
-                    var returned = loop(d);
+                        }), result) return {
+                            v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
+                        };
+                    }(d);
                     if (returned) return returned.v;
                 }
                 return fragment;
@@ -1751,8 +1694,8 @@
             var selectNodeModifier = result.mac ? "metaKey" : "ctrlKey";
             handlers.mousedown = function(view, event) {
                 view.shiftKey = event.shiftKey;
-                var event1, click, dx, dy, flushed = endComposition(view), now = Date.now(), type = "singleClick";
-                now - view.lastClick.time < 500 && (event1 = event, dx = (click = view.lastClick).x - event1.clientX, dy = click.y - event1.clientY, dx * dx + dy * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
+                var view1, event1, click, dx, dy, flushed = (view1 = view, endComposition(view1)), now = Date.now(), type = "singleClick";
+                now - view.lastClick.time < 500 && (event1 = event, click = view.lastClick, dx = click.x - event1.clientX, dy = click.y - event1.clientY, dx * dx + dy * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
                     time: now,
                     x: event.clientX,
                     y: event.clientY,
@@ -2646,7 +2589,18 @@
                     var pos, elt = (view.root.elementFromPoint ? view.root : doc).elementFromPoint(coords.left, coords.top + 1);
                     if (!elt || !view.dom.contains(1 != elt.nodeType ? elt.parentNode : elt)) {
                         var box = view.dom.getBoundingClientRect();
-                        if (!inRect(coords, box) || !(elt = elementFromPoint(view.dom, coords, box))) return null;
+                        if (!inRect(coords, box) || !(elt = function elementFromPoint(element, coords, box) {
+                            var len = element.childNodes.length;
+                            if (len && box.top < box.bottom) for(var startI = Math.max(0, Math.min(len - 1, Math.floor(len * (coords.top - box.top) / (box.bottom - box.top)) - 2)), i = startI;;){
+                                var child = element.childNodes[i];
+                                if (1 == child.nodeType) for(var rects = child.getClientRects(), j = 0; j < rects.length; j++){
+                                    var rect = rects[j];
+                                    if (inRect(coords, rect)) return elementFromPoint(child, coords, rect);
+                                }
+                                if ((i = (i + 1) % len) == startI) break;
+                            }
+                            return element;
+                        }(view.dom, coords, box))) return null;
                     }
                     if (result.safari) for(var p = elt; node && p; p = parentNode(p))p.draggable && (node = offset = null);
                     if (elt = (dom = elt, coords1 = coords, (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords1.left < dom.getBoundingClientRect().left ? parent : dom), node) {
@@ -2670,7 +2624,48 @@
                         }(view, node, offset, coords));
                     }
                     null == pos && (pos = function(view, elt, coords) {
-                        var ref = findOffsetInNode(elt, coords), node = ref.node, offset = ref.offset, bias = -1;
+                        var ref = function findOffsetInNode(node, coords) {
+                            for(var closest, coordsClosest, dxClosest = 2e8, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
+                                var rects = void 0;
+                                if (1 == child.nodeType) rects = child.getClientRects();
+                                else {
+                                    if (3 != child.nodeType) continue;
+                                    rects = textRange(child).getClientRects();
+                                }
+                                for(var i = 0; i < rects.length; i++){
+                                    var rect = rects[i];
+                                    if (rect.top <= rowBot && rect.bottom >= rowTop) {
+                                        rowBot = Math.max(rect.bottom, rowBot), rowTop = Math.min(rect.top, rowTop);
+                                        var dx = rect.left > coords.left ? rect.left - coords.left : rect.right < coords.left ? coords.left - rect.right : 0;
+                                        if (dx < dxClosest) {
+                                            closest = child, dxClosest = dx, coordsClosest = dx && 3 == closest.nodeType ? {
+                                                left: rect.right < coords.left ? rect.right : rect.left,
+                                                top: coords.top
+                                            } : coords, 1 == child.nodeType && dx && (offset = childIndex + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0));
+                                            continue;
+                                        }
+                                    }
+                                    !closest && (coords.left >= rect.right && coords.top >= rect.top || coords.left >= rect.left && coords.top >= rect.bottom) && (offset = childIndex + 1);
+                                }
+                            }
+                            return closest && 3 == closest.nodeType ? function(node, coords) {
+                                for(var len = node.nodeValue.length, range = document.createRange(), i = 0; i < len; i++){
+                                    range.setEnd(node, i + 1), range.setStart(node, i);
+                                    var rect = singleRect(range, 1);
+                                    if (rect.top != rect.bottom && inRect(coords, rect)) return {
+                                        node: node,
+                                        offset: i + (coords.left >= (rect.left + rect.right) / 2 ? 1 : 0)
+                                    };
+                                }
+                                return {
+                                    node: node,
+                                    offset: 0
+                                };
+                            }(closest, coordsClosest) : !closest || dxClosest && 1 == closest.nodeType ? {
+                                node: node,
+                                offset: offset
+                            } : findOffsetInNode(closest, coordsClosest);
+                        }(elt, coords), node = ref.node, offset = ref.offset, bias = -1;
                         if (1 == node.nodeType && !node.firstChild) {
                             var rect = node.getBoundingClientRect();
                             bias = rect.left != rect.right && coords.left > (rect.left + rect.right) / 2 ? 1 : -1;

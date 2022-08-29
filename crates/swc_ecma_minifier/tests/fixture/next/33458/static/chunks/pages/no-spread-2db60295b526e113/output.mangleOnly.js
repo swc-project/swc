@@ -16,7 +16,7 @@
             "use strict";
             a.d(u, {
                 Z: function() {
-                    return f;
+                    return c;
                 }
             });
             var r = a(5893);
@@ -39,14 +39,14 @@
                     onChange: a
                 });
             }
-            var f = v;
+            var c = v;
         },
         1918: function(n, u, a) {
             "use strict";
             a.r(u);
             a.d(u, {
                 default: function() {
-                    return f;
+                    return c;
                 }
             });
             var r = a(5893);
@@ -60,7 +60,7 @@
                 });
             }
             var v = o;
-            function f() {
+            function c() {
                 var n = (0, e.useState)(""), u = n[0], a = n[1];
                 var t = (0, e.useCallback)(function(n) {
                     a(n.target.value);

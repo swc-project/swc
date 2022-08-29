@@ -1,0 +1,8 @@
+//// [typedefTagWrapping.ts]
+//// [mod1.js]
+//// [mod2.js]
+//// [mod3.js]
+//// [mod4.js]
+//// [mod5.js]
+//// [mod6.js]
+//// [mod7.js]

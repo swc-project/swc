@@ -1,1 +1,1 @@
-({get true(){}})
+({get true(){}});

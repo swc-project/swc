@@ -1,0 +1,1 @@
+//// [typeFromPrivatePropertyAssignment.ts]

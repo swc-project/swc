@@ -1,1 +1,1 @@
-﻿var x = <any>`abc${ 123 }def`;
+var x = <any>`abc${ 123 }def`;

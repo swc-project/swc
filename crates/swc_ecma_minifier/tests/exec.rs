@@ -2317,6 +2317,7 @@ o.f(o.a);"###;
 }
 
 #[test]
+#[ignore = "Function anonymous"]
 fn terser_hoist_props_issue_2508_5() {
     let src = r###"var o = {
     f: function (x) {
@@ -2593,6 +2594,7 @@ console.log(obj.foo, obj.cube(3));"###;
 }
 
 #[test]
+#[ignore = "Function anoymous"]
 fn terser_hoist_props_issue_2508_6() {
     let src = r###"var o = {
     f: (x) => {

@@ -1,2 +1,2 @@
-var a, g = (a = "PASS");
-console.log(g);
+var S, a = (S = "PASS");
+console.log(a);

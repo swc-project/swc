@@ -1,1 +1,1 @@
-(function(){try{throw"a"}finally{b()}c()}())
+(function(){try{throw"a"}finally{b()}c()}());

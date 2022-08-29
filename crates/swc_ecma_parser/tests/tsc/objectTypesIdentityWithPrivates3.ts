@@ -1,4 +1,4 @@
-﻿interface T1 { }
+interface T1 { }
 interface T2 { z }
 
 class C1<T> {

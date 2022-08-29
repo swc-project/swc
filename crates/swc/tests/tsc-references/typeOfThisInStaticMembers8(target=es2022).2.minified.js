@@ -1,0 +1,1 @@
+//// [typeOfThisInStaticMembers8.ts]

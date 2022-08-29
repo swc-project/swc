@@ -7,9 +7,9 @@ use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, default_constructor, is_valid_prop_ident, prepend_stmt, private_ident,
-    prop_name_to_expr, quote_expr, quote_ident, quote_str, ExprFactory, IdentExt, IsDirective,
-    ModuleItemLike, StmtLike,
+    alias_if_required, default_constructor, is_valid_ident, is_valid_prop_ident, prepend_stmt,
+    private_ident, prop_name_to_expr, quote_expr, quote_ident, quote_str, replace_ident,
+    ExprFactory, IdentExt, IsDirective, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -22,7 +22,7 @@ use self::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
         ReturningMode, SuperCallFinder, SuperFoldingMode,
     },
-    prop_name::HashKey,
+    prop_name::{is_pure_prop_name, should_extract_class_prop_key, HashKey},
 };
 
 mod constructor;
@@ -37,6 +37,9 @@ where
         in_strict: false,
         comments,
         config,
+
+        params: Default::default(),
+        args: Default::default(),
     })
 }
 
@@ -73,7 +76,7 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, ahash::RandomState>;
 ///   return Test;
 /// }();
 /// ```
-#[derive(Default, Clone, Copy)]
+#[derive(Default, Clone)]
 struct Classes<C>
 where
     C: Comments,
@@ -81,6 +84,9 @@ where
     in_strict: bool,
     comments: Option<C>,
     config: Config,
+
+    params: Vec<Param>,
+    args: Vec<ExprOrSpread>,
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -254,7 +260,7 @@ where
         } = d
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **init {
-                c.ident = Some(i.id.clone())
+                c.ident = Some(i.id.clone().private())
             }
         }
 
@@ -265,7 +271,7 @@ where
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         if let Some(value) = &mut n.value {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **value {
-                c.ident = Some(n.key.clone());
+                c.ident = Some(n.key.clone().private());
             }
         }
 
@@ -280,7 +286,7 @@ where
             Expr::Class(c @ ClassExpr { ident: None, .. }),
         ) = (&*n.left, &mut *n.right)
         {
-            c.ident = Some(id.clone())
+            c.ident = Some(id.clone().private())
         }
 
         n.visit_mut_children_with(self);
@@ -328,12 +334,12 @@ where
                 match left {
                     PatOrExpr::Pat(pat) => {
                         if let Pat::Ident(i) = &**pat {
-                            c.ident = Some(i.id.clone())
+                            c.ident = Some(i.id.clone().private())
                         }
                     }
                     PatOrExpr::Expr(expr) => {
                         if let Expr::Ident(ident) = &**expr {
-                            c.ident = Some(ident.clone())
+                            c.ident = Some(ident.clone().private())
                         }
                     }
                 }
@@ -358,6 +364,10 @@ where
     fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
         let span = class.span;
         let mut rhs = self.fold_class(Some(ident.clone()), class);
+
+        let mut new_name = ident.clone();
+        new_name.span = new_name.span.apply_mark(Mark::new());
+        replace_ident(&mut rhs, ident.to_id(), &new_name);
 
         // let VarDecl take every comments except pure
         if let Expr::Call(call) = &mut rhs {
@@ -405,7 +415,7 @@ where
             .as_ref()
             .map(|e| alias_if_required(e, "_superClass").0);
         let has_super = super_ident.is_some();
-        let (params, args, super_ident) = if let Some(ref super_ident) = super_ident {
+        let (mut params, mut args, super_ident) = if let Some(ref super_ident) = super_ident {
             // Param should have a separate syntax context from arg.
             let super_param = private_ident!(super_ident.sym.clone());
             let params = vec![Param {
@@ -439,6 +449,8 @@ where
         };
 
         let mut stmts = self.class_to_stmts(class_name, super_ident, class);
+        params.extend(self.params.take());
+        args.extend(self.args.take());
 
         let cnt_of_non_directive = stmts
             .iter()
@@ -828,6 +840,7 @@ where
             this_alias_mark: None,
             constant_super: self.config.constant_super,
             super_class: super_class_ident,
+            in_pat: false,
         };
 
         body.visit_mut_with(&mut folder);
@@ -986,11 +999,28 @@ where
 
         let (mut props, mut static_props) = (IndexMap::default(), IndexMap::default());
 
+        let should_extract = should_extract_class_prop_key(&methods);
+
         for mut m in methods {
             let key = HashKey::from(&m.key);
+            let key_is_pure = is_pure_prop_name(&m.key);
             let key_prop = Box::new(m.key.clone());
             let computed = matches!(m.key, PropName::Computed(..));
             let prop_name = prop_name_to_expr(m.key);
+
+            let key_prop = if should_extract && !key_is_pure {
+                let ident = private_ident!("_prop");
+
+                self.params.push(ident.clone().into());
+                self.args.push(prop_name.clone().into());
+
+                Box::new(PropName::Computed(ComputedPropName {
+                    span: DUMMY_SP,
+                    expr: Box::new(ident.into()),
+                }))
+            } else {
+                key_prop
+            };
 
             let append_to: &mut IndexMap<_, _> = if m.is_static {
                 &mut static_props
@@ -1010,6 +1040,7 @@ where
                 this_alias_mark: None,
                 constant_super: self.config.constant_super,
                 super_class: super_class_ident,
+                in_pat: false,
             };
             m.function.visit_mut_with(&mut folder);
 
@@ -1046,7 +1077,7 @@ where
                 ident: if m.kind == MethodKind::Method && !computed {
                     match prop_name {
                         Expr::Ident(ident) => Some(private_ident!(ident.span, ident.sym)),
-                        Expr::Lit(Lit::Str(Str { span, value, .. })) => {
+                        Expr::Lit(Lit::Str(Str { span, value, .. })) if is_valid_ident(&value) => {
                             Some(Ident::new(value, span.private()))
                         }
                         _ => None,

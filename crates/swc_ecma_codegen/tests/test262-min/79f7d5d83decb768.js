@@ -1,1 +1,1 @@
-(function(){a:for(;;){for(;;){continue a;b()}}}())
+(function(){a:for(;;){for(;;){continue a;b()}}}());

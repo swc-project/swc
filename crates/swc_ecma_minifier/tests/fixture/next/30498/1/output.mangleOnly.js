@@ -1,21 +1,21 @@
-function e() {
-    return new t();
+export function string_create() {
+    return new StringSchema();
 }
-class t extends BaseSchema {
+export class StringSchema extends BaseSchema {
     matches(e, t) {
         let s = false;
-        let a;
         let r;
+        let a;
         if (t) {
             if (typeof t === "object") {
-                ({ excludeEmptyString: s = false , message: a , name: r  } = t);
+                ({ excludeEmptyString: s = false , message: r , name: a  } = t);
             } else {
-                a = t;
+                r = t;
             }
         }
         return this.test({
-            name: r || "matches",
-            message: a || string.matches,
+            name: a || "matches",
+            message: r || string.matches,
             params: {
                 regex: e
             },
@@ -23,4 +23,4 @@ class t extends BaseSchema {
         });
     }
 }
-e.prototype = t.prototype;
+string_create.prototype = StringSchema.prototype;

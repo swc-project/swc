@@ -1,0 +1,1 @@
+//// [contextuallyTypedBindingInitializer.ts]

@@ -1,0 +1,1 @@
+//// [stringLiteralTypesWithVariousOperators01.ts]

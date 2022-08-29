@@ -1,1 +1,1 @@
-(function(){a(typeof b==="function")}())
+(function(){a(typeof b==="function")}());

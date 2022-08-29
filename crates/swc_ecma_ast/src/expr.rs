@@ -189,6 +189,25 @@ impl Expr {
             _ => self,
         }
     }
+
+    /// Creates an expression from `exprs`. This will return first element if
+    /// the length is 1 and a sequential expression otherwise.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `exprs` is empty.
+    pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Box<Expr> {
+        debug_assert_ne!(exprs, vec![], "exprs must not be empty");
+
+        if exprs.len() == 1 {
+            exprs.remove(0)
+        } else {
+            Box::new(Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs,
+            }))
+        }
+    }
 }
 
 // Implement Clone without inline to avoid multiple copies of the
@@ -245,6 +264,52 @@ impl Take for Expr {
 }
 
 bridge_expr_from!(Ident, Id);
+bridge_expr_from!(FnExpr, Function);
+bridge_expr_from!(ClassExpr, Class);
+
+macro_rules! boxed_expr {
+    ($T:ty) => {
+        bridge_from!(Box<Expr>, Expr, $T);
+        bridge_from!(PatOrExpr, Box<Expr>, $T);
+    };
+}
+
+boxed_expr!(ThisExpr);
+boxed_expr!(ArrayLit);
+boxed_expr!(ObjectLit);
+boxed_expr!(FnExpr);
+boxed_expr!(UnaryExpr);
+boxed_expr!(UpdateExpr);
+boxed_expr!(BinExpr);
+boxed_expr!(AssignExpr);
+boxed_expr!(MemberExpr);
+boxed_expr!(SuperPropExpr);
+boxed_expr!(CondExpr);
+boxed_expr!(CallExpr);
+boxed_expr!(NewExpr);
+boxed_expr!(SeqExpr);
+bridge_from!(Box<Expr>, Expr, Ident);
+boxed_expr!(Lit);
+boxed_expr!(Tpl);
+boxed_expr!(TaggedTpl);
+boxed_expr!(ArrowExpr);
+boxed_expr!(ClassExpr);
+boxed_expr!(YieldExpr);
+boxed_expr!(MetaPropExpr);
+boxed_expr!(AwaitExpr);
+boxed_expr!(ParenExpr);
+boxed_expr!(JSXMemberExpr);
+boxed_expr!(JSXNamespacedName);
+boxed_expr!(JSXEmptyExpr);
+boxed_expr!(Box<JSXElement>);
+boxed_expr!(JSXFragment);
+boxed_expr!(TsTypeAssertion);
+boxed_expr!(TsConstAssertion);
+boxed_expr!(TsNonNullExpr);
+boxed_expr!(TsAsExpr);
+boxed_expr!(TsInstantiation);
+boxed_expr!(PrivateName);
+boxed_expr!(OptChainExpr);
 
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
@@ -308,6 +373,15 @@ pub enum PropOrSpread {
 impl From<Prop> for PropOrSpread {
     fn from(p: Prop) -> Self {
         Self::Prop(Box::new(p))
+    }
+}
+
+impl Take for PropOrSpread {
+    fn dummy() -> Self {
+        PropOrSpread::Spread(SpreadElement {
+            dot3_token: DUMMY_SP,
+            expr: Take::dummy(),
+        })
     }
 }
 
@@ -429,6 +503,15 @@ impl Take for FnExpr {
     }
 }
 
+impl From<Function> for FnExpr {
+    fn from(function: Function) -> Self {
+        Self {
+            ident: None,
+            function,
+        }
+    }
+}
+
 /// Class expression.
 #[ast_node("ClassExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -448,6 +531,12 @@ impl Take for ClassExpr {
             ident: None,
             class: Take::dummy(),
         }
+    }
+}
+
+impl From<Class> for ClassExpr {
+    fn from(class: Class) -> Self {
+        Self { ident: None, class }
     }
 }
 
@@ -1122,17 +1211,9 @@ pub enum PatOrExpr {
     Pat(Box<Pat>),
 }
 
-impl From<Pat> for PatOrExpr {
-    fn from(p: Pat) -> Self {
-        Self::Pat(Box::new(p))
-    }
-}
-
-impl From<Expr> for PatOrExpr {
-    fn from(e: Expr) -> Self {
-        Self::Expr(Box::new(e))
-    }
-}
+bridge_from!(PatOrExpr, Box<Pat>, Pat);
+bridge_from!(PatOrExpr, Pat, Ident);
+bridge_from!(PatOrExpr, Pat, Id);
 
 impl PatOrExpr {
     /// Returns the [Pat] if this is a pattern, otherwise returns [None].

@@ -324,6 +324,7 @@ define_helpers!(Helpers {
     ),
     to_primitive: (type_of),
     to_property_key: (type_of, to_primitive),
+    update: (get, set),
     type_of: (),
     unsupported_iterable_to_array: (array_like_to_array),
     wrap_async_generator: (async_generator),
@@ -356,8 +357,10 @@ define_helpers!(Helpers {
     ),
 
     ts_decorate: (),
+    ts_generator: (),
     ts_metadata: (),
     ts_param: (),
+    ts_values: (),
 });
 
 pub fn inject_helpers() -> impl Fold + VisitMut {

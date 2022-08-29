@@ -4,29 +4,29 @@ function e(e, n) {
     }
 }
 function n(e, n) {
-    for(var r = 0; r < n.length; r++){
-        var t = n[r];
-        t.enumerable = t.enumerable || false;
-        t.configurable = true;
-        if ("value" in t) t.writable = true;
-        Object.defineProperty(e, t.key, t);
+    for(var t = 0; t < n.length; t++){
+        var r = n[t];
+        r.enumerable = r.enumerable || false;
+        r.configurable = true;
+        if ("value" in r) r.writable = true;
+        Object.defineProperty(e, r.key, r);
     }
 }
-function r(e, r, t) {
-    if (r) n(e.prototype, r);
-    if (t) n(e, t);
+function t(e, t, r) {
+    if (t) n(e.prototype, t);
+    if (r) n(e, r);
     return e;
 }
-function t(e, n, r) {
+function r(e, n, t) {
     if (n in e) {
         Object.defineProperty(e, n, {
-            value: r,
+            value: t,
             enumerable: true,
             configurable: true,
             writable: true
         });
     } else {
-        e[n] = r;
+        e[n] = t;
     }
     return e;
 }
@@ -40,7 +40,7 @@ module.exports = (function() {
         function n() {
             e(this, n);
         }
-        r(n, [
+        t(n, [
             {
                 key: "it",
                 value: function e() {
@@ -50,6 +50,6 @@ module.exports = (function() {
         ]);
         return n;
     })();
-    t(n, "MyA", i);
+    r(n, "MyA", i);
     return n;
 })();

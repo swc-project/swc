@@ -1,7 +1,7 @@
 var A = 1;
-(function n() {
-    var o = 2;
-    console.log(o - 5);
+(function o() {
+    var n = 2;
+    console.log(n - 5);
     console.log(A - 5);
 })();
 (function f1() {
@@ -14,10 +14,10 @@ var A = 1;
     console.log(a - 5);
     eval("console.log(a);");
 })(eval);
-(function n() {
-    var o = typeof C !== "undefined";
-    var r = 4;
-    if (o) {
+(function o() {
+    var n = typeof C !== "undefined";
+    var e = 4;
+    if (n) {
         return "yes";
     } else {
         return "no";

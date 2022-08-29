@@ -1,4 +1,4 @@
-var a;
-a = "<tpl>PASS</tpl>";
-for(var l, r = /<tpl>(.*)<\/tpl>/; (l = a.match(r));)a = a.replace(l[0], l[1]);
-console.log(a);
+var l;
+l = "<tpl>PASS</tpl>";
+for(var p, t = /<tpl>(.*)<\/tpl>/; (p = l.match(t));)l = l.replace(p[0], p[1]);
+console.log(l);

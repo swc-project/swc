@@ -1,0 +1,1 @@
+//// [mergeClassInterfaceAndModule.ts]

@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -391,6 +392,7 @@ impl VisitMut for Fixer<'_> {
             Some(e)
                 if e.is_seq()
                     || e.is_await_expr()
+                    || e.is_yield_expr()
                     || e.is_bin()
                     || e.is_assign()
                     || e.is_cond()
@@ -459,6 +461,31 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
+
+        if s.await_token.is_none() {
+            if let VarDeclOrPat::Pat(Pat::Ident(BindingIdent {
+                id:
+                    id @ Ident {
+                        sym: js_word!("async"),
+                        ..
+                    },
+                ..
+            })) = &mut s.left
+            {
+                let expr = Expr::Ident(id.take());
+                s.left = VarDeclOrPat::Pat(Pat::Expr(Box::new(expr)));
+            }
+
+            if let VarDeclOrPat::Pat(Pat::Expr(expr)) = &mut s.left {
+                if let Expr::Ident(Ident {
+                    sym: js_word!("async"),
+                    ..
+                }) = &**expr
+                {
+                    self.wrap(&mut *expr);
+                }
+            }
+        }
 
         if let Expr::Seq(..) | Expr::Await(..) = &*s.right {
             self.wrap(&mut s.right)
@@ -692,6 +719,13 @@ impl Fixer<'_> {
                 self.wrap(e);
             }
 
+            Expr::Bin(BinExpr { left, .. })
+                if self.ctx == Context::Default
+                    && matches!(&**left, Expr::Object(..) | Expr::Fn(..) | Expr::Class(..)) =>
+            {
+                self.wrap(left);
+            }
+
             // Flatten seq expr
             Expr::Seq(SeqExpr { span, exprs }) => {
                 let len = exprs
@@ -920,13 +954,9 @@ impl Fixer<'_> {
                 expr,
                 ..
             }) => {
-                match &**expr {
-                    // `(a?.b).c !== a?.b.c`
-                    Expr::OptChain(..) => return,
-                    Expr::Bin(bin_expr) if bin_expr.left.is_object() => {
-                        return;
-                    }
-                    _ => (),
+                // `(a?.b).c !== a?.b.c`
+                if expr.is_opt_chain() {
+                    return;
                 }
 
                 let expr_span = expr.span();
@@ -1501,6 +1531,16 @@ var store = global[SHARED] || (global[SHARED] = {});
 
     identical!(extends_cond, "class Foo extends (true ? Bar : Baz) {}");
 
+    identical!(
+        extends_await_yield,
+        "
+        async function* func() {
+            class A extends (await p) {}
+            class B extends (yield p) {}
+        }
+        "
+    );
+
     identical!(deno_10668_1, "console.log(null ?? (undefined && true))");
 
     identical!(deno_10668_2, "console.log(null && (undefined ?? true))");
@@ -1634,7 +1674,19 @@ var store = global[SHARED] || (global[SHARED] = {});
 
     test_fixer!(issue_2550_1, "(1 && { a: 1 })", "1 && { a:1 }");
 
-    identical!(issue_2550_2, "({ isNewPrefsActive } && { a: 1 })");
+    identical!(issue_2550_2, "({ isNewPrefsActive }) && { a: 1 }");
+
+    test_fixer!(paren_of_bin_left_1, "({} && 1)", "({}) && 1");
+    identical!(paren_of_bin_left_2, "({}) && 1");
+    test_fixer!(
+        paren_of_bin_left_3,
+        "(function () {} || 2)",
+        "(function () {}) || 2"
+    );
+    identical!(paren_of_bin_left_4, "(function () {}) || 2");
+
+    test_fixer!(paren_of_bin_left_5, "(class{} ?? 3)", "(class{}) ?? 3");
+    identical!(paren_of_bin_left_6, "(class{}) ?? 3");
 
     identical!(issue_4761, "x = { ...(0, foo) }");
 

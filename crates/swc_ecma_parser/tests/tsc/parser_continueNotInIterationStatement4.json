@@ -1,0 +1,129 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 61,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 1,
+        "end": 61,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 4,
+          "ctxt": 0
+        },
+        "value": "TWO",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 6,
+          "end": 61,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 13,
+            "end": 17,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 18,
+            "end": 61,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 22,
+                "end": 59,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 26,
+                    "end": 59,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 26,
+                      "end": 27,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 30,
+                      "end": 59,
+                      "ctxt": 0
+                    },
+                    "params": [],
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 36,
+                        "end": 59,
+                        "ctxt": 0
+                      },
+                      "stmts": [
+                        {
+                          "type": "ContinueStatement",
+                          "span": {
+                            "start": 42,
+                            "end": 55,
+                            "ctxt": 0
+                          },
+                          "label": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 51,
+                              "end": 54,
+                              "ctxt": 0
+                            },
+                            "value": "TWO",
+                            "optional": false
+                          }
+                        }
+                      ]
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

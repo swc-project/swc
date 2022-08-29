@@ -1,0 +1,2 @@
+//// [voidParamAssignmentCompatibility.ts]
+o.method;

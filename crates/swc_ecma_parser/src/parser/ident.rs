@@ -109,38 +109,46 @@ impl<I: Tokens> Parser<I> {
             // Spec:
             // It is a Syntax Error if this phrase is contained in strict mode code and the
             // StringValue of IdentifierName is: "implements", "interface", "let",
-            // "package", "private", "protected",  "public", "static", or "yield".
+            // "package", "private", "protected", "public", "static", or "yield".
             match w {
-                Word::Ident(js_word!("enum")) => {
-                    p.emit_err(p.input.prev_span(), SyntaxError::InvalidIdentInStrict);
+                Word::Ident(ref name @ js_word!("enum")) => {
+                    p.emit_err(
+                        p.input.prev_span(),
+                        SyntaxError::InvalidIdentInStrict(name.clone()),
+                    );
                 }
-                Word::Keyword(Keyword::Yield)
-                | Word::Keyword(Keyword::Let)
-                | Word::Ident(js_word!("static"))
-                | Word::Ident(js_word!("implements"))
-                | Word::Ident(js_word!("interface"))
-                | Word::Ident(js_word!("package"))
-                | Word::Ident(js_word!("private"))
-                | Word::Ident(js_word!("protected"))
-                | Word::Ident(js_word!("public")) => {
-                    p.emit_strict_mode_err(p.input.prev_span(), SyntaxError::InvalidIdentInStrict);
+                Word::Keyword(name @ Keyword::Yield) | Word::Keyword(name @ Keyword::Let) => {
+                    p.emit_strict_mode_err(
+                        p.input.prev_span(),
+                        SyntaxError::InvalidIdentInStrict(name.into_js_word()),
+                    );
+                }
+
+                Word::Ident(ref name @ js_word!("static"))
+                | Word::Ident(ref name @ js_word!("implements"))
+                | Word::Ident(ref name @ js_word!("interface"))
+                | Word::Ident(ref name @ js_word!("package"))
+                | Word::Ident(ref name @ js_word!("private"))
+                | Word::Ident(ref name @ js_word!("protected"))
+                | Word::Ident(ref name @ js_word!("public")) => {
+                    p.emit_strict_mode_err(
+                        p.input.prev_span(),
+                        SyntaxError::InvalidIdentInStrict(name.clone()),
+                    );
                 }
                 _ => {}
             }
 
-            //TODO
             // Spec:
             // It is a Syntax Error if StringValue of IdentifierName is the same String
             // value as the StringValue of any ReservedWord except for yield or await.
             match w {
-                Word::Keyword(Keyword::Await) if p.input.syntax().typescript() => {
-                    Ok(js_word!("await"))
-                }
+                Word::Keyword(Keyword::Await) if p.ctx().in_declare => Ok(js_word!("await")),
 
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
-                Word::Keyword(Keyword::Await) if p.ctx().module => {
-                    syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
+                Word::Keyword(Keyword::Await) if p.ctx().module | p.ctx().in_async => {
+                    syntax_error!(p, p.input.prev_span(), SyntaxError::InvalidIdentInAsync)
                 }
                 Word::Keyword(Keyword::This) if p.input.syntax().typescript() => {
                     Ok(js_word!("this"))

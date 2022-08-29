@@ -1,4 +1,4 @@
-﻿// @module: commonjs
+// @module: commonjs
 // @target: esnext
 // @filename: 0.ts
 export function foo() { return "foo"; }

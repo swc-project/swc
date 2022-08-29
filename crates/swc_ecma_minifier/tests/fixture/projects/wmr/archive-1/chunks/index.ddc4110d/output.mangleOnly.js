@@ -1,15 +1,15 @@
-import { s as o, y as t, m as n } from "../index.f66dda46.js";
+import { s as t, y as o, m as n } from "../index.f66dda46.js";
 null;
-const r = {
+const u = {
     about: "about_migxty"
 };
-function s({ query: o , title: s  }) {
-    t(()=>{
-        console.log("Mounted About: ", s);
+function e({ query: t , title: e  }) {
+    o(()=>{
+        console.log("Mounted About: ", e);
         return ()=>{
-            console.log("Unmounting About: ", s);
+            console.log("Unmounting About: ", e);
         };
     }, []);
-    return n`<section class=${r.about}><h1>${s || "About"}</h1><p>My name is Jason.</p><pre>${JSON.stringify(o)}</pre></section>`;
+    return n`<section class=${u.about}><h1>${e || "About"}</h1><p>My name is Jason.</p><pre>${JSON.stringify(t)}</pre></section>`;
 }
-export default s;
+export default e;

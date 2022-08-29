@@ -1,0 +1,66 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 18,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 18,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UpdateExpression",
+        "span": {
+          "start": 1,
+          "end": 18,
+          "ctxt": 0
+        },
+        "operator": "++",
+        "prefix": true,
+        "argument": {
+          "type": "UnaryExpression",
+          "span": {
+            "start": 4,
+            "end": 18,
+            "ctxt": 0
+          },
+          "operator": "delete",
+          "argument": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 11,
+              "end": 18,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 11,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 15,
+                "end": 18,
+                "ctxt": 0
+              },
+              "value": "bar",
+              "optional": false
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

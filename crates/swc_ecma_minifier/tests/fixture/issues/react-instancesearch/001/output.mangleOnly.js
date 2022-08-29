@@ -1,5 +1,5 @@
-import { defer as e } from "./utils";
-export default function t(t) {
+import { defer as t } from "./utils";
+export default function e(e) {
     const r = [];
     let n = false;
     function u() {
@@ -7,17 +7,17 @@ export default function t(t) {
             return;
         }
         n = true;
-        e(()=>{
+        t(()=>{
             n = false;
-            t();
+            e();
         });
     }
     return {
-        registerWidget (e) {
-            r.push(e);
+        registerWidget (t) {
+            r.push(t);
             u();
-            return function t() {
-                r.splice(r.indexOf(e), 1);
+            return function e() {
+                r.splice(r.indexOf(t), 1);
                 u();
             };
         },

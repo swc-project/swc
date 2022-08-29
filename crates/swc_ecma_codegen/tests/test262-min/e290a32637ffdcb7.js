@@ -1,1 +1,1 @@
-(function(){a["Infinity"]=1}())
+(function(){a["Infinity"]=1}());

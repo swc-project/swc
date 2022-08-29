@@ -1,0 +1,109 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 60,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 17,
+        "end": 30,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 17,
+          "end": 29,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 31,
+        "end": 60,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 35,
+            "end": 60,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 35,
+              "end": 36,
+              "ctxt": 0
+            },
+            "value": "v",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 39,
+              "end": 60,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "SetterProperty",
+                "span": {
+                  "start": 41,
+                  "end": 58,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 45,
+                    "end": 48,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "optional": false
+                },
+                "param": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 49,
+                    "end": 53,
+                    "ctxt": 0
+                  },
+                  "value": "eval",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 55,
+                    "end": 58,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,105 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 43,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 21,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 20,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 10,
+              "ctxt": 0
+            },
+            "value": "greet",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 13,
+              "end": 20,
+              "ctxt": 0
+            },
+            "value": "hello",
+            "raw": "\"hello\""
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 22,
+        "end": 43,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 26,
+            "end": 42,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 26,
+              "end": 29,
+              "ctxt": 0
+            },
+            "value": "obj",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 32,
+              "end": 42,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 34,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "value": "greet",
+                "optional": false
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,1 @@
+//// [comparisonOperatorWithTwoOperandsAreAny.ts]

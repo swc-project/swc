@@ -1,0 +1,47 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 33,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 29,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 16,
+          "end": 28,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 30,
+        "end": 33,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 30,
+          "end": 33,
+          "ctxt": 0
+        },
+        "value": "let",
+        "optional": false
+      }
+    }
+  ],
+  "interpreter": null
+}

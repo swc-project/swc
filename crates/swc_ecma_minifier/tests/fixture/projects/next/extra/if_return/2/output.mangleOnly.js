@@ -14,15 +14,15 @@ export function insertRule(e, t) {
         }
         try {
             s.insertRule(e, t);
-        } catch (i) {
+        } catch (r) {
             if (!isProd) {
                 console.warn("StyleSheet: illegal rule: \n\n" + e + "\n\nSee https://stackoverflow.com/q/20007992 for more info");
             }
             return -1;
         }
     } else {
-        var r = this._tags[t];
-        this._tags.push(this.makeStyleTag(this._name, e, r));
+        var i = this._tags[t];
+        this._tags.push(this.makeStyleTag(this._name, e, i));
     }
     return this._rulesCount++;
 }

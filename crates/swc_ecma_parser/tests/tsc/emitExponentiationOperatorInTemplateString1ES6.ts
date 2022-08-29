@@ -1,4 +1,4 @@
-﻿// @target: es6
+// @target: es6
 
 var t1 = 10;
 var t2 = 10;

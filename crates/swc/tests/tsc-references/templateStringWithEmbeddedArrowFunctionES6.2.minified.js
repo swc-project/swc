@@ -1,0 +1,1 @@
+//// [templateStringWithEmbeddedArrowFunctionES6.ts]

@@ -1,1 +1,0 @@
-(function(...rest) {})`${function(x) {}}`;

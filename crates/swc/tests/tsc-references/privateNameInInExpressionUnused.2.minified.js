@@ -1,0 +1,2 @@
+//// [privateNameInInExpressionUnused.ts]
+new WeakSet();

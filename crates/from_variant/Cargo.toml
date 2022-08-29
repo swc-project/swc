@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "from_variant"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.1.3"
+version = "0.1.4"
 
 [lib]
 bench = false

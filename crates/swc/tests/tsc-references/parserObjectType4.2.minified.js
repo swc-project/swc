@@ -1,0 +1,1 @@
+//// [parserObjectType4.ts]

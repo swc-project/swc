@@ -1,0 +1,1 @@
+//// [privateNameAmbientNoImplicitAny.ts]

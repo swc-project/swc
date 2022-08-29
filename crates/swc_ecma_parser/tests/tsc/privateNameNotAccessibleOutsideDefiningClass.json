@@ -1,0 +1,171 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 35,
+    "end": 87,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 41,
+          "end": 42,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 35,
+        "end": 68,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 49,
+            "end": 66,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 49,
+              "end": 53,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 50,
+                "end": 53,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 64,
+              "end": 65,
+              "ctxt": 0
+            },
+            "value": 3.0,
+            "raw": "3"
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 53,
+              "end": 61,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 55,
+                "end": 61,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          },
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 70,
+        "end": 87,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 70,
+          "end": 86,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 70,
+            "end": 82,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "NewExpression",
+            "span": {
+              "start": 70,
+              "end": 77,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 74,
+                "end": 75,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "property": {
+            "type": "PrivateName",
+            "span": {
+              "start": 78,
+              "end": 82,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 79,
+                "end": 82,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 85,
+            "end": 86,
+            "ctxt": 0
+          },
+          "value": 4.0,
+          "raw": "4"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

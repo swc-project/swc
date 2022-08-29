@@ -1,0 +1,1 @@
+//// [directReferenceToUndefined.ts]

@@ -1,4 +1,4 @@
-﻿// @module: system
+// @module: system
 // @target: esnext
 // @useDefineForClassFields: false
 

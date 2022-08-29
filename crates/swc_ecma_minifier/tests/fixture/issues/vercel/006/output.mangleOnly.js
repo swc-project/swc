@@ -1,10 +1,10 @@
-import { jsx as e, jsxs as t, Fragment as o } from "react/jsx-runtime";
-import * as r from "react";
+import { jsx as e, jsxs as t, Fragment as r } from "react/jsx-runtime";
+import * as o from "react";
 import i from "invariant";
 import { injectScript as n } from "./utils/injectscript";
 import { preventGoogleFonts as s } from "./utils/prevent-google-fonts";
-import { isBrowser as p } from "./utils/isbrowser";
-import { makeLoadScriptUrl as a } from "./utils/make-load-script-url";
+import { isBrowser as a } from "./utils/isbrowser";
+import { makeLoadScriptUrl as p } from "./utils/make-load-script-url";
 let l = false;
 export function DefaultLoadingElement() {
     return e("div", {
@@ -15,9 +15,9 @@ export const defaultLoadScriptProps = {
     id: "script-loader",
     version: "weekly"
 };
-class c extends r.PureComponent {
+class c extends o.PureComponent {
     componentDidMount() {
-        if (p) {
+        if (a) {
             if (window.google && window.google.maps && !l) {
                 console.error("google api is already presented");
                 return;
@@ -31,7 +31,7 @@ class c extends r.PureComponent {
         if (this.props.libraries !== e.libraries) {
             console.warn("Performance warning! LoadScript has been reloaded unintentionally! You should not pass `libraries` prop as new array. Please keep an array of libraries as static class property for Components and PureComponents, or just a const variable outside of component, or somewhere in config files or ENV variables");
         }
-        if (p && e.language !== this.props.language) {
+        if (a && e.language !== this.props.language) {
             this.cleanup();
             this.setState(function e() {
                 return {
@@ -41,7 +41,7 @@ class c extends r.PureComponent {
         }
     }
     componentWillUnmount() {
-        if (p) {
+        if (a) {
             this.cleanup();
             const e = ()=>{
                 if (!this.check.current) {
@@ -56,7 +56,7 @@ class c extends r.PureComponent {
         }
     }
     render() {
-        return t(o, {
+        return t(r, {
             children: [
                 e("div", {
                     ref: this.check
@@ -67,7 +67,7 @@ class c extends r.PureComponent {
     }
     constructor(...e){
         super(...e);
-        this.check = r.createRef();
+        this.check = o.createRef();
         this.state = {
             loaded: false
         };
@@ -80,8 +80,8 @@ class c extends r.PureComponent {
                 if (!l) {
                     e();
                 } else {
-                    if (p) {
-                        const t = window.setInterval(function o() {
+                    if (a) {
+                        const t = window.setInterval(function r() {
                             if (!l) {
                                 window.clearInterval(t);
                                 e();
@@ -129,7 +129,7 @@ class c extends r.PureComponent {
             const e = {
                 id: this.props.id,
                 nonce: this.props.nonce,
-                url: a(this.props)
+                url: p(this.props)
             };
             n(e).then(()=>{
                 if (this.props.onLoad) {

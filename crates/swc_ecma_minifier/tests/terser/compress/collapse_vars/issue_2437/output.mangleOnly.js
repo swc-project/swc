@@ -9,9 +9,9 @@ function n() {
         return n;
     } else {
         var e = new XMLHttpRequest();
-        var r = function() {};
-        e.onreadystatechange = r;
-        var n = e[SYMBOL_FAKE_ONREADYSTATECHANGE_1] === r;
+        var a = function() {};
+        e.onreadystatechange = a;
+        var n = e[SYMBOL_FAKE_ONREADYSTATECHANGE_1] === a;
         e.onreadystatechange = null;
         return n;
     }

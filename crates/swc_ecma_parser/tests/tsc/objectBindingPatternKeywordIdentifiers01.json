@@ -1,0 +1,96 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 2,
+    "end": 30,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2,
+        "end": 30,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 30,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 6,
+              "end": 15,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "AssignmentPatternProperty",
+                "span": {
+                  "start": 8,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 8,
+                    "end": 13,
+                    "ctxt": 0
+                  },
+                  "value": "while",
+                  "optional": false
+                },
+                "value": null
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 18,
+              "end": 30,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 20,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "value": "while",
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 27,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

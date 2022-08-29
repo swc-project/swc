@@ -6,7 +6,7 @@ use std::{
 
 use anyhow::{Context, Result};
 use clap::{ArgEnum, Parser, Subcommand};
-use swc_core::SWC_CORE_VERSION;
+use swc_core::diagnostics::get_core_engine_diagnostics;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, ArgEnum)]
 pub enum PluginTargetType {
@@ -142,7 +142,8 @@ impl super::CommandRunner for PluginScaffoldOptions {
         // generate .gitignore
         write_ignore_file(path)?;
 
-        let swc_core_version: Vec<&str> = SWC_CORE_VERSION.split('.').collect();
+        let core_engine = get_core_engine_diagnostics();
+        let swc_core_version: Vec<&str> = core_engine.package_semver.split('.').collect();
         // We'll pick semver major.minor, but allow any patch version.
         let swc_core_version = format!("{}.{}.*", swc_core_version[0], swc_core_version[1]);
 
@@ -157,6 +158,9 @@ edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
 
 [dependencies]
 serde = "1"

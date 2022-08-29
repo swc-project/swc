@@ -1,0 +1,75 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 38,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 1,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "TryStatement",
+      "span": {
+        "start": 15,
+        "end": 38,
+        "ctxt": 0
+      },
+      "block": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 19,
+          "end": 22,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "handler": {
+        "type": "CatchClause",
+        "span": {
+          "start": 23,
+          "end": 38,
+          "ctxt": 0
+        },
+        "param": {
+          "type": "Identifier",
+          "span": {
+            "start": 29,
+            "end": 33,
+            "ctxt": 0
+          },
+          "value": "eval",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 35,
+            "end": 38,
+            "ctxt": 0
+          },
+          "stmts": []
+        }
+      },
+      "finalizer": null
+    }
+  ],
+  "interpreter": null
+}

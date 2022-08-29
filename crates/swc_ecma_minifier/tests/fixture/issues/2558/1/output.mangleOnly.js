@@ -1,20 +1,20 @@
 (function(t) {
     "use strict";
-    var n = (function() {
+    var r = (function() {
         try {
             if (t.URLSearchParams && new t.URLSearchParams("foo=bar").get("foo") === "bar") {
                 return t.URLSearchParams;
             }
-        } catch (n) {}
+        } catch (r) {}
         return null;
-    })(), r = n && new n({
+    })(), n = r && new r({
         a: 1
-    }).toString() === "a=1", e = n && new n("s=%2B").get("s") === "+", i = "__URLSearchParams__", o = n ? (function() {
-        var t = new n();
+    }).toString() === "a=1", e = r && new r("s=%2B").get("s") === "+", i = "__URLSearchParams__", o = r ? (function() {
+        var t = new r();
         t.append("s", " &");
         return t.toString() === "s=+%26";
-    })() : true, f = u.prototype, a = !!(t.Symbol && t.Symbol.iterator);
-    if (n && r && e && o) {
+    })() : true, a = u.prototype, f = !!(t.Symbol && t.Symbol.iterator);
+    if (r && n && e && o) {
         return;
     }
     function u(t) {
@@ -24,45 +24,45 @@
         }
         this[i] = y(t);
     }
-    f.append = function(t, n) {
-        S(this[i], t, n);
+    a.append = function(t, r) {
+        S(this[i], t, r);
     };
-    f["delete"] = function(t) {
+    a["delete"] = function(t) {
         delete this[i][t];
     };
-    f.get = function(t) {
-        var n = this[i];
-        return this.has(t) ? n[t][0] : null;
+    a.get = function(t) {
+        var r = this[i];
+        return this.has(t) ? r[t][0] : null;
     };
-    f.getAll = function(t) {
-        var n = this[i];
-        return this.has(t) ? n[t].slice(0) : [];
+    a.getAll = function(t) {
+        var r = this[i];
+        return this.has(t) ? r[t].slice(0) : [];
     };
-    f.has = function(t) {
-        return w(this[i], t);
+    a.has = function(t) {
+        return d(this[i], t);
     };
-    f.set = function t(n, r) {
-        this[i][n] = [
-            "" + r
+    a.set = function t(r, n) {
+        this[i][r] = [
+            "" + n
         ];
     };
-    f.toString = function() {
-        var t = this[i], n = [], r, e, o, f;
+    a.toString = function() {
+        var t = this[i], r = [], n, e, o, a;
         for(e in t){
             o = p(e);
-            for(r = 0, f = t[e]; r < f.length; r++){
-                n.push(o + "=" + p(f[r]));
+            for(n = 0, a = t[e]; n < a.length; n++){
+                r.push(o + "=" + p(a[n]));
             }
         }
-        return n.join("&");
+        return r.join("&");
     };
     var s = !e;
-    var c = !s && n && !r && t.Proxy;
+    var c = !s && r && !n && t.Proxy;
     var h;
     if (c) {
-        h = new Proxy(n, {
-            construct: function(t, n) {
-                return new t(new u(n[0]).toString());
+        h = new Proxy(r, {
+            construct: function(t, r) {
+                return new t(new u(r[0]).toString());
             }
         });
         h.toString = Function.prototype.toString.bind(u);
@@ -74,59 +74,59 @@
     });
     var l = t.URLSearchParams.prototype;
     l.polyfill = true;
-    l.forEach = l.forEach || function(t, n) {
-        var r = y(this.toString());
-        Object.getOwnPropertyNames(r).forEach(function(e) {
-            r[e].forEach(function(r) {
-                t.call(n, r, e, this);
+    l.forEach = l.forEach || function(t, r) {
+        var n = y(this.toString());
+        Object.getOwnPropertyNames(n).forEach(function(e) {
+            n[e].forEach(function(n) {
+                t.call(r, n, e, this);
             }, this);
         }, this);
     };
     l.sort = l.sort || function() {
-        var t = y(this.toString()), n = [], r, e, i;
-        for(r in t){
-            n.push(r);
+        var t = y(this.toString()), r = [], n, e, i;
+        for(n in t){
+            r.push(n);
         }
-        n.sort();
-        for(e = 0; e < n.length; e++){
-            this["delete"](n[e]);
+        r.sort();
+        for(e = 0; e < r.length; e++){
+            this["delete"](r[e]);
         }
-        for(e = 0; e < n.length; e++){
-            var o = n[e], f = t[o];
-            for(i = 0; i < f.length; i++){
-                this.append(o, f[i]);
+        for(e = 0; e < r.length; e++){
+            var o = r[e], a = t[o];
+            for(i = 0; i < a.length; i++){
+                this.append(o, a[i]);
             }
         }
     };
     l.keys = l.keys || function() {
         var t = [];
-        this.forEach(function(n, r) {
-            t.push(r);
+        this.forEach(function(r, n) {
+            t.push(n);
         });
         return g(t);
     };
     l.values = l.values || function() {
         var t = [];
-        this.forEach(function(n) {
-            t.push(n);
+        this.forEach(function(r) {
+            t.push(r);
         });
         return g(t);
     };
     l.entries = l.entries || function() {
         var t = [];
-        this.forEach(function(n, r) {
+        this.forEach(function(r, n) {
             t.push([
-                r,
-                n
+                n,
+                r
             ]);
         });
         return g(t);
     };
-    if (a) {
+    if (f) {
         l[t.Symbol.iterator] = l[t.Symbol.iterator] || l.entries;
     }
     function p(t) {
-        var n = {
+        var r = {
             "!": "%21",
             "'": "%27",
             "(": "%28",
@@ -136,7 +136,7 @@
             "%00": "\x00"
         };
         return encodeURIComponent(t).replace(/[!'\(\)~]|%20|%00/g, function(t) {
-            return n[t];
+            return r[t];
         });
     }
     function v(t) {
@@ -144,31 +144,31 @@
             return decodeURIComponent(t);
         });
     }
-    function g(n) {
-        var r = {
+    function g(r) {
+        var n = {
             next: function() {
-                var t = n.shift();
+                var t = r.shift();
                 return {
                     done: t === undefined,
                     value: t
                 };
             }
         };
-        if (a) {
-            r[t.Symbol.iterator] = function() {
-                return r;
+        if (f) {
+            n[t.Symbol.iterator] = function() {
+                return n;
             };
         }
-        return r;
+        return n;
     }
     function y(t) {
-        var n = {};
+        var r = {};
         if (typeof t === "object") {
             if ($(t)) {
-                for(var r = 0; r < t.length; r++){
-                    var e = t[r];
+                for(var n = 0; n < t.length; n++){
+                    var e = t[n];
                     if ($(e) && e.length === 2) {
-                        S(n, e[0], e[1]);
+                        S(r, e[0], e[1]);
                     } else {
                         throw new TypeError("Failed to construct 'URLSearchParams': Sequence initializer must only contain pair elements");
                     }
@@ -176,7 +176,7 @@
             } else {
                 for(var i in t){
                     if (t.hasOwnProperty(i)) {
-                        S(n, i, t[i]);
+                        S(r, i, t[i]);
                     }
                 }
             }
@@ -185,25 +185,25 @@
                 t = t.slice(1);
             }
             var o = t.split("&");
-            for(var f = 0; f < o.length; f++){
-                var a = o[f], u = a.indexOf("=");
+            for(var a = 0; a < o.length; a++){
+                var f = o[a], u = f.indexOf("=");
                 if (-1 < u) {
-                    S(n, v(a.slice(0, u)), v(a.slice(u + 1)));
+                    S(r, v(f.slice(0, u)), v(f.slice(u + 1)));
                 } else {
-                    if (a) {
-                        S(n, v(a), "");
+                    if (f) {
+                        S(r, v(f), "");
                     }
                 }
             }
         }
-        return n;
+        return r;
     }
-    function S(t, n, r) {
-        var e = typeof r === "string" ? r : r !== null && r !== undefined && typeof r.toString === "function" ? r.toString() : JSON.stringify(r);
-        if (w(t, n)) {
-            t[n].push(e);
+    function S(t, r, n) {
+        var e = typeof n === "string" ? n : n !== null && n !== undefined && typeof n.toString === "function" ? n.toString() : JSON.stringify(n);
+        if (d(t, r)) {
+            t[r].push(e);
         } else {
-            t[n] = [
+            t[r] = [
                 e
             ];
         }
@@ -211,7 +211,7 @@
     function $(t) {
         return (!!t && "[object Array]" === Object.prototype.toString.call(t));
     }
-    function w(t, n) {
-        return Object.prototype.hasOwnProperty.call(t, n);
+    function d(t, r) {
+        return Object.prototype.hasOwnProperty.call(t, r);
     }
 })(typeof global !== "undefined" ? global : typeof window !== "undefined" ? window : this);

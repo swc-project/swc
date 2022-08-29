@@ -1,0 +1,1 @@
+//// [directReferenceToNull.ts]

@@ -1,0 +1,2 @@
+//// [index.js]
+({}).prototype.b = {};

@@ -1,9 +1,9 @@
 global.t = "ttttttttttttttttttttt";
-(function n() {
-    var r = "PASS";
+(function t() {
+    var n = "PASS";
     return ()=>{
-        console.log(r);
-        var n = function() {};
-        return n;
+        console.log(n);
+        var t = function() {};
+        return t;
     };
 })()();

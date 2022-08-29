@@ -1,1 +1,1 @@
-(function(){if(!a||b());}())
+(function(){if(!a||b());}());

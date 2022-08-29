@@ -692,19 +692,19 @@ define!({
 
     pub struct MediaNot {
         pub span: Span,
-        pub keyword: Ident,
+        pub keyword: Option<Ident>,
         pub condition: MediaInParens,
     }
 
     pub struct MediaAnd {
         pub span: Span,
-        pub keyword: Ident,
+        pub keyword: Option<Ident>,
         pub condition: MediaInParens,
     }
 
     pub struct MediaOr {
         pub span: Span,
-        pub keyword: Ident,
+        pub keyword: Option<Ident>,
         pub condition: MediaInParens,
     }
 
@@ -793,19 +793,19 @@ define!({
 
     pub struct SupportsNot {
         pub span: Span,
-        pub keyword: Ident,
+        pub keyword: Option<Ident>,
         pub condition: SupportsInParens,
     }
 
     pub struct SupportsAnd {
         pub span: Span,
-        pub keyword: Ident,
+        pub keyword: Option<Ident>,
         pub condition: SupportsInParens,
     }
 
     pub struct SupportsOr {
         pub span: Span,
-        pub keyword: Ident,
+        pub keyword: Option<Ident>,
         pub condition: SupportsInParens,
     }
 

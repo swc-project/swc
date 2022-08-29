@@ -1,17 +1,17 @@
-function l(l) {
+function e(e) {
     {
-        var r = Object.keys(l.props);
-        for(var n = 0; n < r.length; n++){
-            var f = r[n];
-            if (f !== "children" && f !== "key") {
-                setCurrentlyValidatingElement$1(l);
-                error("Invalid prop `%s` supplied to `React.Fragment`. " + "React.Fragment can only have `key` and `children` props.", f);
+        var a = Object.keys(e.props);
+        for(var n = 0; n < a.length; n++){
+            var r = a[n];
+            if (r !== "children" && r !== "key") {
+                setCurrentlyValidatingElement$1(e);
+                error("Invalid prop `%s` supplied to `React.Fragment`. " + "React.Fragment can only have `key` and `children` props.", r);
                 setCurrentlyValidatingElement$1(null);
                 break;
             }
         }
-        if (l.ref !== null) {
-            setCurrentlyValidatingElement$1(l);
+        if (e.ref !== null) {
+            setCurrentlyValidatingElement$1(e);
             error("Invalid attribute `ref` supplied to `React.Fragment`.");
             setCurrentlyValidatingElement$1(null);
         }

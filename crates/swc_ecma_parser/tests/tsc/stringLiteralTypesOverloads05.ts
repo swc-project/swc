@@ -1,4 +1,4 @@
-﻿// @declaration: true
+// @declaration: true
 
 interface Animal { animal: {} };
 interface Dog extends Animal { dog: {} }

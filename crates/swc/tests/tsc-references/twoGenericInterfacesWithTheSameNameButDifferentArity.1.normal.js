@@ -1,0 +1,1 @@
+//// [twoGenericInterfacesWithTheSameNameButDifferentArity.ts]

@@ -6,10 +6,10 @@ export var Test;
         e["Test2"] = "2";
         e["Test3"] = "3";
     })(e = t.testEnum || (t.testEnum = {}));
-    let n;
-    (function(n) {
-        n["Test"] = "1";
-        n["Test2"] = "2";
-        n["Test3"] = "3";
-    })(n = t.testEnum2 || (t.testEnum2 = {}));
+    let s;
+    (function(s) {
+        s["Test"] = "1";
+        s["Test2"] = "2";
+        s["Test3"] = "3";
+    })(s = t.testEnum2 || (t.testEnum2 = {}));
 })(Test || (Test = {}));

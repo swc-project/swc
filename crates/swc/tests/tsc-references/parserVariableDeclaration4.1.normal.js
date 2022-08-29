@@ -1,0 +1,7 @@
+//// [parserVariableDeclaration4.ts]
+//! 
+//!   x `declare` modifier not allowed for code already in an ambient context
+//!    ,----
+//!  2 | declare var v;
+//!    : ^^^^^^^
+//!    `----

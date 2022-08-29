@@ -1,1 +1,1 @@
-(function(){function a(){}function b(){}function c(){}}())
+(function(){function a(){}function b(){}function c(){}}());

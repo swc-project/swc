@@ -1,3 +1,4 @@
+//! Module for `browserslist` queries.
 #![deny(clippy::all)]
 
 use std::collections::HashMap;

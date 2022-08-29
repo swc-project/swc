@@ -1,0 +1,2 @@
+//// [exportNonLocalDeclarations.ts]
+export { string };

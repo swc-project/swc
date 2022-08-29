@@ -1,0 +1,1 @@
+//// [ArrowFunction4.ts]

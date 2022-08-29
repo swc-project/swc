@@ -47,7 +47,7 @@ function l(e) {
     };
     return l(e);
 }
-function p(e, t) {
+function m(e, t) {
     if (typeof t !== "function" && t !== null) {
         throw new TypeError("Super expression must either be null or a function");
     }
@@ -60,7 +60,7 @@ function p(e, t) {
     });
     if (t) h(e, t);
 }
-function m(e) {
+function p(e) {
     for(var t = 1; t < arguments.length; t++){
         var r = arguments[t] != null ? arguments[t] : {};
         var n = Object.keys(r);
@@ -93,7 +93,7 @@ var y = function(e) {
 };
 var g = (function(t) {
     "use strict";
-    p(r, t);
+    m(r, t);
     function r() {
         f(this, r);
         var e;
@@ -116,12 +116,12 @@ var g = (function(t) {
             key: "render",
             value: function t() {
                 var r = this;
-                var n = this.props, o = n.items, u = n.itemProps, f = n.renderItem, c = n.renderItemData, a = n.sectionIndex, s = n.highlightedItemIndex, l = n.getItemId, p = n.theme, d = n.keyPrefix;
+                var n = this.props, o = n.items, u = n.itemProps, f = n.renderItem, c = n.renderItemData, a = n.sectionIndex, s = n.highlightedItemIndex, l = n.getItemId, m = n.theme, d = n.keyPrefix;
                 var h = a === null ? d : "".concat(d, "section-").concat(a, "-");
                 var y = typeof u === "function";
-                return e("ul", m({
+                return e("ul", p({
                     role: "listbox"
-                }, p("".concat(h, "items-list"), "itemsList"), {
+                }, m("".concat(h, "items-list"), "itemsList"), {
                     children: o.map(function(t, n) {
                         var o = n === 0;
                         var d = n === s;
@@ -130,14 +130,14 @@ var g = (function(t) {
                             sectionIndex: a,
                             itemIndex: n
                         }) : u;
-                        var v = m({
+                        var b = p({
                             id: l(a, n),
                             "aria-selected": d
-                        }, p(g, "item", o && "itemFirst", d && "itemHighlighted"), I);
+                        }, m(g, "item", o && "itemFirst", d && "itemHighlighted"), I);
                         if (d) {
-                            v.ref = r.storeHighlightedItemReference;
+                            b.ref = r.storeHighlightedItemReference;
                         }
-                        return e(i, m({}, v, {
+                        return e(i, p({}, b, {
                             sectionIndex: a,
                             isHighlighted: d,
                             itemIndex: n,

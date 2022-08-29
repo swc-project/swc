@@ -201,11 +201,11 @@
             }, EnvironmentContext = (0, react.createContext)(defaultEnv);
             function EnvironmentProvider(props) {
                 var children = props.children, environmentProp = props.environment, _useState = (0, react.useState)(null), node = _useState[0], setNode = _useState[1], context = (0, react.useMemo)(function() {
-                    var _ref, doc = null == node ? void 0 : node.ownerDocument, win = null == node ? void 0 : node.ownerDocument.defaultView;
-                    return null != (_ref = null != environmentProp ? environmentProp : doc ? {
+                    var _ref, doc = null == node ? void 0 : node.ownerDocument, win = null == node ? void 0 : node.ownerDocument.defaultView, env = null != (_ref = null != environmentProp ? environmentProp : doc ? {
                         document: doc,
                         window: win
                     } : void 0) ? _ref : defaultEnv;
+                    return env;
                 }, [
                     node,
                     environmentProp
@@ -561,16 +561,16 @@
             var module_TinyColor = function() {
                 function TinyColor(color, opts) {
                     if (void 0 === color && (color = ""), void 0 === opts && (opts = {}), color instanceof TinyColor) return color;
-                    "number" == typeof color && (color = {
-                        r: (color1 = color) >> 16,
+                    "number" == typeof color && (color = (color1 = color, {
+                        r: color1 >> 16,
                         g: (0xff00 & color1) >> 8,
                         b: 0xff & color1
-                    }), this.originalInput = color;
-                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (rgb = {
+                    })), this.originalInput = color;
+                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
                         r: 0,
                         g: 0,
                         b: 0
-                    }, a = 1, s1 = null, v1 = null, l = null, ok = !1, format = !1, "string" == typeof (color2 = color) && (color2 = function(color) {
+                    }, a = 1, s1 = null, v1 = null, l = null, ok = !1, format = !1, "string" == typeof color2 && (color2 = function(color) {
                         if (0 === (color = color.trim().toLowerCase()).length) return !1;
                         var named = !1;
                         if (names[color]) color = names[color], named = !0;
@@ -869,100 +869,6 @@
                     return this.toRgbString() === new TinyColor(color).toRgbString();
                 }, TinyColor;
             }();
-            function random(options) {
-                if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
-                    var totalColors = options.count, colors = [];
-                    for(options.count = void 0; totalColors > colors.length;)options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
-                    return options.count = totalColors, colors;
-                }
-                var h = pickHue(options.hue, options.seed), s = pickSaturation(h, options), v = pickBrightness(h, s, options), res = {
-                    h: h,
-                    s: s,
-                    v: v
-                };
-                return void 0 !== options.alpha && (res.a = options.alpha), new module_TinyColor(res);
-            }
-            function pickHue(hue, seed) {
-                var hueRange = getHueRange(hue), res = randomWithin(hueRange, seed);
-                return res < 0 && (res = 360 + res), res;
-            }
-            function pickSaturation(hue, options) {
-                if ("monochrome" === options.hue) return 0;
-                if ("random" === options.luminosity) return randomWithin([
-                    0,
-                    100
-                ], options.seed);
-                var saturationRange = getColorInfo(hue).saturationRange, sMin = saturationRange[0], sMax = saturationRange[1];
-                switch(options.luminosity){
-                    case "bright":
-                        sMin = 55;
-                        break;
-                    case "dark":
-                        sMin = sMax - 10;
-                        break;
-                    case "light":
-                        sMax = 55;
-                }
-                return randomWithin([
-                    sMin,
-                    sMax
-                ], options.seed);
-            }
-            function pickBrightness(H, S, options) {
-                var bMin = getMinimumBrightness(H, S), bMax = 100;
-                switch(options.luminosity){
-                    case "dark":
-                        bMax = bMin + 20;
-                        break;
-                    case "light":
-                        bMin = (bMax + bMin) / 2;
-                        break;
-                    case "random":
-                        bMin = 0, bMax = 100;
-                }
-                return randomWithin([
-                    bMin,
-                    bMax
-                ], options.seed);
-            }
-            function getMinimumBrightness(H, S) {
-                for(var lowerBounds = getColorInfo(H).lowerBounds, i = 0; i < lowerBounds.length - 1; i++){
-                    var s1 = lowerBounds[i][0], v1 = lowerBounds[i][1], s2 = lowerBounds[i + 1][0], v2 = lowerBounds[i + 1][1];
-                    if (S >= s1 && S <= s2) {
-                        var m = (v2 - v1) / (s2 - s1), b = v1 - m * s1;
-                        return m * S + b;
-                    }
-                }
-                return 0;
-            }
-            function getHueRange(colorInput) {
-                var num = parseInt(colorInput, 10);
-                if (!Number.isNaN(num) && num < 360 && num > 0) return [
-                    num,
-                    num
-                ];
-                if ("string" == typeof colorInput) {
-                    var namedColor = bounds.find(function(n) {
-                        return n.name === colorInput;
-                    });
-                    if (namedColor) {
-                        var color = defineColor(namedColor);
-                        if (color.hueRange) return color.hueRange;
-                    }
-                    var parsed = new module_TinyColor(colorInput);
-                    if (parsed.isValid) {
-                        var hue = parsed.toHsv().h;
-                        return [
-                            hue,
-                            hue
-                        ];
-                    }
-                }
-                return [
-                    0,
-                    360
-                ];
-            }
             function getColorInfo(hue) {
                 hue >= 334 && hue <= 360 && (hue -= 360);
                 for(var _i = 0, bounds_1 = bounds; _i < bounds_1.length; _i++){
@@ -1301,8 +1207,8 @@
                     ]
                 }, 
             ], getColor = function(theme, color, fallback) {
-                var hex = (0, chakra_ui_utils_esm.Wf)(theme, "colors." + color, color);
-                return new module_TinyColor(hex).isValid ? hex : fallback;
+                var hex = (0, chakra_ui_utils_esm.Wf)(theme, "colors." + color, color), _TinyColor = new module_TinyColor(hex), isValid = _TinyColor.isValid;
+                return isValid ? hex : fallback;
             }, transparentize = function(color, opacity) {
                 return function(theme) {
                     var raw = getColor(theme, color);
@@ -1387,25 +1293,27 @@
                     {
                         key: "selectors",
                         get: function() {
-                            return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref) {
+                            var value = (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref) {
                                 var key = _ref[0], part = _ref[1];
                                 return [
                                     key,
                                     part.selector
                                 ];
                             }));
+                            return value;
                         }
                     },
                     {
                         key: "classNames",
                         get: function() {
-                            return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref2) {
+                            var value = (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref2) {
                                 var key = _ref2[0], part = _ref2[1];
                                 return [
                                     key,
                                     part.className
                                 ];
                             }));
+                            return value;
                         }
                     },
                     {
@@ -1495,7 +1403,7 @@
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
-                var value, prefix, value1, prefix1, name1, fallback, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, void 0 === (prefix1 = prefix) && (prefix1 = ""), [
+                var value, prefix, value1, prefix1, name1, fallback, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, prefix1 = prefix, void 0 === prefix1 && (prefix1 = ""), [
                     prefix1,
                     chakra_ui_theme_tools_esm_escape(value1)
                 ].filter(Boolean).join("-")));
@@ -1706,7 +1614,92 @@
             }, baseStyleContainer$3 = function(props) {
                 var list, opts, fallback, color, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
-                }, fallback = random().toHexString(), !opts || (0, chakra_ui_utils_esm.Qr)(opts) ? fallback : opts.string && opts.colors ? function(str, list) {
+                }, fallback = (function random(options) {
+                    if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
+                        var totalColors = options.count, colors = [];
+                        for(options.count = void 0; totalColors > colors.length;)options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
+                        return options.count = totalColors, colors;
+                    }
+                    var hue, seed, hueRange, res, h = (hue = options.hue, seed = options.seed, hueRange = function(colorInput) {
+                        var num = parseInt(colorInput, 10);
+                        if (!Number.isNaN(num) && num < 360 && num > 0) return [
+                            num,
+                            num
+                        ];
+                        if ("string" == typeof colorInput) {
+                            var namedColor = bounds.find(function(n) {
+                                return n.name === colorInput;
+                            });
+                            if (namedColor) {
+                                var color = defineColor(namedColor);
+                                if (color.hueRange) return color.hueRange;
+                            }
+                            var parsed = new module_TinyColor(colorInput);
+                            if (parsed.isValid) {
+                                var hue = parsed.toHsv().h;
+                                return [
+                                    hue,
+                                    hue
+                                ];
+                            }
+                        }
+                        return [
+                            0,
+                            360
+                        ];
+                    }(hue), res = randomWithin(hueRange, seed), res < 0 && (res = 360 + res), res), s = function(hue, options) {
+                        if ("monochrome" === options.hue) return 0;
+                        if ("random" === options.luminosity) return randomWithin([
+                            0,
+                            100
+                        ], options.seed);
+                        var saturationRange = getColorInfo(hue).saturationRange, sMin = saturationRange[0], sMax = saturationRange[1];
+                        switch(options.luminosity){
+                            case "bright":
+                                sMin = 55;
+                                break;
+                            case "dark":
+                                sMin = sMax - 10;
+                                break;
+                            case "light":
+                                sMax = 55;
+                        }
+                        return randomWithin([
+                            sMin,
+                            sMax
+                        ], options.seed);
+                    }(h, options), v = function(H, S, options) {
+                        var bMin = function(H, S) {
+                            for(var lowerBounds = getColorInfo(H).lowerBounds, i = 0; i < lowerBounds.length - 1; i++){
+                                var s1 = lowerBounds[i][0], v1 = lowerBounds[i][1], s2 = lowerBounds[i + 1][0], v2 = lowerBounds[i + 1][1];
+                                if (S >= s1 && S <= s2) {
+                                    var m = (v2 - v1) / (s2 - s1), b = v1 - m * s1;
+                                    return m * S + b;
+                                }
+                            }
+                            return 0;
+                        }(H, S), bMax = 100;
+                        switch(options.luminosity){
+                            case "dark":
+                                bMax = bMin + 20;
+                                break;
+                            case "light":
+                                bMin = (bMax + bMin) / 2;
+                                break;
+                            case "random":
+                                bMin = 0, bMax = 100;
+                        }
+                        return randomWithin([
+                            bMin,
+                            bMax
+                        ], options.seed);
+                    }(h, s, options), res1 = {
+                        h: h,
+                        s: s,
+                        v: v
+                    };
+                    return void 0 !== options.alpha && (res1.a = options.alpha), new module_TinyColor(res1);
+                })().toHexString(), !opts || (0, chakra_ui_utils_esm.Qr)(opts) ? fallback : opts.string && opts.colors ? function(str, list) {
                     var index = 0;
                     if (0 === str.length) return list[0];
                     for(var i = 0; i < str.length; i += 1)index = str.charCodeAt(i) + ((index << 5) - index), index &= index;
@@ -1717,11 +1710,11 @@
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
-                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = (color = bg, function(theme) {
+                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors, list[Math.floor(Math.random() * list.length)]) : fallback) : "gray.400", isBgDark = (color = bg, function(theme) {
                     var color1;
                     return "dark" === (color1 = color, function(theme) {
-                        var hex = getColor(theme, color1);
-                        return new module_TinyColor(hex).isDark() ? "dark" : "light";
+                        var hex = getColor(theme, color1), isDark = new module_TinyColor(hex).isDark();
+                        return isDark ? "dark" : "light";
                     })(theme);
                 })(theme), color1 = "white";
                 isBgDark || (color1 = "gray.800");
@@ -2722,10 +2715,10 @@
                     colorScheme: "blue"
                 }
             }, baseStyleControl = function(props) {
-                var _Checkbox$baseStyle$c = Checkbox.baseStyle(props).control, control = void 0 === _Checkbox$baseStyle$c ? {} : _Checkbox$baseStyle$c;
+                var _Checkbox$baseStyle = Checkbox.baseStyle(props), _Checkbox$baseStyle$c = _Checkbox$baseStyle.control, control = void 0 === _Checkbox$baseStyle$c ? {} : _Checkbox$baseStyle$c;
                 return sizes_501602a9_esm_extends({}, control, {
                     borderRadius: "full",
-                    _checked: sizes_501602a9_esm_extends({}, control["_checked"], {
+                    _checked: sizes_501602a9_esm_extends({}, control._checked, {
                         _before: {
                             content: '""',
                             display: "inline-block",
@@ -4731,12 +4724,6 @@
                 }(_ref, chakra_ui_react_esm_excluded);
                 return react.createElement(chakra_ui_provider_esm_ChakraProvider, restProps, children, react.createElement(ToastProvider, toastOptions));
             };
-            function mergeThemeCustomizer(source, override, key, object) {
-                if ((isFunction(source) || isFunction(override)) && Object.prototype.hasOwnProperty.call(object, key)) return function() {
-                    var sourceValue = isFunction(source) ? source.apply(void 0, arguments) : source, overrideValue = isFunction(override) ? override.apply(void 0, arguments) : override;
-                    return mergeWith({}, sourceValue, overrideValue, mergeThemeCustomizer);
-                };
-            }
             ChakraProvider.defaultProps = {
                 theme: theme
             };

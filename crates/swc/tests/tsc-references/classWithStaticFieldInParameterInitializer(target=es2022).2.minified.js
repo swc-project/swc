@@ -1,0 +1,1 @@
+//// [classWithStaticFieldInParameterInitializer.ts]

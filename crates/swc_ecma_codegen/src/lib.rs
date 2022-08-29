@@ -107,6 +107,9 @@ where
 
         srcmap!(node, false);
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        if !self.cfg.omit_last_semi {
+            self.wr.commit_pending_semi()?;
+        }
     }
 
     #[emitter]
@@ -127,6 +130,9 @@ where
         srcmap!(node, false);
 
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        if !self.cfg.omit_last_semi {
+            self.wr.commit_pending_semi()?;
+        }
     }
 
     #[emitter]
@@ -1293,7 +1299,7 @@ where
     fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        // srcmap!(n, true);
 
         for d in &n.function.decorators {
             emit!(d);
@@ -1370,6 +1376,7 @@ where
             Some(&n.function.params),
             ListFormat::CommaListElements,
         )?;
+
         punct!(")");
 
         if let Some(ty) = &n.function.return_type {
@@ -1384,8 +1391,6 @@ where
         } else {
             formatting_semi!()
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -1515,8 +1520,6 @@ where
         } else {
             formatting_semi!();
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -2631,8 +2634,8 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
+        srcmap!(node, false, true);
         punct!("}");
-        srcmap!(node, false);
     }
 
     #[emitter]

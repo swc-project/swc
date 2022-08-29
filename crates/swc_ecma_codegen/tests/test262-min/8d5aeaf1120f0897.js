@@ -1,1 +1,1 @@
-throw a
+throw a;

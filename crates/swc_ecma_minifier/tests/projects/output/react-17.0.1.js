@@ -263,52 +263,51 @@
         }
         return index.toString(36);
     }
-    function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
-        var type = typeof children;
-        ("undefined" === type || "boolean" === type) && (children = null);
-        var invokeCallback = !1;
-        if (null === children) invokeCallback = !0;
-        else switch(type){
-            case "string":
-            case "number":
-                invokeCallback = !0;
-                break;
-            case "object":
-                switch(children.$$typeof){
-                    case REACT_ELEMENT_TYPE:
-                    case REACT_PORTAL_TYPE:
-                        invokeCallback = !0;
-                }
-        }
-        if (invokeCallback) {
-            var oldElement, newKey, _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
-            if (Array.isArray(mappedChild)) {
-                var escapedChildKey = "";
-                null != childKey && (escapedChildKey = escapeUserProvidedKey(childKey) + "/"), mapIntoArray(mappedChild, array, escapedChildKey, "", function(c) {
-                    return c;
-                });
-            } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey, ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props))), array.push(mappedChild));
-            return 1;
-        }
-        var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
-        if (Array.isArray(children)) for(var i = 0; i < children.length; i++)nextName = nextNamePrefix + getElementKey(child = children[i], i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
-        else {
-            var iteratorFn = getIteratorFn(children);
-            if ("function" == typeof iteratorFn) {
-                var child, nextName, step, iterableChildren = children;
-                iteratorFn === iterableChildren.entries && (didWarnAboutMaps || warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
-                for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)nextName = nextNamePrefix + getElementKey(child = step.value, ii++), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
-            } else if ("object" === type) {
-                var childrenString = "" + children;
-                throw Error("Objects are not valid as a React child (found: " + ("[object Object]" === childrenString ? "object with keys {" + Object.keys(children).join(", ") + "}" : childrenString) + "). If you meant to render a collection of children, use an array instead.");
-            }
-        }
-        return subtreeCount;
-    }
     function mapChildren(children, func, context) {
         if (null == children) return children;
         var result = [], count = 0;
-        return mapIntoArray(children, result, "", "", function(child) {
+        return !function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
+            var type = typeof children;
+            ("undefined" === type || "boolean" === type) && (children = null);
+            var invokeCallback = !1;
+            if (null === children) invokeCallback = !0;
+            else switch(type){
+                case "string":
+                case "number":
+                    invokeCallback = !0;
+                    break;
+                case "object":
+                    switch(children.$$typeof){
+                        case REACT_ELEMENT_TYPE:
+                        case REACT_PORTAL_TYPE:
+                            invokeCallback = !0;
+                    }
+            }
+            if (invokeCallback) {
+                var oldElement, newKey, _child = children, mappedChild = callback(_child), childKey = "" === nameSoFar ? "." + getElementKey(_child, 0) : nameSoFar;
+                if (Array.isArray(mappedChild)) {
+                    var escapedChildKey = "";
+                    null != childKey && (escapedChildKey = escapeUserProvidedKey(childKey) + "/"), mapIntoArray(mappedChild, array, escapedChildKey, "", function(c) {
+                        return c;
+                    });
+                } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey, ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props))), array.push(mappedChild));
+                return 1;
+            }
+            var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
+            if (Array.isArray(children)) for(var i = 0; i < children.length; i++)child = children[i], nextName = nextNamePrefix + getElementKey(child, i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
+            else {
+                var iteratorFn = getIteratorFn(children);
+                if ("function" == typeof iteratorFn) {
+                    var child, nextName, step, iterableChildren = children;
+                    iteratorFn === iterableChildren.entries && (didWarnAboutMaps || warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
+                    for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)nextName = nextNamePrefix + getElementKey(child = step.value, ii++), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
+                } else if ("object" === type) {
+                    var childrenString = "" + children;
+                    throw Error("Objects are not valid as a React child (found: " + ("[object Object]" === childrenString ? "object with keys {" + Object.keys(children).join(", ") + "}" : childrenString) + "). If you meant to render a collection of children, use an array instead.");
+                }
+            }
+            return subtreeCount;
+        }(children, result, "", "", function(child) {
             return func.call(context, child, count++);
         }), result;
     }

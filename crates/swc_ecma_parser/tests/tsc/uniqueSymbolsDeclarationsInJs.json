@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 234,
-    "end": 660,
+    "end": 710,
     "ctxt": 0
   },
   "body": [
@@ -301,6 +301,58 @@
       "typeParams": null,
       "superTypeParams": null,
       "implements": []
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 691,
+        "end": 710,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 697,
+            "end": 709,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 697,
+              "end": 698,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 701,
+              "end": 709,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 701,
+                "end": 707,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
     }
   ],
   "interpreter": null

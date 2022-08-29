@@ -1,1 +1,1 @@
-export{default}from"foo"
+export{default}from"foo";

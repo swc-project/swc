@@ -1,0 +1,6 @@
+
+  x The left-hand side of a `for...of` statement may not be `async`
+   ,-[$DIR/tests/errors/ts1106/input.js:2:1]
+ 2 | for (async of [1]) ;
+   :      ^^^^^
+   `----

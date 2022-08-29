@@ -1,0 +1,1 @@
+//// [genericCallWithObjectTypeArgsAndIndexersErrors.ts]

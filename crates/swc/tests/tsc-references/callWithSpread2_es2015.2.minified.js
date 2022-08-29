@@ -1,1 +1,0 @@
-all(...ns), weird(...ns), weird(...mixed), weird(...tuple), prefix("a", ...ns), rest("d", ...ns), normal("g", ...ns), thunk(...ns), all(...mixed), all(...tuple), prefix("b", ...mixed), prefix("c", ...tuple), rest("e", ...mixed), rest("f", ...tuple), prefix(...ns), prefix(...mixed), prefix(...tuple), prefix2("g", ...ns);

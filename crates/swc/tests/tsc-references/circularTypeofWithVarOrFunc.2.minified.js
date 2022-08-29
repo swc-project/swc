@@ -1,0 +1,1 @@
+//// [circularTypeofWithVarOrFunc.ts]

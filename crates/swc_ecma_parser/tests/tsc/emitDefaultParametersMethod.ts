@@ -1,4 +1,4 @@
-﻿// @target: es5
+// @target: es5
 class C {
     constructor(t: boolean, z: string, x: number, y = "hello") { }
 

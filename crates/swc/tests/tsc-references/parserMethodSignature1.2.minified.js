@@ -1,0 +1,1 @@
+//// [parserMethodSignature1.ts]

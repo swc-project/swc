@@ -57,22 +57,22 @@
                 BigInt("0x10000000000000000"), 
             ], bytesToNumber = (a = new Uint16Array([
                 0xffcc
-            ]), 0xff === (b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength))[0] || b[0], function(bytes, _temp) {
+            ]), b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength), 0xff === b[0] || b[0], function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
-                var fn = le ? "reduce" : "reduceRight", number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
+                var fn = le ? "reduce" : "reduceRight", obj = bytes[fn] ? bytes[fn] : Array.prototype[fn], number = obj.call(bytes, function(total, byte, i) {
                     var exponent = le ? i : Math.abs(i + 1 - bytes.length);
                     return total + BigInt(byte) * BYTE_TABLE[exponent];
                 }, BigInt(0));
                 if (void 0 !== _ref$signed && _ref$signed) {
                     var max = BYTE_TABLE[bytes.length] / BigInt(2) - BigInt(1);
-                    (number = BigInt(number)) > max && (number -= max, number -= max, number -= BigInt(2));
+                    number = BigInt(number), number > max && (number -= max, number -= max, number -= BigInt(2));
                 }
                 return Number(number);
             }), numberToBytes = function(number, _temp2) {
-                var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
+                var x, _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
                 ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
-                for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                for(var byteCount = (x = number, Math.ceil(x.toString(2).length / 8)), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
@@ -92,9 +92,9 @@
                 return view;
             }, concatTypedArrays = function() {
                 for(var _len = arguments.length, buffers = Array(_len), _key = 0; _key < _len; _key++)buffers[_key] = arguments[_key];
-                if ((buffers = buffers.filter(function(b) {
+                if (buffers = buffers.filter(function(b) {
                     return b && (b.byteLength || b.length) && "string" != typeof b;
-                })).length <= 1) return toUint8(buffers[0]);
+                }), buffers.length <= 1) return toUint8(buffers[0]);
                 var totalLen = buffers.reduce(function(total, buf, i) {
                     return total + (buf.byteLength || buf.length);
                 }, 0), tempBuffer = new Uint8Array(totalLen), offset = 0;
@@ -103,8 +103,8 @@
                 }), tempBuffer;
             }, bytesMatch = function(a, b, _temp3) {
                 var _ref3 = void 0 === _temp3 ? {} : _temp3, _ref3$offset = _ref3.offset, offset = void 0 === _ref3$offset ? 0 : _ref3$offset, _ref3$mask = _ref3.mask, mask = void 0 === _ref3$mask ? [] : _ref3$mask;
-                a = toUint8(a);
-                var fn = (b = toUint8(b)).every ? b.every : Array.prototype.every;
+                a = toUint8(a), b = toUint8(b);
+                var fn = b.every ? b.every : Array.prototype.every;
                 return b.length && a.length - offset >= b.length && fn.call(b, function(bByte, i) {
                     return bByte === (mask[i] ? mask[i] & a[offset + i] : a[offset + i]);
                 });
@@ -245,12 +245,6 @@
             ]);
             var normalizePath = function(path) {
                 return "string" == typeof path ? (0, byte_helpers.qX)(path) : path;
-            }, normalizePaths = function(paths) {
-                return Array.isArray(paths) ? paths.map(function(p) {
-                    return normalizePath(p);
-                }) : [
-                    normalizePath(paths)
-                ];
             }, parseDescriptors = function(bytes) {
                 bytes = (0, byte_helpers.Ki)(bytes);
                 for(var results = [], i = 0; bytes.length > i;){
@@ -323,8 +317,12 @@
                 }, 
             ];
             var findBox = function findBox(bytes, paths, complete) {
-                void 0 === complete && (complete = !1), paths = normalizePaths(paths), bytes = (0, byte_helpers.Ki)(bytes);
-                var results = [];
+                void 0 === complete && (complete = !1), paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
+                    return normalizePath(p);
+                }) : [
+                    normalizePath(paths1)
+                ], bytes = (0, byte_helpers.Ki)(bytes);
+                var paths1, results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var size = (bytes[i] << 24 | bytes[i + 1] << 16 | bytes[i + 2] << 8 | bytes[i + 3]) >>> 0, type = bytes.subarray(i + 4, i + 8);
@@ -855,9 +853,9 @@
                 }
                 function loadFunc() {
                     if (!aborted) {
-                        clearTimeout(timeoutTimer);
+                        clearTimeout(timeoutTimer), status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status;
                         var status, response = failureResponse, err = null;
-                        return 0 !== (status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status) ? (response = {
+                        return 0 !== status ? (response = {
                             body: function() {
                                 var body = void 0;
                                 if (body = xhr.response ? xhr.response : xhr.responseText || getXml(xhr), isJson) try {
@@ -1307,37 +1305,6 @@
                         buf.push("??", node.nodeName);
                 }
             }
-            function importNode(doc, node, deep) {
-                var node2;
-                switch(node.nodeType){
-                    case ELEMENT_NODE:
-                        (node2 = node.cloneNode(!1)).ownerDocument = doc;
-                    case DOCUMENT_FRAGMENT_NODE:
-                        break;
-                    case ATTRIBUTE_NODE:
-                        deep = !0;
-                }
-                if (node2 || (node2 = node.cloneNode(!1)), node2.ownerDocument = doc, node2.parentNode = null, deep) for(var child = node.firstChild; child;)node2.appendChild(importNode(doc, child, deep)), child = child.nextSibling;
-                return node2;
-            }
-            function cloneNode(doc, node, deep) {
-                var node2 = new node.constructor();
-                for(var n in node){
-                    var v = node[n];
-                    "object" != typeof v && v != node2[n] && (node2[n] = v);
-                }
-                switch(node.childNodes && (node2.childNodes = new NodeList()), node2.ownerDocument = doc, node2.nodeType){
-                    case ELEMENT_NODE:
-                        var attrs = node.attributes, attrs2 = node2.attributes = new NamedNodeMap(), len = attrs.length;
-                        attrs2._ownerElement = node2;
-                        for(var i = 0; i < len; i++)node2.setAttributeNode(cloneNode(doc, attrs.item(i), !0));
-                        break;
-                    case ATTRIBUTE_NODE:
-                        deep = !0;
-                }
-                if (deep) for(var child = node.firstChild; child;)node2.appendChild(cloneNode(doc, child, deep)), child = child.nextSibling;
-                return node2;
-            }
             function __set__(object, key, value) {
                 object[key] = value;
             }
@@ -1432,7 +1399,24 @@
                     return null != this.firstChild;
                 },
                 cloneNode: function(deep) {
-                    return cloneNode(this.ownerDocument || this, this, deep);
+                    return function cloneNode(doc, node, deep) {
+                        var node2 = new node.constructor();
+                        for(var n in node){
+                            var v = node[n];
+                            "object" != typeof v && v != node2[n] && (node2[n] = v);
+                        }
+                        switch(node.childNodes && (node2.childNodes = new NodeList()), node2.ownerDocument = doc, node2.nodeType){
+                            case ELEMENT_NODE:
+                                var attrs = node.attributes, attrs2 = node2.attributes = new NamedNodeMap(), len = attrs.length;
+                                attrs2._ownerElement = node2;
+                                for(var i = 0; i < len; i++)node2.setAttributeNode(cloneNode(doc, attrs.item(i), !0));
+                                break;
+                            case ATTRIBUTE_NODE:
+                                deep = !0;
+                        }
+                        if (deep) for(var child = node.firstChild; child;)node2.appendChild(cloneNode(doc, child, deep)), child = child.nextSibling;
+                        return node2;
+                    }(this.ownerDocument || this, this, deep);
                 },
                 normalize: function() {
                     for(var child = this.firstChild; child;){
@@ -1487,7 +1471,19 @@
                     return this.documentElement == oldChild && (this.documentElement = null), _removeChild(this, oldChild);
                 },
                 importNode: function(importedNode, deep) {
-                    return importNode(this, importedNode, deep);
+                    return function importNode(doc, node, deep) {
+                        var node2;
+                        switch(node.nodeType){
+                            case ELEMENT_NODE:
+                                (node2 = node.cloneNode(!1)).ownerDocument = doc;
+                            case DOCUMENT_FRAGMENT_NODE:
+                                break;
+                            case ATTRIBUTE_NODE:
+                                deep = !0;
+                        }
+                        if (node2 || (node2 = node.cloneNode(!1)), node2.ownerDocument = doc, node2.parentNode = null, deep) for(var child = node.firstChild; child;)node2.appendChild(importNode(doc, child, deep)), child = child.nextSibling;
+                        return node2;
+                    }(this, importedNode, deep);
                 },
                 getElementById: function(id) {
                     var rtv = null;
@@ -1649,7 +1645,8 @@
                     this.replaceData(offset, count, "");
                 },
                 replaceData: function(offset, count, text) {
-                    text = this.data.substring(0, offset) + text + this.data.substring(offset + count), this.nodeValue = this.data = text, this.length = text.length;
+                    var start = this.data.substring(0, offset), end = this.data.substring(offset + count);
+                    text = start + text + end, this.nodeValue = this.data = text, this.length = text.length;
                 }
             }, _extends(CharacterData, Node), Text.prototype = {
                 nodeName: "#text",
@@ -1670,41 +1667,38 @@
                 return nodeSerializeToString.call(node, isHtml, nodeFilter);
             }, Node.prototype.toString = nodeSerializeToString;
             try {
-                if (Object.defineProperty) {
-                    function getTextContent(node) {
-                        switch(node.nodeType){
-                            case ELEMENT_NODE:
-                            case DOCUMENT_FRAGMENT_NODE:
-                                var buf = [];
-                                for(node = node.firstChild; node;)7 !== node.nodeType && 8 !== node.nodeType && buf.push(getTextContent(node)), node = node.nextSibling;
-                                return buf.join("");
-                            default:
-                                return node.nodeValue;
-                        }
+                Object.defineProperty && (Object.defineProperty(LiveNodeList.prototype, "length", {
+                    get: function() {
+                        return _updateLiveList(this), this.$$length;
                     }
-                    Object.defineProperty(LiveNodeList.prototype, "length", {
-                        get: function() {
-                            return _updateLiveList(this), this.$$length;
-                        }
-                    }), Object.defineProperty(Node.prototype, "textContent", {
-                        get: function() {
-                            return getTextContent(this);
-                        },
-                        set: function(data) {
-                            switch(this.nodeType){
+                }), Object.defineProperty(Node.prototype, "textContent", {
+                    get: function() {
+                        return function getTextContent(node) {
+                            switch(node.nodeType){
                                 case ELEMENT_NODE:
                                 case DOCUMENT_FRAGMENT_NODE:
-                                    for(; this.firstChild;)this.removeChild(this.firstChild);
-                                    (data || String(data)) && this.appendChild(this.ownerDocument.createTextNode(data));
-                                    break;
+                                    var buf = [];
+                                    for(node = node.firstChild; node;)7 !== node.nodeType && 8 !== node.nodeType && buf.push(getTextContent(node)), node = node.nextSibling;
+                                    return buf.join("");
                                 default:
-                                    this.data = data, this.value = data, this.nodeValue = data;
+                                    return node.nodeValue;
                             }
+                        }(this);
+                    },
+                    set: function(data) {
+                        switch(this.nodeType){
+                            case ELEMENT_NODE:
+                            case DOCUMENT_FRAGMENT_NODE:
+                                for(; this.firstChild;)this.removeChild(this.firstChild);
+                                (data || String(data)) && this.appendChild(this.ownerDocument.createTextNode(data));
+                                break;
+                            default:
+                                this.data = data, this.value = data, this.nodeValue = data;
                         }
-                    }), __set__ = function(object, key, value) {
-                        object["$$" + key] = value;
-                    };
-                }
+                    }
+                }), __set__ = function(object, key, value) {
+                    object["$$" + key] = value;
+                });
             } catch (e) {}
             exports.DocumentType = DocumentType, exports.DOMException = DOMException, exports.DOMImplementation = DOMImplementation, exports.Element = Element, exports.Node = Node, exports.NodeList = NodeList, exports.XMLSerializer = XMLSerializer;
         },
@@ -2172,8 +2166,8 @@
                                     case "/":
                                         var end = source.indexOf(">", tagStart + 3), tagName = source.substring(tagStart + 2, end).replace(/[ \t\n\r]+$/g, ""), config = parseStack.pop();
                                         end < 0 ? (tagName = source.substring(tagStart + 2).replace(/[\s<].*/, ""), errorHandler.error("end tag name: " + tagName + " is not complete:" + config.tagName), end = tagStart + 1 + tagName.length) : tagName.match(/\s</) && (tagName = tagName.replace(/[\s<].*/, ""), errorHandler.error("end tag name: " + tagName + " maybe not complete"), end = tagStart + 1 + tagName.length);
-                                        var localNSMap = config.localNSMap, endMatch = config.tagName == tagName;
-                                        if (endMatch || config.tagName && config.tagName.toLowerCase() == tagName.toLowerCase()) {
+                                        var localNSMap = config.localNSMap, endMatch = config.tagName == tagName, endIgnoreCaseMach = endMatch || config.tagName && config.tagName.toLowerCase() == tagName.toLowerCase();
+                                        if (endIgnoreCaseMach) {
                                             if (domBuilder.endElement(config.uri, config.localName, tagName), localNSMap) for(var prefix in localNSMap)domBuilder.endPrefixMapping(prefix);
                                             endMatch || errorHandler.fatalError("end tag name: " + tagName + " is not match the current start tagName:" + config.tagName);
                                         } else parseStack.push(config);
@@ -2394,10 +2388,8 @@
             }(Stream), parseByterange = function(byterangeString) {
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ""), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
-            }, attributeSeparator = function() {
-                return RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
             }, parseAttributes = function(attributes) {
-                for(var attr, attrs = attributes.split(attributeSeparator()), result = {}, i = attrs.length; i--;)"" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
+                for(var attr, attrs = attributes.split(RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)"" !== attrs[i] && (attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1), attr[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
                 return result;
             }, ParseStream = function(_Stream) {
                 function ParseStream() {
@@ -3205,7 +3197,7 @@
                         uri: ""
                     });
                     var formatted = addSidxSegmentsToPlaylist$1(formatAudioPlaylist(playlist, isAudioOnly), sidxMapping);
-                    return a[label].playlists.push(formatted), void 0 === mainPlaylist && "main" === role && ((mainPlaylist = playlist).default = !0), a;
+                    return a[label].playlists.push(formatted), void 0 === mainPlaylist && "main" === role && (mainPlaylist = playlist, mainPlaylist.default = !0), a;
                 }, {});
                 if (!mainPlaylist) {
                     var firstLabel = Object.keys(formattedPlaylists)[0];
@@ -3262,7 +3254,7 @@
                 };
                 minimumUpdatePeriod >= 0 && (manifest.minimumUpdatePeriod = 1000 * minimumUpdatePeriod), locations && (manifest.locations = locations), "dynamic" === type && (manifest.suggestedPresentationDelay = suggestedPresentationDelay);
                 var isAudioOnly = 0 === manifest.playlists.length;
-                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (playlists = vttPlaylists, void 0 === (sidxMapping1 = sidxMapping) && (sidxMapping1 = {}), playlists.reduce(function(a, playlist) {
+                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (playlists = vttPlaylists, sidxMapping1 = sidxMapping, void 0 === sidxMapping1 && (sidxMapping1 = {}), playlists.reduce(function(a, playlist) {
                     var label = playlist.attributes.lang || "text";
                     return a[label] || (a[label] = {
                         language: label,
@@ -3321,15 +3313,15 @@
                     baseUrl: attributes.baseUrl,
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
-                });
-                return (attributes1 = attributes, segmentTimeline1 = segmentTimeline, attributes1.duration || segmentTimeline1 ? attributes1.duration ? parseByDuration(attributes1) : parseByTimeline(attributes1, segmentTimeline1) : [
+                }), segments = (attributes1 = attributes, segmentTimeline1 = segmentTimeline, attributes1.duration || segmentTimeline1 ? attributes1.duration ? parseByDuration(attributes1) : parseByTimeline(attributes1, segmentTimeline1) : [
                     {
                         number: attributes1.startNumber || 1,
                         duration: attributes1.sourceDuration,
                         time: 0,
                         timeline: attributes1.periodIndex
                     }, 
-                ]).map(function(segment) {
+                ]);
+                return segments.map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
                     var uri = constructTemplateUrl(attributes.media || "", templateValues), timescale = attributes.timescale || 1, presentationTimeOffset = attributes.presentationTimeOffset || 0, presentationTime = attributes.periodStart + (segment.time - presentationTimeOffset) / timescale, map = {
                         uri: uri,
@@ -3557,10 +3549,13 @@
                                 captionServices: captionServices
                             }));
                             var label = findChildren(adaptationSet, "Label")[0];
-                            label && label.childNodes.length && (attrs = merge(attrs, {
-                                label: label.childNodes[0].nodeValue.trim()
-                            }));
-                            var contentProtection = findChildren(adaptationSet, "ContentProtection").reduce(function(acc, node) {
+                            if (label && label.childNodes.length) {
+                                var labelVal = label.childNodes[0].nodeValue.trim();
+                                attrs = merge(attrs, {
+                                    label: labelVal
+                                });
+                            }
+                            var contentProtectionNodes, contentProtection = (contentProtectionNodes = findChildren(adaptationSet, "ContentProtection"), contentProtectionNodes.reduce(function(acc, node) {
                                 var attributes = parseAttributes(node), keySystem = keySystemsMap[attributes.schemeIdUri];
                                 if (keySystem) {
                                     acc[keySystem] = {
@@ -3573,7 +3568,7 @@
                                     }
                                 }
                                 return acc;
-                            }, {});
+                            }, {}));
                             Object.keys(contentProtection).length && (attrs = merge(attrs, {
                                 contentProtection: contentProtection
                             }));
@@ -3625,7 +3620,7 @@
                 return attributes;
             }, parse = function(manifestString, options) {
                 void 0 === options && (options = {});
-                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = (0, parsedManifestInfo.representationInfo).map(generateSegments);
+                var representations, parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = (representations = parsedManifestInfo.representationInfo, representations.map(generateSegments));
                 return toM3u8(playlists, parsedManifestInfo.locations, options.sidxMapping);
             }, parseUTCTiming = function(manifestString) {
                 return parseUTCTimingScheme(stringToMpdXml(manifestString));
@@ -4005,7 +4000,7 @@
                     /^-?\d+$/.test(v) && this.set(k, parseInt(v, 10));
                 },
                 percent: function(k, v) {
-                    return !!(v.match(/^([\d]{1,3})(\.[\d]*)?%$/) && (v = parseFloat(v)) >= 0 && v <= 100) && (this.set(k, v), !0);
+                    return !!v.match(/^([\d]{1,3})(\.[\d]*)?%$/) && (v = parseFloat(v), v >= 0 && v <= 100) && (this.set(k, v), !0);
                 }
             };
             var TEXTAREA_ELEMENT = document1.createElement && document1.createElement("textarea"), TAG_NAME = {
@@ -5140,7 +5135,7 @@
                 var lens = getLens(b64), validLen = lens[0], placeHoldersLen = lens[1];
                 return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
             }, exports.toByteArray = function(b64) {
-                var tmp, i, placeHoldersLen, lens = getLens(b64), validLen = lens[0], placeHoldersLen1 = lens[1], arr = new Arr((validLen + (placeHoldersLen = placeHoldersLen1)) * 3 / 4 - placeHoldersLen), curByte = 0, len = placeHoldersLen1 > 0 ? validLen - 4 : validLen;
+                var tmp, i, validLen, placeHoldersLen, lens = getLens(b64), validLen1 = lens[0], placeHoldersLen1 = lens[1], arr = new Arr((validLen = validLen1, placeHoldersLen = placeHoldersLen1, (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen)), curByte = 0, len = placeHoldersLen1 > 0 ? validLen1 - 4 : validLen1;
                 for(i = 0; i < len; i += 4)tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)], arr[curByte++] = tmp >> 16 & 0xff, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp;
                 return 2 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
@@ -5216,7 +5211,7 @@
                 var buf;
                 if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
                 if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
-                return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
+                return buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Object.setPrototypeOf(buf, Buffer.prototype), buf;
             }
             function fromObject(obj) {
                 if (Buffer.isBuffer(obj)) {
@@ -5334,7 +5329,7 @@
                 length > strLen / 2 && (length = strLen / 2);
                 for(var i = 0; i < length; ++i){
                     var obj, parsed = parseInt(string.substr(2 * i, 2), 16);
-                    if ((obj = parsed) != obj) break;
+                    if (obj = parsed, obj != obj) break;
                     buf[offset + i] = parsed;
                 }
                 return i;

@@ -1,0 +1,1 @@
+//// [functionWithMultipleReturnStatements2.ts]

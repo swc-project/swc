@@ -1,1 +1,1 @@
-for(;;)if(a())break
+for(;;)if(a())break;

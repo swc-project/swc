@@ -1,0 +1,1 @@
+//// [comparisonOperatorWithIntersectionType.ts]

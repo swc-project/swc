@@ -1,3 +1,3 @@
-class s {
+class c {
     *["constructor"]() {}
 }

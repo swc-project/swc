@@ -1,3 +1,5 @@
+//! Regex cache
+
 use std::{ops::Deref, sync::Arc};
 
 pub use anyhow::Error;
@@ -25,6 +27,8 @@ impl Deref for CachedRegex {
 }
 
 impl CachedRegex {
+    /// Get or create a cached regex. This will return the previous instance if
+    /// it's already cached.
     pub fn new(input: &str) -> Result<Self> {
         static CACHE: Lazy<DashMap<String, Arc<Regex>, ahash::RandomState>> =
             Lazy::new(Default::default);

@@ -1,1 +1,1 @@
-(class{set a(b){"use strict"}})
+(class{set a(b){"use strict"}});

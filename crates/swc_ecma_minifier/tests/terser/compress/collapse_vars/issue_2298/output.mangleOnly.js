@@ -1,15 +1,15 @@
 !(function() {
-    function n() {
-        var n = c;
-        var c = n++;
+    function o() {
+        var o = n;
+        var n = o++;
         try {
-            !(function n(c) {
-                c[1] = "foo";
+            !(function o(n) {
+                n[1] = "foo";
             })();
             console.log("FAIL");
-        } catch (o) {
+        } catch (c) {
             console.log("PASS");
         }
     }
-    n();
+    o();
 })();

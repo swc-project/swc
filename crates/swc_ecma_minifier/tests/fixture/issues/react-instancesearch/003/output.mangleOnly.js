@@ -65,39 +65,39 @@ function p(e) {
     };
     return Object.keys(e).map((s)=>r("%s=%s", s, t(e[s]) ? JSON.stringify(e[s]) : e[s])).join("&");
 }
-export default function m({ indexName: s , initialState: a = {} , searchClient: n , resultsState: c , stalledSearchDelay: m ,  }) {
+export default function h({ indexName: s , initialState: a = {} , searchClient: n , resultsState: c , stalledSearchDelay: h ,  }) {
     const S = e(n, s, {
         ...r
     });
     o(n);
-    S.on("search", q).on("result", v({
+    S.on("search", q).on("result", _({
         indexId: s
     })).on("error", W);
     let x = false;
     let y = null;
     let w = S.state;
-    const R = i(k);
+    const R = i(j);
     H(n, c);
     const F = t({
         widgets: a,
-        metadata: h(c),
-        results: b(c),
+        metadata: m(c),
+        results: $(c),
         error: null,
         searching: false,
         isSearchStalled: true,
         searchingForFacetValues: false
     });
-    function V() {
+    function A() {
         x = true;
     }
-    function A(e) {
+    function V(e) {
         o(e);
         S.setClient(e);
-        _();
+        v();
     }
     function C() {
         S.clearCache();
-        _();
+        v();
     }
     function I(e) {
         return R.getWidgets().filter((e)=>Boolean(e.getMetadata)).map((t)=>t.getMetadata(e));
@@ -130,7 +130,7 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
             derivedParameters: a
         };
     }
-    function _() {
+    function v() {
         if (!x) {
             const { mainParameters: e , derivedParameters: t  } = P(S.state);
             S.derivedHelpers.slice().forEach((e)=>{
@@ -138,7 +138,7 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
             });
             t.forEach(({ indexId: e , parameters: t  })=>{
                 const r = S.derive(()=>t);
-                r.on("result", v({
+                r.on("result", _({
                     indexId: e
                 })).on("error", W);
             });
@@ -146,7 +146,7 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
             S.search();
         }
     }
-    function v({ indexId: e  }) {
+    function _({ indexId: e  }) {
         return (t)=>{
             const r = F.getState();
             const s = !S.derivedHelpers.length;
@@ -200,7 +200,7 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
                     ...t,
                     isSearchStalled: true
                 });
-            }, m);
+            }, h);
         }
     }
     function H(e, t) {
@@ -230,12 +230,12 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
             };
         }
         if (Array.isArray(t.results)) {
-            N(e, t.results);
+            b(e, t.results);
             return;
         }
-        $(e, t);
+        N(e, t);
     }
-    function N(e, t) {
+    function b(e, t) {
         if (e.transporter) {
             e.transporter.responsesCache.set({
                 method: "search",
@@ -263,7 +263,7 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
             })
         };
     }
-    function $(e, t) {
+    function N(e, t) {
         if (e.transporter) {
             e.transporter.responsesCache.set({
                 method: "search",
@@ -291,7 +291,7 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
             })
         };
     }
-    function b(t) {
+    function $(t) {
         if (!t) {
             return null;
         }
@@ -303,20 +303,20 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
         }
         return new e.SearchResults(new e.SearchParameters(t.state), t.rawResults);
     }
-    function k() {
+    function j() {
         const e = I(F.getState().widgets);
         F.setState({
             ...F.getState(),
             metadata: e,
             searching: true
         });
-        _();
+        v();
     }
-    function E(e) {
+    function k(e) {
         const t = F.getState().widgets;
         return R.getWidgets().filter((e)=>Boolean(e.transitionState)).reduce((e, r)=>r.transitionState(t, e), e);
     }
-    function M(e) {
+    function E(e) {
         const t = I(e);
         F.setState({
             ...F.getState(),
@@ -324,9 +324,9 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
             metadata: t,
             searching: true
         });
-        _();
+        v();
     }
-    function j({ facetName: e , query: t , maxFacetHits: r = 10  }) {
+    function M({ facetName: e , query: t , maxFacetHits: r = 10  }) {
         const s = Math.max(1, Math.min(r, 100));
         F.setState({
             ...F.getState(),
@@ -355,27 +355,27 @@ export default function m({ indexName: s , initialState: a = {} , searchClient: 
             });
         });
     }
-    function B(e) {
+    function O(e) {
         w = w.setIndex(e);
     }
-    function O() {
+    function B() {
         return F.getState().metadata.reduce((e, t)=>typeof t.id !== "undefined" ? e.concat(t.id) : e, []);
     }
     return {
         store: F,
         widgetsManager: R,
-        getWidgetsIds: O,
+        getWidgetsIds: B,
         getSearchParameters: P,
-        onSearchForFacetValues: j,
-        onExternalStateUpdate: M,
-        transitionState: E,
-        updateClient: A,
-        updateIndex: B,
+        onSearchForFacetValues: M,
+        onExternalStateUpdate: E,
+        transitionState: k,
+        updateClient: V,
+        updateIndex: O,
         clearCache: C,
-        skipSearch: V
+        skipSearch: A
     };
 };
-function h(e) {
+function m(e) {
     if (!e) {
         return [];
     }

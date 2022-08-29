@@ -21,3 +21,38 @@ impl From<&PropName> for HashKey {
         }
     }
 }
+
+pub fn is_pure_prop_name(p: &PropName) -> bool {
+    match p {
+        PropName::Ident(..) => true,
+        PropName::Str(..) => true,
+        PropName::Num(..) => true,
+        PropName::BigInt(..) => true,
+        PropName::Computed(ComputedPropName { expr, .. }) => match &**expr {
+            Expr::This(..) => true,
+            Expr::Lit(..) => true,
+            Expr::Ident(..) => true,
+            Expr::PrivateName(..) => true,
+            Expr::Tpl(tpl) => tpl.exprs.is_empty(),
+            _ => false,
+        },
+    }
+}
+
+pub fn should_extract_class_prop_key(methods: &[ClassMethod]) -> bool {
+    let mut has_static = false;
+
+    for m in methods {
+        if is_pure_prop_name(&m.key) {
+            continue;
+        }
+
+        if m.is_static {
+            has_static = true
+        } else if has_static {
+            return true;
+        }
+    }
+
+    false
+}

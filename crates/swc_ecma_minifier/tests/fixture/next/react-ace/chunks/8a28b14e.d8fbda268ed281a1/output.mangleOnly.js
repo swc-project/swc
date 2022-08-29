@@ -37,41 +37,41 @@
                             return n;
                         }
                     } else if (Object.prototype.toString.call(t) === "[object Array]") {
-                        var r = [];
+                        var s = [];
                         for(var a = 0, l = t.length; a < l; ++a){
                             var h = o(e, t[a]);
-                            if (h == undefined && s.original) return;
-                            r.push(h);
+                            if (h == undefined && r.original) return;
+                            s.push(h);
                         }
-                        return ((i && i.apply(null, r)) || true);
+                        return ((i && i.apply(null, s)) || true);
                     }
                 };
-                var s = function(e, t) {
+                var r = function(e, t) {
                     var i = n("", e, t);
-                    if (i == undefined && s.original) return s.original.apply(this, arguments);
+                    if (i == undefined && r.original) return r.original.apply(this, arguments);
                     return i;
                 };
-                var r = function(e, t) {
+                var s = function(e, t) {
                     if (t.indexOf("!") !== -1) {
                         var i = t.split("!");
-                        return (r(e, i[0]) + "!" + r(e, i[1]));
+                        return (s(e, i[0]) + "!" + s(e, i[1]));
                     }
                     if (t.charAt(0) == ".") {
                         var n = e.split("/").slice(0, -1).join("/");
                         t = n + "/" + t;
-                        while(t.indexOf(".") !== -1 && s != t){
-                            var s = t;
+                        while(t.indexOf(".") !== -1 && r != t){
+                            var r = t;
                             t = t.replace(/\/\.\//, "/").replace(/[^\/]+\/\.\.\//, "");
                         }
                     }
                     return t;
                 };
                 var o = function(e, t) {
-                    t = r(e, t);
-                    var s = i.modules[t];
-                    if (!s) {
-                        s = i.payloads[t];
-                        if (typeof s === "function") {
+                    t = s(e, t);
+                    var r = i.modules[t];
+                    if (!r) {
+                        r = i.payloads[t];
+                        if (typeof r === "function") {
                             var o = {};
                             var a = {
                                 id: t,
@@ -82,14 +82,14 @@
                             var l = function(e, i) {
                                 return n(t, e, i);
                             };
-                            var h = s(l, o, a);
+                            var h = r(l, o, a);
                             o = h || a.exports;
                             i.modules[t] = o;
                             delete i.payloads[t];
                         }
-                        s = i.modules[t] = o || s;
+                        r = i.modules[t] = o || r;
                     }
-                    return s;
+                    return r;
                 };
                 function a(e) {
                     var n = t;
@@ -103,8 +103,8 @@
                         n.define.packaged = true;
                     }
                     if (!n.require || !n.require.packaged) {
-                        s.original = n.require;
-                        n.require = s;
+                        r.original = n.require;
+                        n.require = r;
                         n.require.packaged = true;
                     }
                 }
@@ -148,25 +148,25 @@
                     }
                 };
                 var n = typeof navigator == "object" ? navigator : {};
-                var s = (/mac|win|linux/i.exec(n.platform) || [
+                var r = (/mac|win|linux/i.exec(n.platform) || [
                     "other", 
                 ])[0].toLowerCase();
-                var r = n.userAgent || "";
+                var s = n.userAgent || "";
                 var o = n.appName || "";
-                t.isWin = s == "win";
-                t.isMac = s == "mac";
-                t.isLinux = s == "linux";
-                t.isIE = o == "Microsoft Internet Explorer" || o.indexOf("MSAppHost") >= 0 ? parseFloat((r.match(/(?:MSIE |Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]) : parseFloat((r.match(/(?:Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]);
+                t.isWin = r == "win";
+                t.isMac = r == "mac";
+                t.isLinux = r == "linux";
+                t.isIE = o == "Microsoft Internet Explorer" || o.indexOf("MSAppHost") >= 0 ? parseFloat((s.match(/(?:MSIE |Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]) : parseFloat((s.match(/(?:Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]);
                 t.isOldIE = t.isIE && t.isIE < 9;
-                t.isGecko = t.isMozilla = r.match(/ Gecko\/\d+/);
+                t.isGecko = t.isMozilla = s.match(/ Gecko\/\d+/);
                 t.isOpera = typeof opera == "object" && Object.prototype.toString.call(window.opera) == "[object Opera]";
-                t.isWebKit = parseFloat(r.split("WebKit/")[1]) || undefined;
-                t.isChrome = parseFloat(r.split(" Chrome/")[1]) || undefined;
-                t.isEdge = parseFloat(r.split(" Edge/")[1]) || undefined;
-                t.isAIR = r.indexOf("AdobeAIR") >= 0;
-                t.isAndroid = r.indexOf("Android") >= 0;
-                t.isChromeOS = r.indexOf(" CrOS ") >= 0;
-                t.isIOS = /iPad|iPhone|iPod/.test(r) && !window.MSStream;
+                t.isWebKit = parseFloat(s.split("WebKit/")[1]) || undefined;
+                t.isChrome = parseFloat(s.split(" Chrome/")[1]) || undefined;
+                t.isEdge = parseFloat(s.split(" Edge/")[1]) || undefined;
+                t.isAIR = s.indexOf("AdobeAIR") >= 0;
+                t.isAndroid = s.indexOf("Android") >= 0;
+                t.isChromeOS = s.indexOf(" CrOS ") >= 0;
+                t.isIOS = /iPad|iPhone|iPod/.test(s) && !window.MSStream;
                 if (t.isIOS) t.isMac = true;
                 t.isMobile = t.isIOS || t.isAndroid;
             });
@@ -178,24 +178,24 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./useragent");
-                var s = "http://www.w3.org/1999/xhtml";
+                var r = "http://www.w3.org/1999/xhtml";
                 t.buildDom = function e(t, i, n) {
                     if (typeof t == "string" && t) {
-                        var s = document.createTextNode(t);
-                        if (i) i.appendChild(s);
-                        return s;
+                        var r = document.createTextNode(t);
+                        if (i) i.appendChild(r);
+                        return r;
                     }
                     if (!Array.isArray(t)) {
                         if (t && t.appendChild && i) i.appendChild(t);
                         return t;
                     }
                     if (typeof t[0] != "string" || !t[0]) {
-                        var r = [];
+                        var s = [];
                         for(var o = 0; o < t.length; o++){
                             var a = e(t[o], i, n);
-                            a && r.push(a);
+                            a && s.push(a);
                         }
-                        return r;
+                        return s;
                     }
                     var l = document.createElement(t[0]);
                     var h = t[1];
@@ -226,7 +226,7 @@
                     return (e.head || e.getElementsByTagName("head")[0] || e.documentElement);
                 };
                 t.createElement = function(e, t) {
-                    return document.createElementNS ? document.createElementNS(t || s, e) : document.createElement(e);
+                    return document.createElementNS ? document.createElementNS(t || r, e) : document.createElement(e);
                 };
                 t.removeChildren = function(e) {
                     e.innerHTML = "";
@@ -262,12 +262,12 @@
                 t.toggleCssClass = function(e, t) {
                     var i = e.className.split(/\s+/g), n = true;
                     while(true){
-                        var s = i.indexOf(t);
-                        if (s == -1) {
+                        var r = i.indexOf(t);
+                        if (r == -1) {
                             break;
                         }
                         n = false;
-                        i.splice(s, 1);
+                        i.splice(r, 1);
                     }
                     if (n) i.push(t);
                     e.className = i.join(" ");
@@ -287,10 +287,10 @@
                         while(i < n.length)if (n[i++].id === e) return true;
                     }
                 };
-                var r;
+                var s;
                 var o = [];
                 t.useStrictCSP = function(e) {
-                    r = e;
+                    s = e;
                     if (e == false) a();
                     else if (!o) o = [];
                 };
@@ -313,22 +313,22 @@
                             ]);
                         }
                     }
-                    if (r) return;
-                    var s = n;
+                    if (s) return;
+                    var r = n;
                     if (!n || !n.getRootNode) {
-                        s = document;
+                        r = document;
                     } else {
-                        s = n.getRootNode();
-                        if (!s || s == n) s = document;
+                        r = n.getRootNode();
+                        if (!r || r == n) r = document;
                     }
-                    var l = s.ownerDocument || s;
-                    if (i && t.hasCssString(i, s)) return null;
+                    var l = r.ownerDocument || r;
+                    if (i && t.hasCssString(i, r)) return null;
                     if (i) e += "\n/*# sourceURL=ace/css/" + i + " */";
                     var h = t.createElement("style");
                     h.appendChild(l.createTextNode(e));
                     if (i) h.id = i;
-                    if (s == l) s = t.getDocumentHead(l);
-                    s.insertBefore(h, s.firstChild);
+                    if (r == l) r = t.getDocumentHead(l);
+                    r.insertBefore(h, r.firstChild);
                 }
                 t.importCssString = l;
                 t.importCssStylsheet = function(e, i) {
@@ -347,24 +347,24 @@
                     i.style.height = "200px";
                     i.style.display = "block";
                     var n = t.createElement("ace_outer");
-                    var s = n.style;
-                    s.position = "absolute";
-                    s.left = "-10000px";
-                    s.overflow = "hidden";
-                    s.width = "200px";
-                    s.minWidth = "0px";
-                    s.height = "150px";
-                    s.display = "block";
+                    var r = n.style;
+                    r.position = "absolute";
+                    r.left = "-10000px";
+                    r.overflow = "hidden";
+                    r.width = "200px";
+                    r.minWidth = "0px";
+                    r.height = "150px";
+                    r.display = "block";
                     n.appendChild(i);
-                    var r = e.documentElement;
-                    r.appendChild(n);
+                    var s = e.documentElement;
+                    s.appendChild(n);
                     var o = i.offsetWidth;
-                    s.overflow = "scroll";
+                    r.overflow = "scroll";
                     var a = i.offsetWidth;
                     if (o == a) {
                         a = n.clientWidth;
                     }
-                    r.removeChild(n);
+                    s.removeChild(n);
                     return o - a;
                 };
                 t.computedStyle = function(e, t) {
@@ -431,7 +431,7 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./oop");
-                var s = (function() {
+                var r = (function() {
                     var e = {
                         MODIFIER_KEYS: {
                             16: "Shift",
@@ -588,9 +588,9 @@
                     e.KEY_MODS[-1] = "input-";
                     return e;
                 })();
-                n.mixin(t, s);
+                n.mixin(t, r);
                 t.keyCodeToString = function(e) {
-                    var t = s[e];
+                    var t = r[e];
                     if (typeof t != "string") t = String.fromCharCode(e);
                     return t.toLowerCase();
                 };
@@ -604,8 +604,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./keys");
-                var s = e("./useragent");
-                var r = null;
+                var r = e("./useragent");
+                var s = null;
                 var o = 0;
                 var a;
                 function l() {
@@ -630,14 +630,14 @@
                     this.callback = i;
                 }
                 c.prototype.destroy = function() {
-                    f(this.elem, this.type, this.callback);
+                    d(this.elem, this.type, this.callback);
                     this.elem = this.type = this.callback = undefined;
                 };
                 var u = (t.addListener = function(e, t, i, n) {
                     e.addEventListener(t, i, h());
                     if (n) n.$toDestroy.push(new c(e, t, i));
                 });
-                var f = (t.removeListener = function(e, t, i) {
+                var d = (t.removeListener = function(e, t, i) {
                     e.removeEventListener(t, i, h());
                 });
                 t.stopEvent = function(e) {
@@ -653,22 +653,22 @@
                 };
                 t.getButton = function(e) {
                     if (e.type == "dblclick") return 0;
-                    if (e.type == "contextmenu" || (s.isMac && e.ctrlKey && !e.altKey && !e.shiftKey)) return 2;
+                    if (e.type == "contextmenu" || (r.isMac && e.ctrlKey && !e.altKey && !e.shiftKey)) return 2;
                     return e.button;
                 };
                 t.capture = function(e, t, i) {
                     var n = (e && e.ownerDocument) || document;
-                    function s(e) {
+                    function r(e) {
                         t && t(e);
                         i && i(e);
-                        f(n, "mousemove", t);
-                        f(n, "mouseup", s);
-                        f(n, "dragstart", s);
+                        d(n, "mousemove", t);
+                        d(n, "mouseup", r);
+                        d(n, "dragstart", r);
                     }
                     u(n, "mousemove", t);
-                    u(n, "mouseup", s);
-                    u(n, "dragstart", s);
-                    return s;
+                    u(n, "mouseup", r);
+                    u(n, "dragstart", r);
+                    return r;
                 };
                 t.addMouseWheelListener = function(e, t, i) {
                     if ("onmousewheel" in e) {
@@ -712,15 +712,15 @@
                         }, i);
                     }
                 };
-                t.addMultiMouseDownListener = function(e, i, n, r, o) {
+                t.addMultiMouseDownListener = function(e, i, n, s, o) {
                     var a = 0;
                     var l, h, c;
-                    var f = {
+                    var d = {
                         2: "dblclick",
                         3: "tripleclick",
                         4: "quadclick"
                     };
-                    function d(e) {
+                    function f(e) {
                         if (t.getButton(e) !== 0) {
                             a = 0;
                         } else if (e.detail > 1) {
@@ -729,7 +729,7 @@
                         } else {
                             a = 1;
                         }
-                        if (s.isIE) {
+                        if (r.isIE) {
                             var o = Math.abs(e.clientX - l) > 5 || Math.abs(e.clientY - h) > 5;
                             if (!c || o) a = 1;
                             if (c) clearTimeout(c);
@@ -742,38 +742,38 @@
                             }
                         }
                         e._clicks = a;
-                        n[r]("mousedown", e);
+                        n[s]("mousedown", e);
                         if (a > 4) a = 0;
-                        else if (a > 1) return n[r](f[a], e);
+                        else if (a > 1) return n[s](d[a], e);
                     }
                     if (!Array.isArray(e)) e = [
                         e
                     ];
                     e.forEach(function(e) {
-                        u(e, "mousedown", d, o);
+                        u(e, "mousedown", f, o);
                     });
                 };
-                var d = function(e) {
+                var f = function(e) {
                     return (0 | (e.ctrlKey ? 1 : 0) | (e.altKey ? 2 : 0) | (e.shiftKey ? 4 : 0) | (e.metaKey ? 8 : 0));
                 };
                 t.getModifierString = function(e) {
-                    return n.KEY_MODS[d(e)];
+                    return n.KEY_MODS[f(e)];
                 };
                 function g(e, t, i) {
-                    var a = d(t);
-                    if (!s.isMac && r) {
+                    var a = f(t);
+                    if (!r.isMac && s) {
                         if (t.getModifierState && (t.getModifierState("OS") || t.getModifierState("Win"))) a |= 8;
-                        if (r.altGr) {
-                            if ((3 & a) != 3) r.altGr = 0;
+                        if (s.altGr) {
+                            if ((3 & a) != 3) s.altGr = 0;
                             else return;
                         }
                         if (i === 18 || i === 17) {
                             var l = "location" in t ? t.location : t.keyLocation;
                             if (i === 17 && l === 1) {
-                                if (r[i] == 1) o = t.timeStamp;
+                                if (s[i] == 1) o = t.timeStamp;
                             } else if (i === 18 && a === 3 && l === 2) {
                                 var h = t.timeStamp - o;
-                                if (h < 50) r.altGr = true;
+                                if (h < 50) s.altGr = true;
                             }
                         }
                     }
@@ -787,7 +787,7 @@
                             if (t.defaultPrevented) return;
                         }
                     }
-                    if (s.isChromeOS && a & 8) {
+                    if (r.isChromeOS && a & 8) {
                         e(t, a, i);
                         if (t.defaultPrevented) return;
                         else a &= ~8;
@@ -798,7 +798,7 @@
                     return e(t, a, i);
                 }
                 t.addCommandKeyListener = function(e, i, n) {
-                    if (s.isOldGecko || (s.isOpera && !("KeyboardEvent" in window))) {
+                    if (r.isOldGecko || (r.isOpera && !("KeyboardEvent" in window))) {
                         var o = null;
                         u(e, "keydown", function(e) {
                             o = e.keyCode;
@@ -809,7 +809,7 @@
                     } else {
                         var a = null;
                         u(e, "keydown", function(e) {
-                            r[e.keyCode] = (r[e.keyCode] || 0) + 1;
+                            s[e.keyCode] = (s[e.keyCode] || 0) + 1;
                             var t = g(i, e, e.keyCode);
                             a = e.defaultPrevented;
                             return t;
@@ -821,30 +821,30 @@
                             }
                         }, n);
                         u(e, "keyup", function(e) {
-                            r[e.keyCode] = null;
+                            s[e.keyCode] = null;
                         }, n);
-                        if (!r) {
-                            v();
-                            u(window, "focus", v);
+                        if (!s) {
+                            m();
+                            u(window, "focus", m);
                         }
                     }
                 };
-                function v() {
-                    r = Object.create(null);
+                function m() {
+                    s = Object.create(null);
                 }
-                if (typeof window == "object" && window.postMessage && !s.isOldIE) {
-                    var m = 1;
+                if (typeof window == "object" && window.postMessage && !r.isOldIE) {
+                    var v = 1;
                     t.nextTick = function(e, i) {
                         i = i || window;
-                        var n = "zero-timeout-message-" + m++;
-                        var s = function(r) {
-                            if (r.data == n) {
-                                t.stopPropagation(r);
-                                f(i, "message", s);
+                        var n = "zero-timeout-message-" + v++;
+                        var r = function(s) {
+                            if (s.data == n) {
+                                t.stopPropagation(s);
+                                d(i, "message", r);
                                 e();
                             }
                         };
-                        u(i, "message", s);
+                        u(i, "message", r);
                         i.postMessage(n, "*");
                     };
                 }
@@ -881,7 +881,7 @@
                 var n = function(e, t) {
                     return e.row - t.row || e.column - t.column;
                 };
-                var s = function(e, t, i, n) {
+                var r = function(e, t, i, n) {
                     this.start = {
                         row: e,
                         column: t
@@ -1042,7 +1042,7 @@
                             row: e,
                             column: 0
                         };
-                        return s.fromPoints(n || this.start, i || this.end);
+                        return r.fromPoints(n || this.start, i || this.end);
                     };
                     this.extend = function(e, t) {
                         var i = this.compare(e, t);
@@ -1051,11 +1051,11 @@
                             row: e,
                             column: t
                         };
-                        else var r = {
+                        else var s = {
                             row: e,
                             column: t
                         };
-                        return s.fromPoints(n || this.start, r || this.end);
+                        return r.fromPoints(n || this.start, s || this.end);
                     };
                     this.isEmpty = function() {
                         return (this.start.row === this.end.row && this.start.column === this.end.column);
@@ -1064,16 +1064,16 @@
                         return this.start.row !== this.end.row;
                     };
                     this.clone = function() {
-                        return s.fromPoints(this.start, this.end);
+                        return r.fromPoints(this.start, this.end);
                     };
                     this.collapseRows = function() {
-                        if (this.end.column == 0) return new s(this.start.row, 0, Math.max(this.start.row, this.end.row - 1), 0);
-                        else return new s(this.start.row, 0, this.end.row, 0);
+                        if (this.end.column == 0) return new r(this.start.row, 0, Math.max(this.start.row, this.end.row - 1), 0);
+                        else return new r(this.start.row, 0, this.end.row, 0);
                     };
                     this.toScreenRange = function(e) {
                         var t = e.documentToScreenPosition(this.start);
                         var i = e.documentToScreenPosition(this.end);
-                        return new s(t.row, t.column, i.row, i.column);
+                        return new r(t.row, t.column, i.row, i.column);
                     };
                     this.moveBy = function(e, t) {
                         this.start.row += e;
@@ -1081,15 +1081,15 @@
                         this.end.row += e;
                         this.end.column += t;
                     };
-                }.call(s.prototype));
-                s.fromPoints = function(e, t) {
-                    return new s(e.row, e.column, t.row, t.column);
+                }.call(r.prototype));
+                r.fromPoints = function(e, t) {
+                    return new r(e.row, e.column, t.row, t.column);
                 };
-                s.comparePoints = n;
-                s.comparePoints = function(e, t) {
+                r.comparePoints = n;
+                r.comparePoints = function(e, t) {
                     return e.row - t.row || e.column - t.column;
                 };
-                t.Range = s;
+                t.Range = r;
             });
             ace.define("ace/lib/lang", [
                 "require",
@@ -1112,12 +1112,12 @@
                     return i;
                 };
                 var n = /^\s\s*/;
-                var s = /\s\s*$/;
+                var r = /\s\s*$/;
                 t.stringTrimLeft = function(e) {
                     return e.replace(n, "");
                 };
                 t.stringTrimRight = function(e) {
-                    return e.replace(s, "");
+                    return e.replace(r, "");
                 };
                 t.copyObject = function(e) {
                     var t = {};
@@ -1219,26 +1219,26 @@
                         i = null;
                         e();
                     };
-                    var s = function(e) {
+                    var r = function(e) {
                         if (i == null) i = setTimeout(n, e || t);
                     };
-                    s.delay = function(e) {
+                    r.delay = function(e) {
                         i && clearTimeout(i);
                         i = setTimeout(n, e || t);
                     };
-                    s.schedule = s;
-                    s.call = function() {
+                    r.schedule = r;
+                    r.call = function() {
                         this.cancel();
                         e();
                     };
-                    s.cancel = function() {
+                    r.cancel = function() {
                         i && clearTimeout(i);
                         i = null;
                     };
-                    s.isPending = function() {
+                    r.isPending = function() {
                         return i;
                     };
-                    return s;
+                    return r;
                 };
             });
             ace.define("ace/clipboard", [
@@ -1272,21 +1272,21 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/event");
-                var s = e("../lib/useragent");
-                var r = e("../lib/dom");
+                var r = e("../lib/useragent");
+                var s = e("../lib/dom");
                 var o = e("../lib/lang");
                 var a = e("../clipboard");
-                var l = s.isChrome < 18;
-                var h = s.isIE;
-                var c = s.isChrome > 63;
+                var l = r.isChrome < 18;
+                var h = r.isIE;
+                var c = r.isChrome > 63;
                 var u = 400;
-                var f = e("../lib/keys");
-                var d = f.KEY_MODS;
-                var g = s.isIOS;
-                var v = g ? /\s/ : /\n/;
-                var m = s.isMobile;
+                var d = e("../lib/keys");
+                var f = d.KEY_MODS;
+                var g = r.isIOS;
+                var m = g ? /\s/ : /\n/;
+                var v = r.isMobile;
                 var p = function(e, t) {
-                    var i = r.createElement("textarea");
+                    var i = s.createElement("textarea");
                     i.className = "ace_text-input";
                     i.setAttribute("wrap", "off");
                     i.setAttribute("autocorrect", "off");
@@ -1297,38 +1297,38 @@
                     var p = false;
                     var w = false;
                     var $ = false;
-                    var C = false;
-                    var y = "";
-                    if (!m) i.style.fontSize = "1px";
+                    var b = false;
+                    var C = "";
+                    if (!v) i.style.fontSize = "1px";
+                    var y = false;
                     var S = false;
-                    var _ = false;
-                    var L = "";
-                    var R = 0;
+                    var _ = "";
+                    var x = 0;
                     var k = 0;
-                    var b = 0;
+                    var A = 0;
                     try {
-                        var x = document.activeElement === i;
-                    } catch (T) {}
+                        var L = document.activeElement === i;
+                    } catch (R) {}
                     n.addListener(i, "blur", function(e) {
-                        if (_) return;
+                        if (S) return;
                         t.onBlur(e);
-                        x = false;
+                        L = false;
                     }, t);
                     n.addListener(i, "focus", function(e) {
-                        if (_) return;
-                        x = true;
-                        if (s.isEdge) {
+                        if (S) return;
+                        L = true;
+                        if (r.isEdge) {
                             try {
                                 if (!document.hasFocus()) return;
                             } catch (i) {}
                         }
                         t.onFocus(e);
-                        if (s.isEdge) setTimeout(E);
+                        if (r.isEdge) setTimeout(E);
                         else E();
                     }, t);
                     this.$focusScroll = false;
                     this.focus = function() {
-                        if (y || c || this.$focusScroll == "browser") return i.focus({
+                        if (C || c || this.$focusScroll == "browser") return i.focus({
                             preventScroll: true
                         });
                         var e = i.style.top;
@@ -1339,21 +1339,21 @@
                         } catch (n) {
                             return;
                         }
-                        var s = [];
+                        var r = [];
                         if (t) {
-                            var r = i.parentElement;
-                            while(r && r.nodeType == 1){
-                                s.push(r);
-                                r.setAttribute("ace_nocontext", true);
-                                if (!r.parentElement && r.getRootNode) r = r.getRootNode().host;
-                                else r = r.parentElement;
+                            var s = i.parentElement;
+                            while(s && s.nodeType == 1){
+                                r.push(s);
+                                s.setAttribute("ace_nocontext", true);
+                                if (!s.parentElement && s.getRootNode) s = s.getRootNode().host;
+                                else s = s.parentElement;
                             }
                         }
                         i.focus({
                             preventScroll: true
                         });
                         if (t) {
-                            s.forEach(function(e) {
+                            r.forEach(function(e) {
                                 e.removeAttribute("ace_nocontext");
                             });
                         }
@@ -1366,65 +1366,65 @@
                         i.blur();
                     };
                     this.isFocused = function() {
-                        return x;
+                        return L;
                     };
                     t.on("beforeEndOperation", function() {
                         var e = t.curOp;
                         var n = e && e.command && e.command.name;
                         if (n == "insertstring") return;
-                        var s = n && (e.docChanged || e.selectionChanged);
-                        if ($ && s) {
-                            L = i.value = "";
-                            K();
+                        var r = n && (e.docChanged || e.selectionChanged);
+                        if ($ && r) {
+                            _ = i.value = "";
+                            U();
                         }
                         E();
                     });
                     var E = g ? function(e) {
-                        if (!x || (p && !e) || C) return;
+                        if (!L || (p && !e) || b) return;
                         if (!e) e = "";
                         var n = "\n ab" + e + "cde fg\n";
-                        if (n != i.value) i.value = L = n;
-                        var s = 4;
-                        var r = 4 + (e.length || (t.selection.isEmpty() ? 0 : 1));
-                        if (R != s || k != r) {
-                            i.setSelectionRange(s, r);
+                        if (n != i.value) i.value = _ = n;
+                        var r = 4;
+                        var s = 4 + (e.length || (t.selection.isEmpty() ? 0 : 1));
+                        if (x != r || k != s) {
+                            i.setSelectionRange(r, s);
                         }
-                        R = s;
-                        k = r;
+                        x = r;
+                        k = s;
                     } : function() {
-                        if ($ || C) return;
-                        if (!x && !W) return;
+                        if ($ || b) return;
+                        if (!L && !O) return;
                         $ = true;
                         var e = 0;
                         var n = 0;
-                        var s = "";
+                        var r = "";
                         if (t.session) {
-                            var r = t.selection;
-                            var o = r.getRange();
-                            var a = r.cursor.row;
+                            var s = t.selection;
+                            var o = s.getRange();
+                            var a = s.cursor.row;
                             e = o.start.column;
                             n = o.end.column;
-                            s = t.session.getLine(a);
+                            r = t.session.getLine(a);
                             if (o.start.row != a) {
                                 var l = t.session.getLine(a - 1);
                                 e = o.start.row < a - 1 ? 0 : e;
                                 n += l.length + 1;
-                                s = l + "\n" + s;
+                                r = l + "\n" + r;
                             } else if (o.end.row != a) {
                                 var h = t.session.getLine(a + 1);
                                 n = o.end.row > a + 1 ? h.length : n;
-                                n += s.length + 1;
-                                s = s + "\n" + h;
-                            } else if (m && a > 0) {
-                                s = "\n" + s;
+                                n += r.length + 1;
+                                r = r + "\n" + h;
+                            } else if (v && a > 0) {
+                                r = "\n" + r;
                                 n += 1;
                                 e += 1;
                             }
-                            if (s.length > u) {
+                            if (r.length > u) {
                                 if (e < u && n < u) {
-                                    s = s.slice(0, u);
+                                    r = r.slice(0, u);
                                 } else {
-                                    s = "\n";
+                                    r = "\n";
                                     if (e == n) {
                                         e = n = 0;
                                     } else {
@@ -1434,90 +1434,90 @@
                                 }
                             }
                         }
-                        var c = s + "\n\n";
-                        if (c != L) {
-                            i.value = L = c;
-                            R = k = c.length;
+                        var c = r + "\n\n";
+                        if (c != _) {
+                            i.value = _ = c;
+                            x = k = c.length;
                         }
-                        if (W) {
-                            R = i.selectionStart;
+                        if (O) {
+                            x = i.selectionStart;
                             k = i.selectionEnd;
                         }
-                        if (k != n || R != e || i.selectionEnd != k) {
+                        if (k != n || x != e || i.selectionEnd != k) {
                             try {
                                 i.setSelectionRange(e, n);
-                                R = e;
+                                x = e;
                                 k = n;
-                            } catch (f) {}
+                            } catch (d) {}
                         }
                         $ = false;
                     };
                     this.resetSelection = E;
-                    if (x) t.onFocus();
-                    var M = function(e) {
-                        return (e.selectionStart === 0 && e.selectionEnd >= L.length && e.value === L && L && e.selectionEnd !== k);
+                    if (L) t.onFocus();
+                    var T = function(e) {
+                        return (e.selectionStart === 0 && e.selectionEnd >= _.length && e.value === _ && _ && e.selectionEnd !== k);
                     };
-                    var A = function(e) {
+                    var M = function(e) {
                         if ($) return;
                         if (p) {
                             p = false;
-                        } else if (M(i)) {
+                        } else if (T(i)) {
                             t.selectAll();
                             E();
-                        } else if (m && i.selectionStart != R) {
+                        } else if (v && i.selectionStart != x) {
                             E();
                         }
                     };
-                    var I = null;
+                    var F = null;
                     this.setInputHandler = function(e) {
-                        I = e;
+                        F = e;
                     };
                     this.getInputHandler = function() {
-                        return I;
+                        return F;
                     };
-                    var W = false;
-                    var F = function(e, n) {
-                        if (W) W = false;
+                    var O = false;
+                    var W = function(e, n) {
+                        if (O) O = false;
                         if (w) {
                             E();
                             if (e) t.onPaste(e);
                             w = false;
                             return "";
                         } else {
-                            var r = i.selectionStart;
+                            var s = i.selectionStart;
                             var o = i.selectionEnd;
-                            var a = R;
-                            var l = L.length - k;
+                            var a = x;
+                            var l = _.length - k;
                             var h = e;
-                            var c = e.length - r;
+                            var c = e.length - s;
                             var u = e.length - o;
-                            var f = 0;
-                            while(a > 0 && L[f] == e[f]){
-                                f++;
+                            var d = 0;
+                            while(a > 0 && _[d] == e[d]){
+                                d++;
                                 a--;
                             }
-                            h = h.slice(f);
-                            f = 1;
-                            while(l > 0 && L.length - f > R - 1 && L[L.length - f] == e[e.length - f]){
-                                f++;
+                            h = h.slice(d);
+                            d = 1;
+                            while(l > 0 && _.length - d > x - 1 && _[_.length - d] == e[e.length - d]){
+                                d++;
                                 l--;
                             }
-                            c -= f - 1;
-                            u -= f - 1;
-                            var d = h.length - f + 1;
-                            if (d < 0) {
-                                a = -d;
-                                d = 0;
+                            c -= d - 1;
+                            u -= d - 1;
+                            var f = h.length - d + 1;
+                            if (f < 0) {
+                                a = -f;
+                                f = 0;
                             }
-                            h = h.slice(0, d);
+                            h = h.slice(0, f);
                             if (!n && !h && !c && !a && !l && !u) return "";
-                            C = true;
+                            b = true;
                             var g = false;
-                            if (s.isAndroid && h == ". ") {
+                            if (r.isAndroid && h == ". ") {
                                 h = "  ";
                                 g = true;
                             }
-                            if ((h && !a && !l && !c && !u) || S) {
+                            if ((h && !a && !l && !c && !u) || y) {
                                 t.onTextInput(h);
                             } else {
                                 t.onTextInput(h, {
@@ -1527,76 +1527,76 @@
                                     restoreEnd: u
                                 });
                             }
-                            C = false;
-                            L = e;
-                            R = r;
+                            b = false;
+                            _ = e;
+                            x = s;
                             k = o;
-                            b = u;
+                            A = u;
                             return g ? "\n" : h;
                         }
                     };
-                    var O = function(e) {
-                        if ($) return z();
+                    var I = function(e) {
+                        if ($) return V();
                         if (e && e.inputType) {
                             if (e.inputType == "historyUndo") return t.execCommand("undo");
                             if (e.inputType == "historyRedo") return t.execCommand("redo");
                         }
                         var n = i.value;
-                        var s = F(n, true);
-                        if (n.length > u + 100 || v.test(s) || (m && R < 1 && R == k)) {
+                        var r = W(n, true);
+                        if (n.length > u + 100 || m.test(r) || (v && x < 1 && x == k)) {
                             E();
                         }
                     };
-                    var H = function(e, t, i) {
+                    var B = function(e, t, i) {
                         var n = e.clipboardData || window.clipboardData;
                         if (!n || l) return;
-                        var s = h || i ? "Text" : "text/plain";
+                        var r = h || i ? "Text" : "text/plain";
                         try {
                             if (t) {
-                                return (n.setData(s, t) !== false);
+                                return (n.setData(r, t) !== false);
                             } else {
-                                return n.getData(s);
+                                return n.getData(r);
                             }
-                        } catch (r) {
-                            if (!i) return H(r, t, true);
+                        } catch (s) {
+                            if (!i) return B(s, t, true);
                         }
                     };
-                    var D = function(e, s) {
-                        var r = t.getCopyText();
-                        if (!r) return n.preventDefault(e);
-                        if (H(e, r)) {
+                    var D = function(e, r) {
+                        var s = t.getCopyText();
+                        if (!s) return n.preventDefault(e);
+                        if (B(e, s)) {
                             if (g) {
-                                E(r);
-                                p = r;
+                                E(s);
+                                p = s;
                                 setTimeout(function() {
                                     p = false;
                                 }, 10);
                             }
-                            s ? t.onCut() : t.onCopy();
+                            r ? t.onCut() : t.onCopy();
                             n.preventDefault(e);
                         } else {
                             p = true;
-                            i.value = r;
+                            i.value = s;
                             i.select();
                             setTimeout(function() {
                                 p = false;
                                 E();
-                                s ? t.onCut() : t.onCopy();
+                                r ? t.onCut() : t.onCopy();
                             });
                         }
                     };
-                    var P = function(e) {
+                    var H = function(e) {
                         D(e, true);
                     };
-                    var B = function(e) {
+                    var P = function(e) {
                         D(e, false);
                     };
                     var N = function(e) {
-                        var r = H(e);
+                        var s = B(e);
                         if (a.pasteCancelled()) return;
-                        if (typeof r == "string") {
-                            if (r) t.onPaste(r, e);
-                            if (s.isIE) setTimeout(E);
+                        if (typeof s == "string") {
+                            if (s) t.onPaste(s, e);
+                            if (r.isIE) setTimeout(E);
                             n.preventDefault(e);
                         } else {
                             i.value = "";
@@ -1604,106 +1604,106 @@
                         }
                     };
                     n.addCommandKeyListener(i, t.onCommandKey.bind(t), t);
-                    n.addListener(i, "select", A, t);
-                    n.addListener(i, "input", O, t);
-                    n.addListener(i, "cut", P, t);
-                    n.addListener(i, "copy", B, t);
+                    n.addListener(i, "select", M, t);
+                    n.addListener(i, "input", I, t);
+                    n.addListener(i, "cut", H, t);
+                    n.addListener(i, "copy", P, t);
                     n.addListener(i, "paste", N, t);
                     if (!("oncut" in i) || !("oncopy" in i) || !("onpaste" in i)) {
                         n.addListener(e, "keydown", function(e) {
-                            if ((s.isMac && !e.metaKey) || !e.ctrlKey) return;
+                            if ((r.isMac && !e.metaKey) || !e.ctrlKey) return;
                             switch(e.keyCode){
                                 case 67:
-                                    B(e);
+                                    P(e);
                                     break;
                                 case 86:
                                     N(e);
                                     break;
                                 case 88:
-                                    P(e);
+                                    H(e);
                                     break;
                             }
                         }, t);
                     }
-                    var V = function(e) {
+                    var z = function(e) {
                         if ($ || !t.onCompositionStart || t.$readOnly) return;
                         $ = {};
-                        if (S) return;
+                        if (y) return;
                         if (e.data) $.useTextareaForIME = false;
-                        setTimeout(z, 0);
+                        setTimeout(V, 0);
                         t._signal("compositionStart");
-                        t.on("mousedown", U);
+                        t.on("mousedown", K);
                         var n = t.getSelectionRange();
                         n.end.row = n.start.row;
                         n.end.column = n.start.column;
                         $.markerRange = n;
-                        $.selectionStart = R;
+                        $.selectionStart = x;
                         t.onCompositionStart($);
                         if ($.useTextareaForIME) {
-                            L = i.value = "";
-                            R = 0;
+                            _ = i.value = "";
+                            x = 0;
                             k = 0;
                         } else {
                             if (i.msGetInputContext) $.context = i.msGetInputContext();
                             if (i.getInputContext) $.context = i.getInputContext();
                         }
                     };
-                    var z = function() {
+                    var V = function() {
                         if (!$ || !t.onCompositionUpdate || t.$readOnly) return;
-                        if (S) return U();
+                        if (y) return K();
                         if ($.useTextareaForIME) {
                             t.onCompositionUpdate(i.value);
                         } else {
                             var e = i.value;
-                            F(e);
+                            W(e);
                             if ($.markerRange) {
                                 if ($.context) {
                                     $.markerRange.start.column = $.selectionStart = $.context.compositionStartOffset;
                                 }
-                                $.markerRange.end.column = $.markerRange.start.column + k - $.selectionStart + b;
+                                $.markerRange.end.column = $.markerRange.start.column + k - $.selectionStart + A;
                             }
                         }
                     };
-                    var K = function(e) {
+                    var U = function(e) {
                         if (!t.onCompositionEnd || t.$readOnly) return;
                         $ = false;
                         t.onCompositionEnd();
-                        t.off("mousedown", U);
-                        if (e) O();
+                        t.off("mousedown", K);
+                        if (e) I();
                     };
-                    function U() {
-                        _ = true;
+                    function K() {
+                        S = true;
                         i.blur();
                         i.focus();
-                        _ = false;
+                        S = false;
                     }
-                    var G = o.delayedCall(z, 50).schedule.bind(null, null);
-                    function X(e) {
+                    var G = o.delayedCall(V, 50).schedule.bind(null, null);
+                    function q(e) {
                         if (e.keyCode == 27 && i.value.length < i.selectionStart) {
-                            if (!$) L = i.value;
-                            R = k = -1;
+                            if (!$) _ = i.value;
+                            x = k = -1;
                             E();
                         }
                         G();
                     }
-                    n.addListener(i, "compositionstart", V, t);
-                    n.addListener(i, "compositionupdate", z, t);
-                    n.addListener(i, "keyup", X, t);
+                    n.addListener(i, "compositionstart", z, t);
+                    n.addListener(i, "compositionupdate", V, t);
+                    n.addListener(i, "keyup", q, t);
                     n.addListener(i, "keydown", G, t);
-                    n.addListener(i, "compositionend", K, t);
+                    n.addListener(i, "compositionend", U, t);
                     this.getElement = function() {
                         return i;
                     };
                     this.setCommandMode = function(e) {
-                        S = e;
+                        y = e;
                         i.readOnly = false;
                     };
                     this.setReadOnly = function(e) {
-                        if (!S) i.readOnly = e;
+                        if (!y) i.readOnly = e;
                     };
                     this.setCopyWithEmptySelection = function(e) {};
                     this.onContextMenu = function(e) {
-                        W = true;
+                        O = true;
                         E();
                         t._emit("nativecontextmenu", {
                             target: t,
@@ -1712,110 +1712,110 @@
                         this.moveToMouse(e, true);
                     };
                     this.moveToMouse = function(e, o) {
-                        if (!y) y = i.style.cssText;
-                        i.style.cssText = (o ? "z-index:100000;" : "") + (s.isIE ? "opacity:0.1;" : "") + "text-indent: -" + (R + k) * t.renderer.characterWidth * 0.5 + "px;";
+                        if (!C) C = i.style.cssText;
+                        i.style.cssText = (o ? "z-index:100000;" : "") + (r.isIE ? "opacity:0.1;" : "") + "text-indent: -" + (x + k) * t.renderer.characterWidth * 0.5 + "px;";
                         var a = t.container.getBoundingClientRect();
-                        var l = r.computedStyle(t.container);
+                        var l = s.computedStyle(t.container);
                         var h = a.top + (parseInt(l.borderTopWidth) || 0);
                         var c = a.left + (parseInt(a.borderLeftWidth) || 0);
                         var u = a.bottom - h - i.clientHeight - 2;
-                        var f = function(e) {
-                            r.translate(i, e.clientX - c - 2, Math.min(e.clientY - h - 2, u));
+                        var d = function(e) {
+                            s.translate(i, e.clientX - c - 2, Math.min(e.clientY - h - 2, u));
                         };
-                        f(e);
+                        d(e);
                         if (e.type != "mousedown") return;
                         t.renderer.$isMousePressed = true;
                         clearTimeout(Y);
-                        if (s.isWin) n.capture(t.container, f, j);
+                        if (r.isWin) n.capture(t.container, d, X);
                     };
-                    this.onContextMenuClose = j;
+                    this.onContextMenuClose = X;
                     var Y;
-                    function j() {
+                    function X() {
                         clearTimeout(Y);
                         Y = setTimeout(function() {
-                            if (y) {
-                                i.style.cssText = y;
-                                y = "";
+                            if (C) {
+                                i.style.cssText = C;
+                                C = "";
                             }
                             t.renderer.$isMousePressed = false;
                             if (t.renderer.$keepTextAreaAtCursor) t.renderer.$moveTextAreaToCursor();
                         }, 0);
                     }
-                    var q = function(e) {
+                    var j = function(e) {
                         t.textInput.onContextMenu(e);
-                        j();
+                        X();
                     };
-                    n.addListener(i, "mouseup", q, t);
+                    n.addListener(i, "mouseup", j, t);
                     n.addListener(i, "mousedown", function(e) {
                         e.preventDefault();
-                        j();
+                        X();
                     }, t);
-                    n.addListener(t.renderer.scroller, "contextmenu", q, t);
-                    n.addListener(i, "contextmenu", q, t);
+                    n.addListener(t.renderer.scroller, "contextmenu", j, t);
+                    n.addListener(i, "contextmenu", j, t);
                     if (g) Q(e, t, i);
                     function Q(e, t, i) {
                         var n = null;
-                        var s = false;
+                        var r = false;
                         i.addEventListener("keydown", function(e) {
                             if (n) clearTimeout(n);
-                            s = true;
+                            r = true;
                         }, true);
                         i.addEventListener("keyup", function(e) {
                             n = setTimeout(function() {
-                                s = false;
+                                r = false;
                             }, 100);
                         }, true);
-                        var r = function(e) {
+                        var s = function(e) {
                             if (document.activeElement !== i) return;
-                            if (s || $ || t.$mouseHandler.isMousePressed) return;
+                            if (r || $ || t.$mouseHandler.isMousePressed) return;
                             if (p) {
                                 return;
                             }
                             var n = i.selectionStart;
-                            var r = i.selectionEnd;
+                            var s = i.selectionEnd;
                             var o = null;
                             var a = 0;
                             if (n == 0) {
-                                o = f.up;
+                                o = d.up;
                             } else if (n == 1) {
-                                o = f.home;
-                            } else if (r > k && L[r] == "\n") {
-                                o = f.end;
-                            } else if (n < R && L[n - 1] == " ") {
-                                o = f.left;
-                                a = d.option;
-                            } else if (n < R || (n == R && k != R && n == r)) {
-                                o = f.left;
-                            } else if (r > k && L.slice(0, r).split("\n").length > 2) {
-                                o = f.down;
-                            } else if (r > k && L[r - 1] == " ") {
-                                o = f.right;
-                                a = d.option;
-                            } else if (r > k || (r == k && k != R && n == r)) {
-                                o = f.right;
+                                o = d.home;
+                            } else if (s > k && _[s] == "\n") {
+                                o = d.end;
+                            } else if (n < x && _[n - 1] == " ") {
+                                o = d.left;
+                                a = f.option;
+                            } else if (n < x || (n == x && k != x && n == s)) {
+                                o = d.left;
+                            } else if (s > k && _.slice(0, s).split("\n").length > 2) {
+                                o = d.down;
+                            } else if (s > k && _[s - 1] == " ") {
+                                o = d.right;
+                                a = f.option;
+                            } else if (s > k || (s == k && k != x && n == s)) {
+                                o = d.right;
                             }
-                            if (n !== r) a |= d.shift;
+                            if (n !== s) a |= f.shift;
                             if (o) {
                                 var l = t.onCommandKey({}, a, o);
                                 if (!l && t.commands) {
-                                    o = f.keyCodeToString(o);
+                                    o = d.keyCodeToString(o);
                                     var h = t.commands.findKeyCommand(a, o);
                                     if (h) t.execCommand(h);
                                 }
-                                R = n;
-                                k = r;
+                                x = n;
+                                k = s;
                                 E("");
                             }
                         };
-                        document.addEventListener("selectionchange", r);
+                        document.addEventListener("selectionchange", s);
                         t.on("destroy", function() {
-                            document.removeEventListener("selectionchange", r);
+                            document.removeEventListener("selectionchange", s);
                         });
                     }
                 };
                 t.TextInput = p;
                 t.$setUserAgentForTests = function(e, t) {
-                    m = e;
+                    v = e;
                     g = t;
                 };
             });
@@ -1827,8 +1827,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/useragent");
-                var s = 0;
-                var r = 550;
+                var r = 0;
+                var s = 550;
                 function o(e) {
                     e.$clickSelection = null;
                     var t = e.editor;
@@ -1859,22 +1859,22 @@
                         var t = e.inSelection();
                         var i = e.getDocumentPosition();
                         this.mousedownEvent = e;
-                        var s = this.editor;
-                        var r = e.getButton();
-                        if (r !== 0) {
-                            var o = s.getSelectionRange();
+                        var r = this.editor;
+                        var s = e.getButton();
+                        if (s !== 0) {
+                            var o = r.getSelectionRange();
                             var a = o.isEmpty();
-                            if (a || r == 1) s.selection.moveToPosition(i);
-                            if (r == 2) {
-                                s.textInput.onContextMenu(e.domEvent);
+                            if (a || s == 1) r.selection.moveToPosition(i);
+                            if (s == 2) {
+                                r.textInput.onContextMenu(e.domEvent);
                                 if (!n.isMozilla) e.preventDefault();
                             }
                             return;
                         }
                         this.mousedownEvent.time = Date.now();
-                        if (t && !s.isFocused()) {
-                            s.focus();
-                            if (this.$focusTimeout && !this.$clickSelection && !s.inMultiSelectMode) {
+                        if (t && !r.isFocused()) {
+                            r.focus();
+                            if (this.$focusTimeout && !this.$clickSelection && !r.inMultiSelectMode) {
                                 this.setState("focusWait");
                                 this.captureMouse(e);
                                 return;
@@ -1907,9 +1907,9 @@
                             } else if (n == 1) {
                                 e = this.$clickSelection.start;
                             } else {
-                                var s = l(this.$clickSelection, i);
-                                i = s.cursor;
-                                e = s.anchor;
+                                var r = l(this.$clickSelection, i);
+                                i = r.cursor;
+                                e = r.anchor;
                             }
                             t.selection.setSelectionAnchor(e.row, e.column);
                         }
@@ -1919,19 +1919,19 @@
                     this.extendSelectionBy = function(e) {
                         var t, i = this.editor;
                         var n = i.renderer.screenToTextCoordinates(this.x, this.y);
-                        var s = i.selection[e](n.row, n.column);
+                        var r = i.selection[e](n.row, n.column);
                         if (this.$clickSelection) {
-                            var r = this.$clickSelection.comparePoint(s.start);
-                            var o = this.$clickSelection.comparePoint(s.end);
-                            if (r == -1 && o <= 0) {
+                            var s = this.$clickSelection.comparePoint(r.start);
+                            var o = this.$clickSelection.comparePoint(r.end);
+                            if (s == -1 && o <= 0) {
                                 t = this.$clickSelection.end;
-                                if (s.end.row != n.row || s.end.column != n.column) n = s.start;
-                            } else if (o == 1 && r >= 0) {
+                                if (r.end.row != n.row || r.end.column != n.column) n = r.start;
+                            } else if (o == 1 && s >= 0) {
                                 t = this.$clickSelection.start;
-                                if (s.start.row != n.row || s.start.column != n.column) n = s.end;
-                            } else if (r == -1 && o == 1) {
-                                n = s.end;
-                                t = s.start;
+                                if (r.start.row != n.row || r.start.column != n.column) n = r.end;
+                            } else if (s == -1 && o == 1) {
+                                n = r.end;
+                                t = r.start;
                             } else {
                                 var a = l(this.$clickSelection, n);
                                 n = a.cursor;
@@ -1952,24 +1952,24 @@
                     this.focusWait = function() {
                         var e = a(this.mousedownEvent.x, this.mousedownEvent.y, this.x, this.y);
                         var t = Date.now();
-                        if (e > s || t - this.mousedownEvent.time > this.$focusTimeout) this.startSelect(this.mousedownEvent.getDocumentPosition());
+                        if (e > r || t - this.mousedownEvent.time > this.$focusTimeout) this.startSelect(this.mousedownEvent.getDocumentPosition());
                     };
                     this.onDoubleClick = function(e) {
                         var t = e.getDocumentPosition();
                         var i = this.editor;
                         var n = i.session;
-                        var s = n.getBracketRange(t);
-                        if (s) {
-                            if (s.isEmpty()) {
-                                s.start.column--;
-                                s.end.column++;
+                        var r = n.getBracketRange(t);
+                        if (r) {
+                            if (r.isEmpty()) {
+                                r.start.column--;
+                                r.end.column++;
                             }
                             this.setState("select");
                         } else {
-                            s = i.selection.getWordRange(t.row, t.column);
+                            r = i.selection.getWordRange(t.row, t.column);
                             this.setState("selectByWords");
                         }
-                        this.$clickSelection = s;
+                        this.$clickSelection = r;
                         this.select();
                     };
                     this.onTripleClick = function(e) {
@@ -2006,10 +2006,10 @@
                         };
                         var i = this.$lastScroll;
                         var n = e.domEvent.timeStamp;
-                        var s = n - i.t;
-                        var o = s ? e.wheelX / s : i.vx;
-                        var a = s ? e.wheelY / s : i.vy;
-                        if (s < r) {
+                        var r = n - i.t;
+                        var o = r ? e.wheelX / r : i.vx;
+                        var a = r ? e.wheelY / r : i.vy;
+                        if (r < s) {
                             o = (o + i.vx) / 2;
                             a = (a + i.vy) / 2;
                         }
@@ -2019,7 +2019,7 @@
                         if (l <= 1 && t.renderer.isScrollableBy(0, e.wheelY * e.speed)) h = true;
                         if (h) {
                             i.allowed = n;
-                        } else if (n - i.allowed < r) {
+                        } else if (n - i.allowed < s) {
                             var c = Math.abs(o) <= 1.5 * Math.abs(i.vx) && Math.abs(a) <= 1.5 * Math.abs(i.vy);
                             if (c) {
                                 h = true;
@@ -2064,15 +2064,15 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
-                var s = e("./lib/dom");
-                function r(e) {
+                var r = e("./lib/dom");
+                function s(e) {
                     this.isOpen = false;
                     this.$element = null;
                     this.$parentNode = e;
                 }
                 (function() {
                     this.$init = function() {
-                        this.$element = s.createElement("div");
+                        this.$element = r.createElement("div");
                         this.$element.className = "ace_tooltip";
                         this.$element.style.display = "none";
                         this.$parentNode.appendChild(this.$element);
@@ -2092,7 +2092,7 @@
                         this.getElement().style.top = t + "px";
                     };
                     this.setClassName = function(e) {
-                        s.addCssClass(this.getElement(), e);
+                        r.addCssClass(this.getElement(), e);
                     };
                     this.show = function(e, t, i) {
                         if (e != null) this.setText(e);
@@ -2120,8 +2120,8 @@
                             this.$element.parentNode.removeChild(this.$element);
                         }
                     };
-                }.call(r.prototype));
-                t.Tooltip = r;
+                }.call(s.prototype));
+                t.Tooltip = s;
             });
             ace.define("ace/mouse/default_gutter_handler", [
                 "require",
@@ -2134,26 +2134,26 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/dom");
-                var s = e("../lib/oop");
-                var r = e("../lib/event");
+                var r = e("../lib/oop");
+                var s = e("../lib/event");
                 var o = e("../tooltip").Tooltip;
                 function a(e) {
                     var t = e.editor;
                     var i = t.renderer.$gutterLayer;
-                    var s = new l(t.container);
+                    var r = new l(t.container);
                     e.editor.setDefaultHandler("guttermousedown", function(n) {
                         if (!t.isFocused() || n.getButton() != 0) return;
-                        var s = i.getRegion(n);
-                        if (s == "foldWidgets") return;
-                        var r = n.getDocumentPosition().row;
+                        var r = i.getRegion(n);
+                        if (r == "foldWidgets") return;
+                        var s = n.getDocumentPosition().row;
                         var o = t.session.selection;
-                        if (n.getShiftKey()) o.selectTo(r, 0);
+                        if (n.getShiftKey()) o.selectTo(s, 0);
                         else {
                             if (n.domEvent.detail == 2) {
                                 t.selectAll();
                                 return n.preventDefault();
                             }
-                            e.$clickSelection = t.selection.getLineRange(r);
+                            e.$clickSelection = t.selection.getLineRange(s);
                         }
                         e.setState("selectByLines");
                         e.captureMouse(n);
@@ -2162,46 +2162,46 @@
                     var o, a, h;
                     function c() {
                         var n = a.getDocumentPosition().row;
-                        var r = i.$annotations[n];
-                        if (!r) return u();
+                        var s = i.$annotations[n];
+                        if (!s) return u();
                         var o = t.session.getLength();
                         if (n == o) {
                             var l = t.renderer.pixelToScreenCoordinates(0, a.y).row;
                             var c = a.$pos;
                             if (l > t.session.documentToScreenRow(c.row, c.column)) return u();
                         }
-                        if (h == r) return;
-                        h = r.text.join("<br/>");
-                        s.setHtml(h);
-                        s.show();
-                        t._signal("showGutterTooltip", s);
+                        if (h == s) return;
+                        h = s.text.join("<br/>");
+                        r.setHtml(h);
+                        r.show();
+                        t._signal("showGutterTooltip", r);
                         t.on("mousewheel", u);
                         if (e.$tooltipFollowsMouse) {
-                            f(a);
+                            d(a);
                         } else {
-                            var d = a.domEvent.target;
-                            var g = d.getBoundingClientRect();
-                            var v = s.getElement().style;
-                            v.left = g.right + "px";
-                            v.top = g.bottom + "px";
+                            var f = a.domEvent.target;
+                            var g = f.getBoundingClientRect();
+                            var m = r.getElement().style;
+                            m.left = g.right + "px";
+                            m.top = g.bottom + "px";
                         }
                     }
                     function u() {
                         if (o) o = clearTimeout(o);
                         if (h) {
-                            s.hide();
+                            r.hide();
                             h = null;
-                            t._signal("hideGutterTooltip", s);
+                            t._signal("hideGutterTooltip", r);
                             t.off("mousewheel", u);
                         }
                     }
-                    function f(e) {
-                        s.setPosition(e.x, e.y);
+                    function d(e) {
+                        r.setPosition(e.x, e.y);
                     }
                     e.editor.setDefaultHandler("guttermousemove", function(t) {
                         var i = t.domEvent.target || t.domEvent.srcElement;
                         if (n.hasCssClass(i, "ace_fold-widget")) return u();
-                        if (h && e.$tooltipFollowsMouse) f(t);
+                        if (h && e.$tooltipFollowsMouse) d(t);
                         a = t;
                         if (o) return;
                         o = setTimeout(function() {
@@ -2210,7 +2210,7 @@
                             else u();
                         }, 50);
                     });
-                    r.addListener(t.renderer.$gutter, "mouseout", function(e) {
+                    s.addListener(t.renderer.$gutter, "mouseout", function(e) {
                         a = null;
                         if (!h || o) return;
                         o = setTimeout(function() {
@@ -2223,20 +2223,20 @@
                 function l(e) {
                     o.call(this, e);
                 }
-                s.inherits(l, o);
+                r.inherits(l, o);
                 (function() {
                     this.setPosition = function(e, t) {
                         var i = window.innerWidth || document.documentElement.clientWidth;
                         var n = window.innerHeight || document.documentElement.clientHeight;
-                        var s = this.getWidth();
-                        var r = this.getHeight();
+                        var r = this.getWidth();
+                        var s = this.getHeight();
                         e += 15;
                         t += 15;
-                        if (e + s > i) {
-                            e -= e + s - i;
+                        if (e + r > i) {
+                            e -= e + r - i;
                         }
-                        if (t + r > n) {
-                            t -= 20 + r;
+                        if (t + s > n) {
+                            t -= 20 + s;
                         }
                         o.prototype.setPosition.call(this, e, t);
                     };
@@ -2252,8 +2252,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/event");
-                var s = e("../lib/useragent");
-                var r = (t.MouseEvent = function(e, t) {
+                var r = e("../lib/useragent");
+                var s = (t.MouseEvent = function(e, t) {
                     this.domEvent = e;
                     this.editor = t;
                     this.x = this.clientX = e.clientX;
@@ -2298,12 +2298,12 @@
                     this.getShiftKey = function() {
                         return this.domEvent.shiftKey;
                     };
-                    this.getAccelKey = s.isMac ? function() {
+                    this.getAccelKey = r.isMac ? function() {
                         return this.domEvent.metaKey;
                     } : function() {
                         return this.domEvent.ctrlKey;
                     };
-                }.call(r.prototype));
+                }.call(s.prototype));
             });
             ace.define("ace/mouse/dragdrop_handler", [
                 "require",
@@ -2315,8 +2315,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/dom");
-                var s = e("../lib/event");
-                var r = e("../lib/useragent");
+                var r = e("../lib/event");
+                var s = e("../lib/useragent");
                 var o = 200;
                 var a = 200;
                 var l = 5;
@@ -2337,14 +2337,14 @@
                     }, this);
                     t.on("mousedown", this.onMouseDown.bind(e));
                     var u = t.container;
-                    var f, d, g;
-                    var v, m;
+                    var d, f, g;
+                    var m, v;
                     var p, w = 0;
                     var $;
+                    var b;
                     var C;
                     var y;
                     var S;
-                    var _;
                     this.onDragStart = function(e) {
                         if (this.cancelDrag || !u.draggable) {
                             var n = this;
@@ -2354,22 +2354,22 @@
                             }, 0);
                             return e.preventDefault();
                         }
-                        m = t.getSelectionRange();
-                        var s = e.dataTransfer;
-                        s.effectAllowed = t.getReadOnly() ? "copy" : "copyMove";
+                        v = t.getSelectionRange();
+                        var r = e.dataTransfer;
+                        r.effectAllowed = t.getReadOnly() ? "copy" : "copyMove";
                         t.container.appendChild(i);
-                        s.setDragImage && s.setDragImage(i, 0, 0);
+                        r.setDragImage && r.setDragImage(i, 0, 0);
                         setTimeout(function() {
                             t.container.removeChild(i);
                         });
-                        s.clearData();
-                        s.setData("Text", t.session.getTextRange());
-                        C = true;
+                        r.clearData();
+                        r.setData("Text", t.session.getTextRange());
+                        b = true;
                         this.setState("drag");
                     };
                     this.onDragEnd = function(e) {
                         u.draggable = false;
-                        C = false;
+                        b = false;
                         this.setState(null);
                         if (!t.getReadOnly()) {
                             var i = e.dataTransfer.dropEffect;
@@ -2380,101 +2380,101 @@
                         this.editor.renderer.setCursorStyle("");
                     };
                     this.onDragEnter = function(e) {
-                        if (t.getReadOnly() || !M(e.dataTransfer)) return;
-                        d = e.clientX;
+                        if (t.getReadOnly() || !T(e.dataTransfer)) return;
+                        f = e.clientX;
                         g = e.clientY;
-                        if (!f) b();
+                        if (!d) A();
                         w++;
-                        e.dataTransfer.dropEffect = $ = A(e);
-                        return s.preventDefault(e);
+                        e.dataTransfer.dropEffect = $ = M(e);
+                        return r.preventDefault(e);
                     };
                     this.onDragOver = function(e) {
-                        if (t.getReadOnly() || !M(e.dataTransfer)) return;
-                        d = e.clientX;
+                        if (t.getReadOnly() || !T(e.dataTransfer)) return;
+                        f = e.clientX;
                         g = e.clientY;
-                        if (!f) {
-                            b();
+                        if (!d) {
+                            A();
                             w++;
                         }
-                        if (T !== null) T = null;
-                        e.dataTransfer.dropEffect = $ = A(e);
-                        return s.preventDefault(e);
+                        if (R !== null) R = null;
+                        e.dataTransfer.dropEffect = $ = M(e);
+                        return r.preventDefault(e);
                     };
                     this.onDragLeave = function(e) {
                         w--;
-                        if (w <= 0 && f) {
-                            x();
+                        if (w <= 0 && d) {
+                            L();
                             $ = null;
-                            return s.preventDefault(e);
+                            return r.preventDefault(e);
                         }
                     };
                     this.onDrop = function(e) {
                         if (!p) return;
                         var i = e.dataTransfer;
-                        if (C) {
+                        if (b) {
                             switch($){
                                 case "move":
-                                    if (m.contains(p.row, p.column)) {
-                                        m = {
+                                    if (v.contains(p.row, p.column)) {
+                                        v = {
                                             start: p,
                                             end: p
                                         };
                                     } else {
-                                        m = t.moveText(m, p);
+                                        v = t.moveText(v, p);
                                     }
                                     break;
                                 case "copy":
-                                    m = t.moveText(m, p, true);
+                                    v = t.moveText(v, p, true);
                                     break;
                             }
                         } else {
                             var n = i.getData("Text");
-                            m = {
+                            v = {
                                 start: p,
                                 end: t.session.insert(p, n)
                             };
                             t.focus();
                             $ = null;
                         }
-                        x();
-                        return s.preventDefault(e);
+                        L();
+                        return r.preventDefault(e);
                     };
-                    s.addListener(u, "dragstart", this.onDragStart.bind(e), t);
-                    s.addListener(u, "dragend", this.onDragEnd.bind(e), t);
-                    s.addListener(u, "dragenter", this.onDragEnter.bind(e), t);
-                    s.addListener(u, "dragover", this.onDragOver.bind(e), t);
-                    s.addListener(u, "dragleave", this.onDragLeave.bind(e), t);
-                    s.addListener(u, "drop", this.onDrop.bind(e), t);
-                    function L(e, i) {
+                    r.addListener(u, "dragstart", this.onDragStart.bind(e), t);
+                    r.addListener(u, "dragend", this.onDragEnd.bind(e), t);
+                    r.addListener(u, "dragenter", this.onDragEnter.bind(e), t);
+                    r.addListener(u, "dragover", this.onDragOver.bind(e), t);
+                    r.addListener(u, "dragleave", this.onDragLeave.bind(e), t);
+                    r.addListener(u, "drop", this.onDrop.bind(e), t);
+                    function _(e, i) {
                         var n = Date.now();
-                        var s = !i || e.row != i.row;
-                        var r = !i || e.column != i.column;
-                        if (!S || s || r) {
+                        var r = !i || e.row != i.row;
+                        var s = !i || e.column != i.column;
+                        if (!y || r || s) {
                             t.moveCursorToPosition(e);
-                            S = n;
-                            _ = {
-                                x: d,
+                            y = n;
+                            S = {
+                                x: f,
                                 y: g
                             };
                         } else {
-                            var o = c(_.x, _.y, d, g);
+                            var o = c(S.x, S.y, f, g);
                             if (o > l) {
-                                S = null;
-                            } else if (n - S >= a) {
+                                y = null;
+                            } else if (n - y >= a) {
                                 t.renderer.scrollCursorIntoView();
-                                S = null;
+                                y = null;
                             }
                         }
                     }
-                    function R(e, i) {
+                    function x(e, i) {
                         var n = Date.now();
-                        var s = t.renderer.layerConfig.lineHeight;
-                        var r = t.renderer.layerConfig.characterWidth;
+                        var r = t.renderer.layerConfig.lineHeight;
+                        var s = t.renderer.layerConfig.characterWidth;
                         var a = t.renderer.scroller.getBoundingClientRect();
                         var l = {
                             x: {
-                                left: d - a.left,
-                                right: a.right - d
+                                left: f - a.left,
+                                right: a.right - f
                             },
                             y: {
                                 top: g - a.top,
@@ -2487,67 +2487,67 @@
                             row: e.row,
                             column: e.column
                         };
-                        if (h / r <= 2) {
+                        if (h / s <= 2) {
                             u.column += l.x.left < l.x.right ? -3 : +2;
                         }
-                        if (c / s <= 1) {
+                        if (c / r <= 1) {
                             u.row += l.y.top < l.y.bottom ? -1 : +1;
                         }
-                        var f = e.row != u.row;
-                        var v = e.column != u.column;
-                        var m = !i || e.row != i.row;
-                        if (f || (v && !m)) {
-                            if (!y) y = n;
-                            else if (n - y >= o) t.renderer.scrollCursorIntoView(u);
+                        var d = e.row != u.row;
+                        var m = e.column != u.column;
+                        var v = !i || e.row != i.row;
+                        if (d || (m && !v)) {
+                            if (!C) C = n;
+                            else if (n - C >= o) t.renderer.scrollCursorIntoView(u);
                         } else {
-                            y = null;
+                            C = null;
                         }
                     }
                     function k() {
                         var e = p;
-                        p = t.renderer.screenToTextCoordinates(d, g);
-                        L(p, e);
-                        R(p, e);
+                        p = t.renderer.screenToTextCoordinates(f, g);
+                        _(p, e);
+                        x(p, e);
                     }
-                    function b() {
-                        m = t.selection.toOrientedRange();
-                        f = t.session.addMarker(m, "ace_selection", t.getSelectionStyle());
+                    function A() {
+                        v = t.selection.toOrientedRange();
+                        d = t.session.addMarker(v, "ace_selection", t.getSelectionStyle());
                         t.clearSelection();
                         if (t.isFocused()) t.renderer.$cursorLayer.setBlinking(false);
-                        clearInterval(v);
+                        clearInterval(m);
                         k();
-                        v = setInterval(k, 20);
+                        m = setInterval(k, 20);
                         w = 0;
-                        s.addListener(document, "mousemove", E);
+                        r.addListener(document, "mousemove", E);
                     }
-                    function x() {
-                        clearInterval(v);
-                        t.session.removeMarker(f);
-                        f = null;
-                        t.selection.fromOrientedRange(m);
-                        if (t.isFocused() && !C) t.$resetCursorStyle();
-                        m = null;
+                    function L() {
+                        clearInterval(m);
+                        t.session.removeMarker(d);
+                        d = null;
+                        t.selection.fromOrientedRange(v);
+                        if (t.isFocused() && !b) t.$resetCursorStyle();
+                        v = null;
                         p = null;
                         w = 0;
+                        C = null;
                         y = null;
-                        S = null;
-                        s.removeListener(document, "mousemove", E);
+                        r.removeListener(document, "mousemove", E);
                     }
-                    var T = null;
+                    var R = null;
                     function E() {
-                        if (T == null) {
-                            T = setTimeout(function() {
-                                if (T != null && f) x();
+                        if (R == null) {
+                            R = setTimeout(function() {
+                                if (R != null && d) L();
                             }, 20);
                         }
                     }
-                    function M(e) {
+                    function T(e) {
                         var t = e.types;
                         return (!t || Array.prototype.some.call(t, function(e) {
                             return (e == "text/plain" || e == "Text");
                         }));
                     }
-                    function A(e) {
+                    function M(e) {
                         var t = [
                             "copy",
                             "copymove",
@@ -2561,15 +2561,15 @@
                             "all",
                             "uninitialized", 
                         ];
-                        var n = r.isMac ? e.altKey : e.ctrlKey;
-                        var s = "uninitialized";
+                        var n = s.isMac ? e.altKey : e.ctrlKey;
+                        var r = "uninitialized";
                         try {
-                            s = e.dataTransfer.effectAllowed.toLowerCase();
+                            r = e.dataTransfer.effectAllowed.toLowerCase();
                         } catch (o) {}
                         var a = "none";
-                        if (n && t.indexOf(s) >= 0) a = "copy";
-                        else if (i.indexOf(s) >= 0) a = "move";
-                        else if (t.indexOf(s) >= 0) a = "copy";
+                        if (n && t.indexOf(r) >= 0) a = "copy";
+                        else if (i.indexOf(r) >= 0) a = "move";
+                        else if (t.indexOf(r) >= 0) a = "copy";
                         return a;
                     }
                 }
@@ -2597,13 +2597,13 @@
                         t.draggable = true;
                         e.renderer.$cursorLayer.setBlinking(false);
                         e.setStyle("ace_dragging");
-                        var i = r.isWin ? "default" : "move";
+                        var i = s.isWin ? "default" : "move";
                         e.renderer.setCursorStyle(i);
                         this.setState("dragReady");
                     };
                     this.onMouseDrag = function(e) {
                         var t = this.editor.container;
-                        if (r.isIE && this.state == "dragReady") {
+                        if (s.isIE && this.state == "dragReady") {
                             var i = c(this.mousedownEvent.x, this.mousedownEvent.y, this.x, this.y);
                             if (i > 3) t.dragDrop();
                         }
@@ -2621,14 +2621,14 @@
                         var t = this.editor;
                         var i = e.inSelection();
                         var n = e.getButton();
-                        var s = e.domEvent.detail || 1;
-                        if (s === 1 && n === 0 && i) {
+                        var r = e.domEvent.detail || 1;
+                        if (r === 1 && n === 0 && i) {
                             if (e.editor.inMultiSelectMode && (e.getAccelKey() || e.getShiftKey())) return;
                             this.mousedownEvent.time = Date.now();
                             var o = e.domEvent.target || e.domEvent.srcElement;
                             if ("unselectable" in o) o.unselectable = "on";
                             if (t.getDragDelay()) {
-                                if (r.isWebKit) {
+                                if (s.isWebKit) {
                                     this.cancelDrag = true;
                                     var a = t.container;
                                     a.draggable = true;
@@ -2657,8 +2657,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./mouse_event").MouseEvent;
-                var s = e("../lib/event");
-                var r = e("../lib/dom");
+                var r = e("../lib/event");
+                var s = e("../lib/dom");
                 t.addTouchListeners = function(e, t) {
                     var i = "scroll";
                     var o;
@@ -2667,20 +2667,20 @@
                     var h;
                     var c;
                     var u;
-                    var f = 0;
-                    var d;
+                    var d = 0;
+                    var f;
                     var g = 0;
-                    var v = 0;
                     var m = 0;
+                    var v = 0;
                     var p;
                     var w;
                     function $() {
                         var e = window.navigator && window.navigator.clipboard;
                         var n = false;
-                        var s = function() {
+                        var r = function() {
                             var i = t.getCopyText();
-                            var s = t.session.getUndoManager().hasUndo();
-                            w.replaceChild(r.buildDom(n ? [
+                            var r = t.session.getUndoManager().hasUndo();
+                            w.replaceChild(s.buildDom(n ? [
                                 "span",
                                 !i && [
                                     "span",
@@ -2714,7 +2714,7 @@
                                     },
                                     "Paste", 
                                 ],
-                                s && [
+                                r && [
                                     "span",
                                     {
                                         class: "ace_mobile-button",
@@ -2743,27 +2743,27 @@
                             ]), w.firstChild);
                         };
                         var o = function(i) {
-                            var r = i.target.getAttribute("action");
-                            if (r == "more" || !n) {
+                            var s = i.target.getAttribute("action");
+                            if (s == "more" || !n) {
                                 n = !n;
-                                return s();
+                                return r();
                             }
-                            if (r == "paste") {
+                            if (s == "paste") {
                                 e.readText().then(function(e) {
-                                    t.execCommand(r, e);
+                                    t.execCommand(s, e);
                                 });
-                            } else if (r) {
-                                if (r == "cut" || r == "copy") {
+                            } else if (s) {
+                                if (s == "cut" || s == "copy") {
                                     if (e) e.writeText(t.getCopyText());
                                     else document.execCommand("copy");
                                 }
-                                t.execCommand(r);
+                                t.execCommand(s);
                             }
                             w.firstChild.style.display = "none";
                             n = false;
-                            if (r != "openCommandPallete") t.focus();
+                            if (s != "openCommandPallete") t.focus();
                         };
-                        w = r.buildDom([
+                        w = s.buildDom([
                             "div",
                             {
                                 class: "ace_mobile-menu",
@@ -2793,46 +2793,46 @@
                             ], 
                         ], t.container);
                     }
-                    function C() {
+                    function b() {
                         if (!w) $();
                         var e = t.selection.cursor;
                         var i = t.renderer.textToScreenCoordinates(e.row, e.column);
                         var n = t.renderer.textToScreenCoordinates(0, 0).pageX;
-                        var s = t.renderer.scrollLeft;
-                        var r = t.container.getBoundingClientRect();
-                        w.style.top = i.pageY - r.top - 3 + "px";
-                        if (i.pageX - r.left < r.width - 70) {
+                        var r = t.renderer.scrollLeft;
+                        var s = t.container.getBoundingClientRect();
+                        w.style.top = i.pageY - s.top - 3 + "px";
+                        if (i.pageX - s.left < s.width - 70) {
                             w.style.left = "";
                             w.style.right = "10px";
                         } else {
                             w.style.right = "";
-                            w.style.left = n + s - r.left + "px";
+                            w.style.left = n + r - s.left + "px";
                         }
                         w.style.display = "";
                         w.firstChild.style.display = "none";
-                        t.on("input", y);
+                        t.on("input", C);
                     }
-                    function y(e) {
+                    function C(e) {
                         if (w) w.style.display = "none";
-                        t.off("input", y);
+                        t.off("input", C);
+                    }
+                    function y() {
+                        c = null;
+                        clearTimeout(c);
+                        var e = t.selection.getRange();
+                        var n = e.contains(f.row, f.column);
+                        if (e.isEmpty() || !n) {
+                            t.selection.moveToPosition(f);
+                            t.selection.selectWord();
+                        }
+                        i = "wait";
+                        b();
                     }
                     function S() {
                         c = null;
                         clearTimeout(c);
-                        var e = t.selection.getRange();
-                        var n = e.contains(d.row, d.column);
-                        if (e.isEmpty() || !n) {
-                            t.selection.moveToPosition(d);
-                            t.selection.selectWord();
-                        }
-                        i = "wait";
-                        C();
-                    }
-                    function _() {
-                        c = null;
-                        clearTimeout(c);
-                        t.selection.moveToPosition(d);
-                        var e = g >= 2 ? t.selection.getLineRange(d.row) : t.session.getBracketRange(d);
+                        t.selection.moveToPosition(f);
+                        var e = g >= 2 ? t.selection.getLineRange(f.row) : t.session.getBracketRange(f);
                         if (e && !e.isEmpty()) {
                             t.selection.setRange(e);
                         } else {
@@ -2840,14 +2840,14 @@
                         }
                         i = "wait";
                     }
-                    s.addListener(e, "contextmenu", function(e) {
+                    r.addListener(e, "contextmenu", function(e) {
                         if (!p) return;
                         var i = t.textInput.getElement();
                         i.focus();
                     }, t);
-                    s.addListener(e, "touchstart", function(e) {
-                        var s = e.touches;
-                        if (c || s.length > 1) {
+                    r.addListener(e, "touchstart", function(e) {
+                        var r = e.touches;
+                        if (c || r.length > 1) {
                             clearTimeout(c);
                             c = null;
                             l = -1;
@@ -2855,92 +2855,92 @@
                             return;
                         }
                         p = t.$mouseHandler.isMousePressed = true;
-                        var r = t.renderer.layerConfig.lineHeight;
+                        var s = t.renderer.layerConfig.lineHeight;
                         var u = t.renderer.layerConfig.lineHeight;
                         var w = e.timeStamp;
                         h = w;
-                        var $ = s[0];
-                        var C = $.clientX;
-                        var y = $.clientY;
-                        if (Math.abs(o - C) + Math.abs(a - y) > r) l = -1;
-                        o = e.clientX = C;
-                        a = e.clientY = y;
-                        v = m = 0;
-                        var L = new n(e, t);
-                        d = L.getDocumentPosition();
-                        if (w - l < 500 && s.length == 1 && !f) {
+                        var $ = r[0];
+                        var b = $.clientX;
+                        var C = $.clientY;
+                        if (Math.abs(o - b) + Math.abs(a - C) > s) l = -1;
+                        o = e.clientX = b;
+                        a = e.clientY = C;
+                        m = v = 0;
+                        var _ = new n(e, t);
+                        f = _.getDocumentPosition();
+                        if (w - l < 500 && r.length == 1 && !d) {
                             g++;
                             e.preventDefault();
                             e.button = 0;
-                            _();
+                            S();
                         } else {
                             g = 0;
-                            var R = t.selection.cursor;
-                            var k = t.selection.isEmpty() ? R : t.selection.anchor;
-                            var b = t.renderer.$cursorLayer.getPixelPosition(R, true);
-                            var x = t.renderer.$cursorLayer.getPixelPosition(k, true);
-                            var T = t.renderer.scroller.getBoundingClientRect();
+                            var x = t.selection.cursor;
+                            var k = t.selection.isEmpty() ? x : t.selection.anchor;
+                            var A = t.renderer.$cursorLayer.getPixelPosition(x, true);
+                            var L = t.renderer.$cursorLayer.getPixelPosition(k, true);
+                            var R = t.renderer.scroller.getBoundingClientRect();
                             var E = t.renderer.layerConfig.offset;
-                            var M = t.renderer.scrollLeft;
-                            var A = function(e, t) {
+                            var T = t.renderer.scrollLeft;
+                            var M = function(e, t) {
                                 e = e / u;
-                                t = t / r - 0.75;
+                                t = t / s - 0.75;
                                 return e * e + t * t;
                             };
-                            if (e.clientX < T.left) {
+                            if (e.clientX < R.left) {
                                 i = "zoom";
                                 return;
                             }
-                            var I = A(e.clientX - T.left - b.left + M, e.clientY - T.top - b.top + E);
-                            var W = A(e.clientX - T.left - x.left + M, e.clientY - T.top - x.top + E);
-                            if (I < 3.5 && W < 3.5) i = I > W ? "cursor" : "anchor";
-                            if (W < 3.5) i = "anchor";
-                            else if (I < 3.5) i = "cursor";
+                            var F = M(e.clientX - R.left - A.left + T, e.clientY - R.top - A.top + E);
+                            var O = M(e.clientX - R.left - L.left + T, e.clientY - R.top - L.top + E);
+                            if (F < 3.5 && O < 3.5) i = F > O ? "cursor" : "anchor";
+                            if (O < 3.5) i = "anchor";
+                            else if (F < 3.5) i = "cursor";
                             else i = "scroll";
-                            c = setTimeout(S, 450);
+                            c = setTimeout(y, 450);
                         }
                         l = w;
                     }, t);
-                    s.addListener(e, "touchend", function(e) {
+                    r.addListener(e, "touchend", function(e) {
                         p = t.$mouseHandler.isMousePressed = false;
                         if (u) clearInterval(u);
                         if (i == "zoom") {
                             i = "";
-                            f = 0;
+                            d = 0;
                         } else if (c) {
-                            t.selection.moveToPosition(d);
-                            f = 0;
-                            C();
+                            t.selection.moveToPosition(f);
+                            d = 0;
+                            b();
                         } else if (i == "scroll") {
-                            L();
-                            y();
-                        } else {
+                            _();
                             C();
+                        } else {
+                            b();
                         }
                         clearTimeout(c);
                         c = null;
                     }, t);
-                    s.addListener(e, "touchmove", function(e) {
+                    r.addListener(e, "touchmove", function(e) {
                         if (c) {
                             clearTimeout(c);
                             c = null;
                         }
-                        var s = e.touches;
-                        if (s.length > 1 || i == "zoom") return;
-                        var r = s[0];
-                        var l = o - r.clientX;
-                        var u = a - r.clientY;
+                        var r = e.touches;
+                        if (r.length > 1 || i == "zoom") return;
+                        var s = r[0];
+                        var l = o - s.clientX;
+                        var u = a - s.clientY;
                         if (i == "wait") {
                             if (l * l + u * u > 4) i = "cursor";
                             else return e.preventDefault();
                         }
-                        o = r.clientX;
-                        a = r.clientY;
-                        e.clientX = r.clientX;
-                        e.clientY = r.clientY;
-                        var f = e.timeStamp;
-                        var d = f - h;
-                        h = f;
+                        o = s.clientX;
+                        a = s.clientY;
+                        e.clientX = s.clientX;
+                        e.clientY = s.clientY;
+                        var d = e.timeStamp;
+                        var f = d - h;
+                        h = d;
                         if (i == "scroll") {
                             var g = new n(e, t);
                             g.speed = 1;
@@ -2948,13 +2948,13 @@
                             g.wheelY = u;
                             if (10 * Math.abs(l) < Math.abs(u)) l = 0;
                             if (10 * Math.abs(u) < Math.abs(l)) u = 0;
-                            if (d != 0) {
-                                v = l / d;
-                                m = u / d;
+                            if (f != 0) {
+                                m = l / f;
+                                v = u / f;
                             }
                             t._emit("mousewheel", g);
                             if (!g.propagationStopped) {
-                                v = m = 0;
+                                m = v = 0;
                             }
                         } else {
                             var p = new n(e, t);
@@ -2965,20 +2965,20 @@
                             e.preventDefault();
                         }
                     }, t);
-                    function L() {
-                        f += 60;
+                    function _() {
+                        d += 60;
                         u = setInterval(function() {
-                            if (f-- <= 0) {
+                            if (d-- <= 0) {
                                 clearInterval(u);
                                 u = null;
                             }
-                            if (Math.abs(v) < 0.01) v = 0;
                             if (Math.abs(m) < 0.01) m = 0;
-                            if (f < 20) v = 0.9 * v;
-                            if (f < 20) m = 0.9 * m;
+                            if (Math.abs(v) < 0.01) v = 0;
+                            if (d < 20) m = 0.9 * m;
+                            if (d < 20) v = 0.9 * v;
                             var e = t.session.getScrollTop();
-                            t.renderer.scrollBy(10 * v, 10 * m);
-                            if (e == t.session.getScrollTop()) f = 0;
+                            t.renderer.scrollBy(10 * m, 10 * v);
+                            if (e == t.session.getScrollTop()) d = 0;
                         }, 10);
                     }
                 };
@@ -3003,12 +3003,12 @@
                 };
                 t.loadScript = function(e, t) {
                     var i = n.getDocumentHead();
-                    var s = document.createElement("script");
-                    s.src = e;
-                    i.appendChild(s);
-                    s.onload = s.onreadystatechange = function(e, i) {
-                        if (i || !s.readyState || s.readyState == "loaded" || s.readyState == "complete") {
-                            s = s.onload = s.onreadystatechange = null;
+                    var r = document.createElement("script");
+                    r.src = e;
+                    i.appendChild(r);
+                    r.onload = r.onreadystatechange = function(e, i) {
+                        if (i || !r.readyState || r.readyState == "loaded" || r.readyState == "complete") {
+                            r = r.onload = r.onreadystatechange = null;
                             if (!i) t();
                         }
                     };
@@ -3026,10 +3026,10 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = {};
-                var s = function() {
+                var r = function() {
                     this.propagationStopped = true;
                 };
-                var r = function() {
+                var s = function() {
                     this.defaultPrevented = true;
                 };
                 n._emit = n._dispatchEvent = function(e, t) {
@@ -3040,8 +3040,8 @@
                     if (!i.length && !n) return;
                     if (typeof t != "object" || !t) t = {};
                     if (!t.type) t.type = e;
-                    if (!t.stopPropagation) t.stopPropagation = s;
-                    if (!t.preventDefault) t.preventDefault = r;
+                    if (!t.stopPropagation) t.stopPropagation = r;
+                    if (!t.preventDefault) t.preventDefault = s;
                     i = i.slice();
                     for(var o = 0; o < i.length; o++){
                         i[o](t, this);
@@ -3074,11 +3074,11 @@
                     };
                     if (i[e]) {
                         var n = i[e];
-                        var s = i._disabled_[e];
-                        if (!s) i._disabled_[e] = s = [];
-                        s.push(n);
-                        var r = s.indexOf(t);
-                        if (r != -1) s.splice(r, 1);
+                        var r = i._disabled_[e];
+                        if (!r) i._disabled_[e] = r = [];
+                        r.push(n);
+                        var s = r.indexOf(t);
+                        if (s != -1) r.splice(s, 1);
                     }
                     i[e] = t;
                 };
@@ -3089,8 +3089,8 @@
                     if (i[e] == t) {
                         if (n) this.setDefaultHandler(e, n.pop());
                     } else if (n) {
-                        var s = n.indexOf(t);
-                        if (s != -1) n.splice(s, 1);
+                        var r = n.indexOf(t);
+                        if (r != -1) n.splice(r, 1);
                     }
                 };
                 n.on = n.addEventListener = function(e, t, i) {
@@ -3123,8 +3123,8 @@
             ], function(e, t, i) {
                 "no use strict";
                 var n = e("./oop");
-                var s = e("./event_emitter").EventEmitter;
-                var r = {
+                var r = e("./event_emitter").EventEmitter;
+                var s = {
                     setOptions: function(e) {
                         Object.keys(e).forEach(function(t) {
                             this.setOption(t, e[t]);
@@ -3180,7 +3180,7 @@
                     this.$defaultOptions = {};
                 };
                 (function() {
-                    n.implement(this, s);
+                    n.implement(this, r);
                     this.defineOptions = function(e, t, i) {
                         if (!e.$options) this.$defaultOptions[t] = e.$options = {};
                         Object.keys(i).forEach(function(t) {
@@ -3192,7 +3192,7 @@
                             e.$options[n.name] = n;
                             if ("initialValue" in n) e["$" + n.name] = n.initialValue;
                         });
-                        n.implement(e, r);
+                        n.implement(e, s);
                         return this;
                     };
                     this.resetOptions = function(e) {
@@ -3233,8 +3233,8 @@
                 "ace/lib/app_config", 
             ], function(e, t, n) {
                 "no use strict";
-                var s = e("./lib/lang");
-                var r = e("./lib/oop");
+                var r = e("./lib/lang");
+                var s = e("./lib/oop");
                 var o = e("./lib/net");
                 var a = e("./lib/dom");
                 var l = e("./lib/app_config").AppConfig;
@@ -3264,7 +3264,7 @@
                     if (e == "useStrictCSP") a.useStrictCSP(t);
                 };
                 t.all = function() {
-                    return s.copyObject(c);
+                    return r.copyObject(c);
                 };
                 t.$modes = {};
                 t.moduleUrl = function(e, t) {
@@ -3272,12 +3272,12 @@
                     var i = e.split("/");
                     t = t || i[i.length - 2] || "";
                     var n = t == "snippets" ? "/" : "-";
-                    var s = i[i.length - 1];
+                    var r = i[i.length - 1];
                     if (t == "worker" && n == "-") {
-                        var r = new RegExp("^" + t + "[\\-_]|[\\-_]" + t + "$", "g");
-                        s = s.replace(r, "");
+                        var s = new RegExp("^" + t + "[\\-_]|[\\-_]" + t + "$", "g");
+                        r = r.replace(s, "");
                     }
-                    if ((!s || s == t) && i.length > 1) s = i[i.length - 2];
+                    if ((!r || r == t) && i.length > 1) r = i[i.length - 2];
                     var o = c[t + "Path"];
                     if (o == null) {
                         o = c.basePath;
@@ -3285,22 +3285,22 @@
                         t = n = "";
                     }
                     if (o && o.slice(-1) != "/") o += "/";
-                    return (o + t + n + s + this.get("suffix"));
+                    return (o + t + n + r + this.get("suffix"));
                 };
                 t.setModuleUrl = function(e, t) {
                     return (c.$moduleUrls[e] = t);
                 };
                 t.$loading = {};
                 t.loadModule = function(i, n) {
-                    var s, r;
+                    var r, s;
                     if (Array.isArray(i)) {
-                        r = i[0];
+                        s = i[0];
                         i = i[1];
                     }
                     try {
-                        s = e(i);
+                        r = e(i);
                     } catch (a) {}
-                    if (s && !t.$loading[i]) return n && n(s);
+                    if (r && !t.$loading[i]) return n && n(r);
                     if (!t.$loading[i]) t.$loading[i] = [];
                     t.$loading[i].push(n);
                     if (t.$loading[i].length > 1) return;
@@ -3320,7 +3320,7 @@
                         });
                     };
                     if (!t.get("packaged")) return l();
-                    o.loadScript(t.moduleUrl(i, r), l);
+                    o.loadScript(t.moduleUrl(i, s), l);
                     u();
                 };
                 var u = function() {
@@ -3329,42 +3329,42 @@
                         u = function() {};
                     }
                 };
-                f(true);
-                function f(s) {
+                d(true);
+                function d(r) {
                     if (!h || !h.document) return;
-                    c.packaged = s || e.packaged || n.packaged || (h.define && i.amdD.packaged);
-                    var r = {};
+                    c.packaged = r || e.packaged || n.packaged || (h.define && i.amdD.packaged);
+                    var s = {};
                     var o = "";
                     var a = document.currentScript || document._currentScript;
                     var l = (a && a.ownerDocument) || document;
                     var u = l.getElementsByTagName("script");
-                    for(var f = 0; f < u.length; f++){
-                        var g = u[f];
-                        var v = g.src || g.getAttribute("src");
-                        if (!v) continue;
-                        var m = g.attributes;
-                        for(var p = 0, w = m.length; p < w; p++){
-                            var $ = m[p];
+                    for(var d = 0; d < u.length; d++){
+                        var g = u[d];
+                        var m = g.src || g.getAttribute("src");
+                        if (!m) continue;
+                        var v = g.attributes;
+                        for(var p = 0, w = v.length; p < w; p++){
+                            var $ = v[p];
                             if ($.name.indexOf("data-ace-") === 0) {
-                                r[d($.name.replace(/^data-ace-/, ""))] = $.value;
+                                s[f($.name.replace(/^data-ace-/, ""))] = $.value;
                             }
                         }
-                        var C = v.match(/^(.*)\/ace(\-\w+)?\.js(\?|$)/);
-                        if (C) o = C[1];
+                        var b = m.match(/^(.*)\/ace(\-\w+)?\.js(\?|$)/);
+                        if (b) o = b[1];
                     }
                     if (o) {
-                        r.base = r.base || o;
-                        r.packaged = true;
+                        s.base = s.base || o;
+                        s.packaged = true;
                     }
-                    r.basePath = r.base;
-                    r.workerPath = r.workerPath || r.base;
-                    r.modePath = r.modePath || r.base;
-                    r.themePath = r.themePath || r.base;
-                    delete r.base;
-                    for(var y in r)if (typeof r[y] !== "undefined") t.set(y, r[y]);
+                    s.basePath = s.base;
+                    s.workerPath = s.workerPath || s.base;
+                    s.modePath = s.modePath || s.base;
+                    s.themePath = s.themePath || s.base;
+                    delete s.base;
+                    for(var C in s)if (typeof s[C] !== "undefined") t.set(C, s[C]);
                 }
-                t.init = f;
-                function d(e) {
+                t.init = d;
+                function f(e) {
                     return e.replace(/-(.)/g, function(e, t) {
                         return t.toUpperCase();
                     });
@@ -3386,8 +3386,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/event");
-                var s = e("../lib/useragent");
-                var r = e("./default_handlers").DefaultHandlers;
+                var r = e("../lib/useragent");
+                var s = e("./default_handlers").DefaultHandlers;
                 var o = e("./default_gutter_handler").GutterHandler;
                 var a = e("./mouse_event").MouseEvent;
                 var l = e("./dragdrop_handler").DragdropHandler;
@@ -3396,7 +3396,7 @@
                 var u = function(e) {
                     var t = this;
                     this.editor = e;
-                    new r(this);
+                    new s(this);
                     new o(this);
                     new l(this);
                     var i = function(t) {
@@ -3426,19 +3426,19 @@
                     n.addListener(c, "mousemove", this.onMouseEvent.bind(this, "guttermousemove"), e);
                     n.addListener(a, "mousedown", i, e);
                     n.addListener(c, "mousedown", i, e);
-                    if (s.isIE && e.renderer.scrollBarV) {
+                    if (r.isIE && e.renderer.scrollBarV) {
                         n.addListener(e.renderer.scrollBarV.element, "mousedown", i, e);
                         n.addListener(e.renderer.scrollBarH.element, "mousedown", i, e);
                     }
                     e.on("mousemove", function(i) {
                         if (t.state || t.$dragDelay || !t.$dragEnabled) return;
                         var n = e.renderer.screenToTextCoordinates(i.x, i.y);
-                        var s = e.session.selection.getRange();
-                        var r = e.renderer;
-                        if (!s.isEmpty() && s.insideStart(n.row, n.column)) {
-                            r.setCursorStyle("default");
+                        var r = e.session.selection.getRange();
+                        var s = e.renderer;
+                        if (!r.isEmpty() && r.insideStart(n.row, n.column)) {
+                            s.setCursorStyle("default");
                         } else {
-                            r.setCursorStyle("");
+                            s.setCursorStyle("");
                         }
                     }, e);
                 };
@@ -3467,12 +3467,12 @@
                         this.y = e.y;
                         this.isMousePressed = true;
                         var i = this.editor;
-                        var r = this.editor.renderer;
-                        r.$isMousePressed = true;
+                        var s = this.editor.renderer;
+                        s.$isMousePressed = true;
                         var o = this;
                         var l = function(e) {
                             if (!e) return;
-                            if (s.isWebKit && !e.which && o.releaseMouse) return o.releaseMouse();
+                            if (r.isWebKit && !e.which && o.releaseMouse) return o.releaseMouse();
                             o.x = e.clientX;
                             o.y = e.clientY;
                             t && t(e);
@@ -3481,12 +3481,12 @@
                         };
                         var h = function(e) {
                             i.off("beforeEndOperation", u);
-                            clearInterval(f);
+                            clearInterval(d);
                             if (i.session) c();
                             o[o.state + "End"] && o[o.state + "End"](e);
                             o.state = "";
-                            o.isMousePressed = r.$isMousePressed = false;
-                            if (r.$keepTextAreaAtCursor) r.$moveTextAreaToCursor();
+                            o.isMousePressed = s.$isMousePressed = false;
+                            if (s.$keepTextAreaAtCursor) s.$moveTextAreaToCursor();
                             o.$onCaptureMouseMove = o.releaseMouse = null;
                             e && o.onMouseEvent("mouseup", e);
                             i.endOperation();
@@ -3495,7 +3495,7 @@
                             o[o.state] && o[o.state]();
                             o.$mouseMoved = false;
                         };
-                        if (s.isOldIE && e.domEvent.type == "dblclick") {
+                        if (r.isOldIE && e.domEvent.type == "dblclick") {
                             return setTimeout(function() {
                                 h(e);
                             });
@@ -3516,7 +3516,7 @@
                         });
                         o.$onCaptureMouseMove = l;
                         o.releaseMouse = n.capture(this.editor.container, l, h);
-                        var f = setInterval(c, 20);
+                        var d = setInterval(c, 20);
                     };
                     this.releaseMouse = null;
                     this.cancelContextMenu = function() {
@@ -3537,7 +3537,7 @@
                         initialValue: 2
                     },
                     dragDelay: {
-                        initialValue: s.isMac ? 150 : 0
+                        initialValue: r.isMac ? 150 : 0
                     },
                     dragEnabled: {
                         initialValue: true
@@ -3559,20 +3559,20 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/dom");
-                function s(e) {
+                function r(e) {
                     e.on("click", function(t) {
                         var i = t.getDocumentPosition();
-                        var s = e.session;
-                        var r = s.getFoldAt(i.row, i.column, 1);
-                        if (r) {
-                            if (t.getAccelKey()) s.removeFold(r);
-                            else s.expandFold(r);
+                        var r = e.session;
+                        var s = r.getFoldAt(i.row, i.column, 1);
+                        if (s) {
+                            if (t.getAccelKey()) r.removeFold(s);
+                            else r.expandFold(s);
                             t.stop();
                         }
                         var o = t.domEvent && t.domEvent.target;
                         if (o && n.hasCssClass(o, "ace_inline_button")) {
                             if (n.hasCssClass(o, "ace_toggle_wrap")) {
-                                s.setOption("wrap", !s.getUseWrapMode());
+                                r.setOption("wrap", !r.getUseWrapMode());
                                 e.renderer.scrollCursorIntoView();
                             }
                         }
@@ -3581,8 +3581,8 @@
                         var i = e.renderer.$gutterLayer.getRegion(t);
                         if (i == "foldWidgets") {
                             var n = t.getDocumentPosition().row;
-                            var s = e.session;
-                            if (s.foldWidgets && s.foldWidgets[n]) e.session.onFoldWidgetClick(n, t);
+                            var r = e.session;
+                            if (r.foldWidgets && r.foldWidgets[n]) e.session.onFoldWidgetClick(n, t);
                             if (!e.isFocused()) e.focus();
                             t.stop();
                         }
@@ -3591,16 +3591,16 @@
                         var i = e.renderer.$gutterLayer.getRegion(t);
                         if (i == "foldWidgets") {
                             var n = t.getDocumentPosition().row;
-                            var s = e.session;
-                            var r = s.getParentFoldRangeData(n, true);
-                            var o = r.range || r.firstRange;
+                            var r = e.session;
+                            var s = r.getParentFoldRangeData(n, true);
+                            var o = s.range || s.firstRange;
                             if (o) {
                                 n = o.start.row;
-                                var a = s.getFoldAt(n, s.getLine(n).length, 1);
+                                var a = r.getFoldAt(n, r.getLine(n).length, 1);
                                 if (a) {
-                                    s.removeFold(a);
+                                    r.removeFold(a);
                                 } else {
-                                    s.addFold("...", o);
+                                    r.addFold("...", o);
                                     e.renderer.scrollCursorIntoView({
                                         row: o.start.row,
                                         column: 0
@@ -3611,7 +3611,7 @@
                         }
                     });
                 }
-                t.FoldHandler = s;
+                t.FoldHandler = r;
             });
             ace.define("ace/keyboard/keybinding", [
                 "require",
@@ -3622,8 +3622,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/keys");
-                var s = e("../lib/event");
-                var r = function(e) {
+                var r = e("../lib/event");
+                var s = function(e) {
                     this.$editor = e;
                     this.$data = {
                         editor: e
@@ -3670,40 +3670,40 @@
                         }).filter(Boolean).join(" ");
                     };
                     this.$callKeyboardHandlers = function(e, t, i, n) {
-                        var r;
+                        var s;
                         var o = false;
                         var a = this.$editor.commands;
                         for(var l = this.$handlers.length; l--;){
-                            r = this.$handlers[l].handleKeyboard(this.$data, e, t, i, n);
-                            if (!r || !r.command) continue;
-                            if (r.command == "null") {
+                            s = this.$handlers[l].handleKeyboard(this.$data, e, t, i, n);
+                            if (!s || !s.command) continue;
+                            if (s.command == "null") {
                                 o = true;
                             } else {
-                                o = a.exec(r.command, this.$editor, r.args, n);
+                                o = a.exec(s.command, this.$editor, s.args, n);
                             }
-                            if (o && n && e != -1 && r.passEvent != true && r.command.passEvent != true) {
-                                s.stopEvent(n);
+                            if (o && n && e != -1 && s.passEvent != true && s.command.passEvent != true) {
+                                r.stopEvent(n);
                             }
                             if (o) break;
                         }
                         if (!o && e == -1) {
-                            r = {
+                            s = {
                                 command: "insertstring"
                             };
                             o = a.exec("insertstring", this.$editor, t);
                         }
-                        if (o && this.$editor._signal) this.$editor._signal("keyboardActivity", r);
+                        if (o && this.$editor._signal) this.$editor._signal("keyboardActivity", s);
                         return o;
                     };
                     this.onCommandKey = function(e, t, i) {
-                        var s = n.keyCodeToString(i);
-                        return this.$callKeyboardHandlers(t, s, i, e);
+                        var r = n.keyCodeToString(i);
+                        return this.$callKeyboardHandlers(t, r, i, e);
                     };
                     this.onTextInput = function(e) {
                         return this.$callKeyboardHandlers(-1, e);
                     };
-                }.call(r.prototype));
-                t.KeyBinding = r;
+                }.call(s.prototype));
+                t.KeyBinding = s;
             });
             ace.define("ace/lib/bidiutil", [
                 "require",
@@ -3715,13 +3715,13 @@
                     "\u0621",
                     "\u0641"
                 ];
-                var s = [
+                var r = [
                     "\u063A",
                     "\u064a"
                 ];
-                var r = 0, o = 0;
-                var a = false, l = false, h = false, c = false, u = false, f = false;
-                var d = [
+                var s = 0, o = 0;
+                var a = false, l = false, h = false, c = false, u = false, d = false;
+                var f = [
                     [
                         0,
                         3,
@@ -3815,372 +3815,372 @@
                         1
                     ], 
                 ];
-                var v = 0, m = 1;
+                var m = 0, v = 1;
                 var p = 0;
                 var w = 1;
                 var $ = 2;
-                var C = 3;
-                var y = 4;
-                var S = 5;
-                var _ = 6;
-                var L = 7;
-                var R = 8;
+                var b = 3;
+                var C = 4;
+                var y = 5;
+                var S = 6;
+                var _ = 7;
+                var x = 8;
                 var k = 9;
-                var b = 10;
-                var x = 11;
-                var T = 12;
+                var A = 10;
+                var L = 11;
+                var R = 12;
                 var E = 13;
-                var M = 14;
-                var A = 15;
-                var I = 16;
-                var W = 17;
-                var F = 18;
-                var O = [
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    _,
+                var T = 14;
+                var M = 15;
+                var F = 16;
+                var O = 17;
+                var W = 18;
+                var I = [
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
                     S,
-                    _,
-                    R,
+                    y,
                     S,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
+                    x,
+                    y,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    y,
+                    y,
+                    y,
                     S,
-                    S,
-                    S,
-                    _,
-                    R,
-                    y,
-                    y,
                     x,
-                    x,
-                    x,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    b,
-                    k,
-                    b,
-                    k,
-                    k,
-                    $,
-                    $,
-                    $,
-                    $,
-                    $,
-                    $,
-                    $,
-                    $,
-                    $,
-                    $,
-                    k,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    p,
-                    y,
-                    y,
-                    y,
-                    y,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    S,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    F,
-                    k,
-                    y,
-                    x,
-                    x,
-                    x,
-                    x,
-                    y,
-                    y,
-                    y,
-                    y,
-                    p,
-                    y,
-                    y,
-                    F,
-                    y,
-                    y,
-                    x,
-                    x,
-                    $,
-                    $,
-                    y,
-                    p,
-                    y,
-                    y,
-                    y,
-                    $,
-                    p,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y, 
-                ];
-                var H = [
-                    R,
-                    R,
-                    R,
-                    R,
-                    R,
-                    R,
-                    R,
-                    R,
-                    R,
-                    R,
-                    R,
-                    F,
-                    F,
-                    F,
-                    p,
-                    w,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    R,
-                    S,
-                    E,
-                    M,
+                    C,
+                    C,
+                    L,
+                    L,
+                    L,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
                     A,
-                    I,
+                    k,
+                    A,
+                    k,
+                    k,
+                    $,
+                    $,
+                    $,
+                    $,
+                    $,
+                    $,
+                    $,
+                    $,
+                    $,
+                    $,
+                    k,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    p,
+                    C,
+                    C,
+                    C,
+                    C,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    y,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
+                    W,
                     W,
                     k,
+                    C,
+                    L,
+                    L,
+                    L,
+                    L,
+                    C,
+                    C,
+                    C,
+                    C,
+                    p,
+                    C,
+                    C,
+                    W,
+                    C,
+                    C,
+                    L,
+                    L,
+                    $,
+                    $,
+                    C,
+                    p,
+                    C,
+                    C,
+                    C,
+                    $,
+                    p,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C, 
+                ];
+                var B = [
                     x,
                     x,
                     x,
                     x,
                     x,
+                    x,
+                    x,
+                    x,
+                    x,
+                    x,
+                    x,
+                    W,
+                    W,
+                    W,
+                    p,
+                    w,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    x,
                     y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
+                    E,
+                    T,
+                    M,
+                    F,
+                    O,
                     k,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    y,
-                    R, 
+                    L,
+                    L,
+                    L,
+                    L,
+                    L,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    k,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    C,
+                    x, 
                 ];
                 function D(e, t, i, n) {
-                    var s = r ? g : d, u = null, f = null, v = null, m = 0, p = null, w = null, $ = -1, C = null, y = null, L = [];
+                    var r = s ? g : f, u = null, d = null, m = null, v = 0, p = null, w = null, $ = -1, b = null, C = null, _ = [];
                     if (!n) {
-                        for(C = 0, n = []; C < i; C++){
-                            n[C] = N(e[C]);
+                        for(b = 0, n = []; b < i; b++){
+                            n[b] = N(e[b]);
                         }
                     }
-                    o = r;
+                    o = s;
                     a = false;
                     l = false;
                     h = false;
                     c = false;
-                    for(y = 0; y < i; y++){
-                        u = m;
-                        L[y] = f = B(e, n, L, y);
-                        m = s[u][f];
-                        p = m & 0xf0;
-                        m &= 0x0f;
-                        t[y] = v = s[m][5];
+                    for(C = 0; C < i; C++){
+                        u = v;
+                        _[C] = d = P(e, n, _, C);
+                        v = r[u][d];
+                        p = v & 0xf0;
+                        v &= 0x0f;
+                        t[C] = m = r[v][5];
                         if (p > 0) {
                             if (p == 0x10) {
-                                for(C = $; C < y; C++){
-                                    t[C] = 1;
+                                for(b = $; b < C; b++){
+                                    t[b] = 1;
                                 }
                                 $ = -1;
                             } else {
                                 $ = -1;
                             }
                         }
-                        w = s[m][6];
+                        w = r[v][6];
                         if (w) {
                             if ($ == -1) {
-                                $ = y;
+                                $ = C;
                             }
                         } else {
                             if ($ > -1) {
-                                for(C = $; C < y; C++){
-                                    t[C] = v;
+                                for(b = $; b < C; b++){
+                                    t[b] = m;
                                 }
                                 $ = -1;
                             }
                         }
-                        if (n[y] == S) {
-                            t[y] = 0;
+                        if (n[C] == y) {
+                            t[C] = 0;
                         }
-                        o |= v;
+                        o |= m;
                     }
                     if (c) {
-                        for(C = 0; C < i; C++){
-                            if (n[C] == _) {
-                                t[C] = r;
-                                for(var k = C - 1; k >= 0; k--){
-                                    if (n[k] == R) {
-                                        t[k] = r;
+                        for(b = 0; b < i; b++){
+                            if (n[b] == S) {
+                                t[b] = s;
+                                for(var k = b - 1; k >= 0; k--){
+                                    if (n[k] == x) {
+                                        t[k] = s;
                                     } else {
                                         break;
                                     }
@@ -4189,132 +4189,132 @@
                         }
                     }
                 }
-                function P(e, t, i) {
+                function H(e, t, i) {
                     if (o < e) {
                         return;
                     }
-                    if (e == 1 && r == m && !h) {
+                    if (e == 1 && s == v && !h) {
                         i.reverse();
                         return;
                     }
-                    var n = i.length, s = 0, a, l, c, u;
-                    while(s < n){
-                        if (t[s] >= e) {
-                            a = s + 1;
+                    var n = i.length, r = 0, a, l, c, u;
+                    while(r < n){
+                        if (t[r] >= e) {
+                            a = r + 1;
                             while(a < n && t[a] >= e){
                                 a++;
                             }
-                            for(l = s, c = a - 1; l < c; l++, c--){
+                            for(l = r, c = a - 1; l < c; l++, c--){
                                 u = i[l];
                                 i[l] = i[c];
                                 i[c] = u;
                             }
-                            s = a;
+                            r = a;
                         }
-                        s++;
+                        r++;
                     }
                 }
-                function B(e, t, i, n) {
-                    var s = t[n], o, u, f, d;
-                    switch(s){
+                function P(e, t, i, n) {
+                    var r = t[n], o, u, d, f;
+                    switch(r){
                         case p:
                         case w:
                             a = false;
-                        case y:
                         case C:
-                            return s;
+                        case b:
+                            return r;
                         case $:
-                            return a ? C : $;
-                        case L:
+                            return a ? b : $;
+                        case _:
                             a = true;
                             l = true;
                             return w;
-                        case R:
-                            return y;
+                        case x:
+                            return C;
                         case k:
-                            if (n < 1 || n + 1 >= t.length || ((o = i[n - 1]) != $ && o != C) || ((u = t[n + 1]) != $ && u != C)) {
-                                return y;
+                            if (n < 1 || n + 1 >= t.length || ((o = i[n - 1]) != $ && o != b) || ((u = t[n + 1]) != $ && u != b)) {
+                                return C;
                             }
                             if (a) {
-                                u = C;
+                                u = b;
                             }
-                            return u == o ? u : y;
-                        case b:
-                            o = n > 0 ? i[n - 1] : S;
+                            return u == o ? u : C;
+                        case A:
+                            o = n > 0 ? i[n - 1] : y;
                             if (o == $ && n + 1 < t.length && t[n + 1] == $) {
                                 return $;
                             }
-                            return y;
-                        case x:
+                            return C;
+                        case L:
                             if (n > 0 && i[n - 1] == $) {
                                 return $;
                             }
                             if (a) {
-                                return y;
+                                return C;
                             }
-                            d = n + 1;
-                            f = t.length;
-                            while(d < f && t[d] == x){
-                                d++;
+                            f = n + 1;
+                            d = t.length;
+                            while(f < d && t[f] == L){
+                                f++;
                             }
-                            if (d < f && t[d] == $) {
+                            if (f < d && t[f] == $) {
                                 return $;
                             }
-                            return y;
-                        case T:
-                            f = t.length;
-                            d = n + 1;
-                            while(d < f && t[d] == T){
-                                d++;
+                            return C;
+                        case R:
+                            d = t.length;
+                            f = n + 1;
+                            while(f < d && t[f] == R){
+                                f++;
                             }
-                            if (d < f) {
-                                var g = e[n], v = (g >= 0x0591 && g <= 0x08ff) || g == 0xfb1e;
-                                o = t[d];
-                                if (v && (o == w || o == L)) {
+                            if (f < d) {
+                                var g = e[n], m = (g >= 0x0591 && g <= 0x08ff) || g == 0xfb1e;
+                                o = t[f];
+                                if (m && (o == w || o == _)) {
                                     return w;
                                 }
                             }
-                            if (n < 1 || (o = t[n - 1]) == S) {
-                                return y;
+                            if (n < 1 || (o = t[n - 1]) == y) {
+                                return C;
                             }
                             return i[n - 1];
-                        case S:
+                        case y:
                             a = false;
                             h = true;
-                            return r;
-                        case _:
+                            return s;
+                        case S:
                             c = true;
-                            return y;
+                            return C;
                         case E:
-                        case M:
-                        case I:
-                        case W:
-                        case A:
-                            a = false;
+                        case T:
                         case F:
-                            return y;
+                        case O:
+                        case M:
+                            a = false;
+                        case W:
+                            return C;
                     }
                 }
                 function N(e) {
                     var t = e.charCodeAt(0), i = t >> 8;
                     if (i == 0) {
-                        return t > 0x00bf ? p : O[t];
+                        return t > 0x00bf ? p : I[t];
                     } else if (i == 5) {
                         return /[\u0591-\u05f4]/.test(e) ? w : p;
                     } else if (i == 6) {
-                        if (/[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(e)) return T;
-                        else if (/[\u0660-\u0669\u066b-\u066c]/.test(e)) return C;
-                        else if (t == 0x066a) return x;
+                        if (/[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(e)) return R;
+                        else if (/[\u0660-\u0669\u066b-\u066c]/.test(e)) return b;
+                        else if (t == 0x066a) return L;
                         else if (/[\u06f0-\u06f9]/.test(e)) return $;
-                        else return L;
+                        else return _;
                     } else if (i == 0x20 && t <= 0x205f) {
-                        return H[t & 0xff];
+                        return B[t & 0xff];
                     } else if (i == 0xfe) {
-                        return t >= 0xfe70 ? L : y;
+                        return t >= 0xfe70 ? _ : C;
                     }
-                    return y;
+                    return C;
                 }
-                function V(e) {
+                function z(e) {
                     return e >= "\u064b" && e <= "\u0655";
                 }
                 t.L = p;
@@ -4328,24 +4328,24 @@
                 t.DOT = "\xB7";
                 t.doBidiReorder = function(e, i, n) {
                     if (e.length < 2) return {};
-                    var s = e.split(""), o = new Array(s.length), a = new Array(s.length), l = [];
-                    r = n ? m : v;
-                    D(s, l, s.length, i);
+                    var r = e.split(""), o = new Array(r.length), a = new Array(r.length), l = [];
+                    s = n ? v : m;
+                    D(r, l, r.length, i);
                     for(var h = 0; h < o.length; o[h] = h, h++);
-                    P(2, l, o);
-                    P(1, l, o);
+                    H(2, l, o);
+                    H(1, l, o);
                     for(var h = 0; h < o.length - 1; h++){
-                        if (i[h] === C) {
+                        if (i[h] === b) {
                             l[h] = t.AN;
-                        } else if (l[h] === w && ((i[h] > L && i[h] < E) || i[h] === y || i[h] === F)) {
+                        } else if (l[h] === w && ((i[h] > _ && i[h] < E) || i[h] === C || i[h] === W)) {
                             l[h] = t.ON_R;
-                        } else if (h > 0 && s[h - 1] === "\u0644" && /\u0622|\u0623|\u0625|\u0627/.test(s[h])) {
+                        } else if (h > 0 && r[h - 1] === "\u0644" && /\u0622|\u0623|\u0625|\u0627/.test(r[h])) {
                             l[h - 1] = l[h] = t.R_H;
                             h++;
                         }
                     }
-                    if (s[s.length - 1] === t.DOT) l[s.length - 1] = t.B;
-                    if (s[0] === "\u202B") l[0] = t.RLE;
+                    if (r[r.length - 1] === t.DOT) l[r.length - 1] = t.B;
+                    if (r[0] === "\u202B") l[0] = t.RLE;
                     for(var h = 0; h < o.length; h++){
                         a[h] = l[o[h]];
                     }
@@ -4358,7 +4358,7 @@
                     var i = false;
                     for(var n = 0; n < e.length; n++){
                         t[n] = N(e.charAt(n));
-                        if (!i && (t[n] == w || t[n] == L || t[n] == C)) i = true;
+                        if (!i && (t[n] == w || t[n] == _ || t[n] == b)) i = true;
                     }
                     return i;
                 };
@@ -4378,8 +4378,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/bidiutil");
-                var s = e("./lib/lang");
-                var r = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac\u202B]/;
+                var r = e("./lib/lang");
+                var s = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac\u202B]/;
                 var o = function(e) {
                     this.session = e;
                     this.bidiMap = {};
@@ -4399,7 +4399,7 @@
                     this.rtlLineOffset = 0;
                     this.wrapOffset = 0;
                     this.isMoveLeftOperation = false;
-                    this.seenBidi = r.test(e.getValue());
+                    this.seenBidi = s.test(e.getValue());
                 };
                 (function() {
                     this.isBidiRow = function(e, t, i) {
@@ -4413,7 +4413,7 @@
                     };
                     this.onChange = function(e) {
                         if (!this.seenBidi) {
-                            if (e.action == "insert" && r.test(e.lines.join("\n"))) {
+                            if (e.action == "insert" && s.test(e.lines.join("\n"))) {
                                 this.seenBidi = true;
                                 this.currentRow = null;
                             }
@@ -4448,7 +4448,7 @@
                     };
                     this.updateRowLine = function(e, t) {
                         if (e === undefined) e = this.getDocumentRow();
-                        var i = e === this.session.getLength() - 1, r = i ? this.EOF : this.EOL;
+                        var i = e === this.session.getLength() - 1, s = i ? this.EOF : this.EOL;
                         this.wrapIndent = 0;
                         this.line = this.session.getLine(e);
                         this.isRtlDir = this.$isRtl || this.line.charAt(0) === this.RLE;
@@ -4464,16 +4464,16 @@
                                     this.line = this.line.substring(0, o[t]);
                                 }
                             }
-                            if (t == o.length) this.line += this.showInvisibles ? r : n.DOT;
+                            if (t == o.length) this.line += this.showInvisibles ? s : n.DOT;
                         } else {
-                            this.line += this.showInvisibles ? r : n.DOT;
+                            this.line += this.showInvisibles ? s : n.DOT;
                         }
                         var a = this.session, l = 0, h;
                         this.line = this.line.replace(/\t|[\u1100-\u2029, \u202F-\uFFE6]/g, function(e, t) {
                             if (e === "\t" || a.isFullWidth(e.charCodeAt(0))) {
                                 h = e === "\t" ? a.getScreenTabSize(t + l) : 2;
                                 l += h - 1;
-                                return s.stringRepeat(n.DOT, h);
+                                return r.stringRepeat(n.DOT, h);
                             }
                             return e;
                         });
@@ -4533,68 +4533,68 @@
                         e -= this.wrapIndent;
                         var t = this.line.charAt(0) === this.RLE ? 1 : 0;
                         var i = e > t ? this.session.getOverwrite() ? e : e - 1 : t;
-                        var s = n.getVisualFromLogicalIdx(i, this.bidiMap), r = this.bidiMap.bidiLevels, o = 0;
-                        if (!this.session.getOverwrite() && e <= t && r[s] % 2 !== 0) s++;
-                        for(var a = 0; a < s; a++){
-                            o += this.charWidths[r[a]];
+                        var r = n.getVisualFromLogicalIdx(i, this.bidiMap), s = this.bidiMap.bidiLevels, o = 0;
+                        if (!this.session.getOverwrite() && e <= t && s[r] % 2 !== 0) r++;
+                        for(var a = 0; a < r; a++){
+                            o += this.charWidths[s[a]];
                         }
-                        if (!this.session.getOverwrite() && e > t && r[s] % 2 === 0) o += this.charWidths[r[s]];
+                        if (!this.session.getOverwrite() && e > t && s[r] % 2 === 0) o += this.charWidths[s[r]];
                         if (this.wrapIndent) o += this.isRtlDir ? -1 * this.wrapOffset : this.wrapOffset;
                         if (this.isRtlDir) o += this.rtlLineOffset;
                         return o;
                     };
                     this.getSelections = function(e, t) {
-                        var i = this.bidiMap, n = i.bidiLevels, s, r = [], o = 0, a = Math.min(e, t) - this.wrapIndent, l = Math.max(e, t) - this.wrapIndent, h = false, c = false, u = 0;
+                        var i = this.bidiMap, n = i.bidiLevels, r, s = [], o = 0, a = Math.min(e, t) - this.wrapIndent, l = Math.max(e, t) - this.wrapIndent, h = false, c = false, u = 0;
                         if (this.wrapIndent) o += this.isRtlDir ? -1 * this.wrapOffset : this.wrapOffset;
-                        for(var f, d = 0; d < n.length; d++){
-                            f = i.logicalFromVisual[d];
-                            s = n[d];
-                            h = f >= a && f < l;
+                        for(var d, f = 0; f < n.length; f++){
+                            d = i.logicalFromVisual[f];
+                            r = n[f];
+                            h = d >= a && d < l;
                             if (h && !c) {
                                 u = o;
                             } else if (!h && c) {
-                                r.push({
+                                s.push({
                                     left: u,
                                     width: o - u
                                 });
                             }
-                            o += this.charWidths[s];
+                            o += this.charWidths[r];
                             c = h;
                         }
-                        if (h && d === n.length) {
-                            r.push({
+                        if (h && f === n.length) {
+                            s.push({
                                 left: u,
                                 width: o - u
                             });
                         }
                         if (this.isRtlDir) {
-                            for(var g = 0; g < r.length; g++){
-                                r[g].left += this.rtlLineOffset;
+                            for(var g = 0; g < s.length; g++){
+                                s[g].left += this.rtlLineOffset;
                             }
                         }
-                        return r;
+                        return s;
                     };
                     this.offsetToCol = function(e) {
                         if (this.isRtlDir) e -= this.rtlLineOffset;
-                        var t = 0, e = Math.max(e, 0), i = 0, n = 0, s = this.bidiMap.bidiLevels, r = this.charWidths[s[n]];
+                        var t = 0, e = Math.max(e, 0), i = 0, n = 0, r = this.bidiMap.bidiLevels, s = this.charWidths[r[n]];
                         if (this.wrapIndent) e -= this.isRtlDir ? -1 * this.wrapOffset : this.wrapOffset;
-                        while(e > i + r / 2){
-                            i += r;
-                            if (n === s.length - 1) {
-                                r = 0;
+                        while(e > i + s / 2){
+                            i += s;
+                            if (n === r.length - 1) {
+                                s = 0;
                                 break;
                             }
-                            r = this.charWidths[s[++n]];
+                            s = this.charWidths[r[++n]];
                         }
-                        if (n > 0 && s[n - 1] % 2 !== 0 && s[n] % 2 === 0) {
+                        if (n > 0 && r[n - 1] % 2 !== 0 && r[n] % 2 === 0) {
                             if (e < i) n--;
                             t = this.bidiMap.logicalFromVisual[n];
-                        } else if (n > 0 && s[n - 1] % 2 === 0 && s[n] % 2 !== 0) {
+                        } else if (n > 0 && r[n - 1] % 2 === 0 && r[n] % 2 !== 0) {
                             t = 1 + (e > i ? this.bidiMap.logicalFromVisual[n] : this.bidiMap.logicalFromVisual[n - 1]);
-                        } else if ((this.isRtlDir && n === s.length - 1 && r === 0 && s[n - 1] % 2 === 0) || (!this.isRtlDir && n === 0 && s[n] % 2 !== 0)) {
+                        } else if ((this.isRtlDir && n === r.length - 1 && s === 0 && r[n - 1] % 2 === 0) || (!this.isRtlDir && n === 0 && r[n] % 2 !== 0)) {
                             t = 1 + this.bidiMap.logicalFromVisual[n];
                         } else {
-                            if (n > 0 && s[n - 1] % 2 !== 0 && r !== 0) n--;
+                            if (n > 0 && r[n - 1] % 2 !== 0 && s !== 0) n--;
                             t = this.bidiMap.logicalFromVisual[n];
                         }
                         if (t === 0 && this.isRtlDir) t++;
@@ -4614,8 +4614,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
-                var s = e("./lib/lang");
-                var r = e("./lib/event_emitter").EventEmitter;
+                var r = e("./lib/lang");
+                var s = e("./lib/event_emitter").EventEmitter;
                 var o = e("./range").Range;
                 var a = function(e) {
                     this.session = e;
@@ -4637,7 +4637,7 @@
                     });
                 };
                 (function() {
-                    n.implement(this, r);
+                    n.implement(this, s);
                     this.isEmpty = function() {
                         return (this.$isEmpty || (this.anchor.row == this.lead.row && this.anchor.column == this.lead.column));
                     };
@@ -4685,8 +4685,8 @@
                     };
                     this.$setSelection = function(e, t, i, n) {
                         if (this.$silent) return;
-                        var s = this.$isEmpty;
-                        var r = this.inMultiSelectMode;
+                        var r = this.$isEmpty;
+                        var s = this.inMultiSelectMode;
                         this.$silent = true;
                         this.$cursorChanged = this.$anchorChanged = false;
                         this.anchor.setPosition(e, t);
@@ -4694,7 +4694,7 @@
                         this.$isEmpty = !o.comparePoints(this.anchor, this.cursor);
                         this.$silent = false;
                         if (this.$cursorChanged) this._emit("changeCursor");
-                        if (this.$cursorChanged || this.$anchorChanged || s != this.$isEmpty || r) this._emit("changeSelection");
+                        if (this.$cursorChanged || this.$anchorChanged || r != this.$isEmpty || s) this._emit("changeSelection");
                     };
                     this.$moveSelection = function(e) {
                         var t = this.lead;
@@ -4768,10 +4768,10 @@
                     this.getLineRange = function(e, t) {
                         var i = typeof e == "number" ? e : this.lead.row;
                         var n;
-                        var s = this.session.getFoldLine(i);
-                        if (s) {
-                            i = s.start.row;
-                            n = s.end.row;
+                        var r = this.session.getFoldLine(i);
+                        if (r) {
+                            i = r.start.row;
+                            n = r.end.row;
                         } else {
                             n = i;
                         }
@@ -4789,12 +4789,12 @@
                     };
                     this.wouldMoveIntoSoftTab = function(e, t, i) {
                         var n = e.column;
-                        var s = e.column + t;
+                        var r = e.column + t;
                         if (i < 0) {
                             n = e.column - t;
-                            s = e.column;
+                            r = e.column;
                         }
-                        return (this.session.isTabStop(e) && this.doc.getLine(e.row).slice(n, s).split(" ").length - 1 == t);
+                        return (this.session.isTabStop(e) && this.doc.getLine(e.row).slice(n, r).split(" ").length - 1 == t);
                     };
                     this.moveCursorLeft = function() {
                         var e = this.lead.getPosition(), t;
@@ -4836,9 +4836,9 @@
                         var t = this.lead.column;
                         var i = this.session.documentToScreenRow(e, t);
                         var n = this.session.screenToDocumentPosition(i, 0);
-                        var s = this.session.getDisplayLine(e, null, n.row, n.column);
-                        var r = s.match(/^\s*/);
-                        if (r[0].length != t && !this.session.$useEmacsStyleLineStart) n.column += r[0].length;
+                        var r = this.session.getDisplayLine(e, null, n.row, n.column);
+                        var s = r.match(/^\s*/);
+                        if (s[0].length != t && !this.session.$useEmacsStyleLineStart) n.column += s[0].length;
                         this.moveCursorToPosition(n);
                     };
                     this.moveCursorLineEnd = function() {
@@ -4868,9 +4868,9 @@
                         var n = i.substring(t);
                         this.session.nonTokenRe.lastIndex = 0;
                         this.session.tokenRe.lastIndex = 0;
-                        var s = this.session.getFoldAt(e, t, 1);
-                        if (s) {
-                            this.moveCursorTo(s.end.row, s.end.column);
+                        var r = this.session.getFoldAt(e, t, 1);
+                        if (r) {
+                            this.moveCursorTo(r.end.row, r.end.column);
                             return;
                         }
                         if (this.session.nonTokenRe.exec(n)) {
@@ -4902,12 +4902,12 @@
                         if (n == null) {
                             n = this.doc.getLine(e).substring(0, t);
                         }
-                        var r = s.stringReverse(n);
+                        var s = r.stringReverse(n);
                         this.session.nonTokenRe.lastIndex = 0;
                         this.session.tokenRe.lastIndex = 0;
-                        if (this.session.nonTokenRe.exec(r)) {
+                        if (this.session.nonTokenRe.exec(s)) {
                             t -= this.session.nonTokenRe.lastIndex;
-                            r = r.slice(this.session.nonTokenRe.lastIndex);
+                            s = s.slice(this.session.nonTokenRe.lastIndex);
                             this.session.nonTokenRe.lastIndex = 0;
                         }
                         if (t <= 0) {
@@ -4916,7 +4916,7 @@
                             if (e > 0) this.moveCursorWordLeft();
                             return;
                         }
-                        if (this.session.tokenRe.exec(r)) {
+                        if (this.session.tokenRe.exec(s)) {
                             t -= this.session.tokenRe.lastIndex;
                             this.session.tokenRe.lastIndex = 0;
                         }
@@ -4925,16 +4925,16 @@
                     this.$shortWordEndIndex = function(e) {
                         var t = 0, i;
                         var n = /\s/;
-                        var s = this.session.tokenRe;
-                        s.lastIndex = 0;
+                        var r = this.session.tokenRe;
+                        r.lastIndex = 0;
                         if (this.session.tokenRe.exec(e)) {
                             t = this.session.tokenRe.lastIndex;
                         } else {
                             while((i = e[t]) && n.test(i))t++;
                             if (t < 1) {
-                                s.lastIndex = 0;
-                                while((i = e[t]) && !s.test(i)){
-                                    s.lastIndex = 0;
+                                r.lastIndex = 0;
+                                while((i = e[t]) && !r.test(i)){
+                                    r.lastIndex = 0;
                                     t++;
                                     if (n.test(i)) {
                                         if (t > 2) {
@@ -4948,7 +4948,7 @@
                                 }
                             }
                         }
-                        s.lastIndex = 0;
+                        r.lastIndex = 0;
                         return t;
                     };
                     this.moveCursorShortWordRight = function() {
@@ -4956,14 +4956,14 @@
                         var t = this.lead.column;
                         var i = this.doc.getLine(e);
                         var n = i.substring(t);
-                        var s = this.session.getFoldAt(e, t, 1);
-                        if (s) return this.moveCursorTo(s.end.row, s.end.column);
+                        var r = this.session.getFoldAt(e, t, 1);
+                        if (r) return this.moveCursorTo(r.end.row, r.end.column);
                         if (t == i.length) {
-                            var r = this.doc.getLength();
+                            var s = this.doc.getLength();
                             do {
                                 e++;
                                 n = this.doc.getLine(e);
-                            }while (e < r && /^\s*$/.test(n))
+                            }while (e < s && /^\s*$/.test(n))
                             if (!/^\s+/.test(n)) n = "";
                             t = 0;
                         }
@@ -4984,8 +4984,8 @@
                             t = n.length;
                             if (!/\s+$/.test(n)) n = "";
                         }
-                        var r = s.stringReverse(n);
-                        var o = this.$shortWordEndIndex(r);
+                        var s = r.stringReverse(n);
+                        var o = this.$shortWordEndIndex(s);
                         return this.moveCursorTo(e, t - o);
                     };
                     this.moveCursorWordRight = function() {
@@ -5012,13 +5012,13 @@
                             else this.$desiredColumn = i.column;
                         }
                         if (e != 0 && this.session.lineWidgets && this.session.lineWidgets[this.lead.row]) {
-                            var s = this.session.lineWidgets[this.lead.row];
-                            if (e < 0) e -= s.rowsAbove || 0;
-                            else if (e > 0) e += s.rowCount - (s.rowsAbove || 0);
+                            var r = this.session.lineWidgets[this.lead.row];
+                            if (e < 0) e -= r.rowsAbove || 0;
+                            else if (e > 0) e += r.rowCount - (r.rowsAbove || 0);
                         }
-                        var r = this.session.screenToDocumentPosition(i.row + e, i.column, n);
-                        if (e !== 0 && t === 0 && r.row === this.lead.row && r.column === this.lead.column) {}
-                        this.moveCursorTo(r.row, r.column + t, t === 0);
+                        var s = this.session.screenToDocumentPosition(i.row + e, i.column, n);
+                        if (e !== 0 && t === 0 && s.row === this.lead.row && s.column === this.lead.column) {}
+                        this.moveCursorTo(s.row, s.column + t, t === 0);
                     };
                     this.moveCursorToPosition = function(e) {
                         this.moveCursorTo(e.row, e.column);
@@ -5030,8 +5030,8 @@
                             t = n.start.column;
                         }
                         this.$keepDesiredColumnOnChange = true;
-                        var s = this.session.getLine(e);
-                        if (/[\uDC00-\uDFFF]/.test(s.charAt(t)) && s.charAt(t - 1)) {
+                        var r = this.session.getLine(e);
+                        if (/[\uDC00-\uDFFF]/.test(r.charAt(t)) && r.charAt(t - 1)) {
                             if (this.lead.row == e && this.lead.column == t + 1) t = t - 1;
                             else t = t + 1;
                         }
@@ -5126,23 +5126,23 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./config");
-                var s = 2000;
-                var r = function(e) {
+                var r = 2000;
+                var s = function(e) {
                     this.states = e;
                     this.regExps = {};
                     this.matchMappings = {};
                     for(var t in this.states){
                         var i = this.states[t];
                         var n = [];
-                        var s = 0;
-                        var r = (this.matchMappings[t] = {
+                        var r = 0;
+                        var s = (this.matchMappings[t] = {
                             defaultToken: "text"
                         });
                         var o = "g";
                         var a = [];
                         for(var l = 0; l < i.length; l++){
                             var h = i[l];
-                            if (h.defaultToken) r.defaultToken = h.defaultToken;
+                            if (h.defaultToken) s.defaultToken = h.defaultToken;
                             if (h.caseInsensitive) o = "gi";
                             if (h.regex == null) continue;
                             if (h.regex instanceof RegExp) h.regex = h.regex.toString().slice(1, -1);
@@ -5169,7 +5169,7 @@
                             if (u > 1) {
                                 if (/\\\d/.test(h.regex)) {
                                     c = h.regex.replace(/\\([0-9]+)/g, function(e, t) {
-                                        return ("\\" + (parseInt(t, 10) + s + 1));
+                                        return ("\\" + (parseInt(t, 10) + r + 1));
                                     });
                                 } else {
                                     u = 1;
@@ -5177,13 +5177,13 @@
                                 }
                                 if (!h.splitRegex && typeof h.token != "string") a.push(h);
                             }
-                            r[s] = l;
-                            s += u;
+                            s[r] = l;
+                            r += u;
                             n.push(c);
                             if (!h.onMatch) h.onMatch = null;
                         }
                         if (!n.length) {
-                            r[0] = 0;
+                            s[0] = 0;
                             n.push("$");
                         }
                         a.forEach(function(e) {
@@ -5194,7 +5194,7 @@
                 };
                 (function() {
                     this.$setMaxTokenCount = function(e) {
-                        s = e | 0;
+                        r = e | 0;
                     };
                     this.$applyToken = function(e) {
                         var t = this.splitRegex.exec(e).slice(1);
@@ -5206,10 +5206,10 @@
                             }
                         ];
                         var n = [];
-                        for(var s = 0, r = i.length; s < r; s++){
-                            if (t[s]) n[n.length] = {
-                                type: i[s],
-                                value: t[s]
+                        for(var r = 0, s = i.length; r < s; r++){
+                            if (t[r]) n[n.length] = {
+                                type: i[r],
+                                value: t[r]
                             };
                         }
                         return n;
@@ -5220,10 +5220,10 @@
                         if (!t) return "text";
                         var i = [];
                         var n = this.tokenArray;
-                        for(var s = 0, r = n.length; s < r; s++){
-                            if (t[s + 1]) i[i.length] = {
-                                type: n[s],
-                                value: t[s + 1]
+                        for(var r = 0, s = n.length; r < s; r++){
+                            if (t[r + 1]) i[i.length] = {
+                                type: n[r],
+                                value: t[r + 1]
                             };
                         }
                         return i;
@@ -5238,28 +5238,28 @@
                         if (e.indexOf("(?=") != -1) {
                             var i = 0;
                             var n = false;
-                            var s = {};
-                            e.replace(/(\\.)|(\((?:\?[=!])?)|(\))|([\[\]])/g, function(e, t, r, o, a, l) {
+                            var r = {};
+                            e.replace(/(\\.)|(\((?:\?[=!])?)|(\))|([\[\]])/g, function(e, t, s, o, a, l) {
                                 if (n) {
                                     n = a != "]";
                                 } else if (a) {
                                     n = true;
                                 } else if (o) {
-                                    if (i == s.stack) {
-                                        s.end = l + 1;
-                                        s.stack = -1;
+                                    if (i == r.stack) {
+                                        r.end = l + 1;
+                                        r.stack = -1;
                                     }
                                     i--;
-                                } else if (r) {
+                                } else if (s) {
                                     i++;
-                                    if (r.length != 1) {
-                                        s.stack = i;
-                                        s.start = l;
+                                    if (s.length != 1) {
+                                        r.stack = i;
+                                        r.start = l;
                                     }
                                 }
                                 return e;
                             });
-                            if (s.end != null && /^\)*$/.test(e.substr(s.end))) e = e.substring(0, s.start) + e.substr(s.end);
+                            if (r.end != null && /^\)*$/.test(e.substr(r.end))) e = e.substring(0, r.start) + e.substr(r.end);
                         }
                         if (e.charAt(0) != "^") e = "^" + e;
                         if (e.charAt(e.length - 1) != "$") e += "$";
@@ -5275,10 +5275,10 @@
                             }
                         } else var i = [];
                         var n = t || "start";
-                        var r = this.states[n];
-                        if (!r) {
+                        var s = this.states[n];
+                        if (!s) {
                             n = "start";
-                            r = this.states[n];
+                            s = this.states[n];
                         }
                         var o = this.matchMappings[n];
                         var a = this.regExps[n];
@@ -5286,75 +5286,75 @@
                         var l, h = [];
                         var c = 0;
                         var u = 0;
-                        var f = {
+                        var d = {
                             type: null,
                             value: ""
                         };
                         while((l = a.exec(e))){
-                            var d = o.defaultToken;
+                            var f = o.defaultToken;
                             var g = null;
-                            var v = l[0];
-                            var m = a.lastIndex;
-                            if (m - v.length > c) {
-                                var p = e.substring(c, m - v.length);
-                                if (f.type == d) {
-                                    f.value += p;
+                            var m = l[0];
+                            var v = a.lastIndex;
+                            if (v - m.length > c) {
+                                var p = e.substring(c, v - m.length);
+                                if (d.type == f) {
+                                    d.value += p;
                                 } else {
-                                    if (f.type) h.push(f);
-                                    f = {
-                                        type: d,
+                                    if (d.type) h.push(d);
+                                    d = {
+                                        type: f,
                                         value: p
                                     };
                                 }
                             }
                             for(var w = 0; w < l.length - 2; w++){
                                 if (l[w + 1] === undefined) continue;
-                                g = r[o[w]];
-                                if (g.onMatch) d = g.onMatch(v, n, i, e);
-                                else d = g.token;
+                                g = s[o[w]];
+                                if (g.onMatch) f = g.onMatch(m, n, i, e);
+                                else f = g.token;
                                 if (g.next) {
                                     if (typeof g.next == "string") {
                                         n = g.next;
                                     } else {
                                         n = g.next(n, i);
                                     }
-                                    r = this.states[n];
-                                    if (!r) {
+                                    s = this.states[n];
+                                    if (!s) {
                                         this.reportError("state doesn't exist", n);
                                         n = "start";
-                                        r = this.states[n];
+                                        s = this.states[n];
                                     }
                                     o = this.matchMappings[n];
-                                    c = m;
+                                    c = v;
                                     a = this.regExps[n];
-                                    a.lastIndex = m;
+                                    a.lastIndex = v;
                                 }
-                                if (g.consumeLineEnd) c = m;
+                                if (g.consumeLineEnd) c = v;
                                 break;
                             }
-                            if (v) {
-                                if (typeof d === "string") {
-                                    if ((!g || g.merge !== false) && f.type === d) {
-                                        f.value += v;
+                            if (m) {
+                                if (typeof f === "string") {
+                                    if ((!g || g.merge !== false) && d.type === f) {
+                                        d.value += m;
                                     } else {
-                                        if (f.type) h.push(f);
-                                        f = {
-                                            type: d,
-                                            value: v
+                                        if (d.type) h.push(d);
+                                        d = {
+                                            type: f,
+                                            value: m
                                         };
                                     }
-                                } else if (d) {
-                                    if (f.type) h.push(f);
-                                    f = {
+                                } else if (f) {
+                                    if (d.type) h.push(d);
+                                    d = {
                                         type: null,
                                         value: ""
                                     };
-                                    for(var w = 0; w < d.length; w++)h.push(d[w]);
+                                    for(var w = 0; w < f.length; w++)h.push(f[w]);
                                 }
                             }
                             if (c == e.length) break;
-                            c = m;
-                            if (u++ > s) {
+                            c = v;
+                            if (u++ > r) {
                                 if (u > 2 * e.length) {
                                     this.reportError("infinite loop with in ace tokenizer", {
                                         startState: t,
@@ -5362,8 +5362,8 @@
                                     });
                                 }
                                 while(c < e.length){
-                                    if (f.type) h.push(f);
-                                    f = {
+                                    if (d.type) h.push(d);
+                                    d = {
                                         value: e.substring(c, (c += 500)),
                                         type: "overflow"
                                     };
@@ -5373,7 +5373,7 @@
                                 break;
                             }
                         }
-                        if (f.type) h.push(f);
+                        if (d.type) h.push(d);
                         if (i.length > 1) {
                             if (i[0] !== n) i.unshift("#tmp", n);
                         }
@@ -5383,8 +5383,8 @@
                         };
                     };
                     this.reportError = n.reportError;
-                }.call(r.prototype));
-                t.Tokenizer = r;
+                }.call(s.prototype));
+                t.Tokenizer = s;
             });
             ace.define("ace/mode/text_highlight_rules", [
                 "require",
@@ -5394,7 +5394,7 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/lang");
-                var s = function() {
+                var r = function() {
                     this.$rules = {
                         start: [
                             {
@@ -5415,13 +5415,13 @@
                         }
                         for(var i in e){
                             var n = e[i];
-                            for(var s = 0; s < n.length; s++){
-                                var r = n[s];
-                                if (r.next || r.onMatch) {
-                                    if (typeof r.next == "string") {
-                                        if (r.next.indexOf(t) !== 0) r.next = t + r.next;
+                            for(var r = 0; r < n.length; r++){
+                                var s = n[r];
+                                if (s.next || s.onMatch) {
+                                    if (typeof s.next == "string") {
+                                        if (s.next.indexOf(t) !== 0) s.next = t + s.next;
                                     }
-                                    if (r.nextState && r.nextState.indexOf(t) !== 0) r.nextState = t + r.nextState;
+                                    if (s.nextState && s.nextState.indexOf(t) !== 0) s.nextState = t + s.nextState;
                                 }
                             }
                             this.$rules[t + i] = n;
@@ -5430,18 +5430,18 @@
                     this.getRules = function() {
                         return this.$rules;
                     };
-                    this.embedRules = function(e, t, i, s, r) {
+                    this.embedRules = function(e, t, i, r, s) {
                         var o = typeof e == "function" ? new e().getRules() : e;
-                        if (s) {
-                            for(var a = 0; a < s.length; a++)s[a] = t + s[a];
+                        if (r) {
+                            for(var a = 0; a < r.length; a++)r[a] = t + r[a];
                         } else {
-                            s = [];
-                            for(var l in o)s.push(t + l);
+                            r = [];
+                            for(var l in o)r.push(t + l);
                         }
                         this.addRules(o, t);
                         if (i) {
-                            var h = Array.prototype[r ? "push" : "unshift"];
-                            for(var a = 0; a < s.length; a++)h.apply(this.$rules[s[a]], n.deepCopy(i));
+                            var h = Array.prototype[s ? "push" : "unshift"];
+                            for(var a = 0; a < r.length; a++)h.apply(this.$rules[r[a]], n.deepCopy(i));
                         }
                         if (!this.$embeds) this.$embeds = [];
                         this.$embeds.push(t);
@@ -5460,8 +5460,8 @@
                     this.normalizeRules = function() {
                         var i = 0;
                         var n = this.$rules;
-                        function s(r) {
-                            var o = n[r];
+                        function r(s) {
+                            var o = n[s];
                             o.processed = true;
                             for(var a = 0; a < o.length; a++){
                                 var l = o[a];
@@ -5493,7 +5493,7 @@
                                     }
                                     n[u] = c;
                                     l.next = u;
-                                    s(u);
+                                    r(u);
                                 } else if (c == "pop") {
                                     l.next = t;
                                 }
@@ -5503,20 +5503,20 @@
                                     delete l.push;
                                 }
                                 if (l.rules) {
-                                    for(var f in l.rules){
-                                        if (n[f]) {
-                                            if (n[f].push) n[f].push.apply(n[f], l.rules[f]);
+                                    for(var d in l.rules){
+                                        if (n[d]) {
+                                            if (n[d].push) n[d].push.apply(n[d], l.rules[d]);
                                         } else {
-                                            n[f] = l.rules[f];
+                                            n[d] = l.rules[d];
                                         }
                                     }
                                 }
-                                var d = typeof l == "string" ? l : l.include;
-                                if (d) {
-                                    if (Array.isArray(d)) h = d.map(function(e) {
+                                var f = typeof l == "string" ? l : l.include;
+                                if (f) {
+                                    if (Array.isArray(f)) h = f.map(function(e) {
                                         return n[e];
                                     });
-                                    else h = n[d];
+                                    else h = n[f];
                                 }
                                 if (h) {
                                     var g = [
@@ -5535,33 +5535,33 @@
                                 }
                             }
                         }
-                        Object.keys(n).forEach(s, this);
+                        Object.keys(n).forEach(r, this);
                     };
                     this.createKeywordMapper = function(e, t, i, n) {
-                        var s = Object.create(null);
+                        var r = Object.create(null);
                         this.$keywordList = [];
                         Object.keys(e).forEach(function(t) {
-                            var r = e[t];
-                            var o = r.split(n || "|");
+                            var s = e[t];
+                            var o = s.split(n || "|");
                             for(var a = o.length; a--;){
                                 var l = o[a];
                                 this.$keywordList.push(l);
                                 if (i) l = l.toLowerCase();
-                                s[l] = t;
+                                r[l] = t;
                             }
                         }, this);
                         e = null;
                         return i ? function(e) {
-                            return (s[e.toLowerCase()] || t);
+                            return (r[e.toLowerCase()] || t);
                         } : function(e) {
-                            return s[e] || t;
+                            return r[e] || t;
                         };
                     };
                     this.getKeywords = function() {
                         return this.$keywords;
                     };
-                }.call(s.prototype));
-                t.TextHighlightRules = s;
+                }.call(r.prototype));
+                t.TextHighlightRules = r;
             });
             ace.define("ace/mode/behaviour", [
                 "require",
@@ -5626,7 +5626,7 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./range").Range;
-                var s = function(e, t, i) {
+                var r = function(e, t, i) {
                     this.$session = e;
                     this.$row = t;
                     this.$rowTokens = e.getTokens(t);
@@ -5691,8 +5691,8 @@
                         var t = this.getCurrentTokenColumn();
                         return new n(this.$row, t, this.$row, t + e.value.length);
                     };
-                }.call(s.prototype));
-                t.TokenIterator = s;
+                }.call(r.prototype));
+                t.TokenIterator = r;
             });
             ace.define("ace/mode/behaviour/cstyle", [
                 "require",
@@ -5705,8 +5705,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../../lib/oop");
-                var s = e("../behaviour").Behaviour;
-                var r = e("../../token_iterator").TokenIterator;
+                var r = e("../behaviour").Behaviour;
+                var s = e("../../token_iterator").TokenIterator;
                 var o = e("../../lib/lang");
                 var a = [
                     "text",
@@ -5729,7 +5729,7 @@
                     '"': '"',
                     "'": "'"
                 };
-                var f = function(e) {
+                var d = function(e) {
                     var t = -1;
                     if (e.multiSelect) {
                         t = e.selection.index;
@@ -5748,31 +5748,31 @@
                         maybeInsertedLineEnd: ""
                     };
                 };
-                var d = function(e, t, i, n) {
-                    var s = e.end.row - e.start.row;
+                var f = function(e, t, i, n) {
+                    var r = e.end.row - e.start.row;
                     return {
                         text: i + t + n,
                         selection: [
                             0,
                             e.start.column + 1,
-                            s,
-                            e.end.column + (s ? 0 : 1), 
+                            r,
+                            e.end.column + (r ? 0 : 1), 
                         ]
                     };
                 };
                 var g = function(e) {
-                    this.add("braces", "insertion", function(t, i, n, s, r) {
+                    this.add("braces", "insertion", function(t, i, n, r, s) {
                         var a = n.getCursorPosition();
-                        var l = s.doc.getLine(a.row);
-                        if (r == "{") {
-                            f(n);
+                        var l = r.doc.getLine(a.row);
+                        if (s == "{") {
+                            d(n);
                             var c = n.getSelectionRange();
-                            var u = s.doc.getTextRange(c);
+                            var u = r.doc.getTextRange(c);
                             if (u !== "" && u !== "{" && n.getWrapBehavioursEnabled()) {
-                                return d(c, u, "{", "}");
-                            } else if (g.isSaneInsertion(n, s)) {
+                                return f(c, u, "{", "}");
+                            } else if (g.isSaneInsertion(n, r)) {
                                 if (/[\]\}\)]/.test(l[a.column]) || n.inMultiSelectMode || (e && e.braces)) {
-                                    g.recordAutoInsert(n, s, "}");
+                                    g.recordAutoInsert(n, r, "}");
                                     return {
                                         text: "{}",
                                         selection: [
@@ -5781,7 +5781,7 @@
                                         ]
                                     };
                                 } else {
-                                    g.recordMaybeInsert(n, s, "{");
+                                    g.recordMaybeInsert(n, r, "{");
                                     return {
                                         text: "{",
                                         selection: [
@@ -5791,15 +5791,15 @@
                                     };
                                 }
                             }
-                        } else if (r == "}") {
-                            f(n);
-                            var v = l.substring(a.column, a.column + 1);
-                            if (v == "}") {
-                                var m = s.$findOpeningBracket("}", {
+                        } else if (s == "}") {
+                            d(n);
+                            var m = l.substring(a.column, a.column + 1);
+                            if (m == "}") {
+                                var v = r.$findOpeningBracket("}", {
                                     column: a.column + 1,
                                     row: a.row
                                 });
-                                if (m !== null && g.isAutoInsertedClosing(a, l, r)) {
+                                if (v !== null && g.isAutoInsertedClosing(a, l, s)) {
                                     g.popAutoInsertedClosing();
                                     return {
                                         text: "",
@@ -5810,62 +5810,62 @@
                                     };
                                 }
                             }
-                        } else if (r == "\n" || r == "\r\n") {
-                            f(n);
+                        } else if (s == "\n" || s == "\r\n") {
+                            d(n);
                             var p = "";
                             if (g.isMaybeInsertedClosing(a, l)) {
                                 p = o.stringRepeat("}", h.maybeInsertedBrackets);
                                 g.clearMaybeInsertedClosing();
                             }
-                            var v = l.substring(a.column, a.column + 1);
-                            if (v === "}") {
-                                var w = s.findMatchingBracket({
+                            var m = l.substring(a.column, a.column + 1);
+                            if (m === "}") {
+                                var w = r.findMatchingBracket({
                                     row: a.row,
                                     column: a.column + 1
                                 }, "}");
                                 if (!w) return null;
-                                var $ = this.$getIndent(s.getLine(w.row));
+                                var $ = this.$getIndent(r.getLine(w.row));
                             } else if (p) {
                                 var $ = this.$getIndent(l);
                             } else {
                                 g.clearMaybeInsertedClosing();
                                 return;
                             }
-                            var C = $ + s.getTabString();
+                            var b = $ + r.getTabString();
                             return {
-                                text: "\n" + C + "\n" + $ + p,
+                                text: "\n" + b + "\n" + $ + p,
                                 selection: [
                                     1,
-                                    C.length,
+                                    b.length,
                                     1,
-                                    C.length, 
+                                    b.length, 
                                 ]
                             };
                         } else {
                             g.clearMaybeInsertedClosing();
                         }
                     });
-                    this.add("braces", "deletion", function(e, t, i, n, s) {
-                        var r = n.doc.getTextRange(s);
-                        if (!s.isMultiLine() && r == "{") {
-                            f(i);
-                            var o = n.doc.getLine(s.start.row);
-                            var a = o.substring(s.end.column, s.end.column + 1);
+                    this.add("braces", "deletion", function(e, t, i, n, r) {
+                        var s = n.doc.getTextRange(r);
+                        if (!r.isMultiLine() && s == "{") {
+                            d(i);
+                            var o = n.doc.getLine(r.start.row);
+                            var a = o.substring(r.end.column, r.end.column + 1);
                             if (a == "}") {
-                                s.end.column++;
-                                return s;
+                                r.end.column++;
+                                return r;
                             } else {
                                 h.maybeInsertedBrackets--;
                             }
                         }
                     });
-                    this.add("parens", "insertion", function(e, t, i, n, s) {
-                        if (s == "(") {
-                            f(i);
-                            var r = i.getSelectionRange();
-                            var o = n.doc.getTextRange(r);
+                    this.add("parens", "insertion", function(e, t, i, n, r) {
+                        if (r == "(") {
+                            d(i);
+                            var s = i.getSelectionRange();
+                            var o = n.doc.getTextRange(s);
                             if (o !== "" && i.getWrapBehavioursEnabled()) {
-                                return d(r, o, "(", ")");
+                                return f(s, o, "(", ")");
                             } else if (g.isSaneInsertion(i, n)) {
                                 g.recordAutoInsert(i, n, ")");
                                 return {
@@ -5876,8 +5876,8 @@
                                     ]
                                 };
                             }
-                        } else if (s == ")") {
-                            f(i);
+                        } else if (r == ")") {
+                            d(i);
                             var a = i.getCursorPosition();
                             var l = n.doc.getLine(a.row);
                             var h = l.substring(a.column, a.column + 1);
@@ -5886,7 +5886,7 @@
                                     column: a.column + 1,
                                     row: a.row
                                 });
-                                if (c !== null && g.isAutoInsertedClosing(a, l, s)) {
+                                if (c !== null && g.isAutoInsertedClosing(a, l, r)) {
                                     g.popAutoInsertedClosing();
                                     return {
                                         text: "",
@@ -5899,25 +5899,25 @@
                             }
                         }
                     });
-                    this.add("parens", "deletion", function(e, t, i, n, s) {
-                        var r = n.doc.getTextRange(s);
-                        if (!s.isMultiLine() && r == "(") {
-                            f(i);
-                            var o = n.doc.getLine(s.start.row);
-                            var a = o.substring(s.start.column + 1, s.start.column + 2);
+                    this.add("parens", "deletion", function(e, t, i, n, r) {
+                        var s = n.doc.getTextRange(r);
+                        if (!r.isMultiLine() && s == "(") {
+                            d(i);
+                            var o = n.doc.getLine(r.start.row);
+                            var a = o.substring(r.start.column + 1, r.start.column + 2);
                             if (a == ")") {
-                                s.end.column++;
-                                return s;
+                                r.end.column++;
+                                return r;
                             }
                         }
                     });
-                    this.add("brackets", "insertion", function(e, t, i, n, s) {
-                        if (s == "[") {
-                            f(i);
-                            var r = i.getSelectionRange();
-                            var o = n.doc.getTextRange(r);
+                    this.add("brackets", "insertion", function(e, t, i, n, r) {
+                        if (r == "[") {
+                            d(i);
+                            var s = i.getSelectionRange();
+                            var o = n.doc.getTextRange(s);
                             if (o !== "" && i.getWrapBehavioursEnabled()) {
-                                return d(r, o, "[", "]");
+                                return f(s, o, "[", "]");
                             } else if (g.isSaneInsertion(i, n)) {
                                 g.recordAutoInsert(i, n, "]");
                                 return {
@@ -5928,8 +5928,8 @@
                                     ]
                                 };
                             }
-                        } else if (s == "]") {
-                            f(i);
+                        } else if (r == "]") {
+                            d(i);
                             var a = i.getCursorPosition();
                             var l = n.doc.getLine(a.row);
                             var h = l.substring(a.column, a.column + 1);
@@ -5938,7 +5938,7 @@
                                     column: a.column + 1,
                                     row: a.row
                                 });
-                                if (c !== null && g.isAutoInsertedClosing(a, l, s)) {
+                                if (c !== null && g.isAutoInsertedClosing(a, l, r)) {
                                     g.popAutoInsertedClosing();
                                     return {
                                         text: "",
@@ -5951,58 +5951,58 @@
                             }
                         }
                     });
-                    this.add("brackets", "deletion", function(e, t, i, n, s) {
-                        var r = n.doc.getTextRange(s);
-                        if (!s.isMultiLine() && r == "[") {
-                            f(i);
-                            var o = n.doc.getLine(s.start.row);
-                            var a = o.substring(s.start.column + 1, s.start.column + 2);
+                    this.add("brackets", "deletion", function(e, t, i, n, r) {
+                        var s = n.doc.getTextRange(r);
+                        if (!r.isMultiLine() && s == "[") {
+                            d(i);
+                            var o = n.doc.getLine(r.start.row);
+                            var a = o.substring(r.start.column + 1, r.start.column + 2);
                             if (a == "]") {
-                                s.end.column++;
-                                return s;
+                                r.end.column++;
+                                return r;
                             }
                         }
                     });
-                    this.add("string_dquotes", "insertion", function(e, t, i, n, s) {
-                        var r = n.$mode.$quotes || u;
-                        if (s.length == 1 && r[s]) {
-                            if (this.lineCommentStart && this.lineCommentStart.indexOf(s) != -1) return;
-                            f(i);
-                            var o = s;
+                    this.add("string_dquotes", "insertion", function(e, t, i, n, r) {
+                        var s = n.$mode.$quotes || u;
+                        if (r.length == 1 && s[r]) {
+                            if (this.lineCommentStart && this.lineCommentStart.indexOf(r) != -1) return;
+                            d(i);
+                            var o = r;
                             var a = i.getSelectionRange();
                             var l = n.doc.getTextRange(a);
-                            if (l !== "" && (l.length != 1 || !r[l]) && i.getWrapBehavioursEnabled()) {
-                                return d(a, l, o, o);
+                            if (l !== "" && (l.length != 1 || !s[l]) && i.getWrapBehavioursEnabled()) {
+                                return f(a, l, o, o);
                             } else if (!l) {
                                 var h = i.getCursorPosition();
                                 var c = n.doc.getLine(h.row);
                                 var g = c.substring(h.column - 1, h.column);
-                                var v = c.substring(h.column, h.column + 1);
-                                var m = n.getTokenAt(h.row, h.column);
+                                var m = c.substring(h.column, h.column + 1);
+                                var v = n.getTokenAt(h.row, h.column);
                                 var p = n.getTokenAt(h.row, h.column + 1);
-                                if (g == "\\" && m && /escape/.test(m.type)) return null;
-                                var w = m && /string|escape/.test(m.type);
+                                if (g == "\\" && v && /escape/.test(v.type)) return null;
+                                var w = v && /string|escape/.test(v.type);
                                 var $ = !p || /string|escape/.test(p.type);
-                                var C;
-                                if (v == o) {
-                                    C = w !== $;
-                                    if (C && /string\.end/.test(p.type)) C = false;
+                                var b;
+                                if (m == o) {
+                                    b = w !== $;
+                                    if (b && /string\.end/.test(p.type)) b = false;
                                 } else {
                                     if (w && !$) return null;
                                     if (w && $) return null;
-                                    var y = n.$mode.tokenRe;
-                                    y.lastIndex = 0;
-                                    var S = y.test(g);
-                                    y.lastIndex = 0;
-                                    var _ = y.test(g);
-                                    if (S || _) return null;
-                                    if (v && !/[\s;,.})\]\\]/.test(v)) return null;
-                                    var L = c[h.column - 2];
-                                    if (g == o && (L == o || y.test(L))) return null;
-                                    C = true;
+                                    var C = n.$mode.tokenRe;
+                                    C.lastIndex = 0;
+                                    var y = C.test(g);
+                                    C.lastIndex = 0;
+                                    var S = C.test(g);
+                                    if (y || S) return null;
+                                    if (m && !/[\s;,.})\]\\]/.test(m)) return null;
+                                    var _ = c[h.column - 2];
+                                    if (g == o && (_ == o || C.test(_))) return null;
+                                    b = true;
                                 }
                                 return {
-                                    text: C ? o + o : "",
+                                    text: b ? o + o : "",
                                     selection: [
                                         1,
                                         1
@@ -6011,27 +6011,27 @@
                             }
                         }
                     });
-                    this.add("string_dquotes", "deletion", function(e, t, i, n, s) {
-                        var r = n.$mode.$quotes || u;
-                        var o = n.doc.getTextRange(s);
-                        if (!s.isMultiLine() && r.hasOwnProperty(o)) {
-                            f(i);
-                            var a = n.doc.getLine(s.start.row);
-                            var l = a.substring(s.start.column + 1, s.start.column + 2);
+                    this.add("string_dquotes", "deletion", function(e, t, i, n, r) {
+                        var s = n.$mode.$quotes || u;
+                        var o = n.doc.getTextRange(r);
+                        if (!r.isMultiLine() && s.hasOwnProperty(o)) {
+                            d(i);
+                            var a = n.doc.getLine(r.start.row);
+                            var l = a.substring(r.start.column + 1, r.start.column + 2);
                             if (l == o) {
-                                s.end.column++;
-                                return s;
+                                r.end.column++;
+                                return r;
                             }
                         }
                     });
                 };
                 g.isSaneInsertion = function(e, t) {
                     var i = e.getCursorPosition();
-                    var n = new r(t, i.row, i.column);
+                    var n = new s(t, i.row, i.column);
                     if (!this.$matchTokenType(n.getCurrentToken() || "text", a)) {
                         if (/[)}\]]/.test(e.session.getLine(i.row)[i.column])) return true;
-                        var s = new r(t, i.row, i.column + 1);
-                        if (!this.$matchTokenType(s.getCurrentToken() || "text", a)) return false;
+                        var r = new s(t, i.row, i.column + 1);
+                        if (!this.$matchTokenType(r.getCurrentToken() || "text", a)) return false;
                     }
                     n.stepForward();
                     return (n.getCurrentTokenRow() !== i.row || this.$matchTokenType(n.getCurrentToken() || "text", l));
@@ -6041,19 +6041,19 @@
                 };
                 g.recordAutoInsert = function(e, t, i) {
                     var n = e.getCursorPosition();
-                    var s = t.doc.getLine(n.row);
-                    if (!this.isAutoInsertedClosing(n, s, h.autoInsertedLineEnd[0])) h.autoInsertedBrackets = 0;
+                    var r = t.doc.getLine(n.row);
+                    if (!this.isAutoInsertedClosing(n, r, h.autoInsertedLineEnd[0])) h.autoInsertedBrackets = 0;
                     h.autoInsertedRow = n.row;
-                    h.autoInsertedLineEnd = i + s.substr(n.column);
+                    h.autoInsertedLineEnd = i + r.substr(n.column);
                     h.autoInsertedBrackets++;
                 };
                 g.recordMaybeInsert = function(e, t, i) {
                     var n = e.getCursorPosition();
-                    var s = t.doc.getLine(n.row);
-                    if (!this.isMaybeInsertedClosing(n, s)) h.maybeInsertedBrackets = 0;
+                    var r = t.doc.getLine(n.row);
+                    if (!this.isMaybeInsertedClosing(n, r)) h.maybeInsertedBrackets = 0;
                     h.maybeInsertedRow = n.row;
-                    h.maybeInsertedLineStart = s.substr(0, n.column) + i;
-                    h.maybeInsertedLineEnd = s.substr(n.column);
+                    h.maybeInsertedLineStart = r.substr(0, n.column) + i;
+                    h.maybeInsertedLineEnd = r.substr(n.column);
                     h.maybeInsertedBrackets++;
                 };
                 g.isAutoInsertedClosing = function(e, t, i) {
@@ -6072,7 +6072,7 @@
                         h.maybeInsertedRow = -1;
                     }
                 };
-                n.inherits(g, s);
+                n.inherits(g, r);
                 t.CstyleBehaviour = g;
             });
             ace.define("ace/unicode", [
@@ -6931,13 +6931,13 @@
                     3,
                     2, 
                 ];
-                var s = 0;
-                var r = [];
+                var r = 0;
+                var s = [];
                 for(var o = 0; o < n.length; o += 2){
-                    r.push((s += n[o]));
-                    if (n[o + 1]) r.push(45, (s += n[o + 1]));
+                    s.push((r += n[o]));
+                    if (n[o + 1]) s.push(45, (r += n[o + 1]));
                 }
-                t.wordChars = String.fromCharCode.apply(null, r);
+                t.wordChars = String.fromCharCode.apply(null, s);
             });
             ace.define("ace/mode/text", [
                 "require",
@@ -6954,15 +6954,15 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../config");
-                var s = e("../tokenizer").Tokenizer;
-                var r = e("./text_highlight_rules").TextHighlightRules;
+                var r = e("../tokenizer").Tokenizer;
+                var s = e("./text_highlight_rules").TextHighlightRules;
                 var o = e("./behaviour/cstyle").CstyleBehaviour;
                 var a = e("../unicode");
                 var l = e("../lib/lang");
                 var h = e("../token_iterator").TokenIterator;
                 var c = e("../range").Range;
                 var u = function() {
-                    this.HighlightRules = r;
+                    this.HighlightRules = s;
                 };
                 (function() {
                     this.$defaultBehaviour = new o();
@@ -6971,15 +6971,15 @@
                     this.getTokenizer = function() {
                         if (!this.$tokenizer) {
                             this.$highlightRules = this.$highlightRules || new this.HighlightRules(this.$highlightRuleConfig);
-                            this.$tokenizer = new s(this.$highlightRules.getRules());
+                            this.$tokenizer = new r(this.$highlightRules.getRules());
                         }
                         return this.$tokenizer;
                     };
                     this.lineCommentStart = "";
                     this.blockComment = "";
                     this.toggleCommentLines = function(e, t, i, n) {
-                        var s = t.doc;
-                        var r = true;
+                        var r = t.doc;
+                        var s = true;
                         var o = true;
                         var a = Infinity;
                         var h = t.getTabSize();
@@ -6987,66 +6987,66 @@
                         if (!this.lineCommentStart) {
                             if (!this.blockComment) return false;
                             var u = this.blockComment.start;
-                            var f = this.blockComment.end;
-                            var d = new RegExp("^(\\s*)(?:" + l.escapeRegExp(u) + ")");
-                            var g = new RegExp("(?:" + l.escapeRegExp(f) + ")\\s*$");
-                            var v = function(e, t) {
+                            var d = this.blockComment.end;
+                            var f = new RegExp("^(\\s*)(?:" + l.escapeRegExp(u) + ")");
+                            var g = new RegExp("(?:" + l.escapeRegExp(d) + ")\\s*$");
+                            var m = function(e, t) {
                                 if (p(e, t)) return;
-                                if (!r || /\S/.test(e)) {
-                                    s.insertInLine({
+                                if (!s || /\S/.test(e)) {
+                                    r.insertInLine({
                                         row: t,
                                         column: e.length
-                                    }, f);
-                                    s.insertInLine({
+                                    }, d);
+                                    r.insertInLine({
                                         row: t,
                                         column: a
                                     }, u);
                                 }
                             };
-                            var m = function(e, t) {
+                            var v = function(e, t) {
                                 var i;
-                                if ((i = e.match(g))) s.removeInLine(t, e.length - i[0].length, e.length);
-                                if ((i = e.match(d))) s.removeInLine(t, i[1].length, i[0].length);
+                                if ((i = e.match(g))) r.removeInLine(t, e.length - i[0].length, e.length);
+                                if ((i = e.match(f))) r.removeInLine(t, i[1].length, i[0].length);
                             };
                             var p = function(e, i) {
-                                if (d.test(e)) return true;
+                                if (f.test(e)) return true;
                                 var n = t.getTokens(i);
-                                for(var s = 0; s < n.length; s++){
-                                    if (n[s].type === "comment") return true;
+                                for(var r = 0; r < n.length; r++){
+                                    if (n[r].type === "comment") return true;
                                 }
                             };
                         } else {
                             if (Array.isArray(this.lineCommentStart)) {
-                                var d = this.lineCommentStart.map(l.escapeRegExp).join("|");
+                                var f = this.lineCommentStart.map(l.escapeRegExp).join("|");
                                 var u = this.lineCommentStart[0];
                             } else {
-                                var d = l.escapeRegExp(this.lineCommentStart);
+                                var f = l.escapeRegExp(this.lineCommentStart);
                                 var u = this.lineCommentStart;
                             }
-                            d = new RegExp("^(\\s*)(?:" + d + ") ?");
+                            f = new RegExp("^(\\s*)(?:" + f + ") ?");
                             c = t.getUseSoftTabs();
-                            var m = function(e, t) {
-                                var i = e.match(d);
+                            var v = function(e, t) {
+                                var i = e.match(f);
                                 if (!i) return;
-                                var n = i[1].length, r = i[0].length;
-                                if (!$(e, n, r) && i[0][r - 1] == " ") r--;
-                                s.removeInLine(t, n, r);
+                                var n = i[1].length, s = i[0].length;
+                                if (!$(e, n, s) && i[0][s - 1] == " ") s--;
+                                r.removeInLine(t, n, s);
                             };
                             var w = u + " ";
-                            var v = function(e, t) {
-                                if (!r || /\S/.test(e)) {
-                                    if ($(e, a, a)) s.insertInLine({
+                            var m = function(e, t) {
+                                if (!s || /\S/.test(e)) {
+                                    if ($(e, a, a)) r.insertInLine({
                                         row: t,
                                         column: a
                                     }, w);
-                                    else s.insertInLine({
+                                    else r.insertInLine({
                                         row: t,
                                         column: a
                                     }, u);
                                 }
                             };
                             var p = function(e, t) {
-                                return d.test(e);
+                                return f.test(e);
                             };
                             var $ = function(e, t, i) {
                                 var n = 0;
@@ -7058,74 +7058,74 @@
                                 else return n % h == 0;
                             };
                         }
-                        function C(e) {
-                            for(var t = i; t <= n; t++)e(s.getLine(t), t);
+                        function b(e) {
+                            for(var t = i; t <= n; t++)e(r.getLine(t), t);
                         }
-                        var y = Infinity;
-                        C(function(e, t) {
+                        var C = Infinity;
+                        b(function(e, t) {
                             var i = e.search(/\S/);
                             if (i !== -1) {
                                 if (i < a) a = i;
                                 if (o && !p(e, t)) o = false;
-                            } else if (y > e.length) {
-                                y = e.length;
+                            } else if (C > e.length) {
+                                C = e.length;
                             }
                         });
                         if (a == Infinity) {
-                            a = y;
-                            r = false;
+                            a = C;
+                            s = false;
                             o = false;
                         }
                         if (c && a % h != 0) a = Math.floor(a / h) * h;
-                        C(o ? m : v);
+                        b(o ? v : m);
                     };
                     this.toggleBlockComment = function(e, t, i, n) {
-                        var s = this.blockComment;
-                        if (!s) return;
-                        if (!s.start && s[0]) s = s[0];
-                        var r = new h(t, n.row, n.column);
-                        var o = r.getCurrentToken();
+                        var r = this.blockComment;
+                        if (!r) return;
+                        if (!r.start && r[0]) r = r[0];
+                        var s = new h(t, n.row, n.column);
+                        var o = s.getCurrentToken();
                         var a = t.selection;
                         var l = t.selection.toOrientedRange();
-                        var u, f;
+                        var u, d;
                         if (o && /comment/.test(o.type)) {
-                            var d, g;
+                            var f, g;
                             while(o && /comment/.test(o.type)){
-                                var v = o.value.indexOf(s.start);
-                                if (v != -1) {
-                                    var m = r.getCurrentTokenRow();
-                                    var p = r.getCurrentTokenColumn() + v;
-                                    d = new c(m, p, m, p + s.start.length);
+                                var m = o.value.indexOf(r.start);
+                                if (m != -1) {
+                                    var v = s.getCurrentTokenRow();
+                                    var p = s.getCurrentTokenColumn() + m;
+                                    f = new c(v, p, v, p + r.start.length);
                                     break;
                                 }
-                                o = r.stepBackward();
+                                o = s.stepBackward();
                             }
-                            var r = new h(t, n.row, n.column);
-                            var o = r.getCurrentToken();
+                            var s = new h(t, n.row, n.column);
+                            var o = s.getCurrentToken();
                             while(o && /comment/.test(o.type)){
-                                var v = o.value.indexOf(s.end);
-                                if (v != -1) {
-                                    var m = r.getCurrentTokenRow();
-                                    var p = r.getCurrentTokenColumn() + v;
-                                    g = new c(m, p, m, p + s.end.length);
+                                var m = o.value.indexOf(r.end);
+                                if (m != -1) {
+                                    var v = s.getCurrentTokenRow();
+                                    var p = s.getCurrentTokenColumn() + m;
+                                    g = new c(v, p, v, p + r.end.length);
                                     break;
                                 }
-                                o = r.stepForward();
+                                o = s.stepForward();
                             }
                             if (g) t.remove(g);
-                            if (d) {
-                                t.remove(d);
-                                u = d.start.row;
-                                f = -s.start.length;
+                            if (f) {
+                                t.remove(f);
+                                u = f.start.row;
+                                d = -r.start.length;
                             }
                         } else {
-                            f = s.start.length;
+                            d = r.start.length;
                             u = i.start.row;
-                            t.insert(i.end, s.end);
-                            t.insert(i.start, s.start);
+                            t.insert(i.end, r.end);
+                            t.insert(i.start, r.start);
                         }
-                        if (l.start.row == u) l.start.column += f;
-                        if (l.end.row == u) l.end.column += f;
+                        if (l.start.row == u) l.start.column += d;
+                        if (l.end.row == u) l.end.column += d;
                         t.selection.fromOrientedRange(l);
                     };
                     this.getNextLineIndent = function(e, t, i) {
@@ -7147,12 +7147,12 @@
                         for(var t in e){
                             if (e[t]) {
                                 var i = e[t];
-                                var s = i.prototype.$id;
-                                var r = n.$modes[s];
-                                if (!r) n.$modes[s] = r = new i();
-                                if (!n.$modes[t]) n.$modes[t] = r;
+                                var r = i.prototype.$id;
+                                var s = n.$modes[r];
+                                if (!s) n.$modes[r] = s = new i();
+                                if (!n.$modes[t]) n.$modes[t] = s;
                                 this.$embeds.push(t);
-                                this.$modes[t] = r;
+                                this.$modes[t] = s;
                             }
                         }
                         var o = [
@@ -7178,9 +7178,9 @@
                         var n = t[0] || "start";
                         if (typeof n != "string") {
                             if (Array.isArray(n[2])) {
-                                var s = n[2][n[2].length - 1];
-                                var r = this.$modes[s];
-                                if (r) return r[e].apply(r, [
+                                var r = n[2][n[2].length - 1];
+                                var s = this.$modes[r];
+                                if (s) return s[e].apply(s, [
                                     n[1]
                                 ].concat([].slice.call(t, 1)));
                             }
@@ -7191,19 +7191,19 @@
                             var a = n.split(this.$embeds[o]);
                             if (!a[0] && a[1]) {
                                 t[0] = a[1];
-                                var r = this.$modes[this.$embeds[o]];
-                                return r[e].apply(r, t);
+                                var s = this.$modes[this.$embeds[o]];
+                                return s[e].apply(s, t);
                             }
                         }
                         var l = i.apply(this, t);
                         return i ? l : undefined;
                     };
-                    this.transformAction = function(e, t, i, n, s) {
+                    this.transformAction = function(e, t, i, n, r) {
                         if (this.$behaviour) {
-                            var r = this.$behaviour.getBehaviours();
-                            for(var o in r){
-                                if (r[o][t]) {
-                                    var a = r[o][t].apply(this, arguments);
+                            var s = this.$behaviour.getBehaviours();
+                            for(var o in s){
+                                if (s[o][t]) {
+                                    var a = s[o][t].apply(this, arguments);
                                     if (a) {
                                         return a;
                                     }
@@ -7216,14 +7216,14 @@
                             var t = this.$tokenizer.rules;
                             var i = [];
                             for(var n in t){
-                                var s = t[n];
-                                for(var r = 0, o = s.length; r < o; r++){
-                                    if (typeof s[r].token === "string") {
-                                        if (/keyword|support|storage/.test(s[r].token)) i.push(s[r].regex);
-                                    } else if (typeof s[r].token === "object") {
-                                        for(var a = 0, l = s[r].token.length; a < l; a++){
-                                            if (/keyword|support|storage/.test(s[r].token[a])) {
-                                                var n = s[r].regex.match(/\(.+?\)/g)[a];
+                                var r = t[n];
+                                for(var s = 0, o = r.length; s < o; s++){
+                                    if (typeof r[s].token === "string") {
+                                        if (/keyword|support|storage/.test(r[s].token)) i.push(r[s].regex);
+                                    } else if (typeof r[s].token === "object") {
+                                        for(var a = 0, l = r[s].token.length; a < l; a++){
+                                            if (/keyword|support|storage/.test(r[s].token[a])) {
+                                                var n = r[s].regex.match(/\(.+?\)/g)[a];
                                                 i.push(n.substr(1, n.length - 2));
                                             }
                                         }
@@ -7240,8 +7240,8 @@
                         return (this.$keywordList = this.$highlightRules.$keywordList || []);
                     };
                     this.getCompletions = function(e, t, i, n) {
-                        var s = this.$keywordList || this.$createKeywordList();
-                        return s.map(function(e) {
+                        var r = this.$keywordList || this.$createKeywordList();
+                        return r.map(function(e) {
                             return {
                                 name: e,
                                 value: e,
@@ -7264,47 +7264,47 @@
                     console.log("Invalid Delta:", e);
                     throw "Invalid Delta: " + t;
                 }
-                function s(e, t) {
+                function r(e, t) {
                     return (t.row >= 0 && t.row < e.length && t.column >= 0 && t.column <= e[t.row].length);
                 }
-                function r(e, t) {
+                function s(e, t) {
                     if (t.action != "insert" && t.action != "remove") n(t, "delta.action must be 'insert' or 'remove'");
                     if (!(t.lines instanceof Array)) n(t, "delta.lines must be an Array");
                     if (!t.start || !t.end) n(t, "delta.start/end must be an present");
                     var i = t.start;
-                    if (!s(e, t.start)) n(t, "delta.start must be contained in document");
-                    var r = t.end;
-                    if (t.action == "remove" && !s(e, r)) n(t, "delta.end must contained in document for 'remove' actions");
-                    var o = r.row - i.row;
-                    var a = r.column - (o == 0 ? i.column : 0);
+                    if (!r(e, t.start)) n(t, "delta.start must be contained in document");
+                    var s = t.end;
+                    if (t.action == "remove" && !r(e, s)) n(t, "delta.end must contained in document for 'remove' actions");
+                    var o = s.row - i.row;
+                    var a = s.column - (o == 0 ? i.column : 0);
                     if (o != t.lines.length - 1 || t.lines[o].length != a) n(t, "delta.range must match delta lines");
                 }
                 t.applyDelta = function(e, t, i) {
                     var n = t.start.row;
-                    var s = t.start.column;
-                    var r = e[n] || "";
+                    var r = t.start.column;
+                    var s = e[n] || "";
                     switch(t.action){
                         case "insert":
                             var o = t.lines;
                             if (o.length === 1) {
-                                e[n] = r.substring(0, s) + t.lines[0] + r.substring(s);
+                                e[n] = s.substring(0, r) + t.lines[0] + s.substring(r);
                             } else {
                                 var a = [
                                     n,
                                     1
                                 ].concat(t.lines);
                                 e.splice.apply(e, a);
-                                e[n] = r.substring(0, s) + e[n];
-                                e[n + t.lines.length - 1] += r.substring(s);
+                                e[n] = s.substring(0, r) + e[n];
+                                e[n + t.lines.length - 1] += s.substring(r);
                             }
                             break;
                         case "remove":
                             var l = t.end.column;
                             var h = t.end.row;
                             if (n === h) {
-                                e[n] = r.substring(0, s) + r.substring(l);
+                                e[n] = s.substring(0, r) + s.substring(l);
                             } else {
-                                e.splice(n, h - n + 1, r.substring(0, s) + e[h].substring(l));
+                                e.splice(n, h - n + 1, s.substring(0, r) + e[h].substring(l));
                             }
                             break;
                     }
@@ -7319,15 +7319,15 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
-                var s = e("./lib/event_emitter").EventEmitter;
-                var r = (t.Anchor = function(e, t, i) {
+                var r = e("./lib/event_emitter").EventEmitter;
+                var s = (t.Anchor = function(e, t, i) {
                     this.$onChange = this.onChange.bind(this);
                     this.attach(e);
                     if (typeof i == "undefined") this.setPosition(t.row, t.column);
                     else this.setPosition(t, i);
                 });
                 (function() {
-                    n.implement(this, s);
+                    n.implement(this, r);
                     this.getPosition = function() {
                         return this.$clipPositionToDocument(this.row, this.column);
                     };
@@ -7349,11 +7349,11 @@
                         return (e.row < t.row || (e.row == t.row && n));
                     }
                     function t(t, i, n) {
-                        var s = t.action == "insert";
-                        var r = (s ? 1 : -1) * (t.end.row - t.start.row);
-                        var o = (s ? 1 : -1) * (t.end.column - t.start.column);
+                        var r = t.action == "insert";
+                        var s = (r ? 1 : -1) * (t.end.row - t.start.row);
+                        var o = (r ? 1 : -1) * (t.end.column - t.start.column);
                         var a = t.start;
-                        var l = s ? a : t.end;
+                        var l = r ? a : t.end;
                         if (e(i, a, n)) {
                             return {
                                 row: i.row,
@@ -7362,7 +7362,7 @@
                         }
                         if (e(l, i, !n)) {
                             return {
-                                row: i.row + r,
+                                row: i.row + s,
                                 column: i.column + (i.row == l.row ? o : 0)
                             };
                         }
@@ -7382,14 +7382,14 @@
                             n = this.$clipPositionToDocument(e, t);
                         }
                         if (this.row == n.row && this.column == n.column) return;
-                        var s = {
+                        var r = {
                             row: this.row,
                             column: this.column
                         };
                         this.row = n.row;
                         this.column = n.column;
                         this._signal("change", {
-                            old: s,
+                            old: r,
                             value: n
                         });
                     };
@@ -7415,7 +7415,7 @@
                         if (t < 0) i.column = 0;
                         return i;
                     };
-                }.call(r.prototype));
+                }.call(s.prototype));
             });
             ace.define("ace/document", [
                 "require",
@@ -7429,8 +7429,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
-                var s = e("./apply_delta").applyDelta;
-                var r = e("./lib/event_emitter").EventEmitter;
+                var r = e("./apply_delta").applyDelta;
+                var s = e("./lib/event_emitter").EventEmitter;
                 var o = e("./range").Range;
                 var a = e("./anchor").Anchor;
                 var l = function(e) {
@@ -7454,7 +7454,7 @@
                     }
                 };
                 (function() {
-                    n.implement(this, r);
+                    n.implement(this, s);
                     this.setValue = function(e) {
                         var t = this.getLength() - 1;
                         this.remove(new o(0, 0, t, this.getLine(t).length));
@@ -7658,14 +7658,14 @@
                     };
                     this.removeInLine = function(e, t, i) {
                         var n = this.clippedPos(e, t);
-                        var s = this.clippedPos(e, i);
+                        var r = this.clippedPos(e, i);
                         this.applyDelta({
                             start: n,
-                            end: s,
+                            end: r,
                             action: "remove",
                             lines: this.getLinesForRange({
                                 start: n,
-                                end: s
+                                end: r
                             })
                         }, true);
                         return this.clonePos(n);
@@ -7675,11 +7675,11 @@
                         t = Math.min(Math.max(0, t), this.getLength() - 1);
                         var i = t == this.getLength() - 1 && e > 0;
                         var n = t < this.getLength() - 1;
-                        var s = i ? e - 1 : e;
-                        var r = i ? this.getLine(s).length : 0;
+                        var r = i ? e - 1 : e;
+                        var s = i ? this.getLine(r).length : 0;
                         var a = n ? t + 1 : t;
                         var l = n ? 0 : this.getLine(a).length;
-                        var h = new o(s, r, a, l);
+                        var h = new o(r, s, a, l);
                         var c = this.$lines.slice(e, t + 1);
                         this.applyDelta({
                             start: h.start,
@@ -7733,7 +7733,7 @@
                         if (i && e.lines.length > 20000) {
                             this.$splitAndapplyLargeDelta(e, 20000);
                         } else {
-                            s(this.$lines, e, t);
+                            r(this.$lines, e, t);
                             this._signal("change", e);
                         }
                     };
@@ -7746,22 +7746,22 @@
                     this.$splitAndapplyLargeDelta = function(e, t) {
                         var i = e.lines;
                         var n = i.length - t + 1;
-                        var s = e.start.row;
-                        var r = e.start.column;
+                        var r = e.start.row;
+                        var s = e.start.column;
                         for(var o = 0, a = 0; o < n; o = a){
                             a += t - 1;
                             var l = i.slice(o, a);
                             l.push("");
                             this.applyDelta({
-                                start: this.pos(s + o, r),
-                                end: this.pos(s + a, (r = 0)),
+                                start: this.pos(r + o, s),
+                                end: this.pos(r + a, (s = 0)),
                                 action: e.action,
                                 lines: l
                             }, true);
                         }
                         e.lines = i.slice(o);
-                        e.start.row = s + o;
-                        e.start.column = r;
+                        e.start.row = r + o;
+                        e.start.column = s;
                         this.applyDelta(e, true);
                     };
                     this.revertDelta = function(e) {
@@ -7775,25 +7775,25 @@
                     this.indexToPosition = function(e, t) {
                         var i = this.$lines || this.getAllLines();
                         var n = this.getNewLineCharacter().length;
-                        for(var s = t || 0, r = i.length; s < r; s++){
-                            e -= i[s].length + n;
+                        for(var r = t || 0, s = i.length; r < s; r++){
+                            e -= i[r].length + n;
                             if (e < 0) return {
-                                row: s,
-                                column: e + i[s].length + n
+                                row: r,
+                                column: e + i[r].length + n
                             };
                         }
                         return {
-                            row: r - 1,
-                            column: e + i[r - 1].length + n
+                            row: s - 1,
+                            column: e + i[s - 1].length + n
                         };
                     };
                     this.positionToIndex = function(e, t) {
                         var i = this.$lines || this.getAllLines();
                         var n = this.getNewLineCharacter().length;
-                        var s = 0;
-                        var r = Math.min(e.row, i.length);
-                        for(var o = t || 0; o < r; ++o)s += i[o].length + n;
-                        return s + e.column;
+                        var r = 0;
+                        var s = Math.min(e.row, i.length);
+                        for(var o = t || 0; o < s; ++o)r += i[o].length + n;
+                        return r + e.column;
                     };
                 }.call(l.prototype));
                 t.Document = l;
@@ -7807,8 +7807,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
-                var s = e("./lib/event_emitter").EventEmitter;
-                var r = function(e, t) {
+                var r = e("./lib/event_emitter").EventEmitter;
+                var s = function(e, t) {
                     this.running = false;
                     this.lines = [];
                     this.states = [];
@@ -7822,10 +7822,10 @@
                         var e = new Date();
                         var t = i.currentLine;
                         var n = -1;
-                        var s = i.doc;
-                        var r = t;
+                        var r = i.doc;
+                        var s = t;
                         while(i.lines[t])t++;
-                        var o = s.getLength();
+                        var o = r.getLength();
                         var a = 0;
                         i.running = false;
                         while(t < o){
@@ -7842,11 +7842,11 @@
                         }
                         i.currentLine = t;
                         if (n == -1) n = t;
-                        if (r <= n) i.fireUpdateEvent(r, n);
+                        if (s <= n) i.fireUpdateEvent(s, n);
                     };
                 };
                 (function() {
-                    n.implement(this, s);
+                    n.implement(this, r);
                     this.setTokenizer = function(e) {
                         this.tokenizer = e;
                         this.lines = [];
@@ -7919,8 +7919,8 @@
                         }
                         return (this.lines[e] = n.tokens);
                     };
-                }.call(r.prototype));
-                t.BackgroundTokenizer = r;
+                }.call(s.prototype));
+                t.BackgroundTokenizer = s;
             });
             ace.define("ace/search_highlight", [
                 "require",
@@ -7932,8 +7932,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/lang");
-                var s = e("./lib/oop");
-                var r = e("./range").Range;
+                var r = e("./lib/oop");
+                var s = e("./range").Range;
                 var o = function(e, t, i) {
                     this.setRegexp(e);
                     this.clazz = t;
@@ -7946,21 +7946,21 @@
                         this.regExp = e;
                         this.cache = [];
                     };
-                    this.update = function(e, t, i, s) {
+                    this.update = function(e, t, i, r) {
                         if (!this.regExp) return;
-                        var o = s.firstRow, a = s.lastRow;
+                        var o = r.firstRow, a = r.lastRow;
                         for(var l = o; l <= a; l++){
                             var h = this.cache[l];
                             if (h == null) {
                                 h = n.getMatchOffsets(i.getLine(l), this.regExp);
                                 if (h.length > this.MAX_RANGES) h = h.slice(0, this.MAX_RANGES);
                                 h = h.map(function(e) {
-                                    return new r(l, e.offset, l, e.offset + e.length);
+                                    return new s(l, e.offset, l, e.offset + e.length);
                                 });
                                 this.cache[l] = h.length ? h : "";
                             }
                             for(var c = h.length; c--;){
-                                t.drawSingleLineMarker(e, h[c].toScreenRange(i), this.clazz, s);
+                                t.drawSingleLineMarker(e, h[c].toScreenRange(i), this.clazz, r);
                             }
                         }
                     };
@@ -7975,7 +7975,7 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../range").Range;
-                function s(e, t) {
+                function r(e, t) {
                     this.foldData = e;
                     if (Array.isArray(t)) {
                         this.folds = t;
@@ -8034,32 +8034,32 @@
                         return e >= this.start.row && e <= this.end.row;
                     };
                     this.walk = function(e, t, i) {
-                        var n = 0, s = this.folds, r, o, a, l = true;
+                        var n = 0, r = this.folds, s, o, a, l = true;
                         if (t == null) {
                             t = this.end.row;
                             i = this.end.column;
                         }
-                        for(var h = 0; h < s.length; h++){
-                            r = s[h];
-                            o = r.range.compareStart(t, i);
+                        for(var h = 0; h < r.length; h++){
+                            s = r[h];
+                            o = s.range.compareStart(t, i);
                             if (o == -1) {
                                 e(null, t, i, n, l);
                                 return;
                             }
-                            a = e(null, r.start.row, r.start.column, n, l);
-                            a = !a && e(r.placeholder, r.start.row, r.start.column, n);
+                            a = e(null, s.start.row, s.start.column, n, l);
+                            a = !a && e(s.placeholder, s.start.row, s.start.column, n);
                             if (a || o === 0) {
                                 return;
                             }
-                            l = !r.sameRow;
-                            n = r.end.column;
+                            l = !s.sameRow;
+                            n = s.end.column;
                         }
                         e(null, t, i, n, l);
                     };
                     this.getNextFoldTo = function(e, t) {
                         var i, n;
-                        for(var s = 0; s < this.folds.length; s++){
-                            i = this.folds[s];
+                        for(var r = 0; r < this.folds.length; r++){
+                            i = this.folds[r];
                             n = i.range.compareEnd(e, t);
                             if (n == -1) {
                                 return {
@@ -8076,24 +8076,24 @@
                         return null;
                     };
                     this.addRemoveChars = function(e, t, i) {
-                        var n = this.getNextFoldTo(e, t), s, r;
+                        var n = this.getNextFoldTo(e, t), r, s;
                         if (n) {
-                            s = n.fold;
-                            if (n.kind == "inside" && s.start.column != t && s.start.row != e) {
-                                window.console && window.console.log(e, t, s);
-                            } else if (s.start.row == e) {
-                                r = this.folds;
-                                var o = r.indexOf(s);
+                            r = n.fold;
+                            if (n.kind == "inside" && r.start.column != t && r.start.row != e) {
+                                window.console && window.console.log(e, t, r);
+                            } else if (r.start.row == e) {
+                                s = this.folds;
+                                var o = s.indexOf(r);
                                 if (o === 0) {
                                     this.start.column += i;
                                 }
-                                for(o; o < r.length; o++){
-                                    s = r[o];
-                                    s.start.column += i;
-                                    if (!s.sameRow) {
+                                for(o; o < s.length; o++){
+                                    r = s[o];
+                                    r.start.column += i;
+                                    if (!r.sameRow) {
                                         return;
                                     }
-                                    s.end.column += i;
+                                    r.end.column += i;
                                 }
                                 this.end.column += i;
                             }
@@ -8103,14 +8103,14 @@
                         var i = this.getNextFoldTo(e, t);
                         if (!i || i.kind == "inside") return null;
                         var n = i.fold;
-                        var r = this.folds;
+                        var s = this.folds;
                         var o = this.foldData;
-                        var a = r.indexOf(n);
-                        var l = r[a - 1];
+                        var a = s.indexOf(n);
+                        var l = s[a - 1];
                         this.end.row = l.end.row;
                         this.end.column = l.end.column;
-                        r = r.splice(a, r.length - a);
-                        var h = new s(o, r);
+                        s = s.splice(a, s.length - a);
+                        var h = new r(o, s);
                         o.splice(o.indexOf(this) + 1, 0, h);
                         return h;
                     };
@@ -8154,8 +8154,8 @@
                             column: this.end.column + e
                         };
                     };
-                }.call(s.prototype));
-                t.FoldLine = s;
+                }.call(r.prototype));
+                t.FoldLine = r;
             });
             ace.define("ace/range_list", [
                 "require",
@@ -8165,25 +8165,25 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./range").Range;
-                var s = n.comparePoints;
-                var r = function() {
+                var r = n.comparePoints;
+                var s = function() {
                     this.ranges = [];
                     this.$bias = 1;
                 };
                 (function() {
-                    this.comparePoints = s;
+                    this.comparePoints = r;
                     this.pointIndex = function(e, t, i) {
                         var n = this.ranges;
-                        for(var r = i || 0; r < n.length; r++){
-                            var o = n[r];
-                            var a = s(e, o.end);
+                        for(var s = i || 0; s < n.length; s++){
+                            var o = n[s];
+                            var a = r(e, o.end);
                             if (a > 0) continue;
-                            var l = s(e, o.start);
-                            if (a === 0) return t && l !== 0 ? -r - 2 : r;
-                            if (l > 0 || (l === 0 && !t)) return r;
-                            return -r - 1;
+                            var l = r(e, o.start);
+                            if (a === 0) return t && l !== 0 ? -s - 2 : s;
+                            if (l > 0 || (l === 0 && !t)) return s;
+                            return -s - 1;
                         }
-                        return -r - 1;
+                        return -s - 1;
                     };
                     this.add = function(e) {
                         var t = !e.isEmpty();
@@ -8209,23 +8209,23 @@
                         var e = [];
                         var t = this.ranges;
                         t = t.sort(function(e, t) {
-                            return s(e.start, t.start);
+                            return r(e.start, t.start);
                         });
                         var i = t[0], n;
-                        for(var r = 1; r < t.length; r++){
+                        for(var s = 1; s < t.length; s++){
                             n = i;
-                            i = t[r];
-                            var o = s(n.end, i.start);
+                            i = t[s];
+                            var o = r(n.end, i.start);
                             if (o < 0) continue;
                             if (o == 0 && !n.isEmpty() && !i.isEmpty()) continue;
-                            if (s(n.end, i.end) < 0) {
+                            if (r(n.end, i.end) < 0) {
                                 n.end.row = i.end.row;
                                 n.end.column = i.end.column;
                             }
-                            t.splice(r, 1);
+                            t.splice(s, 1);
                             e.push(i);
                             i = n;
-                            r--;
+                            s--;
                         }
                         this.ranges = t;
                         return e;
@@ -8251,16 +8251,16 @@
                             column: 0
                         });
                         if (n < 0) n = -n - 1;
-                        var s = this.pointIndex({
+                        var r = this.pointIndex({
                             row: t,
                             column: 0
                         }, n);
-                        if (s < 0) s = -s - 1;
-                        var r = [];
-                        for(var o = n; o < s; o++){
-                            r.push(i[o]);
+                        if (r < 0) r = -r - 1;
+                        var s = [];
+                        for(var o = n; o < r; o++){
+                            s.push(i[o]);
                         }
-                        return r;
+                        return s;
                     };
                     this.removeAll = function() {
                         return this.ranges.splice(0, this.ranges.length);
@@ -8280,17 +8280,17 @@
                         var t = e.start;
                         var i = e.end;
                         var n = t.row;
-                        var s = i.row;
-                        var r = this.ranges;
-                        for(var o = 0, a = r.length; o < a; o++){
-                            var l = r[o];
+                        var r = i.row;
+                        var s = this.ranges;
+                        for(var o = 0, a = s.length; o < a; o++){
+                            var l = s[o];
                             if (l.end.row >= n) break;
                         }
                         if (e.action == "insert") {
-                            var h = s - n;
+                            var h = r - n;
                             var c = -t.column + i.column;
                             for(; o < a; o++){
-                                var l = r[o];
+                                var l = s[o];
                                 if (l.start.row > n) break;
                                 if (l.start.row == n && l.start.column >= t.column) {
                                     if (l.start.column == t.column && this.$bias <= 0) {} else {
@@ -8303,22 +8303,22 @@
                                         continue;
                                     }
                                     if (l.end.column == t.column && c > 0 && o < a - 1) {
-                                        if (l.end.column > l.start.column && l.end.column == r[o + 1].start.column) l.end.column -= c;
+                                        if (l.end.column > l.start.column && l.end.column == s[o + 1].start.column) l.end.column -= c;
                                     }
                                     l.end.column += c;
                                     l.end.row += h;
                                 }
                             }
                         } else {
-                            var h = n - s;
+                            var h = n - r;
                             var c = t.column - i.column;
                             for(; o < a; o++){
-                                var l = r[o];
-                                if (l.start.row > s) break;
-                                if (l.end.row < s && (n < l.end.row || (n == l.end.row && t.column < l.end.column))) {
+                                var l = s[o];
+                                if (l.start.row > r) break;
+                                if (l.end.row < r && (n < l.end.row || (n == l.end.row && t.column < l.end.column))) {
                                     l.end.row = n;
                                     l.end.column = t.column;
-                                } else if (l.end.row == s) {
+                                } else if (l.end.row == r) {
                                     if (l.end.column <= i.column) {
                                         if (h || l.end.column > t.column) {
                                             l.end.column = t.column;
@@ -8328,13 +8328,13 @@
                                         l.end.column += c;
                                         l.end.row += h;
                                     }
-                                } else if (l.end.row > s) {
+                                } else if (l.end.row > r) {
                                     l.end.row += h;
                                 }
-                                if (l.start.row < s && (n < l.start.row || (n == l.start.row && t.column < l.start.column))) {
+                                if (l.start.row < r && (n < l.start.row || (n == l.start.row && t.column < l.start.column))) {
                                     l.start.row = n;
                                     l.start.column = t.column;
-                                } else if (l.start.row == s) {
+                                } else if (l.start.row == r) {
                                     if (l.start.column <= i.column) {
                                         if (h || l.start.column > t.column) {
                                             l.start.column = t.column;
@@ -8344,21 +8344,21 @@
                                         l.start.column += c;
                                         l.start.row += h;
                                     }
-                                } else if (l.start.row > s) {
+                                } else if (l.start.row > r) {
                                     l.start.row += h;
                                 }
                             }
                         }
                         if (h != 0 && o < a) {
                             for(; o < a; o++){
-                                var l = r[o];
+                                var l = s[o];
                                 l.start.row += h;
                                 l.end.row += h;
                             }
                         }
                     };
-                }.call(r.prototype));
-                t.RangeList = r;
+                }.call(s.prototype));
+                t.RangeList = s;
             });
             ace.define("ace/edit_session/fold", [
                 "require",
@@ -8369,8 +8369,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../range_list").RangeList;
-                var s = e("../lib/oop");
-                var r = (t.Fold = function(e, t) {
+                var r = e("../lib/oop");
+                var s = (t.Fold = function(e, t) {
                     this.foldLine = null;
                     this.placeholder = t;
                     this.range = e;
@@ -8379,7 +8379,7 @@
                     this.sameRow = e.start.row == e.end.row;
                     this.subFolds = this.ranges = [];
                 });
-                s.inherits(r, n);
+                r.inherits(s, n);
                 (function() {
                     this.toString = function() {
                         return ('"' + this.placeholder + '" ' + this.range.toString());
@@ -8392,7 +8392,7 @@
                     };
                     this.clone = function() {
                         var e = this.range.clone();
-                        var t = new r(e, this.placeholder);
+                        var t = new s(e, this.placeholder);
                         this.subFolds.forEach(function(e) {
                             t.subFolds.push(e.clone());
                         });
@@ -8403,24 +8403,24 @@
                         if (this.range.isEqual(e)) return;
                         a(e, this.start);
                         var t = e.start.row, i = e.start.column;
-                        for(var n = 0, s = -1; n < this.subFolds.length; n++){
-                            s = this.subFolds[n].range.compare(t, i);
-                            if (s != 1) break;
+                        for(var n = 0, r = -1; n < this.subFolds.length; n++){
+                            r = this.subFolds[n].range.compare(t, i);
+                            if (r != 1) break;
                         }
-                        var r = this.subFolds[n];
+                        var s = this.subFolds[n];
                         var o = 0;
-                        if (s == 0) {
-                            if (r.range.containsRange(e)) return r.addSubFold(e);
+                        if (r == 0) {
+                            if (s.range.containsRange(e)) return s.addSubFold(e);
                             else o = 1;
                         }
                         var t = e.range.end.row, i = e.range.end.column;
-                        for(var l = n, s = -1; l < this.subFolds.length; l++){
-                            s = this.subFolds[l].range.compare(t, i);
-                            if (s != 1) break;
+                        for(var l = n, r = -1; l < this.subFolds.length; l++){
+                            r = this.subFolds[l].range.compare(t, i);
+                            if (r != 1) break;
                         }
-                        if (s == 0) l++;
+                        if (r == 0) l++;
                         var h = this.subFolds.splice(n, l - n, e);
-                        var c = s == 0 ? h.length - 1 : h.length;
+                        var c = r == 0 ? h.length - 1 : h.length;
                         for(var u = o; u < c; u++){
                             e.addSubFold(h[u]);
                         }
@@ -8430,7 +8430,7 @@
                     this.restoreRange = function(e) {
                         return h(e, this.start);
                     };
-                }.call(r.prototype));
+                }.call(s.prototype));
                 function o(e, t) {
                     e.row -= t.row;
                     if (e.row == 0) e.column -= t.column;
@@ -8459,23 +8459,23 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../range").Range;
-                var s = e("./fold_line").FoldLine;
-                var r = e("./fold").Fold;
+                var r = e("./fold_line").FoldLine;
+                var s = e("./fold").Fold;
                 var o = e("../token_iterator").TokenIterator;
                 function a() {
                     this.getFoldAt = function(e, t, i) {
                         var n = this.getFoldLine(e);
                         if (!n) return null;
-                        var s = n.folds;
-                        for(var r = 0; r < s.length; r++){
-                            var o = s[r].range;
+                        var r = n.folds;
+                        for(var s = 0; s < r.length; s++){
+                            var o = r[s].range;
                             if (o.contains(e, t)) {
                                 if (i == 1 && o.isEnd(e, t) && !o.isEmpty()) {
                                     continue;
                                 } else if (i == -1 && o.isStart(e, t) && !o.isEmpty()) {
                                     continue;
                                 }
-                                return s[r];
+                                return r[s];
                             }
                         }
                     };
@@ -8483,17 +8483,17 @@
                         var t = e.start;
                         var i = e.end;
                         var n = this.$foldData;
-                        var s = [];
+                        var r = [];
                         t.column += 1;
                         i.column -= 1;
-                        for(var r = 0; r < n.length; r++){
-                            var o = n[r].range.compareRange(e);
+                        for(var s = 0; s < n.length; s++){
+                            var o = n[s].range.compareRange(e);
                             if (o == 2) {
                                 continue;
                             } else if (o == -2) {
                                 break;
                             }
-                            var a = n[r].folds;
+                            var a = n[s].folds;
                             for(var l = 0; l < a.length; l++){
                                 var h = a[l];
                                 o = h.range.compareRange(e);
@@ -8504,12 +8504,12 @@
                                 } else if (o == 42) {
                                     break;
                                 }
-                                s.push(h);
+                                r.push(h);
                             }
                         }
                         t.column -= 1;
                         i.column += 1;
-                        return s;
+                        return r;
                     };
                     this.getFoldsInRangeList = function(e) {
                         if (Array.isArray(e)) {
@@ -8531,27 +8531,27 @@
                     this.getFoldStringAt = function(e, t, i, n) {
                         n = n || this.getFoldLine(e);
                         if (!n) return null;
-                        var s = {
+                        var r = {
                             end: {
                                 column: 0
                             }
                         };
-                        var r, o;
+                        var s, o;
                         for(var a = 0; a < n.folds.length; a++){
                             o = n.folds[a];
                             var l = o.range.compareEnd(e, t);
                             if (l == -1) {
-                                r = this.getLine(o.start.row).substring(s.end.column, o.start.column);
+                                s = this.getLine(o.start.row).substring(r.end.column, o.start.column);
                                 break;
                             } else if (l === 0) {
                                 return null;
                             }
-                            s = o;
+                            r = o;
                         }
-                        if (!r) r = this.getLine(o.start.row).substring(s.end.column);
-                        if (i == -1) return r.substring(0, t - s.end.column);
-                        else if (i == 1) return r.substring(t - s.end.column);
-                        else return r;
+                        if (!s) s = this.getLine(o.start.row).substring(r.end.column);
+                        if (i == -1) return s.substring(0, t - r.end.column);
+                        else if (i == 1) return s.substring(t - r.end.column);
+                        else return s;
                     };
                     this.getFoldLine = function(e, t) {
                         var i = this.$foldData;
@@ -8559,10 +8559,10 @@
                         if (t) n = i.indexOf(t);
                         if (n == -1) n = 0;
                         for(n; n < i.length; n++){
-                            var s = i[n];
-                            if (s.start.row <= e && s.end.row >= e) {
-                                return s;
-                            } else if (s.end.row > e) {
+                            var r = i[n];
+                            if (r.start.row <= e && r.end.row >= e) {
+                                return r;
+                            } else if (r.end.row > e) {
                                 return null;
                             }
                         }
@@ -8574,17 +8574,17 @@
                         if (t) n = i.indexOf(t);
                         if (n == -1) n = 0;
                         for(n; n < i.length; n++){
-                            var s = i[n];
-                            if (s.end.row >= e) {
-                                return s;
+                            var r = i[n];
+                            if (r.end.row >= e) {
+                                return r;
                             }
                         }
                         return null;
                     };
                     this.getFoldedRowCount = function(e, t) {
                         var i = this.$foldData, n = t - e + 1;
-                        for(var s = 0; s < i.length; s++){
-                            var r = i[s], o = r.end.row, a = r.start.row;
+                        for(var r = 0; r < i.length; r++){
+                            var s = i[r], o = s.end.row, a = s.start.row;
                             if (o >= t) {
                                 if (a < t) {
                                     if (a >= e) n -= t - a;
@@ -8609,9 +8609,9 @@
                         var i = this.$foldData;
                         var n = false;
                         var o;
-                        if (e instanceof r) o = e;
+                        if (e instanceof s) o = e;
                         else {
-                            o = new r(t, e);
+                            o = new s(t, e);
                             o.collapseChildren = t.collapseChildren;
                         }
                         this.$clipRangeToDocument(o.range);
@@ -8620,43 +8620,43 @@
                         var h = o.end.row;
                         var c = o.end.column;
                         var u = this.getFoldAt(a, l, 1);
-                        var f = this.getFoldAt(h, c, -1);
-                        if (u && f == u) return u.addSubFold(o);
+                        var d = this.getFoldAt(h, c, -1);
+                        if (u && d == u) return u.addSubFold(o);
                         if (u && !u.range.isStart(a, l)) this.removeFold(u);
-                        if (f && !f.range.isEnd(h, c)) this.removeFold(f);
-                        var d = this.getFoldsInRange(o.range);
-                        if (d.length > 0) {
-                            this.removeFolds(d);
+                        if (d && !d.range.isEnd(h, c)) this.removeFold(d);
+                        var f = this.getFoldsInRange(o.range);
+                        if (f.length > 0) {
+                            this.removeFolds(f);
                             if (!o.collapseChildren) {
-                                d.forEach(function(e) {
+                                f.forEach(function(e) {
                                     o.addSubFold(e);
                                 });
                             }
                         }
                         for(var g = 0; g < i.length; g++){
-                            var v = i[g];
-                            if (h == v.start.row) {
-                                v.addFold(o);
+                            var m = i[g];
+                            if (h == m.start.row) {
+                                m.addFold(o);
                                 n = true;
                                 break;
-                            } else if (a == v.end.row) {
-                                v.addFold(o);
+                            } else if (a == m.end.row) {
+                                m.addFold(o);
                                 n = true;
                                 if (!o.sameRow) {
-                                    var m = i[g + 1];
-                                    if (m && m.start.row == h) {
-                                        v.merge(m);
+                                    var v = i[g + 1];
+                                    if (v && v.start.row == h) {
+                                        m.merge(v);
                                         break;
                                     }
                                 }
                                 break;
-                            } else if (h <= v.start.row) {
+                            } else if (h <= m.start.row) {
                                 break;
                             }
                         }
-                        if (!n) v = this.$addFoldLine(new s(this.$foldData, o));
-                        if (this.$useWrapMode) this.$updateWrapData(v.start.row, v.start.row);
-                        else this.$updateRowLengthCache(v.start.row, v.start.row);
+                        if (!n) m = this.$addFoldLine(new r(this.$foldData, o));
+                        if (this.$useWrapMode) this.$updateWrapData(m.start.row, m.start.row);
+                        else this.$updateRowLengthCache(m.start.row, m.start.row);
                         this.$modified = true;
                         this._signal("changeFold", {
                             data: o,
@@ -8673,26 +8673,26 @@
                         var t = e.foldLine;
                         var i = t.start.row;
                         var n = t.end.row;
-                        var s = this.$foldData;
-                        var r = t.folds;
-                        if (r.length == 1) {
-                            s.splice(s.indexOf(t), 1);
+                        var r = this.$foldData;
+                        var s = t.folds;
+                        if (s.length == 1) {
+                            r.splice(r.indexOf(t), 1);
                         } else if (t.range.isEnd(e.end.row, e.end.column)) {
-                            r.pop();
-                            t.end.row = r[r.length - 1].end.row;
-                            t.end.column = r[r.length - 1].end.column;
+                            s.pop();
+                            t.end.row = s[s.length - 1].end.row;
+                            t.end.column = s[s.length - 1].end.column;
                         } else if (t.range.isStart(e.start.row, e.start.column)) {
-                            r.shift();
-                            t.start.row = r[0].start.row;
-                            t.start.column = r[0].start.column;
+                            s.shift();
+                            t.start.row = s[0].start.row;
+                            t.start.column = s[0].start.column;
                         } else if (e.sameRow) {
-                            r.splice(r.indexOf(e), 1);
+                            s.splice(s.indexOf(e), 1);
                         } else {
                             var o = t.split(e.start.row, e.start.column);
-                            r = o.folds;
-                            r.shift();
-                            o.start.row = r[0].start.row;
-                            o.start.column = r[0].start.column;
+                            s = o.folds;
+                            s.shift();
+                            o.start.row = s[0].start.row;
+                            o.start.column = s[0].start.column;
                         }
                         if (!this.$updating) {
                             if (this.$useWrapMode) this.$updateWrapData(i, n);
@@ -8731,7 +8731,7 @@
                         }, this);
                     };
                     this.unfold = function(e, t) {
-                        var i, s;
+                        var i, r;
                         if (e == null) {
                             i = new n(0, 0, this.getLength(), 0);
                             if (t == null) t = true;
@@ -8740,26 +8740,26 @@
                         } else if ("row" in e) {
                             i = n.fromPoints(e, e);
                         } else if (Array.isArray(e)) {
-                            s = [];
+                            r = [];
                             e.forEach(function(e) {
-                                s = s.concat(this.unfold(e));
+                                r = r.concat(this.unfold(e));
                             }, this);
-                            return s;
+                            return r;
                         } else {
                             i = e;
                         }
-                        s = this.getFoldsInRangeList(i);
-                        var r = s;
-                        while(s.length == 1 && n.comparePoints(s[0].start, i.start) < 0 && n.comparePoints(s[0].end, i.end) > 0){
-                            this.expandFolds(s);
-                            s = this.getFoldsInRangeList(i);
+                        r = this.getFoldsInRangeList(i);
+                        var s = r;
+                        while(r.length == 1 && n.comparePoints(r[0].start, i.start) < 0 && n.comparePoints(r[0].end, i.end) > 0){
+                            this.expandFolds(r);
+                            r = this.getFoldsInRangeList(i);
                         }
                         if (t != false) {
-                            this.removeFolds(s);
+                            this.removeFolds(r);
                         } else {
-                            this.expandFolds(s);
+                            this.expandFolds(r);
                         }
-                        if (r.length) return r;
+                        if (s.length) return s;
                     };
                     this.isRowFolded = function(e, t) {
                         return !!this.getFoldLine(e, t);
@@ -8772,35 +8772,35 @@
                         var i = this.getFoldLine(e, t);
                         return i ? i.start.row : e;
                     };
-                    this.getFoldDisplayLine = function(e, t, i, n, s) {
+                    this.getFoldDisplayLine = function(e, t, i, n, r) {
                         if (n == null) n = e.start.row;
-                        if (s == null) s = 0;
+                        if (r == null) r = 0;
                         if (t == null) t = e.end.row;
                         if (i == null) i = this.getLine(t).length;
-                        var r = this.doc;
+                        var s = this.doc;
                         var o = "";
                         e.walk(function(e, t, i, a) {
                             if (t < n) return;
                             if (t == n) {
-                                if (i < s) return;
-                                a = Math.max(s, a);
+                                if (i < r) return;
+                                a = Math.max(r, a);
                             }
                             if (e != null) {
                                 o += e;
                             } else {
-                                o += r.getLine(t).substring(a, i);
+                                o += s.getLine(t).substring(a, i);
                             }
                         }, t, i);
                         return o;
                     };
                     this.getDisplayLine = function(e, t, i, n) {
-                        var s = this.getFoldLine(e);
-                        if (!s) {
-                            var r;
-                            r = this.doc.getLine(e);
-                            return r.substring(n || 0, t || r.length);
+                        var r = this.getFoldLine(e);
+                        if (!r) {
+                            var s;
+                            s = this.doc.getLine(e);
+                            return s.substring(n || 0, t || s.length);
                         } else {
-                            return this.getFoldDisplayLine(s, e, t, i, n);
+                            return this.getFoldDisplayLine(r, e, t, i, n);
                         }
                     };
                     this.$cloneFoldData = function() {
@@ -8809,7 +8809,7 @@
                             var i = t.folds.map(function(e) {
                                 return e.clone();
                             });
-                            return new s(e, i);
+                            return new r(e, i);
                         });
                         return e;
                     };
@@ -8817,30 +8817,30 @@
                         var t = this.selection;
                         var i = t.getRange();
                         var n;
-                        var s;
+                        var r;
                         if (i.isEmpty()) {
-                            var r = i.start;
-                            n = this.getFoldAt(r.row, r.column);
+                            var s = i.start;
+                            n = this.getFoldAt(s.row, s.column);
                             if (n) {
                                 this.expandFold(n);
                                 return;
-                            } else if ((s = this.findMatchingBracket(r))) {
-                                if (i.comparePoint(s) == 1) {
-                                    i.end = s;
+                            } else if ((r = this.findMatchingBracket(s))) {
+                                if (i.comparePoint(r) == 1) {
+                                    i.end = r;
                                 } else {
-                                    i.start = s;
+                                    i.start = r;
                                     i.start.column++;
                                     i.end.column--;
                                 }
-                            } else if ((s = this.findMatchingBracket({
-                                row: r.row,
-                                column: r.column + 1
+                            } else if ((r = this.findMatchingBracket({
+                                row: s.row,
+                                column: s.column + 1
                             }))) {
-                                if (i.comparePoint(s) == 1) i.end = s;
-                                else i.start = s;
+                                if (i.comparePoint(r) == 1) i.end = r;
+                                else i.start = r;
                                 i.start.column++;
                             } else {
-                                i = this.getCommentFoldRange(r.row, r.column) || i;
+                                i = this.getCommentFoldRange(s.row, s.column) || i;
                             }
                         } else {
                             var o = this.getFoldsInRange(i);
@@ -8865,54 +8865,54 @@
                         this.addFold(a, i);
                     };
                     this.getCommentFoldRange = function(e, t, i) {
-                        var s = new o(this, e, t);
-                        var r = s.getCurrentToken();
-                        var a = r && r.type;
-                        if (r && /^comment|string/.test(a)) {
+                        var r = new o(this, e, t);
+                        var s = r.getCurrentToken();
+                        var a = s && s.type;
+                        if (s && /^comment|string/.test(a)) {
                             a = a.match(/comment|string/)[0];
                             if (a == "comment") a += "|doc-start";
                             var l = new RegExp(a);
                             var h = new n();
                             if (i != 1) {
                                 do {
-                                    r = s.stepBackward();
-                                }while (r && l.test(r.type))
-                                s.stepForward();
+                                    s = r.stepBackward();
+                                }while (s && l.test(s.type))
+                                r.stepForward();
                             }
-                            h.start.row = s.getCurrentTokenRow();
-                            h.start.column = s.getCurrentTokenColumn() + 2;
-                            s = new o(this, e, t);
+                            h.start.row = r.getCurrentTokenRow();
+                            h.start.column = r.getCurrentTokenColumn() + 2;
+                            r = new o(this, e, t);
                             if (i != -1) {
                                 var c = -1;
                                 do {
-                                    r = s.stepForward();
+                                    s = r.stepForward();
                                     if (c == -1) {
-                                        var u = this.getState(s.$row);
-                                        if (!l.test(u)) c = s.$row;
-                                    } else if (s.$row > c) {
+                                        var u = this.getState(r.$row);
+                                        if (!l.test(u)) c = r.$row;
+                                    } else if (r.$row > c) {
                                         break;
                                     }
-                                }while (r && l.test(r.type))
-                                r = s.stepBackward();
-                            } else r = s.getCurrentToken();
-                            h.end.row = s.getCurrentTokenRow();
-                            h.end.column = s.getCurrentTokenColumn() + r.value.length - 2;
+                                }while (s && l.test(s.type))
+                                s = r.stepBackward();
+                            } else s = r.getCurrentToken();
+                            h.end.row = r.getCurrentTokenRow();
+                            h.end.column = r.getCurrentTokenColumn() + s.value.length - 2;
                             return h;
                         }
                     };
                     this.foldAll = function(e, t, i, n) {
                         if (i == undefined) i = 100000;
-                        var s = this.foldWidgets;
-                        if (!s) return;
+                        var r = this.foldWidgets;
+                        if (!r) return;
                         t = t || this.getLength();
                         e = e || 0;
-                        for(var r = e; r < t; r++){
-                            if (s[r] == null) s[r] = this.getFoldWidget(r);
-                            if (s[r] != "start") continue;
-                            if (n && !n(r)) continue;
-                            var o = this.getFoldWidgetRange(r);
+                        for(var s = e; s < t; s++){
+                            if (r[s] == null) r[s] = this.getFoldWidget(s);
+                            if (r[s] != "start") continue;
+                            if (n && !n(s)) continue;
+                            var o = this.getFoldWidgetRange(s);
                             if (o && o.isMultiLine() && o.end.row <= t && o.start.row >= e) {
-                                r = o.end.row;
+                                s = o.end.row;
                                 o.collapseChildren = i;
                                 this.addFold("...", o);
                             }
@@ -8927,9 +8927,9 @@
                         this.foldAll(null, null, null, function(t) {
                             var i = e.getTokens(t);
                             for(var n = 0; n < i.length; n++){
-                                var s = i[n];
-                                if (s.type == "text" && /^\s+$/.test(s.value)) continue;
-                                if (/comment/.test(s.type)) return true;
+                                var r = i[n];
+                                if (r.type == "text" && /^\s+$/.test(r.value)) continue;
+                                if (/comment/.test(r.type)) return true;
                                 return false;
                             }
                         });
@@ -8970,20 +8970,20 @@
                     this.getParentFoldRangeData = function(e, t) {
                         var i = this.foldWidgets;
                         if (!i || (t && i[e])) return {};
-                        var n = e - 1, s;
+                        var n = e - 1, r;
                         while(n >= 0){
-                            var r = i[n];
-                            if (r == null) r = i[n] = this.getFoldWidget(n);
-                            if (r == "start") {
+                            var s = i[n];
+                            if (s == null) s = i[n] = this.getFoldWidget(n);
+                            if (s == "start") {
                                 var o = this.getFoldWidgetRange(n);
-                                if (!s) s = o;
+                                if (!r) r = o;
                                 if (o && o.end.row >= e) break;
                             }
                             n--;
                         }
                         return {
                             range: n !== -1 && o,
-                            firstRange: s
+                            firstRange: r
                         };
                     };
                     this.onFoldWidgetClick = function(e, t) {
@@ -8995,27 +8995,27 @@
                         };
                         var n = this.$toggleFoldWidget(e, i);
                         if (!n) {
-                            var s = t.target || t.srcElement;
-                            if (s && /ace_fold-widget/.test(s.className)) s.className += " ace_invalid";
+                            var r = t.target || t.srcElement;
+                            if (r && /ace_fold-widget/.test(r.className)) r.className += " ace_invalid";
                         }
                     };
                     this.$toggleFoldWidget = function(e, t) {
                         if (!this.getFoldWidget) return;
                         var i = this.getFoldWidget(e);
                         var n = this.getLine(e);
-                        var s = i === "end" ? -1 : 1;
-                        var r = this.getFoldAt(e, s === -1 ? 0 : n.length, s);
-                        if (r) {
-                            if (t.children || t.all) this.removeFold(r);
-                            else this.expandFold(r);
-                            return r;
+                        var r = i === "end" ? -1 : 1;
+                        var s = this.getFoldAt(e, r === -1 ? 0 : n.length, r);
+                        if (s) {
+                            if (t.children || t.all) this.removeFold(s);
+                            else this.expandFold(s);
+                            return s;
                         }
                         var o = this.getFoldWidgetRange(e, true);
                         if (o && !o.isMultiLine()) {
-                            r = this.getFoldAt(o.start.row, o.start.column, 1);
-                            if (r && o.isEqual(r.range)) {
-                                this.removeFold(r);
-                                return r;
+                            s = this.getFoldAt(o.start.row, o.start.column, 1);
+                            if (s && o.isEqual(s.range)) {
+                                this.removeFold(s);
+                                return s;
                             }
                         }
                         if (t.siblings) {
@@ -9043,9 +9043,9 @@
                         i = n.range || n.firstRange;
                         if (i) {
                             t = i.start.row;
-                            var s = this.getFoldAt(t, this.getLine(t).length, 1);
-                            if (s) {
-                                this.removeFold(s);
+                            var r = this.getFoldAt(t, this.getLine(t).length, 1);
+                            if (r) {
+                                this.removeFold(r);
                             } else {
                                 this.addFold("...", i);
                             }
@@ -9082,8 +9082,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../token_iterator").TokenIterator;
-                var s = e("../range").Range;
-                function r() {
+                var r = e("../range").Range;
+                function s() {
                     this.findMatchingBracket = function(e, t) {
                         if (e.column == 0) return null;
                         var i = t || this.getLine(e.row).charAt(e.column - 1);
@@ -9096,22 +9096,22 @@
                     this.getBracketRange = function(e) {
                         var t = this.getLine(e.row);
                         var i = true, n;
-                        var r = t.charAt(e.column - 1);
-                        var o = r && r.match(/([\(\[\{])|([\)\]\}])/);
+                        var s = t.charAt(e.column - 1);
+                        var o = s && s.match(/([\(\[\{])|([\)\]\}])/);
                         if (!o) {
-                            r = t.charAt(e.column);
+                            s = t.charAt(e.column);
                             e = {
                                 row: e.row,
                                 column: e.column + 1
                             };
-                            o = r && r.match(/([\(\[\{])|([\)\]\}])/);
+                            o = s && s.match(/([\(\[\{])|([\)\]\}])/);
                             i = false;
                         }
                         if (!o) return null;
                         if (o[1]) {
                             var a = this.$findClosingBracket(o[1], e);
                             if (!a) return null;
-                            n = s.fromPoints(e, a);
+                            n = r.fromPoints(e, a);
                             if (!i) {
                                 n.end.column++;
                                 n.start.column--;
@@ -9120,7 +9120,7 @@
                         } else {
                             var a = this.$findOpeningBracket(o[2], e);
                             if (!a) return null;
-                            n = s.fromPoints(a, e);
+                            n = r.fromPoints(a, e);
                             if (!i) {
                                 n.start.column++;
                                 n.end.column--;
@@ -9142,14 +9142,14 @@
                             n = i && i.match(/([\(\[\{])|([\)\]\}])/);
                         }
                         if (!n) return null;
-                        var r = new s(e.row, e.column - 1, e.row, e.column);
+                        var s = new r(e.row, e.column - 1, e.row, e.column);
                         var o = n[1] ? this.$findClosingBracket(n[1], e) : this.$findOpeningBracket(n[2], e);
                         if (!o) return [
-                            r
+                            s
                         ];
-                        var a = new s(o.row, o.column, o.row, o.column + 1);
+                        var a = new r(o.row, o.column, o.row, o.column + 1);
                         return [
-                            r,
+                            s,
                             a
                         ];
                     };
@@ -9164,8 +9164,8 @@
                         ">": "<"
                     };
                     this.$findOpeningBracket = function(e, t, i) {
-                        var s = this.$brackets[e];
-                        var r = 1;
+                        var r = this.$brackets[e];
+                        var s = 1;
                         var o = new n(this, t.row, t.column);
                         var a = o.getCurrentToken();
                         if (!a) a = o.stepForward();
@@ -9178,16 +9178,16 @@
                         while(true){
                             while(l >= 0){
                                 var c = h.charAt(l);
-                                if (c == s) {
-                                    r -= 1;
-                                    if (r == 0) {
+                                if (c == r) {
+                                    s -= 1;
+                                    if (s == 0) {
                                         return {
                                             row: o.getCurrentTokenRow(),
                                             column: l + o.getCurrentTokenColumn()
                                         };
                                     }
                                 } else if (c == e) {
-                                    r += 1;
+                                    s += 1;
                                 }
                                 l -= 1;
                             }
@@ -9201,8 +9201,8 @@
                         return null;
                     };
                     this.$findClosingBracket = function(e, t, i) {
-                        var s = this.$brackets[e];
-                        var r = 1;
+                        var r = this.$brackets[e];
+                        var s = 1;
                         var o = new n(this, t.row, t.column);
                         var a = o.getCurrentToken();
                         if (!a) a = o.stepForward();
@@ -9216,16 +9216,16 @@
                             var c = h.length;
                             while(l < c){
                                 var u = h.charAt(l);
-                                if (u == s) {
-                                    r -= 1;
-                                    if (r == 0) {
+                                if (u == r) {
+                                    s -= 1;
+                                    if (s == 0) {
                                         return {
                                             row: o.getCurrentTokenRow(),
                                             column: l + o.getCurrentTokenColumn()
                                         };
                                     }
                                 } else if (u == e) {
-                                    r += 1;
+                                    s += 1;
                                 }
                                 l += 1;
                             }
@@ -9238,7 +9238,7 @@
                         return null;
                     };
                 }
-                t.BracketMatch = r;
+                t.BracketMatch = s;
             });
             ace.define("ace/edit_session", [
                 "require",
@@ -9260,16 +9260,16 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
-                var s = e("./lib/lang");
-                var r = e("./bidihandler").BidiHandler;
+                var r = e("./lib/lang");
+                var s = e("./bidihandler").BidiHandler;
                 var o = e("./config");
                 var a = e("./lib/event_emitter").EventEmitter;
                 var l = e("./selection").Selection;
                 var h = e("./mode/text").Mode;
                 var c = e("./range").Range;
                 var u = e("./document").Document;
-                var f = e("./background_tokenizer").BackgroundTokenizer;
-                var d = e("./search_highlight").SearchHighlight;
+                var d = e("./background_tokenizer").BackgroundTokenizer;
+                var f = e("./search_highlight").SearchHighlight;
                 var g = function(e, t) {
                     this.$breakpoints = [];
                     this.$decorations = [];
@@ -9287,7 +9287,7 @@
                     if (typeof e != "object" || !e.getLine) e = new u(e);
                     this.setDocument(e);
                     this.selection = new l(this);
-                    this.$bidiHandler = new r(this);
+                    this.$bidiHandler = new s(this);
                     o.resetOptions(this);
                     this.setMode(t);
                     o._signal("session", this);
@@ -9322,11 +9322,11 @@
                         var i = 0;
                         var n = e.length - 1;
                         while(i <= n){
-                            var s = (i + n) >> 1;
-                            var r = e[s];
-                            if (t > r) i = s + 1;
-                            else if (t < r) n = s - 1;
-                            else return s;
+                            var r = (i + n) >> 1;
+                            var s = e[r];
+                            if (t > s) i = r + 1;
+                            else if (t < s) n = r - 1;
+                            else return r;
                         }
                         return i - 1;
                     };
@@ -9382,20 +9382,20 @@
                     };
                     this.getTokenAt = function(e, t) {
                         var i = this.bgTokenizer.getTokens(e);
-                        var n, s = 0;
+                        var n, r = 0;
                         if (t == null) {
-                            var r = i.length - 1;
-                            s = this.getLine(e).length;
+                            var s = i.length - 1;
+                            r = this.getLine(e).length;
                         } else {
-                            for(var r = 0; r < i.length; r++){
-                                s += i[r].value.length;
-                                if (s >= t) break;
+                            for(var s = 0; s < i.length; s++){
+                                r += i[s].value.length;
+                                if (r >= t) break;
                             }
                         }
-                        n = i[r];
+                        n = i[s];
                         if (!n) return null;
-                        n.index = r;
-                        n.start = s - n.value.length;
+                        n.index = s;
+                        n.start = r - n.value.length;
                         return n;
                     };
                     this.setUndoManager = function(e) {
@@ -9408,7 +9408,7 @@
                                 t.$informUndoManager.cancel();
                                 t.mergeUndoDeltas = false;
                             };
-                            this.$informUndoManager = s.delayedCall(this.$syncInformUndoManager);
+                            this.$informUndoManager = r.delayedCall(this.$syncInformUndoManager);
                         } else {
                             this.$syncInformUndoManager = function() {};
                         }
@@ -9432,7 +9432,7 @@
                     };
                     this.getTabString = function() {
                         if (this.getUseSoftTabs()) {
-                            return s.stringRepeat(" ", this.getTabSize());
+                            return r.stringRepeat(" ", this.getTabSize());
                         } else {
                             return "\t";
                         }
@@ -9502,23 +9502,23 @@
                         this._signal("changeBreakpoint", {});
                     };
                     this.addMarker = function(e, t, i, n) {
-                        var s = this.$markerId++;
-                        var r = {
+                        var r = this.$markerId++;
+                        var s = {
                             range: e,
                             type: i || "line",
                             renderer: typeof i == "function" ? i : null,
                             clazz: t,
                             inFront: !!n,
-                            id: s
+                            id: r
                         };
                         if (n) {
-                            this.$frontMarkers[s] = r;
+                            this.$frontMarkers[r] = s;
                             this._signal("changeFrontMarker");
                         } else {
-                            this.$backMarkers[s] = r;
+                            this.$backMarkers[r] = s;
                             this._signal("changeBackMarker");
                         }
-                        return s;
+                        return r;
                     };
                     this.addDynamicMarker = function(e, t) {
                         if (!e.update) return;
@@ -9546,7 +9546,7 @@
                     };
                     this.highlight = function(e) {
                         if (!this.$searchHighlight) {
-                            var t = new d(null, "ace_selected-word", "text");
+                            var t = new f(null, "ace_selected-word", "text");
                             this.$searchHighlight = this.addDynamicMarker(t);
                         }
                         this.$searchHighlight.setRegexp(e);
@@ -9557,9 +9557,9 @@
                             t = e;
                         }
                         if (!i) i = "ace_step";
-                        var s = new c(e, 0, t, Infinity);
-                        s.id = this.addMarker(s, i, "fullLine", n);
-                        return s;
+                        var r = new c(e, 0, t, Infinity);
+                        r.id = this.addMarker(r, i, "fullLine", n);
+                        return r;
                     };
                     this.setAnnotations = function(e) {
                         this.$annotations = e;
@@ -9584,21 +9584,21 @@
                         var n = false;
                         if (t > 0) n = !!i.charAt(t - 1).match(this.tokenRe);
                         if (!n) n = !!i.charAt(t).match(this.tokenRe);
-                        if (n) var s = this.tokenRe;
-                        else if (/^\s+$/.test(i.slice(t - 1, t + 1))) var s = /\s/;
-                        else var s = this.nonTokenRe;
-                        var r = t;
-                        if (r > 0) {
+                        if (n) var r = this.tokenRe;
+                        else if (/^\s+$/.test(i.slice(t - 1, t + 1))) var r = /\s/;
+                        else var r = this.nonTokenRe;
+                        var s = t;
+                        if (s > 0) {
                             do {
-                                r--;
-                            }while (r >= 0 && i.charAt(r).match(s))
-                            r++;
+                                s--;
+                            }while (s >= 0 && i.charAt(s).match(r))
+                            s++;
                         }
                         var o = t;
-                        while(o < i.length && i.charAt(o).match(s)){
+                        while(o < i.length && i.charAt(o).match(r)){
                             o++;
                         }
-                        return new c(e, r, e, o);
+                        return new c(e, s, e, o);
                     };
                     this.getAWordRange = function(e, t) {
                         var i = this.getWordRange(e, t);
@@ -9671,14 +9671,14 @@
                         if (this.$useWorker) this.$startWorker();
                         var n = e.getTokenizer();
                         if (n.on !== undefined) {
-                            var s = this.onReloadTokenizer.bind(this);
-                            n.on("update", s);
+                            var r = this.onReloadTokenizer.bind(this);
+                            n.on("update", r);
                         }
                         if (!this.bgTokenizer) {
-                            this.bgTokenizer = new f(n);
-                            var r = this;
+                            this.bgTokenizer = new d(n);
+                            var s = this;
                             this.bgTokenizer.on("update", function(e) {
-                                r._signal("tokenizerUpdate", e);
+                                s._signal("tokenizerUpdate", e);
                             });
                         } else {
                             this.bgTokenizer.setTokenizer(n);
@@ -9752,16 +9752,16 @@
                             var t = this.doc.getAllLines();
                             var i = this.$rowLengthCache;
                             var n = 0;
-                            var s = 0;
-                            var r = this.$foldData[s];
-                            var o = r ? r.start.row : Infinity;
+                            var r = 0;
+                            var s = this.$foldData[r];
+                            var o = s ? s.start.row : Infinity;
                             var a = t.length;
                             for(var l = 0; l < a; l++){
                                 if (l > o) {
-                                    l = r.end.row + 1;
+                                    l = s.end.row + 1;
                                     if (l >= a) break;
-                                    r = this.$foldData[s++];
-                                    o = r ? r.start.row : Infinity;
+                                    s = this.$foldData[r++];
+                                    o = s ? s.start.row : Infinity;
                                 }
                                 if (i[l] == null) i[l] = this.$getStringScreenWidth(t[l])[0];
                                 if (i[l] > n) n = i[l];
@@ -9829,9 +9829,9 @@
                         function i(e) {
                             return t ? e.action !== "insert" : e.action === "insert";
                         }
-                        var n, s;
-                        for(var r = 0; r < e.length; r++){
-                            var o = e[r];
+                        var n, r;
+                        for(var s = 0; s < e.length; s++){
+                            var o = e[s];
                             if (!o.start) continue;
                             if (!n) {
                                 if (i(o)) {
@@ -9842,17 +9842,17 @@
                                 continue;
                             }
                             if (i(o)) {
-                                s = o.start;
-                                if (n.compare(s.row, s.column) == -1) {
-                                    n.setStart(s);
+                                r = o.start;
+                                if (n.compare(r.row, r.column) == -1) {
+                                    n.setStart(r);
                                 }
-                                s = o.end;
-                                if (n.compare(s.row, s.column) == 1) {
-                                    n.setEnd(s);
+                                r = o.end;
+                                if (n.compare(r.row, r.column) == 1) {
+                                    n.setEnd(r);
                                 }
                             } else {
-                                s = o.start;
-                                if (n.compare(s.row, s.column) == -1) {
+                                r = o.start;
+                                if (n.compare(r.row, r.column) == -1) {
                                     n = c.fromPoints(o.start, o.start);
                                 }
                             }
@@ -9864,28 +9864,28 @@
                     };
                     this.moveText = function(e, t, i) {
                         var n = this.getTextRange(e);
-                        var s = this.getFoldsInRange(e);
-                        var r = c.fromPoints(t, t);
+                        var r = this.getFoldsInRange(e);
+                        var s = c.fromPoints(t, t);
                         if (!i) {
                             this.remove(e);
                             var o = e.start.row - e.end.row;
                             var a = o ? -e.end.column : e.start.column - e.end.column;
                             if (a) {
-                                if (r.start.row == e.end.row && r.start.column > e.end.column) r.start.column += a;
-                                if (r.end.row == e.end.row && r.end.column > e.end.column) r.end.column += a;
+                                if (s.start.row == e.end.row && s.start.column > e.end.column) s.start.column += a;
+                                if (s.end.row == e.end.row && s.end.column > e.end.column) s.end.column += a;
                             }
-                            if (o && r.start.row >= e.end.row) {
-                                r.start.row += o;
-                                r.end.row += o;
+                            if (o && s.start.row >= e.end.row) {
+                                s.start.row += o;
+                                s.end.row += o;
                             }
                         }
-                        r.end = this.insert(r.start, n);
-                        if (s.length) {
+                        s.end = this.insert(s.start, n);
+                        if (r.length) {
                             var l = e.start;
-                            var h = r.start;
+                            var h = s.start;
                             var o = h.row - l.row;
                             var a = h.column - l.column;
-                            this.addFolds(s.map(function(e) {
+                            this.addFolds(r.map(function(e) {
                                 e = e.clone();
                                 if (e.start.row == l.row) e.start.column += a;
                                 if (e.end.row == l.row) e.end.column += a;
@@ -9894,7 +9894,7 @@
                                 return e;
                             }));
                         }
-                        return r;
+                        return s;
                     };
                     this.indentRows = function(e, t, i) {
                         i = i.replace(/\t/g, this.getTabString());
@@ -9907,12 +9907,12 @@
                         var t = e.collapseRows();
                         var i = new c(0, 0, 0, 0);
                         var n = this.getTabSize();
-                        for(var s = t.start.row; s <= t.end.row; ++s){
-                            var r = this.getLine(s);
-                            i.start.row = s;
-                            i.end.row = s;
-                            for(var o = 0; o < n; ++o)if (r.charAt(o) != " ") break;
-                            if (o < n && r.charAt(o) == "\t") {
+                        for(var r = t.start.row; r <= t.end.row; ++r){
+                            var s = this.getLine(r);
+                            i.start.row = r;
+                            i.end.row = r;
+                            for(var o = 0; o < n; ++o)if (s.charAt(o) != " ") break;
+                            if (o < n && s.charAt(o) == "\t") {
                                 i.start.column = o;
                                 i.end.column = o + 1;
                             } else {
@@ -9928,27 +9928,27 @@
                         if (i < 0) {
                             var n = this.getRowFoldStart(e + i);
                             if (n < 0) return 0;
-                            var s = n - e;
+                            var r = n - e;
                         } else if (i > 0) {
                             var n = this.getRowFoldEnd(t + i);
                             if (n > this.doc.getLength() - 1) return 0;
-                            var s = n - t;
+                            var r = n - t;
                         } else {
                             e = this.$clipRowToDocument(e);
                             t = this.$clipRowToDocument(t);
-                            var s = t - e + 1;
+                            var r = t - e + 1;
                         }
-                        var r = new c(e, 0, t, Number.MAX_VALUE);
-                        var o = this.getFoldsInRange(r).map(function(e) {
+                        var s = new c(e, 0, t, Number.MAX_VALUE);
+                        var o = this.getFoldsInRange(s).map(function(e) {
                             e = e.clone();
-                            e.start.row += s;
-                            e.end.row += s;
+                            e.start.row += r;
+                            e.end.row += r;
                             return e;
                         });
                         var a = i == 0 ? this.doc.getLines(e, t) : this.doc.removeFullLines(e, t);
-                        this.doc.insertFullLines(e + s, a);
+                        this.doc.insertFullLines(e + r, a);
                         o.length && this.addFolds(o);
-                        return s;
+                        return r;
                     };
                     this.moveLinesUp = function(e, t) {
                         return this.$moveLines(e, t, -1);
@@ -10074,62 +10074,62 @@
                         var t = this.$useWrapMode;
                         var i = e.action;
                         var n = e.start;
-                        var s = e.end;
-                        var r = n.row;
-                        var o = s.row;
-                        var a = o - r;
+                        var r = e.end;
+                        var s = n.row;
+                        var o = r.row;
+                        var a = o - s;
                         var l = null;
                         this.$updating = true;
                         if (a != 0) {
                             if (i === "remove") {
-                                this[t ? "$wrapData" : "$rowLengthCache"].splice(r, a);
+                                this[t ? "$wrapData" : "$rowLengthCache"].splice(s, a);
                                 var h = this.$foldData;
                                 l = this.getFoldsInRange(e);
                                 this.removeFolds(l);
-                                var c = this.getFoldLine(s.row);
+                                var c = this.getFoldLine(r.row);
                                 var u = 0;
                                 if (c) {
-                                    c.addRemoveChars(s.row, s.column, n.column - s.column);
+                                    c.addRemoveChars(r.row, r.column, n.column - r.column);
                                     c.shiftRow(-a);
-                                    var f = this.getFoldLine(r);
-                                    if (f && f !== c) {
-                                        f.merge(c);
-                                        c = f;
+                                    var d = this.getFoldLine(s);
+                                    if (d && d !== c) {
+                                        d.merge(c);
+                                        c = d;
                                     }
                                     u = h.indexOf(c) + 1;
                                 }
                                 for(u; u < h.length; u++){
                                     var c = h[u];
-                                    if (c.start.row >= s.row) {
+                                    if (c.start.row >= r.row) {
                                         c.shiftRow(-a);
                                     }
                                 }
-                                o = r;
+                                o = s;
                             } else {
-                                var d = Array(a);
-                                d.unshift(r, 0);
+                                var f = Array(a);
+                                f.unshift(s, 0);
                                 var g = t ? this.$wrapData : this.$rowLengthCache;
-                                g.splice.apply(g, d);
+                                g.splice.apply(g, f);
                                 var h = this.$foldData;
-                                var c = this.getFoldLine(r);
+                                var c = this.getFoldLine(s);
                                 var u = 0;
                                 if (c) {
-                                    var v = c.range.compareInside(n.row, n.column);
-                                    if (v == 0) {
+                                    var m = c.range.compareInside(n.row, n.column);
+                                    if (m == 0) {
                                         c = c.split(n.row, n.column);
                                         if (c) {
                                             c.shiftRow(a);
-                                            c.addRemoveChars(o, 0, s.column - n.column);
+                                            c.addRemoveChars(o, 0, r.column - n.column);
                                         }
-                                    } else if (v == -1) {
-                                        c.addRemoveChars(r, 0, s.column - n.column);
+                                    } else if (m == -1) {
+                                        c.addRemoveChars(s, 0, r.column - n.column);
                                         c.shiftRow(a);
                                     }
                                     u = h.indexOf(c) + 1;
                                 }
                                 for(u; u < h.length; u++){
                                     var c = h[u];
-                                    if (c.start.row >= r) {
+                                    if (c.start.row >= s) {
                                         c.shiftRow(a);
                                     }
                                 }
@@ -10141,17 +10141,17 @@
                                 this.removeFolds(l);
                                 a = -a;
                             }
-                            var c = this.getFoldLine(r);
+                            var c = this.getFoldLine(s);
                             if (c) {
-                                c.addRemoveChars(r, n.column, a);
+                                c.addRemoveChars(s, n.column, a);
                             }
                         }
                         if (t && this.$wrapData.length != this.doc.getLength()) {
                             console.error("doc.getLength() and $wrapData.length have to be the same!");
                         }
                         this.$updating = false;
-                        if (t) this.$updateWrapData(r, o);
-                        else this.$updateRowLengthCache(r, o);
+                        if (t) this.$updateWrapData(s, o);
+                        else this.$updateRowLengthCache(s, o);
                         return l;
                     };
                     this.$updateRowLengthCache = function(e, t, i) {
@@ -10160,7 +10160,7 @@
                     };
                     this.$updateWrapData = function(e, t) {
                         var n = this.doc.getAllLines();
-                        var s = this.getTabSize();
+                        var r = this.getTabSize();
                         var o = this.$wrapData;
                         var a = this.$wrapLimit;
                         var l;
@@ -10171,59 +10171,59 @@
                             h = this.getFoldLine(c, h);
                             if (!h) {
                                 l = this.$getDisplayTokens(n[c]);
-                                o[c] = this.$computeWrapSplits(l, a, s);
+                                o[c] = this.$computeWrapSplits(l, a, r);
                                 c++;
                             } else {
                                 l = [];
-                                h.walk(function(e, t, s, o) {
+                                h.walk(function(e, t, r, o) {
                                     var a;
                                     if (e != null) {
                                         a = this.$getDisplayTokens(e, l.length);
                                         a[0] = i;
                                         for(var h = 1; h < a.length; h++){
-                                            a[h] = r;
+                                            a[h] = s;
                                         }
                                     } else {
-                                        a = this.$getDisplayTokens(n[t].substring(o, s), l.length);
+                                        a = this.$getDisplayTokens(n[t].substring(o, r), l.length);
                                     }
                                     l = l.concat(a);
                                 }.bind(this), h.end.row, n[h.end.row].length + 1);
-                                o[h.start.row] = this.$computeWrapSplits(l, a, s);
+                                o[h.start.row] = this.$computeWrapSplits(l, a, r);
                                 c = h.end.row + 1;
                             }
                         }
                     };
-                    var e = 1, t = 2, i = 3, r = 4, l = 9, u = 10, g = 11, v = 12;
-                    this.$computeWrapSplits = function(e, n, s) {
+                    var e = 1, t = 2, i = 3, s = 4, l = 9, u = 10, g = 11, m = 12;
+                    this.$computeWrapSplits = function(e, n, r) {
                         if (e.length == 0) {
                             return [];
                         }
                         var o = [];
                         var a = e.length;
                         var h = 0, c = 0;
-                        var f = this.$wrapAsCode;
-                        var d = this.$indentedSoftWrap;
-                        var m = n <= Math.max(2 * s, 8) || d === false ? 0 : Math.floor(n / 2);
+                        var d = this.$wrapAsCode;
+                        var f = this.$indentedSoftWrap;
+                        var v = n <= Math.max(2 * r, 8) || f === false ? 0 : Math.floor(n / 2);
                         function p() {
                             var t = 0;
-                            if (m === 0) return t;
-                            if (d) {
+                            if (v === 0) return t;
+                            if (f) {
                                 for(var i = 0; i < e.length; i++){
                                     var n = e[i];
                                     if (n == u) t += 1;
-                                    else if (n == g) t += s;
-                                    else if (n == v) continue;
+                                    else if (n == g) t += r;
+                                    else if (n == m) continue;
                                     else break;
                                 }
                             }
-                            if (f && d !== false) t += s;
-                            return Math.min(t, m);
+                            if (d && f !== false) t += r;
+                            return Math.min(t, v);
                         }
                         function w(t) {
                             var i = t - h;
                             for(var n = h; n < t; n++){
-                                var s = e[n];
-                                if (s === 12 || s === 2) i -= 1;
+                                var r = e[n];
+                                if (r === 12 || r === 2) i -= 1;
                             }
                             if (!o.length) {
                                 $ = p();
@@ -10235,82 +10235,82 @@
                         }
                         var $ = 0;
                         while(a - h > n - $){
-                            var C = h + n - $;
-                            if (e[C - 1] >= u && e[C] >= u) {
-                                w(C);
+                            var b = h + n - $;
+                            if (e[b - 1] >= u && e[b] >= u) {
+                                w(b);
                                 continue;
                             }
-                            if (e[C] == i || e[C] == r) {
-                                for(C; C != h - 1; C--){
-                                    if (e[C] == i) {
+                            if (e[b] == i || e[b] == s) {
+                                for(b; b != h - 1; b--){
+                                    if (e[b] == i) {
                                         break;
                                     }
                                 }
-                                if (C > h) {
-                                    w(C);
+                                if (b > h) {
+                                    w(b);
                                     continue;
                                 }
-                                C = h + n;
-                                for(C; C < e.length; C++){
-                                    if (e[C] != r) {
+                                b = h + n;
+                                for(b; b < e.length; b++){
+                                    if (e[b] != s) {
                                         break;
                                     }
                                 }
-                                if (C == e.length) {
+                                if (b == e.length) {
                                     break;
                                 }
-                                w(C);
+                                w(b);
                                 continue;
                             }
-                            var y = Math.max(C - (n - (n >> 2)), h - 1);
-                            while(C > y && e[C] < i){
-                                C--;
+                            var C = Math.max(b - (n - (n >> 2)), h - 1);
+                            while(b > C && e[b] < i){
+                                b--;
                             }
-                            if (f) {
-                                while(C > y && e[C] < i){
-                                    C--;
+                            if (d) {
+                                while(b > C && e[b] < i){
+                                    b--;
                                 }
-                                while(C > y && e[C] == l){
-                                    C--;
+                                while(b > C && e[b] == l){
+                                    b--;
                                 }
                             } else {
-                                while(C > y && e[C] < u){
-                                    C--;
+                                while(b > C && e[b] < u){
+                                    b--;
                                 }
                             }
-                            if (C > y) {
-                                w(++C);
+                            if (b > C) {
+                                w(++b);
                                 continue;
                             }
-                            C = h + n;
-                            if (e[C] == t) C--;
-                            w(C - $);
+                            b = h + n;
+                            if (e[b] == t) b--;
+                            w(b - $);
                         }
                         return o;
                     };
                     this.$getDisplayTokens = function(i, n) {
-                        var s = [];
-                        var r;
+                        var r = [];
+                        var s;
                         n = n || 0;
                         for(var o = 0; o < i.length; o++){
                             var a = i.charCodeAt(o);
                             if (a == 9) {
-                                r = this.getScreenTabSize(s.length + n);
-                                s.push(g);
-                                for(var h = 1; h < r; h++){
-                                    s.push(v);
+                                s = this.getScreenTabSize(r.length + n);
+                                r.push(g);
+                                for(var h = 1; h < s; h++){
+                                    r.push(m);
                                 }
                             } else if (a == 32) {
-                                s.push(u);
+                                r.push(u);
                             } else if ((a > 39 && a < 48) || (a > 57 && a < 64)) {
-                                s.push(l);
-                            } else if (a >= 0x1100 && m(a)) {
-                                s.push(e, t);
+                                r.push(l);
+                            } else if (a >= 0x1100 && v(a)) {
+                                r.push(e, t);
                             } else {
-                                s.push(e);
+                                r.push(e);
                             }
                         }
-                        return s;
+                        return r;
                     };
                     this.$getStringScreenWidth = function(e, t, i) {
                         if (t == 0) return [
@@ -10319,12 +10319,12 @@
                         ];
                         if (t == null) t = Infinity;
                         i = i || 0;
-                        var n, s;
-                        for(s = 0; s < e.length; s++){
-                            n = e.charCodeAt(s);
+                        var n, r;
+                        for(r = 0; r < e.length; r++){
+                            n = e.charCodeAt(r);
                             if (n == 9) {
                                 i += this.getScreenTabSize(i);
-                            } else if (n >= 0x1100 && m(n)) {
+                            } else if (n >= 0x1100 && v(n)) {
                                 i += 2;
                             } else {
                                 i += 1;
@@ -10335,7 +10335,7 @@
                         }
                         return [
                             i,
-                            s
+                            r
                         ];
                     };
                     this.lineWidgets = null;
@@ -10395,8 +10395,8 @@
                             column: 0
                         };
                         var n;
-                        var s = 0;
                         var r = 0;
+                        var s = 0;
                         var o;
                         var a = 0;
                         var l = 0;
@@ -10405,63 +10405,63 @@
                         var u = h.length;
                         if (u && c >= 0) {
                             var a = h[c];
-                            var s = this.$docRowCache[c];
-                            var f = e > h[u - 1];
+                            var r = this.$docRowCache[c];
+                            var d = e > h[u - 1];
                         } else {
-                            var f = !u;
+                            var d = !u;
                         }
-                        var d = this.getLength() - 1;
-                        var g = this.getNextFoldLine(s);
-                        var v = g ? g.start.row : Infinity;
+                        var f = this.getLength() - 1;
+                        var g = this.getNextFoldLine(r);
+                        var m = g ? g.start.row : Infinity;
                         while(a <= e){
-                            l = this.getRowLength(s);
-                            if (a + l > e || s >= d) {
+                            l = this.getRowLength(r);
+                            if (a + l > e || r >= f) {
                                 break;
                             } else {
                                 a += l;
-                                s++;
-                                if (s > v) {
-                                    s = g.end.row + 1;
-                                    g = this.getNextFoldLine(s, g);
-                                    v = g ? g.start.row : Infinity;
+                                r++;
+                                if (r > m) {
+                                    r = g.end.row + 1;
+                                    g = this.getNextFoldLine(r, g);
+                                    m = g ? g.start.row : Infinity;
                                 }
                             }
-                            if (f) {
-                                this.$docRowCache.push(s);
+                            if (d) {
+                                this.$docRowCache.push(r);
                                 this.$screenRowCache.push(a);
                             }
                         }
-                        if (g && g.start.row <= s) {
+                        if (g && g.start.row <= r) {
                             n = this.getFoldDisplayLine(g);
-                            s = g.start.row;
-                        } else if (a + l <= e || s > d) {
+                            r = g.start.row;
+                        } else if (a + l <= e || r > f) {
                             return {
-                                row: d,
-                                column: this.getLine(d).length
+                                row: f,
+                                column: this.getLine(f).length
                             };
                         } else {
-                            n = this.getLine(s);
+                            n = this.getLine(r);
                             g = null;
                         }
-                        var m = 0, p = Math.floor(e - a);
+                        var v = 0, p = Math.floor(e - a);
                         if (this.$useWrapMode) {
-                            var w = this.$wrapData[s];
+                            var w = this.$wrapData[r];
                             if (w) {
                                 o = w[p];
                                 if (p > 0 && w.length) {
-                                    m = w.indent;
-                                    r = w[p - 1] || w[w.length - 1];
-                                    n = n.substring(r);
+                                    v = w.indent;
+                                    s = w[p - 1] || w[w.length - 1];
+                                    n = n.substring(s);
                                 }
                             }
                         }
-                        if (i !== undefined && this.$bidiHandler.isBidiRow(a + p, s, p)) t = this.$bidiHandler.offsetToCol(i);
-                        r += this.$getStringScreenWidth(n, t - m)[1];
-                        if (this.$useWrapMode && r >= o) r = o - 1;
-                        if (g) return g.idxToPosition(r);
+                        if (i !== undefined && this.$bidiHandler.isBidiRow(a + p, r, p)) t = this.$bidiHandler.offsetToCol(i);
+                        s += this.$getStringScreenWidth(n, t - v)[1];
+                        if (this.$useWrapMode && s >= o) s = o - 1;
+                        if (g) return g.idxToPosition(s);
                         return {
-                            row: s,
-                            column: r
+                            row: r,
+                            column: s
                         };
                     };
                     this.documentToScreenPosition = function(e, t) {
@@ -10470,12 +10470,12 @@
                         e = i.row;
                         t = i.column;
                         var n = 0;
-                        var s = null;
                         var r = null;
-                        r = this.getFoldAt(e, t, 1);
-                        if (r) {
-                            e = r.start.row;
-                            t = r.start.column;
+                        var s = null;
+                        s = this.getFoldAt(e, t, 1);
+                        if (s) {
+                            e = s.start.row;
+                            t = s.start.column;
                         }
                         var o, a = 0;
                         var l = this.$docRowCache;
@@ -10488,14 +10488,14 @@
                         } else {
                             var u = !c;
                         }
-                        var f = this.getNextFoldLine(a);
-                        var d = f ? f.start.row : Infinity;
+                        var d = this.getNextFoldLine(a);
+                        var f = d ? d.start.row : Infinity;
                         while(a < e){
-                            if (a >= d) {
-                                o = f.end.row + 1;
+                            if (a >= f) {
+                                o = d.end.row + 1;
                                 if (o > e) break;
-                                f = this.getNextFoldLine(o, f);
-                                d = f ? f.start.row : Infinity;
+                                d = this.getNextFoldLine(o, d);
+                                f = d ? d.start.row : Infinity;
                             } else {
                                 o = a + 1;
                             }
@@ -10507,30 +10507,30 @@
                             }
                         }
                         var g = "";
-                        if (f && a >= d) {
-                            g = this.getFoldDisplayLine(f, e, t);
-                            s = f.start.row;
+                        if (d && a >= f) {
+                            g = this.getFoldDisplayLine(d, e, t);
+                            r = d.start.row;
                         } else {
                             g = this.getLine(e).substring(0, t);
-                            s = e;
+                            r = e;
                         }
-                        var v = 0;
+                        var m = 0;
                         if (this.$useWrapMode) {
-                            var m = this.$wrapData[s];
-                            if (m) {
+                            var v = this.$wrapData[r];
+                            if (v) {
                                 var p = 0;
-                                while(g.length >= m[p]){
+                                while(g.length >= v[p]){
                                     n++;
                                     p++;
                                 }
-                                g = g.substring(m[p - 1] || 0, g.length);
-                                v = p > 0 ? m.indent : 0;
+                                g = g.substring(v[p - 1] || 0, g.length);
+                                m = p > 0 ? v.indent : 0;
                             }
                         }
                         if (this.lineWidgets && this.lineWidgets[a] && this.lineWidgets[a].rowsAbove) n += this.lineWidgets[a].rowsAbove;
                         return {
                             row: n,
-                            column: v + this.$getStringScreenWidth(g)[0]
+                            column: m + this.$getStringScreenWidth(g)[0]
                         };
                     };
                     this.documentToScreenColumn = function(e, t) {
@@ -10550,16 +10550,16 @@
                                 e -= t.end.row - t.start.row;
                             }
                         } else {
-                            var s = this.$wrapData.length;
-                            var r = 0, n = 0;
+                            var r = this.$wrapData.length;
+                            var s = 0, n = 0;
                             var t = this.$foldData[n++];
                             var o = t ? t.start.row : Infinity;
-                            while(r < s){
-                                var a = this.$wrapData[r];
+                            while(s < r){
+                                var a = this.$wrapData[s];
                                 e += a ? a.length + 1 : 1;
-                                r++;
-                                if (r > o) {
-                                    r = t.end.row + 1;
+                                s++;
+                                if (s > o) {
+                                    s = t.end.row + 1;
                                     t = this.$foldData[n++];
                                     o = t ? t.start.row : Infinity;
                                 }
@@ -10577,13 +10577,13 @@
                             ];
                             if (!i) i = Infinity;
                             n = n || 0;
-                            var s, r;
-                            for(r = 0; r < t.length; r++){
-                                s = t.charAt(r);
-                                if (s === "\t") {
+                            var r, s;
+                            for(s = 0; s < t.length; s++){
+                                r = t.charAt(s);
+                                if (r === "\t") {
                                     n += this.getScreenTabSize(n);
                                 } else {
-                                    n += e.getCharacterWidth(s);
+                                    n += e.getCharacterWidth(r);
                                 }
                                 if (n > i) {
                                     break;
@@ -10591,7 +10591,7 @@
                             }
                             return [
                                 n,
-                                r
+                                s
                             ];
                         };
                     };
@@ -10607,8 +10607,8 @@
                         }
                         this.selection.detach();
                     };
-                    this.isFullWidth = m;
-                    function m(e) {
+                    this.isFullWidth = v;
+                    function v(e) {
                         if (e < 0x1100) return false;
                         return ((e >= 0x1100 && e <= 0x115f) || (e >= 0x11a3 && e <= 0x11a7) || (e >= 0x11fa && e <= 0x11ff) || (e >= 0x2329 && e <= 0x232a) || (e >= 0x2e80 && e <= 0x2e99) || (e >= 0x2e9b && e <= 0x2ef3) || (e >= 0x2f00 && e <= 0x2fd5) || (e >= 0x2ff0 && e <= 0x2ffb) || (e >= 0x3000 && e <= 0x303e) || (e >= 0x3041 && e <= 0x3096) || (e >= 0x3099 && e <= 0x30ff) || (e >= 0x3105 && e <= 0x312d) || (e >= 0x3131 && e <= 0x318e) || (e >= 0x3190 && e <= 0x31ba) || (e >= 0x31c0 && e <= 0x31e3) || (e >= 0x31f0 && e <= 0x321e) || (e >= 0x3220 && e <= 0x3247) || (e >= 0x3250 && e <= 0x32fe) || (e >= 0x3300 && e <= 0x4dbf) || (e >= 0x4e00 && e <= 0xa48c) || (e >= 0xa490 && e <= 0xa4c6) || (e >= 0xa960 && e <= 0xa97c) || (e >= 0xac00 && e <= 0xd7a3) || (e >= 0xd7b0 && e <= 0xd7c6) || (e >= 0xd7cb && e <= 0xd7fb) || (e >= 0xf900 && e <= 0xfaff) || (e >= 0xfe10 && e <= 0xfe19) || (e >= 0xfe30 && e <= 0xfe52) || (e >= 0xfe54 && e <= 0xfe66) || (e >= 0xfe68 && e <= 0xfe6b) || (e >= 0xff01 && e <= 0xff60) || (e >= 0xffe0 && e <= 0xffe6));
                     }
@@ -10740,14 +10740,14 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/lang");
-                var s = e("./lib/oop");
-                var r = e("./range").Range;
+                var r = e("./lib/oop");
+                var s = e("./range").Range;
                 var o = function() {
                     this.$options = {};
                 };
                 (function() {
                     this.set = function(e) {
-                        s.mixin(this.$options, e);
+                        r.mixin(this.$options, e);
                         return this;
                     };
                     this.getOptions = function() {
@@ -10761,8 +10761,8 @@
                         var i = this.$matchIterator(e, t);
                         if (!i) return false;
                         var n = null;
-                        i.forEach(function(e, i, s, o) {
-                            n = new r(e, i, s, o);
+                        i.forEach(function(e, i, r, o) {
+                            n = new s(e, i, r, o);
                             if (i == o && t.start && t.start.start && t.skipCurrent != false && n.isEqual(t.start)) {
                                 n = null;
                                 return false;
@@ -10776,42 +10776,42 @@
                         if (!t.needle) return [];
                         this.$assembleRegExp(t);
                         var i = t.range;
-                        var s = i ? e.getLines(i.start.row, i.end.row) : e.doc.getAllLines();
+                        var r = i ? e.getLines(i.start.row, i.end.row) : e.doc.getAllLines();
                         var o = [];
                         var a = t.re;
                         if (t.$isMultiLine) {
                             var l = a.length;
-                            var h = s.length - l;
+                            var h = r.length - l;
                             var c;
                             outer: for(var u = a.offset || 0; u <= h; u++){
-                                for(var f = 0; f < l; f++)if (s[u + f].search(a[f]) == -1) continue outer;
-                                var d = s[u];
-                                var g = s[u + l - 1];
-                                var v = d.length - d.match(a[0])[0].length;
-                                var m = g.match(a[l - 1])[0].length;
-                                if (c && c.end.row === u && c.end.column > v) {
+                                for(var d = 0; d < l; d++)if (r[u + d].search(a[d]) == -1) continue outer;
+                                var f = r[u];
+                                var g = r[u + l - 1];
+                                var m = f.length - f.match(a[0])[0].length;
+                                var v = g.match(a[l - 1])[0].length;
+                                if (c && c.end.row === u && c.end.column > m) {
                                     continue;
                                 }
-                                o.push((c = new r(u, v, u + l - 1, m)));
+                                o.push((c = new s(u, m, u + l - 1, v)));
                                 if (l > 2) u = u + l - 2;
                             }
                         } else {
-                            for(var p = 0; p < s.length; p++){
-                                var w = n.getMatchOffsets(s[p], a);
-                                for(var f = 0; f < w.length; f++){
-                                    var $ = w[f];
-                                    o.push(new r(p, $.offset, p, $.offset + $.length));
+                            for(var p = 0; p < r.length; p++){
+                                var w = n.getMatchOffsets(r[p], a);
+                                for(var d = 0; d < w.length; d++){
+                                    var $ = w[d];
+                                    o.push(new s(p, $.offset, p, $.offset + $.length));
                                 }
                             }
                         }
                         if (i) {
+                            var b = i.start.column;
                             var C = i.start.column;
-                            var y = i.start.column;
-                            var p = 0, f = o.length - 1;
-                            while(p < f && o[p].start.column < C && o[p].start.row == i.start.row)p++;
-                            while(p < f && o[f].end.column > y && o[f].end.row == i.end.row)f--;
-                            o = o.slice(p, f + 1);
-                            for(p = 0, f = o.length; p < f; p++){
+                            var p = 0, d = o.length - 1;
+                            while(p < d && o[p].start.column < b && o[p].start.row == i.start.row)p++;
+                            while(p < d && o[d].end.column > C && o[d].end.row == i.end.row)d--;
+                            o = o.slice(p, d + 1);
+                            for(p = 0, d = o.length; p < d; p++){
                                 o[p].start.row += i.start.row;
                                 o[p].end.row += i.start.row;
                             }
@@ -10823,15 +10823,15 @@
                         var n = this.$assembleRegExp(i);
                         if (i.$isMultiLine) return t;
                         if (!n) return;
-                        var s = n.exec(e);
-                        if (!s || s[0].length != e.length) return null;
+                        var r = n.exec(e);
+                        if (!r || r[0].length != e.length) return null;
                         t = e.replace(n, t);
                         if (i.preserveCase) {
                             t = t.split("");
-                            for(var r = Math.min(e.length, e.length); r--;){
-                                var o = e[r];
-                                if (o && o.toLowerCase() != o) t[r] = t[r].toUpperCase();
-                                else t[r] = t[r].toLowerCase();
+                            for(var s = Math.min(e.length, e.length); s--;){
+                                var o = e[s];
+                                if (o && o.toLowerCase() != o) t[s] = t[s].toUpperCase();
+                                else t[s] = t[s].toLowerCase();
                             }
                             t = t.join("");
                         }
@@ -10843,22 +10843,22 @@
                         if (!e.needle) return (e.re = false);
                         if (!e.regExp) i = n.escapeRegExp(i);
                         if (e.wholeWord) i = a(i, e);
-                        var s = e.caseSensitive ? "gm" : "gmi";
+                        var r = e.caseSensitive ? "gm" : "gmi";
                         e.$isMultiLine = !t && /[\n\r]/.test(i);
-                        if (e.$isMultiLine) return (e.re = this.$assembleMultilineRegExp(i, s));
+                        if (e.$isMultiLine) return (e.re = this.$assembleMultilineRegExp(i, r));
                         try {
-                            var r = new RegExp(i, s);
+                            var s = new RegExp(i, r);
                         } catch (o) {
-                            r = false;
+                            s = false;
                         }
-                        return (e.re = r);
+                        return (e.re = s);
                     };
                     this.$assembleMultilineRegExp = function(e, t) {
                         var i = e.replace(/\r\n|\r|\n/g, "$\n^").split("\n");
                         var n = [];
-                        for(var s = 0; s < i.length; s++)try {
-                            n.push(new RegExp(i[s], t));
-                        } catch (r) {
+                        for(var r = 0; r < i.length; r++)try {
+                            n.push(new RegExp(i[r], t));
+                        } catch (s) {
                             return false;
                         }
                         return n;
@@ -10867,13 +10867,13 @@
                         var i = this.$assembleRegExp(t);
                         if (!i) return false;
                         var n = t.backwards == true;
-                        var s = t.skipCurrent != false;
-                        var r = t.range;
+                        var r = t.skipCurrent != false;
+                        var s = t.range;
                         var o = t.start;
-                        if (!o) o = r ? r[n ? "end" : "start"] : e.selection.getRange();
-                        if (o.start) o = o[s != n ? "end" : "start"];
-                        var a = r ? r.start.row : 0;
-                        var l = r ? r.end.row : e.getLength() - 1;
+                        if (!o) o = s ? s[n ? "end" : "start"] : e.selection.getRange();
+                        if (o.start) o = o[r != n ? "end" : "start"];
+                        var a = s ? s.start.row : 0;
+                        var l = s ? s.end.row : e.getLength() - 1;
                         if (n) {
                             var h = function(e) {
                                 var i = o.row;
@@ -10893,31 +10893,31 @@
                         }
                         if (t.$isMultiLine) {
                             var c = i.length;
-                            var u = function(t, s, r) {
+                            var u = function(t, r, s) {
                                 var o = n ? t - c + 1 : t;
                                 if (o < 0 || o + c > e.getLength()) return;
                                 var a = e.getLine(o);
                                 var l = a.search(i[0]);
-                                if ((!n && l < s) || l === -1) return;
+                                if ((!n && l < r) || l === -1) return;
                                 for(var h = 1; h < c; h++){
                                     a = e.getLine(o + h);
                                     if (a.search(i[h]) == -1) return;
                                 }
                                 var u = a.match(i[c - 1])[0].length;
-                                if (n && u > s) return;
-                                if (r(o, l, o + c - 1, u)) return true;
+                                if (n && u > r) return;
+                                if (s(o, l, o + c - 1, u)) return true;
                             };
                         } else if (n) {
-                            var u = function(t, n, s) {
-                                var r = e.getLine(t);
+                            var u = function(t, n, r) {
+                                var s = e.getLine(t);
                                 var o = [];
                                 var a, l = 0;
                                 i.lastIndex = 0;
-                                while((a = i.exec(r))){
+                                while((a = i.exec(s))){
                                     var h = a[0].length;
                                     l = a.index;
                                     if (!h) {
-                                        if (l >= r.length) break;
+                                        if (l >= s.length) break;
                                         i.lastIndex = l += 1;
                                     }
                                     if (a.index + h > n) break;
@@ -10926,22 +10926,22 @@
                                 for(var c = o.length - 1; c >= 0; c -= 2){
                                     var u = o[c - 1];
                                     var h = o[c];
-                                    if (s(t, u, t, u + h)) return true;
+                                    if (r(t, u, t, u + h)) return true;
                                 }
                             };
                         } else {
-                            var u = function(t, n, s) {
-                                var r = e.getLine(t);
+                            var u = function(t, n, r) {
+                                var s = e.getLine(t);
                                 var o;
                                 var a;
                                 i.lastIndex = n;
-                                while((a = i.exec(r))){
+                                while((a = i.exec(s))){
                                     var l = a[0].length;
                                     o = a.index;
-                                    if (s(t, o, t, o + l)) return true;
+                                    if (r(t, o, t, o + l)) return true;
                                     if (!l) {
                                         i.lastIndex = o += 1;
-                                        if (o >= r.length) return false;
+                                        if (o >= s.length) return false;
                                     }
                                 }
                             };
@@ -10969,10 +10969,10 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/keys");
-                var s = e("../lib/useragent");
-                var r = n.KEY_MODS;
+                var r = e("../lib/useragent");
+                var s = n.KEY_MODS;
                 function o(e, t) {
-                    this.platform = t || (s.isMac ? "mac" : "win");
+                    this.platform = t || (r.isMac ? "mac" : "win");
                     this.commands = {};
                     this.commandKeyBinding = {};
                     this.addCommands(e);
@@ -10994,15 +10994,15 @@
                         e = this.commands[i];
                         if (!t) delete this.commands[i];
                         var n = this.commandKeyBinding;
-                        for(var s in n){
-                            var r = n[s];
-                            if (r == e) {
-                                delete n[s];
-                            } else if (Array.isArray(r)) {
-                                var o = r.indexOf(e);
+                        for(var r in n){
+                            var s = n[r];
+                            if (s == e) {
+                                delete n[r];
+                            } else if (Array.isArray(s)) {
+                                var o = s.indexOf(e);
                                 if (o != -1) {
-                                    r.splice(o, 1);
-                                    if (r.length == 1) n[s] = r[0];
+                                    s.splice(o, 1);
+                                    if (s.length == 1) n[r] = s[0];
                                 }
                             }
                         }
@@ -11021,18 +11021,18 @@
                         e.split("|").forEach(function(e) {
                             var n = "";
                             if (e.indexOf(" ") != -1) {
-                                var s = e.split(/\s+/);
-                                e = s.pop();
-                                s.forEach(function(e) {
+                                var r = e.split(/\s+/);
+                                e = r.pop();
+                                r.forEach(function(e) {
                                     var t = this.parseKeys(e);
-                                    var i = r[t.hashId] + t.key;
+                                    var i = s[t.hashId] + t.key;
                                     n += (n ? " " : "") + i;
                                     this._addCommandToBinding(n, "chainKeys");
                                 }, this);
                                 n += " ";
                             }
                             var o = this.parseKeys(e);
-                            var a = r[o.hashId] + o.key;
+                            var a = s[o.hashId] + o.key;
                             this._addCommandToBinding(n + a, t, i);
                         }, this);
                     };
@@ -11040,29 +11040,29 @@
                         return ((typeof e == "object" && e.bindKey && e.bindKey.position) || (e.isDefault ? -100 : 0));
                     }
                     this._addCommandToBinding = function(t, i, n) {
-                        var s = this.commandKeyBinding, r;
+                        var r = this.commandKeyBinding, s;
                         if (!i) {
-                            delete s[t];
-                        } else if (!s[t] || this.$singleCommand) {
-                            s[t] = i;
+                            delete r[t];
+                        } else if (!r[t] || this.$singleCommand) {
+                            r[t] = i;
                         } else {
-                            if (!Array.isArray(s[t])) {
-                                s[t] = [
-                                    s[t]
+                            if (!Array.isArray(r[t])) {
+                                r[t] = [
+                                    r[t]
                                 ];
-                            } else if ((r = s[t].indexOf(i)) != -1) {
-                                s[t].splice(r, 1);
+                            } else if ((s = r[t].indexOf(i)) != -1) {
+                                r[t].splice(s, 1);
                             }
                             if (typeof n != "number") {
                                 n = e(i);
                             }
-                            var o = s[t];
-                            for(r = 0; r < o.length; r++){
-                                var a = o[r];
+                            var o = r[t];
+                            for(s = 0; s < o.length; s++){
+                                var a = o[s];
                                 var l = e(a);
                                 if (l > n) break;
                             }
-                            o.splice(r, 0, i);
+                            o.splice(s, 0, i);
                         }
                     };
                     this.addCommands = function(e) {
@@ -11096,8 +11096,8 @@
                             return e;
                         });
                         var i = t.pop();
-                        var s = n[i];
-                        if (n.FUNCTION_KEYS[s]) i = n.FUNCTION_KEYS[s].toLowerCase();
+                        var r = n[i];
+                        if (n.FUNCTION_KEYS[r]) i = n.FUNCTION_KEYS[r].toLowerCase();
                         else if (!t.length) return {
                             key: i,
                             hashId: -1
@@ -11106,42 +11106,42 @@
                             key: i.toUpperCase(),
                             hashId: -1
                         };
-                        var r = 0;
+                        var s = 0;
                         for(var o = t.length; o--;){
                             var a = n.KEY_MODS[t[o]];
                             if (a == null) {
                                 if (typeof console != "undefined") console.error("invalid modifier " + t[o] + " in " + e);
                                 return false;
                             }
-                            r |= a;
+                            s |= a;
                         }
                         return {
                             key: i,
-                            hashId: r
+                            hashId: s
                         };
                     };
                     this.findKeyCommand = function e(t, i) {
-                        var n = r[t] + i;
+                        var n = s[t] + i;
                         return this.commandKeyBinding[n];
                     };
                     this.handleKeyboard = function(e, t, i, n) {
                         if (n < 0) return;
-                        var s = r[t] + i;
-                        var o = this.commandKeyBinding[s];
+                        var r = s[t] + i;
+                        var o = this.commandKeyBinding[r];
                         if (e.$keyChain) {
-                            e.$keyChain += " " + s;
+                            e.$keyChain += " " + r;
                             o = this.commandKeyBinding[e.$keyChain] || o;
                         }
                         if (o) {
                             if (o == "chainKeys" || o[o.length - 1] == "chainKeys") {
-                                e.$keyChain = e.$keyChain || s;
+                                e.$keyChain = e.$keyChain || r;
                                 return {
                                     command: "null"
                                 };
                             }
                         }
                         if (e.$keyChain) {
-                            if ((!t || t == 4) && i.length == 1) e.$keyChain = e.$keyChain.slice(0, -s.length - 1);
+                            if ((!t || t == 4) && i.length == 1) e.$keyChain = e.$keyChain.slice(0, -r.length - 1);
                             else if (t == -1 || n > 0) e.$keyChain = "";
                         }
                         return {
@@ -11165,18 +11165,18 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/oop");
-                var s = e("../keyboard/hash_handler").MultiHashHandler;
-                var r = e("../lib/event_emitter").EventEmitter;
+                var r = e("../keyboard/hash_handler").MultiHashHandler;
+                var s = e("../lib/event_emitter").EventEmitter;
                 var o = function(e, t) {
-                    s.call(this, t, e);
+                    r.call(this, t, e);
                     this.byName = this.commands;
                     this.setDefaultHandler("exec", function(e) {
                         return e.command.exec(e.editor, e.args || {});
                     });
                 };
-                n.inherits(o, s);
+                n.inherits(o, r);
                 (function() {
-                    n.implement(this, r);
+                    n.implement(this, s);
                     this.exec = function(e, t, i) {
                         if (Array.isArray(e)) {
                             for(var n = e.length; n--;){
@@ -11188,14 +11188,14 @@
                         if (!e) return false;
                         if (t && t.$readOnly && !e.readOnly) return false;
                         if (this.$checkCommandState != false && e.isAvailable && !e.isAvailable(t)) return false;
-                        var s = {
+                        var r = {
                             editor: t,
                             command: e,
                             args: i
                         };
-                        s.returnValue = this._emit("exec", s);
-                        this._signal("afterExec", s);
-                        return s.returnValue === false ? false : true;
+                        r.returnValue = this._emit("exec", r);
+                        this._signal("afterExec", r);
+                        return r.returnValue === false ? false : true;
                     };
                     this.toggleRecording = function(e) {
                         if (this.$inReplay) return;
@@ -11252,8 +11252,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/lang");
-                var s = e("../config");
-                var r = e("../range").Range;
+                var r = e("../config");
+                var s = e("../range").Range;
                 function o(e, t) {
                     return {
                         win: e,
@@ -11266,7 +11266,7 @@
                         description: "Show settings menu",
                         bindKey: o("Ctrl-,", "Command-,"),
                         exec: function(e) {
-                            s.loadModule("ace/ext/settings_menu", function(t) {
+                            r.loadModule("ace/ext/settings_menu", function(t) {
                                 t.init(e);
                                 e.showSettingsMenu();
                             });
@@ -11278,7 +11278,7 @@
                         description: "Go to next error",
                         bindKey: o("Alt-E", "F4"),
                         exec: function(e) {
-                            s.loadModule("./ext/error_marker", function(t) {
+                            r.loadModule("./ext/error_marker", function(t) {
                                 t.showErrorMarker(e, 1);
                             });
                         },
@@ -11290,7 +11290,7 @@
                         description: "Go to previous error",
                         bindKey: o("Alt-Shift-E", "Shift-F4"),
                         exec: function(e) {
-                            s.loadModule("./ext/error_marker", function(t) {
+                            r.loadModule("./ext/error_marker", function(t) {
                                 t.showErrorMarker(e, -1);
                             });
                         },
@@ -11457,7 +11457,7 @@
                         description: "Find",
                         bindKey: o("Ctrl-F", "Command-F"),
                         exec: function(e) {
-                            s.loadModule("ace/ext/searchbox", function(t) {
+                            r.loadModule("ace/ext/searchbox", function(t) {
                                 t.Search(e);
                             });
                         },
@@ -11951,7 +11951,7 @@
                         description: "Replace",
                         bindKey: o("Ctrl-H", "Command-Option-F"),
                         exec: function(e) {
-                            s.loadModule("ace/ext/searchbox", function(t) {
+                            r.loadModule("ace/ext/searchbox", function(t) {
                                 t.Search(e, true);
                             });
                         }
@@ -12237,23 +12237,23 @@
                         exec: function(e) {
                             var t = e.selection.isBackwards();
                             var i = t ? e.selection.getSelectionLead() : e.selection.getSelectionAnchor();
-                            var s = t ? e.selection.getSelectionAnchor() : e.selection.getSelectionLead();
+                            var r = t ? e.selection.getSelectionAnchor() : e.selection.getSelectionLead();
                             var o = e.session.doc.getLine(i.row).length;
                             var a = e.session.doc.getTextRange(e.selection.getRange());
                             var l = a.replace(/\n\s*/, " ").length;
                             var h = e.session.doc.getLine(i.row);
-                            for(var c = i.row + 1; c <= s.row + 1; c++){
+                            for(var c = i.row + 1; c <= r.row + 1; c++){
                                 var u = n.stringTrimLeft(n.stringTrimRight(e.session.doc.getLine(c)));
                                 if (u.length !== 0) {
                                     u = " " + u;
                                 }
                                 h += u;
                             }
-                            if (s.row + 1 < e.session.doc.getLength() - 1) {
+                            if (r.row + 1 < e.session.doc.getLength() - 1) {
                                 h += e.session.doc.getNewLineCharacter();
                             }
                             e.clearSelection();
-                            e.session.doc.replace(new r(i.row, 0, s.row + 2, 0), h);
+                            e.session.doc.replace(new s(i.row, 0, r.row + 2, 0), h);
                             if (l > 0) {
                                 e.selection.moveCursorTo(i.row, i.column);
                                 e.selection.selectTo(i.row, i.column + l);
@@ -12273,7 +12273,7 @@
                             var t = e.session.doc.getLength() - 1;
                             var i = e.session.doc.getLine(t).length;
                             var n = e.selection.rangeList.ranges;
-                            var s = [];
+                            var r = [];
                             if (n.length < 1) {
                                 n = [
                                     e.selection.getRange()
@@ -12282,21 +12282,21 @@
                             for(var o = 0; o < n.length; o++){
                                 if (o == n.length - 1) {
                                     if (!(n[o].end.row === t && n[o].end.column === i)) {
-                                        s.push(new r(n[o].end.row, n[o].end.column, t, i));
+                                        r.push(new s(n[o].end.row, n[o].end.column, t, i));
                                     }
                                 }
                                 if (o === 0) {
                                     if (!(n[o].start.row === 0 && n[o].start.column === 0)) {
-                                        s.push(new r(0, 0, n[o].start.row, n[o].start.column));
+                                        r.push(new s(0, 0, n[o].start.row, n[o].start.column));
                                     }
                                 } else {
-                                    s.push(new r(n[o - 1].end.row, n[o - 1].end.column, n[o].start.row, n[o].start.column));
+                                    r.push(new s(n[o - 1].end.row, n[o - 1].end.column, n[o].start.row, n[o].start.column));
                                 }
                             }
                             e.exitMultiSelectMode();
                             e.clearSelection();
-                            for(var o = 0; o < s.length; o++){
-                                e.selection.addRange(s[o], false);
+                            for(var o = 0; o < r.length; o++){
+                                e.selection.addRange(r[o], false);
                             }
                         },
                         readOnly: true,
@@ -12388,29 +12388,29 @@
                 "use strict";
                 e("./lib/fixoldbrowsers");
                 var n = e("./lib/oop");
-                var s = e("./lib/dom");
-                var r = e("./lib/lang");
+                var r = e("./lib/dom");
+                var s = e("./lib/lang");
                 var o = e("./lib/useragent");
                 var a = e("./keyboard/textinput").TextInput;
                 var l = e("./mouse/mouse_handler").MouseHandler;
                 var h = e("./mouse/fold_handler").FoldHandler;
                 var c = e("./keyboard/keybinding").KeyBinding;
                 var u = e("./edit_session").EditSession;
-                var f = e("./search").Search;
-                var d = e("./range").Range;
+                var d = e("./search").Search;
+                var f = e("./range").Range;
                 var g = e("./lib/event_emitter").EventEmitter;
-                var v = e("./commands/command_manager").CommandManager;
-                var m = e("./commands/default_commands").commands;
+                var m = e("./commands/command_manager").CommandManager;
+                var v = e("./commands/default_commands").commands;
                 var p = e("./config");
                 var w = e("./token_iterator").TokenIterator;
                 var $ = e("./clipboard");
-                var C = function(e, t, i) {
+                var b = function(e, t, i) {
                     this.$toDestroy = [];
                     var n = e.getContainerElement();
                     this.container = n;
                     this.renderer = e;
-                    this.id = "editor" + ++C.$uid;
-                    this.commands = new v(o.isMac ? "mac" : "win", m);
+                    this.id = "editor" + ++b.$uid;
+                    this.commands = new m(o.isMac ? "mac" : "win", v);
                     if (typeof document == "object") {
                         this.textInput = new a(e.getTextAreaContainer(), this);
                         this.renderer.textarea = this.textInput.getElement();
@@ -12418,13 +12418,13 @@
                         new h(this);
                     }
                     this.keyBinding = new c(this);
-                    this.$search = new f().set({
+                    this.$search = new d().set({
                         wrap: true
                     });
                     this.$historyTracker = this.$historyTracker.bind(this);
                     this.commands.on("exec", this.$historyTracker);
                     this.$initOperationListeners();
-                    this._$emitInputEvent = r.delayedCall(function() {
+                    this._$emitInputEvent = s.delayedCall(function() {
                         this._signal("input", {});
                         if (this.session && this.session.bgTokenizer) this.session.bgTokenizer.scheduleStart();
                     }.bind(this));
@@ -12436,13 +12436,13 @@
                     if (i) this.setOptions(i);
                     p._signal("editor", this);
                 };
-                C.$uid = 0;
+                b.$uid = 0;
                 (function() {
                     n.implement(this, g);
                     this.$initOperationListeners = function() {
                         this.commands.on("exec", this.startOperation.bind(this), true);
                         this.commands.on("afterExec", this.endOperation.bind(this), true);
-                        this.$opResetTimer = r.delayedCall(this.endOperation.bind(this, true));
+                        this.$opResetTimer = s.delayedCall(this.endOperation.bind(this, true));
                         this.on("change", function() {
                             if (!this.curOp) {
                                 this.startOperation();
@@ -12498,8 +12498,8 @@
                                         break;
                                     case "selectionPart":
                                         var n = this.selection.getRange();
-                                        var s = this.renderer.layerConfig;
-                                        if (n.start.row >= s.lastRow || n.end.row <= s.firstRow) {
+                                        var r = this.renderer.layerConfig;
+                                        if (n.start.row >= r.lastRow || n.end.row <= r.firstRow) {
                                             this.renderer.scrollSelectionIntoView(this.selection.anchor, this.selection.lead);
                                         }
                                         break;
@@ -12508,10 +12508,10 @@
                                 }
                                 if (i == "animate") this.renderer.animateScrolling(this.curOp.scrollTop);
                             }
-                            var r = this.selection.toJSON();
-                            this.curOp.selectionAfter = r;
+                            var s = this.selection.toJSON();
+                            this.curOp.selectionAfter = s;
                             this.$lastSel = this.selection.toJSON();
-                            this.session.getUndoManager().addSelection(r);
+                            this.session.getUndoManager().addSelection(s);
                             this.prevOp = this.curOp;
                             this.curOp = null;
                         }
@@ -12527,9 +12527,9 @@
                         var i = this.$mergeableCommands;
                         var n = t.command && e.command.name == t.command.name;
                         if (e.command.name == "insertstring") {
-                            var s = e.args;
+                            var r = e.args;
                             if (this.mergeNextCommand === undefined) this.mergeNextCommand = true;
-                            n = n && this.mergeNextCommand && (!/\s/.test(s) || /\s/.test(t.args));
+                            n = n && this.mergeNextCommand && (!/\s/.test(r) || /\s/.test(t.args));
                             this.mergeNextCommand = true;
                         } else {
                             n = n && i.indexOf(e.command.name) !== -1;
@@ -12679,7 +12679,7 @@
                         this.renderer.unsetStyle(e);
                     };
                     this.getFontSize = function() {
-                        return (this.getOption("fontSize") || s.computedStyle(this.container).fontSize);
+                        return (this.getOption("fontSize") || r.computedStyle(this.container).fontSize);
                     };
                     this.setFontSize = function(e) {
                         this.setOption("fontSize", e);
@@ -12712,11 +12712,11 @@
                                 n = "ace_error_bracket";
                             }
                             if (i.length == 2) {
-                                if (d.comparePoints(i[0].end, i[1].start) == 0) i = [
-                                    d.fromPoints(i[0].start, i[1].end), 
+                                if (f.comparePoints(i[0].end, i[1].start) == 0) i = [
+                                    f.fromPoints(i[0].start, i[1].end), 
                                 ];
-                                else if (d.comparePoints(i[0].start, i[1].end) == 0) i = [
-                                    d.fromPoints(i[1].start, i[0].end), 
+                                else if (f.comparePoints(i[0].start, i[1].end) == 0) i = [
+                                    f.fromPoints(i[1].start, i[0].end), 
                                 ];
                             }
                             t.$bracketHighlight = {
@@ -12737,57 +12737,57 @@
                             if (!t || !t.bgTokenizer) return;
                             var i = e.getCursorPosition();
                             var n = new w(e.session, i.row, i.column);
-                            var s = n.getCurrentToken();
-                            if (!s || !/\b(?:tag-open|tag-name)/.test(s.type)) {
+                            var r = n.getCurrentToken();
+                            if (!r || !/\b(?:tag-open|tag-name)/.test(r.type)) {
                                 t.removeMarker(t.$tagHighlight);
                                 t.$tagHighlight = null;
                                 return;
                             }
-                            if (s.type.indexOf("tag-open") !== -1) {
-                                s = n.stepForward();
-                                if (!s) return;
+                            if (r.type.indexOf("tag-open") !== -1) {
+                                r = n.stepForward();
+                                if (!r) return;
                             }
-                            var r = s.value;
-                            var o = s.value;
+                            var s = r.value;
+                            var o = r.value;
                             var a = 0;
                             var l = n.stepBackward();
                             if (l.value === "<") {
                                 do {
-                                    l = s;
-                                    s = n.stepForward();
-                                    if (s) {
-                                        if (s.type.indexOf("tag-name") !== -1) {
-                                            o = s.value;
-                                            if (r === o) {
+                                    l = r;
+                                    r = n.stepForward();
+                                    if (r) {
+                                        if (r.type.indexOf("tag-name") !== -1) {
+                                            o = r.value;
+                                            if (s === o) {
                                                 if (l.value === "<") {
                                                     a++;
                                                 } else if (l.value === "</") {
                                                     a--;
                                                 }
                                             }
-                                        } else if (r === o && s.value === "/>") {
+                                        } else if (s === o && r.value === "/>") {
                                             a--;
                                         }
                                     }
-                                }while (s && a >= 0)
+                                }while (r && a >= 0)
                             } else {
                                 do {
-                                    s = l;
+                                    r = l;
                                     l = n.stepBackward();
-                                    if (s) {
-                                        if (s.type.indexOf("tag-name") !== -1) {
-                                            if (r === s.value) {
+                                    if (r) {
+                                        if (r.type.indexOf("tag-name") !== -1) {
+                                            if (s === r.value) {
                                                 if (l.value === "<") {
                                                     a++;
                                                 } else if (l.value === "</") {
                                                     a--;
                                                 }
                                             }
-                                        } else if (s.value === "/>") {
+                                        } else if (r.value === "/>") {
                                             var h = 0;
                                             var c = l;
                                             while(c){
-                                                if (c.type.indexOf("tag-name") !== -1 && c.value === r) {
+                                                if (c.type.indexOf("tag-name") !== -1 && c.value === s) {
                                                     a--;
                                                     break;
                                                 } else if (c.value === "<") {
@@ -12804,20 +12804,20 @@
                                 }while (l && a <= 0)
                                 n.stepForward();
                             }
-                            if (!s) {
+                            if (!r) {
                                 t.removeMarker(t.$tagHighlight);
                                 t.$tagHighlight = null;
                                 return;
                             }
-                            var f = n.getCurrentTokenRow();
+                            var d = n.getCurrentTokenRow();
                             var g = n.getCurrentTokenColumn();
-                            var v = new d(f, g, f, g + s.value.length);
-                            var m = t.$backMarkers[t.$tagHighlight];
-                            if (t.$tagHighlight && m != undefined && v.compareRange(m.range) !== 0) {
+                            var m = new f(d, g, d, g + r.value.length);
+                            var v = t.$backMarkers[t.$tagHighlight];
+                            if (t.$tagHighlight && v != undefined && m.compareRange(v.range) !== 0) {
                                 t.removeMarker(t.$tagHighlight);
                                 t.$tagHighlight = null;
                             }
-                            if (!t.$tagHighlight) t.$tagHighlight = t.addMarker(v, "ace_bracket", "text");
+                            if (!t.$tagHighlight) t.$tagHighlight = t.addMarker(m, "ace_bracket", "text");
                         }, 50);
                     };
                     this.focus = function() {
@@ -12886,7 +12886,7 @@
                             e.removeMarker(e.$highlightLineMarker.id);
                             e.$highlightLineMarker = null;
                         } else if (!e.$highlightLineMarker && t) {
-                            var i = new d(t.row, t.column, t.row, Infinity);
+                            var i = new f(t.row, t.column, t.row, Infinity);
                             i.id = e.addMarker(i, "ace_active-line", "screenLine");
                             e.$highlightLineMarker = i;
                         } else if (t) {
@@ -12909,8 +12909,8 @@
                         } else {
                             this.$updateHighlightActiveLine();
                         }
-                        var s = this.$highlightSelectedWord && this.$getSelectionHighLightRegexp();
-                        this.session.highlight(s);
+                        var r = this.$highlightSelectedWord && this.$getSelectionHighLightRegexp();
+                        this.session.highlight(r);
                         this._signal("changeSelection");
                     };
                     this.$getSelectionHighLightRegexp = function() {
@@ -12919,15 +12919,15 @@
                         if (t.isEmpty() || t.isMultiLine()) return;
                         var i = t.start.column;
                         var n = t.end.column;
-                        var s = e.getLine(t.start.row);
-                        var r = s.substring(i, n);
-                        if (r.length > 5000 || !/[\w\d]/.test(r)) return;
+                        var r = e.getLine(t.start.row);
+                        var s = r.substring(i, n);
+                        if (s.length > 5000 || !/[\w\d]/.test(s)) return;
                         var o = this.$search.$assembleRegExp({
                             wholeWord: true,
                             caseSensitive: true,
-                            needle: r
+                            needle: s
                         });
-                        var a = s.substring(i - 1, n + 1);
+                        var a = r.substring(i - 1, n + 1);
                         if (!o.test(a)) return;
                         return o;
                     };
@@ -12967,10 +12967,10 @@
                         if (!e && this.$copyWithEmptySelection) {
                             i = true;
                             var n = this.selection.getAllRanges();
-                            for(var s = 0; s < n.length; s++){
-                                var r = n[s];
-                                if (s && n[s - 1].start.row == r.start.row) continue;
-                                e += this.session.getLine(r.start.row) + t;
+                            for(var r = 0; r < n.length; r++){
+                                var s = n[r];
+                                if (r && n[r - 1].start.row == s.start.row) continue;
+                                e += this.session.getLine(s.start.row) + t;
                             }
                         }
                         var o = {
@@ -13015,14 +13015,14 @@
                                 }, t);
                             });
                         } else {
-                            var s = t.split(/\r\n|\r|\n/);
-                            var r = this.selection.rangeList.ranges;
-                            var o = s.length == 2 && (!s[0] || !s[1]);
-                            if (s.length != r.length || o) return this.commands.exec("insertstring", this, t);
-                            for(var a = r.length; a--;){
-                                var l = r[a];
+                            var r = t.split(/\r\n|\r|\n/);
+                            var s = this.selection.rangeList.ranges;
+                            var o = r.length == 2 && (!r[0] || !r[1]);
+                            if (r.length != s.length || o) return this.commands.exec("insertstring", this, t);
+                            for(var a = s.length; a--;){
+                                var l = s[a];
                                 if (!l.isEmpty()) n.remove(l);
-                                n.insert(l.start, s[a]);
+                                n.insert(l.start, r[a]);
                             }
                         }
                     };
@@ -13032,58 +13032,58 @@
                     this.insert = function(e, t) {
                         var i = this.session;
                         var n = i.getMode();
-                        var s = this.getCursorPosition();
+                        var r = this.getCursorPosition();
                         if (this.getBehavioursEnabled() && !t) {
-                            var r = n.transformAction(i.getState(s.row), "insertion", this, i, e);
-                            if (r) {
-                                if (e !== r.text) {
+                            var s = n.transformAction(i.getState(r.row), "insertion", this, i, e);
+                            if (s) {
+                                if (e !== s.text) {
                                     if (!this.inVirtualSelectionMode) {
                                         this.session.mergeUndoDeltas = false;
                                         this.mergeNextCommand = false;
                                     }
                                 }
-                                e = r.text;
+                                e = s.text;
                             }
                         }
                         if (e == "\t") e = this.session.getTabString();
                         if (!this.selection.isEmpty()) {
                             var o = this.getSelectionRange();
-                            s = this.session.remove(o);
+                            r = this.session.remove(o);
                             this.clearSelection();
                         } else if (this.session.getOverwrite() && e.indexOf("\n") == -1) {
-                            var o = new d.fromPoints(s, s);
+                            var o = new f.fromPoints(r, r);
                             o.end.column += e.length;
                             this.session.remove(o);
                         }
                         if (e == "\n" || e == "\r\n") {
-                            var a = i.getLine(s.row);
-                            if (s.column > a.search(/\S|$/)) {
-                                var l = a.substr(s.column).search(/\S|$/);
-                                i.doc.removeInLine(s.row, s.column, s.column + l);
+                            var a = i.getLine(r.row);
+                            if (r.column > a.search(/\S|$/)) {
+                                var l = a.substr(r.column).search(/\S|$/);
+                                i.doc.removeInLine(r.row, r.column, r.column + l);
                             }
                         }
                         this.clearSelection();
-                        var h = s.column;
-                        var c = i.getState(s.row);
-                        var a = i.getLine(s.row);
+                        var h = r.column;
+                        var c = i.getState(r.row);
+                        var a = i.getLine(r.row);
                         var u = n.checkOutdent(c, a, e);
-                        i.insert(s, e);
-                        if (r && r.selection) {
-                            if (r.selection.length == 2) {
-                                this.selection.setSelectionRange(new d(s.row, h + r.selection[0], s.row, h + r.selection[1]));
+                        i.insert(r, e);
+                        if (s && s.selection) {
+                            if (s.selection.length == 2) {
+                                this.selection.setSelectionRange(new f(r.row, h + s.selection[0], r.row, h + s.selection[1]));
                             } else {
-                                this.selection.setSelectionRange(new d(s.row + r.selection[0], r.selection[1], s.row + r.selection[2], r.selection[3]));
+                                this.selection.setSelectionRange(new f(r.row + s.selection[0], s.selection[1], r.row + s.selection[2], s.selection[3]));
                             }
                         }
                         if (this.$enableAutoIndent) {
                             if (i.getDocument().isNewLine(e)) {
-                                var f = n.getNextLineIndent(c, a.slice(0, s.column), i.getTabString());
+                                var d = n.getNextLineIndent(c, a.slice(0, r.column), i.getTabString());
                                 i.insert({
-                                    row: s.row + 1,
+                                    row: r.row + 1,
                                     column: 0
-                                }, f);
+                                }, d);
                             }
-                            if (u) n.autoOutdent(c, i, s.row);
+                            if (u) n.autoOutdent(c, i, r.row);
                         }
                     };
                     this.autoIndent = function() {
@@ -13094,36 +13094,36 @@
                             i = 0;
                             n = e.doc.getLength() - 1;
                         } else {
-                            var s = this.getSelectionRange();
-                            i = s.start.row;
-                            n = s.end.row;
+                            var r = this.getSelectionRange();
+                            i = r.start.row;
+                            n = r.end.row;
                         }
-                        var r = "";
+                        var s = "";
                         var o = "";
                         var a = "";
                         var l, h, c;
                         var u = e.getTabString();
-                        for(var f = i; f <= n; f++){
-                            if (f > 0) {
-                                r = e.getState(f - 1);
-                                o = e.getLine(f - 1);
-                                a = t.getNextLineIndent(r, o, u);
+                        for(var d = i; d <= n; d++){
+                            if (d > 0) {
+                                s = e.getState(d - 1);
+                                o = e.getLine(d - 1);
+                                a = t.getNextLineIndent(s, o, u);
                             }
-                            l = e.getLine(f);
+                            l = e.getLine(d);
                             h = t.$getIndent(l);
                             if (a !== h) {
                                 if (h.length > 0) {
-                                    c = new d(f, 0, f, h.length);
+                                    c = new f(d, 0, d, h.length);
                                     e.remove(c);
                                 }
                                 if (a.length > 0) {
                                     e.insert({
-                                        row: f,
+                                        row: d,
                                         column: 0
                                     }, a);
                                 }
                             }
-                            t.autoOutdent(r, e, f);
+                            t.autoOutdent(s, e, d);
                         }
                     };
                     this.onTextInput = function(e, t) {
@@ -13275,17 +13275,17 @@
                         if (this.getBehavioursEnabled()) {
                             var i = this.session;
                             var n = i.getState(t.start.row);
-                            var s = i.getMode().transformAction(n, "deletion", this, i, t);
+                            var r = i.getMode().transformAction(n, "deletion", this, i, t);
                             if (t.end.column === 0) {
-                                var r = i.getTextRange(t);
-                                if (r[r.length - 1] == "\n") {
+                                var s = i.getTextRange(t);
+                                if (s[s.length - 1] == "\n") {
                                     var o = i.getLine(t.end.row);
                                     if (/^\s+$/.test(o)) {
                                         t.end.column = o.length;
                                     }
                                 }
                             }
-                            if (s) t = s;
+                            if (r) t = r;
                         }
                         this.session.remove(t);
                         this.clearSelection();
@@ -13333,16 +13333,16 @@
                         var t = e.column;
                         if (t === 0) return;
                         var i = this.session.getLine(e.row);
-                        var n, s;
+                        var n, r;
                         if (t < i.length) {
                             n = i.charAt(t) + i.charAt(t - 1);
-                            s = new d(e.row, t - 1, e.row, t + 1);
+                            r = new f(e.row, t - 1, e.row, t + 1);
                         } else {
                             n = i.charAt(t - 1) + i.charAt(t - 2);
-                            s = new d(e.row, t - 2, e.row, t);
+                            r = new f(e.row, t - 2, e.row, t);
                         }
-                        this.session.replace(s, n);
-                        this.session.selection.moveToPosition(s.end);
+                        this.session.replace(r, n);
+                        this.session.selection.moveToPosition(r.end);
                     };
                     this.toLowerCase = function() {
                         var e = this.getSelectionRange();
@@ -13379,16 +13379,16 @@
                                 return;
                             }
                         }
-                        var s = e.getLine(t.start.row);
+                        var r = e.getLine(t.start.row);
                         var o = t.start;
                         var a = e.getTabSize();
                         var l = e.documentToScreenColumn(o.row, o.column);
                         if (this.session.getUseSoftTabs()) {
                             var h = a - (l % a);
-                            var c = r.stringRepeat(" ", h);
+                            var c = s.stringRepeat(" ", h);
                         } else {
                             var h = l % a;
-                            while(s[t.start.column - 1] == " " && h){
+                            while(r[t.start.column - 1] == " " && h){
                                 t.start.column--;
                                 h--;
                             }
@@ -13415,13 +13415,13 @@
                             if (e.toLowerCase() > t.toLowerCase()) return 1;
                             return 0;
                         });
-                        var s = new d(0, 0, 0, 0);
+                        var r = new f(0, 0, 0, 0);
                         for(var n = e.first; n <= e.last; n++){
-                            var r = t.getLine(n);
-                            s.start.row = n;
-                            s.end.row = n;
-                            s.end.column = r.length;
-                            t.replace(s, i[n - e.first]);
+                            var s = t.getLine(n);
+                            r.start.row = n;
+                            r.end.row = n;
+                            r.end.column = s.length;
+                            t.replace(r, i[n - e.first]);
                         }
                     };
                     this.toggleCommentLines = function() {
@@ -13440,14 +13440,14 @@
                         i.lastIndex = 0;
                         var n = this.session.getLine(e);
                         while(i.lastIndex < t){
-                            var s = i.exec(n);
-                            if (s.index <= t && s.index + s[0].length >= t) {
-                                var r = {
-                                    value: s[0],
-                                    start: s.index,
-                                    end: s.index + s[0].length
+                            var r = i.exec(n);
+                            if (r.index <= t && r.index + r[0].length >= t) {
+                                var s = {
+                                    value: r[0],
+                                    start: r.index,
+                                    end: r.index + r[0].length
                                 };
-                                return r;
+                                return s;
                             }
                         }
                         return null;
@@ -13455,26 +13455,26 @@
                     this.modifyNumber = function(e) {
                         var t = this.selection.getCursor().row;
                         var i = this.selection.getCursor().column;
-                        var n = new d(t, i - 1, t, i);
-                        var s = this.session.getTextRange(n);
-                        if (!isNaN(parseFloat(s)) && isFinite(s)) {
-                            var r = this.getNumberAt(t, i);
-                            if (r) {
-                                var o = r.value.indexOf(".") >= 0 ? r.start + r.value.indexOf(".") + 1 : r.end;
-                                var a = r.start + r.value.length - o;
-                                var l = parseFloat(r.value);
+                        var n = new f(t, i - 1, t, i);
+                        var r = this.session.getTextRange(n);
+                        if (!isNaN(parseFloat(r)) && isFinite(r)) {
+                            var s = this.getNumberAt(t, i);
+                            if (s) {
+                                var o = s.value.indexOf(".") >= 0 ? s.start + s.value.indexOf(".") + 1 : s.end;
+                                var a = s.start + s.value.length - o;
+                                var l = parseFloat(s.value);
                                 l *= Math.pow(10, a);
-                                if (o !== r.end && i < o) {
-                                    e *= Math.pow(10, r.end - i - 1);
+                                if (o !== s.end && i < o) {
+                                    e *= Math.pow(10, s.end - i - 1);
                                 } else {
-                                    e *= Math.pow(10, r.end - i);
+                                    e *= Math.pow(10, s.end - i);
                                 }
                                 l += e;
                                 l /= Math.pow(10, a);
                                 var h = l.toFixed(a);
-                                var c = new d(t, r.start, t, r.end);
+                                var c = new f(t, s.start, t, s.end);
                                 this.session.replace(c, h);
-                                this.moveCursorTo(t, Math.max(r.start + 1, i + h.length - r.value.length));
+                                this.moveCursorTo(t, Math.max(s.start + 1, i + h.length - s.value.length));
                             }
                         } else {
                             this.toggleWord();
@@ -13580,13 +13580,13 @@
                         this.selection.selectWord();
                         var i = this.getSelectedText();
                         var n = this.selection.getWordRange().start.column;
-                        var s = i.replace(/([a-z]+|[A-Z]+)(?=[A-Z_]|$)/g, "$1 ").split(/\s/);
+                        var r = i.replace(/([a-z]+|[A-Z]+)(?=[A-Z_]|$)/g, "$1 ").split(/\s/);
                         var o = t - n - 1;
                         if (o < 0) o = 0;
                         var a = 0, l = 0;
                         var h = this;
                         if (i.match(/[A-Za-z0-9_]+/)) {
-                            s.forEach(function(t, s) {
+                            r.forEach(function(t, r) {
                                 l = a + t.length;
                                 if (o >= a && o <= l) {
                                     i = t;
@@ -13599,20 +13599,20 @@
                         }
                         var c = this.$toggleWordPairs;
                         var u;
-                        for(var f = 0; f < c.length; f++){
-                            var d = c[f];
+                        for(var d = 0; d < c.length; d++){
+                            var f = c[d];
                             for(var g = 0; g <= 1; g++){
-                                var v = +!g;
-                                var m = i.match(new RegExp("^\\s?_?(" + r.escapeRegExp(d[g]) + ")\\s?$", "i"));
-                                if (m) {
-                                    var p = i.match(new RegExp("([_]|^|\\s)(" + r.escapeRegExp(m[1]) + ")($|\\s)", "g"));
+                                var m = +!g;
+                                var v = i.match(new RegExp("^\\s?_?(" + s.escapeRegExp(f[g]) + ")\\s?$", "i"));
+                                if (v) {
+                                    var p = i.match(new RegExp("([_]|^|\\s)(" + s.escapeRegExp(v[1]) + ")($|\\s)", "g"));
                                     if (p) {
-                                        u = i.replace(new RegExp(r.escapeRegExp(d[g]), "i"), function(e) {
-                                            var t = d[v];
+                                        u = i.replace(new RegExp(s.escapeRegExp(f[g]), "i"), function(e) {
+                                            var t = f[m];
                                             if (e.toUpperCase() == e) {
                                                 t = t.toUpperCase();
                                             } else if (e.charAt(0).toUpperCase() == e.charAt(0)) {
-                                                t = t.substr(0, 0) + d[v].charAt(0).toUpperCase() + t.substr(1);
+                                                t = t.substr(0, 0) + f[m].charAt(0).toUpperCase() + t.substr(1);
                                             }
                                             return t;
                                         });
@@ -13634,12 +13634,12 @@
                         var i = e.getRange();
                         var n = e.isBackwards();
                         if (i.isEmpty()) {
-                            var s = i.start.row;
-                            t.duplicateLines(s, s);
+                            var r = i.start.row;
+                            t.duplicateLines(r, r);
                         } else {
-                            var r = n ? i.start : i.end;
-                            var o = t.insert(r, t.getTextRange(i), false);
-                            i.start = r;
+                            var s = n ? i.start : i.end;
+                            var o = t.insert(s, t.getTextRange(i), false);
+                            i.start = s;
                             i.end = o;
                             e.setSelectionRange(i, n);
                         }
@@ -13661,17 +13661,17 @@
                     };
                     this.$moveLines = function(e, t) {
                         var i, n;
-                        var s = this.selection;
-                        if (!s.inMultiSelectMode || this.inVirtualSelectionMode) {
-                            var r = s.toOrientedRange();
-                            i = this.$getSelectedRows(r);
+                        var r = this.selection;
+                        if (!r.inMultiSelectMode || this.inVirtualSelectionMode) {
+                            var s = r.toOrientedRange();
+                            i = this.$getSelectedRows(s);
                             n = this.session.$moveLines(i.first, i.last, t ? 0 : e);
                             if (t && e == -1) n = 0;
-                            r.moveBy(n, 0);
-                            s.fromOrientedRange(r);
+                            s.moveBy(n, 0);
+                            r.fromOrientedRange(s);
                         } else {
-                            var o = s.rangeList.ranges;
-                            s.rangeList.detach(this.session);
+                            var o = r.rangeList.ranges;
+                            r.rangeList.detach(this.session);
                             this.inVirtualSelectionMode = true;
                             var a = 0;
                             var l = 0;
@@ -13680,17 +13680,17 @@
                                 var u = c;
                                 o[c].moveBy(a, 0);
                                 i = this.$getSelectedRows(o[c]);
-                                var f = i.first;
-                                var d = i.last;
+                                var d = i.first;
+                                var f = i.last;
                                 while(++c < h){
                                     if (l) o[c].moveBy(l, 0);
                                     var g = this.$getSelectedRows(o[c]);
-                                    if (t && g.first != d) break;
-                                    else if (!t && g.first > d + 1) break;
-                                    d = g.last;
+                                    if (t && g.first != f) break;
+                                    else if (!t && g.first > f + 1) break;
+                                    f = g.last;
                                 }
                                 c--;
-                                a = this.session.$moveLines(f, d, t ? 0 : e);
+                                a = this.session.$moveLines(d, f, t ? 0 : e);
                                 if (t && e == -1) u = c + 1;
                                 while(u <= c){
                                     o[u].moveBy(a, 0);
@@ -13699,8 +13699,8 @@
                                 if (!t) a = 0;
                                 l += a;
                             }
-                            s.fromOrientedRange(s.ranges[0]);
-                            s.rangeList.attach(this.session);
+                            r.fromOrientedRange(r.ranges[0]);
+                            r.rangeList.attach(this.session);
                             this.inVirtualSelectionMode = false;
                         }
                     };
@@ -13738,19 +13738,19 @@
                     this.$moveByPage = function(e, t) {
                         var i = this.renderer;
                         var n = this.renderer.layerConfig;
-                        var s = e * Math.floor(n.height / n.lineHeight);
+                        var r = e * Math.floor(n.height / n.lineHeight);
                         if (t === true) {
                             this.selection.$moveSelection(function() {
-                                this.moveCursorBy(s, 0);
+                                this.moveCursorBy(r, 0);
                             });
                         } else if (t === false) {
-                            this.selection.moveCursorBy(s, 0);
+                            this.selection.moveCursorBy(r, 0);
                             this.selection.clearSelection();
                         }
-                        var r = i.scrollTop;
-                        i.scrollBy(0, s * n.lineHeight);
+                        var s = i.scrollTop;
+                        i.scrollBy(0, r * n.lineHeight);
                         if (t != null) i.scrollCursorIntoView(null, 0.5);
-                        i.animateScrolling(r);
+                        i.animateScrolling(s);
                     };
                     this.selectPageDown = function() {
                         this.$moveByPage(1, true);
@@ -13808,13 +13808,13 @@
                     this.jumpToMatching = function(e, t) {
                         var i = this.getCursorPosition();
                         var n = new w(this.session, i.row, i.column);
-                        var s = n.getCurrentToken();
-                        var r = s || n.stepForward();
-                        if (!r) return;
+                        var r = n.getCurrentToken();
+                        var s = r || n.stepForward();
+                        if (!s) return;
                         var o;
                         var a = false;
                         var l = {};
-                        var h = i.column - r.start;
+                        var h = i.column - s.start;
                         var c;
                         var u = {
                             ")": "(",
@@ -13825,16 +13825,16 @@
                             "}": "{"
                         };
                         do {
-                            if (r.value.match(/[{}()\[\]]/g)) {
-                                for(; h < r.value.length && !a; h++){
-                                    if (!u[r.value[h]]) {
+                            if (s.value.match(/[{}()\[\]]/g)) {
+                                for(; h < s.value.length && !a; h++){
+                                    if (!u[s.value[h]]) {
                                         continue;
                                     }
-                                    c = u[r.value[h]] + "." + r.type.replace("rparen", "lparen");
+                                    c = u[s.value[h]] + "." + s.type.replace("rparen", "lparen");
                                     if (isNaN(l[c])) {
                                         l[c] = 0;
                                     }
-                                    switch(r.value[h]){
+                                    switch(s.value[h]){
                                         case "(":
                                         case "[":
                                         case "{":
@@ -13851,70 +13851,70 @@
                                             break;
                                     }
                                 }
-                            } else if (r.type.indexOf("tag-name") !== -1) {
-                                if (isNaN(l[r.value])) {
-                                    l[r.value] = 0;
+                            } else if (s.type.indexOf("tag-name") !== -1) {
+                                if (isNaN(l[s.value])) {
+                                    l[s.value] = 0;
                                 }
-                                if (s.value === "<") {
-                                    l[r.value]++;
-                                } else if (s.value === "</") {
-                                    l[r.value]--;
+                                if (r.value === "<") {
+                                    l[s.value]++;
+                                } else if (r.value === "</") {
+                                    l[s.value]--;
                                 }
-                                if (l[r.value] === -1) {
+                                if (l[s.value] === -1) {
                                     o = "tag";
                                     a = true;
                                 }
                             }
                             if (!a) {
-                                s = r;
-                                r = n.stepForward();
+                                r = s;
+                                s = n.stepForward();
                                 h = 0;
                             }
-                        }while (r && !a)
+                        }while (s && !a)
                         if (!o) return;
-                        var f, g;
+                        var d, g;
                         if (o === "bracket") {
-                            f = this.session.getBracketRange(i);
-                            if (!f) {
-                                f = new d(n.getCurrentTokenRow(), n.getCurrentTokenColumn() + h - 1, n.getCurrentTokenRow(), n.getCurrentTokenColumn() + h - 1);
-                                g = f.start;
-                                if (t || (g.row === i.row && Math.abs(g.column - i.column) < 2)) f = this.session.getBracketRange(g);
+                            d = this.session.getBracketRange(i);
+                            if (!d) {
+                                d = new f(n.getCurrentTokenRow(), n.getCurrentTokenColumn() + h - 1, n.getCurrentTokenRow(), n.getCurrentTokenColumn() + h - 1);
+                                g = d.start;
+                                if (t || (g.row === i.row && Math.abs(g.column - i.column) < 2)) d = this.session.getBracketRange(g);
                             }
                         } else if (o === "tag") {
-                            if (r && r.type.indexOf("tag-name") !== -1) var v = r.value;
+                            if (s && s.type.indexOf("tag-name") !== -1) var m = s.value;
                             else return;
-                            f = new d(n.getCurrentTokenRow(), n.getCurrentTokenColumn() - 2, n.getCurrentTokenRow(), n.getCurrentTokenColumn() - 2);
-                            if (f.compare(i.row, i.column) === 0) {
+                            d = new f(n.getCurrentTokenRow(), n.getCurrentTokenColumn() - 2, n.getCurrentTokenRow(), n.getCurrentTokenColumn() - 2);
+                            if (d.compare(i.row, i.column) === 0) {
                                 a = false;
                                 do {
-                                    r = s;
-                                    s = n.stepBackward();
-                                    if (s) {
-                                        if (s.type.indexOf("tag-close") !== -1) {
-                                            f.setEnd(n.getCurrentTokenRow(), n.getCurrentTokenColumn() + 1);
+                                    s = r;
+                                    r = n.stepBackward();
+                                    if (r) {
+                                        if (r.type.indexOf("tag-close") !== -1) {
+                                            d.setEnd(n.getCurrentTokenRow(), n.getCurrentTokenColumn() + 1);
                                         }
-                                        if (r.value === v && r.type.indexOf("tag-name") !== -1) {
-                                            if (s.value === "<") {
-                                                l[v]++;
-                                            } else if (s.value === "</") {
-                                                l[v]--;
+                                        if (s.value === m && s.type.indexOf("tag-name") !== -1) {
+                                            if (r.value === "<") {
+                                                l[m]++;
+                                            } else if (r.value === "</") {
+                                                l[m]--;
                                             }
-                                            if (l[v] === 0) a = true;
+                                            if (l[m] === 0) a = true;
                                         }
                                     }
-                                }while (s && !a)
+                                }while (r && !a)
                             }
-                            if (r && r.type.indexOf("tag-name")) {
-                                g = f.start;
-                                if (g.row == i.row && Math.abs(g.column - i.column) < 2) g = f.end;
+                            if (s && s.type.indexOf("tag-name")) {
+                                g = d.start;
+                                if (g.row == i.row && Math.abs(g.column - i.column) < 2) g = d.end;
                             }
                         }
-                        g = (f && f.cursor) || g;
+                        g = (d && d.cursor) || g;
                         if (g) {
                             if (e) {
-                                if (f && t) {
-                                    this.selection.setRange(f);
-                                } else if (f && f.isEqual(this.getSelectionRange())) {
+                                if (d && t) {
+                                    this.selection.setRange(d);
+                                } else if (d && d.isEqual(this.getSelectionRange())) {
                                     this.clearSelection();
                                 } else {
                                     this.selection.selectTo(g.row, g.column);
@@ -14020,14 +14020,14 @@
                         var i = this.$search.findAll(this.session);
                         var n = 0;
                         if (!i.length) return n;
-                        var s = this.getSelectionRange();
+                        var r = this.getSelectionRange();
                         this.selection.moveTo(0, 0);
-                        for(var r = i.length - 1; r >= 0; --r){
-                            if (this.$tryReplace(i[r], e)) {
+                        for(var s = i.length - 1; s >= 0; --s){
+                            if (this.$tryReplace(i[s], e)) {
                                 n++;
                             }
                         }
-                        this.selection.setSelectionRange(s);
+                        this.selection.setSelectionRange(r);
                         return n;
                     };
                     this.$tryReplace = function(e, t) {
@@ -14047,12 +14047,12 @@
                         if (!t) t = {};
                         if (typeof e == "string" || e instanceof RegExp) t.needle = e;
                         else if (typeof e == "object") n.mixin(t, e);
-                        var s = this.selection.getRange();
+                        var r = this.selection.getRange();
                         if (t.needle == null) {
-                            e = this.session.getTextRange(s) || this.$search.$options.needle;
+                            e = this.session.getTextRange(r) || this.$search.$options.needle;
                             if (!e) {
-                                s = this.session.getWordRange(s.start.row, s.start.column);
-                                e = this.session.getTextRange(s);
+                                r = this.session.getWordRange(r.start.row, r.start.column);
+                                e = this.session.getTextRange(r);
                             }
                             this.$search.set({
                                 needle: e
@@ -14060,17 +14060,17 @@
                         }
                         this.$search.set(t);
                         if (!t.start) this.$search.set({
-                            start: s
+                            start: r
                         });
-                        var r = this.$search.find(this.session);
-                        if (t.preventScroll) return r;
-                        if (r) {
-                            this.revealRange(r, i);
-                            return r;
+                        var s = this.$search.find(this.session);
+                        if (t.preventScroll) return s;
+                        if (s) {
+                            this.revealRange(s, i);
+                            return s;
                         }
-                        if (t.backwards) s.start = s.end;
-                        else s.end = s.start;
-                        this.selection.setRange(s);
+                        if (t.backwards) r.start = r.end;
+                        else r.end = r.start;
+                        this.selection.setRange(r);
                     };
                     this.findNext = function(e, t) {
                         this.find({
@@ -14119,10 +14119,10 @@
                         var i = this;
                         var n = false;
                         if (!this.$scrollAnchor) this.$scrollAnchor = document.createElement("div");
-                        var s = this.$scrollAnchor;
-                        s.style.cssText = "position:absolute";
-                        this.container.insertBefore(s, this.container.firstChild);
-                        var r = this.on("changeSelection", function() {
+                        var r = this.$scrollAnchor;
+                        r.style.cssText = "position:absolute";
+                        this.container.insertBefore(r, this.container.firstChild);
+                        var s = this.on("changeSelection", function() {
                             n = true;
                         });
                         var o = this.renderer.on("beforeRender", function() {
@@ -14131,21 +14131,21 @@
                         var a = this.renderer.on("afterRender", function() {
                             if (n && t && (i.isFocused() || (i.searchBox && i.searchBox.isFocused()))) {
                                 var e = i.renderer;
-                                var r = e.$cursorLayer.$pixelPos;
+                                var s = e.$cursorLayer.$pixelPos;
                                 var o = e.layerConfig;
-                                var a = r.top - o.offset;
-                                if (r.top >= 0 && a + t.top < 0) {
+                                var a = s.top - o.offset;
+                                if (s.top >= 0 && a + t.top < 0) {
                                     n = true;
-                                } else if (r.top < o.height && r.top + t.top + o.lineHeight > window.innerHeight) {
+                                } else if (s.top < o.height && s.top + t.top + o.lineHeight > window.innerHeight) {
                                     n = false;
                                 } else {
                                     n = null;
                                 }
                                 if (n != null) {
-                                    s.style.top = a + "px";
-                                    s.style.left = r.left + "px";
-                                    s.style.height = o.lineHeight + "px";
-                                    s.scrollIntoView(n);
+                                    r.style.top = a + "px";
+                                    r.style.left = s.left + "px";
+                                    r.style.height = o.lineHeight + "px";
+                                    r.scrollIntoView(n);
                                 }
                                 n = t = null;
                             }
@@ -14153,7 +14153,7 @@
                         this.setAutoScrollEditorIntoView = function(e) {
                             if (e) return;
                             delete this.setAutoScrollEditorIntoView;
-                            this.off("changeSelection", r);
+                            this.off("changeSelection", s);
                             this.renderer.off("afterRender", a);
                             this.renderer.off("beforeRender", o);
                         };
@@ -14164,16 +14164,16 @@
                         if (!t) return;
                         t.setSmoothBlinking(/smooth/.test(e));
                         t.isBlinking = !this.$readOnly && e != "wide";
-                        s.setCssClass(t.element, "ace_slim-cursors", /slim/.test(e));
+                        r.setCssClass(t.element, "ace_slim-cursors", /slim/.test(e));
                     };
                     this.prompt = function(e, t, i) {
                         var n = this;
-                        p.loadModule("./ext/prompt", function(s) {
-                            s.prompt(n, e, t, i);
+                        p.loadModule("./ext/prompt", function(r) {
+                            r.prompt(n, e, t, i);
                         });
                     };
-                }.call(C.prototype));
-                p.defineOptions(C.prototype, "editor", {
+                }.call(b.prototype));
+                p.defineOptions(b.prototype, "editor", {
                     selectionStyle: {
                         set: function(e) {
                             this.onSelectionChange();
@@ -14275,15 +14275,15 @@
                         set: function(e) {
                             this.renderer.$gutterLayer.setShowLineNumbers(e);
                             this.renderer.$loop.schedule(this.renderer.CHANGE_GUTTER);
-                            if (e && this.$relativeLineNumbers) y.attach(this);
-                            else y.detach(this);
+                            if (e && this.$relativeLineNumbers) C.attach(this);
+                            else C.detach(this);
                         },
                         initialValue: true
                     },
                     relativeLineNumbers: {
                         set: function(e) {
-                            if (this.$showLineNumbers && e) y.attach(this);
-                            else y.detach(this);
+                            if (this.$showLineNumbers && e) C.attach(this);
+                            else C.detach(this);
                         }
                     },
                     placeholder: {
@@ -14293,13 +14293,13 @@
                                     var e = this.session && (this.renderer.$composition || this.getValue());
                                     if (e && this.renderer.placeholderNode) {
                                         this.renderer.off("afterRender", this.$updatePlaceholder);
-                                        s.removeCssClass(this.container, "ace_hasPlaceholder");
+                                        r.removeCssClass(this.container, "ace_hasPlaceholder");
                                         this.renderer.placeholderNode.remove();
                                         this.renderer.placeholderNode = null;
                                     } else if (!e && !this.renderer.placeholderNode) {
                                         this.renderer.on("afterRender", this.$updatePlaceholder);
-                                        s.addCssClass(this.container, "ace_hasPlaceholder");
-                                        var t = s.createElement("div");
+                                        r.addCssClass(this.container, "ace_hasPlaceholder");
+                                        var t = r.createElement("div");
                                         t.className = "ace_placeholder";
                                         t.textContent = this.$placeholder || "";
                                         this.renderer.placeholderNode = t;
@@ -14352,7 +14352,7 @@
                     foldStyle: "session",
                     mode: "session"
                 });
-                var y = {
+                var C = {
                     getText: function(e, t) {
                         return ((Math.abs(e.selection.lead.row - t) || t + 1 + (t < 9 ? "\xb7" : "")) + "");
                     },
@@ -14373,7 +14373,7 @@
                         this.update(null, e);
                     }
                 };
-                t.Editor = C;
+                t.Editor = b;
             });
             ace.define("ace/undomanager", [
                 "require",
@@ -14417,19 +14417,19 @@
                         if (t == null) t = this.$rev + 1;
                         var i = this.$undoStack;
                         for(var n = i.length; n--;){
-                            var s = i[n][0];
-                            if (s.id <= e) break;
-                            if (s.id < t) s.ignore = true;
+                            var r = i[n][0];
+                            if (r.id <= e) break;
+                            if (r.id < t) r.ignore = true;
                         }
                         this.lastDeltas = null;
                     };
                     this.getSelection = function(e, t) {
                         var i = this.selections;
                         for(var n = i.length; n--;){
-                            var s = i[n];
-                            if (s.rev < e) {
-                                if (t) s = i[n + 1];
-                                return s;
+                            var r = i[n];
+                            if (r.rev < e) {
+                                if (t) r = i[n + 1];
+                                return r;
                             }
                         }
                     };
@@ -14439,16 +14439,16 @@
                     this.getDeltas = function(e, t) {
                         if (t == null) t = this.$rev + 1;
                         var i = this.$undoStack;
-                        var n = null, s = 0;
-                        for(var r = i.length; r--;){
-                            var o = i[r][0];
-                            if (o.id < t && !n) n = r + 1;
+                        var n = null, r = 0;
+                        for(var s = i.length; s--;){
+                            var o = i[s][0];
+                            if (o.id < t && !n) n = s + 1;
                             if (o.id <= e) {
-                                s = r + 1;
+                                r = s + 1;
                                 break;
                             }
                         }
-                        return i.slice(s, n);
+                        return i.slice(r, n);
                     };
                     this.getChangedRanges = function(e, t) {
                         if (t == null) t = this.$rev + 1;
@@ -14459,19 +14459,19 @@
                     this.undo = function(e, t) {
                         this.lastDeltas = null;
                         var i = this.$undoStack;
-                        if (!s(i, i.length)) return;
+                        if (!r(i, i.length)) return;
                         if (!e) e = this.$session;
                         if (this.$redoStackBaseRev !== this.$rev && this.$redoStack.length) this.$redoStack = [];
                         this.$fromUndo = true;
                         var n = i.pop();
-                        var r = null;
+                        var s = null;
                         if (n) {
-                            r = e.undoChanges(n, t);
+                            s = e.undoChanges(n, t);
                             this.$redoStack.push(n);
                             this.$syncRev();
                         }
                         this.$fromUndo = false;
-                        return r;
+                        return s;
                     };
                     this.redo = function(e, t) {
                         this.lastDeltas = null;
@@ -14479,21 +14479,21 @@
                         this.$fromUndo = true;
                         if (this.$redoStackBaseRev != this.$rev) {
                             var i = this.getDeltas(this.$redoStackBaseRev, this.$rev + 1);
-                            C(this.$redoStack, i);
+                            b(this.$redoStack, i);
                             this.$redoStackBaseRev = this.$rev;
                             this.$redoStack.forEach(function(e) {
                                 e[0].id = ++this.$maxRev;
                             }, this);
                         }
                         var n = this.$redoStack.pop();
-                        var s = null;
+                        var r = null;
                         if (n) {
-                            s = e.redoChanges(n, t);
+                            r = e.redoChanges(n, t);
                             this.$undoStack.push(n);
                             this.$syncRev();
                         }
                         this.$fromUndo = false;
-                        return s;
+                        return r;
                     };
                     this.$syncRev = function() {
                         var e = this.$undoStack;
@@ -14536,29 +14536,29 @@
                         return (u(this.$undoStack) + "\n---\n" + u(this.$redoStack));
                     };
                 }.call(n.prototype));
-                function s(e, t) {
+                function r(e, t) {
                     for(var i = t; i--;){
                         var n = e[i];
                         if (n && !n[0].ignore) {
                             while(i < t - 1){
-                                var s = g(e[i], e[i + 1]);
-                                e[i] = s[0];
-                                e[i + 1] = s[1];
+                                var r = g(e[i], e[i + 1]);
+                                e[i] = r[0];
+                                e[i + 1] = r[1];
                                 i++;
                             }
                             return true;
                         }
                     }
                 }
-                var r = e("./range").Range;
-                var o = r.comparePoints;
-                var a = r.comparePoints;
+                var s = e("./range").Range;
+                var o = s.comparePoints;
+                var a = s.comparePoints;
                 function l(e) {
                     var t = e.action == "insert";
                     var i = e.start;
                     var n = e.end;
-                    var s = (n.row - i.row) * (t ? 1 : -1);
-                    var r = (n.column - i.column) * (t ? 1 : -1);
+                    var r = (n.row - i.row) * (t ? 1 : -1);
+                    var s = (n.column - i.column) * (t ? 1 : -1);
                     if (t) n = i;
                     for(var o in this.marks){
                         var l = this.marks[o];
@@ -14578,8 +14578,8 @@
                         }
                         var c = t ? h : a(l, n);
                         if (c > 0) {
-                            l.row += s;
-                            l.column += l.row == n.row ? r : 0;
+                            l.row += r;
+                            l.column += l.row == n.row ? s : 0;
                             continue;
                         }
                         if (!t && c <= 0) {
@@ -14614,54 +14614,54 @@
                         t += "[" + e.lines + "]";
                     } else if (e.value) {
                         if (Array.isArray(e.value)) {
-                            t = e.value.map(f).join("\n");
+                            t = e.value.map(d).join("\n");
                         } else {
-                            t = f(e.value);
+                            t = d(e.value);
                         }
                     }
                     if (e.start) {
-                        t += f(e);
+                        t += d(e);
                     }
                     if (e.id || e.rev) {
                         t += "\t(" + (e.id || e.rev) + ")";
                     }
                     return t;
                 }
-                function f(e) {
+                function d(e) {
                     return (e.start.row + ":" + e.start.column + "=>" + e.end.row + ":" + e.end.column);
                 }
-                function d(e, t) {
+                function f(e, t) {
                     var i = e.action == "insert";
                     var n = t.action == "insert";
                     if (i && n) {
                         if (o(t.start, e.end) >= 0) {
-                            m(t, e, -1);
+                            v(t, e, -1);
                         } else if (o(t.start, e.start) <= 0) {
-                            m(e, t, +1);
+                            v(e, t, +1);
                         } else {
                             return null;
                         }
                     } else if (i && !n) {
                         if (o(t.start, e.end) >= 0) {
-                            m(t, e, -1);
+                            v(t, e, -1);
                         } else if (o(t.end, e.start) <= 0) {
-                            m(e, t, -1);
+                            v(e, t, -1);
                         } else {
                             return null;
                         }
                     } else if (!i && n) {
                         if (o(t.start, e.start) >= 0) {
-                            m(t, e, +1);
+                            v(t, e, +1);
                         } else if (o(t.start, e.start) <= 0) {
-                            m(e, t, +1);
+                            v(e, t, +1);
                         } else {
                             return null;
                         }
                     } else if (!i && !n) {
                         if (o(t.start, e.start) >= 0) {
-                            m(t, e, +1);
+                            v(t, e, +1);
                         } else if (o(t.end, e.start) <= 0) {
-                            m(e, t, -1);
+                            v(e, t, -1);
                         } else {
                             return null;
                         }
@@ -14674,10 +14674,10 @@
                 function g(e, t) {
                     for(var i = e.length; i--;){
                         for(var n = 0; n < t.length; n++){
-                            if (!d(e[i], t[n])) {
+                            if (!f(e[i], t[n])) {
                                 while(i < e.length){
                                     while(n--){
-                                        d(t[n], e[i]);
+                                        f(t[n], e[i]);
                                     }
                                     n = t.length;
                                     i++;
@@ -14695,49 +14695,49 @@
                         e
                     ];
                 }
-                function v(e, t) {
+                function m(e, t) {
                     var i = e.action == "insert";
                     var n = t.action == "insert";
                     if (i && n) {
                         if (o(e.start, t.start) < 0) {
-                            m(t, e, 1);
+                            v(t, e, 1);
                         } else {
-                            m(e, t, 1);
+                            v(e, t, 1);
                         }
                     } else if (i && !n) {
                         if (o(e.start, t.end) >= 0) {
-                            m(e, t, -1);
+                            v(e, t, -1);
                         } else if (o(e.start, t.start) <= 0) {
-                            m(t, e, +1);
+                            v(t, e, +1);
                         } else {
-                            m(e, r.fromPoints(t.start, e.start), -1);
-                            m(t, e, +1);
+                            v(e, s.fromPoints(t.start, e.start), -1);
+                            v(t, e, +1);
                         }
                     } else if (!i && n) {
                         if (o(t.start, e.end) >= 0) {
-                            m(t, e, -1);
+                            v(t, e, -1);
                         } else if (o(t.start, e.start) <= 0) {
-                            m(e, t, +1);
+                            v(e, t, +1);
                         } else {
-                            m(t, r.fromPoints(e.start, t.start), -1);
-                            m(e, t, +1);
+                            v(t, s.fromPoints(e.start, t.start), -1);
+                            v(e, t, +1);
                         }
                     } else if (!i && !n) {
                         if (o(t.start, e.end) >= 0) {
-                            m(t, e, -1);
+                            v(t, e, -1);
                         } else if (o(t.end, e.start) <= 0) {
-                            m(e, t, -1);
+                            v(e, t, -1);
                         } else {
-                            var s, a;
+                            var r, a;
                             if (o(e.start, t.start) < 0) {
-                                s = e;
+                                r = e;
                                 e = w(e, t.start);
                             }
                             if (o(e.end, t.end) > 0) {
                                 a = w(e, t.end);
                             }
                             p(t.end, e.start, e.end, -1);
-                            if (a && !s) {
+                            if (a && !r) {
                                 e.lines = a.lines;
                                 e.start = a.start;
                                 e.end = a.end;
@@ -14745,7 +14745,7 @@
                             }
                             return [
                                 t,
-                                s,
+                                r,
                                 a
                             ].filter(Boolean);
                         }
@@ -14755,7 +14755,7 @@
                         e
                     ];
                 }
-                function m(e, t, i) {
+                function v(e, t, i) {
                     p(e.start, t.start, t.end, i);
                     p(e.end, t.start, t.end, i);
                 }
@@ -14769,15 +14769,15 @@
                     var i = e.lines;
                     var n = e.end;
                     e.end = h(t);
-                    var s = e.end.row - e.start.row;
-                    var r = i.splice(s, i.length);
-                    var o = s ? t.column : t.column - e.start.column;
-                    i.push(r[0].substring(0, o));
-                    r[0] = r[0].substr(o);
+                    var r = e.end.row - e.start.row;
+                    var s = i.splice(r, i.length);
+                    var o = r ? t.column : t.column - e.start.column;
+                    i.push(s[0].substring(0, o));
+                    s[0] = s[0].substr(o);
                     var a = {
                         start: h(t),
                         end: n,
-                        lines: r,
+                        lines: s,
                         action: e.action
                     };
                     return a;
@@ -14786,17 +14786,17 @@
                     t = c(t);
                     for(var i = e.length; i--;){
                         var n = e[i];
-                        for(var s = 0; s < n.length; s++){
-                            var r = n[s];
-                            var o = v(r, t);
+                        for(var r = 0; r < n.length; r++){
+                            var s = n[r];
+                            var o = m(s, t);
                             t = o[0];
                             if (o.length != 2) {
                                 if (o[2]) {
-                                    n.splice(s + 1, 1, o[1], o[2]);
-                                    s++;
+                                    n.splice(r + 1, 1, o[1], o[2]);
+                                    r++;
                                 } else if (!o[1]) {
-                                    n.splice(s, 1);
-                                    s--;
+                                    n.splice(r, 1);
+                                    r--;
                                 }
                             }
                         }
@@ -14806,11 +14806,11 @@
                     }
                     return e;
                 }
-                function C(e, t) {
+                function b(e, t) {
                     for(var i = 0; i < t.length; i++){
                         var n = t[i];
-                        for(var s = 0; s < n.length; s++){
-                            $(e, n[s]);
+                        for(var r = 0; r < n.length; r++){
+                            $(e, n[r]);
                         }
                     }
                 }
@@ -14824,7 +14824,7 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/dom");
-                var s = function(e, t) {
+                var r = function(e, t) {
                     this.element = e;
                     this.canvasHeight = t || 500000;
                     this.element.style.height = this.canvasHeight * 2 + "px";
@@ -14841,9 +14841,9 @@
                     };
                     this.computeLineTop = function(e, t, i) {
                         var n = t.firstRowScreen * t.lineHeight;
-                        var s = Math.floor(n / this.canvasHeight);
-                        var r = i.documentToScreenRow(e, 0) * t.lineHeight;
-                        return r - s * this.canvasHeight;
+                        var r = Math.floor(n / this.canvasHeight);
+                        var s = i.documentToScreenRow(e, 0) * t.lineHeight;
+                        return s - r * this.canvasHeight;
                     };
                     this.computeLineHeight = function(e, t, i) {
                         return (t.lineHeight * i.getRowLineCount(e));
@@ -14896,23 +14896,23 @@
                         e.element.remove();
                         this.cellCache.push(e);
                     };
-                    this.createCell = function(e, t, i, s) {
-                        var r = this.cellCache.pop();
-                        if (!r) {
+                    this.createCell = function(e, t, i, r) {
+                        var s = this.cellCache.pop();
+                        if (!s) {
                             var o = n.createElement("div");
-                            if (s) s(o);
+                            if (r) r(o);
                             this.element.appendChild(o);
-                            r = {
+                            s = {
                                 element: o,
                                 text: "",
                                 row: e
                             };
                         }
-                        r.row = e;
-                        return r;
+                        s.row = e;
+                        return s;
                     };
-                }.call(s.prototype));
-                t.Lines = s;
+                }.call(r.prototype));
+                t.Lines = r;
             });
             ace.define("ace/layer/gutter", [
                 "require",
@@ -14926,8 +14926,8 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/dom");
-                var s = e("../lib/oop");
-                var r = e("../lib/lang");
+                var r = e("../lib/oop");
+                var s = e("../lib/lang");
                 var o = e("../lib/event_emitter").EventEmitter;
                 var a = e("./lines").Lines;
                 var l = function(e) {
@@ -14942,7 +14942,7 @@
                     this.$lines.$offsetCoefficient = 1;
                 };
                 (function() {
-                    s.implement(this, o);
+                    r.implement(this, o);
                     this.setSession = function(e) {
                         if (this.session) this.session.off("change", this.$updateAnnotations);
                         this.session = e;
@@ -14961,17 +14961,17 @@
                         for(var t = 0; t < e.length; t++){
                             var i = e[t];
                             var n = i.row;
-                            var s = this.$annotations[n];
-                            if (!s) s = this.$annotations[n] = {
+                            var r = this.$annotations[n];
+                            if (!r) r = this.$annotations[n] = {
                                 text: []
                             };
                             var o = i.text;
-                            o = o ? r.escapeHTML(o) : i.html || "";
-                            if (s.text.indexOf(o) === -1) s.text.push(o);
+                            o = o ? s.escapeHTML(o) : i.html || "";
+                            if (r.text.indexOf(o) === -1) r.text.push(o);
                             var a = i.type;
-                            if (a == "error") s.className = " ace_error";
-                            else if (a == "warning" && s.className != " ace_error") s.className = " ace_warning";
-                            else if (a == "info" && !s.className) s.className = " ace_info";
+                            if (a == "error") r.className = " ace_error";
+                            else if (a == "warning" && r.className != " ace_error") r.className = " ace_warning";
+                            else if (a == "info" && !r.className) r.className = " ace_info";
                         }
                     };
                     this.$updateAnnotations = function(e) {
@@ -14995,16 +14995,16 @@
                         this.config = e;
                         this.$lines.moveContainer(e);
                         this.$updateCursorRow();
-                        var s = t.getNextFoldLine(i);
-                        var r = s ? s.start.row : Infinity;
+                        var r = t.getNextFoldLine(i);
+                        var s = r ? r.start.row : Infinity;
                         var o = null;
                         var a = -1;
                         var l = i;
                         while(true){
-                            if (l > r) {
-                                l = s.end.row + 1;
-                                s = t.getNextFoldLine(l, s);
-                                r = s ? s.start.row : Infinity;
+                            if (l > s) {
+                                l = r.end.row + 1;
+                                r = t.getNextFoldLine(l, r);
+                                s = r ? r.start.row : Infinity;
                             }
                             if (l > n) {
                                 while(this.$lines.getLength() > a + 1)this.$lines.pop();
@@ -15017,7 +15017,7 @@
                                 o = this.$lines.createCell(l, e, this.session, h);
                                 this.$lines.push(o);
                             }
-                            this.$renderCell(o, e, s, l);
+                            this.$renderCell(o, e, r, l);
                             l++;
                         }
                         this._signal("afterRender");
@@ -15027,15 +15027,15 @@
                         var t = this.session;
                         var i = t.gutterRenderer || this.$renderer;
                         var n = t.$firstLineNumber;
-                        var s = this.$lines.last() ? this.$lines.last().text : "";
-                        if (this.$fixedWidth || t.$useWrapMode) s = t.getLength() + n - 1;
-                        var r = i ? i.getWidth(t, s, e) : s.toString().length * e.characterWidth;
+                        var r = this.$lines.last() ? this.$lines.last().text : "";
+                        if (this.$fixedWidth || t.$useWrapMode) r = t.getLength() + n - 1;
+                        var s = i ? i.getWidth(t, r, e) : r.toString().length * e.characterWidth;
                         var o = this.$padding || this.$computePadding();
-                        r += o.left + o.right;
-                        if (r !== this.gutterWidth && !isNaN(r)) {
-                            this.gutterWidth = r;
+                        s += o.left + o.right;
+                        if (s !== this.gutterWidth && !isNaN(s)) {
+                            this.gutterWidth = s;
                             this.element.parentNode.style.width = this.element.style.width = Math.ceil(this.gutterWidth) + "px";
-                            this._signal("changeGutterWidth", r);
+                            this._signal("changeGutterWidth", s);
                         }
                     };
                     this.$updateCursorRow = function() {
@@ -15056,8 +15056,8 @@
                             var n = t[i];
                             if (n.row >= this.$cursorRow) {
                                 if (n.row > this.$cursorRow) {
-                                    var s = this.session.getFoldLine(this.$cursorRow);
-                                    if (i > 0 && s && s.start.row == t[i - 1].row) n = t[i - 1];
+                                    var r = this.session.getFoldLine(this.$cursorRow);
+                                    if (i > 0 && r && r.start.row == t[i - 1].row) n = t[i - 1];
                                     else break;
                                 }
                                 n.element.className = "ace_gutter-active-line " + n.element.className;
@@ -15077,8 +15077,8 @@
                         this.oldLastRow = i;
                         if (!t || n < e.firstRow) return this.update(e);
                         if (i < t.firstRow) return this.update(e);
-                        if (t.firstRow < e.firstRow) for(var s = this.session.getFoldedRowCount(t.firstRow, e.firstRow - 1); s > 0; s--)this.$lines.shift();
-                        if (n > i) for(var s = this.session.getFoldedRowCount(i + 1, n); s > 0; s--)this.$lines.pop();
+                        if (t.firstRow < e.firstRow) for(var r = this.session.getFoldedRowCount(t.firstRow, e.firstRow - 1); r > 0; r--)this.$lines.shift();
+                        if (n > i) for(var r = this.session.getFoldedRowCount(i + 1, n); r > 0; r--)this.$lines.pop();
                         if (e.firstRow < t.firstRow) {
                             this.$lines.unshift(this.$renderLines(e, e.firstRow, t.firstRow - 1));
                         }
@@ -15091,57 +15091,57 @@
                     };
                     this.$renderLines = function(e, t, i) {
                         var n = [];
-                        var s = t;
-                        var r = this.session.getNextFoldLine(s);
-                        var o = r ? r.start.row : Infinity;
+                        var r = t;
+                        var s = this.session.getNextFoldLine(r);
+                        var o = s ? s.start.row : Infinity;
                         while(true){
-                            if (s > o) {
-                                s = r.end.row + 1;
-                                r = this.session.getNextFoldLine(s, r);
-                                o = r ? r.start.row : Infinity;
+                            if (r > o) {
+                                r = s.end.row + 1;
+                                s = this.session.getNextFoldLine(r, s);
+                                o = s ? s.start.row : Infinity;
                             }
-                            if (s > i) break;
-                            var a = this.$lines.createCell(s, e, this.session, h);
-                            this.$renderCell(a, e, r, s);
+                            if (r > i) break;
+                            var a = this.$lines.createCell(r, e, this.session, h);
+                            this.$renderCell(a, e, s, r);
                             n.push(a);
-                            s++;
+                            r++;
                         }
                         return n;
                     };
-                    this.$renderCell = function(e, t, i, s) {
-                        var r = e.element;
+                    this.$renderCell = function(e, t, i, r) {
+                        var s = e.element;
                         var o = this.session;
-                        var a = r.childNodes[0];
-                        var l = r.childNodes[1];
+                        var a = s.childNodes[0];
+                        var l = s.childNodes[1];
                         var h = o.$firstLineNumber;
                         var c = o.$breakpoints;
                         var u = o.$decorations;
-                        var f = o.gutterRenderer || this.$renderer;
-                        var d = this.$showFoldWidgets && o.foldWidgets;
+                        var d = o.gutterRenderer || this.$renderer;
+                        var f = this.$showFoldWidgets && o.foldWidgets;
                         var g = i ? i.start.row : Number.MAX_VALUE;
-                        var v = "ace_gutter-cell ";
+                        var m = "ace_gutter-cell ";
                         if (this.$highlightGutterLine) {
-                            if (s == this.$cursorRow || (i && s < this.$cursorRow && s >= g && this.$cursorRow <= i.end.row)) {
-                                v += "ace_gutter-active-line ";
+                            if (r == this.$cursorRow || (i && r < this.$cursorRow && r >= g && this.$cursorRow <= i.end.row)) {
+                                m += "ace_gutter-active-line ";
                                 if (this.$cursorCell != e) {
                                     if (this.$cursorCell) this.$cursorCell.element.className = this.$cursorCell.element.className.replace("ace_gutter-active-line ", "");
                                     this.$cursorCell = e;
                                 }
                             }
                         }
-                        if (c[s]) v += c[s];
-                        if (u[s]) v += u[s];
-                        if (this.$annotations[s]) v += this.$annotations[s].className;
-                        if (r.className != v) r.className = v;
-                        if (d) {
-                            var m = d[s];
-                            if (m == null) m = d[s] = o.getFoldWidget(s);
+                        if (c[r]) m += c[r];
+                        if (u[r]) m += u[r];
+                        if (this.$annotations[r]) m += this.$annotations[r].className;
+                        if (s.className != m) s.className = m;
+                        if (f) {
+                            var v = f[r];
+                            if (v == null) v = f[r] = o.getFoldWidget(r);
                         }
-                        if (m) {
-                            var v = "ace_fold-widget ace_" + m;
-                            if (m == "start" && s == g && s < i.end.row) v += " ace_closed";
-                            else v += " ace_open";
-                            if (l.className != v) l.className = v;
+                        if (v) {
+                            var m = "ace_fold-widget ace_" + v;
+                            if (v == "start" && r == g && r < i.end.row) m += " ace_closed";
+                            else m += " ace_open";
+                            if (l.className != m) l.className = m;
                             var p = t.lineHeight + "px";
                             n.setStyle(l.style, "height", p);
                             n.setStyle(l.style, "display", "inline-block");
@@ -15150,12 +15150,12 @@
                                 n.setStyle(l.style, "display", "none");
                             }
                         }
-                        var w = (f ? f.getText(o, s) : s + h).toString();
+                        var w = (d ? d.getText(o, r) : r + h).toString();
                         if (w !== a.data) {
                             a.data = w;
                         }
-                        n.setStyle(e.element.style, "height", this.$lines.computeLineHeight(s, t, o) + "px");
-                        n.setStyle(e.element.style, "top", this.$lines.computeLineTop(s, t, o) + "px");
+                        n.setStyle(e.element.style, "height", this.$lines.computeLineHeight(r, t, o) + "px");
+                        n.setStyle(e.element.style, "top", this.$lines.computeLineTop(r, t, o) + "px");
                         e.text = w;
                         return e;
                     };
@@ -15226,9 +15226,9 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../range").Range;
-                var s = e("../lib/dom");
-                var r = function(e) {
-                    this.element = s.createElement("div");
+                var r = e("../lib/dom");
+                var s = function(e) {
+                    this.element = r.createElement("div");
                     this.element.className = "ace_layer ace_marker-layer";
                     e.appendChild(this.element);
                 };
@@ -15266,22 +15266,22 @@
                                 n.update(t, this, this.session, e);
                                 continue;
                             }
-                            var s = n.range.clipRows(e.firstRow, e.lastRow);
-                            if (s.isEmpty()) continue;
-                            s = s.toScreenRange(this.session);
+                            var r = n.range.clipRows(e.firstRow, e.lastRow);
+                            if (r.isEmpty()) continue;
+                            r = r.toScreenRange(this.session);
                             if (n.renderer) {
-                                var r = this.$getTop(s.start.row, e);
-                                var o = this.$padding + s.start.column * e.characterWidth;
-                                n.renderer(t, s, o, r, e);
+                                var s = this.$getTop(r.start.row, e);
+                                var o = this.$padding + r.start.column * e.characterWidth;
+                                n.renderer(t, r, o, s, e);
                             } else if (n.type == "fullLine") {
-                                this.drawFullLineMarker(t, s, n.clazz, e);
+                                this.drawFullLineMarker(t, r, n.clazz, e);
                             } else if (n.type == "screenLine") {
-                                this.drawScreenLineMarker(t, s, n.clazz, e);
-                            } else if (s.isMultiLine()) {
-                                if (n.type == "text") this.drawTextMarker(t, s, n.clazz, e);
-                                else this.drawMultiLineMarker(t, s, n.clazz, e);
+                                this.drawScreenLineMarker(t, r, n.clazz, e);
+                            } else if (r.isMultiLine()) {
+                                if (n.type == "text") this.drawTextMarker(t, r, n.clazz, e);
+                                else this.drawMultiLineMarker(t, r, n.clazz, e);
                             } else {
-                                this.drawSingleLineMarker(t, s, n.clazz + " ace_start" + " ace_br15", e);
+                                this.drawSingleLineMarker(t, r, n.clazz + " ace_start" + " ace_br15", e);
                             }
                         }
                         if (this.i != -1) {
@@ -15294,83 +15294,83 @@
                     function e(e, t, i, n) {
                         return ((e ? 1 : 0) | (t ? 2 : 0) | (i ? 4 : 0) | (n ? 8 : 0));
                     }
-                    this.drawTextMarker = function(t, i, s, r, o) {
+                    this.drawTextMarker = function(t, i, r, s, o) {
                         var a = this.session;
                         var l = i.start.row;
                         var h = i.end.row;
                         var c = l;
                         var u = 0;
-                        var f = 0;
-                        var d = a.getScreenLastRowColumn(c);
-                        var g = new n(c, i.start.column, c, f);
+                        var d = 0;
+                        var f = a.getScreenLastRowColumn(c);
+                        var g = new n(c, i.start.column, c, d);
                         for(; c <= h; c++){
                             g.start.row = g.end.row = c;
                             g.start.column = c == l ? i.start.column : a.getRowWrapIndent(c);
-                            g.end.column = d;
-                            u = f;
-                            f = d;
-                            d = c + 1 < h ? a.getScreenLastRowColumn(c + 1) : c == h ? 0 : i.end.column;
-                            this.drawSingleLineMarker(t, g, s + (c == l ? " ace_start" : "") + " ace_br" + e(c == l || (c == l + 1 && i.start.column), u < f, f > d, c == h), r, c == h ? 0 : 1, o);
+                            g.end.column = f;
+                            u = d;
+                            d = f;
+                            f = c + 1 < h ? a.getScreenLastRowColumn(c + 1) : c == h ? 0 : i.end.column;
+                            this.drawSingleLineMarker(t, g, r + (c == l ? " ace_start" : "") + " ace_br" + e(c == l || (c == l + 1 && i.start.column), u < d, d > f, c == h), s, c == h ? 0 : 1, o);
                         }
                     };
-                    this.drawMultiLineMarker = function(e, t, i, n, s) {
-                        var r = this.$padding;
+                    this.drawMultiLineMarker = function(e, t, i, n, r) {
+                        var s = this.$padding;
                         var o = n.lineHeight;
                         var a = this.$getTop(t.start.row, n);
-                        var l = r + t.start.column * n.characterWidth;
-                        s = s || "";
+                        var l = s + t.start.column * n.characterWidth;
+                        r = r || "";
                         if (this.session.$bidiHandler.isBidiRow(t.start.row)) {
                             var h = t.clone();
                             h.end.row = h.start.row;
                             h.end.column = this.session.getLine(h.start.row).length;
-                            this.drawBidiSingleLineMarker(e, h, i + " ace_br1 ace_start", n, null, s);
+                            this.drawBidiSingleLineMarker(e, h, i + " ace_br1 ace_start", n, null, r);
                         } else {
-                            this.elt(i + " ace_br1 ace_start", "height:" + o + "px;" + "right:0;" + "top:" + a + "px;left:" + l + "px;" + (s || ""));
+                            this.elt(i + " ace_br1 ace_start", "height:" + o + "px;" + "right:0;" + "top:" + a + "px;left:" + l + "px;" + (r || ""));
                         }
                         if (this.session.$bidiHandler.isBidiRow(t.end.row)) {
                             var h = t.clone();
                             h.start.row = h.end.row;
                             h.start.column = 0;
-                            this.drawBidiSingleLineMarker(e, h, i + " ace_br12", n, null, s);
+                            this.drawBidiSingleLineMarker(e, h, i + " ace_br12", n, null, r);
                         } else {
                             a = this.$getTop(t.end.row, n);
                             var c = t.end.column * n.characterWidth;
-                            this.elt(i + " ace_br12", "height:" + o + "px;" + "width:" + c + "px;" + "top:" + a + "px;" + "left:" + r + "px;" + (s || ""));
+                            this.elt(i + " ace_br12", "height:" + o + "px;" + "width:" + c + "px;" + "top:" + a + "px;" + "left:" + s + "px;" + (r || ""));
                         }
                         o = (t.end.row - t.start.row - 1) * n.lineHeight;
                         if (o <= 0) return;
                         a = this.$getTop(t.start.row + 1, n);
                         var u = (t.start.column ? 1 : 0) | (t.end.column ? 0 : 8);
-                        this.elt(i + (u ? " ace_br" + u : ""), "height:" + o + "px;" + "right:0;" + "top:" + a + "px;" + "left:" + r + "px;" + (s || ""));
+                        this.elt(i + (u ? " ace_br" + u : ""), "height:" + o + "px;" + "right:0;" + "top:" + a + "px;" + "left:" + s + "px;" + (r || ""));
                     };
-                    this.drawSingleLineMarker = function(e, t, i, n, s, r) {
-                        if (this.session.$bidiHandler.isBidiRow(t.start.row)) return this.drawBidiSingleLineMarker(e, t, i, n, s, r);
+                    this.drawSingleLineMarker = function(e, t, i, n, r, s) {
+                        if (this.session.$bidiHandler.isBidiRow(t.start.row)) return this.drawBidiSingleLineMarker(e, t, i, n, r, s);
                         var o = n.lineHeight;
-                        var a = (t.end.column + (s || 0) - t.start.column) * n.characterWidth;
+                        var a = (t.end.column + (r || 0) - t.start.column) * n.characterWidth;
                         var l = this.$getTop(t.start.row, n);
                         var h = this.$padding + t.start.column * n.characterWidth;
-                        this.elt(i, "height:" + o + "px;" + "width:" + a + "px;" + "top:" + l + "px;" + "left:" + h + "px;" + (r || ""));
+                        this.elt(i, "height:" + o + "px;" + "width:" + a + "px;" + "top:" + l + "px;" + "left:" + h + "px;" + (s || ""));
                     };
-                    this.drawBidiSingleLineMarker = function(e, t, i, n, s, r) {
+                    this.drawBidiSingleLineMarker = function(e, t, i, n, r, s) {
                         var o = n.lineHeight, a = this.$getTop(t.start.row, n), l = this.$padding;
                         var h = this.session.$bidiHandler.getSelections(t.start.column, t.end.column);
                         h.forEach(function(e) {
-                            this.elt(i, "height:" + o + "px;" + "width:" + e.width + (s || 0) + "px;" + "top:" + a + "px;" + "left:" + (l + e.left) + "px;" + (r || ""));
+                            this.elt(i, "height:" + o + "px;" + "width:" + e.width + (r || 0) + "px;" + "top:" + a + "px;" + "left:" + (l + e.left) + "px;" + (s || ""));
                         }, this);
                     };
-                    this.drawFullLineMarker = function(e, t, i, n, s) {
-                        var r = this.$getTop(t.start.row, n);
+                    this.drawFullLineMarker = function(e, t, i, n, r) {
+                        var s = this.$getTop(t.start.row, n);
                         var o = n.lineHeight;
-                        if (t.start.row != t.end.row) o += this.$getTop(t.end.row, n) - r;
-                        this.elt(i, "height:" + o + "px;" + "top:" + r + "px;" + "left:0;right:0;" + (s || ""));
+                        if (t.start.row != t.end.row) o += this.$getTop(t.end.row, n) - s;
+                        this.elt(i, "height:" + o + "px;" + "top:" + s + "px;" + "left:0;right:0;" + (r || ""));
                     };
-                    this.drawScreenLineMarker = function(e, t, i, n, s) {
-                        var r = this.$getTop(t.start.row, n);
+                    this.drawScreenLineMarker = function(e, t, i, n, r) {
+                        var s = this.$getTop(t.start.row, n);
                         var o = n.lineHeight;
-                        this.elt(i, "height:" + o + "px;" + "top:" + r + "px;" + "left:0;right:0;" + (s || ""));
+                        this.elt(i, "height:" + o + "px;" + "top:" + s + "px;" + "left:0;right:0;" + (r || ""));
                     };
-                }.call(r.prototype));
-                t.Marker = r;
+                }.call(s.prototype));
+                t.Marker = s;
             });
             ace.define("ace/layer/text", [
                 "require",
@@ -15384,12 +15384,12 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/oop");
-                var s = e("../lib/dom");
-                var r = e("../lib/lang");
+                var r = e("../lib/dom");
+                var s = e("../lib/lang");
                 var o = e("./lines").Lines;
                 var a = e("../lib/event_emitter").EventEmitter;
                 var l = function(e) {
-                    this.dom = s;
+                    this.dom = r;
                     this.element = this.dom.createElement("div");
                     this.element.className = "ace_layer ace_text-layer";
                     e.appendChild(this.element);
@@ -15477,25 +15477,25 @@
                             if (this.showTabs) {
                                 var n = this.dom.createElement("span");
                                 n.className = "ace_invisible ace_invisible_tab";
-                                n.textContent = r.stringRepeat(this.TAB_CHAR, i);
+                                n.textContent = s.stringRepeat(this.TAB_CHAR, i);
                                 t.push(n);
                             } else {
-                                t.push(this.dom.createTextNode(r.stringRepeat(" ", i), this.element));
+                                t.push(this.dom.createTextNode(s.stringRepeat(" ", i), this.element));
                             }
                         }
                         if (this.displayIndentGuides) {
                             this.$indentGuideRe = /\s\S| \t|\t |\s$/;
-                            var s = "ace_indent-guide";
+                            var r = "ace_indent-guide";
                             var o = this.showSpaces ? " ace_invisible ace_invisible_space" : "";
-                            var a = this.showSpaces ? r.stringRepeat(this.SPACE_CHAR, this.tabSize) : r.stringRepeat(" ", this.tabSize);
+                            var a = this.showSpaces ? s.stringRepeat(this.SPACE_CHAR, this.tabSize) : s.stringRepeat(" ", this.tabSize);
                             var l = this.showTabs ? " ace_invisible ace_invisible_tab" : "";
-                            var h = this.showTabs ? r.stringRepeat(this.TAB_CHAR, this.tabSize) : a;
+                            var h = this.showTabs ? s.stringRepeat(this.TAB_CHAR, this.tabSize) : a;
                             var n = this.dom.createElement("span");
-                            n.className = s + o;
+                            n.className = r + o;
                             n.textContent = a;
                             this.$tabStrings[" "] = n;
                             var n = this.dom.createElement("span");
-                            n.className = s + l;
+                            n.className = r + l;
                             n.textContent = h;
                             this.$tabStrings["\t"] = n;
                         }
@@ -15506,8 +15506,8 @@
                         }
                         this.config = e;
                         var n = Math.max(t, e.firstRow);
-                        var s = Math.min(i, e.lastRow);
-                        var r = this.element.childNodes;
+                        var r = Math.min(i, e.lastRow);
+                        var s = this.element.childNodes;
                         var o = 0;
                         for(var a = e.firstRow; a < n; a++){
                             var l = this.session.getFoldLine(a);
@@ -15531,24 +15531,24 @@
                                 l = this.session.getNextFoldLine(a, l);
                                 c = l ? l.start.row : Infinity;
                             }
-                            if (a > s) break;
-                            var u = r[o++];
+                            if (a > r) break;
+                            var u = s[o++];
                             if (u) {
                                 this.dom.removeChildren(u);
                                 this.$renderLine(u, a, a == c ? l : false);
                                 if (h) u.style.top = this.$lines.computeLineTop(a, e, this.session) + "px";
-                                var f = e.lineHeight * this.session.getRowLength(a) + "px";
-                                if (u.style.height != f) {
+                                var d = e.lineHeight * this.session.getRowLength(a) + "px";
+                                if (u.style.height != d) {
                                     h = true;
-                                    u.style.height = f;
+                                    u.style.height = d;
                                 }
                             }
                             a++;
                         }
                         if (h) {
                             while(o < this.$lines.cells.length){
-                                var d = this.$lines.cells[o++];
-                                d.element.style.top = this.$lines.computeLineTop(d.row, e, this.session) + "px";
+                                var f = this.$lines.cells[o++];
+                                f.element.style.top = this.$lines.computeLineTop(f.row, e, this.session) + "px";
                             }
                         }
                     };
@@ -15563,8 +15563,8 @@
                         if (i < t.firstRow) return this.update(e);
                         if (!t || t.lastRow < e.firstRow) return this.update(e);
                         if (e.lastRow < t.firstRow) return this.update(e);
-                        if (t.firstRow < e.firstRow) for(var s = this.session.getFoldedRowCount(t.firstRow, e.firstRow - 1); s > 0; s--)this.$lines.shift();
-                        if (t.lastRow > e.lastRow) for(var s = this.session.getFoldedRowCount(e.lastRow + 1, t.lastRow); s > 0; s--)this.$lines.pop();
+                        if (t.firstRow < e.firstRow) for(var r = this.session.getFoldedRowCount(t.firstRow, e.firstRow - 1); r > 0; r--)this.$lines.shift();
+                        if (t.lastRow > e.lastRow) for(var r = this.session.getFoldedRowCount(e.lastRow + 1, t.lastRow); r > 0; r--)this.$lines.pop();
                         if (e.firstRow < t.firstRow) {
                             this.$lines.unshift(this.$renderLinesFragment(e, e.firstRow, t.firstRow - 1));
                         }
@@ -15574,29 +15574,29 @@
                     };
                     this.$renderLinesFragment = function(e, t, i) {
                         var n = [];
-                        var r = t;
-                        var o = this.session.getNextFoldLine(r);
+                        var s = t;
+                        var o = this.session.getNextFoldLine(s);
                         var a = o ? o.start.row : Infinity;
                         while(true){
-                            if (r > a) {
-                                r = o.end.row + 1;
-                                o = this.session.getNextFoldLine(r, o);
+                            if (s > a) {
+                                s = o.end.row + 1;
+                                o = this.session.getNextFoldLine(s, o);
                                 a = o ? o.start.row : Infinity;
                             }
-                            if (r > i) break;
-                            var l = this.$lines.createCell(r, e, this.session);
+                            if (s > i) break;
+                            var l = this.$lines.createCell(s, e, this.session);
                             var h = l.element;
                             this.dom.removeChildren(h);
-                            s.setStyle(h.style, "height", this.$lines.computeLineHeight(r, e, this.session) + "px");
-                            s.setStyle(h.style, "top", this.$lines.computeLineTop(r, e, this.session) + "px");
-                            this.$renderLine(h, r, r == a ? o : false);
+                            r.setStyle(h.style, "height", this.$lines.computeLineHeight(s, e, this.session) + "px");
+                            r.setStyle(h.style, "top", this.$lines.computeLineTop(s, e, this.session) + "px");
+                            this.$renderLine(h, s, s == a ? o : false);
                             if (this.$useLineGroups()) {
                                 h.className = "ace_line_group";
                             } else {
                                 h.className = "ace_line";
                             }
                             n.push(l);
-                            r++;
+                            s++;
                         }
                         return n;
                     };
@@ -15615,7 +15615,7 @@
                         lparen: true
                     };
                     this.$renderToken = function(e, t, i, n) {
-                        var s = this;
+                        var r = this;
                         var o = /(\t)|( +)|([\x00-\x1f\x80-\xa0\xad\u1680\u180E\u2000-\u200f\u2028\u2029\u202F\u205F\uFEFF\uFFF9-\uFFFC]+)|(\u3000)|([\u1100-\u115F\u11A3-\u11A7\u11FA-\u11FF\u2329-\u232A\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u2FF0-\u2FFB\u3001-\u303E\u3041-\u3096\u3099-\u30FF\u3105-\u312D\u3131-\u318E\u3190-\u31BA\u31C0-\u31E3\u31F0-\u321E\u3220-\u3247\u3250-\u32FE\u3300-\u4DBF\u4E00-\uA48C\uA490-\uA4C6\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE66\uFE68-\uFE6B\uFF01-\uFF60\uFFE0-\uFFE6]|[\uD800-\uDBFF][\uDC00-\uDFFF])/g;
                         var a = this.dom.createFragment(this.element);
                         var l;
@@ -15623,44 +15623,44 @@
                         while((l = o.exec(n))){
                             var c = l[1];
                             var u = l[2];
-                            var f = l[3];
-                            var d = l[4];
+                            var d = l[3];
+                            var f = l[4];
                             var g = l[5];
-                            if (!s.showSpaces && u) continue;
-                            var v = h != l.index ? n.slice(h, l.index) : "";
+                            if (!r.showSpaces && u) continue;
+                            var m = h != l.index ? n.slice(h, l.index) : "";
                             h = l.index + l[0].length;
-                            if (v) {
-                                a.appendChild(this.dom.createTextNode(v, this.element));
+                            if (m) {
+                                a.appendChild(this.dom.createTextNode(m, this.element));
                             }
                             if (c) {
-                                var m = s.session.getScreenTabSize(t + l.index);
-                                a.appendChild(s.$tabStrings[m].cloneNode(true));
-                                t += m - 1;
+                                var v = r.session.getScreenTabSize(t + l.index);
+                                a.appendChild(r.$tabStrings[v].cloneNode(true));
+                                t += v - 1;
                             } else if (u) {
-                                if (s.showSpaces) {
+                                if (r.showSpaces) {
                                     var p = this.dom.createElement("span");
                                     p.className = "ace_invisible ace_invisible_space";
-                                    p.textContent = r.stringRepeat(s.SPACE_CHAR, u.length);
+                                    p.textContent = s.stringRepeat(r.SPACE_CHAR, u.length);
                                     a.appendChild(p);
                                 } else {
                                     a.appendChild(this.com.createTextNode(u, this.element));
                                 }
-                            } else if (f) {
+                            } else if (d) {
                                 var p = this.dom.createElement("span");
                                 p.className = "ace_invisible ace_invisible_space ace_invalid";
-                                p.textContent = r.stringRepeat(s.SPACE_CHAR, f.length);
+                                p.textContent = s.stringRepeat(r.SPACE_CHAR, d.length);
                                 a.appendChild(p);
-                            } else if (d) {
+                            } else if (f) {
                                 t += 1;
                                 var p = this.dom.createElement("span");
-                                p.style.width = s.config.characterWidth * 2 + "px";
-                                p.className = s.showSpaces ? "ace_cjk ace_invisible ace_invisible_space" : "ace_cjk";
-                                p.textContent = s.showSpaces ? s.SPACE_CHAR : d;
+                                p.style.width = r.config.characterWidth * 2 + "px";
+                                p.className = r.showSpaces ? "ace_cjk ace_invisible ace_invisible_space" : "ace_cjk";
+                                p.textContent = r.showSpaces ? r.SPACE_CHAR : f;
                                 a.appendChild(p);
                             } else if (g) {
                                 t += 1;
                                 var p = this.dom.createElement("span");
-                                p.style.width = s.config.characterWidth * 2 + "px";
+                                p.style.width = r.config.characterWidth * 2 + "px";
                                 p.className = "ace_cjk";
                                 p.textContent = g;
                                 a.appendChild(p);
@@ -15684,13 +15684,13 @@
                         if (n <= 0 || n >= i) return t;
                         if (t[0] == " ") {
                             n -= n % this.tabSize;
-                            var s = n / this.tabSize;
-                            for(var r = 0; r < s; r++){
+                            var r = n / this.tabSize;
+                            for(var s = 0; s < r; s++){
                                 e.appendChild(this.$tabStrings[" "].cloneNode(true));
                             }
                             return t.substr(n);
                         } else if (t[0] == "\t") {
-                            for(var r = 0; r < n; r++){
+                            for(var s = 0; s < n; s++){
                                 e.appendChild(this.$tabStrings["\t"].cloneNode(true));
                             }
                             return t.substr(n);
@@ -15705,7 +15705,7 @@
                     };
                     this.$renderWrappedLine = function(e, t, i) {
                         var n = 0;
-                        var s = 0;
+                        var r = 0;
                         var o = i[0];
                         var a = 0;
                         var l = this.$createLineElement();
@@ -15729,10 +15729,10 @@
                                     n = o;
                                     l = this.$createLineElement();
                                     e.appendChild(l);
-                                    l.appendChild(this.dom.createTextNode(r.stringRepeat("\xa0", i.indent), this.element));
-                                    s++;
+                                    l.appendChild(this.dom.createTextNode(s.stringRepeat("\xa0", i.indent), this.element));
+                                    r++;
                                     a = 0;
-                                    o = i[s] || Number.MAX_VALUE;
+                                    o = i[r] || Number.MAX_VALUE;
                                 }
                                 if (u.length != 0) {
                                     n += u.length;
@@ -15745,86 +15745,86 @@
                     this.$renderSimpleLine = function(e, t) {
                         var i = 0;
                         var n = t[0];
-                        var s = n.value;
-                        if (this.displayIndentGuides) s = this.renderIndentGuide(e, s);
-                        if (s) i = this.$renderToken(e, i, n, s);
-                        for(var r = 1; r < t.length; r++){
-                            n = t[r];
-                            s = n.value;
-                            if (i + s.length > this.MAX_LINE_LENGTH) return this.$renderOverflowMessage(e, i, n, s);
-                            i = this.$renderToken(e, i, n, s);
+                        var r = n.value;
+                        if (this.displayIndentGuides) r = this.renderIndentGuide(e, r);
+                        if (r) i = this.$renderToken(e, i, n, r);
+                        for(var s = 1; s < t.length; s++){
+                            n = t[s];
+                            r = n.value;
+                            if (i + r.length > this.MAX_LINE_LENGTH) return this.$renderOverflowMessage(e, i, n, r);
+                            i = this.$renderToken(e, i, n, r);
                         }
                     };
-                    this.$renderOverflowMessage = function(e, t, i, n, s) {
+                    this.$renderOverflowMessage = function(e, t, i, n, r) {
                         i && this.$renderToken(e, t, i, n.slice(0, this.MAX_LINE_LENGTH - t));
-                        var r = this.dom.createElement("span");
-                        r.className = "ace_inline_button ace_keyword ace_toggle_wrap";
-                        r.textContent = s ? "<hide>" : "<click to see more...>";
-                        e.appendChild(r);
+                        var s = this.dom.createElement("span");
+                        s.className = "ace_inline_button ace_keyword ace_toggle_wrap";
+                        s.textContent = r ? "<hide>" : "<click to see more...>";
+                        e.appendChild(s);
                     };
                     this.$renderLine = function(e, t, i) {
                         if (!i && i != false) i = this.session.getFoldLine(t);
                         if (i) var n = this.$getFoldLineTokens(t, i);
                         else var n = this.session.getTokens(t);
-                        var s = e;
+                        var r = e;
                         if (n.length) {
-                            var r = this.session.getRowSplitData(t);
-                            if (r && r.length) {
-                                this.$renderWrappedLine(e, n, r);
-                                var s = e.lastChild;
+                            var s = this.session.getRowSplitData(t);
+                            if (s && s.length) {
+                                this.$renderWrappedLine(e, n, s);
+                                var r = e.lastChild;
                             } else {
-                                var s = e;
+                                var r = e;
                                 if (this.$useLineGroups()) {
-                                    s = this.$createLineElement();
-                                    e.appendChild(s);
+                                    r = this.$createLineElement();
+                                    e.appendChild(r);
                                 }
-                                this.$renderSimpleLine(s, n);
+                                this.$renderSimpleLine(r, n);
                             }
                         } else if (this.$useLineGroups()) {
-                            s = this.$createLineElement();
-                            e.appendChild(s);
+                            r = this.$createLineElement();
+                            e.appendChild(r);
                         }
-                        if (this.showEOL && s) {
+                        if (this.showEOL && r) {
                             if (i) t = i.end.row;
                             var o = this.dom.createElement("span");
                             o.className = "ace_invisible ace_invisible_eol";
                             o.textContent = t == this.session.getLength() - 1 ? this.EOF_CHAR : this.EOL_CHAR;
-                            s.appendChild(o);
+                            r.appendChild(o);
                         }
                     };
                     this.$getFoldLineTokens = function(e, t) {
                         var i = this.session;
                         var n = [];
-                        function s(e, t, i) {
-                            var s = 0, r = 0;
-                            while(r + e[s].value.length < t){
-                                r += e[s].value.length;
-                                s++;
-                                if (s == e.length) return;
+                        function r(e, t, i) {
+                            var r = 0, s = 0;
+                            while(s + e[r].value.length < t){
+                                s += e[r].value.length;
+                                r++;
+                                if (r == e.length) return;
                             }
-                            if (r != t) {
-                                var o = e[s].value.substring(t - r);
+                            if (s != t) {
+                                var o = e[r].value.substring(t - s);
                                 if (o.length > i - t) o = o.substring(0, i - t);
                                 n.push({
-                                    type: e[s].type,
+                                    type: e[r].type,
                                     value: o
                                 });
-                                r = t + o.length;
-                                s += 1;
+                                s = t + o.length;
+                                r += 1;
                             }
-                            while(r < i && s < e.length){
-                                var o = e[s].value;
-                                if (o.length + r > i) {
+                            while(s < i && r < e.length){
+                                var o = e[r].value;
+                                if (o.length + s > i) {
                                     n.push({
-                                        type: e[s].type,
-                                        value: o.substring(0, i - r)
+                                        type: e[r].type,
+                                        value: o.substring(0, i - s)
                                     });
-                                } else n.push(e[s]);
-                                r += o.length;
-                                s += 1;
+                                } else n.push(e[r]);
+                                s += o.length;
+                                r += 1;
                             }
                         }
-                        var r = i.getTokens(e);
+                        var s = i.getTokens(e);
                         t.walk(function(e, t, o, a, l) {
                             if (e != null) {
                                 n.push({
@@ -15832,8 +15832,8 @@
                                     value: e
                                 });
                             } else {
-                                if (l) r = i.getTokens(t);
-                                if (r.length) s(r, a, o);
+                                if (l) s = i.getTokens(t);
+                                if (s.length) r(s, a, o);
                             }
                         }, t.end.row, this.session.getLine(t.end.row).length);
                         return n;
@@ -15853,7 +15853,7 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/dom");
-                var s = function(e) {
+                var r = function(e) {
                     this.element = n.createElement("div");
                     this.element.className = "ace_layer ace_cursor-layer";
                     e.appendChild(this.element);
@@ -15981,10 +15981,10 @@
                         if (!e) e = this.session.selection.getCursor();
                         var i = this.session.documentToScreenPosition(e);
                         var n = this.$padding + (this.session.$bidiHandler.isBidiRow(i.row, e.row) ? this.session.$bidiHandler.getPosLeft(i.column) : i.column * this.config.characterWidth);
-                        var s = (i.row - (t ? this.config.firstRowScreen : 0)) * this.config.lineHeight;
+                        var r = (i.row - (t ? this.config.firstRowScreen : 0)) * this.config.lineHeight;
                         return {
                             left: n,
-                            top: s
+                            top: r
                         };
                     };
                     this.isCursorInView = function(e, t) {
@@ -15993,7 +15993,7 @@
                     this.update = function(e) {
                         this.config = e;
                         var t = this.session.$selectionMarkers;
-                        var i = 0, s = 0;
+                        var i = 0, r = 0;
                         if (t === undefined || t.length === 0) {
                             t = [
                                 {
@@ -16001,12 +16001,12 @@
                                 }
                             ];
                         }
-                        for(var i = 0, r = t.length; i < r; i++){
+                        for(var i = 0, s = t.length; i < s; i++){
                             var o = this.getPixelPosition(t[i].cursor, true);
                             if ((o.top > e.height + e.offset || o.top < 0) && i > 1) {
                                 continue;
                             }
-                            var a = this.cursors[s++] || this.addCursor();
+                            var a = this.cursors[r++] || this.addCursor();
                             var l = a.style;
                             if (!this.drawCursor) {
                                 if (!this.isCursorInView(o, e)) {
@@ -16021,7 +16021,7 @@
                                 this.drawCursor(a, o, e, t[i], this.session);
                             }
                         }
-                        while(this.cursors.length > s)this.removeCursor();
+                        while(this.cursors.length > r)this.removeCursor();
                         var h = this.session.getOverwrite();
                         this.$setOverwrite(h);
                         this.$pixelPos = o;
@@ -16039,8 +16039,8 @@
                         clearInterval(this.intervalId);
                         clearTimeout(this.timeoutId);
                     };
-                }.call(s.prototype));
-                t.Cursor = s;
+                }.call(r.prototype));
+                t.Cursor = r;
             });
             ace.define("ace/scrollbar", [
                 "require",
@@ -16053,22 +16053,22 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
-                var s = e("./lib/dom");
-                var r = e("./lib/event");
+                var r = e("./lib/dom");
+                var s = e("./lib/event");
                 var o = e("./lib/event_emitter").EventEmitter;
                 var a = 0x8000;
                 var l = function(e) {
-                    this.element = s.createElement("div");
+                    this.element = r.createElement("div");
                     this.element.className = "ace_scrollbar ace_scrollbar" + this.classSuffix;
-                    this.inner = s.createElement("div");
+                    this.inner = r.createElement("div");
                     this.inner.className = "ace_scrollbar-inner";
                     this.inner.textContent = "\xa0";
                     this.element.appendChild(this.inner);
                     e.appendChild(this.element);
                     this.setVisible(false);
                     this.skipEvent = false;
-                    r.addListener(this.element, "scroll", this.onScroll.bind(this));
-                    r.addListener(this.element, "mousedown", r.preventDefault);
+                    s.addListener(this.element, "scroll", this.onScroll.bind(this));
+                    s.addListener(this.element, "mousedown", s.preventDefault);
                 };
                 (function() {
                     n.implement(this, o);
@@ -16082,7 +16082,7 @@
                     l.call(this, e);
                     this.scrollTop = 0;
                     this.scrollHeight = 0;
-                    t.$scrollbarWidth = this.width = s.scrollbarWidth(e.ownerDocument);
+                    t.$scrollbarWidth = this.width = r.scrollbarWidth(e.ownerDocument);
                     this.inner.style.width = this.element.style.width = (this.width || 15) + 5 + "px";
                     this.$minWidth = 0;
                 };
@@ -16177,7 +16177,7 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/event");
-                var s = function(e, t) {
+                var r = function(e, t) {
                     this.onRender = e;
                     this.pending = false;
                     this.changes = 0;
@@ -16213,8 +16213,8 @@
                         this.changes = 0;
                         return t;
                     };
-                }.call(s.prototype));
-                t.RenderLoop = s;
+                }.call(r.prototype));
+                t.RenderLoop = r;
             });
             ace.define("ace/layer/font_metrics", [
                 "require",
@@ -16228,25 +16228,25 @@
                 "ace/lib/event_emitter", 
             ], function(e, t, i) {
                 var n = e("../lib/oop");
-                var s = e("../lib/dom");
-                var r = e("../lib/lang");
+                var r = e("../lib/dom");
+                var s = e("../lib/lang");
                 var o = e("../lib/event");
                 var a = e("../lib/useragent");
                 var l = e("../lib/event_emitter").EventEmitter;
                 var h = 256;
                 var c = typeof ResizeObserver == "function";
                 var u = 200;
-                var f = (t.FontMetrics = function(e) {
-                    this.el = s.createElement("div");
+                var d = (t.FontMetrics = function(e) {
+                    this.el = r.createElement("div");
                     this.$setMeasureNodeStyles(this.el.style, true);
-                    this.$main = s.createElement("div");
+                    this.$main = r.createElement("div");
                     this.$setMeasureNodeStyles(this.$main.style);
-                    this.$measureNode = s.createElement("div");
+                    this.$measureNode = r.createElement("div");
                     this.$setMeasureNodeStyles(this.$measureNode.style);
                     this.el.appendChild(this.$main);
                     this.el.appendChild(this.$measureNode);
                     e.appendChild(this.el);
-                    this.$measureNode.textContent = r.stringRepeat("X", h);
+                    this.$measureNode.textContent = s.stringRepeat("X", h);
                     this.$characterSize = {
                         width: 0,
                         height: 0
@@ -16319,7 +16319,7 @@
                         return t;
                     };
                     this.$measureCharWidth = function(e) {
-                        this.$main.textContent = r.stringRepeat(e, h);
+                        this.$main.textContent = s.stringRepeat(e, h);
                         var t = this.$main.getBoundingClientRect();
                         return t.width / h;
                     };
@@ -16348,7 +16348,7 @@
                                 }, 
                             ];
                         };
-                        this.els = s.buildDom([
+                        this.els = r.buildDom([
                             e(0, 0),
                             e(u, 0),
                             e(0, u),
@@ -16367,13 +16367,13 @@
                                 (+e[1] * i[0] - e[0] * i[1]) / n, 
                             ];
                         }
-                        function s(e, t) {
+                        function r(e, t) {
                             return [
                                 e[0] - t[0],
                                 e[1] - t[1]
                             ];
                         }
-                        function r(e, t) {
+                        function s(e, t) {
                             return [
                                 e[0] + t[0],
                                 e[1] + t[1]
@@ -16396,21 +16396,21 @@
                         var l = a(this.els[0]);
                         var h = a(this.els[1]);
                         var c = a(this.els[2]);
-                        var f = a(this.els[3]);
-                        var d = n(s(f, h), s(f, c), s(r(h, c), r(f, l)));
-                        var g = o(1 + d[0], s(h, l));
-                        var v = o(1 + d[1], s(c, l));
+                        var d = a(this.els[3]);
+                        var f = n(r(d, h), r(d, c), r(s(h, c), s(d, l)));
+                        var g = o(1 + f[0], r(h, l));
+                        var m = o(1 + f[1], r(c, l));
                         if (t) {
-                            var m = t;
-                            var p = (d[0] * m[0]) / u + (d[1] * m[1]) / u + 1;
-                            var w = r(o(m[0], g), o(m[1], v));
-                            return r(o(1 / p / u, w), l);
+                            var v = t;
+                            var p = (f[0] * v[0]) / u + (f[1] * v[1]) / u + 1;
+                            var w = s(o(v[0], g), o(v[1], m));
+                            return s(o(1 / p / u, w), l);
                         }
-                        var $ = s(e, l);
-                        var C = n(s(g, o(d[0], $)), s(v, o(d[1], $)), $);
-                        return o(u, C);
+                        var $ = r(e, l);
+                        var b = n(r(g, o(f[0], $)), r(m, o(f[1], $)), $);
+                        return o(u, b);
                     };
-                }.call(f.prototype));
+                }.call(d.prototype));
             });
             ace.define("ace/virtual_renderer", [
                 "require",
@@ -16432,18 +16432,18 @@
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
-                var s = e("./lib/dom");
-                var r = e("./config");
+                var r = e("./lib/dom");
+                var s = e("./config");
                 var o = e("./layer/gutter").Gutter;
                 var a = e("./layer/marker").Marker;
                 var l = e("./layer/text").Text;
                 var h = e("./layer/cursor").Cursor;
                 var c = e("./scrollbar").HScrollBar;
                 var u = e("./scrollbar").VScrollBar;
-                var f = e("./renderloop").RenderLoop;
-                var d = e("./layer/font_metrics").FontMetrics;
+                var d = e("./renderloop").RenderLoop;
+                var f = e("./layer/font_metrics").FontMetrics;
                 var g = e("./lib/event_emitter").EventEmitter;
-                var v = '\
+                var m = '\
 .ace_br1 {border-top-left-radius    : 3px;}\
 .ace_br2 {border-top-right-radius   : 3px;}\
 .ace_br3 {border-top-left-radius    : 3px; border-top-right-radius:    3px;}\
@@ -16931,24 +16931,24 @@ white-space: pre;\
 opacity: 0.7;\
 margin: 0 10px;\
 }';
-                var m = e("./lib/useragent");
-                var p = m.isIE;
-                s.importCssString(v, "ace_editor.css", false);
+                var v = e("./lib/useragent");
+                var p = v.isIE;
+                r.importCssString(m, "ace_editor.css", false);
                 var w = function(e, t) {
                     var i = this;
-                    this.container = e || s.createElement("div");
-                    s.addCssClass(this.container, "ace_editor");
-                    if (s.HI_DPI) s.addCssClass(this.container, "ace_hidpi");
+                    this.container = e || r.createElement("div");
+                    r.addCssClass(this.container, "ace_editor");
+                    if (r.HI_DPI) r.addCssClass(this.container, "ace_hidpi");
                     this.setTheme(t);
-                    if (r.get("useStrictCSP") == null) r.set("useStrictCSP", false);
-                    this.$gutter = s.createElement("div");
+                    if (s.get("useStrictCSP") == null) s.set("useStrictCSP", false);
+                    this.$gutter = r.createElement("div");
                     this.$gutter.className = "ace_gutter";
                     this.container.appendChild(this.$gutter);
                     this.$gutter.setAttribute("aria-hidden", true);
-                    this.scroller = s.createElement("div");
+                    this.scroller = r.createElement("div");
                     this.scroller.className = "ace_scroller";
                     this.container.appendChild(this.scroller);
-                    this.content = s.createElement("div");
+                    this.content = r.createElement("div");
                     this.content.className = "ace_content";
                     this.scroller.appendChild(this.content);
                     this.$gutterLayer = new o(this.$gutter);
@@ -16974,7 +16974,7 @@ margin: 0 10px;\
                         row: 0,
                         column: 0
                     };
-                    this.$fontMetrics = new d(this.container);
+                    this.$fontMetrics = new f(this.container);
                     this.$textLayer.$setFontMetrics(this.$fontMetrics);
                     this.$textLayer.on("changeCharacterSize", function(e) {
                         i.updateCharacterSize();
@@ -17018,13 +17018,13 @@ margin: 0 10px;\
                         v: 0,
                         h: 0
                     };
-                    this.$keepTextAreaAtCursor = !m.isIOS;
-                    this.$loop = new f(this.$renderChanges.bind(this), this.container.ownerDocument.defaultView);
+                    this.$keepTextAreaAtCursor = !v.isIOS;
+                    this.$loop = new d(this.$renderChanges.bind(this), this.container.ownerDocument.defaultView);
                     this.$loop.schedule(this.CHANGE_FULL);
                     this.updateCharacterSize();
                     this.setPadding(4);
-                    r.resetOptions(this);
-                    r._signal("renderer", this);
+                    s.resetOptions(this);
+                    s._signal("renderer", this);
                 };
                 (function() {
                     this.CHANGE_CURSOR = 1;
@@ -17047,7 +17047,7 @@ margin: 0 10px;\
                         this.layerConfig.characterWidth = this.characterWidth = this.$textLayer.getCharacterWidth();
                         this.layerConfig.lineHeight = this.lineHeight = this.$textLayer.getLineHeight();
                         this.$updatePrintMargin();
-                        s.setStyle(this.scroller.style, "line-height", this.lineHeight + "px");
+                        r.setStyle(this.scroller.style, "line-height", this.lineHeight + "px");
                     };
                     this.setSession = function(e) {
                         if (this.session) this.session.doc.off("changeNewLineMode", this.onChangeNewLineMode);
@@ -17112,20 +17112,20 @@ margin: 0 10px;\
                         if (this.resizing > 2) return;
                         else if (this.resizing > 0) this.resizing++;
                         else this.resizing = e ? 1 : 0;
-                        var s = this.container;
-                        if (!n) n = s.clientHeight || s.scrollHeight;
-                        if (!i) i = s.clientWidth || s.scrollWidth;
-                        var r = this.$updateCachedSize(e, t, i, n);
+                        var r = this.container;
+                        if (!n) n = r.clientHeight || r.scrollHeight;
+                        if (!i) i = r.clientWidth || r.scrollWidth;
+                        var s = this.$updateCachedSize(e, t, i, n);
                         if (!this.$size.scrollerHeight || (!i && !n)) return (this.resizing = 0);
                         if (e) this.$gutterLayer.$padding = null;
-                        if (e) this.$renderChanges(r | this.$changes, true);
-                        else this.$loop.schedule(r | this.$changes);
+                        if (e) this.$renderChanges(s | this.$changes, true);
+                        else this.$loop.schedule(s | this.$changes);
                         if (this.resizing) this.resizing = 0;
                         this.scrollBarH.scrollLeft = this.scrollBarV.scrollTop = null;
                     };
                     this.$updateCachedSize = function(e, t, i, n) {
                         n -= this.$extraHeight || 0;
-                        var r = 0;
+                        var s = 0;
                         var o = this.$size;
                         var a = {
                             width: o.width,
@@ -17135,32 +17135,32 @@ margin: 0 10px;\
                         };
                         if (n && (e || o.height != n)) {
                             o.height = n;
-                            r |= this.CHANGE_SIZE;
+                            s |= this.CHANGE_SIZE;
                             o.scrollerHeight = o.height;
                             if (this.$horizScroll) o.scrollerHeight -= this.scrollBarH.getHeight();
                             this.scrollBarV.element.style.bottom = this.scrollBarH.getHeight() + "px";
-                            r = r | this.CHANGE_SCROLL;
+                            s = s | this.CHANGE_SCROLL;
                         }
                         if (i && (e || o.width != i)) {
-                            r |= this.CHANGE_SIZE;
+                            s |= this.CHANGE_SIZE;
                             o.width = i;
                             if (t == null) t = this.$showGutter ? this.$gutter.offsetWidth : 0;
                             this.gutterWidth = t;
-                            s.setStyle(this.scrollBarH.element.style, "left", t + "px");
-                            s.setStyle(this.scroller.style, "left", t + this.margin.left + "px");
+                            r.setStyle(this.scrollBarH.element.style, "left", t + "px");
+                            r.setStyle(this.scroller.style, "left", t + this.margin.left + "px");
                             o.scrollerWidth = Math.max(0, i - t - this.scrollBarV.getWidth() - this.margin.h);
-                            s.setStyle(this.$gutter.style, "left", this.margin.left + "px");
+                            r.setStyle(this.$gutter.style, "left", this.margin.left + "px");
                             var l = this.scrollBarV.getWidth() + "px";
-                            s.setStyle(this.scrollBarH.element.style, "right", l);
-                            s.setStyle(this.scroller.style, "right", l);
-                            s.setStyle(this.scroller.style, "bottom", this.scrollBarH.getHeight());
+                            r.setStyle(this.scrollBarH.element.style, "right", l);
+                            r.setStyle(this.scroller.style, "right", l);
+                            r.setStyle(this.scroller.style, "bottom", this.scrollBarH.getHeight());
                             if ((this.session && this.session.getUseWrapMode() && this.adjustWrapLimit()) || e) {
-                                r |= this.CHANGE_FULL;
+                                s |= this.CHANGE_FULL;
                             }
                         }
                         o.$dirty = !i || !n;
-                        if (r) this._signal("resize", a);
-                        return r;
+                        if (s) this._signal("resize", a);
+                        return s;
                     };
                     this.onGutterResize = function(e) {
                         var t = this.$showGutter ? e : 0;
@@ -17230,9 +17230,9 @@ margin: 0 10px;\
                     this.$updatePrintMargin = function() {
                         if (!this.$showPrintMargin && !this.$printMarginEl) return;
                         if (!this.$printMarginEl) {
-                            var e = s.createElement("div");
+                            var e = r.createElement("div");
                             e.className = "ace_layer ace_print-margin-layer";
-                            this.$printMarginEl = s.createElement("div");
+                            this.$printMarginEl = r.createElement("div");
                             this.$printMarginEl.className = "ace_print-margin";
                             e.appendChild(this.$printMarginEl);
                             this.content.insertBefore(e, this.content.firstChild);
@@ -17256,39 +17256,39 @@ margin: 0 10px;\
                         var e = this.textarea.style;
                         var t = this.$composition;
                         if (!this.$keepTextAreaAtCursor && !t) {
-                            s.translate(this.textarea, -100, 0);
+                            r.translate(this.textarea, -100, 0);
                             return;
                         }
                         var i = this.$cursorLayer.$pixelPos;
                         if (!i) return;
                         if (t && t.markerRange) i = this.$cursorLayer.getPixelPosition(t.markerRange.start, true);
                         var n = this.layerConfig;
-                        var r = i.top;
+                        var s = i.top;
                         var o = i.left;
-                        r -= n.offset;
+                        s -= n.offset;
                         var a = t && t.useTextareaForIME ? this.lineHeight : p ? 0 : 1;
-                        if (r < 0 || r > n.height - a) {
-                            s.translate(this.textarea, 0, 0);
+                        if (s < 0 || s > n.height - a) {
+                            r.translate(this.textarea, 0, 0);
                             return;
                         }
                         var l = 1;
                         var h = this.$size.height - a;
                         if (!t) {
-                            r += this.lineHeight;
+                            s += this.lineHeight;
                         } else {
                             if (t.useTextareaForIME) {
                                 var c = this.textarea.value;
                                 l = this.characterWidth * this.session.$getStringScreenWidth(c)[0];
                             } else {
-                                r += this.lineHeight + 2;
+                                s += this.lineHeight + 2;
                             }
                         }
                         o -= this.scrollLeft;
                         if (o > this.$size.scrollerWidth - l) o = this.$size.scrollerWidth - l;
                         o += this.gutterWidth + this.margin.left;
-                        s.setStyle(e, "height", a + "px");
-                        s.setStyle(e, "width", l + "px");
-                        s.translate(this.textarea, Math.min(o, this.$size.scrollerWidth - l), Math.min(r, h));
+                        r.setStyle(e, "height", a + "px");
+                        r.setStyle(e, "width", l + "px");
+                        r.translate(this.textarea, Math.min(o, this.$size.scrollerWidth - l), Math.min(s, h));
                     };
                     this.getFirstVisibleRow = function() {
                         return this.layerConfig.firstRow;
@@ -17317,24 +17317,24 @@ margin: 0 10px;\
                         this.$updatePrintMargin();
                     };
                     this.setScrollMargin = function(e, t, i, n) {
-                        var s = this.scrollMargin;
-                        s.top = e | 0;
-                        s.bottom = t | 0;
-                        s.right = n | 0;
-                        s.left = i | 0;
-                        s.v = s.top + s.bottom;
-                        s.h = s.left + s.right;
-                        if (s.top && this.scrollTop <= 0 && this.session) this.session.setScrollTop(-s.top);
+                        var r = this.scrollMargin;
+                        r.top = e | 0;
+                        r.bottom = t | 0;
+                        r.right = n | 0;
+                        r.left = i | 0;
+                        r.v = r.top + r.bottom;
+                        r.h = r.left + r.right;
+                        if (r.top && this.scrollTop <= 0 && this.session) this.session.setScrollTop(-r.top);
                         this.updateFull();
                     };
                     this.setMargin = function(e, t, i, n) {
-                        var s = this.margin;
-                        s.top = e | 0;
-                        s.bottom = t | 0;
-                        s.right = n | 0;
-                        s.left = i | 0;
-                        s.v = s.top + s.bottom;
-                        s.h = s.left + s.right;
+                        var r = this.margin;
+                        r.top = e | 0;
+                        r.bottom = t | 0;
+                        r.right = n | 0;
+                        r.left = i | 0;
+                        r.v = r.top + r.bottom;
+                        r.h = r.left + r.right;
                         this.$updateCachedSize(true, this.gutterWidth, this.$size.width, this.$size.height);
                         this.updateFull();
                     };
@@ -17406,14 +17406,14 @@ margin: 0 10px;\
                             i = this.layerConfig;
                             this.$updateScrollBarV();
                             if (e & this.CHANGE_H_SCROLL) this.$updateScrollBarH();
-                            s.translate(this.content, -this.scrollLeft, -i.offset);
-                            var r = i.width + 2 * this.$padding + "px";
+                            r.translate(this.content, -this.scrollLeft, -i.offset);
+                            var s = i.width + 2 * this.$padding + "px";
                             var o = i.minHeight + "px";
-                            s.setStyle(this.content.style, "width", r);
-                            s.setStyle(this.content.style, "height", o);
+                            r.setStyle(this.content.style, "width", s);
+                            r.setStyle(this.content.style, "height", o);
                         }
                         if (e & this.CHANGE_H_SCROLL) {
-                            s.translate(this.content, -this.scrollLeft, -i.offset);
+                            r.translate(this.content, -this.scrollLeft, -i.offset);
                             this.scroller.className = this.scrollLeft <= 0 ? "ace_scroller" : "ace_scroller ace_scroll-left";
                         }
                         if (e & this.CHANGE_FULL) {
@@ -17472,15 +17472,15 @@ margin: 0 10px;\
                         if (this.$horizScroll) i += this.scrollBarH.getHeight();
                         if (this.$maxPixelHeight && i > this.$maxPixelHeight) i = this.$maxPixelHeight;
                         var n = i <= 2 * this.lineHeight;
-                        var s = !n && e > t;
-                        if (i != this.desiredHeight || this.$size.height != this.desiredHeight || s != this.$vScroll) {
-                            if (s != this.$vScroll) {
-                                this.$vScroll = s;
-                                this.scrollBarV.setVisible(s);
+                        var r = !n && e > t;
+                        if (i != this.desiredHeight || this.$size.height != this.desiredHeight || r != this.$vScroll) {
+                            if (r != this.$vScroll) {
+                                this.$vScroll = r;
+                                this.scrollBarV.setVisible(r);
                             }
-                            var r = this.container.clientWidth;
+                            var s = this.container.clientWidth;
                             this.container.style.height = i + "px";
-                            this.$updateCachedSize(true, this.$gutterWidth, r, i);
+                            this.$updateCachedSize(true, this.$gutterWidth, s, i);
                             this.desiredHeight = i;
                             this._signal("autosize");
                         }
@@ -17490,9 +17490,9 @@ margin: 0 10px;\
                         var t = this.$size;
                         var i = t.height <= 2 * this.lineHeight;
                         var n = this.session.getScreenLength();
-                        var s = n * this.lineHeight;
-                        var r = this.$getLongestLine();
-                        var o = !i && (this.$hScrollBarAlwaysVisible || t.scrollerWidth - r - 2 * this.$padding < 0);
+                        var r = n * this.lineHeight;
+                        var s = this.$getLongestLine();
+                        var o = !i && (this.$hScrollBarAlwaysVisible || t.scrollerWidth - s - 2 * this.$padding < 0);
                         var a = this.$horizScroll !== o;
                         if (a) {
                             this.$horizScroll = o;
@@ -17502,55 +17502,55 @@ margin: 0 10px;\
                         if (this.$maxLines && this.lineHeight > 1) this.$autosize();
                         var h = t.scrollerHeight + this.lineHeight;
                         var c = !this.$maxLines && this.$scrollPastEnd ? (t.scrollerHeight - this.lineHeight) * this.$scrollPastEnd : 0;
-                        s += c;
+                        r += c;
                         var u = this.scrollMargin;
-                        this.session.setScrollTop(Math.max(-u.top, Math.min(this.scrollTop, s - t.scrollerHeight + u.bottom)));
-                        this.session.setScrollLeft(Math.max(-u.left, Math.min(this.scrollLeft, r + 2 * this.$padding - t.scrollerWidth + u.right)));
-                        var f = !i && (this.$vScrollBarAlwaysVisible || t.scrollerHeight - s + c < 0 || this.scrollTop > u.top);
-                        var d = l !== f;
-                        if (d) {
-                            this.$vScroll = f;
-                            this.scrollBarV.setVisible(f);
+                        this.session.setScrollTop(Math.max(-u.top, Math.min(this.scrollTop, r - t.scrollerHeight + u.bottom)));
+                        this.session.setScrollLeft(Math.max(-u.left, Math.min(this.scrollLeft, s + 2 * this.$padding - t.scrollerWidth + u.right)));
+                        var d = !i && (this.$vScrollBarAlwaysVisible || t.scrollerHeight - r + c < 0 || this.scrollTop > u.top);
+                        var f = l !== d;
+                        if (f) {
+                            this.$vScroll = d;
+                            this.scrollBarV.setVisible(d);
                         }
                         var g = this.scrollTop % this.lineHeight;
-                        var v = Math.ceil(h / this.lineHeight) - 1;
-                        var m = Math.max(0, Math.round((this.scrollTop - g) / this.lineHeight));
-                        var p = m + v;
+                        var m = Math.ceil(h / this.lineHeight) - 1;
+                        var v = Math.max(0, Math.round((this.scrollTop - g) / this.lineHeight));
+                        var p = v + m;
                         var w, $;
-                        var C = this.lineHeight;
-                        m = e.screenToDocumentRow(m, 0);
-                        var y = e.getFoldLine(m);
-                        if (y) {
-                            m = y.start.row;
+                        var b = this.lineHeight;
+                        v = e.screenToDocumentRow(v, 0);
+                        var C = e.getFoldLine(v);
+                        if (C) {
+                            v = C.start.row;
                         }
-                        w = e.documentToScreenRow(m, 0);
-                        $ = e.getRowLength(m) * C;
+                        w = e.documentToScreenRow(v, 0);
+                        $ = e.getRowLength(v) * b;
                         p = Math.min(e.screenToDocumentRow(p, 0), e.getLength() - 1);
-                        h = t.scrollerHeight + e.getRowLength(p) * C + $;
-                        g = this.scrollTop - w * C;
-                        var S = 0;
-                        if (this.layerConfig.width != r || a) S = this.CHANGE_H_SCROLL;
-                        if (a || d) {
-                            S |= this.$updateCachedSize(true, this.gutterWidth, t.width, t.height);
+                        h = t.scrollerHeight + e.getRowLength(p) * b + $;
+                        g = this.scrollTop - w * b;
+                        var y = 0;
+                        if (this.layerConfig.width != s || a) y = this.CHANGE_H_SCROLL;
+                        if (a || f) {
+                            y |= this.$updateCachedSize(true, this.gutterWidth, t.width, t.height);
                             this._signal("scrollbarVisibilityChanged");
-                            if (d) r = this.$getLongestLine();
+                            if (f) s = this.$getLongestLine();
                         }
                         this.layerConfig = {
-                            width: r,
+                            width: s,
                             padding: this.$padding,
-                            firstRow: m,
+                            firstRow: v,
                             firstRowScreen: w,
                             lastRow: p,
-                            lineHeight: C,
+                            lineHeight: b,
                             characterWidth: this.characterWidth,
                             minHeight: h,
-                            maxHeight: s,
+                            maxHeight: r,
                             offset: g,
-                            gutterOffset: C ? Math.max(0, Math.ceil((g + t.height - t.scrollerHeight) / C)) : 0,
+                            gutterOffset: b ? Math.max(0, Math.ceil((g + t.height - t.scrollerHeight) / b)) : 0,
                             height: this.$size.scrollerHeight
                         };
-                        if (this.session.$bidiHandler) this.session.$bidiHandler.setContentWidth(r - this.$padding);
-                        return S;
+                        if (this.session.$bidiHandler) this.session.$bidiHandler.setContentWidth(s - this.$padding);
+                        return y;
                     };
                     this.$updateLines = function() {
                         if (!this.$changedLines) return;
@@ -17615,26 +17615,26 @@ margin: 0 10px;\
                     this.scrollCursorIntoView = function(e, t, i) {
                         if (this.$size.scrollerHeight === 0) return;
                         var n = this.$cursorLayer.getPixelPosition(e);
-                        var s = n.left;
-                        var r = n.top;
+                        var r = n.left;
+                        var s = n.top;
                         var o = (i && i.top) || 0;
                         var a = (i && i.bottom) || 0;
                         var l = this.$scrollAnimation ? this.session.getScrollTop() : this.scrollTop;
-                        if (l + o > r) {
-                            if (t && l + o > r + this.lineHeight) r -= t * this.$size.scrollerHeight;
-                            if (r === 0) r = -this.scrollMargin.top;
-                            this.session.setScrollTop(r);
-                        } else if (l + this.$size.scrollerHeight - a < r + this.lineHeight) {
-                            if (t && l + this.$size.scrollerHeight - a < r - this.lineHeight) r += t * this.$size.scrollerHeight;
-                            this.session.setScrollTop(r + this.lineHeight + a - this.$size.scrollerHeight);
+                        if (l + o > s) {
+                            if (t && l + o > s + this.lineHeight) s -= t * this.$size.scrollerHeight;
+                            if (s === 0) s = -this.scrollMargin.top;
+                            this.session.setScrollTop(s);
+                        } else if (l + this.$size.scrollerHeight - a < s + this.lineHeight) {
+                            if (t && l + this.$size.scrollerHeight - a < s - this.lineHeight) s += t * this.$size.scrollerHeight;
+                            this.session.setScrollTop(s + this.lineHeight + a - this.$size.scrollerHeight);
                         }
                         var h = this.scrollLeft;
-                        if (h > s) {
-                            if (s < this.$padding + 2 * this.layerConfig.characterWidth) s = -this.scrollMargin.left;
-                            this.session.setScrollLeft(s);
-                        } else if (h + this.$size.scrollerWidth < s + this.characterWidth) {
-                            this.session.setScrollLeft(Math.round(s + this.characterWidth - this.$size.scrollerWidth));
-                        } else if (h <= this.$padding && s - h < this.characterWidth) {
+                        if (h > r) {
+                            if (r < this.$padding + 2 * this.layerConfig.characterWidth) r = -this.scrollMargin.left;
+                            this.session.setScrollLeft(r);
+                        } else if (h + this.$size.scrollerWidth < r + this.characterWidth) {
+                            this.session.setScrollLeft(Math.round(r + this.characterWidth - this.$size.scrollerWidth));
+                        } else if (h <= this.$padding && r - h < this.characterWidth) {
                             this.session.setScrollLeft(0);
                         }
                     };
@@ -17660,30 +17660,30 @@ margin: 0 10px;\
                         };
                         var i = this.$cursorLayer.getPixelPosition(e);
                         var n = this.$size.scrollerHeight - this.lineHeight;
-                        var s = i.top - n * (t || 0);
-                        this.session.setScrollTop(s);
-                        return s;
+                        var r = i.top - n * (t || 0);
+                        this.session.setScrollTop(r);
+                        return r;
                     };
                     this.STEPS = 8;
                     this.$calcSteps = function(e, t) {
                         var i = 0;
                         var n = this.STEPS;
-                        var s = [];
-                        var r = function(e, t, i) {
+                        var r = [];
+                        var s = function(e, t, i) {
                             return i * (Math.pow(e - 1, 3) + 1) + t;
                         };
-                        for(i = 0; i < n; ++i)s.push(r(i / this.STEPS, e, t - e));
-                        return s;
+                        for(i = 0; i < n; ++i)r.push(s(i / this.STEPS, e, t - e));
+                        return r;
                     };
                     this.scrollToLine = function(e, t, i, n) {
-                        var s = this.$cursorLayer.getPixelPosition({
+                        var r = this.$cursorLayer.getPixelPosition({
                             row: e,
                             column: 0
                         });
-                        var r = s.top;
-                        if (t) r -= this.$size.scrollerHeight / 2;
+                        var s = r.top;
+                        if (t) s -= this.$size.scrollerHeight / 2;
                         var o = this.scrollTop;
-                        this.session.setScrollTop(r);
+                        this.session.setScrollTop(s);
                         if (i !== false) this.animateScrolling(o, n);
                     };
                     this.animateScrolling = function(e, t) {
@@ -17692,25 +17692,25 @@ margin: 0 10px;\
                         var n = this;
                         if (e == i) return;
                         if (this.$scrollAnimation) {
-                            var s = this.$scrollAnimation.steps;
-                            if (s.length) {
-                                e = s[0];
+                            var r = this.$scrollAnimation.steps;
+                            if (r.length) {
+                                e = r[0];
                                 if (e == i) return;
                             }
                         }
-                        var r = n.$calcSteps(e, i);
+                        var s = n.$calcSteps(e, i);
                         this.$scrollAnimation = {
                             from: e,
                             to: i,
-                            steps: r
+                            steps: s
                         };
                         clearInterval(this.$timer);
-                        n.session.setScrollTop(r.shift());
+                        n.session.setScrollTop(s.shift());
                         n.session.$scrollTop = i;
                         this.$timer = setInterval(function() {
                             if (!n.session) return clearInterval(n.$timer);
-                            if (r.length) {
-                                n.session.setScrollTop(r.shift());
+                            if (s.length) {
+                                n.session.setScrollTop(s.shift());
                                 n.session.$scrollTop = i;
                             } else if (i != null) {
                                 n.session.$scrollTop = -1;
@@ -17763,15 +17763,15 @@ margin: 0 10px;\
                         } else {
                             i = this.scroller.getBoundingClientRect();
                         }
-                        var s = e + this.scrollLeft - i.left - this.$padding;
-                        var r = s / this.characterWidth;
+                        var r = e + this.scrollLeft - i.left - this.$padding;
+                        var s = r / this.characterWidth;
                         var o = Math.floor((t + this.scrollTop - i.top) / this.lineHeight);
-                        var a = this.$blockCursor ? Math.floor(r) : Math.round(r);
+                        var a = this.$blockCursor ? Math.floor(s) : Math.round(s);
                         return {
                             row: o,
                             column: a,
-                            side: r - a > 0 ? 1 : -1,
-                            offsetX: s
+                            side: s - a > 0 ? 1 : -1,
+                            offsetX: r
                         };
                     };
                     this.screenToTextCoordinates = function(e, t) {
@@ -17790,27 +17790,27 @@ margin: 0 10px;\
                         } else {
                             i = this.scroller.getBoundingClientRect();
                         }
-                        var s = e + this.scrollLeft - i.left - this.$padding;
-                        var r = s / this.characterWidth;
-                        var o = this.$blockCursor ? Math.floor(r) : Math.round(r);
+                        var r = e + this.scrollLeft - i.left - this.$padding;
+                        var s = r / this.characterWidth;
+                        var o = this.$blockCursor ? Math.floor(s) : Math.round(s);
                         var a = Math.floor((t + this.scrollTop - i.top) / this.lineHeight);
-                        return this.session.screenToDocumentPosition(a, Math.max(o, 0), s);
+                        return this.session.screenToDocumentPosition(a, Math.max(o, 0), r);
                     };
                     this.textToScreenCoordinates = function(e, t) {
                         var i = this.scroller.getBoundingClientRect();
                         var n = this.session.documentToScreenPosition(e, t);
-                        var s = this.$padding + (this.session.$bidiHandler.isBidiRow(n.row, e) ? this.session.$bidiHandler.getPosLeft(n.column) : Math.round(n.column * this.characterWidth));
-                        var r = n.row * this.lineHeight;
+                        var r = this.$padding + (this.session.$bidiHandler.isBidiRow(n.row, e) ? this.session.$bidiHandler.getPosLeft(n.column) : Math.round(n.column * this.characterWidth));
+                        var s = n.row * this.lineHeight;
                         return {
-                            pageX: i.left + s - this.scrollLeft,
-                            pageY: i.top + r - this.scrollTop
+                            pageX: i.left + r - this.scrollLeft,
+                            pageY: i.top + s - this.scrollTop
                         };
                     };
                     this.visualizeFocus = function() {
-                        s.addCssClass(this.container, "ace_focus");
+                        r.addCssClass(this.container, "ace_focus");
                     };
                     this.visualizeBlur = function() {
-                        s.removeCssClass(this.container, "ace_focus");
+                        r.removeCssClass(this.container, "ace_focus");
                     };
                     this.showComposition = function(e) {
                         this.$composition = e;
@@ -17819,7 +17819,7 @@ margin: 0 10px;\
                         }
                         if (e.useTextareaForIME == undefined) e.useTextareaForIME = this.$useTextareaForIME;
                         if (this.$useTextareaForIME) {
-                            s.addCssClass(this.textarea, "ace_composition");
+                            r.addCssClass(this.textarea, "ace_composition");
                             this.textarea.style.cssText = "";
                             this.$moveTextAreaToCursor();
                             this.$cursorLayer.element.style.display = "none";
@@ -17835,7 +17835,7 @@ margin: 0 10px;\
                     this.hideComposition = function() {
                         if (!this.$composition) return;
                         if (this.$composition.markerId) this.session.removeMarker(this.$composition.markerId);
-                        s.removeCssClass(this.textarea, "ace_composition");
+                        r.removeCssClass(this.textarea, "ace_composition");
                         this.textarea.style.cssText = this.$composition.cssText;
                         var e = this.session.selection.cursor;
                         this.removeExtraToken(e.row, e.column);
@@ -17843,15 +17843,15 @@ margin: 0 10px;\
                         this.$cursorLayer.element.style.display = "";
                     };
                     this.addToken = function(e, t, i, n) {
-                        var s = this.session;
-                        s.bgTokenizer.lines[i] = null;
-                        var r = {
+                        var r = this.session;
+                        r.bgTokenizer.lines[i] = null;
+                        var s = {
                             type: t,
                             value: e
                         };
-                        var o = s.getTokens(i);
+                        var o = r.getTokens(i);
                         if (n == null) {
-                            o.push(r);
+                            o.push(s);
                         } else {
                             var a = 0;
                             for(var l = 0; l < o.length; l++){
@@ -17860,13 +17860,13 @@ margin: 0 10px;\
                                 if (n <= a) {
                                     var c = h.value.length - (a - n);
                                     var u = h.value.slice(0, c);
-                                    var f = h.value.slice(c);
+                                    var d = h.value.slice(c);
                                     o.splice(l, 1, {
                                         type: h.type,
                                         value: u
-                                    }, r, {
+                                    }, s, {
                                         type: h.type,
-                                        value: f
+                                        value: d
                                     });
                                     break;
                                 }
@@ -17885,7 +17885,7 @@ margin: 0 10px;\
                         });
                         if (!e || typeof e == "string") {
                             var n = e || this.$options.theme.initialValue;
-                            r.loadModule([
+                            s.loadModule([
                                 "theme",
                                 n
                             ], o);
@@ -17896,14 +17896,14 @@ margin: 0 10px;\
                             if (i.$themeId != e) return t && t();
                             if (!n || !n.cssClass) throw new Error("couldn't load module " + e + " or it didn't call define");
                             if (n.$id) i.$themeId = n.$id;
-                            s.importCssString(n.cssText, n.cssClass, i.container);
-                            if (i.theme) s.removeCssClass(i.container, i.theme.cssClass);
-                            var r = "padding" in n ? n.padding : "padding" in (i.theme || {}) ? 4 : i.$padding;
-                            if (i.$padding && r != i.$padding) i.setPadding(r);
+                            r.importCssString(n.cssText, n.cssClass, i.container);
+                            if (i.theme) r.removeCssClass(i.container, i.theme.cssClass);
+                            var s = "padding" in n ? n.padding : "padding" in (i.theme || {}) ? 4 : i.$padding;
+                            if (i.$padding && s != i.$padding) i.setPadding(s);
                             i.$theme = n.cssClass;
                             i.theme = n;
-                            s.addCssClass(i.container, n.cssClass);
-                            s.setCssClass(i.container, "ace_dark", n.isDark);
+                            r.addCssClass(i.container, n.cssClass);
+                            r.setCssClass(i.container, "ace_dark", n.isDark);
                             if (i.$size) {
                                 i.$size.width = 0;
                                 i.$updateSizeAsync();
@@ -17918,19 +17918,19 @@ margin: 0 10px;\
                         return this.$themeId;
                     };
                     this.setStyle = function(e, t) {
-                        s.setCssClass(this.container, e, t !== false);
+                        r.setCssClass(this.container, e, t !== false);
                     };
                     this.unsetStyle = function(e) {
-                        s.removeCssClass(this.container, e);
+                        r.removeCssClass(this.container, e);
                     };
                     this.setCursorStyle = function(e) {
-                        s.setStyle(this.scroller.style, "cursor", e);
+                        r.setStyle(this.scroller.style, "cursor", e);
                     };
                     this.setMouseCursor = function(e) {
-                        s.setStyle(this.scroller.style, "cursor", e);
+                        r.setStyle(this.scroller.style, "cursor", e);
                     };
                     this.attachToShadowRoot = function() {
-                        s.importCssString(v, "ace_editor.css", this.container);
+                        r.importCssString(m, "ace_editor.css", this.container);
                     };
                     this.destroy = function() {
                         this.freeze();
@@ -17940,7 +17940,7 @@ margin: 0 10px;\
                         this.container.textContent = "";
                     };
                 }.call(w.prototype));
-                r.defineOptions(w.prototype, "renderer", {
+                s.defineOptions(w.prototype, "renderer", {
                     animatedScroll: {
                         initialValue: false
                     },
@@ -17982,7 +17982,7 @@ margin: 0 10px;\
                     },
                     fadeFoldWidgets: {
                         set: function(e) {
-                            s.setCssClass(this.$gutter, "ace_fade-fold-widgets", e);
+                            r.setCssClass(this.$gutter, "ace_fade-fold-widgets", e);
                         },
                         initialValue: false
                     },
@@ -18077,7 +18077,7 @@ margin: 0 10px;\
                     },
                     hasCssTransforms: {},
                     useTextareaForIME: {
-                        initialValue: !m.isMobile && !m.isIE
+                        initialValue: !v.isMobile && !v.isIE
                     }
                 });
                 t.VirtualRenderer = w;
@@ -18093,11 +18093,11 @@ margin: 0 10px;\
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/oop");
-                var s = e("../lib/net");
-                var r = e("../lib/event_emitter").EventEmitter;
+                var r = e("../lib/net");
+                var s = e("../lib/event_emitter").EventEmitter;
                 var o = e("../config");
                 function a(e) {
-                    var t = "importScripts('" + s.qualifyURL(e) + "');";
+                    var t = "importScripts('" + r.qualifyURL(e) + "');";
                     try {
                         return new Blob([
                             t
@@ -18106,9 +18106,9 @@ margin: 0 10px;\
                         });
                     } catch (i) {
                         var n = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
-                        var r = new n();
-                        r.append(t);
-                        return r.getBlob("application/javascript");
+                        var s = new n();
+                        s.append(t);
+                        return s.getBlob("application/javascript");
                     }
                 }
                 function l(e) {
@@ -18135,22 +18135,22 @@ margin: 0 10px;\
                     this.$worker.onmessage = this.onMessage;
                 };
                 (function() {
-                    n.implement(this, r);
-                    this.$createWorkerFromOldConfig = function(t, i, n, s, r) {
+                    n.implement(this, s);
+                    this.$createWorkerFromOldConfig = function(t, i, n, r, s) {
                         if (e.nameToUrl && !e.toUrl) e.toUrl = e.nameToUrl;
                         if (o.get("packaged") || !e.toUrl) {
-                            s = s || o.moduleUrl(i, "worker");
+                            r = r || o.moduleUrl(i, "worker");
                         } else {
                             var a = this.$normalizePath;
-                            s = s || a(e.toUrl("ace/worker/worker.js", null, "_"));
+                            r = r || a(e.toUrl("ace/worker/worker.js", null, "_"));
                             var h = {};
                             t.forEach(function(t) {
                                 h[t] = a(e.toUrl(t, null, "_").replace(/(\.js)?(\?.*)?$/, ""));
                             });
                         }
-                        this.$worker = l(s);
-                        if (r) {
-                            this.send("importScripts", r);
+                        this.$worker = l(r);
+                        if (s) {
+                            this.send("importScripts", s);
                         }
                         this.$worker.postMessage({
                             init: true,
@@ -18187,7 +18187,7 @@ margin: 0 10px;\
                         window.console && console.error && console.error(e);
                     };
                     this.$normalizePath = function(e) {
-                        return s.qualifyURL(e);
+                        return r.qualifyURL(e);
                     };
                     this.terminate = function() {
                         this._signal("terminate", {});
@@ -18259,8 +18259,8 @@ margin: 0 10px;\
                 }.call(h.prototype));
                 var c = function(e, t, i) {
                     var n = null;
-                    var s = false;
-                    var a = Object.create(r);
+                    var r = false;
+                    var a = Object.create(s);
                     var l = [];
                     var c = new h({
                         messageBuffer: l,
@@ -18268,12 +18268,12 @@ margin: 0 10px;\
                         postMessage: function(e) {
                             l.push(e);
                             if (!n) return;
-                            if (s) setTimeout(u);
+                            if (r) setTimeout(u);
                             else u();
                         }
                     });
                     c.setEmitSync = function(e) {
-                        s = e;
+                        r = e;
                     };
                     var u = function() {
                         var e = l.shift();
@@ -18322,15 +18322,15 @@ margin: 0 10px;\
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./range").Range;
-                var s = e("./lib/event_emitter").EventEmitter;
-                var r = e("./lib/oop");
-                var o = function(e, t, i, n, s, r) {
+                var r = e("./lib/event_emitter").EventEmitter;
+                var s = e("./lib/oop");
+                var o = function(e, t, i, n, r, s) {
                     var o = this;
                     this.length = t;
                     this.session = e;
                     this.doc = e.getDocument();
-                    this.mainClass = s;
-                    this.othersClass = r;
+                    this.mainClass = r;
+                    this.othersClass = s;
                     this.$onUpdate = this.onUpdate.bind(this);
                     this.doc.on("change", this.$onUpdate);
                     this.$others = n;
@@ -18348,7 +18348,7 @@ margin: 0 10px;\
                     e.selection.on("changeCursor", this.$onCursorChange);
                 };
                 (function() {
-                    r.implement(this, s);
+                    s.implement(this, r);
                     this.setup = function() {
                         var e = this;
                         var t = this.doc;
@@ -18356,10 +18356,10 @@ margin: 0 10px;\
                         this.selectionBefore = i.selection.toJSON();
                         if (i.selection.inMultiSelectMode) i.selection.toSingleRange();
                         this.pos = t.createAnchor(this.$pos.row, this.$pos.column);
-                        var s = this.pos;
-                        s.$insertRight = true;
-                        s.detach();
-                        s.markerId = i.addMarker(new n(s.row, s.column, s.row, s.column + this.length), this.mainClass, null, false);
+                        var r = this.pos;
+                        r.$insertRight = true;
+                        r.detach();
+                        r.markerId = i.addMarker(new n(r.row, r.column, r.row, r.column + this.length), this.mainClass, null, false);
                         this.others = [];
                         this.$others.forEach(function(i) {
                             var n = t.createAnchor(i.row, i.column);
@@ -18392,17 +18392,17 @@ margin: 0 10px;\
                         if (t.start.row !== this.pos.row) return;
                         this.$updating = true;
                         var i = e.action === "insert" ? t.end.column - t.start.column : t.start.column - t.end.column;
-                        var s = t.start.column >= this.pos.column && t.start.column <= this.pos.column + this.length + 1;
-                        var r = t.start.column - this.pos.column;
+                        var r = t.start.column >= this.pos.column && t.start.column <= this.pos.column + this.length + 1;
+                        var s = t.start.column - this.pos.column;
                         this.updateAnchors(e);
-                        if (s) this.length += i;
-                        if (s && !this.session.$fromUndo) {
+                        if (r) this.length += i;
+                        if (r && !this.session.$fromUndo) {
                             if (e.action === "insert") {
                                 for(var o = this.others.length - 1; o >= 0; o--){
                                     var a = this.others[o];
                                     var l = {
                                         row: a.row,
-                                        column: a.column + r
+                                        column: a.column + s
                                     };
                                     this.doc.insertMergedLines(l, e.lines);
                                 }
@@ -18411,7 +18411,7 @@ margin: 0 10px;\
                                     var a = this.others[o];
                                     var l = {
                                         row: a.row,
-                                        column: a.column + r
+                                        column: a.column + s
                                     };
                                     this.doc.remove(new n(l.row, l.column, l.row, l.column - i));
                                 }
@@ -18429,12 +18429,12 @@ margin: 0 10px;\
                         if (this.$updating) return;
                         var e = this;
                         var t = this.session;
-                        var i = function(i, s) {
+                        var i = function(i, r) {
                             t.removeMarker(i.markerId);
-                            i.markerId = t.addMarker(new n(i.row, i.column, i.row, i.column + e.length), s, null, false);
+                            i.markerId = t.addMarker(new n(i.row, i.column, i.row, i.column + e.length), r, null, false);
                         };
                         i(this.pos, this.mainClass);
-                        for(var s = this.others.length; s--;)i(this.others[s], this.othersClass);
+                        for(var r = this.others.length; r--;)i(this.others[r], this.othersClass);
                     };
                     this.onCursorChange = function(e) {
                         if (this.$updating || !this.session) return;
@@ -18475,8 +18475,8 @@ margin: 0 10px;\
                 "ace/lib/useragent", 
             ], function(e, t, i) {
                 var n = e("../lib/event");
-                var s = e("../lib/useragent");
-                function r(e, t) {
+                var r = e("../lib/useragent");
+                function s(e, t) {
                     return e.row == t.row && e.column == t.column;
                 }
                 function o(e) {
@@ -18486,7 +18486,7 @@ margin: 0 10px;\
                     var a = t.ctrlKey;
                     var l = e.getAccelKey();
                     var h = e.getButton();
-                    if (a && s.isMac) h = t.button;
+                    if (a && r.isMac) h = t.button;
                     if (e.editor.inMultiSelectMode && h == 2) {
                         e.editor.textInput.onContextMenu(e.domEvent);
                         return;
@@ -18498,109 +18498,109 @@ margin: 0 10px;\
                     if (h !== 0) return;
                     var c = e.editor;
                     var u = c.selection;
-                    var f = c.inMultiSelectMode;
-                    var d = e.getDocumentPosition();
+                    var d = c.inMultiSelectMode;
+                    var f = e.getDocumentPosition();
                     var g = u.getCursor();
-                    var v = e.inSelection() || (u.isEmpty() && r(d, g));
-                    var m = e.x, p = e.y;
+                    var m = e.inSelection() || (u.isEmpty() && s(f, g));
+                    var v = e.x, p = e.y;
                     var w = function(e) {
-                        m = e.clientX;
+                        v = e.clientX;
                         p = e.clientY;
                     };
                     var $ = c.session;
-                    var C = c.renderer.pixelToScreenCoordinates(m, p);
-                    var y = C;
-                    var S;
+                    var b = c.renderer.pixelToScreenCoordinates(v, p);
+                    var C = b;
+                    var y;
                     if (c.$mouseHandler.$enableJumpToDef) {
-                        if ((a && i) || (l && i)) S = o ? "block" : "add";
-                        else if (i && c.$blockSelectEnabled) S = "block";
+                        if ((a && i) || (l && i)) y = o ? "block" : "add";
+                        else if (i && c.$blockSelectEnabled) y = "block";
                     } else {
                         if (l && !i) {
-                            S = "add";
-                            if (!f && o) return;
+                            y = "add";
+                            if (!d && o) return;
                         } else if (i && c.$blockSelectEnabled) {
-                            S = "block";
+                            y = "block";
                         }
                     }
-                    if (S && s.isMac && t.ctrlKey) {
+                    if (y && r.isMac && t.ctrlKey) {
                         c.$mouseHandler.cancelContextMenu();
                     }
-                    if (S == "add") {
-                        if (!f && v) return;
-                        if (!f) {
-                            var _ = u.toOrientedRange();
-                            c.addSelectionMarker(_);
+                    if (y == "add") {
+                        if (!d && m) return;
+                        if (!d) {
+                            var S = u.toOrientedRange();
+                            c.addSelectionMarker(S);
                         }
-                        var L = u.rangeList.rangeAtPoint(d);
+                        var _ = u.rangeList.rangeAtPoint(f);
                         c.inVirtualSelectionMode = true;
                         if (o) {
-                            L = null;
-                            _ = u.ranges[0] || _;
-                            c.removeSelectionMarker(_);
+                            _ = null;
+                            S = u.ranges[0] || S;
+                            c.removeSelectionMarker(S);
                         }
                         c.once("mouseup", function() {
                             var e = u.toOrientedRange();
-                            if (L && e.isEmpty() && r(L.cursor, e.cursor)) u.substractPoint(e.cursor);
+                            if (_ && e.isEmpty() && s(_.cursor, e.cursor)) u.substractPoint(e.cursor);
                             else {
                                 if (o) {
-                                    u.substractPoint(_.cursor);
-                                } else if (_) {
-                                    c.removeSelectionMarker(_);
-                                    u.addRange(_);
+                                    u.substractPoint(S.cursor);
+                                } else if (S) {
+                                    c.removeSelectionMarker(S);
+                                    u.addRange(S);
                                 }
                                 u.addRange(e);
                             }
                             c.inVirtualSelectionMode = false;
                         });
-                    } else if (S == "block") {
+                    } else if (y == "block") {
                         e.stop();
                         c.inVirtualSelectionMode = true;
-                        var R;
+                        var x;
                         var k = [];
-                        var b = function() {
-                            var e = c.renderer.pixelToScreenCoordinates(m, p);
+                        var A = function() {
+                            var e = c.renderer.pixelToScreenCoordinates(v, p);
                             var t = $.screenToDocumentPosition(e.row, e.column, e.offsetX);
-                            if (r(y, e) && r(t, u.lead)) return;
-                            y = e;
+                            if (s(C, e) && s(t, u.lead)) return;
+                            C = e;
                             c.selection.moveToPosition(t);
                             c.renderer.scrollCursorIntoView();
                             c.removeSelectionMarkers(k);
-                            k = u.rectangularRangeBlock(y, C);
+                            k = u.rectangularRangeBlock(C, b);
                             if (c.$mouseHandler.$clickSelection && k.length == 1 && k[0].isEmpty()) k[0] = c.$mouseHandler.$clickSelection.clone();
                             k.forEach(c.addSelectionMarker, c);
                             c.updateSelectionMarkers();
                         };
-                        if (f && !l) {
+                        if (d && !l) {
                             u.toSingleRange();
-                        } else if (!f && l) {
-                            R = u.toOrientedRange();
-                            c.addSelectionMarker(R);
+                        } else if (!d && l) {
+                            x = u.toOrientedRange();
+                            c.addSelectionMarker(x);
                         }
-                        if (o) C = $.documentToScreenPosition(u.lead);
-                        else u.moveToPosition(d);
-                        y = {
+                        if (o) b = $.documentToScreenPosition(u.lead);
+                        else u.moveToPosition(f);
+                        C = {
                             row: -1,
                             column: -1
                         };
-                        var x = function(e) {
-                            b();
+                        var L = function(e) {
+                            A();
                             clearInterval(E);
                             c.removeSelectionMarkers(k);
                             if (!k.length) k = [
                                 u.toOrientedRange()
                             ];
-                            if (R) {
-                                c.removeSelectionMarker(R);
-                                u.toSingleRange(R);
+                            if (x) {
+                                c.removeSelectionMarker(x);
+                                u.toSingleRange(x);
                             }
                             for(var t = 0; t < k.length; t++)u.addRange(k[t]);
                             c.inVirtualSelectionMode = false;
                             c.$mouseHandler.$clickSelection = null;
                         };
-                        var T = b;
-                        n.capture(c.container, w, x);
+                        var R = A;
+                        n.capture(c.container, w, L);
                         var E = setInterval(function() {
-                            T();
+                            R();
                         }, 20);
                         return e.preventDefault();
                     }
@@ -18800,8 +18800,8 @@ margin: 0 10px;\
                 "ace/config", 
             ], function(e, t, i) {
                 var n = e("./range_list").RangeList;
-                var s = e("./range").Range;
-                var r = e("./selection").Selection;
+                var r = e("./range").Range;
+                var s = e("./selection").Selection;
                 var o = e("./mouse/multi_select_handler").onMouseDown;
                 var a = e("./lib/event");
                 var l = e("./lib/lang");
@@ -18809,18 +18809,18 @@ margin: 0 10px;\
                 t.commands = h.defaultCommands.concat(h.multiSelectCommands);
                 var c = e("./search").Search;
                 var u = new c();
-                function f(e, t, i) {
+                function d(e, t, i) {
                     u.$options.wrap = true;
                     u.$options.needle = t;
                     u.$options.backwards = i == -1;
                     return u.find(e);
                 }
-                var d = e("./edit_session").EditSession;
+                var f = e("./edit_session").EditSession;
                 (function() {
                     this.getSelectionMarkers = function() {
                         return this.$selectionMarkers;
                     };
-                }.call(d.prototype));
+                }.call(f.prototype));
                 (function() {
                     this.ranges = null;
                     this.rangeList = null;
@@ -18915,14 +18915,14 @@ margin: 0 10px;\
                         var t = [];
                         for(var i = 0; i < e.length; i++){
                             var n = e[i];
-                            var r = n.start.row;
+                            var s = n.start.row;
                             var o = n.end.row;
-                            if (r === o) {
+                            if (s === o) {
                                 t.push(n.clone());
                             } else {
-                                t.push(new s(r, n.start.column, r, this.session.getLine(r).length));
-                                while(++r < o)t.push(this.getLineRange(r, true));
-                                t.push(new s(o, 0, o, n.end.column));
+                                t.push(new r(s, n.start.column, s, this.session.getLine(s).length));
+                                while(++s < o)t.push(this.getLineRange(s, true));
+                                t.push(new r(o, 0, o, n.end.column));
                             }
                             if (i == 0 && !this.isBackwards()) t = t.reverse();
                         }
@@ -18932,7 +18932,7 @@ margin: 0 10px;\
                     this.joinSelections = function() {
                         var e = this.rangeList.ranges;
                         var t = e[e.length - 1];
-                        var i = s.fromPoints(e[0].start, t.end);
+                        var i = r.fromPoints(e[0].start, t.end);
                         this.toSingleRange();
                         this.setSelectionRange(i, t.cursor == t.start);
                     };
@@ -18940,20 +18940,20 @@ margin: 0 10px;\
                         if (this.rangeCount > 1) {
                             var e = this.rangeList.ranges;
                             var t = e[e.length - 1];
-                            var i = s.fromPoints(e[0].start, t.end);
+                            var i = r.fromPoints(e[0].start, t.end);
                             this.toSingleRange();
                             this.setSelectionRange(i, t.cursor == t.start);
                         } else {
                             var n = this.session.documentToScreenPosition(this.cursor);
-                            var r = this.session.documentToScreenPosition(this.anchor);
-                            var o = this.rectangularRangeBlock(n, r);
+                            var s = this.session.documentToScreenPosition(this.anchor);
+                            var o = this.rectangularRangeBlock(n, s);
                             o.forEach(this.addRange, this);
                         }
                     };
                     this.rectangularRangeBlock = function(e, t, i) {
                         var n = [];
-                        var r = e.column < t.column;
-                        if (r) {
+                        var s = e.column < t.column;
+                        if (s) {
                             var o = e.column;
                             var a = t.column;
                             var l = e.offsetX;
@@ -18967,23 +18967,23 @@ margin: 0 10px;\
                         var c = e.row < t.row;
                         if (c) {
                             var u = e.row;
-                            var f = t.row;
+                            var d = t.row;
                         } else {
                             var u = t.row;
-                            var f = e.row;
+                            var d = e.row;
                         }
                         if (o < 0) o = 0;
                         if (u < 0) u = 0;
-                        if (u == f) i = true;
-                        var d;
-                        for(var g = u; g <= f; g++){
-                            var m = s.fromPoints(this.session.screenToDocumentPosition(g, o, l), this.session.screenToDocumentPosition(g, a, h));
-                            if (m.isEmpty()) {
-                                if (d && v(m.end, d)) break;
-                                d = m.end;
+                        if (u == d) i = true;
+                        var f;
+                        for(var g = u; g <= d; g++){
+                            var v = r.fromPoints(this.session.screenToDocumentPosition(g, o, l), this.session.screenToDocumentPosition(g, a, h));
+                            if (v.isEmpty()) {
+                                if (f && m(v.end, f)) break;
+                                f = v.end;
                             }
-                            m.cursor = r ? m.start : m.end;
-                            n.push(m);
+                            v.cursor = s ? v.start : v.end;
+                            n.push(v);
                         }
                         if (c) n.reverse();
                         if (!i) {
@@ -18999,7 +18999,7 @@ margin: 0 10px;\
                         }
                         return n;
                     };
-                }.call(r.prototype));
+                }.call(s.prototype));
                 var g = e("./editor").Editor;
                 (function() {
                     this.updateSelectionMarkers = function() {
@@ -19027,8 +19027,8 @@ margin: 0 10px;\
                             var n = e[i];
                             if (!n.marker) continue;
                             this.session.removeMarker(n.marker);
-                            var s = t.indexOf(n);
-                            if (s != -1) t.splice(s, 1);
+                            var r = t.indexOf(n);
+                            if (r != -1) t.splice(r, 1);
                         }
                         this.session.selectionMarkerCount = t.length;
                     };
@@ -19084,7 +19084,7 @@ margin: 0 10px;\
                     this.forEachSelection = function(e, t, i) {
                         if (this.inVirtualSelectionMode) return;
                         var n = i && i.keepOrder;
-                        var s = i == true || (i && i.$byLines);
+                        var r = i == true || (i && i.$byLines);
                         var o = this.session;
                         var a = this.selection;
                         var l = a.rangeList;
@@ -19093,29 +19093,29 @@ margin: 0 10px;\
                         if (!h.length) return e.exec ? e.exec(this, t || {}) : e(this, t || {});
                         var u = a._eventRegistry;
                         a._eventRegistry = {};
-                        var f = new r(o);
+                        var d = new s(o);
                         this.inVirtualSelectionMode = true;
-                        for(var d = h.length; d--;){
-                            if (s) {
-                                while(d > 0 && h[d].start.row == h[d - 1].end.row)d--;
+                        for(var f = h.length; f--;){
+                            if (r) {
+                                while(f > 0 && h[f].start.row == h[f - 1].end.row)f--;
                             }
-                            f.fromOrientedRange(h[d]);
-                            f.index = d;
-                            this.selection = o.selection = f;
+                            d.fromOrientedRange(h[f]);
+                            d.index = f;
+                            this.selection = o.selection = d;
                             var g = e.exec ? e.exec(this, t || {}) : e(this, t || {});
                             if (!c && g !== undefined) c = g;
-                            f.toOrientedRange(h[d]);
+                            d.toOrientedRange(h[f]);
                         }
-                        f.detach();
+                        d.detach();
                         this.selection = o.selection = a;
                         this.inVirtualSelectionMode = false;
                         a._eventRegistry = u;
                         a.mergeOverlappingRanges();
                         if (a.ranges[0]) a.fromOrientedRange(a.ranges[0]);
-                        var v = this.renderer.$scrollAnimation;
+                        var m = this.renderer.$scrollAnimation;
                         this.onCursorChange();
                         this.onSelectionChange();
-                        if (v && v.from == v.to) this.renderer.animateScrolling(v.from);
+                        if (m && m.from == m.to) this.renderer.animateScrolling(m.from);
                         return c;
                     };
                     this.exitMultiSelectMode = function() {
@@ -19130,9 +19130,9 @@ margin: 0 10px;\
                             for(var n = 0; n < t.length; n++){
                                 i.push(this.session.getTextRange(t[n]));
                             }
-                            var s = this.session.getDocument().getNewLineCharacter();
-                            e = i.join(s);
-                            if (e.length == (i.length - 1) * s.length) e = "";
+                            var r = this.session.getDocument().getNewLineCharacter();
+                            e = i.join(r);
+                            if (e.length == (i.length - 1) * r.length) e = "";
                         } else if (!this.selection.isEmpty()) {
                             e = this.session.getTextRange(this.getSelectionRange());
                         }
@@ -19155,20 +19155,20 @@ margin: 0 10px;\
                             t.needle = this.session.getTextRange(n);
                         }
                         this.$search.set(t);
-                        var s = this.$search.findAll(this.session);
-                        if (!s.length) return 0;
-                        var r = this.multiSelect;
-                        if (!i) r.toSingleRange(s[0]);
-                        for(var o = s.length; o--;)r.addRange(s[o], true);
-                        if (n && r.rangeList.rangeAtPoint(n.start)) r.addRange(n, true);
-                        return s.length;
+                        var r = this.$search.findAll(this.session);
+                        if (!r.length) return 0;
+                        var s = this.multiSelect;
+                        if (!i) s.toSingleRange(r[0]);
+                        for(var o = r.length; o--;)s.addRange(r[o], true);
+                        if (n && s.rangeList.rangeAtPoint(n.start)) s.addRange(n, true);
+                        return r.length;
                     };
                     this.selectMoreLines = function(e, t) {
                         var i = this.selection.toOrientedRange();
                         var n = i.cursor == i.end;
-                        var r = this.session.documentToScreenPosition(i.cursor);
-                        if (this.selection.$desiredColumn) r.column = this.selection.$desiredColumn;
-                        var o = this.session.screenToDocumentPosition(r.row + e, r.column);
+                        var s = this.session.documentToScreenPosition(i.cursor);
+                        if (this.selection.$desiredColumn) s.column = this.selection.$desiredColumn;
+                        var o = this.session.screenToDocumentPosition(s.row + e, s.column);
                         if (!i.isEmpty()) {
                             var a = this.session.documentToScreenPosition(n ? i.end : i.start);
                             var l = this.session.screenToDocumentPosition(a.row + e, a.column);
@@ -19176,13 +19176,13 @@ margin: 0 10px;\
                             var l = o;
                         }
                         if (n) {
-                            var h = s.fromPoints(o, l);
+                            var h = r.fromPoints(o, l);
                             h.cursor = h.start;
                         } else {
-                            var h = s.fromPoints(l, o);
+                            var h = r.fromPoints(l, o);
                             h.cursor = h.end;
                         }
-                        h.desiredColumn = r.column;
+                        h.desiredColumn = s.column;
                         if (!this.selection.inMultiSelectMode) {
                             this.selection.addRange(i);
                         } else {
@@ -19195,110 +19195,110 @@ margin: 0 10px;\
                         var t = this.session;
                         var i = t.multiSelect;
                         var n = i.ranges;
-                        for(var s = n.length; s--;){
-                            var r = n[s];
-                            if (r.isEmpty()) {
-                                var o = t.getWordRange(r.start.row, r.start.column);
-                                r.start.row = o.start.row;
-                                r.start.column = o.start.column;
-                                r.end.row = o.end.row;
-                                r.end.column = o.end.column;
+                        for(var r = n.length; r--;){
+                            var s = n[r];
+                            if (s.isEmpty()) {
+                                var o = t.getWordRange(s.start.row, s.start.column);
+                                s.start.row = o.start.row;
+                                s.start.column = o.start.column;
+                                s.end.row = o.end.row;
+                                s.end.column = o.end.column;
                             }
                         }
                         i.mergeOverlappingRanges();
                         var a = [];
-                        for(var s = n.length; s--;){
-                            var r = n[s];
-                            a.unshift(t.getTextRange(r));
+                        for(var r = n.length; r--;){
+                            var s = n[r];
+                            a.unshift(t.getTextRange(s));
                         }
                         if (e < 0) a.unshift(a.pop());
                         else a.push(a.shift());
-                        for(var s = n.length; s--;){
-                            var r = n[s];
-                            var o = r.clone();
-                            t.replace(r, a[s]);
-                            r.start.row = o.start.row;
-                            r.start.column = o.start.column;
+                        for(var r = n.length; r--;){
+                            var s = n[r];
+                            var o = s.clone();
+                            t.replace(s, a[r]);
+                            s.start.row = o.start.row;
+                            s.start.column = o.start.column;
                         }
                         i.fromOrientedRange(i.ranges[0]);
                     };
                     this.selectMore = function(e, t, i) {
                         var n = this.session;
-                        var s = n.multiSelect;
-                        var r = s.toOrientedRange();
-                        if (r.isEmpty()) {
-                            r = n.getWordRange(r.start.row, r.start.column);
-                            r.cursor = e == -1 ? r.start : r.end;
-                            this.multiSelect.addRange(r);
+                        var r = n.multiSelect;
+                        var s = r.toOrientedRange();
+                        if (s.isEmpty()) {
+                            s = n.getWordRange(s.start.row, s.start.column);
+                            s.cursor = e == -1 ? s.start : s.end;
+                            this.multiSelect.addRange(s);
                             if (i) return;
                         }
-                        var o = n.getTextRange(r);
-                        var a = f(n, o, e);
+                        var o = n.getTextRange(s);
+                        var a = d(n, o, e);
                         if (a) {
                             a.cursor = e == -1 ? a.start : a.end;
                             this.session.unfold(a);
                             this.multiSelect.addRange(a);
                             this.renderer.scrollCursorIntoView(null, 0.5);
                         }
-                        if (t) this.multiSelect.substractPoint(r.cursor);
+                        if (t) this.multiSelect.substractPoint(s.cursor);
                     };
                     this.alignCursors = function() {
                         var e = this.session;
                         var t = e.multiSelect;
                         var i = t.ranges;
                         var n = -1;
-                        var r = i.filter(function(e) {
+                        var s = i.filter(function(e) {
                             if (e.cursor.row == n) return true;
                             n = e.cursor.row;
                         });
-                        if (!i.length || r.length == i.length - 1) {
+                        if (!i.length || s.length == i.length - 1) {
                             var o = this.selection.getRange();
                             var a = o.start.row, h = o.end.row;
                             var c = a == h;
                             if (c) {
                                 var u = this.session.getLength();
-                                var f;
+                                var d;
                                 do {
-                                    f = this.session.getLine(h);
-                                }while (/[=:]/.test(f) && ++h < u)
+                                    d = this.session.getLine(h);
+                                }while (/[=:]/.test(d) && ++h < u)
                                 do {
-                                    f = this.session.getLine(a);
-                                }while (/[=:]/.test(f) && --a > 0)
+                                    d = this.session.getLine(a);
+                                }while (/[=:]/.test(d) && --a > 0)
                                 if (a < 0) a = 0;
                                 if (h >= u) h = u - 1;
                             }
-                            var d = this.session.removeFullLines(a, h);
-                            d = this.$reAlignText(d, c);
+                            var f = this.session.removeFullLines(a, h);
+                            f = this.$reAlignText(f, c);
                             this.session.insert({
                                 row: a,
                                 column: 0
-                            }, d.join("\n") + "\n");
+                            }, f.join("\n") + "\n");
                             if (!c) {
                                 o.start.column = 0;
-                                o.end.column = d[d.length - 1].length;
+                                o.end.column = f[f.length - 1].length;
                             }
                             this.selection.setRange(o);
                         } else {
-                            r.forEach(function(e) {
+                            s.forEach(function(e) {
                                 t.substractPoint(e.cursor);
                             });
                             var g = 0;
-                            var v = Infinity;
-                            var m = i.map(function(t) {
+                            var m = Infinity;
+                            var v = i.map(function(t) {
                                 var i = t.cursor;
                                 var n = e.getLine(i.row);
-                                var s = n.substr(i.column).search(/\S/g);
-                                if (s == -1) s = 0;
+                                var r = n.substr(i.column).search(/\S/g);
+                                if (r == -1) r = 0;
                                 if (i.column > g) g = i.column;
-                                if (s < v) v = s;
-                                return s;
+                                if (r < m) m = r;
+                                return r;
                             });
                             i.forEach(function(t, i) {
                                 var n = t.cursor;
-                                var r = g - n.column;
-                                var o = m[i] - v;
-                                if (r > o) e.insert(n, l.stringRepeat(" ", r - o));
-                                else e.remove(new s(n.row, n.column, n.row, n.column - r + o));
+                                var s = g - n.column;
+                                var o = v[i] - m;
+                                if (s > o) e.insert(n, l.stringRepeat(" ", s - o));
+                                else e.remove(new r(n.row, n.column, n.row, n.column - s + o));
                                 t.start.column = t.end.column = g;
                                 t.start.row = t.end.row = n.row;
                                 t.cursor = t.end;
@@ -19310,22 +19310,22 @@ margin: 0 10px;\
                     };
                     this.$reAlignText = function(e, t) {
                         var i = true, n = true;
-                        var s, r, o;
+                        var r, s, o;
                         return e.map(function(e) {
                             var t = e.match(/(\s*)(.*?)(\s*)([=:].*)/);
                             if (!t) return [
                                 e
                             ];
-                            if (s == null) {
-                                s = t[1].length;
-                                r = t[2].length;
+                            if (r == null) {
+                                r = t[1].length;
+                                s = t[2].length;
                                 o = t[3].length;
                                 return t;
                             }
-                            if (s + r + o != t[1].length + t[2].length + t[3].length) n = false;
-                            if (s != t[1].length) i = false;
-                            if (s > t[1].length) s = t[1].length;
-                            if (r < t[2].length) r = t[2].length;
+                            if (r + s + o != t[1].length + t[2].length + t[3].length) n = false;
+                            if (r != t[1].length) i = false;
+                            if (r > t[1].length) r = t[1].length;
+                            if (s < t[2].length) s = t[2].length;
                             if (o > t[3].length) o = t[3].length;
                             return t;
                         }).map(t ? h : i ? n ? c : h : u);
@@ -19333,17 +19333,17 @@ margin: 0 10px;\
                             return l.stringRepeat(" ", e);
                         }
                         function h(e) {
-                            return !e[2] ? e[0] : a(s) + e[2] + a(r - e[2].length + o) + e[4].replace(/^([=:])\s+/, "$1 ");
+                            return !e[2] ? e[0] : a(r) + e[2] + a(s - e[2].length + o) + e[4].replace(/^([=:])\s+/, "$1 ");
                         }
                         function c(e) {
-                            return !e[2] ? e[0] : a(s + r - e[2].length) + e[2] + a(o) + e[4].replace(/^([=:])\s+/, "$1 ");
+                            return !e[2] ? e[0] : a(r + s - e[2].length) + e[2] + a(o) + e[4].replace(/^([=:])\s+/, "$1 ");
                         }
                         function u(e) {
-                            return !e[2] ? e[0] : a(s) + e[2] + a(o) + e[4].replace(/^([=:])\s+/, "$1 ");
+                            return !e[2] ? e[0] : a(r) + e[2] + a(o) + e[4].replace(/^([=:])\s+/, "$1 ");
                         }
                     };
                 }.call(g.prototype));
-                function v(e, t) {
+                function m(e, t) {
                     return e.row == t.row && e.column == t.column;
                 }
                 t.onSessionChange = function(e) {
@@ -19376,7 +19376,7 @@ margin: 0 10px;\
                         else this.$onSingleSelect();
                     }
                 };
-                function m(e) {
+                function v(e) {
                     if (e.$multiselectOnSessionChange) return;
                     e.$onAddRange = e.$onAddRange.bind(e);
                     e.$onRemoveRange = e.$onRemoveRange.bind(e);
@@ -19395,8 +19395,8 @@ margin: 0 10px;\
                     var t = e.textInput.getElement();
                     var i = false;
                     a.addListener(t, "keydown", function(t) {
-                        var s = t.keyCode == 18 && !(t.ctrlKey || t.shiftKey || t.metaKey);
-                        if (e.$blockSelectEnabled && s) {
+                        var r = t.keyCode == 18 && !(t.ctrlKey || t.shiftKey || t.metaKey);
+                        if (e.$blockSelectEnabled && r) {
                             if (!i) {
                                 e.renderer.setMouseCursor("crosshair");
                                 i = true;
@@ -19414,11 +19414,11 @@ margin: 0 10px;\
                         }
                     }
                 }
-                t.MultiSelect = m;
+                t.MultiSelect = v;
                 e("./config").defineOptions(g.prototype, "editor", {
                     enableMultiselect: {
                         set: function(e) {
-                            m(this);
+                            v(this);
                             if (e) {
                                 this.on("changeSession", this.$multiselectOnSessionChange);
                                 this.on("mousedown", o);
@@ -19445,7 +19445,7 @@ margin: 0 10px;\
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../../range").Range;
-                var s = (t.FoldMode = function() {});
+                var r = (t.FoldMode = function() {});
                 (function() {
                     this.foldingStartMarker = null;
                     this.foldingStopMarker = null;
@@ -19459,34 +19459,34 @@ margin: 0 10px;\
                         return null;
                     };
                     this.indentationBlock = function(e, t, i) {
-                        var s = /\S/;
-                        var r = e.getLine(t);
-                        var o = r.search(s);
+                        var r = /\S/;
+                        var s = e.getLine(t);
+                        var o = s.search(r);
                         if (o == -1) return;
-                        var a = i || r.length;
+                        var a = i || s.length;
                         var l = e.getLength();
                         var h = t;
                         var c = t;
                         while(++t < l){
-                            var u = e.getLine(t).search(s);
+                            var u = e.getLine(t).search(r);
                             if (u == -1) continue;
                             if (u <= o) {
-                                var f = e.getTokenAt(t, 0);
-                                if (!f || f.type !== "string") break;
+                                var d = e.getTokenAt(t, 0);
+                                if (!d || d.type !== "string") break;
                             }
                             c = t;
                         }
                         if (c > h) {
-                            var d = e.getLine(c).length;
-                            return new n(h, a, c, d);
+                            var f = e.getLine(c).length;
+                            return new n(h, a, c, f);
                         }
                     };
-                    this.openingBracketBlock = function(e, t, i, s, r) {
+                    this.openingBracketBlock = function(e, t, i, r, s) {
                         var o = {
                             row: i,
-                            column: s + 1
+                            column: r + 1
                         };
-                        var a = e.$findClosingBracket(t, o, r);
+                        var a = e.$findClosingBracket(t, o, s);
                         if (!a) return;
                         var l = e.foldWidgets[a.row];
                         if (l == null) l = e.getFoldWidget(a.row);
@@ -19496,10 +19496,10 @@ margin: 0 10px;\
                         }
                         return n.fromPoints(o, a);
                     };
-                    this.closingBracketBlock = function(e, t, i, s, r) {
+                    this.closingBracketBlock = function(e, t, i, r, s) {
                         var o = {
                             row: i,
-                            column: s
+                            column: r
                         };
                         var a = e.$findOpeningBracket(t, o);
                         if (!a) return;
@@ -19507,7 +19507,7 @@ margin: 0 10px;\
                         o.column--;
                         return n.fromPoints(a, o);
                     };
-                }.call(s.prototype));
+                }.call(r.prototype));
             });
             ace.define("ace/theme/textmate", [
                 "require",
@@ -19650,7 +19650,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/dom");
-                function s(e) {
+                function r(e) {
                     this.session = e;
                     this.session.widgetManager = this;
                     this.session.getRowLength = this.getRowLength;
@@ -19715,19 +19715,19 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                         var i = t.lineWidgets;
                         if (!i || !e.action) return;
                         var n = e.data;
-                        var s = n.start.row;
-                        var r = n.end.row;
+                        var r = n.start.row;
+                        var s = n.end.row;
                         var o = e.action == "add";
-                        for(var a = s + 1; a < r; a++){
+                        for(var a = r + 1; a < s; a++){
                             if (i[a]) i[a].hidden = o;
                         }
-                        if (i[r]) {
+                        if (i[s]) {
                             if (o) {
-                                if (!i[s]) i[s] = i[r];
-                                else i[r].hidden = o;
+                                if (!i[r]) i[r] = i[s];
+                                else i[s].hidden = o;
                             } else {
-                                if (i[s] == i[r]) i[s] = undefined;
-                                i[r].hidden = o;
+                                if (i[r] == i[s]) i[r] = undefined;
+                                i[s].hidden = o;
                             }
                         }
                     };
@@ -19737,21 +19737,21 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                         var i = e.start.row;
                         var n = e.end.row - i;
                         if (n === 0) {} else if (e.action == "remove") {
-                            var s = t.splice(i + 1, n);
-                            if (!t[i] && s[s.length - 1]) {
-                                t[i] = s.pop();
+                            var r = t.splice(i + 1, n);
+                            if (!t[i] && r[r.length - 1]) {
+                                t[i] = r.pop();
                             }
-                            s.forEach(function(e) {
+                            r.forEach(function(e) {
                                 e && this.removeLineWidget(e);
                             }, this);
                             this.$updateRows();
                         } else {
-                            var r = new Array(n);
+                            var s = new Array(n);
                             if (t[i] && t[i].column != null) {
                                 if (e.start.column > t[i].column) i++;
                             }
-                            r.unshift(i, 0);
-                            t.splice.apply(t, r);
+                            s.unshift(i, 0);
+                            t.splice.apply(t, s);
                             this.$updateRows();
                         }
                     };
@@ -19812,8 +19812,8 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                         var i = this.session.getFoldAt(e.row, 0);
                         e.$fold = i;
                         if (i) {
-                            var s = this.session.lineWidgets;
-                            if (e.row == i.end.row && !s[i.start.row]) s[i.start.row] = e;
+                            var r = this.session.lineWidgets;
+                            if (e.row == i.end.row && !r[i.start.row]) r[i.start.row] = e;
                             else e.hidden = true;
                         }
                         this.session._emit("changeFold", {
@@ -19877,9 +19877,9 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                         var i = this.session._changedWidgets;
                         var n = t.layerConfig;
                         if (!i || !i.length) return;
-                        var s = Infinity;
-                        for(var r = 0; r < i.length; r++){
-                            var o = i[r];
+                        var r = Infinity;
+                        for(var s = 0; s < i.length; s++){
+                            var o = i[s];
                             if (!o || !o.el) continue;
                             if (o.session != this.session) continue;
                             if (!o._inDocument) {
@@ -19899,14 +19899,14 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                             }
                             if (o.rowCount != a) {
                                 o.rowCount = a;
-                                if (o.row < s) s = o.row;
+                                if (o.row < r) r = o.row;
                             }
                         }
-                        if (s != Infinity) {
+                        if (r != Infinity) {
                             this.session._emit("changeFold", {
                                 data: {
                                     start: {
-                                        row: s
+                                        row: r
                                     }
                                 }
                             });
@@ -19918,13 +19918,13 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                         var i = t.layerConfig;
                         var n = this.session.lineWidgets;
                         if (!n) return;
-                        var s = Math.min(this.firstRow, i.firstRow);
-                        var r = Math.max(this.lastRow, i.lastRow, n.length);
-                        while(s > 0 && !n[s])s--;
+                        var r = Math.min(this.firstRow, i.firstRow);
+                        var s = Math.max(this.lastRow, i.lastRow, n.length);
+                        while(r > 0 && !n[r])r--;
                         this.firstRow = i.firstRow;
                         this.lastRow = i.lastRow;
                         t.$cursorLayer.config = i;
-                        for(var o = s; o <= r; o++){
+                        for(var o = r; o <= s; o++){
                             var a = n[o];
                             if (!a || !a.el) continue;
                             if (a.hidden) {
@@ -19954,8 +19954,8 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                             }
                         }
                     };
-                }.call(s.prototype));
-                t.LineWidgets = s;
+                }.call(r.prototype));
+                t.LineWidgets = r;
             });
             ace.define("ace/ext/error_marker", [
                 "require",
@@ -19967,35 +19967,35 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../line_widgets").LineWidgets;
-                var s = e("../lib/dom");
-                var r = e("../range").Range;
+                var r = e("../lib/dom");
+                var s = e("../range").Range;
                 function o(e, t, i) {
                     var n = 0;
-                    var s = e.length - 1;
-                    while(n <= s){
-                        var r = (n + s) >> 1;
-                        var o = i(t, e[r]);
-                        if (o > 0) n = r + 1;
-                        else if (o < 0) s = r - 1;
-                        else return r;
+                    var r = e.length - 1;
+                    while(n <= r){
+                        var s = (n + r) >> 1;
+                        var o = i(t, e[s]);
+                        if (o > 0) n = s + 1;
+                        else if (o < 0) r = s - 1;
+                        else return s;
                     }
                     return -(n + 1);
                 }
                 function a(e, t, i) {
-                    var n = e.getAnnotations().sort(r.comparePoints);
+                    var n = e.getAnnotations().sort(s.comparePoints);
                     if (!n.length) return;
-                    var s = o(n, {
+                    var r = o(n, {
                         row: t,
                         column: -1
-                    }, r.comparePoints);
-                    if (s < 0) s = -s - 1;
-                    if (s >= n.length) s = i > 0 ? 0 : n.length - 1;
-                    else if (s === 0 && i < 0) s = n.length - 1;
-                    var a = n[s];
+                    }, s.comparePoints);
+                    if (r < 0) r = -r - 1;
+                    if (r >= n.length) r = i > 0 ? 0 : n.length - 1;
+                    else if (r === 0 && i < 0) r = n.length - 1;
+                    var a = n[r];
                     if (!a || !i) return;
                     if (a.row === t) {
                         do {
-                            a = n[(s += i)];
+                            a = n[(r += i)];
                         }while (a && a.row === t)
                         if (!a) return n.slice();
                     }
@@ -20003,7 +20003,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                     t = a.row;
                     do {
                         l[i < 0 ? "unshift" : "push"](a);
-                        a = n[(s += i)];
+                        a = n[(r += i)];
                     }while (a && a.row == t)
                     return l.length && l;
                 }
@@ -20013,8 +20013,8 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                         i.widgetManager = new n(i);
                         i.widgetManager.attach(e);
                     }
-                    var r = e.getCursorPosition();
-                    var o = r.row;
+                    var s = e.getCursorPosition();
+                    var o = s.row;
                     var l = i.widgetManager.getWidgetsAtRow(o).filter(function(e) {
                         return e.type == "errorMarker";
                     })[0];
@@ -20027,9 +20027,9 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                     var c;
                     if (h) {
                         var u = h[0];
-                        r.column = (u.pos && typeof u.column != "number" ? u.pos.sc : u.column) || 0;
-                        r.row = u.row;
-                        c = e.renderer.$gutterLayer.$annotations[r.row];
+                        s.column = (u.pos && typeof u.column != "number" ? u.pos.sc : u.column) || 0;
+                        s.row = u.row;
+                        c = e.renderer.$gutterLayer.$annotations[s.row];
                     } else if (l) {
                         return;
                     } else {
@@ -20040,53 +20040,53 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                             className: "ace_ok"
                         };
                     }
-                    e.session.unfold(r.row);
-                    e.selection.moveToPosition(r);
-                    var f = {
-                        row: r.row,
+                    e.session.unfold(s.row);
+                    e.selection.moveToPosition(s);
+                    var d = {
+                        row: s.row,
                         fixedWidth: true,
                         coverGutter: true,
-                        el: s.createElement("div"),
+                        el: r.createElement("div"),
                         type: "errorMarker"
                     };
-                    var d = f.el.appendChild(s.createElement("div"));
-                    var g = f.el.appendChild(s.createElement("div"));
+                    var f = d.el.appendChild(r.createElement("div"));
+                    var g = d.el.appendChild(r.createElement("div"));
                     g.className = "error_widget_arrow " + c.className;
-                    var v = e.renderer.$cursorLayer.getPixelPosition(r).left;
-                    g.style.left = v + e.renderer.gutterWidth - 5 + "px";
-                    f.el.className = "error_widget_wrapper";
-                    d.className = "error_widget " + c.className;
-                    d.innerHTML = c.text.join("<br>");
-                    d.appendChild(s.createElement("div"));
-                    var m = function(e, t, i) {
+                    var m = e.renderer.$cursorLayer.getPixelPosition(s).left;
+                    g.style.left = m + e.renderer.gutterWidth - 5 + "px";
+                    d.el.className = "error_widget_wrapper";
+                    f.className = "error_widget " + c.className;
+                    f.innerHTML = c.text.join("<br>");
+                    f.appendChild(r.createElement("div"));
+                    var v = function(e, t, i) {
                         if (t === 0 && (i === "esc" || i === "return")) {
-                            f.destroy();
+                            d.destroy();
                             return {
                                 command: "null"
                             };
                         }
                     };
-                    f.destroy = function() {
+                    d.destroy = function() {
                         if (e.$mouseHandler.isMousePressed) return;
-                        e.keyBinding.removeKeyboardHandler(m);
-                        i.widgetManager.removeLineWidget(f);
-                        e.off("changeSelection", f.destroy);
-                        e.off("changeSession", f.destroy);
-                        e.off("mouseup", f.destroy);
-                        e.off("change", f.destroy);
+                        e.keyBinding.removeKeyboardHandler(v);
+                        i.widgetManager.removeLineWidget(d);
+                        e.off("changeSelection", d.destroy);
+                        e.off("changeSession", d.destroy);
+                        e.off("mouseup", d.destroy);
+                        e.off("change", d.destroy);
                     };
-                    e.keyBinding.addKeyboardHandler(m);
-                    e.on("changeSelection", f.destroy);
-                    e.on("changeSession", f.destroy);
-                    e.on("mouseup", f.destroy);
-                    e.on("change", f.destroy);
-                    e.session.widgetManager.addLineWidget(f);
-                    f.el.onmousedown = e.focus.bind(e);
+                    e.keyBinding.addKeyboardHandler(v);
+                    e.on("changeSelection", d.destroy);
+                    e.on("changeSession", d.destroy);
+                    e.on("mouseup", d.destroy);
+                    e.on("change", d.destroy);
+                    e.session.widgetManager.addLineWidget(d);
+                    d.el.onmousedown = e.focus.bind(e);
                     e.renderer.scrollCursorIntoView(null, 0.5, {
-                        bottom: f.el.offsetHeight
+                        bottom: d.el.offsetHeight
                     });
                 };
-                s.importCssString("\
+                r.importCssString("\
     .error_widget_wrapper {\
         background: inherit;\
         color: inherit;\
@@ -20144,8 +20144,8 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
             ], function(e, t, n) {
                 "use strict";
                 e("./lib/fixoldbrowsers");
-                var s = e("./lib/dom");
-                var r = e("./lib/event");
+                var r = e("./lib/dom");
+                var s = e("./lib/event");
                 var o = e("./range").Range;
                 var a = e("./editor").Editor;
                 var l = e("./edit_session").EditSession;
@@ -20172,7 +20172,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                     if (e && /input|textarea/i.test(e.tagName)) {
                         var l = e;
                         o = l.value;
-                        e = s.createElement("pre");
+                        e = r.createElement("pre");
                         l.parentNode.replaceChild(e, l);
                     } else if (e) {
                         o = e.textContent;
@@ -20180,18 +20180,18 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                     }
                     var h = t.createEditSession(o);
                     var u = new a(new c(e), h, i);
-                    var f = {
+                    var d = {
                         document: h,
                         editor: u,
                         onResize: u.resize.bind(u, null)
                     };
-                    if (l) f.textarea = l;
-                    r.addListener(window, "resize", f.onResize);
+                    if (l) d.textarea = l;
+                    s.addListener(window, "resize", d.onResize);
                     u.on("destroy", function() {
-                        r.removeListener(window, "resize", f.onResize);
-                        f.editor.container.env = null;
+                        s.removeListener(window, "resize", d.onResize);
+                        d.editor.container.env = null;
                     });
-                    u.container.env = u.env = f;
+                    u.container.env = u.env = d;
                     return u;
                 };
                 t.createEditSession = function(e, t) {

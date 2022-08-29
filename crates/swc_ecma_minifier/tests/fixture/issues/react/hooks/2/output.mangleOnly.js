@@ -1,7 +1,7 @@
 function r(r, t) {
     var n = (0, authenticate.LP)();
-    var o = (0, use_team.ZP)(), c = o.team;
-    var a = c === null || c === void 0 ? void 0 : c.id;
+    var c = (0, use_team.ZP)(), o = c.team;
+    var a = o === null || o === void 0 ? void 0 : o.id;
     return (0, index_esm.ZP)(r ? "".concat(api_endpoints.Ms, "/git-branches").concat((0, qs.c)({
         projectId: r,
         teamId: a

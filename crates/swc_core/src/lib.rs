@@ -52,6 +52,12 @@ pub mod common {
     pub use swc_common::*;
 }
 
+#[cfg(feature = "__parser")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__parser")))]
+pub mod parser {
+    pub use swc_ecma_parser::*;
+}
+
 // swc_plugin_runner
 #[cfg(feature = "__plugin_transform_host")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__plugin_transform_host")))]
@@ -90,8 +96,8 @@ pub mod bundler {
 }
 
 // swc_ecma_loader
-#[cfg(feature = "loader")]
-#[cfg_attr(docsrs, doc(cfg(feature = "loader")))]
+#[cfg(feature = "__loader")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__loader")))]
 pub mod loader {
     pub use swc_ecma_loader::*;
 }
@@ -120,8 +126,66 @@ pub mod node {
     pub use swc_nodejs_common::*;
 }
 
+#[cfg(feature = "codegen")]
+#[cfg_attr(docsrs, doc(cfg(feature = "codegen")))]
+pub mod codegen {
+    pub use swc_ecma_codegen::*;
+}
+
+#[cfg(feature = "minifier")]
+#[cfg_attr(docsrs, doc(cfg(feature = "minifier")))]
+pub mod minifier {
+    pub use swc_ecma_minifier::*;
+}
+
+#[cfg(feature = "__css")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__css")))]
+pub mod css {
+    pub use swc_css::*;
+}
+
+#[cfg(feature = "css_prefixer")]
+#[cfg_attr(docsrs, doc(cfg(feature = "css_prefixer")))]
+pub mod css_prefixer {
+    pub use swc_css_prefixer::*;
+}
+
+#[cfg(feature = "__cached")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__cached")))]
+pub mod cached {
+    pub use swc_cached::*;
+}
+
 #[cfg(feature = "allocator_node")]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
 extern crate swc_node_base;
 
 pub static SWC_CORE_VERSION: &str = include_str!(concat!(env!("OUT_DIR"), "/core_pkg_version.txt"));
+
+mod __diagnostics;
+pub mod diagnostics {
+    use crate::__diagnostics::{GIT_SHA, PKG_SEMVER_FALLBACK};
+
+    #[derive(Debug)]
+    pub struct CoreEngineDiagnostics {
+        /// Semver package version of swc_core.
+        pub package_semver: String,
+        /// Commit sha of swc_core built against.
+        pub git_sha: String,
+        /// List of features enabled
+        pub cargo_features: String,
+    }
+
+    /// Returns metadata about the swc_core engine that was built against.
+    pub fn get_core_engine_diagnostics() -> CoreEngineDiagnostics {
+        CoreEngineDiagnostics {
+            package_semver: option_env!("VERGEN_BUILD_SEMVER")
+                .unwrap_or_else(|| PKG_SEMVER_FALLBACK)
+                .to_string(),
+            git_sha: GIT_SHA.to_string(),
+            cargo_features: option_env!("VERGEN_CARGO_FEATURES")
+                .unwrap_or_else(|| "Unavailable to query")
+                .to_string(),
+        }
+    }
+}

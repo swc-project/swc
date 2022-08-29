@@ -1,0 +1,1 @@
+//// [templateStringMultiline2.ts]

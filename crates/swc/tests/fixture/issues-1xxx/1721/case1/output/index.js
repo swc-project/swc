@@ -1,104 +1,129 @@
 import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import regeneratorRuntime from "regenerator-runtime";
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function lol() {
     return _lol.apply(this, arguments);
 }
 function _lol() {
-    _lol = _wrap_async_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _lol = _wrap_async_generator(function() {
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
-                    _ctx.next = 2;
-                    return 1;
+                    return [
+                        4,
+                        1
+                    ];
+                case 1:
+                    _state.sent();
+                    return [
+                        4,
+                        2
+                    ];
                 case 2:
-                    _ctx.next = 4;
-                    return 2;
-                case 4:
-                case "end":
-                    return _ctx.stop();
+                    _state.sent();
+                    return [
+                        2
+                    ];
             }
-        }, _callee);
-    }));
+        });
+    });
     return _lol.apply(this, arguments);
 }
 function main() {
     return _main.apply(this, arguments);
 }
 function _main() {
-    _main = _async_to_generator(/*#__PURE__*/ regeneratorRuntime.mark(function _callee() {
-        var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-            while(1)switch(_ctx.prev = _ctx.next){
+    _main = _async_to_generator(function() {
+        var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, err;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
                 case 0:
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
-                    _ctx.prev = 1;
+                    _state.label = 1;
+                case 1:
+                    _state.trys.push([
+                        1,
+                        6,
+                        7,
+                        12
+                    ]);
                     _iterator = _async_iterator(lol());
+                    _state.label = 2;
+                case 2:
+                    return [
+                        4,
+                        _iterator.next()
+                    ];
                 case 3:
-                    _ctx.next = 5;
-                    return _iterator.next();
-                case 5:
-                    if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
-                        _ctx.next = 10;
-                        break;
-                    }
-                    {
-                        _value = _step.value;
-                        x = _value;
-                        console.log(x);
-                    }
-                case 7:
+                    if (!(_iteratorAbruptCompletion = !(_step = _state.sent()).done)) return [
+                        3,
+                        5
+                    ];
+                    _value = _step.value;
+                    x = _value;
+                    console.log(x);
+                    _state.label = 4;
+                case 4:
                     _iteratorAbruptCompletion = false;
-                    _ctx.next = 3;
-                    break;
-                case 10:
-                    _ctx.next = 16;
-                    break;
-                case 12:
-                    _ctx.prev = 12;
-                    _ctx.t0 = _ctx["catch"](1);
+                    return [
+                        3,
+                        2
+                    ];
+                case 5:
+                    return [
+                        3,
+                        12
+                    ];
+                case 6:
+                    err = _state.sent();
                     _didIteratorError = true;
-                    _iteratorError = _ctx.t0;
-                case 16:
-                    _ctx.prev = 16;
-                    _ctx.prev = 17;
-                    if (!(_iteratorAbruptCompletion && _iterator.return != null)) {
-                        _ctx.next = 21;
-                        break;
+                    _iteratorError = err;
+                    return [
+                        3,
+                        12
+                    ];
+                case 7:
+                    _state.trys.push([
+                        7,
+                        ,
+                        10,
+                        11
+                    ]);
+                    if (!(_iteratorAbruptCompletion && _iterator.return != null)) return [
+                        3,
+                        9
+                    ];
+                    return [
+                        4,
+                        _iterator.return()
+                    ];
+                case 8:
+                    _state.sent();
+                    _state.label = 9;
+                case 9:
+                    return [
+                        3,
+                        11
+                    ];
+                case 10:
+                    if (_didIteratorError) {
+                        throw _iteratorError;
                     }
-                    _ctx.next = 21;
-                    return _iterator.return();
-                case 21:
-                    _ctx.prev = 21;
-                    if (!_didIteratorError) {
-                        _ctx.next = 24;
-                        break;
-                    }
-                    throw _iteratorError;
-                case 24:
-                    return _ctx.finish(21);
-                case 25:
-                    return _ctx.finish(16);
-                case 26:
-                case "end":
-                    return _ctx.stop();
+                    return [
+                        7
+                    ];
+                case 11:
+                    return [
+                        7
+                    ];
+                case 12:
+                    return [
+                        2
+                    ];
             }
-        }, _callee, null, [
-            [
-                1,
-                12,
-                16,
-                26
-            ],
-            [
-                17,
-                ,
-                21,
-                25
-            ]
-        ]);
-    }));
+        });
+    });
     return _main.apply(this, arguments);
 }
 main();

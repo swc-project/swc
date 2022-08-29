@@ -1,1 +1,1 @@
-a:do continue a;while(true)
+a:do continue a;while(true);

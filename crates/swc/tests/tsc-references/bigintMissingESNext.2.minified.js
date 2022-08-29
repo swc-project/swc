@@ -1,0 +1,2 @@
+//// [bigintMissingESNext.ts]
+test(), test();

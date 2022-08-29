@@ -1,0 +1,100 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 56,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 1,
+        "end": 56,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "target",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 9,
+          "end": 56,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 16,
+            "end": 20,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 22,
+            "end": 56,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "LabeledStatement",
+              "span": {
+                "start": 26,
+                "end": 54,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 26,
+                  "end": 32,
+                  "ctxt": 0
+                },
+                "value": "target",
+                "optional": false
+              },
+              "body": {
+                "type": "WhileStatement",
+                "span": {
+                  "start": 36,
+                  "end": 54,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 43,
+                    "end": 47,
+                    "ctxt": 0
+                  },
+                  "value": true
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 49,
+                    "end": 54,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

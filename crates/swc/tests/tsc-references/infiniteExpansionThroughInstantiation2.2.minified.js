@@ -1,0 +1,1 @@
+//// [infiniteExpansionThroughInstantiation2.ts]

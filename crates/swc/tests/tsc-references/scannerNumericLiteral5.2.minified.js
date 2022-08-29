@@ -1,0 +1,1 @@
+//// [scannerNumericLiteral5.ts]

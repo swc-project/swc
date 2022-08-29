@@ -1,4 +1,4 @@
-﻿// @target: es5
+// @target: es5
 
 // ES6 Spec - 10.1.1 Static Semantics: UTF16Encoding (cp)
 //  2. Let cu2 be ((cp – 65536) modulo 1024) + 0xDC00.

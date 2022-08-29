@@ -6,7 +6,7 @@ use crate::{
     ident::{BindingIdent, Ident},
     prop::PropName,
     typescript::TsTypeAnn,
-    Invalid,
+    Id, Invalid,
 };
 
 #[ast_node(no_clone)]
@@ -60,8 +60,21 @@ impl Take for Pat {
 }
 
 bridge_pat_from!(BindingIdent, Ident);
-bridge_from!(crate::Param, crate::Pat, BindingIdent);
-bridge_from!(Box<crate::Pat>, crate::Pat, BindingIdent);
+bridge_pat_from!(BindingIdent, Id);
+
+macro_rules! pat_to_other {
+    ($T:ty) => {
+        bridge_from!(crate::Param, crate::Pat, $T);
+        bridge_from!(Box<crate::Pat>, crate::Pat, $T);
+        bridge_from!(crate::PatOrExpr, crate::Pat, $T);
+    };
+}
+
+pat_to_other!(BindingIdent);
+pat_to_other!(ArrayPat);
+pat_to_other!(ObjectPat);
+pat_to_other!(AssignPat);
+pat_to_other!(RestPat);
 
 #[ast_node("ArrayPattern")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

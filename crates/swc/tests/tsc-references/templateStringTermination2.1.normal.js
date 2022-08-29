@@ -1,0 +1,2 @@
+//// [templateStringTermination2.ts]
+"\\";

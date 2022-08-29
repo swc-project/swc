@@ -1,4 +1,4 @@
-﻿//@target: ES6
+//@target: ES6
 var x: string, y: number;
 var array = [{ x: "", y: true }]
 enum E { x }

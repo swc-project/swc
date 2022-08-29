@@ -1,5 +1,5 @@
 const o = id("one");
-const l = null;
-const n = "two";
-console.log(l ?? o);
+const n = null;
+const l = "two";
 console.log(n ?? o);
+console.log(l ?? o);

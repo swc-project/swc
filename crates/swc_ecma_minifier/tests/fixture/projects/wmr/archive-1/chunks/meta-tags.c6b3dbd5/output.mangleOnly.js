@@ -1,17 +1,17 @@
-import { m as e } from "../index.f66dda46.js";
-import { u as a, a as t, b as r, c as n, d as o } from "./hoofd.module.6c5395cb.js";
-function d() {
-    a("nl");
+import { m as o } from "../index.f66dda46.js";
+import { u as e, a as t, b as a, c as d, d as r } from "./hoofd.module.6c5395cb.js";
+function c() {
+    e("nl");
     t("%s | 💭");
-    r("Welcome to hoofd");
-    n({
+    a("Welcome to hoofd");
+    d({
         name: "author",
         content: "Jovi De Croock"
     });
-    o({
+    r({
         rel: "me",
         href: "https://jovidecroock.com"
     });
-    return e`<div><h1>Meta tag rendering</h1><p>...check document.head in devtools</p></div>`;
+    return o`<div><h1>Meta tag rendering</h1><p>...check document.head in devtools</p></div>`;
 }
-export { d as MetaTags };
+export { c as MetaTags };

@@ -1,0 +1,1 @@
+//// [propertyOverridesMethod.ts]

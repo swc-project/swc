@@ -1,0 +1,1 @@
+//// [assignmentCompatWithCallSignaturesWithRestParameters.ts]

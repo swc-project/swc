@@ -1,6 +1,6 @@
-var a = (a)=>[
-        ...a
+var S = (S)=>[
+        ...S
     ][0];
-console.log(a([
+console.log(S([
     "PASS"
 ]));

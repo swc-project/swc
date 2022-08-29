@@ -1,0 +1,1 @@
+//// [emitStatementsBeforeSuperCall.ts]

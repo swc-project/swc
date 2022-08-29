@@ -22,9 +22,9 @@
     function n(e) {
         var n = [];
         for(var r = 0; r < e.length; r++){
-            var a = e[r];
-            var u = t(a.eventName);
-            n.push(u);
+            var u = e[r];
+            var a = t(u.eventName);
+            n.push(a);
         }
         var l, o;
         return n;

@@ -648,6 +648,7 @@ impl<C: Comments> ClassProperties<C> {
                             this_alias_mark: None,
                             constant_super: self.c.constant_super,
                             super_class: &super_ident,
+                            in_pat: false,
                         });
                         value.visit_mut_with(&mut ThisInStaticFolder {
                             ident: class_ident.clone(),
@@ -741,7 +742,7 @@ impl<C: Comments> ClassProperties<C> {
                     constructor = Some(c);
                 }
 
-                ClassMember::PrivateMethod(method) => {
+                ClassMember::PrivateMethod(mut method) => {
                     let is_static = method.is_static;
                     let prop_span = method.span;
 
@@ -873,6 +874,20 @@ impl<C: Comments> ClassProperties<C> {
                             })),
                         })
                     };
+
+                    method.function.visit_mut_with(&mut SuperFieldAccessFolder {
+                        class_name: &class_ident,
+                        vars: &mut vars,
+                        constructor_this_mark: None,
+                        is_static,
+                        folding_constructor: false,
+                        in_injected_define_property_call: false,
+                        in_nested_scope: false,
+                        this_alias_mark: None,
+                        constant_super: self.c.constant_super,
+                        super_class: &super_ident,
+                        in_pat: false,
+                    });
 
                     private_method_fn_decls.push(Stmt::Decl(Decl::Fn(FnDecl {
                         ident: fn_name,

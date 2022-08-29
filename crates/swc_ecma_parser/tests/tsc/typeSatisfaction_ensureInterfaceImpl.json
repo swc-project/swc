@@ -1,0 +1,271 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 199,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 1,
+        "end": 54,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "Movable",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeLiteral",
+        "span": {
+          "start": 16,
+          "end": 53,
+          "ctxt": 0
+        },
+        "members": [
+          {
+            "type": "TsMethodSignature",
+            "span": {
+              "start": 22,
+              "end": 51,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 22,
+                "end": 26,
+                "ctxt": 0
+              },
+              "value": "move",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 27,
+                  "end": 43,
+                  "ctxt": 0
+                },
+                "value": "distance",
+                "optional": false,
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 35,
+                    "end": 43,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 37,
+                      "end": 43,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  }
+                }
+              }
+            ],
+            "typeAnn": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 44,
+                "end": 50,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 46,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "kind": "void"
+              }
+            },
+            "typeParams": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 56,
+        "end": 199,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 62,
+            "end": 154,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 62,
+              "end": 65,
+              "ctxt": 0
+            },
+            "value": "car",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 68,
+              "end": 154,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "MethodProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 74,
+                    "end": 79,
+                    "ctxt": 0
+                  },
+                  "value": "start",
+                  "optional": false
+                },
+                "params": [],
+                "decorators": [],
+                "span": {
+                  "start": 74,
+                  "end": 85,
+                  "ctxt": 0
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 82,
+                    "end": 85,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": null,
+                "returnType": null
+              },
+              {
+                "type": "MethodProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 91,
+                    "end": 95,
+                    "ctxt": 0
+                  },
+                  "value": "move",
+                  "optional": false
+                },
+                "params": [
+                  {
+                    "type": "Parameter",
+                    "span": {
+                      "start": 96,
+                      "end": 97,
+                      "ctxt": 0
+                    },
+                    "decorators": [],
+                    "pat": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 96,
+                        "end": 97,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false,
+                      "typeAnnotation": null
+                    }
+                  }
+                ],
+                "decorators": [],
+                "span": {
+                  "start": 91,
+                  "end": 136,
+                  "ctxt": 0
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 99,
+                    "end": 136,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": null,
+                "returnType": null
+              },
+              {
+                "type": "MethodProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 142,
+                    "end": 146,
+                    "ctxt": 0
+                  },
+                  "value": "stop",
+                  "optional": false
+                },
+                "params": [],
+                "decorators": [],
+                "span": {
+                  "start": 142,
+                  "end": 152,
+                  "ctxt": 0
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 149,
+                    "end": 152,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "generator": false,
+                "async": false,
+                "typeParameters": null,
+                "returnType": null
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

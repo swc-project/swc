@@ -1,11 +1,11 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ExprExt, IdentUsageFinder};
+use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt, IdentUsageFinder};
 
 use super::Optimizer;
 use crate::{
-    compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
+    compress::optimize::util::is_valid_for_lhs,
     mode::Mode,
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,

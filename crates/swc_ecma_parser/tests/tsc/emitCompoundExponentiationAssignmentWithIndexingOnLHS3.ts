@@ -1,4 +1,4 @@
-﻿// @target: es5
+// @target: es5
 
 var object = {
     _0: 2,

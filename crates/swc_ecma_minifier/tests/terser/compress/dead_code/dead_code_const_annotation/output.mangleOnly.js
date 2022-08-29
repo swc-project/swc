@@ -1,7 +1,7 @@
 var a;
-var f = false;
-if (f) {
+var r = false;
+if (r) {
     console.log("unreachable");
-    var r;
-    function v() {}
+    var e;
+    function f() {}
 }

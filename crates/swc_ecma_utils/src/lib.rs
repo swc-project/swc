@@ -1,5 +1,4 @@
 #![deny(clippy::all)]
-#![allow(clippy::explicit_auto_deref)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
 
@@ -187,10 +186,16 @@ impl Visit for ArgumentsFinder {
     }
 }
 
-pub trait StmtOrModuleItem: Send + Sync {
+pub trait StmtOrModuleItem: Send + Sync + Sized {
     fn into_stmt(self) -> Result<Stmt, ModuleDecl>;
 
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl>;
+
+    fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl>;
+
+    fn from_stmt(stmt: Stmt) -> Self;
+
+    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl>;
 }
 
 impl StmtOrModuleItem for Stmt {
@@ -202,6 +207,21 @@ impl StmtOrModuleItem for Stmt {
     #[inline]
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl> {
         Ok(self)
+    }
+
+    #[inline]
+    fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl> {
+        Ok(self)
+    }
+
+    #[inline]
+    fn from_stmt(stmt: Stmt) -> Self {
+        stmt
+    }
+
+    #[inline]
+    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
+        Err(decl)
     }
 }
 
@@ -220,6 +240,24 @@ impl StmtOrModuleItem for ModuleItem {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
         }
+    }
+
+    #[inline]
+    fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Err(v),
+            ModuleItem::Stmt(v) => Ok(v),
+        }
+    }
+
+    #[inline]
+    fn from_stmt(stmt: Stmt) -> Self {
+        ModuleItem::Stmt(stmt)
+    }
+
+    #[inline]
+    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
+        Ok(ModuleItem::ModuleDecl(decl))
     }
 }
 
@@ -1261,13 +1299,12 @@ pub trait ExprExt {
                 false
             }
 
-            Expr::Paren(ref e) => e.expr.may_have_side_effects(ctx),
+            Expr::Paren(e) => e.expr.may_have_side_effects(ctx),
 
             // Function expression does not have any side effect if it's not used.
-            Expr::Fn(..) | Expr::Arrow(ArrowExpr { .. }) => false,
+            Expr::Fn(..) | Expr::Arrow(..) => false,
 
-            // TODO
-            Expr::Class(..) => true,
+            Expr::Class(c) => class_has_side_effect(ctx, &c.class),
             Expr::Array(ArrayLit { ref elems, .. }) => elems
                 .iter()
                 .filter_map(|e| e.as_ref())
@@ -1279,10 +1316,49 @@ pub trait ExprExt {
                 ..
             }) => left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx),
 
-            Expr::Member(MemberExpr { obj, prop, .. }) if obj.is_object() => {
+            Expr::Member(MemberExpr { obj, prop, .. })
+                if obj.is_object() || obj.is_fn_expr() || obj.is_arrow() || obj.is_class() =>
+            {
                 if obj.may_have_side_effects(ctx) {
                     return true;
                 }
+                match &**obj {
+                    Expr::Class(c) => {
+                        let is_static_accessor = |member: &ClassMember| {
+                            if let ClassMember::Method(ClassMethod {
+                                kind: MethodKind::Getter | MethodKind::Setter,
+                                is_static: true,
+                                ..
+                            }) = member
+                            {
+                                true
+                            } else {
+                                false
+                            }
+                        };
+                        if c.class.body.iter().any(is_static_accessor) {
+                            return true;
+                        }
+                    }
+                    Expr::Object(obj) => {
+                        let is_static_accessor = |prop: &PropOrSpread| {
+                            if let PropOrSpread::Prop(prop) = prop {
+                                if let Prop::Getter(_) | Prop::Setter(_) = &**prop {
+                                    true
+                                } else {
+                                    false
+                                }
+                            } else {
+                                false
+                            }
+                        };
+                        if obj.props.iter().any(is_static_accessor) {
+                            return true;
+                        }
+                    }
+                    _ => {}
+                };
+
                 match prop {
                     MemberProp::Computed(c) => c.expr.may_have_side_effects(ctx),
                     MemberProp::Ident(_) | MemberProp::PrivateName(_) => false,
@@ -1357,7 +1433,13 @@ pub trait ExprExt {
 
                         k || value.may_have_side_effects(ctx)
                     }
-                    _ => true,
+                    Prop::Getter(GetterProp { key, .. })
+                    | Prop::Setter(SetterProp { key, .. })
+                    | Prop::Method(MethodProp { key, .. }) => match key {
+                        PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
+                        _ => false,
+                    },
+                    Prop::Assign(_) => true,
                 },
                 // may trigger getter
                 PropOrSpread::Spread(_) => true,
@@ -1379,6 +1461,51 @@ pub trait ExprExt {
             Expr::Invalid(..) => true,
         }
     }
+}
+
+pub fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
+    if let Some(e) = &c.super_class {
+        if e.may_have_side_effects(expr_ctx) {
+            return true;
+        }
+    }
+
+    for m in &c.body {
+        match m {
+            ClassMember::Method(p) => {
+                if let PropName::Computed(key) = &p.key {
+                    if key.expr.may_have_side_effects(expr_ctx) {
+                        return true;
+                    }
+                }
+            }
+
+            ClassMember::ClassProp(p) => {
+                if let PropName::Computed(key) = &p.key {
+                    if key.expr.may_have_side_effects(expr_ctx) {
+                        return true;
+                    }
+                }
+
+                if let Some(v) = &p.value {
+                    if v.may_have_side_effects(expr_ctx) {
+                        return true;
+                    }
+                }
+            }
+            ClassMember::PrivateProp(p) => {
+                if let Some(v) = &p.value {
+                    if v.may_have_side_effects(expr_ctx) {
+                        return true;
+                    }
+                }
+            }
+
+            _ => {}
+        }
+    }
+
+    false
 }
 fn and(lt: Value<Type>, rt: Value<Type>) -> Value<Type> {
     if lt == rt {
