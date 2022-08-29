@@ -8,7 +8,7 @@ use std::{
 
 use rustc_hash::FxHashSet;
 use sourcemap::SourceMap;
-use swc_common::comments::SingleThreadedComments;
+use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
@@ -159,7 +159,7 @@ fn identity(entry: PathBuf) {
         }
 
         let actual_code = String::from_utf8(wr).unwrap();
-        let actual_map = cm.build_source_map(&mut src_map);
+        let actual_map = cm.build_source_map_with_config(&mut src_map, None, SourceMapConfigImpl);
 
         let visualizer_url_for_actual = {
             let mut buf = vec![];
@@ -288,4 +288,16 @@ fn visualizer_url(code: &str, map: &str) -> String {
     let hash = base64::encode(format!("{}{}{}{}", code_len, code, map_len, map));
 
     format!("https://evanw.github.io/source-map-visualization/#{}", hash)
+}
+
+struct SourceMapConfigImpl;
+
+impl SourceMapGenConfig for SourceMapConfigImpl {
+    fn file_name_to_source(&self, f: &swc_common::FileName) -> String {
+        f.to_string()
+    }
+
+    fn inline_sources_content(&self, _: &swc_common::FileName) -> bool {
+        true
+    }
 }
