@@ -1,1 +1,1 @@
-(function(){null!=(a?void 1:void 2)}())
+(function(){null!=(a?void 1:void 2)}());

@@ -1,1 +1,1 @@
-export class a{};1
+export class a{};1;

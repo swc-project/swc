@@ -1,1 +1,1 @@
-a:for(;;)continue a
+a:for(;;)continue a;

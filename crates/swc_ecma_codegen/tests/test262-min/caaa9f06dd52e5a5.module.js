@@ -1,1 +1,1 @@
-import{null as a}from"b"
+import{null as a}from"b";

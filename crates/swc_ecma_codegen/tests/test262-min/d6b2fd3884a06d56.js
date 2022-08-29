@@ -1,1 +1,1 @@
-var{get}=a
+var{get}=a;

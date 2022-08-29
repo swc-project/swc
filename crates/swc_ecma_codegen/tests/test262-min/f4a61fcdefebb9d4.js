@@ -1,1 +1,1 @@
-var private,protected,public,static
+var private,protected,public,static;

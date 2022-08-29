@@ -1,1 +1,1 @@
-var a=/[P QR]/i
+var a=/[P QR]/i;

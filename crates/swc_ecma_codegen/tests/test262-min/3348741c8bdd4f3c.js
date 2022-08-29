@@ -1,1 +1,1 @@
-for(const a of b)c(a)
+for(const a of b)c(a);

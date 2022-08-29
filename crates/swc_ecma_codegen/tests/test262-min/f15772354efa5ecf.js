@@ -1,1 +1,1 @@
-(function(){"use strict";return 1})
+(function(){"use strict";return 1});

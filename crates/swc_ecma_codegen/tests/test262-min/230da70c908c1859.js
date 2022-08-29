@@ -1,1 +1,1 @@
-"use strict";var a={delete:1}
+"use strict";var a={delete:1};

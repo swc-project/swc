@@ -1,1 +1,1 @@
-export function a(){};1
+export function a(){};1;

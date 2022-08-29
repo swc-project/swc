@@ -1,1 +1,1 @@
-delete/test/
+delete/test/;

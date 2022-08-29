@@ -1,1 +1,1 @@
-var{let,yield}=1
+var{let,yield}=1;

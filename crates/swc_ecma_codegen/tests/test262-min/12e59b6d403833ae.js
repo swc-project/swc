@@ -1,1 +1,1 @@
-"use strict";a()
+"use strict";a();

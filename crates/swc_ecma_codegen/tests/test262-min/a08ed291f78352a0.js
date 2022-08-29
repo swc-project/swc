@@ -1,1 +1,1 @@
-a(function(){function b(){}if(b()){b();return void 1}})
+a(function(){function b(){}if(b()){b();return void 1}});

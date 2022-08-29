@@ -1,1 +1,1 @@
-var{yield:a}=b
+var{yield:a}=b;

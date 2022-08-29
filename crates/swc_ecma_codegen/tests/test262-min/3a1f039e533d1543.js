@@ -1,1 +1,1 @@
-"use strict";a.static()
+"use strict";a.static();

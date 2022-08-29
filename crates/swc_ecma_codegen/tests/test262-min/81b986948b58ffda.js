@@ -1,1 +1,1 @@
-(function(){while(!a||b()){c()}}())
+(function(){while(!a||b()){c()}}());

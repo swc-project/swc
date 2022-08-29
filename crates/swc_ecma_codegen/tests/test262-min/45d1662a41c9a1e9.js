@@ -1,1 +1,1 @@
-for(;;)continue
+for(;;)continue;

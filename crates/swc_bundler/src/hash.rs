@@ -122,4 +122,8 @@ impl WriteJs for &mut Hasher<'_> {
     fn add_srcmap(&mut self, _: BytePos) -> io::Result<()> {
         Ok(())
     }
+
+    fn commit_pending_semi(&mut self) -> io::Result<()> {
+        Ok(())
+    }
 }

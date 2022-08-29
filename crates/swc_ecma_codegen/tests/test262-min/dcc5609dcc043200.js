@@ -1,1 +1,1 @@
-(class{constructor(){}})
+(class{constructor(){}});

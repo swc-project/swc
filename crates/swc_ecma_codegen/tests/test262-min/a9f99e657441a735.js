@@ -1,1 +1,1 @@
-(class{static(){}})
+(class{static(){}});

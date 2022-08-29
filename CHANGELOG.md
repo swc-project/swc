@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Emit trailing semicolon (#5659) ([537449e](https://github.com/swc-project/swc/commit/537449e53b9af268e497f6d3b23e137ec9bbf522))
+
+
 - **(es/compat)** Fix evaluation order of computed class keys (#5621) ([d18ee54](https://github.com/swc-project/swc/commit/d18ee54aef2476e27375da9b1a05396584eade02))
 
 

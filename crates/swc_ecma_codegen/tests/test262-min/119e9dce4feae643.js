@@ -1,1 +1,1 @@
-var a={b:null,set c(d){},get c(){return this.b}}
+var a={b:null,set c(d){},get c(){return this.b}};
