@@ -107,7 +107,9 @@ where
 
         srcmap!(node, false);
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
-        self.wr.commit_pending_semi()?;
+        if !self.cfg.omit_last_semi {
+            self.wr.commit_pending_semi()?;
+        }
     }
 
     #[emitter]
@@ -128,7 +130,9 @@ where
         srcmap!(node, false);
 
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
-        self.wr.commit_pending_semi()?;
+        if !self.cfg.omit_last_semi {
+            self.wr.commit_pending_semi()?;
+        }
     }
 
     #[emitter]
