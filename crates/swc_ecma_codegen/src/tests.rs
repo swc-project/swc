@@ -122,6 +122,7 @@ pub(crate) fn assert_min_typescript(from: &str, to: &str) {
         from,
         Config {
             minify: true,
+            omit_last_semi: true,
             target: EsVersion::latest(),
             ..Default::default()
         },
