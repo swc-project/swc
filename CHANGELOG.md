@@ -55,6 +55,9 @@
 
 - **(es/transforms)** Add tests for fixed issues (#5655) ([2cddb24](https://github.com/swc-project/swc/commit/2cddb240c96790ef4c04b3d2bd3432d8d9c25a11))
 
+
+- **(es/transforms)** Respect directives in tsc tests (#5648) ([095cbf1](https://github.com/swc-project/swc/commit/095cbf1b4ffef7f89bc8897b6103ed98457ae58c))
+
 ## [1.2.244] - 2022-08-26
 
 ### Bug Fixes
