@@ -1,1 +1,1 @@
-({Infinity:1})
+({Infinity:1});

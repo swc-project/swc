@@ -1,1 +1,1 @@
-(function(){switch(a){default:case 1:b("c")}}())
+(function(){switch(a){default:case 1:b("c")}}());

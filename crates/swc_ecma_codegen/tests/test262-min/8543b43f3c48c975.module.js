@@ -1,1 +1,1 @@
-export{default}from"a"
+export{default}from"a";

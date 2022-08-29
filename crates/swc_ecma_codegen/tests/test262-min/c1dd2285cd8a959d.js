@@ -1,1 +1,1 @@
-for(a of b)c(a)
+for(a of b)c(a);

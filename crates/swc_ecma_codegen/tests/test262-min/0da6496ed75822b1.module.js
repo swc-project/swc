@@ -1,1 +1,1 @@
-export function a(){}false
+export function a(){}false;

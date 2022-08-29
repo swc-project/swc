@@ -1,1 +1,1 @@
-a:while(true)while(true)continue a
+a:while(true)while(true)continue a;

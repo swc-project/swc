@@ -1,1 +1,1 @@
-for(let a of b)c(a)
+for(let a of b)c(a);

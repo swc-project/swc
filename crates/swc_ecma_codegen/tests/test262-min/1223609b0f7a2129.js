@@ -1,1 +1,1 @@
-!function(){a()}(),!function(){b()}(),c()+1
+!function(){a()}(),!function(){b()}(),c()+1;

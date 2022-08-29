@@ -1,1 +1,1 @@
-if(a)var b=1
+if(a)var b=1;

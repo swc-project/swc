@@ -1,1 +1,1 @@
-"use strict";("\0x")
+"use strict";("\0x");

@@ -1,1 +1,1 @@
-import a,*as b from"foo"
+import a,*as b from"foo";

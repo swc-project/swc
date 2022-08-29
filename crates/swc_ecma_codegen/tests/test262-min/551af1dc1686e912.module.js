@@ -1,1 +1,1 @@
-export{a}from"foo"
+export{a}from"foo";

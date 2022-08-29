@@ -1,1 +1,1 @@
-for(let a of[1,2])3
+for(let a of[1,2])3;

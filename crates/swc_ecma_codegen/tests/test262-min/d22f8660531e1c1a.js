@@ -1,1 +1,1 @@
-var static
+var static;

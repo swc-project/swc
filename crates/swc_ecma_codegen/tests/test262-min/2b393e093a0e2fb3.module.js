@@ -1,1 +1,1 @@
-export{a as default}from"foo"
+export{a as default}from"foo";

@@ -1,1 +1,1 @@
-typeof/test/
+typeof/test/;

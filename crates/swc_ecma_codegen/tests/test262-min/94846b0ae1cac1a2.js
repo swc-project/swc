@@ -1,1 +1,1 @@
-void void void/test/
+void void void/test/;

@@ -1,1 +1,1 @@
-(function(){throw"a";a()}())
+(function(){throw"a";a()}());

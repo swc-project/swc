@@ -1,1 +1,1 @@
-var a
+var a;

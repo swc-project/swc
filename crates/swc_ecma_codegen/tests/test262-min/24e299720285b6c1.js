@@ -1,1 +1,1 @@
-var a=/foo\/bar/
+var a=/foo\/bar/;

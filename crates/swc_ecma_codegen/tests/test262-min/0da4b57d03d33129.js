@@ -1,1 +1,1 @@
-typeof(1,a,2)
+typeof(1,a,2);

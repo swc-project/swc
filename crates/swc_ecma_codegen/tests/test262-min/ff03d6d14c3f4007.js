@@ -1,1 +1,1 @@
-(function(){var a={"NaN":1}}())
+(function(){var a={"NaN":1}}());
