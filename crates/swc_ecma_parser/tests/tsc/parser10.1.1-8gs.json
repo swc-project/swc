@@ -1,0 +1,107 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 619,
+    "end": 683,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 619,
+        "end": 632,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 619,
+          "end": 631,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 633,
+        "end": 646,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 633,
+          "end": 645,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "ThrowStatement",
+      "span": {
+        "start": 647,
+        "end": 667,
+        "ctxt": 0
+      },
+      "argument": {
+        "type": "Identifier",
+        "span": {
+          "start": 653,
+          "end": 666,
+          "ctxt": 0
+        },
+        "value": "NotEarlyError",
+        "optional": false
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 668,
+        "end": 683,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 672,
+            "end": 682,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 672,
+              "end": 678,
+              "ctxt": 0
+            },
+            "value": "public",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 681,
+              "end": 682,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

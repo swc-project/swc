@@ -1,4 +1,4 @@
-﻿// @target: ES6
+// @target: ES6
 interface I {
     (stringParts: TemplateStringsArray, ...rest: boolean[]): I;
     g: I;

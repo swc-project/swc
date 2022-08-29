@@ -1,4 +1,4 @@
-﻿// @declaration: true
+// @declaration: true
 
 function foo<T extends "foo">(f: (x: T) => T) {
     return f;

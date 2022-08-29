@@ -1,0 +1,1 @@
+//// [emitArrowFunctionThisCapturingES6.ts]

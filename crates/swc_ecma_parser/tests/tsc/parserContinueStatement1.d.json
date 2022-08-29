@@ -1,0 +1,20 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 10,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ContinueStatement",
+      "span": {
+        "start": 1,
+        "end": 10,
+        "ctxt": 0
+      },
+      "label": null
+    }
+  ],
+  "interpreter": null
+}

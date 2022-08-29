@@ -1,0 +1,1 @@
+//// [parserVariableDeclaration9.ts]

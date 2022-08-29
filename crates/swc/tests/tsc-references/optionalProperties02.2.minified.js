@@ -1,0 +1,1 @@
+//// [optionalProperties02.ts]

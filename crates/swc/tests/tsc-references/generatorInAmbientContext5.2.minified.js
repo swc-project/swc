@@ -1,0 +1,1 @@
+//// [generatorInAmbientContext5.ts]

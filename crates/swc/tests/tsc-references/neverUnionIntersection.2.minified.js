@@ -1,0 +1,1 @@
+//// [neverUnionIntersection.ts]

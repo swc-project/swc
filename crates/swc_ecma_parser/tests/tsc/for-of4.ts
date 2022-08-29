@@ -1,4 +1,4 @@
-﻿//@target: ES6
+//@target: ES6
 for (var v of [0]) {
     v;
 }

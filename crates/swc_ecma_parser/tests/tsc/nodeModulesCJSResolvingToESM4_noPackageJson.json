@@ -1,0 +1,107 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 146,
+    "end": 408,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 146,
+        "end": 156,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 188,
+        "end": 218,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 203,
+          "end": 217,
+          "ctxt": 0
+        },
+        "value": "./module.mjs",
+        "raw": "\"./module.mjs\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 250,
+        "end": 280,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 265,
+          "end": 279,
+          "ctxt": 0
+        },
+        "value": "./module.mjs",
+        "raw": "\"./module.mjs\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 314,
+        "end": 344,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 329,
+          "end": 343,
+          "ctxt": 0
+        },
+        "value": "./module.mjs",
+        "raw": "\"./module.mjs\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 378,
+        "end": 408,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 393,
+          "end": 407,
+          "ctxt": 0
+        },
+        "value": "./module.mjs",
+        "raw": "\"./module.mjs\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

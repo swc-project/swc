@@ -1,0 +1,1 @@
+//// [templateStringInEqualityChecksES6.ts]

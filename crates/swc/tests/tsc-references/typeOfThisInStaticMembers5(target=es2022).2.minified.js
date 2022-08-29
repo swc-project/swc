@@ -1,0 +1,1 @@
+//// [typeOfThisInStaticMembers5.ts]

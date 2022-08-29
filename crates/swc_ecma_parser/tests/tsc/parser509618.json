@@ -1,0 +1,79 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 51,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 1,
+        "end": 51,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 16,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "ambiModule",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 27,
+          "end": 51,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsInterfaceDeclaration",
+            "span": {
+              "start": 32,
+              "end": 48,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 42,
+                "end": 44,
+                "ctxt": 0
+              },
+              "value": "i1",
+              "optional": false
+            },
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
+              "type": "TsInterfaceBody",
+              "span": {
+                "start": 45,
+                "end": 48,
+                "ctxt": 0
+              },
+              "body": []
+            }
+          },
+          {
+            "type": "EmptyStatement",
+            "span": {
+              "start": 48,
+              "end": 49,
+              "ctxt": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

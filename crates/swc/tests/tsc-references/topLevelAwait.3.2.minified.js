@@ -1,0 +1,2 @@
+//// [index.d.ts]
+export { };

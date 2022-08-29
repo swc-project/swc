@@ -1,0 +1,1 @@
+//// [propertyOverridesAccessors5.ts]

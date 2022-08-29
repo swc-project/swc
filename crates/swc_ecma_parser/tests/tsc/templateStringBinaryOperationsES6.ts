@@ -1,4 +1,4 @@
-﻿// @target: ES6
+// @target: ES6
 var a = 1 + `${ 3 }`;
 var b = 1 + `2${ 3 }`;
 var c = 1 + `${ 3 }4`;

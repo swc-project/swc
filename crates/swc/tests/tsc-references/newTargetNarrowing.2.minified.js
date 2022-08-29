@@ -1,0 +1,1 @@
+//// [newTargetNarrowing.ts]

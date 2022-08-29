@@ -1,2 +1,0 @@
-target: for(;;);
-target: for(;;);

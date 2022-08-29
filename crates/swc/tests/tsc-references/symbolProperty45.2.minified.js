@@ -1,0 +1,1 @@
+//// [symbolProperty45.ts]

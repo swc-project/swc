@@ -1,0 +1,1 @@
+//// [comparisonOperatorWithNumericLiteral.ts]

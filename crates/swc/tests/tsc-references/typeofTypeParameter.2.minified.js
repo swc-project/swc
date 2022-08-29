@@ -1,0 +1,1 @@
+//// [typeofTypeParameter.ts]

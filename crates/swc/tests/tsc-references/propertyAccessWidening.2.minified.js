@@ -1,0 +1,1 @@
+//// [propertyAccessWidening.ts]

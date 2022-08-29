@@ -1,0 +1,1 @@
+//// [duplicatePropertiesInTypeAssertions02.ts]

@@ -1,0 +1,1 @@
+//// [Protected8.ts]

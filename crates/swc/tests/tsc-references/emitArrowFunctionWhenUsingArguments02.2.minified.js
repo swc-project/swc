@@ -1,0 +1,1 @@
+//// [emitArrowFunctionWhenUsingArguments02.ts]

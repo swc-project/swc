@@ -1,0 +1,1 @@
+//// [typePredicateOnVariableDeclaration01.ts]

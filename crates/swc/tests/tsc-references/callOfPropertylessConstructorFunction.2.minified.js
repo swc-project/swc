@@ -1,0 +1,1 @@
+//// [callOfPropertylessConstructorFunction.js]

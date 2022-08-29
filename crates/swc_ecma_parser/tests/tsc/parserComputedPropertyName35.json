@@ -1,0 +1,103 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 43,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 16,
+        "end": 43,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 20,
+            "end": 43,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 20,
+              "end": 21,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 24,
+              "end": 43,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 30,
+                    "end": 36,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "SequenceExpression",
+                    "span": {
+                      "start": 31,
+                      "end": 35,
+                      "ctxt": 0
+                    },
+                    "expressions": [
+                      {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 31,
+                          "end": 32,
+                          "ctxt": 0
+                        },
+                        "value": 0.0,
+                        "raw": "0"
+                      },
+                      {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 34,
+                          "end": 35,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      }
+                    ]
+                  }
+                },
+                "value": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 38,
+                    "end": 41,
+                    "ctxt": 0
+                  },
+                  "properties": []
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

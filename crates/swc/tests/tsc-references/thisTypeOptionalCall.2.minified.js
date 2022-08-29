@@ -1,0 +1,1 @@
+//// [thisTypeOptionalCall.ts]

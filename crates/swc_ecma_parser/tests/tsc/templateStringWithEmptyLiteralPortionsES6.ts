@@ -1,4 +1,4 @@
-﻿// @target: ES6
+// @target: ES6
 var a = ``;
 
 var b = `${ 0 }`;

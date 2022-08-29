@@ -1,0 +1,51 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 40,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 1,
+        "end": 40,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 9,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": 0.0,
+        "raw": "0"
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 16,
+            "end": 38,
+            "ctxt": 0
+          },
+          "test": null,
+          "consequent": [
+            {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 29,
+                "end": 38,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

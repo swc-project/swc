@@ -1,0 +1,1 @@
+//// [typeGuardOfFormTypeOfFunction.ts]

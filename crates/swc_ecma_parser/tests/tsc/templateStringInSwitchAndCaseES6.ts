@@ -1,4 +1,4 @@
-﻿// @target: ES6
+// @target: ES6
 switch (`abc${0}abc`) {
     case `abc`:
     case `123`:

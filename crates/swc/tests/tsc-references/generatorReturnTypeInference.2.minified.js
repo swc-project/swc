@@ -1,0 +1,1 @@
+//// [generatorReturnTypeInference.ts]

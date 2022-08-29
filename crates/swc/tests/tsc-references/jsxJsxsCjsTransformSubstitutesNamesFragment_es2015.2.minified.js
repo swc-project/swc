@@ -1,2 +1,0 @@
-React.Fragment;
-export { };

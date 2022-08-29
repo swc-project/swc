@@ -1,0 +1,667 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 48,
+    "end": 400,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 64,
+          "end": 68,
+          "ctxt": 0
+        },
+        "value": "test",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 69,
+            "end": 87,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 69,
+              "end": 87,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 70,
+                "end": 87,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 72,
+                  "end": 87,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 72,
+                    "end": 79,
+                    "ctxt": 0
+                  },
+                  "value": "Promise",
+                  "optional": false
+                },
+                "typeParams": {
+                  "type": "TsTypeParameterInstantiation",
+                  "span": {
+                    "start": 79,
+                    "end": 87,
+                    "ctxt": 0
+                  },
+                  "params": [
+                    {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 80,
+                        "end": 86,
+                        "ctxt": 0
+                      },
+                      "kind": "string"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 48,
+        "end": 400,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 89,
+          "end": 400,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ClassDeclaration",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 101,
+                "end": 102,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "declare": false,
+            "span": {
+              "start": 95,
+              "end": 241,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "body": [
+              {
+                "type": "ClassProperty",
+                "span": {
+                  "start": 113,
+                  "end": 133,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 113,
+                    "end": 122,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 114,
+                      "end": 121,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 120,
+                        "end": 121,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false
+                    }
+                  }
+                },
+                "value": {
+                  "type": "AwaitExpression",
+                  "span": {
+                    "start": 125,
+                    "end": 132,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 131,
+                      "end": 132,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  }
+                },
+                "typeAnnotation": null,
+                "isStatic": false,
+                "decorators": [],
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false,
+                "readonly": false,
+                "declare": false,
+                "definite": false
+              },
+              {
+                "type": "ClassProperty",
+                "span": {
+                  "start": 142,
+                  "end": 169,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 149,
+                    "end": 158,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 150,
+                      "end": 157,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 156,
+                        "end": 157,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false
+                    }
+                  }
+                },
+                "value": {
+                  "type": "AwaitExpression",
+                  "span": {
+                    "start": 161,
+                    "end": 168,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 167,
+                      "end": 168,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  }
+                },
+                "typeAnnotation": null,
+                "isStatic": true,
+                "decorators": [],
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false,
+                "readonly": false,
+                "declare": false,
+                "definite": false
+              },
+              {
+                "type": "ClassProperty",
+                "span": {
+                  "start": 179,
+                  "end": 199,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 179,
+                    "end": 188,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 180,
+                      "end": 187,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 186,
+                        "end": 187,
+                        "ctxt": 0
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    },
+                    "delegate": false
+                  }
+                },
+                "value": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 191,
+                    "end": 198,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 197,
+                      "end": 198,
+                      "ctxt": 0
+                    },
+                    "value": 2.0,
+                    "raw": "2"
+                  },
+                  "delegate": false
+                },
+                "typeAnnotation": null,
+                "isStatic": false,
+                "decorators": [],
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false,
+                "readonly": false,
+                "declare": false,
+                "definite": false
+              },
+              {
+                "type": "ClassProperty",
+                "span": {
+                  "start": 208,
+                  "end": 235,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 215,
+                    "end": 224,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 216,
+                      "end": 223,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 222,
+                        "end": 223,
+                        "ctxt": 0
+                      },
+                      "value": 3.0,
+                      "raw": "3"
+                    },
+                    "delegate": false
+                  }
+                },
+                "value": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 227,
+                    "end": 234,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 233,
+                      "end": 234,
+                      "ctxt": 0
+                    },
+                    "value": 4.0,
+                    "raw": "4"
+                  },
+                  "delegate": false
+                },
+                "typeAnnotation": null,
+                "isStatic": true,
+                "decorators": [],
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false,
+                "readonly": false,
+                "declare": false,
+                "definite": false
+              }
+            ],
+            "superClass": null,
+            "isAbstract": false,
+            "typeParams": null,
+            "superTypeParams": null,
+            "implements": []
+          },
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 247,
+              "end": 398,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "ClassExpression",
+              "identifier": null,
+              "span": {
+                "start": 254,
+                "end": 398,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "body": [
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 270,
+                    "end": 290,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Computed",
+                    "span": {
+                      "start": 270,
+                      "end": 279,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "AwaitExpression",
+                      "span": {
+                        "start": 271,
+                        "end": 278,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 277,
+                          "end": 278,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "value": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 282,
+                      "end": 289,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 288,
+                        "end": 289,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false
+                    }
+                  },
+                  "typeAnnotation": null,
+                  "isStatic": false,
+                  "decorators": [],
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                },
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 299,
+                    "end": 326,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Computed",
+                    "span": {
+                      "start": 306,
+                      "end": 315,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "AwaitExpression",
+                      "span": {
+                        "start": 307,
+                        "end": 314,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 313,
+                          "end": 314,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "value": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 318,
+                      "end": 325,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 324,
+                        "end": 325,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false
+                    }
+                  },
+                  "typeAnnotation": null,
+                  "isStatic": true,
+                  "decorators": [],
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                },
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 336,
+                    "end": 356,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Computed",
+                    "span": {
+                      "start": 336,
+                      "end": 345,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "YieldExpression",
+                      "span": {
+                        "start": 337,
+                        "end": 344,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 343,
+                          "end": 344,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      },
+                      "delegate": false
+                    }
+                  },
+                  "value": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 348,
+                      "end": 355,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 354,
+                        "end": 355,
+                        "ctxt": 0
+                      },
+                      "value": 2.0,
+                      "raw": "2"
+                    },
+                    "delegate": false
+                  },
+                  "typeAnnotation": null,
+                  "isStatic": false,
+                  "decorators": [],
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                },
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 365,
+                    "end": 392,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Computed",
+                    "span": {
+                      "start": 372,
+                      "end": 381,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "YieldExpression",
+                      "span": {
+                        "start": 373,
+                        "end": 380,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 379,
+                          "end": 380,
+                          "ctxt": 0
+                        },
+                        "value": 3.0,
+                        "raw": "3"
+                      },
+                      "delegate": false
+                    }
+                  },
+                  "value": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 384,
+                      "end": 391,
+                      "ctxt": 0
+                    },
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 390,
+                        "end": 391,
+                        "ctxt": 0
+                      },
+                      "value": 4.0,
+                      "raw": "4"
+                    },
+                    "delegate": false
+                  },
+                  "typeAnnotation": null,
+                  "isStatic": true,
+                  "decorators": [],
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                }
+              ],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

@@ -1,4 +1,4 @@
-﻿
+
 type S = "a" | "b";
 type T = S[] | S;
 

@@ -1,0 +1,1 @@
+//// [circularTypeAliasForUnionWithInterface.ts]

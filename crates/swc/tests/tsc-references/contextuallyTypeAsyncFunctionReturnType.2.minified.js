@@ -1,0 +1,1 @@
+//// [contextuallyTypeAsyncFunctionReturnType.ts]

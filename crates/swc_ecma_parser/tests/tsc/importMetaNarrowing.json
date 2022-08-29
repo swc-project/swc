@@ -1,0 +1,230 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 52,
+    "end": 158,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 52,
+        "end": 110,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 60,
+          "end": 66,
+          "ctxt": 0
+        },
+        "value": "global",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 67,
+          "end": 110,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsInterfaceDeclaration",
+            "span": {
+              "start": 69,
+              "end": 108,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 79,
+                "end": 89,
+                "ctxt": 0
+              },
+              "value": "ImportMeta",
+              "optional": false
+            },
+            "declare": false,
+            "typeParams": null,
+            "extends": [],
+            "body": {
+              "type": "TsInterfaceBody",
+              "span": {
+                "start": 90,
+                "end": 108,
+                "ctxt": 0
+              },
+              "body": [
+                {
+                  "type": "TsPropertySignature",
+                  "span": {
+                    "start": 91,
+                    "end": 107,
+                    "ctxt": 0
+                  },
+                  "readonly": false,
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 91,
+                      "end": 94,
+                      "ctxt": 0
+                    },
+                    "value": "foo",
+                    "optional": false
+                  },
+                  "computed": false,
+                  "optional": true,
+                  "init": null,
+                  "params": [],
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 95,
+                      "end": 107,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsFunctionType",
+                      "span": {
+                        "start": 97,
+                        "end": 107,
+                        "ctxt": 0
+                      },
+                      "params": [],
+                      "typeParams": null,
+                      "typeAnnotation": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 100,
+                          "end": 107,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 103,
+                            "end": 107,
+                            "ctxt": 0
+                          },
+                          "kind": "void"
+                        }
+                      }
+                    }
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 110,
+        "end": 111,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 113,
+        "end": 158,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 117,
+          "end": 132,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "MetaProperty",
+          "span": {
+            "start": 117,
+            "end": 128,
+            "ctxt": 0
+          },
+          "kind": "import.meta"
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 129,
+            "end": 132,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 134,
+          "end": 158,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 138,
+              "end": 156,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 138,
+                "end": 155,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 138,
+                  "end": 153,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "MetaProperty",
+                  "span": {
+                    "start": 138,
+                    "end": 149,
+                    "ctxt": 0
+                  },
+                  "kind": "import.meta"
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 150,
+                    "end": 153,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "optional": false
+                }
+              },
+              "arguments": [],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

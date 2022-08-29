@@ -1,0 +1,1 @@
+//// [subtypingWithObjectMembers2.ts]

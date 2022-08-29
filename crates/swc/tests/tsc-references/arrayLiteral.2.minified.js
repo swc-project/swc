@@ -1,0 +1,1 @@
+//// [arrayLiteral.ts]

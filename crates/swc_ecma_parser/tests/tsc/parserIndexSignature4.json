@@ -1,0 +1,87 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 79,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 1,
+        "end": 79,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 11,
+          "end": 12,
+          "ctxt": 0
+        },
+        "value": "I",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 13,
+          "end": 79,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 17,
+              "end": 24,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 18,
+                "end": 23,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 18,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 22,
+                  "end": 23,
+                  "ctxt": 0
+                },
+                "value": 0.0,
+                "raw": "0"
+              }
+            },
+            "computed": true,
+            "optional": false,
+            "init": null,
+            "params": [],
+            "typeAnnotation": null,
+            "typeParams": null
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

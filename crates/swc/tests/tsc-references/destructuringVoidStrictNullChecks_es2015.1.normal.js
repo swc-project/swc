@@ -1,2 +1,0 @@
-// @strictNullChecks: true
-const {} = v;

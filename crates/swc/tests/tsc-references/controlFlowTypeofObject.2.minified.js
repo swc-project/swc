@@ -1,0 +1,1 @@
+//// [controlFlowTypeofObject.ts]

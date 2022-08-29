@@ -1,4 +1,4 @@
-﻿// @declaration: true
+// @declaration: true
 
 let abc: "ABC" = "ABC";
 let xyz: "XYZ" = "XYZ";

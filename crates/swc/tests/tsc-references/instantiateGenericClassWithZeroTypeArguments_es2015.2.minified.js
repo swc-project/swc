@@ -1,3 +1,0 @@
-new class {
-}(), new class {
-}();

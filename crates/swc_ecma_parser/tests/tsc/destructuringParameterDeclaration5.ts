@@ -1,4 +1,4 @@
-﻿// Parameter Declaration with generic
+// Parameter Declaration with generic
 
 interface F { }
 class Class implements F {

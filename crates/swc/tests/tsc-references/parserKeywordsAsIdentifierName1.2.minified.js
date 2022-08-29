@@ -1,0 +1,1 @@
+//// [parserKeywordsAsIdentifierName1.ts]

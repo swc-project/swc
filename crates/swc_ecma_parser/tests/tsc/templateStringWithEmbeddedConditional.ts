@@ -1,1 +1,1 @@
-﻿var x = `abc${ true ? false : " " }def`;
+var x = `abc${ true ? false : " " }def`;

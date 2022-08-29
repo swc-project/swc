@@ -1,0 +1,1 @@
+//// [templateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.ts]

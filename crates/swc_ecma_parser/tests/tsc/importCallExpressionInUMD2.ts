@@ -1,4 +1,4 @@
-﻿// @module: umd
+// @module: umd
 // @target: esnext
 // @filename: 0.ts
 export class B {

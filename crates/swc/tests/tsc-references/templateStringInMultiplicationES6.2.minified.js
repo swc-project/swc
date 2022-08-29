@@ -1,0 +1,1 @@
+//// [templateStringInMultiplicationES6.ts]

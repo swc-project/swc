@@ -1,0 +1,1 @@
+//// [contextualIntersectionType.ts]

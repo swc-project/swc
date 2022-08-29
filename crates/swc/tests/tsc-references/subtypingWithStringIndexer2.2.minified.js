@@ -1,0 +1,1 @@
+//// [subtypingWithStringIndexer2.ts]

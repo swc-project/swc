@@ -1,0 +1,83 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 29,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TryStatement",
+      "span": {
+        "start": 1,
+        "end": 29,
+        "ctxt": 0
+      },
+      "block": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 5,
+          "end": 8,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "handler": {
+        "type": "CatchClause",
+        "span": {
+          "start": 9,
+          "end": 29,
+          "ctxt": 0
+        },
+        "param": {
+          "type": "Identifier",
+          "span": {
+            "start": 16,
+            "end": 17,
+            "ctxt": 0
+          },
+          "value": "e",
+          "optional": false,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 17,
+              "end": 24,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 19,
+                "end": 24,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 19,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "value": "Error",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 26,
+            "end": 29,
+            "ctxt": 0
+          },
+          "stmts": []
+        }
+      },
+      "finalizer": null
+    }
+  ],
+  "interpreter": null
+}

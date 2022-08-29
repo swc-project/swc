@@ -1,4 +1,4 @@
-﻿// @target: es5
+// @target: es5
 // @downlevelIteration: true
 
 interface ISomething {

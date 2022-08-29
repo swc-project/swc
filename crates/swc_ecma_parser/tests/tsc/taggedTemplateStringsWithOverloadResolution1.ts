@@ -1,4 +1,4 @@
-﻿function foo(strs: TemplateStringsArray): number;
+function foo(strs: TemplateStringsArray): number;
 function foo(strs: TemplateStringsArray, x: number): string;
 function foo(strs: TemplateStringsArray, x: number, y: number): boolean;
 function foo(strs: TemplateStringsArray, x: number, y: string): {};

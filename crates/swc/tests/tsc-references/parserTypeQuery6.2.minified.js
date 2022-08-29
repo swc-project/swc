@@ -1,0 +1,1 @@
+//// [parserTypeQuery6.ts]

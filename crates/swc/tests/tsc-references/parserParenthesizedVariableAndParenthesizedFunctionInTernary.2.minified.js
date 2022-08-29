@@ -1,0 +1,1 @@
+//// [parserParenthesizedVariableAndParenthesizedFunctionInTernary.ts]

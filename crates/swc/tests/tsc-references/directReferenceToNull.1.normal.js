@@ -1,0 +1,2 @@
+//// [directReferenceToNull.ts]
+var x;

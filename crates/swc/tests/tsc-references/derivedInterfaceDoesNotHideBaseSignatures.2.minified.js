@@ -1,0 +1,1 @@
+//// [derivedInterfaceDoesNotHideBaseSignatures.ts]

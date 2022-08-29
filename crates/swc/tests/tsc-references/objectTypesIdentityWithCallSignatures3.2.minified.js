@@ -1,0 +1,1 @@
+//// [objectTypesIdentityWithCallSignatures3.ts]

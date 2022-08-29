@@ -1,0 +1,1 @@
+//// [nullishCoalescingOperatorInAsyncGenerator.ts]

@@ -1,0 +1,1 @@
+//// [commaOperatorInvalidAssignmentType.ts]

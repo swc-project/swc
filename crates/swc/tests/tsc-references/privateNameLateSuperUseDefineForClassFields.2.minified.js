@@ -1,0 +1,1 @@
+//// [privateNameLateSuperUseDefineForClassFields.ts]

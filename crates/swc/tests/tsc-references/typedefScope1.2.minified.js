@@ -1,0 +1,1 @@
+//// [typedefScope1.js]

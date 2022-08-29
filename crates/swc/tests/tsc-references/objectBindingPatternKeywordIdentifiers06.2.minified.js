@@ -1,0 +1,1 @@
+//// [objectBindingPatternKeywordIdentifiers06.ts]

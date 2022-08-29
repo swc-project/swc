@@ -1,4 +1,4 @@
-﻿class A<T> {
+class A<T> {
     genericVar: T
 }
 function B1<U>() {

@@ -1,2 +1,0 @@
-require('react');
-export { };

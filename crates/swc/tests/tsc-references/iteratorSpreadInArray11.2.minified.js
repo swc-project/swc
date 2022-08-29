@@ -1,0 +1,1 @@
+//// [iteratorSpreadInArray11.ts]

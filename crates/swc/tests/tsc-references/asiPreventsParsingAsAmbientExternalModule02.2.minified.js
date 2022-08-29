@@ -1,0 +1,1 @@
+//// [asiPreventsParsingAsAmbientExternalModule02.ts]

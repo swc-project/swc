@@ -1,4 +1,4 @@
-﻿// @target: es6
+// @target: es6
 
 var a = 1 ** `${ 3 }`;
 var b = 1 ** `2${ 3 }`;

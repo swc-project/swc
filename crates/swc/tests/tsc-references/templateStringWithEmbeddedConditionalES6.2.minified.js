@@ -1,0 +1,1 @@
+//// [templateStringWithEmbeddedConditionalES6.ts]

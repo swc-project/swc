@@ -1,4 +1,4 @@
-﻿// @target: es5
+// @target: es5
 var obj: {
     func1: (...rest) => void
 }

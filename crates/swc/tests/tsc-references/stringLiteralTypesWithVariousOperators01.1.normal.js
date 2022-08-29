@@ -1,0 +1,27 @@
+//// [stringLiteralTypesWithVariousOperators01.ts]
+var abc = "ABC";
+var xyz = "XYZ";
+var abcOrXyz = abc || xyz;
+var abcOrXyzOrNumber = abcOrXyz || 100;
+var a = "" + abc;
+var b = abc + "";
+var c = 10 + abc;
+var d = abc + 10;
+var e = xyz + abc;
+var f = abc + xyz;
+var g = true + abc;
+var h = abc + true;
+var i = abc + abcOrXyz + xyz;
+var j = abcOrXyz + abcOrXyz;
+var k = +abcOrXyz;
+var l = -abcOrXyz;
+var m = abcOrXyzOrNumber + "";
+var n = "" + abcOrXyzOrNumber;
+var o = abcOrXyzOrNumber + abcOrXyz;
+var p = abcOrXyz + abcOrXyzOrNumber;
+var q = !abcOrXyzOrNumber;
+var r = ~abcOrXyzOrNumber;
+var s = abcOrXyzOrNumber < abcOrXyzOrNumber;
+var t = abcOrXyzOrNumber >= abcOrXyz;
+var u = abc === abcOrXyz;
+var v = abcOrXyz === abcOrXyzOrNumber;

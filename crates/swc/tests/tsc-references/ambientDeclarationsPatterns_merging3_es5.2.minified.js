@@ -1,2 +1,0 @@
-ohno.a;
-export { };

@@ -1,3 +1,0 @@
-class Foo {
-    banana(x) {}
-}

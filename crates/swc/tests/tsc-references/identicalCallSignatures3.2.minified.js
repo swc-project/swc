@@ -1,0 +1,1 @@
+//// [identicalCallSignatures3.ts]
