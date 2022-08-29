@@ -1595,6 +1595,7 @@ where
             punct!("*");
         }
         if let Some(ref i) = n.ident {
+            srcmap!(i.span.lo, true);
             space!();
             emit!(i);
         }
