@@ -2644,7 +2644,7 @@ where
     fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        self.wr.write_punct(None, ";")?;
+        self.wr.write_punct(Some(node.span), ";")?;
     }
 
     #[emitter]
