@@ -130,6 +130,7 @@ fn identity(entry: PathBuf) {
                     minify: true,
                     target: EsVersion::Es5,
                     ascii_only: true,
+                    ..Default::default()
                 },
                 cm: cm.clone(),
                 wr,
