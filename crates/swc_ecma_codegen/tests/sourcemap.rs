@@ -101,7 +101,8 @@ fn identity(entry: PathBuf) {
             fm.end_pos,
             fm.count_lines()
         );
-        let (expected_code, expected_map) = get_expected(&fm.src, is_module);
+        let (expected_code, expected_map, visualizer_url_for_expected) =
+            get_expected(&fm.src, is_module);
         println!("Expected code:\n{}", expected_code);
         let expected_tokens = print_source_map(&expected_map);
 
@@ -157,7 +158,16 @@ fn identity(entry: PathBuf) {
             }
         }
 
+        let actual_code = String::from_utf8(wr).unwrap();
         let actual_map = cm.build_source_map(&mut src_map);
+
+        let visualizer_url_for_actual = {
+            let mut buf = vec![];
+            actual_map.to_writer(&mut buf).unwrap();
+            let actual_src_map_str = String::from_utf8(buf).unwrap();
+            visualizer_url(&actual_code, &actual_src_map_str)
+        };
+
         let actual_tokens = print_source_map(&actual_map);
 
         let common_tokens = actual_tokens
@@ -187,8 +197,6 @@ fn identity(entry: PathBuf) {
 
         dbg!(&src_map);
 
-        let actual_code = String::from_utf8(wr).unwrap();
-
         if actual_code != expected_code {
             // Generated code is different
             // We can't ensure that identical sourcemap will mean identical code
@@ -197,13 +205,18 @@ fn identity(entry: PathBuf) {
             return Ok(());
         }
 
+        eprintln!(
+            "----- Visualizer -----\nExpected: {}\nActual: {}",
+            visualizer_url_for_expected, visualizer_url_for_actual
+        );
+
         assert_eq_same_map(&expected_map, &actual_map);
         Ok(())
     })
     .expect("failed to run test");
 }
 
-fn get_expected(code: &str, is_module: bool) -> (String, SourceMap) {
+fn get_expected(code: &str, is_module: bool) -> (String, SourceMap, String) {
     let mut c = Command::new("node");
     c.arg("tests/babel.mjs");
     c.arg(code);
@@ -220,9 +233,11 @@ fn get_expected(code: &str, is_module: bool) -> (String, SourceMap) {
     let code = v.get("code").unwrap().as_str().unwrap();
     let map = v.get("map").unwrap().as_str().unwrap();
 
+    let visualizer_url = visualizer_url(code, map);
+
     let map = SourceMap::from_slice(map.as_bytes()).expect("invalid sourcemap");
 
-    (code.to_string(), map)
+    (code.to_string(), map, visualizer_url)
 }
 
 fn print_source_map(map: &SourceMap) -> Vec<String> {
@@ -264,4 +279,13 @@ fn assert_eq_same_map(expected: &SourceMap, actual: &SourceMap) {
             at.get_dst_col()
         );
     }
+}
+
+/// Creates a url for https://evanw.github.io/source-map-visualization/
+fn visualizer_url(code: &str, map: &str) -> String {
+    let code_len = format!("{}\0", code.len());
+    let map_len = format!("{}\0", map.len());
+    let hash = base64::encode(format!("{}{}{}{}", code_len, code, map_len, map));
+
+    format!("https://evanw.github.io/source-map-visualization/#{}", hash)
 }
