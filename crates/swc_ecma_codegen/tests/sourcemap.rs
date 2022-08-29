@@ -164,7 +164,7 @@ fn identity(entry: PathBuf) {
 
         let actual_code = String::from_utf8(wr).unwrap();
 
-        if actual_code != expected_code && format!("{};", actual_code) != expected_code {
+        if actual_code != expected_code {
             // Generated code is different
             // We can't ensure that identical sourcemap will mean identical code
             eprintln!("Actual code:\n{}", actual_code);
