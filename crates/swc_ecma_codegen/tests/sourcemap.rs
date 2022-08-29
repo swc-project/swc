@@ -114,13 +114,14 @@ fn do_test(entry: &Path, minify: bool) {
             Some(&comments),
         );
         let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
+        let mut src_map = vec![];
 
         {
             let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                 cm.clone(),
                 "\n",
                 &mut wr,
-                None,
+                Some(&mut src_map),
             )) as Box<dyn WriteJs>;
 
             if minify {
@@ -133,7 +134,7 @@ fn do_test(entry: &Path, minify: bool) {
                     target: EsVersion::Es5,
                     ..Default::default()
                 },
-                cm,
+                cm: cm.clone(),
                 wr,
                 comments: if minify { None } else { Some(&comments) },
             };
@@ -157,6 +158,8 @@ fn do_test(entry: &Path, minify: bool) {
                     .unwrap();
             }
         }
+
+        let map = cm.build_source_map(&mut src_map);
 
         Ok(())
     })
