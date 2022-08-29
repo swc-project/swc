@@ -59,7 +59,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: ::swc_ecma_parser::::swc_ecma_parser::JSXKind::Bool(true),
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
