@@ -24,6 +24,12 @@ pub struct Config {
 
     #[serde(default)]
     pub minify: bool,
+
+    /// If true, the code generator will emit the lastest semicolon.
+    ///
+    /// Defaults to `false`.
+    #[serde(default)]
+    pub omit_last_semi: bool,
 }
 
 impl Default for Config {
@@ -32,6 +38,7 @@ impl Default for Config {
             target: EsVersion::latest(),
             minify: false,
             ascii_only: false,
+            omit_last_semi: false,
         }
     }
 }

@@ -90,6 +90,7 @@ pub(crate) fn assert_min(from: &str, to: &str) {
         Config {
             minify: true,
             target: EsVersion::latest(),
+            omit_last_semi: true,
             ..Default::default()
         },
         Syntax::Es(EsConfig {
