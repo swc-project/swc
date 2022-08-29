@@ -315,9 +315,6 @@ pub struct TsConfig {
     pub tsx: JSXKind,
 
     #[serde(default)]
-    pub preserve_jsx: bool,
-
-    #[serde(default)]
     pub decorators: bool,
 
     /// `.d.ts`

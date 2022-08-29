@@ -6,7 +6,7 @@ use std::{
 use pretty_assertions::assert_eq;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, JSXKind, PResult, Parser, StringInput};
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{run_test, StdErr};
 
@@ -29,7 +29,7 @@ where
 
     let mut p = Parser::new(
         ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         (&*fm).into(),

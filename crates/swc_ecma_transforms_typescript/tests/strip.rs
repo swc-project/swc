@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use swc_common::{chain, comments::SingleThreadedComments, pass::Optional, Mark};
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::{JSXKind, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{block_scoping, destructuring, parameters},
@@ -4532,7 +4532,7 @@ fn exec(input: PathBuf) {
     let output = input.with_file_name("output.js");
     test_fixture(
         Syntax::Typescript(TsConfig {
-            tsx: input.to_string_lossy().ends_with(".tsx"),
+            tsx: JSXKind::Bool(input.to_string_lossy().ends_with(".tsx")),
             ..Default::default()
         }),
         &|t| chain!(tr(), properties(t, true)),

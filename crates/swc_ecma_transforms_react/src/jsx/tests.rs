@@ -107,7 +107,7 @@ fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
 }
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -126,7 +126,7 @@ React.createElement(Component, _extends({}, props, {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -158,7 +158,7 @@ var bar = function() {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -195,7 +195,7 @@ var x = React.createElement(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -218,7 +218,7 @@ Component = React.createClass({
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -242,7 +242,7 @@ export default React.createClass({
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -280,7 +280,7 @@ var Bar = React.createClass({
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -306,7 +306,7 @@ exports = {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -330,7 +330,7 @@ exports.Component = React.createClass({
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -354,7 +354,7 @@ var Component = React.createClass({
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -377,7 +377,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -401,7 +401,7 @@ var profile = dom("div", null, dom("img", {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -428,7 +428,7 @@ var profile = dom("div", null, dom("img", {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(
@@ -458,7 +458,7 @@ var profile = dom("div", null, dom("img", {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -469,7 +469,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -482,7 +482,7 @@ test!(
     // Optimization is not implemented yet
     ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -546,7 +546,7 @@ function (_React$Component) {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| chain!(
@@ -569,7 +569,7 @@ var es3 = React.createElement(F, {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -584,7 +584,7 @@ React.createElement(Component, {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -595,7 +595,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -609,7 +609,7 @@ React.createElement("div", {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -620,7 +620,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -655,7 +655,7 @@ React.createElement("div", null, React.createElement(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -673,7 +673,7 @@ dom("div", null, "no fragment is used");
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -694,7 +694,7 @@ dom(DomFrag, null);
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -726,7 +726,7 @@ var x = React.createElement(Composite, null, React.createElement(Composite2, nul
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -737,7 +737,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -748,7 +748,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -774,7 +774,7 @@ React.createElement("div", {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -805,7 +805,7 @@ React.createElement("div", null, "w < w");
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -821,7 +821,7 @@ React.createElement("div", null, "this should not parse as unicode: \\u00a0");
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -836,7 +836,7 @@ test!(
     // FIXME
     ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -851,7 +851,7 @@ React.createElement("div", null, "this should parse as nbsp: \xa0 ");
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -887,7 +887,7 @@ React.render(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -898,7 +898,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -922,7 +922,7 @@ var x = React.createElement("div", null,
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -957,7 +957,7 @@ var x = React.createElement("div", {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -977,7 +977,7 @@ var e = React.createElement(F, {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -992,7 +992,7 @@ React.createElement("button", {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -1004,7 +1004,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -1017,7 +1017,7 @@ test!(
 test!(
     // Comments are currently stripped out
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -1048,7 +1048,7 @@ var x = React.createElement("div", {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -1063,7 +1063,7 @@ React.createElement("button", {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(
@@ -1084,7 +1084,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -1095,7 +1095,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -1114,7 +1114,7 @@ React.createElement(Component, _extends({}, x, {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -1130,7 +1130,7 @@ React.createElement(Component, _extends({
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -1146,7 +1146,7 @@ React.createElement(Component, _extends({
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
@@ -1160,7 +1160,7 @@ React.createElement(Component, {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(
@@ -1182,7 +1182,7 @@ var div = React.createElement(Component, Object.assign({}, props, {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(
@@ -1201,7 +1201,7 @@ React.createElement(Component, {y: 2, ...x, z: true});"#
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(
@@ -1221,7 +1221,7 @@ const b = React.createElement(\"div\", null, \"test\");"
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| {
@@ -1257,7 +1257,7 @@ _react.default.createElement(\"div\", null);"
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(
@@ -1276,7 +1276,7 @@ test!(
 // https://github.com/swc-project/swc/issues/517
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| {
@@ -1321,7 +1321,7 @@ fn jsx_text() {
 // https://github.com/swc-project/swc/issues/542
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| tr(
@@ -1343,7 +1343,7 @@ test!(
     // Module
     ignore,
     Syntax::Es(EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| {
@@ -1416,7 +1416,7 @@ exports.default = RandomComponent;
 
 test!(
     Syntax::Es(EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| {
@@ -1453,7 +1453,7 @@ fn fixture(input: PathBuf) {
 
     test_fixture_allowing_error(
         Syntax::Es(EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         &|t| {
@@ -1474,7 +1474,7 @@ fn integration(input: PathBuf) {
 
     test_fixture_allowing_error(
         Syntax::Es(EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         &|t| {

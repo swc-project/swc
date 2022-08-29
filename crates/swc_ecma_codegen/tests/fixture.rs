@@ -5,7 +5,7 @@ use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
     Emitter,
 };
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_module, JSXKind, Syntax, TsConfig};
 use testing::{run_test2, NormalizedOutput};
 
 fn run(input: &Path, minify: bool) {

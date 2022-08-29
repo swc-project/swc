@@ -8,7 +8,7 @@ use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
 use testing::DebugUsingDisplay;
 
-use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
+use self::swc_ecma_parser::{EsConfig, JSXKind, Parser, StringInput, Syntax};
 use super::*;
 use crate::{config::Config, text_writer::omit_trailing_semi};
 
@@ -516,7 +516,7 @@ fn jsx_1() {
         "<Foo title=\"name\" desc=\"<empty>\" bool it>foo</Foo>;",
         Default::default(),
         Syntax::Es(EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
     );

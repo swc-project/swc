@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 use swc_common::{chain, sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, JSXKind, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::{
     as_folder, visit_mut_obj_and_computed, Fold, FoldWith, VisitMut, VisitMutWith,
@@ -69,7 +69,7 @@ where
 fn test_resolver(input: PathBuf) {
     run(
         Syntax::Es(EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         &input,

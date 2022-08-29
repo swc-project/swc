@@ -7,7 +7,7 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, JSXKind, Parser, Syntax, TsConfig};
 use swc_ecma_visit::{Visit, VisitWith};
 use testing::{fixture, Tester};
 
@@ -24,7 +24,7 @@ fn test(input: PathBuf) {
             let fm = cm.load_file(&input).unwrap();
             let syntax = match &*ext {
                 "js" => Syntax::Es(EsConfig {
-                    jsx: false,
+                    jsx: JSXKind::Bool(false),
                     fn_bind: false,
                     decorators: true,
                     decorators_before_export: false,
@@ -33,7 +33,7 @@ fn test(input: PathBuf) {
                     ..Default::default()
                 }),
                 "ts" | "tsx" => Syntax::Typescript(TsConfig {
-                    tsx: ext == "tsx",
+                    tsx: JSXKind::Bool(ext == "tsx"),
                     decorators: true,
                     no_early_errors: true,
                     ..Default::default()

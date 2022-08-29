@@ -1342,7 +1342,7 @@ mod tests {
     use swc_ecma_visit::assert_eq_ignore_span;
 
     use super::*;
-    use crate::{EsConfig, TsConfig};
+    use crate::{EsConfig, JSXKind, TsConfig};
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, Syntax::default(), |p| p.parse_stmt(true))
@@ -1526,7 +1526,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             |p| p.parse_module(),
@@ -1545,7 +1545,7 @@ export default App"#;
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             |p| p.parse_module(),

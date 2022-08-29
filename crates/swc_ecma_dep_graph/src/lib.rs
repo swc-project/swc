@@ -375,7 +375,7 @@ mod tests {
         comments::{Comment, CommentKind, SingleThreadedComments},
         BytePos, FileName, Span, SyntaxContext,
     };
-    use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+    use swc_ecma_parser::{lexer::Lexer, JSXKind, Parser, StringInput, Syntax, TsConfig};
 
     use super::*;
 
@@ -391,9 +391,10 @@ mod tests {
             let lexer: Lexer<StringInput<'_>> = Lexer::new(
                 Syntax::Typescript(TsConfig {
                     dts: file_name.ends_with(".d.ts"),
-                    tsx: file_name.contains("tsx"),
+                    tsx: JSXKind::Bool(file_name.contains("tsx")),
                     decorators: true,
                     no_early_errors: true,
+                    ..Default::default()
                 }),
                 EsVersion::Es2015,
                 (&*fm).into(),

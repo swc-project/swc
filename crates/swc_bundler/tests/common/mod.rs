@@ -17,7 +17,7 @@ use swc_common::{
     FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_module, JSXKind, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
     helpers::{inject_helpers, Helpers, HELPERS},
     resolver,
@@ -118,7 +118,7 @@ impl Load for Loader {
             &fm,
             Syntax::Typescript(TsConfig {
                 decorators: true,
-                tsx,
+                tsx: JSXKind::Bool(tsx),
                 ..Default::default()
             }),
             EsVersion::Es2020,

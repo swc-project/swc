@@ -12,7 +12,7 @@ use swc_common::{
     Globals, Mark, SourceMap, GLOBALS,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, JSXKind, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
@@ -38,7 +38,7 @@ fn main() {
 
     let lexer = Lexer::new(
         Syntax::Typescript(TsConfig {
-            tsx: input.ends_with(".tsx"),
+            tsx: JSXKind::Bool(input.ends_with(".tsx")),
             ..Default::default()
         }),
         Default::default(),

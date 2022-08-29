@@ -16,7 +16,7 @@ use swc_common::{
     errors::{ColorConfig, Handler},
     FileName, FilePathMapping, SourceMap,
 };
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsConfig, JSXKind, Syntax};
 use swc_estree_compat::babelify::{Babelify, Context};
 use test::{test_main, DynTestFn, ShouldPanic, TestDesc, TestDescAndFn, TestName, TestType};
 use testing::{json::diff_json_value, DebugUsingDisplay};
@@ -80,7 +80,7 @@ fn fixtures() -> Result<(), Error> {
                     Syntax::Typescript(Default::default())
                 } else if is_jsx {
                     Syntax::Es(EsConfig {
-                        jsx: true,
+                        jsx: JSXKind::Bool(true),
                         ..Default::default()
                     })
                 } else {
@@ -112,7 +112,7 @@ fn fixtures() -> Result<(), Error> {
 //         .with_context(|| format!("Failed to open file: {}", &output_file))?;
 //     // run_test(input, output, Syntax::default(), false);
 //     // let syntax = Syntax::Es(EsConfig {
-//     //     jsx: false,
+//     //     jsx: JSXKind::Bool(false),
 //     //     ..Default::default()
 //     // });
 //     let syntax = Syntax::Typescript(Default::default());

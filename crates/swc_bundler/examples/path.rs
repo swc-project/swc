@@ -5,7 +5,7 @@ use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, ModuleData, ModuleRec
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
 use swc_ecma_ast::KeyValueProp;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
+use swc_ecma_parser::{parse_file_as_module, EsConfig, JSXKind, Syntax};
 
 fn main() {
     let _log = testing::init();

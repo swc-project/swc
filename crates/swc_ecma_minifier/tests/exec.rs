@@ -20,7 +20,7 @@ use swc_ecma_minifier::{
         MinifyOptions,
     },
 };
-use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
+use swc_ecma_parser::{parse_file_as_module, EsConfig, JSXKind, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
@@ -114,7 +114,7 @@ fn run(
     let program = parse_file_as_module(
         &fm,
         Syntax::Es(EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         Default::default(),

@@ -26,7 +26,7 @@ fn tr(t: &mut Tester) -> impl Fold {
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: JSXKind::Bool(true),
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -59,7 +59,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -112,7 +112,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -153,7 +153,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -181,7 +181,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -200,7 +200,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -246,7 +246,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -293,7 +293,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -338,7 +338,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -378,7 +378,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -389,7 +389,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -433,7 +433,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -458,7 +458,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -483,7 +483,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -509,7 +509,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -540,7 +540,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -618,7 +618,7 @@ test!(
 // Alias doesn't get registered because its definition is just an identifier.
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -703,7 +703,7 @@ test!(
 test!(
     ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -730,7 +730,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -766,7 +766,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -801,7 +801,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -865,7 +865,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -937,7 +937,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -967,7 +967,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -1046,7 +1046,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -1111,7 +1111,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
-        tsx: JSXKind::Bool(true),
+        tsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| {
@@ -1187,7 +1187,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -1247,7 +1247,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
-        tsx: JSXKind::Bool(true),
+        tsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -1295,7 +1295,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -1350,7 +1350,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -1377,7 +1377,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     |t| {
@@ -1428,7 +1428,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
-        tsx: JSXKind::Bool(true),
+        tsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,
@@ -1506,7 +1506,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     tr,

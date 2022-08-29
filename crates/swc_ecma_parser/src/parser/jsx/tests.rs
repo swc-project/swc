@@ -8,7 +8,7 @@ fn jsx(src: &'static str) -> Box<Expr> {
     test_parser(
         src,
         crate::Syntax::Es(crate::EsConfig {
-            jsx: true,
+            jsx: crate::JSXKind::Bool(true),
             ..Default::default()
         }),
         |p| p.parse_expr(),

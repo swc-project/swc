@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use swc_common::{chain, pass::Repeat, Mark};
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsConfig, JSXKind, Syntax};
 use swc_ecma_transforms_base::fixer::paren_remover;
 use swc_ecma_transforms_optimization::simplify::{dce::dce, expr_simplifier};
 use swc_ecma_transforms_testing::{test_fixture, Tester};
@@ -59,7 +59,7 @@ fn dce_jsx(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsConfig {
             decorators: true,
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         &|t| chain!(remover(t), dce(Default::default(), Mark::new())),

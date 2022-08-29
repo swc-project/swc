@@ -7,7 +7,7 @@ use swc_common::{
     comments::{Comment, CommentKind, Comments},
     BytePos, DUMMY_SP,
 };
-use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
+use swc_ecma_parser::{parse_file_as_module, EsConfig, JSXKind, Syntax};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixtures/**/*.js")]
@@ -22,7 +22,7 @@ fn fixture(path: PathBuf) {
         if let Err(err) = parse_file_as_module(
             &fm,
             Syntax::Es(EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             Default::default(),

@@ -220,7 +220,7 @@ fn issue_2264_2() {
         &c,
         s,
         Syntax::Es(EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         |p| p.parse_module(),

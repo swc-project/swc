@@ -9,7 +9,7 @@ use std::{
 use pretty_assertions::assert_eq;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, JSXKind, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
@@ -237,7 +237,7 @@ where
         let lexer = Lexer::new(
             Syntax::Typescript(TsConfig {
                 dts: fname.ends_with(".d.ts"),
-                tsx: fname.contains("tsx"),
+                tsx: JSXKind::Bool(fname.contains("tsx")),
                 decorators: true,
                 no_early_errors,
                 ..Default::default()

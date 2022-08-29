@@ -7,7 +7,7 @@ use std::{
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, JSXKind, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -171,7 +171,7 @@ fn identity(entry: PathBuf) {
 
         let mut parser: Parser<Lexer<StringInput>> = Parser::new(
             Syntax::Typescript(TsConfig {
-                tsx: file_name.contains("tsx"),
+                tsx: JSXKind::Bool(file_name.contains("tsx")),
                 decorators: true,
                 dts: false,
                 no_early_errors: false,
@@ -232,7 +232,7 @@ fn identity(entry: PathBuf) {
 
         let mut parser: Parser<Lexer<StringInput>> = Parser::new(
             Syntax::Es(EsConfig {
-                jsx: file_name.contains("tsx"),
+                jsx: JSXKind::Bool(file_name.contains("tsx")),
                 decorators: true,
                 decorators_before_export: true,
                 export_default_from: true,

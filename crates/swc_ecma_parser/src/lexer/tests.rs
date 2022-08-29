@@ -12,6 +12,7 @@ use super::{
 use crate::{
     error::{Error, SyntaxError},
     lexer::state::lex_errors,
+    JSXKind,
 };
 
 fn sp(r: Range<usize>) -> Span {
@@ -945,7 +946,7 @@ fn jsx_01() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<a />"
@@ -964,7 +965,7 @@ fn jsx_02() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<a>foo</a>"
@@ -987,7 +988,7 @@ fn jsx_03() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<a><br /></a>"
@@ -1015,7 +1016,7 @@ fn jsx_04() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "yield <a></a>"
@@ -1057,7 +1058,7 @@ fn issue_191() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "`${foo}<bar>`"
@@ -1085,7 +1086,7 @@ fn jsx_05() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<a>{}</a>"
@@ -1111,7 +1112,7 @@ fn issue_299_01() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='\\ '>ABC</Page>;"
@@ -1145,7 +1146,7 @@ fn issue_299_02() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='\\\\'>ABC</Page>;"
@@ -1179,7 +1180,7 @@ fn jsx_string_1() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='abc'>ABC</Page>;"
@@ -1213,7 +1214,7 @@ fn jsx_string_2() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num=\"abc\">ABC</Page>;"
@@ -1247,7 +1248,7 @@ fn jsx_string_3() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='\n'>ABC</Page>;"
@@ -1281,7 +1282,7 @@ fn jsx_string_4() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='&sup3;'>ABC</Page>;"
@@ -1315,7 +1316,7 @@ fn jsx_string_5() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='&#42;'>ABC</Page>;"
@@ -1349,7 +1350,7 @@ fn jsx_string_6() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='&#x23;'>ABC</Page>;"
@@ -1383,7 +1384,7 @@ fn jsx_string_7() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='&'>ABC</Page>;"
@@ -1417,7 +1418,7 @@ fn jsx_string_8() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='&;'>ABC</Page>;"
@@ -1451,7 +1452,7 @@ fn jsx_string_9() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<Page num='&&'>ABC</Page>;"
@@ -1511,7 +1512,7 @@ fn issue_481() {
     assert_eq!(
         lex_tokens(
             crate::Syntax::Es(crate::EsConfig {
-                jsx: true,
+                jsx: JSXKind::Bool(true),
                 ..Default::default()
             }),
             "<span> {foo}</span>"
@@ -1857,7 +1858,7 @@ fn issue_2853_4_ts() {
 fn issue_2853_5_jsx() {
     let (tokens, errors) = lex_errors(
         crate::Syntax::Es(crate::EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         "const a = \"\\0a\"",
@@ -1907,7 +1908,7 @@ fn issue_2853_6_tsx() {
 fn issue_2853_7_jsx() {
     let (tokens, errors) = lex_errors(
         crate::Syntax::Es(crate::EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         "const a = \"\u{0000}a\"",

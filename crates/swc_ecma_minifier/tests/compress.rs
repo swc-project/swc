@@ -33,7 +33,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
-    EsConfig, Parser, Syntax,
+    EsConfig, JSXKind, Parser, Syntax,
 };
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
@@ -180,7 +180,7 @@ fn run(
 
     let lexer = Lexer::new(
         Syntax::Es(EsConfig {
-            jsx: true,
+            jsx: JSXKind::Bool(true),
             ..Default::default()
         }),
         Default::default(),

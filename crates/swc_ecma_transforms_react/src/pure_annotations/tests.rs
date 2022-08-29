@@ -12,7 +12,7 @@ fn parse(
     src: &str,
 ) -> Result<(Module, Lrc<SourceMap>, Lrc<SingleThreadedComments>), ()> {
     let syntax = ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     });
     let source_map = Lrc::new(SourceMap::default());

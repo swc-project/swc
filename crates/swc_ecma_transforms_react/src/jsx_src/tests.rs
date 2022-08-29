@@ -11,7 +11,7 @@ fn tr() -> impl Fold {
 test_exec!(
     ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: ::swc_ecma_parser::JSXKind::Bool(true),
         ..Default::default()
     }),
     |_| tr(),
@@ -36,7 +36,7 @@ expect(actual).toBe(expected);
 
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |_| tr(),
@@ -48,7 +48,7 @@ test!(
 test_exec!(
     ignore,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-        jsx: true,
+        jsx: JSXKind::Bool(true),
         ..Default::default()
     }),
     |_| tr(),
