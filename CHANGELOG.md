@@ -49,6 +49,9 @@
 
 - **(es/transforms)** Enable tests for resolved issues (#5651) ([efd6a36](https://github.com/swc-project/swc/commit/efd6a3603c280a12a76eb14994cb0caa0ef38479))
 
+
+- **(es/transforms)** Add tests for fixed issues (#5655) ([2cddb24](https://github.com/swc-project/swc/commit/2cddb240c96790ef4c04b3d2bd3432d8d9c25a11))
+
 ## [1.2.244] - 2022-08-26
 
 ### Bug Fixes
