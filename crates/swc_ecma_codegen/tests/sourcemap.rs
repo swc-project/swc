@@ -6,6 +6,7 @@ use std::{
     process::{Command, Stdio},
 };
 
+use rustc_hash::FxHashSet;
 use sourcemap::SourceMap;
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::EsVersion;
@@ -102,8 +103,7 @@ fn identity(entry: PathBuf) {
         );
         let (expected_code, expected_map) = get_expected(&fm.src, is_module);
         println!("Expected code:\n{}", expected_code);
-        eprintln!("---- Expected ----");
-        print_map(&expected_map);
+        let expected_tokens = print_source_map(&expected_map);
 
         let comments = SingleThreadedComments::default();
         let lexer = Lexer::new(
@@ -158,8 +158,32 @@ fn identity(entry: PathBuf) {
         }
 
         let actual_map = cm.build_source_map(&mut src_map);
-        eprintln!("---- Actual ----");
-        print_map(&actual_map);
+        let actual_tokens = print_source_map(&actual_map);
+
+        let common_tokens = actual_tokens
+            .iter()
+            .filter(|a| expected_tokens.contains(&**a))
+            .map(|v| v.to_string())
+            .collect::<FxHashSet<_>>();
+
+        let actual_tokens_diff = actual_tokens
+            .iter()
+            .filter(|a| !common_tokens.contains(&**a))
+            .map(|v| v.to_string())
+            .collect::<Vec<_>>();
+        let expected_tokens_diff = expected_tokens
+            .iter()
+            .filter(|a| !common_tokens.contains(&**a))
+            .map(|v| v.to_string())
+            .collect::<Vec<_>>();
+        eprintln!("---- Actual -----");
+        for s in actual_tokens_diff {
+            eprintln!("{}", s);
+        }
+        eprintln!("---- Expected -----");
+        for s in expected_tokens_diff {
+            eprintln!("{}", s);
+        }
 
         dbg!(&src_map);
 
@@ -201,16 +225,18 @@ fn get_expected(code: &str, is_module: bool) -> (String, SourceMap) {
     (code.to_string(), map)
 }
 
-fn print_map(map: &SourceMap) {
-    for t in map.tokens() {
-        eprintln!(
-            "Token: {}:{} => {}:{}",
-            t.get_src_line(),
-            t.get_src_col(),
-            t.get_dst_line(),
-            t.get_dst_col()
-        );
-    }
+fn print_source_map(map: &SourceMap) -> Vec<String> {
+    map.tokens()
+        .map(|t| {
+            format!(
+                "Token: {}:{} => {}:{}",
+                t.get_src_line(),
+                t.get_src_col(),
+                t.get_dst_line(),
+                t.get_dst_col()
+            )
+        })
+        .collect()
 }
 
 fn assert_eq_same_map(expected: &SourceMap, actual: &SourceMap) {
