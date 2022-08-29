@@ -128,7 +128,7 @@ fn identity(entry: PathBuf) {
                 cfg: swc_ecma_codegen::Config {
                     minify: true,
                     target: EsVersion::Es5,
-                    ..Default::default()
+                    ascii_only: true,
                 },
                 cm: cm.clone(),
                 wr,
