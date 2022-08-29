@@ -153,12 +153,18 @@ fn identity(entry: PathBuf) {
                     .unwrap();
             }
         }
-        wr.push(b';');
 
         let map = cm.build_source_map(&mut src_map);
 
         let actual_code = String::from_utf8(wr).unwrap();
-        assert_eq!(actual_code, expected_code);
+
+        if actual_code != expected_code && format!("{};", actual_code) != expected_code {
+            // Generated code is different
+            eprintln!("Actual code:\n{}", actual_code);
+            eprintln!("Expected code:\n{}", expected_code);
+            return Ok(());
+        }
+
         assert_eq_same_map(&map, &expected_map);
         Ok(())
     })
