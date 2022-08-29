@@ -74,17 +74,13 @@ impl<'a, W: Write> JsWriter<'a, W> {
             }
 
             if let Some(span) = span {
-                if !span.is_dummy() {
-                    self.srcmap(span.lo())
-                }
+                self.srcmap(span.lo());
             }
 
             self.raw_write(data)?;
 
             if let Some(span) = span {
-                if !span.is_dummy() {
-                    self.srcmap(span.hi())
-                }
+                self.srcmap(span.hi());
             }
         }
 
@@ -92,7 +88,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     fn srcmap(&mut self, byte_pos: BytePos) {
-        if byte_pos.is_dummy() {
+        if byte_pos.is_dummy() && byte_pos != BytePos(u32::MAX) {
             return;
         }
 
@@ -170,9 +166,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
 
     fn write_lit(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
-            if !span.is_dummy() {
-                self.srcmap(span.lo())
-            }
+            self.srcmap(span.lo());
 
             self.write(None, s)?;
 
@@ -185,9 +179,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
                 }
             }
 
-            if !span.is_dummy() {
-                self.srcmap(span.hi())
-            }
+            self.srcmap(span.hi());
         }
 
         Ok(())
@@ -210,10 +202,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
 
     fn write_str_lit(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
-            if !span.is_dummy() {
-                self.srcmap(span.lo())
-            }
-
+            self.srcmap(span.lo());
             self.write(None, s)?;
 
             if self.srcmap.is_some() {
@@ -225,9 +214,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
                 }
             }
 
-            if !span.is_dummy() {
-                self.srcmap(span.hi())
-            }
+            self.srcmap(span.hi());
         }
 
         Ok(())
