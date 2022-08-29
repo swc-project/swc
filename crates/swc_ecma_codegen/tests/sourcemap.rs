@@ -162,7 +162,7 @@ fn identity(entry: PathBuf) {
             // Generated code is different
             eprintln!("Actual code:\n{}", actual_code);
             eprintln!("Expected code:\n{}", expected_code);
-            return Ok(());
+            panic!("Generated code is different");
         }
 
         assert_eq_same_map(&map, &expected_map);
