@@ -156,6 +156,7 @@ fn identity(entry: PathBuf) {
             }
         }
 
+        dbg!(&src_map);
         let actual_map = cm.build_source_map(&mut src_map);
         eprintln!("---- Actual ----");
         print_map(&actual_map);
