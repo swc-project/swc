@@ -246,6 +246,15 @@ impl BlockScoping {
             }
             .into();
 
+            if flow_helper.has_yield {
+                call = YieldExpr {
+                    span: DUMMY_SP,
+                    arg: Some(call.into()),
+                    delegate: true,
+                }
+                .into();
+            }
+
             if flow_helper.has_return || flow_helper.has_break || !flow_helper.label.is_empty() {
                 let ret = private_ident!("_ret");
 
