@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
 }), Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
-        return o;
+        return c;
     }
 });
-var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@swc/helpers/lib/_inherits.js").default, r = require("@swc/helpers/lib/_interop_require_wildcard.js").default, i = require("@swc/helpers/lib/_object_spread.js").default, n = require("@swc/helpers/lib/_object_spread_props.js").default, s = require("@swc/helpers/lib/_create_super.js").default, l = require("react/jsx-runtime"), c = r(require("react")), o = function(r) {
+var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@swc/helpers/lib/_inherits.js").default, r = require("@swc/helpers/lib/_interop_require_wildcard.js").default, i = require("@swc/helpers/lib/_object_spread.js").default, n = require("@swc/helpers/lib/_object_spread_props.js").default, s = require("@swc/helpers/lib/_create_super.js").default, l = require("react/jsx-runtime"), c = function(r) {
     "use strict";
     t(o, r);
     var c = s(o);
@@ -46,9 +46,9 @@ var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@
             })
         }));
     }, o;
-}(c.Component);
-o.propTypes = {
+}(r(require("react")).Component);
+c.propTypes = {
     items: 500
-}, o.defaultProps = {
+}, c.defaultProps = {
     sectionIndex: null
-}, new o();
+}, new c();

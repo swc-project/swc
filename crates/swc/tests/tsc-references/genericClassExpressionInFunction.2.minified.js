@@ -39,15 +39,7 @@ var A = function A() {
         return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C;
-}(new B2().anon), b3Number = function(A) {
-    "use strict";
-    _inherits(Inner, A);
-    var _super = _create_super(Inner);
-    function Inner() {
-        return _class_call_check(this, Inner), _super.apply(this, arguments);
-    }
-    return Inner;
-}(A), S = function(b3Number) {
+}(new B2().anon), S = function(b3Number) {
     "use strict";
     _inherits(S, b3Number);
     var _super = _create_super(S);
@@ -55,5 +47,13 @@ var A = function A() {
         return _class_call_check(this, S), _super.apply(this, arguments);
     }
     return S;
-}(b3Number), c = new C(), k = new K(), s = new S();
+}(function(A) {
+    "use strict";
+    _inherits(Inner, A);
+    var _super = _create_super(Inner);
+    function Inner() {
+        return _class_call_check(this, Inner), _super.apply(this, arguments);
+    }
+    return Inner;
+}(A)), c = new C(), k = new K(), s = new S();
 c.genericVar = 12, k.genericVar = 12, s.genericVar = 12;

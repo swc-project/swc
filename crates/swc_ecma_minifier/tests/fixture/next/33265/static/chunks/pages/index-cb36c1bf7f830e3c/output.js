@@ -57,22 +57,22 @@
                 BigInt("0x10000000000000000"), 
             ], bytesToNumber = (a = new Uint16Array([
                 0xffcc
-            ]), b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength), 0xff === b[0] || b[0], function(bytes, _temp) {
+            ]), 0xff === (b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength))[0] || b[0], function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
-                var fn = le ? "reduce" : "reduceRight", obj = bytes[fn] ? bytes[fn] : Array.prototype[fn], number = obj.call(bytes, function(total, byte, i) {
+                var fn = le ? "reduce" : "reduceRight", number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
                     var exponent = le ? i : Math.abs(i + 1 - bytes.length);
                     return total + BigInt(byte) * BYTE_TABLE[exponent];
                 }, BigInt(0));
                 if (void 0 !== _ref$signed && _ref$signed) {
                     var max = BYTE_TABLE[bytes.length] / BigInt(2) - BigInt(1);
-                    number = BigInt(number), number > max && (number -= max, number -= max, number -= BigInt(2));
+                    (number = BigInt(number)) > max && (number -= max, number -= max, number -= BigInt(2));
                 }
                 return Number(number);
             }), numberToBytes = function(number, _temp2) {
-                var x, _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
+                var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
                 ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
-                for(var byteCount = (x = number, Math.ceil(x.toString(2).length / 8)), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
@@ -92,9 +92,9 @@
                 return view;
             }, concatTypedArrays = function() {
                 for(var _len = arguments.length, buffers = Array(_len), _key = 0; _key < _len; _key++)buffers[_key] = arguments[_key];
-                if (buffers = buffers.filter(function(b) {
+                if ((buffers = buffers.filter(function(b) {
                     return b && (b.byteLength || b.length) && "string" != typeof b;
-                }), buffers.length <= 1) return toUint8(buffers[0]);
+                })).length <= 1) return toUint8(buffers[0]);
                 var totalLen = buffers.reduce(function(total, buf, i) {
                     return total + (buf.byteLength || buf.length);
                 }, 0), tempBuffer = new Uint8Array(totalLen), offset = 0;
@@ -103,8 +103,8 @@
                 }), tempBuffer;
             }, bytesMatch = function(a, b, _temp3) {
                 var _ref3 = void 0 === _temp3 ? {} : _temp3, _ref3$offset = _ref3.offset, offset = void 0 === _ref3$offset ? 0 : _ref3$offset, _ref3$mask = _ref3.mask, mask = void 0 === _ref3$mask ? [] : _ref3$mask;
-                a = toUint8(a), b = toUint8(b);
-                var fn = b.every ? b.every : Array.prototype.every;
+                a = toUint8(a);
+                var fn = (b = toUint8(b)).every ? b.every : Array.prototype.every;
                 return b.length && a.length - offset >= b.length && fn.call(b, function(bByte, i) {
                     return bByte === (mask[i] ? mask[i] & a[offset + i] : a[offset + i]);
                 });
@@ -161,8 +161,7 @@
                 "Text"
             ], translateLegacyCodec = function(codec) {
                 return codec ? codec.replace(/avc1\.(\d+)\.(\d+)/i, function(orig, profile, avcLevel) {
-                    var profileHex = ("00" + Number(profile).toString(16)).slice(-2), avcLevelHex = ("00" + Number(avcLevel).toString(16)).slice(-2);
-                    return "avc1." + profileHex + "00" + avcLevelHex;
+                    return "avc1." + ("00" + Number(profile).toString(16)).slice(-2) + "00" + ("00" + Number(avcLevel).toString(16)).slice(-2);
                 }) : codec;
             }, parseCodecs = function(codecString) {
                 void 0 === codecString && (codecString = "");
@@ -462,15 +461,13 @@
                 }) : [
                     ebml_helpers_normalizePath(paths1)
                 ], bytes = (0, byte_helpers.Ki)(bytes);
-                var paths1, results = [];
+                var results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
                     0x7f === dataHeader.value && (dataHeader.value = getInfinityDataSize(id, bytes, dataStart), dataHeader.value !== bytes.length && (dataHeader.value -= dataStart));
-                    var dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value, data = bytes.subarray(dataStart, dataEnd);
-                    (0, byte_helpers.G3)(paths[0], id.bytes) && (1 === paths.length ? results.push(data) : results = results.concat(findEbml(data, paths.slice(1))));
-                    var totalLength = id.length + dataHeader.length + data.length;
-                    i += totalLength;
+                    var paths1, dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value, data = bytes.subarray(dataStart, dataEnd);
+                    (0, byte_helpers.G3)(paths[0], id.bytes) && (1 === paths.length ? results.push(data) : results = results.concat(findEbml(data, paths.slice(1)))), i += id.length + dataHeader.length + data.length;
                 }
                 return results;
             }, id3_helpers = __webpack_require__(8925), NAL_TYPE_ONE = (0, byte_helpers.Ki)([
@@ -853,9 +850,9 @@
                 }
                 function loadFunc() {
                     if (!aborted) {
-                        clearTimeout(timeoutTimer), status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status;
+                        clearTimeout(timeoutTimer);
                         var status, response = failureResponse, err = null;
-                        return 0 !== status ? (response = {
+                        return 0 !== (status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status) ? (response = {
                             body: function() {
                                 var body = void 0;
                                 if (body = xhr.response ? xhr.response : xhr.responseText || getXml(xhr), isJson) try {
@@ -1645,8 +1642,7 @@
                     this.replaceData(offset, count, "");
                 },
                 replaceData: function(offset, count, text) {
-                    var start = this.data.substring(0, offset), end = this.data.substring(offset + count);
-                    text = start + text + end, this.nodeValue = this.data = text, this.length = text.length;
+                    text = this.data.substring(0, offset) + text + this.data.substring(offset + count), this.nodeValue = this.data = text, this.length = text.length;
                 }
             }, _extends(CharacterData, Node), Text.prototype = {
                 nodeName: "#text",
@@ -2131,12 +2127,8 @@
                     var domBuilder = this.domBuilder;
                     domBuilder.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
-                            var k = a.slice(1, -1);
-                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? function(code) {
-                                if (!(code > 0xffff)) return String.fromCharCode(code);
-                                var surrogate1 = 0xd800 + ((code -= 0x10000) >> 10), surrogate2 = 0xdc00 + (0x3ff & code);
-                                return String.fromCharCode(surrogate1, surrogate2);
-                            }(parseInt(k.substr(1).replace("x", "0x"))) : (errorHandler.error("entity not found:" + a), a);
+                            var code, k = a.slice(1, -1);
+                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code) : (errorHandler.error("entity not found:" + a), a);
                         }
                         function appendText(end) {
                             if (end > start) {
@@ -2166,8 +2158,8 @@
                                     case "/":
                                         var end = source.indexOf(">", tagStart + 3), tagName = source.substring(tagStart + 2, end).replace(/[ \t\n\r]+$/g, ""), config = parseStack.pop();
                                         end < 0 ? (tagName = source.substring(tagStart + 2).replace(/[\s<].*/, ""), errorHandler.error("end tag name: " + tagName + " is not complete:" + config.tagName), end = tagStart + 1 + tagName.length) : tagName.match(/\s</) && (tagName = tagName.replace(/[\s<].*/, ""), errorHandler.error("end tag name: " + tagName + " maybe not complete"), end = tagStart + 1 + tagName.length);
-                                        var localNSMap = config.localNSMap, endMatch = config.tagName == tagName, endIgnoreCaseMach = endMatch || config.tagName && config.tagName.toLowerCase() == tagName.toLowerCase();
-                                        if (endIgnoreCaseMach) {
+                                        var localNSMap = config.localNSMap, endMatch = config.tagName == tagName;
+                                        if (endMatch || config.tagName && config.tagName.toLowerCase() == tagName.toLowerCase()) {
                                             if (domBuilder.endElement(config.uri, config.localName, tagName), localNSMap) for(var prefix in localNSMap)domBuilder.endPrefixMapping(prefix);
                                             endMatch || errorHandler.fatalError("end tag name: " + tagName + " is not match the current start tagName:" + config.tagName);
                                         } else parseStack.push(config);
@@ -2389,7 +2381,7 @@
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ""), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
             }, parseAttributes = function(attributes) {
-                for(var attr, attrs = attributes.split(RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)"" !== attrs[i] && (attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1), attr[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
+                for(var attr, attrs = attributes.split(RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)"" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
                 return result;
             }, ParseStream = function(_Stream) {
                 function ParseStream() {
@@ -3073,7 +3065,7 @@
                     };
                 }
             }, parseByDuration = function(attributes) {
-                var attributes1, type = attributes.type, duration = attributes.duration, _attributes$timescale4 = attributes.timescale, periodDuration = attributes.periodDuration, sourceDuration = attributes.sourceDuration, _segmentRange$type = segmentRange[type](attributes), start = _segmentRange$type.start, end = _segmentRange$type.end, segments = range(start, end).map((attributes1 = attributes, function(number, index) {
+                var attributes1, type = attributes.type, duration = attributes.duration, _attributes$timescale4 = attributes.timescale, periodDuration = attributes.periodDuration, sourceDuration = attributes.sourceDuration, _segmentRange$type = segmentRange[type](attributes), segments = range(_segmentRange$type.start, _segmentRange$type.end).map((attributes1 = attributes, function(number, index) {
                     var duration = attributes1.duration, _attributes$timescale3 = attributes1.timescale, periodIndex = attributes1.periodIndex, _attributes$startNumb = attributes1.startNumber;
                     return {
                         number: (void 0 === _attributes$startNumb ? 1 : _attributes$startNumb) + number,
@@ -3110,14 +3102,14 @@
                 for(var initSegment = playlist.sidx.map ? playlist.sidx.map : null, sourceDuration = playlist.sidx.duration, timeline = playlist.timeline || 0, sidxByteRange = playlist.sidx.byterange, sidxEnd = sidxByteRange.offset + sidxByteRange.length, timescale = sidx.timescale, mediaReferences = sidx.references.filter(function(r) {
                     return 1 !== r.referenceType;
                 }), segments = [], type = playlist.endList ? "static" : "dynamic", startIndex = sidxEnd + sidx.firstOffset, i = 0; i < mediaReferences.length; i++){
-                    var reference = sidx.references[i], size = reference.referencedSize, duration = reference.subsegmentDuration, endIndex = startIndex + size - 1, indexRange = startIndex + "-" + endIndex, attributes = {
+                    var reference = sidx.references[i], size = reference.referencedSize, duration = reference.subsegmentDuration, endIndex = startIndex + size - 1, attributes = {
                         baseUrl: baseUrl,
                         timescale: timescale,
                         timeline: timeline,
                         periodIndex: timeline,
                         duration: duration,
                         sourceDuration: sourceDuration,
-                        indexRange: indexRange,
+                        indexRange: startIndex + "-" + endIndex,
                         type: type
                     }, segment = segmentsFromBase(attributes)[0];
                     initSegment && (segment.map = initSegment), segments.push(segment), startIndex += size;
@@ -3197,13 +3189,9 @@
                         uri: ""
                     });
                     var formatted = addSidxSegmentsToPlaylist$1(formatAudioPlaylist(playlist, isAudioOnly), sidxMapping);
-                    return a[label].playlists.push(formatted), void 0 === mainPlaylist && "main" === role && (mainPlaylist = playlist, mainPlaylist.default = !0), a;
+                    return a[label].playlists.push(formatted), void 0 === mainPlaylist && "main" === role && ((mainPlaylist = playlist).default = !0), a;
                 }, {});
-                if (!mainPlaylist) {
-                    var firstLabel = Object.keys(formattedPlaylists)[0];
-                    formattedPlaylists[firstLabel].default = !0;
-                }
-                return formattedPlaylists;
+                return mainPlaylist || (formattedPlaylists[Object.keys(formattedPlaylists)[0]].default = !0), formattedPlaylists;
             }, formatVideoPlaylist = function(_ref3) {
                 var _attributes2, attributes = _ref3.attributes, segments = _ref3.segments, sidx = _ref3.sidx, playlist = {
                     attributes: ((_attributes2 = {
@@ -3254,7 +3242,7 @@
                 };
                 minimumUpdatePeriod >= 0 && (manifest.minimumUpdatePeriod = 1000 * minimumUpdatePeriod), locations && (manifest.locations = locations), "dynamic" === type && (manifest.suggestedPresentationDelay = suggestedPresentationDelay);
                 var isAudioOnly = 0 === manifest.playlists.length;
-                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (playlists = vttPlaylists, sidxMapping1 = sidxMapping, void 0 === sidxMapping1 && (sidxMapping1 = {}), playlists.reduce(function(a, playlist) {
+                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (playlists = vttPlaylists, void 0 === (sidxMapping1 = sidxMapping) && (sidxMapping1 = {}), playlists.reduce(function(a, playlist) {
                     var label = playlist.attributes.lang || "text";
                     return a[label] || (a[label] = {
                         language: label,
@@ -3313,17 +3301,18 @@
                     baseUrl: attributes.baseUrl,
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
-                }), segments = (attributes1 = attributes, segmentTimeline1 = segmentTimeline, attributes1.duration || segmentTimeline1 ? attributes1.duration ? parseByDuration(attributes1) : parseByTimeline(attributes1, segmentTimeline1) : [
+                });
+                return (attributes1 = attributes, segmentTimeline1 = segmentTimeline, attributes1.duration || segmentTimeline1 ? attributes1.duration ? parseByDuration(attributes1) : parseByTimeline(attributes1, segmentTimeline1) : [
                     {
                         number: attributes1.startNumber || 1,
                         duration: attributes1.sourceDuration,
                         time: 0,
                         timeline: attributes1.periodIndex
                     }, 
-                ]);
-                return segments.map(function(segment) {
+                ]).map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
-                    var uri = constructTemplateUrl(attributes.media || "", templateValues), timescale = attributes.timescale || 1, presentationTimeOffset = attributes.presentationTimeOffset || 0, presentationTime = attributes.periodStart + (segment.time - presentationTimeOffset) / timescale, map = {
+                    var uri = constructTemplateUrl(attributes.media || "", templateValues), timescale = attributes.timescale || 1, presentationTimeOffset = attributes.presentationTimeOffset || 0, presentationTime = attributes.periodStart + (segment.time - presentationTimeOffset) / timescale;
+                    return {
                         uri: uri,
                         timeline: segment.timeline,
                         duration: segment.duration,
@@ -3332,7 +3321,6 @@
                         number: segment.number,
                         presentationTime: presentationTime
                     };
-                    return map;
                 });
             }, SegmentURLToSegmentObject = function(attributes, segmentUrl) {
                 var baseUrl = attributes.baseUrl, _attributes$initializ = attributes.initialization, initialization = void 0 === _attributes$initializ ? {} : _attributes$initializ, initSegment = urlTypeToSegment({
@@ -3549,13 +3537,10 @@
                                 captionServices: captionServices
                             }));
                             var label = findChildren(adaptationSet, "Label")[0];
-                            if (label && label.childNodes.length) {
-                                var labelVal = label.childNodes[0].nodeValue.trim();
-                                attrs = merge(attrs, {
-                                    label: labelVal
-                                });
-                            }
-                            var contentProtectionNodes, contentProtection = (contentProtectionNodes = findChildren(adaptationSet, "ContentProtection"), contentProtectionNodes.reduce(function(acc, node) {
+                            label && label.childNodes.length && (attrs = merge(attrs, {
+                                label: label.childNodes[0].nodeValue.trim()
+                            }));
+                            var contentProtection = findChildren(adaptationSet, "ContentProtection").reduce(function(acc, node) {
                                 var attributes = parseAttributes(node), keySystem = keySystemsMap[attributes.schemeIdUri];
                                 if (keySystem) {
                                     acc[keySystem] = {
@@ -3568,7 +3553,7 @@
                                     }
                                 }
                                 return acc;
-                            }, {}));
+                            }, {});
                             Object.keys(contentProtection).length && (attrs = merge(attrs, {
                                 contentProtection: contentProtection
                             }));
@@ -3620,7 +3605,7 @@
                 return attributes;
             }, parse = function(manifestString, options) {
                 void 0 === options && (options = {});
-                var representations, parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = (representations = parsedManifestInfo.representationInfo, representations.map(generateSegments));
+                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = (0, parsedManifestInfo.representationInfo).map(generateSegments);
                 return toM3u8(playlists, parsedManifestInfo.locations, options.sidxMapping);
             }, parseUTCTiming = function(manifestString) {
                 return parseUTCTimingScheme(stringToMpdXml(manifestString));
@@ -3693,7 +3678,7 @@
             });
             var jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), Home_module = __webpack_require__(214), Home_module_default = __webpack_require__.n(Home_module), video_es = __webpack_require__(5215);
             __webpack_require__(3512);
-            var VideoJS = function(props) {
+            var components_VideoJS = function(props) {
                 var videoRef = react.useRef(null), playerRef = react.useRef(null), options = props.options, onReady = props.onReady;
                 return react.useEffect(function() {
                     if (!playerRef.current) {
@@ -3720,7 +3705,7 @@
                         className: "video-js vjs-big-play-centered"
                     })
                 });
-            }, components_VideoJS = VideoJS;
+            };
             function Home() {
                 var playerRef = (0, react.useRef)(null), handlePlayerReady = function(player) {
                     playerRef.current = player, player.on("waiting", function() {
@@ -3877,10 +3862,7 @@
                 ];
                 for(var i in groups)if ("string" == typeof groups[i]) {
                     var kv = groups[i].split(keyValueDelim);
-                    if (2 === kv.length) {
-                        var k = kv[0], v = kv[1];
-                        callback(k, v);
-                    }
+                    2 === kv.length && callback(kv[0], kv[1]);
                 }
             }
             function parseCue(input, cue, regionList) {
@@ -4000,7 +3982,7 @@
                     /^-?\d+$/.test(v) && this.set(k, parseInt(v, 10));
                 },
                 percent: function(k, v) {
-                    return !!v.match(/^([\d]{1,3})(\.[\d]*)?%$/) && (v = parseFloat(v), v >= 0 && v <= 100) && (this.set(k, v), !0);
+                    return !!(v.match(/^([\d]{1,3})(\.[\d]*)?%$/) && (v = parseFloat(v)) >= 0 && v <= 100) && (this.set(k, v), !0);
                 }
             };
             var TEXTAREA_ELEMENT = document1.createElement && document1.createElement("textarea"), TAG_NAME = {
@@ -4692,8 +4674,7 @@
                         return this.bottom > container.bottom;
                 }
             }, BoxPosition.prototype.intersectPercentage = function(b2) {
-                var x = Math.max(0, Math.min(this.right, b2.right) - Math.max(this.left, b2.left)), y = Math.max(0, Math.min(this.bottom, b2.bottom) - Math.max(this.top, b2.top));
-                return x * y / (this.height * this.width);
+                return Math.max(0, Math.min(this.right, b2.right) - Math.max(this.left, b2.left)) * Math.max(0, Math.min(this.bottom, b2.bottom) - Math.max(this.top, b2.top)) / (this.height * this.width);
             }, BoxPosition.prototype.toCSSCompatValues = function(reference) {
                 return {
                     top: this.top - reference.top,
@@ -4705,16 +4686,14 @@
                 };
             }, BoxPosition.getSimpleBoxPosition = function(obj) {
                 var height = obj.div ? obj.div.offsetHeight : obj.tagName ? obj.offsetHeight : 0, width = obj.div ? obj.div.offsetWidth : obj.tagName ? obj.offsetWidth : 0, top = obj.div ? obj.div.offsetTop : obj.tagName ? obj.offsetTop : 0;
-                obj = obj.div ? obj.div.getBoundingClientRect() : obj.tagName ? obj.getBoundingClientRect() : obj;
-                var ret = {
-                    left: obj.left,
+                return {
+                    left: (obj = obj.div ? obj.div.getBoundingClientRect() : obj.tagName ? obj.getBoundingClientRect() : obj).left,
                     right: obj.right,
                     top: obj.top || top,
                     height: obj.height || height,
                     bottom: obj.bottom || top + (obj.height || height),
                     width: obj.width || width
                 };
-                return ret;
             }, WebVTT1.StringDecoder = function() {
                 return {
                     decode: function(data) {
@@ -5211,7 +5190,7 @@
                 var buf;
                 if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
                 if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
-                return buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Object.setPrototypeOf(buf, Buffer.prototype), buf;
+                return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
             }
             function fromObject(obj) {
                 if (Buffer.isBuffer(obj)) {
@@ -5329,7 +5308,7 @@
                 length > strLen / 2 && (length = strLen / 2);
                 for(var i = 0; i < length; ++i){
                     var obj, parsed = parseInt(string.substr(2 * i, 2), 16);
-                    if (obj = parsed, obj != obj) break;
+                    if ((obj = parsed) != obj) break;
                     buf[offset + i] = parsed;
                 }
                 return i;
@@ -5747,7 +5726,7 @@
                 return byteArray;
             }
             function utf16leToBytes(str, units) {
-                for(var c, hi, lo, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, lo = c % 256, byteArray.push(lo), byteArray.push(hi);
+                for(var c, hi, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
                 return byteArray;
             }
             function base64ToBytes(str) {

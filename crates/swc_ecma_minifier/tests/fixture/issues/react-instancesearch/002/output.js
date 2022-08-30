@@ -75,10 +75,10 @@ export default function createInstantSearchManager({ indexName , initialState ={
     const store = createStore({
         widgets: initialState,
         metadata: hydrateMetadata(resultsState),
-        results: (results = resultsState, results ? Array.isArray(results.results) ? results.results.reduce((acc, result)=>({
+        results: (results = resultsState) ? Array.isArray(results.results) ? results.results.reduce((acc, result)=>({
                 ...acc,
                 [result._internalIndexId]: new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)
-            }), {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults) : null),
+            }), {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,

@@ -135,6 +135,7 @@ collapse_vars/collapse_vars_array/input.js
 collapse_vars/collapse_vars_closures/input.js
 collapse_vars/collapse_vars_eval_and_with/input.js
 collapse_vars/collapse_vars_issue_721/input.js
+collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_properties/input.js
 collapse_vars/collapse_vars_regexp/input.js
 collapse_vars/collapse_vars_seq/input.js

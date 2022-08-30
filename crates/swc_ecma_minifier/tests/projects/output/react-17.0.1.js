@@ -137,7 +137,7 @@
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
                 var outerType, innerType, functionName, wrapperName = "ForwardRef";
-                return outerType = type, innerType = type.render, functionName = innerType.displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                return outerType = type, functionName = (innerType = type.render).displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:
@@ -294,7 +294,7 @@
                 return 1;
             }
             var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
-            if (Array.isArray(children)) for(var i = 0; i < children.length; i++)child = children[i], nextName = nextNamePrefix + getElementKey(child, i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
+            if (Array.isArray(children)) for(var i = 0; i < children.length; i++)nextName = nextNamePrefix + getElementKey(child = children[i], i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
             else {
                 var iteratorFn = getIteratorFn(children);
                 if ("function" == typeof iteratorFn) {
@@ -578,15 +578,9 @@
     function createElementWithValidation(type, props, children) {
         var validType = isValidElementType(type);
         if (!validType) {
-            var typeString, elementProps, info = "";
+            var typeString, elementProps, source, info = "";
             (void 0 === type || "object" == typeof type && null !== type && 0 === Object.keys(type).length) && (info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
-            var sourceInfo = null != (elementProps = props) ? function(source) {
-                if (void 0 !== source) {
-                    var fileName = source.fileName.replace(/^.*[\\\/]/, ""), lineNumber = source.lineNumber;
-                    return "\n\nCheck your code at " + fileName + ":" + lineNumber + ".";
-                }
-                return "";
-            }(elementProps.__source) : "";
+            var sourceInfo = null != (elementProps = props) ? (source = elementProps.__source, void 0 !== source ? "\n\nCheck your code at " + source.fileName.replace(/^.*[\\\/]/, "") + ":" + source.lineNumber + "." : "") : "";
             sourceInfo ? info += sourceInfo : info += getDeclarationErrorAddendum(), null === type ? typeString = "null" : Array.isArray(type) ? typeString = "array" : void 0 !== type && type.$$typeof === REACT_ELEMENT_TYPE ? (typeString = "<" + (getComponentName(type.type) || "Unknown") + " />", info = " Did you accidentally export a JSX literal instead of a component?") : typeString = typeof type, error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
         }
         var element = createElement.apply(this, arguments);

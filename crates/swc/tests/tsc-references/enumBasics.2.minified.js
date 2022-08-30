@@ -1,9 +1,8 @@
 //// [enumBasics.ts]
+var E1, E2, E3, E4, E5, E6, E7, E8, E9;
 !function(E1) {
     E1[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C";
-}(E1 || (E1 = {})), E1.A;
-var E1, E2, E3, E4, E5, E6, E7, E8, E9, e = E1;
-E1[e.A], function(E2) {
+}(E1 || (E1 = {})), E1.A, E1[E1.A], function(E2) {
     E2[E2.A = 1] = "A", E2[E2.B = 2] = "B", E2[E2.C = 3] = "C";
 }(E2 || (E2 = {})), function(E3) {
     E3[E3.X = 3] = "X", E3[E3.Y = 7] = "Y", E3[E3.Z = NaN] = "Z";
