@@ -2786,9 +2786,9 @@ where
                 punct!(")");
             }
         }
-        semi!();
 
         srcmap!(n, false);
+        semi!();
     }
 
     #[emitter]
@@ -2812,9 +2812,9 @@ where
             space!();
             emit!(label);
         }
-        semi!();
 
         srcmap!(n, false);
+        semi!();
     }
 
     #[emitter]
@@ -2827,9 +2827,9 @@ where
             space!();
             emit!(label);
         }
-        semi!();
 
         srcmap!(n, false);
+        semi!();
     }
 
     #[emitter]
@@ -2883,9 +2883,8 @@ where
 
         punct!("{");
         self.emit_list(n.span(), Some(&n.cases), ListFormat::CaseBlockClauses)?;
-        punct!("}");
-
         srcmap!(n, false);
+        punct!("}");
     }
 
     #[emitter]
