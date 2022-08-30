@@ -16,7 +16,7 @@ impl VisitMut for CompressKeyframes {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
                 if !matches!(
                     &*string.value.to_lowercase(),
-                    "initial" | "inherit" | "unset" | "revert" | "default"
+                    "initial" | "inherit" | "unset" | "revert" | "default" | "none"
                 ) =>
             {
                 at_rule.prelude = Some(AtRulePrelude::KeyframesPrelude(

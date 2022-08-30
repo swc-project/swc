@@ -5,6 +5,9 @@
 
 
 
+- **(css/minifier)** Don't compress `none` for keyframes (#5663) ([4a5e347](https://github.com/swc-project/swc/commit/4a5e347a8a7949aa35cf73a0a94cbb7350380fa1))
+
+
 - **(es/codegen)** Emit trailing semicolon (#5659) ([537449e](https://github.com/swc-project/swc/commit/537449e53b9af268e497f6d3b23e137ec9bbf522))
 
 

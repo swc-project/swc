@@ -88,3 +88,12 @@
         margin-left: 200px;
     }
 }
+
+@keyframes "None" {
+    0% {
+        margin-left: 0px;
+    }
+    100% {
+        margin-left: 200px;
+    }
+}
