@@ -137,16 +137,6 @@ impl BlockScoping {
                 return;
             }
         }
-        {
-            // This is a hack.
-            // We need to revisit this
-            let mut v = YieldFinder { found: false };
-            body_stmt.visit_with(&mut v);
-            if v.found {
-                self.scope.pop();
-                return;
-            }
-        }
 
         //
         if let Some(ScopeKind::Loop {
@@ -877,23 +867,4 @@ impl Visit for FunctionFinder {
     ///
     /// https://github.com/swc-project/swc/issues/2622
     fn visit_while_stmt(&mut self, _: &WhileStmt) {}
-}
-
-#[derive(Debug)]
-struct YieldFinder {
-    found: bool,
-}
-
-impl Visit for YieldFinder {
-    noop_visit_type!();
-
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
-
-    fn visit_constructor(&mut self, _: &Constructor) {}
-
-    fn visit_function(&mut self, _: &Function) {}
-
-    fn visit_yield_expr(&mut self, _: &YieldExpr) {
-        self.found = true;
-    }
 }
