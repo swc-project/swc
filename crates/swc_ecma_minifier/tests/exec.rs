@@ -9956,3 +9956,71 @@ fn issue_4788_1() {
 
     run_default_exec_test(src);
 }
+
+#[test]
+fn issue_5645() {
+    let src = r###"
+    const t = {
+        1: 'a',
+        2: 'b'
+    }
+    function g(arg) {
+        if (t[arg] === undefined) {
+            var arg = 2
+        }
+        return t[arg]
+    }
+    
+    console.log(g(1))
+    "###;
+    let config = r###"
+    {
+        "arguments": false,
+        "arrows": false,
+        "booleans": false,
+        "booleans_as_integers": false,
+        "collapse_vars": false,
+        "comparisons": false,
+        "computed_props": false,
+        "conditionals": false,
+        "dead_code": false,
+        "directives": false,
+        "drop_console": false,
+        "drop_debugger": false,
+        "evaluate": false,
+        "expression": false,
+        "hoist_funs": false,
+        "hoist_props": false,
+        "hoist_vars": false,
+        "if_return": false,
+        "join_vars": false,
+        "keep_classnames": false,
+        "keep_fargs": false,
+        "keep_fnames": false,
+        "keep_infinity": false,
+        "loops": false,
+        "negate_iife": false,
+        "properties": false,
+        "reduce_funcs": false,
+        "reduce_vars": false,
+        "side_effects": false,
+        "switches": false,
+        "typeofs": false,
+        "unsafe": false,
+        "unsafe_arrows": false,
+        "unsafe_comps": false,
+        "unsafe_Function": false,
+        "unsafe_math": false,
+        "unsafe_symbols": false,
+        "unsafe_methods": false,
+        "unsafe_proto": false,
+        "unsafe_regexp": false,
+        "unsafe_undefined": false,
+        "unused": false,
+        "const_to_let": false,
+        "pristine_globals": false
+    }
+    "###;
+
+    run_exec_test(src, config, false);
+}
