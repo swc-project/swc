@@ -519,45 +519,45 @@
                 };
                 var comb10MulTo = function(self1, num, out) {
                     var lo, mid, hi, a = self1.words, b = num.words, o = out.words, c = 0, a0 = 0 | a[0], al0 = 0x1fff & a0, ah0 = a0 >>> 13, a1 = 0 | a[1], al1 = 0x1fff & a1, ah1 = a1 >>> 13, a2 = 0 | a[2], al2 = 0x1fff & a2, ah2 = a2 >>> 13, a3 = 0 | a[3], al3 = 0x1fff & a3, ah3 = a3 >>> 13, a4 = 0 | a[4], al4 = 0x1fff & a4, ah4 = a4 >>> 13, a5 = 0 | a[5], al5 = 0x1fff & a5, ah5 = a5 >>> 13, a6 = 0 | a[6], al6 = 0x1fff & a6, ah6 = a6 >>> 13, a7 = 0 | a[7], al7 = 0x1fff & a7, ah7 = a7 >>> 13, a8 = 0 | a[8], al8 = 0x1fff & a8, ah8 = a8 >>> 13, a9 = 0 | a[9], al9 = 0x1fff & a9, ah9 = a9 >>> 13, b0 = 0 | b[0], bl0 = 0x1fff & b0, bh0 = b0 >>> 13, b1 = 0 | b[1], bl1 = 0x1fff & b1, bh1 = b1 >>> 13, b2 = 0 | b[2], bl2 = 0x1fff & b2, bh2 = b2 >>> 13, b3 = 0 | b[3], bl3 = 0x1fff & b3, bh3 = b3 >>> 13, b4 = 0 | b[4], bl4 = 0x1fff & b4, bh4 = b4 >>> 13, b5 = 0 | b[5], bl5 = 0x1fff & b5, bh5 = b5 >>> 13, b6 = 0 | b[6], bl6 = 0x1fff & b6, bh6 = b6 >>> 13, b7 = 0 | b[7], bl7 = 0x1fff & b7, bh7 = b7 >>> 13, b8 = 0 | b[8], bl8 = 0x1fff & b8, bh8 = b8 >>> 13, b9 = 0 | b[9], bl9 = 0x1fff & b9, bh9 = b9 >>> 13;
-                    out.negative = self1.negative ^ num.negative, out.length = 19, lo = Math.imul(al0, bl0), mid = Math.imul(al0, bh0), mid = mid + Math.imul(ah0, bl0) | 0, hi = Math.imul(ah0, bh0);
-                    var w0 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w0 >>> 26) | 0, w0 &= 0x3ffffff, lo = Math.imul(al1, bl0), mid = Math.imul(al1, bh0), mid = mid + Math.imul(ah1, bl0) | 0, hi = Math.imul(ah1, bh0), lo = lo + Math.imul(al0, bl1) | 0, mid = mid + Math.imul(al0, bh1) | 0, mid = mid + Math.imul(ah0, bl1) | 0, hi = hi + Math.imul(ah0, bh1) | 0;
-                    var w1 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w1 >>> 26) | 0, w1 &= 0x3ffffff, lo = Math.imul(al2, bl0), mid = Math.imul(al2, bh0), mid = mid + Math.imul(ah2, bl0) | 0, hi = Math.imul(ah2, bh0), lo = lo + Math.imul(al1, bl1) | 0, mid = mid + Math.imul(al1, bh1) | 0, mid = mid + Math.imul(ah1, bl1) | 0, hi = hi + Math.imul(ah1, bh1) | 0, lo = lo + Math.imul(al0, bl2) | 0, mid = mid + Math.imul(al0, bh2) | 0, mid = mid + Math.imul(ah0, bl2) | 0, hi = hi + Math.imul(ah0, bh2) | 0;
-                    var w2 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w2 >>> 26) | 0, w2 &= 0x3ffffff, lo = Math.imul(al3, bl0), mid = Math.imul(al3, bh0), mid = mid + Math.imul(ah3, bl0) | 0, hi = Math.imul(ah3, bh0), lo = lo + Math.imul(al2, bl1) | 0, mid = mid + Math.imul(al2, bh1) | 0, mid = mid + Math.imul(ah2, bl1) | 0, hi = hi + Math.imul(ah2, bh1) | 0, lo = lo + Math.imul(al1, bl2) | 0, mid = mid + Math.imul(al1, bh2) | 0, mid = mid + Math.imul(ah1, bl2) | 0, hi = hi + Math.imul(ah1, bh2) | 0, lo = lo + Math.imul(al0, bl3) | 0, mid = mid + Math.imul(al0, bh3) | 0, mid = mid + Math.imul(ah0, bl3) | 0, hi = hi + Math.imul(ah0, bh3) | 0;
-                    var w3 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w3 >>> 26) | 0, w3 &= 0x3ffffff, lo = Math.imul(al4, bl0), mid = Math.imul(al4, bh0), mid = mid + Math.imul(ah4, bl0) | 0, hi = Math.imul(ah4, bh0), lo = lo + Math.imul(al3, bl1) | 0, mid = mid + Math.imul(al3, bh1) | 0, mid = mid + Math.imul(ah3, bl1) | 0, hi = hi + Math.imul(ah3, bh1) | 0, lo = lo + Math.imul(al2, bl2) | 0, mid = mid + Math.imul(al2, bh2) | 0, mid = mid + Math.imul(ah2, bl2) | 0, hi = hi + Math.imul(ah2, bh2) | 0, lo = lo + Math.imul(al1, bl3) | 0, mid = mid + Math.imul(al1, bh3) | 0, mid = mid + Math.imul(ah1, bl3) | 0, hi = hi + Math.imul(ah1, bh3) | 0, lo = lo + Math.imul(al0, bl4) | 0, mid = mid + Math.imul(al0, bh4) | 0, mid = mid + Math.imul(ah0, bl4) | 0, hi = hi + Math.imul(ah0, bh4) | 0;
-                    var w4 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w4 >>> 26) | 0, w4 &= 0x3ffffff, lo = Math.imul(al5, bl0), mid = Math.imul(al5, bh0), mid = mid + Math.imul(ah5, bl0) | 0, hi = Math.imul(ah5, bh0), lo = lo + Math.imul(al4, bl1) | 0, mid = mid + Math.imul(al4, bh1) | 0, mid = mid + Math.imul(ah4, bl1) | 0, hi = hi + Math.imul(ah4, bh1) | 0, lo = lo + Math.imul(al3, bl2) | 0, mid = mid + Math.imul(al3, bh2) | 0, mid = mid + Math.imul(ah3, bl2) | 0, hi = hi + Math.imul(ah3, bh2) | 0, lo = lo + Math.imul(al2, bl3) | 0, mid = mid + Math.imul(al2, bh3) | 0, mid = mid + Math.imul(ah2, bl3) | 0, hi = hi + Math.imul(ah2, bh3) | 0, lo = lo + Math.imul(al1, bl4) | 0, mid = mid + Math.imul(al1, bh4) | 0, mid = mid + Math.imul(ah1, bl4) | 0, hi = hi + Math.imul(ah1, bh4) | 0, lo = lo + Math.imul(al0, bl5) | 0, mid = mid + Math.imul(al0, bh5) | 0, mid = mid + Math.imul(ah0, bl5) | 0, hi = hi + Math.imul(ah0, bh5) | 0;
-                    var w5 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w5 >>> 26) | 0, w5 &= 0x3ffffff, lo = Math.imul(al6, bl0), mid = Math.imul(al6, bh0), mid = mid + Math.imul(ah6, bl0) | 0, hi = Math.imul(ah6, bh0), lo = lo + Math.imul(al5, bl1) | 0, mid = mid + Math.imul(al5, bh1) | 0, mid = mid + Math.imul(ah5, bl1) | 0, hi = hi + Math.imul(ah5, bh1) | 0, lo = lo + Math.imul(al4, bl2) | 0, mid = mid + Math.imul(al4, bh2) | 0, mid = mid + Math.imul(ah4, bl2) | 0, hi = hi + Math.imul(ah4, bh2) | 0, lo = lo + Math.imul(al3, bl3) | 0, mid = mid + Math.imul(al3, bh3) | 0, mid = mid + Math.imul(ah3, bl3) | 0, hi = hi + Math.imul(ah3, bh3) | 0, lo = lo + Math.imul(al2, bl4) | 0, mid = mid + Math.imul(al2, bh4) | 0, mid = mid + Math.imul(ah2, bl4) | 0, hi = hi + Math.imul(ah2, bh4) | 0, lo = lo + Math.imul(al1, bl5) | 0, mid = mid + Math.imul(al1, bh5) | 0, mid = mid + Math.imul(ah1, bl5) | 0, hi = hi + Math.imul(ah1, bh5) | 0, lo = lo + Math.imul(al0, bl6) | 0, mid = mid + Math.imul(al0, bh6) | 0, mid = mid + Math.imul(ah0, bl6) | 0, hi = hi + Math.imul(ah0, bh6) | 0;
-                    var w6 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w6 >>> 26) | 0, w6 &= 0x3ffffff, lo = Math.imul(al7, bl0), mid = Math.imul(al7, bh0), mid = mid + Math.imul(ah7, bl0) | 0, hi = Math.imul(ah7, bh0), lo = lo + Math.imul(al6, bl1) | 0, mid = mid + Math.imul(al6, bh1) | 0, mid = mid + Math.imul(ah6, bl1) | 0, hi = hi + Math.imul(ah6, bh1) | 0, lo = lo + Math.imul(al5, bl2) | 0, mid = mid + Math.imul(al5, bh2) | 0, mid = mid + Math.imul(ah5, bl2) | 0, hi = hi + Math.imul(ah5, bh2) | 0, lo = lo + Math.imul(al4, bl3) | 0, mid = mid + Math.imul(al4, bh3) | 0, mid = mid + Math.imul(ah4, bl3) | 0, hi = hi + Math.imul(ah4, bh3) | 0, lo = lo + Math.imul(al3, bl4) | 0, mid = mid + Math.imul(al3, bh4) | 0, mid = mid + Math.imul(ah3, bl4) | 0, hi = hi + Math.imul(ah3, bh4) | 0, lo = lo + Math.imul(al2, bl5) | 0, mid = mid + Math.imul(al2, bh5) | 0, mid = mid + Math.imul(ah2, bl5) | 0, hi = hi + Math.imul(ah2, bh5) | 0, lo = lo + Math.imul(al1, bl6) | 0, mid = mid + Math.imul(al1, bh6) | 0, mid = mid + Math.imul(ah1, bl6) | 0, hi = hi + Math.imul(ah1, bh6) | 0, lo = lo + Math.imul(al0, bl7) | 0, mid = mid + Math.imul(al0, bh7) | 0, mid = mid + Math.imul(ah0, bl7) | 0, hi = hi + Math.imul(ah0, bh7) | 0;
-                    var w7 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w7 >>> 26) | 0, w7 &= 0x3ffffff, lo = Math.imul(al8, bl0), mid = Math.imul(al8, bh0), mid = mid + Math.imul(ah8, bl0) | 0, hi = Math.imul(ah8, bh0), lo = lo + Math.imul(al7, bl1) | 0, mid = mid + Math.imul(al7, bh1) | 0, mid = mid + Math.imul(ah7, bl1) | 0, hi = hi + Math.imul(ah7, bh1) | 0, lo = lo + Math.imul(al6, bl2) | 0, mid = mid + Math.imul(al6, bh2) | 0, mid = mid + Math.imul(ah6, bl2) | 0, hi = hi + Math.imul(ah6, bh2) | 0, lo = lo + Math.imul(al5, bl3) | 0, mid = mid + Math.imul(al5, bh3) | 0, mid = mid + Math.imul(ah5, bl3) | 0, hi = hi + Math.imul(ah5, bh3) | 0, lo = lo + Math.imul(al4, bl4) | 0, mid = mid + Math.imul(al4, bh4) | 0, mid = mid + Math.imul(ah4, bl4) | 0, hi = hi + Math.imul(ah4, bh4) | 0, lo = lo + Math.imul(al3, bl5) | 0, mid = mid + Math.imul(al3, bh5) | 0, mid = mid + Math.imul(ah3, bl5) | 0, hi = hi + Math.imul(ah3, bh5) | 0, lo = lo + Math.imul(al2, bl6) | 0, mid = mid + Math.imul(al2, bh6) | 0, mid = mid + Math.imul(ah2, bl6) | 0, hi = hi + Math.imul(ah2, bh6) | 0, lo = lo + Math.imul(al1, bl7) | 0, mid = mid + Math.imul(al1, bh7) | 0, mid = mid + Math.imul(ah1, bl7) | 0, hi = hi + Math.imul(ah1, bh7) | 0, lo = lo + Math.imul(al0, bl8) | 0, mid = mid + Math.imul(al0, bh8) | 0, mid = mid + Math.imul(ah0, bl8) | 0, hi = hi + Math.imul(ah0, bh8) | 0;
-                    var w8 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w8 >>> 26) | 0, w8 &= 0x3ffffff, lo = Math.imul(al9, bl0), mid = Math.imul(al9, bh0), mid = mid + Math.imul(ah9, bl0) | 0, hi = Math.imul(ah9, bh0), lo = lo + Math.imul(al8, bl1) | 0, mid = mid + Math.imul(al8, bh1) | 0, mid = mid + Math.imul(ah8, bl1) | 0, hi = hi + Math.imul(ah8, bh1) | 0, lo = lo + Math.imul(al7, bl2) | 0, mid = mid + Math.imul(al7, bh2) | 0, mid = mid + Math.imul(ah7, bl2) | 0, hi = hi + Math.imul(ah7, bh2) | 0, lo = lo + Math.imul(al6, bl3) | 0, mid = mid + Math.imul(al6, bh3) | 0, mid = mid + Math.imul(ah6, bl3) | 0, hi = hi + Math.imul(ah6, bh3) | 0, lo = lo + Math.imul(al5, bl4) | 0, mid = mid + Math.imul(al5, bh4) | 0, mid = mid + Math.imul(ah5, bl4) | 0, hi = hi + Math.imul(ah5, bh4) | 0, lo = lo + Math.imul(al4, bl5) | 0, mid = mid + Math.imul(al4, bh5) | 0, mid = mid + Math.imul(ah4, bl5) | 0, hi = hi + Math.imul(ah4, bh5) | 0, lo = lo + Math.imul(al3, bl6) | 0, mid = mid + Math.imul(al3, bh6) | 0, mid = mid + Math.imul(ah3, bl6) | 0, hi = hi + Math.imul(ah3, bh6) | 0, lo = lo + Math.imul(al2, bl7) | 0, mid = mid + Math.imul(al2, bh7) | 0, mid = mid + Math.imul(ah2, bl7) | 0, hi = hi + Math.imul(ah2, bh7) | 0, lo = lo + Math.imul(al1, bl8) | 0, mid = mid + Math.imul(al1, bh8) | 0, mid = mid + Math.imul(ah1, bl8) | 0, hi = hi + Math.imul(ah1, bh8) | 0, lo = lo + Math.imul(al0, bl9) | 0, mid = mid + Math.imul(al0, bh9) | 0, mid = mid + Math.imul(ah0, bl9) | 0, hi = hi + Math.imul(ah0, bh9) | 0;
-                    var w9 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w9 >>> 26) | 0, w9 &= 0x3ffffff, lo = Math.imul(al9, bl1), mid = Math.imul(al9, bh1), mid = mid + Math.imul(ah9, bl1) | 0, hi = Math.imul(ah9, bh1), lo = lo + Math.imul(al8, bl2) | 0, mid = mid + Math.imul(al8, bh2) | 0, mid = mid + Math.imul(ah8, bl2) | 0, hi = hi + Math.imul(ah8, bh2) | 0, lo = lo + Math.imul(al7, bl3) | 0, mid = mid + Math.imul(al7, bh3) | 0, mid = mid + Math.imul(ah7, bl3) | 0, hi = hi + Math.imul(ah7, bh3) | 0, lo = lo + Math.imul(al6, bl4) | 0, mid = mid + Math.imul(al6, bh4) | 0, mid = mid + Math.imul(ah6, bl4) | 0, hi = hi + Math.imul(ah6, bh4) | 0, lo = lo + Math.imul(al5, bl5) | 0, mid = mid + Math.imul(al5, bh5) | 0, mid = mid + Math.imul(ah5, bl5) | 0, hi = hi + Math.imul(ah5, bh5) | 0, lo = lo + Math.imul(al4, bl6) | 0, mid = mid + Math.imul(al4, bh6) | 0, mid = mid + Math.imul(ah4, bl6) | 0, hi = hi + Math.imul(ah4, bh6) | 0, lo = lo + Math.imul(al3, bl7) | 0, mid = mid + Math.imul(al3, bh7) | 0, mid = mid + Math.imul(ah3, bl7) | 0, hi = hi + Math.imul(ah3, bh7) | 0, lo = lo + Math.imul(al2, bl8) | 0, mid = mid + Math.imul(al2, bh8) | 0, mid = mid + Math.imul(ah2, bl8) | 0, hi = hi + Math.imul(ah2, bh8) | 0, lo = lo + Math.imul(al1, bl9) | 0, mid = mid + Math.imul(al1, bh9) | 0, mid = mid + Math.imul(ah1, bl9) | 0, hi = hi + Math.imul(ah1, bh9) | 0;
-                    var w10 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w10 >>> 26) | 0, w10 &= 0x3ffffff, lo = Math.imul(al9, bl2), mid = Math.imul(al9, bh2), mid = mid + Math.imul(ah9, bl2) | 0, hi = Math.imul(ah9, bh2), lo = lo + Math.imul(al8, bl3) | 0, mid = mid + Math.imul(al8, bh3) | 0, mid = mid + Math.imul(ah8, bl3) | 0, hi = hi + Math.imul(ah8, bh3) | 0, lo = lo + Math.imul(al7, bl4) | 0, mid = mid + Math.imul(al7, bh4) | 0, mid = mid + Math.imul(ah7, bl4) | 0, hi = hi + Math.imul(ah7, bh4) | 0, lo = lo + Math.imul(al6, bl5) | 0, mid = mid + Math.imul(al6, bh5) | 0, mid = mid + Math.imul(ah6, bl5) | 0, hi = hi + Math.imul(ah6, bh5) | 0, lo = lo + Math.imul(al5, bl6) | 0, mid = mid + Math.imul(al5, bh6) | 0, mid = mid + Math.imul(ah5, bl6) | 0, hi = hi + Math.imul(ah5, bh6) | 0, lo = lo + Math.imul(al4, bl7) | 0, mid = mid + Math.imul(al4, bh7) | 0, mid = mid + Math.imul(ah4, bl7) | 0, hi = hi + Math.imul(ah4, bh7) | 0, lo = lo + Math.imul(al3, bl8) | 0, mid = mid + Math.imul(al3, bh8) | 0, mid = mid + Math.imul(ah3, bl8) | 0, hi = hi + Math.imul(ah3, bh8) | 0, lo = lo + Math.imul(al2, bl9) | 0, mid = mid + Math.imul(al2, bh9) | 0, mid = mid + Math.imul(ah2, bl9) | 0, hi = hi + Math.imul(ah2, bh9) | 0;
-                    var w11 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w11 >>> 26) | 0, w11 &= 0x3ffffff, lo = Math.imul(al9, bl3), mid = Math.imul(al9, bh3), mid = mid + Math.imul(ah9, bl3) | 0, hi = Math.imul(ah9, bh3), lo = lo + Math.imul(al8, bl4) | 0, mid = mid + Math.imul(al8, bh4) | 0, mid = mid + Math.imul(ah8, bl4) | 0, hi = hi + Math.imul(ah8, bh4) | 0, lo = lo + Math.imul(al7, bl5) | 0, mid = mid + Math.imul(al7, bh5) | 0, mid = mid + Math.imul(ah7, bl5) | 0, hi = hi + Math.imul(ah7, bh5) | 0, lo = lo + Math.imul(al6, bl6) | 0, mid = mid + Math.imul(al6, bh6) | 0, mid = mid + Math.imul(ah6, bl6) | 0, hi = hi + Math.imul(ah6, bh6) | 0, lo = lo + Math.imul(al5, bl7) | 0, mid = mid + Math.imul(al5, bh7) | 0, mid = mid + Math.imul(ah5, bl7) | 0, hi = hi + Math.imul(ah5, bh7) | 0, lo = lo + Math.imul(al4, bl8) | 0, mid = mid + Math.imul(al4, bh8) | 0, mid = mid + Math.imul(ah4, bl8) | 0, hi = hi + Math.imul(ah4, bh8) | 0, lo = lo + Math.imul(al3, bl9) | 0, mid = mid + Math.imul(al3, bh9) | 0, mid = mid + Math.imul(ah3, bl9) | 0, hi = hi + Math.imul(ah3, bh9) | 0;
-                    var w12 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w12 >>> 26) | 0, w12 &= 0x3ffffff, lo = Math.imul(al9, bl4), mid = Math.imul(al9, bh4), mid = mid + Math.imul(ah9, bl4) | 0, hi = Math.imul(ah9, bh4), lo = lo + Math.imul(al8, bl5) | 0, mid = mid + Math.imul(al8, bh5) | 0, mid = mid + Math.imul(ah8, bl5) | 0, hi = hi + Math.imul(ah8, bh5) | 0, lo = lo + Math.imul(al7, bl6) | 0, mid = mid + Math.imul(al7, bh6) | 0, mid = mid + Math.imul(ah7, bl6) | 0, hi = hi + Math.imul(ah7, bh6) | 0, lo = lo + Math.imul(al6, bl7) | 0, mid = mid + Math.imul(al6, bh7) | 0, mid = mid + Math.imul(ah6, bl7) | 0, hi = hi + Math.imul(ah6, bh7) | 0, lo = lo + Math.imul(al5, bl8) | 0, mid = mid + Math.imul(al5, bh8) | 0, mid = mid + Math.imul(ah5, bl8) | 0, hi = hi + Math.imul(ah5, bh8) | 0, lo = lo + Math.imul(al4, bl9) | 0, mid = mid + Math.imul(al4, bh9) | 0, mid = mid + Math.imul(ah4, bl9) | 0, hi = hi + Math.imul(ah4, bh9) | 0;
-                    var w13 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w13 >>> 26) | 0, w13 &= 0x3ffffff, lo = Math.imul(al9, bl5), mid = Math.imul(al9, bh5), mid = mid + Math.imul(ah9, bl5) | 0, hi = Math.imul(ah9, bh5), lo = lo + Math.imul(al8, bl6) | 0, mid = mid + Math.imul(al8, bh6) | 0, mid = mid + Math.imul(ah8, bl6) | 0, hi = hi + Math.imul(ah8, bh6) | 0, lo = lo + Math.imul(al7, bl7) | 0, mid = mid + Math.imul(al7, bh7) | 0, mid = mid + Math.imul(ah7, bl7) | 0, hi = hi + Math.imul(ah7, bh7) | 0, lo = lo + Math.imul(al6, bl8) | 0, mid = mid + Math.imul(al6, bh8) | 0, mid = mid + Math.imul(ah6, bl8) | 0, hi = hi + Math.imul(ah6, bh8) | 0, lo = lo + Math.imul(al5, bl9) | 0, mid = mid + Math.imul(al5, bh9) | 0, mid = mid + Math.imul(ah5, bl9) | 0, hi = hi + Math.imul(ah5, bh9) | 0;
-                    var w14 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w14 >>> 26) | 0, w14 &= 0x3ffffff, lo = Math.imul(al9, bl6), mid = Math.imul(al9, bh6), mid = mid + Math.imul(ah9, bl6) | 0, hi = Math.imul(ah9, bh6), lo = lo + Math.imul(al8, bl7) | 0, mid = mid + Math.imul(al8, bh7) | 0, mid = mid + Math.imul(ah8, bl7) | 0, hi = hi + Math.imul(ah8, bh7) | 0, lo = lo + Math.imul(al7, bl8) | 0, mid = mid + Math.imul(al7, bh8) | 0, mid = mid + Math.imul(ah7, bl8) | 0, hi = hi + Math.imul(ah7, bh8) | 0, lo = lo + Math.imul(al6, bl9) | 0, mid = mid + Math.imul(al6, bh9) | 0, mid = mid + Math.imul(ah6, bl9) | 0, hi = hi + Math.imul(ah6, bh9) | 0;
-                    var w15 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w15 >>> 26) | 0, w15 &= 0x3ffffff, lo = Math.imul(al9, bl7), mid = Math.imul(al9, bh7), mid = mid + Math.imul(ah9, bl7) | 0, hi = Math.imul(ah9, bh7), lo = lo + Math.imul(al8, bl8) | 0, mid = mid + Math.imul(al8, bh8) | 0, mid = mid + Math.imul(ah8, bl8) | 0, hi = hi + Math.imul(ah8, bh8) | 0, lo = lo + Math.imul(al7, bl9) | 0, mid = mid + Math.imul(al7, bh9) | 0, mid = mid + Math.imul(ah7, bl9) | 0, hi = hi + Math.imul(ah7, bh9) | 0;
-                    var w16 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w16 >>> 26) | 0, w16 &= 0x3ffffff, lo = Math.imul(al9, bl8), mid = Math.imul(al9, bh8), mid = mid + Math.imul(ah9, bl8) | 0, hi = Math.imul(ah9, bh8), lo = lo + Math.imul(al8, bl9) | 0, mid = mid + Math.imul(al8, bh9) | 0, mid = mid + Math.imul(ah8, bl9) | 0, hi = hi + Math.imul(ah8, bh9) | 0;
-                    var w17 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w17 >>> 26) | 0, w17 &= 0x3ffffff, lo = Math.imul(al9, bl9), mid = Math.imul(al9, bh9), mid = mid + Math.imul(ah9, bl9) | 0, hi = Math.imul(ah9, bh9);
-                    var w18 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    return c = (hi + (mid >>> 13) | 0) + (w18 >>> 26) | 0, w18 &= 0x3ffffff, o[0] = w0, o[1] = w1, o[2] = w2, o[3] = w3, o[4] = w4, o[5] = w5, o[6] = w6, o[7] = w7, o[8] = w8, o[9] = w9, o[10] = w10, o[11] = w11, o[12] = w12, o[13] = w13, o[14] = w14, o[15] = w15, o[16] = w16, o[17] = w17, o[18] = w18, 0 !== c && (o[19] = c, out.length++), out;
+                    out.negative = self1.negative ^ num.negative, out.length = 19;
+                    var w0 = (c + (lo = Math.imul(al0, bl0)) | 0) + ((0x1fff & (mid = (mid = Math.imul(al0, bh0)) + Math.imul(ah0, bl0) | 0)) << 13) | 0;
+                    c = ((hi = Math.imul(ah0, bh0)) + (mid >>> 13) | 0) + (w0 >>> 26) | 0, w0 &= 0x3ffffff, lo = Math.imul(al1, bl0), mid = (mid = Math.imul(al1, bh0)) + Math.imul(ah1, bl0) | 0, hi = Math.imul(ah1, bh0);
+                    var w1 = (c + (lo = lo + Math.imul(al0, bl1) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh1) | 0) + Math.imul(ah0, bl1) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh1) | 0) + (mid >>> 13) | 0) + (w1 >>> 26) | 0, w1 &= 0x3ffffff, lo = Math.imul(al2, bl0), mid = (mid = Math.imul(al2, bh0)) + Math.imul(ah2, bl0) | 0, hi = Math.imul(ah2, bh0), lo = lo + Math.imul(al1, bl1) | 0, mid = (mid = mid + Math.imul(al1, bh1) | 0) + Math.imul(ah1, bl1) | 0, hi = hi + Math.imul(ah1, bh1) | 0;
+                    var w2 = (c + (lo = lo + Math.imul(al0, bl2) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh2) | 0) + Math.imul(ah0, bl2) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh2) | 0) + (mid >>> 13) | 0) + (w2 >>> 26) | 0, w2 &= 0x3ffffff, lo = Math.imul(al3, bl0), mid = (mid = Math.imul(al3, bh0)) + Math.imul(ah3, bl0) | 0, hi = Math.imul(ah3, bh0), lo = lo + Math.imul(al2, bl1) | 0, mid = (mid = mid + Math.imul(al2, bh1) | 0) + Math.imul(ah2, bl1) | 0, hi = hi + Math.imul(ah2, bh1) | 0, lo = lo + Math.imul(al1, bl2) | 0, mid = (mid = mid + Math.imul(al1, bh2) | 0) + Math.imul(ah1, bl2) | 0, hi = hi + Math.imul(ah1, bh2) | 0;
+                    var w3 = (c + (lo = lo + Math.imul(al0, bl3) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh3) | 0) + Math.imul(ah0, bl3) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh3) | 0) + (mid >>> 13) | 0) + (w3 >>> 26) | 0, w3 &= 0x3ffffff, lo = Math.imul(al4, bl0), mid = (mid = Math.imul(al4, bh0)) + Math.imul(ah4, bl0) | 0, hi = Math.imul(ah4, bh0), lo = lo + Math.imul(al3, bl1) | 0, mid = (mid = mid + Math.imul(al3, bh1) | 0) + Math.imul(ah3, bl1) | 0, hi = hi + Math.imul(ah3, bh1) | 0, lo = lo + Math.imul(al2, bl2) | 0, mid = (mid = mid + Math.imul(al2, bh2) | 0) + Math.imul(ah2, bl2) | 0, hi = hi + Math.imul(ah2, bh2) | 0, lo = lo + Math.imul(al1, bl3) | 0, mid = (mid = mid + Math.imul(al1, bh3) | 0) + Math.imul(ah1, bl3) | 0, hi = hi + Math.imul(ah1, bh3) | 0;
+                    var w4 = (c + (lo = lo + Math.imul(al0, bl4) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh4) | 0) + Math.imul(ah0, bl4) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh4) | 0) + (mid >>> 13) | 0) + (w4 >>> 26) | 0, w4 &= 0x3ffffff, lo = Math.imul(al5, bl0), mid = (mid = Math.imul(al5, bh0)) + Math.imul(ah5, bl0) | 0, hi = Math.imul(ah5, bh0), lo = lo + Math.imul(al4, bl1) | 0, mid = (mid = mid + Math.imul(al4, bh1) | 0) + Math.imul(ah4, bl1) | 0, hi = hi + Math.imul(ah4, bh1) | 0, lo = lo + Math.imul(al3, bl2) | 0, mid = (mid = mid + Math.imul(al3, bh2) | 0) + Math.imul(ah3, bl2) | 0, hi = hi + Math.imul(ah3, bh2) | 0, lo = lo + Math.imul(al2, bl3) | 0, mid = (mid = mid + Math.imul(al2, bh3) | 0) + Math.imul(ah2, bl3) | 0, hi = hi + Math.imul(ah2, bh3) | 0, lo = lo + Math.imul(al1, bl4) | 0, mid = (mid = mid + Math.imul(al1, bh4) | 0) + Math.imul(ah1, bl4) | 0, hi = hi + Math.imul(ah1, bh4) | 0;
+                    var w5 = (c + (lo = lo + Math.imul(al0, bl5) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh5) | 0) + Math.imul(ah0, bl5) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh5) | 0) + (mid >>> 13) | 0) + (w5 >>> 26) | 0, w5 &= 0x3ffffff, lo = Math.imul(al6, bl0), mid = (mid = Math.imul(al6, bh0)) + Math.imul(ah6, bl0) | 0, hi = Math.imul(ah6, bh0), lo = lo + Math.imul(al5, bl1) | 0, mid = (mid = mid + Math.imul(al5, bh1) | 0) + Math.imul(ah5, bl1) | 0, hi = hi + Math.imul(ah5, bh1) | 0, lo = lo + Math.imul(al4, bl2) | 0, mid = (mid = mid + Math.imul(al4, bh2) | 0) + Math.imul(ah4, bl2) | 0, hi = hi + Math.imul(ah4, bh2) | 0, lo = lo + Math.imul(al3, bl3) | 0, mid = (mid = mid + Math.imul(al3, bh3) | 0) + Math.imul(ah3, bl3) | 0, hi = hi + Math.imul(ah3, bh3) | 0, lo = lo + Math.imul(al2, bl4) | 0, mid = (mid = mid + Math.imul(al2, bh4) | 0) + Math.imul(ah2, bl4) | 0, hi = hi + Math.imul(ah2, bh4) | 0, lo = lo + Math.imul(al1, bl5) | 0, mid = (mid = mid + Math.imul(al1, bh5) | 0) + Math.imul(ah1, bl5) | 0, hi = hi + Math.imul(ah1, bh5) | 0;
+                    var w6 = (c + (lo = lo + Math.imul(al0, bl6) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh6) | 0) + Math.imul(ah0, bl6) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh6) | 0) + (mid >>> 13) | 0) + (w6 >>> 26) | 0, w6 &= 0x3ffffff, lo = Math.imul(al7, bl0), mid = (mid = Math.imul(al7, bh0)) + Math.imul(ah7, bl0) | 0, hi = Math.imul(ah7, bh0), lo = lo + Math.imul(al6, bl1) | 0, mid = (mid = mid + Math.imul(al6, bh1) | 0) + Math.imul(ah6, bl1) | 0, hi = hi + Math.imul(ah6, bh1) | 0, lo = lo + Math.imul(al5, bl2) | 0, mid = (mid = mid + Math.imul(al5, bh2) | 0) + Math.imul(ah5, bl2) | 0, hi = hi + Math.imul(ah5, bh2) | 0, lo = lo + Math.imul(al4, bl3) | 0, mid = (mid = mid + Math.imul(al4, bh3) | 0) + Math.imul(ah4, bl3) | 0, hi = hi + Math.imul(ah4, bh3) | 0, lo = lo + Math.imul(al3, bl4) | 0, mid = (mid = mid + Math.imul(al3, bh4) | 0) + Math.imul(ah3, bl4) | 0, hi = hi + Math.imul(ah3, bh4) | 0, lo = lo + Math.imul(al2, bl5) | 0, mid = (mid = mid + Math.imul(al2, bh5) | 0) + Math.imul(ah2, bl5) | 0, hi = hi + Math.imul(ah2, bh5) | 0, lo = lo + Math.imul(al1, bl6) | 0, mid = (mid = mid + Math.imul(al1, bh6) | 0) + Math.imul(ah1, bl6) | 0, hi = hi + Math.imul(ah1, bh6) | 0;
+                    var w7 = (c + (lo = lo + Math.imul(al0, bl7) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh7) | 0) + Math.imul(ah0, bl7) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh7) | 0) + (mid >>> 13) | 0) + (w7 >>> 26) | 0, w7 &= 0x3ffffff, lo = Math.imul(al8, bl0), mid = (mid = Math.imul(al8, bh0)) + Math.imul(ah8, bl0) | 0, hi = Math.imul(ah8, bh0), lo = lo + Math.imul(al7, bl1) | 0, mid = (mid = mid + Math.imul(al7, bh1) | 0) + Math.imul(ah7, bl1) | 0, hi = hi + Math.imul(ah7, bh1) | 0, lo = lo + Math.imul(al6, bl2) | 0, mid = (mid = mid + Math.imul(al6, bh2) | 0) + Math.imul(ah6, bl2) | 0, hi = hi + Math.imul(ah6, bh2) | 0, lo = lo + Math.imul(al5, bl3) | 0, mid = (mid = mid + Math.imul(al5, bh3) | 0) + Math.imul(ah5, bl3) | 0, hi = hi + Math.imul(ah5, bh3) | 0, lo = lo + Math.imul(al4, bl4) | 0, mid = (mid = mid + Math.imul(al4, bh4) | 0) + Math.imul(ah4, bl4) | 0, hi = hi + Math.imul(ah4, bh4) | 0, lo = lo + Math.imul(al3, bl5) | 0, mid = (mid = mid + Math.imul(al3, bh5) | 0) + Math.imul(ah3, bl5) | 0, hi = hi + Math.imul(ah3, bh5) | 0, lo = lo + Math.imul(al2, bl6) | 0, mid = (mid = mid + Math.imul(al2, bh6) | 0) + Math.imul(ah2, bl6) | 0, hi = hi + Math.imul(ah2, bh6) | 0, lo = lo + Math.imul(al1, bl7) | 0, mid = (mid = mid + Math.imul(al1, bh7) | 0) + Math.imul(ah1, bl7) | 0, hi = hi + Math.imul(ah1, bh7) | 0;
+                    var w8 = (c + (lo = lo + Math.imul(al0, bl8) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh8) | 0) + Math.imul(ah0, bl8) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh8) | 0) + (mid >>> 13) | 0) + (w8 >>> 26) | 0, w8 &= 0x3ffffff, lo = Math.imul(al9, bl0), mid = (mid = Math.imul(al9, bh0)) + Math.imul(ah9, bl0) | 0, hi = Math.imul(ah9, bh0), lo = lo + Math.imul(al8, bl1) | 0, mid = (mid = mid + Math.imul(al8, bh1) | 0) + Math.imul(ah8, bl1) | 0, hi = hi + Math.imul(ah8, bh1) | 0, lo = lo + Math.imul(al7, bl2) | 0, mid = (mid = mid + Math.imul(al7, bh2) | 0) + Math.imul(ah7, bl2) | 0, hi = hi + Math.imul(ah7, bh2) | 0, lo = lo + Math.imul(al6, bl3) | 0, mid = (mid = mid + Math.imul(al6, bh3) | 0) + Math.imul(ah6, bl3) | 0, hi = hi + Math.imul(ah6, bh3) | 0, lo = lo + Math.imul(al5, bl4) | 0, mid = (mid = mid + Math.imul(al5, bh4) | 0) + Math.imul(ah5, bl4) | 0, hi = hi + Math.imul(ah5, bh4) | 0, lo = lo + Math.imul(al4, bl5) | 0, mid = (mid = mid + Math.imul(al4, bh5) | 0) + Math.imul(ah4, bl5) | 0, hi = hi + Math.imul(ah4, bh5) | 0, lo = lo + Math.imul(al3, bl6) | 0, mid = (mid = mid + Math.imul(al3, bh6) | 0) + Math.imul(ah3, bl6) | 0, hi = hi + Math.imul(ah3, bh6) | 0, lo = lo + Math.imul(al2, bl7) | 0, mid = (mid = mid + Math.imul(al2, bh7) | 0) + Math.imul(ah2, bl7) | 0, hi = hi + Math.imul(ah2, bh7) | 0, lo = lo + Math.imul(al1, bl8) | 0, mid = (mid = mid + Math.imul(al1, bh8) | 0) + Math.imul(ah1, bl8) | 0, hi = hi + Math.imul(ah1, bh8) | 0;
+                    var w9 = (c + (lo = lo + Math.imul(al0, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh9) | 0) + Math.imul(ah0, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh9) | 0) + (mid >>> 13) | 0) + (w9 >>> 26) | 0, w9 &= 0x3ffffff, lo = Math.imul(al9, bl1), mid = (mid = Math.imul(al9, bh1)) + Math.imul(ah9, bl1) | 0, hi = Math.imul(ah9, bh1), lo = lo + Math.imul(al8, bl2) | 0, mid = (mid = mid + Math.imul(al8, bh2) | 0) + Math.imul(ah8, bl2) | 0, hi = hi + Math.imul(ah8, bh2) | 0, lo = lo + Math.imul(al7, bl3) | 0, mid = (mid = mid + Math.imul(al7, bh3) | 0) + Math.imul(ah7, bl3) | 0, hi = hi + Math.imul(ah7, bh3) | 0, lo = lo + Math.imul(al6, bl4) | 0, mid = (mid = mid + Math.imul(al6, bh4) | 0) + Math.imul(ah6, bl4) | 0, hi = hi + Math.imul(ah6, bh4) | 0, lo = lo + Math.imul(al5, bl5) | 0, mid = (mid = mid + Math.imul(al5, bh5) | 0) + Math.imul(ah5, bl5) | 0, hi = hi + Math.imul(ah5, bh5) | 0, lo = lo + Math.imul(al4, bl6) | 0, mid = (mid = mid + Math.imul(al4, bh6) | 0) + Math.imul(ah4, bl6) | 0, hi = hi + Math.imul(ah4, bh6) | 0, lo = lo + Math.imul(al3, bl7) | 0, mid = (mid = mid + Math.imul(al3, bh7) | 0) + Math.imul(ah3, bl7) | 0, hi = hi + Math.imul(ah3, bh7) | 0, lo = lo + Math.imul(al2, bl8) | 0, mid = (mid = mid + Math.imul(al2, bh8) | 0) + Math.imul(ah2, bl8) | 0, hi = hi + Math.imul(ah2, bh8) | 0;
+                    var w10 = (c + (lo = lo + Math.imul(al1, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al1, bh9) | 0) + Math.imul(ah1, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah1, bh9) | 0) + (mid >>> 13) | 0) + (w10 >>> 26) | 0, w10 &= 0x3ffffff, lo = Math.imul(al9, bl2), mid = (mid = Math.imul(al9, bh2)) + Math.imul(ah9, bl2) | 0, hi = Math.imul(ah9, bh2), lo = lo + Math.imul(al8, bl3) | 0, mid = (mid = mid + Math.imul(al8, bh3) | 0) + Math.imul(ah8, bl3) | 0, hi = hi + Math.imul(ah8, bh3) | 0, lo = lo + Math.imul(al7, bl4) | 0, mid = (mid = mid + Math.imul(al7, bh4) | 0) + Math.imul(ah7, bl4) | 0, hi = hi + Math.imul(ah7, bh4) | 0, lo = lo + Math.imul(al6, bl5) | 0, mid = (mid = mid + Math.imul(al6, bh5) | 0) + Math.imul(ah6, bl5) | 0, hi = hi + Math.imul(ah6, bh5) | 0, lo = lo + Math.imul(al5, bl6) | 0, mid = (mid = mid + Math.imul(al5, bh6) | 0) + Math.imul(ah5, bl6) | 0, hi = hi + Math.imul(ah5, bh6) | 0, lo = lo + Math.imul(al4, bl7) | 0, mid = (mid = mid + Math.imul(al4, bh7) | 0) + Math.imul(ah4, bl7) | 0, hi = hi + Math.imul(ah4, bh7) | 0, lo = lo + Math.imul(al3, bl8) | 0, mid = (mid = mid + Math.imul(al3, bh8) | 0) + Math.imul(ah3, bl8) | 0, hi = hi + Math.imul(ah3, bh8) | 0;
+                    var w11 = (c + (lo = lo + Math.imul(al2, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al2, bh9) | 0) + Math.imul(ah2, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah2, bh9) | 0) + (mid >>> 13) | 0) + (w11 >>> 26) | 0, w11 &= 0x3ffffff, lo = Math.imul(al9, bl3), mid = (mid = Math.imul(al9, bh3)) + Math.imul(ah9, bl3) | 0, hi = Math.imul(ah9, bh3), lo = lo + Math.imul(al8, bl4) | 0, mid = (mid = mid + Math.imul(al8, bh4) | 0) + Math.imul(ah8, bl4) | 0, hi = hi + Math.imul(ah8, bh4) | 0, lo = lo + Math.imul(al7, bl5) | 0, mid = (mid = mid + Math.imul(al7, bh5) | 0) + Math.imul(ah7, bl5) | 0, hi = hi + Math.imul(ah7, bh5) | 0, lo = lo + Math.imul(al6, bl6) | 0, mid = (mid = mid + Math.imul(al6, bh6) | 0) + Math.imul(ah6, bl6) | 0, hi = hi + Math.imul(ah6, bh6) | 0, lo = lo + Math.imul(al5, bl7) | 0, mid = (mid = mid + Math.imul(al5, bh7) | 0) + Math.imul(ah5, bl7) | 0, hi = hi + Math.imul(ah5, bh7) | 0, lo = lo + Math.imul(al4, bl8) | 0, mid = (mid = mid + Math.imul(al4, bh8) | 0) + Math.imul(ah4, bl8) | 0, hi = hi + Math.imul(ah4, bh8) | 0;
+                    var w12 = (c + (lo = lo + Math.imul(al3, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al3, bh9) | 0) + Math.imul(ah3, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah3, bh9) | 0) + (mid >>> 13) | 0) + (w12 >>> 26) | 0, w12 &= 0x3ffffff, lo = Math.imul(al9, bl4), mid = (mid = Math.imul(al9, bh4)) + Math.imul(ah9, bl4) | 0, hi = Math.imul(ah9, bh4), lo = lo + Math.imul(al8, bl5) | 0, mid = (mid = mid + Math.imul(al8, bh5) | 0) + Math.imul(ah8, bl5) | 0, hi = hi + Math.imul(ah8, bh5) | 0, lo = lo + Math.imul(al7, bl6) | 0, mid = (mid = mid + Math.imul(al7, bh6) | 0) + Math.imul(ah7, bl6) | 0, hi = hi + Math.imul(ah7, bh6) | 0, lo = lo + Math.imul(al6, bl7) | 0, mid = (mid = mid + Math.imul(al6, bh7) | 0) + Math.imul(ah6, bl7) | 0, hi = hi + Math.imul(ah6, bh7) | 0, lo = lo + Math.imul(al5, bl8) | 0, mid = (mid = mid + Math.imul(al5, bh8) | 0) + Math.imul(ah5, bl8) | 0, hi = hi + Math.imul(ah5, bh8) | 0;
+                    var w13 = (c + (lo = lo + Math.imul(al4, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al4, bh9) | 0) + Math.imul(ah4, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah4, bh9) | 0) + (mid >>> 13) | 0) + (w13 >>> 26) | 0, w13 &= 0x3ffffff, lo = Math.imul(al9, bl5), mid = (mid = Math.imul(al9, bh5)) + Math.imul(ah9, bl5) | 0, hi = Math.imul(ah9, bh5), lo = lo + Math.imul(al8, bl6) | 0, mid = (mid = mid + Math.imul(al8, bh6) | 0) + Math.imul(ah8, bl6) | 0, hi = hi + Math.imul(ah8, bh6) | 0, lo = lo + Math.imul(al7, bl7) | 0, mid = (mid = mid + Math.imul(al7, bh7) | 0) + Math.imul(ah7, bl7) | 0, hi = hi + Math.imul(ah7, bh7) | 0, lo = lo + Math.imul(al6, bl8) | 0, mid = (mid = mid + Math.imul(al6, bh8) | 0) + Math.imul(ah6, bl8) | 0, hi = hi + Math.imul(ah6, bh8) | 0;
+                    var w14 = (c + (lo = lo + Math.imul(al5, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al5, bh9) | 0) + Math.imul(ah5, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah5, bh9) | 0) + (mid >>> 13) | 0) + (w14 >>> 26) | 0, w14 &= 0x3ffffff, lo = Math.imul(al9, bl6), mid = (mid = Math.imul(al9, bh6)) + Math.imul(ah9, bl6) | 0, hi = Math.imul(ah9, bh6), lo = lo + Math.imul(al8, bl7) | 0, mid = (mid = mid + Math.imul(al8, bh7) | 0) + Math.imul(ah8, bl7) | 0, hi = hi + Math.imul(ah8, bh7) | 0, lo = lo + Math.imul(al7, bl8) | 0, mid = (mid = mid + Math.imul(al7, bh8) | 0) + Math.imul(ah7, bl8) | 0, hi = hi + Math.imul(ah7, bh8) | 0;
+                    var w15 = (c + (lo = lo + Math.imul(al6, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al6, bh9) | 0) + Math.imul(ah6, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah6, bh9) | 0) + (mid >>> 13) | 0) + (w15 >>> 26) | 0, w15 &= 0x3ffffff, lo = Math.imul(al9, bl7), mid = (mid = Math.imul(al9, bh7)) + Math.imul(ah9, bl7) | 0, hi = Math.imul(ah9, bh7), lo = lo + Math.imul(al8, bl8) | 0, mid = (mid = mid + Math.imul(al8, bh8) | 0) + Math.imul(ah8, bl8) | 0, hi = hi + Math.imul(ah8, bh8) | 0;
+                    var w16 = (c + (lo = lo + Math.imul(al7, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al7, bh9) | 0) + Math.imul(ah7, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah7, bh9) | 0) + (mid >>> 13) | 0) + (w16 >>> 26) | 0, w16 &= 0x3ffffff, lo = Math.imul(al9, bl8), mid = (mid = Math.imul(al9, bh8)) + Math.imul(ah9, bl8) | 0, hi = Math.imul(ah9, bh8);
+                    var w17 = (c + (lo = lo + Math.imul(al8, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al8, bh9) | 0) + Math.imul(ah8, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah8, bh9) | 0) + (mid >>> 13) | 0) + (w17 >>> 26) | 0, w17 &= 0x3ffffff;
+                    var w18 = (c + (lo = Math.imul(al9, bl9)) | 0) + ((0x1fff & (mid = (mid = Math.imul(al9, bh9)) + Math.imul(ah9, bl9) | 0)) << 13) | 0;
+                    return c = ((hi = Math.imul(ah9, bh9)) + (mid >>> 13) | 0) + (w18 >>> 26) | 0, w18 &= 0x3ffffff, o[0] = w0, o[1] = w1, o[2] = w2, o[3] = w3, o[4] = w4, o[5] = w5, o[6] = w6, o[7] = w7, o[8] = w8, o[9] = w9, o[10] = w10, o[11] = w11, o[12] = w12, o[13] = w13, o[14] = w14, o[15] = w15, o[16] = w16, o[17] = w17, o[18] = w18, 0 !== c && (o[19] = c, out.length++), out;
                 };
                 function bigMulTo(self1, num, out) {
                     out.negative = num.negative ^ self1.negative, out.length = self1.length + num.length;
@@ -566,7 +566,7 @@
                         hncarry = 0;
                         for(var rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++){
                             var i = k - j, r = (0 | self1.words[i]) * (0 | num.words[j]), lo = 0x3ffffff & r;
-                            ncarry = ncarry + (r / 0x4000000 | 0) | 0, rword = 0x3ffffff & (lo = lo + rword | 0), ncarry = ncarry + (lo >>> 26) | 0, hncarry += ncarry >>> 26, ncarry &= 0x3ffffff;
+                            ncarry = ncarry + (r / 0x4000000 | 0) | 0, rword = 0x3ffffff & (lo = lo + rword | 0), hncarry += (ncarry = ncarry + (lo >>> 26) | 0) >>> 26, ncarry &= 0x3ffffff;
                         }
                         out.words[k] = rword, carry = ncarry, ncarry = hncarry;
                     }
@@ -1527,10 +1527,10 @@
                     return this[kTranscoder].encoding(null != encoding ? encoding : this[kValueEncoding]);
                 }
                 open(options, callback) {
-                    callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), options = {
+                    callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), (options = {
                         ...this[kOptions],
                         ...getOptions(options)
-                    }, options.createIfMissing = !1 !== options.createIfMissing, options.errorIfExists = !!options.errorIfExists;
+                    }).createIfMissing = !1 !== options.createIfMissing, options.errorIfExists = !!options.errorIfExists;
                     const maybeOpened = (err)=>{
                         'closing' === this[kStatus] || 'opening' === this[kStatus] ? this.once(kLanded, err ? ()=>maybeOpened(err) : maybeOpened) : 'open' !== this[kStatus] ? callback(new ModuleError('Database is not open', {
                             code: 'LEVEL_DATABASE_NOT_OPEN',
@@ -1725,7 +1725,7 @@
                     if (callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options, this[kDefaultOptions].empty), 'opening' === this[kStatus]) return this.defer(()=>this.clear(options, callback)), callback[kPromise];
                     if (maybeError(this, callback)) return callback[kPromise];
                     const original = options, keyEncoding = this.keyEncoding(options.keyEncoding);
-                    return options = rangeOptions(options, keyEncoding), options.keyEncoding = keyEncoding.format, 0 === options.limit ? this.nextTick(callback) : this._clear(options, (err)=>{
+                    return (options = rangeOptions(options, keyEncoding)).keyEncoding = keyEncoding.format, 0 === options.limit ? this.nextTick(callback) : this._clear(options, (err)=>{
                         if (err) return callback(err);
                         this.emit('clear', original), callback();
                     }), callback[kPromise];
@@ -1735,7 +1735,7 @@
                 }
                 iterator(options) {
                     const keyEncoding = this.keyEncoding(options && options.keyEncoding), valueEncoding = this.valueEncoding(options && options.valueEncoding);
-                    if (options = rangeOptions(options, keyEncoding), options.keys = !1 !== options.keys, options.values = !1 !== options.values, options[AbstractIterator.keyEncoding] = keyEncoding, options[AbstractIterator.valueEncoding] = valueEncoding, options.keyEncoding = keyEncoding.format, options.valueEncoding = valueEncoding.format, 'opening' === this[kStatus]) return new DeferredIterator(this, options);
+                    if ((options = rangeOptions(options, keyEncoding)).keys = !1 !== options.keys, options.values = !1 !== options.values, options[AbstractIterator.keyEncoding] = keyEncoding, options[AbstractIterator.valueEncoding] = valueEncoding, options.keyEncoding = keyEncoding.format, options.valueEncoding = valueEncoding.format, 'opening' === this[kStatus]) return new DeferredIterator(this, options);
                     if ('open' !== this[kStatus]) throw new ModuleError('Database is not open', {
                         code: 'LEVEL_DATABASE_NOT_OPEN'
                     });
@@ -1746,7 +1746,7 @@
                 }
                 keys(options) {
                     const keyEncoding = this.keyEncoding(options && options.keyEncoding), valueEncoding = this.valueEncoding(options && options.valueEncoding);
-                    if (options = rangeOptions(options, keyEncoding), options[AbstractIterator.keyEncoding] = keyEncoding, options[AbstractIterator.valueEncoding] = valueEncoding, options.keyEncoding = keyEncoding.format, options.valueEncoding = valueEncoding.format, 'opening' === this[kStatus]) return new DeferredKeyIterator(this, options);
+                    if ((options = rangeOptions(options, keyEncoding))[AbstractIterator.keyEncoding] = keyEncoding, options[AbstractIterator.valueEncoding] = valueEncoding, options.keyEncoding = keyEncoding.format, options.valueEncoding = valueEncoding.format, 'opening' === this[kStatus]) return new DeferredKeyIterator(this, options);
                     if ('open' !== this[kStatus]) throw new ModuleError('Database is not open', {
                         code: 'LEVEL_DATABASE_NOT_OPEN'
                     });
@@ -1757,7 +1757,7 @@
                 }
                 values(options) {
                     const keyEncoding = this.keyEncoding(options && options.keyEncoding), valueEncoding = this.valueEncoding(options && options.valueEncoding);
-                    if (options = rangeOptions(options, keyEncoding), options[AbstractIterator.keyEncoding] = keyEncoding, options[AbstractIterator.valueEncoding] = valueEncoding, options.keyEncoding = keyEncoding.format, options.valueEncoding = valueEncoding.format, 'opening' === this[kStatus]) return new DeferredValueIterator(this, options);
+                    if ((options = rangeOptions(options, keyEncoding))[AbstractIterator.keyEncoding] = keyEncoding, options[AbstractIterator.valueEncoding] = valueEncoding, options.keyEncoding = keyEncoding.format, options.valueEncoding = valueEncoding.format, 'opening' === this[kStatus]) return new DeferredValueIterator(this, options);
                     if ('open' !== this[kStatus]) throw new ModuleError('Database is not open', {
                         code: 'LEVEL_DATABASE_NOT_OPEN'
                     });
@@ -2673,15 +2673,16 @@
                 return hex.length % 2 == 1 ? "0" + hex : hex;
             }
             function decodeRsaPublic(buffer, extras) {
-                var key = RSAPublicKey.decode(buffer, "der"), e = pad(key.e.toString(16)), jwk = {
+                var key = RSAPublicKey.decode(buffer, "der"), e = pad(key.e.toString(16));
+                return addExtras({
                     kty: "RSA",
                     n: bn2base64url(key.n),
                     e: hex2b64url(e)
-                };
-                return addExtras(jwk, extras);
+                }, extras);
             }
             function decodeRsaPrivate(buffer, extras) {
-                var key = RSAPrivateKey.decode(buffer, "der"), e = pad(key.e.toString(16)), jwk = {
+                var key = RSAPrivateKey.decode(buffer, "der"), e = pad(key.e.toString(16));
+                return addExtras({
                     kty: "RSA",
                     n: bn2base64url(key.n),
                     e: hex2b64url(e),
@@ -2691,8 +2692,7 @@
                     dp: bn2base64url(key.dp),
                     dq: bn2base64url(key.dq),
                     qi: bn2base64url(key.qi)
-                };
-                return addExtras(jwk, extras);
+                }, extras);
             }
             function decodePublic(buffer, extras) {
                 return decodeRsaPublic(PublicKeyInfo.decode(buffer, "der").publicKey.data, extras);
@@ -2735,9 +2735,7 @@
             }
             function jwkTopem(json) {
                 var jwk = parse(json), isPrivate = !!jwk.d, t = isPrivate ? "PRIVATE" : "PUBLIC", header = "-----BEGIN RSA " + t + " KEY-----\n", footer = "\n-----END RSA " + t + " KEY-----\n", data = Buffer.alloc(0);
-                isPrivate ? (jwk.version = "two-prime", data = RSAPrivateKey.encode(jwk, "der")) : data = RSAPublicKey.encode(jwk, "der");
-                var body = data.toString("base64").match(/.{1,64}/g).join("\n");
-                return header + body + footer;
+                return isPrivate ? (jwk.version = "two-prime", data = RSAPrivateKey.encode(jwk, "der")) : data = RSAPublicKey.encode(jwk, "der"), header + data.toString("base64").match(/.{1,64}/g).join("\n") + footer;
             }
             exports.pemTojwk = pemTojwk, exports.jwkTopem = jwkTopem;
         },
@@ -2908,8 +2906,7 @@
                 }), flat;
             }
             async function hashBranch(left, right) {
-                if (!right) return left;
-                let branch = {
+                return right ? {
                     type: "branch",
                     id: await hash([
                         await hash(left.id),
@@ -2920,8 +2917,7 @@
                     maxByteRange: right.maxByteRange,
                     leftChild: left,
                     rightChild: right
-                };
-                return branch;
+                } : left;
             }
             async function hash(data) {
                 return Array.isArray(data) && (data = common_1.default.utils.concatBuffers(data)), new Uint8Array(await common_1.default.crypto.hash(data));
@@ -2950,8 +2946,7 @@
                         await hash(pathData),
                         await hash(endOffsetBuffer), 
                     ]);
-                    let result = (0, exports.arrayCompare)(id, pathDataHash);
-                    return !!result && {
+                    return !!(0, exports.arrayCompare)(id, pathDataHash) && {
                         offset: rightBound - 1,
                         leftBound: leftBound,
                         rightBound: rightBound,
@@ -3627,7 +3622,7 @@
                     if (jwk || "undefined" != typeof window && window.arweaveWallet) {
                         if (jwk && "use_wallet" !== jwk) {
                             transaction.setOwner(jwk.n);
-                            let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
+                            let rawSignature = await this.crypto.sign(jwk, await transaction.getSignatureData(), options), id = await this.crypto.hash(rawSignature);
                             transaction.setSignature({
                                 id: ArweaveUtils.bufferTob64Url(id),
                                 owner: jwk.n,
@@ -4067,7 +4062,7 @@
                     this.driver = crypto.subtle;
                 }
                 async generateJWK() {
-                    let cryptoKey = await this.driver.generateKey({
+                    let jwk = await this.driver.exportKey("jwk", (await this.driver.generateKey({
                         name: "RSA-PSS",
                         modulusLength: 4096,
                         publicExponent: new Uint8Array([
@@ -4080,7 +4075,7 @@
                         }
                     }, !0, [
                         "sign"
-                    ]), jwk = await this.driver.exportKey("jwk", cryptoKey.privateKey);
+                    ])).privateKey);
                     return {
                         kty: jwk.kty,
                         e: jwk.e,
@@ -4365,8 +4360,7 @@
                 }), flat;
             }
             async function hashBranch(left, right) {
-                if (!right) return left;
-                let branch = {
+                return right ? {
                     type: "branch",
                     id: await hash([
                         await hash(left.id),
@@ -4377,8 +4371,7 @@
                     maxByteRange: right.maxByteRange,
                     leftChild: left,
                     rightChild: right
-                };
-                return branch;
+                } : left;
             }
             async function hash(data) {
                 return Array.isArray(data) && (data = common_1.default.utils.concatBuffers(data)), new Uint8Array(await common_1.default.crypto.hash(data));
@@ -4407,8 +4400,7 @@
                         await hash(pathData),
                         await hash(endOffsetBuffer), 
                     ]);
-                    let result = (0, exports.arrayCompare)(id, pathDataHash);
-                    return !!result && {
+                    return !!(0, exports.arrayCompare)(id, pathDataHash) && {
                         offset: rightBound - 1,
                         leftBound: leftBound,
                         rightBound: rightBound,
@@ -4953,7 +4945,7 @@
                     if (jwk || "undefined" != typeof window && window.arweaveWallet) {
                         if (jwk && "use_wallet" !== jwk) {
                             transaction.setOwner(jwk.n);
-                            let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
+                            let rawSignature = await this.crypto.sign(jwk, await transaction.getSignatureData(), options), id = await this.crypto.hash(rawSignature);
                             transaction.setSignature({
                                 id: ArweaveUtils.bufferTob64Url(id),
                                 owner: jwk.n,
@@ -5932,8 +5924,8 @@
                     var fullPath = buildFullPath(config.baseURL, config.url);
                     function onloadend() {
                         if (request) {
-                            var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null, responseData = responseType && 'text' !== responseType && 'json' !== responseType ? request.response : request.responseText, response = {
-                                data: responseData,
+                            var responseData, responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null, response = {
+                                data: responseType && 'text' !== responseType && 'json' !== responseType ? request.response : request.responseText,
                                 status: request.status,
                                 statusText: request.statusText,
                                 headers: responseHeaders,
@@ -6034,11 +6026,11 @@
                     -1 !== index && this._listeners.splice(index, 1);
                 }
             }, CancelToken.source = function() {
-                var cancel, token = new CancelToken(function(c) {
-                    cancel = c;
-                });
+                var cancel;
                 return {
-                    token: token,
+                    token: new CancelToken(function(c) {
+                        cancel = c;
+                    }),
                     cancel: cancel
                 };
             }, module.exports = CancelToken;
@@ -6937,7 +6929,7 @@
                         var c0, e, ne, len, str;
                         if (null == rm ? rm = ROUNDING_MODE : intCheck(rm, 0, 8), !n.c) return n.toString();
                         if (c0 = n.c[0], ne = n.e, null == i) str = coeffToString(n.c), str = 1 == id || 2 == id && (ne <= TO_EXP_NEG || ne >= TO_EXP_POS) ? toExponential(str, ne) : toFixedPoint(str, ne, '0');
-                        else if (e = (n = round(new BigNumber(n), i, rm)).e, str = coeffToString(n.c), len = str.length, 1 == id || 2 == id && (i <= e || e <= TO_EXP_NEG)) {
+                        else if (e = (n = round(new BigNumber(n), i, rm)).e, len = (str = coeffToString(n.c)).length, 1 == id || 2 == id && (i <= e || e <= TO_EXP_NEG)) {
                             for(; len < i; str += '0', len++);
                             str = toExponential(str, e);
                         } else if (i -= ne, str = toFixedPoint(str, e, '0'), e + 1 > len) {
@@ -7121,7 +7113,7 @@
                     }(), div = function() {
                         function multiply(x, k, base) {
                             var m, temp, xlo, xhi, carry = 0, i = x.length, klo = k % SQRT_BASE, khi = k / SQRT_BASE | 0;
-                            for(x = x.slice(); i--;)xlo = x[i] % SQRT_BASE, xhi = x[i] / SQRT_BASE | 0, m = khi * xlo + xhi * klo, temp = klo * xlo + m % SQRT_BASE * SQRT_BASE + carry, carry = (temp / base | 0) + (m / SQRT_BASE | 0) + khi * xhi, x[i] = temp % base;
+                            for(x = x.slice(); i--;)m = khi * (xlo = x[i] % SQRT_BASE) + (xhi = x[i] / SQRT_BASE | 0) * klo, carry = ((temp = klo * xlo + m % SQRT_BASE * SQRT_BASE + carry) / base | 0) + (m / SQRT_BASE | 0) + khi * xhi, x[i] = temp % base;
                             return carry && (x = [
                                 carry
                             ].concat(x)), x;
@@ -7287,7 +7279,7 @@
                         ], y.e = 0) : y.c = y.e = null) : y.c = y.e = y.s = null, y;
                         for(e = bitFloor(x.e / LOG_BASE) + bitFloor(y.e / LOG_BASE), y.s *= x.s, (xcL = xc.length) < (ycL = yc.length) && (zc = xc, xc = yc, yc = zc, i = xcL, xcL = ycL, ycL = i), i = xcL + ycL, zc = []; i--; zc.push(0));
                         for(base = BASE, sqrtBase = SQRT_BASE, i = ycL; --i >= 0;){
-                            for(c = 0, ylo = yc[i] % sqrtBase, yhi = yc[i] / sqrtBase | 0, j = i + (k = xcL); j > i;)xlo = xc[--k] % sqrtBase, xhi = xc[k] / sqrtBase | 0, m = yhi * xlo + xhi * ylo, xlo = ylo * xlo + m % sqrtBase * sqrtBase + zc[j] + c, c = (xlo / base | 0) + (m / sqrtBase | 0) + yhi * xhi, zc[j--] = xlo % base;
+                            for(c = 0, ylo = yc[i] % sqrtBase, yhi = yc[i] / sqrtBase | 0, j = i + (k = xcL); j > i;)m = yhi * (xlo = xc[--k] % sqrtBase) + (xhi = xc[k] / sqrtBase | 0) * ylo, c = ((xlo = ylo * xlo + m % sqrtBase * sqrtBase + zc[j] + c) / base | 0) + (m / sqrtBase | 0) + yhi * xhi, zc[j--] = xlo % base;
                             zc[j] = c;
                         }
                         return c ? ++e : zc.splice(0, 1), normalise(y, zc, e);
@@ -7422,7 +7414,7 @@
                     } else e < len && (str = str.slice(0, e) + '.' + str.slice(e));
                     return str;
                 }
-                BigNumber = clone(), BigNumber.default = BigNumber.BigNumber = BigNumber, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                (BigNumber = clone()).default = BigNumber.BigNumber = BigNumber, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return BigNumber;
                 }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
             }(this);
@@ -7810,45 +7802,45 @@
                 };
                 var comb10MulTo = function(self1, num, out) {
                     var lo, mid, hi, a = self1.words, b = num.words, o = out.words, c = 0, a0 = 0 | a[0], al0 = 0x1fff & a0, ah0 = a0 >>> 13, a1 = 0 | a[1], al1 = 0x1fff & a1, ah1 = a1 >>> 13, a2 = 0 | a[2], al2 = 0x1fff & a2, ah2 = a2 >>> 13, a3 = 0 | a[3], al3 = 0x1fff & a3, ah3 = a3 >>> 13, a4 = 0 | a[4], al4 = 0x1fff & a4, ah4 = a4 >>> 13, a5 = 0 | a[5], al5 = 0x1fff & a5, ah5 = a5 >>> 13, a6 = 0 | a[6], al6 = 0x1fff & a6, ah6 = a6 >>> 13, a7 = 0 | a[7], al7 = 0x1fff & a7, ah7 = a7 >>> 13, a8 = 0 | a[8], al8 = 0x1fff & a8, ah8 = a8 >>> 13, a9 = 0 | a[9], al9 = 0x1fff & a9, ah9 = a9 >>> 13, b0 = 0 | b[0], bl0 = 0x1fff & b0, bh0 = b0 >>> 13, b1 = 0 | b[1], bl1 = 0x1fff & b1, bh1 = b1 >>> 13, b2 = 0 | b[2], bl2 = 0x1fff & b2, bh2 = b2 >>> 13, b3 = 0 | b[3], bl3 = 0x1fff & b3, bh3 = b3 >>> 13, b4 = 0 | b[4], bl4 = 0x1fff & b4, bh4 = b4 >>> 13, b5 = 0 | b[5], bl5 = 0x1fff & b5, bh5 = b5 >>> 13, b6 = 0 | b[6], bl6 = 0x1fff & b6, bh6 = b6 >>> 13, b7 = 0 | b[7], bl7 = 0x1fff & b7, bh7 = b7 >>> 13, b8 = 0 | b[8], bl8 = 0x1fff & b8, bh8 = b8 >>> 13, b9 = 0 | b[9], bl9 = 0x1fff & b9, bh9 = b9 >>> 13;
-                    out.negative = self1.negative ^ num.negative, out.length = 19, lo = Math.imul(al0, bl0), mid = Math.imul(al0, bh0), mid = mid + Math.imul(ah0, bl0) | 0, hi = Math.imul(ah0, bh0);
-                    var w0 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w0 >>> 26) | 0, w0 &= 0x3ffffff, lo = Math.imul(al1, bl0), mid = Math.imul(al1, bh0), mid = mid + Math.imul(ah1, bl0) | 0, hi = Math.imul(ah1, bh0), lo = lo + Math.imul(al0, bl1) | 0, mid = mid + Math.imul(al0, bh1) | 0, mid = mid + Math.imul(ah0, bl1) | 0, hi = hi + Math.imul(ah0, bh1) | 0;
-                    var w1 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w1 >>> 26) | 0, w1 &= 0x3ffffff, lo = Math.imul(al2, bl0), mid = Math.imul(al2, bh0), mid = mid + Math.imul(ah2, bl0) | 0, hi = Math.imul(ah2, bh0), lo = lo + Math.imul(al1, bl1) | 0, mid = mid + Math.imul(al1, bh1) | 0, mid = mid + Math.imul(ah1, bl1) | 0, hi = hi + Math.imul(ah1, bh1) | 0, lo = lo + Math.imul(al0, bl2) | 0, mid = mid + Math.imul(al0, bh2) | 0, mid = mid + Math.imul(ah0, bl2) | 0, hi = hi + Math.imul(ah0, bh2) | 0;
-                    var w2 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w2 >>> 26) | 0, w2 &= 0x3ffffff, lo = Math.imul(al3, bl0), mid = Math.imul(al3, bh0), mid = mid + Math.imul(ah3, bl0) | 0, hi = Math.imul(ah3, bh0), lo = lo + Math.imul(al2, bl1) | 0, mid = mid + Math.imul(al2, bh1) | 0, mid = mid + Math.imul(ah2, bl1) | 0, hi = hi + Math.imul(ah2, bh1) | 0, lo = lo + Math.imul(al1, bl2) | 0, mid = mid + Math.imul(al1, bh2) | 0, mid = mid + Math.imul(ah1, bl2) | 0, hi = hi + Math.imul(ah1, bh2) | 0, lo = lo + Math.imul(al0, bl3) | 0, mid = mid + Math.imul(al0, bh3) | 0, mid = mid + Math.imul(ah0, bl3) | 0, hi = hi + Math.imul(ah0, bh3) | 0;
-                    var w3 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w3 >>> 26) | 0, w3 &= 0x3ffffff, lo = Math.imul(al4, bl0), mid = Math.imul(al4, bh0), mid = mid + Math.imul(ah4, bl0) | 0, hi = Math.imul(ah4, bh0), lo = lo + Math.imul(al3, bl1) | 0, mid = mid + Math.imul(al3, bh1) | 0, mid = mid + Math.imul(ah3, bl1) | 0, hi = hi + Math.imul(ah3, bh1) | 0, lo = lo + Math.imul(al2, bl2) | 0, mid = mid + Math.imul(al2, bh2) | 0, mid = mid + Math.imul(ah2, bl2) | 0, hi = hi + Math.imul(ah2, bh2) | 0, lo = lo + Math.imul(al1, bl3) | 0, mid = mid + Math.imul(al1, bh3) | 0, mid = mid + Math.imul(ah1, bl3) | 0, hi = hi + Math.imul(ah1, bh3) | 0, lo = lo + Math.imul(al0, bl4) | 0, mid = mid + Math.imul(al0, bh4) | 0, mid = mid + Math.imul(ah0, bl4) | 0, hi = hi + Math.imul(ah0, bh4) | 0;
-                    var w4 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w4 >>> 26) | 0, w4 &= 0x3ffffff, lo = Math.imul(al5, bl0), mid = Math.imul(al5, bh0), mid = mid + Math.imul(ah5, bl0) | 0, hi = Math.imul(ah5, bh0), lo = lo + Math.imul(al4, bl1) | 0, mid = mid + Math.imul(al4, bh1) | 0, mid = mid + Math.imul(ah4, bl1) | 0, hi = hi + Math.imul(ah4, bh1) | 0, lo = lo + Math.imul(al3, bl2) | 0, mid = mid + Math.imul(al3, bh2) | 0, mid = mid + Math.imul(ah3, bl2) | 0, hi = hi + Math.imul(ah3, bh2) | 0, lo = lo + Math.imul(al2, bl3) | 0, mid = mid + Math.imul(al2, bh3) | 0, mid = mid + Math.imul(ah2, bl3) | 0, hi = hi + Math.imul(ah2, bh3) | 0, lo = lo + Math.imul(al1, bl4) | 0, mid = mid + Math.imul(al1, bh4) | 0, mid = mid + Math.imul(ah1, bl4) | 0, hi = hi + Math.imul(ah1, bh4) | 0, lo = lo + Math.imul(al0, bl5) | 0, mid = mid + Math.imul(al0, bh5) | 0, mid = mid + Math.imul(ah0, bl5) | 0, hi = hi + Math.imul(ah0, bh5) | 0;
-                    var w5 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w5 >>> 26) | 0, w5 &= 0x3ffffff, lo = Math.imul(al6, bl0), mid = Math.imul(al6, bh0), mid = mid + Math.imul(ah6, bl0) | 0, hi = Math.imul(ah6, bh0), lo = lo + Math.imul(al5, bl1) | 0, mid = mid + Math.imul(al5, bh1) | 0, mid = mid + Math.imul(ah5, bl1) | 0, hi = hi + Math.imul(ah5, bh1) | 0, lo = lo + Math.imul(al4, bl2) | 0, mid = mid + Math.imul(al4, bh2) | 0, mid = mid + Math.imul(ah4, bl2) | 0, hi = hi + Math.imul(ah4, bh2) | 0, lo = lo + Math.imul(al3, bl3) | 0, mid = mid + Math.imul(al3, bh3) | 0, mid = mid + Math.imul(ah3, bl3) | 0, hi = hi + Math.imul(ah3, bh3) | 0, lo = lo + Math.imul(al2, bl4) | 0, mid = mid + Math.imul(al2, bh4) | 0, mid = mid + Math.imul(ah2, bl4) | 0, hi = hi + Math.imul(ah2, bh4) | 0, lo = lo + Math.imul(al1, bl5) | 0, mid = mid + Math.imul(al1, bh5) | 0, mid = mid + Math.imul(ah1, bl5) | 0, hi = hi + Math.imul(ah1, bh5) | 0, lo = lo + Math.imul(al0, bl6) | 0, mid = mid + Math.imul(al0, bh6) | 0, mid = mid + Math.imul(ah0, bl6) | 0, hi = hi + Math.imul(ah0, bh6) | 0;
-                    var w6 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w6 >>> 26) | 0, w6 &= 0x3ffffff, lo = Math.imul(al7, bl0), mid = Math.imul(al7, bh0), mid = mid + Math.imul(ah7, bl0) | 0, hi = Math.imul(ah7, bh0), lo = lo + Math.imul(al6, bl1) | 0, mid = mid + Math.imul(al6, bh1) | 0, mid = mid + Math.imul(ah6, bl1) | 0, hi = hi + Math.imul(ah6, bh1) | 0, lo = lo + Math.imul(al5, bl2) | 0, mid = mid + Math.imul(al5, bh2) | 0, mid = mid + Math.imul(ah5, bl2) | 0, hi = hi + Math.imul(ah5, bh2) | 0, lo = lo + Math.imul(al4, bl3) | 0, mid = mid + Math.imul(al4, bh3) | 0, mid = mid + Math.imul(ah4, bl3) | 0, hi = hi + Math.imul(ah4, bh3) | 0, lo = lo + Math.imul(al3, bl4) | 0, mid = mid + Math.imul(al3, bh4) | 0, mid = mid + Math.imul(ah3, bl4) | 0, hi = hi + Math.imul(ah3, bh4) | 0, lo = lo + Math.imul(al2, bl5) | 0, mid = mid + Math.imul(al2, bh5) | 0, mid = mid + Math.imul(ah2, bl5) | 0, hi = hi + Math.imul(ah2, bh5) | 0, lo = lo + Math.imul(al1, bl6) | 0, mid = mid + Math.imul(al1, bh6) | 0, mid = mid + Math.imul(ah1, bl6) | 0, hi = hi + Math.imul(ah1, bh6) | 0, lo = lo + Math.imul(al0, bl7) | 0, mid = mid + Math.imul(al0, bh7) | 0, mid = mid + Math.imul(ah0, bl7) | 0, hi = hi + Math.imul(ah0, bh7) | 0;
-                    var w7 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w7 >>> 26) | 0, w7 &= 0x3ffffff, lo = Math.imul(al8, bl0), mid = Math.imul(al8, bh0), mid = mid + Math.imul(ah8, bl0) | 0, hi = Math.imul(ah8, bh0), lo = lo + Math.imul(al7, bl1) | 0, mid = mid + Math.imul(al7, bh1) | 0, mid = mid + Math.imul(ah7, bl1) | 0, hi = hi + Math.imul(ah7, bh1) | 0, lo = lo + Math.imul(al6, bl2) | 0, mid = mid + Math.imul(al6, bh2) | 0, mid = mid + Math.imul(ah6, bl2) | 0, hi = hi + Math.imul(ah6, bh2) | 0, lo = lo + Math.imul(al5, bl3) | 0, mid = mid + Math.imul(al5, bh3) | 0, mid = mid + Math.imul(ah5, bl3) | 0, hi = hi + Math.imul(ah5, bh3) | 0, lo = lo + Math.imul(al4, bl4) | 0, mid = mid + Math.imul(al4, bh4) | 0, mid = mid + Math.imul(ah4, bl4) | 0, hi = hi + Math.imul(ah4, bh4) | 0, lo = lo + Math.imul(al3, bl5) | 0, mid = mid + Math.imul(al3, bh5) | 0, mid = mid + Math.imul(ah3, bl5) | 0, hi = hi + Math.imul(ah3, bh5) | 0, lo = lo + Math.imul(al2, bl6) | 0, mid = mid + Math.imul(al2, bh6) | 0, mid = mid + Math.imul(ah2, bl6) | 0, hi = hi + Math.imul(ah2, bh6) | 0, lo = lo + Math.imul(al1, bl7) | 0, mid = mid + Math.imul(al1, bh7) | 0, mid = mid + Math.imul(ah1, bl7) | 0, hi = hi + Math.imul(ah1, bh7) | 0, lo = lo + Math.imul(al0, bl8) | 0, mid = mid + Math.imul(al0, bh8) | 0, mid = mid + Math.imul(ah0, bl8) | 0, hi = hi + Math.imul(ah0, bh8) | 0;
-                    var w8 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w8 >>> 26) | 0, w8 &= 0x3ffffff, lo = Math.imul(al9, bl0), mid = Math.imul(al9, bh0), mid = mid + Math.imul(ah9, bl0) | 0, hi = Math.imul(ah9, bh0), lo = lo + Math.imul(al8, bl1) | 0, mid = mid + Math.imul(al8, bh1) | 0, mid = mid + Math.imul(ah8, bl1) | 0, hi = hi + Math.imul(ah8, bh1) | 0, lo = lo + Math.imul(al7, bl2) | 0, mid = mid + Math.imul(al7, bh2) | 0, mid = mid + Math.imul(ah7, bl2) | 0, hi = hi + Math.imul(ah7, bh2) | 0, lo = lo + Math.imul(al6, bl3) | 0, mid = mid + Math.imul(al6, bh3) | 0, mid = mid + Math.imul(ah6, bl3) | 0, hi = hi + Math.imul(ah6, bh3) | 0, lo = lo + Math.imul(al5, bl4) | 0, mid = mid + Math.imul(al5, bh4) | 0, mid = mid + Math.imul(ah5, bl4) | 0, hi = hi + Math.imul(ah5, bh4) | 0, lo = lo + Math.imul(al4, bl5) | 0, mid = mid + Math.imul(al4, bh5) | 0, mid = mid + Math.imul(ah4, bl5) | 0, hi = hi + Math.imul(ah4, bh5) | 0, lo = lo + Math.imul(al3, bl6) | 0, mid = mid + Math.imul(al3, bh6) | 0, mid = mid + Math.imul(ah3, bl6) | 0, hi = hi + Math.imul(ah3, bh6) | 0, lo = lo + Math.imul(al2, bl7) | 0, mid = mid + Math.imul(al2, bh7) | 0, mid = mid + Math.imul(ah2, bl7) | 0, hi = hi + Math.imul(ah2, bh7) | 0, lo = lo + Math.imul(al1, bl8) | 0, mid = mid + Math.imul(al1, bh8) | 0, mid = mid + Math.imul(ah1, bl8) | 0, hi = hi + Math.imul(ah1, bh8) | 0, lo = lo + Math.imul(al0, bl9) | 0, mid = mid + Math.imul(al0, bh9) | 0, mid = mid + Math.imul(ah0, bl9) | 0, hi = hi + Math.imul(ah0, bh9) | 0;
-                    var w9 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w9 >>> 26) | 0, w9 &= 0x3ffffff, lo = Math.imul(al9, bl1), mid = Math.imul(al9, bh1), mid = mid + Math.imul(ah9, bl1) | 0, hi = Math.imul(ah9, bh1), lo = lo + Math.imul(al8, bl2) | 0, mid = mid + Math.imul(al8, bh2) | 0, mid = mid + Math.imul(ah8, bl2) | 0, hi = hi + Math.imul(ah8, bh2) | 0, lo = lo + Math.imul(al7, bl3) | 0, mid = mid + Math.imul(al7, bh3) | 0, mid = mid + Math.imul(ah7, bl3) | 0, hi = hi + Math.imul(ah7, bh3) | 0, lo = lo + Math.imul(al6, bl4) | 0, mid = mid + Math.imul(al6, bh4) | 0, mid = mid + Math.imul(ah6, bl4) | 0, hi = hi + Math.imul(ah6, bh4) | 0, lo = lo + Math.imul(al5, bl5) | 0, mid = mid + Math.imul(al5, bh5) | 0, mid = mid + Math.imul(ah5, bl5) | 0, hi = hi + Math.imul(ah5, bh5) | 0, lo = lo + Math.imul(al4, bl6) | 0, mid = mid + Math.imul(al4, bh6) | 0, mid = mid + Math.imul(ah4, bl6) | 0, hi = hi + Math.imul(ah4, bh6) | 0, lo = lo + Math.imul(al3, bl7) | 0, mid = mid + Math.imul(al3, bh7) | 0, mid = mid + Math.imul(ah3, bl7) | 0, hi = hi + Math.imul(ah3, bh7) | 0, lo = lo + Math.imul(al2, bl8) | 0, mid = mid + Math.imul(al2, bh8) | 0, mid = mid + Math.imul(ah2, bl8) | 0, hi = hi + Math.imul(ah2, bh8) | 0, lo = lo + Math.imul(al1, bl9) | 0, mid = mid + Math.imul(al1, bh9) | 0, mid = mid + Math.imul(ah1, bl9) | 0, hi = hi + Math.imul(ah1, bh9) | 0;
-                    var w10 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w10 >>> 26) | 0, w10 &= 0x3ffffff, lo = Math.imul(al9, bl2), mid = Math.imul(al9, bh2), mid = mid + Math.imul(ah9, bl2) | 0, hi = Math.imul(ah9, bh2), lo = lo + Math.imul(al8, bl3) | 0, mid = mid + Math.imul(al8, bh3) | 0, mid = mid + Math.imul(ah8, bl3) | 0, hi = hi + Math.imul(ah8, bh3) | 0, lo = lo + Math.imul(al7, bl4) | 0, mid = mid + Math.imul(al7, bh4) | 0, mid = mid + Math.imul(ah7, bl4) | 0, hi = hi + Math.imul(ah7, bh4) | 0, lo = lo + Math.imul(al6, bl5) | 0, mid = mid + Math.imul(al6, bh5) | 0, mid = mid + Math.imul(ah6, bl5) | 0, hi = hi + Math.imul(ah6, bh5) | 0, lo = lo + Math.imul(al5, bl6) | 0, mid = mid + Math.imul(al5, bh6) | 0, mid = mid + Math.imul(ah5, bl6) | 0, hi = hi + Math.imul(ah5, bh6) | 0, lo = lo + Math.imul(al4, bl7) | 0, mid = mid + Math.imul(al4, bh7) | 0, mid = mid + Math.imul(ah4, bl7) | 0, hi = hi + Math.imul(ah4, bh7) | 0, lo = lo + Math.imul(al3, bl8) | 0, mid = mid + Math.imul(al3, bh8) | 0, mid = mid + Math.imul(ah3, bl8) | 0, hi = hi + Math.imul(ah3, bh8) | 0, lo = lo + Math.imul(al2, bl9) | 0, mid = mid + Math.imul(al2, bh9) | 0, mid = mid + Math.imul(ah2, bl9) | 0, hi = hi + Math.imul(ah2, bh9) | 0;
-                    var w11 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w11 >>> 26) | 0, w11 &= 0x3ffffff, lo = Math.imul(al9, bl3), mid = Math.imul(al9, bh3), mid = mid + Math.imul(ah9, bl3) | 0, hi = Math.imul(ah9, bh3), lo = lo + Math.imul(al8, bl4) | 0, mid = mid + Math.imul(al8, bh4) | 0, mid = mid + Math.imul(ah8, bl4) | 0, hi = hi + Math.imul(ah8, bh4) | 0, lo = lo + Math.imul(al7, bl5) | 0, mid = mid + Math.imul(al7, bh5) | 0, mid = mid + Math.imul(ah7, bl5) | 0, hi = hi + Math.imul(ah7, bh5) | 0, lo = lo + Math.imul(al6, bl6) | 0, mid = mid + Math.imul(al6, bh6) | 0, mid = mid + Math.imul(ah6, bl6) | 0, hi = hi + Math.imul(ah6, bh6) | 0, lo = lo + Math.imul(al5, bl7) | 0, mid = mid + Math.imul(al5, bh7) | 0, mid = mid + Math.imul(ah5, bl7) | 0, hi = hi + Math.imul(ah5, bh7) | 0, lo = lo + Math.imul(al4, bl8) | 0, mid = mid + Math.imul(al4, bh8) | 0, mid = mid + Math.imul(ah4, bl8) | 0, hi = hi + Math.imul(ah4, bh8) | 0, lo = lo + Math.imul(al3, bl9) | 0, mid = mid + Math.imul(al3, bh9) | 0, mid = mid + Math.imul(ah3, bl9) | 0, hi = hi + Math.imul(ah3, bh9) | 0;
-                    var w12 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w12 >>> 26) | 0, w12 &= 0x3ffffff, lo = Math.imul(al9, bl4), mid = Math.imul(al9, bh4), mid = mid + Math.imul(ah9, bl4) | 0, hi = Math.imul(ah9, bh4), lo = lo + Math.imul(al8, bl5) | 0, mid = mid + Math.imul(al8, bh5) | 0, mid = mid + Math.imul(ah8, bl5) | 0, hi = hi + Math.imul(ah8, bh5) | 0, lo = lo + Math.imul(al7, bl6) | 0, mid = mid + Math.imul(al7, bh6) | 0, mid = mid + Math.imul(ah7, bl6) | 0, hi = hi + Math.imul(ah7, bh6) | 0, lo = lo + Math.imul(al6, bl7) | 0, mid = mid + Math.imul(al6, bh7) | 0, mid = mid + Math.imul(ah6, bl7) | 0, hi = hi + Math.imul(ah6, bh7) | 0, lo = lo + Math.imul(al5, bl8) | 0, mid = mid + Math.imul(al5, bh8) | 0, mid = mid + Math.imul(ah5, bl8) | 0, hi = hi + Math.imul(ah5, bh8) | 0, lo = lo + Math.imul(al4, bl9) | 0, mid = mid + Math.imul(al4, bh9) | 0, mid = mid + Math.imul(ah4, bl9) | 0, hi = hi + Math.imul(ah4, bh9) | 0;
-                    var w13 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w13 >>> 26) | 0, w13 &= 0x3ffffff, lo = Math.imul(al9, bl5), mid = Math.imul(al9, bh5), mid = mid + Math.imul(ah9, bl5) | 0, hi = Math.imul(ah9, bh5), lo = lo + Math.imul(al8, bl6) | 0, mid = mid + Math.imul(al8, bh6) | 0, mid = mid + Math.imul(ah8, bl6) | 0, hi = hi + Math.imul(ah8, bh6) | 0, lo = lo + Math.imul(al7, bl7) | 0, mid = mid + Math.imul(al7, bh7) | 0, mid = mid + Math.imul(ah7, bl7) | 0, hi = hi + Math.imul(ah7, bh7) | 0, lo = lo + Math.imul(al6, bl8) | 0, mid = mid + Math.imul(al6, bh8) | 0, mid = mid + Math.imul(ah6, bl8) | 0, hi = hi + Math.imul(ah6, bh8) | 0, lo = lo + Math.imul(al5, bl9) | 0, mid = mid + Math.imul(al5, bh9) | 0, mid = mid + Math.imul(ah5, bl9) | 0, hi = hi + Math.imul(ah5, bh9) | 0;
-                    var w14 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w14 >>> 26) | 0, w14 &= 0x3ffffff, lo = Math.imul(al9, bl6), mid = Math.imul(al9, bh6), mid = mid + Math.imul(ah9, bl6) | 0, hi = Math.imul(ah9, bh6), lo = lo + Math.imul(al8, bl7) | 0, mid = mid + Math.imul(al8, bh7) | 0, mid = mid + Math.imul(ah8, bl7) | 0, hi = hi + Math.imul(ah8, bh7) | 0, lo = lo + Math.imul(al7, bl8) | 0, mid = mid + Math.imul(al7, bh8) | 0, mid = mid + Math.imul(ah7, bl8) | 0, hi = hi + Math.imul(ah7, bh8) | 0, lo = lo + Math.imul(al6, bl9) | 0, mid = mid + Math.imul(al6, bh9) | 0, mid = mid + Math.imul(ah6, bl9) | 0, hi = hi + Math.imul(ah6, bh9) | 0;
-                    var w15 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w15 >>> 26) | 0, w15 &= 0x3ffffff, lo = Math.imul(al9, bl7), mid = Math.imul(al9, bh7), mid = mid + Math.imul(ah9, bl7) | 0, hi = Math.imul(ah9, bh7), lo = lo + Math.imul(al8, bl8) | 0, mid = mid + Math.imul(al8, bh8) | 0, mid = mid + Math.imul(ah8, bl8) | 0, hi = hi + Math.imul(ah8, bh8) | 0, lo = lo + Math.imul(al7, bl9) | 0, mid = mid + Math.imul(al7, bh9) | 0, mid = mid + Math.imul(ah7, bl9) | 0, hi = hi + Math.imul(ah7, bh9) | 0;
-                    var w16 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w16 >>> 26) | 0, w16 &= 0x3ffffff, lo = Math.imul(al9, bl8), mid = Math.imul(al9, bh8), mid = mid + Math.imul(ah9, bl8) | 0, hi = Math.imul(ah9, bh8), lo = lo + Math.imul(al8, bl9) | 0, mid = mid + Math.imul(al8, bh9) | 0, mid = mid + Math.imul(ah8, bl9) | 0, hi = hi + Math.imul(ah8, bh9) | 0;
-                    var w17 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    c = (hi + (mid >>> 13) | 0) + (w17 >>> 26) | 0, w17 &= 0x3ffffff, lo = Math.imul(al9, bl9), mid = Math.imul(al9, bh9), mid = mid + Math.imul(ah9, bl9) | 0, hi = Math.imul(ah9, bh9);
-                    var w18 = (c + lo | 0) + ((0x1fff & mid) << 13) | 0;
-                    return c = (hi + (mid >>> 13) | 0) + (w18 >>> 26) | 0, w18 &= 0x3ffffff, o[0] = w0, o[1] = w1, o[2] = w2, o[3] = w3, o[4] = w4, o[5] = w5, o[6] = w6, o[7] = w7, o[8] = w8, o[9] = w9, o[10] = w10, o[11] = w11, o[12] = w12, o[13] = w13, o[14] = w14, o[15] = w15, o[16] = w16, o[17] = w17, o[18] = w18, 0 !== c && (o[19] = c, out.length++), out;
+                    out.negative = self1.negative ^ num.negative, out.length = 19;
+                    var w0 = (c + (lo = Math.imul(al0, bl0)) | 0) + ((0x1fff & (mid = (mid = Math.imul(al0, bh0)) + Math.imul(ah0, bl0) | 0)) << 13) | 0;
+                    c = ((hi = Math.imul(ah0, bh0)) + (mid >>> 13) | 0) + (w0 >>> 26) | 0, w0 &= 0x3ffffff, lo = Math.imul(al1, bl0), mid = (mid = Math.imul(al1, bh0)) + Math.imul(ah1, bl0) | 0, hi = Math.imul(ah1, bh0);
+                    var w1 = (c + (lo = lo + Math.imul(al0, bl1) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh1) | 0) + Math.imul(ah0, bl1) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh1) | 0) + (mid >>> 13) | 0) + (w1 >>> 26) | 0, w1 &= 0x3ffffff, lo = Math.imul(al2, bl0), mid = (mid = Math.imul(al2, bh0)) + Math.imul(ah2, bl0) | 0, hi = Math.imul(ah2, bh0), lo = lo + Math.imul(al1, bl1) | 0, mid = (mid = mid + Math.imul(al1, bh1) | 0) + Math.imul(ah1, bl1) | 0, hi = hi + Math.imul(ah1, bh1) | 0;
+                    var w2 = (c + (lo = lo + Math.imul(al0, bl2) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh2) | 0) + Math.imul(ah0, bl2) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh2) | 0) + (mid >>> 13) | 0) + (w2 >>> 26) | 0, w2 &= 0x3ffffff, lo = Math.imul(al3, bl0), mid = (mid = Math.imul(al3, bh0)) + Math.imul(ah3, bl0) | 0, hi = Math.imul(ah3, bh0), lo = lo + Math.imul(al2, bl1) | 0, mid = (mid = mid + Math.imul(al2, bh1) | 0) + Math.imul(ah2, bl1) | 0, hi = hi + Math.imul(ah2, bh1) | 0, lo = lo + Math.imul(al1, bl2) | 0, mid = (mid = mid + Math.imul(al1, bh2) | 0) + Math.imul(ah1, bl2) | 0, hi = hi + Math.imul(ah1, bh2) | 0;
+                    var w3 = (c + (lo = lo + Math.imul(al0, bl3) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh3) | 0) + Math.imul(ah0, bl3) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh3) | 0) + (mid >>> 13) | 0) + (w3 >>> 26) | 0, w3 &= 0x3ffffff, lo = Math.imul(al4, bl0), mid = (mid = Math.imul(al4, bh0)) + Math.imul(ah4, bl0) | 0, hi = Math.imul(ah4, bh0), lo = lo + Math.imul(al3, bl1) | 0, mid = (mid = mid + Math.imul(al3, bh1) | 0) + Math.imul(ah3, bl1) | 0, hi = hi + Math.imul(ah3, bh1) | 0, lo = lo + Math.imul(al2, bl2) | 0, mid = (mid = mid + Math.imul(al2, bh2) | 0) + Math.imul(ah2, bl2) | 0, hi = hi + Math.imul(ah2, bh2) | 0, lo = lo + Math.imul(al1, bl3) | 0, mid = (mid = mid + Math.imul(al1, bh3) | 0) + Math.imul(ah1, bl3) | 0, hi = hi + Math.imul(ah1, bh3) | 0;
+                    var w4 = (c + (lo = lo + Math.imul(al0, bl4) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh4) | 0) + Math.imul(ah0, bl4) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh4) | 0) + (mid >>> 13) | 0) + (w4 >>> 26) | 0, w4 &= 0x3ffffff, lo = Math.imul(al5, bl0), mid = (mid = Math.imul(al5, bh0)) + Math.imul(ah5, bl0) | 0, hi = Math.imul(ah5, bh0), lo = lo + Math.imul(al4, bl1) | 0, mid = (mid = mid + Math.imul(al4, bh1) | 0) + Math.imul(ah4, bl1) | 0, hi = hi + Math.imul(ah4, bh1) | 0, lo = lo + Math.imul(al3, bl2) | 0, mid = (mid = mid + Math.imul(al3, bh2) | 0) + Math.imul(ah3, bl2) | 0, hi = hi + Math.imul(ah3, bh2) | 0, lo = lo + Math.imul(al2, bl3) | 0, mid = (mid = mid + Math.imul(al2, bh3) | 0) + Math.imul(ah2, bl3) | 0, hi = hi + Math.imul(ah2, bh3) | 0, lo = lo + Math.imul(al1, bl4) | 0, mid = (mid = mid + Math.imul(al1, bh4) | 0) + Math.imul(ah1, bl4) | 0, hi = hi + Math.imul(ah1, bh4) | 0;
+                    var w5 = (c + (lo = lo + Math.imul(al0, bl5) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh5) | 0) + Math.imul(ah0, bl5) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh5) | 0) + (mid >>> 13) | 0) + (w5 >>> 26) | 0, w5 &= 0x3ffffff, lo = Math.imul(al6, bl0), mid = (mid = Math.imul(al6, bh0)) + Math.imul(ah6, bl0) | 0, hi = Math.imul(ah6, bh0), lo = lo + Math.imul(al5, bl1) | 0, mid = (mid = mid + Math.imul(al5, bh1) | 0) + Math.imul(ah5, bl1) | 0, hi = hi + Math.imul(ah5, bh1) | 0, lo = lo + Math.imul(al4, bl2) | 0, mid = (mid = mid + Math.imul(al4, bh2) | 0) + Math.imul(ah4, bl2) | 0, hi = hi + Math.imul(ah4, bh2) | 0, lo = lo + Math.imul(al3, bl3) | 0, mid = (mid = mid + Math.imul(al3, bh3) | 0) + Math.imul(ah3, bl3) | 0, hi = hi + Math.imul(ah3, bh3) | 0, lo = lo + Math.imul(al2, bl4) | 0, mid = (mid = mid + Math.imul(al2, bh4) | 0) + Math.imul(ah2, bl4) | 0, hi = hi + Math.imul(ah2, bh4) | 0, lo = lo + Math.imul(al1, bl5) | 0, mid = (mid = mid + Math.imul(al1, bh5) | 0) + Math.imul(ah1, bl5) | 0, hi = hi + Math.imul(ah1, bh5) | 0;
+                    var w6 = (c + (lo = lo + Math.imul(al0, bl6) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh6) | 0) + Math.imul(ah0, bl6) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh6) | 0) + (mid >>> 13) | 0) + (w6 >>> 26) | 0, w6 &= 0x3ffffff, lo = Math.imul(al7, bl0), mid = (mid = Math.imul(al7, bh0)) + Math.imul(ah7, bl0) | 0, hi = Math.imul(ah7, bh0), lo = lo + Math.imul(al6, bl1) | 0, mid = (mid = mid + Math.imul(al6, bh1) | 0) + Math.imul(ah6, bl1) | 0, hi = hi + Math.imul(ah6, bh1) | 0, lo = lo + Math.imul(al5, bl2) | 0, mid = (mid = mid + Math.imul(al5, bh2) | 0) + Math.imul(ah5, bl2) | 0, hi = hi + Math.imul(ah5, bh2) | 0, lo = lo + Math.imul(al4, bl3) | 0, mid = (mid = mid + Math.imul(al4, bh3) | 0) + Math.imul(ah4, bl3) | 0, hi = hi + Math.imul(ah4, bh3) | 0, lo = lo + Math.imul(al3, bl4) | 0, mid = (mid = mid + Math.imul(al3, bh4) | 0) + Math.imul(ah3, bl4) | 0, hi = hi + Math.imul(ah3, bh4) | 0, lo = lo + Math.imul(al2, bl5) | 0, mid = (mid = mid + Math.imul(al2, bh5) | 0) + Math.imul(ah2, bl5) | 0, hi = hi + Math.imul(ah2, bh5) | 0, lo = lo + Math.imul(al1, bl6) | 0, mid = (mid = mid + Math.imul(al1, bh6) | 0) + Math.imul(ah1, bl6) | 0, hi = hi + Math.imul(ah1, bh6) | 0;
+                    var w7 = (c + (lo = lo + Math.imul(al0, bl7) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh7) | 0) + Math.imul(ah0, bl7) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh7) | 0) + (mid >>> 13) | 0) + (w7 >>> 26) | 0, w7 &= 0x3ffffff, lo = Math.imul(al8, bl0), mid = (mid = Math.imul(al8, bh0)) + Math.imul(ah8, bl0) | 0, hi = Math.imul(ah8, bh0), lo = lo + Math.imul(al7, bl1) | 0, mid = (mid = mid + Math.imul(al7, bh1) | 0) + Math.imul(ah7, bl1) | 0, hi = hi + Math.imul(ah7, bh1) | 0, lo = lo + Math.imul(al6, bl2) | 0, mid = (mid = mid + Math.imul(al6, bh2) | 0) + Math.imul(ah6, bl2) | 0, hi = hi + Math.imul(ah6, bh2) | 0, lo = lo + Math.imul(al5, bl3) | 0, mid = (mid = mid + Math.imul(al5, bh3) | 0) + Math.imul(ah5, bl3) | 0, hi = hi + Math.imul(ah5, bh3) | 0, lo = lo + Math.imul(al4, bl4) | 0, mid = (mid = mid + Math.imul(al4, bh4) | 0) + Math.imul(ah4, bl4) | 0, hi = hi + Math.imul(ah4, bh4) | 0, lo = lo + Math.imul(al3, bl5) | 0, mid = (mid = mid + Math.imul(al3, bh5) | 0) + Math.imul(ah3, bl5) | 0, hi = hi + Math.imul(ah3, bh5) | 0, lo = lo + Math.imul(al2, bl6) | 0, mid = (mid = mid + Math.imul(al2, bh6) | 0) + Math.imul(ah2, bl6) | 0, hi = hi + Math.imul(ah2, bh6) | 0, lo = lo + Math.imul(al1, bl7) | 0, mid = (mid = mid + Math.imul(al1, bh7) | 0) + Math.imul(ah1, bl7) | 0, hi = hi + Math.imul(ah1, bh7) | 0;
+                    var w8 = (c + (lo = lo + Math.imul(al0, bl8) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh8) | 0) + Math.imul(ah0, bl8) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh8) | 0) + (mid >>> 13) | 0) + (w8 >>> 26) | 0, w8 &= 0x3ffffff, lo = Math.imul(al9, bl0), mid = (mid = Math.imul(al9, bh0)) + Math.imul(ah9, bl0) | 0, hi = Math.imul(ah9, bh0), lo = lo + Math.imul(al8, bl1) | 0, mid = (mid = mid + Math.imul(al8, bh1) | 0) + Math.imul(ah8, bl1) | 0, hi = hi + Math.imul(ah8, bh1) | 0, lo = lo + Math.imul(al7, bl2) | 0, mid = (mid = mid + Math.imul(al7, bh2) | 0) + Math.imul(ah7, bl2) | 0, hi = hi + Math.imul(ah7, bh2) | 0, lo = lo + Math.imul(al6, bl3) | 0, mid = (mid = mid + Math.imul(al6, bh3) | 0) + Math.imul(ah6, bl3) | 0, hi = hi + Math.imul(ah6, bh3) | 0, lo = lo + Math.imul(al5, bl4) | 0, mid = (mid = mid + Math.imul(al5, bh4) | 0) + Math.imul(ah5, bl4) | 0, hi = hi + Math.imul(ah5, bh4) | 0, lo = lo + Math.imul(al4, bl5) | 0, mid = (mid = mid + Math.imul(al4, bh5) | 0) + Math.imul(ah4, bl5) | 0, hi = hi + Math.imul(ah4, bh5) | 0, lo = lo + Math.imul(al3, bl6) | 0, mid = (mid = mid + Math.imul(al3, bh6) | 0) + Math.imul(ah3, bl6) | 0, hi = hi + Math.imul(ah3, bh6) | 0, lo = lo + Math.imul(al2, bl7) | 0, mid = (mid = mid + Math.imul(al2, bh7) | 0) + Math.imul(ah2, bl7) | 0, hi = hi + Math.imul(ah2, bh7) | 0, lo = lo + Math.imul(al1, bl8) | 0, mid = (mid = mid + Math.imul(al1, bh8) | 0) + Math.imul(ah1, bl8) | 0, hi = hi + Math.imul(ah1, bh8) | 0;
+                    var w9 = (c + (lo = lo + Math.imul(al0, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al0, bh9) | 0) + Math.imul(ah0, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah0, bh9) | 0) + (mid >>> 13) | 0) + (w9 >>> 26) | 0, w9 &= 0x3ffffff, lo = Math.imul(al9, bl1), mid = (mid = Math.imul(al9, bh1)) + Math.imul(ah9, bl1) | 0, hi = Math.imul(ah9, bh1), lo = lo + Math.imul(al8, bl2) | 0, mid = (mid = mid + Math.imul(al8, bh2) | 0) + Math.imul(ah8, bl2) | 0, hi = hi + Math.imul(ah8, bh2) | 0, lo = lo + Math.imul(al7, bl3) | 0, mid = (mid = mid + Math.imul(al7, bh3) | 0) + Math.imul(ah7, bl3) | 0, hi = hi + Math.imul(ah7, bh3) | 0, lo = lo + Math.imul(al6, bl4) | 0, mid = (mid = mid + Math.imul(al6, bh4) | 0) + Math.imul(ah6, bl4) | 0, hi = hi + Math.imul(ah6, bh4) | 0, lo = lo + Math.imul(al5, bl5) | 0, mid = (mid = mid + Math.imul(al5, bh5) | 0) + Math.imul(ah5, bl5) | 0, hi = hi + Math.imul(ah5, bh5) | 0, lo = lo + Math.imul(al4, bl6) | 0, mid = (mid = mid + Math.imul(al4, bh6) | 0) + Math.imul(ah4, bl6) | 0, hi = hi + Math.imul(ah4, bh6) | 0, lo = lo + Math.imul(al3, bl7) | 0, mid = (mid = mid + Math.imul(al3, bh7) | 0) + Math.imul(ah3, bl7) | 0, hi = hi + Math.imul(ah3, bh7) | 0, lo = lo + Math.imul(al2, bl8) | 0, mid = (mid = mid + Math.imul(al2, bh8) | 0) + Math.imul(ah2, bl8) | 0, hi = hi + Math.imul(ah2, bh8) | 0;
+                    var w10 = (c + (lo = lo + Math.imul(al1, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al1, bh9) | 0) + Math.imul(ah1, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah1, bh9) | 0) + (mid >>> 13) | 0) + (w10 >>> 26) | 0, w10 &= 0x3ffffff, lo = Math.imul(al9, bl2), mid = (mid = Math.imul(al9, bh2)) + Math.imul(ah9, bl2) | 0, hi = Math.imul(ah9, bh2), lo = lo + Math.imul(al8, bl3) | 0, mid = (mid = mid + Math.imul(al8, bh3) | 0) + Math.imul(ah8, bl3) | 0, hi = hi + Math.imul(ah8, bh3) | 0, lo = lo + Math.imul(al7, bl4) | 0, mid = (mid = mid + Math.imul(al7, bh4) | 0) + Math.imul(ah7, bl4) | 0, hi = hi + Math.imul(ah7, bh4) | 0, lo = lo + Math.imul(al6, bl5) | 0, mid = (mid = mid + Math.imul(al6, bh5) | 0) + Math.imul(ah6, bl5) | 0, hi = hi + Math.imul(ah6, bh5) | 0, lo = lo + Math.imul(al5, bl6) | 0, mid = (mid = mid + Math.imul(al5, bh6) | 0) + Math.imul(ah5, bl6) | 0, hi = hi + Math.imul(ah5, bh6) | 0, lo = lo + Math.imul(al4, bl7) | 0, mid = (mid = mid + Math.imul(al4, bh7) | 0) + Math.imul(ah4, bl7) | 0, hi = hi + Math.imul(ah4, bh7) | 0, lo = lo + Math.imul(al3, bl8) | 0, mid = (mid = mid + Math.imul(al3, bh8) | 0) + Math.imul(ah3, bl8) | 0, hi = hi + Math.imul(ah3, bh8) | 0;
+                    var w11 = (c + (lo = lo + Math.imul(al2, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al2, bh9) | 0) + Math.imul(ah2, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah2, bh9) | 0) + (mid >>> 13) | 0) + (w11 >>> 26) | 0, w11 &= 0x3ffffff, lo = Math.imul(al9, bl3), mid = (mid = Math.imul(al9, bh3)) + Math.imul(ah9, bl3) | 0, hi = Math.imul(ah9, bh3), lo = lo + Math.imul(al8, bl4) | 0, mid = (mid = mid + Math.imul(al8, bh4) | 0) + Math.imul(ah8, bl4) | 0, hi = hi + Math.imul(ah8, bh4) | 0, lo = lo + Math.imul(al7, bl5) | 0, mid = (mid = mid + Math.imul(al7, bh5) | 0) + Math.imul(ah7, bl5) | 0, hi = hi + Math.imul(ah7, bh5) | 0, lo = lo + Math.imul(al6, bl6) | 0, mid = (mid = mid + Math.imul(al6, bh6) | 0) + Math.imul(ah6, bl6) | 0, hi = hi + Math.imul(ah6, bh6) | 0, lo = lo + Math.imul(al5, bl7) | 0, mid = (mid = mid + Math.imul(al5, bh7) | 0) + Math.imul(ah5, bl7) | 0, hi = hi + Math.imul(ah5, bh7) | 0, lo = lo + Math.imul(al4, bl8) | 0, mid = (mid = mid + Math.imul(al4, bh8) | 0) + Math.imul(ah4, bl8) | 0, hi = hi + Math.imul(ah4, bh8) | 0;
+                    var w12 = (c + (lo = lo + Math.imul(al3, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al3, bh9) | 0) + Math.imul(ah3, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah3, bh9) | 0) + (mid >>> 13) | 0) + (w12 >>> 26) | 0, w12 &= 0x3ffffff, lo = Math.imul(al9, bl4), mid = (mid = Math.imul(al9, bh4)) + Math.imul(ah9, bl4) | 0, hi = Math.imul(ah9, bh4), lo = lo + Math.imul(al8, bl5) | 0, mid = (mid = mid + Math.imul(al8, bh5) | 0) + Math.imul(ah8, bl5) | 0, hi = hi + Math.imul(ah8, bh5) | 0, lo = lo + Math.imul(al7, bl6) | 0, mid = (mid = mid + Math.imul(al7, bh6) | 0) + Math.imul(ah7, bl6) | 0, hi = hi + Math.imul(ah7, bh6) | 0, lo = lo + Math.imul(al6, bl7) | 0, mid = (mid = mid + Math.imul(al6, bh7) | 0) + Math.imul(ah6, bl7) | 0, hi = hi + Math.imul(ah6, bh7) | 0, lo = lo + Math.imul(al5, bl8) | 0, mid = (mid = mid + Math.imul(al5, bh8) | 0) + Math.imul(ah5, bl8) | 0, hi = hi + Math.imul(ah5, bh8) | 0;
+                    var w13 = (c + (lo = lo + Math.imul(al4, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al4, bh9) | 0) + Math.imul(ah4, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah4, bh9) | 0) + (mid >>> 13) | 0) + (w13 >>> 26) | 0, w13 &= 0x3ffffff, lo = Math.imul(al9, bl5), mid = (mid = Math.imul(al9, bh5)) + Math.imul(ah9, bl5) | 0, hi = Math.imul(ah9, bh5), lo = lo + Math.imul(al8, bl6) | 0, mid = (mid = mid + Math.imul(al8, bh6) | 0) + Math.imul(ah8, bl6) | 0, hi = hi + Math.imul(ah8, bh6) | 0, lo = lo + Math.imul(al7, bl7) | 0, mid = (mid = mid + Math.imul(al7, bh7) | 0) + Math.imul(ah7, bl7) | 0, hi = hi + Math.imul(ah7, bh7) | 0, lo = lo + Math.imul(al6, bl8) | 0, mid = (mid = mid + Math.imul(al6, bh8) | 0) + Math.imul(ah6, bl8) | 0, hi = hi + Math.imul(ah6, bh8) | 0;
+                    var w14 = (c + (lo = lo + Math.imul(al5, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al5, bh9) | 0) + Math.imul(ah5, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah5, bh9) | 0) + (mid >>> 13) | 0) + (w14 >>> 26) | 0, w14 &= 0x3ffffff, lo = Math.imul(al9, bl6), mid = (mid = Math.imul(al9, bh6)) + Math.imul(ah9, bl6) | 0, hi = Math.imul(ah9, bh6), lo = lo + Math.imul(al8, bl7) | 0, mid = (mid = mid + Math.imul(al8, bh7) | 0) + Math.imul(ah8, bl7) | 0, hi = hi + Math.imul(ah8, bh7) | 0, lo = lo + Math.imul(al7, bl8) | 0, mid = (mid = mid + Math.imul(al7, bh8) | 0) + Math.imul(ah7, bl8) | 0, hi = hi + Math.imul(ah7, bh8) | 0;
+                    var w15 = (c + (lo = lo + Math.imul(al6, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al6, bh9) | 0) + Math.imul(ah6, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah6, bh9) | 0) + (mid >>> 13) | 0) + (w15 >>> 26) | 0, w15 &= 0x3ffffff, lo = Math.imul(al9, bl7), mid = (mid = Math.imul(al9, bh7)) + Math.imul(ah9, bl7) | 0, hi = Math.imul(ah9, bh7), lo = lo + Math.imul(al8, bl8) | 0, mid = (mid = mid + Math.imul(al8, bh8) | 0) + Math.imul(ah8, bl8) | 0, hi = hi + Math.imul(ah8, bh8) | 0;
+                    var w16 = (c + (lo = lo + Math.imul(al7, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al7, bh9) | 0) + Math.imul(ah7, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah7, bh9) | 0) + (mid >>> 13) | 0) + (w16 >>> 26) | 0, w16 &= 0x3ffffff, lo = Math.imul(al9, bl8), mid = (mid = Math.imul(al9, bh8)) + Math.imul(ah9, bl8) | 0, hi = Math.imul(ah9, bh8);
+                    var w17 = (c + (lo = lo + Math.imul(al8, bl9) | 0) | 0) + ((0x1fff & (mid = (mid = mid + Math.imul(al8, bh9) | 0) + Math.imul(ah8, bl9) | 0)) << 13) | 0;
+                    c = ((hi = hi + Math.imul(ah8, bh9) | 0) + (mid >>> 13) | 0) + (w17 >>> 26) | 0, w17 &= 0x3ffffff;
+                    var w18 = (c + (lo = Math.imul(al9, bl9)) | 0) + ((0x1fff & (mid = (mid = Math.imul(al9, bh9)) + Math.imul(ah9, bl9) | 0)) << 13) | 0;
+                    return c = ((hi = Math.imul(ah9, bh9)) + (mid >>> 13) | 0) + (w18 >>> 26) | 0, w18 &= 0x3ffffff, o[0] = w0, o[1] = w1, o[2] = w2, o[3] = w3, o[4] = w4, o[5] = w5, o[6] = w6, o[7] = w7, o[8] = w8, o[9] = w9, o[10] = w10, o[11] = w11, o[12] = w12, o[13] = w13, o[14] = w14, o[15] = w15, o[16] = w16, o[17] = w17, o[18] = w18, 0 !== c && (o[19] = c, out.length++), out;
                 };
                 function bigMulTo(self1, num, out) {
                     out.negative = num.negative ^ self1.negative, out.length = self1.length + num.length;
@@ -7857,7 +7849,7 @@
                         hncarry = 0;
                         for(var rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++){
                             var i = k - j, r = (0 | self1.words[i]) * (0 | num.words[j]), lo = 0x3ffffff & r;
-                            ncarry = ncarry + (r / 0x4000000 | 0) | 0, rword = 0x3ffffff & (lo = lo + rword | 0), ncarry = ncarry + (lo >>> 26) | 0, hncarry += ncarry >>> 26, ncarry &= 0x3ffffff;
+                            ncarry = ncarry + (r / 0x4000000 | 0) | 0, rword = 0x3ffffff & (lo = lo + rword | 0), hncarry += (ncarry = ncarry + (lo >>> 26) | 0) >>> 26, ncarry &= 0x3ffffff;
                         }
                         out.words[k] = rword, carry = ncarry, ncarry = hncarry;
                     }
@@ -8858,7 +8850,7 @@
                 if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
                 if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
                 let buf;
-                return buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Object.setPrototypeOf(buf, Buffer.prototype), buf;
+                return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
             }
             function fromObject(obj) {
                 if (Buffer.isBuffer(obj)) {
@@ -9526,7 +9518,7 @@
             function utf16leToBytes(str, units) {
                 let c, hi, lo;
                 const byteArray = [];
-                for(let i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, lo = c % 256, byteArray.push(lo), byteArray.push(hi);
+                for(let i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(lo = c % 256), byteArray.push(hi);
                 return byteArray;
             }
             function base64ToBytes(str) {
@@ -9578,13 +9570,9 @@
             }
             module.exports = function(originalFunction) {
                 var func = $reflectApply(bind, $call, arguments);
-                if ($gOPD && $defineProperty) {
-                    var desc = $gOPD(func, 'length');
-                    desc.configurable && $defineProperty(func, 'length', {
-                        value: 1 + $max(0, originalFunction.length - (arguments.length - 1))
-                    });
-                }
-                return func;
+                return $gOPD && $defineProperty && $gOPD(func, 'length').configurable && $defineProperty(func, 'length', {
+                    value: 1 + $max(0, originalFunction.length - (arguments.length - 1))
+                }), func;
             };
             var applyBind = function() {
                 return $reflectApply(bind, $apply, arguments);
@@ -9939,7 +9927,7 @@
             }, Point.prototype.add = function() {
                 throw Error('Not supported on Montgomery curve');
             }, Point.prototype.diffAdd = function(p, diff) {
-                var a = this.x.redAdd(this.z), b = this.x.redSub(this.z), c = p.x.redAdd(p.z), d = p.x.redSub(p.z), da = d.redMul(a), cb = c.redMul(b), nx = diff.z.redMul(da.redAdd(cb).redSqr()), nz = diff.x.redMul(da.redISub(cb).redSqr());
+                var a = this.x.redAdd(this.z), b = this.x.redSub(this.z), c = p.x.redAdd(p.z), da = p.x.redSub(p.z).redMul(a), cb = c.redMul(b), nx = diff.z.redMul(da.redAdd(cb).redSqr()), nz = diff.x.redMul(da.redISub(cb).redSqr());
                 return this.curve.point(nx, nz);
             }, Point.prototype.mul = function(k) {
                 for(var t = k.clone(), a = this, b = this.curve.point(null, null), c = this, bits = []; 0 !== t.cmpn(0); t.iushrn(1))bits.push(t.andln(1));
@@ -10030,10 +10018,10 @@
                     }, 
                 ];
             }, ShortCurve.prototype._endoSplit = function(k) {
-                var basis = this.endo.basis, v1 = basis[0], v2 = basis[1], c1 = v2.b.mul(k).divRound(this.n), c2 = v1.b.neg().mul(k).divRound(this.n), p1 = c1.mul(v1.a), p2 = c2.mul(v2.a), q1 = c1.mul(v1.b), q2 = c2.mul(v2.b), k1 = k.sub(p1).sub(p2), k2 = q1.add(q2).neg();
+                var basis = this.endo.basis, v1 = basis[0], v2 = basis[1], c1 = v2.b.mul(k).divRound(this.n), c2 = v1.b.neg().mul(k).divRound(this.n), p1 = c1.mul(v1.a), p2 = c2.mul(v2.a), q1 = c1.mul(v1.b), q2 = c2.mul(v2.b);
                 return {
-                    k1: k1,
-                    k2: k2
+                    k1: k.sub(p1).sub(p2),
+                    k2: q1.add(q2).neg()
                 };
             }, ShortCurve.prototype.pointFromX = function(x, odd) {
                 (x = new BN(x, 16)).red || (x = x.toRed(this.red));
@@ -10240,7 +10228,7 @@
                     var a = this.x.redSqr(), b = this.y.redSqr(), c = b.redSqr(), d = this.x.redAdd(b).redSqr().redISub(a).redISub(c);
                     d = d.redIAdd(d);
                     var e = a.redAdd(a).redIAdd(a), f = e.redSqr(), c8 = c.redIAdd(c);
-                    c8 = (c8 = c8.redIAdd(c8)).redIAdd(c8), nx = f.redISub(d).redISub(d), ny = e.redMul(d.redISub(nx)).redISub(c8), nz = this.y.redMul(this.z), nz = nz.redIAdd(nz);
+                    c8 = (c8 = c8.redIAdd(c8)).redIAdd(c8), nx = f.redISub(d).redISub(d), ny = e.redMul(d.redISub(nx)).redISub(c8), nz = (nz = this.y.redMul(this.z)).redIAdd(nz);
                 }
                 return this.curve.jpoint(nx, ny, nz);
             }, JPoint.prototype._threeDbl = function() {
@@ -10670,8 +10658,8 @@
                 });
             }, EDDSA.prototype.verify = function(message, sig, pub) {
                 message = parseBytes(message), sig = this.makeSignature(sig);
-                var key = this.keyFromPublic(pub), h = this.hashInt(sig.Rencoded(), key.pubBytes(), message), SG = this.g.mul(sig.S()), RplusAh = sig.R().add(key.pub().mul(h));
-                return RplusAh.eq(SG);
+                var key = this.keyFromPublic(pub), h = this.hashInt(sig.Rencoded(), key.pubBytes(), message), SG = this.g.mul(sig.S());
+                return sig.R().add(key.pub().mul(h)).eq(SG);
             }, EDDSA.prototype.hashInt = function() {
                 for(var hash = this.hash(), i = 0; i < arguments.length; i++)hash.update(arguments[i]);
                 return utils.intFromLE(hash.digest()).umod(this.curve.n);
@@ -11803,7 +11791,7 @@
                 }, getObjectCloneStrict = function(object, realm, handleCopy, cache) {
                     var clone = getCleanClone(object, realm);
                     cache.set(object, clone);
-                    for(var properties = SYMBOL_PROPERTIES ? getOwnPropertyNames(object).concat(getOwnPropertySymbols(object)) : getOwnPropertyNames(object), index = 0, length_2 = properties.length, property = void 0, descriptor = void 0; index < length_2; ++index)if (property = properties[index], 'callee' !== property && 'caller' !== property) {
+                    for(var properties = SYMBOL_PROPERTIES ? getOwnPropertyNames(object).concat(getOwnPropertySymbols(object)) : getOwnPropertyNames(object), index = 0, length_2 = properties.length, property = void 0, descriptor = void 0; index < length_2; ++index)if ('callee' !== (property = properties[index]) && 'caller' !== property) {
                         if (descriptor = getOwnPropertyDescriptor(object, property)) {
                             descriptor.get || descriptor.set || (descriptor.value = handleCopy(object[property], cache));
                             try {
@@ -11833,7 +11821,7 @@
                             return clone;
                         }
                         if (value instanceof realm.Date) return new Constructor(value.getTime());
-                        if (value instanceof realm.RegExp) return clone = new Constructor(value.source, value.flags || getRegExpFlags(value)), clone.lastIndex = value.lastIndex, clone;
+                        if (value instanceof realm.RegExp) return (clone = new Constructor(value.source, value.flags || getRegExpFlags(value))).lastIndex = value.lastIndex, clone;
                         if (realm.Map && value instanceof realm.Map) return clone = new Constructor(), cache.set(value, clone), value.forEach(function(value, key) {
                             clone.set(key, handleCopy(value, cache));
                         }), clone;
@@ -12196,7 +12184,7 @@
                     var n = stack[i];
                     n.left === stack[i + 1] ? cstack[i] = new RBNode(n._color, n.key, n.value, cstack[i + 1], n.right, n._count) : cstack[i] = new RBNode(n._color, n.key, n.value, n.left, cstack[i + 1], n._count);
                 }
-                if (n = cstack[cstack.length - 1], n.left && n.right) {
+                if ((n = cstack[cstack.length - 1]).left && n.right) {
                     var split = cstack.length;
                     for(n = n.left; n.right;)cstack.push(n), n = n.right;
                     var v = cstack[split - 1];
@@ -12204,7 +12192,7 @@
                     for(var i = cstack.length - 2; i >= split; --i)n = cstack[i], cstack[i] = new RBNode(n._color, n.key, n.value, n.left, cstack[i + 1], n._count);
                     cstack[split - 1].left = cstack[split];
                 }
-                if (n = cstack[cstack.length - 1], n._color === RED) {
+                if ((n = cstack[cstack.length - 1])._color === RED) {
                     var p = cstack[cstack.length - 2];
                     p.left === n ? p.left = null : p.right === n && (p.right = null), cstack.pop();
                     for(var i = 0; i < cstack.length; ++i)cstack[i]._count--;
@@ -12607,7 +12595,7 @@
                 }), result;
             }, getBaseIntrinsic = function(name, allowMissing) {
                 var alias, intrinsicName = name;
-                if (hasOwn(LEGACY_ALIASES, intrinsicName) && (alias = LEGACY_ALIASES[intrinsicName], intrinsicName = '%' + alias[0] + '%'), hasOwn(INTRINSICS, intrinsicName)) {
+                if (hasOwn(LEGACY_ALIASES, intrinsicName) && (intrinsicName = '%' + (alias = LEGACY_ALIASES[intrinsicName])[0] + '%'), hasOwn(INTRINSICS, intrinsicName)) {
                     var value = INTRINSICS[intrinsicName];
                     if (value === needsEval && (value = doEval(intrinsicName)), void 0 === value && !allowMissing) throw new $TypeError('intrinsic ' + name + ' exists, but is not available. Please file an issue!');
                     return {
@@ -12638,7 +12626,7 @@
                         }
                         if ($gOPD && i + 1 >= parts.length) {
                             var desc = $gOPD(value, part);
-                            isOwn = !!desc, value = isOwn && 'get' in desc && !('originalValue' in desc.get) ? desc.get : value[part];
+                            value = (isOwn = !!desc) && 'get' in desc && !('originalValue' in desc.get) ? desc.get : value[part];
                         } else isOwn = hasOwn(value, part), value = value[part];
                         isOwn && !skipFurtherCaching && (INTRINSICS[intrinsicRealName] = value);
                     }
@@ -13622,7 +13610,7 @@
                 return a + b + c + d + e >>> 0;
             }
             function sum64(buf, pos, ah, al) {
-                var bh = buf[pos], bl = buf[pos + 1], lo = al + bl >>> 0, hi = (lo < al ? 1 : 0) + ah + bh;
+                var bh = buf[pos], lo = al + buf[pos + 1] >>> 0, hi = (lo < al ? 1 : 0) + ah + bh;
                 buf[pos] = hi >>> 0, buf[pos + 1] = lo;
             }
             function sum64_hi(ah, al, bh, bl) {
@@ -13633,14 +13621,14 @@
             }
             function sum64_4_hi(ah, al, bh, bl, ch, cl, dh, dl) {
                 var carry = 0, lo = al;
-                return carry += (lo = lo + bl >>> 0) < al ? 1 : 0, lo = lo + cl >>> 0, carry += lo < cl ? 1 : 0, lo = lo + dl >>> 0, ah + bh + ch + dh + (carry += lo < dl ? 1 : 0) >>> 0;
+                return carry += (lo = lo + bl >>> 0) < al ? 1 : 0, carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, ah + bh + ch + dh + (carry += (lo = lo + dl >>> 0) < dl ? 1 : 0) >>> 0;
             }
             function sum64_4_lo(ah, al, bh, bl, ch, cl, dh, dl) {
                 return al + bl + cl + dl >>> 0;
             }
             function sum64_5_hi(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
                 var carry = 0, lo = al;
-                return carry += (lo = lo + bl >>> 0) < al ? 1 : 0, lo = lo + cl >>> 0, carry += lo < cl ? 1 : 0, lo = lo + dl >>> 0, carry += lo < dl ? 1 : 0, lo = lo + el >>> 0, ah + bh + ch + dh + eh + (carry += lo < el ? 1 : 0) >>> 0;
+                return carry += (lo = lo + bl >>> 0) < al ? 1 : 0, carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, carry += (lo = lo + dl >>> 0) < dl ? 1 : 0, ah + bh + ch + dh + eh + (carry += (lo = lo + el >>> 0) < el ? 1 : 0) >>> 0;
             }
             function sum64_5_lo(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
                 return al + bl + cl + dl + el >>> 0;
@@ -13730,7 +13718,7 @@
         },
         2584: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var hasToStringTag = __webpack_require__(6410)(), callBound = __webpack_require__(1924), $toString = callBound('Object.prototype.toString'), isStandardArguments = function(value) {
+            var hasToStringTag = __webpack_require__(6410)(), $toString = __webpack_require__(1924)('Object.prototype.toString'), isStandardArguments = function(value) {
                 return (!hasToStringTag || !value || 'object' != typeof value || !(Symbol.toStringTag in value)) && '[object Arguments]' === $toString(value);
             }, isLegacyArguments = function(value) {
                 return !!isStandardArguments(value) || null !== value && 'object' == typeof value && 'number' == typeof value.length && value.length >= 0 && '[object Array]' !== $toString(value) && '[object Function]' === $toString(value.callee);
@@ -14043,8 +14031,8 @@
                     }
                 }, Sha256.prototype.hash = function() {
                     var j, s0, s1, maj, t1, t2, ch, ab, da, cd, bc, a = this.h0, b = this.h1, c = this.h2, d = this.h3, e = this.h4, f = this.h5, g = this.h6, h = this.h7, blocks = this.blocks;
-                    for(j = 16; j < 64; ++j)s0 = ((t1 = blocks[j - 15]) >>> 7 | t1 << 25) ^ (t1 >>> 18 | t1 << 14) ^ t1 >>> 3, t1 = blocks[j - 2], s1 = (t1 >>> 17 | t1 << 15) ^ (t1 >>> 19 | t1 << 13) ^ t1 >>> 10, blocks[j] = blocks[j - 16] + s0 + blocks[j - 7] + s1 << 0;
-                    for(j = 0, bc = b & c; j < 64; j += 4)this.first ? (this.is224 ? (ab = 300032, h = (t1 = blocks[0] - 1413257819) - 150054599 << 0, d = t1 + 24177077 << 0) : (ab = 704751109, h = (t1 = blocks[0] - 210244248) - 1521486534 << 0, d = t1 + 143694565 << 0), this.first = !1) : (s0 = (a >>> 2 | a << 30) ^ (a >>> 13 | a << 19) ^ (a >>> 22 | a << 10), s1 = (e >>> 6 | e << 26) ^ (e >>> 11 | e << 21) ^ (e >>> 25 | e << 7), maj = (ab = a & b) ^ a & c ^ bc, t1 = h + s1 + (ch = e & f ^ ~e & g) + K[j] + blocks[j], t2 = s0 + maj, h = d + t1 << 0, d = t1 + t2 << 0), s0 = (d >>> 2 | d << 30) ^ (d >>> 13 | d << 19) ^ (d >>> 22 | d << 10), s1 = (h >>> 6 | h << 26) ^ (h >>> 11 | h << 21) ^ (h >>> 25 | h << 7), maj = (da = d & a) ^ d & b ^ ab, t1 = g + s1 + (ch = h & e ^ ~h & f) + K[j + 1] + blocks[j + 1], t2 = s0 + maj, g = c + t1 << 0, c = t1 + t2 << 0, s0 = (c >>> 2 | c << 30) ^ (c >>> 13 | c << 19) ^ (c >>> 22 | c << 10), s1 = (g >>> 6 | g << 26) ^ (g >>> 11 | g << 21) ^ (g >>> 25 | g << 7), cd = c & d, maj = cd ^ c & a ^ da, ch = g & h ^ ~g & e, t1 = f + s1 + ch + K[j + 2] + blocks[j + 2], t2 = s0 + maj, f = b + t1 << 0, b = t1 + t2 << 0, s0 = (b >>> 2 | b << 30) ^ (b >>> 13 | b << 19) ^ (b >>> 22 | b << 10), s1 = (f >>> 6 | f << 26) ^ (f >>> 11 | f << 21) ^ (f >>> 25 | f << 7), bc = b & c, maj = bc ^ b & d ^ cd, ch = f & g ^ ~f & h, t1 = e + s1 + ch + K[j + 3] + blocks[j + 3], t2 = s0 + maj, e = a + t1 << 0, a = t1 + t2 << 0;
+                    for(j = 16; j < 64; ++j)s0 = ((t1 = blocks[j - 15]) >>> 7 | t1 << 25) ^ (t1 >>> 18 | t1 << 14) ^ t1 >>> 3, s1 = ((t1 = blocks[j - 2]) >>> 17 | t1 << 15) ^ (t1 >>> 19 | t1 << 13) ^ t1 >>> 10, blocks[j] = blocks[j - 16] + s0 + blocks[j - 7] + s1 << 0;
+                    for(j = 0, bc = b & c; j < 64; j += 4)this.first ? (this.is224 ? (ab = 300032, h = (t1 = blocks[0] - 1413257819) - 150054599 << 0, d = t1 + 24177077 << 0) : (ab = 704751109, h = (t1 = blocks[0] - 210244248) - 1521486534 << 0, d = t1 + 143694565 << 0), this.first = !1) : (s0 = (a >>> 2 | a << 30) ^ (a >>> 13 | a << 19) ^ (a >>> 22 | a << 10), s1 = (e >>> 6 | e << 26) ^ (e >>> 11 | e << 21) ^ (e >>> 25 | e << 7), maj = (ab = a & b) ^ a & c ^ bc, t1 = h + s1 + (ch = e & f ^ ~e & g) + K[j] + blocks[j], t2 = s0 + maj, h = d + t1 << 0, d = t1 + t2 << 0), s0 = (d >>> 2 | d << 30) ^ (d >>> 13 | d << 19) ^ (d >>> 22 | d << 10), s1 = (h >>> 6 | h << 26) ^ (h >>> 11 | h << 21) ^ (h >>> 25 | h << 7), maj = (da = d & a) ^ d & b ^ ab, t1 = g + s1 + (ch = h & e ^ ~h & f) + K[j + 1] + blocks[j + 1], t2 = s0 + maj, g = c + t1 << 0, s0 = ((c = t1 + t2 << 0) >>> 2 | c << 30) ^ (c >>> 13 | c << 19) ^ (c >>> 22 | c << 10), s1 = (g >>> 6 | g << 26) ^ (g >>> 11 | g << 21) ^ (g >>> 25 | g << 7), maj = (cd = c & d) ^ c & a ^ da, t1 = f + s1 + (ch = g & h ^ ~g & e) + K[j + 2] + blocks[j + 2], t2 = s0 + maj, f = b + t1 << 0, s0 = ((b = t1 + t2 << 0) >>> 2 | b << 30) ^ (b >>> 13 | b << 19) ^ (b >>> 22 | b << 10), s1 = (f >>> 6 | f << 26) ^ (f >>> 11 | f << 21) ^ (f >>> 25 | f << 7), maj = (bc = b & c) ^ b & d ^ cd, t1 = e + s1 + (ch = f & g ^ ~f & h) + K[j + 3] + blocks[j + 3], t2 = s0 + maj, e = a + t1 << 0, a = t1 + t2 << 0;
                     this.h0 = this.h0 + a << 0, this.h1 = this.h1 + b << 0, this.h2 = this.h2 + c << 0, this.h3 = this.h3 + d << 0, this.h4 = this.h4 + e << 0, this.h5 = this.h5 + f << 0, this.h6 = this.h6 + g << 0, this.h7 = this.h7 + h << 0;
                 }, Sha256.prototype.hex = function() {
                     this.finalize();
@@ -14095,9 +14083,9 @@
                     }
                 };
                 var exports = createMethod();
-                exports.sha256 = exports, exports.sha224 = createMethod(!0), exports.sha256.hmac = createHmacMethod(), exports.sha224.hmac = createHmacMethod(!0), COMMON_JS ? module.exports = exports : (root.sha256 = exports.sha256, root.sha224 = exports.sha224, AMD && (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                exports.sha256 = exports, exports.sha224 = createMethod(!0), exports.sha256.hmac = createHmacMethod(), exports.sha224.hmac = createHmacMethod(!0), COMMON_JS ? module.exports = exports : (root.sha256 = exports.sha256, root.sha224 = exports.sha224, AMD && void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return exports;
-                }).call(exports, __webpack_require__, exports, module), void 0 !== __WEBPACK_AMD_DEFINE_RESULT__ && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)));
+                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
             }();
         },
         3434: function(module, exports, __webpack_require__) {
@@ -14106,8 +14094,8 @@
                 'use strict';
                 var INPUT_ERROR = 'input is invalid type', FINALIZE_ERROR = 'finalize already called', WINDOW = 'object' == typeof window, root = WINDOW ? window : {};
                 root.JS_SHA512_NO_WINDOW && (WINDOW = !1);
-                var WEB_WORKER = !WINDOW && 'object' == typeof self, NODE_JS = !root.JS_SHA512_NO_NODE_JS && 'object' == typeof process && process.versions && process.versions.node;
-                NODE_JS ? root = __webpack_require__.g : WEB_WORKER && (root = self);
+                var WEB_WORKER = !WINDOW && 'object' == typeof self;
+                !root.JS_SHA512_NO_NODE_JS && 'object' == typeof process && process.versions && process.versions.node ? root = __webpack_require__.g : WEB_WORKER && (root = self);
                 var COMMON_JS = !root.JS_SHA512_NO_COMMON_JS && module.exports, AMD = __webpack_require__.amdO, ARRAY_BUFFER = !root.JS_SHA512_NO_ARRAY_BUFFER && 'undefined' != typeof ArrayBuffer, HEX_CHARS = '0123456789abcdef'.split(''), EXTRA = [
                     -2147483648,
                     8388608,
@@ -14408,10 +14396,10 @@
                     }
                 }, Sha512.prototype.hash = function() {
                     var j, s0h, s0l, s1h, s1l, c1, c2, c3, c4, abh, abl, dah, dal, cdh, cdl, bch, bcl, majh, majl, t1h, t1l, t2h, t2l, chh, chl, h0h = this.h0h, h0l = this.h0l, h1h = this.h1h, h1l = this.h1l, h2h = this.h2h, h2l = this.h2l, h3h = this.h3h, h3l = this.h3l, h4h = this.h4h, h4l = this.h4l, h5h = this.h5h, h5l = this.h5l, h6h = this.h6h, h6l = this.h6l, h7h = this.h7h, h7l = this.h7l, blocks = this.blocks;
-                    for(j = 32; j < 160; j += 2)t1h = blocks[j - 30], t1l = blocks[j - 29], s0h = (t1h >>> 1 | t1l << 31) ^ (t1h >>> 8 | t1l << 24) ^ t1h >>> 7, s0l = (t1l >>> 1 | t1h << 31) ^ (t1l >>> 8 | t1h << 24) ^ (t1l >>> 7 | t1h << 25), t1h = blocks[j - 4], t1l = blocks[j - 3], s1h = (t1h >>> 19 | t1l << 13) ^ (t1l >>> 29 | t1h << 3) ^ t1h >>> 6, s1l = (t1l >>> 19 | t1h << 13) ^ (t1h >>> 29 | t1l << 3) ^ (t1l >>> 6 | t1h << 26), t1h = blocks[j - 32], t1l = blocks[j - 31], t2h = blocks[j - 14], t2l = blocks[j - 13], c1 = (0xFFFF & t2l) + (0xFFFF & t1l) + (0xFFFF & s0l) + (0xFFFF & s1l), c2 = (t2l >>> 16) + (t1l >>> 16) + (s0l >>> 16) + (s1l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & s0h) + (0xFFFF & s1h) + (c2 >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (s0h >>> 16) + (s1h >>> 16) + (c3 >>> 16), blocks[j] = c4 << 16 | 0xFFFF & c3, blocks[j + 1] = c2 << 16 | 0xFFFF & c1;
+                    for(j = 32; j < 160; j += 2)s0h = ((t1h = blocks[j - 30]) >>> 1 | (t1l = blocks[j - 29]) << 31) ^ (t1h >>> 8 | t1l << 24) ^ t1h >>> 7, s0l = (t1l >>> 1 | t1h << 31) ^ (t1l >>> 8 | t1h << 24) ^ (t1l >>> 7 | t1h << 25), s1h = ((t1h = blocks[j - 4]) >>> 19 | (t1l = blocks[j - 3]) << 13) ^ (t1l >>> 29 | t1h << 3) ^ t1h >>> 6, s1l = (t1l >>> 19 | t1h << 13) ^ (t1h >>> 29 | t1l << 3) ^ (t1l >>> 6 | t1h << 26), t1h = blocks[j - 32], t1l = blocks[j - 31], t2h = blocks[j - 14], c1 = (0xFFFF & (t2l = blocks[j - 13])) + (0xFFFF & t1l) + (0xFFFF & s0l) + (0xFFFF & s1l), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & s0h) + (0xFFFF & s1h) + ((c2 = (t2l >>> 16) + (t1l >>> 16) + (s0l >>> 16) + (s1l >>> 16) + (c1 >>> 16)) >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (s0h >>> 16) + (s1h >>> 16) + (c3 >>> 16), blocks[j] = c4 << 16 | 0xFFFF & c3, blocks[j + 1] = c2 << 16 | 0xFFFF & c1;
                     var ah = h0h, al = h0l, bh = h1h, bl = h1l, ch = h2h, cl = h2l, dh = h3h, dl = h3l, eh = h4h, el = h4l, fh = h5h, fl = h5l, gh = h6h, gl = h6l, hh = h7h, hl = h7l;
-                    for(j = 0, bch = bh & ch, bcl = bl & cl; j < 160; j += 8)s0h = (ah >>> 28 | al << 4) ^ (al >>> 2 | ah << 30) ^ (al >>> 7 | ah << 25), s0l = (al >>> 28 | ah << 4) ^ (ah >>> 2 | al << 30) ^ (ah >>> 7 | al << 25), s1h = (eh >>> 14 | el << 18) ^ (eh >>> 18 | el << 14) ^ (el >>> 9 | eh << 23), s1l = (el >>> 14 | eh << 18) ^ (el >>> 18 | eh << 14) ^ (eh >>> 9 | el << 23), abh = ah & bh, abl = al & bl, majh = abh ^ ah & ch ^ bch, majl = abl ^ al & cl ^ bcl, chh = eh & fh ^ ~eh & gh, chl = el & fl ^ ~el & gl, t1h = blocks[j], t1l = blocks[j + 1], t2h = K[j], t2l = K[j + 1], c1 = (0xFFFF & t2l) + (0xFFFF & t1l) + (0xFFFF & chl) + (0xFFFF & s1l) + (0xFFFF & hl), c2 = (t2l >>> 16) + (t1l >>> 16) + (chl >>> 16) + (s1l >>> 16) + (hl >>> 16) + (c1 >>> 16), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & chh) + (0xFFFF & s1h) + (0xFFFF & hh) + (c2 >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (chh >>> 16) + (s1h >>> 16) + (hh >>> 16) + (c3 >>> 16), t1h = c4 << 16 | 0xFFFF & c3, t1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & majl) + (0xFFFF & s0l), c2 = (majl >>> 16) + (s0l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & majh) + (0xFFFF & s0h) + (c2 >>> 16), c4 = (majh >>> 16) + (s0h >>> 16) + (c3 >>> 16), t2h = c4 << 16 | 0xFFFF & c3, t2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & dl) + (0xFFFF & t1l), c2 = (dl >>> 16) + (t1l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & dh) + (0xFFFF & t1h) + (c2 >>> 16), c4 = (dh >>> 16) + (t1h >>> 16) + (c3 >>> 16), hh = c4 << 16 | 0xFFFF & c3, hl = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & t2l) + (0xFFFF & t1l), c2 = (t2l >>> 16) + (t1l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (c2 >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (c3 >>> 16), dh = c4 << 16 | 0xFFFF & c3, dl = c2 << 16 | 0xFFFF & c1, s0h = (dh >>> 28 | dl << 4) ^ (dl >>> 2 | dh << 30) ^ (dl >>> 7 | dh << 25), s0l = (dl >>> 28 | dh << 4) ^ (dh >>> 2 | dl << 30) ^ (dh >>> 7 | dl << 25), s1h = (hh >>> 14 | hl << 18) ^ (hh >>> 18 | hl << 14) ^ (hl >>> 9 | hh << 23), s1l = (hl >>> 14 | hh << 18) ^ (hl >>> 18 | hh << 14) ^ (hh >>> 9 | hl << 23), dah = dh & ah, dal = dl & al, majh = dah ^ dh & bh ^ abh, majl = dal ^ dl & bl ^ abl, chh = hh & eh ^ ~hh & fh, chl = hl & el ^ ~hl & fl, t1h = blocks[j + 2], t1l = blocks[j + 3], t2h = K[j + 2], t2l = K[j + 3], c1 = (0xFFFF & t2l) + (0xFFFF & t1l) + (0xFFFF & chl) + (0xFFFF & s1l) + (0xFFFF & gl), c2 = (t2l >>> 16) + (t1l >>> 16) + (chl >>> 16) + (s1l >>> 16) + (gl >>> 16) + (c1 >>> 16), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & chh) + (0xFFFF & s1h) + (0xFFFF & gh) + (c2 >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (chh >>> 16) + (s1h >>> 16) + (gh >>> 16) + (c3 >>> 16), t1h = c4 << 16 | 0xFFFF & c3, t1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & majl) + (0xFFFF & s0l), c2 = (majl >>> 16) + (s0l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & majh) + (0xFFFF & s0h) + (c2 >>> 16), c4 = (majh >>> 16) + (s0h >>> 16) + (c3 >>> 16), t2h = c4 << 16 | 0xFFFF & c3, t2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & cl) + (0xFFFF & t1l), c2 = (cl >>> 16) + (t1l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & ch) + (0xFFFF & t1h) + (c2 >>> 16), c4 = (ch >>> 16) + (t1h >>> 16) + (c3 >>> 16), gh = c4 << 16 | 0xFFFF & c3, gl = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & t2l) + (0xFFFF & t1l), c2 = (t2l >>> 16) + (t1l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (c2 >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (c3 >>> 16), ch = c4 << 16 | 0xFFFF & c3, cl = c2 << 16 | 0xFFFF & c1, s0h = (ch >>> 28 | cl << 4) ^ (cl >>> 2 | ch << 30) ^ (cl >>> 7 | ch << 25), s0l = (cl >>> 28 | ch << 4) ^ (ch >>> 2 | cl << 30) ^ (ch >>> 7 | cl << 25), s1h = (gh >>> 14 | gl << 18) ^ (gh >>> 18 | gl << 14) ^ (gl >>> 9 | gh << 23), s1l = (gl >>> 14 | gh << 18) ^ (gl >>> 18 | gh << 14) ^ (gh >>> 9 | gl << 23), cdh = ch & dh, cdl = cl & dl, majh = cdh ^ ch & ah ^ dah, majl = cdl ^ cl & al ^ dal, chh = gh & hh ^ ~gh & eh, chl = gl & hl ^ ~gl & el, t1h = blocks[j + 4], t1l = blocks[j + 5], t2h = K[j + 4], t2l = K[j + 5], c1 = (0xFFFF & t2l) + (0xFFFF & t1l) + (0xFFFF & chl) + (0xFFFF & s1l) + (0xFFFF & fl), c2 = (t2l >>> 16) + (t1l >>> 16) + (chl >>> 16) + (s1l >>> 16) + (fl >>> 16) + (c1 >>> 16), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & chh) + (0xFFFF & s1h) + (0xFFFF & fh) + (c2 >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (chh >>> 16) + (s1h >>> 16) + (fh >>> 16) + (c3 >>> 16), t1h = c4 << 16 | 0xFFFF & c3, t1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & majl) + (0xFFFF & s0l), c2 = (majl >>> 16) + (s0l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & majh) + (0xFFFF & s0h) + (c2 >>> 16), c4 = (majh >>> 16) + (s0h >>> 16) + (c3 >>> 16), t2h = c4 << 16 | 0xFFFF & c3, t2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & bl) + (0xFFFF & t1l), c2 = (bl >>> 16) + (t1l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & bh) + (0xFFFF & t1h) + (c2 >>> 16), c4 = (bh >>> 16) + (t1h >>> 16) + (c3 >>> 16), fh = c4 << 16 | 0xFFFF & c3, fl = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & t2l) + (0xFFFF & t1l), c2 = (t2l >>> 16) + (t1l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (c2 >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (c3 >>> 16), bh = c4 << 16 | 0xFFFF & c3, bl = c2 << 16 | 0xFFFF & c1, s0h = (bh >>> 28 | bl << 4) ^ (bl >>> 2 | bh << 30) ^ (bl >>> 7 | bh << 25), s0l = (bl >>> 28 | bh << 4) ^ (bh >>> 2 | bl << 30) ^ (bh >>> 7 | bl << 25), s1h = (fh >>> 14 | fl << 18) ^ (fh >>> 18 | fl << 14) ^ (fl >>> 9 | fh << 23), s1l = (fl >>> 14 | fh << 18) ^ (fl >>> 18 | fh << 14) ^ (fh >>> 9 | fl << 23), bch = bh & ch, bcl = bl & cl, majh = bch ^ bh & dh ^ cdh, majl = bcl ^ bl & dl ^ cdl, chh = fh & gh ^ ~fh & hh, chl = fl & gl ^ ~fl & hl, t1h = blocks[j + 6], t1l = blocks[j + 7], t2h = K[j + 6], t2l = K[j + 7], c1 = (0xFFFF & t2l) + (0xFFFF & t1l) + (0xFFFF & chl) + (0xFFFF & s1l) + (0xFFFF & el), c2 = (t2l >>> 16) + (t1l >>> 16) + (chl >>> 16) + (s1l >>> 16) + (el >>> 16) + (c1 >>> 16), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & chh) + (0xFFFF & s1h) + (0xFFFF & eh) + (c2 >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (chh >>> 16) + (s1h >>> 16) + (eh >>> 16) + (c3 >>> 16), t1h = c4 << 16 | 0xFFFF & c3, t1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & majl) + (0xFFFF & s0l), c2 = (majl >>> 16) + (s0l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & majh) + (0xFFFF & s0h) + (c2 >>> 16), c4 = (majh >>> 16) + (s0h >>> 16) + (c3 >>> 16), t2h = c4 << 16 | 0xFFFF & c3, t2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & al) + (0xFFFF & t1l), c2 = (al >>> 16) + (t1l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & ah) + (0xFFFF & t1h) + (c2 >>> 16), c4 = (ah >>> 16) + (t1h >>> 16) + (c3 >>> 16), eh = c4 << 16 | 0xFFFF & c3, el = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & t2l) + (0xFFFF & t1l), c2 = (t2l >>> 16) + (t1l >>> 16) + (c1 >>> 16), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (c2 >>> 16), c4 = (t2h >>> 16) + (t1h >>> 16) + (c3 >>> 16), ah = c4 << 16 | 0xFFFF & c3, al = c2 << 16 | 0xFFFF & c1;
-                    c1 = (0xFFFF & h0l) + (0xFFFF & al), c2 = (h0l >>> 16) + (al >>> 16) + (c1 >>> 16), c3 = (0xFFFF & h0h) + (0xFFFF & ah) + (c2 >>> 16), c4 = (h0h >>> 16) + (ah >>> 16) + (c3 >>> 16), this.h0h = c4 << 16 | 0xFFFF & c3, this.h0l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h1l) + (0xFFFF & bl), c2 = (h1l >>> 16) + (bl >>> 16) + (c1 >>> 16), c3 = (0xFFFF & h1h) + (0xFFFF & bh) + (c2 >>> 16), c4 = (h1h >>> 16) + (bh >>> 16) + (c3 >>> 16), this.h1h = c4 << 16 | 0xFFFF & c3, this.h1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h2l) + (0xFFFF & cl), c2 = (h2l >>> 16) + (cl >>> 16) + (c1 >>> 16), c3 = (0xFFFF & h2h) + (0xFFFF & ch) + (c2 >>> 16), c4 = (h2h >>> 16) + (ch >>> 16) + (c3 >>> 16), this.h2h = c4 << 16 | 0xFFFF & c3, this.h2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h3l) + (0xFFFF & dl), c2 = (h3l >>> 16) + (dl >>> 16) + (c1 >>> 16), c3 = (0xFFFF & h3h) + (0xFFFF & dh) + (c2 >>> 16), c4 = (h3h >>> 16) + (dh >>> 16) + (c3 >>> 16), this.h3h = c4 << 16 | 0xFFFF & c3, this.h3l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h4l) + (0xFFFF & el), c2 = (h4l >>> 16) + (el >>> 16) + (c1 >>> 16), c3 = (0xFFFF & h4h) + (0xFFFF & eh) + (c2 >>> 16), c4 = (h4h >>> 16) + (eh >>> 16) + (c3 >>> 16), this.h4h = c4 << 16 | 0xFFFF & c3, this.h4l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h5l) + (0xFFFF & fl), c2 = (h5l >>> 16) + (fl >>> 16) + (c1 >>> 16), c3 = (0xFFFF & h5h) + (0xFFFF & fh) + (c2 >>> 16), c4 = (h5h >>> 16) + (fh >>> 16) + (c3 >>> 16), this.h5h = c4 << 16 | 0xFFFF & c3, this.h5l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h6l) + (0xFFFF & gl), c2 = (h6l >>> 16) + (gl >>> 16) + (c1 >>> 16), c3 = (0xFFFF & h6h) + (0xFFFF & gh) + (c2 >>> 16), c4 = (h6h >>> 16) + (gh >>> 16) + (c3 >>> 16), this.h6h = c4 << 16 | 0xFFFF & c3, this.h6l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h7l) + (0xFFFF & hl), c2 = (h7l >>> 16) + (hl >>> 16) + (c1 >>> 16), c3 = (0xFFFF & h7h) + (0xFFFF & hh) + (c2 >>> 16), c4 = (h7h >>> 16) + (hh >>> 16) + (c3 >>> 16), this.h7h = c4 << 16 | 0xFFFF & c3, this.h7l = c2 << 16 | 0xFFFF & c1;
+                    for(j = 0, bch = bh & ch, bcl = bl & cl; j < 160; j += 8)s0h = (ah >>> 28 | al << 4) ^ (al >>> 2 | ah << 30) ^ (al >>> 7 | ah << 25), s0l = (al >>> 28 | ah << 4) ^ (ah >>> 2 | al << 30) ^ (ah >>> 7 | al << 25), s1h = (eh >>> 14 | el << 18) ^ (eh >>> 18 | el << 14) ^ (el >>> 9 | eh << 23), s1l = (el >>> 14 | eh << 18) ^ (el >>> 18 | eh << 14) ^ (eh >>> 9 | el << 23), abh = ah & bh, abl = al & bl, majh = abh ^ ah & ch ^ bch, majl = abl ^ al & cl ^ bcl, chh = eh & fh ^ ~eh & gh, chl = el & fl ^ ~el & gl, t1h = blocks[j], t1l = blocks[j + 1], t2h = K[j], c1 = (0xFFFF & (t2l = K[j + 1])) + (0xFFFF & t1l) + (0xFFFF & chl) + (0xFFFF & s1l) + (0xFFFF & hl), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & chh) + (0xFFFF & s1h) + (0xFFFF & hh) + ((c2 = (t2l >>> 16) + (t1l >>> 16) + (chl >>> 16) + (s1l >>> 16) + (hl >>> 16) + (c1 >>> 16)) >>> 16), t1h = (c4 = (t2h >>> 16) + (t1h >>> 16) + (chh >>> 16) + (s1h >>> 16) + (hh >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, t1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & majl) + (0xFFFF & s0l), c3 = (0xFFFF & majh) + (0xFFFF & s0h) + ((c2 = (majl >>> 16) + (s0l >>> 16) + (c1 >>> 16)) >>> 16), t2h = (c4 = (majh >>> 16) + (s0h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, t2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & dl) + (0xFFFF & t1l), c3 = (0xFFFF & dh) + (0xFFFF & t1h) + ((c2 = (dl >>> 16) + (t1l >>> 16) + (c1 >>> 16)) >>> 16), hh = (c4 = (dh >>> 16) + (t1h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, hl = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & t2l) + (0xFFFF & t1l), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + ((c2 = (t2l >>> 16) + (t1l >>> 16) + (c1 >>> 16)) >>> 16), s0h = ((dh = (c4 = (t2h >>> 16) + (t1h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3) >>> 28 | (dl = c2 << 16 | 0xFFFF & c1) << 4) ^ (dl >>> 2 | dh << 30) ^ (dl >>> 7 | dh << 25), s0l = (dl >>> 28 | dh << 4) ^ (dh >>> 2 | dl << 30) ^ (dh >>> 7 | dl << 25), s1h = (hh >>> 14 | hl << 18) ^ (hh >>> 18 | hl << 14) ^ (hl >>> 9 | hh << 23), s1l = (hl >>> 14 | hh << 18) ^ (hl >>> 18 | hh << 14) ^ (hh >>> 9 | hl << 23), dah = dh & ah, dal = dl & al, majh = dah ^ dh & bh ^ abh, majl = dal ^ dl & bl ^ abl, chh = hh & eh ^ ~hh & fh, chl = hl & el ^ ~hl & fl, t1h = blocks[j + 2], t1l = blocks[j + 3], t2h = K[j + 2], c1 = (0xFFFF & (t2l = K[j + 3])) + (0xFFFF & t1l) + (0xFFFF & chl) + (0xFFFF & s1l) + (0xFFFF & gl), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & chh) + (0xFFFF & s1h) + (0xFFFF & gh) + ((c2 = (t2l >>> 16) + (t1l >>> 16) + (chl >>> 16) + (s1l >>> 16) + (gl >>> 16) + (c1 >>> 16)) >>> 16), t1h = (c4 = (t2h >>> 16) + (t1h >>> 16) + (chh >>> 16) + (s1h >>> 16) + (gh >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, t1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & majl) + (0xFFFF & s0l), c3 = (0xFFFF & majh) + (0xFFFF & s0h) + ((c2 = (majl >>> 16) + (s0l >>> 16) + (c1 >>> 16)) >>> 16), t2h = (c4 = (majh >>> 16) + (s0h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, t2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & cl) + (0xFFFF & t1l), c3 = (0xFFFF & ch) + (0xFFFF & t1h) + ((c2 = (cl >>> 16) + (t1l >>> 16) + (c1 >>> 16)) >>> 16), gh = (c4 = (ch >>> 16) + (t1h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, gl = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & t2l) + (0xFFFF & t1l), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + ((c2 = (t2l >>> 16) + (t1l >>> 16) + (c1 >>> 16)) >>> 16), s0h = ((ch = (c4 = (t2h >>> 16) + (t1h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3) >>> 28 | (cl = c2 << 16 | 0xFFFF & c1) << 4) ^ (cl >>> 2 | ch << 30) ^ (cl >>> 7 | ch << 25), s0l = (cl >>> 28 | ch << 4) ^ (ch >>> 2 | cl << 30) ^ (ch >>> 7 | cl << 25), s1h = (gh >>> 14 | gl << 18) ^ (gh >>> 18 | gl << 14) ^ (gl >>> 9 | gh << 23), s1l = (gl >>> 14 | gh << 18) ^ (gl >>> 18 | gh << 14) ^ (gh >>> 9 | gl << 23), cdh = ch & dh, cdl = cl & dl, majh = cdh ^ ch & ah ^ dah, majl = cdl ^ cl & al ^ dal, chh = gh & hh ^ ~gh & eh, chl = gl & hl ^ ~gl & el, t1h = blocks[j + 4], t1l = blocks[j + 5], t2h = K[j + 4], c1 = (0xFFFF & (t2l = K[j + 5])) + (0xFFFF & t1l) + (0xFFFF & chl) + (0xFFFF & s1l) + (0xFFFF & fl), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & chh) + (0xFFFF & s1h) + (0xFFFF & fh) + ((c2 = (t2l >>> 16) + (t1l >>> 16) + (chl >>> 16) + (s1l >>> 16) + (fl >>> 16) + (c1 >>> 16)) >>> 16), t1h = (c4 = (t2h >>> 16) + (t1h >>> 16) + (chh >>> 16) + (s1h >>> 16) + (fh >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, t1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & majl) + (0xFFFF & s0l), c3 = (0xFFFF & majh) + (0xFFFF & s0h) + ((c2 = (majl >>> 16) + (s0l >>> 16) + (c1 >>> 16)) >>> 16), t2h = (c4 = (majh >>> 16) + (s0h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, t2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & bl) + (0xFFFF & t1l), c3 = (0xFFFF & bh) + (0xFFFF & t1h) + ((c2 = (bl >>> 16) + (t1l >>> 16) + (c1 >>> 16)) >>> 16), fh = (c4 = (bh >>> 16) + (t1h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, fl = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & t2l) + (0xFFFF & t1l), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + ((c2 = (t2l >>> 16) + (t1l >>> 16) + (c1 >>> 16)) >>> 16), s0h = ((bh = (c4 = (t2h >>> 16) + (t1h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3) >>> 28 | (bl = c2 << 16 | 0xFFFF & c1) << 4) ^ (bl >>> 2 | bh << 30) ^ (bl >>> 7 | bh << 25), s0l = (bl >>> 28 | bh << 4) ^ (bh >>> 2 | bl << 30) ^ (bh >>> 7 | bl << 25), s1h = (fh >>> 14 | fl << 18) ^ (fh >>> 18 | fl << 14) ^ (fl >>> 9 | fh << 23), s1l = (fl >>> 14 | fh << 18) ^ (fl >>> 18 | fh << 14) ^ (fh >>> 9 | fl << 23), bch = bh & ch, bcl = bl & cl, majh = bch ^ bh & dh ^ cdh, majl = bcl ^ bl & dl ^ cdl, chh = fh & gh ^ ~fh & hh, chl = fl & gl ^ ~fl & hl, t1h = blocks[j + 6], t1l = blocks[j + 7], t2h = K[j + 6], c1 = (0xFFFF & (t2l = K[j + 7])) + (0xFFFF & t1l) + (0xFFFF & chl) + (0xFFFF & s1l) + (0xFFFF & el), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + (0xFFFF & chh) + (0xFFFF & s1h) + (0xFFFF & eh) + ((c2 = (t2l >>> 16) + (t1l >>> 16) + (chl >>> 16) + (s1l >>> 16) + (el >>> 16) + (c1 >>> 16)) >>> 16), t1h = (c4 = (t2h >>> 16) + (t1h >>> 16) + (chh >>> 16) + (s1h >>> 16) + (eh >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, t1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & majl) + (0xFFFF & s0l), c3 = (0xFFFF & majh) + (0xFFFF & s0h) + ((c2 = (majl >>> 16) + (s0l >>> 16) + (c1 >>> 16)) >>> 16), t2h = (c4 = (majh >>> 16) + (s0h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, t2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & al) + (0xFFFF & t1l), c3 = (0xFFFF & ah) + (0xFFFF & t1h) + ((c2 = (al >>> 16) + (t1l >>> 16) + (c1 >>> 16)) >>> 16), eh = (c4 = (ah >>> 16) + (t1h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, el = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & t2l) + (0xFFFF & t1l), c3 = (0xFFFF & t2h) + (0xFFFF & t1h) + ((c2 = (t2l >>> 16) + (t1l >>> 16) + (c1 >>> 16)) >>> 16), ah = (c4 = (t2h >>> 16) + (t1h >>> 16) + (c3 >>> 16)) << 16 | 0xFFFF & c3, al = c2 << 16 | 0xFFFF & c1;
+                    c1 = (0xFFFF & h0l) + (0xFFFF & al), c3 = (0xFFFF & h0h) + (0xFFFF & ah) + ((c2 = (h0l >>> 16) + (al >>> 16) + (c1 >>> 16)) >>> 16), c4 = (h0h >>> 16) + (ah >>> 16) + (c3 >>> 16), this.h0h = c4 << 16 | 0xFFFF & c3, this.h0l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h1l) + (0xFFFF & bl), c3 = (0xFFFF & h1h) + (0xFFFF & bh) + ((c2 = (h1l >>> 16) + (bl >>> 16) + (c1 >>> 16)) >>> 16), c4 = (h1h >>> 16) + (bh >>> 16) + (c3 >>> 16), this.h1h = c4 << 16 | 0xFFFF & c3, this.h1l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h2l) + (0xFFFF & cl), c3 = (0xFFFF & h2h) + (0xFFFF & ch) + ((c2 = (h2l >>> 16) + (cl >>> 16) + (c1 >>> 16)) >>> 16), c4 = (h2h >>> 16) + (ch >>> 16) + (c3 >>> 16), this.h2h = c4 << 16 | 0xFFFF & c3, this.h2l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h3l) + (0xFFFF & dl), c3 = (0xFFFF & h3h) + (0xFFFF & dh) + ((c2 = (h3l >>> 16) + (dl >>> 16) + (c1 >>> 16)) >>> 16), c4 = (h3h >>> 16) + (dh >>> 16) + (c3 >>> 16), this.h3h = c4 << 16 | 0xFFFF & c3, this.h3l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h4l) + (0xFFFF & el), c3 = (0xFFFF & h4h) + (0xFFFF & eh) + ((c2 = (h4l >>> 16) + (el >>> 16) + (c1 >>> 16)) >>> 16), c4 = (h4h >>> 16) + (eh >>> 16) + (c3 >>> 16), this.h4h = c4 << 16 | 0xFFFF & c3, this.h4l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h5l) + (0xFFFF & fl), c3 = (0xFFFF & h5h) + (0xFFFF & fh) + ((c2 = (h5l >>> 16) + (fl >>> 16) + (c1 >>> 16)) >>> 16), c4 = (h5h >>> 16) + (fh >>> 16) + (c3 >>> 16), this.h5h = c4 << 16 | 0xFFFF & c3, this.h5l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h6l) + (0xFFFF & gl), c3 = (0xFFFF & h6h) + (0xFFFF & gh) + ((c2 = (h6l >>> 16) + (gl >>> 16) + (c1 >>> 16)) >>> 16), c4 = (h6h >>> 16) + (gh >>> 16) + (c3 >>> 16), this.h6h = c4 << 16 | 0xFFFF & c3, this.h6l = c2 << 16 | 0xFFFF & c1, c1 = (0xFFFF & h7l) + (0xFFFF & hl), c3 = (0xFFFF & h7h) + (0xFFFF & hh) + ((c2 = (h7l >>> 16) + (hl >>> 16) + (c1 >>> 16)) >>> 16), c4 = (h7h >>> 16) + (hh >>> 16) + (c3 >>> 16), this.h7h = c4 << 16 | 0xFFFF & c3, this.h7l = c2 << 16 | 0xFFFF & c1;
                 }, Sha512.prototype.hex = function() {
                     this.finalize();
                     var h0h = this.h0h, h0l = this.h0l, h1h = this.h1h, h1l = this.h1l, h2h = this.h2h, h2l = this.h2l, h3h = this.h3h, h3l = this.h3l, h4h = this.h4h, h4l = this.h4l, h5h = this.h5h, h5l = this.h5l, h6h = this.h6h, h6l = this.h6l, h7h = this.h7h, h7l = this.h7l, bits = this.bits, hex = HEX_CHARS[h0h >> 28 & 0x0F] + HEX_CHARS[h0h >> 24 & 0x0F] + HEX_CHARS[h0h >> 20 & 0x0F] + HEX_CHARS[h0h >> 16 & 0x0F] + HEX_CHARS[h0h >> 12 & 0x0F] + HEX_CHARS[h0h >> 8 & 0x0F] + HEX_CHARS[h0h >> 4 & 0x0F] + HEX_CHARS[0x0F & h0h] + HEX_CHARS[h0l >> 28 & 0x0F] + HEX_CHARS[h0l >> 24 & 0x0F] + HEX_CHARS[h0l >> 20 & 0x0F] + HEX_CHARS[h0l >> 16 & 0x0F] + HEX_CHARS[h0l >> 12 & 0x0F] + HEX_CHARS[h0l >> 8 & 0x0F] + HEX_CHARS[h0l >> 4 & 0x0F] + HEX_CHARS[0x0F & h0l] + HEX_CHARS[h1h >> 28 & 0x0F] + HEX_CHARS[h1h >> 24 & 0x0F] + HEX_CHARS[h1h >> 20 & 0x0F] + HEX_CHARS[h1h >> 16 & 0x0F] + HEX_CHARS[h1h >> 12 & 0x0F] + HEX_CHARS[h1h >> 8 & 0x0F] + HEX_CHARS[h1h >> 4 & 0x0F] + HEX_CHARS[0x0F & h1h] + HEX_CHARS[h1l >> 28 & 0x0F] + HEX_CHARS[h1l >> 24 & 0x0F] + HEX_CHARS[h1l >> 20 & 0x0F] + HEX_CHARS[h1l >> 16 & 0x0F] + HEX_CHARS[h1l >> 12 & 0x0F] + HEX_CHARS[h1l >> 8 & 0x0F] + HEX_CHARS[h1l >> 4 & 0x0F] + HEX_CHARS[0x0F & h1l] + HEX_CHARS[h2h >> 28 & 0x0F] + HEX_CHARS[h2h >> 24 & 0x0F] + HEX_CHARS[h2h >> 20 & 0x0F] + HEX_CHARS[h2h >> 16 & 0x0F] + HEX_CHARS[h2h >> 12 & 0x0F] + HEX_CHARS[h2h >> 8 & 0x0F] + HEX_CHARS[h2h >> 4 & 0x0F] + HEX_CHARS[0x0F & h2h] + HEX_CHARS[h2l >> 28 & 0x0F] + HEX_CHARS[h2l >> 24 & 0x0F] + HEX_CHARS[h2l >> 20 & 0x0F] + HEX_CHARS[h2l >> 16 & 0x0F] + HEX_CHARS[h2l >> 12 & 0x0F] + HEX_CHARS[h2l >> 8 & 0x0F] + HEX_CHARS[h2l >> 4 & 0x0F] + HEX_CHARS[0x0F & h2l] + HEX_CHARS[h3h >> 28 & 0x0F] + HEX_CHARS[h3h >> 24 & 0x0F] + HEX_CHARS[h3h >> 20 & 0x0F] + HEX_CHARS[h3h >> 16 & 0x0F] + HEX_CHARS[h3h >> 12 & 0x0F] + HEX_CHARS[h3h >> 8 & 0x0F] + HEX_CHARS[h3h >> 4 & 0x0F] + HEX_CHARS[0x0F & h3h];
@@ -15134,9 +15122,7 @@
         8458: function(module, __unused_webpack_exports, __webpack_require__) {
             var isFunction = __webpack_require__(3560), isMasked = __webpack_require__(5346), isObject = __webpack_require__(3218), toSource = __webpack_require__(346), reRegExpChar = /[\\^$.*+?()[\]{}|]/g, reIsHostCtor = /^\[object .+?Constructor\]$/, funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, reIsNative = RegExp('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
             function baseIsNative(value) {
-                if (!isObject(value) || isMasked(value)) return !1;
-                var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
-                return pattern.test(toSource(value));
+                return !(!isObject(value) || isMasked(value)) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
             }
             module.exports = baseIsNative;
         },
@@ -15199,7 +15185,7 @@
         },
         4626: function(module, exports, __webpack_require__) {
             module = __webpack_require__.nmd(module);
-            var root = __webpack_require__(5639), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, moduleExports = freeModule && freeModule.exports === freeExports, Buffer = moduleExports ? root.Buffer : void 0, allocUnsafe = Buffer ? Buffer.allocUnsafe : void 0;
+            var root = __webpack_require__(5639), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, allocUnsafe = Buffer ? Buffer.allocUnsafe : void 0;
             function cloneBuffer(buffer, isDeep) {
                 if (isDeep) return buffer.slice();
                 var length = buffer.length, result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
@@ -15496,8 +15482,8 @@
         5726: function(module) {
             var objectProto = Object.prototype;
             function isPrototype(value) {
-                var Ctor = value && value.constructor, proto = 'function' == typeof Ctor && Ctor.prototype || objectProto;
-                return value === proto;
+                var Ctor = value && value.constructor;
+                return value === ('function' == typeof Ctor && Ctor.prototype || objectProto);
             }
             module.exports = isPrototype;
         },
@@ -15508,12 +15494,10 @@
             module.exports = listCacheClear;
         },
         4125: function(module, __unused_webpack_exports, __webpack_require__) {
-            var assocIndexOf = __webpack_require__(8470), arrayProto = Array.prototype, splice = arrayProto.splice;
+            var assocIndexOf = __webpack_require__(8470), splice = Array.prototype.splice;
             function listCacheDelete(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                if (index < 0) return !1;
-                var lastIndex = data.length - 1;
-                return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
+                return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
             }
             module.exports = listCacheDelete;
         },
@@ -15602,7 +15586,7 @@
         },
         1167: function(module, exports, __webpack_require__) {
             module = __webpack_require__.nmd(module);
-            var freeGlobal = __webpack_require__(1957), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, moduleExports = freeModule && freeModule.exports === freeExports, freeProcess = moduleExports && freeGlobal.process, nodeUtil = function() {
+            var freeGlobal = __webpack_require__(1957), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
                 try {
                     var types = freeModule && freeModule.require && freeModule.require('util').types;
                     if (types) return types;
@@ -15673,7 +15657,7 @@
             module.exports = stackSet;
         },
         346: function(module) {
-            var funcProto = Function.prototype, funcToString = funcProto.toString;
+            var funcToString = Function.prototype.toString;
             function toSource(func) {
                 if (null != func) {
                     try {
@@ -15721,7 +15705,7 @@
         },
         4144: function(module, exports, __webpack_require__) {
             module = __webpack_require__.nmd(module);
-            var root = __webpack_require__(5639), stubFalse = __webpack_require__(5062), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0, isBuffer = nativeIsBuffer || stubFalse;
+            var root = __webpack_require__(5639), stubFalse = __webpack_require__(5062), freeExports = exports && !exports.nodeType && exports, freeModule = freeExports && module && !module.nodeType && module, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, isBuffer = (Buffer ? Buffer.isBuffer : void 0) || stubFalse;
             module.exports = isBuffer;
         },
         3560: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -16274,7 +16258,7 @@
                     787: function(e, t, r) {
                         "use strict";
                         e.exports = Readable, Readable.ReadableState = ReadableState, r(361).EventEmitter;
-                        var n, u, w, m, S, a = function(e, t) {
+                        var a = function(e, t) {
                             return e.listeners(t).length;
                         }, o = r(455), s = r(300).Buffer, f = __webpack_require__.g.Uint8Array || function() {};
                         function _uint8ArrayToBuffer(e) {
@@ -16285,7 +16269,7 @@
                         }
                         var l = r(837);
                         u = l && l.debuglog ? l.debuglog("stream") : function() {};
-                        var d = r(41), c = r(289), h = r(483), p = h.getHighWaterMark, b = r(349).q, g = b.ERR_INVALID_ARG_TYPE, y = b.ERR_STREAM_PUSH_AFTER_EOF, _ = b.ERR_METHOD_NOT_IMPLEMENTED, v = b.ERR_STREAM_UNSHIFT_AFTER_END_EVENT;
+                        var n, u, w, m, S, d = r(41), c = r(289), p = r(483).getHighWaterMark, b = r(349).q, g = b.ERR_INVALID_ARG_TYPE, y = b.ERR_STREAM_PUSH_AFTER_EOF, _ = b.ERR_METHOD_NOT_IMPLEMENTED, v = b.ERR_STREAM_UNSHIFT_AFTER_END_EVENT;
                         r(140)(Readable, o);
                         var R = c.errorOrDestroy, E = [
                             "error",
@@ -16459,7 +16443,7 @@
                                     n.pipes.push(e);
                             }
                             n.pipesCount += 1, u("pipe count=%d opts=%j", n.pipesCount, t);
-                            var i = (!t || !1 !== t.end) && e !== process.stdout && e !== process.stderr, o = i ? onend : unpipe;
+                            var o = t && !1 === t.end || e === process.stdout || e === process.stderr ? unpipe : onend;
                             function onunpipe(e, t) {
                                 u("onunpipe"), e === r && t && !1 === t.hasUnpiped && (t.hasUnpiped = !0, cleanup());
                             }
@@ -17243,8 +17227,8 @@
                             function _next2() {
                                 return (_next2 = _asyncToGenerator(function*() {
                                     try {
-                                        var e = yield i.next(), t = e.value, r = e.done;
-                                        r ? a.push(null) : a.push((yield t)) ? next() : o = !1;
+                                        var e = yield i.next(), t = e.value;
+                                        e.done ? a.push(null) : a.push((yield t)) ? next() : o = !1;
                                     } catch (e1) {
                                         a.destroy(e1);
                                     }
@@ -18982,7 +18966,7 @@
                 const circularValue = getCircularValueOption(options), bigint = getBooleanOption(options, 'bigint'), deterministic = getBooleanOption(options, 'deterministic'), maximumDepth = getPositiveIntegerOption(options, 'maximumDepth'), maximumBreadth = getPositiveIntegerOption(options, 'maximumBreadth');
                 function stringifyFnReplacer(key, parent, stack, replacer, spacer, indentation) {
                     let value = parent[key];
-                    switch('object' == typeof value && null !== value && 'function' == typeof value.toJSON && (value = value.toJSON(key)), value = replacer.call(parent, key, value), typeof value){
+                    switch('object' == typeof value && null !== value && 'function' == typeof value.toJSON && (value = value.toJSON(key)), typeof (value = replacer.call(parent, key, value))){
                         case 'string':
                             return `"${strEscape(value)}"`;
                         case 'object':
@@ -19096,8 +19080,8 @@
                                 if (Array.isArray(value)) {
                                     if (0 === value.length) return '[]';
                                     if (maximumDepth < stack.length + 1) return '"[Array]"';
-                                    stack.push(value), indentation += spacer;
-                                    let res = `\n${indentation}`;
+                                    stack.push(value);
+                                    let res = `\n${indentation += spacer}`;
                                     const join = `,\n${indentation}`, maximumValuesToStringify = Math.min(value.length, maximumBreadth);
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
@@ -20438,7 +20422,7 @@
                     return '   ' + line;
                 }).join('\n')) : str = ctx.stylize('[Circular]', 'special')), isUndefined(name)) {
                     if (array && key.match(/^\d+$/)) return str;
-                    name = JSON.stringify('' + key), name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/) ? (name = name.substr(1, name.length - 2), name = ctx.stylize(name, 'name')) : (name = name.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'"), name = ctx.stylize(name, 'string'));
+                    (name = JSON.stringify('' + key)).match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/) ? (name = name.substr(1, name.length - 2), name = ctx.stylize(name, 'name')) : (name = name.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'"), name = ctx.stylize(name, 'string'));
                 }
                 return name + ': ' + str;
             }
@@ -22007,7 +21991,7 @@
                     const contractType = 'application/javascript' == srcContentType ? 'js' : 'wasm', src = 'js' == contractType ? await this.arweaveWrapper.txDataString(contractSrcTxId) : await this.arweaveWrapper.txData(contractSrcTxId);
                     let srcWasmLang, wasmSrc, srcMetaData;
                     if ('wasm' == contractType) {
-                        if (wasmSrc = new WasmSrc_1.WasmSrc(src), srcWasmLang = (0, utils_1.getTag)(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.WASM_LANG), !srcWasmLang) throw Error(`Wasm lang not set for wasm contract src ${contractSrcTxId}`);
+                        if (wasmSrc = new WasmSrc_1.WasmSrc(src), !(srcWasmLang = (0, utils_1.getTag)(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.WASM_LANG))) throw Error(`Wasm lang not set for wasm contract src ${contractSrcTxId}`);
                         srcMetaData = JSON.parse((0, utils_1.getTag)(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.WASM_META));
                     }
                     return this.logger.debug('Contract src tx load', benchmark.elapsed()), benchmark.reset(), {

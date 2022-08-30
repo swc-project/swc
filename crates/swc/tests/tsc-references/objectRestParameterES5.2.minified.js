@@ -21,10 +21,10 @@ suddenly(function(_param) {
         y: "noo"
     }, nested = (_param.x.z, _object_without_properties(_param.x, [
         "z"
-    ])), rest = _object_without_properties(_param, [
+    ]));
+    return _object_without_properties(_param, [
         "x"
-    ]);
-    return rest.y + nested.ka;
+    ]).y + nested.ka;
 }), foobar(), foobar({
     baz: "hello"
 }), foobar({

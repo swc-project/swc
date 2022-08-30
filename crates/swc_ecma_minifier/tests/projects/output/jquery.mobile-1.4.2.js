@@ -322,7 +322,7 @@
             version: prototype.version,
             _proto: $3.extend({}, prototype),
             _childConstructors: []
-        }), basePrototype = new base(), basePrototype.options = $3.widget.extend({}, basePrototype.options), $3.each(prototype, function(prop, value) {
+        }), (basePrototype = new base()).options = $3.widget.extend({}, basePrototype.options), $3.each(prototype, function(prop, value) {
             var _super, _superApply;
             if (!$3.isFunction(value)) {
                 proxiedPrototype[prop] = value;
@@ -567,7 +567,7 @@
                 hash !== history_hash && (iframe_doc.title = doc.title, iframe_doc.open(), domain && iframe_doc.write('<script>document.domain="' + domain + '"</script>'), iframe_doc.close(), iframe.location.hash = hash);
             }), self;
         }();
-    }(jQuery, this), $5 = jQuery, window.matchMedia = window.matchMedia || (refNode = (docElem = (doc = document1).documentElement).firstElementChild || docElem.firstChild, fakeBody = doc.createElement("body"), div = doc.createElement("div"), div.id = "mq-test-1", div.style.cssText = "position:absolute;top:-100em", fakeBody.style.background = "none", fakeBody.appendChild(div), function(q) {
+    }(jQuery, this), $5 = jQuery, window.matchMedia = window.matchMedia || (refNode = (docElem = (doc = document1).documentElement).firstElementChild || docElem.firstChild, fakeBody = doc.createElement("body"), (div = doc.createElement("div")).id = "mq-test-1", div.style.cssText = "position:absolute;top:-100em", fakeBody.style.background = "none", fakeBody.appendChild(div), function(q) {
         return div.innerHTML = '&shy;<style media="' + q + '"> #mq-test-1 { width: 42px; }</style>', docElem.insertBefore(fakeBody, refNode), bool = 42 === div.offsetWidth, docElem.removeChild(fakeBody), {
             matches: bool,
             media: q
@@ -612,7 +612,7 @@
                 return !!ret && "none" !== ret;
             }(),
             boxShadow: !!propExists("boxShadow") && !bb,
-            fixedPosition: (w = window, ua = navigator.userAgent, platform = navigator.platform, wkmatch = ua.match(/AppleWebKit\/([0-9]+)/), wkversion = !!wkmatch && wkmatch[1], ffmatch = ua.match(/Fennec\/([0-9]+)/), ffversion = !!ffmatch && ffmatch[1], operammobilematch = ua.match(/Opera Mobi\/([0-9]+)/), omversion = !!operammobilematch && operammobilematch[1], !((platform.indexOf("iPhone") > -1 || platform.indexOf("iPad") > -1 || platform.indexOf("iPod") > -1) && wkversion && wkversion < 534 || w.operamini && "[object OperaMini]" === ({}).toString.call(w.operamini) || operammobilematch && omversion < 7458 || ua.indexOf("Android") > -1 && wkversion && wkversion < 533 || ffversion && ffversion < 6 || "palmGetResource" in window && wkversion && wkversion < 534 || ua.indexOf("MeeGo") > -1 && ua.indexOf("NokiaBrowser/8.5.0") > -1)),
+            fixedPosition: (w = window, ua = navigator.userAgent, platform = navigator.platform, wkversion = !!(wkmatch = ua.match(/AppleWebKit\/([0-9]+)/)) && wkmatch[1], ffversion = !!(ffmatch = ua.match(/Fennec\/([0-9]+)/)) && ffmatch[1], omversion = !!(operammobilematch = ua.match(/Opera Mobi\/([0-9]+)/)) && operammobilematch[1], !((platform.indexOf("iPhone") > -1 || platform.indexOf("iPad") > -1 || platform.indexOf("iPod") > -1) && wkversion && wkversion < 534 || w.operamini && "[object OperaMini]" === ({}).toString.call(w.operamini) || operammobilematch && omversion < 7458 || ua.indexOf("Android") > -1 && wkversion && wkversion < 533 || ffversion && ffversion < 6 || "palmGetResource" in window && wkversion && wkversion < 534 || ua.indexOf("MeeGo") > -1 && ua.indexOf("NokiaBrowser/8.5.0") > -1)),
             scrollTop: ("pageXOffset" in window || "scrollTop" in document1.documentElement || "scrollTop" in fakeBody[0]) && !webos && !operamini,
             dynamicBaseTag: (fauxBase = location.protocol + "//" + location.host + location.pathname + "ui-dir/", base = $("head base"), fauxEle = null, href = "", base.length ? href = base.attr("href") : base = fauxEle = $("<base>", {
                 href: fauxBase
@@ -634,7 +634,7 @@
         }, $.mobile.ajaxBlacklist = window.blackberry && !window.WebKitPoint || operamini || nokiaLTE7_3, nokiaLTE7_3 && $(function() {
             $("head link[rel='stylesheet']").attr("rel", "alternate stylesheet").attr("rel", "stylesheet");
         }), $.support.boxShadow || $("html").addClass("ui-noboxshadow");
-    }(jQuery), $7 = jQuery, $win = $7.mobile.window, dummyFnToInitNavigate = function() {}, $7.event.special.beforenavigate = {
+    }(jQuery), $win = ($7 = jQuery).mobile.window, dummyFnToInitNavigate = function() {}, $7.event.special.beforenavigate = {
         setup: function() {
             $win.on("navigate", dummyFnToInitNavigate);
         },
@@ -668,7 +668,7 @@
         setup: function() {
             !self.bound && (self.bound = !0, self.isPushStateEnabled() ? (self.originalEventName = "popstate", $win.bind("popstate.navigate", self.popstate)) : self.isHashChangeEnabled() && (self.originalEventName = "hashchange", $win.bind("hashchange.navigate", self.hashchange)));
         }
-    }, $8 = jQuery, dialogHashKey = "&ui-state=dialog", $8.mobile.path = path = {
+    }, dialogHashKey = "&ui-state=dialog", ($8 = jQuery).mobile.path = path = {
         uiStateKey: "&ui-state",
         urlParseRE: /^\s*(((([^:\/#\?]+:)?(?:(\/\/)((?:(([^:@\/#\?]+)(?:\:([^:@\/#\?]+))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((\/?(?:[^\/\?#]+\/+)*)([^\?#]*)))?(\?[^#]+)?)(#.*)?/,
         getLocation: function(url) {
@@ -730,8 +730,8 @@
         makeUrlAbsolute: function(relUrl, absUrl) {
             if (!path.isRelativeUrl(relUrl)) return relUrl;
             absUrl === undefined2 && (absUrl = this.documentBase);
-            var relObj = path.parseUrl(relUrl), absObj = path.parseUrl(absUrl), protocol = relObj.protocol || absObj.protocol, doubleSlash = relObj.protocol ? relObj.doubleSlash : relObj.doubleSlash || absObj.doubleSlash, authority = relObj.authority || absObj.authority, hasPath = "" !== relObj.pathname, pathname = path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname), search = relObj.search || !hasPath && absObj.search || "", hash = relObj.hash;
-            return protocol + doubleSlash + authority + pathname + search + hash;
+            var pathname, relObj = path.parseUrl(relUrl), absObj = path.parseUrl(absUrl), protocol = relObj.protocol || absObj.protocol, doubleSlash = relObj.protocol ? relObj.doubleSlash : relObj.doubleSlash || absObj.doubleSlash, authority = relObj.authority || absObj.authority, hasPath = "" !== relObj.pathname;
+            return protocol + doubleSlash + authority + path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname) + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
         },
         addSearchParams: function(url, params) {
             var u = path.parseUrl(url), p = "object" == typeof params ? $8.param(params) : params, s = u.search || "?";
@@ -778,7 +778,7 @@
         },
         squash: function(url, resolutionUrl) {
             var href, cleanedUrl, search, stateIndex, isPath = this.isPath(url), uri = this.parseUrl(url), preservedHash = uri.hash, uiState = "";
-            return resolutionUrl = resolutionUrl || (path.isPath(url) ? path.getLocation() : path.getDocumentUrl()), cleanedUrl = isPath ? path.stripHash(url) : url, cleanedUrl = path.isPath(uri.hash) ? path.stripHash(uri.hash) : cleanedUrl, stateIndex = cleanedUrl.indexOf(this.uiStateKey), stateIndex > -1 && (uiState = cleanedUrl.slice(stateIndex), cleanedUrl = cleanedUrl.slice(0, stateIndex)), href = path.makeUrlAbsolute(cleanedUrl, resolutionUrl), search = this.parseUrl(href).search, isPath ? ((path.isPath(preservedHash) || 0 === preservedHash.replace("#", "").indexOf(this.uiStateKey)) && (preservedHash = ""), uiState && -1 === preservedHash.indexOf(this.uiStateKey) && (preservedHash += uiState), -1 === preservedHash.indexOf("#") && "" !== preservedHash && (preservedHash = "#" + preservedHash), href = (href = path.parseUrl(href)).protocol + "//" + href.host + href.pathname + search + preservedHash) : href += href.indexOf("#") > -1 ? uiState : "#" + uiState, href;
+            return resolutionUrl = resolutionUrl || (path.isPath(url) ? path.getLocation() : path.getDocumentUrl()), cleanedUrl = isPath ? path.stripHash(url) : url, (stateIndex = (cleanedUrl = path.isPath(uri.hash) ? path.stripHash(uri.hash) : cleanedUrl).indexOf(this.uiStateKey)) > -1 && (uiState = cleanedUrl.slice(stateIndex), cleanedUrl = cleanedUrl.slice(0, stateIndex)), href = path.makeUrlAbsolute(cleanedUrl, resolutionUrl), search = this.parseUrl(href).search, isPath ? ((path.isPath(preservedHash) || 0 === preservedHash.replace("#", "").indexOf(this.uiStateKey)) && (preservedHash = ""), uiState && -1 === preservedHash.indexOf(this.uiStateKey) && (preservedHash += uiState), -1 === preservedHash.indexOf("#") && "" !== preservedHash && (preservedHash = "#" + preservedHash), href = (href = path.parseUrl(href)).protocol + "//" + href.host + href.pathname + search + preservedHash) : href += href.indexOf("#") > -1 ? uiState : "#" + uiState, href;
         },
         isPreservableHash: function(hash) {
             return 0 === hash.replace("#", "").indexOf(this.uiStateKey);
@@ -803,7 +803,7 @@
     }, $8.extend($8.mobile, {
         getDocumentUrl: path.getDocumentUrl,
         getDocumentBase: path.getDocumentBase
-    }), $9 = jQuery, $9.mobile.History = function(stack, index) {
+    }), ($9 = jQuery).mobile.History = function(stack, index) {
         this.stack = stack || [], this.activeIndex = index || 0;
     }, $9.extend($9.mobile.History.prototype, {
         getActive: function() {
@@ -837,7 +837,7 @@
             var newActiveIndex = this.closest(opts.url), a = this.activeIndex;
             newActiveIndex !== undefined3 && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || $9.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || $9.noop)(this.getActive(), "forward") : newActiveIndex === undefined3 && opts.missing && opts.missing(this.getActive());
         }
-    }), $10 = jQuery, path1 = $10.mobile.path, initialHref = location.href, $10.mobile.Navigator = function(history1) {
+    }), path1 = ($10 = jQuery).mobile.path, initialHref = location.href, $10.mobile.Navigator = function(history1) {
         this.history = history1, this.ignoreInitialHashChange = !0, $10.mobile.window.bind({
             "popstate.history": $10.proxy(this.popstate, this),
             "hashchange.history": $10.proxy(this.hashchange, this)
@@ -851,8 +851,8 @@
             }, data), window.history.replaceState(state, state.title || document1.title, href), state;
         },
         hash: function(url, href) {
-            var parsed, loc, hash, resolved;
-            return parsed = path1.parseUrl(url), loc = path1.parseLocation(), loc.pathname + loc.search === parsed.pathname + parsed.search ? parsed.hash ? parsed.hash : parsed.pathname + parsed.search : path1.isPath(url) ? (resolved = path1.parseUrl(href)).pathname + resolved.search + (path1.isPreservableHash(resolved.hash) ? resolved.hash.replace("#", "") : "") : url;
+            var parsed, loc, resolved;
+            return parsed = path1.parseUrl(url), (loc = path1.parseLocation()).pathname + loc.search === parsed.pathname + parsed.search ? parsed.hash ? parsed.hash : parsed.pathname + parsed.search : path1.isPath(url) ? (resolved = path1.parseUrl(href)).pathname + resolved.search + (path1.isPreservableHash(resolved.hash) ? resolved.hash.replace("#", "") : "") : url;
         },
         go: function(url, data, noEvents) {
             var state, href, hash, popstateEvent, isPopStateEvent = $10.event.special.navigate.isPushStateEnabled();
@@ -913,7 +913,7 @@
                 });
             }
         }
-    }), $11 = jQuery, $11.mobile.navigate = function(url, data, noEvents) {
+    }), ($11 = jQuery).mobile.navigate = function(url, data, noEvents) {
         $11.mobile.navigate.navigator.go(url, data, noEvents);
     }, $11.mobile.navigate.history = new $11.mobile.History(), $11.mobile.navigate.navigator = new $11.mobile.Navigator($11.mobile.navigate.history), loc = $11.mobile.path.parseLocation(), $11.mobile.navigate.history.add(loc.href, {
         hash: loc.hash
@@ -1180,7 +1180,7 @@
                 }
             };
         });
-    }(jQuery, this), $13 = jQuery, $13.event.special.throttledresize = {
+    }(jQuery, this), ($13 = jQuery).event.special.throttledresize = {
         setup: function() {
             $13(this).bind("resize", handler);
         },
@@ -1222,8 +1222,8 @@
         }, $.fn[event_name] = function(fn) {
             return fn ? this.bind(event_name, fn) : this.trigger(event_name);
         }, $.attrFn && ($.attrFn[event_name] = !0);
-    }(jQuery, this), $14 = jQuery, baseElement = $14("head").children("base"), base = {
-        element: baseElement.length ? baseElement : $14("<base>", {
+    }(jQuery, this), base = {
+        element: (baseElement = ($14 = jQuery)("head").children("base")).length ? baseElement : $14("<base>", {
             href: $14.mobile.path.documentBase.hrefNoHash
         }).prependTo($14("head")),
         linkSelector: "[src], link[href], a[rel='external'], :jqmData(ajax='false'), a[target]",
@@ -1240,7 +1240,7 @@
         reset: function() {
             base.element.attr("href", $14.mobile.path.documentBase.hrefNoSearch);
         }
-    }, $14.mobile.base = base, $15 = jQuery, $15.mobile.widgets = {}, originalWidget = $15.widget, keepNativeFactoryDefault = $15.mobile.keepNative, $15.widget = (orig = $15.widget, function() {
+    }, $14.mobile.base = base, ($15 = jQuery).mobile.widgets = {}, originalWidget = $15.widget, keepNativeFactoryDefault = $15.mobile.keepNative, $15.widget = (orig = $15.widget, function() {
         var constructor = orig.apply(this, arguments), name = constructor.prototype.widgetName;
         return constructor.initSelector = undefined5 !== constructor.prototype.initSelector ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", $15.mobile.widgets[name] = constructor, constructor;
     }), $15.extend($15.widget, originalWidget), $15.mobile.document.on("create", function(event1) {
@@ -1305,7 +1305,7 @@
                 oldDefault
             ] : []).join(", ");
         }
-    }), $16 = jQuery, $16.widget("mobile.pagecontainer", {
+    }), ($16 = jQuery).widget("mobile.pagecontainer", {
         options: {
             theme: "a"
         },
@@ -1542,7 +1542,7 @@
             }, to);
         },
         _cssTransition: function(to, from, options) {
-            var TransitionHandler, promise, transition = options.transition, reverse = options.reverse, deferred = options.deferred;
+            var promise, transition = options.transition, reverse = options.reverse, deferred = options.deferred;
             this._triggerCssTransitionEvents(to, from, "before"), this._hideLoading(), (promise = new (this._getTransitionHandler(transition))(transition, reverse, to, from).transition()).done(function() {
                 deferred.resolve.apply(deferred, arguments);
             }), promise.done($16.proxy(function() {
@@ -1587,7 +1587,7 @@
                 return;
             }
             if (!(!this._triggerPageBeforeChange(toPage, triggerData, settings) || (beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
-                if (isPageTransitioning = !0, toPage[0] !== $16.mobile.firstPage[0] || settings.dataUrl || (settings.dataUrl = $16.mobile.path.documentUrl.hrefNoHash), fromPage = settings.fromPage, url = settings.dataUrl && $16.mobile.path.convertUrlToDataUrl(settings.dataUrl) || toPage.jqmData("url"), pageUrl = url, $16.mobile.path.getFilePath(url), active = $16.mobile.navigate.history.getActive(), activeIsInitialPage = 0 === $16.mobile.navigate.history.activeIndex, historyDir = 0, pageTitle = document1.title, isDialog = ("dialog" === settings.role || "dialog" === toPage.jqmData("role")) && !0 !== toPage.jqmData("dialog"), fromPage && fromPage[0] === toPage[0] && !settings.allowSamePageTransition) {
+                if (isPageTransitioning = !0, toPage[0] !== $16.mobile.firstPage[0] || settings.dataUrl || (settings.dataUrl = $16.mobile.path.documentUrl.hrefNoHash), fromPage = settings.fromPage, pageUrl = url = settings.dataUrl && $16.mobile.path.convertUrlToDataUrl(settings.dataUrl) || toPage.jqmData("url"), $16.mobile.path.getFilePath(url), active = $16.mobile.navigate.history.getActive(), activeIsInitialPage = 0 === $16.mobile.navigate.history.activeIndex, historyDir = 0, pageTitle = document1.title, isDialog = ("dialog" === settings.role || "dialog" === toPage.jqmData("role")) && !0 !== toPage.jqmData("dialog"), fromPage && fromPage[0] === toPage[0] && !settings.allowSamePageTransition) {
                     isPageTransitioning = !1, this._triggerWithDeprecated("transition", triggerData), this.element.trigger("pagechange", triggerData), settings.fromHashChange && $16.mobile.navigate.history.direct({
                         url: url
                     });
@@ -1783,7 +1783,7 @@
             var none, reverseClass = this.reverse ? " reverse" : "", screenHeight = $17.mobile.getScreenHeight(), maxTransitionOverride = !1 !== $17.mobile.maxTransitionWidth && $17.mobile.window.width() > $17.mobile.maxTransitionWidth;
             return this.toScroll = $17.mobile.navigate.history.getActive().lastScroll || $17.mobile.defaultHomeScroll, none = !$17.support.cssTransitions || !$17.support.cssAnimations || maxTransitionOverride || !this.name || "none" === this.name || Math.max($17.mobile.window.scrollTop(), this.toScroll) > $17.mobile.getMaxScrollForTransition(), this.toggleViewportClass(), this.$from && !none ? this.startOut(screenHeight, reverseClass, none) : this.doneOut(screenHeight, reverseClass, none, !0), this.deferred.promise();
         }
-    }), $18 = jQuery, $18.mobile.SerialTransition = function() {
+    }), ($18 = jQuery).mobile.SerialTransition = function() {
         this.init.apply(this, arguments);
     }, $18.extend($18.mobile.SerialTransition.prototype, $18.mobile.Transition.prototype, {
         sequential: !0,
@@ -1795,7 +1795,7 @@
                 this.doneOut(screenHeight, reverseClass, none);
             }, this));
         }
-    }), $19 = jQuery, $19.mobile.ConcurrentTransition = function() {
+    }), ($19 = jQuery).mobile.ConcurrentTransition = function() {
         this.init.apply(this, arguments);
     }, $19.extend($19.mobile.ConcurrentTransition.prototype, $19.mobile.Transition.prototype, {
         sequential: !1,
@@ -1812,7 +1812,7 @@
         simultaneous: $20.mobile.ConcurrentTransition
     }, $20.mobile.defaultTransitionHandler = $20.mobile.transitionHandlers.sequential, $20.mobile.transitionFallbacks = {}, $20.mobile._maybeDegradeTransition = function(transition) {
         return transition && !$20.support.cssTransform3d && $20.mobile.transitionFallbacks[transition] && (transition = $20.mobile.transitionFallbacks[transition]), transition;
-    }, $20.mobile.getMaxScrollForTransition = $20.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, $21 = jQuery, $21.mobile.transitionFallbacks.flip = "fade", $22 = jQuery, $22.mobile.transitionFallbacks.flow = "fade", $23 = jQuery, $23.mobile.transitionFallbacks.pop = "fade", $24 = jQuery, $24.mobile.transitionHandlers.slide = $24.mobile.transitionHandlers.simultaneous, $24.mobile.transitionFallbacks.slide = "fade", $25 = jQuery, $25.mobile.transitionFallbacks.slidedown = "fade", $26 = jQuery, $26.mobile.transitionFallbacks.slidefade = "fade", $27 = jQuery, $27.mobile.transitionFallbacks.slideup = "fade", $28 = jQuery, $28.mobile.transitionFallbacks.turn = "fade", $29 = jQuery, $29.mobile.degradeInputs = {
+    }, $20.mobile.getMaxScrollForTransition = $20.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", ($24 = jQuery).mobile.transitionHandlers.slide = $24.mobile.transitionHandlers.simultaneous, $24.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", ($29 = jQuery).mobile.degradeInputs = {
         color: !1,
         date: !1,
         datetime: !1,
@@ -2010,7 +2010,7 @@
         corners: !0,
         theme: "inherit",
         mini: !1
-    }, $31 = jQuery, $31.mobile.behaviors.addFirstLastClasses = {
+    }, jQuery.mobile.behaviors.addFirstLastClasses = {
         _getVisibles: function($els, create) {
             var visibles;
             return create ? visibles = $els.not(".ui-screen-hidden") : 0 === (visibles = $els.filter(":visible")).length && (visibles = $els.not(".ui-screen-hidden")), visibles;
@@ -2062,9 +2062,9 @@
                 this._refresh(!1);
             }
         }, $.mobile.behaviors.addFirstLastClasses));
-    }(jQuery), $32 = jQuery, $32.fn.fieldcontain = function() {
+    }(jQuery), jQuery.fn.fieldcontain = function() {
         return this.addClass("ui-field-contain");
-    }, $33 = jQuery, $33.fn.grid = function(options) {
+    }, ($33 = jQuery).fn.grid = function(options) {
         return this.each(function() {
             var iterator, letter, $this = $33(this), o = $33.extend({
                 grid: null
@@ -2142,8 +2142,8 @@
             _beforeListviewRefresh: $.noop,
             _afterListviewRefresh: $.noop,
             refresh: function(create) {
-                var buttonClass, pos, numli, item, itemClass, itemTheme, itemIcon, icon, a, isDivider, startCount, newStartCount, value, last, splittheme, splitThemeClass, spliticon, altButtonClass, li, o = this.options, $list = this.element, ol = !!$.nodeName($list[0], "ol"), start = $list.attr("start"), itemClassDict = {}, countBubbles = $list.find(".ui-li-count"), countTheme = getAttr($list[0], "counttheme") || this.options.countTheme, countThemeClass = countTheme ? "ui-body-" + countTheme : "ui-body-inherit";
-                for(o.theme && $list.addClass("ui-group-theme-" + o.theme), ol && (start || 0 === start) && (startCount = parseInt(start, 10) - 1, $list.css("counter-reset", "listnumbering " + startCount)), this._beforeListviewRefresh(), li = this._getChildrenByTagName($list[0], "li", "LI"), pos = 0, numli = li.length; pos < numli; pos++)item = li.eq(pos), itemClass = "", (create || 0 > item[0].className.search(/\bui-li-static\b|\bui-li-divider\b/)) && (a = this._getChildrenByTagName(item[0], "a", "A"), isDivider = "list-divider" === getAttr(item[0], "role"), value = item.attr("value"), itemTheme = getAttr(item[0], "theme"), a.length && 0 > a[0].className.search(/\bui-btn\b/) && !isDivider ? (icon = !1 !== (itemIcon = getAttr(item[0], "icon")) && (itemIcon || o.icon), a.removeClass("ui-link"), buttonClass = "ui-btn", itemTheme && (buttonClass += " ui-btn-" + itemTheme), a.length > 1 ? (itemClass = "ui-li-has-alt", splitThemeClass = (splittheme = getAttr((last = a.last())[0], "theme") || o.splitTheme || getAttr(item[0], "theme", !0)) ? " ui-btn-" + splittheme : "", spliticon = getAttr(last[0], "icon") || getAttr(item[0], "icon") || o.splitIcon, altButtonClass = "ui-btn ui-btn-icon-notext ui-icon-" + spliticon + splitThemeClass, last.attr("title", $.trim(last.getEncodedText())).addClass(altButtonClass).empty()) : icon && (buttonClass += " ui-btn-icon-right ui-icon-" + icon), a.first().addClass(buttonClass)) : isDivider ? (itemClass = "ui-li-divider ui-bar-" + (getAttr(item[0], "theme") || o.dividerTheme || o.theme || "inherit"), item.attr("role", "heading")) : a.length <= 0 && (itemClass = "ui-li-static ui-body-" + (itemTheme || "inherit")), ol && value && (newStartCount = parseInt(value, 10) - 1, item.css("counter-reset", "listnumbering " + newStartCount))), itemClassDict[itemClass] || (itemClassDict[itemClass] = []), itemClassDict[itemClass].push(item[0]);
+                var buttonClass, pos, numli, item, itemClass, itemTheme, itemIcon, icon, a, isDivider, startCount, newStartCount, value, last, splittheme, splitThemeClass, altButtonClass, li, o = this.options, $list = this.element, ol = !!$.nodeName($list[0], "ol"), start = $list.attr("start"), itemClassDict = {}, countBubbles = $list.find(".ui-li-count"), countTheme = getAttr($list[0], "counttheme") || this.options.countTheme, countThemeClass = countTheme ? "ui-body-" + countTheme : "ui-body-inherit";
+                for(o.theme && $list.addClass("ui-group-theme-" + o.theme), ol && (start || 0 === start) && (startCount = parseInt(start, 10) - 1, $list.css("counter-reset", "listnumbering " + startCount)), this._beforeListviewRefresh(), li = this._getChildrenByTagName($list[0], "li", "LI"), pos = 0, numli = li.length; pos < numli; pos++)item = li.eq(pos), itemClass = "", (create || 0 > item[0].className.search(/\bui-li-static\b|\bui-li-divider\b/)) && (a = this._getChildrenByTagName(item[0], "a", "A"), isDivider = "list-divider" === getAttr(item[0], "role"), value = item.attr("value"), itemTheme = getAttr(item[0], "theme"), a.length && 0 > a[0].className.search(/\bui-btn\b/) && !isDivider ? (icon = !1 !== (itemIcon = getAttr(item[0], "icon")) && (itemIcon || o.icon), a.removeClass("ui-link"), buttonClass = "ui-btn", itemTheme && (buttonClass += " ui-btn-" + itemTheme), a.length > 1 ? (itemClass = "ui-li-has-alt", splitThemeClass = (splittheme = getAttr((last = a.last())[0], "theme") || o.splitTheme || getAttr(item[0], "theme", !0)) ? " ui-btn-" + splittheme : "", altButtonClass = "ui-btn ui-btn-icon-notext ui-icon-" + (getAttr(last[0], "icon") || getAttr(item[0], "icon") || o.splitIcon) + splitThemeClass, last.attr("title", $.trim(last.getEncodedText())).addClass(altButtonClass).empty()) : icon && (buttonClass += " ui-btn-icon-right ui-icon-" + icon), a.first().addClass(buttonClass)) : isDivider ? (itemClass = "ui-li-divider ui-bar-" + (getAttr(item[0], "theme") || o.dividerTheme || o.theme || "inherit"), item.attr("role", "heading")) : a.length <= 0 && (itemClass = "ui-li-static ui-body-" + (itemTheme || "inherit")), ol && value && (newStartCount = parseInt(value, 10) - 1, item.css("counter-reset", "listnumbering " + newStartCount))), itemClassDict[itemClass] || (itemClassDict[itemClass] = []), itemClassDict[itemClass].push(item[0]);
                 for(itemClass in itemClassDict)$(itemClassDict[itemClass]).addClass(itemClass);
                 countBubbles.each(function() {
                     $(this).closest("li").addClass("ui-li-has-count");
@@ -2178,9 +2178,9 @@
                 if (this._superApply(arguments), this.options.hideDividers) for(idx = (items = this._getChildrenByTagName(this.element[0], "li", "LI")).length - 1; idx > -1; idx--)(item = items[idx]).className.match(rdivider) ? (hideDivider && (item.className = item.className + " ui-screen-hidden"), hideDivider = !0) : item.className.match(rhidden) || (hideDivider = !1);
             }
         });
-    }(jQuery), $34 = jQuery, $34.mobile.nojs = function(target) {
+    }(jQuery), ($34 = jQuery).mobile.nojs = function(target) {
         $34(":jqmData(role='nojs')", target).addClass("ui-nojs");
-    }, $35 = jQuery, $35.mobile.behaviors.formReset = {
+    }, jQuery.mobile.behaviors.formReset = {
         _handleFormReset: function() {
             this._on(this.element.closest("form"), {
                 reset: function() {
@@ -2343,7 +2343,7 @@
                 });
             }
         });
-    }(jQuery), $36 = jQuery, meta = $36("meta[name=viewport]"), initialContent = meta.attr("content"), disabledZoom = initialContent + ",maximum-scale=1, user-scalable=no", enabledZoom = initialContent + ",maximum-scale=10, user-scalable=yes", disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(initialContent), $36.mobile.zoom = $36.extend({}, {
+    }(jQuery), disabledZoom = (initialContent = (meta = ($36 = jQuery)("meta[name=viewport]")).attr("content")) + ",maximum-scale=1, user-scalable=no", enabledZoom = initialContent + ",maximum-scale=10, user-scalable=yes", disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(initialContent), $36.mobile.zoom = $36.extend({}, {
         enabled: !disabledInitially,
         locked: !1,
         disable: function(lock) {
@@ -2460,7 +2460,7 @@
                     for((origTabIndex = control.attr("tabindex")) && handle.attr("tabindex", origTabIndex), control.attr("tabindex", "-1").focus(function() {
                         $(this).blur(), handle.focus();
                     }), (wrapper = document1.createElement("div")).className = "ui-slider-inneroffset", j = 0, length = domSlider.childNodes.length; j < length; j++)wrapper.appendChild(domSlider.childNodes[j]);
-                    for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), options = control.find("option"), i = 0, optionsCount = options.length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $.mobile.activeBtnClass : "", sliderImg = document1.createElement("span"), sliderImg.className = [
+                    for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), options = control.find("option"), i = 0, optionsCount = options.length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $.mobile.activeBtnClass : "", (sliderImg = document1.createElement("span")).className = [
                         "ui-slider-label ui-slider-label-",
                         side,
                         activeClass, 
@@ -2914,12 +2914,12 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var paddingTop, paddingBottom, paddingHeight, scrollHeight, clientHeight, borderTop, borderBottom, borderHeight, height, scrollTop = this.window.scrollTop();
+                var paddingTop, scrollHeight, clientHeight, borderTop, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
                     "max-height": 0
-                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, borderTop = parseFloat(this.element.css("border-top-width")), borderBottom = parseFloat(this.element.css("border-bottom-width")), borderHeight = borderTop + borderBottom, height = scrollHeight + borderHeight + 15, 0 === clientHeight && (paddingTop = parseFloat(this.element.css("padding-top")), paddingBottom = parseFloat(this.element.css("padding-bottom")), paddingHeight = paddingTop + paddingBottom, height += paddingHeight), this.element.css({
+                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, height = scrollHeight + (parseFloat(this.element.css("border-top-width")) + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (height += parseFloat(this.element.css("padding-top")) + parseFloat(this.element.css("padding-bottom"))), this.element.css({
                     height: height,
                     "min-height": "",
                     "max-height": ""
@@ -3051,7 +3051,7 @@
                 this._setDisabled(!1), this.button.removeClass("ui-state-disabled");
             }
         }, $.mobile.behaviors.formReset));
-    }(jQuery), $37 = jQuery, $37.mobile.links = function(target) {
+    }(jQuery), ($37 = jQuery).mobile.links = function(target) {
         $37(target).find("a").jqmEnhanceable().filter(":jqmData(rel='popup')[href][href!='']").each(function() {
             var idref = this.getAttribute("href").substring(1);
             idref && (this.setAttribute("aria-haspopup", !0), this.setAttribute("aria-owns", idref), this.setAttribute("aria-expanded", !1));
@@ -3281,7 +3281,7 @@
                 this._ui.container.addClass("ui-popup-active"), this._isOpen = !0, this._resizeScreen(), this._ui.container.attr("tabindex", "0").focus(), this._ignoreResizeEvents(), id && this.document.find("[aria-haspopup='true'][aria-owns='" + id + "']").attr("aria-expanded", !0), this._trigger("afteropen");
             },
             _open: function(options) {
-                var ua, wkmatch, wkversion, androidmatch, andversion, chromematch, openOptions = $.extend({}, this.options, options), androidBlacklist = (wkversion = !!(wkmatch = (ua = navigator.userAgent).match(/AppleWebKit\/([0-9\.]+)/)) && wkmatch[1], androidmatch = ua.match(/Android (\d+(?:\.\d+))/), andversion = !!androidmatch && androidmatch[1], chromematch = ua.indexOf("Chrome") > -1, null !== androidmatch && "4.0" === andversion && !!wkversion && wkversion > 534.13 && !chromematch);
+                var ua, wkmatch, wkversion, androidmatch, andversion, chromematch, openOptions = $.extend({}, this.options, options), androidBlacklist = (wkversion = !!(wkmatch = (ua = navigator.userAgent).match(/AppleWebKit\/([0-9\.]+)/)) && wkmatch[1], andversion = !!(androidmatch = ua.match(/Android (\d+(?:\.\d+))/)) && androidmatch[1], chromematch = ua.indexOf("Chrome") > -1, null !== androidmatch && "4.0" === andversion && !!wkversion && wkversion > 534.13 && !chromematch);
                 this._createPrerequisites($.noop, $.noop, $.proxy(this, "_openPrerequisitesComplete")), this._currentTransition = openOptions.transition, this._applyTransition(openOptions.transition), this._ui.screen.removeClass("ui-screen-hidden"), this._ui.container.removeClass("ui-popup-truncate"), this._reposition(openOptions), this._ui.container.removeClass("ui-popup-hidden"), this.options.overlayTheme && androidBlacklist && this.element.closest(".ui-page").addClass("ui-popup-open"), this._animate({
                     additionalCondition: !0,
                     transition: openOptions.transition,
@@ -3332,8 +3332,8 @@
                 return this._ui.container;
             },
             open: function(options) {
-                var url, hashkey, activePage, currentIsDialog, hasHash, urlHistory, self = this, currentOptions = this.options;
-                return $.mobile.popup.active || currentOptions.disabled ? this : ($.mobile.popup.active = this, this._scrollTop = this.window.scrollTop(), currentOptions.history) ? (urlHistory = $.mobile.navigate.history, hashkey = $.mobile.dialogHashKey, activePage = $.mobile.activePage, currentIsDialog = !!activePage && activePage.hasClass("ui-dialog"), this._myUrl = url = urlHistory.getActive().url, url.indexOf(hashkey) > -1 && !currentIsDialog && urlHistory.activeIndex > 0) ? (self._open(options), self._bindContainerClose(), this) : (-1 !== url.indexOf(hashkey) || currentIsDialog ? url = $.mobile.path.parseLocation().hash + hashkey : url += url.indexOf("#") > -1 ? hashkey : "#" + hashkey, 0 === urlHistory.activeIndex && url === urlHistory.initialDst && (url += hashkey), this.window.one("beforenavigate", function(theEvent) {
+                var url, hashkey, activePage, currentIsDialog, urlHistory, self = this, currentOptions = this.options;
+                return $.mobile.popup.active || currentOptions.disabled ? this : ($.mobile.popup.active = this, this._scrollTop = this.window.scrollTop(), currentOptions.history) ? (urlHistory = $.mobile.navigate.history, hashkey = $.mobile.dialogHashKey, currentIsDialog = !!(activePage = $.mobile.activePage) && activePage.hasClass("ui-dialog"), this._myUrl = url = urlHistory.getActive().url, url.indexOf(hashkey) > -1 && !currentIsDialog && urlHistory.activeIndex > 0) ? (self._open(options), self._bindContainerClose(), this) : (-1 !== url.indexOf(hashkey) || currentIsDialog ? url = $.mobile.path.parseLocation().hash + hashkey : url += url.indexOf("#") > -1 ? hashkey : "#" + hashkey, 0 === urlHistory.activeIndex && url === urlHistory.initialDst && (url += hashkey), this.window.one("beforenavigate", function(theEvent) {
                     theEvent.preventDefault(), self._open(options), self._bindContainerClose();
                 }), this.urlAltered = !0, $.mobile.navigate(url, {
                     role: "dialog"
@@ -3406,7 +3406,7 @@
             },
             build: function() {
                 var selectId, popupId, dialogId, label, thisPage, isMultiple, menuId, themeAttr, overlayTheme, overlayThemeAttr, dividerThemeAttr, menuPage, listbox, list, header, headerTitle, menuPageContent, menuPageClose, headerClose, self, o = this.options;
-                return o.nativeMenu ? this._super() : (self = this, popupId = (selectId = this.selectId) + "-listbox", dialogId = selectId + "-dialog", label = this.label, thisPage = this.element.closest(".ui-page"), isMultiple = this.element[0].multiple, menuId = selectId + "-menu", themeAttr = o.theme ? " data-" + $.mobile.ns + "theme='" + o.theme + "'" : "", overlayTheme = o.overlayTheme || o.theme || null, overlayThemeAttr = overlayTheme ? " data-" + $.mobile.ns + "overlay-theme='" + overlayTheme + "'" : "", dividerThemeAttr = o.dividerTheme && isMultiple ? " data-" + $.mobile.ns + "divider-theme='" + o.dividerTheme + "'" : "", menuPage = $("<div data-" + $.mobile.ns + "role='dialog' class='ui-selectmenu' id='" + dialogId + "'" + themeAttr + overlayThemeAttr + "><div data-" + $.mobile.ns + "role='header'><div class='ui-title'>" + label.getEncodedText() + "</div></div><div data-" + $.mobile.ns + "role='content'></div></div>"), listbox = $("<div id='" + popupId + "' class='ui-selectmenu'></div>").insertAfter(this.select).popup({
+                return o.nativeMenu ? this._super() : (self = this, popupId = (selectId = this.selectId) + "-listbox", dialogId = selectId + "-dialog", label = this.label, thisPage = this.element.closest(".ui-page"), isMultiple = this.element[0].multiple, menuId = selectId + "-menu", themeAttr = o.theme ? " data-" + $.mobile.ns + "theme='" + o.theme + "'" : "", overlayThemeAttr = (overlayTheme = o.overlayTheme || o.theme || null) ? " data-" + $.mobile.ns + "overlay-theme='" + overlayTheme + "'" : "", dividerThemeAttr = o.dividerTheme && isMultiple ? " data-" + $.mobile.ns + "divider-theme='" + o.dividerTheme + "'" : "", menuPage = $("<div data-" + $.mobile.ns + "role='dialog' class='ui-selectmenu' id='" + dialogId + "'" + themeAttr + overlayThemeAttr + "><div data-" + $.mobile.ns + "role='header'><div class='ui-title'>" + label.getEncodedText() + "</div></div><div data-" + $.mobile.ns + "role='content'></div></div>"), listbox = $("<div id='" + popupId + "' class='ui-selectmenu'></div>").insertAfter(this.select).popup({
                     theme: o.overlayTheme
                 }), list = $("<ul class='ui-selectmenu-list' id='" + menuId + "' role='listbox' aria-labelledby='" + this.buttonId + "'" + themeAttr + dividerThemeAttr + "></ul>").appendTo(listbox), header = $("<div class='ui-header ui-bar-" + (o.theme ? o.theme : "inherit") + "'></div>").prependTo(listbox), headerTitle = $("<h1 class='ui-title'></h1>").appendTo(header), this.isMultiple && (headerClose = $("<a>", {
                     role: "button",
@@ -3842,7 +3842,7 @@
                 return this.options.arrow && (this._ui.arrow = this._addArrow()), ret;
             },
             _addArrow: function() {
-                var clone, gd, ct, ar, theme, opts = this.options, ar1 = (gd = (clone = uiTemplate.clone()).eq(0), ct = clone.eq(1), ar = ct.children(), {
+                var clone, gd, ct, ar, theme, opts = this.options, ar1 = (gd = (clone = uiTemplate.clone()).eq(0), ar = (ct = clone.eq(1)).children(), {
                     arEls: ct.add(gd),
                     gd: gd,
                     ct: ct,
@@ -4347,7 +4347,7 @@
                 this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._filterItems((this._search && this._search.val() || "").toLowerCase());
             }
         });
-    }(jQuery), $38 = jQuery, rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = $38.mobile.filterable.prototype.options.filterCallback, $38.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
+    }(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($38 = jQuery).mobile.filterable.prototype.options.filterCallback, $38.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
         return !this.className.match(rDividerListItem) && origDefaultFilterCallback.call(this, index, searchValue);
     }, $38.widget("mobile.filterable", $38.mobile.filterable, {
         options: {
@@ -4552,7 +4552,7 @@
                     tabIndex: -1
                 }), this.panels = $(), this.anchors.each(function(i, anchor) {
                     var selector, panel, panelId, anchorId = $(anchor).uniqueId().attr("id"), tab = $(anchor).closest("li"), originalAriaControls = tab.attr("aria-controls");
-                    isLocal(anchor) ? (selector = anchor.hash, panel = that.element.find(that._sanitizeSelector(selector))) : (selector = "#" + (panelId = that._tabId(tab)), panel = that.element.find(selector), panel.length || (panel = that._createPanel(panelId)).insertAfter(that.panels[i - 1] || that.tablist), panel.attr("aria-live", "polite")), panel.length && (that.panels = that.panels.add(panel)), originalAriaControls && tab.data("ui-tabs-aria-controls", originalAriaControls), tab.attr({
+                    isLocal(anchor) ? (selector = anchor.hash, panel = that.element.find(that._sanitizeSelector(selector))) : (selector = "#" + (panelId = that._tabId(tab)), (panel = that.element.find(selector)).length || (panel = that._createPanel(panelId)).insertAfter(that.panels[i - 1] || that.tablist), panel.attr("aria-live", "polite")), panel.length && (that.panels = that.panels.add(panel)), originalAriaControls && tab.data("ui-tabs-aria-controls", originalAriaControls), tab.attr({
                         "aria-controls": selector.substring(1),
                         "aria-labelledby": anchorId
                     }), panel.attr("aria-labelledby", anchorId);

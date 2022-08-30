@@ -241,7 +241,7 @@
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./oop"), Keys = function() {
-                    var name, i, ret = {
+                    var i, ret = {
                         MODIFIER_KEYS: {
                             16: "Shift",
                             17: "Ctrl",
@@ -364,8 +364,8 @@
                             106: "*"
                         }
                     };
-                    for(i in ret.FUNCTION_KEYS)name = ret.FUNCTION_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
-                    for(i in ret.PRINTABLE_KEYS)name = ret.PRINTABLE_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
+                    for(i in ret.FUNCTION_KEYS)ret[ret.FUNCTION_KEYS[i].toLowerCase()] = parseInt(i, 10);
+                    for(i in ret.PRINTABLE_KEYS)ret[ret.PRINTABLE_KEYS[i].toLowerCase()] = parseInt(i, 10);
                     return oop.mixin(ret, ret.MODIFIER_KEYS), oop.mixin(ret, ret.PRINTABLE_KEYS), oop.mixin(ret, ret.FUNCTION_KEYS), ret.enter = ret.return, ret.escape = ret.esc, ret.del = ret.delete, ret[173] = "-", function() {
                         for(var mods = [
                             "cmd",
@@ -842,7 +842,7 @@
                             if (copied) copied = !1;
                             else {
                                 var text1;
-                                (text1 = text, 0 === text1.selectionStart && text1.selectionEnd >= lastValue.length && text1.value === lastValue && lastValue && text1.selectionEnd !== lastSelectionEnd) ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection();
+                                0 === (text1 = text).selectionStart && text1.selectionEnd >= lastValue.length && text1.value === lastValue && lastValue && text1.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection();
                             }
                         }
                     }, inputHandler = null;
@@ -922,11 +922,7 @@
                     }, onCompositionUpdate = function() {
                         if (inComposition && host.onCompositionUpdate && !host.$readOnly) {
                             if (commandMode) return cancelComposition();
-                            if (inComposition.useTextareaForIME) host.onCompositionUpdate(text.value);
-                            else {
-                                var data = text.value;
-                                sendText(data), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd);
-                            }
+                            inComposition.useTextareaForIME ? host.onCompositionUpdate(text.value) : (sendText(text.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
                         }
                     }, onCompositionEnd = function(e) {
                         host.onCompositionEnd && !host.$readOnly && (inComposition = !1, host.onCompositionEnd(), host.off("mousedown", cancelComposition), e && onInput());
@@ -1272,16 +1268,16 @@
                         cursor1 = dragCursor = editor.renderer.screenToTextCoordinates(x, y), prevCursor1 = prevCursor2, now1 = Date.now(), vMovement1 = !prevCursor1 || cursor1.row != prevCursor1.row, hMovement = !prevCursor1 || cursor1.column != prevCursor1.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor1), cursorMovedTime = now1, cursorPointOnCaretMoved = {
                             x: x,
                             y: y
-                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor = dragCursor, prevCursor = prevCursor2, now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), offsets = {
+                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor = dragCursor, prevCursor = prevCursor2, now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, nearestXOffset = Math.min((offsets = {
                             x: {
-                                left: x - editorRect.left,
+                                left: x - (editorRect = editor.renderer.scroller.getBoundingClientRect()).left,
                                 right: editorRect.right - x
                             },
                             y: {
                                 top: y - editorRect.top,
                                 bottom: editorRect.bottom - y
                             }
-                        }, nearestXOffset = Math.min(offsets.x.left, offsets.x.right), nearestYOffset = Math.min(offsets.y.top, offsets.y.bottom), scrollCursor = {
+                        }).x.left, offsets.x.right), nearestYOffset = Math.min(offsets.y.top, offsets.y.bottom), scrollCursor = {
                             row: cursor.row,
                             column: cursor.column
                         }, nearestXOffset / characterWidth <= 2 && (scrollCursor.column += offsets.x.left < offsets.x.right ? -3 : 2), nearestYOffset / lineHeight <= 1 && (scrollCursor.row += offsets.y.top < offsets.y.bottom ? -1 : 1), vScroll = cursor.row != scrollCursor.row, hScroll = cursor.column != scrollCursor.column, vMovement = !prevCursor || cursor.row != prevCursor.row, vScroll || hScroll && !vMovement ? autoScrollStartTime ? now - autoScrollStartTime >= 200 && editor.renderer.scrollCursorIntoView(scrollCursor) : autoScrollStartTime = now : autoScrollStartTime = null;
@@ -1376,8 +1372,7 @@
                 }
                 (function() {
                     this.dragWait = function() {
-                        var interval = Date.now() - this.mousedownEvent.time;
-                        interval > this.editor.getDragDelay() && this.startDrag();
+                        Date.now() - this.mousedownEvent.time > this.editor.getDragDelay() && this.startDrag();
                     }, this.dragWaitEnd = function() {
                         this.editor.container.draggable = !1, this.startSelect(this.mousedownEvent.getDocumentPosition()), this.selectEnd();
                     }, this.dragReadyEnd = function(e) {
@@ -1401,8 +1396,8 @@
                     }, this.onMouseDown = function(e) {
                         if (this.$dragEnabled) {
                             this.mousedownEvent = e;
-                            var editor = this.editor, inSelection = e.inSelection(), button = e.getButton(), clickCount = e.domEvent.detail || 1;
-                            if (1 === clickCount && 0 === button && inSelection) {
+                            var editor = this.editor, inSelection = e.inSelection(), button = e.getButton();
+                            if (1 === (e.domEvent.detail || 1) && 0 === button && inSelection) {
                                 if (e.editor.inMultiSelectMode && (e.getAccelKey() || e.getShiftKey())) return;
                                 this.mousedownEvent.time = Date.now();
                                 var eventTarget = e.domEvent.target || e.domEvent.srcElement;
@@ -1543,9 +1538,7 @@
                         var h = editor.renderer.layerConfig.lineHeight, w = editor.renderer.layerConfig.lineHeight, t = e.timeStamp;
                         lastT = t;
                         var touchObj = touches[0], x = touchObj.clientX, y = touchObj.clientY;
-                        Math.abs(startX - x) + Math.abs(startY - y) > h && (touchStartT = -1), startX = e.clientX = x, startY = e.clientY = y, vX = vY = 0;
-                        var ev = new MouseEvent(e, editor);
-                        if (pos = ev.getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, clearTimeout(longTouchTimer = null), editor.selection.moveToPosition(pos), (range = clickCount >= 2 ? editor.selection.getLineRange(pos.row) : editor.session.getBracketRange(pos)) && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
+                        if (Math.abs(startX - x) + Math.abs(startY - y) > h && (touchStartT = -1), startX = e.clientX = x, startY = e.clientY = y, vX = vY = 0, pos = new MouseEvent(e, editor).getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, clearTimeout(longTouchTimer = null), editor.selection.moveToPosition(pos), (range = clickCount >= 2 ? editor.selection.getLineRange(pos.row) : editor.session.getBracketRange(pos)) && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
                         else {
                             clickCount = 0;
                             var cursor = editor.selection.cursor, anchor = editor.selection.isEmpty() ? cursor : editor.selection.anchor, cursorPos = editor.renderer.$cursorLayer.getPixelPosition(cursor, !0), anchorPos = editor.renderer.$cursorLayer.getPixelPosition(anchor, !0), rect = editor.renderer.scroller.getBoundingClientRect(), offsetTop = editor.renderer.layerConfig.offset, offsetLeft = editor.renderer.scrollLeft, weightedDistance = function(x, y) {
@@ -2610,7 +2603,7 @@
                     }, this.getSelections = function(startCol, endCol) {
                         var level, map = this.bidiMap, levels = map.bidiLevels, selections = [], offset = 0, selColMin = Math.min(startCol, endCol) - this.wrapIndent, selColMax = Math.max(startCol, endCol) - this.wrapIndent, isSelected = !1, isSelectedPrev = !1, selectionStart = 0;
                         this.wrapIndent && (offset += this.isRtlDir ? -1 * this.wrapOffset : this.wrapOffset);
-                        for(var logIdx, visIdx = 0; visIdx < levels.length; visIdx++)logIdx = map.logicalFromVisual[visIdx], level = levels[visIdx], isSelected = logIdx >= selColMin && logIdx < selColMax, isSelected && !isSelectedPrev ? selectionStart = offset : !isSelected && isSelectedPrev && selections.push({
+                        for(var logIdx, visIdx = 0; visIdx < levels.length; visIdx++)logIdx = map.logicalFromVisual[visIdx], level = levels[visIdx], (isSelected = logIdx >= selColMin && logIdx < selColMax) && !isSelectedPrev ? selectionStart = offset : !isSelected && isSelectedPrev && selections.push({
                             left: selectionStart,
                             width: offset - selectionStart
                         }), offset += this.charWidths[level], isSelectedPrev = isSelected;
@@ -4679,9 +4672,9 @@
                         var length = this.getLength();
                         void 0 === row ? row = length : row < 0 ? row = 0 : row >= length && (row = length - 1, column = void 0);
                         var line = this.getLine(row);
-                        return void 0 == column && (column = line.length), column = Math.min(Math.max(column, 0), line.length), {
+                        return void 0 == column && (column = line.length), {
                             row: row,
-                            column: column
+                            column: column = Math.min(Math.max(column, 0), line.length)
                         };
                     }, this.clonePos = function(pos) {
                         return {
@@ -5377,7 +5370,7 @@
                     }, this.getCommentFoldRange = function(row, column, dir) {
                         var iterator = new TokenIterator(this, row, column), token = iterator.getCurrentToken(), type = token && token.type;
                         if (token && /^comment|string/.test(type)) {
-                            type = type.match(/comment|string/)[0], "comment" == type && (type += "|doc-start");
+                            "comment" == (type = type.match(/comment|string/)[0]) && (type += "|doc-start");
                             var re = RegExp(type), range = new Range();
                             if (1 != dir) {
                                 do token = iterator.stepBackward();
@@ -6319,7 +6312,7 @@
                     },
                     tabSize: {
                         set: function(tabSize) {
-                            tabSize = parseInt(tabSize), tabSize > 0 && this.$tabSize !== tabSize && (this.$modified = !0, this.$rowLengthCache = [], this.$tabSize = tabSize, this._signal("changeTabSize"));
+                            (tabSize = parseInt(tabSize)) > 0 && this.$tabSize !== tabSize && (this.$modified = !0, this.$rowLengthCache = [], this.$tabSize = tabSize, this._signal("changeTabSize"));
                         },
                         initialValue: 4,
                         handlesSet: !0
@@ -8430,13 +8423,10 @@
                         });
                         for(var wordPairs = this.$toggleWordPairs, i = 0; i < wordPairs.length; i++)for(var item = wordPairs[i], j = 0; j <= 1; j++){
                             var negate = +!j, firstCondition = currentState.match(RegExp("^\\s?_?(" + lang.escapeRegExp(item[j]) + ")\\s?$", "i"));
-                            if (firstCondition) {
-                                var secondCondition = currentState.match(RegExp("([_]|^|\\s)(" + lang.escapeRegExp(firstCondition[1]) + ")($|\\s)", "g"));
-                                secondCondition && (reg = currentState.replace(RegExp(lang.escapeRegExp(item[j]), "i"), function(result) {
-                                    var res = item[negate];
-                                    return result.toUpperCase() == result ? res = res.toUpperCase() : result.charAt(0).toUpperCase() == result.charAt(0) && (res = res.substr(0, 0) + item[negate].charAt(0).toUpperCase() + res.substr(1)), res;
-                                }), this.insert(reg), reg = "");
-                            }
+                            firstCondition && currentState.match(RegExp("([_]|^|\\s)(" + lang.escapeRegExp(firstCondition[1]) + ")($|\\s)", "g")) && (reg = currentState.replace(RegExp(lang.escapeRegExp(item[j]), "i"), function(result) {
+                                var res = item[negate];
+                                return result.toUpperCase() == result ? res = res.toUpperCase() : result.charAt(0).toUpperCase() == result.charAt(0) && (res = res.substr(0, 0) + item[negate].charAt(0).toUpperCase() + res.substr(1)), res;
+                            }), this.insert(reg), reg = "");
                         }
                     }, this.removeLines = function() {
                         var rows = this.$getSelectedRows();
@@ -9079,14 +9069,12 @@
                     var lines = c.lines, end = c.end;
                     c.end = clonePos(pos);
                     var rowsBefore = c.end.row - c.start.row, otherLines = lines.splice(rowsBefore, lines.length), col = rowsBefore ? pos.column : pos.column - c.start.column;
-                    lines.push(otherLines[0].substring(0, col)), otherLines[0] = otherLines[0].substr(col);
-                    var rest = {
+                    return lines.push(otherLines[0].substring(0, col)), otherLines[0] = otherLines[0].substr(col), {
                         start: clonePos(pos),
                         end: end,
                         lines: otherLines,
                         action: c.action
                     };
-                    return rest;
                 }
                 function moveDeltasByOne(redoStack, d) {
                     var d1;
@@ -9561,7 +9549,7 @@
                             }
                             if (chars + value.length < splitChars) screenColumn = this.$renderToken(lineEl, screenColumn, token, value), chars += value.length;
                             else {
-                                for(; chars + value.length >= splitChars;)screenColumn = this.$renderToken(lineEl, screenColumn, token, value.substring(0, splitChars - chars)), value = value.substring(splitChars - chars), chars = splitChars, lineEl = this.$createLineElement(), parent.appendChild(lineEl), lineEl.appendChild(this.dom.createTextNode(lang.stringRepeat("\xa0", splits.indent), this.element)), split++, screenColumn = 0, splitChars = splits[split] || Number.MAX_VALUE;
+                                for(; chars + value.length >= splitChars;)screenColumn = this.$renderToken(lineEl, screenColumn, token, value.substring(0, splitChars - chars)), value = value.substring(splitChars - chars), chars = splitChars, lineEl = this.$createLineElement(), parent.appendChild(lineEl), lineEl.appendChild(this.dom.createTextNode(lang.stringRepeat("\xa0", splits.indent), this.element)), screenColumn = 0, splitChars = splits[++split] || Number.MAX_VALUE;
                                 0 != value.length && (chars += value.length, screenColumn = this.$renderToken(lineEl, screenColumn, token, value));
                             }
                         }
@@ -9691,10 +9679,10 @@
                             top: 0
                         };
                         position || (position = this.session.selection.getCursor());
-                        var pos = this.session.documentToScreenPosition(position), cursorLeft = this.$padding + (this.session.$bidiHandler.isBidiRow(pos.row, position.row) ? this.session.$bidiHandler.getPosLeft(pos.column) : pos.column * this.config.characterWidth), cursorTop = (pos.row - (onScreen ? this.config.firstRowScreen : 0)) * this.config.lineHeight;
+                        var pos = this.session.documentToScreenPosition(position);
                         return {
-                            left: cursorLeft,
-                            top: cursorTop
+                            left: this.$padding + (this.session.$bidiHandler.isBidiRow(pos.row, position.row) ? this.session.$bidiHandler.getPosLeft(pos.column) : pos.column * this.config.characterWidth),
+                            top: (pos.row - (onScreen ? this.config.firstRowScreen : 0)) * this.config.lineHeight
                         };
                     }, this.isCursorInView = function(pixelPos, config) {
                         return pixelPos.top >= 0 && pixelPos.top < config.maxHeight;
@@ -10774,8 +10762,8 @@ margin: 0 10px;\
                         var pos = this.$cursorLayer.getPixelPosition(cursor), h = this.$size.scrollerHeight - this.lineHeight, offset = pos.top - h * (alignment || 0);
                         return this.session.setScrollTop(offset), offset;
                     }, this.STEPS = 8, this.$calcSteps = function(fromValue, toValue) {
-                        var t, x_min, dx, i = 0, l = this.STEPS, steps = [];
-                        for(i = 0; i < l; ++i)steps.push((t = i / this.STEPS, x_min = fromValue, dx = toValue - fromValue, dx * (Math.pow(t - 1, 3) + 1) + x_min));
+                        var t, x_min, i = 0, l = this.STEPS, steps = [];
+                        for(i = 0; i < l; ++i)steps.push((t = i / this.STEPS, x_min = fromValue, (toValue - fromValue) * (Math.pow(t - 1, 3) + 1) + x_min));
                         return steps;
                     }, this.scrollToLine = function(line, center, animate, callback) {
                         var offset = this.$cursorLayer.getPixelPosition({

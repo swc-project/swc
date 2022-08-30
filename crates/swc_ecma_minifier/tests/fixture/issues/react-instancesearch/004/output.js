@@ -76,10 +76,10 @@ export default function createInstantSearchManager(param) {
             helper.derivedHelpers.slice().forEach(function(derivedHelper) {
                 derivedHelper.detach();
             }), derivedParameters.forEach(function(param) {
-                var indexId = param.indexId, parameters = param.parameters, derivedHelper = helper.derive(function() {
+                var indexId = param.indexId, parameters = param.parameters;
+                helper.derive(function() {
                     return parameters;
-                });
-                derivedHelper.on("result", handleSearchSuccess({
+                }).on("result", handleSearchSuccess({
                     indexId: indexId
                 })).on("error", handleSearchError);
             }), helper.setState(mainParameters), helper.search();
@@ -235,7 +235,7 @@ export default function createInstantSearchManager(param) {
     addAlgoliaAgents(searchClient), helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
         indexId: indexName
     })).on("error", handleSearchError);
-    var results, initialState, state, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(onWidgetsUpdate);
+    var results, state, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(onWidgetsUpdate);
     !function(client, results) {
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
             if (client.transporter && !client._cacheHydrated) {
@@ -277,7 +277,7 @@ export default function createInstantSearchManager(param) {
             hydrateSearchClientWithSingleIndexRequest(client, results);
         }
     }(searchClient, resultsState);
-    var store = (initialState = {
+    var store = (state = {
         widgets: void 0 === _initialState ? {} : _initialState,
         metadata: hydrateMetadata(resultsState),
         results: (results = resultsState) ? Array.isArray(results.results) ? results.results.reduce(function(acc, result) {
@@ -287,7 +287,7 @@ export default function createInstantSearchManager(param) {
         searching: !1,
         isSearchStalled: !0,
         searchingForFacetValues: !1
-    }, state = initialState, listeners = [], {
+    }, listeners = [], {
         getState: function() {
             return state;
         },

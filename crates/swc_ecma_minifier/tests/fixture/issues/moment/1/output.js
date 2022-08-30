@@ -129,8 +129,8 @@
         null != config && this.set(config);
     }
     function zeroFill(number, targetLength, forceSign) {
-        var absNumber = "" + Math.abs(number), zerosToFill = targetLength - absNumber.length;
-        return (number >= 0 ? forceSign ? "+" : "" : "-") + Math.pow(10, Math.max(0, zerosToFill)).toString().substr(1) + absNumber;
+        var absNumber = "" + Math.abs(number);
+        return (number >= 0 ? forceSign ? "+" : "" : "-") + Math.pow(10, Math.max(0, targetLength - absNumber.length)).toString().substr(1) + absNumber;
     }
     hooks.suppressDeprecationWarnings = !1, hooks.deprecationHandler = null, keys = Object.keys ? Object.keys : function(obj) {
         var i, res = [];
@@ -351,12 +351,12 @@
         return y < 100 && y >= 0 ? (args = Array.prototype.slice.call(arguments), args[0] = y + 400, isFinite((date = new Date(Date.UTC.apply(null, args))).getUTCFullYear()) && date.setUTCFullYear(y)) : date = new Date(Date.UTC.apply(null, arguments)), date;
     }
     function firstWeekOffset(year, dow, doy) {
-        var fwd = 7 + dow - doy, fwdlw = (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7;
-        return -fwdlw + fwd - 1;
+        var fwd = 7 + dow - doy;
+        return -((7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7) + fwd - 1;
     }
     function dayOfYearFromWeeks(year, week, weekday, dow, doy) {
         var resYear, resDayOfYear, weekOffset = firstWeekOffset(year, dow, doy), dayOfYear = 1 + 7 * (week - 1) + (7 + weekday - dow) % 7 + weekOffset;
-        return dayOfYear <= 0 ? (resYear = year - 1, resDayOfYear = daysInYear(resYear) + dayOfYear) : dayOfYear > daysInYear(year) ? (resYear = year + 1, resDayOfYear = dayOfYear - daysInYear(year)) : (resYear = year, resDayOfYear = dayOfYear), {
+        return dayOfYear <= 0 ? resDayOfYear = daysInYear(resYear = year - 1) + dayOfYear : dayOfYear > daysInYear(year) ? (resYear = year + 1, resDayOfYear = dayOfYear - daysInYear(year)) : (resYear = year, resDayOfYear = dayOfYear), {
             year: resYear,
             dayOfYear: resDayOfYear
         };
@@ -595,7 +595,7 @@
         }
         return function(names) {
             for(var j, next, locale, split, i = 0; i < names.length;){
-                for(j = (split = normalizeLocale(names[i]).split("-")).length, next = normalizeLocale(names[i + 1]), next = next ? next.split("-") : null; j > 0;){
+                for(j = (split = normalizeLocale(names[i]).split("-")).length, next = (next = normalizeLocale(names[i + 1])) ? next.split("-") : null; j > 0;){
                     if (locale = loadLocale(split.slice(0, j).join("-"))) return locale;
                     if (next && next.length >= j && commonPrefix(split, next) >= j - 1) break;
                     j--;
@@ -790,7 +790,7 @@
     }
     function dayOfYearFromWeekInfo(config) {
         var w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow, curWeek;
-        null != (w = config._w).GG || null != w.W || null != w.E ? (dow = 1, doy = 4, weekYear = defaults(w.GG, config._a[0], weekOfYear(createLocal(), 1, 4).year), week = defaults(w.W, 1), weekday = defaults(w.E, 1), (weekday < 1 || weekday > 7) && (weekdayOverflow = !0)) : (dow = config._locale._week.dow, doy = config._locale._week.doy, curWeek = weekOfYear(createLocal(), dow, doy), weekYear = defaults(w.gg, config._a[0], curWeek.year), week = defaults(w.w, curWeek.week), null != w.d ? ((weekday = w.d) < 0 || weekday > 6) && (weekdayOverflow = !0) : null != w.e ? (weekday = w.e + dow, (w.e < 0 || w.e > 6) && (weekdayOverflow = !0)) : weekday = dow), week < 1 || week > weeksInYear(weekYear, dow, doy) ? getParsingFlags(config)._overflowWeeks = !0 : null != weekdayOverflow ? getParsingFlags(config)._overflowWeekday = !0 : (temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), config._a[0] = temp.year, config._dayOfYear = temp.dayOfYear);
+        null != (w = config._w).GG || null != w.W || null != w.E ? (dow = 1, doy = 4, weekYear = defaults(w.GG, config._a[0], weekOfYear(createLocal(), 1, 4).year), week = defaults(w.W, 1), ((weekday = defaults(w.E, 1)) < 1 || weekday > 7) && (weekdayOverflow = !0)) : (dow = config._locale._week.dow, doy = config._locale._week.doy, curWeek = weekOfYear(createLocal(), dow, doy), weekYear = defaults(w.gg, config._a[0], curWeek.year), week = defaults(w.w, curWeek.week), null != w.d ? ((weekday = w.d) < 0 || weekday > 6) && (weekdayOverflow = !0) : null != w.e ? (weekday = w.e + dow, (w.e < 0 || w.e > 6) && (weekdayOverflow = !0)) : weekday = dow), week < 1 || week > weeksInYear(weekYear, dow, doy) ? getParsingFlags(config)._overflowWeeks = !0 : null != weekdayOverflow ? getParsingFlags(config)._overflowWeekday = !0 : (temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), config._a[0] = temp.year, config._dayOfYear = temp.dayOfYear);
     }
     function configFromStringAndFormat(config) {
         if (config._f === hooks.ISO_8601) {
@@ -854,7 +854,7 @@
     }
     function createLocalOrUTC(input, format, locale, strict, isUTC) {
         var config, res, c = {};
-        return (!0 === format || !1 === format) && (strict = format, format = void 0), (!0 === locale || !1 === locale) && (strict = locale, locale = void 0), (isObject(input) && isObjectEmpty(input) || isArray(input) && 0 === input.length) && (input = void 0), c._isAMomentObject = !0, c._useUTC = c._isUTC = isUTC, c._l = locale, c._i = input, c._f = format, c._strict = strict, config = c, res = new Moment(checkOverflow(prepareConfig(config))), res._nextDay && (res.add(1, "d"), res._nextDay = void 0), res;
+        return (!0 === format || !1 === format) && (strict = format, format = void 0), (!0 === locale || !1 === locale) && (strict = locale, locale = void 0), (isObject(input) && isObjectEmpty(input) || isArray(input) && 0 === input.length) && (input = void 0), c._isAMomentObject = !0, c._useUTC = c._isUTC = isUTC, c._l = locale, c._i = input, c._f = format, c._strict = strict, config = c, (res = new Moment(checkOverflow(prepareConfig(config))))._nextDay && (res.add(1, "d"), res._nextDay = void 0), res;
     }
     function createLocal(input, format, locale, strict) {
         return createLocalOrUTC(input, format, locale, strict, !1);
@@ -996,8 +996,8 @@
     }
     function monthDiff(a, b) {
         if (a.date() < b.date()) return -monthDiff(b, a);
-        var anchor2, adjust, wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month()), anchor = a.clone().add(wholeMonthDiff, "months");
-        return b - anchor < 0 ? (anchor2 = a.clone().add(wholeMonthDiff - 1, "months"), adjust = (b - anchor) / (anchor - anchor2)) : (anchor2 = a.clone().add(wholeMonthDiff + 1, "months"), adjust = (b - anchor) / (anchor2 - anchor)), -(wholeMonthDiff + adjust) || 0;
+        var adjust, wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month()), anchor = a.clone().add(wholeMonthDiff, "months");
+        return adjust = b - anchor < 0 ? (b - anchor) / (anchor - a.clone().add(wholeMonthDiff - 1, "months")) : (b - anchor) / (a.clone().add(wholeMonthDiff + 1, "months") - anchor), -(wholeMonthDiff + adjust) || 0;
     }
     function locale(key) {
         var newLocaleData;
@@ -1243,7 +1243,7 @@
         return new Moment(this);
     }, proto.diff = function(input, units, asFloat) {
         var that, zoneDelta, output;
-        if (!this.isValid() || (that = cloneWithOffset(input, this), !that.isValid())) return NaN;
+        if (!this.isValid() || !(that = cloneWithOffset(input, this)).isValid()) return NaN;
         switch(zoneDelta = (that.utcOffset() - this.utcOffset()) * 6e4, units = normalizeUnits(units)){
             case "year":
                 output = monthDiff(this, that) / 12;
@@ -1538,7 +1538,7 @@
     }), proto.isDSTShifted = deprecate("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information", function() {
         if (!isUndefined(this._isDSTShifted)) return this._isDSTShifted;
         var other, c = {};
-        return copyConfig(c, this), c = prepareConfig(c), c._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && function(array1, array2, dontConvert) {
+        return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && function(array1, array2, dontConvert) {
             var i, len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0;
             for(i = 0; i < len; i++)(dontConvert && array1[i] !== array2[i] || !dontConvert && toInt(array1[i]) !== toInt(array2[i])) && diffs++;
             return diffs + lengthDiff;
@@ -1738,7 +1738,7 @@
         var minutes, hours, years, s, totalSign, ymSign, daysSign, hmsSign, seconds = abs$1(this._milliseconds) / 1000, days = abs$1(this._days), months = abs$1(this._months), total = this.asSeconds();
         return total ? (minutes = absFloor(seconds / 60), hours = absFloor(minutes / 60), seconds %= 60, minutes %= 60, years = absFloor(months / 12), months %= 12, s = seconds ? seconds.toFixed(3).replace(/\.?0+$/, "") : "", totalSign = total < 0 ? "-" : "", ymSign = sign(this._months) !== sign(total) ? "-" : "", daysSign = sign(this._days) !== sign(total) ? "-" : "", hmsSign = sign(this._milliseconds) !== sign(total) ? "-" : "", totalSign + "P" + (years ? ymSign + years + "Y" : "") + (months ? ymSign + months + "M" : "") + (days ? daysSign + days + "D" : "") + (hours || minutes || seconds ? "T" : "") + (hours ? hmsSign + hours + "H" : "") + (minutes ? hmsSign + minutes + "M" : "") + (seconds ? hmsSign + s + "S" : "")) : "P0D";
     }
-    var callback, proto$2 = Duration.prototype;
+    var proto$2 = Duration.prototype;
     return proto$2.isValid = function() {
         return this._isValid;
     }, proto$2.abs = function() {
@@ -1830,7 +1830,7 @@
         config._d = new Date(1000 * parseFloat(input));
     }), addParseToken("x", function(input, array, config) {
         config._d = new Date(toInt(input));
-    }), hooks.version = "2.29.1", callback = createLocal, hookCallback = callback, hooks.fn = proto, hooks.min = function() {
+    }), hooks.version = "2.29.1", hookCallback = createLocal, hooks.fn = proto, hooks.min = function() {
         var args = [].slice.call(arguments, 0);
         return pickBy("isBefore", args);
     }, hooks.max = function() {

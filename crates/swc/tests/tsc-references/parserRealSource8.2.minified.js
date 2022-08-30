@@ -15,7 +15,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         var moduleDecl = ast, memberScope = null, aggScope = null;
         moduleDecl.name && moduleDecl.mod && (moduleDecl.name.sym = moduleDecl.mod.symbol);
         var mod = moduleDecl.mod;
-        mod && (memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), mod.memberScope = memberScope, context.modDeclChain.push(moduleDecl), context.typeFlow.checker.currentModDecl = moduleDecl, aggScope = new SymbolAggregateScope(mod.symbol), aggScope.addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, moduleDecl.vars, mod.members.privateMembers, !0));
+        mod && (memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), mod.memberScope = memberScope, context.modDeclChain.push(moduleDecl), context.typeFlow.checker.currentModDecl = moduleDecl, (aggScope = new SymbolAggregateScope(mod.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, moduleDecl.vars, mod.members.privateMembers, !0));
     }, preAssignClassScopes = function(ast, context) {
         var classDecl = ast, memberScope = null, aggScope = null;
         classDecl.name && classDecl.type && (classDecl.name.sym = classDecl.type.symbol);
@@ -23,13 +23,13 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         if (classType) {
             classType.symbol, memberScope = context.typeFlow.checker.scopeOf(classType), (aggScope = new SymbolAggregateScope(classType.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), classType.containedScope = aggScope, classType.memberScope = memberScope;
             var instanceType = classType.instanceType;
-            memberScope = context.typeFlow.checker.scopeOf(instanceType), instanceType.memberScope = memberScope, aggScope = new SymbolAggregateScope(instanceType.symbol), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, instanceType, classType, null), instanceType.containedScope = aggScope;
+            memberScope = context.typeFlow.checker.scopeOf(instanceType), instanceType.memberScope = memberScope, (aggScope = new SymbolAggregateScope(instanceType.symbol)).addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, instanceType, classType, null), instanceType.containedScope = aggScope;
         } else ast.type = context.typeFlow.anyType;
     }, preAssignInterfaceScopes = function(ast, context) {
         var interfaceDecl = ast, memberScope = null, aggScope = null;
         interfaceDecl.name && interfaceDecl.type && (interfaceDecl.name.sym = interfaceDecl.type.symbol);
         var interfaceType = ast.type;
-        memberScope = context.typeFlow.checker.scopeOf(interfaceType), interfaceType.memberScope = memberScope, aggScope = new SymbolAggregateScope(interfaceType.symbol), aggScope.addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), interfaceType.containedScope = aggScope;
+        memberScope = context.typeFlow.checker.scopeOf(interfaceType), interfaceType.memberScope = memberScope, (aggScope = new SymbolAggregateScope(interfaceType.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), interfaceType.containedScope = aggScope;
     }, preAssignWithScopes = function(ast, context) {
         var withStmt = ast, withType = withStmt.type, members = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), ambientMembers = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), withType = new Type(), withSymbol = new WithSymbol(withStmt.minChar, context.typeFlow.checker.locationInfo.unitIndex, withType);
         withType.members = members, withType.ambientMembers = ambientMembers, withType.symbol = withSymbol, withType.setHasImplementation(), withStmt.type = withType;
