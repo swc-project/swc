@@ -13,6 +13,12 @@
 
 - **(es/typescript)** Mark a namespace as concrete only if it is (#5670) ([4babf4a](https://github.com/swc-project/swc/commit/4babf4a2c0467926410bdcb45860a53f3ec59128))
 
+### Features
+
+
+
+- **(es/decorators)** Support `bigint` (#5671) ([b1f1a86](https://github.com/swc-project/swc/commit/b1f1a86a9df32e4bc0d9210d0a90ada8a0121cca))
+
 ### Testing
 
 
