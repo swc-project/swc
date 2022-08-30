@@ -1,0 +1,30 @@
+{
+    "minify": false,
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "dynamicImport": true,
+            "privateMethod": true,
+            "functionBind": true,
+            "exportDefaultFrom": true,
+            "exportNamespaceFrom": true,
+            "decorators": true,
+            "decoratorsBeforeExport": true,
+            "topLevelAwait": true,
+            "importMeta": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "target": "es5",
+        "loose": false,
+        "externalHelpers": true,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        }
+    }
+}
