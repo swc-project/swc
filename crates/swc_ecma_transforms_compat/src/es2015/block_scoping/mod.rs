@@ -159,6 +159,7 @@ impl BlockScoping {
                 all: &args,
                 has_break: false,
                 has_return: false,
+                has_yield: false,
                 label: IndexMap::new(),
                 inner_label: AHashSet::new(),
                 mutated,
@@ -222,7 +223,7 @@ impl BlockScoping {
                                 .collect(),
                             decorators: Default::default(),
                             body: Some(body_stmt),
-                            is_generator: false,
+                            is_generator: flow_helper.has_yield,
                             is_async: false,
                             type_params: None,
                             return_type: None,
@@ -551,6 +552,8 @@ fn find_lexical_vars(node: &VarDecl) -> Vec<Id> {
 struct FlowHelper<'a> {
     has_break: bool,
     has_return: bool,
+    has_yield: bool,
+
     // label cannot be shadowed, so it's pretty safe to use JsWord
     label: IndexMap<JsWord, Label>,
     inner_label: AHashSet<JsWord>,
@@ -590,6 +593,12 @@ impl VisitMut for FlowHelper<'_> {
 
     /// noop
     fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
+
+    fn visit_mut_yield_expr(&mut self, e: &mut YieldExpr) {
+        e.visit_mut_children_with(self);
+
+        self.has_yield = true;
+    }
 
     fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
         self.inner_label.insert(l.label.sym.clone());
