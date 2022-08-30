@@ -10,6 +10,12 @@
 
 - **(es/minifier)** Don't inline variables declared multiple times (#5667) ([fd39bb6](https://github.com/swc-project/swc/commit/fd39bb6bff45d3200ad1934d4b2b470a7c8ec21c))
 
+### Testing
+
+
+
+- **(es/compat)** Add a test for a fixed issue (#5672) ([1ae539a](https://github.com/swc-project/swc/commit/1ae539aac52cd25dec8be35799e9a56bb513a660))
+
 ## [1.2.245] - 2022-08-30
 
 ### Bug Fixes

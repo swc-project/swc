@@ -2898,7 +2898,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.222.1"
+version = "0.222.2"
 dependencies = [
  "ahash",
  "ansi_term",
