@@ -3192,7 +3192,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.84.0"
+version = "0.84.1"
 dependencies = [
  "serde",
  "swc_atoms",
