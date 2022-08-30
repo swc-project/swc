@@ -138,6 +138,7 @@ where
 
                 // Mutation of properties are ok
                 if is_inline_enabled
+                    && usage.declared_count == 1
                     && (!usage.mutated
                         || (usage.assign_count == 0
                             && !usage.reassigned()
