@@ -87,7 +87,6 @@ where
             space!();
         }
 
-        srcmap!(node.ident.span.lo, true);
         emit!(node.ident);
 
         self.emit_fn_trailing(&node.function)?;
