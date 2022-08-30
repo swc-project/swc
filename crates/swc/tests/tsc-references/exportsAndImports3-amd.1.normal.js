@@ -60,9 +60,6 @@ define([
         M1: function() {
             return M;
         },
-        N1: function() {
-            return N;
-        },
         a1: function() {
             return a;
         }

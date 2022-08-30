@@ -1562,8 +1562,10 @@ where
             Decl::TsModule(module) => {
                 match &module.id {
                     TsModuleName::Ident(id) => {
-                        let v = self.scope.decls.entry(id.to_id()).or_default();
-                        v.has_concrete = true;
+                        if ts_module_has_concrete(module) {
+                            let v = self.scope.decls.entry(id.to_id()).or_default();
+                            v.has_concrete = true;
+                        }
                     }
                     TsModuleName::Str(_) => {}
                 }
@@ -1694,6 +1696,45 @@ where
                 n.visit_children_with(self);
             }
         }
+    }
+}
+
+fn is_decl_concrete(d: &Decl) -> bool {
+    match d {
+        Decl::TsEnum(..) => true,
+        Decl::TsTypeAlias(..) | Decl::TsInterface(..) => false,
+        Decl::Class(_) | Decl::Fn(_) | Decl::Var(_) => true,
+        Decl::TsModule(b) => ts_module_has_concrete(b),
+    }
+}
+
+fn is_ts_namespace_body_concrete(b: &TsNamespaceBody) -> bool {
+    match b {
+        TsNamespaceBody::TsModuleBlock(b) => b.body.iter().any(|s| match s {
+            ModuleItem::ModuleDecl(s) => match s {
+                ModuleDecl::ExportDecl(d) => is_decl_concrete(&d.decl),
+                ModuleDecl::Import(d) => !d.type_only,
+                ModuleDecl::ExportNamed(d) => !d.type_only,
+                ModuleDecl::ExportDefaultDecl(_) => true,
+                ModuleDecl::ExportDefaultExpr(_) => true,
+                ModuleDecl::ExportAll(_) => true,
+                ModuleDecl::TsImportEquals(_) => true,
+                ModuleDecl::TsExportAssignment(..) => true,
+                ModuleDecl::TsNamespaceExport(..) => true,
+            },
+            ModuleItem::Stmt(s) => match s {
+                Stmt::Decl(d) => is_decl_concrete(d),
+                _ => true,
+            },
+        }),
+        TsNamespaceBody::TsNamespaceDecl(b) => is_ts_namespace_body_concrete(&b.body),
+    }
+}
+
+fn ts_module_has_concrete(module: &TsModuleDecl) -> bool {
+    match &module.body {
+        Some(v) => is_ts_namespace_body_concrete(v),
+        None => false,
     }
 }
 
