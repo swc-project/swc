@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Don't inline variables declared multiple times (#5667) ([fd39bb6](https://github.com/swc-project/swc/commit/fd39bb6bff45d3200ad1934d4b2b470a7c8ec21c))
+
+## [1.2.245] - 2022-08-30
+
+### Bug Fixes
+
+
+
 - **(css/minifier)** Don't compress `none` for keyframes (#5663) ([4a5e347](https://github.com/swc-project/swc/commit/4a5e347a8a7949aa35cf73a0a94cbb7350380fa1))
 
 
