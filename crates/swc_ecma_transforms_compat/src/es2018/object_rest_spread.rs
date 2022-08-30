@@ -25,7 +25,7 @@ use swc_trace_macro::swc_trace;
 pub fn object_rest_spread(c: Config) -> impl Fold + VisitMut {
     chain!(
         as_folder(ObjectRest {
-            c,
+            config,
             ..Default::default()
         }),
         as_folder(ObjectSpread { c })
@@ -40,7 +40,7 @@ struct ObjectRest {
     mutable_vars: Vec<VarDeclarator>,
     /// Assignment expressions.
     exprs: Vec<Box<Expr>>,
-    c: Config,
+    config: Config,
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -470,7 +470,7 @@ impl ObjectRest {
 
         for mut stmt in stmts.drain(..) {
             let mut folder = ObjectRest {
-                c: self.c,
+                config: self.config,
                 ..Default::default()
             };
             stmt.visit_mut_with(&mut folder);
@@ -883,7 +883,7 @@ impl ObjectRest {
                 right: Box::new(object_without_properties(
                     obj,
                     excluded_props,
-                    self.c.no_symbol,
+                    self.config.no_symbol,
                 )),
             })));
         } else {
@@ -894,7 +894,7 @@ impl ObjectRest {
                 init: Some(Box::new(object_without_properties(
                     obj,
                     excluded_props,
-                    self.c.no_symbol,
+                    self.config.no_symbol,
                 ))),
                 definite: false,
             });
