@@ -1229,7 +1229,6 @@ reduce_vars/method_1/input.js
 reduce_vars/method_2/input.js
 reduce_vars/multi_def_1/input.js
 reduce_vars/multi_def_2/input.js
-reduce_vars/multi_def_3/input.js
 reduce_vars/named_function_with_recursive_ref_reuse/input.js
 reduce_vars/obj_for_2/input.js
 reduce_vars/obj_var_1/input.js
