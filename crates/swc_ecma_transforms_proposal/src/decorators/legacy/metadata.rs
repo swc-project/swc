@@ -417,7 +417,12 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsBigIntKeyword,
                 ..
-            }) => *check_object_existed(quote_ident!("BigInt").into()),
+            }) => Expr::Cond(CondExpr {
+                span: DUMMY_SP,
+                test: check_object_existed(quote_ident!("BigInt").into()),
+                cons: quote_ident!("Object").into(),
+                alt: quote_ident!("BigInt").into(),
+            }),
 
             TsType::TsLitType(ty) => {
                 // TODO: Proper error reporting
