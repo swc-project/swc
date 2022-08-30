@@ -1,28 +1,44 @@
 import r from "@swc/helpers/src/_async_to_generator.mjs";
 import n from "@swc/helpers/src/_ts_generator.mjs";
+import t from "@swc/helpers/src/_ts_values.mjs";
 Promise.all(assignAll).then(function() {
-    var t = r(function(r) {
-        var t, e, c, i, o, s, u;
-        return n(this, function(n) {
-            switch(n.label){
+    var e = r(function(r) {
+        var e, c, s, i, o, u;
+        return n(this, function(a) {
+            switch(a.label){
                 case 0:
-                    for(c in t = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', e = [], r);
-                    i = 0, n.label = 1;
+                    for(i in e = function(u) {
+                        var t, e;
+                        return n(this, function(n) {
+                            switch(n.label){
+                                case 0:
+                                    return t = r[u], c += "'".concat(t.id, "', "), [
+                                        4,
+                                        listOfUser(t.id)
+                                    ];
+                                case 1:
+                                    return (e = n.sent()).forEach(function(r) {
+                                        insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(t.id, "', now());");
+                                    }), [
+                                        2
+                                    ];
+                            }
+                        });
+                    }, c = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', s = [], r);
+                    o = 0, a.label = 1;
                 case 1:
-                    if (!(i < e.length)) return [
+                    if (!(o < s.length)) return [
                         3,
                         4
                     ];
-                    return s = r[o = e[i]], t += "'".concat(s.id, "', "), [
-                        4,
-                        listOfUser(s.id)
+                    return [
+                        5,
+                        t(e(u = s[o]))
                     ];
                 case 2:
-                    (u = n.sent()).forEach(function(r) {
-                        insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(s.id, "', now());");
-                    }), n.label = 3;
+                    a.label = 3;
                 case 3:
-                    return i++, [
+                    return o++, [
                         3,
                         1
                     ];
@@ -34,7 +50,7 @@ Promise.all(assignAll).then(function() {
         });
     });
     return function(r) {
-        return t.apply(this, arguments);
+        return e.apply(this, arguments);
     };
 }());
 export var listOfUser = function(t) {

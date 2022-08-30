@@ -137,16 +137,6 @@ impl BlockScoping {
                 return;
             }
         }
-        {
-            // This is a hack.
-            // We need to revisit this
-            let mut v = YieldFinder { found: false };
-            body_stmt.visit_with(&mut v);
-            if v.found {
-                self.scope.pop();
-                return;
-            }
-        }
 
         //
         if let Some(ScopeKind::Loop {
@@ -169,6 +159,7 @@ impl BlockScoping {
                 all: &args,
                 has_break: false,
                 has_return: false,
+                has_yield: false,
                 label: IndexMap::new(),
                 inner_label: AHashSet::new(),
                 mutated,
@@ -232,7 +223,7 @@ impl BlockScoping {
                                 .collect(),
                             decorators: Default::default(),
                             body: Some(body_stmt),
-                            is_generator: false,
+                            is_generator: flow_helper.has_yield,
                             is_async: false,
                             type_params: None,
                             return_type: None,
@@ -243,7 +234,7 @@ impl BlockScoping {
                 definite: false,
             });
 
-            let mut call = CallExpr {
+            let mut call: Expr = CallExpr {
                 span: DUMMY_SP,
                 callee: var_name.as_callee(),
                 args: args
@@ -252,7 +243,17 @@ impl BlockScoping {
                     .map(|i| Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)).as_arg())
                     .collect(),
                 type_args: None,
-            };
+            }
+            .into();
+
+            if flow_helper.has_yield {
+                call = YieldExpr {
+                    span: DUMMY_SP,
+                    arg: Some(call.into()),
+                    delegate: true,
+                }
+                .into();
+            }
 
             if flow_helper.has_return || flow_helper.has_break || !flow_helper.label.is_empty() {
                 let ret = private_ident!("_ret");
@@ -266,7 +267,7 @@ impl BlockScoping {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: ret.clone().into(),
-                            init: Some(Box::new(call.take().into())),
+                            init: Some(Box::new(call.take())),
                             definite: false,
                         }],
                     })),
@@ -561,6 +562,8 @@ fn find_lexical_vars(node: &VarDecl) -> Vec<Id> {
 struct FlowHelper<'a> {
     has_break: bool,
     has_return: bool,
+    has_yield: bool,
+
     // label cannot be shadowed, so it's pretty safe to use JsWord
     label: IndexMap<JsWord, Label>,
     inner_label: AHashSet<JsWord>,
@@ -600,6 +603,12 @@ impl VisitMut for FlowHelper<'_> {
 
     /// noop
     fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
+
+    fn visit_mut_yield_expr(&mut self, e: &mut YieldExpr) {
+        e.visit_mut_children_with(self);
+
+        self.has_yield = true;
+    }
 
     fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
         self.inner_label.insert(l.label.sym.clone());
@@ -877,23 +886,4 @@ impl Visit for FunctionFinder {
     ///
     /// https://github.com/swc-project/swc/issues/2622
     fn visit_while_stmt(&mut self, _: &WhileStmt) {}
-}
-
-#[derive(Debug)]
-struct YieldFinder {
-    found: bool,
-}
-
-impl Visit for YieldFinder {
-    noop_visit_type!();
-
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
-
-    fn visit_constructor(&mut self, _: &Constructor) {}
-
-    fn visit_function(&mut self, _: &Function) {}
-
-    fn visit_yield_expr(&mut self, _: &YieldExpr) {
-        self.found = true;
-    }
 }

@@ -1,7 +1,9 @@
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import _type_of from "@swc/helpers/src/_type_of.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import _ts_values from "@swc/helpers/src/_ts_values.mjs";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 export var getErrorForTransaction = function() {
@@ -158,7 +160,7 @@ function _sendTransactionsWithManualRetry() {
 }
 export var sendTransactions = function() {
     var _ref = _async_to_generator(function(connection, wallet, instructionSet, signersSet) {
-        var _loop, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, signedTxnPromise, _tmp, e, _tmp1, result, _tmp2, _tmp3;
+        var _loop, _loop1, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, _ret, result, _tmp, _tmp1;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -186,6 +188,80 @@ export var sendTransactions = function() {
                             (_transaction1 = transaction).partialSign.apply(_transaction1, _to_consumable_array(signers));
                         }
                         unsignedTxns.push(transaction);
+                    }, _loop1 = function(i1) {
+                        var signedTxnPromise, _tmp, e, _tmp1, _tmp2;
+                        return _ts_generator(this, function(_state) {
+                            switch(_state.label){
+                                case 0:
+                                    _tmp = {};
+                                    signedTxnPromise = sendSignedTransaction((_tmp.connection = connection, _tmp.signedTransaction = signedTxns[i1], _tmp));
+                                    if (!(sequenceType !== SequenceType.Parallel)) return [
+                                        3,
+                                        7
+                                    ];
+                                    _state.label = 1;
+                                case 1:
+                                    _state.trys.push([
+                                        1,
+                                        3,
+                                        ,
+                                        6
+                                    ]);
+                                    return [
+                                        4,
+                                        signedTxnPromise.then(function(param) {
+                                            var txid = param.txid, slot = param.slot;
+                                            return successCallback(txid, i1);
+                                        })
+                                    ];
+                                case 2:
+                                    _state.sent();
+                                    pendingTxns.push(signedTxnPromise);
+                                    return [
+                                        3,
+                                        6
+                                    ];
+                                case 3:
+                                    e = _state.sent();
+                                    console.log("Failed at txn index:", i1);
+                                    console.log("Caught failure:", e);
+                                    failCallback(signedTxns[i1], i1);
+                                    if (!(sequenceType === SequenceType.StopOnFailure)) return [
+                                        3,
+                                        5
+                                    ];
+                                    _tmp1 = {};
+                                    _tmp2 = {
+                                        number: i1
+                                    };
+                                    return [
+                                        4,
+                                        Promise.all(pendingTxns)
+                                    ];
+                                case 4:
+                                    return [
+                                        2,
+                                        (_tmp1.v = (_tmp2.txs = _state.sent(), _tmp2), _tmp1)
+                                    ];
+                                case 5:
+                                    return [
+                                        3,
+                                        6
+                                    ];
+                                case 6:
+                                    return [
+                                        3,
+                                        8
+                                    ];
+                                case 7:
+                                    pendingTxns.push(signedTxnPromise);
+                                    _state.label = 8;
+                                case 8:
+                                    return [
+                                        2
+                                    ];
+                            }
+                        });
                     };
                     sequenceType = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : SequenceType.Parallel, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", successCallback = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : function(txid, ind) {}, failCallback = _arguments.length > 7 && _arguments[7] !== void 0 ? _arguments[7] : function(txid, ind) {
                         return false;
@@ -230,104 +306,53 @@ export var sendTransactions = function() {
                 case 4:
                     if (!(i1 < signedTxns.length)) return [
                         3,
-                        13
+                        7
                     ];
-                    _tmp = {};
-                    signedTxnPromise = sendSignedTransaction((_tmp.connection = connection, _tmp.signedTransaction = signedTxns[i1], _tmp));
-                    if (!(sequenceType !== SequenceType.Parallel)) return [
-                        3,
-                        11
-                    ];
-                    _state.label = 5;
-                case 5:
-                    _state.trys.push([
+                    return [
                         5,
-                        7,
-                        ,
-                        10
-                    ]);
-                    return [
-                        4,
-                        signedTxnPromise.then(function(param) {
-                            var txid = param.txid, slot = param.slot;
-                            return successCallback(txid, i1);
-                        })
+                        _ts_values(_loop1(i1))
                     ];
-                case 6:
-                    _state.sent();
-                    pendingTxns.push(signedTxnPromise);
-                    return [
-                        3,
-                        10
-                    ];
-                case 7:
-                    e = _state.sent();
-                    console.log("Failed at txn index:", i1);
-                    console.log("Caught failure:", e);
-                    failCallback(signedTxns[i1], i1);
-                    if (!(sequenceType === SequenceType.StopOnFailure)) return [
-                        3,
-                        9
-                    ];
-                    _tmp1 = {
-                        number: i1
-                    };
-                    return [
-                        4,
-                        Promise.all(pendingTxns)
-                    ];
-                case 8:
-                    return [
+                case 5:
+                    _ret = _state.sent();
+                    if (_type_of(_ret) === "object") return [
                         2,
-                        (_tmp1.txs = _state.sent(), _tmp1)
+                        _ret.v
                     ];
-                case 9:
-                    return [
-                        3,
-                        10
-                    ];
-                case 10:
-                    return [
-                        3,
-                        12
-                    ];
-                case 11:
-                    pendingTxns.push(signedTxnPromise);
-                    _state.label = 12;
-                case 12:
+                    _state.label = 6;
+                case 6:
                     i1++;
                     return [
                         3,
                         4
                     ];
-                case 13:
+                case 7:
                     if (!(sequenceType !== SequenceType.Parallel)) return [
                         3,
-                        15
+                        9
                     ];
                     return [
                         4,
                         Promise.all(pendingTxns)
                     ];
-                case 14:
+                case 8:
                     result = _state.sent();
-                    _tmp2 = {};
+                    _tmp = {};
                     return [
                         2,
-                        (_tmp2.number = signedTxns.length, _tmp2.txs = result, _tmp2)
+                        (_tmp.number = signedTxns.length, _tmp.txs = result, _tmp)
                     ];
-                case 15:
-                    _tmp3 = {
+                case 9:
+                    _tmp1 = {
                         number: signedTxns.length
                     };
                     return [
                         4,
                         Promise.all(pendingTxns)
                     ];
-                case 16:
+                case 10:
                     return [
                         2,
-                        (_tmp3.txs = _state.sent(), _tmp3)
+                        (_tmp1.txs = _state.sent(), _tmp1)
                     ];
             }
         });

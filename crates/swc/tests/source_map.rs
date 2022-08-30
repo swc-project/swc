@@ -131,7 +131,7 @@ fn validate_map(map_file: PathBuf) {
     sourcemap::SourceMap::from_slice(content.as_bytes()).expect("failed to deserialize sourcemap");
 }
 
-#[cfg(not(target_os = "windows"))]
+#[cfg(todo_enable)]
 #[testing::fixture("tests/stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
     let dir = input_dir.parent().unwrap();
