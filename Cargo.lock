@@ -2898,7 +2898,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.222.1"
+version = "0.222.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3685,7 +3685,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.136.0"
+version = "0.136.1"
 dependencies = [
  "either",
  "serde",
@@ -3760,7 +3760,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.151.0"
+version = "0.151.1"
 dependencies = [
  "criterion",
  "serde",
