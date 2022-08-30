@@ -13,6 +13,7 @@ const output = generate.default(
         sourceMaps: true,
         minified: true,
         comments: false,
+        sourceFileName: 'input.js',
     },
     code
 );
