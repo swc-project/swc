@@ -221,6 +221,47 @@ impl Metadata<'_> {
 }
 
 fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr {
+    fn check_object_existed(expr: Box<Expr>) -> Box<Expr> {
+        match *expr {
+            Expr::Member(ref member_expr) => {
+                let obj_expr = member_expr.obj.clone();
+                Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: check_object_existed(obj_expr),
+                    op: op!("||"),
+                    right: Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: Box::new(Expr::Unary(UnaryExpr {
+                            span: DUMMY_SP,
+                            op: op!("typeof"),
+                            arg: expr,
+                        })),
+                        op: op!("==="),
+                        right: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            value: "undefined".into(),
+                            raw: None,
+                        }))),
+                    })),
+                }))
+            }
+            _ => Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left: Box::new(Expr::Unary(UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("typeof"),
+                    arg: expr,
+                })),
+                op: op!("==="),
+                right: Box::new(Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    value: "undefined".into(),
+                    raw: None,
+                }))),
+            })),
+        }
+    }
+
     fn serialize_type_ref(class_name: &str, ty: &TsTypeRef) -> Expr {
         match &ty.type_name {
             // We should omit references to self (class) since it will throw a ReferenceError at
@@ -232,47 +273,6 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         }
 
         let member_expr = ts_entity_to_member_expr(&ty.type_name);
-
-        fn check_object_existed(expr: Box<Expr>) -> Box<Expr> {
-            match *expr {
-                Expr::Member(ref member_expr) => {
-                    let obj_expr = member_expr.obj.clone();
-                    Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: check_object_existed(obj_expr),
-                        op: op!("||"),
-                        right: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: Box::new(Expr::Unary(UnaryExpr {
-                                span: DUMMY_SP,
-                                op: op!("typeof"),
-                                arg: expr,
-                            })),
-                            op: op!("==="),
-                            right: Box::new(Expr::Lit(Lit::Str(Str {
-                                span: DUMMY_SP,
-                                value: "undefined".into(),
-                                raw: None,
-                            }))),
-                        })),
-                    }))
-                }
-                _ => Box::new(Expr::Bin(BinExpr {
-                    span: DUMMY_SP,
-                    left: Box::new(Expr::Unary(UnaryExpr {
-                        span: DUMMY_SP,
-                        op: op!("typeof"),
-                        arg: expr,
-                    })),
-                    op: op!("==="),
-                    right: Box::new(Expr::Lit(Lit::Str(Str {
-                        span: DUMMY_SP,
-                        value: "undefined".into(),
-                        raw: None,
-                    }))),
-                })),
-            }
-        }
 
         // We don't know if type is just a type (interface, etc.) or a concrete value
         // (class, etc.)
@@ -412,11 +412,12 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNumberKeyword,
                 ..
-            })
-            | TsType::TsKeywordType(TsKeywordType {
+            }) => quote_ident!("Number").into(),
+
+            TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsBigIntKeyword,
                 ..
-            }) => quote_ident!("Number").into(),
+            }) => *check_object_existed(quote_ident!("BigInt").into()),
 
             TsType::TsLitType(ty) => {
                 // TODO: Proper error reporting
