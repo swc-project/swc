@@ -362,7 +362,7 @@
             range = te.ownerDocument.selection.createRange();
         } catch (e) {}
         return !!range && range.parentElement() == te && 0 != range.compareEndPoints("StartToEnd", range);
-    }, hasCopyEvent = (e = elt("div"), "oncopy" in e || (e.setAttribute("oncopy", "return;"), "function" == typeof e.oncopy)), badZoomedRects = null, modes = {}, mimeModes = {};
+    }, hasCopyEvent = "oncopy" in (e = elt("div")) || (e.setAttribute("oncopy", "return;"), "function" == typeof e.oncopy), badZoomedRects = null, modes = {}, mimeModes = {};
     function defineMode(name, mode) {
         arguments.length > 2 && (mode.dependencies = Array.prototype.slice.call(arguments, 2)), modes[name] = mode;
     }
@@ -689,7 +689,7 @@
                 mName && (style = "m-" + (style ? mName + " " + style : mName));
             }
             if (!flattenSpans || curStyle != style) {
-                for(; curStart < stream.start;)curStart = Math.min(stream.start, curStart + 5000), f(curStart, curStyle);
+                for(; curStart < stream.start;)f(curStart = Math.min(stream.start, curStart + 5000), curStyle);
                 curStyle = style;
             }
             stream.start = stream.pos;
@@ -757,10 +757,7 @@
         }
         if (last) for(var i$1 = 0; i$1 < last.length; ++i$1){
             var span$1 = last[i$1];
-            if (null != span$1.to && (span$1.to += offset), null == span$1.from) {
-                var found$1 = getMarkedSpanFor(first, span$1.marker);
-                !found$1 && (span$1.from = offset, sameLine && (first || (first = [])).push(span$1));
-            } else span$1.from += offset, sameLine && (first || (first = [])).push(span$1);
+            (null != span$1.to && (span$1.to += offset), null == span$1.from) ? !getMarkedSpanFor(first, span$1.marker) && (span$1.from = offset, sameLine && (first || (first = [])).push(span$1)) : (span$1.from += offset, sameLine && (first || (first = [])).push(span$1));
         }
         first && (first = clearEmptySpans(first)), last && last != first && (last = clearEmptySpans(last));
         var newMarkers = [
@@ -804,9 +801,7 @@
         var lenDiff = a.lines.length - b.lines.length;
         if (0 != lenDiff) return lenDiff;
         var aPos = a.find(), bPos = b.find(), fromCmp = cmp(aPos.from, bPos.from) || extraLeft(a) - extraLeft(b);
-        if (fromCmp) return -fromCmp;
-        var toCmp = cmp(aPos.to, bPos.to) || extraRight(a) - extraRight(b);
-        return toCmp || b.id - a.id;
+        return fromCmp ? -fromCmp : cmp(aPos.to, bPos.to) || extraRight(a) - extraRight(b) || b.id - a.id;
     }
     function collapsedSpanAtSide(line, start) {
         var found, sps = sawCollapsedSpans && line.markedSpans;
@@ -888,7 +883,7 @@
         }
         for(cur = line; merged = collapsedSpanAtEnd(cur);){
             var found$1 = merged.find(0, !0);
-            len -= cur.text.length - found$1.from.ch, cur = found$1.to.line, len += cur.text.length - found$1.to.ch;
+            len -= cur.text.length - found$1.from.ch, len += (cur = found$1.to.line).text.length - found$1.to.ch;
         }
         return len;
     }
@@ -962,8 +957,8 @@
                     var txt$1 = void 0;
                     if ("\t" == m[0]) {
                         var tabSize = builder.cm.options.tabSize, tabWidth = tabSize - builder.col % tabSize;
-                        txt$1 = content.appendChild(elt("span", spaceStr(tabWidth), "cm-tab")), txt$1.setAttribute("role", "presentation"), txt$1.setAttribute("cm-text", "\t"), builder.col += tabWidth;
-                    } else "\r" == m[0] || "\n" == m[0] ? (txt$1 = content.appendChild(elt("span", "\r" == m[0] ? "\u240d" : "\u2424", "cm-invalidchar")), txt$1.setAttribute("cm-text", m[0]), builder.col += 1) : ((txt$1 = builder.cm.options.specialCharPlaceholder(m[0])).setAttribute("cm-text", m[0]), ie && ie_version < 9 ? content.appendChild(elt("span", [
+                        (txt$1 = content.appendChild(elt("span", spaceStr(tabWidth), "cm-tab"))).setAttribute("role", "presentation"), txt$1.setAttribute("cm-text", "\t"), builder.col += tabWidth;
+                    } else "\r" == m[0] || "\n" == m[0] ? ((txt$1 = content.appendChild(elt("span", "\r" == m[0] ? "\u240d" : "\u2424", "cm-invalidchar"))).setAttribute("cm-text", m[0]), builder.col += 1) : ((txt$1 = builder.cm.options.specialCharPlaceholder(m[0])).setAttribute("cm-text", m[0]), ie && ie_version < 9 ? content.appendChild(elt("span", [
                         txt$1
                     ])) : content.appendChild(txt$1), builder.col += 1);
                     builder.map.push(builder.pos, builder.pos + 1, txt$1), builder.pos++;
@@ -1215,7 +1210,7 @@
     }
     function prepareMeasureForLine(cm, line) {
         var cm1, line1, lineN, view, built, lineN1 = lineNo(line), view1 = findViewForLine(cm, lineN1);
-        view1 && !view1.text ? view1 = null : view1 && view1.changes && (updateLineForChanges(cm, view1, lineN1, getDimensions(cm)), cm.curOp.forceUpdate = !0), view1 || (view1 = (cm1 = cm, line1 = line, line1 = visualLine(line1), lineN = lineNo(line1), view = cm1.display.externalMeasured = new LineView(cm1.doc, line1, lineN), view.lineN = lineN, built = view.built = buildLineContent(cm1, view), view.text = built.pre, removeChildrenAndAdd(cm1.display.lineMeasure, built.pre), view));
+        view1 && !view1.text ? view1 = null : view1 && view1.changes && (updateLineForChanges(cm, view1, lineN1, getDimensions(cm)), cm.curOp.forceUpdate = !0), view1 || (view1 = (cm1 = cm, line1 = line, line1 = visualLine(line1), lineN = lineNo(line1), (view = cm1.display.externalMeasured = new LineView(cm1.doc, line1, lineN)).lineN = lineN, built = view.built = buildLineContent(cm1, view), view.text = built.pre, removeChildrenAndAdd(cm1.display.lineMeasure, built.pre), view));
         var info = mapFromLineView(view1, line, lineN1);
         return {
             line: line,
@@ -1243,7 +1238,7 @@
                 }
                 heights.push(rect.bottom - rect.top);
             }
-        }(cm, prepared.view, prepared.rect), prepared.hasHeights = !0), found = measureCharInner(cm, prepared, ch, bias), found.bogus || (prepared.cache[key] = found)), {
+        }(cm, prepared.view, prepared.rect), prepared.hasHeights = !0), (found = measureCharInner(cm, prepared, ch, bias)).bogus || (prepared.cache[key] = found)), {
             left: found.left,
             right: found.right,
             top: varHeight ? found.rtop : found.top,
@@ -1283,7 +1278,7 @@
             for(var i$1 = 0; i$1 < 4; i$1++){
                 for(; start && isExtendingChar(prepared.line.text.charAt(place.coverStart + start));)--start;
                 for(; place.coverStart + end < place.coverEnd && isExtendingChar(prepared.line.text.charAt(place.coverStart + end));)++end;
-                if (rect = ie && ie_version < 9 && 0 == start && end == place.coverEnd - place.coverStart ? node.parentNode.getBoundingClientRect() : getUsefulRect(range(node, start, end).getClientRects(), bias), rect.left || rect.right || 0 == start) break;
+                if ((rect = ie && ie_version < 9 && 0 == start && end == place.coverEnd - place.coverStart ? node.parentNode.getBoundingClientRect() : getUsefulRect(range(node, start, end).getClientRects(), bias)).left || rect.right || 0 == start) break;
                 end = start, start -= 1, collapse = "right";
             }
             ie && ie_version < 11 && (rect = maybeUpdateRectForZooming(cm.display.measure, rect));
@@ -1337,7 +1332,7 @@
         return chrome && android ? -(document.body.getBoundingClientRect().top - parseInt(getComputedStyle(document.body).marginTop)) : window.pageYOffset || (document.documentElement || document.body).scrollTop;
     }
     function widgetTopHeight(lineObj) {
-        var ref = visualLine(lineObj), widgets = ref.widgets, height = 0;
+        var widgets = visualLine(lineObj).widgets, height = 0;
         if (widgets) for(var i = 0; i < widgets.length; ++i)widgets[i].above && (height += widgetHeight(widgets[i]));
         return height;
     }
@@ -1383,8 +1378,7 @@
         var order = getOrder(lineObj, cm.doc.direction), ch = pos.ch, sticky = pos.sticky;
         if (ch >= lineObj.text.length ? (ch = lineObj.text.length, sticky = "before") : ch <= 0 && (ch = 0, sticky = "after"), !order) return get("before" == sticky ? ch - 1 : ch, "before" == sticky);
         function getBidi(ch, partPos, invert) {
-            var part = order[partPos];
-            return get(invert ? ch - 1 : ch, 1 == part.level != invert);
+            return get(invert ? ch - 1 : ch, 1 == order[partPos].level != invert);
         }
         var partPos = getBidiPartAt(order, ch, sticky), other = bidiOther, val = getBidi(ch, partPos, "before" == sticky);
         return null != other && (val.other = getBidi(ch, other, "before" != sticky)), val;
@@ -1406,7 +1400,7 @@
     }
     function coordsChar(cm, x, y) {
         var doc = cm.doc;
-        if (y += cm.display.viewOffset, y < 0) return PosWithInfo(doc.first, 0, null, -1, -1);
+        if ((y += cm.display.viewOffset) < 0) return PosWithInfo(doc.first, 0, null, -1, -1);
         var lineN = lineAtHeight(doc, y), last = doc.first + doc.size - 1;
         if (lineN > last) return PosWithInfo(doc.first + doc.size - 1, getLine(doc, last).text.length, null, 1, 1);
         x < 0 && (x = 0);
@@ -1443,7 +1437,7 @@
         var preparedMeasure = prepareMeasureForLine(cm, lineObj), widgetHeight = widgetTopHeight(lineObj), begin = 0, end = lineObj.text.length, ltr = !0, order = getOrder(lineObj, cm.doc.direction);
         if (order) {
             var part = (cm.options.lineWrapping ? coordsBidiPartWrapped : coordsBidiPart)(cm, lineObj, lineNo, preparedMeasure, order, x, y);
-            ltr = 1 != part.level, begin = ltr ? part.from : part.to - 1, end = ltr ? part.to : part.from - 1;
+            begin = (ltr = 1 != part.level) ? part.from : part.to - 1, end = ltr ? part.to : part.from - 1;
         }
         var baseX, sticky, chAround = null, boxAround = null, ch = findFirst(function(ch) {
             var box = measureCharPrepared(cm, preparedMeasure, ch);
@@ -1670,8 +1664,8 @@
                 return charCoords(cm, Pos(line, ch), "div", lineObj, bias);
             }
             function wrapX(pos, dir, side) {
-                var extent = wrappedLineExtentChar(cm, lineObj, null, pos), prop = "ltr" == dir == ("after" == side) ? "left" : "right", ch = "after" == side ? extent.begin : extent.end - (/\s/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1);
-                return coords(ch, prop)[prop];
+                var extent = wrappedLineExtentChar(cm, lineObj, null, pos), prop = "ltr" == dir == ("after" == side) ? "left" : "right";
+                return coords("after" == side ? extent.begin : extent.end - (/\s/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1), prop)[prop];
             }
             var order = getOrder(lineObj, doc.direction);
             return !function(order, from, to, f) {
@@ -2002,14 +1996,12 @@
             var rect = function(cm, pos, end, margin) {
                 null == margin && (margin = 0), cm.options.lineWrapping || pos != end || (end = "before" == pos.sticky ? Pos(pos.line, pos.ch + 1, "before") : pos, pos = pos.ch ? Pos(pos.line, "before" == pos.sticky ? pos.ch - 1 : pos.ch, "after") : pos);
                 for(var rect, limit = 0; limit < 5; limit++){
-                    var changed = !1, coords = cursorCoords(cm, pos), endCoords = end && end != pos ? cursorCoords(cm, end) : coords;
-                    rect = {
+                    var changed = !1, coords = cursorCoords(cm, pos), endCoords = end && end != pos ? cursorCoords(cm, end) : coords, scrollPos = calculateScrollPos(cm, rect = {
                         left: Math.min(coords.left, endCoords.left),
                         top: Math.min(coords.top, endCoords.top) - margin,
                         right: Math.max(coords.left, endCoords.left),
                         bottom: Math.max(coords.bottom, endCoords.bottom) + margin
-                    };
-                    var scrollPos = calculateScrollPos(cm, rect), startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
+                    }), startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
                     if (null != scrollPos.scrollTop && (updateScrollTop(cm, scrollPos.scrollTop), Math.abs(cm.doc.scrollTop - startTop) > 1 && (changed = !0)), null != scrollPos.scrollLeft && (setScrollLeft(cm, scrollPos.scrollLeft), Math.abs(cm.doc.scrollLeft - startLeft) > 1 && (changed = !0)), !changed) break;
                 }
                 return rect;
@@ -2445,17 +2437,14 @@
         }, !0), histChange;
     }
     function clearSelectionEvents(array) {
-        for(; array.length;){
-            var last = lst(array);
-            if (last.ranges) array.pop();
-            else break;
-        }
+        for(; array.length;)if (lst(array).ranges) array.pop();
+        else break;
     }
     function addChangeToHistory(doc, change, selAfter, opId) {
         var last, hist = doc.history;
         hist.undone.length = 0;
-        var cur, hist1, force, time = +new Date();
-        if ((hist.lastOp == opId || hist.lastOrigin == change.origin && change.origin && ("+" == change.origin.charAt(0) && hist.lastModTime > time - (doc.cm ? doc.cm.options.historyEventDelay : 500) || "*" == change.origin.charAt(0))) && (cur = (hist1 = hist, force = hist.lastOp == opId, force ? (clearSelectionEvents(hist1.done), lst(hist1.done)) : hist1.done.length && !lst(hist1.done).ranges ? lst(hist1.done) : hist1.done.length > 1 && !hist1.done[hist1.done.length - 2].ranges ? (hist1.done.pop(), lst(hist1.done)) : void 0))) last = lst(cur.changes), 0 == cmp(change.from, change.to) && 0 == cmp(change.from, last.to) ? last.to = changeEnd(change) : cur.changes.push(historyChangeFromChange(doc, change));
+        var cur, hist1, time = +new Date();
+        if ((hist.lastOp == opId || hist.lastOrigin == change.origin && change.origin && ("+" == change.origin.charAt(0) && hist.lastModTime > time - (doc.cm ? doc.cm.options.historyEventDelay : 500) || "*" == change.origin.charAt(0))) && (cur = (hist1 = hist, hist.lastOp == opId ? (clearSelectionEvents(hist1.done), lst(hist1.done)) : hist1.done.length && !lst(hist1.done).ranges ? lst(hist1.done) : hist1.done.length > 1 && !hist1.done[hist1.done.length - 2].ranges ? (hist1.done.pop(), lst(hist1.done)) : void 0))) last = lst(cur.changes), 0 == cmp(change.from, change.to) && 0 == cmp(change.from, last.to) ? last.to = changeEnd(change) : cur.changes.push(historyChangeFromChange(doc, change));
         else {
             var before = lst(hist.done);
             for(before && before.ranges || pushSelectionToHistory(doc.sel, hist.done), cur = {
@@ -2609,8 +2598,8 @@
         return pos;
     }
     function skipAtomic(doc, pos, oldPos, bias, mayClear) {
-        var dir = bias || 1, found = skipAtomicInner(doc, pos, oldPos, dir, mayClear) || !mayClear && skipAtomicInner(doc, pos, oldPos, dir, !0) || skipAtomicInner(doc, pos, oldPos, -dir, mayClear) || !mayClear && skipAtomicInner(doc, pos, oldPos, -dir, !0);
-        return found || (doc.cantEdit = !0, Pos(doc.first, 0));
+        var dir = bias || 1;
+        return skipAtomicInner(doc, pos, oldPos, dir, mayClear) || !mayClear && skipAtomicInner(doc, pos, oldPos, dir, !0) || skipAtomicInner(doc, pos, oldPos, -dir, mayClear) || !mayClear && skipAtomicInner(doc, pos, oldPos, -dir, !0) || (doc.cantEdit = !0, Pos(doc.first, 0));
     }
     function movePos(doc, pos, dir, line) {
         return dir < 0 && 0 == pos.ch ? pos.line > doc.first ? clipPos(doc, Pos(pos.line - 1)) : null : dir > 0 && pos.ch == (line || getLine(doc, pos.line)).text.length ? pos.line < doc.first + doc.size - 1 ? Pos(pos.line + 1, 0) : null : new Pos(pos.line, pos.ch + dir);
@@ -2701,7 +2690,7 @@
         if (!suppress || allowSelectionOnly) {
             for(var event, hist = doc.history, selAfter = doc.sel, source = "undo" == type ? hist.done : hist.undone, dest = "undo" == type ? hist.undone : hist.done, i = 0; i < source.length && (event = source[i], allowSelectionOnly ? !event.ranges || event.equals(doc.sel) : event.ranges); i++);
             if (i != source.length) {
-                for(hist.lastOrigin = hist.lastSelOrigin = null;;)if (event = source.pop(), event.ranges) {
+                for(hist.lastOrigin = hist.lastSelOrigin = null;;)if ((event = source.pop()).ranges) {
                     if (pushSelectionToHistory(event, dest), allowSelectionOnly && !event.equals(doc.sel)) {
                         setSelection(doc, event, {
                             clearRedo: !1
@@ -3012,7 +3001,7 @@
         var updateMaxLine, curLine = from.line, cm = doc.cm;
         if (doc.iter(curLine, to.line + 1, function(line) {
             var line1, span, op, inThisOp;
-            cm && marker.collapsed && !cm.options.lineWrapping && visualLine(line) == cm.display.maxLine && (updateMaxLine = !0), marker.collapsed && curLine != from.line && updateLineHeight(line, 0), line1 = line, span = new MarkedSpan(marker, curLine == from.line ? from.ch : null, curLine == to.line ? to.ch : null), inThisOp = (op = doc.cm && doc.cm.curOp) && window.WeakSet && (op.markedSpans || (op.markedSpans = new WeakSet())), inThisOp && inThisOp.has(line1.markedSpans) ? line1.markedSpans.push(span) : (line1.markedSpans = line1.markedSpans ? line1.markedSpans.concat([
+            cm && marker.collapsed && !cm.options.lineWrapping && visualLine(line) == cm.display.maxLine && (updateMaxLine = !0), marker.collapsed && curLine != from.line && updateLineHeight(line, 0), line1 = line, span = new MarkedSpan(marker, curLine == from.line ? from.ch : null, curLine == to.line ? to.ch : null), (inThisOp = (op = doc.cm && doc.cm.curOp) && window.WeakSet && (op.markedSpans || (op.markedSpans = new WeakSet()))) && inThisOp.has(line1.markedSpans) ? line1.markedSpans.push(span) : (line1.markedSpans = line1.markedSpans ? line1.markedSpans.concat([
                 span
             ]) : [
                 span
@@ -3085,7 +3074,7 @@
         for(var i = 0; i < markers.length; ++i)markers[i].parent = this;
     };
     function markTextShared(doc, from, to, options, type) {
-        options = copyObj(options), options.shared = !1;
+        (options = copyObj(options)).shared = !1;
         var markers = [
             markText(doc, from, to, options, type)
         ], primary = markers[0], widget = options.widgetNode;
@@ -3338,8 +3327,8 @@
         lineInfo: function(line) {
             var n;
             if ("number" == typeof line) {
-                if (!isLine(this, line) || (n = line, line = getLine(this, line), !line)) return null;
-            } else if (n = lineNo(line), null == n) return null;
+                if (!isLine(this, line) || (n = line, !(line = getLine(this, line)))) return null;
+            } else if (null == (n = lineNo(line))) return null;
             return {
                 line: n,
                 handle: line,
@@ -3377,7 +3366,7 @@
         }),
         addLineWidget: docMethodOp(function(handle, node, options) {
             var doc, handle1, node1, options1, widget, cm;
-            return doc = this, handle1 = handle, node1 = node, options1 = options, widget = new LineWidget(doc, node1, options1), cm = doc.cm, cm && widget.noHScroll && (cm.display.alignWidgets = !0), changeLine(doc, handle1, "widget", function(line) {
+            return doc = this, handle1 = handle, node1 = node, options1 = options, widget = new LineWidget(doc, node1, options1), (cm = doc.cm) && widget.noHScroll && (cm.display.alignWidgets = !0), changeLine(doc, handle1, "widget", function(line) {
                 var widgets = line.widgets || (line.widgets = []);
                 if (null == widget.insertAt ? widgets.push(widget) : widgets.splice(Math.min(widgets.length, Math.max(0, widget.insertAt)), 0, widget), widget.line = line, cm && !lineIsHidden(doc, line)) {
                     var aboveVisible = heightAtLine(line) < doc.scrollTop;
@@ -3439,8 +3428,7 @@
             }), clipPos(this, Pos(lineNo, ch));
         },
         indexFromPos: function(coords) {
-            coords = clipPos(this, coords);
-            var index = coords.ch;
+            var index = (coords = clipPos(this, coords)).ch;
             if (coords.line < this.first || coords.ch < 0) return 0;
             var sepSize = this.lineSeparator().length;
             return this.iter(this.first, coords.line, function(line) {
@@ -3526,9 +3514,8 @@
             if (!(!pos || cm.isReadOnly())) {
                 if (files && files.length && window.FileReader && window.File) for(var n = files.length, text = Array(n), read = 0, markAsReadAndPasteIfAllFilesAreRead = function() {
                     ++read == n && operation(cm, function() {
-                        pos = clipPos(cm.doc, pos);
                         var change = {
-                            from: pos,
+                            from: pos = clipPos(cm.doc, pos),
                             to: pos,
                             text: cm.doc.splitLines(text.filter(function(t) {
                                 return null != t;
@@ -3733,11 +3720,9 @@
             "rtl" == cm.doc.direction && (dir = -dir);
             var order = getOrder(lineObj, cm.doc.direction);
             if (order) {
-                var ch, part = dir < 0 ? lst(order) : order[0], moveInStorageOrder = dir < 0 == (1 == part.level), sticky = moveInStorageOrder ? "after" : "before";
+                var ch, part = dir < 0 ? lst(order) : order[0], sticky = dir < 0 == (1 == part.level) ? "after" : "before";
                 if (part.level > 0 || "rtl" == cm.doc.direction) {
-                    var prep = prepareMeasureForLine(cm, lineObj);
-                    ch = dir < 0 ? lineObj.text.length - 1 : 0;
-                    var targetTop = measureCharPrepared(cm, prep, ch).top;
+                    var prep = prepareMeasureForLine(cm, lineObj), targetTop = measureCharPrepared(cm, prep, ch = dir < 0 ? lineObj.text.length - 1 : 0).top;
                     ch = findFirst(function(ch) {
                         return measureCharPrepared(cm, prep, ch).top == targetTop;
                     }, dir < 0 == (1 == part.level) ? part.from : part.to - 1, ch), "before" == sticky && (ch = moveCharLogically(lineObj, ch, 1));
@@ -3882,12 +3867,12 @@
         },
         delWrappedLineLeft: function(cm) {
             return deleteNearSelection(cm, function(range) {
-                var top = cm.charCoords(range.head, "div").top + 5, leftPos = cm.coordsChar({
-                    left: 0,
-                    top: top
-                }, "div");
+                var top = cm.charCoords(range.head, "div").top + 5;
                 return {
-                    from: leftPos,
+                    from: cm.coordsChar({
+                        left: 0,
+                        top: top
+                    }, "div"),
                     to: range.from()
                 };
             });
@@ -4100,7 +4085,7 @@
         return start;
     }
     function doHandleBinding(cm, bound, dropShift) {
-        if ("string" == typeof bound && (bound = commands[bound], !bound)) return !1;
+        if ("string" == typeof bound && !(bound = commands[bound])) return !1;
         cm.display.input.ensurePolled();
         var prevShift = cm.display.shift, done = !1;
         try {
@@ -4250,7 +4235,7 @@
         var display = cm.display, doc = cm.doc;
         e_preventDefault(event);
         var ourRange, ourIndex, startSel = doc.sel, ranges = startSel.ranges;
-        if (behavior.addNew && !behavior.extend ? (ourIndex = doc.sel.contains(start), ourRange = ourIndex > -1 ? ranges[ourIndex] : new Range(start, start)) : (ourRange = doc.sel.primary(), ourIndex = doc.sel.primIndex), "rectangle" == behavior.unit) behavior.addNew || (ourRange = new Range(start, start)), start = posFromMouse(cm, event, !0, !0), ourIndex = -1;
+        if (behavior.addNew && !behavior.extend ? ourRange = (ourIndex = doc.sel.contains(start)) > -1 ? ranges[ourIndex] : new Range(start, start) : (ourRange = doc.sel.primary(), ourIndex = doc.sel.primIndex), "rectangle" == behavior.unit) behavior.addNew || (ourRange = new Range(start, start)), start = posFromMouse(cm, event, !0, !0), ourIndex = -1;
         else {
             var range = rangeForUnit(cm, start, behavior.unit);
             ourRange = behavior.extend ? extendRange(ourRange, range.anchor, range.head, behavior.extend) : range;
@@ -4518,7 +4503,7 @@
         line.stateAfter && (line.stateAfter = null);
         var indentation, curSpaceString = line.text.match(/^\s*/)[0];
         if (aggressive || /\S/.test(line.text)) {
-            if ("smart" == how && (indentation = doc.mode.indent(state, line.text.slice(curSpaceString.length), line.text), indentation == Pass || indentation > 150)) {
+            if ("smart" == how && ((indentation = doc.mode.indent(state, line.text.slice(curSpaceString.length), line.text)) == Pass || indentation > 150)) {
                 if (!aggressive) return;
                 how = "prev";
             }
@@ -4653,7 +4638,7 @@
                 return null != nextCh && !(dir > 0 && nextCh == line.text.length) && (res = searchInVisualLine(dir > 0 ? 0 : bidi.length - 1, dir, getWrappedLineExtent(nextCh))) ? res : null;
             }(doc.cm, lineObj, pos, dir) : moveLogically(lineObj, pos, dir);
             if (null == next) {
-                if (!(!boundToLine && (l = pos.line + lineDir, !(l < doc.first) && !(l >= doc.first + doc.size) && (pos = new Pos(l, pos.ch, pos.sticky), lineObj = getLine(doc, l))))) return !1;
+                if (!(!boundToLine && !((l = pos.line + lineDir) < doc.first) && !(l >= doc.first + doc.size) && (pos = new Pos(l, pos.ch, pos.sticky), lineObj = getLine(doc, l)))) return !1;
                 pos = endOfLine(visually, doc.cm, lineObj, pos.line, lineDir);
             } else pos = next;
             return !0;
@@ -4674,10 +4659,10 @@
     function findPosV(cm, pos, dir, unit) {
         var target, y, doc = cm.doc, x = pos.left;
         if ("page" == unit) {
-            var pageSize = Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight), moveAmount = Math.max(pageSize - 0.5 * textHeight(cm.display), 3);
+            var moveAmount = Math.max(Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight) - 0.5 * textHeight(cm.display), 3);
             y = (dir > 0 ? pos.bottom : pos.top) + dir * moveAmount;
         } else "line" == unit && (y = dir > 0 ? pos.bottom + 3 : pos.top - 3);
-        for(; target = coordsChar(cm, x, y), target.outside;){
+        for(; (target = coordsChar(cm, x, y)).outside;){
             if (dir < 0 ? y <= 0 : y >= doc.height) {
                 target.hitSide = !0;
                 break;
@@ -4693,10 +4678,7 @@
         var view = findViewForLine(cm, pos.line);
         if (!view || view.hidden) return null;
         var line = getLine(cm.doc, pos.line), info = mapFromLineView(view, line, pos.line), order = getOrder(line, cm.doc.direction), side = "left";
-        if (order) {
-            var partPos = getBidiPartAt(order, pos.ch);
-            side = partPos % 2 ? "right" : "left";
-        }
+        order && (side = getBidiPartAt(order, pos.ch) % 2 ? "right" : "left");
         var result = nodeAndOffsetInLineMap(info.map, pos.ch, side);
         return result.offset = "right" == result.collapse ? result.end : result.start, result;
     }
@@ -4794,19 +4776,17 @@
         }
         function onCopyCut(e) {
             if (!(!belongsToInput(e) || signalDOMEvent(cm, e))) {
-                if (cm.somethingSelected()) {
-                    var newLastCopied;
-                    newLastCopied = {
-                        lineWise: !1,
-                        text: cm.getSelections()
-                    }, lastCopied = newLastCopied, "cut" == e.type && cm.replaceSelection("", null, "cut");
-                } else {
+                if (cm.somethingSelected()) lastCopied = {
+                    lineWise: !1,
+                    text: cm.getSelections()
+                }, "cut" == e.type && cm.replaceSelection("", null, "cut");
+                else {
                     if (!cm.options.lineWiseCopyCut) return;
-                    var newLastCopied1, ranges = copyableRanges(cm);
-                    newLastCopied1 = {
+                    var ranges = copyableRanges(cm);
+                    lastCopied = {
                         lineWise: !0,
                         text: ranges.text
-                    }, lastCopied = newLastCopied1, "cut" == e.type && cm.operation(function() {
+                    }, "cut" == e.type && cm.operation(function() {
                         cm.setSelections(ranges.ranges, 0, sel_dontScroll), cm.replaceSelection("", null, "cut");
                     });
                 }
@@ -4997,19 +4977,17 @@
         var te = this.textarea;
         function prepareCopyCut(e) {
             if (!signalDOMEvent(cm, e)) {
-                if (cm.somethingSelected()) {
-                    var newLastCopied;
-                    newLastCopied = {
-                        lineWise: !1,
-                        text: cm.getSelections()
-                    }, lastCopied = newLastCopied;
-                } else {
+                if (cm.somethingSelected()) lastCopied = {
+                    lineWise: !1,
+                    text: cm.getSelections()
+                };
+                else {
                     if (!cm.options.lineWiseCopyCut) return;
-                    var newLastCopied1, ranges = copyableRanges(cm);
-                    newLastCopied1 = {
+                    var ranges = copyableRanges(cm);
+                    lastCopied = {
                         lineWise: !0,
                         text: ranges.text
-                    }, lastCopied = newLastCopied1, "cut" == e.type ? cm.setSelections(ranges.ranges, null, sel_dontScroll) : (input.prevInput = "", te.value = ranges.text.join("\n"), selectInput(te));
+                    }, "cut" == e.type ? cm.setSelections(ranges.ranges, null, sel_dontScroll) : (input.prevInput = "", te.value = ranges.text.join("\n"), selectInput(te));
                 }
                 "cut" == e.type && (cm.state.cutIncoming = +new Date());
             }
@@ -5113,8 +5091,7 @@
         input.contextMenuPending && input.contextMenuPending();
         var pos = posFromMouse(cm, e), scrollPos = display.scroller.scrollTop;
         if (pos && !presto) {
-            var reset = cm.options.resetSelectionOnContextMenu;
-            reset && -1 == cm.doc.sel.contains(pos) && operation(cm, setSelection)(cm.doc, simpleSelection(pos), sel_dontScroll);
+            cm.options.resetSelectionOnContextMenu && -1 == cm.doc.sel.contains(pos) && operation(cm, setSelection)(cm.doc, simpleSelection(pos), sel_dontScroll);
             var oldCSS = te.style.cssText, oldWrapperCSS = input.wrapper.style.cssText, wrapperBox = input.wrapper.offsetParent.getBoundingClientRect();
             if (input.wrapper.style.cssText = "position: static", te.style.cssText = "position: absolute; width: 30px; height: 30px;\n      top: " + (e.clientY - wrapperBox.top - 5) + "px; left: " + (e.clientX - wrapperBox.left - 5) + "px;\n      z-index: 1000; background: " + (ie ? "rgba(255, 255, 255, .05)" : "transparent") + ";\n      outline: none; border-width: 0; outline: none; overflow: hidden; opacity: .05; filter: alpha(opacity=5);", webkit && (oldScrollY = window.scrollY), display.input.focus(), webkit && window.scrollTo(null, oldScrollY), display.input.reset(), cm.somethingSelected() || (te.value = input.prevInput = " "), input.contextMenuPending = rehide, display.selForContextMenu = cm.doc.sel, clearTimeout(display.detectingSelectAll), ie && ie_version >= 9 && prepareSelectAllHack(), captureRightClick) {
                 e_stop(e);
@@ -5213,7 +5190,7 @@
         }), option("autofocus", null), option("direction", "ltr", function(cm, val) {
             return cm.doc.setDirection(val);
         }, !0), option("phrases", null);
-    }(CodeMirror2), CodeMirror = CodeMirror2, optionHandlers = CodeMirror.optionHandlers, helpers = CodeMirror.helpers = {}, CodeMirror.prototype = {
+    }(CodeMirror2), optionHandlers = (CodeMirror = CodeMirror2).optionHandlers, helpers = CodeMirror.helpers = {}, CodeMirror.prototype = {
         constructor: CodeMirror,
         focus: function() {
             window.focus(), this.display.input.focus();
@@ -5363,20 +5340,18 @@
             };
         },
         addWidget: function(pos, node, scroll, vert, horiz) {
-            var cm, scrollPos, display = this.display;
-            pos = cursorCoords(this, clipPos(this.doc, pos));
-            var top = pos.bottom, left = pos.left;
+            var cm, rect, scrollPos, display = this.display, top = (pos = cursorCoords(this, clipPos(this.doc, pos))).bottom, left = pos.left;
             if (node.style.position = "absolute", node.setAttribute("cm-ignore-events", "true"), this.display.input.setUneditable(node), display.sizer.appendChild(node), "over" == vert) top = pos.top;
             else if ("above" == vert || "near" == vert) {
                 var vspace = Math.max(display.wrapper.clientHeight, this.doc.height), hspace = Math.max(display.sizer.clientWidth, display.lineSpace.clientWidth);
                 ("above" == vert || pos.bottom + node.offsetHeight > vspace) && pos.top > node.offsetHeight ? top = pos.top - node.offsetHeight : pos.bottom + node.offsetHeight <= vspace && (top = pos.bottom), left + node.offsetWidth > hspace && (left = hspace - node.offsetWidth);
             }
-            node.style.top = top + "px", node.style.left = node.style.right = "", "right" == horiz ? (left = display.sizer.clientWidth - node.offsetWidth, node.style.right = "0px") : ("left" == horiz ? left = 0 : "middle" == horiz && (left = (display.sizer.clientWidth - node.offsetWidth) / 2), node.style.left = left + "px"), scroll && (cm = this, scrollPos = calculateScrollPos(cm, {
+            node.style.top = top + "px", node.style.left = node.style.right = "", "right" == horiz ? (left = display.sizer.clientWidth - node.offsetWidth, node.style.right = "0px") : ("left" == horiz ? left = 0 : "middle" == horiz && (left = (display.sizer.clientWidth - node.offsetWidth) / 2), node.style.left = left + "px"), scroll && (cm = this, rect = {
                 left: left,
                 top: top,
                 right: left + node.offsetWidth,
                 bottom: top + node.offsetHeight
-            }), null != scrollPos.scrollTop && updateScrollTop(cm, scrollPos.scrollTop), null != scrollPos.scrollLeft && setScrollLeft(cm, scrollPos.scrollLeft));
+            }, null != (scrollPos = calculateScrollPos(cm, rect)).scrollTop && updateScrollTop(cm, scrollPos.scrollTop), null != scrollPos.scrollLeft && setScrollLeft(cm, scrollPos.scrollLeft));
         },
         triggerOnKeyDown: methodOp(onKeyDown),
         triggerOnKeyPress: methodOp(onKeyPress),
@@ -5391,7 +5366,7 @@
         findPosH: function(from, amount, unit, visually) {
             var dir = 1;
             amount < 0 && (dir = -1, amount = -amount);
-            for(var cur = clipPos(this.doc, from), i = 0; i < amount && (cur = findPosH(this.doc, cur, dir, unit, visually), !cur.hitSide); ++i);
+            for(var cur = clipPos(this.doc, from), i = 0; i < amount && !(cur = findPosH(this.doc, cur, dir, unit, visually)).hitSide; ++i);
             return cur;
         },
         moveH: methodOp(function(dir, unit) {
@@ -5418,7 +5393,7 @@
             amount < 0 && (dir = -1, amount = -amount);
             for(var cur = clipPos(this.doc, from), i = 0; i < amount; ++i){
                 var coords = cursorCoords(this, cur, "div");
-                if (null == x ? x = coords.left : coords.left = x, cur = findPosV(this, coords, dir, unit), cur.hitSide) break;
+                if (null == x ? x = coords.left : coords.left = x, (cur = findPosV(this, coords, dir, unit)).hitSide) break;
             }
             return cur;
         },
@@ -5567,7 +5542,7 @@
     }, CodeMirror2.defineDocExtension = function(name, func) {
         Doc.prototype[name] = func;
     }, CodeMirror2.fromTextArea = function(textarea, options) {
-        if (options = options ? copyObj(options) : {}, options.value = textarea.value, !options.tabindex && textarea.tabIndex && (options.tabindex = textarea.tabIndex), !options.placeholder && textarea.placeholder && (options.placeholder = textarea.placeholder), null == options.autofocus) {
+        if ((options = options ? copyObj(options) : {}).value = textarea.value, !options.tabindex && textarea.tabIndex && (options.tabindex = textarea.tabIndex), !options.placeholder && textarea.placeholder && (options.placeholder = textarea.placeholder), null == options.autofocus) {
             var realSubmit, hasFocus = activeElt();
             options.autofocus = hasFocus == textarea || null != textarea.getAttribute("autofocus") && hasFocus == document.body;
         }
@@ -5594,7 +5569,7 @@
             return textarea.parentNode.insertBefore(node, textarea.nextSibling);
         }, options);
         return cm;
-    }, CodeMirror1 = CodeMirror2, CodeMirror1.off = off, CodeMirror1.on = on, CodeMirror1.wheelEventPixels = function(e) {
+    }, (CodeMirror1 = CodeMirror2).off = off, CodeMirror1.on = on, CodeMirror1.wheelEventPixels = function(e) {
         var delta = wheelEventDelta(e);
         return delta.x *= wheelPixelsPerUnit, delta.y *= wheelPixelsPerUnit, delta;
     }, CodeMirror1.Doc = Doc, CodeMirror1.splitLines = splitLinesAuto, CodeMirror1.countColumn = countColumn, CodeMirror1.findColumn = findColumn, CodeMirror1.isWordChar = isWordCharBasic, CodeMirror1.Pass = Pass, CodeMirror1.signal = signal, CodeMirror1.Line = Line, CodeMirror1.changeEnd = changeEnd, CodeMirror1.scrollbarModel = scrollbarModel, CodeMirror1.Pos = Pos, CodeMirror1.cmpPos = cmp, CodeMirror1.modes = modes, CodeMirror1.mimeModes = mimeModes, CodeMirror1.resolveMode = resolveMode, CodeMirror1.getMode = getMode, CodeMirror1.modeExtensions = modeExtensions, CodeMirror1.extendMode = function(mode, properties) {

@@ -1883,40 +1883,6 @@ where
         }
 
         {
-            // Abort this if there's some side effects.
-            //
-            //
-            // (rand = _.random(
-            //     index++
-            // )),
-            // (shuffled[index - 1] = shuffled[rand]),
-            // (shuffled[rand] = value);
-            //
-            //
-            // rand should not be inlined because of `index`.
-
-            let deps = idents_used_by_ignoring_nested(&*a_right);
-            let deps = self.data.expand_infected(self.module_info, deps, 64);
-            let deps = match deps {
-                Ok(v) => v,
-                Err(_) => return Ok(false),
-            };
-
-            let used_by_b = idents_used_by(&*b);
-
-            for dep_id in &deps {
-                if *dep_id == left_id.to_id() {
-                    continue;
-                }
-
-                if used_by_b.contains(dep_id) {
-                    log_abort!("[X] sequences: Aborting because of deps");
-                    return Err(());
-                }
-            }
-        }
-
-        {
             let mut v = UsageCounter {
                 expr_usage: Default::default(),
                 pat_usage: Default::default(),

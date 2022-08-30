@@ -601,7 +601,7 @@
                         if (dom) {
                             if (3 != dom.nodeType) throw RangeError("Text must be rendered as a DOM text node");
                         } else dom = document.createTextNode(node.text);
-                    } else dom || (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node)), dom = assign.dom, contentDOM = assign.contentDOM);
+                    } else dom || (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
                     contentDOM || node.isText || "BR" == dom.nodeName || (dom.hasAttribute("contenteditable") || (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
                     var nodeDOM = dom;
                     return (dom = applyOuterDeco(dom, outerDeco, node), spec) ? descObj = new CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos + 1) : node.isText ? new TextViewDesc(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) : new NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos + 1);
@@ -804,7 +804,7 @@
                     var deco = curComputed[i], prev = prevComputed[i];
                     if (i) {
                         var parent = void 0;
-                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || (parent = document.createElement(deco.nodeName), parent.pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
+                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
                     }
                     patchAttributes(curDOM, prev || noDeco[0], deco);
                 }
@@ -1040,8 +1040,8 @@
                     if (next instanceof NodeViewDesc) {
                         var preMatch = this.preMatch.matched.get(next);
                         if (null != preMatch && preMatch != index) return !1;
-                        var nextDOM = next.dom, locked = this.lock && (nextDOM == this.lock || 1 == nextDOM.nodeType && nextDOM.contains(this.lock.parentNode)) && !(node.isText && next.node && next.node.isText && next.nodeDOM.nodeValue == node.text && 3 != next.dirty && sameOuterDeco(outerDeco, next.outerDeco));
-                        if (!locked && next.update(node, outerDeco, innerDeco, view)) return this.destroyBetween(this.index, i), next.dom != nextDOM && (this.changed = !0), this.index++, !0;
+                        var nextDOM = next.dom;
+                        if (!(this.lock && (nextDOM == this.lock || 1 == nextDOM.nodeType && nextDOM.contains(this.lock.parentNode)) && !(node.isText && next.node && next.node.isText && next.nodeDOM.nodeValue == node.text && 3 != next.dirty && sameOuterDeco(outerDeco, next.outerDeco))) && next.update(node, outerDeco, innerDeco, view)) return this.destroyBetween(this.index, i), next.dom != nextDOM && (this.changed = !0), this.index++, !0;
                         break;
                     }
                 }
@@ -1695,7 +1695,7 @@
             handlers.mousedown = function(view, event) {
                 view.shiftKey = event.shiftKey;
                 var view1, event1, click, dx, dy, flushed = (view1 = view, endComposition(view1)), now = Date.now(), type = "singleClick";
-                now - view.lastClick.time < 500 && (event1 = event, click = view.lastClick, dx = click.x - event1.clientX, dy = click.y - event1.clientY, dx * dx + dy * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
+                now - view.lastClick.time < 500 && (event1 = event, (dx = (click = view.lastClick).x - event1.clientX) * dx + (dy = click.y - event1.clientY) * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
                     time: now,
                     x: event.clientX,
                     y: event.clientY,
@@ -2473,7 +2473,7 @@
             }, EditorView.prototype.updateState = function(state) {
                 this.updateStateInner(state, this.state.plugins != state.plugins);
             }, EditorView.prototype.updateStateInner = function(state, reconfigured) {
-                var ref, refDOM, refTop, stack, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
+                var ref, refDOM, refTop, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
                 if (state.storedMarks && this.composing && (clearComposition(this), updateSel = !0), this.state = state, reconfigured) {
                     var nodeViews = buildNodeViews(this);
                     (function(a, b) {
@@ -2521,7 +2521,7 @@
                     this.someProp("handleScrollToSelection", function(f) {
                         return f(this$1);
                     }) || (state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection ? scrollRectIntoView(this, this.docView.domAfterPos(state.selection.from).getBoundingClientRect(), startDOM) : scrollRectIntoView(this, this.coordsAtPos(state.selection.head, 1), startDOM));
-                } else oldScrollPos && (refDOM = (ref = oldScrollPos).refDOM, refTop = ref.refTop, stack = ref.stack, newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0, restoreScrollStack(stack, 0 == newRefTop ? 0 : newRefTop - refTop));
+                } else oldScrollPos && (refDOM = (ref = oldScrollPos).refDOM, refTop = ref.refTop, restoreScrollStack(ref.stack, 0 == (newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0) ? 0 : newRefTop - refTop));
             }, EditorView.prototype.destroyPluginViews = function() {
                 for(var view; view = this.pluginViews.pop();)view.destroy && view.destroy();
             }, EditorView.prototype.updatePluginViews = function(prevState) {
@@ -2722,7 +2722,7 @@
                     return maybeRTL.test($head.parent.textContent) && sel.modify ? withFlushedState(view, state, function() {
                         var oldRange = sel.getRangeAt(0), oldNode = sel.focusNode, oldOff = sel.focusOffset, oldBidiLevel = sel.caretBidiLevel;
                         sel.modify("move", dir, "character");
-                        var parentDOM = $head.depth ? view.docView.domAfterPos($head.before()) : view.dom, result = !parentDOM.contains(1 == sel.focusNode.nodeType ? sel.focusNode : sel.focusNode.parentNode) || oldNode == sel.focusNode && oldOff == sel.focusOffset;
+                        var result = !($head.depth ? view.docView.domAfterPos($head.before()) : view.dom).contains(1 == sel.focusNode.nodeType ? sel.focusNode : sel.focusNode.parentNode) || oldNode == sel.focusNode && oldOff == sel.focusOffset;
                         return sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result;
                     }) : "left" == dir || "backward" == dir ? !offset : atEnd;
                 }(view, state1, dir1));

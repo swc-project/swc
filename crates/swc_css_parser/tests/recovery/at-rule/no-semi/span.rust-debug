@@ -44,6 +44,12 @@
    :        ^^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
+ 1 | @media screen {@content}
+   :        ^^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}

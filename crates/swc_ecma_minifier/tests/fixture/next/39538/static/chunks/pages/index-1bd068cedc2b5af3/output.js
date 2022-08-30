@@ -285,11 +285,11 @@
                 [
                     "cloudinary",
                     function(param) {
-                        var config = param.config, src = param.src, width = param.width, quality = param.quality, paramsString = [
+                        var config = param.config, src = param.src, paramsString = [
                             "f_auto",
                             "c_limit",
-                            "w_" + width,
-                            "q_" + (quality || "auto")
+                            "w_" + param.width,
+                            "q_" + (param.quality || "auto")
                         ].join(",") + "/";
                         return "".concat(config.path).concat(paramsString).concat(normalizeSrc(src));
                     }
@@ -340,20 +340,18 @@
                             kind: "w"
                         };
                     }
-                    if ("number" != typeof width || "fill" === layout || "responsive" === layout) return {
+                    return "number" != typeof width || "fill" === layout || "responsive" === layout ? {
                         widths: deviceSizes,
                         kind: "w"
-                    };
-                    var widths = _toConsumableArray(new Set([
-                        width,
-                        2 * width
-                    ].map(function(w) {
-                        return allSizes.find(function(p) {
-                            return p >= w;
-                        }) || allSizes[allSizes.length - 1];
-                    })));
-                    return {
-                        widths: widths,
+                    } : {
+                        widths: _toConsumableArray(new Set([
+                            width,
+                            2 * width
+                        ].map(function(w) {
+                            return allSizes.find(function(p) {
+                                return p >= w;
+                            }) || allSizes[allSizes.length - 1];
+                        }))),
                         kind: "x"
                     };
                 }(config, width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
@@ -474,7 +472,7 @@
                 value: !0
             }), exports.useIntersection = function(param) {
                 var rootRef = param.rootRef, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = _slicedToArray(_react.useState(!1), 2), visible = ref[0], setVisible = ref[1], ref1 = _slicedToArray(_react.useState(null), 2), element = ref1[0], setElement = ref1[1];
-                _react.useEffect(function() {
+                return _react.useEffect(function() {
                     if (hasIntersectionObserver) {
                         if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) return element && element.tagName && (unobserve.current = observe(element, function(isVisible) {
                             return isVisible && setVisible(isVisible);
@@ -498,14 +496,12 @@
                     rootMargin,
                     rootRef,
                     visible
-                ]);
-                var resetVisible = _react.useCallback(function() {
-                    setVisible(!1);
-                }, []);
-                return [
+                ]), [
                     setElement,
                     visible,
-                    resetVisible
+                    _react.useCallback(function() {
+                        setVisible(!1);
+                    }, [])
                 ];
             };
             var _react = __webpack_require__(959), _requestIdleCallback = __webpack_require__(6501), hasIntersectionObserver = "function" == typeof IntersectionObserver, observers = new Map(), idList = [];

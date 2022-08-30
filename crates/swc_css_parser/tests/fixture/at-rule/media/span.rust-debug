@@ -170,6 +170,12 @@
    :         ^^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:1:1]
+ 1 | @\media screen {}
+   :         ^^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/fixture/at-rule/media/input.css:1:1]
  1 | @\media screen {}
@@ -213,6 +219,12 @@
    `----
 
   x MediaQuery
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:2:1]
+ 2 | @\media \screen {}
+   :         ^^^^^^^
+   `----
+
+  x MediaType
    ,-[$DIR/tests/fixture/at-rule/media/input.css:2:1]
  2 | @\media \screen {}
    :         ^^^^^^^
@@ -266,6 +278,12 @@
    :        ^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:4:1]
+ 4 | @media all {}
+   :        ^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/fixture/at-rule/media/input.css:4:1]
  4 | @media all {}
@@ -309,6 +327,12 @@
    `----
 
   x MediaQuery
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:5:1]
+ 5 | @media screen {}
+   :        ^^^^^^
+   `----
+
+  x MediaType
    ,-[$DIR/tests/fixture/at-rule/media/input.css:5:1]
  5 | @media screen {}
    :        ^^^^^^
@@ -362,6 +386,12 @@
    :        ^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:6:1]
+ 6 | @media print {}
+   :        ^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/fixture/at-rule/media/input.css:6:1]
  6 | @media print {}
@@ -408,6 +438,12 @@
    ,-[$DIR/tests/fixture/at-rule/media/input.css:7:1]
  7 | @media screen and (color) {}
    :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaType
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:7:1]
+ 7 | @media screen and (color) {}
+   :        ^^^^^^
    `----
 
   x Ident
@@ -506,6 +542,12 @@
    :        ^^^^^^^^^^^^^^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:8:1]
+ 8 | @media screen and (color), projection and (color) {}
+   :        ^^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/fixture/at-rule/media/input.css:8:1]
  8 | @media screen and (color), projection and (color) {}
@@ -564,6 +606,12 @@
    ,-[$DIR/tests/fixture/at-rule/media/input.css:8:1]
  8 | @media screen and (color), projection and (color) {}
    :                            ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaType
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:8:1]
+ 8 | @media screen and (color), projection and (color) {}
+   :                            ^^^^^^^^^^
    `----
 
   x Ident
@@ -662,6 +710,12 @@
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:9:1]
+ 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
+   :           ^^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/fixture/at-rule/media/input.css:9:1]
  9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
@@ -720,6 +774,12 @@
    ,-[$DIR/tests/fixture/at-rule/media/input.css:9:1]
  9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
    :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaType
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:9:1]
+ 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
+   :                                                ^^^^^^^^^^
    `----
 
   x Ident
@@ -816,6 +876,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:10:1]
  10 | @media print and (min-resolution: 118dpcm) {}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:10:1]
+ 10 | @media print and (min-resolution: 118dpcm) {}
+    :        ^^^^^
     `----
 
   x Ident
@@ -944,6 +1010,12 @@
     :           ^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:11:1]
+ 11 | @media    all    {}
+    :           ^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/media/input.css:11:1]
  11 | @media    all    {}
@@ -990,6 +1062,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:12:1]
  12 | @media screen and (color) {}
     :        ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:12:1]
+ 12 | @media screen and (color) {}
+    :        ^^^^^^
     `----
 
   x Ident
@@ -1086,6 +1164,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:13:1]
  13 | @media   screen   and    (   color   )   {}
     :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:13:1]
+ 13 | @media   screen   and    (   color   )   {}
+    :          ^^^^^^
     `----
 
   x Ident
@@ -1190,6 +1274,12 @@
     :        ^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:15:1]
+ 15 | @media not all and (monochrome) {}
+    :            ^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/media/input.css:15:1]
  15 | @media not all and (monochrome) {}
@@ -1292,6 +1382,12 @@
     :        ^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:16:1]
+ 16 | @media not screen and (color), print and (color) {}
+    :            ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/media/input.css:16:1]
  16 | @media not screen and (color), print and (color) {}
@@ -1350,6 +1446,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:16:1]
  16 | @media not screen and (color), print and (color) {}
     :                                ^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:16:1]
+ 16 | @media not screen and (color), print and (color) {}
+    :                                ^^^^^
     `----
 
   x Ident
@@ -1694,6 +1796,12 @@
     :        ^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:19:1]
+ 19 | @media not all {}
+    :            ^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/media/input.css:19:1]
  19 | @media not all {}
@@ -1748,6 +1856,12 @@
     :           ^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:20:1]
+ 20 | @media    not   all   {}
+    :                 ^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/media/input.css:20:1]
  20 | @media    not   all   {}
@@ -1800,6 +1914,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:22:1]
  22 | @media only screen and (color) {}
     :        ^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:22:1]
+ 22 | @media only screen and (color) {}
+    :             ^^^^^^
     `----
 
   x Ident
@@ -1902,6 +2022,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:23:1]
  23 | @media   only   screen   and   (   color   )   {}
     :          ^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:23:1]
+ 23 | @media   only   screen   and   (   color   )   {}
+    :                 ^^^^^^
     `----
 
   x Ident
@@ -12596,6 +12722,12 @@
      :           ^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:107:1]
+ 107 | @media    NOT   all   {}
+     :                 ^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/media/input.css:107:1]
  107 | @media    NOT   all   {}
@@ -12648,6 +12780,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:108:1]
  108 | @media ONLY screen AND (color) {}
      :        ^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:108:1]
+ 108 | @media ONLY screen AND (color) {}
+     :             ^^^^^^
      `----
 
   x Ident
@@ -13382,6 +13520,12 @@
      :        ^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:115:1]
+ 115 | @media tty {}
+     :        ^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/media/input.css:115:1]
  115 | @media tty {}
@@ -13433,6 +13577,12 @@
      `----
 
   x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:1]
+ 117 | @media print {
+     :        ^^^^^
+     `----
+
+  x MediaType
      ,-[$DIR/tests/fixture/at-rule/media/input.css:117:1]
  117 | @media print {
      :        ^^^^^
@@ -13644,6 +13794,12 @@
      `----
 
   x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:1]
+ 124 | @media print {
+     :        ^^^^^
+     `----
+
+  x MediaType
      ,-[$DIR/tests/fixture/at-rule/media/input.css:124:1]
  124 | @media print {
      :        ^^^^^

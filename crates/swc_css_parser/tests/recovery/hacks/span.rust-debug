@@ -427,6 +427,12 @@
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/recovery/hacks/input.css:5:1]
+ 5 | @media screen and (min-width:0\0) {}
+   :        ^^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/recovery/hacks/input.css:5:1]
  5 | @media screen and (min-width:0\0) {}
@@ -1099,6 +1105,12 @@
     :            ^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:16:1]
+ 16 | @media \\0 screen {}
+    :            ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/recovery/hacks/input.css:16:1]
  16 | @media \\0 screen {}
@@ -1145,6 +1157,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:18:1]
  18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:18:1]
+ 18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
+    :        ^^^
     `----
 
   x Ident
@@ -1663,6 +1681,12 @@
     :        ^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:26:1]
+ 26 | @media \0 all {}
+    :        ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/recovery/hacks/input.css:26:1]
  26 | @media \0 all {}
@@ -2077,6 +2101,12 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:32:1]
+ 32 | @media screen and (-moz-images-in-menus:0) {}
+    :        ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/recovery/hacks/input.css:32:1]
  32 | @media screen and (-moz-images-in-menus:0) {}
@@ -2183,6 +2213,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:34:1]
  34 | @media screen and (min--moz-device-pixel-ratio:0) {}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:34:1]
+ 34 | @media screen and (min--moz-device-pixel-ratio:0) {}
+    :        ^^^^^^
     `----
 
   x Ident
@@ -2455,6 +2491,12 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:38:1]
+ 38 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
+    :        ^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/recovery/hacks/input.css:38:1]
  38 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
@@ -2641,6 +2683,12 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:39:1]
+ 39 | @media all and (-moz-images-in-menus:0) and (min-resolution: .001dpcm) {}
+    :        ^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/recovery/hacks/input.css:39:1]
  39 | @media all and (-moz-images-in-menus:0) and (min-resolution: .001dpcm) {}
@@ -2825,6 +2873,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:41:1]
  41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:41:1]
+ 41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
+    :        ^^^
     `----
 
   x Ident
@@ -3053,6 +3107,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:42:1]
  42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:42:1]
+ 42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
+    :        ^^^
     `----
 
   x Ident
@@ -4409,6 +4469,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:60:1]
  60 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/recovery/hacks/input.css:60:1]
+ 60 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
+    :        ^^^
     `----
 
   x Ident
@@ -11041,6 +11107,12 @@
      :        ^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/recovery/hacks/input.css:182:1]
+ 182 | @media screen\9 {}
+     :        ^^^^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/recovery/hacks/input.css:182:1]
  182 | @media screen\9 {}
@@ -11084,6 +11156,12 @@
      `----
 
   x MediaQuery
+     ,-[$DIR/tests/recovery/hacks/input.css:184:1]
+ 184 | @media \0screen\,screen\9 {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
      ,-[$DIR/tests/recovery/hacks/input.css:184:1]
  184 | @media \0screen\,screen\9 {}
      :        ^^^^^^^^^^^^^^^^^^^
@@ -11137,6 +11215,12 @@
      :        ^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/recovery/hacks/input.css:186:1]
+ 186 | @media \0screen {}
+     :        ^^^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/recovery/hacks/input.css:186:1]
  186 | @media \0screen {}
@@ -11183,6 +11267,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:188:1]
  188 | @media screen and (min-width:0\0) {}
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/recovery/hacks/input.css:188:1]
+ 188 | @media screen and (min-width:0\0) {}
+     :        ^^^^^^
      `----
 
   x Ident
@@ -11587,6 +11677,12 @@
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/recovery/hacks/input.css:194:1]
+ 194 | @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
+     :        ^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/recovery/hacks/input.css:194:1]
  194 | @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
@@ -11750,6 +11846,12 @@
      `----
 
   x MediaQuery
+     ,-[$DIR/tests/recovery/hacks/input.css:196:1]
+ 196 | @media screen { @media (min-width: 0px) {} }
+     :        ^^^^^^
+     `----
+
+  x MediaType
      ,-[$DIR/tests/recovery/hacks/input.css:196:1]
  196 | @media screen { @media (min-width: 0px) {} }
      :        ^^^^^^
@@ -12739,6 +12841,12 @@
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/recovery/hacks/input.css:211:1]
+ 211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
+     :        ^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/recovery/hacks/input.css:211:1]
  211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
@@ -12815,6 +12923,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:211:1]
  211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
      :                                                        ^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/recovery/hacks/input.css:211:1]
+ 211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
+     :                                                            ^^^
      `----
 
   x Ident
@@ -13295,6 +13409,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:217:1]
  217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/recovery/hacks/input.css:217:1]
+ 217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
+     :        ^^^
      `----
 
   x Ident
@@ -14089,6 +14209,12 @@
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/recovery/hacks/input.css:228:1]
+ 228 | @media screen and (min-width:0\0) {}
+     :        ^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/recovery/hacks/input.css:228:1]
  228 | @media screen and (min-width:0\0) {}
@@ -14210,6 +14336,12 @@
      `----
 
   x MediaQuery
+     ,-[$DIR/tests/recovery/hacks/input.css:230:1]
+ 230 | @media screen { @media (min-width: 0px) {} }
+     :        ^^^^^^
+     `----
+
+  x MediaType
      ,-[$DIR/tests/recovery/hacks/input.css:230:1]
  230 | @media screen { @media (min-width: 0px) {} }
      :        ^^^^^^
@@ -15104,6 +15236,12 @@
      `----
 
   x MediaQuery
+     ,-[$DIR/tests/recovery/hacks/input.css:241:1]
+ 241 | @media \\0 screen {}
+     :            ^^^^^^
+     `----
+
+  x MediaType
      ,-[$DIR/tests/recovery/hacks/input.css:241:1]
  241 | @media \\0 screen {}
      :            ^^^^^^

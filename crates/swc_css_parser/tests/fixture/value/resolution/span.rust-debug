@@ -52,6 +52,12 @@
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/fixture/value/resolution/input.css:1:1]
+ 1 | @media print and (min-resolution: 300dpi) {}
+   :        ^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/fixture/value/resolution/input.css:1:1]
  1 | @media print and (min-resolution: 300dpi) {}
@@ -178,6 +184,12 @@
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpcm) {}
+   :        ^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
  2 | @media print and (min-resolution: 300dpcm) {}
@@ -304,6 +316,12 @@
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dppx) {}
+   :        ^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
  3 | @media print and (min-resolution: 300dppx) {}
@@ -428,6 +446,12 @@
    ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
  4 | @media print and (min-resolution: 300x) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaType
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300x) {}
+   :        ^^^^^
    `----
 
   x Ident

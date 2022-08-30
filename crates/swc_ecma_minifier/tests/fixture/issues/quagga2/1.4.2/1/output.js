@@ -260,7 +260,7 @@
                         return sum;
                     }
                     return function() {
-                        var p1, p2, p12, m1, m2, m12, vet = [
+                        var p1, p2, p12, m12, vet = [
                             0
                         ], max = (1 << bitsPerPixel) - 1;
                         hist = function(imageWrapper, bitsPerPixel) {
@@ -268,7 +268,7 @@
                             for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, bucketCnt = 1 << bitsPerPixel, hist = new Int32Array(bucketCnt); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
                         }(imageWrapper, bitsPerPixel);
-                        for(var k = 1; k < max; k++)p1 = px(0, k), p2 = px(k + 1, max), p12 = p1 * p2, 0 === p12 && (p12 = 1), m1 = mx(0, k) * p2, m2 = mx(k + 1, max) * p1, m12 = m1 - m2, vet[k] = m12 * m12 / p12;
+                        for(var k = 1; k < max; k++)0 == (p12 = (p1 = px(0, k)) * (p2 = px(k + 1, max))) && (p12 = 1), m12 = mx(0, k) * p2 - mx(k + 1, max) * p1, vet[k] = m12 * m12 / p12;
                         return array_helper.a.maxIndex(vet);
                     }() << 8 - bitsPerPixel;
                 }(imageWrapper);
@@ -374,10 +374,10 @@
                     width: inputWidth,
                     height: inputHeight
                 }, parsedArea = Object.keys(area).reduce(function(result, key) {
-                    var value, parsed = (value = area[key], {
-                        value: parseFloat(value),
+                    var value, parsed = {
+                        value: parseFloat(value = area[key]),
                         unit: (value.indexOf("%"), value.length, "%")
-                    }), calculated = _dimensionsConverters[key](parsed, context);
+                    }, calculated = _dimensionsConverters[key](parsed, context);
                     return result[key] = calculated, result;
                 }, {});
                 return {
@@ -517,7 +517,7 @@
                     {
                         key: "moments",
                         value: function(labelCount) {
-                            var x, y, val, ysq, i, label, mu11, mu02, mu20, x_, y_, tmp, data = this.data, height = this.size.y, width = this.size.x, labelSum = [], result = [], PI = Math.PI, PI_4 = PI / 4;
+                            var x, y, val, ysq, i, label, mu11, x_, y_, tmp, data = this.data, height = this.size.y, width = this.size.x, labelSum = [], result = [], PI = Math.PI, PI_4 = PI / 4;
                             if (labelCount <= 0) return result;
                             for(i = 0; i < labelCount; i++)labelSum[i] = {
                                 m00: 0,
@@ -530,7 +530,7 @@
                                 rad: 0
                             };
                             for(y = 0; y < height; y++)for(x = 0, ysq = y * y; x < width; x++)(val = data[y * width + x]) > 0 && (label = labelSum[val - 1], label.m00 += 1, label.m01 += y, label.m10 += x, label.m11 += x * y, label.m02 += ysq, label.m20 += x * x);
-                            for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, mu02 = label.m02 / label.m00 - y_ * y_, mu20 = label.m20 / label.m00 - x_ * x_, tmp = (mu02 - mu20) / (2 * mu11), tmp = 0.5 * Math.atan(tmp) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
+                            for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, tmp = 0.5 * Math.atan(tmp = (label.m02 / label.m00 - y_ * y_ - (label.m20 / label.m00 - x_ * x_)) / (2 * mu11)) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
                                 Math.cos(tmp),
                                 Math.sin(tmp), 
                             ]), result.push(label));
@@ -710,7 +710,7 @@
                     function _trace(current, color, label, edgelabel) {
                         var i, y, x;
                         for(i = 0; i < 7; i++){
-                            if (y = current.cy + searchDirections[current.dir][0], x = current.cx + searchDirections[current.dir][1], pos = y * width + x, imageData[pos] === color && (0 === labelData[pos] || labelData[pos] === label)) return labelData[pos] = label, current.cy = y, current.cx = x, !0;
+                            if (imageData[pos = (y = current.cy + searchDirections[current.dir][0]) * width + (x = current.cx + searchDirections[current.dir][1])] === color && (0 === labelData[pos] || labelData[pos] === label)) return labelData[pos] = label, current.cy = y, current.cx = x, !0;
                             0 === labelData[pos] && (labelData[pos] = edgelabel), current.dir = (current.dir + 1) % 8;
                         }
                         return !1;
@@ -736,7 +736,7 @@
                                     dir: 0
                                 };
                                 if (_trace(current, color, label, edgelabel)) {
-                                    Cv = Fv = vertex2D(sx, sy, current.dir), ldir = current.dir, P = vertex2D(current.cx, current.cy, 0), P.prev = Cv, Cv.next = P, P.next = null, Cv = P;
+                                    Cv = Fv = vertex2D(sx, sy, current.dir), ldir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P;
                                     do current.dir = (current.dir + 6) % 8, _trace(current, color, label, edgelabel), ldir !== current.dir ? (Cv.dir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P) : (Cv.dir = ldir, Cv.x = current.cx, Cv.y = current.cy), ldir = current.dir;
                                     while (current.cx !== sx || current.cy !== sy)
                                     Fv.prev = Cv.prev, Cv.prev.next = Fv;
@@ -891,8 +891,8 @@
                     locate: function() {
                         _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
                         var patchesFound = function() {
-                            var i, j, x, y, moments, rasterizer, rasterResult, patch, patchesFound = [];
-                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)x = _subImageWrapper.size.x * i, y = _subImageWrapper.size.y * j, skeletonize(x, y), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterizer = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper), rasterResult = rasterizer.rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
+                            var i, j, x, y, moments, rasterResult, patch, patchesFound = [];
+                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)skeletonize(x = _subImageWrapper.size.x * i, y = _subImageWrapper.size.y * j), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
                                 x: x,
                                 y: y
                             }), moments = _labelImageWrapper.moments(rasterResult.count), patchesFound = patchesFound.concat(describePatch(moments, [
@@ -1209,8 +1209,8 @@
         function(module1, exports1) {
             var objectProto = Object.prototype;
             module1.exports = function(value) {
-                var Ctor = value && value.constructor, proto = "function" == typeof Ctor && Ctor.prototype || objectProto;
-                return value === proto;
+                var Ctor = value && value.constructor;
+                return value === ("function" == typeof Ctor && Ctor.prototype || objectProto);
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -1259,7 +1259,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var baseSetToString = __webpack_require__(148), shortOut = __webpack_require__(150), setToString = shortOut(baseSetToString);
+            var baseSetToString = __webpack_require__(148), setToString = __webpack_require__(150)(baseSetToString);
             module1.exports = setToString;
         },
         function(module1, exports1, __webpack_require__) {
@@ -1527,7 +1527,7 @@
                             drawContour: function(canvas, firstContour) {
                                 var iq, q, p, ctx = canvas.getContext("2d"), pq = firstContour;
                                 for(ctx.strokeStyle = "red", ctx.fillStyle = "red", ctx.lineWidth = 1, iq = null !== pq ? pq.insideContours : null; null !== pq;){
-                                    switch(null !== iq ? (q = iq, iq = iq.nextpeer) : (q = pq, pq = pq.nextpeer, iq = null !== pq ? pq.insideContours : null), q.dir){
+                                    switch(null !== iq ? (q = iq, iq = iq.nextpeer) : (q = pq, iq = null !== (pq = pq.nextpeer) ? pq.insideContours : null), q.dir){
                                         case Rasterizer.CONTOUR_DIR.CW_DIR:
                                             ctx.strokeStyle = "red";
                                             break;
@@ -1730,12 +1730,10 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var assocIndexOf = __webpack_require__(25), arrayProto = Array.prototype, splice = arrayProto.splice;
+            var assocIndexOf = __webpack_require__(25), splice = Array.prototype.splice;
             module1.exports = function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                if (index < 0) return !1;
-                var lastIndex = data.length - 1;
-                return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
+                return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -3246,7 +3244,7 @@
                 for(currentDir = line[0] > center ? Slope.DIR.UP : Slope.DIR.DOWN, extrema.push({
                     pos: 0,
                     val: line[0]
-                }), i = 0; i < line.length - 2; i++)slope = line[i + 1] - line[i], slope2 = line[i + 2] - line[i + 1], dir = slope + slope2 < rThreshold && line[i + 1] < 1.5 * center ? Slope.DIR.DOWN : slope + slope2 > threshold && line[i + 1] > 0.5 * center ? Slope.DIR.UP : currentDir, currentDir !== dir && (extrema.push({
+                }), i = 0; i < line.length - 2; i++)dir = (slope = line[i + 1] - line[i]) + (slope2 = line[i + 2] - line[i + 1]) < rThreshold && line[i + 1] < 1.5 * center ? Slope.DIR.DOWN : slope + slope2 > threshold && line[i + 1] > 0.5 * center ? Slope.DIR.UP : currentDir, currentDir !== dir && (extrema.push({
                     pos: i,
                     val: line[i]
                 }), currentDir = dir);
@@ -3287,13 +3285,13 @@
                     {
                         key: "_matchPattern",
                         value: function(counter, code, maxSingleError) {
-                            var error = 0, singleError = 0, sum = 0, modulo = 0, barWidth = 0, count = 0, scaled = 0;
+                            var error = 0, singleError = 0, sum = 0, modulo = 0, barWidth = 0, scaled = 0;
                             maxSingleError = maxSingleError || this.SINGLE_CODE_ERROR || 1;
                             for(var i = 0; i < counter.length; i++)sum += counter[i], modulo += code[i];
                             if (sum < modulo) return Number.MAX_VALUE;
                             maxSingleError *= barWidth = sum / modulo;
                             for(var _i = 0; _i < counter.length; _i++){
-                                if (count = counter[_i], scaled = code[_i] * barWidth, singleError = Math.abs(count - scaled) / scaled, singleError > maxSingleError) return Number.MAX_VALUE;
+                                if ((singleError = Math.abs(counter[_i] - (scaled = code[_i] * barWidth)) / scaled) > maxSingleError) return Number.MAX_VALUE;
                                 error += singleError;
                             }
                             return error / modulo;
@@ -3362,7 +3360,7 @@
                         }
                     }, 
                 ]), BarcodeReader;
-            }(), code_128_reader_Code128Reader = function(_BarcodeReader) {
+            }(), code_128_reader = function(_BarcodeReader) {
                 inherits_default()(Code128Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code128Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -4440,7 +4438,7 @@
                         }
                     }, 
                 ]), Code128Reader;
-            }(barcode_reader), code_128_reader = code_128_reader_Code128Reader;
+            }(barcode_reader);
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
                 if (Object.getOwnPropertySymbols) {
@@ -4608,7 +4606,7 @@
                 21,
                 22,
                 26
-            ], ean_reader_EANReader = function(_BarcodeReader) {
+            ], ean_reader = function(_BarcodeReader) {
                 inherits_default()(EANReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EANReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -4715,7 +4713,7 @@
                         key: "_decodePayload",
                         value: function(inCode, result, decodedCodes) {
                             for(var outCode = _objectSpread({}, inCode), codeFrequency = 0x0, i = 0; i < 6; i++){
-                                if (outCode = this._decodeCode(outCode.end), !outCode) return null;
+                                if (!(outCode = this._decodeCode(outCode.end))) return null;
                                 outCode.code >= 10 ? (outCode.code -= 10, codeFrequency |= 1 << 5 - i) : codeFrequency |= 0 << 5 - i, result.push(outCode.code), decodedCodes.push(outCode);
                             }
                             var firstDigit = this._calculateFirstDigit(codeFrequency);
@@ -4725,7 +4723,7 @@
                             if (null === middlePattern || !middlePattern.end) return null;
                             decodedCodes.push(middlePattern);
                             for(var _i = 0; _i < 6; _i++){
-                                if (middlePattern = this._decodeCode(middlePattern.end, 10), !middlePattern) return null;
+                                if (!(middlePattern = this._decodeCode(middlePattern.end, 10))) return null;
                                 decodedCodes.push(middlePattern), result.push(middlePattern.code);
                             }
                             return middlePattern;
@@ -4810,7 +4808,7 @@
                         }
                     }, 
                 ]), EANReader;
-            }(barcode_reader), ean_reader = ean_reader_EANReader, toConsumableArray = __webpack_require__(33), toConsumableArray_default = __webpack_require__.n(toConsumableArray), ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%").map(function(_char) {
+            }(barcode_reader), toConsumableArray = __webpack_require__(33), toConsumableArray_default = __webpack_require__.n(toConsumableArray), ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%").map(function(_char) {
                 return _char.charCodeAt(0);
             })), CHARACTER_ENCODINGS = new Uint16Array([
                 0x034,
@@ -4857,7 +4855,7 @@
                 0x0a2,
                 0x08a,
                 0x02a, 
-            ]), code_39_reader_Code39Reader = function(_BarcodeReader) {
+            ]), code_39_reader = function(_BarcodeReader) {
                 inherits_default()(Code39Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -4970,7 +4968,7 @@
                             do {
                                 counters = this._toCounters(nextStart, counters);
                                 var pattern = this._toPattern(counters);
-                                if (pattern < 0 || (decodedChar = this._patternToChar(pattern), null === decodedChar)) return null;
+                                if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyTrailingWhitespace(lastStart, nextStart, counters)) ? {
@@ -4984,10 +4982,10 @@
                         }
                     }, 
                 ]), Code39Reader;
-            }(barcode_reader), code_39_reader = code_39_reader_Code39Reader, get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns = {
+            }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns = {
                 IOQ: /[IOQ]/g,
                 AZ09: /[A-Z0-9]{17}/
-            }, code_39_vin_reader_Code39VINReader = function(_Code39Reader) {
+            }, code_39_vin_reader = function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39VINReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5030,7 +5028,7 @@
                         }
                     }, 
                 ]), Code39VINReader;
-            }(code_39_reader), code_39_vin_reader = code_39_vin_reader_Code39VINReader, codabar_reader_ALPHABET = [
+            }(code_39_reader), codabar_reader_ALPHABET = [
                 48,
                 49,
                 50,
@@ -5077,7 +5075,7 @@
                 0x029,
                 0x00b,
                 0x00e
-            ], codabar_reader_NewCodabarReader = function(_BarcodeReader) {
+            ], codabar_reader = function(_BarcodeReader) {
                 inherits_default()(NewCodabarReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = NewCodabarReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5265,7 +5263,7 @@
                         }
                     }, 
                 ]), NewCodabarReader;
-            }(barcode_reader), codabar_reader = codabar_reader_NewCodabarReader, upc_reader_UPCReader = function(_EANReader) {
+            }(barcode_reader), upc_reader = function(_EANReader) {
                 inherits_default()(UPCReader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = UPCReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5300,7 +5298,7 @@
                         }
                     }, 
                 ]), UPCReader;
-            }(ean_reader), upc_reader = upc_reader_UPCReader, ean_8_reader_EAN8Reader = function(_EANReader) {
+            }(ean_reader), ean_8_reader = function(_EANReader) {
                 inherits_default()(EAN8Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN8Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5334,7 +5332,7 @@
                                 if (!(code = this._decodeCode(code.end, 10))) return null;
                                 result.push(code.code), decodedCodes.push(code);
                             }
-                            if (code = this._findPattern(MIDDLE_PATTERN, code.end, !0, !1), null === code) return null;
+                            if (null === (code = this._findPattern(MIDDLE_PATTERN, code.end, !0, !1))) return null;
                             decodedCodes.push(code);
                             for(var _i = 0; _i < 4; _i++){
                                 if (!(code = this._decodeCode(code.end, 10))) return null;
@@ -5344,7 +5342,7 @@
                         }
                     }, 
                 ]), EAN8Reader;
-            }(ean_reader), ean_8_reader = ean_8_reader_EAN8Reader, ean_2_reader_EAN2Reader = function(_EANReader) {
+            }(ean_reader), ean_2_reader = function(_EANReader) {
                 inherits_default()(EAN2Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN2Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5394,7 +5392,7 @@
                         }
                     }, 
                 ]), EAN2Reader;
-            }(ean_reader), ean_2_reader = ean_2_reader_EAN2Reader, CHECK_DIGIT_ENCODINGS = [
+            }(ean_reader), CHECK_DIGIT_ENCODINGS = [
                 24,
                 20,
                 18,
@@ -5405,7 +5403,7 @@
                 10,
                 9,
                 5, 
-            ], ean_5_reader_EAN5Reader = function(_EANReader) {
+            ], ean_5_reader = function(_EANReader) {
                 inherits_default()(EAN5Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN5Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5462,7 +5460,7 @@
                         }
                     }, 
                 ]), EAN5Reader;
-            }(ean_reader), ean_5_reader = ean_5_reader_EAN5Reader;
+            }(ean_reader);
             function upc_e_reader_ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
                 if (Object.getOwnPropertySymbols) {
@@ -5473,7 +5471,7 @@
                 }
                 return keys;
             }
-            var upc_e_reader_UPCEReader = function(_EANReader) {
+            var upc_e_reader = function(_EANReader) {
                 inherits_default()(UPCEReader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = UPCEReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5546,7 +5544,7 @@
                                 }
                                 return target;
                             }({}, inCode), codeFrequency = 0x0, i = 0; i < 6; i++){
-                                if (outCode = this._decodeCode(outCode.end), !outCode) return null;
+                                if (!(outCode = this._decodeCode(outCode.end))) return null;
                                 outCode.code >= 10 && (outCode.code = outCode.code - 10, codeFrequency |= 1 << 5 - i), result.push(outCode.code), decodedCodes.push(outCode);
                             }
                             return this._determineParity(codeFrequency, result) ? outCode : null;
@@ -5613,7 +5611,7 @@
                         }
                     }, 
                 ]), UPCEReader;
-            }(ean_reader), upc_e_reader = upc_e_reader_UPCEReader, i2of5_reader_I2of5Reader = function(_BarcodeReader) {
+            }(ean_reader), i2of5_reader = function(_BarcodeReader) {
                 inherits_default()(I2of5Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = I2of5Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5770,7 +5768,7 @@
                         key: "_findStart",
                         value: function() {
                             for(var leadingWhitespaceStart = 0, offset = this._nextSet(this._row), startInfo = null, narrowBarWidth = 1; !startInfo && (startInfo = this._findPattern(this.START_PATTERN, offset, !1, !0));){
-                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / 4), leadingWhitespaceStart = startInfo.start - 10 * narrowBarWidth, leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
+                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / 4), (leadingWhitespaceStart = startInfo.start - 10 * narrowBarWidth) >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
                                 offset = startInfo.end, startInfo = null;
                             }
                             return null;
@@ -5871,7 +5869,7 @@
                         }
                     }, 
                 ]), I2of5Reader;
-            }(barcode_reader), i2of5_reader = i2of5_reader_I2of5Reader, _2of5_reader_START_PATTERN = [
+            }(barcode_reader), _2of5_reader_START_PATTERN = [
                 3,
                 1,
                 3,
@@ -5957,7 +5955,7 @@
                 ], 
             ], START_PATTERN_LENGTH = _2of5_reader_START_PATTERN.reduce(function(sum, val) {
                 return sum + val;
-            }, 0), _2of5_reader_TwoOfFiveReader = function(_BarcodeReader) {
+            }, 0), _2of5_reader = function(_BarcodeReader) {
                 inherits_default()(TwoOfFiveReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = TwoOfFiveReader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6017,8 +6015,8 @@
                         key: "_findStart",
                         value: function() {
                             for(var startInfo = null, offset = this._nextSet(this._row), narrowBarWidth = 1, leadingWhitespaceStart = 0; !startInfo;){
-                                if (startInfo = this._findPattern(_2of5_reader_START_PATTERN, offset, !1, !0), !startInfo) return null;
-                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / START_PATTERN_LENGTH), leadingWhitespaceStart = startInfo.start - 5 * narrowBarWidth, leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) break;
+                                if (!(startInfo = this._findPattern(_2of5_reader_START_PATTERN, offset, !1, !0))) return null;
+                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / START_PATTERN_LENGTH), (leadingWhitespaceStart = startInfo.start - 5 * narrowBarWidth) >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) break;
                                 offset = startInfo.end, startInfo = null;
                             }
                             return startInfo;
@@ -6102,7 +6100,7 @@
                         }
                     }, 
                 ]), TwoOfFiveReader;
-            }(barcode_reader), _2of5_reader = _2of5_reader_TwoOfFiveReader, code_93_reader_ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*").map(function(_char) {
+            }(barcode_reader), code_93_reader_ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*").map(function(_char) {
                 return _char.charCodeAt(0);
             })), code_93_reader_CHARACTER_ENCODINGS = new Uint16Array([
                 0x114,
@@ -6153,7 +6151,7 @@
                 0x1d6,
                 0x132,
                 0x15e, 
-            ]), code_93_reader_Code93Reader = function(_BarcodeReader) {
+            ]), code_93_reader = function(_BarcodeReader) {
                 inherits_default()(Code93Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code93Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6282,11 +6280,10 @@
                     {
                         key: "_matchCheckChar",
                         value: function(charArray, index, maxWeight) {
-                            var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length, checkChar = code_93_reader_ALPHABET[arrayToCheck.reduce(function(sum, _char3, i) {
-                                var value = code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
-                                return sum + ((-1 * i + (length - 1)) % maxWeight + 1) * value;
-                            }, 0) % 47];
-                            return checkChar === charArray[index].charCodeAt(0);
+                            var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length;
+                            return code_93_reader_ALPHABET[arrayToCheck.reduce(function(sum, _char3, i) {
+                                return sum + ((-1 * i + (length - 1)) % maxWeight + 1) * code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
+                            }, 0) % 47] === charArray[index].charCodeAt(0);
                         }
                     },
                     {
@@ -6310,7 +6307,7 @@
                             do {
                                 counters = this._toCounters(nextStart, counters);
                                 var pattern = this._toPattern(counters);
-                                if (pattern < 0 || (decodedChar = this._patternToChar(pattern), null === decodedChar)) return null;
+                                if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyEnd(lastStart, nextStart) && this._verifyChecksums(result)) ? (result = result.slice(0, result.length - 2), null === (result = this._decodeExtended(result))) ? null : {
@@ -6324,10 +6321,10 @@
                         }
                     }, 
                 ]), Code93Reader;
-            }(barcode_reader), code_93_reader = code_93_reader_Code93Reader, code_32_reader_patterns = {
+            }(barcode_reader), code_32_reader_patterns = {
                 AEIO: /[AEIO]/g,
                 AZ09: /[A-Z0-9]/
-            }, code_32_reader_Code32Reader = function(_Code39Reader) {
+            }, code_32_reader = function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code32Reader, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6381,7 +6378,7 @@
                         }
                     }, 
                 ]), Code32Reader;
-            }(code_39_reader), code_32_reader = code_32_reader_Code32Reader, READERS = {
+            }(code_39_reader), READERS = {
                 code_128_reader: code_128_reader,
                 ean_reader: ean_reader,
                 ean_5_reader: ean_5_reader,
@@ -6599,7 +6596,7 @@
                         } else events = {};
                     }
                 };
-            }(), asyncToGenerator = __webpack_require__(20), asyncToGenerator_default = __webpack_require__.n(asyncToGenerator), regenerator = __webpack_require__(12), regenerator_default = __webpack_require__.n(regenerator), pick = __webpack_require__(85), pick_default = __webpack_require__.n(pick), wrapNativeSuper = __webpack_require__(86), wrapNativeSuper_default = __webpack_require__.n(wrapNativeSuper), Exception_Exception = function(_Error) {
+            }(), asyncToGenerator = __webpack_require__(20), asyncToGenerator_default = __webpack_require__.n(asyncToGenerator), regenerator = __webpack_require__(12), regenerator_default = __webpack_require__.n(regenerator), pick = __webpack_require__(85), pick_default = __webpack_require__.n(pick), wrapNativeSuper = __webpack_require__(86), Exception_Exception = function(_Error) {
                 inherits_default()(Exception, _Error);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Exception, hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6622,21 +6619,19 @@
                     return classCallCheck_default()(this, Exception), _this = _super.call(this, m), defineProperty_default()(assertThisInitialized_default()(_this), "code", void 0), _this.code = code, Object.setPrototypeOf(assertThisInitialized_default()(_this), Exception.prototype), _this;
                 }
                 return Exception;
-            }(wrapNativeSuper_default()(Error)), ERROR_DESC = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";
+            }(__webpack_require__.n(wrapNativeSuper)()(Error)), ERROR_DESC = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";
             function enumerateDevices() {
                 try {
                     return navigator.mediaDevices.enumerateDevices();
                 } catch (err) {
-                    var error = new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1);
-                    return Promise.reject(error);
+                    return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
                 }
             }
             function getUserMedia(constraints) {
                 try {
                     return navigator.mediaDevices.getUserMedia(constraints);
                 } catch (err) {
-                    var error = new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1);
-                    return Promise.reject(error);
+                    return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
                 }
             }
             function waitForVideo(video) {
@@ -6820,7 +6815,7 @@
                 return "undefined" == typeof document ? null : target instanceof HTMLElement && target.nodeName && 1 === target.nodeType ? target : document.querySelector("string" == typeof target ? target : "#interactive.viewport");
             }
             function getCanvasAndContext(selector, className) {
-                var selector1, className1, canvas, canvas1 = (selector1 = selector, className1 = className, canvas = document.querySelector(selector1), canvas || ((canvas = document.createElement("canvas")).className = className1), canvas), context = canvas1.getContext("2d");
+                var selector1, className1, canvas, canvas1 = (selector1 = selector, className1 = className, (canvas = document.querySelector(selector1)) || ((canvas = document.createElement("canvas")).className = className1), canvas), context = canvas1.getContext("2d");
                 return {
                     canvas: canvas1,
                     context: context
@@ -7213,8 +7208,8 @@
                     "(" + workerInterface.toString() + ")(" + factorySource + ");", 
                 ], {
                     type: "text/javascript"
-                }), window.URL.createObjectURL(blob)), worker = new Worker(blobURL), workerThread = {
-                    worker: worker,
+                }), window.URL.createObjectURL(blob)), workerThread = {
+                    worker: new Worker(blobURL),
                     imageData: new Uint8Array(inputStream.getWidth() * inputStream.getHeight()),
                     busy: !0
                 };
@@ -7600,7 +7595,7 @@
                 },
                 decodeSingle: function(config, resultCallback) {
                     var _this = this, quaggaInstance = new quagga_Quagga();
-                    return config = merge_default()({
+                    return (config = merge_default()({
                         inputStream: {
                             type: "ImageStream",
                             sequence: !1,
@@ -7611,7 +7606,7 @@
                         locator: {
                             halfSample: !1
                         }
-                    }, config), config.numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ("undefined" == typeof Blob || "undefined" == typeof Worker) && (console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0"), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
+                    }, config)).numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ("undefined" == typeof Blob || "undefined" == typeof Worker) && (console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0"), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
                         try {
                             _this.init(config, function() {
                                 events.once("processed", function(result) {

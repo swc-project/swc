@@ -1,0 +1,208 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | ,-> @media only layer {
+ 2 | |       a {
+ 3 | |           color: red;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | ,-> @media only layer {
+ 2 | |       a {
+ 3 | |           color: red;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | ,-> @media only layer {
+ 2 | |       a {
+ 3 | |           color: red;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :        ^^^^
+   `----
+
+  x Ident { value: Atom('only' type=static), raw: Atom('only' type=static) }
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :        ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :            ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :             ^^^^^
+   `----
+
+  x Ident { value: Atom('layer' type=inline), raw: Atom('layer' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :             ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | ,-> @media only layer {
+ 2 | |       a {
+ 3 | |           color: red;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | ,-> a {
+ 3 | |           color: red;
+ 4 | `->     }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | ,-> a {
+ 3 | |           color: red;
+ 4 | `->     }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | ,-> a {
+ 3 | |           color: red;
+ 4 | `->     }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | ,-> a {
+ 3 | |           color: red;
+ 4 | `->     }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   :        ^^^
+   `----

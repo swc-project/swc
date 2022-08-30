@@ -522,9 +522,8 @@
                 for(var i = 1; i < args.length; i++)styles += handleInterpolation(mergedProps, registered, args[i]), stringMode && (styles += strings[i]);
                 labelPattern.lastIndex = 0;
                 for(var identifierName = ""; null !== (match = labelPattern.exec(styles));)identifierName += "-" + match[1];
-                var name = hash_browser_esm(styles) + identifierName;
                 return {
-                    name: name,
+                    name: hash_browser_esm(styles) + identifierName,
                     styles: styles,
                     next: cursor
                 };

@@ -80,10 +80,10 @@ export default function S(u) {
             M.derivedHelpers.slice().forEach(function(e) {
                 e.detach();
             }), r.forEach(function(e) {
-                var t = e.indexId, r = e.parameters, a = M.derive(function() {
+                var t = e.indexId, r = e.parameters;
+                M.derive(function() {
                     return r;
-                });
-                a.on("result", P({
+                }).on("result", P({
                     indexId: t
                 })).on("error", R);
             }), M.setState(t), M.search();
@@ -119,14 +119,14 @@ export default function S(u) {
     }, C = function() {
         if (!z) {
             var e;
-            e = setTimeout(function() {
+            z = setTimeout(function() {
                 var e = K.getState(), n = (e.resultsFacetValues, a(e, [
                     "resultsFacetValues"
                 ]));
                 K.setState(r(t({}, n), {
                     isSearchStalled: !0
                 }));
-            }, w), z = e;
+            }, w);
         }
     }, j = function(a, n) {
         if (a.transporter) {
@@ -285,17 +285,17 @@ export default function S(u) {
             b(e, a);
         }
     }(S, x);
-    var K = (O = {
+    var K = (U = O = {
         widgets: void 0 === l ? {} : l,
         metadata: v(x),
-        results: (k = x, k ? Array.isArray(k.results) ? k.results.reduce(function(a, n) {
+        results: (k = x) ? Array.isArray(k.results) ? k.results.reduce(function(a, n) {
             return r(t({}, a), e({}, n._internalIndexId, new s.SearchResults(new s.SearchParameters(n.state), n.rawResults)));
-        }, {}) : new s.SearchResults(new s.SearchParameters(k.state), k.rawResults) : null),
+        }, {}) : new s.SearchResults(new s.SearchParameters(k.state), k.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,
         searchingForFacetValues: !1
-    }, U = O, B = [], {
+    }, B = [], {
         getState: function() {
             return U;
         },

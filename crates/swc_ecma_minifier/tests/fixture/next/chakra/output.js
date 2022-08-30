@@ -201,11 +201,11 @@
             }, EnvironmentContext = (0, react.createContext)(defaultEnv);
             function EnvironmentProvider(props) {
                 var children = props.children, environmentProp = props.environment, _useState = (0, react.useState)(null), node = _useState[0], setNode = _useState[1], context = (0, react.useMemo)(function() {
-                    var _ref, doc = null == node ? void 0 : node.ownerDocument, win = null == node ? void 0 : node.ownerDocument.defaultView, env = null != (_ref = null != environmentProp ? environmentProp : doc ? {
+                    var _ref, doc = null == node ? void 0 : node.ownerDocument, win = null == node ? void 0 : node.ownerDocument.defaultView;
+                    return null != (_ref = null != environmentProp ? environmentProp : doc ? {
                         document: doc,
                         window: win
                     } : void 0) ? _ref : defaultEnv;
-                    return env;
                 }, [
                     node,
                     environmentProp
@@ -561,12 +561,12 @@
             var module_TinyColor = function() {
                 function TinyColor(color, opts) {
                     if (void 0 === color && (color = ""), void 0 === opts && (opts = {}), color instanceof TinyColor) return color;
-                    "number" == typeof color && (color = (color1 = color, {
-                        r: color1 >> 16,
+                    "number" == typeof color && (color = {
+                        r: (color1 = color) >> 16,
                         g: (0xff00 & color1) >> 8,
                         b: 0xff & color1
-                    })), this.originalInput = color;
-                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
+                    }), this.originalInput = color;
+                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
                         r: 0,
                         g: 0,
                         b: 0
@@ -636,31 +636,31 @@
                         r: 255 * bound01(r, 255),
                         g: 255 * bound01(g, 255),
                         b: 255 * bound01(b, 255)
-                    }), ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), rgb = (h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), mod = i % 6, r1 = [
+                    }), ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), rgb = (h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r1 = [
                         v,
                         q,
                         p,
                         p,
                         t,
                         v
-                    ][mod], g1 = [
+                    ][mod = i % 6], g1 = [
                         t,
                         v,
                         v,
                         q,
                         p,
                         p
-                    ][mod], b1 = [
-                        p,
-                        p,
-                        t,
-                        v,
-                        v,
-                        q
                     ][mod], {
                         r: 255 * r1,
                         g: 255 * g1,
-                        b: 255 * b1
+                        b: 255 * [
+                            p,
+                            p,
+                            t,
+                            v,
+                            v,
+                            q
+                        ][mod]
                     }), ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
                         if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
                         else {
@@ -761,15 +761,15 @@
                     if (0 === this.a) return "transparent";
                     if (this.a < 1) return !1;
                     for(var hex = "#" + rgbToHex(this.r, this.g, this.b, !1), _i = 0, _a = Object.entries(names); _i < _a.length; _i++){
-                        var _b = _a[_i], key = _b[0], value = _b[1];
-                        if (hex === value) return key;
+                        var _b = _a[_i], key = _b[0];
+                        if (hex === _b[1]) return key;
                     }
                     return !1;
                 }, TinyColor.prototype.toString = function(format) {
                     var formatSet = Boolean(format);
                     format = null != format ? format : this.format;
-                    var formattedString = !1, hasAlpha = this.a < 1 && this.a >= 0, needsAlphaFormat = !formatSet && hasAlpha && (format.startsWith("hex") || "name" === format);
-                    return needsAlphaFormat ? "name" === format && 0 === this.a ? this.toName() : this.toRgbString() : ("rgb" === format && (formattedString = this.toRgbString()), "prgb" === format && (formattedString = this.toPercentageRgbString()), ("hex" === format || "hex6" === format) && (formattedString = this.toHexString()), "hex3" === format && (formattedString = this.toHexString(!0)), "hex4" === format && (formattedString = this.toHex8String(!0)), "hex8" === format && (formattedString = this.toHex8String()), "name" === format && (formattedString = this.toName()), "hsl" === format && (formattedString = this.toHslString()), "hsv" === format && (formattedString = this.toHsvString()), formattedString || this.toHexString());
+                    var formattedString = !1, hasAlpha = this.a < 1 && this.a >= 0;
+                    return !formatSet && hasAlpha && (format.startsWith("hex") || "name" === format) ? "name" === format && 0 === this.a ? this.toName() : this.toRgbString() : ("rgb" === format && (formattedString = this.toRgbString()), "prgb" === format && (formattedString = this.toPercentageRgbString()), ("hex" === format || "hex6" === format) && (formattedString = this.toHexString()), "hex3" === format && (formattedString = this.toHexString(!0)), "hex4" === format && (formattedString = this.toHex8String(!0)), "hex8" === format && (formattedString = this.toHex8String()), "name" === format && (formattedString = this.toName()), "hsl" === format && (formattedString = this.toHslString()), "hsv" === format && (formattedString = this.toHsvString()), formattedString || this.toHexString());
                 }, TinyColor.prototype.toNumber = function() {
                     return (Math.round(this.r) << 16) + (Math.round(this.g) << 8) + Math.round(this.b);
                 }, TinyColor.prototype.clone = function() {
@@ -880,9 +880,7 @@
             function randomWithin(range, seed) {
                 if (void 0 === seed) return Math.floor(range[0] + Math.random() * (range[1] + 1 - range[0]));
                 var max = range[1] || 1, min = range[0] || 0;
-                seed = (9301 * seed + 49297) % 233280;
-                var rnd = seed / 233280.0;
-                return Math.floor(min + rnd * (max - min));
+                return Math.floor(min + (seed = (9301 * seed + 49297) % 233280) / 233280.0 * (max - min));
             }
             function defineColor(bound) {
                 var sMin = bound.lowerBounds[0][0], sMax = bound.lowerBounds[bound.lowerBounds.length - 1][0], bMin = bound.lowerBounds[bound.lowerBounds.length - 1][1], bMax = bound.lowerBounds[0][1];
@@ -1207,8 +1205,8 @@
                     ]
                 }, 
             ], getColor = function(theme, color, fallback) {
-                var hex = (0, chakra_ui_utils_esm.Wf)(theme, "colors." + color, color), _TinyColor = new module_TinyColor(hex), isValid = _TinyColor.isValid;
-                return isValid ? hex : fallback;
+                var hex = (0, chakra_ui_utils_esm.Wf)(theme, "colors." + color, color);
+                return new module_TinyColor(hex).isValid ? hex : fallback;
             }, transparentize = function(color, opacity) {
                 return function(theme) {
                     var raw = getColor(theme, color);
@@ -1293,27 +1291,23 @@
                     {
                         key: "selectors",
                         get: function() {
-                            var value = (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref) {
-                                var key = _ref[0], part = _ref[1];
+                            return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref) {
                                 return [
-                                    key,
-                                    part.selector
+                                    _ref[0],
+                                    _ref[1].selector
                                 ];
                             }));
-                            return value;
                         }
                     },
                     {
                         key: "classNames",
                         get: function() {
-                            var value = (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref2) {
-                                var key = _ref2[0], part = _ref2[1];
+                            return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref2) {
                                 return [
-                                    key,
-                                    part.className
+                                    _ref2[0],
+                                    _ref2[1].className
                                 ];
                             }));
-                            return value;
                         }
                     },
                     {
@@ -1403,7 +1397,7 @@
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
-                var value, prefix, value1, prefix1, name1, fallback, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, prefix1 = prefix, void 0 === prefix1 && (prefix1 = ""), [
+                var value, prefix, value1, prefix1, name1, fallback, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, void 0 === (prefix1 = prefix) && (prefix1 = ""), [
                     prefix1,
                     chakra_ui_theme_tools_esm_escape(value1)
                 ].filter(Boolean).join("-")));
@@ -1647,7 +1641,7 @@
                             0,
                             360
                         ];
-                    }(hue), res = randomWithin(hueRange, seed), res < 0 && (res = 360 + res), res), s = function(hue, options) {
+                    }(hue), (res = randomWithin(hueRange, seed)) < 0 && (res = 360 + res), res), s = function(hue, options) {
                         if ("monochrome" === options.hue) return 0;
                         if ("random" === options.luminosity) return randomWithin([
                             0,
@@ -1703,18 +1697,18 @@
                     var index = 0;
                     if (0 === str.length) return list[0];
                     for(var i = 0; i < str.length; i += 1)index = str.charCodeAt(i) + ((index << 5) - index), index &= index;
-                    return index = (index % list.length + list.length) % list.length, list[index];
+                    return list[index = (index % list.length + list.length) % list.length];
                 }(opts.string, opts.colors) : opts.string && !opts.colors ? function(str) {
                     var hash = 0;
                     if (0 === str.length) return hash.toString();
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
-                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors, list[Math.floor(Math.random() * list.length)]) : fallback) : "gray.400", isBgDark = (color = bg, function(theme) {
+                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = (color = bg, function(theme) {
                     var color1;
                     return "dark" === (color1 = color, function(theme) {
-                        var hex = getColor(theme, color1), isDark = new module_TinyColor(hex).isDark();
-                        return isDark ? "dark" : "light";
+                        var hex = getColor(theme, color1);
+                        return new module_TinyColor(hex).isDark() ? "dark" : "light";
                     })(theme);
                 })(theme), color1 = "white";
                 isBgDark || (color1 = "gray.800");
@@ -2464,15 +2458,6 @@
             }, baseStyleOverlay = {
                 bg: "blackAlpha.600",
                 zIndex: "modal"
-            }, baseStyleDialogContainer = function(props) {
-                var isCentered = props.isCentered, scrollBehavior = props.scrollBehavior;
-                return {
-                    display: "flex",
-                    zIndex: "modal",
-                    justifyContent: "center",
-                    alignItems: isCentered ? "center" : "flex-start",
-                    overflow: "inside" === scrollBehavior ? "hidden" : "auto"
-                };
             }, baseStyleDialog = function(props) {
                 var scrollBehavior = props.scrollBehavior;
                 return {
@@ -2497,9 +2482,16 @@
                 px: 6,
                 py: 4
             }, baseStyle$h = function(props) {
+                var props1;
                 return {
                     overlay: baseStyleOverlay,
-                    dialogContainer: baseStyleDialogContainer(props),
+                    dialogContainer: {
+                        display: "flex",
+                        zIndex: "modal",
+                        justifyContent: "center",
+                        alignItems: (props1 = props).isCentered ? "center" : "flex-start",
+                        overflow: "inside" === props1.scrollBehavior ? "hidden" : "auto"
+                    },
                     dialog: baseStyleDialog(props),
                     header: baseStyleHeader$1,
                     closeButton: baseStyleCloseButton$2,
@@ -2715,7 +2707,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleControl = function(props) {
-                var _Checkbox$baseStyle = Checkbox.baseStyle(props), _Checkbox$baseStyle$c = _Checkbox$baseStyle.control, control = void 0 === _Checkbox$baseStyle$c ? {} : _Checkbox$baseStyle$c;
+                var _Checkbox$baseStyle$c = Checkbox.baseStyle(props).control, control = void 0 === _Checkbox$baseStyle$c ? {} : _Checkbox$baseStyle$c;
                 return sizes_501602a9_esm_extends({}, control, {
                     borderRadius: "full",
                     _checked: sizes_501602a9_esm_extends({}, control._checked, {

@@ -10,7 +10,7 @@ class TestWithErrors {
         });
     }
 }
-TestWithErrors.dd = _class_private_field_get(new TestWithErrors(), _prop), TestWithErrors["X_ z_ zz"] = (_foo = new WeakMap(), _Inner = class Inner {
+TestWithErrors.dd = _class_private_field_get(new TestWithErrors(), _prop), TestWithErrors["X_ z_ zz"] = (_foo = new WeakMap(), (_Inner = class Inner {
     m() {
         _class_private_field_get(new TestWithErrors(), _prop);
     }
@@ -27,7 +27,7 @@ TestWithErrors.dd = _class_private_field_get(new TestWithErrors(), _prop), TestW
             value: 10
         });
     }
-}, _Inner.C = class {
+}).C = class {
     m() {
         _class_private_field_get(new TestWithErrors(), _prop), _class_private_field_get(new _Inner(), _foo);
     }

@@ -20,10 +20,10 @@ suddenly((_param)=>{
 })=>{
     var { x: { z =12  }  } = _param, nested = _object_without_properties(_param.x, [
         "z"
-    ]), rest = _object_without_properties(_param, [
-        "x"
     ]);
-    return rest.y + nested.ka;
+    return _object_without_properties(_param, [
+        "x"
+    ]).y + nested.ka;
 }), foobar(), foobar({
     baz: 'hello'
 }), foobar({

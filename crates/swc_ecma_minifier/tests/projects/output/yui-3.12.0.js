@@ -1103,15 +1103,15 @@ var YUI = function() {
     }), add("load", "8", {
         name: "graphics-svg",
         test: function(Y) {
-            var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas"), svg = DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
-            return svg && (useSVG || !canvas);
+            var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+            return DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") && (useSVG || !canvas);
         },
         trigger: "graphics"
     }), add("load", "9", {
         name: "graphics-svg-default",
         test: function(Y) {
-            var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas"), svg = DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
-            return svg && (useSVG || !canvas);
+            var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+            return DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") && (useSVG || !canvas);
         },
         trigger: "graphics"
     }), add("load", "10", {
@@ -1239,7 +1239,7 @@ var YUI = function() {
     };
     INSTANCE.log = function(msg, cat, src, silent) {
         var bail, excl, incl, m, f, minlevel, Y = INSTANCE, c = Y.config, publisher = Y.fire ? Y : YUI.Env.globalEvents;
-        return c.debug && (void 0 !== (src = src || "") && (excl = c.logExclude, incl = c.logInclude, !incl || src in incl ? incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]) : bail = 1, Y.config.logLevel = Y.config.logLevel || "debug", minlevel = LEVELS[Y.config.logLevel.toLowerCase()], cat in LEVELS && LEVELS[cat] < minlevel && (bail = 1)), bail || (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y.Lang.isFunction(c.logFn) ? c.logFn.call(Y, msg, cat, src) : typeof console !== UNDEFINED && console.log ? (f = cat && console[cat] && cat in LEVELS ? cat : "log", console[f](m)) : typeof opera !== UNDEFINED && opera.postError(m)), publisher && !silent && (publisher !== Y || publisher.getEvent(LOGEVENT) || publisher.publish(LOGEVENT, {
+        return c.debug && (void 0 !== (src = src || "") && (excl = c.logExclude, !(incl = c.logInclude) || src in incl ? incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]) : bail = 1, Y.config.logLevel = Y.config.logLevel || "debug", minlevel = LEVELS[Y.config.logLevel.toLowerCase()], cat in LEVELS && LEVELS[cat] < minlevel && (bail = 1)), bail || (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y.Lang.isFunction(c.logFn) ? c.logFn.call(Y, msg, cat, src) : typeof console !== UNDEFINED && console.log ? (f = cat && console[cat] && cat in LEVELS ? cat : "log", console[f](m)) : typeof opera !== UNDEFINED && opera.postError(m)), publisher && !silent && (publisher !== Y || publisher.getEvent(LOGEVENT) || publisher.publish(LOGEVENT, {
             broadcast: 2
         }), publisher.fire(LOGEVENT, {
             msg: msg,
@@ -1273,7 +1273,7 @@ var YUI = function() {
         "yui-base"
     ]
 }), YUI.add("loader-base", function(Y, NAME) {
-    VERSION = Y.version, BUILD = "/build/", COMBO_BASE = (CDN_BASE = Y.Env.base) + "combo?", META = {
+    VERSION = Y.version, BUILD = "/build/", COMBO_BASE = (CDN_BASE = Y.Env.base) + "combo?", groups = (META = {
         version: VERSION,
         root: VERSION + "/",
         base: Y.Env.base,
@@ -1293,7 +1293,7 @@ var YUI = function() {
         },
         groups: {},
         patterns: {}
-    }, groups = META.groups, yui2Update = function(tnt, yui2, config) {
+    }).groups, yui2Update = function(tnt, yui2, config) {
         var root = "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + BUILD, base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
         groups.yui2.base = base + root, groups.yui2.root = root, groups.yui2.comboBase = combo;
     }, galleryUpdate = function(tag, config) {
@@ -1373,7 +1373,7 @@ var YUI = function() {
         _requires: function(mod1, mod2) {
             var i, rm, after_map, s, info = this.moduleInfo, m = info[mod1], other = info[mod2];
             if (!m || !other) return !1;
-            if (rm = m.expanded_map, after_map = m.after_map, after_map && mod2 in after_map) return !0;
+            if (rm = m.expanded_map, (after_map = m.after_map) && mod2 in after_map) return !0;
             if ((after_map = other.after_map) && mod1 in after_map) return !1;
             if (s = info[mod2] && info[mod2].supersedes) {
                 for(i = 0; i < s.length; i++)if (this._requires(mod1, s[i])) return !0;
@@ -1752,10 +1752,10 @@ var YUI = function() {
                 jsMods: [],
                 css: [],
                 cssMods: []
-            }, url = j, mods = comboSources[j], len = mods.length)) for(i = 0; i < len; i++)!inserted[mods[i]] && ((m = mods[i]) && (m.combine || !m.ext) ? (resCombos[j].comboSep = m.comboSep, resCombos[j].group = m.group, resCombos[j].maxURLLength = m.maxURLLength, frag = (L.isValue(m.root) ? m.root : self.root) + (m.path || m.fullpath), frag = self._filter(frag, m.name), resCombos[j][m.type].push(frag), resCombos[j][m.type + "Mods"].push(m)) : mods[i] && addSingle(mods[i]));
+            }, url = j, len = (mods = comboSources[j]).length)) for(i = 0; i < len; i++)!inserted[mods[i]] && ((m = mods[i]) && (m.combine || !m.ext) ? (resCombos[j].comboSep = m.comboSep, resCombos[j].group = m.group, resCombos[j].maxURLLength = m.maxURLLength, frag = (L.isValue(m.root) ? m.root : self.root) + (m.path || m.fullpath), frag = self._filter(frag, m.name), resCombos[j][m.type].push(frag), resCombos[j][m.type + "Mods"].push(m)) : mods[i] && addSingle(mods[i]));
             for(j in resCombos)if (resCombos.hasOwnProperty(j)) {
                 for(type in comboSep = resCombos[base = j].comboSep || self.comboSep, maxURLLength = resCombos[base].maxURLLength || self.maxURLLength, resCombos[base])if ("js" === type || "css" === type) {
-                    if (urls = resCombos[base][type], mods = resCombos[base][type + "Mods"], len = urls.length, tmpBase = base + urls.join(comboSep), baseLen = tmpBase.length, maxURLLength <= base.length && (maxURLLength = 1024), len) {
+                    if (urls = resCombos[base][type], mods = resCombos[base][type + "Mods"], len = urls.length, baseLen = (tmpBase = base + urls.join(comboSep)).length, maxURLLength <= base.length && (maxURLLength = 1024), len) {
                         if (baseLen > maxURLLength) {
                             for(s = 0, u = []; s < len; s++)u.push(urls[s]), (tmpBase = base + u.join(comboSep)).length > maxURLLength && (m = u.pop(), tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)), u = [], m && u.push(m));
                             u.length && (tmpBase = base + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[base].group)));
@@ -3359,8 +3359,8 @@ var YUI = function() {
             condition: {
                 name: "graphics-svg",
                 test: function(Y) {
-                    var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas"), svg = DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
-                    return svg && (useSVG || !canvas);
+                    var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                    return DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") && (useSVG || !canvas);
                 },
                 trigger: "graphics"
             },
@@ -3372,8 +3372,8 @@ var YUI = function() {
             condition: {
                 name: "graphics-svg-default",
                 test: function(Y) {
-                    var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas"), svg = DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
-                    return svg && (useSVG || !canvas);
+                    var DOCUMENT = Y.config.doc, useSVG = !Y.config.defaultGraphicEngine || "canvas" != Y.config.defaultGraphicEngine, canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                    return DOCUMENT && DOCUMENT.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") && (useSVG || !canvas);
                 },
                 trigger: "graphics"
             }

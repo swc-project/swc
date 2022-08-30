@@ -184,7 +184,7 @@
                             var f;
                             if (r < 0 || e.byteLength < r) throw RangeError('"offset" is outside of buffer bounds');
                             if (e.byteLength < r + (t || 0)) throw RangeError('"length" is outside of buffer bounds');
-                            return f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Object.setPrototypeOf(f, Buffer.prototype), f;
+                            return Object.setPrototypeOf(f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Buffer.prototype), f;
                         }
                         function fromObject(e) {
                             if (Buffer.isBuffer(e)) {
@@ -302,7 +302,7 @@
                             f > i / 2 && (f = i / 2);
                             for(var o = 0; o < f; ++o){
                                 var e1, u = parseInt(r.substr(2 * o, 2), 16);
-                                if (e1 = u, e1 != e1) break;
+                                if ((e1 = u) != e1) break;
                                 e[t + o] = u;
                             }
                             return o;
@@ -720,7 +720,7 @@
                             return r;
                         }
                         function utf16leToBytes(e, r) {
-                            for(var t, f, n, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, n = t % 256, i.push(n), i.push(f);
+                            for(var t, f, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, i.push(t % 256), i.push(f);
                             return i;
                         }
                         function base64ToBytes(e) {
@@ -920,13 +920,9 @@
                         }
                         r.exports = function(r) {
                             var t = y(o, a, arguments);
-                            if (p && f) {
-                                var e = p(t, "length");
-                                e.configurable && f(t, "length", {
-                                    value: 1 + u(0, r.length - (arguments.length - 1))
-                                });
-                            }
-                            return t;
+                            return p && f && p(t, "length").configurable && f(t, "length", {
+                                value: 1 + u(0, r.length - (arguments.length - 1))
+                            }), t;
                         };
                         var s = function() {
                             return y(o, i, arguments);
@@ -1250,7 +1246,7 @@
                             }), o;
                         }, j = function(r, t) {
                             var o, e = r;
-                            if (b(A, e) && (o = A[e], e = "%" + o[0] + "%"), b(g, e)) {
+                            if (b(A, e) && (e = "%" + (o = A[e])[0] + "%"), b(g, e)) {
                                 var i = g[e];
                                 if (void 0 === i && !t) throw new a("intrinsic " + r + " exists, but is not available. Please file an issue!");
                                 return {
@@ -1280,7 +1276,7 @@
                                     }
                                     if (y && l + 1 >= e.length) {
                                         var O = y(u, A);
-                                        d = !!O, u = d && "get" in O && !("originalValue" in O.get) ? O.get : u[A];
+                                        u = (d = !!O) && "get" in O && !("originalValue" in O.get) ? O.get : u[A];
                                     } else d = b(u, A), u = u[A];
                                     d && !s && (g[f] = u);
                                 }
@@ -1648,7 +1644,7 @@
                             }), o;
                         }, E = function(r, t) {
                             var o, e = r;
-                            if (v(g, e) && (o = g[e], e = "%" + o[0] + "%"), v(l, e)) {
+                            if (v(g, e) && (e = "%" + (o = g[e])[0] + "%"), v(l, e)) {
                                 var i = l[e];
                                 if (i === s && (i = d(e)), void 0 === i && !t) throw new a("intrinsic " + r + " exists, but is not available. Please file an issue!");
                                 return {
@@ -1678,7 +1674,7 @@
                                     }
                                     if (y && d + 1 >= e.length) {
                                         var O = y(u, A);
-                                        g = !!O, u = g && "get" in O && !("originalValue" in O.get) ? O.get : u[A];
+                                        u = (g = !!O) && "get" in O && !("originalValue" in O.get) ? O.get : u[A];
                                     } else g = v(u, A), u = u[A];
                                     g && !s && (l[f] = u);
                                 }
@@ -1759,7 +1755,7 @@
                     },
                     234: function(r, t, e) {
                         "use strict";
-                        var o = e(219), n = e(627), i = e(749), a = i("Object.prototype.toString"), y = e(449)(), p = y && "symbol" == typeof Symbol.toStringTag, f = n(), u = i("Array.prototype.indexOf", !0) || function(r, t) {
+                        var o = e(219), n = e(627), i = e(749), a = i("Object.prototype.toString"), p = e(449)() && "symbol" == typeof Symbol.toStringTag, f = n(), u = i("Array.prototype.indexOf", !0) || function(r, t) {
                             for(var e = 0; e < r.length; e += 1)if (r[e] === t) return e;
                             return -1;
                         }, s = i("String.prototype.slice"), c = {}, l = e(982), d = Object.getPrototypeOf;
@@ -2051,7 +2047,7 @@
                                 return "   " + r;
                             }).join("\n")) : y = r.stylize("[Circular]", "special")), isUndefined(a)) {
                                 if (i && n.match(/^\d+$/)) return y;
-                                a = JSON.stringify("" + n), a.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/) ? (a = a.substr(1, a.length - 2), a = r.stylize(a, "name")) : (a = a.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'"), a = r.stylize(a, "string"));
+                                (a = JSON.stringify("" + n)).match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/) ? (a = a.substr(1, a.length - 2), a = r.stylize(a, "name")) : (a = a.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'"), a = r.stylize(a, "string"));
                             }
                             return a + ": " + y;
                         }
@@ -2273,7 +2269,7 @@
                     },
                     715: function(r, t, e) {
                         "use strict";
-                        var o = e(219), n = e(627), i = e(749), a = i("Object.prototype.toString"), y = e(449)(), p = y && "symbol" == typeof Symbol.toStringTag, f = n(), u = i("String.prototype.slice"), s = {}, c = e(850), l = Object.getPrototypeOf;
+                        var o = e(219), n = e(627), i = e(749), a = i("Object.prototype.toString"), p = e(449)() && "symbol" == typeof Symbol.toStringTag, f = n(), u = i("String.prototype.slice"), s = {}, c = e(850), l = Object.getPrototypeOf;
                         p && c && l && o(f, function(r) {
                             if ("function" == typeof __webpack_require__.g[r]) {
                                 var t = new __webpack_require__.g[r]();
@@ -2611,7 +2607,7 @@
                             }), t;
                         }, E = function(r, t) {
                             var o, e = r;
-                            if (b(A, e) && (o = A[e], e = "%" + o[0] + "%"), b(g, e)) {
+                            if (b(A, e) && (e = "%" + (o = A[e])[0] + "%"), b(g, e)) {
                                 var i = g[e];
                                 if (void 0 === i && !t) throw new a("intrinsic " + r + " exists, but is not available. Please file an issue!");
                                 return {

@@ -1733,7 +1733,7 @@
                 }();
             }
             exports.default = function(_param) {
-                var sizerSvg, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
+                var sizerSvg, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
                     if (Object.getOwnPropertySymbols) {
@@ -1758,7 +1758,7 @@
                     "loader",
                     "placeholder",
                     "blurDataURL", 
-                ]), rest = all, layout = sizes ? "responsive" : "intrinsic";
+                ]), layout = sizes ? "responsive" : "intrinsic";
                 "layout" in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
                 var src1, staticSrc = "";
                 if ("object" == typeof (src1 = src) && (isStaticRequire(src1) || void 0 !== src1.src)) {
@@ -1884,13 +1884,10 @@
                             if (img) {
                                 var handleLoad = function() {
                                     img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        if ("blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete) {
-                                            var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
-                                            onLoadingComplete({
-                                                naturalWidth: naturalWidth,
-                                                naturalHeight: naturalHeight
-                                            });
-                                        }
+                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && onLoadingComplete({
+                                            naturalWidth: img.naturalWidth,
+                                            naturalHeight: img.naturalHeight
+                                        });
                                     });
                                 };
                                 img.complete ? handleLoad() : img.onload = handleLoad;
@@ -1968,11 +1965,11 @@
                 [
                     "cloudinary",
                     function(param) {
-                        var root = param.root, src = param.src, width = param.width, quality = param.quality, paramsString = [
+                        var root = param.root, src = param.src, paramsString = [
                             "f_auto",
                             "c_limit",
-                            "w_" + width,
-                            "q_" + (quality || "auto"), 
+                            "w_" + param.width,
+                            "q_" + (param.quality || "auto"), 
                         ].join(",") + "/";
                         return "".concat(root).concat(paramsString).concat(normalizeSrc(src));
                     }

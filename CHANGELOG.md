@@ -8,6 +8,9 @@
 - **(css/minifier)** Don't compress `none` for keyframes (#5663) ([4a5e347](https://github.com/swc-project/swc/commit/4a5e347a8a7949aa35cf73a0a94cbb7350380fa1))
 
 
+- **(css/parser)** Improve parsing of media queries (#5567) ([5c28d00](https://github.com/swc-project/swc/commit/5c28d00516c38200e1d29f5f142318d43e8de735))
+
+
 - **(es/codegen)** Emit trailing semicolon (#5659) ([537449e](https://github.com/swc-project/swc/commit/537449e53b9af268e497f6d3b23e137ec9bbf522))
 
 
@@ -48,6 +51,9 @@
 
 
 - **(es/minifier)** Improve gzipped size (#5631) ([d81fe67](https://github.com/swc-project/swc/commit/d81fe67e4b0ef655c3223b17ba44d1d845a8fd96))
+
+
+- **(es/minifier)** Remove redundant check (#5664) ([d43334e](https://github.com/swc-project/swc/commit/d43334eb927a0a432c5518ddf5d7b31a8f1e6e9a))
 
 
 - **(es/parser)** Handle `async` in `for...of` (#5646) ([0f0d1db](https://github.com/swc-project/swc/commit/0f0d1db3013b5dda88e4e73bfd335c8f7e3ad840))

@@ -1216,7 +1216,8 @@ where
         let start_pos = self.input.cur_span()?.lo;
         let state = self.input.state();
 
-        let mut modifier = if is_one_of_case_insensitive_ident!(self, "not", "only") {
+        let is_not = is_one_of_case_insensitive_ident!(self, "not");
+        let modifier = if is_one_of_case_insensitive_ident!(self, "not", "only") {
             let modifier = Some(self.parse()?);
 
             self.input.skip_ws()?;
@@ -1226,57 +1227,77 @@ where
             None
         };
 
-        let mut last_pos = self.input.last_pos()?;
+        if is!(self, "(") {
+            if is_not {
+                self.input.reset(&state);
+            }
 
-        let media_type = if !is!(self, Ident)
-            || is_one_of_case_insensitive_ident!(self, "not", "and", "or", "only")
-        {
-            None
+            let condition: MediaCondition = self.parse()?;
+
+            Ok(MediaQuery {
+                span: Span::new(start_pos, condition.span.hi, Default::default()),
+                modifier: None,
+                media_type: None,
+                keyword: None,
+                condition: Some(MediaConditionType::All(condition)),
+            })
         } else {
             let media_type = Some(self.parse()?);
 
-            last_pos = self.input.last_pos()?;
-
             self.input.skip_ws()?;
 
-            media_type
-        };
+            let mut keyword = None;
+            let mut condition_without_or = None;
 
-        let mut keyword = None;
-
-        let condition = if media_type.is_some() {
             if is_one_of_case_insensitive_ident!(self, "and") {
                 keyword = Some(self.parse()?);
 
                 self.input.skip_ws()?;
 
-                let condition_without_or: MediaConditionWithoutOr = self.parse()?;
-
-                last_pos = condition_without_or.span.hi;
-
-                Some(MediaConditionType::WithoutOr(condition_without_or))
-            } else {
-                None
+                condition_without_or = Some(MediaConditionType::WithoutOr(self.parse()?));
             }
-        } else {
-            modifier = None;
 
-            self.input.reset(&state);
+            let end_pos = if let Some(MediaConditionType::WithoutOr(condition_without_or)) =
+                &condition_without_or
+            {
+                condition_without_or.span.hi
+            } else if let Some(MediaType::Ident(ident)) = &media_type {
+                ident.span.hi
+            } else {
+                unreachable!();
+            };
 
-            let condition: MediaCondition = self.parse()?;
+            Ok(MediaQuery {
+                span: Span::new(start_pos, end_pos, Default::default()),
+                modifier,
+                media_type,
+                keyword,
+                condition: condition_without_or,
+            })
+        }
+    }
+}
 
-            last_pos = condition.span.hi;
+impl<I> Parse<MediaType> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<MediaType> {
+        match cur!(self) {
+            _ if !is_one_of_case_insensitive_ident!(self, "not", "and", "or", "only", "layer") => {
+                Ok(MediaType::Ident(self.parse()?))
+            }
+            _ => {
+                let span = self.input.cur_span()?;
 
-            Some(MediaConditionType::All(condition))
-        };
-
-        Ok(MediaQuery {
-            span: Span::new(start_pos, last_pos, Default::default()),
-            modifier,
-            media_type,
-            keyword,
-            condition,
-        })
+                Err(Error::new(
+                    span,
+                    ErrorKind::Expected(
+                        "ident (exclude the keywords 'only', 'not', 'and', 'or' and 'layer')",
+                    ),
+                ))
+            }
+        }
     }
 }
 
