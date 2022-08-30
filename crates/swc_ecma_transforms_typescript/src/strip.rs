@@ -1719,7 +1719,7 @@ fn is_ts_namespace_body_concrete(b: &TsNamespaceBody) -> bool {
                 ModuleDecl::ExportDefaultExpr(_) => true,
                 ModuleDecl::ExportAll(_) => true,
                 ModuleDecl::TsImportEquals(_) => true,
-                ModuleDecl::TsExportAssignment(d) => true,
+                ModuleDecl::TsExportAssignment(..) => true,
                 ModuleDecl::TsNamespaceExport(..) => true,
             },
             ModuleItem::Stmt(s) => match s {
