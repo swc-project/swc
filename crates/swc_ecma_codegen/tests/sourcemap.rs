@@ -259,24 +259,28 @@ fn print_source_map(map: &SourceMap) -> Vec<String> {
 }
 
 fn assert_eq_same_map(expected: &SourceMap, actual: &SourceMap) {
-    for at in expected.tokens() {
-        let bt = actual
-            .lookup_token(at.get_dst_line(), at.get_dst_col())
-            .unwrap_or_else(|| panic!("token not found: {:?}", at));
+    for expected_token in expected.tokens() {
+        let actual_token = actual
+            .lookup_token(expected_token.get_dst_line(), expected_token.get_dst_col())
+            .unwrap_or_else(|| panic!("token not found: {:?}", expected_token));
+
+        if expected_token.get_src_line() == 0 && expected_token.get_src_col() == 0 {
+            continue;
+        }
 
         assert_eq!(
-            at.get_src_line(),
-            bt.get_src_line(),
+            expected_token.get_src_line(),
+            actual_token.get_src_line(),
             "line mismatch at {}:{}",
-            at.get_dst_line(),
-            at.get_dst_col()
+            expected_token.get_dst_line(),
+            expected_token.get_dst_col()
         );
         assert_eq!(
-            at.get_src_col(),
-            bt.get_src_col(),
+            expected_token.get_src_col(),
+            actual_token.get_src_col(),
             "col mismatch at {}:{}",
-            at.get_dst_line(),
-            at.get_dst_col()
+            expected_token.get_dst_line(),
+            expected_token.get_dst_col()
         );
     }
 }
