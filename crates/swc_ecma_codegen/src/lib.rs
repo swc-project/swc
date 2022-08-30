@@ -493,6 +493,7 @@ where
     }
 
     #[emitter]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_lit(&mut self, node: &Lit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -525,6 +526,7 @@ where
     }
 
     #[emitter]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -570,6 +572,7 @@ where
     }
 
     #[emitter]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_num_lit(&mut self, num: &Number) -> Result {
         self.emit_num_lit_internal(num, false)?;
     }
