@@ -5,6 +5,9 @@
 
 
 
+- **(es/compat)** Handle `yield` in block scoping pass (#5668) ([4820f0c](https://github.com/swc-project/swc/commit/4820f0cbcc2a732a94e87cbfecfb74524ae13ee4))
+
+
 - **(es/minifier)** Don't inline variables declared multiple times (#5667) ([fd39bb6](https://github.com/swc-project/swc/commit/fd39bb6bff45d3200ad1934d4b2b470a7c8ec21c))
 
 ## [1.2.245] - 2022-08-30
