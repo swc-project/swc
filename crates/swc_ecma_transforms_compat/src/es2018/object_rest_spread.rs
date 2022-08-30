@@ -22,13 +22,13 @@ use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-proposal-object-rest-spread`
 #[tracing::instrument(level = "info", skip_all)]
-pub fn object_rest_spread(c: Config) -> impl Fold + VisitMut {
+pub fn object_rest_spread(config: Config) -> impl Fold + VisitMut {
     chain!(
         as_folder(ObjectRest {
             config,
             ..Default::default()
         }),
-        as_folder(ObjectSpread { c })
+        as_folder(ObjectSpread { config })
     )
 }
 
@@ -1055,12 +1055,14 @@ impl VisitMut for PatSimplifier {
 
 #[derive(Clone, Copy)]
 struct ObjectSpread {
-    c: Config,
+    config: Config,
 }
 
 impl Parallel for ObjectSpread {
     fn create(&self) -> Self {
-        ObjectSpread { c: self.c }
+        ObjectSpread {
+            config: self.config,
+        }
     }
 
     fn merge(&mut self, _: Self) {}
@@ -1080,7 +1082,7 @@ impl VisitMut for ObjectSpread {
                 return;
             }
 
-            let mut callee = if self.c.set_property {
+            let mut callee = if self.config.set_property {
                 helper!(extends, "extends")
             } else {
                 helper!(object_spread, "objectSpread")
@@ -1098,7 +1100,7 @@ impl VisitMut for ObjectSpread {
                     match prop {
                         PropOrSpread::Prop(..) => {
                             // before is spread element
-                            if !first && obj.props.is_empty() && !self.c.pure_getters {
+                            if !first && obj.props.is_empty() && !self.config.pure_getters {
                                 buf = vec![Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: callee.clone(),
@@ -1113,7 +1115,7 @@ impl VisitMut for ObjectSpread {
                             // Push object if it's not empty
                             if first || !obj.props.is_empty() {
                                 buf.push(obj.take().as_arg());
-                                if !first && !self.c.pure_getters {
+                                if !first && !self.config.pure_getters {
                                     buf = vec![Expr::Call(CallExpr {
                                         span: DUMMY_SP,
                                         callee: helper!(object_spread_props, "objectSpreadProps"),
@@ -1131,7 +1133,7 @@ impl VisitMut for ObjectSpread {
                 }
 
                 if !obj.props.is_empty() {
-                    if !self.c.pure_getters {
+                    if !self.config.pure_getters {
                         callee = helper!(object_spread_props, "objectSpreadProps");
                     }
                     buf.push(obj.as_arg());
