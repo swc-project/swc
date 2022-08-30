@@ -33,7 +33,7 @@ __decorate([
         Object,
         typeof Object === "undefined" ? Object : Object,
         Object,
-        Number
+        typeof BigInt === "undefined" ? Object : BigInt
     ])
 ], Sample.prototype, "method", null);
 __decorate([
