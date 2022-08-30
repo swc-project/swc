@@ -195,7 +195,7 @@ describe("minify", () => {
 
         expect(output).toMatchInlineSnapshot(`
             Object {
-              "code": "const o=1;console.log(1)",
+              "code": "const o=1;console.log(1);",
             }
         `);
     });
@@ -207,7 +207,7 @@ describe("minify", () => {
 
         expect(output).toMatchInlineSnapshot(`
             Object {
-              "code": "const o=1;console.log(1)",
+              "code": "const o=1;console.log(1);",
             }
         `);
     });
