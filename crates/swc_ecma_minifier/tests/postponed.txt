@@ -40,7 +40,6 @@ collapse_vars/collapse_vars_constants/input.js
 collapse_vars/collapse_vars_do_while_drop_assign/input.js
 collapse_vars/collapse_vars_if/input.js
 collapse_vars/collapse_vars_lvalues/input.js
-collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_object/input.js
 collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_self_reference/input.js
