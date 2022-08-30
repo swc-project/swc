@@ -1,12 +1,15 @@
-console.log([...function* () {
-    var _loop = function* (i) {
-        Promise.resolve().then(() => {
-            console.log(`async: ${i}`);
-        });
-        yield i;
-    };
-
-    for (var i of [1, 2, 3]) {
-        yield* _loop(i);
-    }
-}()]);
+console.log([
+    ...function*() {
+        var _loop = function*(i) {
+            Promise.resolve().then(()=>{
+                console.log(`async: ${i}`);
+            });
+            yield i;
+        };
+        for (var i of [
+            1,
+            2,
+            3
+        ])yield* _loop(i);
+    }(), 
+]);
