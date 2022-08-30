@@ -30,9 +30,6 @@ _export(exports, {
     M: function() {
         return M;
     },
-    N: function() {
-        return N;
-    },
     a: function() {
         return a;
     }
