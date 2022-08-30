@@ -5,7 +5,7 @@
    :                   ^
    `----
 
-  x Expected "("
+  x Expected ident (exclude the keywords 'only', 'not', 'and', 'or' and 'layer')
    ,-[$DIR/tests/recovery/at-rule/media/feature/input.css:1:1]
  1 | @media screen and {}
    :               ^^^

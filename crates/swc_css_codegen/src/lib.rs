@@ -398,6 +398,13 @@ where
     }
 
     #[emitter]
+    fn emit_media_type(&mut self, n: &MediaType) -> Result {
+        match n {
+            MediaType::Ident(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_media_condition_type(&mut self, n: &MediaConditionType) -> Result {
         match n {
             MediaConditionType::All(n) => emit!(self, n),

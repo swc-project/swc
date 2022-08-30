@@ -582,6 +582,12 @@
     :        ^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
+ 14 | @media screen {
+    :        ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  14 | @media screen {
@@ -830,6 +836,12 @@
     `----
 
   x MediaQuery
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
+ 20 | @media screen {
+    :        ^^^^^^
+    `----
+
+  x MediaType
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  20 | @media screen {
     :        ^^^^^^

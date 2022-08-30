@@ -241,6 +241,12 @@
    :        ^^^^^^^^^^^^^^^^^^^
    `----
 
+  x MediaType
+   ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
+ 6 | @media screen and (foo: 1) {
+   :        ^^^^^^
+   `----
+
   x Ident
    ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
  6 | @media screen and (foo: 1) {
@@ -3198,6 +3204,12 @@
     `----
 
   x MediaQuery
+    ,-[$DIR/tests/fixture/csstree/1/input.css:44:1]
+ 44 | @import 'foo' screen;
+    :               ^^^^^^
+    `----
+
+  x MediaType
     ,-[$DIR/tests/fixture/csstree/1/input.css:44:1]
  44 | @import 'foo' screen;
     :               ^^^^^^

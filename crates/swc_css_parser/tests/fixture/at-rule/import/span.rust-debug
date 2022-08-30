@@ -592,6 +592,12 @@
     :                      ^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:10:1]
+ 10 | @import "common.css" screen;
+    :                      ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:10:1]
  10 | @import "common.css" screen;
@@ -656,6 +662,12 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:11:1]
  11 | @import url('landscape.css') screen and (orientation:landscape);
     :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:11:1]
+ 11 | @import url('landscape.css') screen and (orientation:landscape);
+    :                              ^^^^^^
     `----
 
   x Ident
@@ -1276,6 +1288,12 @@
     :                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
+ 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+    :                                                   ^^^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
  19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
@@ -1448,6 +1466,12 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:20:1]
  20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
     :                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:20:1]
+ 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+    :                                                   ^^^^^^^^
     `----
 
   x Ident
@@ -2613,6 +2637,12 @@
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:46:1]
+ 46 | @import url(test.css) screen and (orientation:landscape);
+    :                       ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:46:1]
  46 | @import url(test.css) screen and (orientation:landscape);
@@ -2739,6 +2769,12 @@
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:47:1]
+ 47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+    :                       ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:47:1]
  47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
@@ -2863,6 +2899,12 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:48:1]
  48 | @import url(test.css)screen and (orientation:landscape);
     :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:48:1]
+ 48 | @import url(test.css)screen and (orientation:landscape);
+    :                      ^^^^^^
     `----
 
   x Ident
@@ -2991,6 +3033,12 @@
     :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:49:1]
+ 49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
+    :                         ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:49:1]
  49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
@@ -3115,6 +3163,12 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:50:1]
  50 | @import url(test.css) screen and (orientation:landscape);
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:50:1]
+ 50 | @import url(test.css) screen and (orientation:landscape);
+    :                       ^^^^^^
     `----
 
   x Ident
@@ -5089,6 +5143,12 @@
      :                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:109:1]
+ 109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
+     :                                            ^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:109:1]
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
@@ -5225,6 +5285,12 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:110:1]
  110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
      :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:110:1]
+ 110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
+     :                                         ^^^^^^
      `----
 
   x Ident
@@ -5995,6 +6061,12 @@
      :                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:130:1]
+ 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
+     :                                                   ^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:130:1]
  130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
@@ -6331,6 +6403,12 @@
      :                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:133:1]
+ 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
+     :                                                                  ^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:133:1]
  133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
@@ -6509,6 +6587,12 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:134:1]
  134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
      :                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:134:1]
+ 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                         ^^^^^^
      `----
 
   x Ident
@@ -6695,6 +6779,12 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
  135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
      :                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
+ 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+     :                                                           ^^^^^^
      `----
 
   x Ident
@@ -6931,6 +7021,12 @@
      :                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:137:1]
+ 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
+     :                                                                     ^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:137:1]
  137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
@@ -7135,6 +7231,12 @@
      :                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:138:1]
+ 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
+     :                                                               ^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:138:1]
  138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
@@ -7277,6 +7379,12 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
  139 | @import url("./test.css")screen and (min-width: 400px);
      :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
+ 139 | @import url("./test.css")screen and (min-width: 400px);
+     :                          ^^^^^^
      `----
 
   x Ident
@@ -7483,6 +7591,12 @@
      :                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:140:1]
+ 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+     :                                                                                                           ^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:140:1]
  140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
@@ -7687,6 +7801,12 @@
      :                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:141:1]
+ 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+     :                                                                  ^^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:141:1]
  141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
@@ -7889,6 +8009,12 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:142:1]
  142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
      :                                                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:142:1]
+ 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
+     :                                                                                                                                                                                         ^^^^^^
      `----
 
   x Ident
@@ -8131,6 +8257,12 @@
      :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:145:1]
+ 145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
+     :                                     ^^^^^
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:145:1]
  145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
@@ -8255,6 +8387,12 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
  146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
      :                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
+     :                                                   ^^^^^
      `----
 
   x Ident
@@ -8957,6 +9095,12 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:154:1]
  154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
      :                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:154:1]
+ 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
+     :                                                                             ^^^^^^
      `----
 
   x Ident

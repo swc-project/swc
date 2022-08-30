@@ -619,6 +619,12 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x MediaType
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:12:5]
+ 12 | @media screen and (min-width: 900px) {
+    :        ^^^^^^
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:12:5]
  12 | @media screen and (min-width: 900px) {
