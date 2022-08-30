@@ -10,7 +10,7 @@ it("should handle minify", () => {
                 minify: true
             })
             .code.trim()
-    ).toBe(`import foo,{bar}from"foo"`);
+    ).toBe(`import foo,{bar}from"foo";`);
 });
 
 it("should handle sourceMaps = false", () => {
