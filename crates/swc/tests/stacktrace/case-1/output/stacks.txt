@@ -3,6 +3,6 @@ $DIR/tests/stacktrace/case-1/input/index.js:5
               ^
 
 Error: Boom
-    at null.<anonymous> ($DIR/tests/stacktrace/case-1/input/index.js:5:15)
+    at <anonymous> ($DIR/tests/stacktrace/case-1/input/index.js:5:15)
     at Object.<anonymous> ($DIR/tests/stacktrace/case-1/input/index.js:6:7)
     at node:internal/main/run_main_module:17:47
