@@ -234,7 +234,7 @@ impl BlockScoping {
                 definite: false,
             });
 
-            let mut call = CallExpr {
+            let mut call: Expr = CallExpr {
                 span: DUMMY_SP,
                 callee: var_name.as_callee(),
                 args: args
@@ -243,7 +243,8 @@ impl BlockScoping {
                     .map(|i| Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)).as_arg())
                     .collect(),
                 type_args: None,
-            };
+            }
+            .into();
 
             if flow_helper.has_return || flow_helper.has_break || !flow_helper.label.is_empty() {
                 let ret = private_ident!("_ret");
@@ -257,7 +258,7 @@ impl BlockScoping {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: ret.clone().into(),
-                            init: Some(Box::new(call.take().into())),
+                            init: Some(Box::new(call.take())),
                             definite: false,
                         }],
                     })),
