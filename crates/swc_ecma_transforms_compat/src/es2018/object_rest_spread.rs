@@ -1,4 +1,7 @@
-use std::{iter, mem};
+use std::{
+    iter,
+    mem::{self, replace},
+};
 
 use serde::Deserialize;
 use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
@@ -561,6 +564,14 @@ impl ObjectRest {
             return (params.take(), body.take());
         }
 
+        let prev_state = replace(
+            self,
+            Self {
+                config: self.config,
+                ..Default::default()
+            },
+        );
+
         let params = params
             .drain(..)
             .map(|mut param| {
@@ -654,7 +665,7 @@ impl ObjectRest {
             })
             .collect();
 
-        (
+        let ret = (
             params,
             BlockStmt {
                 stmts: if self.vars.is_empty() {
@@ -672,7 +683,11 @@ impl ObjectRest {
                 .collect(),
                 ..body.take()
             },
-        )
+        );
+
+        *self = prev_state;
+
+        ret
     }
 
     fn fold_rest(
