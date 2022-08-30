@@ -8,6 +8,9 @@
 - **(es/compat)** Handle `yield` in block scoping pass (#5668) ([4820f0c](https://github.com/swc-project/swc/commit/4820f0cbcc2a732a94e87cbfecfb74524ae13ee4))
 
 
+- **(es/compat)** Don't move variables from object-rest pass (#5673) ([edef5f8](https://github.com/swc-project/swc/commit/edef5f868be972341c011b7ec4479ee2e0726a20))
+
+
 - **(es/minifier)** Don't inline variables declared multiple times (#5667) ([fd39bb6](https://github.com/swc-project/swc/commit/fd39bb6bff45d3200ad1934d4b2b470a7c8ec21c))
 
 
