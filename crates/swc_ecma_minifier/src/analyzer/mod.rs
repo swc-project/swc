@@ -722,7 +722,13 @@ where
         self.used_recursively.remove(&id);
 
         {
-            for id in collect_infects_from(&n.function, AliasConfig { marks: self.marks }) {
+            for id in collect_infects_from(
+                &n.function,
+                AliasConfig {
+                    marks: self.marks,
+                    ..Default::default()
+                },
+            ) {
                 self.data
                     .var_or_default(n.ident.to_id())
                     .add_infects_to(id.clone());
@@ -740,7 +746,13 @@ where
                 .mark_declared_as_fn_expr();
 
             {
-                for id in collect_infects_from(&n.function, AliasConfig { marks: self.marks }) {
+                for id in collect_infects_from(
+                    &n.function,
+                    AliasConfig {
+                        marks: self.marks,
+                        ..Default::default()
+                    },
+                ) {
                     self.data
                         .var_or_default(n_id.to_id())
                         .add_infects_to(id.to_id());
@@ -1100,7 +1112,13 @@ where
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                for id in collect_infects_from(init, AliasConfig { marks: self.marks }) {
+                for id in collect_infects_from(
+                    init,
+                    AliasConfig {
+                        marks: self.marks,
+                        ..Default::default()
+                    },
+                ) {
                     self.data
                         .var_or_default(var.to_id())
                         .add_infects_to(id.clone());

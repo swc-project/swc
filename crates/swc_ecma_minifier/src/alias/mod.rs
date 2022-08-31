@@ -12,8 +12,10 @@ use crate::marks::Marks;
 
 mod ctx;
 
+#[derive(Default)]
 pub(crate) struct AliasConfig {
     pub marks: Option<Marks>,
+    pub ignore_nested: bool,
 }
 
 pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
