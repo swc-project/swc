@@ -35,7 +35,6 @@ impl Parallel for StickyRegex {
 }
 
 #[swc_trace]
-#[parallel]
 impl VisitMut for StickyRegex {
     noop_visit_mut_type!();
 

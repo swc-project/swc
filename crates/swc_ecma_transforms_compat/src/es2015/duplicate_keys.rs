@@ -22,7 +22,6 @@ impl Parallel for DuplicateKeys {
 }
 
 #[swc_trace]
-#[parallel]
 impl VisitMut for DuplicateKeys {
     noop_visit_mut_type!();
 

@@ -57,7 +57,6 @@ impl Parallel for Operators {
 }
 
 #[swc_trace]
-#[parallel]
 impl VisitMut for Operators {
     noop_visit_mut_type!();
 

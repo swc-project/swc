@@ -21,7 +21,6 @@ impl Parallel for EsReservedWord {
     fn merge(&mut self, _: Self) {}
 }
 
-#[parallel]
 impl VisitMut for EsReservedWord {
     noop_visit_mut_type!();
 

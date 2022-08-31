@@ -57,7 +57,6 @@ impl Parallel for Shorthand {
 }
 
 #[swc_trace]
-#[parallel]
 impl VisitMut for Shorthand {
     noop_visit_mut_type!();
 

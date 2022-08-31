@@ -25,7 +25,6 @@ impl Parallel for TypeOfSymbol {
 }
 
 #[swc_trace]
-#[parallel]
 impl VisitMut for TypeOfSymbol {
     noop_visit_mut_type!();
 

@@ -27,7 +27,6 @@ impl Parallel for JsxSrc {
     fn merge(&mut self, _: Self) {}
 }
 
-#[parallel]
 impl VisitMut for JsxSrc {
     noop_visit_mut_type!();
 

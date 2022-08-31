@@ -1084,7 +1084,6 @@ impl Parallel for ObjectSpread {
 }
 
 #[swc_trace]
-#[parallel]
 impl VisitMut for ObjectSpread {
     noop_visit_mut_type!();
 

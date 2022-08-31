@@ -53,7 +53,6 @@ fn prepare(i: Ident) -> Ident {
 }
 
 #[swc_trace]
-#[parallel]
 impl VisitMut for FnName {
     noop_visit_mut_type!();
 
