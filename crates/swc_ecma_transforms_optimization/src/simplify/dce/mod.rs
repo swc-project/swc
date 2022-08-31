@@ -376,21 +376,17 @@ impl VisitMut for TreeShaker {
     fn visit_mut_module(&mut self, m: &mut Module) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-        let mut data = Data {
-            bindings: collect_decls(&*m),
-            ..Default::default()
-        };
+        self.data.bindings = collect_decls(&*m);
 
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
-                data: &mut data,
+                data: &mut self.data,
                 in_var_decl: false,
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
-        self.data = data;
         trace!("Used = {:?}", self.data.used_names);
 
         m.visit_mut_children_with(self);
