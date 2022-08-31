@@ -82,9 +82,39 @@ struct Analyzer<'a> {
 #[derive(Debug, Default)]
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
+    bindings: AHashSet<Id>,
+    found_direct_eval: bool,
 }
 
 impl Analyzer<'_> {
+    fn with_scope<F>(&mut self, op: F)
+    where
+        F: for<'aa> FnOnce(&mut Analyzer<'aa>),
+    {
+        let child = Scope {
+            parent: Some(&self.scope),
+            ..Default::default()
+        };
+
+        let mut v = Analyzer {
+            scope: child,
+            data: self.data,
+            cur_fn_id: self.cur_fn_id.clone(),
+            ..*self
+        };
+
+        op(&mut v);
+
+        // If we found eval, mark all declarations in scope and upper as used
+        if v.scope.found_direct_eval {
+            for id in v.scope.bindings {
+                v.data.used_names.entry(id).or_default().usage += 1;
+            }
+
+            self.scope.found_direct_eval = true;
+        }
+    }
+
     fn add(&mut self, id: Id, assign: bool) {
         if let Some(f) = &self.cur_fn_id {
             if id == *f {
