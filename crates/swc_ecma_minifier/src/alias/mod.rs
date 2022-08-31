@@ -18,6 +18,10 @@ pub(crate) struct AliasConfig {
     pub ignore_nested: bool,
 }
 
+pub(crate) trait InfectableNode {
+    fn is_fn_or_arrow(&self) -> bool;
+}
+
 pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
 where
     N: for<'aa> VisitWith<InfectionCollector<'aa>>,
@@ -46,6 +50,7 @@ where
 }
 
 pub(crate) struct InfectionCollector<'a> {
+    #[allow(unused)]
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,
 
@@ -82,29 +87,6 @@ impl InfectionCollector<'_> {
 
 impl Visit for InfectionCollector<'_> {
     noop_visit_type!();
-
-    fn visit_call_expr(&mut self, e: &CallExpr) {
-        self.config.ignore_nested = false;
-
-        e.visit_children_with(self);
-    }
-
-    fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
-        e.params.visit_with(self);
-
-        if !self.config.ignore_nested {
-            e.body.visit_with(self);
-        }
-    }
-
-    fn visit_function(&mut self, n: &Function) {
-        n.decorators.visit_with(self);
-        n.params.visit_with(self);
-
-        if !self.config.ignore_nested {
-            n.body.visit_with(self);
-        }
-    }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         match e.op {
