@@ -13,7 +13,7 @@ use pretty_assertions::assert_eq;
 use rayon::prelude::*;
 use swc_common::{
     chain,
-    pass::{CompilerPass, Optional, Repeat, Repeated},
+    pass::{CompilerPass, Optional, Repeated},
     Globals,
 };
 use swc_ecma_ast::*;
@@ -383,18 +383,27 @@ where
         if self.options.dead_code {
             let _timer = timer!("remove dead code");
 
-            let mut visitor = Repeat::new(swc_ecma_transforms_optimization::simplify::dce::dce(
-                swc_ecma_transforms_optimization::simplify::dce::Config { module_mark: None },
-                self.marks.unresolved_mark,
-            ));
-            n.apply(&mut visitor);
+            loop {
+                let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
+                    swc_ecma_transforms_optimization::simplify::dce::Config { module_mark: None },
+                    self.marks.unresolved_mark,
+                );
 
-            self.changed |= visitor.changed();
+                n.apply(&mut visitor);
 
-            #[cfg(feature = "debug")]
-            if visitor.changed() {
-                let src = n.dump();
-                debug!("===== After DCE =====\n{}\n{}", start, src);
+                self.changed |= visitor.changed();
+
+                #[cfg(feature = "debug")]
+                if visitor.changed() {
+                    let src = n.dump();
+                    debug!("===== After DCE =====\n{}\n{}", start, src);
+                }
+
+                if visitor.changed() {
+                    self.changed = true;
+                } else {
+                    break;
+                }
             }
         }
 
