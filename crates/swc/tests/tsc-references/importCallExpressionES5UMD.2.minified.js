@@ -43,7 +43,17 @@
     }), _classCallCheck = _classCallCheck.default, _interopRequireWildcard = _interopRequireWildcard.default, import("./0"), import("./0").then(function(zero) {
         return zero.foo();
     });
-    var p2 = import("./0"), D = function() {
+    var p2 = import("./0");
+    !function() {
+        "use strict";
+        function C() {
+            _classCallCheck(this, C);
+        }
+        return C.prototype.method = function() {
+            import("./0");
+        }, C;
+    }();
+    var D = function() {
         "use strict";
         function D() {
             _classCallCheck(this, D);

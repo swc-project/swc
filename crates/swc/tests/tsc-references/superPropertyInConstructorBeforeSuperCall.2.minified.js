@@ -6,3 +6,21 @@ import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _possible_constructor_return from "@swc/helpers/src/_possible_constructor_return.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
+!function(B) {
+    "use strict";
+    _inherits(C1, B);
+    var _super = _create_super(C1);
+    function C1() {
+        var _this;
+        return _class_call_check(this, C1), _get((_assert_this_initialized(_this), _get_prototype_of(C1.prototype)), "x", _this).call(_this), _possible_constructor_return(_this = _super.call(this));
+    }
+    return C1;
+}(function() {
+    "use strict";
+    function B(x) {
+        _class_call_check(this, B);
+    }
+    return B.prototype.x = function() {
+        return "";
+    }, B;
+}());

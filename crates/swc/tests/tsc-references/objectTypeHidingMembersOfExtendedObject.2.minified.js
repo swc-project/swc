@@ -14,7 +14,13 @@ var c, i, b, B = function(A) {
     "use strict";
     _class_call_check(this, A);
 });
-c.valueOf(), c.data.hm, c.hm, i.valueOf(), i.data.hm, i.hm;
+!function() {
+    "use strict";
+    function C() {
+        _class_call_check(this, C);
+    }
+    return C.prototype.valueOf = function() {}, C;
+}(), c.valueOf(), c.data.hm, c.hm, i.valueOf(), i.data.hm, i.hm;
 var a = {
     valueOf: function() {},
     data: new B()

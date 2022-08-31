@@ -6,7 +6,23 @@ var TargetHasOptional, SourceHasOptional, Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
 };
-!function(TargetHasOptional) {
+!function(Derived) {
+    "use strict";
+    _inherits(Derived2, Derived);
+    var _super = _create_super(Derived2);
+    function Derived2() {
+        return _class_call_check(this, Derived2), _super.apply(this, arguments);
+    }
+    return Derived2;
+}(function(Base) {
+    "use strict";
+    _inherits(Derived, Base);
+    var _super = _create_super(Derived);
+    function Derived() {
+        return _class_call_check(this, Derived), _super.apply(this, arguments);
+    }
+    return Derived;
+}(Base)), function(TargetHasOptional) {
     var c, a, d, e, f;
     new Base(), c = d, c = e, c = f, c = a, a = d, a = e, a = f, a = c;
 }(TargetHasOptional || (TargetHasOptional = {})), function(SourceHasOptional) {

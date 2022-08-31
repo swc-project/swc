@@ -9,4 +9,14 @@ module.exports = x;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("@swc/helpers/lib/_class_call_check.js").default, require("@swc/helpers/lib/_inherits.js").default, require("@swc/helpers/lib/_create_super.js").default, require("./foo1");
+});
+var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _createSuper = require("@swc/helpers/lib/_create_super.js").default;
+!function(x) {
+    "use strict";
+    _inherits(y, x);
+    var _super = _createSuper(y);
+    function y() {
+        return _classCallCheck(this, y), _super.apply(this, arguments);
+    }
+    return y;
+}(require("./foo1"));

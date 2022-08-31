@@ -1,7 +1,7 @@
 //// [parenthesizedContexualTyping1.ts]
-(function(g, x) {
-    g(10);
-})(function(x) {
+!function(g, x) {
+    return g(10);
+}(function(x) {
     return x;
 }, 10), function(g, x) {
     g(10);

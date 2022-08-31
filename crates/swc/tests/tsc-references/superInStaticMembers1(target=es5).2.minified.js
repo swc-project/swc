@@ -104,17 +104,41 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [varInContainingScopeStaticBlock2.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [varInContainingScopeStaticBlock3.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [classDeclInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -135,7 +159,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [funcDeclInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -156,7 +188,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [valueNamespaceInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -177,7 +217,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [enumInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -197,10 +245,8 @@ var Reflect, C = function(B1) {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [enumInContainingScopeStaticBlock.ts]
 var Reflect;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 Reflect || (Reflect = {}), super.w.call(this);
+export { };
 //// [constEnumInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -220,10 +266,8 @@ var Reflect, C = function(B1) {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [constEnumInContainingScopeStaticBlock.ts]
 var Reflect;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 Reflect || (Reflect = {}), super.w.call(this);
+export { };
 //// [namespaceImportInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -244,7 +288,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [namedImportInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -265,7 +317,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [namedImportOfInterfaceInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -286,7 +346,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -307,7 +375,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [namedImportOfConstEnumInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -328,7 +404,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [typeOnlyNamedImportInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -349,7 +433,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [defaultImportInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -370,7 +462,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [typeOnlyDefaultImportInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -391,7 +491,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [typeInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -412,7 +520,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [interfaceInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -433,7 +549,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [uninstantiatedNamespaceInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -454,7 +578,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [classExprInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -475,7 +607,15 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [inContainingClassExprStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -495,10 +635,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     C._ = _get(_get_prototype_of(C), "w", C).call(C);
 }();
 //// [inContainingClassExprStaticBlock.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
 super.w.call(this);
+export { };
 //// [funcExprInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -519,14 +657,16 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-super.w.call(this);
+!function(B1) {
+    "use strict";
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B), super.w.call(this);
 //// [inContainingFuncExprStaticField.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+export { };
 //// [inContainingFuncExprStaticBlock.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+export { };

@@ -16,14 +16,16 @@ var ref1 = [
     void 0,
     void 0,
     void 0
-], ref2 = (ref1[0], ref1[1], ref1[2], _sliced_to_array([
+];
+ref1[0], ref1[1], ref1[2];
+var ref2 = _sliced_to_array([
     1,
     "string"
 ].concat(_to_consumable_array([
     !0,
     !1,
     !0
-])), 2));
+])), 2);
 ref2[0], ref2[1];
 var _e = _sliced_to_array([
     1,
@@ -32,12 +34,14 @@ var _e = _sliced_to_array([
         b1: 4,
         b4: 0
     }
-], 3), _f = (_e[0], _e[1], _e[2], _sliced_to_array([
+], 3);
+_e[0], _e[1], _e[2];
+var _f = _sliced_to_array([
     1,
     2,
     {
         f3: 4,
         f5: 0
     }
-], 3)), ref3 = (_f[0], _f[1], _f[2]);
+], 3), ref3 = (_f[0], _f[1], _f[2]);
 ref3.f3, ref3.f5;

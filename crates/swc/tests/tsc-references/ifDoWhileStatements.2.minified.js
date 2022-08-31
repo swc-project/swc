@@ -5,7 +5,17 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var M, N, C = function C() {
     "use strict";
     _class_call_check(this, C);
-}, D = function D() {
+};
+!function(C) {
+    "use strict";
+    _inherits(C2, C);
+    var _super = _create_super(C2);
+    function C2() {
+        return _class_call_check(this, C2), _super.apply(this, arguments);
+    }
+    return C2;
+}(C);
+var D = function D() {
     "use strict";
     _class_call_check(this, D);
 };

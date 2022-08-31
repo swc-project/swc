@@ -1,5 +1,4 @@
 //// [literalTypes2.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(E) {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
 }(E || (E = {}));

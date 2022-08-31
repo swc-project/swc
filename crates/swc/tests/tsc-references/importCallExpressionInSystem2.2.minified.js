@@ -1,11 +1,9 @@
 //// [0.ts]
 System.register([], function(_export, _context) {
-    "use strict";
-    var B;
     return _export("B", void 0), {
         setters: [],
         execute: function() {
-            _export("B", B = class {
+            _export("B", class {
                 print() {
                     return "I am B";
                 }
