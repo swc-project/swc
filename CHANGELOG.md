@@ -25,6 +25,9 @@
 
 - **(es/decorators)** Support `bigint` (#5671) ([b1f1a86](https://github.com/swc-project/swc/commit/b1f1a86a9df32e4bc0d9210d0a90ada8a0121cca))
 
+
+- **(es/minifier)** Exclude `JSON` from alias list (#5698) ([fc28242](https://github.com/swc-project/swc/commit/fc28242b99b350daf9ef12281b7fef3836e5a6e0))
+
 ### Testing
 
 
