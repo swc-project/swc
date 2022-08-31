@@ -31,6 +31,9 @@
 
 - **(es/minifier)** Ignore closure in initializer from sequential inliner (#5702) ([217f519](https://github.com/swc-project/swc/commit/217f5199404ee36d5d8f1496445e2842bb717f50))
 
+
+- **(es/minifier)** Remove useless ES version check (#5703) ([5e2b6d5](https://github.com/swc-project/swc/commit/5e2b6d5551944c70566392fa777551b81f1a8b83))
+
 ### Testing
 
 
