@@ -7,10 +7,10 @@ import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
-var _C, _D, C = (_C = function C() {
+var _C, _D, C = (_define_property(_C = function C() {
     "use strict";
     _class_call_check(this, C);
-}, _define_property(_C, "a", 1), _define_property(_C, "b", _C.a + 1), _C), D = (_D = function(C) {
+}, "a", 1), _define_property(_C, "b", _C.a + 1), _C), D = (_D = function(C) {
     "use strict";
     _inherits(D, C);
     var _super = _create_super(D);

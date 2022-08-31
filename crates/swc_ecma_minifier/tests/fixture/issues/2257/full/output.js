@@ -7795,7 +7795,7 @@
                     has(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || has(ObjectPrototype, key)) && result.push(AllSymbols[key]);
                 }), result;
             };
-            if (NATIVE_SYMBOL || ($Symbol = function() {
+            if (NATIVE_SYMBOL || (redefine(($Symbol = function() {
                 if (this instanceof $Symbol) throw TypeError("Symbol is not a constructor");
                 var description = arguments.length && void 0 !== arguments[0] ? $toString(arguments[0]) : void 0, tag = uid(description), setter = function(value) {
                     this === ObjectPrototype && setter.call(ObjectPrototypeSymbols, value), has(this, HIDDEN) && has(this[HIDDEN], tag) && (this[HIDDEN][tag] = !1), setSymbolDescriptor(this, tag, createPropertyDescriptor(1, value));
@@ -7804,7 +7804,7 @@
                     configurable: !0,
                     set: setter
                 }), wrap(tag, description);
-            }, redefine($Symbol[PROTOTYPE], "toString", function() {
+            })[PROTOTYPE], "toString", function() {
                 return getInternalState(this).tag;
             }), redefine($Symbol, "withoutSetter", function(description) {
                 return wrap(uid(description), description);
