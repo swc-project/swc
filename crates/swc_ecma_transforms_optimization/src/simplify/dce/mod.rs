@@ -1,4 +1,4 @@
-use std::borrow::Cow;
+use std::{borrow::Cow, sync::Arc};
 
 use swc_atoms::js_word;
 use swc_common::{
@@ -12,7 +12,7 @@ use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, S
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-use tracing::{debug, span, trace, Level};
+use tracing::{debug, span, Level};
 
 /// Note: This becomes parallel if `concurrent` feature is enabled.
 pub fn dce(
@@ -54,7 +54,7 @@ struct TreeShaker {
 
     top_level: bool,
 
-    data: Data,
+    data: Arc<Data>,
 }
 
 impl CompilerPass for TreeShaker {
@@ -478,19 +478,22 @@ impl VisitMut for TreeShaker {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
         self.top_level = true;
 
-        self.data.bindings = collect_decls(&*m);
+        let mut data = Data {
+            bindings: collect_decls(&*m),
+            ..Default::default()
+        };
 
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
-                data: &mut self.data,
+                data: &mut data,
                 in_var_decl: false,
                 scope: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
-        trace!("Used = {:?}", self.data.used_names);
+        self.data = Arc::new(data);
 
         m.visit_mut_children_with(self);
     }
