@@ -13,7 +13,7 @@ version       = "0.4.9"
 bench = false
 
 [features]
-rkyv-impl = ["rkyv", "bytecheck"]
+rkyv-impl = ["rkyv"]
 
 [dependencies]
 bytecheck    = { version = "0.6.9", optional = true }

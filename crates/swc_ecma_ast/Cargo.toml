@@ -18,7 +18,7 @@ bench = false
 [features]
 default   = []
 fuzzing   = ["arbitrary", "swc_common/arbitrary"]
-rkyv-impl = ["rkyv", "bytecheck", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+rkyv-impl = ["rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
 
 [dependencies]
 arbitrary   = { version = "1", optional = true, features = ["derive"] }
