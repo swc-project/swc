@@ -5,7 +5,6 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
-use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     is_literal, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory, StmtLike,
 };

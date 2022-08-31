@@ -10,7 +10,7 @@ use swc_ecma_transforms_base::{
     helper, helper_expr,
     perf::{Check, Parallel},
 };
-use swc_ecma_transforms_macros::{fast_path, parallel};
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
     ExprFactory, StmtLike,
