@@ -83,6 +83,12 @@ impl InfectionCollector<'_> {
 impl Visit for InfectionCollector<'_> {
     noop_visit_type!();
 
+    fn visit_call_expr(&mut self, e: &CallExpr) {
+        self.config.ignore_nested = false;
+
+        e.visit_children_with(self);
+    }
+
     fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
         e.params.visit_with(self);
 
