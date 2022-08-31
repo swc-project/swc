@@ -1,4 +1,4 @@
-import { y, m } from "../index.f66dda46.js";
+import { s as style, y, m } from "../index.f66dda46.js";
 const styles = {
     about: "about_migxty"
 };

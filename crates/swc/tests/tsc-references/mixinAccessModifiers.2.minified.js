@@ -23,11 +23,6 @@ var Private = function Private() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Public2);
 };
-Mix(Private, function Private2() {
-    "use strict";
-    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-    _class_call_check(this, Private2);
-}), Mix(Private, Protected), Mix(Private, Public);
 !function(_superClass) {
     "use strict";
     _inherits(C1, _superClass);
@@ -36,7 +31,11 @@ Mix(Private, function Private2() {
         return _class_call_check(this, C1), _super.apply(this, arguments);
     }
     return C1;
-}(Mix(Private, Private2)), Mix(Private, Protected), Mix(Private, Public);
+}(Mix(Private, function Private2() {
+    "use strict";
+    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+    _class_call_check(this, Private2);
+})), Mix(Private, Protected), Mix(Private, Public);
 var C4 = function(_superClass) {
     "use strict";
     _inherits(C4, _superClass);

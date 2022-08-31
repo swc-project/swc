@@ -448,7 +448,11 @@
         }
         return array ? hex : "#" + hex.join("");
     }
-}), Array.alias("extend", "append"), String.implement({
+}), Array.alias("extend", "append");
+var fireEvent, $pick = function() {
+    return Array.from(arguments).pick();
+};
+String.implement({
     test: function(regex, params) {
         return ("regexp" == typeOf(regex) ? regex : RegExp("" + regex, params)).test(this);
     },
@@ -606,7 +610,9 @@
     run: function(args, bind) {
         return this.apply(bind, Array.from(args));
     }
-}), Object.create == Function.prototype.create && (Object.create = null), Function.attempt, function() {
+}), Object.create == Function.prototype.create && (Object.create = null);
+var $try = Function.attempt;
+!function() {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     Object.extend({
         subset: function(object, keys) {
@@ -934,7 +940,7 @@
         13: "enter"
     });
 }();
-var fireEvent, Event = DOMEvent;
+var Event = DOMEvent;
 Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     var Class1 = this.Class = new Type("Class", function(params) {
         instanceOf(params, Function) && (params = {
@@ -1695,7 +1701,8 @@ Browser.Element && (Element.prototype = Browser.Element.prototype, Element.proto
     $family: Function.from("element").hide()
 }, Element.mirror(function(name, method) {
     Element.Prototype[name] = method;
-})), Element.Constructors = {}, Element.Constructors = new Hash(), new Type("IFrame", function() {
+})), Element.Constructors = {}, Element.Constructors = new Hash();
+var IFrame = new Type("IFrame", function() {
     var iframe, params = Array.link(arguments, {
         properties: Type.isObject,
         iframe: function(obj) {
@@ -1713,8 +1720,7 @@ Browser.Element && (Element.prototype = Browser.Element.prototype, Element.proto
         onload.call(iframe.contentWindow);
     };
     return window.frames[props.id] ? onLoad() : iframe.addListener("load", onLoad), iframe;
-});
-var Elements = this.Elements = function(nodes) {
+}), Elements = this.Elements = function(nodes) {
     if (nodes && nodes.length) for(var node, uniques = {}, i = 0; node = nodes[i++];){
         var uid = Slick.uidOf(node);
         uniques[uid] || (uniques[uid] = !0, this.push(node));
