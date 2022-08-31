@@ -16,12 +16,8 @@ Object.defineProperty(exports, "__esModule", {
     ClassWithPrivateNamedAccessors: ()=>ClassWithPrivateNamedAccessors
 });
 const obj = {
-    method1 (p) {
-        return p;
-    },
-    method2 (p) {
-        return p;
-    }
+    method1: (p)=>p,
+    method2: (p)=>p
 }, classExpression = class {
     method1(p) {
         return p;

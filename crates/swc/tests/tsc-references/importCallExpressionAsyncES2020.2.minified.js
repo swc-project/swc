@@ -8,14 +8,14 @@ export class cl1 {
     }
 }
 export const obj = {
-    m: async ()=>{
+    async m () {
         await import('./test');
     }
 };
 export class cl2 {
     constructor(){
         this.p = {
-            m: async ()=>{
+            async m () {
                 await import('./test');
             }
         };

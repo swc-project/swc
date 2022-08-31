@@ -3,10 +3,8 @@ var i = {
     [Symbol.iterator]: {
         p: null
     },
-    [Symbol.toStringTag] () {
-        return {
+    [Symbol.toStringTag]: ()=>({
             p: void 0
-        };
-    }
+        })
 };
 i[Symbol.iterator], i[Symbol.toStringTag]();
