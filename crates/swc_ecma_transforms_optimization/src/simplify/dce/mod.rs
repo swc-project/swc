@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 
+use swc_atoms::js_word;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     pass::{CompilerPass, Repeated},
@@ -81,6 +82,7 @@ struct Analyzer<'a> {
 
 #[derive(Debug, Default)]
 struct Scope<'a> {
+    #[allow(dead_code)]
     parent: Option<&'a Scope<'a>>,
     bindings: AHashSet<Id>,
     found_direct_eval: bool,
@@ -132,6 +134,20 @@ impl Analyzer<'_> {
 
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
+
+    fn visit_callee(&mut self, n: &Callee) {
+        n.visit_children_with(self);
+
+        if let Callee::Expr(e) = n {
+            if let Expr::Ident(Ident {
+                sym: js_word!("eval"),
+                ..
+            }) = &**e
+            {
+                self.scope.found_direct_eval = true;
+            }
+        }
+    }
 
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         n.visit_children_with(self);
@@ -185,6 +201,12 @@ impl Visit for Analyzer<'_> {
         if let JSXObject::Ident(i) = e {
             self.add(i.to_id(), false);
         }
+    }
+
+    fn visit_function(&mut self, n: &Function) {
+        self.with_scope(|v| {
+            n.visit_children_with(v);
+        })
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
