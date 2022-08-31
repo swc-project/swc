@@ -74,8 +74,14 @@ struct Analyzer<'a> {
     #[allow(dead_code)]
     config: &'a Config,
     in_var_decl: bool,
+    scope: Scope<'a>,
     data: &'a mut Data,
     cur_fn_id: Option<Id>,
+}
+
+#[derive(Debug, Default)]
+struct Scope<'a> {
+    parent: Option<&'a Scope<'a>>,
 }
 
 impl Analyzer<'_> {
@@ -383,6 +389,7 @@ impl VisitMut for TreeShaker {
                 config: &self.config,
                 data: &mut self.data,
                 in_var_decl: false,
+                scope: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
