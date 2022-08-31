@@ -28,6 +28,9 @@
 
 - **(es/minifier)** Exclude `JSON` from alias list (#5698) ([fc28242](https://github.com/swc-project/swc/commit/fc28242b99b350daf9ef12281b7fef3836e5a6e0))
 
+
+- **(es/minifier)** Ignore closure in initializer from sequential inliner (#5702) ([217f519](https://github.com/swc-project/swc/commit/217f5199404ee36d5d8f1496445e2842bb717f50))
+
 ### Testing
 
 

@@ -6602,69 +6602,6 @@
                 expired = expired || 0;
                 var lastSegmentEndTime = intervalDuration(playlist, playlist.mediaSequence + playlist.segments.length, expired);
                 return useSafeLiveEnd && (liveEdgePadding = "number" == typeof liveEdgePadding ? liveEdgePadding : liveEdgeDelay(null, playlist), lastSegmentEndTime -= liveEdgePadding), Math.max(0, lastSegmentEndTime);
-            }, seekable = function(playlist, expired, liveEdgePadding) {
-                var seekableEnd = playlistEnd(playlist, expired, !0, liveEdgePadding);
-                return null === seekableEnd ? createTimeRange() : createTimeRange(expired || 0, seekableEnd);
-            }, getMediaInfoForTime = function(_ref4) {
-                for(var playlist = _ref4.playlist, currentTime = _ref4.currentTime, startingSegmentIndex = _ref4.startingSegmentIndex, startingPartIndex = _ref4.startingPartIndex, startTime = _ref4.startTime, experimentalExactManifestTimings = _ref4.experimentalExactManifestTimings, time = currentTime - startTime, partsAndSegments = getPartsAndSegments(playlist), startIndex = 0, i = 0; i < partsAndSegments.length; i++){
-                    var partAndSegment = partsAndSegments[i];
-                    if (startingSegmentIndex === partAndSegment.segmentIndex && ("number" != typeof startingPartIndex || "number" != typeof partAndSegment.partIndex || startingPartIndex === partAndSegment.partIndex)) {
-                        startIndex = i;
-                        break;
-                    }
-                }
-                if (time < 0) {
-                    if (startIndex > 0) for(var _i2 = startIndex - 1; _i2 >= 0; _i2--){
-                        var _partAndSegment = partsAndSegments[_i2];
-                        if (time += _partAndSegment.duration, experimentalExactManifestTimings) {
-                            if (time < 0) continue;
-                        } else if (time + TIME_FUDGE_FACTOR <= 0) continue;
-                        return {
-                            partIndex: _partAndSegment.partIndex,
-                            segmentIndex: _partAndSegment.segmentIndex,
-                            startTime: startTime - sumDurations({
-                                defaultDuration: playlist.targetDuration,
-                                durationList: partsAndSegments,
-                                startIndex: startIndex,
-                                endIndex: _i2
-                            })
-                        };
-                    }
-                    return {
-                        partIndex: partsAndSegments[0] && partsAndSegments[0].partIndex || null,
-                        segmentIndex: partsAndSegments[0] && partsAndSegments[0].segmentIndex || 0,
-                        startTime: currentTime
-                    };
-                }
-                if (startIndex < 0) {
-                    for(var _i3 = startIndex; _i3 < 0; _i3++)if ((time -= playlist.targetDuration) < 0) return {
-                        partIndex: partsAndSegments[0] && partsAndSegments[0].partIndex || null,
-                        segmentIndex: partsAndSegments[0] && partsAndSegments[0].segmentIndex || 0,
-                        startTime: currentTime
-                    };
-                    startIndex = 0;
-                }
-                for(var _i4 = startIndex; _i4 < partsAndSegments.length; _i4++){
-                    var _partAndSegment2 = partsAndSegments[_i4];
-                    if (time -= _partAndSegment2.duration, experimentalExactManifestTimings) {
-                        if (time > 0) continue;
-                    } else if (time - TIME_FUDGE_FACTOR >= 0) continue;
-                    return {
-                        partIndex: _partAndSegment2.partIndex,
-                        segmentIndex: _partAndSegment2.segmentIndex,
-                        startTime: startTime + sumDurations({
-                            defaultDuration: playlist.targetDuration,
-                            durationList: partsAndSegments,
-                            startIndex: startIndex,
-                            endIndex: _i4
-                        })
-                    };
-                }
-                return {
-                    segmentIndex: partsAndSegments[partsAndSegments.length - 1].segmentIndex,
-                    partIndex: partsAndSegments[partsAndSegments.length - 1].partIndex,
-                    startTime: currentTime
-                };
             }, isBlacklisted = function(playlist) {
                 return playlist.excludeUntil && playlist.excludeUntil > Date.now();
             }, isIncompatible = function(playlist) {
@@ -6712,8 +6649,71 @@
             }, Playlist = {
                 liveEdgeDelay: liveEdgeDelay,
                 duration: duration,
-                seekable: seekable,
-                getMediaInfoForTime: getMediaInfoForTime,
+                seekable: function(playlist, expired, liveEdgePadding) {
+                    var seekableEnd = playlistEnd(playlist, expired, !0, liveEdgePadding);
+                    return null === seekableEnd ? createTimeRange() : createTimeRange(expired || 0, seekableEnd);
+                },
+                getMediaInfoForTime: function(_ref4) {
+                    for(var playlist = _ref4.playlist, currentTime = _ref4.currentTime, startingSegmentIndex = _ref4.startingSegmentIndex, startingPartIndex = _ref4.startingPartIndex, startTime = _ref4.startTime, experimentalExactManifestTimings = _ref4.experimentalExactManifestTimings, time = currentTime - startTime, partsAndSegments = getPartsAndSegments(playlist), startIndex = 0, i = 0; i < partsAndSegments.length; i++){
+                        var partAndSegment = partsAndSegments[i];
+                        if (startingSegmentIndex === partAndSegment.segmentIndex && ("number" != typeof startingPartIndex || "number" != typeof partAndSegment.partIndex || startingPartIndex === partAndSegment.partIndex)) {
+                            startIndex = i;
+                            break;
+                        }
+                    }
+                    if (time < 0) {
+                        if (startIndex > 0) for(var _i2 = startIndex - 1; _i2 >= 0; _i2--){
+                            var _partAndSegment = partsAndSegments[_i2];
+                            if (time += _partAndSegment.duration, experimentalExactManifestTimings) {
+                                if (time < 0) continue;
+                            } else if (time + TIME_FUDGE_FACTOR <= 0) continue;
+                            return {
+                                partIndex: _partAndSegment.partIndex,
+                                segmentIndex: _partAndSegment.segmentIndex,
+                                startTime: startTime - sumDurations({
+                                    defaultDuration: playlist.targetDuration,
+                                    durationList: partsAndSegments,
+                                    startIndex: startIndex,
+                                    endIndex: _i2
+                                })
+                            };
+                        }
+                        return {
+                            partIndex: partsAndSegments[0] && partsAndSegments[0].partIndex || null,
+                            segmentIndex: partsAndSegments[0] && partsAndSegments[0].segmentIndex || 0,
+                            startTime: currentTime
+                        };
+                    }
+                    if (startIndex < 0) {
+                        for(var _i3 = startIndex; _i3 < 0; _i3++)if ((time -= playlist.targetDuration) < 0) return {
+                            partIndex: partsAndSegments[0] && partsAndSegments[0].partIndex || null,
+                            segmentIndex: partsAndSegments[0] && partsAndSegments[0].segmentIndex || 0,
+                            startTime: currentTime
+                        };
+                        startIndex = 0;
+                    }
+                    for(var _i4 = startIndex; _i4 < partsAndSegments.length; _i4++){
+                        var _partAndSegment2 = partsAndSegments[_i4];
+                        if (time -= _partAndSegment2.duration, experimentalExactManifestTimings) {
+                            if (time > 0) continue;
+                        } else if (time - TIME_FUDGE_FACTOR >= 0) continue;
+                        return {
+                            partIndex: _partAndSegment2.partIndex,
+                            segmentIndex: _partAndSegment2.segmentIndex,
+                            startTime: startTime + sumDurations({
+                                defaultDuration: playlist.targetDuration,
+                                durationList: partsAndSegments,
+                                startIndex: startIndex,
+                                endIndex: _i4
+                            })
+                        };
+                    }
+                    return {
+                        segmentIndex: partsAndSegments[partsAndSegments.length - 1].segmentIndex,
+                        partIndex: partsAndSegments[partsAndSegments.length - 1].partIndex,
+                        startTime: currentTime
+                    };
+                },
                 isEnabled: isEnabled,
                 isDisabled: function(playlist) {
                     return playlist.disabled;
@@ -9922,24 +9922,6 @@
                     var i, result = "";
                     for(i = start; i < end; i++)result += "%" + ("00" + bytes[i].toString(16)).slice(-2);
                     return result;
-                }, parseAacTimestamp = function(packet) {
-                    var frameStart, frameSize, frame;
-                    frameStart = 10, 0x40 & packet[5] && (frameStart += 4, frameStart += parseSyncSafeInteger(packet.subarray(10, 14)));
-                    do {
-                        if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) break;
-                        if ("PRIV" === String.fromCharCode(packet[frameStart], packet[frameStart + 1], packet[frameStart + 2], packet[frameStart + 3])) {
-                            frame = packet.subarray(frameStart + 10, frameStart + frameSize + 10);
-                            for(var i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
-                                if ("com.apple.streaming.transportStreamTimestamp" === unescape(percentEncode(frame, 0, i))) {
-                                    var d = frame.subarray(i + 1), size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
-                                    return size *= 4, size += 0x03 & d[7];
-                                }
-                                break;
-                            }
-                        }
-                        frameStart += 10, frameStart += frameSize;
-                    }while (frameStart < packet.byteLength)
-                    return null;
                 }, utils = {
                     isLikelyAacData: function(data) {
                         var offset = function getId3Offset(data, offset) {
@@ -9965,7 +9947,25 @@
                         }
                         return null;
                     },
-                    parseAacTimestamp: parseAacTimestamp
+                    parseAacTimestamp: function(packet) {
+                        var frameStart, frameSize, frame;
+                        frameStart = 10, 0x40 & packet[5] && (frameStart += 4, frameStart += parseSyncSafeInteger(packet.subarray(10, 14)));
+                        do {
+                            if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) break;
+                            if ("PRIV" === String.fromCharCode(packet[frameStart], packet[frameStart + 1], packet[frameStart + 2], packet[frameStart + 3])) {
+                                frame = packet.subarray(frameStart + 10, frameStart + frameSize + 10);
+                                for(var i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
+                                    if ("com.apple.streaming.transportStreamTimestamp" === unescape(percentEncode(frame, 0, i))) {
+                                        var d = frame.subarray(i + 1), size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
+                                        return size *= 4, size += 0x03 & d[7];
+                                    }
+                                    break;
+                                }
+                            }
+                            frameStart += 10, frameStart += frameSize;
+                        }while (frameStart < packet.byteLength)
+                        return null;
+                    }
                 };
                 (_AacStream = function() {
                     var everything = new Uint8Array(), timeStamp = 0;
@@ -11051,16 +11051,6 @@
                     return;
                 }
                 options.transmuxer.transmuxQueue.push(options);
-            }, createTransmuxer = function(options) {
-                var transmuxer = new TransmuxWorker();
-                transmuxer.currentTransmux = null, transmuxer.transmuxQueue = [];
-                var term = transmuxer.terminate;
-                return transmuxer.terminate = function() {
-                    return transmuxer.currentTransmux = null, transmuxer.transmuxQueue.length = 0, term.call(transmuxer);
-                }, transmuxer.postMessage({
-                    action: "init",
-                    options: options
-                }), transmuxer;
             }, segmentTransmuxer = {
                 reset: function(transmuxer) {
                     enqueueAction("reset", transmuxer);
@@ -11069,7 +11059,17 @@
                     enqueueAction("endTimeline", transmuxer);
                 },
                 transmux: transmux,
-                createTransmuxer: createTransmuxer
+                createTransmuxer: function(options) {
+                    var transmuxer = new TransmuxWorker();
+                    transmuxer.currentTransmux = null, transmuxer.transmuxQueue = [];
+                    var term = transmuxer.terminate;
+                    return transmuxer.terminate = function() {
+                        return transmuxer.currentTransmux = null, transmuxer.transmuxQueue.length = 0, term.call(transmuxer);
+                    }, transmuxer.postMessage({
+                        action: "init",
+                        options: options
+                    }), transmuxer;
+                }
             }, workerCallback = function(options) {
                 var transmuxer = options.transmuxer, endAction = options.endAction || options.action, callback = options.callback, message = (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__.Z)({}, options, {
                     endAction: null,

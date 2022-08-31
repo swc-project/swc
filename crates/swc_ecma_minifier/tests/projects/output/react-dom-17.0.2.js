@@ -5698,13 +5698,13 @@
     function mountOpaqueIdentifier() {
         var makeId = makeClientIdInDEV.bind(null, warnOnOpaqueIdentifierAccessInDEV.bind(null, currentlyRenderingFiber$1));
         if (isHydrating) {
-            var attemptToReadValue, didUpgrade = !1, fiber = currentlyRenderingFiber$1, id = (attemptToReadValue = function() {
-                throw didUpgrade || (didUpgrade = !0, isUpdatingOpaqueValueInRenderPhase = !0, setId(makeId()), isUpdatingOpaqueValueInRenderPhase = !1, warnOnOpaqueIdentifierAccessInDEV(fiber)), Error("The object passed back from useOpaqueIdentifier is meant to be passed through to attributes only. Do not read the value directly.");
-            }, {
+            var attemptToReadValue, didUpgrade = !1, fiber = currentlyRenderingFiber$1, id = {
                 $$typeof: REACT_OPAQUE_ID_TYPE,
-                toString: attemptToReadValue,
+                toString: attemptToReadValue = function() {
+                    throw didUpgrade || (didUpgrade = !0, isUpdatingOpaqueValueInRenderPhase = !0, setId(makeId()), isUpdatingOpaqueValueInRenderPhase = !1, warnOnOpaqueIdentifierAccessInDEV(fiber)), Error("The object passed back from useOpaqueIdentifier is meant to be passed through to attributes only. Do not read the value directly.");
+                },
                 valueOf: attemptToReadValue
-            }), setId = mountState(id)[1];
+            }, setId = mountState(id)[1];
             return (2 & currentlyRenderingFiber$1.mode) == 0 && (currentlyRenderingFiber$1.flags |= 516, pushEffect(5, function() {
                 setId(makeId());
             }, void 0, null)), id;
