@@ -13,7 +13,7 @@ use pretty_assertions::assert_eq;
 use rayon::prelude::*;
 use swc_common::{
     chain,
-    pass::{CompilerPass, Optional, Repeated},
+    pass::{CompilerPass, Optional, Repeat, Repeated},
     Globals,
 };
 use swc_ecma_ast::*;
@@ -383,10 +383,10 @@ where
         {
             let _timer = timer!("remove dead code");
 
-            let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
+            let mut visitor = Repeat::new(swc_ecma_transforms_optimization::simplify::dce::dce(
                 swc_ecma_transforms_optimization::simplify::dce::Config { module_mark: None },
                 self.marks.unresolved_mark,
-            );
+            ));
             n.apply(&mut visitor);
 
             self.changed |= visitor.changed();
