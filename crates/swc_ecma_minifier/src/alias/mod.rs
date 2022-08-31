@@ -19,14 +19,43 @@ pub(crate) struct AliasConfig {
 }
 
 pub(crate) trait InfectableNode {
-    fn is_fn_or_arrow(&self) -> bool;
+    fn is_fn_or_arrow_expr(&self) -> bool;
+}
+
+impl InfectableNode for Function {
+    fn is_fn_or_arrow_expr(&self) -> bool {
+        false
+    }
+}
+
+impl InfectableNode for Expr {
+    fn is_fn_or_arrow_expr(&self) -> bool {
+        match self {
+            Expr::Arrow(..) | Expr::Fn(..) => true,
+            _ => false,
+        }
+    }
+}
+
+impl<T> InfectableNode for Box<T>
+where
+    T: InfectableNode,
+{
+    fn is_fn_or_arrow_expr(&self) -> bool {
+        (**self).is_fn_or_arrow_expr()
+    }
 }
 
 pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
 where
-    N: for<'aa> VisitWith<InfectionCollector<'aa>>,
-    N: VisitWith<BindingCollector<Id>>,
+    N: InfectableNode
+        + VisitWith<BindingCollector<Id>>
+        + for<'aa> VisitWith<InfectionCollector<'aa>>,
 {
+    if config.ignore_nested && node.is_fn_or_arrow_expr() {
+        return Default::default();
+    }
+
     let unresolved_ctxt = config
         .marks
         .map(|m| SyntaxContext::empty().apply_mark(m.unresolved_mark));
