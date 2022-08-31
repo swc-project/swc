@@ -1,9 +1,7 @@
 var foo = {
     [[
         1
-    ]] (v) {
-        return v;
-    }
+    ]]: (v)=>v
 };
 console.log(foo[[
     1
