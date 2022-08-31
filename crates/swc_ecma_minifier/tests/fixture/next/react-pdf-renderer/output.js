@@ -2771,7 +2771,7 @@
                     var a = rQ(e.children[o], i, t);
                     a = rK(a), i += a.length, r = r.concat(a);
                 }
-                return rN(r = r.map(function() {
+                return r = r.map(function() {
                     for(var e, r = arguments.length, i = Array(r), o = 0; o < r; o++)i[o] = arguments[o];
                     return e = rJ.apply(void 0, [
                         t
@@ -2779,7 +2779,7 @@
                         "subPageNumber",
                         "subPageTotalPages"
                     ], e);
-                }), e);
+                }), rN(r, e);
             }, ne = function(e) {
                 return function(t) {
                     var r = n.matchPercent(t);
