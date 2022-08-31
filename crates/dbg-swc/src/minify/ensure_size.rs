@@ -62,6 +62,12 @@ impl EnsureSize {
                     println!();
                     println!("{}", f.fm.name);
                 }
+                if f.swc.gzipped_size > terser.gzipped_size {
+                    println!("  Gzipped");
+                    println!("    swc: {} bytes", f.swc.gzipped_size);
+                    println!("    terser: {} bytes", terser.gzipped_size);
+                }
+
                 if f.swc.mangled_size > terser.mangled_size {
                     println!("  Mangled");
                     println!("    swc: {} bytes", f.swc.mangled_size);
