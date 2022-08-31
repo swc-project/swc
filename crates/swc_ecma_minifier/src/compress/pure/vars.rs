@@ -168,8 +168,11 @@ impl Pure<'_> {
     /// This merges all variables to first variable declartion with an
     /// initializer. If such variable declaration is not found, variables are
     /// prepended to `stmts`.
-    pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
-    where
+    pub(super) fn collapse_vars_without_init<T>(
+        &mut self,
+        stmts: &mut Vec<T>,
+        target_var_kind: VarDeclKind,
+    ) where
         T: StmtLike,
         Vec<T>:
             VisitWith<VarWithOutInitCounter> + VisitMutWith<VarMover> + VisitMutWith<VarPrepender>,
@@ -184,12 +187,9 @@ impl Pure<'_> {
             let mut found_other = false;
             let if_need_work = stmts.iter().any(|stmt| {
                 match stmt.as_stmt() {
-                    Some(Stmt::Decl(Decl::Var(
-                        v @ VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        },
-                    ))) => {
+                    Some(Stmt::Decl(Decl::Var(v @ VarDecl { kind, .. })))
+                        if *kind == target_var_kind =>
+                    {
                         if !(found_other && found_vars_without_init)
                             && v.decls.iter().all(|v| v.init.is_none())
                         {
@@ -222,7 +222,12 @@ impl Pure<'_> {
             });
 
             // Check for nested variable declartions.
-            let mut v = VarWithOutInitCounter::default();
+            let mut v = VarWithOutInitCounter {
+                target_var_kind,
+                need_work: false,
+                found_var_without_init: false,
+                found_var_with_init: false,
+            };
             stmts.visit_with(&mut v);
             if !if_need_work && !v.need_work {
                 return;
@@ -234,6 +239,7 @@ impl Pure<'_> {
 
         let vars = {
             let mut v = VarMover {
+                target_var_kind,
                 vars: Default::default(),
                 var_decl_kind: Default::default(),
             };
@@ -244,7 +250,10 @@ impl Pure<'_> {
 
         // Prepend vars
 
-        let mut prepender = VarPrepender { vars };
+        let mut prepender = VarPrepender {
+            target_var_kind,
+            vars,
+        };
         stmts.visit_mut_with(&mut prepender);
 
         if !prepender.vars.is_empty() {
@@ -252,7 +261,7 @@ impl Pure<'_> {
                 stmts,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
+                    kind: target_var_kind,
                     declare: Default::default(),
                     decls: prepender.vars,
                 }))),
@@ -263,8 +272,9 @@ impl Pure<'_> {
 
 /// See if there's two [VarDecl] which has [VarDeclarator] without the
 /// initializer.
-#[derive(Default)]
 pub(super) struct VarWithOutInitCounter {
+    target_var_kind: VarDeclKind,
+
     need_work: bool,
     found_var_without_init: bool,
     found_var_with_init: bool,
@@ -286,7 +296,7 @@ impl Visit for VarWithOutInitCounter {
     fn visit_var_decl(&mut self, v: &VarDecl) {
         v.visit_children_with(self);
 
-        if v.kind != VarDeclKind::Var {
+        if v.kind != self.target_var_kind {
             return;
         }
 
@@ -323,6 +333,8 @@ impl Visit for VarWithOutInitCounter {
 
 /// Moves all variable without initializer.
 pub(super) struct VarMover {
+    target_var_kind: VarDeclKind,
+
     vars: Vec<VarDeclarator>,
     var_decl_kind: Option<VarDeclKind>,
 }
@@ -382,7 +394,7 @@ impl VisitMut for VarMover {
     fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
         d.visit_mut_children_with(self);
 
-        if self.var_decl_kind.unwrap() != VarDeclKind::Var {
+        if self.var_decl_kind.unwrap() != self.target_var_kind {
             return;
         }
 
@@ -427,6 +439,8 @@ impl VisitMut for VarMover {
 }
 
 pub(super) struct VarPrepender {
+    target_var_kind: VarDeclKind,
+
     vars: Vec<VarDeclarator>,
 }
 
@@ -451,7 +465,7 @@ impl VisitMut for VarPrepender {
             return;
         }
 
-        if v.kind != VarDeclKind::Var {
+        if v.kind != self.target_var_kind {
             return;
         }
 
