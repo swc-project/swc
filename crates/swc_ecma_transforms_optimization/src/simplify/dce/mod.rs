@@ -8,7 +8,7 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value};
+use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -541,41 +541,6 @@ impl VisitMut for TreeShaker {
                         })),
                     });
                 }
-            }
-        }
-
-        if let Stmt::If(if_stmt) = s {
-            if let Value::Known(v) = if_stmt.test.as_pure_bool(&self.expr_ctx) {
-                if v {
-                    if if_stmt.alt.is_some() {
-                        self.changed = true;
-                    }
-
-                    if_stmt.alt = None;
-                    debug!("Dropping `alt` of an if statement because condition is always true");
-                } else {
-                    self.changed = true;
-                    if let Some(alt) = if_stmt.alt.take() {
-                        *s = *alt;
-                        debug!(
-                            "Dropping `cons` of an if statement because condition is always false"
-                        );
-                    } else {
-                        debug!("Dropping an if statement because condition is always false");
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    }
-                    return;
-                }
-            }
-
-            if if_stmt.alt.is_empty()
-                && if_stmt.cons.is_empty()
-                && !if_stmt.test.may_have_side_effects(&self.expr_ctx)
-            {
-                debug!("Dropping an if statement");
-                self.changed = true;
-                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                return;
             }
         }
 
