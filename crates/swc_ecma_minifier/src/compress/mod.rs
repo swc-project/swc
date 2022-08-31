@@ -388,7 +388,10 @@ where
 
             loop {
                 let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
-                    swc_ecma_transforms_optimization::simplify::dce::Config { module_mark: None },
+                    swc_ecma_transforms_optimization::simplify::dce::Config {
+                        module_mark: None,
+                        top_level: self.options.top_level(),
+                    },
                     self.marks.unresolved_mark,
                 );
 
