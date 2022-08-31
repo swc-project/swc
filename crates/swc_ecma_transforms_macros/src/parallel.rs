@@ -115,7 +115,8 @@ fn make_par_visit_method(
                     use swc_ecma_visit::FoldWith;
 
                     #[cfg(feature = "rayon")]
-                    if nodes.len() >= threshold {
+                    if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1")
+                    {
                         use rayon::prelude::*;
 
                         let (visitor, mut nodes) = ::swc_common::GLOBALS.with(|globals| {
@@ -204,7 +205,8 @@ fn make_par_visit_method(
                     use swc_ecma_visit::FoldWith;
 
                     #[cfg(feature = "rayon")]
-                    if nodes.len() >= threshold {
+                    if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1")
+                    {
                         use rayon::prelude::*;
 
                         let (visitor, mut nodes) = ::swc_common::GLOBALS.with(|globals| {
@@ -289,7 +291,8 @@ fn make_par_visit_method(
                     use swc_ecma_visit::VisitMutWith;
 
                     #[cfg(feature = "rayon")]
-                    if nodes.len() >= threshold {
+                    if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1")
+                    {
                         ::swc_common::GLOBALS.with(|globals| {
                             swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
                                 HANDLER.with(|handler| {
@@ -380,7 +383,8 @@ fn make_par_visit_method(
                     use swc_ecma_visit::VisitMutWith;
 
                     #[cfg(feature = "rayon")]
-                    if nodes.len() >= threshold {
+                    if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1")
+                    {
                         ::swc_common::GLOBALS.with(|globals| {
                             swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
                                 HANDLER.with(|handler| {
