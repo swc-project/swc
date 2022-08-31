@@ -749,13 +749,13 @@
                 var _ref$defaultResolveCo = _ref.defaultResolveComponent, defaultResolveComponent = void 0 === _ref$defaultResolveCo ? identity : _ref$defaultResolveCo, _render = _ref.render, onLoad = _ref.onLoad;
                 function loadable(loadableConstructor, options) {
                     void 0 === options && (options = {});
-                    var ctor, ctor1 = "function" == typeof (ctor = loadableConstructor) ? {
-                        requireAsync: ctor,
+                    var ctor = "function" == typeof (ctor1 = loadableConstructor) ? {
+                        requireAsync: ctor1,
                         resolve: function() {},
                         chunkName: function() {}
-                    } : ctor, cache = {};
+                    } : ctor1, cache = {};
                     function _getCacheKey(props) {
-                        return options.cacheKey ? options.cacheKey(props) : ctor1.resolve ? ctor1.resolve(props) : "static";
+                        return options.cacheKey ? options.cacheKey(props) : ctor.resolve ? ctor.resolve(props) : "static";
                     }
                     function resolve(module, props, Loadable) {
                         var Component = options.resolveComponent ? options.resolveComponent(module, props) : defaultResolveComponent(module);
@@ -764,7 +764,7 @@
                             preload: !0
                         }), Component;
                     }
-                    var InnerLoadable = function(_React$Component) {
+                    var ctor1, EnhancedInnerLoadable = withChunkExtractor(function(_React$Component) {
                         function InnerLoadable(props) {
                             var _this;
                             return ((_this = _React$Component.call(this, props) || this).state = {
@@ -772,12 +772,12 @@
                                 error: null,
                                 loading: !0,
                                 cacheKey: _getCacheKey(props)
-                            }, invariant(!props.__chunkExtractor || ctor1.requireSync, "SSR requires `@loadable/babel-plugin`, please install it"), props.__chunkExtractor) ? (!1 === options.ssr || (ctor1.requireAsync(props).catch(function() {
+                            }, invariant(!props.__chunkExtractor || ctor.requireSync, "SSR requires `@loadable/babel-plugin`, please install it"), props.__chunkExtractor) ? (!1 === options.ssr || (ctor.requireAsync(props).catch(function() {
                                 return null;
-                            }), _this.loadSync(), props.__chunkExtractor.addChunk(ctor1.chunkName(props))), function(self1) {
+                            }), _this.loadSync(), props.__chunkExtractor.addChunk(ctor.chunkName(props))), function(self1) {
                                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                                 return self1;
-                            }(_this)) : (!1 !== options.ssr && (ctor1.isReady && ctor1.isReady(props) || ctor1.chunkName && LOADABLE_SHARED.initialChunks[ctor1.chunkName(props)]) && _this.loadSync(), _this);
+                            }(_this)) : (!1 !== options.ssr && (ctor.isReady && ctor.isReady(props) || ctor.chunkName && LOADABLE_SHARED.initialChunks[ctor.chunkName(props)]) && _this.loadSync(), _this);
                         }
                         (0, inheritsLoose.Z)(InnerLoadable, _React$Component), InnerLoadable.getDerivedStateFromProps = function(props, state) {
                             var cacheKey = _getCacheKey(props);
@@ -810,12 +810,12 @@
                             });
                         }, _proto.loadSync = function() {
                             if (this.state.loading) try {
-                                var loadedModule = ctor1.requireSync(this.props), result = resolve(loadedModule, this.props, Loadable);
+                                var loadedModule = ctor.requireSync(this.props), result = resolve(loadedModule, this.props, Loadable);
                                 this.state.result = result, this.state.loading = !1;
                             } catch (error) {
                                 console.error("loadable-components: failed to synchronously load component, which expected to be available", {
-                                    fileName: ctor1.resolve(this.props),
-                                    chunkName: ctor1.chunkName(this.props),
+                                    fileName: ctor.resolve(this.props),
+                                    chunkName: ctor.chunkName(this.props),
                                     error: error ? error.message : error
                                 }), this.state.error = error;
                             }
@@ -842,12 +842,12 @@
                                 "__chunkExtractor",
                                 "forwardedRef"
                             ])), promise = this.getCache();
-                            return promise || ((promise = ctor1.requireAsync(props)).status = STATUS_PENDING, this.setCache(promise), promise.then(function() {
+                            return promise || ((promise = ctor.requireAsync(props)).status = STATUS_PENDING, this.setCache(promise), promise.then(function() {
                                 promise.status = "RESOLVED";
                             }, function(error) {
                                 console.error("loadable-components: failed to asynchronously load component", {
-                                    fileName: ctor1.resolve(_this4.props),
-                                    chunkName: ctor1.chunkName(_this4.props),
+                                    fileName: ctor.resolve(_this4.props),
+                                    chunkName: ctor.chunkName(_this4.props),
                                     error: error ? error.message : error
                                 }), promise.status = STATUS_REJECTED;
                             })), promise;
@@ -869,15 +869,15 @@
                                 })
                             });
                         }, InnerLoadable;
-                    }(_react_17_0_2_react.Component), EnhancedInnerLoadable = withChunkExtractor(InnerLoadable), Loadable = _react_17_0_2_react.forwardRef(function(props, ref) {
+                    }(_react_17_0_2_react.Component)), Loadable = _react_17_0_2_react.forwardRef(function(props, ref) {
                         return _react_17_0_2_react.createElement(EnhancedInnerLoadable, Object.assign({
                             forwardedRef: ref
                         }, props));
                     });
                     return Loadable.displayName = "Loadable", Loadable.preload = function(props) {
-                        ctor1.requireAsync(props);
+                        ctor.requireAsync(props);
                     }, Loadable.load = function(props) {
-                        return ctor1.requireAsync(props);
+                        return ctor.requireAsync(props);
                     }, Loadable;
                 }
                 return {
@@ -7795,7 +7795,7 @@
                     has(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || has(ObjectPrototype, key)) && result.push(AllSymbols[key]);
                 }), result;
             };
-            if (NATIVE_SYMBOL || ($Symbol = function() {
+            if (NATIVE_SYMBOL || (redefine(($Symbol = function() {
                 if (this instanceof $Symbol) throw TypeError("Symbol is not a constructor");
                 var description = arguments.length && void 0 !== arguments[0] ? $toString(arguments[0]) : void 0, tag = uid(description), setter = function(value) {
                     this === ObjectPrototype && setter.call(ObjectPrototypeSymbols, value), has(this, HIDDEN) && has(this[HIDDEN], tag) && (this[HIDDEN][tag] = !1), setSymbolDescriptor(this, tag, createPropertyDescriptor(1, value));
@@ -7804,7 +7804,7 @@
                     configurable: !0,
                     set: setter
                 }), wrap(tag, description);
-            }, redefine($Symbol[PROTOTYPE], "toString", function() {
+            })[PROTOTYPE], "toString", function() {
                 return getInternalState(this).tag;
             }), redefine($Symbol, "withoutSetter", function(description) {
                 return wrap(uid(description), description);
@@ -14719,7 +14719,7 @@
                     }
                     15 === b ? (c = Lj.bind(null, a), null === ag ? (ag = [
                         c
-                    ], bg = Of(Uf, jg)) : ag.push(c), c = Zf) : 14 === b ? c = hg(99, Lj.bind(null, a)) : (c = function(a) {
+                    ], bg = Of(Uf, jg)) : ag.push(c), c = Zf) : c = 14 === b ? hg(99, Lj.bind(null, a)) : hg(c = function(a) {
                         switch(a){
                             case 15:
                             case 14:
@@ -14745,7 +14745,7 @@
                             default:
                                 throw Error(y(358, a));
                         }
-                    }(b), c = hg(c, Nj.bind(null, a))), a.callbackPriority = b, a.callbackNode = c;
+                    }(b), Nj.bind(null, a)), a.callbackPriority = b, a.callbackNode = c;
                 }
             }
             function Nj(a) {

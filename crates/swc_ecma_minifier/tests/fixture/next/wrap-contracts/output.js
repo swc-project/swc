@@ -16857,7 +16857,7 @@
                                 }, n);
                             };
                         }
-                        var c = Object.getPrototypeOf(function() {}), h = Object.setPrototypeOf((n = {
+                        var c = Object.getPrototypeOf(function() {}), h = Object.setPrototypeOf((_defineProperty(n = {
                             get stream () {
                                 return this[d];
                             },
@@ -16879,7 +16879,7 @@
                                 }
                                 return this[l] = n, n;
                             }
-                        }, _defineProperty(n, Symbol.asyncIterator, function() {
+                        }, Symbol.asyncIterator, function() {
                             return this;
                         }), _defineProperty(n, "return", function() {
                             var e = this;

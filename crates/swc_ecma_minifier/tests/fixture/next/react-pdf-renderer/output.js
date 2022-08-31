@@ -2771,7 +2771,7 @@
                     var a = rQ(e.children[o], i, t);
                     a = rK(a), i += a.length, r = r.concat(a);
                 }
-                return r = r.map(function() {
+                return rN(r = r.map(function() {
                     for(var e, r = arguments.length, i = Array(r), o = 0; o < r; o++)i[o] = arguments[o];
                     return e = rJ.apply(void 0, [
                         t
@@ -2779,7 +2779,7 @@
                         "subPageNumber",
                         "subPageTotalPages"
                     ], e);
-                }), rN(r, e);
+                }), e);
             }, ne = function(e) {
                 return function(t) {
                     var r = n.matchPercent(t);
@@ -21712,7 +21712,7 @@
                         function y(e) {
                             n.nextTick($, e);
                         }
-                        var g = Object.getPrototypeOf(function() {}), v = Object.setPrototypeOf((o = {
+                        var g = Object.getPrototypeOf(function() {}), v = Object.setPrototypeOf((i(o = {
                             get stream () {
                                 return this[p];
                             },
@@ -21742,7 +21742,7 @@
                                 }
                                 return this[f] = r, r;
                             }
-                        }, i(o, Symbol.asyncIterator, function() {
+                        }, Symbol.asyncIterator, function() {
                             return this;
                         }), i(o, "return", function() {
                             var e = this;

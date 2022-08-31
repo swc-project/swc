@@ -5242,14 +5242,14 @@
                 return parsers.forEach(function(parser) {
                     parser && parser.config && object_assign_default()(config, parser.config);
                 }), createParser(config);
-            }, getWidth = function(n, scale) {
-                var n1;
-                return get(scale, n, "number" != typeof (n1 = n) || isNaN(n1) || n > 1 ? n : 100 * n + "%");
             }, layout = system({
                 width: {
                     property: "width",
                     scale: "sizes",
-                    transform: getWidth
+                    transform: function(n, scale) {
+                        var n1;
+                        return get(scale, n, "number" != typeof (n1 = n) || isNaN(n1) || n > 1 ? n : 100 * n + "%");
+                    }
                 },
                 height: {
                     property: "height",
