@@ -20,6 +20,9 @@
 
 
 
+- **(dbg-swc)** Improve minifier comparator (#5681) ([6febfe9](https://github.com/swc-project/swc/commit/6febfe900c53010f6f0fcac87385d8e6786b369e))
+
+
 - **(es/decorators)** Support `bigint` (#5671) ([b1f1a86](https://github.com/swc-project/swc/commit/b1f1a86a9df32e4bc0d9210d0a90ada8a0121cca))
 
 ### Testing
