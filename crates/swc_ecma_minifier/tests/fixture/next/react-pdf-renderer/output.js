@@ -21712,7 +21712,7 @@
                         function y(e) {
                             n.nextTick($, e);
                         }
-                        var g = Object.getPrototypeOf(function() {}), v = Object.setPrototypeOf((i(o = {
+                        var g = Object.getPrototypeOf(function() {}), v = Object.setPrototypeOf((o = {
                             get stream () {
                                 return this[p];
                             },
@@ -21742,7 +21742,7 @@
                                 }
                                 return this[f] = r, r;
                             }
-                        }, Symbol.asyncIterator, function() {
+                        }, i(o, Symbol.asyncIterator, function() {
                             return this;
                         }), i(o, "return", function() {
                             var e = this;
