@@ -28,6 +28,7 @@ pub fn dce(
         changed: false,
         pass: 0,
         data: Default::default(),
+        top_level: false,
     })
 }
 
@@ -50,6 +51,9 @@ struct TreeShaker {
     config: Config,
     changed: bool,
     pass: u16,
+
+    top_level: bool,
+
     data: Data,
 }
 
@@ -350,6 +354,15 @@ impl VisitMut for TreeShaker {
         }
     }
 
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        n.visit_mut_children_with(self);
+
+        let old_top_level = self.top_level;
+        self.top_level = false;
+        n.visit_mut_children_with(self);
+        self.top_level = old_top_level;
+    }
+
     fn visit_mut_decl(&mut self, n: &mut Decl) {
         n.visit_mut_children_with(self);
 
@@ -459,6 +472,7 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+        self.top_level = true;
 
         self.data.bindings = collect_decls(&*m);
 
