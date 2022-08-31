@@ -2,7 +2,6 @@
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
-let friendA;
 var _x = new WeakMap();
 friendA = {
     getX (obj) {
@@ -12,7 +11,7 @@ friendA = {
         _class_private_field_set(obj, _x, value);
     }
 };
-let a = new class {
+let friendA, a = new class {
     getX() {
         return _class_private_field_get(this, _x);
     }

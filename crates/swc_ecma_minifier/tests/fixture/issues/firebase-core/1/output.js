@@ -704,7 +704,7 @@
                 return !!a.g && "GET" == a.u && 2 != a.K && a.l.Ba;
             }
             function tc(a, b, c) {
-                let d = !0, e;
+                let e, d = !0;
                 for(; !a.I && a.C < c.length;)if ((e = vc(a, c)) == hc) {
                     4 == b && (a.o = 4, J(14), d = !1), F(a.j, a.m, null, "[Incomplete Response]");
                     break;
@@ -1314,6 +1314,7 @@
                 }
             }
             function Gd(a, b, c) {
+                let b1;
                 a: {
                     for(d in c){
                         var d = !1;
@@ -1321,7 +1322,6 @@
                     }
                     d = !0;
                 }
-                let b1;
                 d || (c = (b1 = "", xa(c, function(c, d) {
                     b1 += d, b1 += ":", b1 += c, b1 += "\r\n";
                 }), b1), "string" == typeof a ? null != c && encodeURIComponent(String(c)) : R(a, b, c));

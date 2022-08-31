@@ -21084,17 +21084,16 @@
                         r("ERR_INVALID_OPT_VALUE", function(e, t) {
                             return 'The value "' + t + '" is invalid for option "' + e + '"';
                         }, TypeError), r("ERR_INVALID_ARG_TYPE", function(e, t, r) {
-                            let i;
-                            var o, a, u, l = "not ";
-                            "string" == typeof t && t.substr(!u || u < 0 ? 0 : +u, l.length) === l ? (i = "must not be", t = t.replace(/^not /, "")) : i = "must be";
-                            let s;
+                            let i, o;
+                            var a, u, l, s = "not ";
+                            "string" == typeof t && t.substr(!l || l < 0 ? 0 : +l, s.length) === s ? (i = "must not be", t = t.replace(/^not /, "")) : i = "must be";
                             var c, f, d = " argument";
-                            if (c = e, (void 0 === f || f > c.length) && (f = c.length), c.substring(f - d.length, f) === d) s = `The ${e} ${i} ${n(t, "type")}`;
+                            if (c = e, (void 0 === f || f > c.length) && (f = c.length), c.substring(f - d.length, f) === d) o = `The ${e} ${i} ${n(t, "type")}`;
                             else {
-                                const p = (o = e, "number" != typeof a && (a = 0), a + 1 > o.length || -1 === o.indexOf(".", a)) ? "argument" : "property";
-                                s = `The "${e}" ${p} ${i} ${n(t, "type")}`;
+                                const p = (a = e, "number" != typeof u && (u = 0), u + 1 > a.length || -1 === a.indexOf(".", u)) ? "argument" : "property";
+                                o = `The "${e}" ${p} ${i} ${n(t, "type")}`;
                             }
-                            return s + `. Received type ${typeof r}`;
+                            return o + `. Received type ${typeof r}`;
                         }, TypeError), r("ERR_STREAM_PUSH_AFTER_EOF", "stream.push() after EOF"), r("ERR_METHOD_NOT_IMPLEMENTED", function(e) {
                             return "The " + e + " method is not implemented";
                         }), r("ERR_STREAM_PREMATURE_CLOSE", "Premature close"), r("ERR_STREAM_DESTROYED", function(e) {
