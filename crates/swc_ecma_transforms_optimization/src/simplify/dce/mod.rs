@@ -187,6 +187,28 @@ impl Visit for Analyzer<'_> {
         }
     }
 
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        match n.op {
+            op!("=") => {
+                if let Some(i) = n.left.as_ident() {
+                    self.add(i.to_id(), true);
+                    n.right.visit_with(self);
+                } else {
+                    n.visit_children_with(self);
+                }
+            }
+            _ => {
+                if let Some(i) = n.left.as_ident() {
+                    self.add(i.to_id(), false);
+                    self.add(i.to_id(), true);
+                    n.right.visit_with(self);
+                } else {
+                    n.visit_children_with(self);
+                }
+            }
+        }
+    }
+
     fn visit_jsx_element_name(&mut self, e: &JSXElementName) {
         e.visit_children_with(self);
 
