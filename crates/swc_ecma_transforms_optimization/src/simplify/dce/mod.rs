@@ -39,6 +39,9 @@ pub struct Config {
     /// **Note**: This is hack to make operation parallel while allowing invalid
     /// module produced by the `swc_bundler`.
     pub module_mark: Option<Mark>,
+
+    /// If true, top-level items will be removed if they are not used.
+    pub top_level: bool,
 }
 
 struct TreeShaker {
