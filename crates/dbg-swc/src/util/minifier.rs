@@ -32,7 +32,6 @@ pub fn get_minified(
             &MinifyOptions {
                 compress: if compress {
                     Some(CompressOptions {
-                        inline: 0,
                         ..Default::default()
                     })
                 } else {
@@ -65,7 +64,7 @@ pub fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> Result<St
         cmd.stderr(Stdio::inherit());
 
         if compress {
-            cmd.arg("--compress").arg("inline=0");
+            cmd.arg("--compress");
         }
         if mangle {
             cmd.arg("--mangle");
