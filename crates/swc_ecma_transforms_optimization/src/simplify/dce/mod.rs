@@ -205,6 +205,7 @@ impl Visit for Analyzer<'_> {
 
     fn visit_function(&mut self, n: &Function) {
         self.with_scope(|v| {
+            v.scope.bindings = collect_decls(n);
             n.visit_children_with(v);
         })
     }
