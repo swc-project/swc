@@ -326,7 +326,8 @@ impl TreeShaker {
     }
 
     fn can_drop_assignment_to(&self, name: Id) -> bool {
-        self.data.bindings.contains(&name)
+        (!self.top_level || self.config.top_level)
+            && self.data.bindings.contains(&name)
             && self
                 .data
                 .used_names
