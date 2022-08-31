@@ -623,22 +623,105 @@
                     return this.node.isLeaf ? 0 : 1;
                 }, NodeViewDesc.prototype.updateChildren = function(view, pos) {
                     var this$1 = this, inline = this.node.inlineContent, off = pos, composition = view.composing && this.localCompositionInfo(view, pos), localComposition = composition && composition.pos > -1 ? composition : null, compositionInChild = composition && composition.pos < 0, updater = new ViewTreeUpdater(this, localComposition && localComposition.node);
-                    iterDeco(this.node, this.innerDeco, function(widget, i, insideNode) {
+                    (function(parent, deco, onWidget, onNode) {
+                        var locals = deco.locals(parent), offset = 0;
+                        if (0 == locals.length) {
+                            for(var i = 0; i < parent.childCount; i++){
+                                var child = parent.child(i);
+                                onNode(child, locals, deco.forChild(offset, child), i), offset += child.nodeSize;
+                            }
+                            return;
+                        }
+                        for(var decoIndex = 0, active = [], restNode = null, parentIndex = 0;;){
+                            if (decoIndex < locals.length && locals[decoIndex].to == offset) {
+                                for(var widget = locals[decoIndex++], widgets = void 0; decoIndex < locals.length && locals[decoIndex].to == offset;)(widgets || (widgets = [
+                                    widget
+                                ])).push(locals[decoIndex++]);
+                                if (widgets) {
+                                    widgets.sort(compareSide);
+                                    for(var i$1 = 0; i$1 < widgets.length; i$1++)onWidget(widgets[i$1], parentIndex, !!restNode);
+                                } else onWidget(widget, parentIndex, !!restNode);
+                            }
+                            var child$1 = void 0, index = void 0;
+                            if (restNode) index = -1, child$1 = restNode, restNode = null;
+                            else if (parentIndex < parent.childCount) index = parentIndex, child$1 = parent.child(parentIndex++);
+                            else break;
+                            for(var i$2 = 0; i$2 < active.length; i$2++)active[i$2].to <= offset && active.splice(i$2--, 1);
+                            for(; decoIndex < locals.length && locals[decoIndex].from <= offset && locals[decoIndex].to > offset;)active.push(locals[decoIndex++]);
+                            var end = offset + child$1.nodeSize;
+                            if (child$1.isText) {
+                                var cutAt = end;
+                                decoIndex < locals.length && locals[decoIndex].from < cutAt && (cutAt = locals[decoIndex].from);
+                                for(var i$3 = 0; i$3 < active.length; i$3++)active[i$3].to < cutAt && (cutAt = active[i$3].to);
+                                cutAt < end && (restNode = child$1.cut(cutAt - offset), child$1 = child$1.cut(0, cutAt - offset), end = cutAt, index = -1);
+                            }
+                            var outerDeco = active.length ? child$1.isInline && !child$1.isLeaf ? active.filter(function(d) {
+                                return !d.inline;
+                            }) : active.slice() : nothing;
+                            onNode(child$1, outerDeco, deco.forChild(offset, child$1), index), offset = end;
+                        }
+                    })(this.node, this.innerDeco, function(widget, i, insideNode) {
                         widget.spec.marks ? updater.syncToMarks(widget.spec.marks, inline, view) : widget.type.side >= 0 && !insideNode && updater.syncToMarks(i == this$1.node.childCount ? prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Mark.none : this$1.node.child(i).marks, inline, view), updater.placeWidget(widget, view, off);
                     }, function(child, outerDeco, innerDeco, i) {
                         var compIndex;
                         updater.syncToMarks(child.marks, inline, view), updater.findNodeMatch(child, outerDeco, innerDeco, i) || compositionInChild && view.state.selection.from > off && view.state.selection.to < off + child.nodeSize && (compIndex = updater.findIndexWithChild(composition.node)) > -1 && updater.updateNodeAt(child, outerDeco, innerDeco, compIndex, view) || updater.updateNextNode(child, outerDeco, innerDeco, view, i) || updater.addNode(child, outerDeco, innerDeco, view, off), off += child.nodeSize;
-                    }), updater.syncToMarks(nothing, inline, view), this.node.isTextblock && updater.addTextblockHacks(), updater.destroyRest(), (updater.changed || 2 == this.dirty) && (localComposition && this.protectLocalComposition(view, localComposition), renderDescs(this.contentDOM, this.children, view), result.ios && iosHacks(this.dom));
+                    }), updater.syncToMarks(nothing, inline, view), this.node.isTextblock && updater.addTextblockHacks(), updater.destroyRest(), (updater.changed || 2 == this.dirty) && (localComposition && this.protectLocalComposition(view, localComposition), function renderDescs(parentDOM, descs, view) {
+                        for(var dom = parentDOM.firstChild, written = !1, i = 0; i < descs.length; i++){
+                            var desc = descs[i], childDOM = desc.dom;
+                            if (childDOM.parentNode == parentDOM) {
+                                for(; childDOM != dom;)dom = rm(dom), written = !0;
+                                dom = dom.nextSibling;
+                            } else written = !0, parentDOM.insertBefore(childDOM, dom);
+                            if (desc instanceof MarkViewDesc) {
+                                var pos = dom ? dom.previousSibling : parentDOM.lastChild;
+                                renderDescs(desc.contentDOM, desc.children, view), dom = pos ? pos.nextSibling : parentDOM.firstChild;
+                            }
+                        }
+                        for(; dom;)dom = rm(dom), written = !0;
+                        written && view.trackWrites == parentDOM && (view.trackWrites = null);
+                    }(this.contentDOM, this.children, view), result.ios && function(dom) {
+                        if ("UL" == dom.nodeName || "OL" == dom.nodeName) {
+                            var oldCSS = dom.style.cssText;
+                            dom.style.cssText = oldCSS + "; list-style: square !important", window.getComputedStyle(dom).listStyle, dom.style.cssText = oldCSS;
+                        }
+                    }(this.dom));
                 }, NodeViewDesc.prototype.localCompositionInfo = function(view, pos) {
                     var ref = view.state.selection, from = ref.from, to = ref.to;
                     if (view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !(from < pos) && !(to > pos + this.node.content.size)) {
-                        var sel = view.root.getSelection(), textNode = nearbyTextNode(sel.focusNode, sel.focusOffset);
+                        var sel = view.root.getSelection(), textNode = function(node, offset) {
+                            for(;;){
+                                if (3 == node.nodeType) return node;
+                                if (1 == node.nodeType && offset > 0) {
+                                    if (node.childNodes.length > offset && 3 == node.childNodes[offset].nodeType) return node.childNodes[offset];
+                                    offset = nodeSize(node = node.childNodes[offset - 1]);
+                                } else {
+                                    if (1 != node.nodeType || !(offset < node.childNodes.length)) return null;
+                                    node = node.childNodes[offset], offset = 0;
+                                }
+                            }
+                        }(sel.focusNode, sel.focusOffset);
                         if (textNode && this.dom.contains(textNode.parentNode)) {
                             if (!this.node.inlineContent) return {
                                 node: textNode,
                                 pos: -1
                             };
-                            var text = textNode.nodeValue, textPos = findTextInFragment(this.node.content, text, from - pos, to - pos);
+                            var text = textNode.nodeValue, textPos = function(frag, text, from, to) {
+                                for(var i = 0, pos = 0; i < frag.childCount && pos <= to;){
+                                    var child = frag.child(i++), childStart = pos;
+                                    if (pos += child.nodeSize, child.isText) {
+                                        for(var str = child.text; i < frag.childCount;){
+                                            var next = frag.child(i++);
+                                            if (pos += next.nodeSize, !next.isText) break;
+                                            str += next.text;
+                                        }
+                                        if (pos >= from) {
+                                            var found = str.lastIndexOf(text, to - childStart);
+                                            if (found >= 0 && found + text.length + childStart >= from) return childStart + found;
+                                        }
+                                    }
+                                }
+                                return -1;
+                            }(this.node.content, text, from - pos, to - pos);
                             return textPos < 0 ? null : {
                                 node: textNode,
                                 pos: textPos,
@@ -763,21 +846,6 @@
                     return this.spec.ignoreMutation ? this.spec.ignoreMutation(mutation) : NodeViewDesc.prototype.ignoreMutation.call(this, mutation);
                 }, CustomNodeViewDesc;
             }(NodeViewDesc);
-            function renderDescs(parentDOM, descs, view) {
-                for(var dom = parentDOM.firstChild, written = !1, i = 0; i < descs.length; i++){
-                    var desc = descs[i], childDOM = desc.dom;
-                    if (childDOM.parentNode == parentDOM) {
-                        for(; childDOM != dom;)dom = rm(dom), written = !0;
-                        dom = dom.nextSibling;
-                    } else written = !0, parentDOM.insertBefore(childDOM, dom);
-                    if (desc instanceof MarkViewDesc) {
-                        var pos = dom ? dom.previousSibling : parentDOM.lastChild;
-                        renderDescs(desc.contentDOM, desc.children, view), dom = pos ? pos.nextSibling : parentDOM.firstChild;
-                    }
-                }
-                for(; dom;)dom = rm(dom), written = !0;
-                written && view.trackWrites == parentDOM && (view.trackWrites = null);
-            }
             function OuterDecoLevel(nodeName) {
                 nodeName && (this.nodeName = nodeName);
             }
@@ -835,96 +903,22 @@
                 return dom.parentNode.removeChild(dom), next;
             }
             var ViewTreeUpdater = function(top, lockedNode) {
-                this.top = top, this.lock = lockedNode, this.index = 0, this.stack = [], this.changed = !1, this.preMatch = preMatch(top.node.content, top.children);
-            };
-            function preMatch(frag, descs) {
-                for(var fI = frag.childCount, dI = descs.length, matched = new Map(); fI > 0 && dI > 0; dI--){
-                    var desc = descs[dI - 1], node = desc.node;
-                    if (node) {
-                        if (node != frag.child(fI - 1)) break;
-                        --fI, matched.set(desc, fI);
+                this.top = top, this.lock = lockedNode, this.index = 0, this.stack = [], this.changed = !1, this.preMatch = function(frag, descs) {
+                    for(var fI = frag.childCount, dI = descs.length, matched = new Map(); fI > 0 && dI > 0; dI--){
+                        var desc = descs[dI - 1], node = desc.node;
+                        if (node) {
+                            if (node != frag.child(fI - 1)) break;
+                            --fI, matched.set(desc, fI);
+                        }
                     }
-                }
-                return {
-                    index: fI,
-                    matched: matched
-                };
-            }
+                    return {
+                        index: fI,
+                        matched: matched
+                    };
+                }(top.node.content, top.children);
+            };
             function compareSide(a, b) {
                 return a.type.side - b.type.side;
-            }
-            function iterDeco(parent, deco, onWidget, onNode) {
-                var locals = deco.locals(parent), offset = 0;
-                if (0 == locals.length) {
-                    for(var i = 0; i < parent.childCount; i++){
-                        var child = parent.child(i);
-                        onNode(child, locals, deco.forChild(offset, child), i), offset += child.nodeSize;
-                    }
-                    return;
-                }
-                for(var decoIndex = 0, active = [], restNode = null, parentIndex = 0;;){
-                    if (decoIndex < locals.length && locals[decoIndex].to == offset) {
-                        for(var widget = locals[decoIndex++], widgets = void 0; decoIndex < locals.length && locals[decoIndex].to == offset;)(widgets || (widgets = [
-                            widget
-                        ])).push(locals[decoIndex++]);
-                        if (widgets) {
-                            widgets.sort(compareSide);
-                            for(var i$1 = 0; i$1 < widgets.length; i$1++)onWidget(widgets[i$1], parentIndex, !!restNode);
-                        } else onWidget(widget, parentIndex, !!restNode);
-                    }
-                    var child$1 = void 0, index = void 0;
-                    if (restNode) index = -1, child$1 = restNode, restNode = null;
-                    else if (parentIndex < parent.childCount) index = parentIndex, child$1 = parent.child(parentIndex++);
-                    else break;
-                    for(var i$2 = 0; i$2 < active.length; i$2++)active[i$2].to <= offset && active.splice(i$2--, 1);
-                    for(; decoIndex < locals.length && locals[decoIndex].from <= offset && locals[decoIndex].to > offset;)active.push(locals[decoIndex++]);
-                    var end = offset + child$1.nodeSize;
-                    if (child$1.isText) {
-                        var cutAt = end;
-                        decoIndex < locals.length && locals[decoIndex].from < cutAt && (cutAt = locals[decoIndex].from);
-                        for(var i$3 = 0; i$3 < active.length; i$3++)active[i$3].to < cutAt && (cutAt = active[i$3].to);
-                        cutAt < end && (restNode = child$1.cut(cutAt - offset), child$1 = child$1.cut(0, cutAt - offset), end = cutAt, index = -1);
-                    }
-                    var outerDeco = active.length ? child$1.isInline && !child$1.isLeaf ? active.filter(function(d) {
-                        return !d.inline;
-                    }) : active.slice() : nothing;
-                    onNode(child$1, outerDeco, deco.forChild(offset, child$1), index), offset = end;
-                }
-            }
-            function iosHacks(dom) {
-                if ("UL" == dom.nodeName || "OL" == dom.nodeName) {
-                    var oldCSS = dom.style.cssText;
-                    dom.style.cssText = oldCSS + "; list-style: square !important", window.getComputedStyle(dom).listStyle, dom.style.cssText = oldCSS;
-                }
-            }
-            function nearbyTextNode(node, offset) {
-                for(;;){
-                    if (3 == node.nodeType) return node;
-                    if (1 == node.nodeType && offset > 0) {
-                        if (node.childNodes.length > offset && 3 == node.childNodes[offset].nodeType) return node.childNodes[offset];
-                        offset = nodeSize(node = node.childNodes[offset - 1]);
-                    } else {
-                        if (1 != node.nodeType || !(offset < node.childNodes.length)) return null;
-                        node = node.childNodes[offset], offset = 0;
-                    }
-                }
-            }
-            function findTextInFragment(frag, text, from, to) {
-                for(var i = 0, pos = 0; i < frag.childCount && pos <= to;){
-                    var child = frag.child(i++), childStart = pos;
-                    if (pos += child.nodeSize, child.isText) {
-                        for(var str = child.text; i < frag.childCount;){
-                            var next = frag.child(i++);
-                            if (pos += next.nodeSize, !next.isText) break;
-                            str += next.text;
-                        }
-                        if (pos >= from) {
-                            var found = str.lastIndexOf(text, to - childStart);
-                            if (found >= 0 && found + text.length + childStart >= from) return childStart + found;
-                        }
-                    }
-                }
-                return -1;
             }
             function replaceNodes(nodes, from, to, view, replacement) {
                 for(var result = [], i = 0, off = 0; i < nodes.length; i++){
@@ -973,10 +967,14 @@
                         view.mouseDown.delayedSelectionSync = !0, view.domObserver.setCurSelection();
                         return;
                     }
-                    if (view.domObserver.disconnectSelection(), view.cursorWrapper) selectCursorWrapper(view);
+                    if (view.domObserver.disconnectSelection(), view.cursorWrapper) domSel = (view1 = view).root.getSelection(), range = document.createRange(), (img = "IMG" == (node = view1.cursorWrapper.dom).nodeName) ? range.setEnd(node.parentNode, domIndex(node) + 1) : range.setEnd(node, 0), range.collapse(!1), domSel.removeAllRanges(), domSel.addRange(range), !img && !view1.state.selection.visible && result.ie && result.ie_version <= 11 && (node.disabled = !0, node.disabled = !1);
                     else {
-                        var resetEditableFrom, resetEditableTo, anchor = sel.anchor, head = sel.head;
-                        !brokenSelectBetweenUneditable || sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection || (sel.$from.parent.inlineContent || (resetEditableFrom = temporarilyEditableNear(view, sel.from)), sel.empty || sel.$from.parent.inlineContent || (resetEditableTo = temporarilyEditableNear(view, sel.to))), view.docView.setSelection(anchor, head, view.root, force), brokenSelectBetweenUneditable && (resetEditableFrom && resetEditable(resetEditableFrom), resetEditableTo && resetEditable(resetEditableTo)), sel.visible ? view.dom.classList.remove("ProseMirror-hideselection") : (view.dom.classList.add("ProseMirror-hideselection"), "onselectionchange" in document && removeClassOnSelectionChange(view));
+                        var view1, domSel, range, node, img, resetEditableFrom, resetEditableTo, view2, doc, domSel1, node1, offset, anchor = sel.anchor, head = sel.head;
+                        !brokenSelectBetweenUneditable || sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection || (sel.$from.parent.inlineContent || (resetEditableFrom = temporarilyEditableNear(view, sel.from)), sel.empty || sel.$from.parent.inlineContent || (resetEditableTo = temporarilyEditableNear(view, sel.to))), view.docView.setSelection(anchor, head, view.root, force), brokenSelectBetweenUneditable && (resetEditableFrom && resetEditable(resetEditableFrom), resetEditableTo && resetEditable(resetEditableTo)), sel.visible ? view.dom.classList.remove("ProseMirror-hideselection") : (view.dom.classList.add("ProseMirror-hideselection"), "onselectionchange" in document && ((doc = (view2 = view).dom.ownerDocument).removeEventListener("selectionchange", view2.hideSelectionGuard), node1 = (domSel1 = view2.root.getSelection()).anchorNode, offset = domSel1.anchorOffset, doc.addEventListener("selectionchange", view2.hideSelectionGuard = function() {
+                            (domSel1.anchorNode != node1 || domSel1.anchorOffset != offset) && (doc.removeEventListener("selectionchange", view2.hideSelectionGuard), setTimeout(function() {
+                                (!editorOwnsSelection(view2) || view2.state.selection.visible) && view2.dom.classList.remove("ProseMirror-hideselection");
+                            }, 20));
+                        })));
                     }
                     view.domObserver.setCurSelection(), view.domObserver.connectSelection();
                 }
@@ -1079,20 +1077,6 @@
             }
             function resetEditable(element) {
                 element.contentEditable = "false", element.wasDraggable && (element.draggable = !0, element.wasDraggable = null);
-            }
-            function removeClassOnSelectionChange(view) {
-                var doc = view.dom.ownerDocument;
-                doc.removeEventListener("selectionchange", view.hideSelectionGuard);
-                var domSel = view.root.getSelection(), node = domSel.anchorNode, offset = domSel.anchorOffset;
-                doc.addEventListener("selectionchange", view.hideSelectionGuard = function() {
-                    (domSel.anchorNode != node || domSel.anchorOffset != offset) && (doc.removeEventListener("selectionchange", view.hideSelectionGuard), setTimeout(function() {
-                        (!editorOwnsSelection(view) || view.state.selection.visible) && view.dom.classList.remove("ProseMirror-hideselection");
-                    }, 20));
-                });
-            }
-            function selectCursorWrapper(view) {
-                var domSel = view.root.getSelection(), range = document.createRange(), node = view.cursorWrapper.dom, img = "IMG" == node.nodeName;
-                img ? range.setEnd(node.parentNode, domIndex(node) + 1) : range.setEnd(node, 0), range.collapse(!1), domSel.removeAllRanges(), domSel.addRange(range), !img && !view.state.selection.visible && result.ie && result.ie_version <= 11 && (node.disabled = !0, node.disabled = !1);
             }
             function syncNodeSelection(view, sel) {
                 if (sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection) {
@@ -1307,13 +1291,75 @@
                     }
                 } else view.someProp("transformPastedHTML", function(f) {
                     html = f(html);
-                }), dom = readHTML(html), result.webkit && restoreReplacedSpaces(dom);
+                }), dom = function(html) {
+                    var metas = /^(\s*<meta [^>]*>)*/.exec(html);
+                    metas && (html = html.slice(metas[0].length));
+                    var wrap, elt = detachedDoc().createElement("div"), firstTag = /<([a-z][^>\s]+)/i.exec(html);
+                    if ((wrap = firstTag && wrapMap[firstTag[1].toLowerCase()]) && (html = wrap.map(function(n) {
+                        return "<" + n + ">";
+                    }).join("") + html + wrap.map(function(n) {
+                        return "</" + n + ">";
+                    }).reverse().join("")), elt.innerHTML = html, wrap) for(var i = 0; i < wrap.length; i++)elt = elt.querySelector(wrap[i]) || elt;
+                    return elt;
+                }(html), result.webkit && function(dom) {
+                    for(var nodes = dom.querySelectorAll(result.chrome ? "span:not([class]):not([style])" : "span.Apple-converted-space"), i = 0; i < nodes.length; i++){
+                        var node = nodes[i];
+                        1 == node.childNodes.length && "\u00a0" == node.textContent && node.parentNode && node.parentNode.replaceChild(dom.ownerDocument.createTextNode(" "), node);
+                    }
+                }(dom);
                 var contextNode = dom && dom.querySelector("[data-pm-slice]"), sliceData = contextNode && /^(\d+) (\d+) (.*)/.exec(contextNode.getAttribute("data-pm-slice"));
                 if (slice || (slice = (view.someProp("clipboardParser") || view.someProp("domParser") || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMParser.fromSchema(view.state.schema)).parseSlice(dom, {
                     preserveWhitespace: !!(asText || sliceData),
                     context: $context
-                })), sliceData) slice = addContext(closeSlice(slice, +sliceData[1], +sliceData[2]), sliceData[3]);
-                else if ((slice = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice.maxOpen(normalizeSiblings(slice.content, $context), !0)).openStart || slice.openEnd) {
+                })), sliceData) slice = function(slice, context) {
+                    if (!slice.size) return slice;
+                    var array, schema = slice.content.firstChild.type.schema;
+                    try {
+                        array = JSON.parse(context);
+                    } catch (e) {
+                        return slice;
+                    }
+                    for(var content = slice.content, openStart = slice.openStart, openEnd = slice.openEnd, i = array.length - 2; i >= 0; i -= 2){
+                        var type = schema.nodes[array[i]];
+                        if (!type || type.hasRequiredAttrs()) break;
+                        content = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(type.create(array[i + 1], content)), openStart++, openEnd++;
+                    }
+                    return new prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice(content, openStart, openEnd);
+                }(closeSlice(slice, +sliceData[1], +sliceData[2]), sliceData[3]);
+                else if ((slice = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice.maxOpen(function(fragment, $context) {
+                    if (fragment.childCount < 2) return fragment;
+                    for(var d = $context.depth; d >= 0; d--){
+                        var returned = function(d) {
+                            var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
+                            if (fragment.forEach(function(node) {
+                                if (result) {
+                                    var inLast, wrap = match.findWrapping(node.type);
+                                    if (!wrap) return result = null;
+                                    if (inLast = result.length && lastWrap.length && function addToSibling(wrap, lastWrap, node, sibling, depth) {
+                                        if (depth < wrap.length && depth < lastWrap.length && wrap[depth] == lastWrap[depth]) {
+                                            var inner = addToSibling(wrap, lastWrap, node, sibling.lastChild, depth + 1);
+                                            if (inner) return sibling.copy(sibling.content.replaceChild(sibling.childCount - 1, inner));
+                                            if (sibling.contentMatchAt(sibling.childCount).matchType(depth == wrap.length - 1 ? node.type : wrap[depth + 1])) return sibling.copy(sibling.content.append(prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(withWrappers(node, wrap, depth + 1))));
+                                        }
+                                    }(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
+                                    else {
+                                        result.length && (result[result.length - 1] = function closeRight(node, depth) {
+                                            if (0 == depth) return node;
+                                            var fragment = node.content.replaceChild(node.childCount - 1, closeRight(node.lastChild, depth - 1)), fill = node.contentMatchAt(node.childCount).fillBefore(prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.empty, !0);
+                                            return node.copy(fragment.append(fill));
+                                        }(result[result.length - 1], lastWrap.length));
+                                        var wrapped = withWrappers(node, wrap);
+                                        result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
+                                    }
+                                }
+                            }), result) return {
+                                v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
+                            };
+                        }(d);
+                        if (returned) return returned.v;
+                    }
+                    return fragment;
+                }(slice.content, $context), !0)).openStart || slice.openEnd) {
                     for(var openStart = 0, openEnd = 0, node = slice.content.firstChild; openStart < slice.openStart && !node.type.spec.isolating; openStart++, node = node.firstChild);
                     for(var node$1 = slice.content.lastChild; openEnd < slice.openEnd && !node$1.type.spec.isolating; openEnd++, node$1 = node$1.lastChild);
                     slice = closeSlice(slice, openStart, openEnd);
@@ -1322,46 +1368,10 @@
                     slice = f(slice);
                 }), slice;
             }
-            function normalizeSiblings(fragment, $context) {
-                if (fragment.childCount < 2) return fragment;
-                for(var d = $context.depth; d >= 0; d--){
-                    var returned = function(d) {
-                        var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
-                        if (fragment.forEach(function(node) {
-                            if (result) {
-                                var inLast, wrap = match.findWrapping(node.type);
-                                if (!wrap) return result = null;
-                                if (inLast = result.length && lastWrap.length && addToSibling(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
-                                else {
-                                    result.length && (result[result.length - 1] = closeRight(result[result.length - 1], lastWrap.length));
-                                    var wrapped = withWrappers(node, wrap);
-                                    result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
-                                }
-                            }
-                        }), result) return {
-                            v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
-                        };
-                    }(d);
-                    if (returned) return returned.v;
-                }
-                return fragment;
-            }
             function withWrappers(node, wrap, from) {
                 void 0 === from && (from = 0);
                 for(var i = wrap.length - 1; i >= from; i--)node = wrap[i].create(null, prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(node));
                 return node;
-            }
-            function addToSibling(wrap, lastWrap, node, sibling, depth) {
-                if (depth < wrap.length && depth < lastWrap.length && wrap[depth] == lastWrap[depth]) {
-                    var inner = addToSibling(wrap, lastWrap, node, sibling.lastChild, depth + 1);
-                    if (inner) return sibling.copy(sibling.content.replaceChild(sibling.childCount - 1, inner));
-                    if (sibling.contentMatchAt(sibling.childCount).matchType(depth == wrap.length - 1 ? node.type : wrap[depth + 1])) return sibling.copy(sibling.content.append(prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(withWrappers(node, wrap, depth + 1))));
-                }
-            }
-            function closeRight(node, depth) {
-                if (0 == depth) return node;
-                var fragment = node.content.replaceChild(node.childCount - 1, closeRight(node.lastChild, depth - 1)), fill = node.contentMatchAt(node.childCount).fillBefore(prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.empty, !0);
-                return node.copy(fragment.append(fill));
             }
             function closeRange(fragment, side, from, to, depth, openEnd) {
                 var node = side < 0 ? fragment.firstChild : fragment.lastChild, inner = node.content;
@@ -1407,38 +1417,6 @@
             }, _detachedDoc = null;
             function detachedDoc() {
                 return _detachedDoc || (_detachedDoc = document.implementation.createHTMLDocument("title"));
-            }
-            function readHTML(html) {
-                var metas = /^(\s*<meta [^>]*>)*/.exec(html);
-                metas && (html = html.slice(metas[0].length));
-                var wrap, elt = detachedDoc().createElement("div"), firstTag = /<([a-z][^>\s]+)/i.exec(html);
-                if ((wrap = firstTag && wrapMap[firstTag[1].toLowerCase()]) && (html = wrap.map(function(n) {
-                    return "<" + n + ">";
-                }).join("") + html + wrap.map(function(n) {
-                    return "</" + n + ">";
-                }).reverse().join("")), elt.innerHTML = html, wrap) for(var i = 0; i < wrap.length; i++)elt = elt.querySelector(wrap[i]) || elt;
-                return elt;
-            }
-            function restoreReplacedSpaces(dom) {
-                for(var nodes = dom.querySelectorAll(result.chrome ? "span:not([class]):not([style])" : "span.Apple-converted-space"), i = 0; i < nodes.length; i++){
-                    var node = nodes[i];
-                    1 == node.childNodes.length && "\u00a0" == node.textContent && node.parentNode && node.parentNode.replaceChild(dom.ownerDocument.createTextNode(" "), node);
-                }
-            }
-            function addContext(slice, context) {
-                if (!slice.size) return slice;
-                var array, schema = slice.content.firstChild.type.schema;
-                try {
-                    array = JSON.parse(context);
-                } catch (e) {
-                    return slice;
-                }
-                for(var content = slice.content, openStart = slice.openStart, openEnd = slice.openEnd, i = array.length - 2; i >= 0; i -= 2){
-                    var type = schema.nodes[array[i]];
-                    if (!type || type.hasRequiredAttrs()) break;
-                    content = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(type.create(array[i + 1], content)), openStart++, openEnd++;
-                }
-                return new prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice(content, openStart, openEnd);
             }
             var observeOptions = {
                 childList: !0,
@@ -1522,7 +1500,7 @@
                 })) return this.setCurSelection(), !0;
             }, DOMObserver.prototype.flush = function() {
                 if (this.view.docView && !(this.flushingSoon > -1)) {
-                    var mutations = this.observer ? this.observer.takeRecords() : [];
+                    var view, mutations = this.observer ? this.observer.takeRecords() : [];
                     this.queue.length && (mutations = this.queue.concat(mutations), this.queue.length = 0);
                     var sel = this.view.root.getSelection(), newSel = !this.suppressingSelectionUpdates && !this.currentSelection.eq(sel) && hasSelection(this.view) && !this.ignoreSelectionChange(sel), from = -1, to = -1, typeOver = !1, added = [];
                     if (this.view.editable) for(var i = 0; i < mutations.length; i++){
@@ -1538,7 +1516,7 @@
                             a.parentNode && a.parentNode.parentNode == b.parentNode ? b.remove() : a.remove();
                         }
                     }
-                    (from > -1 || newSel) && (from > -1 && (this.view.docView.markDirty(from, to), checkCSS(this.view)), this.handleDOMChange(from, to, typeOver, added), this.view.docView.dirty ? this.view.updateState(this.view.state) : this.currentSelection.eq(sel) || selectionToDOM(this.view), this.currentSelection.set(sel));
+                    (from > -1 || newSel) && (from > -1 && (this.view.docView.markDirty(from, to), view = this.view, cssChecked || (cssChecked = !0, "normal" == getComputedStyle(view.dom).whiteSpace && console.warn("ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package."))), this.handleDOMChange(from, to, typeOver, added), this.view.docView.dirty ? this.view.updateState(this.view.state) : this.currentSelection.eq(sel) || selectionToDOM(this.view), this.currentSelection.set(sel));
                 }
             }, DOMObserver.prototype.registerMutation = function(mut, added) {
                 if (added.indexOf(mut.target) > -1) return null;
@@ -1570,11 +1548,7 @@
                     typeOver: mut.target.nodeValue == mut.oldValue
                 };
             };
-            var cssChecked = !1;
-            function checkCSS(view) {
-                cssChecked || (cssChecked = !0, "normal" == getComputedStyle(view.dom).whiteSpace && console.warn("ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package."));
-            }
-            var handlers = {}, editHandlers = {};
+            var cssChecked = !1, handlers = {}, editHandlers = {};
             function setSelectionOrigin(view, origin) {
                 view.lastSelectionOrigin = origin, view.lastSelectionTime = Date.now();
             }
@@ -1590,12 +1564,6 @@
                     var handler = handlers[event.type];
                     return !!handler && (handler(view, event) || event.defaultPrevented);
                 });
-            }
-            function eventBelongsToView(view, event) {
-                if (!event.bubbles) return !0;
-                if (event.defaultPrevented) return !1;
-                for(var node = event.target; node != view.dom; node = node.parentNode)if (!node || 11 == node.nodeType || node.pmViewDesc && node.pmViewDesc.stopEvent(event)) return !1;
-                return !0;
             }
             function eventCoords(event) {
                 return {
@@ -1630,21 +1598,20 @@
             function handleTripleClick(view, pos, inside, event) {
                 return runHandlerOnContext(view, "handleTripleClickOn", pos, inside, event) || view.someProp("handleTripleClick", function(f) {
                     return f(view, pos, event);
-                }) || defaultTripleClick(view, inside, event);
-            }
-            function defaultTripleClick(view, inside, event) {
-                if (0 != event.button) return !1;
-                var doc = view.state.doc;
-                if (-1 == inside) return !!doc.inlineContent && (updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, 0, doc.content.size), "pointer"), !0);
-                for(var $pos = doc.resolve(inside), i = $pos.depth + 1; i > 0; i--){
-                    var node = i > $pos.depth ? $pos.nodeAfter : $pos.node(i), nodePos = $pos.before(i);
-                    if (node.inlineContent) updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, nodePos + 1, nodePos + 1 + node.content.size), "pointer");
-                    else {
-                        if (!prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.isSelectable(node)) continue;
-                        updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.create(doc, nodePos), "pointer");
+                }) || function(view, inside, event) {
+                    if (0 != event.button) return !1;
+                    var doc = view.state.doc;
+                    if (-1 == inside) return !!doc.inlineContent && (updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, 0, doc.content.size), "pointer"), !0);
+                    for(var $pos = doc.resolve(inside), i = $pos.depth + 1; i > 0; i--){
+                        var node = i > $pos.depth ? $pos.nodeAfter : $pos.node(i), nodePos = $pos.before(i);
+                        if (node.inlineContent) updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, nodePos + 1, nodePos + 1 + node.content.size), "pointer");
+                        else {
+                            if (!prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.isSelectable(node)) continue;
+                            updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.create(doc, nodePos), "pointer");
+                        }
+                        return !0;
                     }
-                    return !0;
-                }
+                }(view, inside, event);
             }
             editHandlers.keydown = function(view, event) {
                 if (view.shiftKey = 16 == event.keyCode || event.shiftKey, !inOrNearComposition(view, event)) {
@@ -1769,11 +1736,8 @@
                 }, delay));
             }
             function clearComposition(view) {
-                for(view.composing && (view.composing = !1, view.compositionEndedAt = timestampFromCustomEvent()); view.compositionNodes.length > 0;)view.compositionNodes.pop().markParentsDirty();
-            }
-            function timestampFromCustomEvent() {
-                var event = document.createEvent("Event");
-                return event.initEvent("event", !0, !0), event.timeStamp;
+                var event;
+                for(view.composing && (view.composing = !1, view.compositionEndedAt = ((event = document.createEvent("Event")).initEvent("event", !0, !0), event.timeStamp)); view.compositionNodes.length > 0;)view.compositionNodes.pop().markParentsDirty();
             }
             function endComposition(view, forceUpdate) {
                 if (view.domObserver.forceFlush(), clearComposition(view), forceUpdate || view.docView.dirty) {
@@ -2017,7 +1981,46 @@
                     var mapped = this.local[i].map(mapping, offset, oldOffset);
                     mapped && mapped.type.valid(node, mapped) ? (newLocal || (newLocal = [])).push(mapped) : options.onRemove && options.onRemove(this.local[i].spec);
                 }
-                return this.children.length ? mapChildren(this.children, newLocal, mapping, node, offset, oldOffset, options) : newLocal ? new DecorationSet(newLocal.sort(byPos)) : empty;
+                return this.children.length ? function(oldChildren, newLocal, mapping, node, offset, oldOffset, options) {
+                    for(var children = oldChildren.slice(), shift = function(oldStart, oldEnd, newStart, newEnd) {
+                        for(var i = 0; i < children.length; i += 3){
+                            var end = children[i + 1], dSize = void 0;
+                            -1 != end && !(oldStart > end + oldOffset) && (oldEnd >= children[i] + oldOffset ? children[i + 1] = -1 : newStart >= offset && (dSize = newEnd - newStart - (oldEnd - oldStart)) && (children[i] += dSize, children[i + 1] += dSize));
+                        }
+                    }, i = 0; i < mapping.maps.length; i++)mapping.maps[i].forEach(shift);
+                    for(var mustRebuild = !1, i$1 = 0; i$1 < children.length; i$1 += 3)if (-1 == children[i$1 + 1]) {
+                        var from = mapping.map(oldChildren[i$1] + oldOffset), fromLocal = from - offset;
+                        if (fromLocal < 0 || fromLocal >= node.content.size) {
+                            mustRebuild = !0;
+                            continue;
+                        }
+                        var toLocal = mapping.map(oldChildren[i$1 + 1] + oldOffset, -1) - offset, ref = node.content.findIndex(fromLocal), index = ref.index, childOffset = ref.offset, childNode = node.maybeChild(index);
+                        if (childNode && childOffset == fromLocal && childOffset + childNode.nodeSize == toLocal) {
+                            var mapped = children[i$1 + 2].mapInner(mapping, childNode, from + 1, oldChildren[i$1] + oldOffset + 1, options);
+                            mapped != empty ? (children[i$1] = fromLocal, children[i$1 + 1] = toLocal, children[i$1 + 2] = mapped) : (children[i$1 + 1] = -2, mustRebuild = !0);
+                        } else mustRebuild = !0;
+                    }
+                    if (mustRebuild) {
+                        var decorations = function(children, oldChildren, decorations, mapping, offset, oldOffset, options) {
+                            function gather(set, oldOffset) {
+                                for(var i = 0; i < set.local.length; i++){
+                                    var mapped = set.local[i].map(mapping, offset, oldOffset);
+                                    mapped ? decorations.push(mapped) : options.onRemove && options.onRemove(set.local[i].spec);
+                                }
+                                for(var i$1 = 0; i$1 < set.children.length; i$1 += 3)gather(set.children[i$1 + 2], set.children[i$1] + oldOffset + 1);
+                            }
+                            for(var i = 0; i < children.length; i += 3)-1 == children[i + 1] && gather(children[i + 2], oldChildren[i] + oldOffset + 1);
+                            return decorations;
+                        }(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), built = buildTree(decorations, node, 0, options);
+                        newLocal = built.local;
+                        for(var i$2 = 0; i$2 < children.length; i$2 += 3)children[i$2 + 1] < 0 && (children.splice(i$2, 3), i$2 -= 3);
+                        for(var i$3 = 0, j = 0; i$3 < built.children.length; i$3 += 3){
+                            for(var from$1 = built.children[i$3]; j < children.length && children[j] < from$1;)j += 3;
+                            children.splice(j, 0, built.children[i$3], built.children[i$3 + 1], built.children[i$3 + 2]);
+                        }
+                    }
+                    return new DecorationSet(newLocal && newLocal.sort(byPos), children);
+                }(this.children, newLocal, mapping, node, offset, oldOffset, options) : newLocal ? new DecorationSet(newLocal.sort(byPos)) : empty;
             }, DecorationSet.prototype.add = function(doc, decorations) {
                 return decorations.length ? this == empty ? DecorationSet.create(doc, decorations) : this.addInner(doc, decorations, 0) : this;
             }, DecorationSet.prototype.addInner = function(doc, decorations, offset) {
@@ -2087,36 +2090,6 @@
             var DecorationGroup = function(members) {
                 this.members = members;
             };
-            function mapChildren(oldChildren, newLocal, mapping, node, offset, oldOffset, options) {
-                for(var children = oldChildren.slice(), shift = function(oldStart, oldEnd, newStart, newEnd) {
-                    for(var i = 0; i < children.length; i += 3){
-                        var end = children[i + 1], dSize = void 0;
-                        -1 != end && !(oldStart > end + oldOffset) && (oldEnd >= children[i] + oldOffset ? children[i + 1] = -1 : newStart >= offset && (dSize = newEnd - newStart - (oldEnd - oldStart)) && (children[i] += dSize, children[i + 1] += dSize));
-                    }
-                }, i = 0; i < mapping.maps.length; i++)mapping.maps[i].forEach(shift);
-                for(var mustRebuild = !1, i$1 = 0; i$1 < children.length; i$1 += 3)if (-1 == children[i$1 + 1]) {
-                    var from = mapping.map(oldChildren[i$1] + oldOffset), fromLocal = from - offset;
-                    if (fromLocal < 0 || fromLocal >= node.content.size) {
-                        mustRebuild = !0;
-                        continue;
-                    }
-                    var toLocal = mapping.map(oldChildren[i$1 + 1] + oldOffset, -1) - offset, ref = node.content.findIndex(fromLocal), index = ref.index, childOffset = ref.offset, childNode = node.maybeChild(index);
-                    if (childNode && childOffset == fromLocal && childOffset + childNode.nodeSize == toLocal) {
-                        var mapped = children[i$1 + 2].mapInner(mapping, childNode, from + 1, oldChildren[i$1] + oldOffset + 1, options);
-                        mapped != empty ? (children[i$1] = fromLocal, children[i$1 + 1] = toLocal, children[i$1 + 2] = mapped) : (children[i$1 + 1] = -2, mustRebuild = !0);
-                    } else mustRebuild = !0;
-                }
-                if (mustRebuild) {
-                    var decorations = mapAndGatherRemainingDecorations(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), built = buildTree(decorations, node, 0, options);
-                    newLocal = built.local;
-                    for(var i$2 = 0; i$2 < children.length; i$2 += 3)children[i$2 + 1] < 0 && (children.splice(i$2, 3), i$2 -= 3);
-                    for(var i$3 = 0, j = 0; i$3 < built.children.length; i$3 += 3){
-                        for(var from$1 = built.children[i$3]; j < children.length && children[j] < from$1;)j += 3;
-                        children.splice(j, 0, built.children[i$3], built.children[i$3 + 1], built.children[i$3 + 2]);
-                    }
-                }
-                return new DecorationSet(newLocal && newLocal.sort(byPos), children);
-            }
             function moveSpans(spans, offset) {
                 if (!offset || !spans.length) return spans;
                 for(var result = [], i = 0; i < spans.length; i++){
@@ -2124,17 +2097,6 @@
                     result.push(new Decoration(span.from + offset, span.to + offset, span.type));
                 }
                 return result;
-            }
-            function mapAndGatherRemainingDecorations(children, oldChildren, decorations, mapping, offset, oldOffset, options) {
-                function gather(set, oldOffset) {
-                    for(var i = 0; i < set.local.length; i++){
-                        var mapped = set.local[i].map(mapping, offset, oldOffset);
-                        mapped ? decorations.push(mapped) : options.onRemove && options.onRemove(set.local[i].spec);
-                    }
-                    for(var i$1 = 0; i$1 < set.children.length; i$1 += 3)gather(set.children[i$1 + 2], set.children[i$1] + oldOffset + 1);
-                }
-                for(var i = 0; i < children.length; i += 3)-1 == children[i + 1] && gather(children[i + 2], oldChildren[i] + oldOffset + 1);
-                return decorations;
             }
             function takeSpansForNode(spans, node, offset) {
                 if (node.isLeaf) return null;
@@ -2407,7 +2369,12 @@
                     }), view.domObserver.start(), view.domChangeCount = 0, view.eventHandlers = Object.create(null), handlers)!function(event) {
                         var handler = handlers[event];
                         view.dom.addEventListener(event, view.eventHandlers[event] = function(event) {
-                            !eventBelongsToView(view, event) || runCustomHandler(view, event) || !view.editable && event.type in editHandlers || handler(view, event);
+                            !function(view, event) {
+                                if (!event.bubbles) return !0;
+                                if (event.defaultPrevented) return !1;
+                                for(var node = event.target; node != view.dom; node = node.parentNode)if (!node || 11 == node.nodeType || node.pmViewDesc && node.pmViewDesc.stopEvent(event)) return !1;
+                                return !0;
+                            }(view, event) || runCustomHandler(view, event) || !view.editable && event.type in editHandlers || handler(view, event);
                         });
                     }(event);
                     result.safari && view.dom.addEventListener("input", function() {

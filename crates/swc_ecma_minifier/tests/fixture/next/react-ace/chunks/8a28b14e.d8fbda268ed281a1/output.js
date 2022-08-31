@@ -8952,7 +8952,9 @@
                     }, this.redo = function(session, dontSelect) {
                         if (this.lastDeltas = null, session || (session = this.$session), this.$fromUndo = !0, this.$redoStackBaseRev != this.$rev) {
                             var diff = this.getDeltas(this.$redoStackBaseRev, this.$rev + 1);
-                            rebaseRedoStack(this.$redoStack, diff), this.$redoStackBaseRev = this.$rev, this.$redoStack.forEach(function(x) {
+                            (function(redoStack, deltaSets) {
+                                for(var i = 0; i < deltaSets.length; i++)for(var deltas = deltaSets[i], j = 0; j < deltas.length; j++)moveDeltasByOne(redoStack, deltas[j]);
+                            })(this.$redoStack, diff), this.$redoStackBaseRev = this.$rev, this.$redoStack.forEach(function(x) {
                                 x[0].id = ++this.$maxRev;
                             }, this);
                         }
@@ -9092,9 +9094,6 @@
                         deltaSet.length || redoStack.splice(j, 1);
                     }
                     return redoStack;
-                }
-                function rebaseRedoStack(redoStack, deltaSets) {
-                    for(var i = 0; i < deltaSets.length; i++)for(var deltas = deltaSets[i], j = 0; j < deltas.length; j++)moveDeltasByOne(redoStack, deltas[j]);
                 }
                 Range.comparePoints, exports.UndoManager = UndoManager;
             }), ace.define("ace/layer/lines", [
@@ -11653,19 +11652,18 @@ margin: 0 10px;\
                     return p1.row == p2.row && p1.column == p2.column;
                 }
                 function MultiSelect(editor) {
-                    editor.$multiselectOnSessionChange || (editor.$onAddRange = editor.$onAddRange.bind(editor), editor.$onRemoveRange = editor.$onRemoveRange.bind(editor), editor.$onMultiSelect = editor.$onMultiSelect.bind(editor), editor.$onSingleSelect = editor.$onSingleSelect.bind(editor), editor.$multiselectOnSessionChange = exports.onSessionChange.bind(editor), editor.$checkMultiselectChange = editor.$checkMultiselectChange.bind(editor), editor.$multiselectOnSessionChange(editor), editor.on("changeSession", editor.$multiselectOnSessionChange), editor.on("mousedown", onMouseDown), editor.commands.addCommands(commands.defaultCommands), addAltCursorListeners(editor));
-                }
-                function addAltCursorListeners(editor) {
-                    if (editor.textInput) {
-                        var el = editor.textInput.getElement(), altCursor = !1;
-                        event.addListener(el, "keydown", function(e) {
-                            var altDown = 18 == e.keyCode && !(e.ctrlKey || e.shiftKey || e.metaKey);
-                            editor.$blockSelectEnabled && altDown ? altCursor || (editor.renderer.setMouseCursor("crosshair"), altCursor = !0) : altCursor && reset();
-                        }, editor), event.addListener(el, "keyup", reset, editor), event.addListener(el, "blur", reset, editor);
-                    }
-                    function reset(e) {
-                        altCursor && (editor.renderer.setMouseCursor(""), altCursor = !1);
-                    }
+                    editor.$multiselectOnSessionChange || (editor.$onAddRange = editor.$onAddRange.bind(editor), editor.$onRemoveRange = editor.$onRemoveRange.bind(editor), editor.$onMultiSelect = editor.$onMultiSelect.bind(editor), editor.$onSingleSelect = editor.$onSingleSelect.bind(editor), editor.$multiselectOnSessionChange = exports.onSessionChange.bind(editor), editor.$checkMultiselectChange = editor.$checkMultiselectChange.bind(editor), editor.$multiselectOnSessionChange(editor), editor.on("changeSession", editor.$multiselectOnSessionChange), editor.on("mousedown", onMouseDown), editor.commands.addCommands(commands.defaultCommands), function(editor) {
+                        if (editor.textInput) {
+                            var el = editor.textInput.getElement(), altCursor = !1;
+                            event.addListener(el, "keydown", function(e) {
+                                var altDown = 18 == e.keyCode && !(e.ctrlKey || e.shiftKey || e.metaKey);
+                                editor.$blockSelectEnabled && altDown ? altCursor || (editor.renderer.setMouseCursor("crosshair"), altCursor = !0) : altCursor && reset();
+                            }, editor), event.addListener(el, "keyup", reset, editor), event.addListener(el, "blur", reset, editor);
+                        }
+                        function reset(e) {
+                            altCursor && (editor.renderer.setMouseCursor(""), altCursor = !1);
+                        }
+                    }(editor));
                 }
                 (function() {
                     this.updateSelectionMarkers = function() {

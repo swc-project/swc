@@ -152,14 +152,29 @@
                             return from(e, r, t);
                         }
                         function from(e, r, t) {
-                            if ("string" == typeof e) return fromString(e, r);
+                            if ("string" == typeof e) return function(e, r) {
+                                if (("string" != typeof r || "" === r) && (r = "utf8"), !Buffer.isEncoding(r)) throw TypeError("Unknown encoding: " + r);
+                                var t = 0 | byteLength(e, r), f = createBuffer(t), n = f.write(e, r);
+                                return n !== t && (f = f.slice(0, n)), f;
+                            }(e, r);
                             if (ArrayBuffer.isView(e)) return fromArrayLike(e);
                             if (null == e) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
-                            if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) return fromArrayBuffer(e, r, t);
+                            if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) return function(e, r, t) {
+                                var f;
+                                if (r < 0 || e.byteLength < r) throw RangeError('"offset" is outside of buffer bounds');
+                                if (e.byteLength < r + (t || 0)) throw RangeError('"length" is outside of buffer bounds');
+                                return Object.setPrototypeOf(f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Buffer.prototype), f;
+                            }(e, r, t);
                             if ("number" == typeof e) throw TypeError('The "value" argument must not be of type number. Received type number');
                             var f = e.valueOf && e.valueOf();
                             if (null != f && f !== e) return Buffer.from(f, r, t);
-                            var n = fromObject(e);
+                            var n = function(e) {
+                                if (Buffer.isBuffer(e)) {
+                                    var e1, r = 0 | checked(e.length), t = createBuffer(r);
+                                    return 0 === t.length || e.copy(t, 0, 0, r), t;
+                                }
+                                return void 0 !== e.length ? "number" != typeof e.length || (e1 = e.length) != e1 ? createBuffer(0) : fromArrayLike(e) : "Buffer" === e.type && Array.isArray(e.data) ? fromArrayLike(e.data) : void 0;
+                            }(e);
                             if (n) return n;
                             if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof e[Symbol.toPrimitive]) return Buffer.from(e[Symbol.toPrimitive]("string"), r, t);
                             throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
@@ -171,27 +186,9 @@
                         function allocUnsafe(e) {
                             return assertSize(e), createBuffer(e < 0 ? 0 : 0 | checked(e));
                         }
-                        function fromString(e, r) {
-                            if (("string" != typeof r || "" === r) && (r = "utf8"), !Buffer.isEncoding(r)) throw TypeError("Unknown encoding: " + r);
-                            var t = 0 | byteLength(e, r), f = createBuffer(t), n = f.write(e, r);
-                            return n !== t && (f = f.slice(0, n)), f;
-                        }
                         function fromArrayLike(e) {
                             for(var r = e.length < 0 ? 0 : 0 | checked(e.length), t = createBuffer(r), f = 0; f < r; f += 1)t[f] = 255 & e[f];
                             return t;
-                        }
-                        function fromArrayBuffer(e, r, t) {
-                            var f;
-                            if (r < 0 || e.byteLength < r) throw RangeError('"offset" is outside of buffer bounds');
-                            if (e.byteLength < r + (t || 0)) throw RangeError('"length" is outside of buffer bounds');
-                            return Object.setPrototypeOf(f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Buffer.prototype), f;
-                        }
-                        function fromObject(e) {
-                            if (Buffer.isBuffer(e)) {
-                                var e1, r = 0 | checked(e.length), t = createBuffer(r);
-                                return 0 === t.length || e.copy(t, 0, 0, r), t;
-                            }
-                            return void 0 !== e.length ? "number" != typeof e.length || (e1 = e.length) != e1 ? createBuffer(0) : fromArrayLike(e) : "Buffer" === e.type && Array.isArray(e.data) ? fromArrayLike(e.data) : void 0;
                         }
                         function checked(e) {
                             if (e >= 2147483647) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 2147483647..toString(16) + " bytes");
@@ -311,13 +308,19 @@
                             return blitBuffer(utf8ToBytes(r, e.length - t), e, t, f);
                         }
                         function asciiWrite(e, r, t, f) {
-                            return blitBuffer(asciiToBytes(r), e, t, f);
+                            return blitBuffer(function(e) {
+                                for(var r = [], t = 0; t < e.length; ++t)r.push(255 & e.charCodeAt(t));
+                                return r;
+                            }(r), e, t, f);
                         }
                         function base64Write(e, r, t, f) {
                             return blitBuffer(base64ToBytes(r), e, t, f);
                         }
                         function ucs2Write(e, r, t, f) {
-                            return blitBuffer(utf16leToBytes(r, e.length - t), e, t, f);
+                            return blitBuffer(function(e, r) {
+                                for(var t, f, n, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, n = t % 256, i.push(n), i.push(f);
+                                return i;
+                            }(r, e.length - t), e, t, f);
                         }
                         function base64Slice(e, r, t) {
                             return 0 === r && t === e.length ? f.fromByteArray(e) : f.fromByteArray(e.slice(r, t));
@@ -341,13 +344,12 @@
                                 }
                                 null === o ? (o = 65533, u = 1) : o > 65535 && (o -= 65536, f.push(o >>> 10 & 1023 | 55296), o = 56320 | 1023 & o), f.push(o), n += u;
                             }
-                            return decodeCodePointsArray(f);
-                        }
-                        function decodeCodePointsArray(e) {
-                            var r = e.length;
-                            if (r <= 4096) return String.fromCharCode.apply(String, e);
-                            for(var t = "", f = 0; f < r;)t += String.fromCharCode.apply(String, e.slice(f, f += 4096));
-                            return t;
+                            return function(e) {
+                                var r = e.length;
+                                if (r <= 4096) return String.fromCharCode.apply(String, e);
+                                for(var t = "", f = 0; f < r;)t += String.fromCharCode.apply(String, e.slice(f, f += 4096));
+                                return t;
+                            }(f);
                         }
                         function asciiSlice(e, r, t) {
                             var f = "";
@@ -713,14 +715,6 @@
                                     i.push(t >> 18 | 240, t >> 12 & 63 | 128, t >> 6 & 63 | 128, 63 & t | 128);
                                 } else throw Error("Invalid code point");
                             }
-                            return i;
-                        }
-                        function asciiToBytes(e) {
-                            for(var r = [], t = 0; t < e.length; ++t)r.push(255 & e.charCodeAt(t));
-                            return r;
-                        }
-                        function utf16leToBytes(e, r) {
-                            for(var t, f, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, i.push(t % 256), i.push(f);
                             return i;
                         }
                         function base64ToBytes(e) {
@@ -1991,14 +1985,21 @@
                         }
                         function formatValue(r, e, o) {
                             if (r.customInspect && e && isFunction(e.inspect) && e.inspect !== t.inspect && !(e.constructor && e.constructor.prototype === e)) {
-                                var l, n = e.inspect(o, r);
+                                var r1, t1, e1, o1, l, n = e.inspect(o, r);
                                 return isString(n) || (n = formatValue(r, n, o)), n;
                             }
-                            var i = formatPrimitive(r, e);
+                            var i = function(r, t) {
+                                if (isUndefined(t)) return r.stylize("undefined", "undefined");
+                                if (isString(t)) {
+                                    var e = "'" + JSON.stringify(t).replace(/^"|"$/g, "").replace(/'/g, "\\'").replace(/\\"/g, '"') + "'";
+                                    return r.stylize(e, "string");
+                                }
+                                return isNumber(t) ? r.stylize("" + t, "number") : isBoolean(t) ? r.stylize("" + t, "boolean") : isNull(t) ? r.stylize("null", "null") : void 0;
+                            }(r, e);
                             if (i) return i;
-                            var r1, t1, a = Object.keys(e), y = (r1 = a, t1 = {}, r1.forEach(function(r, e) {
-                                t1[r] = !0;
-                            }), t1);
+                            var r2, t2, a = Object.keys(e), y = (r2 = a, t2 = {}, r2.forEach(function(r, e) {
+                                t2[r] = !0;
+                            }), t2);
                             if (r.showHidden && (a = Object.getOwnPropertyNames(e)), isError(e) && (a.indexOf("message") >= 0 || a.indexOf("description") >= 0)) return formatError(e);
                             if (0 === a.length) {
                                 if (isFunction(e)) {
@@ -2016,26 +2017,19 @@
                             return (isArray(e) && (u = !0, s = [
                                 "[",
                                 "]"
-                            ]), isFunction(e) && (f = " [Function" + (e.name ? ": " + e.name : "") + "]"), isRegExp(e) && (f = " " + RegExp.prototype.toString.call(e)), isDate(e) && (f = " " + Date.prototype.toUTCString.call(e)), isError(e) && (f = " " + formatError(e)), 0 !== a.length || u && 0 != e.length) ? o < 0 ? isRegExp(e) ? r.stylize(RegExp.prototype.toString.call(e), "regexp") : r.stylize("[Object]", "special") : (r.seen.push(e), l = u ? formatArray(r, e, o, y, a) : a.map(function(t) {
+                            ]), isFunction(e) && (f = " [Function" + (e.name ? ": " + e.name : "") + "]"), isRegExp(e) && (f = " " + RegExp.prototype.toString.call(e)), isDate(e) && (f = " " + Date.prototype.toUTCString.call(e)), isError(e) && (f = " " + formatError(e)), 0 !== a.length || u && 0 != e.length) ? o < 0 ? isRegExp(e) ? r.stylize(RegExp.prototype.toString.call(e), "regexp") : r.stylize("[Object]", "special") : (r.seen.push(e), l = u ? function(r, t, e, o, n) {
+                                for(var i = [], a = 0, y = t.length; a < y; ++a)hasOwnProperty(t, String(a)) ? i.push(formatProperty(r, t, e, o, String(a), !0)) : i.push("");
+                                return n.forEach(function(n) {
+                                    n.match(/^\d+$/) || i.push(formatProperty(r, t, e, o, n, !0));
+                                }), i;
+                            }(r, e, o, y, a) : a.map(function(t) {
                                 return formatProperty(r, e, o, y, t, u);
-                            }), r.seen.pop(), reduceToSingleString(l, f, s)) : s[0] + f + s[1];
-                        }
-                        function formatPrimitive(r, t) {
-                            if (isUndefined(t)) return r.stylize("undefined", "undefined");
-                            if (isString(t)) {
-                                var e = "'" + JSON.stringify(t).replace(/^"|"$/g, "").replace(/'/g, "\\'").replace(/\\"/g, '"') + "'";
-                                return r.stylize(e, "string");
-                            }
-                            return isNumber(t) ? r.stylize("" + t, "number") : isBoolean(t) ? r.stylize("" + t, "boolean") : isNull(t) ? r.stylize("null", "null") : void 0;
+                            }), r.seen.pop(), r1 = l, t1 = f, e1 = s, o1 = 0, r1.reduce(function(r, t) {
+                                return o1++, t.indexOf("\n") >= 0 && o1++, r + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
+                            }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + r1.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + r1.join(", ") + " " + e1[1]) : s[0] + f + s[1];
                         }
                         function formatError(r) {
                             return "[" + Error.prototype.toString.call(r) + "]";
-                        }
-                        function formatArray(r, t, e, o, n) {
-                            for(var i = [], a = 0, y = t.length; a < y; ++a)hasOwnProperty(t, String(a)) ? i.push(formatProperty(r, t, e, o, String(a), !0)) : i.push("");
-                            return n.forEach(function(n) {
-                                n.match(/^\d+$/) || i.push(formatProperty(r, t, e, o, n, !0));
-                            }), i;
                         }
                         function formatProperty(r, t, e, o, n, i) {
                             var a, y, p;
@@ -2050,12 +2044,6 @@
                                 (a = JSON.stringify("" + n)).match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/) ? (a = a.substr(1, a.length - 2), a = r.stylize(a, "name")) : (a = a.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'"), a = r.stylize(a, "string"));
                             }
                             return a + ": " + y;
-                        }
-                        function reduceToSingleString(r, t, e) {
-                            var o = 0;
-                            return r.reduce(function(r, t) {
-                                return o++, t.indexOf("\n") >= 0 && o++, r + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                            }, 0) > 60 ? e[0] + ("" === t ? "" : t + "\n ") + " " + r.join(",\n  ") + " " + e[1] : e[0] + t + " " + r.join(", ") + " " + e[1];
                         }
                         function isArray(r) {
                             return Array.isArray(r);

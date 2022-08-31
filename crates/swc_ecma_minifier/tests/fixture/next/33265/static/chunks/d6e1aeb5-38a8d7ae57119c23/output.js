@@ -2001,7 +2001,12 @@
             function mediate(middleware, tech, method, arg) {
                 void 0 === arg && (arg = null);
                 var callMethod = "call" + toTitleCase$1(method), middlewareValue = middleware.reduce(middlewareIterator(callMethod), arg), terminated = middlewareValue === TERMINATOR, returnValue = terminated ? null : tech[method](middlewareValue);
-                return executeRight(middleware, method, returnValue, terminated), returnValue;
+                return function(mws, method, value, terminated) {
+                    for(var i = mws.length - 1; i >= 0; i--){
+                        var mw = mws[i];
+                        mw[method] && mw[method](terminated, value);
+                    }
+                }(middleware, method, returnValue, terminated), returnValue;
             }
             var allowedGetters = {
                 buffered: 1,
@@ -2025,12 +2030,6 @@
                 return function(value, mw) {
                     return value === TERMINATOR ? TERMINATOR : mw[method] ? mw[method](value) : value;
                 };
-            }
-            function executeRight(mws, method, value, terminated) {
-                for(var i = mws.length - 1; i >= 0; i--){
-                    var mw = mws[i];
-                    mw[method] && mw[method](terminated, value);
-                }
             }
             var MimetypesKind = {
                 opus: "video/ogg",
@@ -13320,12 +13319,11 @@
                         path: basedir,
                         exports: {},
                         require: function(path, base) {
-                            return commonjsRequire(path, null == base ? module.path : base);
+                            return function() {
+                                throw Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
+                            }(path, null == base ? module.path : base);
                         }
                     }, module.exports), module.exports;
-                }
-                function commonjsRequire() {
-                    throw Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
                 }
                 var createClass = createCommonjsModule(function(module) {
                     function _defineProperties(target, props) {

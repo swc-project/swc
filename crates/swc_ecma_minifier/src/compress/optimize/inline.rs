@@ -5,6 +5,7 @@ use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt, IdentUsageFin
 
 use super::Optimizer;
 use crate::{
+    alias::{collect_infects_from, AliasConfig},
     compress::optimize::util::is_valid_for_lhs,
     mode::Mode,
     util::{
@@ -517,6 +518,18 @@ where
                                     return;
                                 }
 
+                                for i in collect_infects_from(
+                                    &f.function,
+                                    AliasConfig {
+                                        marks: Some(self.marks),
+                                        ignore_nested: false,
+                                    },
+                                ) {
+                                    if let Some(usage) = self.data.vars.get_mut(&i) {
+                                        usage.ref_count += 1;
+                                    }
+                                }
+
                                 self.vars.simple_functions.insert(
                                     i.to_id(),
                                     match decl {
@@ -529,6 +542,7 @@ where
                                         }
                                     },
                                 );
+
                                 return;
                             }
                         }
@@ -549,7 +563,7 @@ where
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && (usage.is_fn_local || (usage.used_as_callee && !usage.used_above_decl))
+                && (usage.is_fn_local || usage.used_as_callee)
                 && !usage.executed_multiple_time
                 && !usage.inline_prevented
                 && (match decl {

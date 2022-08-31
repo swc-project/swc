@@ -3458,19 +3458,9 @@
         9996: function(module) {
             "use strict";
             var isMergeableObject = function(value) {
-                return isNonNullObject(value) && !isSpecial(value);
-            };
-            function isNonNullObject(value) {
-                return !!value && "object" == typeof value;
-            }
-            function isSpecial(value) {
-                var stringValue = Object.prototype.toString.call(value);
-                return "[object RegExp]" === stringValue || "[object Date]" === stringValue || isReactElement(value);
-            }
-            var REACT_ELEMENT_TYPE = "function" == typeof Symbol && Symbol.for ? Symbol.for("react.element") : 0xeac7;
-            function isReactElement(value) {
-                return value.$$typeof === REACT_ELEMENT_TYPE;
-            }
+                var value1, value2, stringValue;
+                return !!(value1 = value) && "object" == typeof value1 && (value2 = value, "[object RegExp]" !== (stringValue = Object.prototype.toString.call(value2)) && "[object Date]" !== stringValue && value2.$$typeof !== REACT_ELEMENT_TYPE);
+            }, REACT_ELEMENT_TYPE = "function" == typeof Symbol && Symbol.for ? Symbol.for("react.element") : 0xeac7;
             function cloneUnlessOtherwiseSpecified(value, options) {
                 return !1 !== options.clone && options.isMergeableObject(value) ? deepmerge(Array.isArray(value) ? [] : {}, value, options) : value;
             }
@@ -5924,7 +5914,49 @@
                 return {};
             }, ThemeProvider = ({ children , ...props })=>{
                 var _ref, _props$theme, _ref2, _props$colorMode, _ref3, _props$dayScheme, _ref4, _props$nightScheme;
-                const { theme: fallbackTheme , colorMode: fallbackColorMode , dayScheme: fallbackDayScheme , nightScheme: fallbackNightScheme ,  } = useTheme(), theme = null !== (_ref = null !== (_props$theme = props.theme) && void 0 !== _props$theme ? _props$theme : fallbackTheme) && void 0 !== _ref ? _ref : lib_esm_theme, { resolvedServerColorMode  } = getServerHandoff(), resolvedColorModePassthrough = react.useRef(resolvedServerColorMode), [colorMode, setColorMode] = react.useState(null !== (_ref2 = null !== (_props$colorMode = props.colorMode) && void 0 !== _props$colorMode ? _props$colorMode : fallbackColorMode) && void 0 !== _ref2 ? _ref2 : "day"), [dayScheme, setDayScheme] = react.useState(null !== (_ref3 = null !== (_props$dayScheme = props.dayScheme) && void 0 !== _props$dayScheme ? _props$dayScheme : fallbackDayScheme) && void 0 !== _ref3 ? _ref3 : defaultDayScheme), [nightScheme, setNightScheme] = react.useState(null !== (_ref4 = null !== (_props$nightScheme = props.nightScheme) && void 0 !== _props$nightScheme ? _props$nightScheme : fallbackNightScheme) && void 0 !== _ref4 ? _ref4 : defaultNightScheme), systemColorMode = useSystemColorMode(), resolvedColorMode = resolvedColorModePassthrough.current || resolveColorMode(colorMode, systemColorMode), colorScheme = chooseColorScheme(resolvedColorMode, dayScheme, nightScheme), { resolvedTheme , resolvedColorScheme  } = react.useMemo(()=>applyColorScheme(theme, colorScheme), [
+                const { theme: fallbackTheme , colorMode: fallbackColorMode , dayScheme: fallbackDayScheme , nightScheme: fallbackNightScheme ,  } = useTheme(), theme = null !== (_ref = null !== (_props$theme = props.theme) && void 0 !== _props$theme ? _props$theme : fallbackTheme) && void 0 !== _ref ? _ref : lib_esm_theme, { resolvedServerColorMode  } = getServerHandoff(), resolvedColorModePassthrough = react.useRef(resolvedServerColorMode), [colorMode, setColorMode] = react.useState(null !== (_ref2 = null !== (_props$colorMode = props.colorMode) && void 0 !== _props$colorMode ? _props$colorMode : fallbackColorMode) && void 0 !== _ref2 ? _ref2 : "day"), [dayScheme, setDayScheme] = react.useState(null !== (_ref3 = null !== (_props$dayScheme = props.dayScheme) && void 0 !== _props$dayScheme ? _props$dayScheme : fallbackDayScheme) && void 0 !== _ref3 ? _ref3 : defaultDayScheme), [nightScheme, setNightScheme] = react.useState(null !== (_ref4 = null !== (_props$nightScheme = props.nightScheme) && void 0 !== _props$nightScheme ? _props$nightScheme : fallbackNightScheme) && void 0 !== _ref4 ? _ref4 : defaultNightScheme), systemColorMode = function() {
+                    const [systemColorMode, setSystemColorMode] = react.useState(getSystemColorMode);
+                    return react.useEffect(()=>{
+                        var _window, _window$matchMedia;
+                        const media = null === (_window = window) || void 0 === _window ? void 0 : null === (_window$matchMedia = _window.matchMedia) || void 0 === _window$matchMedia ? void 0 : _window$matchMedia.call(_window, "(prefers-color-scheme: dark)");
+                        function handleChange(event) {
+                            const isNight = event.matches;
+                            setSystemColorMode(isNight ? "night" : "day");
+                        }
+                        if (media) {
+                            if (void 0 !== media.addEventListener) return media.addEventListener("change", handleChange), function() {
+                                media.removeEventListener("change", handleChange);
+                            };
+                            if (void 0 !== media.addListener) return media.addListener(handleChange), function() {
+                                media.removeListener(handleChange);
+                            };
+                        }
+                    }, []), systemColorMode;
+                }(), resolvedColorMode = resolvedColorModePassthrough.current || resolveColorMode(colorMode, systemColorMode), colorScheme = function(colorMode, dayScheme, nightScheme) {
+                    switch(colorMode){
+                        case "day":
+                            return dayScheme;
+                        case "night":
+                            return nightScheme;
+                    }
+                }(resolvedColorMode, dayScheme, nightScheme), { resolvedTheme , resolvedColorScheme  } = react.useMemo(()=>(function(theme, colorScheme) {
+                        if (!theme.colorSchemes) return {
+                            resolvedTheme: theme,
+                            resolvedColorScheme: void 0
+                        };
+                        if (!theme.colorSchemes[colorScheme]) {
+                            console.error(`\`${colorScheme}\` scheme not defined in \`theme.colorSchemes\``);
+                            const defaultColorScheme = Object.keys(theme.colorSchemes)[0];
+                            return {
+                                resolvedTheme: cjs_default()(theme, theme.colorSchemes[defaultColorScheme]),
+                                resolvedColorScheme: defaultColorScheme
+                            };
+                        }
+                        return {
+                            resolvedTheme: cjs_default()(theme, theme.colorSchemes[colorScheme]),
+                            resolvedColorScheme: colorScheme
+                        };
+                    })(theme, colorScheme), [
                     theme,
                     colorScheme
                 ]);
@@ -5986,57 +6018,12 @@
             function useTheme() {
                 return react.useContext(ThemeContext);
             }
-            function useSystemColorMode() {
-                const [systemColorMode, setSystemColorMode] = react.useState(getSystemColorMode);
-                return react.useEffect(()=>{
-                    var _window, _window$matchMedia;
-                    const media = null === (_window = window) || void 0 === _window ? void 0 : null === (_window$matchMedia = _window.matchMedia) || void 0 === _window$matchMedia ? void 0 : _window$matchMedia.call(_window, "(prefers-color-scheme: dark)");
-                    function handleChange(event) {
-                        const isNight = event.matches;
-                        setSystemColorMode(isNight ? "night" : "day");
-                    }
-                    if (media) {
-                        if (void 0 !== media.addEventListener) return media.addEventListener("change", handleChange), function() {
-                            media.removeEventListener("change", handleChange);
-                        };
-                        if (void 0 !== media.addListener) return media.addListener(handleChange), function() {
-                            media.removeListener(handleChange);
-                        };
-                    }
-                }, []), systemColorMode;
-            }
             function getSystemColorMode() {
                 var _window$matchMedia2, _window2, _window$matchMedia2$c;
                 return "undefined" != typeof window && null !== (_window$matchMedia2 = (_window2 = window).matchMedia) && void 0 !== _window$matchMedia2 && null !== (_window$matchMedia2$c = _window$matchMedia2.call(_window2, "(prefers-color-scheme: dark)")) && void 0 !== _window$matchMedia2$c && _window$matchMedia2$c.matches ? "night" : "day";
             }
             function resolveColorMode(colorMode, systemColorMode) {
                 return "auto" === colorMode ? systemColorMode : colorMode;
-            }
-            function chooseColorScheme(colorMode, dayScheme, nightScheme) {
-                switch(colorMode){
-                    case "day":
-                        return dayScheme;
-                    case "night":
-                        return nightScheme;
-                }
-            }
-            function applyColorScheme(theme, colorScheme) {
-                if (!theme.colorSchemes) return {
-                    resolvedTheme: theme,
-                    resolvedColorScheme: void 0
-                };
-                if (!theme.colorSchemes[colorScheme]) {
-                    console.error(`\`${colorScheme}\` scheme not defined in \`theme.colorSchemes\``);
-                    const defaultColorScheme = Object.keys(theme.colorSchemes)[0];
-                    return {
-                        resolvedTheme: cjs_default()(theme, theme.colorSchemes[defaultColorScheme]),
-                        resolvedColorScheme: defaultColorScheme
-                    };
-                }
-                return {
-                    resolvedTheme: cjs_default()(theme, theme.colorSchemes[colorScheme]),
-                    resolvedColorScheme: colorScheme
-                };
             }
             ThemeProvider.displayName = "ThemeProvider";
             var lib_esm_ThemeProvider = ThemeProvider;
