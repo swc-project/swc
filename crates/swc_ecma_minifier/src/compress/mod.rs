@@ -381,6 +381,29 @@ where
         }
 
         {
+            let _timer = timer!("remove dead code");
+
+            let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
+                swc_ecma_transforms_optimization::simplify::dce::Config { module_mark: None },
+                self.marks.unresolved_mark,
+            );
+            n.apply(&mut visitor);
+
+            self.changed |= visitor.changed();
+
+            #[cfg(feature = "debug")]
+            if visitor.changed() {
+                let src = n.dump();
+                debug!("===== After DCE =====\n{}\n{}", start, src);
+            }
+        }
+
+        #[cfg(debug_assertions)]
+        {
+            n.visit_with(&mut AssertValid);
+        }
+
+        {
             let _timer = timer!("apply full optimizer");
 
             let mut data = analyze(&*n, self.module_info, Some(self.marks));
