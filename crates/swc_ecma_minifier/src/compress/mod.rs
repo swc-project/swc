@@ -380,7 +380,7 @@ where
             n.visit_with(&mut AssertValid);
         }
 
-        {
+        if self.options.dead_code {
             let _timer = timer!("remove dead code");
 
             let mut visitor = Repeat::new(swc_ecma_transforms_optimization::simplify::dce::dce(
