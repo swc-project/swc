@@ -371,7 +371,10 @@ where
             #[cfg(feature = "debug")]
             if visitor.changed() {
                 let src = n.dump();
-                debug!("===== After pure =====\n{}\n{}", start, src);
+                debug!(
+                    "===== Before pure =====\n{}\n===== After pure =====\n{}",
+                    start, src
+                );
             }
         }
 
@@ -396,7 +399,10 @@ where
                 #[cfg(feature = "debug")]
                 if visitor.changed() {
                     let src = n.dump();
-                    debug!("===== After DCE =====\n{}\n{}", start, src);
+                    debug!(
+                        "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
+                        start, src
+                    );
                 }
 
                 if visitor.changed() {
