@@ -41,15 +41,11 @@ export default function createInstantSearchManager({ indexName , initialState ={
             }));
         }
         return {
-            registerWidget (widget) {
-                return widgets.push(widget), scheduleUpdate(), function() {
+            registerWidget: (widget)=>(widgets.push(widget), scheduleUpdate(), function() {
                     widgets.splice(widgets.indexOf(widget), 1), scheduleUpdate();
-                };
-            },
+                }),
             update: scheduleUpdate,
-            getWidgets () {
-                return widgets;
-            }
+            getWidgets: ()=>widgets
         };
     }(function() {
         const metadata = getMetadata(store.getState().widgets);

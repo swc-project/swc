@@ -17966,25 +17966,25 @@
                 'f64.reinterpret/i64': 0xbf
             };
             _exports.typeGenerators = {
-                function: (json, stream)=>{
+                function (json, stream) {
                     leb.unsigned.write(json, stream);
                 },
-                table: (json, stream)=>{
+                table (json, stream) {
                     stream.write([
                         LANGUAGE_TYPES[json.elementType]
                     ]), _exports.typeGenerators.memory(json.limits, stream);
                 },
-                global: (json, stream)=>{
+                global (json, stream) {
                     stream.write([
                         LANGUAGE_TYPES[json.contentType]
                     ]), stream.write([
                         json.mutability
                     ]);
                 },
-                memory: (json, stream)=>{
+                memory (json, stream) {
                     leb.unsigned.write(Number(void 0 !== json.maximum), stream), leb.unsigned.write(json.intial, stream), void 0 !== json.maximum && leb.unsigned.write(json.maximum, stream);
                 },
-                initExpr: (json, stream)=>{
+                initExpr (json, stream) {
                     _exports.generateOp(json, stream), _exports.generateOp({
                         name: 'end',
                         type: 'void'
@@ -18002,7 +18002,7 @@
                 block_type: (json, stream)=>(stream.write([
                         LANGUAGE_TYPES[json]
                     ]), stream),
-                br_table: (json, stream)=>{
+                br_table (json, stream) {
                     for (let target of (leb.unsigned.write(json.targets.length, stream), json.targets))leb.unsigned.write(target, stream);
                     return leb.unsigned.write(json.defaultTarget, stream), stream;
                 },
@@ -18012,7 +18012,7 @@
                 memory_immediate: (json, stream)=>(leb.unsigned.write(json.flags, stream), leb.unsigned.write(json.offset, stream), stream)
             };
             const entryGenerators = {
-                type: (entry, stream = new Stream())=>{
+                type (entry, stream = new Stream()) {
                     stream.write([
                         LANGUAGE_TYPES[entry.form]
                     ]);
@@ -18023,7 +18023,7 @@
                         LANGUAGE_TYPES[entry.return_type]
                     ]), stream.buffer;
                 },
-                import: (entry, stream = new Stream())=>{
+                import (entry, stream = new Stream()) {
                     leb.unsigned.write(entry.moduleStr.length, stream), stream.write(entry.moduleStr), leb.unsigned.write(entry.fieldStr.length, stream), stream.write(entry.fieldStr), stream.write([
                         EXTERNAL_KIND[entry.kind]
                     ]), _exports.typeGenerators[entry.kind](entry.type, stream);
@@ -18032,17 +18032,17 @@
                 table: _exports.typeGenerators.table,
                 global: (entry, stream = new Stream())=>(_exports.typeGenerators.global(entry.type, stream), _exports.typeGenerators.initExpr(entry.init, stream), stream),
                 memory: _exports.typeGenerators.memory,
-                export: (entry, stream = new Stream())=>{
+                export (entry, stream = new Stream()) {
                     const fieldStr = Buffer.from(entry.field_str), strLen = fieldStr.length;
                     return leb.unsigned.write(strLen, stream), stream.write(fieldStr), stream.write([
                         EXTERNAL_KIND[entry.kind]
                     ]), leb.unsigned.write(entry.index, stream), stream;
                 },
-                element: (entry, stream = new Stream())=>{
+                element (entry, stream = new Stream()) {
                     for (let elem of (leb.unsigned.write(entry.index, stream), _exports.typeGenerators.initExpr(entry.offset, stream), leb.unsigned.write(entry.elements.length, stream), entry.elements))leb.unsigned.write(elem, stream);
                     return stream;
                 },
-                code: (entry, stream = new Stream())=>{
+                code (entry, stream = new Stream()) {
                     let codeStream = new Stream();
                     for (let local of (leb.unsigned.write(entry.locals.length, codeStream), entry.locals))leb.unsigned.write(local.count, codeStream), codeStream.write([
                         LANGUAGE_TYPES[local.type]
@@ -18359,19 +18359,19 @@
                 11: 'data'
             };
             _exports.immediataryParsers = {
-                varuint1: (stream)=>{
+                varuint1 (stream) {
                     const int1 = stream.read(1)[0];
                     return int1;
                 },
-                varuint32: (stream)=>{
+                varuint32 (stream) {
                     const int32 = leb.unsigned.read(stream);
                     return int32;
                 },
-                varint32: (stream)=>{
+                varint32 (stream) {
                     const int32 = leb.signed.read(stream);
                     return int32;
                 },
-                varint64: (stream)=>{
+                varint64 (stream) {
                     const int64 = leb.signed.read(stream);
                     return int64;
                 },
@@ -18381,11 +18381,11 @@
                 uint64: (stream)=>[
                         ...stream.read(8)
                     ],
-                block_type: (stream)=>{
+                block_type (stream) {
                     const type = stream.read(1)[0];
                     return LANGUAGE_TYPES[type];
                 },
-                br_table: (stream)=>{
+                br_table (stream) {
                     const json = {
                         targets: []
                     }, num = leb.unsigned.readBn(stream).toNumber();
@@ -18395,36 +18395,36 @@
                     }
                     return json.defaultTarget = leb.unsigned.readBn(stream).toNumber(), json;
                 },
-                call_indirect: (stream)=>{
+                call_indirect (stream) {
                     const json = {};
                     return json.index = leb.unsigned.readBn(stream).toNumber(), json.reserved = stream.read(1)[0], json;
                 },
-                memory_immediate: (stream)=>{
+                memory_immediate (stream) {
                     const json = {};
                     return json.flags = leb.unsigned.readBn(stream).toNumber(), json.offset = leb.unsigned.readBn(stream).toNumber(), json;
                 }
             }, _exports.typeParsers = {
                 function: (stream)=>leb.unsigned.readBn(stream).toNumber(),
-                table: (stream)=>{
+                table (stream) {
                     const entry = {}, type = stream.read(1)[0];
                     return entry.elementType = LANGUAGE_TYPES[type], entry.limits = _exports.typeParsers.memory(stream), entry;
                 },
-                global: (stream)=>{
+                global (stream) {
                     const global = {};
                     let type = stream.read(1)[0];
                     return global.contentType = LANGUAGE_TYPES[type], global.mutability = stream.read(1)[0], global;
                 },
-                memory: (stream)=>{
+                memory (stream) {
                     const limits = {};
                     return limits.flags = leb.unsigned.readBn(stream).toNumber(), limits.intial = leb.unsigned.readBn(stream).toNumber(), 1 === limits.flags && (limits.maximum = leb.unsigned.readBn(stream).toNumber()), limits;
                 },
-                initExpr: (stream)=>{
+                initExpr (stream) {
                     const op = _exports.parseOp(stream);
                     return stream.read(1), op;
                 }
             };
             const sectionParsers = _exports.sectionParsers = {
-                custom: (stream, header)=>{
+                custom (stream, header) {
                     const json = {
                         name: 'custom'
                     }, section = new Stream(stream.read(header.size)), nameLen = leb.unsigned.readBn(section).toNumber(), name = section.read(nameLen);
@@ -18432,7 +18432,7 @@
                         ...section.buffer
                     ], json;
                 },
-                type: (stream)=>{
+                type (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'type',
                         entries: []
@@ -18452,7 +18452,7 @@
                     }
                     return json;
                 },
-                import: (stream)=>{
+                import (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'import',
                         entries: []
@@ -18467,7 +18467,7 @@
                     }
                     return json;
                 },
-                function: (stream)=>{
+                function (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'function',
                         entries: []
@@ -18478,7 +18478,7 @@
                     }
                     return json;
                 },
-                table: (stream)=>{
+                table (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'table',
                         entries: []
@@ -18489,7 +18489,7 @@
                     }
                     return json;
                 },
-                memory: (stream)=>{
+                memory (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'memory',
                         entries: []
@@ -18500,7 +18500,7 @@
                     }
                     return json;
                 },
-                global: (stream)=>{
+                global (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'global',
                         entries: []
@@ -18511,7 +18511,7 @@
                     }
                     return json;
                 },
-                export: (stream)=>{
+                export (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'export',
                         entries: []
@@ -18524,13 +18524,13 @@
                     }
                     return json;
                 },
-                start: (stream)=>{
+                start (stream) {
                     const json = {
                         name: 'start'
                     };
                     return json.index = leb.unsigned.readBn(stream).toNumber(), json;
                 },
-                element: (stream)=>{
+                element (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'element',
                         entries: []
@@ -18549,7 +18549,7 @@
                     }
                     return json;
                 },
-                code: (stream)=>{
+                code (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'code',
                         entries: []
@@ -18575,7 +18575,7 @@
                     }
                     return json;
                 },
-                data: (stream)=>{
+                data (stream) {
                     const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
                         name: 'data',
                         entries: []
@@ -19829,9 +19829,7 @@
                 {
                     const { Worker: Worker1  } = dynamicRequire(module, 'worker_threads');
                     return {
-                        async createWorker (url) {
-                            return new Worker1(url);
-                        },
+                        createWorker: async (url)=>new Worker1(url),
                         addEventListener (worker, fn) {
                             worker.on('message', (data)=>{
                                 fn({
@@ -19959,9 +19957,7 @@
                 return reader.sliceAsBlob ? await reader.sliceAsBlob(offset, length, type) : await reader.read(offset, length);
             }
             const crc$1 = {
-                unsigned () {
-                    return 0;
-                }
+                unsigned: ()=>0
             };
             function getUint16LE(uint8View, offset) {
                 return uint8View[offset] + 0x100 * uint8View[offset + 1];
@@ -22858,7 +22854,7 @@
                         }
                     },
                     api: {
-                        _readContractState: (fnIndex, contractTxIdPtr)=>{
+                        _readContractState (fnIndex, contractTxIdPtr) {
                             const contractTxId = wasmInstance.exports.__getString(contractTxIdPtr), callbackFn = getFn(fnIndex);
                             return console.log('Simulating read state of', contractTxId), setTimeout(()=>{
                                 console.log('calling callback'), callbackFn(wasmInstance.exports.__newString(JSON.stringify({
@@ -23024,7 +23020,7 @@
                             fd_close: ()=>0,
                             fd_fdstat_get: ()=>0,
                             fd_seek: ()=>0,
-                            proc_exit: (code)=>{
+                            proc_exit (code) {
                                 if (__webpack_require__.g.process) process.exit(code);
                                 else throw 'trying to exit with code ' + code;
                             },
@@ -23042,29 +23038,29 @@
                                     this._values[id] = null, this._ids.delete(v), this._idPool.push(id);
                                 }
                             },
-                            'syscall/js.stringVal': (ret_ptr, value_ptr, value_len)=>{
+                            'syscall/js.stringVal' (ret_ptr, value_ptr, value_len) {
                                 const s = loadString(value_ptr, value_len);
                                 storeValue(ret_ptr, s);
                             },
-                            'syscall/js.valueGet': (retval, v_addr, p_ptr, p_len)=>{
+                            'syscall/js.valueGet' (retval, v_addr, p_ptr, p_len) {
                                 let prop = loadString(p_ptr, p_len), value = loadValue(v_addr), result = Reflect.get(value, prop);
                                 storeValue(retval, result);
                             },
-                            'syscall/js.valueSet': (v_addr, p_ptr, p_len, x_addr)=>{
+                            'syscall/js.valueSet' (v_addr, p_ptr, p_len, x_addr) {
                                 const v = loadValue(v_addr), p = loadString(p_ptr, p_len), x = loadValue(x_addr);
                                 Reflect.set(v, p, x);
                             },
-                            'syscall/js.valueDelete': (v_addr, p_ptr, p_len)=>{
+                            'syscall/js.valueDelete' (v_addr, p_ptr, p_len) {
                                 const v = loadValue(v_addr), p = loadString(p_ptr, p_len);
                                 Reflect.deleteProperty(v, p);
                             },
-                            'syscall/js.valueIndex': (ret_addr, v_addr, i)=>{
+                            'syscall/js.valueIndex' (ret_addr, v_addr, i) {
                                 storeValue(ret_addr, Reflect.get(loadValue(v_addr), i));
                             },
-                            'syscall/js.valueSetIndex': (v_addr, i, x_addr)=>{
+                            'syscall/js.valueSetIndex' (v_addr, i, x_addr) {
                                 Reflect.set(loadValue(v_addr), i, loadValue(x_addr));
                             },
-                            'syscall/js.valueCall': (ret_addr, v_addr, m_ptr, m_len, args_ptr, args_len, args_cap)=>{
+                            'syscall/js.valueCall' (ret_addr, v_addr, m_ptr, m_len, args_ptr, args_len, args_cap) {
                                 const v = loadValue(v_addr), name = loadString(m_ptr, m_len), args = loadSliceOfValues(args_ptr, args_len, args_cap);
                                 try {
                                     const m = Reflect.get(v, name);
@@ -23073,7 +23069,7 @@
                                     storeValue(ret_addr, err), mem().setUint8(ret_addr + 8, 0);
                                 }
                             },
-                            'syscall/js.valueInvoke': (ret_addr, v_addr, args_ptr, args_len, args_cap)=>{
+                            'syscall/js.valueInvoke' (ret_addr, v_addr, args_ptr, args_len, args_cap) {
                                 try {
                                     const v = loadValue(v_addr), args = loadSliceOfValues(args_ptr, args_len, args_cap);
                                     storeValue(ret_addr, Reflect.apply(v, void 0, args)), mem().setUint8(ret_addr + 8, 1);
@@ -23081,7 +23077,7 @@
                                     storeValue(ret_addr, err), mem().setUint8(ret_addr + 8, 0);
                                 }
                             },
-                            'syscall/js.valueNew': (ret_addr, v_addr, args_ptr, args_len, args_cap)=>{
+                            'syscall/js.valueNew' (ret_addr, v_addr, args_ptr, args_len, args_cap) {
                                 const v = loadValue(v_addr), args = loadSliceOfValues(args_ptr, args_len, args_cap);
                                 try {
                                     storeValue(ret_addr, Reflect.construct(v, args)), mem().setUint8(ret_addr + 8, 1);
@@ -23090,16 +23086,16 @@
                                 }
                             },
                             'syscall/js.valueLength': (v_addr)=>loadValue(v_addr).length,
-                            'syscall/js.valuePrepareString': (ret_addr, v_addr)=>{
+                            'syscall/js.valuePrepareString' (ret_addr, v_addr) {
                                 const s = String(loadValue(v_addr)), str = encoder.encode(s);
                                 storeValue(ret_addr, str), setInt64(ret_addr + 8, str.length);
                             },
-                            'syscall/js.valueLoadString': (v_addr, slice_ptr, slice_len, slice_cap)=>{
+                            'syscall/js.valueLoadString' (v_addr, slice_ptr, slice_len, slice_cap) {
                                 const str = loadValue(v_addr);
                                 loadSlice(slice_ptr, slice_len, slice_cap).set(str);
                             },
                             'syscall/js.valueInstanceOf': (v_addr, t_addr)=>loadValue(v_addr) instanceof loadValue(t_addr),
-                            'syscall/js.copyBytesToGo': (ret_addr, dest_addr, dest_len, dest_cap, source_addr)=>{
+                            'syscall/js.copyBytesToGo' (ret_addr, dest_addr, dest_len, dest_cap, source_addr) {
                                 let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4;
                                 const dst = loadSlice(dest_addr, dest_len), src = loadValue(source_addr);
                                 if (!(src instanceof Uint8Array)) {
@@ -23109,7 +23105,7 @@
                                 const toCopy = src.subarray(0, dst.length);
                                 dst.set(toCopy), setInt64(num_bytes_copied_addr, toCopy.length), mem().setUint8(returned_status_addr, 1);
                             },
-                            'syscall/js.copyBytesToJS': (ret_addr, dest_addr, source_addr, source_len, source_cap)=>{
+                            'syscall/js.copyBytesToJS' (ret_addr, dest_addr, source_addr, source_len, source_cap) {
                                 let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4;
                                 const dst = loadValue(dest_addr), src = loadSlice(source_addr, source_len);
                                 if (!(dst instanceof Uint8Array)) {
@@ -23657,16 +23653,16 @@
                         wallets: arweave.wallets,
                         crypto: arweave.crypto
                     }, this.evaluationOptions = evaluationOptions, this.contract = contract, this.transaction = new Transaction(this), this.block = new Block(this), this.contracts = {
-                        readContractState: (contractId, height, returnValidity)=>{
+                        readContractState (contractId, height, returnValidity) {
                             throw Error('Not implemented - should be set by HandlerApi implementor');
                         },
-                        viewContractState: (contractId, input)=>{
+                        viewContractState (contractId, input) {
                             throw Error('Not implemented - should be set by HandlerApi implementor');
                         },
-                        write: (contractId, input)=>{
+                        write (contractId, input) {
                             throw Error('Not implemented - should be set by HandlerApi implementor');
                         },
-                        refreshState: ()=>{
+                        refreshState () {
                             throw Error('Not implemented - should be set by HandlerApi implementor');
                         }
                     }, this.vrf = new Vrf(this), this.useGas = this.useGas.bind(this), this.getBalance = this.getBalance.bind(this);

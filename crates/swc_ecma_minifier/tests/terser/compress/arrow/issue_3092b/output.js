@@ -1,7 +1,5 @@
 var obj = {
-    async bar (x) {
-        return await x, 2;
-    },
+    bar: async (x)=>(await x, 2),
     *gen (x) {
         return yield x.toUpperCase(), 2;
     }
