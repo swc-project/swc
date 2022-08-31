@@ -46,7 +46,6 @@ where
 }
 
 pub(crate) struct InfectionCollector<'a> {
-    #[allow(unused)]
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,
 
@@ -83,6 +82,23 @@ impl InfectionCollector<'_> {
 
 impl Visit for InfectionCollector<'_> {
     noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
+        e.params.visit_with(self);
+
+        if !self.config.ignore_nested {
+            e.body.visit_with(self);
+        }
+    }
+
+    fn visit_function(&mut self, n: &Function) {
+        n.decorators.visit_with(self);
+        n.params.visit_with(self);
+
+        if !self.config.ignore_nested {
+            n.body.visit_with(self);
+        }
+    }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         match e.op {
