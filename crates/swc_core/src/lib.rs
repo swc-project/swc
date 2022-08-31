@@ -141,13 +141,47 @@ pub mod minifier {
 #[cfg(feature = "__css")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__css")))]
 pub mod css {
-    pub use swc_css::*;
-}
+    #[cfg(feature = "css_ast")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "css_ast")))]
+    pub mod ast {
+        pub use swc_css_ast::*;
+    }
 
-#[cfg(feature = "css_prefixer")]
-#[cfg_attr(docsrs, doc(cfg(feature = "css_prefixer")))]
-pub mod css_prefixer {
-    pub use swc_css_prefixer::*;
+    #[cfg(feature = "css_codegen")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "css_codegen")))]
+    pub mod codegen {
+        pub use swc_css_codegen::*;
+    }
+
+    #[cfg(feature = "css_minifier")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "css_minifier")))]
+    pub mod minifier {
+        pub use swc_css_minifier::*;
+    }
+
+    #[cfg(feature = "css_parser")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "css_parser")))]
+    pub mod parser {
+        pub use swc_css_parser::*;
+    }
+
+    #[cfg(feature = "css_utils")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "css_utils")))]
+    pub mod utils {
+        pub use swc_css_utils::*;
+    }
+
+    #[cfg(feature = "css_visit")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "css_visit")))]
+    pub mod visit {
+        pub use swc_css_visit::*;
+    }
+
+    #[cfg(feature = "css_prefixer")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "css_prefixer")))]
+    pub mod prefixer {
+        pub use swc_css_prefixer::*;
+    }
 }
 
 #[cfg(feature = "__cached")]

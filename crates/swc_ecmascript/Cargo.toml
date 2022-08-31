@@ -39,7 +39,7 @@ react        = ["swc_ecma_transforms/react"]
 typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 
 [dependencies]
-swc_ecma_ast        = { version = "0.90.12", path = "../swc_ecma_ast" }
+swc_ecma_ast        = { version = "0.90.15", path = "../swc_ecma_ast" }
 swc_ecma_codegen    = { version = "0.123.0", path = "../swc_ecma_codegen", optional = true }
 swc_ecma_dep_graph  = { version = "0.90.0", path = "../swc_ecma_dep_graph", optional = true }
 swc_ecma_minifier   = { version = "0.150.0", path = "../swc_ecma_minifier", optional = true }

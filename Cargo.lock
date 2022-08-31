@@ -2898,7 +2898,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.222.2"
+version = "0.222.3"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3083,7 +3083,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3092,8 +3092,13 @@ dependencies = [
  "swc_bundler",
  "swc_cached",
  "swc_common",
- "swc_css",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_minifier",
+ "swc_css_parser",
  "swc_css_prefixer",
+ "swc_css_utils",
+ "swc_css_visit",
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_loader",
@@ -3585,7 +3590,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.128.2"
+version = "0.128.3"
 dependencies = [
  "ahash",
  "arrayvec",
