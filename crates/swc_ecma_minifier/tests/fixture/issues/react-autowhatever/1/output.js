@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import Item from "./Item";
 import compareObjects from "./compareObjects";

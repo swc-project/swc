@@ -1,1 +1,1 @@
-if (foo && bar) var baz = console.log("Foo bar");
+foo && bar && console.log("Foo bar");

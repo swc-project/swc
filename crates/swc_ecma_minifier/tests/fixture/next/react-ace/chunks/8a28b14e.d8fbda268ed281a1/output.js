@@ -2035,7 +2035,7 @@
                 "module"
             ], function(require, exports, module) {
                 "use strict";
-                var dir = 0, hiLevel = 0, lastArabic = !1, hasUBAT_AL = !1, hasUBAT_B = !1, hasUBAT_S = !1, impTab_LTR = [
+                var dir = 0, hiLevel = 0, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1, impTab_LTR = [
                     [
                         0,
                         3,
@@ -2446,7 +2446,7 @@
                         case 2:
                             return lastArabic ? 3 : 2;
                         case 7:
-                            return lastArabic = !0, hasUBAT_AL = !0, 1;
+                            return lastArabic = !0, 1;
                         case 8:
                             return 4;
                         case 9:
@@ -2493,7 +2493,7 @@
                     dir = isRtl ? 1 : 0, function(chars, levels, len, charTypes) {
                         var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
                         if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
-                        for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_AL = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
+                        for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
                             if (prevState = newState, classes[ix] = newClass = _getCharClass(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
                                 if (0x10 == action) {
                                     for(i = condPos; i < ix; i++)levels[i] = 1;
