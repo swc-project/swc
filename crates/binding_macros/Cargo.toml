@@ -32,7 +32,7 @@ binding_wasm = [
 # Common deps for the SWC imports
 swc                 = { optional = true, version = "0.222.0", path = "../swc" }
 swc_common          = { optional = true, version = "0.27.13", path = "../swc_common" }
-swc_ecma_ast        = { optional = true, version = "0.90.12", path = "../swc_ecma_ast" }
+swc_ecma_ast        = { optional = true, version = "0.90.15", path = "../swc_ecma_ast" }
 swc_ecma_transforms = { optional = true, version = "0.189.0", path = "../swc_ecma_transforms" }
 
 # Optional deps for the wasm binding macro

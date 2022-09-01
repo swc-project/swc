@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.17.0"
+version       = "0.17.1"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -132,7 +132,12 @@ codegen = ["swc_ecma_codegen"]
 minifier = ["swc_ecma_minifier"]
 
 # Enable swc_css
-css          = ["__css"]
+css_ast      = ["__css", "swc_css_ast"]
+css_codegen  = ["__css", "swc_css_codegen"]
+css_minifier = ["__css", "swc_css_minifier"]
+css_parser   = ["__css", "swc_css_parser"]
+css_utils    = ["__css", "swc_css_utils"]
+css_visit    = ["__css", "swc_css_visit"]
 css_prefixer = ["__css", "swc_css_prefixer"]
 
 # Enable trace macro support.
@@ -246,7 +251,7 @@ __binding_macros    = ["common", "__base", "__transforms", "ast", "binding_macro
 __bundler           = ["swc_bundler"]
 __cached            = ["swc_cached"]
 __common            = ["swc_common"]
-__css               = ["swc_css"]
+__css               = []
 __loader            = ["swc_ecma_loader"]
 __parser            = ["swc_ecma_parser"]
 __testing_transform = ["swc_ecma_transforms_testing"]
@@ -261,12 +266,17 @@ wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
 binding_macros              = { optional = true, version = "0.10.0", path = "../binding_macros" }
-swc                         = { optional = true, version = "0.222.0", path = "../swc" }
+swc                         = { optional = true, version = "0.222.3", path = "../swc" }
 swc_atoms                   = { optional = true, version = "0.4.8", path = "../swc_atoms" }
 swc_bundler                 = { optional = true, version = "0.183.0", path = "../swc_bundler" }
 swc_cached                  = { optional = true, version = "0.3.5", path = "../swc_cached" }
 swc_common                  = { optional = true, version = "0.27.12", path = "../swc_common" }
-swc_css                     = { optional = true, version = "0.123.0", path = "../swc_css" }
+swc_css_ast                 = { optional = true, version = "0.110.0", path = "../swc_css_ast"}
+swc_css_codegen             = { optional = true, version = "0.120.0", path = "../swc_css_codegen"}
+swc_css_minifier            = { optional = true, version = "0.85.0", path = "../swc_css_minifier"}
+swc_css_parser              = { optional = true, version = "0.119.0", path = "../swc_css_parser"}
+swc_css_utils               = { optional = true, version = "0.107.0", path = "../swc_css_utils/"}
+swc_css_visit               = { optional = true, version = "0.109.0", path = "../swc_css_visit"}
 swc_css_prefixer            = { optional = true, version = "0.121.0", path = "../swc_css_prefixer" }
 swc_ecma_ast                = { optional = true, version = "0.90.10", path = "../swc_ecma_ast" }
 swc_ecma_codegen            = { optional = true, version = "0.123.0", path = "../swc_ecma_codegen" }
