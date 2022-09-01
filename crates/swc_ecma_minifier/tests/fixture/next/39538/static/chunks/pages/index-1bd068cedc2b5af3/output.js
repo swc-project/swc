@@ -77,8 +77,8 @@
                     }
                     delete rest.loader;
                 }
-                var staticSrc = "";
-                if (isStaticImport(src)) {
+                var src1, staticSrc = "";
+                if ("object" == typeof (src1 = src) && (isStaticRequire(src1) || void 0 !== src1.src)) {
                     var staticImageData = isStaticRequire(src) ? src.default : src;
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
                     if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
@@ -312,9 +312,6 @@
             function isStaticRequire(src) {
                 return void 0 !== src.default;
             }
-            function isStaticImport(src) {
-                return "object" == typeof src && (isStaticRequire(src) || void 0 !== src.src);
-            }
             function generateImgAttrs(param) {
                 var config = param.config, src = param.src, unoptimized = param.unoptimized, layout = param.layout, width = param.width, quality = param.quality, sizes = param.sizes, loader = param.loader;
                 if (unoptimized) return {
@@ -474,7 +471,37 @@
                 var rootRef = param.rootRef, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = _slicedToArray(_react.useState(!1), 2), visible = ref[0], setVisible = ref[1], ref1 = _slicedToArray(_react.useState(null), 2), element = ref1[0], setElement = ref1[1];
                 return _react.useEffect(function() {
                     if (hasIntersectionObserver) {
-                        if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) return element && element.tagName && (unobserve.current = observe(element, function(isVisible) {
+                        if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) return element && element.tagName && (unobserve.current = function(element, callback, options) {
+                            var ref = function(options) {
+                                var instance, id = {
+                                    root: options.root || null,
+                                    margin: options.rootMargin || ""
+                                }, existing = idList.find(function(obj) {
+                                    return obj.root === id.root && obj.margin === id.margin;
+                                });
+                                if (existing && (instance = observers.get(existing))) return instance;
+                                var elements = new Map();
+                                return instance = {
+                                    id: id,
+                                    observer: new IntersectionObserver(function(entries) {
+                                        entries.forEach(function(entry) {
+                                            var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+                                            callback && isVisible && callback(isVisible);
+                                        });
+                                    }, options),
+                                    elements: elements
+                                }, idList.push(id), observers.set(id, instance), instance;
+                            }(options), id = ref.id, observer = ref.observer, elements = ref.elements;
+                            return elements.set(element, callback), observer.observe(element), function() {
+                                if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
+                                    observer.disconnect(), observers.delete(id);
+                                    var index = idList.findIndex(function(obj) {
+                                        return obj.root === id.root && obj.margin === id.margin;
+                                    });
+                                    index > -1 && idList.splice(index, 1);
+                                }
+                            };
+                        }(element, function(isVisible) {
                             return isVisible && setVisible(isVisible);
                         }, {
                             root: null == rootRef ? void 0 : rootRef.current,
@@ -505,38 +532,6 @@
                 ];
             };
             var _react = __webpack_require__(959), _requestIdleCallback = __webpack_require__(6501), hasIntersectionObserver = "function" == typeof IntersectionObserver, observers = new Map(), idList = [];
-            function observe(element, callback, options) {
-                var ref = createObserver(options), id = ref.id, observer = ref.observer, elements = ref.elements;
-                return elements.set(element, callback), observer.observe(element), function() {
-                    if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
-                        observer.disconnect(), observers.delete(id);
-                        var index = idList.findIndex(function(obj) {
-                            return obj.root === id.root && obj.margin === id.margin;
-                        });
-                        index > -1 && idList.splice(index, 1);
-                    }
-                };
-            }
-            function createObserver(options) {
-                var instance, id = {
-                    root: options.root || null,
-                    margin: options.rootMargin || ""
-                }, existing = idList.find(function(obj) {
-                    return obj.root === id.root && obj.margin === id.margin;
-                });
-                if (existing && (instance = observers.get(existing))) return instance;
-                var elements = new Map();
-                return instance = {
-                    id: id,
-                    observer: new IntersectionObserver(function(entries) {
-                        entries.forEach(function(entry) {
-                            var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
-                            callback && isVisible && callback(isVisible);
-                        });
-                    }, options),
-                    elements: elements
-                }, idList.push(id), observers.set(id, instance), instance;
-            }
             ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);

@@ -1180,7 +1180,20 @@
                     }
                 }
             }
-            return select(selector.replace(rtrim, "$1"), context, results, seed);
+            return function(selector, context, results, seed) {
+                var i, tokens, token, type, find, match = tokenize(selector);
+                if (!seed && 1 === match.length) {
+                    if ((tokens = match[0] = match[0].slice(0)).length > 2 && "ID" === (token = tokens[0]).type && 9 === context.nodeType && !documentIsXML && Expr.relative[tokens[1].type]) {
+                        if (!(context = Expr.find.ID(token.matches[0].replace(runescape, funescape), context)[0])) return results;
+                        selector = selector.slice(tokens.shift().value.length);
+                    }
+                    for(i = matchExpr.needsContext.test(selector) ? 0 : tokens.length; i-- && (token = tokens[i], !Expr.relative[type = token.type]);)if ((find = Expr.find[type]) && (seed = find(token.matches[0].replace(runescape, funescape), rsibling.test(tokens[0].type) && context.parentNode || context))) {
+                        if (tokens.splice(i, 1), !(selector = seed.length && toSelector(tokens))) return push.apply(results, slice.call(seed, 0)), results;
+                        break;
+                    }
+                }
+                return compile(selector, match)(seed, context, documentIsXML, results, rsibling.test(selector)), results;
+            }(selector.replace(rtrim, "$1"), context, results, seed);
         }
         function siblingCheck(a, b) {
             var cur = b && a, diff = cur && (~b.sourceIndex || -2147483648) - (~a.sourceIndex || -2147483648);
@@ -1605,7 +1618,10 @@
         }
         function setMatcher(preFilter, selector, matcher, postFilter, postFinder, postSelector) {
             return postFilter && !postFilter[expando] && (postFilter = setMatcher(postFilter)), postFinder && !postFinder[expando] && (postFinder = setMatcher(postFinder, postSelector)), markFunction(function(seed, results, context, xml) {
-                var temp, i, elem, preMap = [], postMap = [], preexisting = results.length, elems = seed || multipleContexts(selector || "*", context.nodeType ? [
+                var temp, i, elem, preMap = [], postMap = [], preexisting = results.length, elems = seed || function(selector, contexts, results) {
+                    for(var i = 0, len = contexts.length; i < len; i++)Sizzle(selector, contexts[i], results);
+                    return results;
+                }(selector || "*", context.nodeType ? [
                     context
                 ] : context, []), matcherIn = preFilter && (seed || !selector) ? condense(elems, preMap, preFilter, context, xml) : elems, matcherOut = matcher ? postFinder || (seed ? preFilter : preexisting || postFilter) ? [] : results : matcherIn;
                 if (matcher && matcher(matcherIn, matcherOut, context, xml), postFilter) for(temp = condense(matcherOut, postMap), postFilter(temp, [], context, xml), i = temp.length; i--;)(elem = temp[i]) && (matcherOut[postMap[i]] = !(matcherIn[postMap[i]] = elem));
@@ -1640,24 +1656,6 @@
                 matchers.push(matcher);
             }
             return elementMatcher(matchers);
-        }
-        function multipleContexts(selector, contexts, results) {
-            for(var i = 0, len = contexts.length; i < len; i++)Sizzle(selector, contexts[i], results);
-            return results;
-        }
-        function select(selector, context, results, seed) {
-            var i, tokens, token, type, find, match = tokenize(selector);
-            if (!seed && 1 === match.length) {
-                if ((tokens = match[0] = match[0].slice(0)).length > 2 && "ID" === (token = tokens[0]).type && 9 === context.nodeType && !documentIsXML && Expr.relative[tokens[1].type]) {
-                    if (!(context = Expr.find.ID(token.matches[0].replace(runescape, funescape), context)[0])) return results;
-                    selector = selector.slice(tokens.shift().value.length);
-                }
-                for(i = matchExpr.needsContext.test(selector) ? 0 : tokens.length; i-- && (token = tokens[i], !Expr.relative[type = token.type]);)if ((find = Expr.find[type]) && (seed = find(token.matches[0].replace(runescape, funescape), rsibling.test(tokens[0].type) && context.parentNode || context))) {
-                    if (tokens.splice(i, 1), !(selector = seed.length && toSelector(tokens))) return push.apply(results, slice.call(seed, 0)), results;
-                    break;
-                }
-            }
-            return compile(selector, match)(seed, context, documentIsXML, results, rsibling.test(selector)), results;
         }
         function setFilters() {}
         compile = Sizzle.compile = function(selector, group) {
@@ -2779,7 +2777,11 @@
                 ]), this;
             }
         }), props1 = animation1.props;
-        for(propFilter(props1, animation1.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation1, elem, props1, animation1.opts)) return result;
+        for(function(props, specialEasing) {
+            var value, name1, index, easing, hooks;
+            for(index in props)if (easing = specialEasing[name1 = jQuery.camelCase(index)], value = props[index], jQuery.isArray(value) && (easing = value[1], value = props[index] = value[0]), index !== name1 && (props[name1] = value, delete props[index]), (hooks = jQuery.cssHooks[name1]) && ("expand" in hooks)) for(index in value = hooks.expand(value), delete props[name1], value)(index in props) || (props[index] = value[index], specialEasing[index] = easing);
+            else specialEasing[name1] = easing;
+        }(props1, animation1.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation1, elem, props1, animation1.opts)) return result;
         return animation = animation1, props = props1, jQuery.each(props, function(prop, value) {
             for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
         }), jQuery.isFunction(animation1.opts.start) && animation1.opts.start.call(elem, animation1), jQuery.fx.timer(jQuery.extend(tick, {
@@ -2787,11 +2789,6 @@
             anim: animation1,
             queue: animation1.opts.queue
         })), animation1.progress(animation1.opts.progress).done(animation1.opts.done, animation1.opts.complete).fail(animation1.opts.fail).always(animation1.opts.always);
-    }
-    function propFilter(props, specialEasing) {
-        var value, name1, index, easing, hooks;
-        for(index in props)if (easing = specialEasing[name1 = jQuery.camelCase(index)], value = props[index], jQuery.isArray(value) && (easing = value[1], value = props[index] = value[0]), index !== name1 && (props[name1] = value, delete props[index]), (hooks = jQuery.cssHooks[name1]) && "expand" in hooks) for(index in value = hooks.expand(value), delete props[name1], value)index in props || (props[index] = value[index], specialEasing[index] = easing);
-        else specialEasing[name1] = easing;
     }
     function Tween(elem, options, prop, end, easing) {
         return new Tween.prototype.init(elem, options, prop, end, easing);

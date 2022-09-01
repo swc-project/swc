@@ -60,27 +60,24 @@
                 return target;
             }
             exports.default = function(dynamicOptions, options) {
-                var loadableFn = _loadable.default, loadableOptions = {
+                var LoadableInitializer, loadableOptions, loadableFn = _loadable.default, loadableOptions1 = {
                     loading: function(_ref) {
                         return _ref.error, _ref.isLoading, _ref.pastDelay, null;
                     }
                 };
-                if (dynamicOptions instanceof Promise ? loadableOptions.loader = function() {
+                if (dynamicOptions instanceof Promise ? loadableOptions1.loader = function() {
                     return dynamicOptions;
-                } : "function" == typeof dynamicOptions ? loadableOptions.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), dynamicOptions)), (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), options)).loadableGenerated && delete (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), loadableOptions.loadableGenerated)).loadableGenerated, "boolean" == typeof loadableOptions.ssr) {
-                    if (!loadableOptions.ssr) return delete loadableOptions.ssr, noSSR(loadableFn, loadableOptions);
-                    delete loadableOptions.ssr;
+                } : "function" == typeof dynamicOptions ? loadableOptions1.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), dynamicOptions)), (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), options)).loadableGenerated && delete (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), loadableOptions1.loadableGenerated)).loadableGenerated, "boolean" == typeof loadableOptions1.ssr) {
+                    if (!loadableOptions1.ssr) return delete loadableOptions1.ssr, LoadableInitializer = loadableFn, delete (loadableOptions = loadableOptions1).webpack, delete loadableOptions.modules, LoadableInitializer(loadableOptions);
+                    delete loadableOptions1.ssr;
                 }
-                return loadableFn(loadableOptions);
+                return loadableFn(loadableOptions1);
             }, _interopRequireDefault(__webpack_require__(2735));
             var _loadable = _interopRequireDefault(__webpack_require__(880));
             function _interopRequireDefault(obj) {
                 return obj && obj.__esModule ? obj : {
                     default: obj
                 };
-            }
-            function noSSR(LoadableInitializer, loadableOptions) {
-                return delete loadableOptions.webpack, delete loadableOptions.modules, LoadableInitializer(loadableOptions);
             }
         },
         8183: function(__unused_webpack_module, exports, __webpack_require__) {

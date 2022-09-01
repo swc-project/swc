@@ -1,12 +1,6 @@
-var x = 2,
-    a = 1;
-(function () {
-    (function f1(a) {
-        f2();
-        --x >= 0 && f1({});
-    })(a++);
-    function f2() {
-        a++;
-    }
-})();
+var x = 2, a = 1;
+(function f1(a1) {
+    a++;
+    --x >= 0 && f1({});
+})(a++);
 console.log(a);

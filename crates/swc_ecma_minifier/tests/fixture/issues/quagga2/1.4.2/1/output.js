@@ -2632,8 +2632,39 @@
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self1, tryLocsList) {
-                    var generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
-                    return generator._invoke = makeInvokeMethod(innerFn, self1, context), generator;
+                    var innerFn1, self2, context, state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context1 = new Context(tryLocsList || []);
+                    return generator._invoke = (innerFn1 = innerFn, self2 = self1, context = context1, state = GenStateSuspendedStart, function(method, arg) {
+                        if (state === GenStateExecuting) throw Error("Generator is already running");
+                        if (state === GenStateCompleted) {
+                            if ("throw" === method) throw arg;
+                            return doneResult();
+                        }
+                        for(context.method = method, context.arg = arg;;){
+                            var delegate = context.delegate;
+                            if (delegate) {
+                                var delegateResult = maybeInvokeDelegate(delegate, context);
+                                if (delegateResult) {
+                                    if (delegateResult === ContinueSentinel) continue;
+                                    return delegateResult;
+                                }
+                            }
+                            if ("next" === context.method) context.sent = context._sent = context.arg;
+                            else if ("throw" === context.method) {
+                                if (state === GenStateSuspendedStart) throw state = GenStateCompleted, context.arg;
+                                context.dispatchException(context.arg);
+                            } else "return" === context.method && context.abrupt("return", context.arg);
+                            state = GenStateExecuting;
+                            var record = tryCatch(innerFn1, self2, context);
+                            if ("normal" === record.type) {
+                                if (state = context.done ? GenStateCompleted : "suspendedYield", record.arg === ContinueSentinel) continue;
+                                return {
+                                    value: record.arg,
+                                    done: context.done
+                                };
+                            }
+                            "throw" === record.type && (state = GenStateCompleted, context.method = "throw", context.arg = record.arg);
+                        }
+                    }), generator;
                 }
                 function tryCatch(fn, obj, arg) {
                     try {
@@ -2695,41 +2726,6 @@
                             });
                         }
                         return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
-                    };
-                }
-                function makeInvokeMethod(innerFn, self1, context) {
-                    var state = GenStateSuspendedStart;
-                    return function(method, arg) {
-                        if (state === GenStateExecuting) throw Error("Generator is already running");
-                        if (state === GenStateCompleted) {
-                            if ("throw" === method) throw arg;
-                            return doneResult();
-                        }
-                        for(context.method = method, context.arg = arg;;){
-                            var delegate = context.delegate;
-                            if (delegate) {
-                                var delegateResult = maybeInvokeDelegate(delegate, context);
-                                if (delegateResult) {
-                                    if (delegateResult === ContinueSentinel) continue;
-                                    return delegateResult;
-                                }
-                            }
-                            if ("next" === context.method) context.sent = context._sent = context.arg;
-                            else if ("throw" === context.method) {
-                                if (state === GenStateSuspendedStart) throw state = GenStateCompleted, context.arg;
-                                context.dispatchException(context.arg);
-                            } else "return" === context.method && context.abrupt("return", context.arg);
-                            state = GenStateExecuting;
-                            var record = tryCatch(innerFn, self1, context);
-                            if ("normal" === record.type) {
-                                if (state = context.done ? GenStateCompleted : "suspendedYield", record.arg === ContinueSentinel) continue;
-                                return {
-                                    value: record.arg,
-                                    done: context.done
-                                };
-                            }
-                            "throw" === record.type && (state = GenStateCompleted, context.method = "throw", context.arg = record.arg);
-                        }
                     };
                 }
                 function maybeInvokeDelegate(delegate, context) {
@@ -6835,7 +6831,10 @@
                 });
             }
             function readEXIFData(file, start, exifTags) {
-                if ("Exif" !== getStringFromBuffer(file, start, 4)) return !1;
+                if ("Exif" !== function(buffer, start, length) {
+                    for(var outstr = "", n = start; n < start + 4; n++)outstr += String.fromCharCode(buffer.getUint8(n));
+                    return outstr;
+                }(file, start, 4)) return !1;
                 var bigEnd, tiffOffset = start + 6;
                 if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
                 else {
@@ -6844,22 +6843,17 @@
                 }
                 if (0x002a !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
                 var firstIFDOffset = file.getUint32(tiffOffset + 4, !bigEnd);
-                return !(firstIFDOffset < 0x00000008) && readTags(file, tiffOffset, tiffOffset + firstIFDOffset, exifTags, bigEnd);
-            }
-            function readTags(file, tiffStart, dirStart, strings, bigEnd) {
-                for(var entries = file.getUint16(dirStart, !bigEnd), tags = {}, i = 0; i < entries; i++){
-                    var entryOffset = dirStart + 12 * i + 2, tag = strings[file.getUint16(entryOffset, !bigEnd)];
-                    tag && (tags[tag] = readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd));
-                }
-                return tags;
+                return !(firstIFDOffset < 0x00000008) && function(file, tiffStart, dirStart, strings, bigEnd) {
+                    for(var entries = file.getUint16(dirStart, !bigEnd), tags = {}, i = 0; i < entries; i++){
+                        var entryOffset = dirStart + 12 * i + 2, tag = strings[file.getUint16(entryOffset, !bigEnd)];
+                        tag && (tags[tag] = readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd));
+                    }
+                    return tags;
+                }(file, tiffOffset, tiffOffset + firstIFDOffset, exifTags, bigEnd);
             }
             function readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd) {
                 var type = file.getUint16(entryOffset + 2, !bigEnd), numValues = file.getUint32(entryOffset + 4, !bigEnd);
                 return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
-            }
-            function getStringFromBuffer(buffer, start, length) {
-                for(var outstr = "", n = start; n < start + length; n++)outstr += String.fromCharCode(buffer.getUint8(n));
-                return outstr;
             }
             var ImageLoader = {};
             function addOnloadHandler(img, htmlImagesArray) {

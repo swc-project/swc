@@ -793,7 +793,10 @@
                         var cause = responseBody;
                         if (decodeResponseBody) {
                             if (window1.TextDecoder) {
-                                var charset = getCharset(response.headers && response.headers["content-type"]);
+                                var contentTypeHeader, charset = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
+                                    var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
+                                    return "charset" === type.trim() ? value.trim() : charset;
+                                }, "utf-8"));
                                 try {
                                     cause = new TextDecoder(charset).decode(responseBody);
                                 } catch (e) {}
@@ -807,12 +810,6 @@
                     callback(null, responseBody);
                 };
             };
-            function getCharset(contentTypeHeader) {
-                return void 0 === contentTypeHeader && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
-                    var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
-                    return "charset" === type.trim() ? value.trim() : charset;
-                }, "utf-8");
-            }
             module.exports = httpResponseHandler;
         },
         9603: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -855,7 +852,14 @@
                         return 0 !== (status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status) ? (response = {
                             body: function() {
                                 var body = void 0;
-                                if (body = xhr.response ? xhr.response : xhr.responseText || getXml(xhr), isJson) try {
+                                if (body = xhr.response ? xhr.response : xhr.responseText || function(xhr) {
+                                    try {
+                                        if ("document" === xhr.responseType) return xhr.responseXML;
+                                        var firefoxBugTakenEffect = xhr.responseXML && "parsererror" === xhr.responseXML.documentElement.nodeName;
+                                        if ("" === xhr.responseType && !firefoxBugTakenEffect) return xhr.responseXML;
+                                    } catch (e) {}
+                                    return null;
+                                }(xhr), isJson) try {
                                     body = JSON.parse(body);
                                 } catch (e) {}
                                 return body;
@@ -894,14 +898,6 @@
                     return !0;
                 }(options.headers)) throw Error("Headers cannot be set on an XDomainRequest object");
                 return "responseType" in options && (xhr.responseType = options.responseType), "beforeSend" in options && "function" == typeof options.beforeSend && options.beforeSend(xhr), xhr.send(body || null), xhr;
-            }
-            function getXml(xhr) {
-                try {
-                    if ("document" === xhr.responseType) return xhr.responseXML;
-                    var firefoxBugTakenEffect = xhr.responseXML && "parsererror" === xhr.responseXML.documentElement.nodeName;
-                    if ("" === xhr.responseType && !firefoxBugTakenEffect) return xhr.responseXML;
-                } catch (e) {}
-                return null;
             }
             module.exports = createXHR, module.exports.default = createXHR, createXHR.XMLHttpRequest = window1.XMLHttpRequest || function() {}, createXHR.XDomainRequest = "withCredentials" in new createXHR.XMLHttpRequest() ? createXHR.XMLHttpRequest : window1.XDomainRequest, function(array, iterator) {
                 for(var i = 0; i < array.length; i++)iterator(array[i]);
@@ -1106,8 +1102,8 @@
             function _addNamedNode(el, list, newAttr, oldAttr) {
                 if (oldAttr ? list[_findNodeIndex(list, oldAttr)] = newAttr : list[list.length++] = newAttr, el) {
                     newAttr.ownerElement = el;
-                    var doc = el.ownerDocument;
-                    doc && (oldAttr && _onRemoveAttribute(doc, el, oldAttr), _onAddAttribute(doc, el, newAttr));
+                    var doc, el1, newAttr1, doc1 = el.ownerDocument;
+                    doc1 && (oldAttr && _onRemoveAttribute(doc1, el, oldAttr), doc = doc1, el1 = el, newAttr1 = newAttr, doc && doc._inc++, newAttr1.namespaceURI === NAMESPACE.XMLNS && (el1._nsMap[newAttr1.prefix ? newAttr1.localName : ""] = newAttr1.value));
                 }
             }
             function _removeNamedNode(el, list, attr) {
@@ -1131,9 +1127,6 @@
                 while (node = node.nextSibling)
             }
             function Document() {}
-            function _onAddAttribute(doc, el, newAttr) {
-                doc && doc._inc++, newAttr.namespaceURI === NAMESPACE.XMLNS && (el._nsMap[newAttr.prefix ? newAttr.localName : ""] = newAttr.value);
-            }
             function _onRemoveAttribute(doc, el, newAttr, remove) {
                 doc && doc._inc++, newAttr.namespaceURI === NAMESPACE.XMLNS && delete el._nsMap[newAttr.prefix ? newAttr.localName : ""];
             }
@@ -2097,7 +2090,10 @@
                         var end = source.indexOf("]]>", start + 9);
                         return domBuilder.startCDATA(), domBuilder.characters(source, start + 9, end - start - 9), domBuilder.endCDATA(), end + 3;
                     }
-                    var matchs = split(source, start), len = matchs.length;
+                    var matchs = function(source, start) {
+                        var match, buf = [], reg = /'[^']+'|"[^"]+"|[^\s<>\/=]+=?|(\/?\s*>|<)/g;
+                        for(reg.lastIndex = start, reg.exec(source); match = reg.exec(source);)if (buf.push(match), match[1]) return buf;
+                    }(source, start), len = matchs.length;
                     if (len > 1 && /!doctype/i.test(matchs[0][0])) {
                         var name = matchs[1][0], pubid = !1, sysid = !1;
                         len > 3 && (/^public$/i.test(matchs[2][0]) ? (pubid = matchs[3][0], sysid = len > 4 && matchs[4][0]) : /^system$/i.test(matchs[2][0]) && (sysid = matchs[3][0]));
@@ -2117,10 +2113,6 @@
             }
             function ElementAttributes() {
                 this.attributeNames = {};
-            }
-            function split(source, start) {
-                var match, buf = [], reg = /'[^']+'|"[^"]+"|[^\s<>\/=]+=?|(\/?\s*>|<)/g;
-                for(reg.lastIndex = start, reg.exec(source); match = reg.exec(source);)if (buf.push(match), match[1]) return buf;
             }
             ParseError.prototype = Error(), ParseError.prototype.name = ParseError.name, XMLReader.prototype = {
                 parse: function(source, defaultNSMap, entityMap) {
@@ -5158,14 +5150,29 @@
                 return from(arg, encodingOrOffset, length);
             }
             function from(value, encodingOrOffset, length) {
-                if ("string" == typeof value) return fromString(value, encodingOrOffset);
+                if ("string" == typeof value) return function(string, encoding) {
+                    if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
+                    var length = 0 | byteLength(string, encoding), buf = createBuffer(length), actual = buf.write(string, encoding);
+                    return actual !== length && (buf = buf.slice(0, actual)), buf;
+                }(value, encodingOrOffset);
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
                 if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
-                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
+                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return function(array, byteOffset, length) {
+                    var buf;
+                    if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
+                    if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
+                    return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
+                }(value, encodingOrOffset, length);
                 if ("number" == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
-                var b = fromObject(value);
+                var b = function(obj) {
+                    if (Buffer.isBuffer(obj)) {
+                        var obj1, len = 0 | checked(obj.length), buf = createBuffer(len);
+                        return 0 === buf.length || obj.copy(buf, 0, 0, len), buf;
+                    }
+                    return void 0 !== obj.length ? "number" != typeof obj.length || (obj1 = obj.length) != obj1 ? createBuffer(0) : fromArrayLike(obj) : "Buffer" === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
+                }(value);
                 if (b) return b;
                 if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
                 throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
@@ -5177,27 +5184,9 @@
             function allocUnsafe(size) {
                 return assertSize(size), createBuffer(size < 0 ? 0 : 0 | checked(size));
             }
-            function fromString(string, encoding) {
-                if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
-                var length = 0 | byteLength(string, encoding), buf = createBuffer(length), actual = buf.write(string, encoding);
-                return actual !== length && (buf = buf.slice(0, actual)), buf;
-            }
             function fromArrayLike(array) {
                 for(var length = array.length < 0 ? 0 : 0 | checked(array.length), buf = createBuffer(length), i = 0; i < length; i += 1)buf[i] = 255 & array[i];
                 return buf;
-            }
-            function fromArrayBuffer(array, byteOffset, length) {
-                var buf;
-                if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
-                if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
-                return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
-            }
-            function fromObject(obj) {
-                if (Buffer.isBuffer(obj)) {
-                    var obj1, len = 0 | checked(obj.length), buf = createBuffer(len);
-                    return 0 === buf.length || obj.copy(buf, 0, 0, len), buf;
-                }
-                return void 0 !== obj.length ? "number" != typeof obj.length || (obj1 = obj.length) != obj1 ? createBuffer(0) : fromArrayLike(obj) : "Buffer" === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
             }
             function checked(length) {
                 if (length >= 0x7fffffff) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 0x7fffffff.toString(16) + " bytes");
@@ -5317,13 +5306,19 @@
                 return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length);
             }
             function asciiWrite(buf, string, offset, length) {
-                return blitBuffer(asciiToBytes(string), buf, offset, length);
+                return blitBuffer(function(str) {
+                    for(var byteArray = [], i = 0; i < str.length; ++i)byteArray.push(0xff & str.charCodeAt(i));
+                    return byteArray;
+                }(string), buf, offset, length);
             }
             function base64Write(buf, string, offset, length) {
                 return blitBuffer(base64ToBytes(string), buf, offset, length);
             }
             function ucs2Write(buf, string, offset, length) {
-                return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length);
+                return blitBuffer(function(str, units) {
+                    for(var c, hi, lo, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, lo = c % 256, byteArray.push(lo), byteArray.push(hi);
+                    return byteArray;
+                }(string, buf.length - offset), buf, offset, length);
             }
             function base64Slice(buf, start, end) {
                 return 0 === start && end === buf.length ? base64.fromByteArray(buf) : base64.fromByteArray(buf.slice(start, end));
@@ -5347,13 +5342,12 @@
                     }
                     null === codePoint ? (codePoint = 0xfffd, bytesPerSequence = 1) : codePoint > 0xffff && (codePoint -= 0x10000, res.push(codePoint >>> 10 & 0x3ff | 0xd800), codePoint = 0xdc00 | 0x3ff & codePoint), res.push(codePoint), i += bytesPerSequence;
                 }
-                return decodeCodePointsArray(res);
-            }
-            function decodeCodePointsArray(codePoints) {
-                var len = codePoints.length;
-                if (len <= 0x1000) return String.fromCharCode.apply(String, codePoints);
-                for(var res = "", i = 0; i < len;)res += String.fromCharCode.apply(String, codePoints.slice(i, i += 0x1000));
-                return res;
+                return function(codePoints) {
+                    var len = codePoints.length;
+                    if (len <= 0x1000) return String.fromCharCode.apply(String, codePoints);
+                    for(var res = "", i = 0; i < len;)res += String.fromCharCode.apply(String, codePoints.slice(i, i += 0x1000));
+                    return res;
+                }(res);
             }
             function asciiSlice(buf, start, end) {
                 var ret = "";
@@ -5720,14 +5714,6 @@
                     } else throw Error("Invalid code point");
                 }
                 return bytes;
-            }
-            function asciiToBytes(str) {
-                for(var byteArray = [], i = 0; i < str.length; ++i)byteArray.push(0xff & str.charCodeAt(i));
-                return byteArray;
-            }
-            function utf16leToBytes(str, units) {
-                for(var c, hi, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
-                return byteArray;
             }
             function base64ToBytes(str) {
                 return base64.toByteArray(function(str) {

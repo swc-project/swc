@@ -307,18 +307,12 @@
                 }
             });
             function bound01(n, max) {
-                isOnePointZero(n) && (n = "100%");
-                var isPercent = isPercentage(n);
+                "string" == typeof (n1 = n) && -1 !== n1.indexOf(".") && 1 === parseFloat(n1) && (n = "100%");
+                var n1, n2, isPercent = "string" == typeof (n2 = n) && -1 !== n2.indexOf("%");
                 return (n = 360 === max ? n : Math.min(max, Math.max(0, parseFloat(n))), isPercent && (n = parseInt(String(n * max), 10) / 100), 0.000001 > Math.abs(n - max)) ? 1 : n = 360 === max ? (n < 0 ? n % max + max : n % max) / parseFloat(String(max)) : n % max / parseFloat(String(max));
             }
             function clamp01(val) {
                 return Math.min(1, Math.max(0, val));
-            }
-            function isOnePointZero(n) {
-                return "string" == typeof n && -1 !== n.indexOf(".") && 1 === parseFloat(n);
-            }
-            function isPercentage(n) {
-                return "string" == typeof n && -1 !== n.indexOf("%");
             }
             function boundAlpha(a) {
                 return a = parseFloat(a), (isNaN(a) || a < 0 || a > 1) && (a = 1), a;
@@ -1397,17 +1391,14 @@
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
-                var value, prefix, value1, prefix1, name1, fallback, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, void 0 === (prefix1 = prefix) && (prefix1 = ""), [
+                var value, prefix, value1, prefix1, name1, fallback, fallback1, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, void 0 === (prefix1 = prefix) && (prefix1 = ""), [
                     prefix1,
                     chakra_ui_theme_tools_esm_escape(value1)
                 ].filter(Boolean).join("-")));
                 return {
                     variable: cssVariable,
-                    reference: (name1 = cssVariable, fallback = getFallback(null == options ? void 0 : options.fallback), "var(" + chakra_ui_theme_tools_esm_escape(name1) + (fallback ? ", " + fallback : "") + ")")
+                    reference: (name1 = cssVariable, fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference, "var(" + chakra_ui_theme_tools_esm_escape(name1) + (fallback ? ", " + fallback : "") + ")")
                 };
-            }
-            function getFallback(fallback) {
-                return "string" == typeof fallback ? fallback : null == fallback ? void 0 : fallback.reference;
             }
             var accordionAnatomy = anatomy("accordion").parts("root", "container", "button", "panel").extend("icon"), alertAnatomy = anatomy("alert").parts("title", "description", "container").extend("icon", "spinner"), avatarAnatomy = anatomy("avatar").parts("label", "badge", "container").extend("excessLabel", "group"), breadcrumbAnatomy = anatomy("breadcrumb").parts("link", "item", "container").extend("separator");
             anatomy("button").parts();
@@ -4461,21 +4452,35 @@
                     });
                 },
                 notify: function(message, options) {
-                    var toast = createToast(message, options), position = toast.position, id = toast.id;
+                    var message1, options1, _options$id, _options$position, id, position, toast = (message1 = message, void 0 === (options1 = options) && (options1 = {}), counter += 1, id = null != (_options$id = options1.id) ? _options$id : counter, position = null != (_options$position = options1.position) ? _options$position : "bottom", {
+                        id: id,
+                        message: message1,
+                        position: position,
+                        duration: options1.duration,
+                        onCloseComplete: options1.onCloseComplete,
+                        onRequestRemove: function() {
+                            return toastStore.removeToast(String(id), position);
+                        },
+                        status: options1.status,
+                        requestClose: !1,
+                        containerStyle: options1.containerStyle
+                    }), position1 = toast.position, id1 = toast.id;
                     return setState(function(prevToasts) {
-                        var _prevToasts$position, _prevToasts$position2, _extends3, toasts = position.includes("top") ? [
+                        var _prevToasts$position, _prevToasts$position2, _extends3, toasts = position1.includes("top") ? [
                             toast
-                        ].concat(null != (_prevToasts$position = prevToasts[position]) ? _prevToasts$position : []) : [].concat(null != (_prevToasts$position2 = prevToasts[position]) ? _prevToasts$position2 : [], [
+                        ].concat(null != (_prevToasts$position = prevToasts[position1]) ? _prevToasts$position : []) : [].concat(null != (_prevToasts$position2 = prevToasts[position1]) ? _prevToasts$position2 : [], [
                             toast
                         ]);
-                        return chakra_ui_toast_esm_extends({}, prevToasts, ((_extends3 = {})[position] = toasts, _extends3));
-                    }), id;
+                        return chakra_ui_toast_esm_extends({}, prevToasts, ((_extends3 = {})[position1] = toasts, _extends3));
+                    }), id1;
                 },
                 update: function(id, options) {
                     id && setState(function(prevState) {
-                        var nextState = chakra_ui_toast_esm_extends({}, prevState), _findToast = findToast(nextState, id), position = _findToast.position, index = _findToast.index;
+                        var options1, _options, render, _options$toastCompone, ToastComponent, nextState = chakra_ui_toast_esm_extends({}, prevState), _findToast = findToast(nextState, id), position = _findToast.position, index = _findToast.index;
                         return position && -1 !== index && (nextState[position][index] = chakra_ui_toast_esm_extends({}, nextState[position][index], options, {
-                            message: createRenderToast(options)
+                            message: (void 0 === (options1 = options) && (options1 = {}), render = (_options = options1).render, ToastComponent = void 0 === (_options$toastCompone = _options.toastComponent) ? Toast : _options$toastCompone, function(props) {
+                                return (0, chakra_ui_utils_esm.mf)(render) ? render(props) : react.createElement(ToastComponent, chakra_ui_toast_esm_extends({}, props, options1));
+                            })
                         })), nextState;
                     });
                 },
@@ -4511,25 +4516,7 @@
                 isActive: function(id) {
                     return Boolean(findToast(toastStore.getState(), id).position);
                 }
-            }), counter = 0;
-            function createToast(message, options) {
-                void 0 === options && (options = {}), counter += 1;
-                var _options$id, _options$position, id = null != (_options$id = options.id) ? _options$id : counter, position = null != (_options$position = options.position) ? _options$position : "bottom";
-                return {
-                    id: id,
-                    message: message,
-                    position: position,
-                    duration: options.duration,
-                    onCloseComplete: options.onCloseComplete,
-                    onRequestRemove: function() {
-                        return toastStore.removeToast(String(id), position);
-                    },
-                    status: options.status,
-                    requestClose: !1,
-                    containerStyle: options.containerStyle
-                };
-            }
-            var Toast = function(props) {
+            }), counter = 0, Toast = function(props) {
                 var status = props.status, _props$variant = props.variant, id = props.id, title = props.title, isClosable = props.isClosable, onClose = props.onClose, description = props.description, icon = props.icon, alertTitleId = void 0 !== id ? "toast-" + id + "-title" : void 0;
                 return react.createElement(chakra_ui_alert_esm_Alert, {
                     status: status,
@@ -4556,15 +4543,7 @@
                     insetEnd: 1,
                     top: 1
                 }));
-            };
-            function createRenderToast(options) {
-                void 0 === options && (options = {});
-                var _options = options, render = _options.render, _options$toastCompone = _options.toastComponent, ToastComponent = void 0 === _options$toastCompone ? Toast : _options$toastCompone;
-                return function(props) {
-                    return (0, chakra_ui_utils_esm.mf)(render) ? render(props) : react.createElement(ToastComponent, chakra_ui_toast_esm_extends({}, props, options));
-                };
-            }
-            var toastMotionVariants = {
+            }, toastMotionVariants = {
                 initial: function(props) {
                     var _ref, position = props.position, dir = [
                         "top",

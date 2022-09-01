@@ -212,12 +212,9 @@
         };
     }
     function getParseRegexForToken(token, config) {
-        return hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : RegExp(unescapeFormat(token));
-    }
-    function unescapeFormat(s) {
-        return regexEscape(s.replace("\\", "").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
+        return hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : RegExp(regexEscape(token.replace("\\", "").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
             return p1 || p2 || p3 || p4;
-        }));
+        })));
     }
     function regexEscape(s) {
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
@@ -773,9 +770,9 @@
         return null != a ? a : null != b ? b : c;
     }
     function configFromArray(config) {
-        var config1, nowValue, i, date, currentDate, expectedWeekday, yearToUse, input = [];
+        var config1, w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow, curWeek, config2, nowValue, i, date, currentDate, expectedWeekday, yearToUse, input = [];
         if (!config._d) {
-            for(currentDate = (config1 = config, nowValue = new Date(hooks.now()), config1._useUTC ? [
+            for(currentDate = (config2 = config, nowValue = new Date(hooks.now()), config2._useUTC ? [
                 nowValue.getUTCFullYear(),
                 nowValue.getUTCMonth(),
                 nowValue.getUTCDate(), 
@@ -783,14 +780,10 @@
                 nowValue.getFullYear(),
                 nowValue.getMonth(),
                 nowValue.getDate(), 
-            ]), config._w && null == config._a[2] && null == config._a[1] && dayOfYearFromWeekInfo(config), null != config._dayOfYear && (yearToUse = defaults(config._a[0], currentDate[0]), (config._dayOfYear > daysInYear(yearToUse) || 0 === config._dayOfYear) && (getParsingFlags(config)._overflowDayOfYear = !0), date = createUTCDate(yearToUse, 0, config._dayOfYear), config._a[1] = date.getUTCMonth(), config._a[2] = date.getUTCDate()), i = 0; i < 3 && null == config._a[i]; ++i)config._a[i] = input[i] = currentDate[i];
+            ]), config._w && null == config._a[2] && null == config._a[1] && (null != (w = (config1 = config)._w).GG || null != w.W || null != w.E ? (dow = 1, doy = 4, weekYear = defaults(w.GG, config1._a[0], weekOfYear(createLocal(), 1, 4).year), week = defaults(w.W, 1), ((weekday = defaults(w.E, 1)) < 1 || weekday > 7) && (weekdayOverflow = !0)) : (dow = config1._locale._week.dow, doy = config1._locale._week.doy, curWeek = weekOfYear(createLocal(), dow, doy), weekYear = defaults(w.gg, config1._a[0], curWeek.year), week = defaults(w.w, curWeek.week), null != w.d ? ((weekday = w.d) < 0 || weekday > 6) && (weekdayOverflow = !0) : null != w.e ? (weekday = w.e + dow, (w.e < 0 || w.e > 6) && (weekdayOverflow = !0)) : weekday = dow), week < 1 || week > weeksInYear(weekYear, dow, doy) ? getParsingFlags(config1)._overflowWeeks = !0 : null != weekdayOverflow ? getParsingFlags(config1)._overflowWeekday = !0 : (temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), config1._a[0] = temp.year, config1._dayOfYear = temp.dayOfYear)), null != config._dayOfYear && (yearToUse = defaults(config._a[0], currentDate[0]), (config._dayOfYear > daysInYear(yearToUse) || 0 === config._dayOfYear) && (getParsingFlags(config)._overflowDayOfYear = !0), date = createUTCDate(yearToUse, 0, config._dayOfYear), config._a[1] = date.getUTCMonth(), config._a[2] = date.getUTCDate()), i = 0; i < 3 && null == config._a[i]; ++i)config._a[i] = input[i] = currentDate[i];
             for(; i < 7; i++)config._a[i] = input[i] = null == config._a[i] ? 2 === i ? 1 : 0 : config._a[i];
             24 === config._a[3] && 0 === config._a[4] && 0 === config._a[5] && 0 === config._a[6] && (config._nextDay = !0, config._a[3] = 0), config._d = (config._useUTC ? createUTCDate : createDate).apply(null, input), expectedWeekday = config._useUTC ? config._d.getUTCDay() : config._d.getDay(), null != config._tzm && config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm), config._nextDay && (config._a[3] = 24), config._w && void 0 !== config._w.d && config._w.d !== expectedWeekday && (getParsingFlags(config).weekdayMismatch = !0);
         }
-    }
-    function dayOfYearFromWeekInfo(config) {
-        var w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow, curWeek;
-        null != (w = config._w).GG || null != w.W || null != w.E ? (dow = 1, doy = 4, weekYear = defaults(w.GG, config._a[0], weekOfYear(createLocal(), 1, 4).year), week = defaults(w.W, 1), ((weekday = defaults(w.E, 1)) < 1 || weekday > 7) && (weekdayOverflow = !0)) : (dow = config._locale._week.dow, doy = config._locale._week.doy, curWeek = weekOfYear(createLocal(), dow, doy), weekYear = defaults(w.gg, config._a[0], curWeek.year), week = defaults(w.w, curWeek.week), null != w.d ? ((weekday = w.d) < 0 || weekday > 6) && (weekdayOverflow = !0) : null != w.e ? (weekday = w.e + dow, (w.e < 0 || w.e > 6) && (weekdayOverflow = !0)) : weekday = dow), week < 1 || week > weeksInYear(weekYear, dow, doy) ? getParsingFlags(config)._overflowWeeks = !0 : null != weekdayOverflow ? getParsingFlags(config)._overflowWeekday = !0 : (temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), config._a[0] = temp.year, config._dayOfYear = temp.dayOfYear);
     }
     function configFromStringAndFormat(config) {
         if (config._f === hooks.ISO_8601) {
@@ -802,19 +795,15 @@
             return;
         }
         config._a = [], getParsingFlags(config).empty = !0;
-        var i, parsedInput, tokens, token, skipped, era, string = "" + config._i, stringLength = string.length, totalParsedInputLength = 0;
+        var locale, hour, meridiem, isPm, i, parsedInput, tokens, token, skipped, era, string = "" + config._i, stringLength = string.length, totalParsedInputLength = 0;
         for(i = 0, tokens = expandFormat(config._f, config._locale).match(formattingTokens) || []; i < tokens.length; i++)token = tokens[i], (parsedInput = (string.match(getParseRegexForToken(token, config)) || [])[0]) && ((skipped = string.substr(0, string.indexOf(parsedInput))).length > 0 && getParsingFlags(config).unusedInput.push(skipped), string = string.slice(string.indexOf(parsedInput) + parsedInput.length), totalParsedInputLength += parsedInput.length), formatTokenFunctions[token] ? (parsedInput ? getParsingFlags(config).empty = !1 : getParsingFlags(config).unusedTokens.push(token), addTimeToArrayFromToken(token, parsedInput, config)) : config._strict && !parsedInput && getParsingFlags(config).unusedTokens.push(token);
-        getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength, string.length > 0 && getParsingFlags(config).unusedInput.push(string), config._a[3] <= 12 && !0 === getParsingFlags(config).bigHour && config._a[3] > 0 && (getParsingFlags(config).bigHour = void 0), getParsingFlags(config).parsedDateParts = config._a.slice(0), getParsingFlags(config).meridiem = config._meridiem, config._a[3] = meridiemFixWrap(config._locale, config._a[3], config._meridiem), null !== (era = getParsingFlags(config).era) && (config._a[0] = config._locale.erasConvertYear(era, config._a[0])), configFromArray(config), checkOverflow(config);
-    }
-    function meridiemFixWrap(locale, hour, meridiem) {
-        var isPm;
-        return null == meridiem ? hour : null != locale.meridiemHour ? locale.meridiemHour(hour, meridiem) : (null != locale.isPM && ((isPm = locale.isPM(meridiem)) && hour < 12 && (hour += 12), isPm || 12 !== hour || (hour = 0)), hour);
+        getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength, string.length > 0 && getParsingFlags(config).unusedInput.push(string), config._a[3] <= 12 && !0 === getParsingFlags(config).bigHour && config._a[3] > 0 && (getParsingFlags(config).bigHour = void 0), getParsingFlags(config).parsedDateParts = config._a.slice(0), getParsingFlags(config).meridiem = config._meridiem, config._a[3] = (locale = config._locale, hour = config._a[3], null == (meridiem = config._meridiem) ? hour : null != locale.meridiemHour ? locale.meridiemHour(hour, meridiem) : (null != locale.isPM && ((isPm = locale.isPM(meridiem)) && hour < 12 && (hour += 12), isPm || 12 !== hour || (hour = 0)), hour)), null !== (era = getParsingFlags(config).era) && (config._a[0] = config._locale.erasConvertYear(era, config._a[0])), configFromArray(config), checkOverflow(config);
     }
     function prepareConfig(config) {
-        var input = config._i, format = config._f;
-        return (config._locale = config._locale || getLocale(config._l), null === input || void 0 === format && "" === input) ? createInvalid({
+        var config1, input, input1 = config._i, format = config._f;
+        return (config._locale = config._locale || getLocale(config._l), null === input1 || void 0 === format && "" === input1) ? createInvalid({
             nullInput: !0
-        }) : ("string" == typeof input && (config._i = input = config._locale.preparse(input)), isMoment(input)) ? new Moment(checkOverflow(input)) : (isDate(input) ? config._d = input : isArray(format) ? function(config) {
+        }) : ("string" == typeof input1 && (config._i = input1 = config._locale.preparse(input1)), isMoment(input1)) ? new Moment(checkOverflow(input1)) : (isDate(input1) ? config._d = input1 : isArray(format) ? function(config) {
             var tempConfig, bestMoment, scoreToBeat, i, currentScore, validFormatFound, bestFormatIsValid = !1;
             if (0 === config._f.length) {
                 getParsingFlags(config).invalidFormat = !0, config._d = new Date(NaN);
@@ -822,20 +811,16 @@
             }
             for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore += getParsingFlags(tempConfig).charsLeftOver, currentScore += 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
             extend(config, bestMoment || tempConfig);
-        }(config) : format ? configFromStringAndFormat(config) : configFromInput(config), isValid(config) || (config._d = null), config);
-    }
-    function configFromInput(config) {
-        var input = config._i;
-        isUndefined(input) ? config._d = new Date(hooks.now()) : isDate(input) ? config._d = new Date(input.valueOf()) : "string" == typeof input ? function(config) {
+        }(config) : format ? configFromStringAndFormat(config) : isUndefined(input = (config1 = config)._i) ? config1._d = new Date(hooks.now()) : isDate(input) ? config1._d = new Date(input.valueOf()) : "string" == typeof input ? function(config) {
             var matched = aspNetJsonRegex.exec(config._i);
             if (null !== matched) {
                 config._d = new Date(+matched[1]);
                 return;
             }
             configFromISO(config), !1 === config._isValid && (delete config._isValid, configFromRFC2822(config), !1 === config._isValid && (delete config._isValid, config._strict ? config._isValid = !1 : hooks.createFromInputFallback(config)));
-        }(config) : isArray(input) ? (config._a = map(input.slice(0), function(obj) {
+        }(config1) : isArray(input) ? (config1._a = map(input.slice(0), function(obj) {
             return parseInt(obj, 10);
-        }), configFromArray(config)) : isObject(input) ? function(config) {
+        }), configFromArray(config1)) : isObject(input) ? function(config) {
             if (!config._d) {
                 var i = normalizeObjectUnits(config._i), dayOrDate = void 0 === i.day ? i.date : i.day;
                 config._a = map([
@@ -850,7 +835,7 @@
                     return obj && parseInt(obj, 10);
                 }), configFromArray(config);
             }
-        }(config) : isNumber(input) ? config._d = new Date(input) : hooks.createFromInputFallback(config);
+        }(config1) : isNumber(input) ? config1._d = new Date(input) : hooks.createFromInputFallback(config1), isValid(config) || (config._d = null), config);
     }
     function createLocalOrUTC(input, format, locale, strict, isUTC) {
         var config, res, c = {};
@@ -940,7 +925,7 @@
     hooks.updateOffset = function() {};
     var aspNetRegex = /^(-|\+)?(?:(\d*)[. ])?(\d+):(\d+)(?::(\d+)(\.\d*)?)?$/, isoRegex = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
     function createDuration(input, key) {
-        var sign, ret, diffRes, duration = input, match = null;
+        var sign, ret, diffRes, base, other, res, duration = input, match = null;
         return isDuration(input) ? duration = {
             ms: input._milliseconds,
             d: input._days,
@@ -960,7 +945,10 @@
             h: parseIso(match[6], sign),
             m: parseIso(match[7], sign),
             s: parseIso(match[8], sign)
-        }) : null == duration ? duration = {} : "object" == typeof duration && ("from" in duration || "to" in duration) && (diffRes = momentsDifference(createLocal(duration.from), createLocal(duration.to)), (duration = {}).ms = diffRes.milliseconds, duration.M = diffRes.months), ret = new Duration(duration), isDuration(input) && hasOwnProp(input, "_locale") && (ret._locale = input._locale), isDuration(input) && hasOwnProp(input, "_isValid") && (ret._isValid = input._isValid), ret;
+        }) : null == duration ? duration = {} : "object" == typeof duration && ("from" in duration || "to" in duration) && (diffRes = (base = createLocal(duration.from), other = createLocal(duration.to), base.isValid() && other.isValid() ? (other = cloneWithOffset(other, base), base.isBefore(other) ? res = positiveMomentsDifference(base, other) : ((res = positiveMomentsDifference(other, base)).milliseconds = -res.milliseconds, res.months = -res.months), res) : {
+            milliseconds: 0,
+            months: 0
+        }), (duration = {}).ms = diffRes.milliseconds, duration.M = diffRes.months), ret = new Duration(duration), isDuration(input) && hasOwnProp(input, "_locale") && (ret._locale = input._locale), isDuration(input) && hasOwnProp(input, "_isValid") && (ret._isValid = input._isValid), ret;
     }
     function parseIso(inp, sign) {
         var res = inp && parseFloat(inp.replace(",", "."));
@@ -969,13 +957,6 @@
     function positiveMomentsDifference(base, other) {
         var res = {};
         return res.months = other.month() - base.month() + (other.year() - base.year()) * 12, base.clone().add(res.months, "M").isAfter(other) && --res.months, res.milliseconds = +other - +base.clone().add(res.months, "M"), res;
-    }
-    function momentsDifference(base, other) {
-        var res;
-        return base.isValid() && other.isValid() ? (other = cloneWithOffset(other, base), base.isBefore(other) ? res = positiveMomentsDifference(base, other) : ((res = positiveMomentsDifference(other, base)).milliseconds = -res.milliseconds, res.months = -res.months), res) : {
-            milliseconds: 0,
-            months: 0
-        };
     }
     function createAdder(direction, name) {
         return function(val, period) {
