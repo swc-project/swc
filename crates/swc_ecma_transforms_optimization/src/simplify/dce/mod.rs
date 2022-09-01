@@ -410,9 +410,9 @@ impl VisitMut for TreeShaker {
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);
 
-        if !n.right.may_have_side_effects(&self.expr_ctx) {
-            if let Some(id) = n.left.as_ident() {
-                if self.can_drop_assignment_to(id.to_id()) {
+        if let Some(id) = n.left.as_ident() {
+            if self.can_drop_assignment_to(id.to_id()) {
+                if !n.right.may_have_side_effects(&self.expr_ctx) {
                     self.changed = true;
                     debug!("Dropping an assignment to `{}` because it's not used", id);
 
