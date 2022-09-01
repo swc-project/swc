@@ -157,6 +157,10 @@ impl Analyzer<'_> {
     }
 
     fn add(&mut self, id: Id, assign: bool) {
+        if id.0 == js_word!("arguments") {
+            self.scope.found_arguemnts = true;
+        }
+
         if let Some(f) = &self.cur_fn_id {
             if id == *f {
                 return;
