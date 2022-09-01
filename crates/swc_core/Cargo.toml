@@ -285,7 +285,7 @@ wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "0.12.0", path = "../binding_macros" }
 swc                              = { optional = true, version = "0.224.0", path = "../swc" }
-swc_atoms                        = { optional = true, version = "0.4.8", path = "../swc_atoms" }
+swc_atoms                        = { optional = true, version = "0.4.10", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.185.0", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "0.3.5", path = "../swc_cached" }
 swc_common                       = { optional = true, version = "0.27.12", path = "../swc_common" }

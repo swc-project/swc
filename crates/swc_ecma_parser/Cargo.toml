@@ -30,7 +30,7 @@ lexical        = { version = "6.1.0", features = ["power-of-two"] }
 num-bigint     = "0.4"
 serde          = { version = "1", features = ["derive"] }
 smallvec       = "1.8.0"
-swc_atoms      = { version = "0.4.5", path = "../swc_atoms" }
+swc_atoms      = { version = "0.4.10", path = "../swc_atoms" }
 swc_common     = { version = "0.27.13", path = "../swc_common" }
 swc_ecma_ast   = { version = "0.90.15", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "0.76.6", path = "../swc_ecma_visit", optional = true }
