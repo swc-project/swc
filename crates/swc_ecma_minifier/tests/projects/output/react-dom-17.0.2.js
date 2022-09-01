@@ -2312,7 +2312,7 @@
         return idleLanes !== NoLanes ? (return_highestLanePriority = 2, idleLanes) : (1073741824 & lanes) !== NoLanes ? (return_highestLanePriority = 1, 1073741824) : (error("Should have found matching lanes. This is a bug in React."), return_highestLanePriority = 8, lanes);
     }
     function getNextLanes(root, wipLanes) {
-        var lanes, lanes1, index, pendingLanes = root.pendingLanes;
+        var lanes, index, pendingLanes = root.pendingLanes;
         if (pendingLanes === NoLanes) return return_highestLanePriority = 0, NoLanes;
         var nextLanes = NoLanes, nextLanePriority = 0, expiredLanes = root.expiredLanes, suspendedLanes = root.suspendedLanes, pingedLanes = root.pingedLanes;
         if (expiredLanes !== NoLanes) nextLanes = expiredLanes, nextLanePriority = return_highestLanePriority = 15;
@@ -2336,9 +2336,9 @@
             return_highestLanePriority = nextLanePriority;
         }
         var entangledLanes = root.entangledLanes;
-        if (entangledLanes !== NoLanes) for(var entanglements = root.entanglements, lanes2 = nextLanes & entangledLanes; lanes2 > 0;){
-            var index1 = pickArbitraryLaneIndex(lanes2), lane = 1 << index1;
-            nextLanes |= entanglements[index1], lanes2 &= ~lane;
+        if (entangledLanes !== NoLanes) for(var entanglements = root.entanglements, lanes1 = nextLanes & entangledLanes; lanes1 > 0;){
+            var index1 = pickArbitraryLaneIndex(lanes1), lane = 1 << index1;
+            nextLanes |= entanglements[index1], lanes1 &= ~lane;
         }
         return nextLanes;
     }
@@ -2383,10 +2383,6 @@
                 return 0 === lane && (lane = pickArbitraryLane(805306368)), lane;
         }
         throw Error("Invalid update priority: " + lanePriority + ". This is a bug in React.");
-    }
-    function getEqualOrHigherPriorityLanes(lanes) {
-        var index;
-        return (((index = 31 - clz32(lanes)) < 0 ? NoLanes : 1 << index) << 1) - 1;
     }
     function pickArbitraryLane(lanes) {
         var lanes1;
@@ -6464,9 +6460,8 @@
         else showFallback = !0, workInProgress.flags &= -65;
         if (pushSuspenseContext(workInProgress, suspenseContext1 &= 1), null === current) {
             void 0 !== nextProps.fallback && tryToClaimNextHydratableInstance(workInProgress);
-            var parentContext1, workInProgress2, primaryChildren, renderLanes2, primaryChildFragment, nextPrimaryChildren = nextProps.children, nextFallbackChildren = nextProps.fallback;
+            var workInProgress2, primaryChildren, renderLanes2, primaryChildFragment, nextPrimaryChildren = nextProps.children, nextFallbackChildren = nextProps.fallback;
             if (showFallback) {
-                var parentContext2, fallbackFragment = mountSuspenseFallbackChildren(workInProgress, nextPrimaryChildren, nextFallbackChildren, renderLanes);
                 var fallbackFragment = mountSuspenseFallbackChildren(workInProgress, nextPrimaryChildren, nextFallbackChildren, renderLanes);
                 return workInProgress.child.memoizedState = mountSuspenseOffscreenState(renderLanes), workInProgress.memoizedState = SUSPENDED_MARKER, fallbackFragment;
             }
@@ -7621,8 +7616,8 @@
                         if (null !== current) {
                             var prevState = current.memoizedState;
                             if (null !== prevState) {
-                                var suspenseInstance, suspenseInstance1 = prevState.dehydrated;
-                                null !== suspenseInstance1 && retryIfBlockedOn(suspenseInstance1);
+                                var suspenseInstance = prevState.dehydrated;
+                                null !== suspenseInstance && retryIfBlockedOn(suspenseInstance);
                             }
                         }
                     }
@@ -7909,21 +7904,6 @@
                 return;
         }
         throw Error("This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue.");
-    }
-    function commitSuspenseComponent(finishedWork) {
-        null !== finishedWork.memoizedState && (markCommitTimeOfFallback(), hideOrUnhideAllChildren(finishedWork.child, !0));
-    }
-    function commitSuspenseHydrationCallbacks(finishedRoot, finishedWork) {
-        if (null === finishedWork.memoizedState) {
-            var current = finishedWork.alternate;
-            if (null !== current) {
-                var prevState = current.memoizedState;
-                if (null !== prevState) {
-                    var suspenseInstance = prevState.dehydrated;
-                    null !== suspenseInstance && retryIfBlockedOn(suspenseInstance);
-                }
-            }
-        }
     }
     function attachSuspenseRetryListeners(finishedWork) {
         var wakeables = finishedWork.updateQueue;
@@ -8946,8 +8926,7 @@
         return workInProgress;
     }
     function createFiberFromTypeAndProps(type, key, pendingProps, owner, mode, lanes) {
-        var pendingProps1, mode1, lanes1, key1, fiber, pendingProps2, mode2, lanes2, key2, fiber1, pendingProps3, mode3, lanes3, key3, fiber2, pendingProps4, mode4, lanes4, key4, fiber3, type1, fiberTag = 2, resolvedType = type;
-        var fiberTag = 2, resolvedType = type;
+        var pendingProps1, mode1, lanes1, key1, fiber, pendingProps2, mode2, lanes2, key2, fiber1, pendingProps3, mode3, lanes3, key3, fiber2, pendingProps4, mode4, lanes4, key4, fiber3, fiberTag = 2, resolvedType = type;
         if ("function" == typeof type) shouldConstruct$1(type) && (fiberTag = 1), resolvedType = resolveFunctionForHotReloading(resolvedType);
         else if ("string" == typeof type) fiberTag = 5;
         else getTag: switch(type){
