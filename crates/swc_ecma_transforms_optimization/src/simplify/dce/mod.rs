@@ -452,7 +452,20 @@ impl VisitMut for TreeShaker {
                 }
             }
             Decl::Class(c) => {
-                if self.can_drop_binding(c.ident.to_id()) {
+                if self.can_drop_binding(c.ident.to_id())
+                    && c.class.body.iter().all(|m| match m {
+                        ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
+                        ClassMember::ClassProp(m) => !matches!(m.key, PropName::Computed(..)),
+
+                        ClassMember::StaticBlock(_) => false,
+
+                        ClassMember::TsIndexSignature(_)
+                        | ClassMember::PrivateProp(_)
+                        | ClassMember::Empty(_)
+                        | ClassMember::Constructor(_)
+                        | ClassMember::PrivateMethod(_) => true,
+                    })
+                {
                     debug!("Dropping class `{}` as it's not used", c.ident);
                     self.changed = true;
 
