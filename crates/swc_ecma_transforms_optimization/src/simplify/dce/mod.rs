@@ -370,6 +370,7 @@ impl Parallel for TreeShaker {
         Self {
             expr_ctx: self.expr_ctx.clone(),
             data: self.data.clone(),
+            config: self.config.clone(),
             ..*self
         }
     }
