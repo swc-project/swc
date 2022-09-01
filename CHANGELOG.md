@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Relax function inline requirement (#5607) ([4ef99f3](https://github.com/swc-project/swc/commit/4ef99f346b9e7e4dfd1f42e7308c6b6e1142e311))
+
+## [1.2.246] - 2022-09-01
+
 ### Bug Fixes
 
 
@@ -21,6 +29,9 @@
 
 ### Features
 
+
+
+- **(bindings)** Reduce size (#5708) ([b7da692](https://github.com/swc-project/swc/commit/b7da69258016bb2ecbeec0db7a94b1a84d0cb2f0))
 
 
 - **(dbg-swc)** Improve minifier comparator (#5681) ([6febfe9](https://github.com/swc-project/swc/commit/6febfe900c53010f6f0fcac87385d8e6786b369e))

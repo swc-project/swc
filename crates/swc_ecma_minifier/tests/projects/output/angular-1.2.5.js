@@ -759,7 +759,23 @@
             var provider = providerInjector.get(servicename + providerSuffix);
             return instanceInjector.invoke(provider.$get, provider);
         });
-        return forEach(loadModules(modulesToLoad), function(fn) {
+        return forEach(function loadModules(modulesToLoad) {
+            var moduleFn, invokeQueue, i, ii, runBlocks = [];
+            return forEach(modulesToLoad, function(module) {
+                if (!loadedModules.get(module)) {
+                    loadedModules.put(module, !0);
+                    try {
+                        if (isString(module)) for(moduleFn = angularModule(module), runBlocks = runBlocks.concat(loadModules(moduleFn.requires)).concat(moduleFn._runBlocks), invokeQueue = moduleFn._invokeQueue, i = 0, ii = invokeQueue.length; i < ii; i++){
+                            var invokeArgs = invokeQueue[i], provider = providerInjector.get(invokeArgs[0]);
+                            provider[invokeArgs[1]].apply(provider, invokeArgs[2]);
+                        }
+                        else isFunction(module) ? runBlocks.push(providerInjector.invoke(module)) : isArray(module) ? runBlocks.push(providerInjector.invoke(module)) : assertArgFn(module, "module");
+                    } catch (e) {
+                        throw isArray(module) && (module = module[module.length - 1]), e.message && e.stack && -1 == e.stack.indexOf(e.message) && (e = e.message + "\n" + e.stack), $injectorMinErr("modulerr", "Failed to instantiate module {0} due to:\n{1}", module, e.stack || e.message || e);
+                    }
+                }
+            }), runBlocks;
+        }(modulesToLoad), function(fn) {
             instanceInjector.invoke(fn || noop);
         }), instanceInjector;
         function supportObject(delegate) {
@@ -776,23 +792,6 @@
             return provider(name, {
                 $get: factoryFn
             });
-        }
-        function loadModules(modulesToLoad) {
-            var moduleFn, invokeQueue, i, ii, runBlocks = [];
-            return forEach(modulesToLoad, function(module) {
-                if (!loadedModules.get(module)) {
-                    loadedModules.put(module, !0);
-                    try {
-                        if (isString(module)) for(moduleFn = angularModule(module), runBlocks = runBlocks.concat(loadModules(moduleFn.requires)).concat(moduleFn._runBlocks), invokeQueue = moduleFn._invokeQueue, i = 0, ii = invokeQueue.length; i < ii; i++){
-                            var invokeArgs = invokeQueue[i], provider = providerInjector.get(invokeArgs[0]);
-                            provider[invokeArgs[1]].apply(provider, invokeArgs[2]);
-                        }
-                        else isFunction(module) ? runBlocks.push(providerInjector.invoke(module)) : isArray(module) ? runBlocks.push(providerInjector.invoke(module)) : assertArgFn(module, "module");
-                    } catch (e) {
-                        throw isArray(module) && (module = module[module.length - 1]), e.message && e.stack && -1 == e.stack.indexOf(e.message) && (e = e.message + "\n" + e.stack), $injectorMinErr("modulerr", "Failed to instantiate module {0} due to:\n{1}", module, e.stack || e.message || e);
-                    }
-                }
-            }), runBlocks;
         }
         function createInternalInjector(cache, factory) {
             function getService(serviceName) {
@@ -1138,7 +1137,7 @@
                     };
                 }
                 function collectDirectives(node, directives, attrs, maxPriority, ignoreDirective) {
-                    var match, className, nodeType = node.nodeType, attrsMap = attrs.$attr;
+                    var directives1, text, interpolateFn, match, className, nodeType = node.nodeType, attrsMap = attrs.$attr;
                     switch(nodeType){
                         case 1:
                             addDirective(directives, directiveNormalize(nodeName_(node).toLowerCase()), "E", maxPriority, ignoreDirective);
@@ -1153,7 +1152,15 @@
                             if (isString(className = node.className) && "" !== className) for(; match = CLASS_DIRECTIVE_REGEXP.exec(className);)addDirective(directives, nName = directiveNormalize(match[2]), "C", maxPriority, ignoreDirective) && (attrs[nName] = trim(match[3])), className = className.substr(match.index + match[0].length);
                             break;
                         case 3:
-                            addTextInterpolateDirective(directives, node.nodeValue);
+                            directives1 = directives, (interpolateFn = $interpolate(text = node.nodeValue, !0)) && directives1.push({
+                                priority: 0,
+                                compile: valueFn(function(scope, node) {
+                                    var parent = node.parent(), bindings = parent.data("$binding") || [];
+                                    bindings.push(interpolateFn), safeAddClass(parent.data("$binding", bindings), "ng-binding"), scope.$watch(interpolateFn, function(value) {
+                                        node[0].nodeValue = value;
+                                    });
+                                })
+                            });
                             break;
                         case 8:
                             try {
@@ -1346,18 +1353,6 @@
                 function assertNoDuplicate(what, previousDirective, directive, element) {
                     if (previousDirective) throw $compileMinErr("multidir", "Multiple directives [{0}, {1}] asking for {2} on: {3}", previousDirective.name, directive.name, what, startingTag(element));
                 }
-                function addTextInterpolateDirective(directives, text) {
-                    var interpolateFn = $interpolate(text, !0);
-                    interpolateFn && directives.push({
-                        priority: 0,
-                        compile: valueFn(function(scope, node) {
-                            var parent = node.parent(), bindings = parent.data("$binding") || [];
-                            bindings.push(interpolateFn), safeAddClass(parent.data("$binding", bindings), "ng-binding"), scope.$watch(interpolateFn, function(value) {
-                                node[0].nodeValue = value;
-                            });
-                        })
-                    });
-                }
                 function addAttrInterpolateDirective(node, directives, value, name) {
                     var interpolateFn = $interpolate(value, !0);
                     if (interpolateFn) {
@@ -1545,7 +1540,46 @@
                             var reqData = transformData(config.data, headersGetter(headers), config.transformRequest);
                             return isUndefined(config.data) && forEach(headers, function(value, header) {
                                 "content-type" === lowercase(header) && delete headers[header];
-                            }), isUndefined(config.withCredentials) && !isUndefined(defaults.withCredentials) && (config.withCredentials = defaults.withCredentials), sendReq(config, reqData, headers).then(transformResponse, transformResponse);
+                            }), isUndefined(config.withCredentials) && !isUndefined(defaults.withCredentials) && (config.withCredentials = defaults.withCredentials), (function(config, reqData, reqHeaders) {
+                                var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = function(url, params) {
+                                    if (!params) return url;
+                                    var parts = [];
+                                    return function(obj, iterator, context) {
+                                        for(var keys = sortedKeys(obj), i = 0; i < keys.length; i++)iterator.call(void 0, obj[keys[i]], keys[i]);
+                                    }(params, function(value, key) {
+                                        null === value || isUndefined(value) || (isArray(value) || (value = [
+                                            value
+                                        ]), forEach(value, function(v) {
+                                            isObject(v) && (v = toJson(v)), parts.push(encodeUriQuery(key) + "=" + encodeUriQuery(v));
+                                        }));
+                                    }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
+                                }(config.url, config.params);
+                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) {
+                                    if (cachedResp = cache.get(url), isDefined(cachedResp)) {
+                                        if (cachedResp.then) return cachedResp.then(removePendingReq, removePendingReq), cachedResp;
+                                        isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
+                                    } else cache.put(url, promise);
+                                }
+                                return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, function(status, response, headersString) {
+                                    cache && (isSuccess(status) ? cache.put(url, [
+                                        status,
+                                        response,
+                                        parseHeaders(headersString)
+                                    ]) : cache.remove(url)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
+                                }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
+                                function resolvePromise(response, status, headers) {
+                                    (isSuccess(status = Math.max(status, 0)) ? deferred.resolve : deferred.reject)({
+                                        data: response,
+                                        status: status,
+                                        headers: headersGetter(headers),
+                                        config: config
+                                    });
+                                }
+                                function removePendingReq() {
+                                    var idx = indexOf($http.pendingRequests, config);
+                                    -1 !== idx && $http.pendingRequests.splice(idx, 1);
+                                }
+                            })(config, reqData, headers).then(transformResponse, transformResponse);
                         },
                         undefined
                     ], promise = $q.when(config);
@@ -1603,45 +1637,6 @@
                         };
                     });
                 }("post", "put"), $http.defaults = defaults, $http;
-                function sendReq(config, reqData, reqHeaders) {
-                    var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = buildUrl(config.url, config.params);
-                    if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (cachedResp = cache.get(url), isDefined(cachedResp)) {
-                        if (cachedResp.then) return cachedResp.then(removePendingReq, removePendingReq), cachedResp;
-                        isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
-                    } else cache.put(url, promise);
-                    return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, function(status, response, headersString) {
-                        cache && (isSuccess(status) ? cache.put(url, [
-                            status,
-                            response,
-                            parseHeaders(headersString)
-                        ]) : cache.remove(url)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
-                    }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
-                    function resolvePromise(response, status, headers) {
-                        (isSuccess(status = Math.max(status, 0)) ? deferred.resolve : deferred.reject)({
-                            data: response,
-                            status: status,
-                            headers: headersGetter(headers),
-                            config: config
-                        });
-                    }
-                    function removePendingReq() {
-                        var idx = indexOf($http.pendingRequests, config);
-                        -1 !== idx && $http.pendingRequests.splice(idx, 1);
-                    }
-                }
-                function buildUrl(url, params) {
-                    if (!params) return url;
-                    var parts = [];
-                    return function(obj, iterator, context) {
-                        for(var keys = sortedKeys(obj), i = 0; i < keys.length; i++)iterator.call(void 0, obj[keys[i]], keys[i]);
-                    }(params, function(value, key) {
-                        null === value || isUndefined(value) || (isArray(value) || (value = [
-                            value
-                        ]), forEach(value, function(v) {
-                            isObject(v) && (v = toJson(v)), parts.push(encodeUriQuery(key) + "=" + encodeUriQuery(v));
-                        }));
-                    }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
-                }
             }, 
         ];
     }
@@ -1663,52 +1658,49 @@
             "$window",
             "$document",
             function($browser, $window, $document) {
-                return createHttpBackend($browser, XHR, $browser.defer, $window.angular.callbacks, $document[0]);
+                var $browser1, XHR1, $browserDefer, callbacks, rawDocument;
+                return $browser1 = $browser, XHR1 = XHR, $browserDefer = $browser.defer, callbacks = $window.angular.callbacks, rawDocument = $document[0], function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
+                    var status;
+                    if ($browser1.$$incOutstandingRequestCount(), url = url || $browser1.url(), "jsonp" == lowercase(method)) {
+                        var callbackId = "_" + (callbacks.counter++).toString(36);
+                        callbacks[callbackId] = function(data) {
+                            callbacks[callbackId].data = data;
+                        };
+                        var jsonpDone = function(url, done) {
+                            var script = rawDocument.createElement("script"), doneWrapper = function() {
+                                script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
+                            };
+                            return script.type = "text/javascript", script.src = url, msie && msie <= 8 ? script.onreadystatechange = function() {
+                                /loaded|complete/.test(script.readyState) && doneWrapper();
+                            } : script.onload = script.onerror = function() {
+                                doneWrapper();
+                            }, rawDocument.body.appendChild(script), doneWrapper;
+                        }(url.replace("JSON_CALLBACK", "angular.callbacks." + callbackId), function() {
+                            callbacks[callbackId].data ? completeRequest(callback, 200, callbacks[callbackId].data) : completeRequest(callback, status || -2), delete callbacks[callbackId];
+                        });
+                    } else {
+                        var xhr = new XHR1();
+                        xhr.open(method, url, !0), forEach(headers, function(value, key) {
+                            isDefined(value) && xhr.setRequestHeader(key, value);
+                        }), xhr.onreadystatechange = function() {
+                            if (4 == xhr.readyState) {
+                                var responseHeaders = null, response = null;
+                                -1 !== status && (responseHeaders = xhr.getAllResponseHeaders(), response = xhr.responseType ? xhr.response : xhr.responseText), completeRequest(callback, status || xhr.status, response, responseHeaders);
+                            }
+                        }, withCredentials && (xhr.withCredentials = !0), responseType && (xhr.responseType = responseType), xhr.send(post || null);
+                    }
+                    if (timeout > 0) var timeoutId = $browserDefer(timeoutRequest, timeout);
+                    else timeout && timeout.then && timeout.then(timeoutRequest);
+                    function timeoutRequest() {
+                        status = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
+                    }
+                    function completeRequest(callback, status, response, headersString) {
+                        var protocol = urlResolve(url).protocol;
+                        timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, callback(status = 1223 == (status = "file" == protocol && 0 === status ? response ? 200 : 404 : status) ? 204 : status, response, headersString), $browser1.$$completeOutstandingRequest(noop);
+                    }
+                };
             }, 
         ];
-    }
-    function createHttpBackend($browser, XHR, $browserDefer, callbacks, rawDocument) {
-        return function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
-            var status;
-            if ($browser.$$incOutstandingRequestCount(), url = url || $browser.url(), "jsonp" == lowercase(method)) {
-                var callbackId = "_" + (callbacks.counter++).toString(36);
-                callbacks[callbackId] = function(data) {
-                    callbacks[callbackId].data = data;
-                };
-                var jsonpDone = jsonpReq(url.replace("JSON_CALLBACK", "angular.callbacks." + callbackId), function() {
-                    callbacks[callbackId].data ? completeRequest(callback, 200, callbacks[callbackId].data) : completeRequest(callback, status || -2), delete callbacks[callbackId];
-                });
-            } else {
-                var xhr = new XHR();
-                xhr.open(method, url, !0), forEach(headers, function(value, key) {
-                    isDefined(value) && xhr.setRequestHeader(key, value);
-                }), xhr.onreadystatechange = function() {
-                    if (4 == xhr.readyState) {
-                        var responseHeaders = null, response = null;
-                        -1 !== status && (responseHeaders = xhr.getAllResponseHeaders(), response = xhr.responseType ? xhr.response : xhr.responseText), completeRequest(callback, status || xhr.status, response, responseHeaders);
-                    }
-                }, withCredentials && (xhr.withCredentials = !0), responseType && (xhr.responseType = responseType), xhr.send(post || null);
-            }
-            if (timeout > 0) var timeoutId = $browserDefer(timeoutRequest, timeout);
-            else timeout && timeout.then && timeout.then(timeoutRequest);
-            function timeoutRequest() {
-                status = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
-            }
-            function completeRequest(callback, status, response, headersString) {
-                var protocol = urlResolve(url).protocol;
-                timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, callback(status = 1223 == (status = "file" == protocol && 0 === status ? response ? 200 : 404 : status) ? 204 : status, response, headersString), $browser.$$completeOutstandingRequest(noop);
-            }
-        };
-        function jsonpReq(url, done) {
-            var script = rawDocument.createElement("script"), doneWrapper = function() {
-                script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
-            };
-            return script.type = "text/javascript", script.src = url, msie && msie <= 8 ? script.onreadystatechange = function() {
-                /loaded|complete/.test(script.readyState) && doneWrapper();
-            } : script.onload = script.onerror = function() {
-                doneWrapper();
-            }, rawDocument.body.appendChild(script), doneWrapper;
-        }
     }
     var $interpolateMinErr = minErr("$interpolate");
     function $InterpolateProvider() {
@@ -2561,164 +2553,163 @@
             "$rootScope",
             "$exceptionHandler",
             function($rootScope, $exceptionHandler) {
-                return qFactory(function(callback) {
-                    $rootScope.$evalAsync(callback);
-                }, $exceptionHandler);
-            }, 
-        ];
-    }
-    function qFactory(nextTick, exceptionHandler) {
-        var defer = function() {
-            var value, deferred, pending = [];
-            return deferred = {
-                resolve: function(val) {
-                    if (pending) {
-                        var callbacks = pending;
-                        pending = undefined, value = ref(val), callbacks.length && nextTick(function() {
-                            for(var callback, i = 0, ii = callbacks.length; i < ii; i++)callback = callbacks[i], value.then(callback[0], callback[1], callback[2]);
-                        });
-                    }
-                },
-                reject: function(reason) {
-                    deferred.resolve(reject(reason));
-                },
-                notify: function(progress) {
-                    if (pending) {
-                        var callbacks = pending;
-                        pending.length && nextTick(function() {
-                            for(var i = 0, ii = callbacks.length; i < ii; i++)(0, callbacks[i])[2](progress);
-                        });
-                    }
-                },
-                promise: {
-                    then: function(callback, errback, progressback) {
-                        var result = defer(), wrappedCallback = function(value) {
+                return function(nextTick, exceptionHandler) {
+                    var defer = function() {
+                        var value, deferred, pending = [];
+                        return deferred = {
+                            resolve: function(val) {
+                                if (pending) {
+                                    var callbacks = pending;
+                                    pending = undefined, value = ref(val), callbacks.length && nextTick(function() {
+                                        for(var callback, i = 0, ii = callbacks.length; i < ii; i++)callback = callbacks[i], value.then(callback[0], callback[1], callback[2]);
+                                    });
+                                }
+                            },
+                            reject: function(reason) {
+                                deferred.resolve(reject(reason));
+                            },
+                            notify: function(progress) {
+                                if (pending) {
+                                    var callbacks = pending;
+                                    pending.length && nextTick(function() {
+                                        for(var i = 0, ii = callbacks.length; i < ii; i++)(0, callbacks[i])[2](progress);
+                                    });
+                                }
+                            },
+                            promise: {
+                                then: function(callback, errback, progressback) {
+                                    var result = defer(), wrappedCallback = function(value) {
+                                        try {
+                                            result.resolve((isFunction(callback) ? callback : defaultCallback)(value));
+                                        } catch (e) {
+                                            result.reject(e), exceptionHandler(e);
+                                        }
+                                    }, wrappedErrback = function(reason) {
+                                        try {
+                                            result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
+                                        } catch (e) {
+                                            result.reject(e), exceptionHandler(e);
+                                        }
+                                    }, wrappedProgressback = function(progress) {
+                                        try {
+                                            result.notify((isFunction(progressback) ? progressback : defaultCallback)(progress));
+                                        } catch (e) {
+                                            exceptionHandler(e);
+                                        }
+                                    };
+                                    return pending ? pending.push([
+                                        wrappedCallback,
+                                        wrappedErrback,
+                                        wrappedProgressback, 
+                                    ]) : value.then(wrappedCallback, wrappedErrback, wrappedProgressback), result.promise;
+                                },
+                                catch: function(callback) {
+                                    return this.then(null, callback);
+                                },
+                                finally: function(callback) {
+                                    function makePromise(value, resolved) {
+                                        var result = defer();
+                                        return resolved ? result.resolve(value) : result.reject(value), result.promise;
+                                    }
+                                    function handleCallback(value, isResolved) {
+                                        var callbackOutput = null;
+                                        try {
+                                            callbackOutput = (callback || defaultCallback)();
+                                        } catch (e) {
+                                            return makePromise(e, !1);
+                                        }
+                                        return callbackOutput && isFunction(callbackOutput.then) ? callbackOutput.then(function() {
+                                            return makePromise(value, isResolved);
+                                        }, function(error) {
+                                            return makePromise(error, !1);
+                                        }) : makePromise(value, isResolved);
+                                    }
+                                    return this.then(function(value) {
+                                        return handleCallback(value, !0);
+                                    }, function(error) {
+                                        return handleCallback(error, !1);
+                                    });
+                                }
+                            }
+                        };
+                    }, ref = function(value) {
+                        return value && isFunction(value.then) ? value : {
+                            then: function(callback) {
+                                var result = defer();
+                                return nextTick(function() {
+                                    result.resolve(callback(value));
+                                }), result.promise;
+                            }
+                        };
+                    }, reject = function(reason) {
+                        return {
+                            then: function(callback, errback) {
+                                var result = defer();
+                                return nextTick(function() {
+                                    try {
+                                        result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
+                                    } catch (e) {
+                                        result.reject(e), exceptionHandler(e);
+                                    }
+                                }), result.promise;
+                            }
+                        };
+                    }, when = function(value, callback, errback, progressback) {
+                        var done, result = defer(), wrappedCallback = function(value) {
                             try {
-                                result.resolve((isFunction(callback) ? callback : defaultCallback)(value));
+                                return (isFunction(callback) ? callback : defaultCallback)(value);
                             } catch (e) {
-                                result.reject(e), exceptionHandler(e);
+                                return exceptionHandler(e), reject(e);
                             }
                         }, wrappedErrback = function(reason) {
                             try {
-                                result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
+                                return (isFunction(errback) ? errback : defaultErrback)(reason);
                             } catch (e) {
-                                result.reject(e), exceptionHandler(e);
+                                return exceptionHandler(e), reject(e);
                             }
                         }, wrappedProgressback = function(progress) {
                             try {
-                                result.notify((isFunction(progressback) ? progressback : defaultCallback)(progress));
+                                return (isFunction(progressback) ? progressback : defaultCallback)(progress);
                             } catch (e) {
                                 exceptionHandler(e);
                             }
                         };
-                        return pending ? pending.push([
-                            wrappedCallback,
-                            wrappedErrback,
-                            wrappedProgressback, 
-                        ]) : value.then(wrappedCallback, wrappedErrback, wrappedProgressback), result.promise;
-                    },
-                    catch: function(callback) {
-                        return this.then(null, callback);
-                    },
-                    finally: function(callback) {
-                        function makePromise(value, resolved) {
-                            var result = defer();
-                            return resolved ? result.resolve(value) : result.reject(value), result.promise;
-                        }
-                        function handleCallback(value, isResolved) {
-                            var callbackOutput = null;
-                            try {
-                                callbackOutput = (callback || defaultCallback)();
-                            } catch (e) {
-                                return makePromise(e, !1);
-                            }
-                            return callbackOutput && isFunction(callbackOutput.then) ? callbackOutput.then(function() {
-                                return makePromise(value, isResolved);
-                            }, function(error) {
-                                return makePromise(error, !1);
-                            }) : makePromise(value, isResolved);
-                        }
-                        return this.then(function(value) {
-                            return handleCallback(value, !0);
-                        }, function(error) {
-                            return handleCallback(error, !1);
-                        });
+                        return nextTick(function() {
+                            ref(value).then(function(value) {
+                                done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
+                            }, function(reason) {
+                                done || (done = !0, result.resolve(wrappedErrback(reason)));
+                            }, function(progress) {
+                                done || result.notify(wrappedProgressback(progress));
+                            });
+                        }), result.promise;
+                    };
+                    function defaultCallback(value) {
+                        return value;
                     }
-                }
-            };
-        }, ref = function(value) {
-            return value && isFunction(value.then) ? value : {
-                then: function(callback) {
-                    var result = defer();
-                    return nextTick(function() {
-                        result.resolve(callback(value));
-                    }), result.promise;
-                }
-            };
-        }, reject = function(reason) {
-            return {
-                then: function(callback, errback) {
-                    var result = defer();
-                    return nextTick(function() {
-                        try {
-                            result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
-                        } catch (e) {
-                            result.reject(e), exceptionHandler(e);
+                    function defaultErrback(reason) {
+                        return reject(reason);
+                    }
+                    return {
+                        defer: defer,
+                        reject: reject,
+                        when: when,
+                        all: function(promises) {
+                            var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
+                            return forEach(promises, function(promise, key) {
+                                counter++, ref(promise).then(function(value) {
+                                    results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
+                                }, function(reason) {
+                                    results.hasOwnProperty(key) || deferred.reject(reason);
+                                });
+                            }), 0 === counter && deferred.resolve(results), deferred.promise;
                         }
-                    }), result.promise;
-                }
-            };
-        }, when = function(value, callback, errback, progressback) {
-            var done, result = defer(), wrappedCallback = function(value) {
-                try {
-                    return (isFunction(callback) ? callback : defaultCallback)(value);
-                } catch (e) {
-                    return exceptionHandler(e), reject(e);
-                }
-            }, wrappedErrback = function(reason) {
-                try {
-                    return (isFunction(errback) ? errback : defaultErrback)(reason);
-                } catch (e) {
-                    return exceptionHandler(e), reject(e);
-                }
-            }, wrappedProgressback = function(progress) {
-                try {
-                    return (isFunction(progressback) ? progressback : defaultCallback)(progress);
-                } catch (e) {
-                    exceptionHandler(e);
-                }
-            };
-            return nextTick(function() {
-                ref(value).then(function(value) {
-                    done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
-                }, function(reason) {
-                    done || (done = !0, result.resolve(wrappedErrback(reason)));
-                }, function(progress) {
-                    done || result.notify(wrappedProgressback(progress));
-                });
-            }), result.promise;
-        };
-        function defaultCallback(value) {
-            return value;
-        }
-        function defaultErrback(reason) {
-            return reject(reason);
-        }
-        return {
-            defer: defer,
-            reject: reject,
-            when: when,
-            all: function(promises) {
-                var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
-                return forEach(promises, function(promise, key) {
-                    counter++, ref(promise).then(function(value) {
-                        results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
-                    }, function(reason) {
-                        results.hasOwnProperty(key) || deferred.reject(reason);
-                    });
-                }), 0 === counter && deferred.resolve(results), deferred.promise;
-            }
-        };
+                    };
+                }(function(callback) {
+                    $rootScope.$evalAsync(callback);
+                }, $exceptionHandler);
+            }, 
+        ];
     }
     function $RootScopeProvider() {
         var TTL = 10, $rootScopeMinErr = minErr("$rootScope"), lastDirtyWatch = null;
@@ -3377,7 +3368,8 @@
             ], function(predicate) {
                 var descending = !1, get = predicate || identity;
                 return isString(predicate) && (("+" == predicate.charAt(0) || "-" == predicate.charAt(0)) && (descending = "-" == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
-                    return compare(get(a), get(b));
+                    var v1, v2, t1, t2;
+                    return v1 = get(a), v2 = get(b), t1 = typeof v1, t1 != (t2 = typeof v2) ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
                 }, descending);
             });
             for(var arrayCopy = [], i = 0; i < array.length; i++)arrayCopy.push(array[i]);
@@ -3392,10 +3384,6 @@
                 return toBoolean(descending) ? function(a, b) {
                     return comp(b, a);
                 } : comp;
-            }
-            function compare(v1, v2) {
-                var t1 = typeof v1, t2 = typeof v2;
-                return t1 != t2 ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
             }
         };
     }

@@ -136,7 +136,21 @@
                 return characters = "", value;
             }
             function delimit(type) {
-                return trim(slice(position - 1, delimiter(91 === type ? type + 2 : 40 === type ? type + 1 : type)));
+                return trim(slice(position - 1, function delimiter(type) {
+                    for(; next();)switch(character){
+                        case type:
+                            return position;
+                        case 34:
+                        case 39:
+                            return delimiter(34 === type || 39 === type ? type : character);
+                        case 40:
+                            41 === type && delimiter(type);
+                            break;
+                        case 92:
+                            next();
+                    }
+                    return position;
+                }(91 === type ? type + 2 : 40 === type ? type + 1 : type)));
             }
             function whitespace(type) {
                 for(; character = peek();)if (character < 33) next();
@@ -146,21 +160,6 @@
             function escaping(index, count) {
                 for(; --count && next() && !(character < 48) && !(character > 102) && (!(character > 57) || !(character < 65)) && (!(character > 70) || !(character < 97)););
                 return slice(index, position + (count < 6 && 32 == peek() && 32 == next()));
-            }
-            function delimiter(type) {
-                for(; next();)switch(character){
-                    case type:
-                        return position;
-                    case 34:
-                    case 39:
-                        return delimiter(34 === type || 39 === type ? type : character);
-                    case 40:
-                        41 === type && delimiter(type);
-                        break;
-                    case 92:
-                        next();
-                }
-                return position;
             }
             function commenter(type, index) {
                 for(; next();)if (type + character === 57) break;
@@ -481,7 +480,27 @@
                             }, next = next.next;
                             return interpolation.styles + ";";
                         }
-                        return createStringFromObject(mergedProps, registered, interpolation);
+                        return function(mergedProps, registered, obj) {
+                            var string = "";
+                            if (Array.isArray(obj)) for(var i = 0; i < obj.length; i++)string += handleInterpolation(mergedProps, registered, obj[i]) + ";";
+                            else for(var _key in obj){
+                                var value = obj[_key];
+                                if ("object" != typeof value) null != registered && void 0 !== registered[value] ? string += _key + "{" + registered[value] + "}" : isProcessableValue(value) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value) + ";");
+                                else if (Array.isArray(value) && "string" == typeof value[0] && (null == registered || void 0 === registered[value[0]])) for(var _i = 0; _i < value.length; _i++)isProcessableValue(value[_i]) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value[_i]) + ";");
+                                else {
+                                    var interpolated = handleInterpolation(mergedProps, registered, value);
+                                    switch(_key){
+                                        case "animation":
+                                        case "animationName":
+                                            string += processStyleName(_key) + ":" + interpolated + ";";
+                                            break;
+                                        default:
+                                            string += _key + "{" + interpolated + "}";
+                                    }
+                                }
+                            }
+                            return string;
+                        }(mergedProps, registered, interpolation);
                     case "function":
                         if (void 0 !== mergedProps) {
                             var previousCursor = cursor, result = interpolation(mergedProps);
@@ -491,27 +510,6 @@
                 if (null == registered) return interpolation;
                 var cached = registered[interpolation];
                 return void 0 !== cached ? cached : interpolation;
-            }
-            function createStringFromObject(mergedProps, registered, obj) {
-                var string = "";
-                if (Array.isArray(obj)) for(var i = 0; i < obj.length; i++)string += handleInterpolation(mergedProps, registered, obj[i]) + ";";
-                else for(var _key in obj){
-                    var value = obj[_key];
-                    if ("object" != typeof value) null != registered && void 0 !== registered[value] ? string += _key + "{" + registered[value] + "}" : isProcessableValue(value) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value) + ";");
-                    else if (Array.isArray(value) && "string" == typeof value[0] && (null == registered || void 0 === registered[value[0]])) for(var _i = 0; _i < value.length; _i++)isProcessableValue(value[_i]) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value[_i]) + ";");
-                    else {
-                        var interpolated = handleInterpolation(mergedProps, registered, value);
-                        switch(_key){
-                            case "animation":
-                            case "animationName":
-                                string += processStyleName(_key) + ":" + interpolated + ";";
-                                break;
-                            default:
-                                string += _key + "{" + interpolated + "}";
-                        }
-                    }
-                }
-                return string;
             }
             var labelPattern = /label:\s*([^\s;\n{]+)\s*(;|$)/g, emotion_serialize_browser_esm_serializeStyles = function(args, registered, mergedProps) {
                 if (1 === args.length && "object" == typeof args[0] && null !== args[0] && void 0 !== args[0].styles) return args[0];
@@ -895,7 +893,26 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = observe(el, function(isVisible) {
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = function(element, callback, options) {
+                        var ref = function(options) {
+                            var id = options.rootMargin || "", instance = observers.get(id);
+                            if (instance) return instance;
+                            var elements = new Map(), observer = new IntersectionObserver(function(entries) {
+                                entries.forEach(function(entry) {
+                                    var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+                                    callback && isVisible && callback(isVisible);
+                                });
+                            }, options);
+                            return observers.set(id, instance = {
+                                id: id,
+                                observer: observer,
+                                elements: elements
+                            }), instance;
+                        }(options), id = ref.id, observer = ref.observer, elements = ref.elements;
+                        return elements.set(element, callback), observer.observe(element), function() {
+                            elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
+                        };
+                    }(el, function(isVisible) {
                         return isVisible && setVisible(isVisible);
                     }, {
                         rootMargin: rootMargin
@@ -921,29 +938,7 @@
                     visible
                 ];
             };
-            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver;
-            function observe(element, callback, options) {
-                var ref = createObserver(options), id = ref.id, observer = ref.observer, elements = ref.elements;
-                return elements.set(element, callback), observer.observe(element), function() {
-                    elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
-                };
-            }
-            var observers = new Map();
-            function createObserver(options) {
-                var id = options.rootMargin || "", instance = observers.get(id);
-                if (instance) return instance;
-                var elements = new Map(), observer = new IntersectionObserver(function(entries) {
-                    entries.forEach(function(entry) {
-                        var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
-                        callback && isVisible && callback(isVisible);
-                    });
-                }, options);
-                return observers.set(id, instance = {
-                    id: id,
-                    observer: observer,
-                    elements: elements
-                }), instance;
-            }
+            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
         },
         9008: function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(5443);

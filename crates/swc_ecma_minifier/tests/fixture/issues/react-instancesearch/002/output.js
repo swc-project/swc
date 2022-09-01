@@ -16,7 +16,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 export default function createInstantSearchManager({ indexName , initialState ={} , searchClient , resultsState , stalledSearchDelay ,  }) {
-    var results;
+    var resultsState1, results;
     const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
     });
@@ -66,15 +66,80 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 };
             }
             if (Array.isArray(results.results)) {
-                hydrateSearchClientWithMultiIndexRequest(client, results.results);
+                !function(client, results) {
+                    if (client.transporter) {
+                        client.transporter.responsesCache.set({
+                            method: "search",
+                            args: [
+                                results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
+                                            indexName: request.index,
+                                            params: request.params
+                                        }))), []), 
+                            ]
+                        }, {
+                            results: results.reduce((acc, result)=>acc.concat(result.rawResults), [])
+                        });
+                        return;
+                    }
+                    const key = `/1/indexes/*/queries_body_${JSON.stringify({
+                        requests: results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
+                                    indexName: request.index,
+                                    params: request.params
+                                }))), [])
+                    })}`;
+                    client.cache = {
+                        ...client.cache,
+                        [key]: JSON.stringify({
+                            results: results.reduce((acc, result)=>acc.concat(result.rawResults), [])
+                        })
+                    };
+                }(client, results.results);
                 return;
             }
-            hydrateSearchClientWithSingleIndexRequest(client, results);
+            !function(client, results) {
+                if (client.transporter) {
+                    client.transporter.responsesCache.set({
+                        method: "search",
+                        args: [
+                            results.rawResults.map((request)=>({
+                                    indexName: request.index,
+                                    params: request.params
+                                })), 
+                        ]
+                    }, {
+                        results: results.rawResults
+                    });
+                    return;
+                }
+                const key = `/1/indexes/*/queries_body_${JSON.stringify({
+                    requests: results.rawResults.map((request)=>({
+                            indexName: request.index,
+                            params: request.params
+                        }))
+                })}`;
+                client.cache = {
+                    ...client.cache,
+                    [key]: JSON.stringify({
+                        results: results.rawResults
+                    })
+                };
+            }(client, results);
         }
     }(searchClient, resultsState);
     const store = createStore({
         widgets: initialState,
-        metadata: hydrateMetadata(resultsState),
+        metadata: (resultsState1 = resultsState) ? resultsState1.metadata.map((datum)=>({
+                value: ()=>({}),
+                ...datum,
+                items: datum.items && datum.items.map((item)=>({
+                        value: ()=>({}),
+                        ...item,
+                        items: item.items && item.items.map((nestedItem)=>({
+                                value: ()=>({}),
+                                ...nestedItem
+                            }))
+                    }))
+            })) : [],
         results: (results = resultsState) ? Array.isArray(results.results) ? results.results.reduce((acc, result)=>({
                 ...acc,
                 [result._internalIndexId]: new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)
@@ -155,62 +220,6 @@ export default function createInstantSearchManager({ indexName , initialState ={
             searching: !1
         });
     }
-    function hydrateSearchClientWithMultiIndexRequest(client, results) {
-        if (client.transporter) {
-            client.transporter.responsesCache.set({
-                method: "search",
-                args: [
-                    results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
-                                indexName: request.index,
-                                params: request.params
-                            }))), []), 
-                ]
-            }, {
-                results: results.reduce((acc, result)=>acc.concat(result.rawResults), [])
-            });
-            return;
-        }
-        const key = `/1/indexes/*/queries_body_${JSON.stringify({
-            requests: results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
-                        indexName: request.index,
-                        params: request.params
-                    }))), [])
-        })}`;
-        client.cache = {
-            ...client.cache,
-            [key]: JSON.stringify({
-                results: results.reduce((acc, result)=>acc.concat(result.rawResults), [])
-            })
-        };
-    }
-    function hydrateSearchClientWithSingleIndexRequest(client, results) {
-        if (client.transporter) {
-            client.transporter.responsesCache.set({
-                method: "search",
-                args: [
-                    results.rawResults.map((request)=>({
-                            indexName: request.index,
-                            params: request.params
-                        })), 
-                ]
-            }, {
-                results: results.rawResults
-            });
-            return;
-        }
-        const key = `/1/indexes/*/queries_body_${JSON.stringify({
-            requests: results.rawResults.map((request)=>({
-                    indexName: request.index,
-                    params: request.params
-                }))
-        })}`;
-        client.cache = {
-            ...client.cache,
-            [key]: JSON.stringify({
-                results: results.rawResults
-            })
-        };
-    }
     return {
         store,
         widgetsManager,
@@ -272,17 +281,3 @@ export default function createInstantSearchManager({ indexName , initialState ={
         }
     };
 };
-function hydrateMetadata(resultsState) {
-    return resultsState ? resultsState.metadata.map((datum)=>({
-            value: ()=>({}),
-            ...datum,
-            items: datum.items && datum.items.map((item)=>({
-                    value: ()=>({}),
-                    ...item,
-                    items: item.items && item.items.map((nestedItem)=>({
-                            value: ()=>({}),
-                            ...nestedItem
-                        }))
-                }))
-        })) : [];
-}

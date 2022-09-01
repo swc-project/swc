@@ -99,7 +99,7 @@ var ItemsList = function(_Component) {
     }(ItemsList, _Component);
     var Derived, Constructor, protoProps, staticProps, _super = (Derived = ItemsList, function() {
         var self, call, result, Super = _getPrototypeOf(Derived);
-        if (function _isNativeReflectConstruct() {
+        if (function() {
             if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {

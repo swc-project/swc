@@ -728,7 +728,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.50.0"
+version = "0.50.1"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3391,7 +3391,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.151.0"
+version = "0.151.1"
 dependencies = [
  "ahash",
  "ansi_term",

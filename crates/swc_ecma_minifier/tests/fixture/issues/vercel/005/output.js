@@ -48,24 +48,20 @@ export default function(value, options) {
                     throw Error(`The unit ${type} was matched, but no matching case exists.`);
             }
         }(value);
-        if ("number" == typeof value && isFinite(value)) return options?.long ? fmtLong(value) : fmtShort(value);
+        if ("number" == typeof value && isFinite(value)) return options?.long ? function(ms) {
+            const msAbs = Math.abs(ms);
+            return msAbs >= 86400000 ? plural(ms, msAbs, 86400000, "day") : msAbs >= 3600000 ? plural(ms, msAbs, 3600000, "hour") : msAbs >= 60000 ? plural(ms, msAbs, 60000, "minute") : msAbs >= 1000 ? plural(ms, msAbs, 1000, "second") : `${ms} ms`;
+        }(value) : function(ms) {
+            const msAbs = Math.abs(ms);
+            return msAbs >= 86400000 ? `${Math.round(ms / 86400000)}d` : msAbs >= 3600000 ? `${Math.round(ms / 3600000)}h` : msAbs >= 60000 ? `${Math.round(ms / 60000)}m` : msAbs >= 1000 ? `${Math.round(ms / 1000)}s` : `${ms}ms`;
+        }(value);
         throw Error("Value is not a string or number.");
     } catch (error) {
-        const message = isError(error) ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.";
+        var error1;
+        const message = "object" == typeof (error1 = error) && null !== error1 && "message" in error1 ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.";
         throw Error(message);
     }
 };
-function fmtShort(ms) {
-    const msAbs = Math.abs(ms);
-    return msAbs >= 86400000 ? `${Math.round(ms / 86400000)}d` : msAbs >= 3600000 ? `${Math.round(ms / 3600000)}h` : msAbs >= 60000 ? `${Math.round(ms / 60000)}m` : msAbs >= 1000 ? `${Math.round(ms / 1000)}s` : `${ms}ms`;
-}
-function fmtLong(ms) {
-    const msAbs = Math.abs(ms);
-    return msAbs >= 86400000 ? plural(ms, msAbs, 86400000, "day") : msAbs >= 3600000 ? plural(ms, msAbs, 3600000, "hour") : msAbs >= 60000 ? plural(ms, msAbs, 60000, "minute") : msAbs >= 1000 ? plural(ms, msAbs, 1000, "second") : `${ms} ms`;
-}
 function plural(ms, msAbs, n, name) {
     return `${Math.round(ms / n)} ${name}${msAbs >= 1.5 * n ? "s" : ""}`;
-}
-function isError(error) {
-    return "object" == typeof error && null !== error && "message" in error;
 }
