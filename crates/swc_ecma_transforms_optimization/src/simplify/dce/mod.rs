@@ -8,7 +8,10 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{cpu_count, ParVisitMut, Parallel};
+use swc_ecma_transforms_base::{
+    helpers::{Helpers, HELPERS},
+    perf::{cpu_count, ParVisitMut, Parallel},
+};
 use swc_ecma_utils::{
     collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
 };
@@ -642,7 +645,9 @@ impl VisitMut for TreeShaker {
         }
         self.data = Arc::new(data);
 
-        m.visit_mut_children_with(self);
+        HELPERS.set(&Helpers::new(true), || {
+            m.visit_mut_children_with(self);
+        })
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -665,7 +670,9 @@ impl VisitMut for TreeShaker {
         }
         self.data = Arc::new(data);
 
-        m.visit_mut_children_with(self);
+        HELPERS.set(&Helpers::new(true), || {
+            m.visit_mut_children_with(self);
+        })
     }
 
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
