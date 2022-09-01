@@ -8,6 +8,7 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -303,6 +304,20 @@ impl Repeated for TreeShaker {
         self.pass += 1;
         self.changed = false;
         self.data = Default::default();
+    }
+}
+
+impl Parallel for TreeShaker {
+    fn create(&self) -> Self {
+        Self {
+            expr_ctx: self.expr_ctx.clone(),
+            data: self.data.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.changed |= other.changed;
     }
 }
 
