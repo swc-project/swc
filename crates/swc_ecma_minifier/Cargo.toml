@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_minifier"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.150.5"
+version       = "0.151.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -17,9 +17,11 @@ version       = "0.150.5"
 bench = false
 
 [features]
+# This enables global concurrent mode
 concurrent = [
   "swc_common/concurrent",
   "swc_ecma_transforms_base/concurrent-renamer",
+  "swc_ecma_transforms_optimization/concurrent",
   "rayon",
   "indexmap/rayon",
 ]
@@ -46,12 +48,12 @@ swc_atoms                        = { version = "0.4.5", path = "../swc_atoms" }
 swc_cached                       = { version = "0.3.5", path = "../swc_cached" }
 swc_common                       = { version = "0.27.13", path = "../swc_common" }
 swc_config                       = { version = "0.1.0", path = "../swc_config" }
-swc_ecma_ast                     = { version = "0.90.12", path = "../swc_ecma_ast" }
+swc_ecma_ast                     = { version = "0.90.15", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { version = "0.123.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser                  = { version = "0.118.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base         = { version = "0.105.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.158.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils                   = { version = "0.100.2", path = "../swc_ecma_utils" }
+swc_ecma_transforms_base         = { version = "0.106.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "0.159.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_utils                   = { version = "0.101.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "0.76.6", path = "../swc_ecma_visit" }
 swc_timer                        = { version = "0.15.4", path = "../swc_timer" }
 tracing                          = "0.1.32"

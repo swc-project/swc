@@ -69,7 +69,7 @@ where
     where
         N: Send + Sync + VisitWith<Self>,
     {
-        if nodes.len() >= threshold {
+        if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
             GLOBALS.with(|globals| {
                 HELPERS.with(|helpers| {
                     HANDLER.with(|handler| {
@@ -127,7 +127,7 @@ where
     where
         N: Send + Sync + VisitMutWith<Self>,
     {
-        if nodes.len() >= threshold {
+        if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
             GLOBALS.with(|globals| {
                 HELPERS.with(|helpers| {
                     HANDLER.with(|handler| {
@@ -185,7 +185,7 @@ where
     where
         N: Send + Sync + FoldWith<Self>,
     {
-        if nodes.len() >= threshold {
+        if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
             use rayon::prelude::*;
 
             let (visitor, nodes) = GLOBALS.with(|globals| {

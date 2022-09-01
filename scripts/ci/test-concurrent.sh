@@ -14,5 +14,5 @@ if [[ "swc" == "$1" ]]; then
 fi
 
 if [[ $CRATES == *"$1"* ]]; then
-    cargo test --color always -p $1 --features "$1/concurrent"
+    cargo test --color always -p $1 --all-targets --features "$1/concurrent"
 fi

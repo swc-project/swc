@@ -16,8 +16,14 @@
 
 - **(es/typescript)** Mark a namespace as concrete only if it is (#5670) ([4babf4a](https://github.com/swc-project/swc/commit/4babf4a2c0467926410bdcb45860a53f3ec59128))
 
+
+- **(swc_core)** Bump versions (#5706) ([7686fae](https://github.com/swc-project/swc/commit/7686faece583b06750453b5ed5027344ee9f48d0))
+
 ### Features
 
+
+
+- **(bindings)** Reduce size (#5708) ([b7da692](https://github.com/swc-project/swc/commit/b7da69258016bb2ecbeec0db7a94b1a84d0cb2f0))
 
 
 - **(dbg-swc)** Improve minifier comparator (#5681) ([6febfe9](https://github.com/swc-project/swc/commit/6febfe900c53010f6f0fcac87385d8e6786b369e))
@@ -33,6 +39,12 @@
 
 
 - **(es/minifier)** Remove useless ES version check (#5703) ([5e2b6d5](https://github.com/swc-project/swc/commit/5e2b6d5551944c70566392fa777551b81f1a8b83))
+
+### Performance
+
+
+
+- **(es/minifier)** Enable parallel processing (#5705) ([1085667](https://github.com/swc-project/swc/commit/1085667049b49b05f0c16eb93dfdf980afb75b86))
 
 ### Testing
 

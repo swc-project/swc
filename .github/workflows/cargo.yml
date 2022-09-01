@@ -440,14 +440,18 @@ jobs:
       - name: Run cargo test (concurrent)
         if: runner.os == 'Linux' && matrix.settings.crate != 'swc_ecma_minifier'
         shell: bash
+        env:
+          SWC_FORCE_CONCURRENT: "1"
         run: |
           ./scripts/ci/test-concurrent.sh ${{ matrix.settings.crate }}
 
       - name: Run cargo test (swc, concurrent)
         shell: bash
         if: matrix.settings.crate == 'swc' && runner.os == 'Linux'
+        env:
+          SWC_FORCE_CONCURRENT: "1"
         run: |
-          cargo test --color always -p swc --features concurrent
+          cargo test --color always -p swc --all-targets --features concurrent
 
       - name: Install cargo-hack
         uses: baptiste0928/cargo-install@v1.1.0

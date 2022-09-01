@@ -32,7 +32,7 @@ members = [
 
 [profile.bench]
 debug = true
-lto   = true
+lto = true
 
 # Without this, printing diff consumes more than a minute.
 
