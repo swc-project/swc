@@ -16,8 +16,11 @@ use anyhow::Error;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, util::take::Take, EqIgnoreSpan,
-    FileName, Mark, SourceMap, Spanned,
+    comments::SingleThreadedComments,
+    errors::{Handler, HANDLER},
+    sync::Lrc,
+    util::take::Take,
+    EqIgnoreSpan, FileName, Mark, SourceMap, Spanned,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
@@ -140,120 +143,118 @@ fn run(
     mangle: Option<TestMangleOptions>,
     skip_hygiene: bool,
 ) -> Option<Module> {
-    let _ = rayon::ThreadPoolBuilder::new()
-        .thread_name(|i| format!("rayon-{}", i + 1))
-        .build_global();
+    HANDLER.set(handler, || {
+        let disable_hygiene = mangle.is_some() || skip_hygiene;
 
-    let disable_hygiene = mangle.is_some() || skip_hygiene;
+        let (_module, config) = parse_compressor_config(cm.clone(), config);
 
-    let (_module, config) = parse_compressor_config(cm.clone(), config);
+        let fm = cm.load_file(input).expect("failed to load input.js");
+        let comments = SingleThreadedComments::default();
 
-    let fm = cm.load_file(input).expect("failed to load input.js");
-    let comments = SingleThreadedComments::default();
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
-    eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
-
-    if env::var("SWC_RUN").unwrap_or_default() == "1" {
-        let stdout = stdout_of(&fm.src);
-        match stdout {
-            Ok(stdout) => {
-                eprintln!(
-                    "---- {} -----\n{}",
-                    Color::Green.paint("Stdout (expected)"),
-                    stdout
-                );
-            }
-            Err(err) => {
-                eprintln!(
-                    "---- {} -----\n{:?}",
-                    Color::Green.paint("Error (of original source code)"),
-                    err
-                );
+        if env::var("SWC_RUN").unwrap_or_default() == "1" {
+            let stdout = stdout_of(&fm.src);
+            match stdout {
+                Ok(stdout) => {
+                    eprintln!(
+                        "---- {} -----\n{}",
+                        Color::Green.paint("Stdout (expected)"),
+                        stdout
+                    );
+                }
+                Err(err) => {
+                    eprintln!(
+                        "---- {} -----\n{:?}",
+                        Color::Green.paint("Error (of original source code)"),
+                        err
+                    );
+                }
             }
         }
-    }
 
-    let unresolved_mark = Mark::new();
-    let top_level_mark = Mark::new();
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
-    let minification_start = Instant::now();
+        let minification_start = Instant::now();
 
-    let lexer = Lexer::new(
-        Syntax::Es(EsConfig {
-            jsx: true,
-            ..Default::default()
-        }),
-        Default::default(),
-        SourceFileInput::from(&*fm),
-        Some(&comments),
-    );
-
-    let mut parser = Parser::new_from(lexer);
-    let program = parser
-        .parse_module()
-        .map_err(|err| {
-            err.into_diagnostic(handler).emit();
-        })
-        .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
-
-    // Ignore parser errors.
-    //
-    // This is typically related to strict mode caused by module context.
-    let program = match program {
-        Ok(v) => v,
-        _ => return None,
-    };
-
-    let optimization_start = Instant::now();
-    let mut output = optimize(
-        program.into(),
-        cm,
-        Some(&comments),
-        None,
-        &MinifyOptions {
-            compress: Some(config),
-            mangle: mangle.and_then(|v| match v {
-                TestMangleOptions::Bool(v) => {
-                    if v {
-                        Some(MangleOptions {
-                            top_level: false,
-                            ..Default::default()
-                        })
-                    } else {
-                        None
-                    }
-                }
-                TestMangleOptions::Normal(v) => Some(v),
+        let lexer = Lexer::new(
+            Syntax::Es(EsConfig {
+                jsx: true,
+                ..Default::default()
             }),
-            ..Default::default()
-        },
-        &ExtraOptions {
-            unresolved_mark,
-            top_level_mark,
-        },
-    )
-    .expect_module();
-    let end = Instant::now();
-    tracing::info!(
-        "optimize({}) took {:?}",
-        input.display(),
-        end - optimization_start
-    );
+            Default::default(),
+            SourceFileInput::from(&*fm),
+            Some(&comments),
+        );
 
-    if !disable_hygiene {
-        output.visit_mut_with(&mut hygiene())
-    }
+        let mut parser = Parser::new_from(lexer);
+        let program = parser
+            .parse_module()
+            .map_err(|err| {
+                err.into_diagnostic(handler).emit();
+            })
+            .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
 
-    let output = output.fold_with(&mut fixer(None));
+        // Ignore parser errors.
+        //
+        // This is typically related to strict mode caused by module context.
+        let program = match program {
+            Ok(v) => v,
+            _ => return None,
+        };
 
-    let end = Instant::now();
-    tracing::info!(
-        "process({}) took {:?}",
-        input.display(),
-        end - minification_start
-    );
+        let optimization_start = Instant::now();
+        let mut output = optimize(
+            program.into(),
+            cm,
+            Some(&comments),
+            None,
+            &MinifyOptions {
+                compress: Some(config),
+                mangle: mangle.and_then(|v| match v {
+                    TestMangleOptions::Bool(v) => {
+                        if v {
+                            Some(MangleOptions {
+                                top_level: false,
+                                ..Default::default()
+                            })
+                        } else {
+                            None
+                        }
+                    }
+                    TestMangleOptions::Normal(v) => Some(v),
+                }),
+                ..Default::default()
+            },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+            },
+        )
+        .expect_module();
+        let end = Instant::now();
+        tracing::info!(
+            "optimize({}) took {:?}",
+            input.display(),
+            end - optimization_start
+        );
 
-    Some(output)
+        if !disable_hygiene {
+            output.visit_mut_with(&mut hygiene())
+        }
+
+        let output = output.fold_with(&mut fixer(None));
+
+        let end = Instant::now();
+        tracing::info!(
+            "process({}) took {:?}",
+            input.display(),
+            end - minification_start
+        );
+
+        Some(output)
+    })
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {
