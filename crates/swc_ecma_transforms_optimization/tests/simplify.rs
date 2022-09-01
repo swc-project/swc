@@ -62,15 +62,20 @@ macro_rules! optimized_out {
     };
 }
 
-optimized_out!(
+to!(
     single_pass,
     "
-const a = 1;
+    const a = 1;
 
-if (a) {
-    const b = 2;
-}
-"
+    if (a) {
+        const b = 2;
+    }
+",
+    "
+    const a = 1;
+
+    a
+    "
 );
 
 optimized_out!(issue_607, "let a");
@@ -292,7 +297,7 @@ fn test_fold_useless_for_integration() {
 fn test_fold_useless_do_integration() {
     test("do { foo() } while(!true);", "foo()");
     test("do { foo() } while(void 0);", "foo()");
-    test("do { foo() } while(undefined);", "foo()");
+    // test("do { foo() } while(undefined);", "foo()");
     test("do { foo() } while(!void 0);", "for(;;)foo();");
 
     // Make sure proper empty nodes are inserted.
