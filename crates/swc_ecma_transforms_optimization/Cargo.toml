@@ -14,8 +14,12 @@ version       = "0.158.0"
 bench = false
 
 [features]
-concurrent = ["swc_common/concurrent", "rayon"]
-debug      = []
+concurrent = [
+  "swc_common/concurrent",
+  "swc_ecma_transforms_base/concurrent",
+  "rayon",
+]
+debug = []
 
 [dependencies]
 ahash                      = "0.7.4"

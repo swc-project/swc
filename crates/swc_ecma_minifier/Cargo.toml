@@ -17,9 +17,11 @@ version       = "0.150.5"
 bench = false
 
 [features]
+# This enables global concurrent mode
 concurrent = [
   "swc_common/concurrent",
   "swc_ecma_transforms_base/concurrent-renamer",
+  "swc_ecma_transforms_optimization/concurrent",
   "rayon",
   "indexmap/rayon",
 ]

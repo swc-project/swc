@@ -6,7 +6,10 @@ use ansi_term::Color;
 use anyhow::Error;
 use serde::Deserialize;
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap,
+    comments::SingleThreadedComments,
+    errors::{Handler, HANDLER},
+    sync::Lrc,
+    FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::Module;
 use swc_ecma_codegen::{
@@ -174,27 +177,29 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
     );
 
     testing::run_test2(false, |cm, handler| {
-        let _tracing = span!(Level::ERROR, "compress-only").entered();
+        HANDLER.set(&handler, || {
+            let _tracing = span!(Level::ERROR, "compress-only").entered();
 
-        let output = run(cm.clone(), &handler, input_src, Some(config), None);
-        let output = output.expect("Parsing in base test should not fail");
-        let output = print(cm, &[output], false, false);
+            let output = run(cm.clone(), &handler, input_src, Some(config), None);
+            let output = output.expect("Parsing in base test should not fail");
+            let output = print(cm, &[output], false, false);
 
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Optimized code"),
-            output
-        );
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("Optimized code"),
+                output
+            );
 
-        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
-        assert_ne!(actual_output, "");
+            let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+            assert_ne!(actual_output, "");
 
-        assert_eq!(
-            DebugUsingDisplay(&actual_output),
-            DebugUsingDisplay(&expected_output)
-        );
+            assert_eq!(
+                DebugUsingDisplay(&actual_output),
+                DebugUsingDisplay(&expected_output)
+            );
 
-        Ok(())
+            Ok(())
+        })
     })
     .unwrap();
 

@@ -9,7 +9,7 @@ use anyhow::Error;
 use ntest::timeout;
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleRecord};
-use swc_common::{collections::AHashSet, FileName, Mark, Span, GLOBALS};
+use swc_common::{collections::AHashSet, errors::HANDLER, FileName, Mark, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
@@ -1020,83 +1020,85 @@ fn run(url: &str, exports: &[&str]) {
 }
 
 fn bundle(url: &str, minify: bool) -> String {
-    testing::run_test2(false, |cm, _handler| {
+    testing::run_test2(false, |cm, handler| {
         GLOBALS.with(|globals| {
-            let mut bundler = Bundler::new(
-                globals,
-                cm.clone(),
-                Loader { cm: cm.clone() },
-                NodeResolver,
-                swc_bundler::Config {
-                    require: false,
-                    disable_inliner: false,
-                    ..Default::default()
-                },
-                Box::new(Hook),
-            );
-            let mut entries = HashMap::new();
-            entries.insert(
-                "main".to_string(),
-                if url.starts_with("http") {
-                    FileName::Custom(url.to_string())
-                } else {
-                    FileName::Real(url.to_string().into())
-                },
-            );
-            let output = bundler.bundle(entries).unwrap();
-            let mut module = output.into_iter().next().unwrap().module;
-
-            if minify {
-                let unresolved_mark = Mark::new();
-                let top_level_mark = Mark::new();
-
-                module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
-
-                module = swc_ecma_minifier::optimize(
-                    module.into(),
+            HANDLER.set(&handler, || {
+                let mut bundler = Bundler::new(
+                    globals,
                     cm.clone(),
-                    None,
-                    None,
-                    &swc_ecma_minifier::option::MinifyOptions {
-                        compress: Some(Default::default()),
-                        mangle: Some(MangleOptions {
-                            top_level: true,
-                            ..Default::default()
-                        }),
+                    Loader { cm: cm.clone() },
+                    NodeResolver,
+                    swc_bundler::Config {
+                        require: false,
+                        disable_inliner: false,
                         ..Default::default()
                     },
-                    &swc_ecma_minifier::option::ExtraOptions {
-                        unresolved_mark,
-                        top_level_mark,
+                    Box::new(Hook),
+                );
+                let mut entries = HashMap::new();
+                entries.insert(
+                    "main".to_string(),
+                    if url.starts_with("http") {
+                        FileName::Custom(url.to_string())
+                    } else {
+                        FileName::Real(url.to_string().into())
                     },
-                )
-                .expect_module();
-                module.visit_mut_with(&mut fixer(None));
-            }
-
-            let mut buf = vec![];
-            {
-                let mut wr: Box<dyn WriteJs> =
-                    Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
+                );
+                let output = bundler.bundle(entries).unwrap();
+                let mut module = output.into_iter().next().unwrap().module;
 
                 if minify {
-                    wr = Box::new(omit_trailing_semi(wr));
+                    let unresolved_mark = Mark::new();
+                    let top_level_mark = Mark::new();
+
+                    module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+                    module = swc_ecma_minifier::optimize(
+                        module.into(),
+                        cm.clone(),
+                        None,
+                        None,
+                        &swc_ecma_minifier::option::MinifyOptions {
+                            compress: Some(Default::default()),
+                            mangle: Some(MangleOptions {
+                                top_level: true,
+                                ..Default::default()
+                            }),
+                            ..Default::default()
+                        },
+                        &swc_ecma_minifier::option::ExtraOptions {
+                            unresolved_mark,
+                            top_level_mark,
+                        },
+                    )
+                    .expect_module();
+                    module.visit_mut_with(&mut fixer(None));
                 }
 
-                Emitter {
-                    cfg: swc_ecma_codegen::Config {
-                        minify,
-                        ..Default::default()
-                    },
-                    cm: cm.clone(),
-                    comments: None,
-                    wr,
-                }
-                .emit_module(&module)
-                .unwrap();
-            }
+                let mut buf = vec![];
+                {
+                    let mut wr: Box<dyn WriteJs> =
+                        Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
 
-            Ok(String::from_utf8_lossy(&buf).to_string())
+                    if minify {
+                        wr = Box::new(omit_trailing_semi(wr));
+                    }
+
+                    Emitter {
+                        cfg: swc_ecma_codegen::Config {
+                            minify,
+                            ..Default::default()
+                        },
+                        cm: cm.clone(),
+                        comments: None,
+                        wr,
+                    }
+                    .emit_module(&module)
+                    .unwrap();
+                }
+
+                Ok(String::from_utf8_lossy(&buf).to_string())
+            })
         })
     })
     .unwrap()

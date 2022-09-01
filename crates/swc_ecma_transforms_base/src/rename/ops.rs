@@ -359,58 +359,43 @@ impl<'a> VisitMut for Operator<'a> {
 
         #[cfg(feature = "concurrent")]
         if nodes.len() >= 64 * cpu_count() {
-            use swc_common::errors::HANDLER;
-
-            use crate::helpers::HELPERS;
-
             ::swc_common::GLOBALS.with(|globals| {
-                HELPERS.with(|helpers| {
-                    HANDLER.with(|handler| {
-                        use rayon::prelude::*;
+                use rayon::prelude::*;
 
-                        let (visitor, new_nodes) = take(nodes)
-                            .into_par_iter()
-                            .map(|mut node| {
-                                ::swc_common::GLOBALS.set(globals, || {
-                                    HELPERS.set(helpers, || {
-                                        HANDLER.set(handler, || {
-                                            let mut visitor = Parallel::create(&*self);
-                                            node.visit_mut_with(&mut visitor);
+                let (visitor, new_nodes) = take(nodes)
+                    .into_par_iter()
+                    .map(|mut node| {
+                        ::swc_common::GLOBALS.set(globals, || {
+                            let mut visitor = Parallel::create(&*self);
+                            node.visit_mut_with(&mut visitor);
 
-                                            let mut nodes = Vec::with_capacity(4);
+                            let mut nodes = Vec::with_capacity(4);
 
-                                            ParExplode::after_one_module_item(
-                                                &mut visitor,
-                                                &mut nodes,
-                                            );
+                            ParExplode::after_one_module_item(&mut visitor, &mut nodes);
 
-                                            nodes.push(node);
+                            nodes.push(node);
 
-                                            (visitor, nodes)
-                                        })
-                                    })
-                                })
-                            })
-                            .reduce(
-                                || (Parallel::create(&*self), vec![]),
-                                |mut a, b| {
-                                    Parallel::merge(&mut a.0, b.0);
-
-                                    a.1.extend(b.1);
-
-                                    a
-                                },
-                            );
-
-                        Parallel::merge(self, visitor);
-
-                        {
-                            self.after_module_items(nodes);
-                        }
-
-                        *nodes = new_nodes;
+                            (visitor, nodes)
+                        })
                     })
-                })
+                    .reduce(
+                        || (Parallel::create(&*self), vec![]),
+                        |mut a, b| {
+                            Parallel::merge(&mut a.0, b.0);
+
+                            a.1.extend(b.1);
+
+                            a
+                        },
+                    );
+
+                Parallel::merge(self, visitor);
+
+                {
+                    self.after_module_items(nodes);
+                }
+
+                *nodes = new_nodes;
             });
 
             return;
