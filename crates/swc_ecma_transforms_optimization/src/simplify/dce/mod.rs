@@ -658,4 +658,8 @@ impl VisitMut for TreeShaker {
             true
         });
     }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
 }
