@@ -31,7 +31,8 @@ pub fn dce(
         changed: false,
         pass: 0,
         data: Default::default(),
-        top_level: true,
+        in_block_stmt: false,
+        in_fn: false,
     })
 }
 
@@ -55,7 +56,8 @@ struct TreeShaker {
     changed: bool,
     pass: u16,
 
-    top_level: bool,
+    in_fn: bool,
+    in_block_stmt: bool,
 
     data: Arc<Data>,
 }
@@ -396,13 +398,32 @@ impl TreeShaker {
         });
     }
 
-    fn can_drop_binding(&self, name: Id) -> bool {
-        (!self.top_level || self.config.top_level) && !self.data.used_names.contains_key(&name)
+    fn can_drop_binding(&self, name: Id, is_var: bool) -> bool {
+        if !self.config.top_level {
+            if is_var {
+                if !self.in_fn {
+                    return false;
+                }
+            } else if !self.in_block_stmt {
+                return false;
+            }
+        }
+
+        !self.data.used_names.contains_key(&name)
     }
 
-    fn can_drop_assignment_to(&self, name: Id) -> bool {
-        (!self.top_level || self.config.top_level)
-            && self.data.bindings.contains(&name)
+    fn can_drop_assignment_to(&self, name: Id, is_var: bool) -> bool {
+        if !self.config.top_level {
+            if is_var {
+                if !self.in_fn {
+                    return false;
+                }
+            } else if !self.in_block_stmt {
+                return false;
+            }
+        }
+
+        self.data.bindings.contains(&name)
             && self
                 .data
                 .used_names
