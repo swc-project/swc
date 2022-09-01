@@ -82,7 +82,8 @@ common = ["__common"]
 common_concurrent = ["__common", "swc_common/concurrent"]
 
 # Enable swc_ecma_visit
-visit = ["swc_ecma_visit"]
+visit      = ["__visit"]
+visit_path = ["__visit", "swc_ecma_visit/path"]
 
 # Enable `quote!` macro support.
 quote = [
@@ -258,6 +259,7 @@ __parser            = ["swc_ecma_parser"]
 __testing_transform = ["swc_ecma_transforms_testing"]
 __transforms        = ["swc_ecma_transforms"]
 __utils             = ["swc_ecma_utils"]
+__visit             = ["swc_ecma_visit"]
 
 [dependencies]
 # 3rd party dependencies
