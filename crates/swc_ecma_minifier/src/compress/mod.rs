@@ -247,7 +247,7 @@ where
             }
         }
 
-        self.pass = 0;
+        self.pass = 1;
         // let last_mark = n.remove_mark();
         // assert!(
         //     N::is_module() || last_mark == self.marks.standalone,
