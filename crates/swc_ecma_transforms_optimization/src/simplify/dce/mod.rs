@@ -417,6 +417,10 @@ impl TreeShaker {
             }
         }
 
+        if self.config.top_retain.contains(&name.0) {
+            return false;
+        }
+
         !self.data.used_names.contains_key(&name)
     }
 
@@ -429,6 +433,10 @@ impl TreeShaker {
             } else if !self.in_block_stmt {
                 return false;
             }
+        }
+
+        if self.config.top_retain.contains(&name.0) {
+            return false;
         }
 
         self.data.bindings.contains(&name)
