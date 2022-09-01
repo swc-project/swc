@@ -729,6 +729,13 @@ impl VisitMut for TreeShaker {
         n.obj.visit_mut_with(self);
     }
 
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if matches!(n.op, op!("delete")) {
+            return;
+        }
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
         self.visit_mut_par(cpu_count() * 8, n);
     }
