@@ -376,6 +376,14 @@ impl TreeShaker {
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
         Vec<T>: VisitMutWith<Self>,
     {
+        if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first().and_then(|s| s.as_stmt()) {
+            if let Expr::Lit(Lit::Str(v)) = &**expr {
+                if &*v.value == "use asm" {
+                    return;
+                }
+            }
+        }
+
         self.visit_mut_par(cpu_count() * 8, stmts);
 
         stmts.retain(|s| match s.as_stmt() {
