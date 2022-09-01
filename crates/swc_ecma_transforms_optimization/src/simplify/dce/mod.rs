@@ -1,6 +1,6 @@
 use std::{borrow::Cow, sync::Arc};
 
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     pass::{CompilerPass, Repeated},
@@ -39,7 +39,7 @@ pub fn dce(
     })
 }
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, Hash)]
 pub struct Config {
     /// If this [Mark] is applied to a function expression, it's treated as a
     /// separate module.
@@ -50,6 +50,9 @@ pub struct Config {
 
     /// If true, top-level items will be removed if they are not used.
     pub top_level: bool,
+
+    /// Declarations with a symbol in this set will be preserved.
+    pub top_retain: Vec<JsWord>,
 }
 
 struct TreeShaker {
