@@ -2,5 +2,5 @@
 var M;
 !function(M) {
     var Symbol;
-    M.Symbol = Symbol;
+    Symbol.iterator, M.Symbol = Symbol;
 }(M || (M = {}));

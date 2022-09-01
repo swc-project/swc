@@ -7,6 +7,23 @@ Baz || (Baz = {});
 export default class {
 };
 //// [locals.ts]
+super.w(), (()=>{
+    var { Reflect  } = {
+        Reflect: null
+    };
+    super.w();
+})(), (()=>{
+    var [Reflect] = [
+        null
+    ];
+    super.w();
+})(), super.w(), super.w(), (()=>{
+    let Reflect;
+    Reflect || (Reflect = {}), super.w();
+})(), (()=>{
+    let Reflect;
+    Reflect || (Reflect = {}), super.w();
+})(), super.w(), super.w(), super.w(), super.w();
 export { };
 //// [varInContainingScopeStaticField1.ts]
 export { };
