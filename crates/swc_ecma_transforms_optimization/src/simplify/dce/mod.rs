@@ -31,7 +31,7 @@ pub fn dce(
         changed: false,
         pass: 0,
         data: Default::default(),
-        top_level: false,
+        top_level: true,
     })
 }
 
