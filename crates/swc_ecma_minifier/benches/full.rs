@@ -105,46 +105,6 @@ fn run(src: &str) {
             black_box(code);
             Ok(())
         })
-        .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)))
-        .unwrap();
-
-        let output = optimize(
-            program.into(),
-            cm.clone(),
-            None,
-            None,
-            &MinifyOptions {
-                rename: false,
-                compress: Some(CompressOptions {
-                    ..Default::default()
-                }),
-                mangle: Some(MangleOptions {
-                    props: None,
-                    top_level: true,
-                    keep_class_names: false,
-                    keep_fn_names: false,
-                    keep_private_props: false,
-                    ie8: false,
-                    safari10: false,
-                    reserved: Default::default(),
-                }),
-                wrap: false,
-                enclose: false,
-            },
-            &ExtraOptions {
-                unresolved_mark,
-                top_level_mark,
-            },
-        )
-        .expect_module();
-
-        let output = output.fold_with(&mut fixer(None));
-
-        let code = print(cm, &[output], true);
-
-        println!("{} bytes", code.len());
-        black_box(code);
-        Ok(())
     })
     .unwrap();
 }
