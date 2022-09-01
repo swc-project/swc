@@ -16,6 +16,9 @@
 
 - **(es/typescript)** Mark a namespace as concrete only if it is (#5670) ([4babf4a](https://github.com/swc-project/swc/commit/4babf4a2c0467926410bdcb45860a53f3ec59128))
 
+
+- **(swc_core)** Bump versions (#5706) ([7686fae](https://github.com/swc-project/swc/commit/7686faece583b06750453b5ed5027344ee9f48d0))
+
 ### Features
 
 
