@@ -656,25 +656,10 @@ impl VisitMut for TreeShaker {
             }
         }
 
-        match s {
-            Stmt::Expr(es) => {
-                if match &*es.expr {
-                    Expr::Lit(Lit::Str(..)) => false,
-                    _ => !es.expr.may_have_side_effects(&self.expr_ctx),
-                } {
-                    debug!("Dropping an expression without side effect");
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    self.changed = true;
-                }
+        if let Stmt::Decl(Decl::Var(v)) = s {
+            if v.decls.is_empty() {
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
             }
-
-            Stmt::Decl(Decl::Var(v)) => {
-                if v.decls.is_empty() {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                }
-            }
-
-            _ => {}
         }
     }
 
