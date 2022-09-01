@@ -1,8 +1,8 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
 // Quote
-#[cfg(feature = "quote")]
-#[cfg_attr(docsrs, doc(cfg(feature = "quote")))]
+#[cfg(feature = "ecma_quote")]
+#[cfg_attr(docsrs, doc(cfg(feature = "ecma_quote")))]
 pub mod quote;
 
 /// Not a public interface.
@@ -16,26 +16,91 @@ pub extern crate swc_ecma_quote_macros;
 #[cfg_attr(docsrs, doc(cfg(feature = "__plugin_transform")))]
 pub mod plugin;
 
-// ast exposed via swc_ecma_ast
-#[cfg(feature = "ast")]
-#[cfg_attr(docsrs, doc(cfg(feature = "ast")))]
-pub mod ast {
-    pub use swc_ecma_ast::*;
-}
+#[cfg(feature = "__ecma")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__ecma")))]
+pub mod ecma {
+    #[cfg(feature = "ecma_ast")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "ecma_ast")))]
+    pub mod ast {
+        pub use swc_ecma_ast::*;
+    }
+    #[cfg(feature = "ecma_ast")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "ecma_ast")))]
+    pub mod atoms {
+        pub use swc_atoms::*;
+    }
+    // swc_ecma_transforms
+    #[cfg(any(feature = "__ecma_transforms", feature = "__testing_transform"))]
+    #[cfg_attr(
+        docsrs,
+        doc(cfg(any(feature = "__ecma_transforms", feature = "__testing_transform")))
+    )]
+    pub mod transforms {
+        pub use swc_ecma_transforms::*;
+        #[cfg(feature = "transforms_optimization")]
+        #[cfg_attr(docsrs, doc(cfg(feature = "transforms_optimization")))]
+        pub mod optimization {
+            pub use swc_ecma_transforms_optimization::*;
+        }
+        #[cfg(feature = "transforms_react")]
+        #[cfg_attr(docsrs, doc(cfg(feature = "transforms_react")))]
+        pub mod react {
+            pub use swc_ecma_transforms_react::*;
+        }
+        #[cfg(feature = "transforms_typescript")]
+        #[cfg_attr(docsrs, doc(cfg(feature = "transforms_typescript")))]
+        pub mod typescript {
+            pub use swc_ecma_transforms_typescript::*;
+        }
+        #[cfg(feature = "transforms_module")]
+        #[cfg_attr(docsrs, doc(cfg(feature = "transforms_module")))]
+        pub mod module {
+            pub use swc_ecma_transforms_module::*;
+        }
+        #[cfg(feature = "__testing_transform")]
+        #[cfg_attr(docsrs, doc(cfg(feature = "__testing_transform")))]
+        pub mod testing {
+            pub use swc_ecma_transforms_testing::*;
+        }
+    }
 
-// TODO: Can dependency tree simplified
-// by swc_ecma_ast reexports swc_atoms?
-#[cfg(feature = "ast")]
-#[cfg_attr(docsrs, doc(cfg(feature = "ast")))]
-pub mod atoms {
-    pub use swc_atoms::*;
-}
+    // swc_ecma_loader
+    #[cfg(feature = "__ecma_loader")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "__ecma_loader")))]
+    pub mod loader {
+        pub use swc_ecma_loader::*;
+    }
 
-// visit* interfaces
-#[cfg(feature = "__visit")]
-#[cfg_attr(docsrs, doc(cfg(feature = "__visit")))]
-pub mod visit {
-    pub use swc_ecma_visit::*;
+    #[cfg(feature = "__parser")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "__parser")))]
+    pub mod parser {
+        pub use swc_ecma_parser::*;
+    }
+
+    #[cfg(feature = "ecma_codegen")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "ecma_codegen")))]
+    pub mod codegen {
+        pub use swc_ecma_codegen::*;
+    }
+
+    #[cfg(feature = "ecma_minifier")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "ecma_minifier")))]
+    pub mod minifier {
+        pub use swc_ecma_minifier::*;
+    }
+
+    // visit* interfaces
+    #[cfg(feature = "__visit")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "__visit")))]
+    pub mod visit {
+        pub use swc_ecma_visit::*;
+    }
+
+    #[cfg(feature = "__utils")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "__utils")))]
+    pub mod utils {
+        pub use swc_ecma_utils::*;
+    }
 }
 
 // swc features
@@ -52,12 +117,6 @@ pub mod common {
     pub use swc_common::*;
 }
 
-#[cfg(feature = "__parser")]
-#[cfg_attr(docsrs, doc(cfg(feature = "__parser")))]
-pub mod parser {
-    pub use swc_ecma_parser::*;
-}
-
 // swc_plugin_runner
 #[cfg(feature = "__plugin_transform_host")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__plugin_transform_host")))]
@@ -70,33 +129,6 @@ pub mod plugin_runner {
 #[cfg_attr(docsrs, doc(cfg(feature = "trace_macro")))]
 pub mod trace_macro {
     pub use swc_trace_macro::*;
-}
-
-// swc_ecma_transforms
-#[cfg(feature = "__transforms")]
-#[cfg_attr(docsrs, doc(cfg(feature = "__transforms")))]
-pub mod transforms {
-    pub use swc_ecma_transforms::*;
-    #[cfg(feature = "transforms_optimization")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "transforms_optimization")))]
-    pub mod optimization {
-        pub use swc_ecma_transforms_optimization::*;
-    }
-    #[cfg(feature = "transforms_react")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "transforms_react")))]
-    pub mod react {
-        pub use swc_ecma_transforms_react::*;
-    }
-    #[cfg(feature = "transforms_typescript")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "transforms_typescript")))]
-    pub mod typescript {
-        pub use swc_ecma_transforms_typescript::*;
-    }
-    #[cfg(feature = "transforms_module")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "transforms_module")))]
-    pub mod module {
-        pub use swc_ecma_transforms_module::*;
-    }
 }
 
 // swc_bundler
@@ -115,25 +147,6 @@ pub mod bundler {
     }
 }
 
-// swc_ecma_loader
-#[cfg(feature = "__loader")]
-#[cfg_attr(docsrs, doc(cfg(feature = "__loader")))]
-pub mod loader {
-    pub use swc_ecma_loader::*;
-}
-
-#[cfg(feature = "__utils")]
-#[cfg_attr(docsrs, doc(cfg(feature = "__utils")))]
-pub mod utils {
-    pub use swc_ecma_utils::*;
-}
-
-#[cfg(feature = "__testing_transform")]
-#[cfg_attr(docsrs, doc(cfg(feature = "__testing_transform")))]
-pub mod testing_transform {
-    pub use swc_ecma_transforms_testing::*;
-}
-
 #[cfg(feature = "__binding_macros")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__binding_macros")))]
 pub mod binding_macros {
@@ -144,18 +157,6 @@ pub mod binding_macros {
 #[cfg_attr(docsrs, doc(cfg(feature = "base_node")))]
 pub mod node {
     pub use swc_nodejs_common::*;
-}
-
-#[cfg(feature = "codegen")]
-#[cfg_attr(docsrs, doc(cfg(feature = "codegen")))]
-pub mod codegen {
-    pub use swc_ecma_codegen::*;
-}
-
-#[cfg(feature = "minifier")]
-#[cfg_attr(docsrs, doc(cfg(feature = "minifier")))]
-pub mod minifier {
-    pub use swc_ecma_minifier::*;
 }
 
 #[cfg(feature = "__css")]

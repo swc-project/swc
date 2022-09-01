@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.19.1"
+version       = "0.20.0"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -14,13 +14,13 @@ version       = "0.19.1"
     "base",
     "base_node",
     "common",
-    "visit",
+    "ecma_visit",
     "quote",
     "utils",
-    "transforms",
+    "ecma_transforms",
     "bundler",
     "loader",
-    "ast",
+    "ecma_ast",
     "trace_macro",
     "plugin_transform",
   ]
@@ -41,11 +41,11 @@ doctest = false
 common_perf = ["swc_common/perf"]
 
 # swc_ecma_loader/cache*
-loader_lru         = ["swc_ecma_loader/lru"]
-loader_parking_lot = ["swc_ecma_loader/parking_lot"]
+ecma_loader_lru         = ["swc_ecma_loader/lru"]
+ecna_loader_parking_lot = ["swc_ecma_loader/parking_lot"]
 
 # swc_ecma_minifier/concurrent
-minifier_concurrent = ["swc_ecma_minifier/concurrent"]
+ecma_minifier_concurrent = ["swc_ecma_minifier/concurrent"]
 
 # swc_bundler/concurrent
 bundler_concurrent = ["swc_bundler/concurrent"]
@@ -82,26 +82,32 @@ common = ["__common"]
 common_concurrent = ["__common", "swc_common/concurrent"]
 
 # Enable swc_ecma_visit
-visit      = ["__visit"]
-visit_path = ["__visit", "swc_ecma_visit/path"]
+ecma_visit      = ["__visit"]
+ecma_visit_path = ["__visit", "swc_ecma_visit/path"]
 
 # Enable `quote!` macro support.
-quote = [
+ecma_quote = [
   # Dependent features
   "__common",
-  "ast",                   # Enable optional package
+  "ecma_ast",              # Enable optional package
   "swc_ecma_quote_macros",
 ]
 
 # Enable swc_ecma_utils
-utils = ["__utils", "__common"]
+ecma_utils = ["__utils", "__common"]
 
 # Enable swc_ecma_transforms base features
-transforms              = ["__transforms"]
-transforms_module       = ["__transforms", "swc_ecma_transforms_module"]
-transforms_optimization = ["__transforms", "swc_ecma_transforms_optimization"]
-transforms_react        = ["__transforms", "swc_ecma_transforms_react"]
-transforms_typescript   = ["__transforms", "swc_ecma_transforms_typescript"]
+ecma_transforms = ["__ecma_transforms"]
+ecma_transforms_module = ["__ecma_transforms", "swc_ecma_transforms_module"]
+ecma_transforms_optimization = [
+  "__ecma_transforms",
+  "swc_ecma_transforms_optimization",
+]
+ecma_transforms_react = ["__ecma_transforms", "swc_ecma_transforms_react"]
+ecma_transforms_typescript = [
+  "__ecma_transforms",
+  "swc_ecma_transforms_typescript",
+]
 
 # Enable swc_bundler
 bundler         = ["__bundler"]
@@ -109,29 +115,29 @@ bundler_node_v1 = ["__bundler", "swc_node_bundler/swc_v1"]
 bundler_node_v2 = ["__bundler", "swc_node_bundler/swc_v2"]
 
 # Enable swc_ecma_loader
-loader      = ["__loader"]
-loader_node = ["__loader", "swc_ecma_loader/node"]
-loader_tsc  = ["__loader", "swc_ecma_loader/tsc"]
+ecma_loader      = ["__ecma_loader"]
+ecma_loader_node = ["__ecma_loader", "swc_ecma_loader/node"]
+ecma_loader_tsc  = ["__ecma_loader", "swc_ecma_loader/tsc"]
 
 # Enable swc_ecma_transforms_testing
-testing_transform = ["__testing_transform"]
+testing_transform = ["__ecma", "__testing_transform"]
 
 # Enable swc_ecma_ast / swc_atoms support.
 # TODO: currently both are enabled at once, we may want to separate them.
-ast = ["swc_ecma_ast", "swc_atoms"]
+ecma_ast = ["__ecma", "swc_ecma_ast", "swc_atoms"]
 
 # Enable swc_ecma_parser support.
-parser            = ["__parser"]
-parser_typescript = ["__parser", "swc_ecma_parser/typescript"]
+ecma_parser            = ["__parser"]
+ecma_parser_typescript = ["__parser", "swc_ecma_parser/typescript"]
 
 # Enable swc_cached support
 cached = ["__cached"]
 
 # Enable swc_ecma_codegen
-codegen = ["swc_ecma_codegen"]
+ecma_codegen = ["__ecma", "swc_ecma_codegen"]
 
 # Enable swc_ecma_minifier
-minifier = ["swc_ecma_minifier"]
+ecma_minifier = ["__ecma", "swc_ecma_minifier"]
 
 # Enable swc_css
 css_ast        = ["__css", "swc_css_ast"]
@@ -205,9 +211,9 @@ __plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
 __plugin_transform = [
   # Dependent features
-  "visit",
+  "ecma_visit",
   "__common",
-  "ast",                          # Enable optional packages
+  "ecma_ast",                     # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
   "swc_atoms/rkyv-impl",
   "swc_common/plugin-mode",
@@ -249,18 +255,26 @@ __plugin_transform_schema_test = [
 ]
 
 ## Common
-__base              = ["swc"]
-__binding_macros    = ["common", "__base", "__transforms", "ast", "binding_macros"]
-__bundler           = ["swc_bundler"]
-__cached            = ["swc_cached"]
-__common            = ["swc_common"]
-__css               = []
-__loader            = ["swc_ecma_loader"]
-__parser            = ["swc_ecma_parser"]
-__testing_transform = ["swc_ecma_transforms_testing"]
-__transforms        = ["swc_ecma_transforms"]
-__utils             = ["swc_ecma_utils"]
-__visit             = ["swc_ecma_visit"]
+__base = ["swc"]
+__binding_macros = [
+  "__ecma",
+  "common",
+  "__base",
+  "__ecma_transforms",
+  "ecma_ast",
+  "binding_macros",
+]
+__bundler = ["swc_bundler"]
+__cached = ["swc_cached"]
+__common = ["swc_common"]
+__css = []
+__ecma = []
+__ecma_loader = ["__ecma", "swc_ecma_loader"]
+__ecma_transforms = ["__ecma", "swc_ecma_transforms"]
+__parser = ["__ecma", "swc_ecma_parser"]
+__testing_transform = ["__ecma", "swc_ecma_transforms_testing"]
+__utils = ["__ecma", "swc_ecma_utils"]
+__visit = ["__ecma", "swc_ecma_visit"]
 
 [dependencies]
 # 3rd party dependencies
