@@ -13,3 +13,6 @@ members = [
 
 # debug = true
 # opt-level = 'z'
+
+# Strip debug symbols
+strip = "symbols"
