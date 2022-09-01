@@ -2,14 +2,20 @@ use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2022::class_properties;
-use swc_ecma_transforms_optimization::simplify::dce::dce;
+use swc_ecma_transforms_optimization::simplify::dce::{dce, Config};
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
-    Repeat::new(dce(Default::default(), Mark::new()))
+    Repeat::new(dce(
+        Config {
+            top_level: true,
+            ..Default::default()
+        },
+        Mark::new(),
+    ))
 }
 
 macro_rules! to {
