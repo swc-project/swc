@@ -562,6 +562,30 @@ impl VisitMut for TreeShaker {
         m.visit_mut_children_with(self);
     }
 
+    fn visit_mut_script(&mut self, m: &mut Script) {
+        let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+        self.top_level = true;
+
+        let mut data = Data {
+            bindings: collect_decls(&*m),
+            ..Default::default()
+        };
+
+        {
+            let mut analyzer = Analyzer {
+                config: &self.config,
+                data: &mut data,
+                in_var_decl: false,
+                scope: Default::default(),
+                cur_fn_id: Default::default(),
+            };
+            m.visit_with(&mut analyzer);
+        }
+        self.data = Arc::new(data);
+
+        m.visit_mut_children_with(self);
+    }
+
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
         match n {
             ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
