@@ -370,6 +370,13 @@ where
                                 Callee::Super(_) | Callee::Import(_) => continue,
                                 Callee::Expr(v) => v,
                             },
+                            Expr::Await(AwaitExpr { arg, .. }) => match &mut **arg {
+                                Expr::Call(CallExpr { callee, .. }) => match callee {
+                                    Callee::Super(_) | Callee::Import(_) => continue,
+                                    Callee::Expr(v) => v,
+                                },
+                                _ => continue,
+                            },
                             _ => continue,
                         },
                         None => continue,
