@@ -498,8 +498,6 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
-        n.visit_mut_children_with(self);
-
         let old_in_fn = self.in_fn;
         self.in_fn = true;
         n.visit_mut_children_with(self);
