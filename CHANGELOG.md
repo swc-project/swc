@@ -37,6 +37,12 @@
 
 - **(es/minifier)** Remove useless ES version check (#5703) ([5e2b6d5](https://github.com/swc-project/swc/commit/5e2b6d5551944c70566392fa777551b81f1a8b83))
 
+### Performance
+
+
+
+- **(es/minifier)** Enable parallel processing (#5705) ([1085667](https://github.com/swc-project/swc/commit/1085667049b49b05f0c16eb93dfdf980afb75b86))
+
 ### Testing
 
 
