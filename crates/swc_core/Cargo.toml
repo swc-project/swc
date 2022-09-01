@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.19.0"
+version       = "0.19.1"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -132,13 +132,14 @@ codegen = ["swc_ecma_codegen"]
 minifier = ["swc_ecma_minifier"]
 
 # Enable swc_css
-css_ast      = ["__css", "swc_css_ast"]
-css_codegen  = ["__css", "swc_css_codegen"]
-css_minifier = ["__css", "swc_css_minifier"]
-css_parser   = ["__css", "swc_css_parser"]
-css_utils    = ["__css", "swc_css_utils"]
-css_visit    = ["__css", "swc_css_visit"]
-css_prefixer = ["__css", "swc_css_prefixer"]
+css_ast        = ["__css", "swc_css_ast"]
+css_codegen    = ["__css", "swc_css_codegen"]
+css_minifier   = ["__css", "swc_css_minifier"]
+css_parser     = ["__css", "swc_css_parser"]
+css_prefixer   = ["__css", "swc_css_prefixer"]
+css_utils      = ["__css", "swc_css_utils"]
+css_visit      = ["__css", "swc_css_visit"]
+css_visit_path = ["__css", "swc_css_visit/path"]
 
 # Enable trace macro support.
 # TODO: Once all top-level package (node, wasm, cli..) imports swc_core,
@@ -271,13 +272,13 @@ swc_atoms                   = { optional = true, version = "0.4.8", path = "../s
 swc_bundler                 = { optional = true, version = "0.185.0", path = "../swc_bundler" }
 swc_cached                  = { optional = true, version = "0.3.5", path = "../swc_cached" }
 swc_common                  = { optional = true, version = "0.27.12", path = "../swc_common" }
-swc_css_ast                 = { optional = true, version = "0.110.0", path = "../swc_css_ast"}
-swc_css_codegen             = { optional = true, version = "0.120.0", path = "../swc_css_codegen"}
-swc_css_minifier            = { optional = true, version = "0.85.0", path = "../swc_css_minifier"}
-swc_css_parser              = { optional = true, version = "0.119.0", path = "../swc_css_parser"}
-swc_css_utils               = { optional = true, version = "0.107.0", path = "../swc_css_utils/"}
-swc_css_visit               = { optional = true, version = "0.109.0", path = "../swc_css_visit"}
+swc_css_ast                 = { optional = true, version = "0.110.0", path = "../swc_css_ast" }
+swc_css_codegen             = { optional = true, version = "0.120.0", path = "../swc_css_codegen" }
+swc_css_minifier            = { optional = true, version = "0.85.0", path = "../swc_css_minifier" }
+swc_css_parser              = { optional = true, version = "0.119.0", path = "../swc_css_parser" }
 swc_css_prefixer            = { optional = true, version = "0.121.0", path = "../swc_css_prefixer" }
+swc_css_utils               = { optional = true, version = "0.107.0", path = "../swc_css_utils/" }
+swc_css_visit               = { optional = true, version = "0.109.0", path = "../swc_css_visit" }
 swc_ecma_ast                = { optional = true, version = "0.90.10", path = "../swc_ecma_ast" }
 swc_ecma_codegen            = { optional = true, version = "0.123.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader             = { optional = true, version = "0.39.4", path = "../swc_ecma_loader" }
