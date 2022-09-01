@@ -45,15 +45,19 @@ macro_rules! noop {
     };
 }
 
-optimized_out!(
+to!(
     single_pass,
     "
-const a = 1;
+    const a = 1;
 
-if (a) {
-    const b = 2;
-}
-"
+    if (a) {
+        const b = 2;
+    }
+    ",
+    "
+    const a = 1;
+    if (a) {}
+    "
 );
 
 optimized_out!(issue_607, "let a");
@@ -102,15 +106,17 @@ to!(
     custom_loop_2,
     "let b = 2;
 
-let a = 1;
-a = 2;
+    let a = 1;
+    a = 2;
 
-let c;
-if (2) c = 3
-console.log(c)",
-    "let c;
-if (2) c = 3;
-console.log(c);"
+    let c;
+    if (2) c = 3
+    console.log(c)",
+    "
+    2
+    let c;
+    if (2) c = 3;
+    console.log(c);"
 );
 
 optimized_out!(simple_const, "{const x = 1}");
