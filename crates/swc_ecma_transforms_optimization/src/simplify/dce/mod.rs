@@ -17,6 +17,8 @@ use swc_ecma_visit::{
 };
 use tracing::{debug, span, Level};
 
+use crate::debug_assert_valid;
+
 /// Note: This becomes parallel if `concurrent` feature is enabled.
 pub fn dce(
     config: Config,
@@ -657,6 +659,8 @@ impl VisitMut for TreeShaker {
                 n.visit_mut_children_with(self);
             }
         }
+
+        debug_assert_valid(n);
     }
 
     fn visit_mut_module_items(&mut self, s: &mut Vec<ModuleItem>) {
