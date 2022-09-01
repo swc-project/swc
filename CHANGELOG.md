@@ -23,6 +23,9 @@
 
 
 
+- **(bindings)** Reduce size (#5708) ([b7da692](https://github.com/swc-project/swc/commit/b7da69258016bb2ecbeec0db7a94b1a84d0cb2f0))
+
+
 - **(dbg-swc)** Improve minifier comparator (#5681) ([6febfe9](https://github.com/swc-project/swc/commit/6febfe900c53010f6f0fcac87385d8e6786b369e))
 
 
