@@ -9,7 +9,9 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{cpu_count, ParVisitMut, Parallel};
-use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{
+    collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
+};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -97,6 +99,7 @@ struct Scope<'a> {
     found_direct_eval: bool,
 
     found_arguemnts: bool,
+    bindings_affected_by_arguements: Vec<Id>,
 }
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -142,6 +145,10 @@ impl Analyzer<'_> {
 
         if child_scope.found_arguemnts {
             // Parameters
+
+            for id in child_scope.bindings_affected_by_arguements {
+                self.data.used_names.entry(id).or_default().usage += 1;
+            }
 
             if !matches!(kind, ScopeKind::Fn) {
                 self.scope.found_arguemnts = true;
@@ -273,6 +280,10 @@ impl Visit for Analyzer<'_> {
 
             if v.scope.found_direct_eval {
                 v.scope.bindings_affected_by_eval = collect_decls(n);
+            }
+
+            if v.scope.found_arguemnts {
+                v.scope.bindings_affected_by_arguements = find_pat_ids(&n.params);
             }
         })
     }
