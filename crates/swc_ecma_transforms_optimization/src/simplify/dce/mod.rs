@@ -94,7 +94,6 @@ struct Analyzer<'a> {
     #[allow(dead_code)]
     config: &'a Config,
     in_var_decl: bool,
-    in_lhs_of_member_obj: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
     cur_fn_id: Option<Id>,
@@ -241,13 +240,14 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
-        let old_in_lhs_of_member_obj = self.in_lhs_of_member_obj;
-
-        self.in_lhs_of_member_obj = matches!(&*n.right, Expr::Member(..));
-
         match n.op {
             op!("=") => {
-                n.visit_children_with(self);
+                if let Some(i) = n.left.as_ident() {
+                    self.add(i.to_id(), true);
+                    n.right.visit_with(self);
+                } else {
+                    n.visit_children_with(self);
+                }
             }
             _ => {
                 if let Some(i) = n.left.as_ident() {
@@ -259,8 +259,6 @@ impl Visit for Analyzer<'_> {
                 }
             }
         }
-
-        self.in_lhs_of_member_obj = old_in_lhs_of_member_obj;
     }
 
     fn visit_jsx_element_name(&mut self, e: &JSXElementName) {
@@ -332,12 +330,6 @@ impl Visit for Analyzer<'_> {
                 self.add(i.id.to_id(), true);
             }
         }
-
-        if self.in_lhs_of_member_obj {
-            if let Pat::Ident(i) = p {
-                self.add(i.id.to_id(), false);
-            }
-        }
     }
 
     fn visit_prop(&mut self, p: &Prop) {
@@ -349,18 +341,15 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_var_declarator(&mut self, v: &VarDeclarator) {
-        let old_in_var_decl = self.in_var_decl;
-        let old_in_lhs_of_member_obj = self.in_lhs_of_member_obj;
+        let old = self.in_var_decl;
 
         self.in_var_decl = true;
-        self.in_lhs_of_member_obj = matches!(v.init.as_deref(), Some(Expr::Member(..)));
         v.name.visit_with(self);
 
         self.in_var_decl = false;
         v.init.visit_with(self);
 
-        self.in_var_decl = old_in_var_decl;
-        self.in_lhs_of_member_obj = old_in_lhs_of_member_obj;
+        self.in_var_decl = old;
     }
 }
 
@@ -641,7 +630,6 @@ impl VisitMut for TreeShaker {
                 config: &self.config,
                 data: &mut data,
                 in_var_decl: false,
-                in_lhs_of_member_obj: false,
                 scope: Default::default(),
                 cur_fn_id: Default::default(),
             };
@@ -665,7 +653,6 @@ impl VisitMut for TreeShaker {
                 config: &self.config,
                 data: &mut data,
                 in_var_decl: false,
-                in_lhs_of_member_obj: false,
                 scope: Default::default(),
                 cur_fn_id: Default::default(),
             };
