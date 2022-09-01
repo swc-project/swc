@@ -1020,7 +1020,7 @@ fn run(url: &str, exports: &[&str]) {
 }
 
 fn bundle(url: &str, minify: bool) -> String {
-    testing::run_test2(false, |cm, _handler| {
+    testing::run_test2(false, |cm, handler| {
         GLOBALS.with(|globals| {
             HANDLER.set(&handler, || {
                 let mut bundler = Bundler::new(
