@@ -232,11 +232,16 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_expr(&mut self, e: &Expr) {
+        let old_in_var_decl = self.in_var_decl;
+
+        self.in_var_decl = false;
         e.visit_children_with(self);
 
         if let Expr::Ident(i) = e {
             self.add(i.to_id(), false);
         }
+
+        self.in_var_decl = old_in_var_decl;
     }
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
