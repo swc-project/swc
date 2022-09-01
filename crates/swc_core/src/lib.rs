@@ -77,6 +77,26 @@ pub mod trace_macro {
 #[cfg_attr(docsrs, doc(cfg(feature = "__transforms")))]
 pub mod transforms {
     pub use swc_ecma_transforms::*;
+    #[cfg(feature = "transforms_optimization")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "transforms_optimization")))]
+    pub mod optimization {
+        pub use swc_ecma_transforms_optimization::*;
+    }
+    #[cfg(feature = "transforms_react")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "transforms_react")))]
+    pub mod react {
+        pub use swc_ecma_transforms_react::*;
+    }
+    #[cfg(feature = "transforms_typescript")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "transforms_typescript")))]
+    pub mod typescript {
+        pub use swc_ecma_transforms_typescript::*;
+    }
+    #[cfg(feature = "transforms_module")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "transforms_module")))]
+    pub mod module {
+        pub use swc_ecma_transforms_module::*;
+    }
 }
 
 // swc_bundler
