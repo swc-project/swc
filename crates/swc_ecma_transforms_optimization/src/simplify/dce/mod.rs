@@ -110,27 +110,42 @@ impl Analyzer<'_> {
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
-        let child = Scope {
-            parent: Some(&self.scope),
-            ..Default::default()
-        };
+        let child_scope = {
+            let child = Scope {
+                parent: Some(&self.scope),
+                ..Default::default()
+            };
 
-        let mut v = Analyzer {
-            scope: child,
-            data: self.data,
-            cur_fn_id: self.cur_fn_id.clone(),
-            ..*self
-        };
+            let mut v = Analyzer {
+                scope: child,
+                data: self.data,
+                cur_fn_id: self.cur_fn_id.clone(),
+                ..*self
+            };
 
-        op(&mut v);
+            op(&mut v);
+
+            Scope {
+                parent: None,
+                ..v.scope
+            }
+        };
 
         // If we found eval, mark all declarations in scope and upper as used
-        if v.scope.found_direct_eval {
-            for id in v.scope.bindings_affected_by_eval {
-                v.data.used_names.entry(id).or_default().usage += 1;
+        if child_scope.found_direct_eval {
+            for id in child_scope.bindings_affected_by_eval {
+                self.data.used_names.entry(id).or_default().usage += 1;
             }
 
             self.scope.found_direct_eval = true;
+        }
+
+        if child_scope.found_arguemnts {
+            // Parameters
+
+            if !matches!(kind, ScopeKind::Fn) {
+                self.scope.found_arguemnts = true;
+            }
         }
     }
 
