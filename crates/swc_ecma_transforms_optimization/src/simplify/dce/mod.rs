@@ -454,10 +454,10 @@ impl VisitMut for TreeShaker {
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         n.visit_mut_children_with(self);
 
-        let old_top_level = self.top_level;
-        self.top_level = false;
+        let old_in_block_stmt = self.in_block_stmt;
+        self.in_block_stmt = true;
         n.visit_mut_children_with(self);
-        self.top_level = old_top_level;
+        self.in_block_stmt = old_in_block_stmt;
     }
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {
@@ -569,7 +569,7 @@ impl VisitMut for TreeShaker {
                 ImportSpecifier::Namespace(l) => &l.local,
             };
 
-            if self.can_drop_binding(local.to_id()) {
+            if self.can_drop_binding(local.to_id(), false) {
                 debug!(
                     "Dropping import specifier `{}` because it's not used",
                     local
@@ -584,7 +584,6 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
-        self.top_level = true;
 
         let mut data = Data {
             bindings: collect_decls(&*m),
@@ -608,7 +607,6 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_script(&mut self, m: &mut Script) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
-        self.top_level = true;
 
         let mut data = Data {
             bindings: collect_decls(&*m),
