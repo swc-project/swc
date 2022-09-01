@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Relax function inline requirement (#5607) ([4ef99f3](https://github.com/swc-project/swc/commit/4ef99f346b9e7e4dfd1f42e7308c6b6e1142e311))
 
+
+- **(es/minifier)** Make DCE single-pass (#5699) ([8827c38](https://github.com/swc-project/swc/commit/8827c38faf527e3f0485d2537dc1515df12f889c))
+
 ## [1.2.246] - 2022-09-01
 
 ### Bug Fixes
