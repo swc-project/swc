@@ -411,13 +411,13 @@ impl VisitMut for TreeShaker {
         n.visit_mut_children_with(self);
 
         if let Some(id) = n.left.as_ident() {
-            if self.can_drop_assignment_to(id.to_id()) {
-                if !n.right.may_have_side_effects(&self.expr_ctx) {
-                    self.changed = true;
-                    debug!("Dropping an assignment to `{}` because it's not used", id);
+            if self.can_drop_assignment_to(id.to_id())
+                && !n.right.may_have_side_effects(&self.expr_ctx)
+            {
+                self.changed = true;
+                debug!("Dropping an assignment to `{}` because it's not used", id);
 
-                    n.left.take();
-                }
+                n.left.take();
             }
         }
     }
