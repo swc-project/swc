@@ -983,7 +983,7 @@ fn run(url: &str, exports: &[&str]) {
     let src = bundle(url, false);
     write(&path, &src).unwrap();
 
-    ::testing::run_test2(false, |cm, _| {
+    ::testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&path).unwrap();
         let loader = Loader { cm };
         let module = loader.load(&fm.name).unwrap().module;
