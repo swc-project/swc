@@ -92,7 +92,7 @@ struct Analyzer<'a> {
 struct Scope<'a> {
     #[allow(dead_code)]
     parent: Option<&'a Scope<'a>>,
-    bindings: AHashSet<Id>,
+    bindings_affected_by_eval: AHashSet<Id>,
     found_direct_eval: bool,
 }
 
@@ -117,7 +117,7 @@ impl Analyzer<'_> {
 
         // If we found eval, mark all declarations in scope and upper as used
         if v.scope.found_direct_eval {
-            for id in v.scope.bindings {
+            for id in v.scope.bindings_affected_by_eval {
                 v.data.used_names.entry(id).or_default().usage += 1;
             }
 
@@ -238,7 +238,7 @@ impl Visit for Analyzer<'_> {
             n.visit_children_with(v);
 
             if v.scope.found_direct_eval {
-                v.scope.bindings = collect_decls(n);
+                v.scope.bindings_affected_by_eval = collect_decls(n);
             }
         })
     }
