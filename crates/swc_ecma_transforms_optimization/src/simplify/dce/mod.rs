@@ -92,12 +92,21 @@ struct Analyzer<'a> {
 struct Scope<'a> {
     #[allow(dead_code)]
     parent: Option<&'a Scope<'a>>,
+
     bindings_affected_by_eval: AHashSet<Id>,
     found_direct_eval: bool,
+
+    found_arguemnts: bool,
+}
+
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+enum ScopeKind {
+    Fn,
+    ArrowFn,
 }
 
 impl Analyzer<'_> {
-    fn with_scope<F>(&mut self, op: F)
+    fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
@@ -233,8 +242,18 @@ impl Visit for Analyzer<'_> {
         }
     }
 
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        self.with_scope(ScopeKind::ArrowFn, |v| {
+            n.visit_children_with(v);
+
+            if v.scope.found_direct_eval {
+                v.scope.bindings_affected_by_eval = collect_decls(n);
+            }
+        })
+    }
+
     fn visit_function(&mut self, n: &Function) {
-        self.with_scope(|v| {
+        self.with_scope(ScopeKind::Fn, |v| {
             n.visit_children_with(v);
 
             if v.scope.found_direct_eval {
