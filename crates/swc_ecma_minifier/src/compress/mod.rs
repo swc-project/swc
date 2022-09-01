@@ -387,6 +387,9 @@ where
             let _timer = timer!("remove dead code");
 
             loop {
+                #[cfg(feature = "debug")]
+                let start = n.dump();
+
                 let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
                     swc_ecma_transforms_optimization::simplify::dce::Config {
                         module_mark: None,
