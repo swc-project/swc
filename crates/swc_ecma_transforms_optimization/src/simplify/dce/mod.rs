@@ -698,19 +698,17 @@ impl VisitMut for TreeShaker {
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         v.visit_mut_children_with(self);
 
-        let can_drop = if let Some(init) = &v.init {
-            !init.may_have_side_effects(&self.expr_ctx)
-        } else {
-            true
-        };
+        if let Pat::Ident(i) = &v.name {
+            let can_drop = if let Some(init) = &v.init {
+                !init.may_have_side_effects(&self.expr_ctx)
+            } else {
+                true
+            };
 
-        if can_drop {
-            if let Pat::Ident(i) = &v.name {
-                if self.can_drop_binding(i.id.to_id()) {
-                    self.changed = true;
-                    debug!("Dropping {} because it's not used", i.id);
-                    v.name.take();
-                }
+            if can_drop && self.can_drop_binding(i.id.to_id()) {
+                self.changed = true;
+                debug!("Dropping {} because it's not used", i.id);
+                v.name.take();
             }
         }
     }
