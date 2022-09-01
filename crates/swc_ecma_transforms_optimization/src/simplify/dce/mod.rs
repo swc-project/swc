@@ -33,6 +33,7 @@ pub fn dce(
         data: Default::default(),
         in_block_stmt: false,
         in_fn: false,
+        var_decl_kind: None,
     })
 }
 
@@ -58,6 +59,7 @@ struct TreeShaker {
 
     in_fn: bool,
     in_block_stmt: bool,
+    var_decl_kind: Option<VarDeclKind>,
 
     data: Arc<Data>,
 }
@@ -440,7 +442,8 @@ impl VisitMut for TreeShaker {
         n.visit_mut_children_with(self);
 
         if let Some(id) = n.left.as_ident() {
-            if self.can_drop_assignment_to(id.to_id())
+            // TODO: `var`
+            if self.can_drop_assignment_to(id.to_id(), false)
                 && !n.right.may_have_side_effects(&self.expr_ctx)
             {
                 self.changed = true;
@@ -465,7 +468,7 @@ impl VisitMut for TreeShaker {
 
         match n {
             Decl::Fn(f) => {
-                if self.can_drop_binding(f.ident.to_id()) {
+                if self.can_drop_binding(f.ident.to_id(), true) {
                     debug!("Dropping function `{}` as it's not used", f.ident);
                     self.changed = true;
 
@@ -473,7 +476,7 @@ impl VisitMut for TreeShaker {
                 }
             }
             Decl::Class(c) => {
-                if self.can_drop_binding(c.ident.to_id())
+                if self.can_drop_binding(c.ident.to_id(), false)
                     && c.class.body.iter().all(|m| match m {
                         ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
                         ClassMember::ClassProp(m) => !matches!(m.key, PropName::Computed(..)),
@@ -661,7 +664,7 @@ impl VisitMut for TreeShaker {
             // If all name is droppable, do so.
             if cnt != 0
                 && v.decls.iter().all(|vd| match &vd.name {
-                    Pat::Ident(i) => self.can_drop_binding(i.to_id()),
+                    Pat::Ident(i) => self.can_drop_binding(i.to_id(), v.kind == VarDeclKind::Var),
                     _ => false,
                 })
             {
@@ -727,6 +730,13 @@ impl VisitMut for TreeShaker {
         }
     }
 
+    fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
+        let old_var_decl_kind = self.var_decl_kind;
+        self.var_decl_kind = Some(n.kind);
+        n.visit_mut_children_with(self);
+        self.var_decl_kind = old_var_decl_kind;
+    }
+
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         v.visit_mut_children_with(self);
 
@@ -737,7 +747,9 @@ impl VisitMut for TreeShaker {
                 true
             };
 
-            if can_drop && self.can_drop_binding(i.id.to_id()) {
+            if can_drop
+                && self.can_drop_binding(i.id.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
+            {
                 self.changed = true;
                 debug!("Dropping {} because it's not used", i.id);
                 v.name.take();
