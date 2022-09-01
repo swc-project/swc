@@ -42,7 +42,7 @@ pub fn dce(
     })
 }
 
-#[derive(Debug, Default, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Config {
     /// If this [Mark] is applied to a function expression, it's treated as a
     /// separate module.
@@ -52,10 +52,22 @@ pub struct Config {
     pub module_mark: Option<Mark>,
 
     /// If true, top-level items will be removed if they are not used.
+    ///
+    /// Defaults to `true`.
     pub top_level: bool,
 
     /// Declarations with a symbol in this set will be preserved.
     pub top_retain: Vec<JsWord>,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            module_mark: Default::default(),
+            top_level: true,
+            top_retain: Default::default(),
+        }
+    }
 }
 
 struct TreeShaker {
