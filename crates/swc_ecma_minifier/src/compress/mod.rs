@@ -394,6 +394,7 @@ where
                     swc_ecma_transforms_optimization::simplify::dce::Config {
                         module_mark: None,
                         top_level: self.options.top_level(),
+                        top_retain: self.options.top_retain.clone(),
                     },
                     self.marks.unresolved_mark,
                 );
