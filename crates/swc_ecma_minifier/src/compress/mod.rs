@@ -383,7 +383,7 @@ where
             n.visit_with(&mut AssertValid);
         }
 
-        if self.options.dead_code {
+        if self.options.unused {
             let _timer = timer!("remove dead code");
 
             loop {
