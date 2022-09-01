@@ -1,5 +1,7 @@
 const dbPool = 1;
-function d() {}
+function d() {
+    dbPool;
+}
 async function fn() {
     d();
 }
