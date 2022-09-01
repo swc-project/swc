@@ -62,15 +62,19 @@ macro_rules! optimized_out {
     };
 }
 
-optimized_out!(
+to!(
     single_pass,
     "
-const a = 1;
+    const a = 1;
 
-if (a) {
-    const b = 2;
-}
-"
+    if (a) {
+        const b = 2;
+    }
+    ",
+    "
+    const a = 1;
+    a
+    "
 );
 
 optimized_out!(issue_607, "let a");
