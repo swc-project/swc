@@ -455,8 +455,10 @@ impl VisitMut for TreeShaker {
         }
     }
 
-    /// Noop.
-    fn visit_mut_export_decl(&mut self, _: &mut ExportDecl) {}
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        // Bypass visit_mut_decl
+        n.decl.visit_mut_children_with(self);
+    }
 
     /// Noop.
     fn visit_mut_export_default_decl(&mut self, _: &mut ExportDefaultDecl) {}
