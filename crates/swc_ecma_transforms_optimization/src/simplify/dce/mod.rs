@@ -667,6 +667,13 @@ impl VisitMut for TreeShaker {
         s.visit_mut_children_with(self);
 
         if let Stmt::Decl(Decl::Var(v)) = s {
+            if v.decls.is_empty() {
+                s.take();
+                return;
+            }
+        }
+
+        if let Stmt::Decl(Decl::Var(v)) = s {
             let span = v.span;
             let cnt = v.decls.len();
 
