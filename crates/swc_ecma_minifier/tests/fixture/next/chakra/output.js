@@ -4683,10 +4683,12 @@
                     })));
                 });
                 return react.createElement(react.Fragment, null, children, react.createElement(Portal, portalProps, toastList));
-            }, chakra_ui_react_esm_excluded = (chakra_ui_utils_esm.ZT, chakra_ui_utils_esm.ZT, [
+            };
+            chakra_ui_utils_esm.ZT, chakra_ui_utils_esm.ZT;
+            var chakra_ui_react_esm_excluded = [
                 "children",
                 "toastOptions"
-            ]), ChakraProvider = function(_ref) {
+            ], ChakraProvider = function(_ref) {
                 var children = _ref.children, toastOptions = _ref.toastOptions, restProps = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);

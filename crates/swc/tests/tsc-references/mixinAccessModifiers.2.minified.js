@@ -23,11 +23,19 @@ var Private = function Private() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Public2);
 };
-Mix(Private, function Private2() {
+!function(_superClass) {
+    "use strict";
+    _inherits(C1, _superClass);
+    var _super = _create_super(C1);
+    function C1() {
+        return _class_call_check(this, C1), _super.apply(this, arguments);
+    }
+    return C1;
+}(Mix(Private, function Private2() {
     "use strict";
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Private2);
-}), Mix(Private, Protected), Mix(Private, Public);
+})), Mix(Private, Protected), Mix(Private, Public);
 var C4 = function(_superClass) {
     "use strict";
     _inherits(C4, _superClass);
@@ -65,3 +73,11 @@ var C4 = function(_superClass) {
         C4.s, C5.s, C6.s;
     }, C6;
 }(Mix(Public, Public2));
+!function() {
+    "use strict";
+    function ProtectedGeneric() {
+        _class_call_check(this, ProtectedGeneric);
+    }
+    var _proto = ProtectedGeneric.prototype;
+    return _proto.privateMethod = function() {}, _proto.protectedMethod = function() {}, ProtectedGeneric;
+}();

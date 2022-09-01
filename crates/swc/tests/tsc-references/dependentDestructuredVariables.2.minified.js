@@ -1,13 +1,11 @@
 //// [dependentDestructuredVariables.ts]
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-let { value , done  } = it.next();
+const { value , done  } = it.next();
 f50((kind, data)=>{
     'A' === kind && data.toFixed(), 'B' === kind && data.toUpperCase();
 }), readFile('hello', (err, data)=>{
     null === err ? data.length : err.message;
 });
-let reducer = (op, args)=>{
+const reducer = (op, args)=>{
     switch(op){
         case "add":
             console.log(args.a + args.b);

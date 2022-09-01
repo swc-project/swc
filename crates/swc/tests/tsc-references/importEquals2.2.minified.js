@@ -1,6 +1,6 @@
 //// [importEquals2.ts]
 //// [/a.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+export { };
 //// [/b.ts]
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.

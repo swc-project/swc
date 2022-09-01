@@ -247,7 +247,7 @@ where
             }
         }
 
-        self.pass = 0;
+        self.pass = 1;
         // let last_mark = n.remove_mark();
         // assert!(
         //     N::is_module() || last_mark == self.marks.standalone,
@@ -371,7 +371,52 @@ where
             #[cfg(feature = "debug")]
             if visitor.changed() {
                 let src = n.dump();
-                debug!("===== After pure =====\n{}\n{}", start, src);
+                debug!(
+                    "===== Before pure =====\n{}\n===== After pure =====\n{}",
+                    start, src
+                );
+            }
+        }
+
+        #[cfg(debug_assertions)]
+        {
+            n.visit_with(&mut AssertValid);
+        }
+
+        if self.options.unused {
+            let _timer = timer!("remove dead code");
+
+            loop {
+                #[cfg(feature = "debug")]
+                let start = n.dump();
+
+                let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
+                    swc_ecma_transforms_optimization::simplify::dce::Config {
+                        module_mark: None,
+                        top_level: self.options.top_level(),
+                        top_retain: self.options.top_retain.clone(),
+                    },
+                    self.marks.unresolved_mark,
+                );
+
+                n.apply(&mut visitor);
+
+                self.changed |= visitor.changed();
+
+                #[cfg(feature = "debug")]
+                if visitor.changed() {
+                    let src = n.dump();
+                    debug!(
+                        "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
+                        start, src
+                    );
+                }
+
+                if visitor.changed() {
+                    self.changed = true;
+                } else {
+                    break;
+                }
             }
         }
 

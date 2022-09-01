@@ -3,7 +3,7 @@ System.register([
     "./b"
 ], function(_export, _context) {
     "use strict";
-    var foo, Foo;
+    var foo;
     return _export("default", void 0), {
         setters: [
             function(_b) {
@@ -11,7 +11,7 @@ System.register([
             }
         ],
         execute: function() {
-            _export("default", Foo = class {
+            _export("default", class {
             }), foo();
         }
     };

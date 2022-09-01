@@ -9,7 +9,7 @@ use std::{
 use anyhow::Error;
 use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
-use swc_common::{FileName, Globals, Span};
+use swc_common::{errors::HANDLER, FileName, Globals, Span};
 use swc_ecma_ast::{
     Bool, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
     PropName, Str,
@@ -26,89 +26,91 @@ use self::common::*;
 mod common;
 
 fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
-    testing::run_test2(false, |cm, _| {
-        let globals = Globals::default();
-        let mut bundler = Bundler::new(
-            &globals,
-            cm.clone(),
-            Loader { cm: cm.clone() },
-            NodeResolver,
-            Config {
-                require: true,
-                disable_inliner: !inline,
-                external_modules: NODE_BUILTINS.iter().copied().map(From::from).collect(),
-                module: Default::default(),
-                ..Default::default()
-            },
-            Box::new(Hook),
-        );
+    testing::run_test2(false, |cm, handler| {
+        HANDLER.set(&handler, || {
+            let globals = Globals::default();
+            let mut bundler = Bundler::new(
+                &globals,
+                cm.clone(),
+                Loader { cm: cm.clone() },
+                NodeResolver,
+                Config {
+                    require: true,
+                    disable_inliner: !inline,
+                    external_modules: NODE_BUILTINS.iter().copied().map(From::from).collect(),
+                    module: Default::default(),
+                    ..Default::default()
+                },
+                Box::new(Hook),
+            );
 
-        let modules = bundler
-            .bundle(entries)
-            .map_err(|err| println!("{:?}", err))?;
-        println!("Bundled as {} modules", modules.len());
+            let modules = bundler
+                .bundle(entries)
+                .map_err(|err| println!("{:?}", err))?;
+            println!("Bundled as {} modules", modules.len());
 
-        let mut error = false;
+            let mut error = false;
 
-        for bundled in modules {
-            let code = {
-                let mut buf = vec![];
+            for bundled in modules {
+                let code = {
+                    let mut buf = vec![];
 
-                {
-                    let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config {
-                            ..Default::default()
-                        },
-                        cm: cm.clone(),
-                        comments: None,
-                        wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
-                    };
+                    {
+                        let mut emitter = Emitter {
+                            cfg: swc_ecma_codegen::Config {
+                                ..Default::default()
+                            },
+                            cm: cm.clone(),
+                            comments: None,
+                            wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
+                        };
 
-                    emitter
-                        .emit_module(&bundled.module.fold_with(&mut fixer(None)))
-                        .unwrap();
-                }
+                        emitter
+                            .emit_module(&bundled.module.fold_with(&mut fixer(None)))
+                            .unwrap();
+                    }
 
-                String::from_utf8_lossy(&buf).to_string()
-            };
+                    String::from_utf8_lossy(&buf).to_string()
+                };
 
-            let name = match bundled.kind {
-                BundleKind::Named { name } | BundleKind::Lib { name } => PathBuf::from(name),
-                BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
-            };
+                let name = match bundled.kind {
+                    BundleKind::Named { name } | BundleKind::Lib { name } => PathBuf::from(name),
+                    BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
+                };
 
-            let output_dir = entry.join("output");
+                let output_dir = entry.join("output");
 
-            let output_path = if inline {
-                output_dir
-                    .join(name.file_name().unwrap())
-                    .with_file_name(format!(
-                        "{}.inlined.{}",
-                        name.file_stem().unwrap().to_string_lossy(),
-                        name.extension().unwrap().to_string_lossy()
-                    ))
-            } else {
-                output_dir.join(name.file_name().unwrap())
-            };
+                let output_path = if inline {
+                    output_dir
+                        .join(name.file_name().unwrap())
+                        .with_file_name(format!(
+                            "{}.inlined.{}",
+                            name.file_stem().unwrap().to_string_lossy(),
+                            name.extension().unwrap().to_string_lossy()
+                        ))
+                } else {
+                    output_dir.join(name.file_name().unwrap())
+                };
 
-            println!("Printing {}", output_path.display());
+                println!("Printing {}", output_path.display());
 
-            let s = NormalizedOutput::from(code.to_string());
+                let s = NormalizedOutput::from(code.to_string());
 
-            match s.compare_to_file(&output_path) {
-                Ok(_) => {}
-                Err(err) => {
-                    println!("Diff: {:?}", err);
-                    error = true;
+                match s.compare_to_file(&output_path) {
+                    Ok(_) => {}
+                    Err(err) => {
+                        println!("Diff: {:?}", err);
+                        error = true;
+                    }
                 }
             }
-        }
 
-        if error {
-            return Err(());
-        }
+            if error {
+                return Err(());
+            }
 
-        Ok(())
+            Ok(())
+        })
     })
     .expect("failed to process a module");
 }

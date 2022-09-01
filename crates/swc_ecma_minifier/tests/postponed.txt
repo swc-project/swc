@@ -129,7 +129,6 @@ drop_unused/delete_assign_1/input.js
 drop_unused/delete_assign_2/input.js
 drop_unused/double_assign_1/input.js
 drop_unused/double_assign_2/input.js
-drop_unused/drop_assign/input.js
 drop_unused/drop_fargs/input.js
 drop_unused/drop_toplevel_all_retain/input.js
 drop_unused/drop_toplevel_funcs/input.js
@@ -231,7 +230,6 @@ functions/issue_2114_2/input.js
 functions/issue_2428/input.js
 functions/issue_2476/input.js
 functions/issue_2531_1/input.js
-functions/issue_2531_3/input.js
 functions/issue_2601_1/input.js
 functions/issue_2601_2/input.js
 functions/issue_2604_1/input.js
@@ -552,7 +550,6 @@ reduce_vars/defun_catch_1/input.js
 reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
-reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_label/input.js
 reduce_vars/defun_redefine/input.js
 reduce_vars/defun_reference/input.js
@@ -580,7 +577,6 @@ reduce_vars/issue_2449/input.js
 reduce_vars/issue_2485/input.js
 reduce_vars/issue_2669/input.js
 reduce_vars/issue_2757_1/input.js
-reduce_vars/issue_2757_2/input.js
 reduce_vars/issue_2774/input.js
 reduce_vars/issue_2799_2/input.js
 reduce_vars/issue_2836/input.js

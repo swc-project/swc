@@ -24,6 +24,8 @@ where
                     dce::Config {
                         // TODO(kdy1): Apply mark to wrapped esms and use it at here.
                         module_mark: None,
+                        top_level: true,
+                        top_retain: Default::default(),
                     },
                     self.unresolved_mark,
                 )));

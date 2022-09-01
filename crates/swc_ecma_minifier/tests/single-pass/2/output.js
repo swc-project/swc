@@ -1,4 +1,1 @@
-!function() {
-    Object.prototype.hasOwnProperty;
-    var faderWidth = 48;
-}();
+Object.prototype.hasOwnProperty;

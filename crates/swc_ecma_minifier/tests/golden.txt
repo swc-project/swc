@@ -385,6 +385,7 @@ drop_unused/cascade_drop_assign/input.js
 drop_unused/const_assign/input.js
 drop_unused/defun_lambda_same_name/input.js
 drop_unused/double_assign_3/input.js
+drop_unused/drop_assign/input.js
 drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
 drop_unused/drop_value/input.js
@@ -557,6 +558,7 @@ functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2101/input.js
 functions/issue_2531_2/input.js
+functions/issue_2531_3/input.js
 functions/issue_2630_3/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
@@ -1121,6 +1123,7 @@ reduce_vars/defun_assign/input.js
 reduce_vars/defun_call/input.js
 reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
+reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_2/input.js
 reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_single_use_loop/input.js
@@ -1195,6 +1198,7 @@ reduce_vars/issue_2455/input.js
 reduce_vars/issue_2496/input.js
 reduce_vars/issue_2598/input.js
 reduce_vars/issue_2670/input.js
+reduce_vars/issue_2757_2/input.js
 reduce_vars/issue_2799_1/input.js
 reduce_vars/issue_2860_1/input.js
 reduce_vars/issue_2869/input.js

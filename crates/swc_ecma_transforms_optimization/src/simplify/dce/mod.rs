@@ -1,5 +1,6 @@
-use std::borrow::Cow;
+use std::{borrow::Cow, sync::Arc};
 
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     pass::{CompilerPass, Repeated},
@@ -7,11 +8,19 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value};
+use swc_ecma_transforms_base::{
+    helpers::{Helpers, HELPERS},
+    perf::{cpu_count, ParVisitMut, Parallel},
+};
+use swc_ecma_utils::{
+    collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
+};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-use tracing::{debug, span, trace, Level};
+use tracing::{debug, span, Level};
+
+use crate::debug_assert_valid;
 
 /// Note: This becomes parallel if `concurrent` feature is enabled.
 pub fn dce(
@@ -27,10 +36,13 @@ pub fn dce(
         changed: false,
         pass: 0,
         data: Default::default(),
+        in_block_stmt: false,
+        in_fn: false,
+        var_decl_kind: None,
     })
 }
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Config {
     /// If this [Mark] is applied to a function expression, it's treated as a
     /// separate module.
@@ -38,6 +50,24 @@ pub struct Config {
     /// **Note**: This is hack to make operation parallel while allowing invalid
     /// module produced by the `swc_bundler`.
     pub module_mark: Option<Mark>,
+
+    /// If true, top-level items will be removed if they are not used.
+    ///
+    /// Defaults to `true`.
+    pub top_level: bool,
+
+    /// Declarations with a symbol in this set will be preserved.
+    pub top_retain: Vec<JsWord>,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            module_mark: Default::default(),
+            top_level: true,
+            top_retain: Default::default(),
+        }
+    }
 }
 
 struct TreeShaker {
@@ -46,7 +76,12 @@ struct TreeShaker {
     config: Config,
     changed: bool,
     pass: u16,
-    data: Data,
+
+    in_fn: bool,
+    in_block_stmt: bool,
+    var_decl_kind: Option<VarDeclKind>,
+
+    data: Arc<Data>,
 }
 
 impl CompilerPass for TreeShaker {
@@ -74,12 +109,82 @@ struct Analyzer<'a> {
     #[allow(dead_code)]
     config: &'a Config,
     in_var_decl: bool,
+    scope: Scope<'a>,
     data: &'a mut Data,
     cur_fn_id: Option<Id>,
 }
 
+#[derive(Debug, Default)]
+struct Scope<'a> {
+    #[allow(dead_code)]
+    parent: Option<&'a Scope<'a>>,
+
+    bindings_affected_by_eval: AHashSet<Id>,
+    found_direct_eval: bool,
+
+    found_arguemnts: bool,
+    bindings_affected_by_arguements: Vec<Id>,
+}
+
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+enum ScopeKind {
+    Fn,
+    ArrowFn,
+}
+
 impl Analyzer<'_> {
+    fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
+    where
+        F: for<'aa> FnOnce(&mut Analyzer<'aa>),
+    {
+        let child_scope = {
+            let child = Scope {
+                parent: Some(&self.scope),
+                ..Default::default()
+            };
+
+            let mut v = Analyzer {
+                scope: child,
+                data: self.data,
+                cur_fn_id: self.cur_fn_id.clone(),
+                ..*self
+            };
+
+            op(&mut v);
+
+            Scope {
+                parent: None,
+                ..v.scope
+            }
+        };
+
+        // If we found eval, mark all declarations in scope and upper as used
+        if child_scope.found_direct_eval {
+            for id in child_scope.bindings_affected_by_eval {
+                self.data.used_names.entry(id).or_default().usage += 1;
+            }
+
+            self.scope.found_direct_eval = true;
+        }
+
+        if child_scope.found_arguemnts {
+            // Parameters
+
+            for id in child_scope.bindings_affected_by_arguements {
+                self.data.used_names.entry(id).or_default().usage += 1;
+            }
+
+            if !matches!(kind, ScopeKind::Fn) {
+                self.scope.found_arguemnts = true;
+            }
+        }
+    }
+
     fn add(&mut self, id: Id, assign: bool) {
+        if id.0 == js_word!("arguments") {
+            self.scope.found_arguemnts = true;
+        }
+
         if let Some(f) = &self.cur_fn_id {
             if id == *f {
                 return;
@@ -96,6 +201,20 @@ impl Analyzer<'_> {
 
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
+
+    fn visit_callee(&mut self, n: &Callee) {
+        n.visit_children_with(self);
+
+        if let Callee::Expr(e) = n {
+            if let Expr::Ident(Ident {
+                sym: js_word!("eval"),
+                ..
+            }) = &**e
+            {
+                self.scope.found_direct_eval = true;
+            }
+        }
+    }
 
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         n.visit_children_with(self);
@@ -128,10 +247,37 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_expr(&mut self, e: &Expr) {
+        let old_in_var_decl = self.in_var_decl;
+
+        self.in_var_decl = false;
         e.visit_children_with(self);
 
         if let Expr::Ident(i) = e {
             self.add(i.to_id(), false);
+        }
+
+        self.in_var_decl = old_in_var_decl;
+    }
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        match n.op {
+            op!("=") => {
+                if let Some(i) = n.left.as_ident() {
+                    self.add(i.to_id(), true);
+                    n.right.visit_with(self);
+                } else {
+                    n.visit_children_with(self);
+                }
+            }
+            _ => {
+                if let Some(i) = n.left.as_ident() {
+                    self.add(i.to_id(), false);
+                    self.add(i.to_id(), true);
+                    n.right.visit_with(self);
+                } else {
+                    n.visit_children_with(self);
+                }
+            }
         }
     }
 
@@ -149,6 +295,30 @@ impl Visit for Analyzer<'_> {
         if let JSXObject::Ident(i) = e {
             self.add(i.to_id(), false);
         }
+    }
+
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        self.with_scope(ScopeKind::ArrowFn, |v| {
+            n.visit_children_with(v);
+
+            if v.scope.found_direct_eval {
+                v.scope.bindings_affected_by_eval = collect_decls(n);
+            }
+        })
+    }
+
+    fn visit_function(&mut self, n: &Function) {
+        self.with_scope(ScopeKind::Fn, |v| {
+            n.visit_children_with(v);
+
+            if v.scope.found_direct_eval {
+                v.scope.bindings_affected_by_eval = collect_decls(n);
+            }
+
+            if v.scope.found_arguemnts {
+                v.scope.bindings_affected_by_arguements = find_pat_ids(&n.params);
+            }
+        })
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
@@ -215,13 +385,36 @@ impl Repeated for TreeShaker {
     }
 }
 
+impl Parallel for TreeShaker {
+    fn create(&self) -> Self {
+        Self {
+            expr_ctx: self.expr_ctx.clone(),
+            data: self.data.clone(),
+            config: self.config.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.changed |= other.changed;
+    }
+}
+
 impl TreeShaker {
     fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
         Vec<T>: VisitMutWith<Self>,
     {
-        stmts.visit_mut_children_with(self);
+        if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first().and_then(|s| s.as_stmt()) {
+            if let Expr::Lit(Lit::Str(v)) = &**expr {
+                if &*v.value == "use asm" {
+                    return;
+                }
+            }
+        }
+
+        self.visit_mut_par(cpu_count() * 8, stmts);
 
         stmts.retain(|s| match s.as_stmt() {
             Some(Stmt::Empty(..)) => false,
@@ -233,11 +426,39 @@ impl TreeShaker {
         });
     }
 
-    fn can_drop_binding(&self, name: Id) -> bool {
+    fn can_drop_binding(&self, name: Id, is_var: bool) -> bool {
+        if !self.config.top_level {
+            if is_var {
+                if !self.in_fn {
+                    return false;
+                }
+            } else if !self.in_block_stmt {
+                return false;
+            }
+        }
+
+        if self.config.top_retain.contains(&name.0) {
+            return false;
+        }
+
         !self.data.used_names.contains_key(&name)
     }
 
-    fn can_drop_assignment_to(&self, name: Id) -> bool {
+    fn can_drop_assignment_to(&self, name: Id, is_var: bool) -> bool {
+        if !self.config.top_level {
+            if is_var {
+                if !self.in_fn {
+                    return false;
+                }
+            } else if !self.in_block_stmt {
+                return false;
+            }
+        }
+
+        if self.config.top_retain.contains(&name.0) {
+            return false;
+        }
+
         self.data.bindings.contains(&name)
             && self
                 .data
@@ -254,16 +475,33 @@ impl VisitMut for TreeShaker {
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);
 
-        if !n.right.may_have_side_effects(&self.expr_ctx) {
-            if let Some(id) = n.left.as_ident() {
-                if self.can_drop_assignment_to(id.to_id()) {
-                    self.changed = true;
-                    debug!("Dropping an assignment to `{}` because it's not used", id);
+        if let Some(id) = n.left.as_ident() {
+            // TODO: `var`
+            if self.can_drop_assignment_to(id.to_id(), false)
+                && !n.right.may_have_side_effects(&self.expr_ctx)
+            {
+                self.changed = true;
+                debug!("Dropping an assignment to `{}` because it's not used", id);
 
-                    n.left.take();
-                }
+                n.left.take();
             }
         }
+    }
+
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        n.visit_mut_children_with(self);
+
+        let old_in_block_stmt = self.in_block_stmt;
+        self.in_block_stmt = true;
+        n.visit_mut_children_with(self);
+        self.in_block_stmt = old_in_block_stmt;
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let old_in_fn = self.in_fn;
+        self.in_fn = true;
+        n.visit_mut_children_with(self);
+        self.in_fn = old_in_fn;
     }
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {
@@ -271,7 +509,7 @@ impl VisitMut for TreeShaker {
 
         match n {
             Decl::Fn(f) => {
-                if self.can_drop_binding(f.ident.to_id()) {
+                if self.can_drop_binding(f.ident.to_id(), true) {
                     debug!("Dropping function `{}` as it's not used", f.ident);
                     self.changed = true;
 
@@ -279,7 +517,20 @@ impl VisitMut for TreeShaker {
                 }
             }
             Decl::Class(c) => {
-                if self.can_drop_binding(c.ident.to_id()) {
+                if self.can_drop_binding(c.ident.to_id(), false)
+                    && c.class.body.iter().all(|m| match m {
+                        ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
+                        ClassMember::ClassProp(m) => !matches!(m.key, PropName::Computed(..)),
+
+                        ClassMember::StaticBlock(_) => false,
+
+                        ClassMember::TsIndexSignature(_)
+                        | ClassMember::PrivateProp(_)
+                        | ClassMember::Empty(_)
+                        | ClassMember::Constructor(_)
+                        | ClassMember::PrivateMethod(_) => true,
+                    })
+                {
                     debug!("Dropping class `{}` as it's not used", c.ident);
                     self.changed = true;
 
@@ -290,8 +541,19 @@ impl VisitMut for TreeShaker {
         }
     }
 
-    /// Noop.
-    fn visit_mut_export_decl(&mut self, _: &mut ExportDecl) {}
+    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        match &mut n.decl {
+            Decl::Var(v) => {
+                for decl in v.decls.iter_mut() {
+                    decl.init.visit_mut_with(self);
+                }
+            }
+            _ => {
+                // Bypass visit_mut_decl
+                n.decl.visit_mut_children_with(self);
+            }
+        }
+    }
 
     /// Noop.
     fn visit_mut_export_default_decl(&mut self, _: &mut ExportDefaultDecl) {}
@@ -360,7 +622,7 @@ impl VisitMut for TreeShaker {
                 ImportSpecifier::Namespace(l) => &l.local,
             };
 
-            if self.can_drop_binding(local.to_id()) {
+            if self.can_drop_binding(local.to_id(), false) {
                 debug!(
                     "Dropping import specifier `{}` because it's not used",
                     local
@@ -386,14 +648,41 @@ impl VisitMut for TreeShaker {
                 config: &self.config,
                 data: &mut data,
                 in_var_decl: false,
+                scope: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
-        self.data = data;
-        trace!("Used = {:?}", self.data.used_names);
+        self.data = Arc::new(data);
 
-        m.visit_mut_children_with(self);
+        HELPERS.set(&Helpers::new(true), || {
+            m.visit_mut_children_with(self);
+        })
+    }
+
+    fn visit_mut_script(&mut self, m: &mut Script) {
+        let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+
+        let mut data = Data {
+            bindings: collect_decls(&*m),
+            ..Default::default()
+        };
+
+        {
+            let mut analyzer = Analyzer {
+                config: &self.config,
+                data: &mut data,
+                in_var_decl: false,
+                scope: Default::default(),
+                cur_fn_id: Default::default(),
+            };
+            m.visit_with(&mut analyzer);
+        }
+        self.data = Arc::new(data);
+
+        HELPERS.set(&Helpers::new(true), || {
+            m.visit_mut_children_with(self);
+        })
     }
 
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
@@ -413,6 +702,8 @@ impl VisitMut for TreeShaker {
                 n.visit_mut_children_with(self);
             }
         }
+
+        debug_assert_valid(n);
     }
 
     fn visit_mut_module_items(&mut self, s: &mut Vec<ModuleItem>) {
@@ -423,13 +714,20 @@ impl VisitMut for TreeShaker {
         s.visit_mut_children_with(self);
 
         if let Stmt::Decl(Decl::Var(v)) = s {
+            if v.decls.is_empty() {
+                s.take();
+                return;
+            }
+        }
+
+        if let Stmt::Decl(Decl::Var(v)) = s {
             let span = v.span;
             let cnt = v.decls.len();
 
             // If all name is droppable, do so.
             if cnt != 0
                 && v.decls.iter().all(|vd| match &vd.name {
-                    Pat::Ident(i) => self.can_drop_binding(i.to_id()),
+                    Pat::Ident(i) => self.can_drop_binding(i.to_id(), v.kind == VarDeclKind::Var),
                     _ => false,
                 })
             {
@@ -466,60 +764,10 @@ impl VisitMut for TreeShaker {
             }
         }
 
-        if let Stmt::If(if_stmt) = s {
-            if let Value::Known(v) = if_stmt.test.as_pure_bool(&self.expr_ctx) {
-                if v {
-                    if if_stmt.alt.is_some() {
-                        self.changed = true;
-                    }
-
-                    if_stmt.alt = None;
-                    debug!("Dropping `alt` of an if statement because condition is always true");
-                } else {
-                    self.changed = true;
-                    if let Some(alt) = if_stmt.alt.take() {
-                        *s = *alt;
-                        debug!(
-                            "Dropping `cons` of an if statement because condition is always false"
-                        );
-                    } else {
-                        debug!("Dropping an if statement because condition is always false");
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    }
-                    return;
-                }
-            }
-
-            if if_stmt.alt.is_empty()
-                && if_stmt.cons.is_empty()
-                && !if_stmt.test.may_have_side_effects(&self.expr_ctx)
-            {
-                debug!("Dropping an if statement");
-                self.changed = true;
+        if let Stmt::Decl(Decl::Var(v)) = s {
+            if v.decls.is_empty() {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                return;
             }
-        }
-
-        match s {
-            Stmt::Expr(es) => {
-                if match &*es.expr {
-                    Expr::Lit(Lit::Str(..)) => false,
-                    _ => !es.expr.may_have_side_effects(&self.expr_ctx),
-                } {
-                    debug!("Dropping an expression without side effect");
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    self.changed = true;
-                }
-            }
-
-            Stmt::Decl(Decl::Var(v)) => {
-                if v.decls.is_empty() {
-                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                }
-            }
-
-            _ => {}
         }
     }
 
@@ -545,22 +793,29 @@ impl VisitMut for TreeShaker {
         }
     }
 
+    fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
+        let old_var_decl_kind = self.var_decl_kind;
+        self.var_decl_kind = Some(n.kind);
+        n.visit_mut_children_with(self);
+        self.var_decl_kind = old_var_decl_kind;
+    }
+
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         v.visit_mut_children_with(self);
 
-        let can_drop = if let Some(init) = &v.init {
-            !init.may_have_side_effects(&self.expr_ctx)
-        } else {
-            true
-        };
+        if let Pat::Ident(i) = &v.name {
+            let can_drop = if let Some(init) = &v.init {
+                !init.may_have_side_effects(&self.expr_ctx)
+            } else {
+                true
+            };
 
-        if can_drop {
-            if let Pat::Ident(i) = &v.name {
-                if self.can_drop_binding(i.id.to_id()) {
-                    self.changed = true;
-                    debug!("Dropping {} because it's not used", i.id);
-                    v.name.take();
-                }
+            if can_drop
+                && self.can_drop_binding(i.id.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
+            {
+                self.changed = true;
+                debug!("Dropping {} because it's not used", i.id);
+                v.name.take();
             }
         }
     }
@@ -575,5 +830,28 @@ impl VisitMut for TreeShaker {
 
             true
         });
+    }
+
+    fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
+        n.obj.visit_mut_with(self);
+    }
+
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if matches!(n.op, op!("delete")) {
+            return;
+        }
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.visit_mut_par(cpu_count() * 8, n);
     }
 }

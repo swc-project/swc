@@ -2,9 +2,11 @@
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 var ref = [
     1
-], ref1 = (ref[0], ref[1], [
+];
+ref[0], ref[1];
+var ref1 = [
     1
-]), ref2 = (ref1[0], ref1[1], ref1[2], [
+], ref2 = (ref1[0], ref1[1], ref1[2], [
     1
 ]);
 ref2[0], ref2[1], ref2[2], ref2[3], function(param) {

@@ -3,7 +3,18 @@ var E, Flag;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-!function(E) {
+!function(Shape) {
+    "use strict";
+    _inherits(TaggedShape, Shape);
+    var _super = _create_super(TaggedShape);
+    function TaggedShape() {
+        return _class_call_check(this, TaggedShape), _super.apply(this, arguments);
+    }
+    return TaggedShape;
+}(function Shape() {
+    "use strict";
+    _class_call_check(this, Shape);
+}), function(E) {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
 }(E || (E = {})), one(function() {}), on({
     test: function() {}

@@ -1,10 +1,22 @@
 //// [neverReturningFunctions1.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
-registerComponent("test-component", {
+!function() {
+    "use strict";
+    function Test() {
+        _class_call_check(this, Test);
+    }
+    var _proto = Test.prototype;
+    return _proto.fail = function(message) {
+        throw Error(message);
+    }, _proto.f1 = function(x) {
+        void 0 === x && this.fail("undefined argument"), x.length;
+    }, _proto.f2 = function(x) {
+        if (x >= 0) return x;
+        this.fail("negative number");
+    }, _proto.f3 = function(x) {
+        this.fail();
+    }, Test;
+}(), registerComponent("test-component", {
     schema: {
         myProperty: {
             default: [],

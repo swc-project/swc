@@ -1,6 +1,14 @@
 //// [witness.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function fnReturn1() {
+!function() {
+    "use strict";
+    function InitClass() {
+        _class_call_check(this, InitClass), this.x = this.x;
+    }
+    return InitClass.prototype.fn = function() {
+        this.x;
+    }, InitClass;
+}(), function fnReturn1() {
     return fnReturn1();
 }(), function fnReturn2() {
     return fnReturn2;

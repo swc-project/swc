@@ -1,6 +1,4 @@
 //// [objectRestParameterES5.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 function foobar() {
     var _param = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};

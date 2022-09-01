@@ -2,7 +2,7 @@
 //// [a.ts]
 export { };
 //// [b.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+export { };
 //// [c.ts]
 export { };
 //// [c.fixed.ts]

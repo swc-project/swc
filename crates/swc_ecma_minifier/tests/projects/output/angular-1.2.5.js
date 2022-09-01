@@ -2948,7 +2948,6 @@
             adjustedMatchers.push(function(matcher) {
                 if ("self" === matcher) return matcher;
                 if (isString(matcher)) {
-                    var s;
                     if (matcher.indexOf("***") > -1) throw $sceMinErr("iwcard", "Illegal sequence *** in string matcher.  String: {0}", matcher);
                     return RegExp("^" + (matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*")) + "$");
                 }
@@ -3457,7 +3456,7 @@
                 form.$setValidity(validationToken, !0, control);
             }), arrayRemove(controls, control);
         }, form.$setValidity = function(validationToken, isValid, control) {
-            var array, obj, queue = errors[validationToken];
+            var array, queue = errors[validationToken];
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {
@@ -4158,9 +4157,9 @@
                     "$scope",
                     "$attrs",
                     function($element, $scope, $attrs) {
-                        var nullOption, unknownOption, self = this, optionsMap = {}, ngModelCtrl = nullModelCtrl;
+                        var unknownOption, self = this, optionsMap = {}, ngModelCtrl = nullModelCtrl;
                         self.databound = $attrs.ngModel, self.init = function(ngModelCtrl_, nullOption_, unknownOption_) {
-                            ngModelCtrl = ngModelCtrl_, nullOption = nullOption_, unknownOption = unknownOption_;
+                            ngModelCtrl = ngModelCtrl_, unknownOption = unknownOption_;
                         }, self.addOption = function(value) {
                             assertNotHasOwnProperty(value, '"option value"'), optionsMap[value] = !0, ngModelCtrl.$viewValue == value && ($element.val(value), unknownOption.parent() && unknownOption.remove());
                         }, self.removeOption = function(value) {

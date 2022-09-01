@@ -1,5 +1,4 @@
 //// [component.d.ts]
-import * as React from "react";
 //// [file.jsx]
 //! 
 //!   x Expected '>', got 'a'

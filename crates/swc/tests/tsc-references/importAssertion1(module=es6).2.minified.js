@@ -4,12 +4,9 @@ export const a = 1;
 export const b = 2;
 //// [1.ts]
 import './0';
-import { a, b } from './0';
 import * as foo from './0';
 foo.a, foo.b;
 //// [2.ts]
-import { a, b } from './0';
-import { a as c, b as d } from './0';
 //// [3.ts]
 import('./0'), import('./0', {
     assert: {

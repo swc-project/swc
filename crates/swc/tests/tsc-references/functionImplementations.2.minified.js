@@ -19,4 +19,12 @@ var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
 };
-new Base(), new Base();
+!function(Base) {
+    "use strict";
+    _inherits(Derived, Base);
+    var _super = _create_super(Derived);
+    function Derived() {
+        return _class_call_check(this, Derived), _super.apply(this, arguments);
+    }
+    return Derived;
+}(Base), new Base(), new Base();

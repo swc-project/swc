@@ -55,9 +55,11 @@
                 BigInt("0x1000000000000"),
                 BigInt("0x100000000000000"),
                 BigInt("0x10000000000000000"), 
-            ], bytesToNumber = (a = new Uint16Array([
+            ];
+            a = new Uint16Array([
                 0xffcc
-            ]), 0xff === (b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength))[0] || b[0], function(bytes, _temp) {
+            ]), 0xff === (b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength))[0] || b[0];
+            var bytesToNumber = function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
                 var fn = le ? "reduce" : "reduceRight", number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
@@ -69,7 +71,7 @@
                     (number = BigInt(number)) > max && (number -= max, number -= max, number -= BigInt(2));
                 }
                 return Number(number);
-            }), numberToBytes = function(number, _temp2) {
+            }, numberToBytes = function(number, _temp2) {
                 var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
                 ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
                 for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
