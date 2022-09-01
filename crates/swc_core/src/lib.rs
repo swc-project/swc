@@ -6,8 +6,8 @@
 pub mod quote;
 
 /// Not a public interface.
-#[cfg(feature = "quote")]
-#[cfg_attr(docsrs, doc(cfg(feature = "quote")))]
+#[cfg(feature = "ecma_quote")]
+#[cfg_attr(docsrs, doc(cfg(feature = "ecma_quote")))]
 #[doc(hidden)]
 pub extern crate swc_ecma_quote_macros;
 

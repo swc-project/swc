@@ -141,7 +141,7 @@ pub(super) fn prepare_vars(
             call_site(),
         );
         stmts.push(parse_quote! {
-            let #var_ident: swc_core::ast::#type_name = #value;
+            let #var_ident: swc_core::ecma::ast::#type_name = #value;
         });
     }
 
