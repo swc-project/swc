@@ -252,6 +252,12 @@ impl Analyzer<'_> {
         }
     }
 
+    fn add_entry(&mut self, id: &Id, assign: bool) {
+        if !self.data.entries.contains(&(id.clone(), assign)) {
+            self.data.entries.push_front((id.clone(), assign));
+        }
+    }
+
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
         if id.0 == js_word!("arguments") {
@@ -265,8 +271,8 @@ impl Analyzer<'_> {
         }
 
         // If this is a root scope, we mark id as entry.
-        if self.scope.parent.is_none() && !self.data.entries.contains(&(id.clone(), assign)) {
-            self.data.entries.push_front((id.clone(), assign));
+        if self.scope.parent.is_none() {
+            self.add_entry(&id, assign);
         }
 
         {
