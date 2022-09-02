@@ -118,9 +118,30 @@ impl Data {
                 continue;
             }
 
+            if assign {
+                self.used_names.entry(id.clone()).or_default().assign += 1;
+            } else {
+                self.used_names.entry(id.clone()).or_default().usage += 1;
+            }
+
             let ix = *self.graph_ix.get(&id).unwrap();
 
-            for edge in self.graph.edges_directed(ix, petgraph::Direction::Outgoing) {}
+            for dep in self
+                .graph
+                .neighbors_directed(ix, petgraph::Direction::Outgoing)
+            {
+                let edge_idx = self.graph.find_edge(ix, dep).unwrap();
+
+                let edge = self.graph.edge_weight(edge_idx).unwrap();
+
+                let dep_id = self.graph.node_weight(dep).unwrap().clone();
+
+                if edge.usage > 0 {
+                    queue.push_back((dep_id, false));
+                } else if edge.assign > 0 {
+                    queue.push_back((dep_id, true));
+                }
+            }
         }
     }
 }
