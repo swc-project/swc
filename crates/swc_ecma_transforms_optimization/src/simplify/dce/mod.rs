@@ -116,13 +116,18 @@ impl Data {
             let (a, b) = (edge.source(), edge.target());
 
             // union the two vertices of the edge
-            vertex_sets.union(self.graph.to_index(a), self.graph.to_index(b));
+            vertex_sets.union(a, b);
         }
-        let mut labels = vertex_sets.into_labeling();
-        labels.sort_unstable();
-        labels.dedup();
-        dbg!(&self.graph);
-        dbg!(&labels);
+
+        let mut cycles = AHashMap::<_, Vec<_>>::default();
+
+        for node in self.graph.node_indices() {
+            let rep = vertex_sets.find(node);
+
+            cycles.entry(rep).or_default().push(node);
+        }
+
+        dbg!(&cycles);
     }
 }
 
