@@ -101,6 +101,8 @@ struct Data {
     /// Variable usage graph
     graph: DiGraph<Id, VarInfo>,
     graph_ix: AHashMap<Id, NodeIndex>,
+
+    entries: Vec<Id>,
 }
 
 #[derive(Debug, Default)]
@@ -122,7 +124,6 @@ struct Analyzer<'a> {
 
 #[derive(Debug, Default)]
 struct Scope<'a> {
-    #[allow(dead_code)]
     parent: Option<&'a Scope<'a>>,
 
     bindings_affected_by_eval: AHashSet<Id>,
@@ -216,6 +217,11 @@ impl Analyzer<'_> {
             }
         }
 
+        // If this is a root scope, we mark id as entry.
+        if self.scope.parent.is_none() && !self.data.entries.contains(&id) {
+            self.data.entries.push(id.clone());
+        }
+
         {
             let mut scope = Some(&self.scope);
 
@@ -257,12 +263,6 @@ impl Analyzer<'_> {
 
                 scope = s.parent;
             }
-        }
-
-        if assign {
-            self.data.used_names.entry(id).or_default().assign += 1;
-        } else {
-            self.data.used_names.entry(id).or_default().usage += 1;
         }
     }
 }
