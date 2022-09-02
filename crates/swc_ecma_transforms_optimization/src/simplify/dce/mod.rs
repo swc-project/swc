@@ -502,14 +502,14 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
+    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
         let old = self.in_var_decl;
 
         self.in_var_decl = true;
-        v.name.visit_with(self);
+        n.name.visit_with(self);
 
         self.in_var_decl = false;
-        v.init.visit_with(self);
+        n.init.visit_with(self);
 
         self.in_var_decl = old;
     }
