@@ -128,6 +128,9 @@ struct Scope<'a> {
 
     found_arguemnts: bool,
     bindings_affected_by_arguements: Vec<Id>,
+
+    /// Used to construct a graph.
+    used_identifiers: AHashSet<Id>,
 }
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -137,6 +140,12 @@ enum ScopeKind {
 }
 
 impl Analyzer<'_> {
+    fn with_graph_entry<F>(&mut self, ids: Vec<Id>, op: F)
+    where
+        F: for<'aa> FnOnce(&mut Analyzer<'aa>),
+    {
+    }
+
     fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
