@@ -425,7 +425,6 @@ drop_unused/issue_t161_top_retain_9/input.js
 drop_unused/keep_fnames/input.js
 drop_unused/unused_block_decls/input.js
 drop_unused/unused_block_decls_in_catch/input.js
-drop_unused/unused_circular_references_1/input.js
 drop_unused/unused_class_which_extends_might_throw/input.js
 drop_unused/unused_class_which_might_throw/input.js
 drop_unused/unused_class_which_might_throw_2/input.js
