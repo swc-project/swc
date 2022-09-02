@@ -160,6 +160,10 @@ impl Data {
 
             for &i in &cycle {
                 for &j in &cycle {
+                    if i == j {
+                        continue;
+                    }
+
                     let id = self.graph.node_weight(j);
                     let id = match id {
                         Some(id) => id,
@@ -174,6 +178,9 @@ impl Data {
 
                     if let Some(w) = self.graph.edge_weight(edge_idx) {
                         let e = self.used_names.entry(id.clone()).or_default();
+                        dbg!(&id);
+                        dbg!(&*e);
+                        dbg!(w);
                         e.usage -= w.usage;
                         e.assign -= w.assign;
                     }
