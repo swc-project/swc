@@ -2430,10 +2430,35 @@ dependencies = [
 ]
 
 [[package]]
+name = "rkyv-test"
+version = "0.7.38-test.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6c920f62b6e022ed303a3cafbad393dbb5dd40e05f555f489f69ca9fb61efff1"
+dependencies = [
+ "bytecheck",
+ "hashbrown 0.12.0",
+ "ptr_meta",
+ "rend",
+ "rkyv_derive_test",
+ "seahash",
+]
+
+[[package]]
 name = "rkyv_derive"
 version = "0.7.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e289706df51226e84814bf6ba1a9e1013112ae29bc7a9878f73fce360520c403"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "rkyv_derive_test"
+version = "0.7.38"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "70a0d3a9b62c4666451f35d96f5e5f5f44340673459a1cbf9e77e7140af68813"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2954,11 +2979,12 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.9"
+version = "0.4.10"
 dependencies = [
  "bytecheck",
  "once_cell",
  "rkyv",
+ "rkyv-test",
  "rustc-hash",
  "serde",
  "string_cache",
@@ -4122,7 +4148,6 @@ name = "swc_plugin_proxy"
 version = "0.18.13"
 dependencies = [
  "better_scoped_tls",
- "bytecheck",
  "rkyv",
  "swc_common",
  "swc_ecma_ast",
