@@ -302,7 +302,11 @@ impl Analyzer<'_> {
             }
         }
 
-        {
+        if self.scope.parent.is_none() && self.scope.ast_path.is_empty() {
+            // Add references from top level items into graph
+            self.data
+                .add_dep_edge(Default::default(), id.clone(), assign)
+        } else {
             let mut scope = Some(&self.scope);
 
             while let Some(s) = scope {
