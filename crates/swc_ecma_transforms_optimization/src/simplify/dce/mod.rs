@@ -1,6 +1,6 @@
 use std::{borrow::Cow, sync::Arc};
 
-use petgraph::{prelude::DiGraph, stable_graph::NodeIndex};
+use petgraph::{algo::tarjan_scc, prelude::DiGraph, stable_graph::NodeIndex};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -105,7 +105,37 @@ struct Data {
 
 impl Data {
     /// Traverse the graph and subtract usages from `used_names`.
-    fn subtract_cycles(&mut self) {}
+    fn subtract_cycles(&mut self) {
+        let cycles = tarjan_scc(&self.graph);
+
+        for cycle in cycles {
+            if cycle.len() == 1 {
+                continue;
+            }
+
+            for &i in &cycle {
+                for &j in &cycle {
+                    let id = self.graph.node_weight(j);
+                    let id = match id {
+                        Some(id) => id,
+                        None => continue,
+                    };
+
+                    let edge_idx = self.graph.find_edge(i, j);
+                    let edge_idx = match edge_idx {
+                        Some(edge_idx) => edge_idx,
+                        None => continue,
+                    };
+
+                    if let Some(w) = self.graph.edge_weight(edge_idx) {
+                        let e = self.used_names.entry(id.clone()).or_default();
+                        e.usage -= w.usage;
+                        e.assign -= w.assign;
+                    }
+                }
+            }
+        }
+    }
 }
 
 #[derive(Debug, Default)]
@@ -527,7 +557,10 @@ impl TreeShaker {
             return false;
         }
 
-        !self.data.used_names.contains_key(&name)
+        match self.data.used_names.get(&name) {
+            Some(v) => v.usage == 0 && v.assign == 0,
+            None => true,
+        }
     }
 
     fn can_drop_assignment_to(&self, name: Id, is_var: bool) -> bool {
