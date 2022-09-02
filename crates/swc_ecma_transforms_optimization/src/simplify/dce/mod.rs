@@ -104,6 +104,40 @@ struct Data {
 }
 
 impl Data {
+    /// Add an edge to dependency graph
+    fn add_dep_edge(&mut self, from: Id, to: Id, assign: bool) {
+        let from = *self
+            .graph_ix
+            .entry(from.clone())
+            .or_insert_with(|| self.graph.add_node(from.clone()));
+
+        let to = *self
+            .graph_ix
+            .entry(to.clone())
+            .or_insert_with(|| self.graph.add_node(to.clone()));
+
+        match self.graph.find_edge(from, to) {
+            Some(idx) => {
+                let mut info = self.graph.edge_weight_mut(idx).unwrap();
+                if assign {
+                    info.assign += 1;
+                } else {
+                    info.usage += 1;
+                }
+            }
+            None => {
+                self.graph.add_edge(
+                    from,
+                    to,
+                    VarInfo {
+                        usage: if !assign { 1 } else { 0 },
+                        assign: if assign { 1 } else { 0 },
+                    },
+                );
+            }
+        };
+    }
+
     /// Traverse the graph and subtract usages from `used_names`.
     fn subtract_cycles(&mut self) {
         let cycles = tarjan_scc(&self.graph);
@@ -273,38 +307,8 @@ impl Analyzer<'_> {
 
             while let Some(s) = scope {
                 for component in &s.ast_path {
-                    let from = *self
-                        .data
-                        .graph_ix
-                        .entry(component.clone())
-                        .or_insert_with(|| self.data.graph.add_node(component.clone()));
-
-                    let to = *self
-                        .data
-                        .graph_ix
-                        .entry(id.clone())
-                        .or_insert_with(|| self.data.graph.add_node(id.clone()));
-
-                    match self.data.graph.find_edge(from, to) {
-                        Some(idx) => {
-                            let mut info = self.data.graph.edge_weight_mut(idx).unwrap();
-                            if assign {
-                                info.assign += 1;
-                            } else {
-                                info.usage += 1;
-                            }
-                        }
-                        None => {
-                            self.data.graph.add_edge(
-                                from,
-                                to,
-                                VarInfo {
-                                    usage: if !assign { 1 } else { 0 },
-                                    assign: if assign { 1 } else { 0 },
-                                },
-                            );
-                        }
-                    };
+                    self.data
+                        .add_dep_edge(component.clone(), id.clone(), assign)
                 }
 
                 scope = s.parent;
