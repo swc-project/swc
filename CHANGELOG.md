@@ -10,6 +10,9 @@
 
 - **(es/parser)** Improve error message (#5719) ([383aa85](https://github.com/swc-project/swc/commit/383aa8510c629d909f9ef50f190915660b273706))
 
+
+- **(swc_core)** Fix reexport of ES transforms (#5716) ([9bef836](https://github.com/swc-project/swc/commit/9bef83681ff790b81effae61c45399608b1507cf))
+
 ### Features
 
 
