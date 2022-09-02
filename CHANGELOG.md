@@ -7,6 +7,9 @@
 
 - **(bundler)** Handle star export with top-level `await` (#5707) ([2b7cba8](https://github.com/swc-project/swc/commit/2b7cba8a97b971a00f4e851365462ba6d87e5ee0))
 
+
+- **(es/parser)** Improve error message (#5719) ([383aa85](https://github.com/swc-project/swc/commit/383aa8510c629d909f9ef50f190915660b273706))
+
 ### Features
 
 
