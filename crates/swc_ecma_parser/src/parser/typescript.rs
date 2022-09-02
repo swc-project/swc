@@ -137,7 +137,10 @@ impl<I: Tokens> Parser<I> {
 
             if kind == ParsingContext::EnumMembers {
                 const TOKEN: &Token = &Token::Comma;
-                let cur = format!("{:?}", cur!(self, false).ok());
+                let cur = match cur!(self, false).ok() {
+                    Some(tok) => format!("{:?}", tok),
+                    None => "EOF".to_string(),
+                };
                 self.emit_err(self.input.cur_span(), SyntaxError::Expected(TOKEN, cur));
                 continue;
             }

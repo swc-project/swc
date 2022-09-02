@@ -1,5 +1,5 @@
 
-  x Expected ',', got 'Some(g)'
+  x Expected ',', got 'g'
    ,-[$DIR/tests/typescript-errors/custom/const-enum/input.ts:4:5]
  4 | g = CONST
    : ^
