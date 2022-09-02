@@ -513,6 +513,15 @@ impl Visit for Analyzer<'_> {
 
         self.in_var_decl = old;
     }
+
+    fn visit_export_decl(&mut self, n: &ExportDecl) {
+        let old_is_not_entry = self.is_not_entry;
+
+        self.is_not_entry = false;
+        n.visit_children_with(self);
+
+        self.is_not_entry = old_is_not_entry;
+    }
 }
 
 impl Repeated for TreeShaker {
