@@ -1009,6 +1009,7 @@ impl VisitMut for TreeShaker {
 }
 
 impl Scope<'_> {
+    /// Returns true if it's not in a function or class.
     fn is_ast_path_empty(&self) -> bool {
         if !self.ast_path.is_empty() {
             return false;
