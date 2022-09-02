@@ -1,6 +1,6 @@
 use std::{borrow::Cow, sync::Arc};
 
-use petgraph::prelude::DiGraph;
+use petgraph::{prelude::DiGraph, stable_graph::NodeIndex};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -100,7 +100,9 @@ struct Data {
 
     /// Variable usage graph
     graph: DiGraph<Id, VarInfo>,
+    graph_ix: AHashMap<Id, NodeIndex>,
 }
+
 #[derive(Debug, Default)]
 struct VarInfo {
     /// This does not include self-references in a function.
@@ -130,7 +132,9 @@ struct Scope<'a> {
     bindings_affected_by_arguements: Vec<Id>,
 
     /// Used to construct a graph.
-    used_identifiers: AHashSet<Id>,
+    ///
+    /// This includes all bindings to current node.
+    ast_path: Vec<Id>,
 }
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -193,6 +197,7 @@ impl Analyzer<'_> {
         }
     }
 
+    /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
         if id.0 == js_word!("arguments") {
             self.scope.found_arguemnts = true;
@@ -202,6 +207,41 @@ impl Analyzer<'_> {
             if id == *f {
                 return;
             }
+        }
+
+        for component in &self.scope.ast_path {
+            let from = *self
+                .data
+                .graph_ix
+                .entry(component.clone())
+                .or_insert_with(|| self.data.graph.add_node(component.clone()));
+
+            let to = *self
+                .data
+                .graph_ix
+                .entry(id.clone())
+                .or_insert_with(|| self.data.graph.add_node(id.clone()));
+
+            match self.data.graph.find_edge(from, to) {
+                Some(idx) => {
+                    let mut info = self.data.graph.edge_weight_mut(idx).unwrap();
+                    if assign {
+                        info.assign += 1;
+                    } else {
+                        info.usage += 1;
+                    }
+                }
+                None => {
+                    self.data.graph.add_edge(
+                        from,
+                        to,
+                        VarInfo {
+                            usage: if !assign { 1 } else { 0 },
+                            assign: if assign { 1 } else { 0 },
+                        },
+                    );
+                }
+            };
         }
 
         if assign {
