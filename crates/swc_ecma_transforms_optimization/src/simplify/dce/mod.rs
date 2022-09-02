@@ -353,10 +353,6 @@ impl Visit for Analyzer<'_> {
             if !n.class.decorators.is_empty() {
                 v.add(n.ident.to_id(), false);
             }
-
-            if !v.is_not_entry {
-                v.add_entry(n.ident.to_id(), false);
-            }
         })
     }
 
@@ -366,12 +362,8 @@ impl Visit for Analyzer<'_> {
             |v| {
                 n.visit_children_with(v);
 
-                if let Some(i) = &n.ident {
-                    if !v.is_not_entry {
-                        v.add_entry(i.to_id(), false);
-                    }
-
-                    if !n.class.decorators.is_empty() {
+                if !n.class.decorators.is_empty() {
+                    if let Some(i) = &n.ident {
                         v.add(i.to_id(), false);
                     }
                 }
