@@ -64,7 +64,7 @@ checksum = "1485d4d2cc45e7b201ee3767015c96faa5904387c9d87c6efdd0fb511f12d305"
 
 [[package]]
 name = "ast_node"
-version = "0.8.2"
+version = "0.8.3"
 dependencies = [
  "darling",
  "pmutil",
@@ -325,7 +325,7 @@ dependencies = [
 
 [[package]]
 name = "from_variant"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "pmutil",
  "proc-macro2",
@@ -1246,7 +1246,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.8"
+version = "0.4.9"
 dependencies = [
  "bytecheck",
  "once_cell",
@@ -1259,7 +1259,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.27.12"
+version = "0.27.13"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1290,13 +1290,14 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.10.0"
+version = "0.20.0"
 dependencies = [
  "once_cell",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_quote_macros",
+ "swc_ecma_transforms",
  "swc_ecma_transforms_testing",
  "swc_ecma_visit",
  "swc_plugin",
@@ -1307,7 +1308,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.11"
+version = "0.90.15"
 dependencies = [
  "bitflags",
  "bytecheck",
@@ -1324,7 +1325,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.122.0"
+version = "0.123.0"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -1352,7 +1353,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.118.0"
+version = "0.118.3"
 dependencies = [
  "either",
  "enum_kind",
@@ -1385,7 +1386,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -1398,8 +1399,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_ecma_transforms"
+version = "0.191.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_transforms_base",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+]
+
+[[package]]
 name = "swc_ecma_transforms_base"
-version = "0.104.0"
+version = "0.106.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -1420,7 +1433,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.106.0"
+version = "0.108.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -1442,7 +1455,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.100.1"
+version = "0.101.0"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -1507,14 +1520,14 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.89.1"
+version = "0.90.0"
 dependencies = [
  "once_cell",
 ]
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.9.7"
+version = "0.9.8"
 dependencies = [
  "proc-macro2",
  "quote",

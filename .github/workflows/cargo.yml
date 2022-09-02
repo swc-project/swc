@@ -410,7 +410,7 @@ jobs:
       - name: Run cargo test (core)
         if: matrix.settings.crate == 'swc_core'
         run: |
-          cargo test --color always -p swc_core --features quote --features common --features utils
+          cargo test --color always -p swc_core --features ecma_quote --features common --features ecma_utils
 
       - name: Run cargo test (binding_core_wasm)
         if: matrix.settings.crate == 'binding_core_wasm'
