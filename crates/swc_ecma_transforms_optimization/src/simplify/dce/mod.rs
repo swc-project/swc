@@ -152,6 +152,7 @@ struct Analyzer<'a> {
     in_var_decl: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
+    cur_class_id: Option<Id>,
     cur_fn_id: Option<Id>,
 }
 
@@ -205,6 +206,7 @@ impl Analyzer<'_> {
                 scope: child,
                 data: self.data,
                 cur_fn_id: self.cur_fn_id.clone(),
+                cur_class_id: self.cur_class_id.clone(),
                 ..*self
             };
 
@@ -245,6 +247,11 @@ impl Analyzer<'_> {
         }
 
         if let Some(f) = &self.cur_fn_id {
+            if id == *f {
+                return;
+            }
+        }
+        if let Some(f) = &self.cur_class_id {
             if id == *f {
                 return;
             }
@@ -326,7 +333,10 @@ impl Visit for Analyzer<'_> {
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         self.with_ast_path(vec![n.ident.to_id()], |v| {
+            let old = v.cur_class_id.take();
+            v.cur_class_id = Some(n.ident.to_id());
             n.visit_children_with(v);
+            v.cur_class_id = old;
 
             if !n.class.decorators.is_empty() {
                 v.add(n.ident.to_id(), false);
@@ -768,6 +778,7 @@ impl VisitMut for TreeShaker {
                 in_var_decl: false,
                 scope: Default::default(),
                 data: &mut data,
+                cur_class_id: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
@@ -794,6 +805,7 @@ impl VisitMut for TreeShaker {
                 in_var_decl: false,
                 scope: Default::default(),
                 data: &mut data,
+                cur_class_id: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
