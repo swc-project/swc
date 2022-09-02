@@ -302,7 +302,7 @@ impl Analyzer<'_> {
             }
         }
 
-        if self.scope.parent.is_none() && self.scope.ast_path.is_empty() {
+        if self.scope.is_ast_path_empty() {
             // Add references from top level items into graph
             self.data
                 .add_dep_edge(Default::default(), id.clone(), assign)
@@ -1005,5 +1005,17 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
         self.visit_mut_par(cpu_count() * 8, n);
+    }
+}
+
+impl Scope<'_> {
+    fn is_ast_path_empty(&self) -> bool {
+        if !self.ast_path.is_empty() {
+            return false;
+        }
+        match &self.parent {
+            Some(p) => p.is_ast_path_empty(),
+            None => true,
+        }
     }
 }
