@@ -178,9 +178,6 @@ impl Data {
 
                     if let Some(w) = self.graph.edge_weight(edge_idx) {
                         let e = self.used_names.entry(id.clone()).or_default();
-                        dbg!(&id);
-                        dbg!(&*e);
-                        dbg!(w);
                         e.usage -= w.usage;
                         e.assign -= w.assign;
                     }
