@@ -1,6 +1,11 @@
 use std::{borrow::Cow, sync::Arc};
 
-use petgraph::{prelude::UnGraph, stable_graph::NodeIndex};
+use petgraph::{
+    prelude::UnGraph,
+    stable_graph::NodeIndex,
+    unionfind::UnionFind,
+    visit::{EdgeRef, NodeIndexable},
+};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -105,7 +110,20 @@ struct Data {
 
 impl Data {
     /// Traverse the graph and subtract usages from `used_names`.
-    fn subtract_cycles(&mut self) {}
+    fn subtract_cycles(&mut self) {
+        let mut vertex_sets = UnionFind::new(self.graph.node_bound());
+        for edge in self.graph.edge_references() {
+            let (a, b) = (edge.source(), edge.target());
+
+            // union the two vertices of the edge
+            vertex_sets.union(self.graph.to_index(a), self.graph.to_index(b));
+        }
+        let mut labels = vertex_sets.into_labeling();
+        labels.sort_unstable();
+        labels.dedup();
+        dbg!(&self.graph);
+        dbg!(&labels);
+    }
 }
 
 #[derive(Debug, Default)]
