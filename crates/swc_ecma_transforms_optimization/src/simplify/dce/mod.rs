@@ -101,21 +101,11 @@ struct Data {
     /// Variable usage graph
     graph: DiGraph<Id, VarInfo>,
     graph_ix: AHashMap<Id, NodeIndex>,
-
-    /// bool: `assign`
-    entries: VecDeque<(Id, bool)>,
 }
 
 impl Data {
-    /// Traverse the graph starting from entires and store usage info into
-    /// `used_names`.
-    fn process(&mut self) {
-        dbg!(&self.graph);
-        dbg!(&self.entries);
-
-        let mut queue = take(&mut self.entries);
-        let mut done = AHashSet::default();
-
+    /// Traverse the graph and subtract usages from `used_names`.
+    fn subtract_cycles(&mut self) {
         while let Some((id, assign)) = queue.pop_front() {
             if !done.insert(id.clone()) {
                 continue;
