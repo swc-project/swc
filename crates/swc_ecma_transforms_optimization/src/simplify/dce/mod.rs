@@ -1,6 +1,6 @@
 use std::{borrow::Cow, sync::Arc};
 
-use petgraph::{prelude::DiGraph, stable_graph::NodeIndex};
+use petgraph::{prelude::UnGraph, stable_graph::NodeIndex};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -99,7 +99,7 @@ struct Data {
     used_names: AHashMap<Id, VarInfo>,
 
     /// Variable usage graph
-    graph: DiGraph<Id, VarInfo>,
+    graph: UnGraph<Id, VarInfo>,
     graph_ix: AHashMap<Id, NodeIndex>,
 }
 
