@@ -164,6 +164,7 @@ struct Analyzer<'a> {
     #[allow(dead_code)]
     config: &'a Config,
     in_var_decl: bool,
+    is_not_entry: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
     cur_fn_id: Option<Id>,
@@ -271,7 +272,7 @@ impl Analyzer<'_> {
         }
 
         // If this is a root scope, we mark id as entry.
-        if self.scope.parent.is_none() {
+        if !self.is_not_entry {
             self.add_entry(id.clone(), assign);
         }
 
@@ -507,24 +508,6 @@ impl Visit for Analyzer<'_> {
         v.init.visit_with(self);
 
         self.in_var_decl = old;
-    }
-
-    fn visit_export_decl(&mut self, n: &ExportDecl) {
-        n.visit_children_with(self);
-
-        match &n.decl {
-            Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                self.add_entry(ident.to_id(), false);
-            }
-            Decl::Var(v) => {
-                for decsl in &v.decls {
-                    for id in find_pat_ids(&decsl.name) {
-                        self.add_entry(id, false);
-                    }
-                }
-            }
-            _ => {}
-        }
     }
 }
 
@@ -801,9 +784,10 @@ impl VisitMut for TreeShaker {
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
-                data: &mut data,
                 in_var_decl: false,
+                is_not_entry: false,
                 scope: Default::default(),
+                data: &mut data,
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
@@ -827,9 +811,10 @@ impl VisitMut for TreeShaker {
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
-                data: &mut data,
                 in_var_decl: false,
+                is_not_entry: false,
                 scope: Default::default(),
+                data: &mut data,
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
