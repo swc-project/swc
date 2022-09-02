@@ -262,6 +262,12 @@ impl Analyzer<'_> {
                 scope = s.parent;
             }
         }
+
+        if assign {
+            self.data.used_names.entry(id).or_default().assign += 1;
+        } else {
+            self.data.used_names.entry(id).or_default().usage += 1;
+        }
     }
 }
 
