@@ -216,39 +216,47 @@ impl Analyzer<'_> {
             }
         }
 
-        for component in &self.scope.ast_path {
-            let from = *self
-                .data
-                .graph_ix
-                .entry(component.clone())
-                .or_insert_with(|| self.data.graph.add_node(component.clone()));
+        {
+            let mut scope = Some(&self.scope);
 
-            let to = *self
-                .data
-                .graph_ix
-                .entry(id.clone())
-                .or_insert_with(|| self.data.graph.add_node(id.clone()));
+            while let Some(s) = scope {
+                for component in &s.ast_path {
+                    let from = *self
+                        .data
+                        .graph_ix
+                        .entry(component.clone())
+                        .or_insert_with(|| self.data.graph.add_node(component.clone()));
 
-            match self.data.graph.find_edge(from, to) {
-                Some(idx) => {
-                    let mut info = self.data.graph.edge_weight_mut(idx).unwrap();
-                    if assign {
-                        info.assign += 1;
-                    } else {
-                        info.usage += 1;
-                    }
+                    let to = *self
+                        .data
+                        .graph_ix
+                        .entry(id.clone())
+                        .or_insert_with(|| self.data.graph.add_node(id.clone()));
+
+                    match self.data.graph.find_edge(from, to) {
+                        Some(idx) => {
+                            let mut info = self.data.graph.edge_weight_mut(idx).unwrap();
+                            if assign {
+                                info.assign += 1;
+                            } else {
+                                info.usage += 1;
+                            }
+                        }
+                        None => {
+                            self.data.graph.add_edge(
+                                from,
+                                to,
+                                VarInfo {
+                                    usage: if !assign { 1 } else { 0 },
+                                    assign: if assign { 1 } else { 0 },
+                                },
+                            );
+                        }
+                    };
                 }
-                None => {
-                    self.data.graph.add_edge(
-                        from,
-                        to,
-                        VarInfo {
-                            usage: if !assign { 1 } else { 0 },
-                            assign: if assign { 1 } else { 0 },
-                        },
-                    );
-                }
-            };
+
+                scope = s.parent;
+            }
         }
 
         if assign {
