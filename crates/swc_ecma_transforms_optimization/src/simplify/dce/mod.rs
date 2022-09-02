@@ -458,10 +458,6 @@ impl Visit for Analyzer<'_> {
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         self.with_ast_path(vec![n.ident.to_id()], |v| {
-            if !v.is_not_entry {
-                v.add_entry(n.ident.to_id(), false);
-            }
-
             let old = v.cur_fn_id.take();
             v.cur_fn_id = Some(n.ident.to_id());
             n.visit_children_with(v);
@@ -479,12 +475,8 @@ impl Visit for Analyzer<'_> {
             |v| {
                 n.visit_children_with(v);
 
-                if let Some(i) = &n.ident {
-                    if !v.is_not_entry {
-                        v.add_entry(i.to_id(), false);
-                    }
-
-                    if !n.function.decorators.is_empty() {
+                if !n.function.decorators.is_empty() {
+                    if let Some(i) = &n.ident {
                         v.add(i.to_id(), false);
                     }
                 }
