@@ -1,8 +1,8 @@
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import "core-js/modules/es.promise.js";
 import "core-js/modules/es.object.to-string.js";
+import "core-js/modules/es.promise.js";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from "react";
 import { render } from "react-dom";
