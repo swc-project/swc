@@ -1,4 +1,4 @@
-use std::{borrow::Cow, sync::Arc};
+use std::{borrow::Cow, collections::VecDeque, mem::take, sync::Arc};
 
 use petgraph::{prelude::DiGraph, stable_graph::NodeIndex};
 use swc_atoms::{js_word, JsWord};
@@ -102,13 +102,27 @@ struct Data {
     graph: DiGraph<Id, VarInfo>,
     graph_ix: AHashMap<Id, NodeIndex>,
 
-    entries: Vec<Id>,
+    /// bool: `assign`
+    entries: VecDeque<(Id, bool)>,
 }
 
 impl Data {
     /// Traverse the graph starting from entires and store usage info into
     /// `used_names`.
-    fn process(&mut self) {}
+    fn process(&mut self) {
+        let mut queue = take(&mut self.entries);
+        let mut done = AHashSet::default();
+
+        while let Some((id, assign)) = queue.pop_front() {
+            if !done.insert(id.clone()) {
+                continue;
+            }
+
+            let ix = *self.graph_ix.get(&id).unwrap();
+
+            for edge in self.graph.edges_directed(ix, petgraph::Direction::Outgoing) {}
+        }
+    }
 }
 
 #[derive(Debug, Default)]
@@ -224,8 +238,8 @@ impl Analyzer<'_> {
         }
 
         // If this is a root scope, we mark id as entry.
-        if self.scope.parent.is_none() && !self.data.entries.contains(&id) {
-            self.data.entries.push(id.clone());
+        if self.scope.parent.is_none() && !self.data.entries.contains(&(id.clone(), assign)) {
+            self.data.entries.push_front((id.clone(), assign));
         }
 
         {
