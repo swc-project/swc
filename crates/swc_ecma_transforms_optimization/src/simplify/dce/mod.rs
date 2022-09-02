@@ -127,7 +127,10 @@ impl Data {
                 self.used_names.entry(id.clone()).or_default().usage += 1;
             }
 
-            let ix = *self.graph_ix.get(&id).unwrap();
+            let ix = match self.graph_ix.get(&id) {
+                Some(ix) => *ix,
+                None => continue,
+            };
 
             for dep in self
                 .graph
@@ -270,6 +273,8 @@ impl Analyzer<'_> {
             let mut scope = Some(&self.scope);
 
             while let Some(s) = scope {
+                dbg!(&s);
+
                 for component in &s.ast_path {
                     let from = *self
                         .data
