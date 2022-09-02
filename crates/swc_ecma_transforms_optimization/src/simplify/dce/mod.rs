@@ -672,7 +672,13 @@ impl VisitMut for TreeShaker {
                 if self.can_drop_binding(c.ident.to_id(), false)
                     && c.class.body.iter().all(|m| match m {
                         ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
-                        ClassMember::ClassProp(m) => !matches!(m.key, PropName::Computed(..)),
+                        ClassMember::ClassProp(m) => {
+                            !matches!(m.key, PropName::Computed(..))
+                                && !m
+                                    .value
+                                    .as_deref()
+                                    .map_or(true, |e| e.may_have_side_effects(&self.expr_ctx))
+                        }
 
                         ClassMember::StaticBlock(_) => false,
 
