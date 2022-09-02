@@ -1,6 +1,6 @@
 use std::{borrow::Cow, sync::Arc};
 
-use petgraph::{algo::tarjan_scc, prelude::DiGraph, stable_graph::NodeIndex, Direction::Incoming};
+use petgraph::{algo::tarjan_scc, prelude::DiGraphMap, Direction::Incoming};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -99,8 +99,8 @@ struct Data {
     used_names: AHashMap<Id, VarInfo>,
 
     /// Variable usage graph
-    graph: DiGraph<Id, VarInfo>,
-    graph_ix: AHashMap<Id, NodeIndex>,
+    graph: DiGraphMap<usize, VarInfo>,
+    graph_ix: AHashMap<Id, usize>,
 }
 
 impl Data {
