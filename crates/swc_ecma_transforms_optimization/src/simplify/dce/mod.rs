@@ -1,4 +1,4 @@
-use std::{borrow::Cow, collections::VecDeque, mem::take, sync::Arc};
+use std::{borrow::Cow, sync::Arc};
 
 use petgraph::{prelude::DiGraph, stable_graph::NodeIndex};
 use swc_atoms::{js_word, JsWord};
@@ -105,41 +105,7 @@ struct Data {
 
 impl Data {
     /// Traverse the graph and subtract usages from `used_names`.
-    fn subtract_cycles(&mut self) {
-        while let Some((id, assign)) = queue.pop_front() {
-            if !done.insert(id.clone()) {
-                continue;
-            }
-
-            if assign {
-                self.used_names.entry(id.clone()).or_default().assign += 1;
-            } else {
-                self.used_names.entry(id.clone()).or_default().usage += 1;
-            }
-
-            let ix = match self.graph_ix.get(&id) {
-                Some(ix) => *ix,
-                None => continue,
-            };
-
-            for dep in self
-                .graph
-                .neighbors_directed(ix, petgraph::Direction::Outgoing)
-            {
-                let edge_idx = self.graph.find_edge(ix, dep).unwrap();
-
-                let edge = self.graph.edge_weight(edge_idx).unwrap();
-
-                let dep_id = self.graph.node_weight(dep).unwrap().clone();
-
-                if edge.usage > 0 {
-                    queue.push_back((dep_id, false));
-                } else if edge.assign > 0 {
-                    queue.push_back((dep_id, true));
-                }
-            }
-        }
-    }
+    fn subtract_cycles(&mut self) {}
 }
 
 #[derive(Debug, Default)]
@@ -154,7 +120,6 @@ struct Analyzer<'a> {
     #[allow(dead_code)]
     config: &'a Config,
     in_var_decl: bool,
-    is_not_entry: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
     cur_fn_id: Option<Id>,
@@ -243,12 +208,6 @@ impl Analyzer<'_> {
         }
     }
 
-    fn add_entry(&mut self, id: Id, assign: bool) {
-        if !self.data.entries.contains(&(id.clone(), assign)) {
-            self.data.entries.push_front((id, assign));
-        }
-    }
-
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
         if id.0 == js_word!("arguments") {
@@ -261,17 +220,10 @@ impl Analyzer<'_> {
             }
         }
 
-        // If this is a root scope, we mark id as entry.
-        if !self.is_not_entry {
-            self.add_entry(id.clone(), assign);
-        }
-
         {
             let mut scope = Some(&self.scope);
 
             while let Some(s) = scope {
-                dbg!(&s);
-
                 for component in &s.ast_path {
                     let from = *self
                         .data
@@ -420,8 +372,6 @@ impl Visit for Analyzer<'_> {
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         self.with_scope(ScopeKind::ArrowFn, |v| {
-            v.is_not_entry = true;
-
             n.visit_children_with(v);
 
             if v.scope.found_direct_eval {
@@ -432,8 +382,6 @@ impl Visit for Analyzer<'_> {
 
     fn visit_function(&mut self, n: &Function) {
         self.with_scope(ScopeKind::Fn, |v| {
-            v.is_not_entry = true;
-
             n.visit_children_with(v);
 
             if v.scope.found_direct_eval {
@@ -504,24 +452,6 @@ impl Visit for Analyzer<'_> {
         });
 
         self.in_var_decl = old;
-    }
-
-    fn visit_export_decl(&mut self, n: &ExportDecl) {
-        n.visit_children_with(self);
-
-        match &n.decl {
-            Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                self.add_entry(ident.to_id(), false);
-            }
-            Decl::Var(decl) => {
-                for decl in &decl.decls {
-                    for id in find_pat_ids(&decl.name) {
-                        self.add_entry(id, false);
-                    }
-                }
-            }
-            _ => {}
-        }
     }
 }
 
@@ -799,14 +729,13 @@ impl VisitMut for TreeShaker {
             let mut analyzer = Analyzer {
                 config: &self.config,
                 in_var_decl: false,
-                is_not_entry: false,
                 scope: Default::default(),
                 data: &mut data,
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
-        data.process();
+        data.subtract_cycles();
         self.data = Arc::new(data);
 
         HELPERS.set(&Helpers::new(true), || {
@@ -826,14 +755,13 @@ impl VisitMut for TreeShaker {
             let mut analyzer = Analyzer {
                 config: &self.config,
                 in_var_decl: false,
-                is_not_entry: false,
                 scope: Default::default(),
                 data: &mut data,
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
-        data.process();
+        data.subtract_cycles();
         self.data = Arc::new(data);
 
         HELPERS.set(&Helpers::new(true), || {
