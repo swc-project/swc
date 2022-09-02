@@ -680,10 +680,14 @@ impl VisitMut for TreeShaker {
                                     .map_or(true, |e| e.may_have_side_effects(&self.expr_ctx))
                         }
 
+                        ClassMember::PrivateProp(m) => !m
+                            .value
+                            .as_deref()
+                            .map_or(true, |e| e.may_have_side_effects(&self.expr_ctx)),
+
                         ClassMember::StaticBlock(_) => false,
 
                         ClassMember::TsIndexSignature(_)
-                        | ClassMember::PrivateProp(_)
                         | ClassMember::Empty(_)
                         | ClassMember::Constructor(_)
                         | ClassMember::PrivateMethod(_) => true,
