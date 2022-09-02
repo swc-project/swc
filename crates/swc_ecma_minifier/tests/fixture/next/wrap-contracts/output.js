@@ -11751,9 +11751,8 @@
             };
         },
         3346: function(module, __unused_webpack_exports, __webpack_require__) {
-            !function(global, factory) {
-                module.exports = factory();
-            }(this, function() {
+            var factory;
+            factory = function() {
                 'use strict';
                 var toStringFunction = Function.prototype.toString, create = Object.create, defineProperty = Object.defineProperty, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, getOwnPropertyNames = Object.getOwnPropertyNames, getOwnPropertySymbols = Object.getOwnPropertySymbols, getPrototypeOf$1 = Object.getPrototypeOf, _a = Object.prototype, hasOwnProperty = _a.hasOwnProperty, propertyIsEnumerable = _a.propertyIsEnumerable, SYMBOL_PROPERTIES = 'function' == typeof getOwnPropertySymbols, WEAK_MAP = 'function' == typeof WeakMap, createCache = function() {
                     if (WEAK_MAP) return function() {
@@ -11844,7 +11843,7 @@
                         realm: options ? options.realm : void 0
                     });
                 }, copy;
-            });
+            }, module.exports = factory();
         },
         4029: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";

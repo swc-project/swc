@@ -4369,15 +4369,13 @@
                 }, _proto.buildCSSClass = function() {
                     return _ModalDialog.prototype.buildCSSClass.call(this) + " vjs-text-track-settings";
                 }, _proto.getValues = function() {
-                    var _this3 = this;
-                    return function(object, fn, initial) {
-                        return void 0 === initial && (initial = 0), keys(object).reduce(function(accum, key) {
-                            return fn(accum, object[key], key);
-                        }, initial);
-                    }(selectConfigs, function(accum, config, key) {
+                    var object, fn, initial, _this3 = this;
+                    return object = selectConfigs, fn = function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
-                    }, {});
+                    }, initial = {}, keys(object).reduce(function(accum, key) {
+                        return fn(accum, object[key], key);
+                    }, initial);
                 }, _proto.setValues = function(values) {
                     var _this4 = this;
                     each(selectConfigs, function(config, key) {

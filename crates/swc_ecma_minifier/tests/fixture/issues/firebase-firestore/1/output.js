@@ -3302,53 +3302,6 @@
                     return e < 0 || e >= this.In.length ? null : this.In[e];
                 }
             }
-            class Vr {
-                constructor(t, e){
-                    this.Ht = t, this.ps = e, this.docs = new wn(Pt.comparator), this.size = 0;
-                }
-                addEntry(t, e, n) {
-                    const s = e.key, i = this.docs.get(s), r = i ? i.size : 0, o = this.ps(e);
-                    return this.docs = this.docs.insert(s, {
-                        document: e.clone(),
-                        size: o,
-                        readTime: n
-                    }), this.size += o - r, this.Ht.addToCollectionParentIndex(t, s.path.popLast());
-                }
-                removeEntry(t) {
-                    const e = this.docs.get(t);
-                    e && (this.docs = this.docs.remove(t), this.size -= e.size);
-                }
-                getEntry(t, e) {
-                    const n = this.docs.get(e);
-                    return js.resolve(n ? n.document.clone() : Kt.newInvalidDocument(e));
-                }
-                getEntries(t, e) {
-                    let n = pn;
-                    return e.forEach((t)=>{
-                        const e = this.docs.get(t);
-                        n = n.insert(t, e ? e.document.clone() : Kt.newInvalidDocument(t));
-                    }), js.resolve(n);
-                }
-                getDocumentsMatchingQuery(t, e, n) {
-                    let s = pn;
-                    const i = new Pt(e.path.child("")), r = this.docs.getIteratorFrom(i);
-                    for(; r.hasNext();){
-                        const { key: t1 , value: { document: i1 , readTime: o  } ,  } = r.getNext();
-                        if (!e.path.isPrefixOf(t1.path)) break;
-                        0 >= o.compareTo(n) || Pe(e, i1) && (s = s.insert(i1.key, i1.clone()));
-                    }
-                    return js.resolve(s);
-                }
-                Ts(t, e) {
-                    return js.forEach(this.docs, (t)=>e(t));
-                }
-                newChangeBuffer(t) {
-                    return new Sr(this);
-                }
-                getSize(t) {
-                    return js.resolve(this.size);
-                }
-            }
             class Sr extends Qi {
                 constructor(t){
                     super(), this.Se = t;
@@ -3368,6 +3321,7 @@
             }
             class Cr {
                 constructor(t, e){
+                    var t1, e1;
                     this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new class {
                         constructor(t){
                             this.persistence = t, this.Es = new ji((t)=>Wt(t), zt), this.lastRemoteSnapshotVersion = rt.min(), this.highestTargetId = 0, this.Is = 0, this.As = new br(), this.targetCount = 0, this.Rs = Ni.se();
@@ -3460,9 +3414,53 @@
                         getCollectionParents(t, e) {
                             return js.resolve(this.Gt.getEntries(e));
                         }
-                    }(), this.He = function(t, e) {
-                        return new Vr(t, e);
-                    }(this.Ht, (t)=>this.referenceDelegate.Ps(t)), this.N = new class {
+                    }(), this.He = (t1 = this.Ht, e1 = (t)=>this.referenceDelegate.Ps(t), new class {
+                        constructor(t, e){
+                            this.Ht = t, this.ps = e, this.docs = new wn(Pt.comparator), this.size = 0;
+                        }
+                        addEntry(t, e, n) {
+                            const s = e.key, i = this.docs.get(s), r = i ? i.size : 0, o = this.ps(e);
+                            return this.docs = this.docs.insert(s, {
+                                document: e.clone(),
+                                size: o,
+                                readTime: n
+                            }), this.size += o - r, this.Ht.addToCollectionParentIndex(t, s.path.popLast());
+                        }
+                        removeEntry(t) {
+                            const e = this.docs.get(t);
+                            e && (this.docs = this.docs.remove(t), this.size -= e.size);
+                        }
+                        getEntry(t, e) {
+                            const n = this.docs.get(e);
+                            return js.resolve(n ? n.document.clone() : Kt.newInvalidDocument(e));
+                        }
+                        getEntries(t, e) {
+                            let n = pn;
+                            return e.forEach((t)=>{
+                                const e = this.docs.get(t);
+                                n = n.insert(t, e ? e.document.clone() : Kt.newInvalidDocument(t));
+                            }), js.resolve(n);
+                        }
+                        getDocumentsMatchingQuery(t, e, n) {
+                            let s = pn;
+                            const i = new Pt(e.path.child("")), r = this.docs.getIteratorFrom(i);
+                            for(; r.hasNext();){
+                                const { key: t1 , value: { document: i1 , readTime: o  } ,  } = r.getNext();
+                                if (!e.path.isPrefixOf(t1.path)) break;
+                                0 >= o.compareTo(n) || Pe(e, i1) && (s = s.insert(i1.key, i1.clone()));
+                            }
+                            return js.resolve(s);
+                        }
+                        Ts(t, e) {
+                            return js.forEach(this.docs, (t)=>e(t));
+                        }
+                        newChangeBuffer(t) {
+                            return new Sr(this);
+                        }
+                        getSize(t) {
+                            return js.resolve(this.size);
+                        }
+                    }(t1, e1)), this.N = new class {
                         constructor(t){
                             this.Wt = t;
                         }

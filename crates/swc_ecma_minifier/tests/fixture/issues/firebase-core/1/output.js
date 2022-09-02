@@ -1535,11 +1535,8 @@
                     this.g.setRequestHeader(h, f);
                 }, this), this.J && (this.g.responseType = this.J), "withCredentials" in this.g && this.g.withCredentials !== this.L && (this.g.withCredentials = this.L);
                 try {
-                    var a1;
-                    Ad(this), 0 < this.B && ((this.K = (a1 = this.g, y && function(a) {
-                        var b = Ga;
-                        return Object.prototype.hasOwnProperty.call(b, 9) ? b[9] : b[9] = a(9);
-                    }(function() {
+                    var a1, a2, b1;
+                    Ad(this), 0 < this.B && ((this.K = (a1 = this.g, y && (a2 = function() {
                         let a = 0;
                         const b = ta(String(Na)).split("."), c = ta("9").split("."), d = Math.max(b.length, c.length);
                         for(let h = 0; 0 == a && h < d; h++){
@@ -1560,7 +1557,7 @@
                             }while (0 == a)
                         }
                         return 0 <= a;
-                    }) && "number" == typeof a1.timeout && void 0 !== a1.ontimeout)) ? (this.g.timeout = this.B, this.g.ontimeout = q(this.pa, this)) : this.A = Gb(this.pa, this.B, this)), this.v = !0, this.g.send(a), this.v = !1;
+                    }, b1 = Ga, Object.prototype.hasOwnProperty.call(b1, 9) ? b1[9] : b1[9] = a2(9)) && "number" == typeof a1.timeout && void 0 !== a1.ontimeout)) ? (this.g.timeout = this.B, this.g.ontimeout = q(this.pa, this)) : this.A = Gb(this.pa, this.B, this)), this.v = !0, this.g.send(a), this.v = !1;
                 } catch (f1) {
                     zd(this, f1);
                 }
@@ -2105,29 +2102,27 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = function(element, callback, options) {
-                        var ref = function(options) {
-                            var id = options.rootMargin || "", instance = observers.get(id);
-                            if (instance) return instance;
-                            var elements = new Map(), observer = new IntersectionObserver(function(entries) {
-                                entries.forEach(function(entry) {
-                                    var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
-                                    callback && isVisible && callback(isVisible);
-                                });
-                            }, options);
-                            return observers.set(id, instance = {
-                                id: id,
-                                observer: observer,
-                                elements: elements
-                            }), instance;
-                        }(options), id = ref.id, observer = ref.observer, elements = ref.elements;
-                        return elements.set(element, callback), observer.observe(element), function() {
-                            elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
-                        };
-                    }(el, function(isVisible) {
+                    var element, callback, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (element = el, callback = function(isVisible) {
                         return isVisible && setVisible(isVisible);
-                    }, {
+                    }, id = (ref = function(options) {
+                        var id = options.rootMargin || "", instance = observers.get(id);
+                        if (instance) return instance;
+                        var elements = new Map(), observer = new IntersectionObserver(function(entries) {
+                            entries.forEach(function(entry) {
+                                var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+                                callback && isVisible && callback(isVisible);
+                            });
+                        }, options);
+                        return observers.set(id, instance = {
+                            id: id,
+                            observer: observer,
+                            elements: elements
+                        }), instance;
+                    }({
                         rootMargin: rootMargin
+                    })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
+                        elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
                     isDisabled,
