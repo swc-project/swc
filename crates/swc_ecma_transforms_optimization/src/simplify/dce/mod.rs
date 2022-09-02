@@ -110,6 +110,9 @@ impl Data {
     /// Traverse the graph starting from entires and store usage info into
     /// `used_names`.
     fn process(&mut self) {
+        dbg!(&self.graph);
+        dbg!(&self.entries);
+
         let mut queue = take(&mut self.entries);
         let mut done = AHashSet::default();
 
