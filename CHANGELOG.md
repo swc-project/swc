@@ -16,6 +16,12 @@
 
 - **(es/minifier)** Make DCE single-pass (#5699) ([8827c38](https://github.com/swc-project/swc/commit/8827c38faf527e3f0485d2537dc1515df12f889c))
 
+### Refactor
+
+
+
+- **(swc_core)** Use namespace `ecma` (#5713) ([975cbfe](https://github.com/swc-project/swc/commit/975cbfe0d9d1399c543df5041a6775514a3c43ee))
+
 ## [1.2.246] - 2022-09-01
 
 ### Bug Fixes
