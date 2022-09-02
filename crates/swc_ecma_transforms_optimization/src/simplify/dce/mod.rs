@@ -118,6 +118,11 @@ struct Analyzer<'a> {
     scope: Scope<'a>,
     data: &'a mut Data,
     cur_fn_id: Option<Id>,
+
+    /// Used to construct a graph.
+    ///
+    /// This includes all bindings to current node.
+    ast_path: Vec<Id>,
 }
 
 #[derive(Debug, Default)]
@@ -130,11 +135,6 @@ struct Scope<'a> {
 
     found_arguemnts: bool,
     bindings_affected_by_arguements: Vec<Id>,
-
-    /// Used to construct a graph.
-    ///
-    /// This includes all bindings to current node.
-    ast_path: Vec<Id>,
 }
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -144,10 +144,17 @@ enum ScopeKind {
 }
 
 impl Analyzer<'_> {
-    fn with_graph_entry<F>(&mut self, ids: Vec<Id>, op: F)
+    fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
+        let prev_len = self.ast_path.len();
+
+        self.ast_path.extend(ids);
+
+        op(self);
+
+        self.ast_path.truncate(prev_len);
     }
 
     fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
@@ -209,7 +216,7 @@ impl Analyzer<'_> {
             }
         }
 
-        for component in &self.scope.ast_path {
+        for component in &self.ast_path {
             let from = *self
                 .data
                 .graph_ix
@@ -703,6 +710,7 @@ impl VisitMut for TreeShaker {
                 in_var_decl: false,
                 scope: Default::default(),
                 cur_fn_id: Default::default(),
+                ast_path: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
@@ -728,6 +736,7 @@ impl VisitMut for TreeShaker {
                 in_var_decl: false,
                 scope: Default::default(),
                 cur_fn_id: Default::default(),
+                ast_path: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
