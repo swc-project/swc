@@ -1,5 +1,6 @@
 use std::{borrow::Cow, sync::Arc};
 
+use petgraph::prelude::DiGraph;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -96,6 +97,9 @@ struct Data {
     bindings: AHashSet<Id>,
 
     used_names: AHashMap<Id, VarInfo>,
+
+    /// Variable usage graph
+    graph: DiGraph<Id, VarInfo>,
 }
 #[derive(Debug, Default)]
 struct VarInfo {
