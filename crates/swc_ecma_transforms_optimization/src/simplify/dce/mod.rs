@@ -1,6 +1,6 @@
 use std::{borrow::Cow, sync::Arc};
 
-use petgraph::{algo::tarjan_scc, prelude::DiGraph, stable_graph::NodeIndex};
+use petgraph::{algo::tarjan_scc, prelude::DiGraph, stable_graph::NodeIndex, Direction::Incoming};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -108,9 +108,20 @@ impl Data {
     fn subtract_cycles(&mut self) {
         let cycles = tarjan_scc(&self.graph);
 
-        for cycle in cycles {
+        'c: for cycle in cycles {
             if cycle.len() == 1 {
                 continue;
+            }
+
+            // We have to exclude cycle from remove list if an outer node refences an item
+            // of cycle.
+            for &node in &cycle {
+                if self.graph.neighbors_directed(node, Incoming).any(|node| {
+                    // Node in cycle does not matter
+                    !cycle.contains(&node)
+                }) {
+                    continue 'c;
+                }
             }
 
             for &i in &cycle {
