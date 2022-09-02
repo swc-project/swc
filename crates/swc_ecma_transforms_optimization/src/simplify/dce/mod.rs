@@ -515,12 +515,21 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_export_decl(&mut self, n: &ExportDecl) {
-        let old_is_not_entry = self.is_not_entry;
-
-        self.is_not_entry = false;
         n.visit_children_with(self);
 
-        self.is_not_entry = old_is_not_entry;
+        match &n.decl {
+            Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                self.add_entry(ident.to_id(), false);
+            }
+            Decl::Var(decl) => {
+                for decl in &decl.decls {
+                    for id in find_pat_ids(&decl.name) {
+                        self.add_entry(id, false);
+                    }
+                }
+            }
+            _ => {}
+        }
     }
 }
 
