@@ -508,6 +508,18 @@ impl Visit for Analyzer<'_> {
 
         self.in_var_decl = old;
     }
+
+    fn visit_export_decl(&mut self, n: &ExportDecl) {
+        n.visit_children_with(self);
+
+        match &n.decl {
+            Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                self.add_entry(&ident.to_id(), false);
+            }
+            Decl::Var(_v) => {}
+            _ => {}
+        }
+    }
 }
 
 impl Repeated for TreeShaker {
