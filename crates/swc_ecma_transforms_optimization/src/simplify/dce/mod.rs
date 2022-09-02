@@ -430,6 +430,8 @@ impl Visit for Analyzer<'_> {
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         self.with_scope(ScopeKind::ArrowFn, |v| {
+            v.is_not_entry = true;
+
             n.visit_children_with(v);
 
             if v.scope.found_direct_eval {
@@ -440,6 +442,8 @@ impl Visit for Analyzer<'_> {
 
     fn visit_function(&mut self, n: &Function) {
         self.with_scope(ScopeKind::Fn, |v| {
+            v.is_not_entry = true;
+
             n.visit_children_with(v);
 
             if v.scope.found_direct_eval {
