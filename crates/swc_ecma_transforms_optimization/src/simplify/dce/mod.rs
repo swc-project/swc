@@ -397,24 +397,31 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        let old = self.cur_fn_id.take();
-        self.cur_fn_id = Some(n.ident.to_id());
-        n.visit_children_with(self);
-        self.cur_fn_id = old;
+        self.with_ast_path(vec![n.ident.to_id()], |v| {
+            let old = v.cur_fn_id.take();
+            v.cur_fn_id = Some(n.ident.to_id());
+            n.visit_children_with(v);
+            v.cur_fn_id = old;
 
-        if !n.function.decorators.is_empty() {
-            self.add(n.ident.to_id(), false);
-        }
+            if !n.function.decorators.is_empty() {
+                v.add(n.ident.to_id(), false);
+            }
+        })
     }
 
     fn visit_fn_expr(&mut self, n: &FnExpr) {
-        n.visit_children_with(self);
+        self.with_ast_path(
+            n.ident.clone().map(|v| v.to_id()).into_iter().collect(),
+            |v| {
+                n.visit_children_with(v);
 
-        if !n.function.decorators.is_empty() {
-            if let Some(i) = &n.ident {
-                self.add(i.to_id(), false);
-            }
-        }
+                if !n.function.decorators.is_empty() {
+                    if let Some(i) = &n.ident {
+                        v.add(i.to_id(), false);
+                    }
+                }
+            },
+        )
     }
 
     fn visit_pat(&mut self, p: &Pat) {
