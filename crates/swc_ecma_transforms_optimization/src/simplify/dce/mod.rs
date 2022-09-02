@@ -1,11 +1,6 @@
 use std::{borrow::Cow, sync::Arc};
 
-use petgraph::{
-    prelude::UnGraph,
-    stable_graph::NodeIndex,
-    unionfind::UnionFind,
-    visit::{EdgeRef, NodeIndexable},
-};
+use petgraph::{prelude::DiGraph, stable_graph::NodeIndex};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -104,31 +99,13 @@ struct Data {
     used_names: AHashMap<Id, VarInfo>,
 
     /// Variable usage graph
-    graph: UnGraph<Id, VarInfo>,
+    graph: DiGraph<Id, VarInfo>,
     graph_ix: AHashMap<Id, NodeIndex>,
 }
 
 impl Data {
     /// Traverse the graph and subtract usages from `used_names`.
-    fn subtract_cycles(&mut self) {
-        let mut vertex_sets = UnionFind::new(self.graph.node_bound());
-        for edge in self.graph.edge_references() {
-            let (a, b) = (edge.source(), edge.target());
-
-            // union the two vertices of the edge
-            vertex_sets.union(a, b);
-        }
-
-        let mut cycles = AHashMap::<_, Vec<_>>::default();
-
-        for node in self.graph.node_indices() {
-            let rep = vertex_sets.find(node);
-
-            cycles.entry(rep).or_default().push(node);
-        }
-
-        dbg!(&cycles);
-    }
+    fn subtract_cycles(&mut self) {}
 }
 
 #[derive(Debug, Default)]
