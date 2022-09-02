@@ -508,8 +508,10 @@ impl Visit for Analyzer<'_> {
         self.in_var_decl = true;
         n.name.visit_with(self);
 
-        self.in_var_decl = false;
-        n.init.visit_with(self);
+        self.with_ast_path(find_pat_ids(&n.name), |v| {
+            v.in_var_decl = false;
+            n.init.visit_with(v);
+        });
 
         self.in_var_decl = old;
     }
