@@ -105,6 +105,12 @@ struct Data {
     entries: Vec<Id>,
 }
 
+impl Data {
+    /// Traverse the graph starting from entires and store usage info into
+    /// `used_names`.
+    fn process(&mut self) {}
+}
+
 #[derive(Debug, Default)]
 struct VarInfo {
     /// This does not include self-references in a function.
@@ -735,6 +741,7 @@ impl VisitMut for TreeShaker {
             };
             m.visit_with(&mut analyzer);
         }
+        data.process();
         self.data = Arc::new(data);
 
         HELPERS.set(&Helpers::new(true), || {
@@ -760,6 +767,7 @@ impl VisitMut for TreeShaker {
             };
             m.visit_with(&mut analyzer);
         }
+        data.process();
         self.data = Arc::new(data);
 
         HELPERS.set(&Helpers::new(true), || {
