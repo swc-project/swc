@@ -252,9 +252,9 @@ impl Analyzer<'_> {
         }
     }
 
-    fn add_entry(&mut self, id: &Id, assign: bool) {
+    fn add_entry(&mut self, id: Id, assign: bool) {
         if !self.data.entries.contains(&(id.clone(), assign)) {
-            self.data.entries.push_front((id.clone(), assign));
+            self.data.entries.push_front((id, assign));
         }
     }
 
@@ -272,7 +272,7 @@ impl Analyzer<'_> {
 
         // If this is a root scope, we mark id as entry.
         if self.scope.parent.is_none() {
-            self.add_entry(&id, assign);
+            self.add_entry(id.clone(), assign);
         }
 
         {
@@ -514,9 +514,15 @@ impl Visit for Analyzer<'_> {
 
         match &n.decl {
             Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                self.add_entry(&ident.to_id(), false);
+                self.add_entry(ident.to_id(), false);
             }
-            Decl::Var(_v) => {}
+            Decl::Var(v) => {
+                for decsl in &v.decls {
+                    for id in find_pat_ids(&decsl.name) {
+                        self.add_entry(id, false);
+                    }
+                }
+            }
             _ => {}
         }
     }
