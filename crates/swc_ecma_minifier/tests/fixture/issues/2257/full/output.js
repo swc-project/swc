@@ -668,11 +668,6 @@
             function isArray(val) {
                 return "[object Array]" === toString.call(val);
             }
-            function isPlainObject(val) {
-                if ("[object Object]" !== toString.call(val)) return !1;
-                var prototype = Object.getPrototypeOf(val);
-                return null === prototype || prototype === Object.prototype;
-            }
             function forEach(obj, fn) {
                 if (null != obj) {
                     if ("object" != typeof obj && (obj = [
@@ -683,14 +678,10 @@
             }
             var axiosUtils = {
                 forEach: forEach,
-                merge: function merge() {
+                merge: function() {
                     for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
-                    var result = {};
-                    function assignValue(val, key) {
-                        isPlainObject(result[key]) && isPlainObject(val) ? result[key] = merge(result[key], val) : isPlainObject(val) ? result[key] = merge({}, val) : isArray(val) ? result[key] = val.slice() : result[key] = val;
-                    }
                     for(var i = 0, l = args.length; i < l; i++)forEach(args[i], assignValue);
-                    return result;
+                    return {};
                 },
                 isArray: isArray
             };
@@ -2529,11 +2520,6 @@
             function isObject(val) {
                 return null !== val && "object" == typeof val;
             }
-            function isPlainObject(val) {
-                if ("[object Object]" !== toString1.call(val)) return !1;
-                var prototype = Object.getPrototypeOf(val);
-                return null === prototype || prototype === Object.prototype;
-            }
             function isFunction(val) {
                 return "[object Function]" === toString1.call(val);
             }
@@ -2566,7 +2552,11 @@
                     return "number" == typeof val;
                 },
                 isObject: isObject,
-                isPlainObject: isPlainObject,
+                isPlainObject: function(val) {
+                    if ("[object Object]" !== toString1.call(val)) return !1;
+                    var prototype = Object.getPrototypeOf(val);
+                    return null === prototype || prototype === Object.prototype;
+                },
                 isUndefined: isUndefined,
                 isDate: function(val) {
                     return "[object Date]" === toString1.call(val);
@@ -2588,13 +2578,9 @@
                     return ("undefined" == typeof navigator || "ReactNative" !== navigator.product && "NativeScript" !== navigator.product && "NS" !== navigator.product) && "undefined" != typeof window && "undefined" != typeof document;
                 },
                 forEach: forEach,
-                merge: function merge() {
-                    var result = {};
-                    function assignValue(val, key) {
-                        isPlainObject(result[key]) && isPlainObject(val) ? result[key] = merge(result[key], val) : isPlainObject(val) ? result[key] = merge({}, val) : isArray(val) ? result[key] = val.slice() : result[key] = val;
-                    }
+                merge: function() {
                     for(var i = 0, l = arguments.length; i < l; i++)forEach(arguments[i], assignValue);
-                    return result;
+                    return {};
                 },
                 extend: function(a, b, thisArg) {
                     return forEach(b, function(val, key) {

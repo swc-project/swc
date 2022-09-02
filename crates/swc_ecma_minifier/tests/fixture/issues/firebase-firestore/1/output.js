@@ -13,7 +13,8 @@
                     return lh;
                 }
             });
-            var hn, ln, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2238), _firebase_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8463), _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3333), _firebase_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4444), _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3510), process = __webpack_require__(4155);
+            var hn, ln, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2238), _firebase_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8463), _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3333), _firebase_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4444), _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3510);
+            __webpack_require__(4155);
             const S = "@firebase/firestore";
             class D {
                 constructor(t){
@@ -410,18 +411,6 @@
                     return new ft([]);
                 }
             }
-            class dt {
-                constructor(t){
-                    this.fields = t, t.sort(ft.comparator);
-                }
-                covers(t) {
-                    for (const e of this.fields)if (e.isPrefixOf(t)) return !0;
-                    return !1;
-                }
-                isEqual(t) {
-                    return nt(this.fields, t.fields, (t, e)=>t.isEqual(e));
-                }
-            }
             class _t {
                 constructor(t){
                     this.binaryString = t;
@@ -498,9 +487,6 @@
             }
             function Rt(t) {
                 return 0 === t && 1 / t == -1 / 0;
-            }
-            function bt(t) {
-                return "number" == typeof t && Number.isInteger(t) && !Rt(t) && t <= Number.MAX_SAFE_INTEGER && t >= Number.MIN_SAFE_INTEGER;
             }
             class Pt {
                 constructor(t){
@@ -1205,36 +1191,6 @@
             function Ke(t) {
                 return Ot(t) && t.arrayValue.values ? t.arrayValue.values.slice() : [];
             }
-            class je {
-                constructor(t, e){
-                    this.field = t, this.transform = e;
-                }
-            }
-            class We {
-                constructor(t, e){
-                    this.version = t, this.transformResults = e;
-                }
-            }
-            class Ge {
-                constructor(t, e){
-                    this.updateTime = t, this.exists = e;
-                }
-                static none() {
-                    return new Ge();
-                }
-                static exists(t) {
-                    return new Ge(void 0, t);
-                }
-                static updateTime(t) {
-                    return new Ge(t);
-                }
-                get isNone() {
-                    return void 0 === this.updateTime && void 0 === this.exists;
-                }
-                isEqual(t) {
-                    return this.exists === t.exists && (this.updateTime ? !!t.updateTime && this.updateTime.isEqual(t.updateTime) : !t.updateTime);
-                }
-            }
             function ze(t, e) {
                 return void 0 !== t.updateTime ? e.isFoundDocument() && e.version.isEqual(t.updateTime) : void 0 === t.exists || t.exists === e.isFoundDocument();
             }
@@ -1309,16 +1265,6 @@
                     s.set(i.field, xe(t1, r, e));
                 }
                 return s;
-            }
-            class cn extends null {
-                constructor(t, e){
-                    super(), this.key = t, this.precondition = e, this.type = 2, this.fieldTransforms = [];
-                }
-            }
-            class an extends null {
-                constructor(t, e){
-                    super(), this.key = t, this.precondition = e, this.type = 3, this.fieldTransforms = [];
-                }
             }
             class un {
                 constructor(t){
@@ -1700,7 +1646,9 @@
                     return this.iter.hasNext();
                 }
             }
-            const pn = new wn(Pt.comparator), En = new wn(Pt.comparator), An = new wn(Pt.comparator), bn = new gn(Pt.comparator);
+            const pn = new wn(Pt.comparator), En = new wn(Pt.comparator);
+            new wn(Pt.comparator);
+            const bn = new gn(Pt.comparator);
             function Pn(...t) {
                 let e = bn;
                 for (const n of t)e = e.add(n);
@@ -1938,33 +1886,15 @@
                     this.databaseId = t, this.D = e;
                 }
             }
-            function Un(t, e) {
-                return t.D ? `${new Date(1e3 * e.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e.nanoseconds).slice(-9)}Z` : {
-                    seconds: "" + e.seconds,
-                    nanos: e.nanoseconds
-                };
-            }
             function jn(t) {
                 return t || L(), rt.fromTimestamp(function(t) {
                     const e = gt(t);
                     return new it(e.seconds, e.nanos);
                 }(t));
             }
-            function Qn(t, e) {
-                var t1;
-                return (t1 = t, new ht([
-                    "projects",
-                    t1.projectId,
-                    "databases",
-                    t1.database, 
-                ])).child("documents").child(e).canonicalString();
-            }
             function Wn(t) {
                 const e = ht.fromString(t);
                 return Ts(e) || L(), e;
-            }
-            function Gn(t, e) {
-                return Qn(t.databaseId, e.path);
             }
             function zn(t, e) {
                 const n = Wn(e);
@@ -1973,7 +1903,13 @@
                 return new Pt(Xn(n));
             }
             function Hn(t, e) {
-                return Qn(t.databaseId, e);
+                var t1, e1, t2;
+                return t1 = t.databaseId, e1 = e, (t2 = t1, new ht([
+                    "projects",
+                    t2.projectId,
+                    "databases",
+                    t2.database, 
+                ])).child("documents").child(e1).canonicalString();
             }
             function Yn(t) {
                 return new ht([
@@ -1985,106 +1921,6 @@
             }
             function Xn(t) {
                 return t.length > 4 && "documents" === t.get(4) || L(), t.popFirst(5);
-            }
-            function Zn(t, e, n) {
-                return {
-                    name: Gn(t, e),
-                    fields: n.value.mapValue.fields
-                };
-            }
-            function ss(t, e) {
-                var t1, e1;
-                let n;
-                if (e instanceof en) n = {
-                    update: Zn(t, e.key, e.value)
-                };
-                else if (e instanceof cn) n = {
-                    delete: Gn(t, e.key)
-                };
-                else if (e instanceof nn) n = {
-                    update: Zn(t, e.key, e.data),
-                    updateMask: function(t) {
-                        const e = [];
-                        return t.fields.forEach((t)=>e.push(t.canonicalString())), {
-                            fieldPaths: e
-                        };
-                    }(e.fieldMask)
-                };
-                else {
-                    if (!(e instanceof an)) return L();
-                    n = {
-                        verify: Gn(t, e.key)
-                    };
-                }
-                return e.fieldTransforms.length > 0 && (n.updateTransforms = e.fieldTransforms.map((t)=>(function(t, e) {
-                        const n = e.transform;
-                        if (n instanceof Oe) return {
-                            fieldPath: e.field.canonicalString(),
-                            setToServerValue: "REQUEST_TIME"
-                        };
-                        if (n instanceof Fe) return {
-                            fieldPath: e.field.canonicalString(),
-                            appendMissingElements: {
-                                values: n.elements
-                            }
-                        };
-                        if (n instanceof Le) return {
-                            fieldPath: e.field.canonicalString(),
-                            removeAllFromArray: {
-                                values: n.elements
-                            }
-                        };
-                        if (n instanceof Ue) return {
-                            fieldPath: e.field.canonicalString(),
-                            increment: n.C
-                        };
-                        throw L();
-                    })(0, t))), e.precondition.isNone || (n.currentDocument = (t1 = t, void 0 !== (e1 = e.precondition).updateTime ? {
-                    updateTime: Un(t1, (0, e1.updateTime).toTimestamp())
-                } : void 0 !== e1.exists ? {
-                    exists: e1.exists
-                } : L())), n;
-            }
-            function is(t, e) {
-                var t1;
-                const n = e.currentDocument ? void 0 !== (t1 = e.currentDocument).updateTime ? Ge.updateTime(jn(t1.updateTime)) : void 0 !== t1.exists ? Ge.exists(t1.exists) : Ge.none() : Ge.none(), s = e.updateTransforms ? e.updateTransforms.map((e)=>(function(t, e) {
-                        let n = null;
-                        if ("setToServerValue" in e) "REQUEST_TIME" === e.setToServerValue || L(), n = new Oe();
-                        else if ("appendMissingElements" in e) {
-                            const t1 = e.appendMissingElements.values || [];
-                            n = new Fe(t1);
-                        } else if ("removeAllFromArray" in e) {
-                            const t2 = e.removeAllFromArray.values || [];
-                            n = new Le(t2);
-                        } else "increment" in e ? n = new Ue(t, e.increment) : L();
-                        const s = ft.fromServerFormat(e.fieldPath);
-                        return new je(s, n);
-                    })(t, e)) : [];
-                if (e.update) {
-                    e.update.name;
-                    const i = zn(t, e.update.name), r = new Ut({
-                        mapValue: {
-                            fields: e.update.fields
-                        }
-                    });
-                    if (e.updateMask) {
-                        const t2 = function(t) {
-                            const e = t.fieldPaths || [];
-                            return new dt(e.map((t)=>ft.fromServerFormat(t)));
-                        }(e.updateMask);
-                        return new nn(i, r, t2, n, s);
-                    }
-                    return new en(i, r, n, s);
-                }
-                if (e.delete) {
-                    const s1 = zn(t, e.delete);
-                    return new cn(s1, n);
-                }
-                if (e.verify) {
-                    const s2 = zn(t, e.verify);
-                    return new an(s2, n);
-                }
-                return L();
             }
             function ls(t) {
                 return {
@@ -2132,32 +1968,6 @@
             }
             function As(t) {
                 return t + "";
-            }
-            function Rs(t) {
-                const e = t.length;
-                if (e >= 2 || L(), 2 === e) return "" === t.charAt(0) && "" === t.charAt(1) || L(), ht.emptyPath();
-                const n = e - 2, s = [];
-                let i = "";
-                for(let r = 0; r < e;){
-                    const e1 = t.indexOf("", r);
-                    switch((e1 < 0 || e1 > n) && L(), t.charAt(e1 + 1)){
-                        case "":
-                            const n1 = t.substring(r, e1);
-                            let o;
-                            0 === i.length ? o = n1 : (i += n1, o = i, i = ""), s.push(o);
-                            break;
-                        case "":
-                            i += t.substring(r, e1), i += "\0";
-                            break;
-                        case "":
-                            i += t.substring(r, e1 + 1);
-                            break;
-                        default:
-                            L();
-                    }
-                    r = e1 + 2;
-                }
-                return new ht(s);
             }
             class Ps {
                 constructor(t, e, n){
@@ -2353,249 +2163,8 @@
                     }), this.waitFor(n);
                 }
             }
-            class Qs {
-                constructor(t, e){
-                    this.action = t, this.transaction = e, this.aborted = !1, this.Et = new Q(), this.transaction.oncomplete = ()=>{
-                        this.Et.resolve();
-                    }, this.transaction.onabort = ()=>{
-                        e.error ? this.Et.reject(new zs(t, e.error)) : this.Et.resolve();
-                    }, this.transaction.onerror = (e)=>{
-                        const n = Zs(e.target.error);
-                        this.Et.reject(new zs(t, n));
-                    };
-                }
-                static open(t, e, n, s) {
-                    try {
-                        return new Qs(e, t.transaction(s, n));
-                    } catch (t1) {
-                        throw new zs(e, t1);
-                    }
-                }
-                get It() {
-                    return this.Et.promise;
-                }
-                abort(t) {
-                    t && this.Et.reject(t), this.aborted || ($("SimpleDb", "Aborting transaction:", t ? t.message : "Client-initiated abort"), this.aborted = !0, this.transaction.abort());
-                }
-                store(t) {
-                    const e = this.transaction.objectStore(t);
-                    return new Js(e);
-                }
-            }
-            class Ws {
-                constructor(t, e, n){
-                    this.name = t, this.version = e, this.At = n, 12.2 === Ws.Rt(getUA()) && O("Firestore persistence suffers from a bug in iOS 12.2 Safari that may cause your app to stop working. See https://stackoverflow.com/q/56496296/110915 for details and a potential workaround.");
-                }
-                static delete(t) {
-                    return $("SimpleDb", "Removing database:", t), Ys(window.indexedDB.deleteDatabase(t)).toPromise();
-                }
-                static bt() {
-                    if (!isIndexedDBAvailable()) return !1;
-                    if (Ws.Pt()) return !0;
-                    const t = getUA(), e = Ws.Rt(t), s = Ws.vt(t);
-                    return !(t.indexOf("MSIE ") > 0 || t.indexOf("Trident/") > 0 || t.indexOf("Edge/") > 0 || 0 < e && e < 10 || 0 < s && s < 4.5);
-                }
-                static Pt() {
-                    var t;
-                    return void 0 !== process && "YES" === (null === (t = process.env) || void 0 === t ? void 0 : t.Vt);
-                }
-                static St(t, e) {
-                    return t.store(e);
-                }
-                static Rt(t) {
-                    const e = t.match(/i(?:phone|pad|pod) os ([\d_]+)/i), n = e ? e[1].split("_").slice(0, 2).join(".") : "-1";
-                    return Number(n);
-                }
-                static vt(t) {
-                    const e = t.match(/Android ([\d.]+)/i), n = e ? e[1].split(".").slice(0, 2).join(".") : "-1";
-                    return Number(n);
-                }
-                async Dt(t) {
-                    return this.db || ($("SimpleDb", "Opening database:", this.name), this.db = await new Promise((e, n)=>{
-                        const s = indexedDB.open(this.name, this.version);
-                        s.onsuccess = (t)=>{
-                            const n = t.target.result;
-                            e(n);
-                        }, s.onblocked = ()=>{
-                            n(new zs(t, "Cannot upgrade IndexedDB schema while another tab is open. Close all tabs that access Firestore and reload this page to proceed."));
-                        }, s.onerror = (e)=>{
-                            const s = e.target.error;
-                            "VersionError" === s.name ? n(new j(K.FAILED_PRECONDITION, "A newer version of the Firestore SDK was previously used and so the persisted data is not compatible with the version of the SDK you are now using. The SDK will operate with persistence disabled. If you need persistence, please re-upgrade to a newer version of the SDK or else clear the persisted IndexedDB data for your app to start fresh.")) : "InvalidStateError" === s.name ? n(new j(K.FAILED_PRECONDITION, "Unable to open an IndexedDB connection. This could be due to running in a private browsing session on a browser whose private browsing sessions do not support IndexedDB: " + s)) : n(new zs(t, s));
-                        }, s.onupgradeneeded = (t)=>{
-                            $("SimpleDb", 'Database "' + this.name + '" requires upgrade from version:', t.oldVersion);
-                            const e = t.target.result;
-                            this.At.Ct(e, s.transaction, t.oldVersion, this.version).next(()=>{
-                                $("SimpleDb", "Database upgrade to version " + this.version + " complete");
-                            });
-                        };
-                    })), this.Nt && (this.db.onversionchange = (t)=>this.Nt(t)), this.db;
-                }
-                xt(t) {
-                    this.Nt = t, this.db && (this.db.onversionchange = (e)=>t(e));
-                }
-                async runTransaction(t, e, n, s) {
-                    const i = "readonly" === e;
-                    let r = 0;
-                    for(;;){
-                        ++r;
-                        try {
-                            this.db = await this.Dt(t);
-                            const e1 = Qs.open(this.db, t, i ? "readonly" : "readwrite", n), r1 = s(e1).catch((t)=>(e1.abort(t), js.reject(t))).toPromise();
-                            return r1.catch(()=>{}), await e1.It, r1;
-                        } catch (t1) {
-                            const e2 = "FirebaseError" !== t1.name && r < 3;
-                            if ($("SimpleDb", "Transaction failed with error:", t1.message, "Retrying:", e2), this.close(), !e2) return Promise.reject(t1);
-                        }
-                    }
-                }
-                close() {
-                    this.db && this.db.close(), this.db = void 0;
-                }
-            }
-            class Gs {
-                constructor(t){
-                    this.kt = t, this.$t = !1, this.Ot = null;
-                }
-                get isDone() {
-                    return this.$t;
-                }
-                get Ft() {
-                    return this.Ot;
-                }
-                set cursor(t) {
-                    this.kt = t;
-                }
-                done() {
-                    this.$t = !0;
-                }
-                Mt(t) {
-                    this.Ot = t;
-                }
-                delete() {
-                    return Ys(this.kt.delete());
-                }
-            }
-            class zs extends null {
-                constructor(t, e){
-                    super(K.UNAVAILABLE, `IndexedDB transaction '${t}' failed: ${e}`), this.name = "IndexedDbTransactionError";
-                }
-            }
             function Hs(t) {
                 return "IndexedDbTransactionError" === t.name;
-            }
-            class Js {
-                constructor(t){
-                    this.store = t;
-                }
-                put(t, e) {
-                    let n;
-                    return void 0 !== e ? ($("SimpleDb", "PUT", this.store.name, t, e), n = this.store.put(e, t)) : ($("SimpleDb", "PUT", this.store.name, "<auto-key>", t), n = this.store.put(t)), Ys(n);
-                }
-                add(t) {
-                    return $("SimpleDb", "ADD", this.store.name, t, t), Ys(this.store.add(t));
-                }
-                get(t) {
-                    return Ys(this.store.get(t)).next((e)=>(void 0 === e && (e = null), $("SimpleDb", "GET", this.store.name, t, e), e));
-                }
-                delete(t) {
-                    return $("SimpleDb", "DELETE", this.store.name, t), Ys(this.store.delete(t));
-                }
-                count() {
-                    return $("SimpleDb", "COUNT", this.store.name), Ys(this.store.count());
-                }
-                Lt(t, e) {
-                    const n = this.cursor(this.options(t, e)), s = [];
-                    return this.Bt(n, (t, e)=>{
-                        s.push(e);
-                    }).next(()=>s);
-                }
-                Ut(t, e) {
-                    $("SimpleDb", "DELETE ALL", this.store.name);
-                    const n = this.options(t, e);
-                    n.qt = !1;
-                    const s = this.cursor(n);
-                    return this.Bt(s, (t, e, n)=>n.delete());
-                }
-                Kt(t, e) {
-                    let n;
-                    e ? n = t : (n = {}, e = t);
-                    const s = this.cursor(n);
-                    return this.Bt(s, e);
-                }
-                jt(t) {
-                    const e = this.cursor({});
-                    return new js((n, s)=>{
-                        e.onerror = (t)=>{
-                            const e = Zs(t.target.error);
-                            s(e);
-                        }, e.onsuccess = (e)=>{
-                            const s = e.target.result;
-                            s ? t(s.primaryKey, s.value).next((t)=>{
-                                t ? s.continue() : n();
-                            }) : n();
-                        };
-                    });
-                }
-                Bt(t, e) {
-                    const n = [];
-                    return new js((s, i)=>{
-                        t.onerror = (t)=>{
-                            i(t.target.error);
-                        }, t.onsuccess = (t)=>{
-                            const i = t.target.result;
-                            if (!i) return void s();
-                            const r = new Gs(i), o = e(i.primaryKey, i.value, r);
-                            if (o instanceof js) {
-                                const t1 = o.catch((t)=>(r.done(), js.reject(t)));
-                                n.push(t1);
-                            }
-                            r.isDone ? s() : null === r.Ft ? i.continue() : i.continue(r.Ft);
-                        };
-                    }).next(()=>js.waitFor(n));
-                }
-                options(t, e) {
-                    let n;
-                    return void 0 !== t && ("string" == typeof t ? n = t : e = t), {
-                        index: n,
-                        range: e
-                    };
-                }
-                cursor(t) {
-                    let e = "next";
-                    if (t.reverse && (e = "prev"), t.index) {
-                        const n = this.store.index(t.index);
-                        return t.qt ? n.openKeyCursor(t.range, e) : n.openCursor(t.range, e);
-                    }
-                    return this.store.openCursor(t.range, e);
-                }
-            }
-            function Ys(t) {
-                return new js((e, n)=>{
-                    t.onsuccess = (t)=>{
-                        const n = t.target.result;
-                        e(n);
-                    }, t.onerror = (t)=>{
-                        const e = Zs(t.target.error);
-                        n(e);
-                    };
-                });
-            }
-            let Xs = null;
-            function Zs(t) {
-                const e = Ws.Rt(getUA());
-                if (e >= 12.2 && e < 13) {
-                    const e1 = "An internal error was encountered in the Indexed Database server";
-                    if (t.message.indexOf(e1) >= 0) {
-                        const t1 = new j("internal", `IOS_INDEXEDDB_BUG1: IndexedDb has thrown '${e1}'. This is likely due to an unavoidable bug in iOS. See https://stackoverflow.com/q/56496296/110915 for details and a potential workaround.`);
-                        return Xs || (Xs = !0, setTimeout(()=>{
-                            throw t1;
-                        }, 0)), t1;
-                    }
-                }
-                return t;
-            }
-            function ei(t, e) {
-                return Ws.St(t.Qt, e);
             }
             class ni {
                 constructor(t, e, n, s){
@@ -2625,18 +2194,6 @@
                     return this.batchId === t.batchId && nt(this.mutations, t.mutations, (t, e)=>Ze(t, e)) && nt(this.baseMutations, t.baseMutations, (t, e)=>Ze(t, e));
                 }
             }
-            class si {
-                constructor(t, e, n, s){
-                    this.batch = t, this.commitVersion = e, this.mutationResults = n, this.docVersions = s;
-                }
-                static from(t, e, n) {
-                    t.mutations.length === n.length || L();
-                    let s = An;
-                    const i = t.mutations;
-                    for(let t1 = 0; t1 < i.length; t1++)s = s.insert(i[t1].key, n[t1].version);
-                    return new si(t, e, n, s);
-                }
-            }
             class ii {
                 constructor(t, e, n, s, i = rt.min(), r = rt.min(), o = _t.EMPTY_BYTE_STRING){
                     this.target = t, this.targetId = e, this.purpose = n, this.sequenceNumber = s, this.snapshotVersion = i, this.lastLimboFreeSnapshotVersion = r, this.resumeToken = o;
@@ -2651,18 +2208,6 @@
                     return new ii(this.target, this.targetId, this.purpose, this.sequenceNumber, this.snapshotVersion, t, this.resumeToken);
                 }
             }
-            function fi(t, e) {
-                const n = (e.baseMutations || []).map((e)=>is(t.Wt, e));
-                for(let t1 = 0; t1 < e.mutations.length - 1; ++t1){
-                    const n1 = e.mutations[t1];
-                    if (t1 + 1 < e.mutations.length && void 0 !== e.mutations[t1 + 1].transform) {
-                        const s = e.mutations[t1 + 1];
-                        n1.updateTransforms = s.transform.fieldTransforms, e.mutations.splice(t1 + 1, 1), ++t1;
-                    }
-                }
-                const s1 = e.mutations.map((e)=>is(t.Wt, e)), i = it.fromMillis(e.localWriteTimeMs);
-                return new ni(e.batchId, i, n, s1);
-            }
             class Ri {
                 constructor(t, e, n){
                     this.cacheSizeCollectionThreshold = t, this.percentileToCollect = e, this.maximumSequenceNumbersToCollect = n;
@@ -2672,207 +2217,6 @@
                 }
             }
             Ri.DEFAULT_COLLECTION_PERCENTILE = 10, Ri.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT = 1e3, Ri.DEFAULT = new Ri(41943040, Ri.DEFAULT_COLLECTION_PERCENTILE, Ri.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT), Ri.DISABLED = new Ri(-1, 0, 0);
-            class vi {
-                constructor(t, e, n, s){
-                    this.userId = t, this.N = e, this.Ht = n, this.referenceDelegate = s, this.Jt = {};
-                }
-                static Yt(t, e, n, s) {
-                    "" !== t.uid || L();
-                    const i = t.isAuthenticated() ? t.uid : "";
-                    return new vi(i, e, n, s);
-                }
-                checkEmpty(t) {
-                    let e = !0;
-                    const n = IDBKeyRange.bound([
-                        this.userId,
-                        Number.NEGATIVE_INFINITY
-                    ], [
-                        this.userId,
-                        Number.POSITIVE_INFINITY
-                    ]);
-                    return Si(t).Kt({
-                        index: Vs.userMutationsIndex,
-                        range: n
-                    }, (t, n, s)=>{
-                        e = !1, s.done();
-                    }).next(()=>e);
-                }
-                addMutationBatch(t, e, n, s) {
-                    const i = Di(t), r = Si(t);
-                    return r.add({}).next((o)=>{
-                        "number" == typeof o || L();
-                        const c = new ni(o, e, n, s), a = function(t, e, n) {
-                            const s = n.baseMutations.map((e)=>ss(t.Wt, e)), i = n.mutations.map((e)=>ss(t.Wt, e));
-                            return new Vs(e, n.batchId, n.localWriteTime.toMillis(), s, i);
-                        }(this.N, this.userId, c), u = [];
-                        let h = new gn((t, e)=>et(t.canonicalString(), e.canonicalString()));
-                        for (const t1 of s){
-                            const e1 = Ss.key(this.userId, t1.key.path, o);
-                            h = h.add(t1.key.path.popLast()), u.push(r.put(a)), u.push(i.put(e1, Ss.PLACEHOLDER));
-                        }
-                        return h.forEach((e)=>{
-                            u.push(this.Ht.addToCollectionParentIndex(t, e));
-                        }), t.addOnCommittedListener(()=>{
-                            this.Jt[o] = c.keys();
-                        }), js.waitFor(u).next(()=>c);
-                    });
-                }
-                lookupMutationBatch(t, e) {
-                    return Si(t).get(e).next((t)=>t ? (t.userId === this.userId || L(), fi(this.N, t)) : null);
-                }
-                Xt(t, e) {
-                    return this.Jt[e] ? js.resolve(this.Jt[e]) : this.lookupMutationBatch(t, e).next((t)=>{
-                        if (t) {
-                            const n = t.keys();
-                            return this.Jt[e] = n, n;
-                        }
-                        return null;
-                    });
-                }
-                getNextMutationBatchAfterBatchId(t, e) {
-                    const n = e + 1, s = IDBKeyRange.lowerBound([
-                        this.userId,
-                        n
-                    ]);
-                    let i = null;
-                    return Si(t).Kt({
-                        index: Vs.userMutationsIndex,
-                        range: s
-                    }, (t, e, s)=>{
-                        e.userId === this.userId && (e.batchId >= n || L(), i = fi(this.N, e)), s.done();
-                    }).next(()=>i);
-                }
-                getHighestUnacknowledgedBatchId(t) {
-                    const e = IDBKeyRange.upperBound([
-                        this.userId,
-                        Number.POSITIVE_INFINITY, 
-                    ]);
-                    let n = -1;
-                    return Si(t).Kt({
-                        index: Vs.userMutationsIndex,
-                        range: e,
-                        reverse: !0
-                    }, (t, e, s)=>{
-                        n = e.batchId, s.done();
-                    }).next(()=>n);
-                }
-                getAllMutationBatches(t) {
-                    const e = IDBKeyRange.bound([
-                        this.userId,
-                        -1
-                    ], [
-                        this.userId,
-                        Number.POSITIVE_INFINITY
-                    ]);
-                    return Si(t).Lt(Vs.userMutationsIndex, e).next((t)=>t.map((t)=>fi(this.N, t)));
-                }
-                getAllMutationBatchesAffectingDocumentKey(t, e) {
-                    const n = Ss.prefixForPath(this.userId, e.path), s = IDBKeyRange.lowerBound(n), i = [];
-                    return Di(t).Kt({
-                        range: s
-                    }, (n, s, r)=>{
-                        const [o, c, a] = n, u = Rs(c);
-                        if (o === this.userId && e.path.isEqual(u)) return Si(t).get(a).next((t)=>{
-                            if (!t) throw L();
-                            t.userId === this.userId || L(), i.push(fi(this.N, t));
-                        });
-                        r.done();
-                    }).next(()=>i);
-                }
-                getAllMutationBatchesAffectingDocumentKeys(t, e) {
-                    let n = new gn(et);
-                    const s = [];
-                    return e.forEach((e)=>{
-                        const i = Ss.prefixForPath(this.userId, e.path), r = IDBKeyRange.lowerBound(i), o = Di(t).Kt({
-                            range: r
-                        }, (t, s, i)=>{
-                            const [r, o, c] = t, a = Rs(o);
-                            r === this.userId && e.path.isEqual(a) ? n = n.add(c) : i.done();
-                        });
-                        s.push(o);
-                    }), js.waitFor(s).next(()=>this.Zt(t, n));
-                }
-                getAllMutationBatchesAffectingQuery(t, e) {
-                    const n = e.path, s = n.length + 1, i = Ss.prefixForPath(this.userId, n), r = IDBKeyRange.lowerBound(i);
-                    let o = new gn(et);
-                    return Di(t).Kt({
-                        range: r
-                    }, (t, e, i)=>{
-                        const [r, c, a] = t, u = Rs(c);
-                        r === this.userId && n.isPrefixOf(u) ? u.length === s && (o = o.add(a)) : i.done();
-                    }).next(()=>this.Zt(t, o));
-                }
-                Zt(t, e) {
-                    const n = [], s = [];
-                    return e.forEach((e)=>{
-                        s.push(Si(t).get(e).next((t)=>{
-                            if (null === t) throw L();
-                            t.userId === this.userId || L(), n.push(fi(this.N, t));
-                        }));
-                    }), js.waitFor(s).next(()=>n);
-                }
-                removeMutationBatch(t, e) {
-                    return (function(t, e, n) {
-                        const s = t.store(Vs.store), i = t.store(Ss.store), r = [], o = IDBKeyRange.only(n.batchId);
-                        let c = 0;
-                        const a = s.Kt({
-                            range: o
-                        }, (t, e, n)=>(c++, n.delete()));
-                        r.push(a.next(()=>{
-                            1 === c || L();
-                        }));
-                        const u = [];
-                        for (const t1 of n.mutations){
-                            const s1 = Ss.key(e, t1.key.path, n.batchId);
-                            r.push(i.delete(s1)), u.push(t1.key);
-                        }
-                        return js.waitFor(r).next(()=>u);
-                    })(t.Qt, this.userId, e).next((n)=>(t.addOnCommittedListener(()=>{
-                            this.te(e.batchId);
-                        }), js.forEach(n, (e)=>this.referenceDelegate.markPotentiallyOrphaned(t, e))));
-                }
-                te(t) {
-                    delete this.Jt[t];
-                }
-                performConsistencyCheck(t) {
-                    return this.checkEmpty(t).next((e)=>{
-                        if (!e) return js.resolve();
-                        const n = IDBKeyRange.lowerBound(Ss.prefixForUser(this.userId)), s = [];
-                        return Di(t).Kt({
-                            range: n
-                        }, (t, e, n)=>{
-                            if (t[0] === this.userId) {
-                                const e1 = Rs(t[1]);
-                                s.push(e1);
-                            } else n.done();
-                        }).next(()=>{
-                            0 === s.length || L();
-                        });
-                    });
-                }
-                containsKey(t, e) {
-                    return function(t, e, n) {
-                        const s = Ss.prefixForPath(e, n.path), i = s[1], r = IDBKeyRange.lowerBound(s);
-                        let o = !1;
-                        return Di(t).Kt({
-                            range: r,
-                            qt: !0
-                        }, (t, n, s)=>{
-                            const [r, c, a] = t;
-                            r === e && c === i && (o = !0), s.done();
-                        }).next(()=>o);
-                    }(t, this.userId, e);
-                }
-                ee(t) {
-                    return ei(t, vs.store).get(this.userId).next((t)=>t || new vs(this.userId, -1, ""));
-                }
-            }
-            function Si(t) {
-                return ei(t, Vs.store);
-            }
-            function Di(t) {
-                return ei(t, Ss.store);
-            }
             class Ni {
                 constructor(t){
                     this.ne = t;
@@ -3115,10 +2459,6 @@
             function fr(t) {
                 const e = t;
                 return e.persistence.runTransaction("Get last remote snapshot version", "readonly", (t)=>e.ze.getLastRemoteSnapshotVersion(t));
-            }
-            function _r(t, e) {
-                const n = t;
-                return n.persistence.runTransaction("Get next mutation batch", "readonly", (t)=>(void 0 === e && (e = -1), n.In.getNextMutationBatchAfterBatchId(t, e)));
             }
             async function gr(t, e, n) {
                 const s = t, i = s.Un.get(e);
@@ -3689,78 +3029,6 @@
                     ]);
                 }
             }
-            class Fr {
-                constructor(t, e, n, s){
-                    this.user = t, this.batchId = e, this.state = n, this.error = s;
-                }
-                static $s(t, e, n) {
-                    const s = JSON.parse(n);
-                    let i, r = "object" == typeof s && -1 !== [
-                        "pending",
-                        "acknowledged",
-                        "rejected", 
-                    ].indexOf(s.state) && (void 0 === s.error || "object" == typeof s.error);
-                    return r && s.error && (r = "string" == typeof s.error.message && "string" == typeof s.error.code) && (i = new j(s.error.code, s.error.message)), r ? new Fr(t, e, s.state, i) : (O("SharedClientState", `Failed to parse mutation state for ID '${e}': ${n}`), null);
-                }
-                Os() {
-                    const t = {
-                        state: this.state,
-                        updateTimeMs: Date.now()
-                    };
-                    return this.error && (t.error = {
-                        code: this.error.code,
-                        message: this.error.message
-                    }), JSON.stringify(t);
-                }
-            }
-            class Mr {
-                constructor(t, e, n){
-                    this.targetId = t, this.state = e, this.error = n;
-                }
-                static $s(t, e) {
-                    const n = JSON.parse(e);
-                    let s, i = "object" == typeof n && -1 !== [
-                        "not-current",
-                        "current",
-                        "rejected", 
-                    ].indexOf(n.state) && (void 0 === n.error || "object" == typeof n.error);
-                    return i && n.error && (i = "string" == typeof n.error.message && "string" == typeof n.error.code) && (s = new j(n.error.code, n.error.message)), i ? new Mr(t, n.state, s) : (O("SharedClientState", `Failed to parse target state for ID '${t}': ${e}`), null);
-                }
-                Os() {
-                    const t = {
-                        state: this.state,
-                        updateTimeMs: Date.now()
-                    };
-                    return this.error && (t.error = {
-                        code: this.error.code,
-                        message: this.error.message
-                    }), JSON.stringify(t);
-                }
-            }
-            class Lr {
-                constructor(t, e){
-                    this.clientId = t, this.activeTargetIds = e;
-                }
-                static $s(t, e) {
-                    const n = JSON.parse(e);
-                    let s = "object" == typeof n && n.activeTargetIds instanceof Array, i = vn;
-                    for(let t1 = 0; s && t1 < n.activeTargetIds.length; ++t1)s = bt(n.activeTargetIds[t1]), i = i.add(n.activeTargetIds[t1]);
-                    return s ? new Lr(t, i) : (O("SharedClientState", `Failed to parse client data for instance '${t}': ${e}`), null);
-                }
-            }
-            class Br {
-                constructor(t, e){
-                    this.clientId = t, this.onlineState = e;
-                }
-                static $s(t) {
-                    const e = JSON.parse(t);
-                    return "object" == typeof e && -1 !== [
-                        "Unknown",
-                        "Online",
-                        "Offline"
-                    ].indexOf(e.onlineState) && "string" == typeof e.clientId ? new Br(e.clientId, e.onlineState) : (O("SharedClientState", `Failed to parse online state: ${t}`), null);
-                }
-            }
             class Ur {
                 constructor(){
                     this.activeTargetIds = vn;
@@ -4180,7 +3448,7 @@
                 br(t) {
                     const e = {};
                     e.database = Yn(this.N), e.addTarget = function(t, e) {
-                        var t1, e1;
+                        var t1, e1, t2, e2;
                         let n;
                         const s = e.target;
                         return (n = Ht(s) ? {
@@ -4266,7 +3534,10 @@
                                 });
                                 return null !== o && (n.structuredQuery.limit = o), e.startAt && (n.structuredQuery.startAt = ls(e.startAt)), e.endAt && (n.structuredQuery.endAt = ls(e.endAt)), n;
                             }(t, s)
-                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = (t1 = t, e1 = e.resumeToken, t1.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (n.readTime = Un(t, e.snapshotVersion.toTimestamp())), n;
+                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = (t1 = t, e1 = e.resumeToken, t1.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (n.readTime = (t2 = t, e2 = e.snapshotVersion.toTimestamp(), t2.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
+                            seconds: "" + e2.seconds,
+                            nanos: e2.nanoseconds
+                        })), n;
                     }(this.N, t);
                     const n = function(t, e) {
                         const n = function(t, e) {
@@ -4290,47 +3561,6 @@
                 Pr(t) {
                     const e = {};
                     e.database = Yn(this.N), e.removeTarget = t, this.mr(e);
-                }
-            }
-            class eo extends null {
-                constructor(t, e, n, s, i){
-                    super(t, "write_stream_connection_backoff", "write_stream_idle", "health_check_timeout", e, n, i), this.N = s, this.vr = !1;
-                }
-                get Vr() {
-                    return this.vr;
-                }
-                start() {
-                    this.vr = !1, this.lastStreamToken = void 0, super.start();
-                }
-                pr() {
-                    this.vr && this.Sr([]);
-                }
-                Ar(t) {
-                    return this.sr.ji("Write", t);
-                }
-                onMessage(t) {
-                    var t1, e;
-                    if (t.streamToken || L(), this.lastStreamToken = t.streamToken, this.vr) {
-                        this.ar.reset();
-                        const e1 = (t1 = t.writeResults, e = t.commitTime, t1 && t1.length > 0 ? (void 0 !== e || L(), t1.map((t)=>{
-                            var t1, e1;
-                            let n;
-                            return t1 = t, e1 = e, (n = t1.updateTime ? jn(t1.updateTime) : jn(e1)).isEqual(rt.min()) && (n = jn(e1)), new We(n, t1.transformResults || []);
-                        })) : []), n = jn(t.commitTime);
-                        return this.listener.Dr(n, e1);
-                    }
-                    return t.writeResults && 0 !== t.writeResults.length && L(), this.vr = !0, this.listener.Cr();
-                }
-                Nr() {
-                    const t = {};
-                    t.database = Yn(this.N), this.mr(t);
-                }
-                Sr(t) {
-                    const e = {
-                        streamToken: this.lastStreamToken,
-                        writes: t.map((t)=>ss(this.N, t))
-                    };
-                    this.mr(e);
                 }
             }
             class no extends class {
@@ -4469,81 +3699,6 @@
                     $("RemoteStore", "Retrying IndexedDB access"), await n(), t.Wr.delete(1), await ro(t);
                 });
             }
-            function To(t, e) {
-                return e().catch((n)=>po(t, n, e));
-            }
-            async function Eo(t) {
-                const e = t, n = No(e);
-                let s = e.jr.length > 0 ? e.jr[e.jr.length - 1].batchId : -1;
-                for(; Io(e);)try {
-                    const t1 = await _r(e.localStore, s);
-                    if (null === t1) {
-                        0 === e.jr.length && n.wr();
-                        break;
-                    }
-                    s = t1.batchId, Ao(e, t1);
-                } catch (t2) {
-                    await po(e, t2);
-                }
-                Ro(e) && bo(e);
-            }
-            function Io(t) {
-                return wo(t) && t.jr.length < 10;
-            }
-            function Ao(t, e) {
-                t.jr.push(e);
-                const n = No(t);
-                n.hr() && n.Vr && n.Sr(e.mutations);
-            }
-            function Ro(t) {
-                return wo(t) && !No(t).ur() && t.jr.length > 0;
-            }
-            function bo(t) {
-                No(t).start();
-            }
-            async function Po(t) {
-                No(t).Nr();
-            }
-            async function vo(t) {
-                const e = No(t);
-                for (const n of t.jr)e.Sr(n.mutations);
-            }
-            async function Vo(t, e, n) {
-                const s = t.jr.shift(), i = si.from(s, e, n);
-                await To(t, ()=>t.remoteSyncer.applySuccessfulWrite(i)), await Eo(t);
-            }
-            async function So(t, e) {
-                e && No(t).Vr && await async function(t, e) {
-                    var n;
-                    if (function(t) {
-                        switch(t){
-                            default:
-                                return L();
-                            case K.CANCELLED:
-                            case K.UNKNOWN:
-                            case K.DEADLINE_EXCEEDED:
-                            case K.RESOURCE_EXHAUSTED:
-                            case K.INTERNAL:
-                            case K.UNAVAILABLE:
-                            case K.UNAUTHENTICATED:
-                                return !1;
-                            case K.INVALID_ARGUMENT:
-                            case K.NOT_FOUND:
-                            case K.ALREADY_EXISTS:
-                            case K.PERMISSION_DENIED:
-                            case K.FAILED_PRECONDITION:
-                            case K.ABORTED:
-                            case K.OUT_OF_RANGE:
-                            case K.UNIMPLEMENTED:
-                            case K.DATA_LOSS:
-                                return !0;
-                        }
-                    }(n = e.code) && n !== K.ABORTED) {
-                        const n1 = t.jr.shift();
-                        No(t).dr(), await To(t, ()=>t.remoteSyncer.rejectFailedWrite(n1.batchId, e)), await Eo(t);
-                    }
-                }(t, e), Ro(t) && bo(t);
-            }
             async function Do(t, e) {
                 const n = t;
                 e ? (n.Wr.delete(2), await ro(n)) : e || (n.Wr.add(2), await oo(n), n.Hr.set("Unknown"));
@@ -4559,19 +3714,6 @@
                 }), t.Gr.push(async (e)=>{
                     e ? (t.Yr.dr(), fo(t) ? lo(t) : t.Hr.set("Unknown")) : (await t.Yr.stop(), _o(t));
                 })), t.Yr;
-            }
-            function No(t) {
-                return t.Xr || (t.Xr = function(t, e, n) {
-                    const s = t;
-                    return s.$r(), new eo(e, s.sr, s.credentials, s.N, n);
-                }(t.datastore, t.asyncQueue, {
-                    Si: Po.bind(null, t),
-                    Ci: So.bind(null, t),
-                    Cr: vo.bind(null, t),
-                    Dr: Vo.bind(null, t)
-                }), t.Gr.push(async (e)=>{
-                    e ? (t.Xr.dr(), await Eo(t)) : (await t.Xr.stop(), t.jr.length > 0 && ($("RemoteStore", `Stopping write stream with ${t.jr.length} pending writes`), t.jr = []));
-                })), t.Xr;
             }
             class xo {
                 constructor(t, e, n, s, i){
@@ -5626,85 +4768,6 @@
                 }
                 _compareTo(t) {
                     return et(this._lat, t._lat) || et(this._long, t._long);
-                }
-            }
-            const eu = /^__.*__$/;
-            class ru {
-                constructor(t, e, n, s, i, r){
-                    this.settings = t, this.databaseId = e, this.N = n, this.ignoreUndefinedProperties = s, void 0 === i && this.xc(), this.fieldTransforms = i || [], this.fieldMask = r || [];
-                }
-                get path() {
-                    return this.settings.path;
-                }
-                get kc() {
-                    return this.settings.kc;
-                }
-                $c(t) {
-                    return new ru(Object.assign(Object.assign({}, this.settings), t), this.databaseId, this.N, this.ignoreUndefinedProperties, this.fieldTransforms, this.fieldMask);
-                }
-                Oc(t) {
-                    var e;
-                    const n = null === (e = this.path) || void 0 === e ? void 0 : e.child(t), s = this.$c({
-                        path: n,
-                        Fc: !1
-                    });
-                    return s.Mc(t), s;
-                }
-                Lc(t) {
-                    var e;
-                    const n = null === (e = this.path) || void 0 === e ? void 0 : e.child(t), s = this.$c({
-                        path: n,
-                        Fc: !1
-                    });
-                    return s.xc(), s;
-                }
-                Bc(t) {
-                    return this.$c({
-                        path: void 0,
-                        Fc: !0
-                    });
-                }
-                Uc(t) {
-                    return bu(t, this.settings.methodName, this.settings.qc || !1, this.path, this.settings.Kc);
-                }
-                contains(t) {
-                    return void 0 !== this.fieldMask.find((e)=>t.isPrefixOf(e)) || void 0 !== this.fieldTransforms.find((e)=>t.isPrefixOf(e.field));
-                }
-                xc() {
-                    if (this.path) for(let t = 0; t < this.path.length; t++)this.Mc(this.path.get(t));
-                }
-                Mc(t) {
-                    if (0 === t.length) throw this.Uc("Document fields must not be empty");
-                    if (function(t) {
-                        switch(t){
-                            case 0:
-                            case 2:
-                            case 1:
-                                return !0;
-                            case 3:
-                            case 4:
-                                return !1;
-                            default:
-                                throw L();
-                        }
-                    }(this.kc) && eu.test(t)) throw this.Uc('Document fields cannot begin and end with "__"');
-                }
-            }
-            class uu extends null {
-                _toFieldTransform(t) {
-                    if (2 !== t.kc) throw 1 === t.kc ? t.Uc(`${this._methodName}() can only appear at the top level of your update data`) : t.Uc(`${this._methodName}() cannot be used with set() unless you pass {merge:true}`);
-                    return t.fieldMask.push(t.path), null;
-                }
-                isEqual(t) {
-                    return t instanceof uu;
-                }
-            }
-            class lu extends null {
-                _toFieldTransform(t) {
-                    return new je(t.path, new Oe());
-                }
-                isEqual(t) {
-                    return t instanceof lu;
                 }
             }
             const Au = RegExp("[~\\*/\\[\\]]");
