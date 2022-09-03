@@ -16,6 +16,9 @@
 
 - **(swc_core)** Fix reexport of ES transforms (#5716) ([9bef836](https://github.com/swc-project/swc/commit/9bef83681ff790b81effae61c45399608b1507cf))
 
+
+- **(swc_core)** Bump `swc_ecma_quote_macros` (#5723) ([9c43713](https://github.com/swc-project/swc/commit/9c43713109a070e23bb8ed655f149b49de6cf321))
+
 ### Features
 
 
