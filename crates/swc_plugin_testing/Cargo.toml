@@ -1,14 +1,23 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Base for swc plugins"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Base for swc plugins"
 documentation = "https://rustdoc.swc.rs/swc_plugin_testing/"
-edition = "2021"
-license = "Apache-2.0"
-name = "swc_plugin_testing"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.24.1"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_plugin_testing"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.24.1"
 
 [lib]
 bench = false
 
+# please update [bindings/swc_cli/src/commands/plugin.rs] if this changed
 [dependencies]
+swc_core = { version = "*", path = "../swc_core", features = [
+  "ecma_ast",
+  "ecma_visit",
+  "plugin_transform",
+  "swc_atoms",
+  "swc_plugin",
+  "testing_transform",
+] }

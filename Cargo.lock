@@ -4159,6 +4159,9 @@ dependencies = [
 [[package]]
 name = "swc_plugin_testing"
 version = "0.24.1"
+dependencies = [
+ "swc_core",
+]
 
 [[package]]
 name = "swc_timer"
