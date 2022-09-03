@@ -3109,7 +3109,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.20.3"
+version = "0.20.4"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3131,7 +3131,7 @@ dependencies = [
  "swc_ecma_minifier",
  "swc_ecma_parser",
  "swc_ecma_quote_macros",
- "swc_ecma_transforms",
+ "swc_ecma_transforms_base",
  "swc_ecma_transforms_module",
  "swc_ecma_transforms_optimization",
  "swc_ecma_transforms_proposal",
