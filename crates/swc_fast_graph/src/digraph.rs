@@ -20,7 +20,8 @@ use indexmap::{
 use petgraph::{
     graph::{node_index, Graph},
     visit::{
-        GraphBase, IntoNeighbors, IntoNeighborsDirected, IntoNodeIdentifiers, NodeCount, Visitable,
+        GraphBase, IntoNeighbors, IntoNeighborsDirected, IntoNodeIdentifiers, NodeCount,
+        NodeIndexable, Visitable,
     },
     Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
@@ -909,5 +910,30 @@ where
             ty: self.ty,
             edge_ty: PhantomData,
         }
+    }
+}
+
+impl<N, E, Ty> NodeIndexable for FastGraphMap<N, E, Ty>
+where
+    N: NodeTrait,
+    Ty: EdgeType,
+{
+    fn node_bound(&self) -> usize {
+        self.node_count()
+    }
+
+    fn to_index(&self, ix: Self::NodeId) -> usize {
+        let (i, _, _) = self.nodes.get_full(&ix).unwrap();
+        i
+    }
+
+    fn from_index(&self, ix: usize) -> Self::NodeId {
+        assert!(
+            ix < self.nodes.len(),
+            "The requested index {} is out-of-bounds.",
+            ix
+        );
+        let (&key, _) = self.nodes.get_index(ix).unwrap();
+        key
     }
 }
