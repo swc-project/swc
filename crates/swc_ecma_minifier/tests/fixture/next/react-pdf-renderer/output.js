@@ -5628,38 +5628,83 @@
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
             var i = n(r(4561)), o = function e(t, r, n) {
-                n && n.demerits && n.demerits.line, n && n.demerits && n.demerits.flagged, n && n.demerits && n.demerits.fitness, n && n.tolerance;
-                var o = new i.default(), a = {
+                var o = {
+                    demerits: {
+                        line: n && n.demerits && n.demerits.line || 10,
+                        flagged: n && n.demerits && n.demerits.flagged || 100,
+                        fitness: n && n.demerits && n.demerits.fitness || 3000
+                    },
+                    tolerance: n && n.tolerance || 3
+                }, a = new i.default(), u = {
                     width: 0,
                     stretch: 0,
                     shrink: 0
-                }, u = [], l = {
+                }, l = r, s = [], c = {
                     data: {
                         demerits: 1 / 0
                     }
                 };
-                if (o.push(new i.default.Node({
-                    position: 0,
-                    demerits: 0,
-                    ratio: 0,
-                    line: 0,
-                    fitnessClass: 0,
-                    totals: {
-                        width: 0,
-                        stretch: 0,
-                        shrink: 0
-                    },
-                    previous: null
-                })), t.forEach(function(t, r, n) {
-                    "box" === t.type ? a.width += t.width : "glue" === t.type ? (r > 0 && "box" === n[r - 1].type && mainLoop(t, r, n), a.width += t.width, a.stretch += t.stretch, a.shrink += t.shrink) : "penalty" === t.type && t.penalty !== e.infinity && mainLoop(t, r, n);
-                }), 0 !== o.size()) {
-                    for(o.forEach(function(e) {
-                        e.data.demerits < l.data.demerits && (l = e);
-                    }); null !== l;)u.push({
-                        position: l.data.position,
-                        ratio: l.data.ratio
-                    }), l = l.data.previous;
-                    return u.reverse();
+                function f(e, t, r, n, i, o, a) {
+                    return {
+                        position: e,
+                        demerits: t,
+                        ratio: r,
+                        line: n,
+                        fitnessClass: i,
+                        totals: o || {
+                            width: 0,
+                            stretch: 0,
+                            shrink: 0
+                        },
+                        previous: a
+                    };
+                }
+                function d(r, n, i, o) {
+                    var a = u.width - i.totals.width, s = 0, c = 0, f = o < l.length ? l[o - 1] : l[l.length - 1];
+                    return ("penalty" === t[n].type && (a += t[n].width), a < f) ? (s = u.stretch - i.totals.stretch) > 0 ? (f - a) / s : e.infinity : a > f ? (c = u.shrink - i.totals.shrink) > 0 ? (f - a) / c : e.infinity : 0;
+                }
+                function p(r) {
+                    for(var n = {
+                        width: u.width,
+                        stretch: u.stretch,
+                        shrink: u.shrink
+                    }, i = r; i < t.length; i += 1)if ("glue" === t[i].type) n.width += t[i].width, n.stretch += t[i].stretch, n.shrink += t[i].shrink;
+                    else if ("box" === t[i].type || "penalty" === t[i].type && t[i].penalty === -e.infinity && i > r) break;
+                    return n;
+                }
+                function h(t, r, n) {
+                    for(var u, l, s, c, h, $ = a.first(), y = null, g = 0, v = 0, _ = [], m = 0, b = 0; null !== $;){
+                        for(_ = [
+                            {
+                                demerits: 1 / 0
+                            },
+                            {
+                                demerits: 1 / 0
+                            },
+                            {
+                                demerits: 1 / 0
+                            },
+                            {
+                                demerits: 1 / 0
+                            }, 
+                        ]; null !== $ && (y = $.next, m = $.data.line + 1, ((g = d($.data.position, r, $.data, m)) < -1 || "penalty" === t.type && t.penalty === -e.infinity) && a.remove($), g >= -1 && g <= o.tolerance && (u = 100 * Math.pow(Math.abs(g), 3), v = "penalty" === t.type && t.penalty >= 0 ? Math.pow(o.demerits.line + u, 2) + Math.pow(t.penalty, 2) : "penalty" === t.type && t.penalty !== -e.infinity ? Math.pow(o.demerits.line + u, 2) - Math.pow(t.penalty, 2) : Math.pow(o.demerits.line + u, 2), "penalty" === t.type && "penalty" === n[$.data.position].type && (v += o.demerits.flagged * t.flagged * n[$.data.position].flagged), Math.abs((b = g < -0.5 ? 0 : g <= 0.5 ? 1 : g <= 1 ? 2 : 3) - $.data.fitnessClass) > 1 && (v += o.demerits.fitness), (v += $.data.demerits) < _[b].demerits && (_[b] = {
+                            active: $,
+                            demerits: v,
+                            ratio: g
+                        })), null === ($ = y) || !($.data.line >= m)););
+                        for(s = 0, l = p(r); s < _.length; s += 1)(c = _[s]).demerits < 1 / 0 && (h = new i.default.Node(f(r, c.demerits, c.ratio, c.active.data.line + 1, s, l, c.active)), null !== $ ? a.insertBefore($, h) : a.push(h));
+                    }
+                }
+                if (a.push(new i.default.Node(f(0, 0, 0, 0, 0, void 0, null))), t.forEach(function(t, r, n) {
+                    "box" === t.type ? u.width += t.width : "glue" === t.type ? (r > 0 && "box" === n[r - 1].type && h(t, r, n), u.width += t.width, u.stretch += t.stretch, u.shrink += t.shrink) : "penalty" === t.type && t.penalty !== e.infinity && h(t, r, n);
+                }), 0 !== a.size()) {
+                    for(a.forEach(function(e) {
+                        e.data.demerits < c.data.demerits && (c = e);
+                    }); null !== c;)s.push({
+                        position: c.data.position,
+                        ratio: c.data.ratio
+                    }), c = c.data.previous;
+                    return s.reverse();
                 }
                 return [];
             };
