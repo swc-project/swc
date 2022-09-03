@@ -1,14 +1,12 @@
 use swc_core::{
-    ast::*,
-    atoms::*,
     common::DUMMY_SP,
+    ecma::{ast::*, atoms::*, visit::*},
     plugin::{
         errors::HANDLER,
         metadata::{TransformPluginMetadataContextKind, TransformPluginProgramMetadata},
         plugin_transform,
     },
     quote,
-    visit::*,
 };
 
 struct ConsoleOutputReplacer;

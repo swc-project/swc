@@ -23,7 +23,7 @@ macro_rules! impl_enum_body {
                     Vars {
                         val: crate::ast::ToCode::to_code(inner, $cx),
                     },
-                    { swc_core::ast::$E::$v(val) }
+                    { swc_core::ecma::ast::$E::$v(val) }
                 )
                 .parse(),
             )*

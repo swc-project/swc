@@ -728,7 +728,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.51.0"
+version = "0.51.2"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3083,7 +3083,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.19.0"
+version = "0.20.1"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3106,7 +3106,12 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_quote_macros",
  "swc_ecma_transforms",
+ "swc_ecma_transforms_module",
+ "swc_ecma_transforms_optimization",
+ "swc_ecma_transforms_proposal",
+ "swc_ecma_transforms_react",
  "swc_ecma_transforms_testing",
+ "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_node_base",
@@ -3432,7 +3437,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.118.3"
+version = "0.118.4"
 dependencies = [
  "criterion",
  "either",
