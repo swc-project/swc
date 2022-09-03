@@ -1,7 +1,10 @@
 use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_base::{
+    helpers::{Helpers, HELPERS},
+    perf::{ParVisitMut, Parallel},
+};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use crate::{
@@ -60,7 +63,7 @@ impl PrecompressOptimizer<'_> {
         Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + VisitWith<UsageAnalyzer>,
     {
         if self.data.is_some() {
-            stmts.visit_mut_children_with(self);
+            self.visit_mut_par(*crate::LIGHT_TASK_PARALLELS, stmts);
             return;
         }
 
@@ -84,6 +87,7 @@ impl PrecompressOptimizer<'_> {
                 });
                 return;
             }
+
             stmts.iter_mut().for_each(|stmt| {
                 stmt.visit_mut_with(&mut PrecompressOptimizer {
                     options: self.options,
@@ -133,7 +137,9 @@ impl VisitMut for PrecompressOptimizer<'_> {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.handle_stmts(n);
+        HELPERS.set(&Helpers::new(true), || {
+            self.handle_stmts(n);
+        });
 
         n.retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
     }
