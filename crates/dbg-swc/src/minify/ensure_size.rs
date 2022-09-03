@@ -61,6 +61,7 @@ impl EnsureSize {
             if let Some(terser) = &f.terser {
                 if f.swc.mangled_size > terser.mangled_size
                     || f.swc.no_mangle_size > terser.no_mangle_size
+                    || f.swc.gzipped_size > terser.gzipped_size
                 {
                     println!();
                     println!("{}", f.fm.name);

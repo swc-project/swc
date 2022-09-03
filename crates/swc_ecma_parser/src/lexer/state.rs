@@ -479,9 +479,18 @@ impl State {
                     false
                 }
 
-                tok!(':') if context.current() == Some(TokenContext::FnExpr) => {
-                    // function keyword is object prop: { function: expr }
-                    context.pop(); // Remove FnExpr
+                tok!(':')
+                    if matches!(
+                        context.current(),
+                        Some(TokenContext::FnExpr | TokenContext::ClassExpr)
+                    ) =>
+                {
+                    // `function`/`class` keyword is object prop
+                    //
+                    // ```JavaScript
+                    // { function: expr, class: expr }
+                    // ```
+                    context.pop(); // Remove FnExpr or ClassExpr
                     true
                 }
 
