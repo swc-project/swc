@@ -20,8 +20,7 @@ use indexmap::{
 use petgraph::{
     graph::{node_index, Graph},
     visit::{
-        GraphBase, GraphRef, IntoNeighbors, IntoNeighborsDirected, IntoNodeIdentifiers, NodeCount,
-        Visitable,
+        GraphBase, IntoNeighbors, IntoNeighborsDirected, IntoNodeIdentifiers, NodeCount, Visitable,
     },
     Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
@@ -897,9 +896,18 @@ where
     }
 }
 
-impl<N, E, Ty> IntoNodeIdentifiers for &'_ FastGraphMap<N, E, Ty>
+impl<'a, N, E: 'a, Ty> IntoNodeIdentifiers for &'a FastGraphMap<N, E, Ty>
 where
-    N: Copy + Ord + Hash,
+    N: NodeTrait,
     Ty: EdgeType,
 {
+    type NodeIdentifiers = NodeIdentifiers<'a, N, E, Ty>;
+
+    fn node_identifiers(self) -> Self::NodeIdentifiers {
+        NodeIdentifiers {
+            iter: self.nodes.iter(),
+            ty: self.ty,
+            edge_ty: PhantomData,
+        }
+    }
 }
