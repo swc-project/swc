@@ -34,6 +34,9 @@
 
 - **(es/minifier)** Use faster hash algorithm for DCE (#5725) ([25c96b4](https://github.com/swc-project/swc/commit/25c96b4b7aa9a75892b1ae49a65e836229465195))
 
+
+- **(es/minifier)** Optimize precompress optimizer (#5727) ([31c516a](https://github.com/swc-project/swc/commit/31c516a9228ebe304cd461f7e139f13a8519b43c))
+
 ### Refactor
 
 
