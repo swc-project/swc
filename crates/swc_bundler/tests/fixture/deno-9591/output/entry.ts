@@ -1833,232 +1833,8 @@ function copyBytes(src, dst, off = 0) {
     return src.byteLength;
 }
 const DEFAULT_BUF_SIZE = 4096;
-const MIN_BUF_SIZE = 16;
-const MAX_CONSECUTIVE_EMPTY_READS = 100;
-const CR = "\r".charCodeAt(0);
-const LF = "\n".charCodeAt(0);
-class BufferFullError extends Error {
-    constructor(partial){
-        super("Buffer full");
-        this.partial = partial;
-        this.name = "BufferFullError";
-    }
-}
-class PartialReadError extends Deno.errors.UnexpectedEof {
-    name = "PartialReadError";
-    constructor(){
-        super("Encountered UnexpectedEof, data only partially read");
-    }
-}
-class BufReader {
-    r = 0;
-    w = 0;
-    eof = false;
-    static create(r, size = DEFAULT_BUF_SIZE) {
-        return r instanceof BufReader ? r : new BufReader(r, size);
-    }
-    constructor(rd, size = DEFAULT_BUF_SIZE){
-        if (size < MIN_BUF_SIZE) {
-            size = MIN_BUF_SIZE;
-        }
-        this._reset(new Uint8Array(size), rd);
-    }
-    size() {
-        return this.buf.byteLength;
-    }
-    buffered() {
-        return this.w - this.r;
-    }
-    async _fill() {
-        if (this.r > 0) {
-            this.buf.copyWithin(0, this.r, this.w);
-            this.w -= this.r;
-            this.r = 0;
-        }
-        if (this.w >= this.buf.byteLength) {
-            throw Error("bufio: tried to fill full buffer");
-        }
-        for(let i = MAX_CONSECUTIVE_EMPTY_READS; i > 0; i--){
-            const rr = await this.rd.read(this.buf.subarray(this.w));
-            if (rr === null) {
-                this.eof = true;
-                return;
-            }
-            assert(rr >= 0, "negative read");
-            this.w += rr;
-            if (rr > 0) {
-                return;
-            }
-        }
-        throw new Error(`No progress after ${MAX_CONSECUTIVE_EMPTY_READS} read() calls`);
-    }
-    reset(r) {
-        this._reset(this.buf, r);
-    }
-    _reset(buf, rd) {
-        this.buf = buf;
-        this.rd = rd;
-        this.eof = false;
-    }
-    async read(p) {
-        let rr = p.byteLength;
-        if (p.byteLength === 0) return rr;
-        if (this.r === this.w) {
-            if (p.byteLength >= this.buf.byteLength) {
-                const rr1 = await this.rd.read(p);
-                const nread = rr1 ?? 0;
-                assert(nread >= 0, "negative read");
-                return rr1;
-            }
-            this.r = 0;
-            this.w = 0;
-            rr = await this.rd.read(this.buf);
-            if (rr === 0 || rr === null) return rr;
-            assert(rr >= 0, "negative read");
-            this.w += rr;
-        }
-        const copied = copyBytes(this.buf.subarray(this.r, this.w), p, 0);
-        this.r += copied;
-        return copied;
-    }
-    async readFull(p) {
-        let bytesRead = 0;
-        while(bytesRead < p.length){
-            try {
-                const rr = await this.read(p.subarray(bytesRead));
-                if (rr === null) {
-                    if (bytesRead === 0) {
-                        return null;
-                    } else {
-                        throw new PartialReadError();
-                    }
-                }
-                bytesRead += rr;
-            } catch (err) {
-                err.partial = p.subarray(0, bytesRead);
-                throw err;
-            }
-        }
-        return p;
-    }
-    async readByte() {
-        while(this.r === this.w){
-            if (this.eof) return null;
-            await this._fill();
-        }
-        const c = this.buf[this.r];
-        this.r++;
-        return c;
-    }
-    async readString(delim) {
-        if (delim.length !== 1) {
-            throw new Error("Delimiter should be a single character");
-        }
-        const buffer = await this.readSlice(delim.charCodeAt(0));
-        if (buffer === null) return null;
-        return new TextDecoder().decode(buffer);
-    }
-    async readLine() {
-        let line;
-        try {
-            line = await this.readSlice(LF);
-        } catch (err) {
-            let { partial  } = err;
-            assert(partial instanceof Uint8Array, "bufio: caught error from `readSlice()` without `partial` property");
-            if (!(err instanceof BufferFullError)) {
-                throw err;
-            }
-            if (!this.eof && partial.byteLength > 0 && partial[partial.byteLength - 1] === CR) {
-                assert(this.r > 0, "bufio: tried to rewind past start of buffer");
-                this.r--;
-                partial = partial.subarray(0, partial.byteLength - 1);
-            }
-            return {
-                line: partial,
-                more: !this.eof
-            };
-        }
-        if (line === null) {
-            return null;
-        }
-        if (line.byteLength === 0) {
-            return {
-                line,
-                more: false
-            };
-        }
-        if (line[line.byteLength - 1] == LF) {
-            let drop = 1;
-            if (line.byteLength > 1 && line[line.byteLength - 2] === CR) {
-                drop = 2;
-            }
-            line = line.subarray(0, line.byteLength - drop);
-        }
-        return {
-            line,
-            more: false
-        };
-    }
-    async readSlice(delim) {
-        let s = 0;
-        let slice;
-        while(true){
-            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim);
-            if (i >= 0) {
-                i += s;
-                slice = this.buf.subarray(this.r, this.r + i + 1);
-                this.r += i + 1;
-                break;
-            }
-            if (this.eof) {
-                if (this.r === this.w) {
-                    return null;
-                }
-                slice = this.buf.subarray(this.r, this.w);
-                this.r = this.w;
-                break;
-            }
-            if (this.buffered() >= this.buf.byteLength) {
-                this.r = this.w;
-                const oldbuf = this.buf;
-                const newbuf = this.buf.slice(0);
-                this.buf = newbuf;
-                throw new BufferFullError(oldbuf);
-            }
-            s = this.w - this.r;
-            try {
-                await this._fill();
-            } catch (err) {
-                err.partial = slice;
-                throw err;
-            }
-        }
-        return slice;
-    }
-    async peek(n) {
-        if (n < 0) {
-            throw Error("negative count");
-        }
-        let avail = this.w - this.r;
-        while(avail < n && avail < this.buf.byteLength && !this.eof){
-            try {
-                await this._fill();
-            } catch (err) {
-                err.partial = this.buf.subarray(this.r, this.w);
-                throw err;
-            }
-            avail = this.w - this.r;
-        }
-        if (avail === 0 && this.eof) {
-            return null;
-        } else if (avail < n && this.eof) {
-            return this.buf.subarray(this.r, this.r + avail);
-        } else if (avail < n) {
-            throw new BufferFullError(this.buf.subarray(this.r, this.w));
-        }
-        return this.buf.subarray(this.r, this.r + n);
-    }
-}
+"\r".charCodeAt(0);
+"\n".charCodeAt(0);
 class AbstractBufBase {
     usedBufferBytes = 0;
     err = null;
@@ -2070,62 +1846,6 @@ class AbstractBufBase {
     }
     buffered() {
         return this.usedBufferBytes;
-    }
-}
-class BufWriter extends AbstractBufBase {
-    static create(writer, size = DEFAULT_BUF_SIZE) {
-        return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
-    }
-    constructor(writer, size = DEFAULT_BUF_SIZE){
-        super();
-        this.writer = writer;
-        if (size <= 0) {
-            size = DEFAULT_BUF_SIZE;
-        }
-        this.buf = new Uint8Array(size);
-    }
-    reset(w) {
-        this.err = null;
-        this.usedBufferBytes = 0;
-        this.writer = w;
-    }
-    async flush() {
-        if (this.err !== null) throw this.err;
-        if (this.usedBufferBytes === 0) return;
-        try {
-            await Deno.writeAll(this.writer, this.buf.subarray(0, this.usedBufferBytes));
-        } catch (e) {
-            this.err = e;
-            throw e;
-        }
-        this.buf = new Uint8Array(this.buf.length);
-        this.usedBufferBytes = 0;
-    }
-    async write(data) {
-        if (this.err !== null) throw this.err;
-        if (data.length === 0) return 0;
-        let totalBytesWritten = 0;
-        let numBytesWritten = 0;
-        while(data.byteLength > this.available()){
-            if (this.buffered() === 0) {
-                try {
-                    numBytesWritten = await this.writer.write(data);
-                } catch (e) {
-                    this.err = e;
-                    throw e;
-                }
-            } else {
-                numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
-                this.usedBufferBytes += numBytesWritten;
-                await this.flush();
-            }
-            totalBytesWritten += numBytesWritten;
-            data = data.subarray(numBytesWritten);
-        }
-        numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
-        this.usedBufferBytes += numBytesWritten;
-        totalBytesWritten += numBytesWritten;
-        return totalBytesWritten;
     }
 }
 class BufWriterSync extends AbstractBufBase {
@@ -3231,95 +2951,6 @@ const mod5 = {
     detect,
     format: format3
 };
-const base64abc = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "+",
-    "/"
-];
-function encode(data) {
-    const uint8 = typeof data === "string" ? new TextEncoder().encode(data) : data instanceof Uint8Array ? data : new Uint8Array(data);
-    let result = "", i;
-    const l = uint8.length;
-    for(i = 2; i < l; i += 3){
-        result += base64abc[uint8[i - 2] >> 2];
-        result += base64abc[(uint8[i - 2] & 0x03) << 4 | uint8[i - 1] >> 4];
-        result += base64abc[(uint8[i - 1] & 0x0f) << 2 | uint8[i] >> 6];
-        result += base64abc[uint8[i] & 0x3f];
-    }
-    if (i === l + 1) {
-        result += base64abc[uint8[i - 2] >> 2];
-        result += base64abc[(uint8[i - 2] & 0x03) << 4];
-        result += "==";
-    }
-    if (i === l) {
-        result += base64abc[uint8[i - 2] >> 2];
-        result += base64abc[(uint8[i - 2] & 0x03) << 4 | uint8[i - 1] >> 4];
-        result += base64abc[(uint8[i - 1] & 0x0f) << 2];
-        result += "=";
-    }
-    return result;
-}
 function decode(b64) {
     const binString = atob(b64);
     const size = binString.length;
@@ -3373,9 +3004,8 @@ function takeObject(idx) {
     dropObject(idx);
     return ret;
 }
-let WASM_VECTOR_LEN = 0;
 let cachedTextEncoder = new TextEncoder('utf-8');
-const encodeString = typeof cachedTextEncoder.encodeInto === 'function' ? function(arg, view) {
+typeof cachedTextEncoder.encodeInto === 'function' ? function(arg, view) {
     return cachedTextEncoder.encodeInto(arg, view);
 } : function(arg, view) {
     const buf = cachedTextEncoder.encode(arg);
@@ -3385,96 +3015,6 @@ const encodeString = typeof cachedTextEncoder.encodeInto === 'function' ? functi
         written: buf.length
     };
 };
-function passStringToWasm0(arg, malloc, realloc) {
-    if (realloc === undefined) {
-        const buf = cachedTextEncoder.encode(arg);
-        const ptr = malloc(buf.length);
-        getUint8Memory0().subarray(ptr, ptr + buf.length).set(buf);
-        WASM_VECTOR_LEN = buf.length;
-        return ptr;
-    }
-    let len = arg.length;
-    let ptr1 = malloc(len);
-    const mem = getUint8Memory0();
-    let offset = 0;
-    for(; offset < len; offset++){
-        const code = arg.charCodeAt(offset);
-        if (code > 0x7F) break;
-        mem[ptr1 + offset] = code;
-    }
-    if (offset !== len) {
-        if (offset !== 0) {
-            arg = arg.slice(offset);
-        }
-        ptr1 = realloc(ptr1, len, len = offset + arg.length * 3);
-        const view = getUint8Memory0().subarray(ptr1 + offset, ptr1 + len);
-        const ret = encodeString(arg, view);
-        offset += ret.written;
-    }
-    WASM_VECTOR_LEN = offset;
-    return ptr1;
-}
-function create_hash(algorithm) {
-    var ptr0 = passStringToWasm0(algorithm, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
-    var ret = wasm.create_hash(ptr0, len0);
-    return DenoHash.__wrap(ret);
-}
-function _assertClass(instance, klass) {
-    if (!(instance instanceof klass)) {
-        throw new Error(`expected instance of ${klass.name}`);
-    }
-    return instance.ptr;
-}
-function passArray8ToWasm0(arg, malloc) {
-    const ptr = malloc(arg.length * 1);
-    getUint8Memory0().set(arg, ptr / 1);
-    WASM_VECTOR_LEN = arg.length;
-    return ptr;
-}
-function update_hash(hash, data) {
-    _assertClass(hash, DenoHash);
-    var ptr0 = passArray8ToWasm0(data, wasm.__wbindgen_malloc);
-    var len0 = WASM_VECTOR_LEN;
-    wasm.update_hash(hash.ptr, ptr0, len0);
-}
-let cachegetInt32Memory0 = null;
-function getInt32Memory0() {
-    if (cachegetInt32Memory0 === null || cachegetInt32Memory0.buffer !== wasm.memory.buffer) {
-        cachegetInt32Memory0 = new Int32Array(wasm.memory.buffer);
-    }
-    return cachegetInt32Memory0;
-}
-function getArrayU8FromWasm0(ptr, len) {
-    return getUint8Memory0().subarray(ptr / 1, ptr / 1 + len);
-}
-function digest_hash(hash) {
-    try {
-        const retptr = wasm.__wbindgen_export_2.value - 16;
-        wasm.__wbindgen_export_2.value = retptr;
-        _assertClass(hash, DenoHash);
-        wasm.digest_hash(retptr, hash.ptr);
-        var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var v0 = getArrayU8FromWasm0(r0, r1).slice();
-        wasm.__wbindgen_free(r0, r1 * 1);
-        return v0;
-    } finally{
-        wasm.__wbindgen_export_2.value += 16;
-    }
-}
-class DenoHash {
-    static __wrap(ptr) {
-        const obj = Object.create(DenoHash.prototype);
-        obj.ptr = ptr;
-        return obj;
-    }
-    free() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-        wasm.__wbg_denohash_free(ptr);
-    }
-}
 async function load(module, imports) {
     if (typeof Response === 'function' && module instanceof Response) {
         if (typeof WebAssembly.instantiateStreaming === 'function') {
@@ -3526,70 +3066,8 @@ async function init(input) {
     init.__wbindgen_wasm_module = module;
     return wasm;
 }
-const hextable = new TextEncoder().encode("0123456789abcdef");
-function encodedLen(n) {
-    return n * 2;
-}
-function encode1(src) {
-    const dst = new Uint8Array(encodedLen(src.length));
-    for(let i = 0; i < dst.length; i++){
-        const v = src[i];
-        dst[i * 2] = hextable[v >> 4];
-        dst[i * 2 + 1] = hextable[v & 0x0f];
-    }
-    return dst;
-}
-function encodeToString(src) {
-    return new TextDecoder().decode(encode1(src));
-}
+new TextEncoder().encode("0123456789abcdef");
 await init(source);
-const TYPE_ERROR_MSG = "hash: `data` is invalid type";
-class Hash {
-    #hash;
-    #digested;
-    constructor(algorithm){
-        this.#hash = create_hash(algorithm);
-        this.#digested = false;
-    }
-    update(data) {
-        let msg;
-        if (typeof data === "string") {
-            msg = new TextEncoder().encode(data);
-        } else if (typeof data === "object") {
-            if (data instanceof ArrayBuffer || ArrayBuffer.isView(data)) {
-                msg = new Uint8Array(data);
-            } else {
-                throw new Error(TYPE_ERROR_MSG);
-            }
-        } else {
-            throw new Error(TYPE_ERROR_MSG);
-        }
-        update_hash(this.#hash, msg);
-        return this;
-    }
-    digest() {
-        if (this.#digested) throw new Error("hash: already digested");
-        this.#digested = true;
-        return digest_hash(this.#hash);
-    }
-    toString(format = "hex") {
-        const finalized = new Uint8Array(this.digest());
-        switch(format){
-            case "hex":
-                return encodeToString(finalized);
-            case "base64":
-                return encode(finalized);
-            default:
-                throw new Error("hash: invalid format");
-        }
-    }
-}
-function createHash(algorithm) {
-    return new Hash(algorithm);
-}
-const mod6 = {
-    createHash: createHash
-};
 const SEMVER_SPEC_VERSION = "2.0.0";
 const MAX_LENGTH = 256;
 const MAX_SAFE_COMPONENT_LENGTH = 16;
@@ -4605,7 +4083,7 @@ function coerce(version, optionsOrLoose) {
     }
     return parse4(match[1] + "." + (match[2] || "0") + "." + (match[3] || "0"), optionsOrLoose);
 }
-const mod7 = {
+const mod6 = {
     SEMVER_SPEC_VERSION: SEMVER_SPEC_VERSION,
     parse: parse4,
     valid: valid,
@@ -4948,6 +4426,21 @@ const Manifest_AST = {
         }
     }
 };
+const snManifest = {
+    moduleName: "dnit.manifest",
+    name: "Manifest"
+};
+function texprManifest() {
+    return {
+        value: {
+            typeRef: {
+                kind: "reference",
+                value: snManifest
+            },
+            parameters: []
+        }
+    };
+}
 const _AST_MAP = {
     "dnit.manifest.TaskName": TaskName_AST,
     "dnit.manifest.TrackedFileName": TrackedFileName_AST,
@@ -4986,6 +4479,30 @@ function asJsonArray(jv) {
         return jv;
     }
     return undefined;
+}
+function createJsonBinding(dresolver, texpr) {
+    const jb0 = buildJsonBinding(dresolver, texpr.value, {});
+    function fromJsonE(json) {
+        try {
+            return jb0.fromJson(json);
+        } catch (e) {
+            throw mapJsonException(e);
+        }
+    }
+    return {
+        typeExpr: texpr.value,
+        toJson: jb0.toJson,
+        fromJson: jb0.fromJson,
+        fromJsonE
+    };
+}
+function mapJsonException(exception) {
+    if (exception && exception['kind'] == "JsonParseException") {
+        const jserr = exception;
+        return new Error(jserr.getMessage());
+    } else {
+        return exception;
+    }
 }
 function jsonParseException(message) {
     const context = [];
@@ -5737,7 +5254,7 @@ const ADL = {
     ..._AST_MAP,
     ..._AST_MAP1
 };
-declResolver(ADL);
+const RESOLVER = declResolver(ADL);
 class ADLMap {
     constructor(data, isEqual){
         this.data = data;
@@ -5794,6 +5311,35 @@ class ADLMap {
         return this.data.findIndex((p)=>this.isEqual(p.v1, k));
     }
 }
+class Manifest {
+    jsonBinding = createJsonBinding(RESOLVER, texprManifest());
+    tasks = new ADLMap([], (k1, k2)=>k1 === k2);
+    constructor(dir, filename = ".manifest.json"){
+        this.filename = mod3.join(dir, filename);
+    }
+    async load() {
+        if (await mod5.exists(this.filename)) {
+            const json = JSON.parse(await Deno.readTextFile(this.filename));
+            const mdata = this.jsonBinding.fromJson(json);
+            for (const p of mdata.tasks){
+                const taskName = p.v1;
+                const taskData = p.v2;
+                this.tasks.set(taskName, new TaskManifest(taskData));
+            }
+        }
+    }
+    async save() {
+        if (!await mod5.exists(mod3.dirname(this.filename))) {}
+        const mdata = {
+            tasks: this.tasks.entries().map((p)=>({
+                    v1: p[0],
+                    v2: p[1].toData()
+                }))
+        };
+        const jsonval = this.jsonBinding.toJson(mdata);
+        await Deno.writeTextFile(this.filename, JSON.stringify(jsonval, null, 2));
+    }
+}
 class TaskManifest {
     lastExecution = null;
     trackedFiles = new ADLMap([], (k1, k2)=>k1 === k2);
@@ -5816,277 +5362,6 @@ class TaskManifest {
             trackedFiles: this.trackedFiles.toData()
         };
     }
-}
-function taskContext(ctx, task) {
-    return {
-        logger: ctx.taskLogger,
-        task,
-        args: ctx.args
-    };
-}
-function isTask(dep) {
-    return dep instanceof Task;
-}
-function isTrackedFile(dep) {
-    return dep instanceof TrackedFile;
-}
-function isTrackedFileAsync(dep) {
-    return dep instanceof TrackedFilesAsync;
-}
-async function statPath(path) {
-    try {
-        const fileInfo = await Deno.stat(path);
-        return {
-            kind: 'fileInfo',
-            fileInfo
-        };
-    } catch (err) {
-        if (err instanceof Deno.errors.NotFound) {
-            return {
-                kind: 'nonExistent'
-            };
-        }
-        throw err;
-    }
-}
-class Task {
-    taskManifest = null;
-    constructor(taskParams){
-        this.name = taskParams.name;
-        this.action = taskParams.action;
-        this.description = taskParams.description;
-        this.task_deps = new Set(this.getTaskDeps(taskParams.deps || []));
-        this.file_deps = new Set(this.getTrackedFiles(taskParams.deps || []));
-        this.async_files_deps = new Set(this.getTrackedFilesAsync(taskParams.deps || []));
-        this.targets = new Set(taskParams.targets || []);
-        this.uptodate = taskParams.uptodate;
-        for (const f of this.targets){
-            f.setTask(this);
-        }
-    }
-    getTaskDeps(deps) {
-        return deps.filter(isTask);
-    }
-    getTrackedFiles(deps) {
-        return deps.filter(isTrackedFile);
-    }
-    getTrackedFilesAsync(deps) {
-        return deps.filter(isTrackedFileAsync);
-    }
-    async setup(ctx) {
-        if (this.taskManifest === null) {
-            for (const t of this.targets){
-                ctx.targetRegister.set(t.path, this);
-            }
-            this.taskManifest = ctx.manifest.tasks.getOrInsert(this.name, new TaskManifest({
-                lastExecution: null,
-                trackedFiles: []
-            }));
-            for (const taskDep of this.task_deps){
-                await taskDep.setup(ctx);
-            }
-            for (const fDep of this.file_deps){
-                const fDepTask = fDep.getTask();
-                if (fDepTask !== null) {
-                    await fDepTask.setup(ctx);
-                }
-            }
-        }
-    }
-    async exec(ctx) {
-        if (ctx.doneTasks.has(this)) {
-            return;
-        }
-        if (ctx.inprogressTasks.has(this)) {
-            return;
-        }
-        ctx.inprogressTasks.add(this);
-        for (const afd of this.async_files_deps){
-            const file_deps = await afd.getTrackedFiles();
-            for (const fd of file_deps){
-                this.file_deps.add(fd);
-            }
-        }
-        for (const fd1 of this.file_deps){
-            const t = ctx.targetRegister.get(fd1.path);
-            if (t !== undefined) {
-                this.task_deps.add(t);
-            }
-        }
-        await this.execDependencies(ctx);
-        let actualUpToDate = true;
-        actualUpToDate = actualUpToDate && await this.checkFileDeps(ctx);
-        ctx.internalLogger.info(`${this.name} checkFileDeps ${actualUpToDate}`);
-        actualUpToDate = actualUpToDate && await this.targetsExist(ctx);
-        ctx.internalLogger.info(`${this.name} targetsExist ${actualUpToDate}`);
-        if (this.uptodate !== undefined) {
-            actualUpToDate = actualUpToDate && await this.uptodate(taskContext(ctx, this));
-        }
-        ctx.internalLogger.info(`${this.name} uptodate ${actualUpToDate}`);
-        if (actualUpToDate) {
-            ctx.taskLogger.info(`--- ${this.name}`);
-        } else {
-            ctx.taskLogger.info(`... ${this.name}`);
-            await this.action(taskContext(ctx, this));
-            ctx.taskLogger.info(`=== ${this.name}`);
-            {
-                this.taskManifest?.setExecutionTimestamp();
-                let promisesInProgress = [];
-                for (const fdep of this.file_deps){
-                    promisesInProgress.push(ctx.asyncQueue.schedule(async ()=>{
-                        const trackedFileData = await fdep.getFileData(ctx);
-                        this.taskManifest?.setFileData(fdep.path, trackedFileData);
-                    }));
-                }
-                await Promise.all(promisesInProgress);
-            }
-        }
-        ctx.doneTasks.add(this);
-        ctx.inprogressTasks.delete(this);
-    }
-    async targetsExist(ctx) {
-        const tex = await Promise.all(Array.from(this.targets).map(async (tf)=>ctx.asyncQueue.schedule(()=>tf.exists())));
-        return !tex.some((t)=>!t);
-    }
-    async checkFileDeps(ctx) {
-        let fileDepsUpToDate = true;
-        let promisesInProgress = [];
-        const taskManifest = this.taskManifest;
-        if (taskManifest === null) {
-            throw new Error(`Invalid null taskManifest on ${this.name}`);
-        }
-        for (const fdep of this.file_deps){
-            promisesInProgress.push(ctx.asyncQueue.schedule(async ()=>{
-                const r = await fdep.getFileDataOrCached(ctx, taskManifest.getFileData(fdep.path));
-                taskManifest.setFileData(fdep.path, r.tData);
-                fileDepsUpToDate = fileDepsUpToDate && r.upToDate;
-            }));
-        }
-        await Promise.all(promisesInProgress);
-        promisesInProgress = [];
-        return fileDepsUpToDate;
-    }
-    async execDependencies(ctx) {
-        for (const dep of this.task_deps){
-            if (!ctx.doneTasks.has(dep) && !ctx.inprogressTasks.has(dep)) {
-                await dep.exec(ctx);
-            }
-        }
-    }
-}
-class TrackedFile {
-    path = "";
-    #getHash;
-    #getTimestamp;
-    fromTask = null;
-    constructor(fileParams){
-        this.path = mod3.posix.resolve(fileParams.path);
-        this.#getHash = fileParams.getHash || getFileSha1Sum;
-        this.#getTimestamp = fileParams.getTimestamp || getFileTimestamp;
-    }
-    async stat() {
-        mod4.getLogger('internal').info(`checking file ${this.path}`);
-        return await statPath(this.path);
-    }
-    async exists(statInput) {
-        let statResult = statInput;
-        if (statResult === undefined) {
-            statResult = await this.stat();
-        }
-        return statResult.kind === 'fileInfo';
-    }
-    async getHash(statInput) {
-        let statResult = statInput;
-        if (statResult === undefined) {
-            statResult = await this.stat();
-        }
-        if (statResult.kind !== 'fileInfo') {
-            return "";
-        }
-        mod4.getLogger('internal').info(`checking hash on ${this.path}`);
-        return this.#getHash(this.path, statResult.fileInfo);
-    }
-    async getTimestamp(statInput) {
-        let statResult = statInput;
-        if (statResult === undefined) {
-            statResult = await this.stat();
-        }
-        if (statResult.kind !== 'fileInfo') {
-            return "";
-        }
-        return this.#getTimestamp(this.path, statResult.fileInfo);
-    }
-    async isUpToDate(ctx, tData, statInput) {
-        if (tData === undefined) {
-            return false;
-        }
-        let statResult = statInput;
-        if (statResult === undefined) {
-            statResult = await this.stat();
-        }
-        const mtime = await this.getTimestamp(statResult);
-        if (mtime === tData.timestamp) {
-            return true;
-        }
-        const hash = await this.getHash(statResult);
-        return hash === tData.hash;
-    }
-    async getFileData(ctx, statInput) {
-        let statResult = statInput;
-        if (statResult === undefined) {
-            statResult = await this.stat();
-        }
-        return {
-            hash: await this.getHash(statResult),
-            timestamp: await this.getTimestamp(statResult)
-        };
-    }
-    async getFileDataOrCached(ctx, tData, statInput) {
-        let statResult = statInput;
-        if (statResult === undefined) {
-            statResult = await this.stat();
-        }
-        if (tData !== undefined && await this.isUpToDate(ctx, tData, statResult)) {
-            return {
-                tData,
-                upToDate: true
-            };
-        }
-        return {
-            tData: await this.getFileData(ctx, statResult),
-            upToDate: false
-        };
-    }
-    setTask(t) {
-        if (this.fromTask === null) {
-            this.fromTask = t;
-        } else {
-            throw new Error("Duplicate tasks generating TrackedFile as target - " + this.path);
-        }
-    }
-    getTask() {
-        return this.fromTask;
-    }
-}
-class TrackedFilesAsync {
-    constructor(gen){
-        this.gen = gen;
-        this.kind = 'trackedfilesasync';
-    }
-    async getTrackedFiles() {
-        return this.gen();
-    }
-}
-async function getFileSha1Sum(filename) {
-    const data = await Deno.readFile(filename);
-    const hashsha1 = mod6.createHash("sha1");
-    hashsha1.update(data);
-    const hashInHex = hashsha1.toString();
-    return hashInHex;
-}
-async function getFileTimestamp(filename, stat) {
-    const mtime = stat.mtime;
-    return mtime?.toISOString() || "";
 }
 class StdErrPlainHandler extends mod4.handlers.BaseHandler {
     constructor(levelName){
@@ -6209,7 +5484,7 @@ async function getDenoVersion() {
     throw new Error("Invalid parse of deno version output");
 }
 function checkValidDenoVersion(denoVersion, denoReqSemverRange) {
-    return mod7.satisfies(denoVersion, denoReqSemverRange);
+    return mod6.satisfies(denoVersion, denoReqSemverRange);
 }
 async function launch(logger) {
     const userSource = findUserSource(Deno.cwd(), null);
