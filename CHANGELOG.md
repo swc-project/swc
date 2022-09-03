@@ -17,6 +17,9 @@
 
 
 
+- **(atoms)** Introduce bytecheck-ed rkyv version (#5686) ([d6e67b5](https://github.com/swc-project/swc/commit/d6e67b5944131e429d341f565c52fc3237a81bb7))
+
+
 - **(es/minifier)** Relax function inline requirement (#5607) ([4ef99f3](https://github.com/swc-project/swc/commit/4ef99f346b9e7e4dfd1f42e7308c6b6e1142e311))
 
 
