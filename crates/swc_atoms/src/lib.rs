@@ -23,6 +23,10 @@ use std::{
     sync::Arc,
 };
 
+#[cfg(feature = "rkyv-bytecheck-impl")]
+use rkyv_latest as rkyv;
+#[cfg(feature = "rkyv-impl")]
+use rkyv_stable as rkyv;
 use rustc_hash::FxHashSet;
 use serde::Serializer;
 
@@ -228,7 +232,7 @@ impl PartialEq<Atom> for str {
 }
 
 /// NOT A PUBLIC API
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 impl rkyv::Archive for Atom {
     type Archived = rkyv::string::ArchivedString;
     type Resolver = rkyv::string::StringResolver;
@@ -240,7 +244,7 @@ impl rkyv::Archive for Atom {
 }
 
 /// NOT A PUBLIC API
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
     fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
         String::serialize(&self.0.to_string(), serializer)
@@ -248,7 +252,7 @@ impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
 }
 
 /// NOT A PUBLIC API
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
 where
     D: ?Sized + rkyv::Fallible,
@@ -263,11 +267,11 @@ where
 /// NOT A PUBLIC API.
 ///
 /// This type exists to allow serializing [JsWord] using `rkyv`.
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 #[derive(Debug, Clone, Copy)]
 pub struct EncodeJsWord;
 
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 impl rkyv::with::ArchiveWith<crate::JsWord> for EncodeJsWord {
     type Archived = rkyv::Archived<String>;
     type Resolver = rkyv::Resolver<String>;
@@ -285,7 +289,7 @@ impl rkyv::with::ArchiveWith<crate::JsWord> for EncodeJsWord {
     }
 }
 
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 impl<S> rkyv::with::SerializeWith<crate::JsWord, S> for EncodeJsWord
 where
     S: ?Sized + rkyv::ser::Serializer,
@@ -298,7 +302,7 @@ where
     }
 }
 
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, crate::JsWord, D> for EncodeJsWord
 where
     D: ?Sized + rkyv::Fallible,
@@ -315,7 +319,7 @@ where
     }
 }
 
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 impl rkyv::with::ArchiveWith<Option<crate::JsWord>> for EncodeJsWord {
     type Archived = rkyv::Archived<Option<String>>;
     type Resolver = rkyv::Resolver<Option<String>>;
@@ -333,7 +337,7 @@ impl rkyv::with::ArchiveWith<Option<crate::JsWord>> for EncodeJsWord {
     }
 }
 
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 impl<S> rkyv::with::SerializeWith<Option<crate::JsWord>, S> for EncodeJsWord
 where
     S: ?Sized + rkyv::ser::Serializer,
@@ -349,7 +353,7 @@ where
     }
 }
 
-#[cfg(feature = "rkyv")]
+#[cfg(feature = "__rkyv")]
 impl<D> rkyv::with::DeserializeWith<rkyv::Archived<Option<String>>, Option<crate::JsWord>, D>
     for EncodeJsWord
 where
