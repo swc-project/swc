@@ -3692,7 +3692,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.160.1"
+version = "0.160.2"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3922,7 +3922,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_graph"
-version = "0.15.4"
+version = "0.15.5"
 dependencies = [
  "ahash",
  "indexmap",

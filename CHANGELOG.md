@@ -28,6 +28,12 @@
 
 - **(es/minifier)** Support cycles in DCE (#5715) ([5e151c8](https://github.com/swc-project/swc/commit/5e151c8a8e48eae6cd93d5166fcaa87b84f4a341))
 
+### Performance
+
+
+
+- **(es/minifier)** Use faster hash algorithm for DCE (#5725) ([25c96b4](https://github.com/swc-project/swc/commit/25c96b4b7aa9a75892b1ae49a65e836229465195))
+
 ### Refactor
 
 
