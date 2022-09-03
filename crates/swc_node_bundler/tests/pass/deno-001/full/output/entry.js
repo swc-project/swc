@@ -284,59 +284,6 @@ class BufWriter extends AbstractBufBase {
         return totalBytesWritten;
     }
 }
-class BufWriterSync extends AbstractBufBase {
-    static create(writer, size = DEFAULT_BUF_SIZE) {
-        return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
-    }
-    constructor(writer, size = DEFAULT_BUF_SIZE){
-        super();
-        this.writer = writer;
-        if (size <= 0) size = DEFAULT_BUF_SIZE;
-        this.buf = new Uint8Array(size);
-    }
-    reset(w) {
-        this.err = null;
-        this.usedBufferBytes = 0;
-        this.writer = w;
-    }
-    flush() {
-        if (this.err !== null) throw this.err;
-        if (this.usedBufferBytes === 0) return;
-        try {
-            Deno.writeAllSync(this.writer, this.buf.subarray(0, this.usedBufferBytes));
-        } catch (e) {
-            this.err = e;
-            throw e;
-        }
-        this.buf = new Uint8Array(this.buf.length);
-        this.usedBufferBytes = 0;
-    }
-    writeSync(data) {
-        if (this.err !== null) throw this.err;
-        if (data.length === 0) return 0;
-        let totalBytesWritten = 0;
-        let numBytesWritten = 0;
-        while(data.byteLength > this.available()){
-            if (this.buffered() === 0) try {
-                numBytesWritten = this.writer.writeSync(data);
-            } catch (e) {
-                this.err = e;
-                throw e;
-            }
-            else {
-                numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
-                this.usedBufferBytes += numBytesWritten;
-                this.flush();
-            }
-            totalBytesWritten += numBytesWritten;
-            data = data.subarray(numBytesWritten);
-        }
-        numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
-        this.usedBufferBytes += numBytesWritten;
-        totalBytesWritten += numBytesWritten;
-        return totalBytesWritten;
-    }
-}
 const encoder = new TextEncoder();
 function encode(input) {
     return encoder.encode(input);
