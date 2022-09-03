@@ -358,7 +358,7 @@ impl<'a> VisitMut for Operator<'a> {
         use std::mem::take;
 
         #[cfg(feature = "concurrent")]
-        if nodes.len() >= 64 * cpu_count() {
+        if nodes.len() >= 8 * cpu_count() {
             ::swc_common::GLOBALS.with(|globals| {
                 use rayon::prelude::*;
 
@@ -411,6 +411,67 @@ impl<'a> VisitMut for Operator<'a> {
         }
 
         self.after_module_items(&mut buf);
+
+        *nodes = buf;
+    }
+
+    fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
+        use std::mem::take;
+
+        #[cfg(feature = "concurrent")]
+        if nodes.len() >= 8 * cpu_count() {
+            ::swc_common::GLOBALS.with(|globals| {
+                use rayon::prelude::*;
+
+                let (visitor, new_nodes) = take(nodes)
+                    .into_par_iter()
+                    .map(|mut node| {
+                        ::swc_common::GLOBALS.set(globals, || {
+                            let mut visitor = Parallel::create(&*self);
+                            node.visit_mut_with(&mut visitor);
+
+                            let mut nodes = Vec::with_capacity(4);
+
+                            ParExplode::after_one_stmt(&mut visitor, &mut nodes);
+
+                            nodes.push(node);
+
+                            (visitor, nodes)
+                        })
+                    })
+                    .reduce(
+                        || (Parallel::create(&*self), vec![]),
+                        |mut a, b| {
+                            Parallel::merge(&mut a.0, b.0);
+
+                            a.1.extend(b.1);
+
+                            a
+                        },
+                    );
+
+                Parallel::merge(self, visitor);
+
+                {
+                    self.after_stmts(nodes);
+                }
+
+                *nodes = new_nodes;
+            });
+
+            return;
+        }
+
+        let mut buf = Vec::with_capacity(nodes.len());
+
+        for mut node in take(nodes) {
+            let mut visitor = Parallel::create(&*self);
+            node.visit_mut_with(&mut visitor);
+            buf.push(node);
+            visitor.after_one_stmt(&mut buf);
+        }
+
+        self.after_stmts(&mut buf);
 
         *nodes = buf;
     }
