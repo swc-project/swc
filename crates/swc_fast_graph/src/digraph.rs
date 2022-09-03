@@ -19,7 +19,10 @@ use indexmap::{
 };
 use petgraph::{
     graph::{node_index, Graph},
-    visit::{GraphBase, IntoNeighbors, IntoNeighborsDirected, NodeCount, Visitable},
+    visit::{
+        GraphBase, GraphRef, IntoNeighbors, IntoNeighborsDirected, IntoNodeIdentifiers, NodeCount,
+        Visitable,
+    },
     Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
 use swc_common::collections::AHashSet;
@@ -892,4 +895,18 @@ where
     fn neighbors_directed(self, n: N, dir: Direction) -> Self::NeighborsDirected {
         self.neighbors_directed(n, dir)
     }
+}
+
+impl<N, E, Ty> GraphRef for FastGraphMap<N, E, Ty>
+where
+    N: Copy + Ord + Hash,
+    Ty: EdgeType,
+{
+}
+
+impl<N, E, Ty> IntoNodeIdentifiers for FastGraphMap<N, E, Ty>
+where
+    N: Copy + Ord + Hash,
+    Ty: EdgeType,
+{
 }
