@@ -35,7 +35,7 @@ pub(crate) struct PrecompressOptimizer<'a> {
 
     marks: Marks,
 
-    data: Option<ProgramData>,
+    data: Option<&'a ProgramData>,
     ctx: Ctx,
 }
 
@@ -70,7 +70,7 @@ impl PrecompressOptimizer<'_> {
                     options: self.options,
                     module_info: self.module_info,
                     marks: self.marks,
-                    data,
+                    data: data.as_ref(),
                     ctx: self.ctx,
                 });
                 return;
