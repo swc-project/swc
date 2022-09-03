@@ -1,2 +1,8 @@
 //// [symbolProperty2.ts]
-Symbol();
+var s = Symbol(), x = {
+    [s]: 0,
+    [s] () {},
+    get [s] () {
+        return 0;
+    }
+};

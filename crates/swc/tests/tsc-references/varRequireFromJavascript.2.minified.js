@@ -10,4 +10,8 @@ export var Crunch = function() {
     }, Crunch;
 }();
 //// [use.js]
-new (require("./ex")).Crunch(1).n;
+var ex = require("./ex"), crunch = new ex.Crunch(1);
+function f(wrap) {
+    wrap.n;
+}
+crunch.n;

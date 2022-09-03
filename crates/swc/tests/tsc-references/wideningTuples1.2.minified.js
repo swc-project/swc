@@ -1,4 +1,7 @@
 //// [wideningTuples1.ts]
-foo([
+var y = foo([
     void 0
 ]);
+y = [
+    ""
+];

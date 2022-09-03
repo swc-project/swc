@@ -1,9 +1,11 @@
 //// [implementingAnInterfaceExtendingClassWithPrivates2.ts]
-var M, M2;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-!function(Foo) {
+var M, M2, Foo = function Foo() {
+    "use strict";
+    _class_call_check(this, Foo);
+}, Bar = function(Foo) {
     "use strict";
     _inherits(Bar, Foo);
     var _super = _create_super(Bar);
@@ -11,10 +13,24 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         return _class_call_check(this, Bar), _super.apply(this, arguments);
     }
     return Bar;
-}(function Foo() {
+}(Foo), Bar2 = function(Foo) {
     "use strict";
-    _class_call_check(this, Foo);
-}), M || (M = {}), function(M2) {
+    _inherits(Bar2, Foo);
+    var _super = _create_super(Bar2);
+    function Bar2() {
+        return _class_call_check(this, Bar2), _super.apply(this, arguments);
+    }
+    return Bar2;
+}(Foo), Bar3 = function(Foo) {
+    "use strict";
+    _inherits(Bar3, Foo);
+    var _super = _create_super(Bar3);
+    function Bar3() {
+        return _class_call_check(this, Bar3), _super.apply(this, arguments);
+    }
+    return Bar3;
+}(Foo);
+M || (M = {}), function(M2) {
     var b;
     b.z, b.x, b.y;
 }(M2 || (M2 = {}));

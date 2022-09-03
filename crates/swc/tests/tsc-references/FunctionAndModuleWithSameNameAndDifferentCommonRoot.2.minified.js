@@ -18,4 +18,4 @@ var B;
     };
 }(B || (B = {}));
 //// [test.ts]
-A.Point, B.Point.Origin;
+var fn, cl, fn = A.Point, cl = B.Point.Origin;

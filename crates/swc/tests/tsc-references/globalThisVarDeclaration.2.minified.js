@@ -1,4 +1,6 @@
 //// [b.js]
-this.a, this.b, self.a, self.b, window.a, window.b, top.a, top.b;
+var a = 10;
+this.a, this.b, globalThis.a, globalThis.b, self.a, self.b, window.a, window.b, top.a, top.b;
 //// [actual.ts]
-this.a, this.b, self.a, self.b, window.a, window.b, top.a, top.b;
+var b = 10;
+this.a, this.b, globalThis.a, globalThis.b, self.a, self.b, window.a, window.b, top.a, top.b;

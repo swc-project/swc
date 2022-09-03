@@ -1,6 +1,7 @@
 //// [a.js]
-(function() {
-    this.x = 1;
-}).prototype.m = function() {
+OOOrder.prototype.m = function() {
     this.p = 1;
 };
+function OOOrder() {
+    this.x = 1;
+}

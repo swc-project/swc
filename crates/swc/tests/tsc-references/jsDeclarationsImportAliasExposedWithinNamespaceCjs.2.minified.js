@@ -1,12 +1,14 @@
 //// [file.js]
 "use strict";
-exports.myTypes = {};
+const myTypes = {};
+exports.myTypes = myTypes;
 //// [file2.js]
 "use strict";
-const { myTypes  } = require('./file.js');
+const { myTypes  } = require('./file.js'), testFnTypes = {};
+function testFn(input) {
+    return 'number' == typeof input ? 2 * input : null;
+}
 module.exports = {
-    testFn: function(input) {
-        return 'number' == typeof input ? 2 * input : null;
-    },
-    testFnTypes: {}
+    testFn,
+    testFnTypes
 };

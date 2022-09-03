@@ -1,6 +1,6 @@
 //// [objectSpreadRepeatedNullCheckPerf.ts]
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-!function(config) {
+function parseWithSpread(config) {
     return _object_spread({}, void 0 !== config.a && {
         a: config.a.toString()
     }, void 0 !== config.b && {
@@ -54,7 +54,8 @@ import _object_spread from "@swc/helpers/src/_object_spread.mjs";
     }, void 0 !== config.z && {
         z: config.z.toString()
     });
-}({
+}
+parseWithSpread({
     a: 1,
     b: 2,
     z: 26

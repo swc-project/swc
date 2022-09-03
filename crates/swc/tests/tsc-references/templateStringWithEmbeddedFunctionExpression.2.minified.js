@@ -1,4 +1,4 @@
 //// [templateStringWithEmbeddedFunctionExpression.ts]
-"abc".concat(function y() {
+var x = "abc".concat(function y() {
     return y;
 }, "def");

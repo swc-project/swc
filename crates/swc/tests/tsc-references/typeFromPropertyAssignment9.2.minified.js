@@ -5,7 +5,9 @@ my.method = function(n) {
 }, my.number = 1, my.object = {}, my.predicate = my.predicate || {}, my.predicate.query = function() {
     var me = this;
     me.property = !1;
-}, new my.predicate.query(), my.predicate.query.another = function() {
+};
+var q = new my.predicate.query();
+my.predicate.query.another = function() {
     return 1;
 }, my.predicate.query.result = 'none', my.predicate.sort = my.predicate.sort || function(first, second) {
     return first > second ? first : second;

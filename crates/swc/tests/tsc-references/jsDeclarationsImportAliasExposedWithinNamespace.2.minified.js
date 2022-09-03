@@ -9,14 +9,15 @@ Object.defineProperty(exports, "__esModule", {
 const myTypes = {};
 //// [file2.js]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     testFn: ()=>testFn,
     testFnTypes: ()=>testFnTypes
 });

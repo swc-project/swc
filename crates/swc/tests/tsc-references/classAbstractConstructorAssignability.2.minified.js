@@ -13,8 +13,7 @@ var A = function A() {
         return _class_call_check(this, B), _super.apply(this, arguments);
     }
     return B;
-}(A);
-!function(B) {
+}(A), C = function(B) {
     "use strict";
     _inherits(C, B);
     var _super = _create_super(C);
@@ -22,4 +21,5 @@ var A = function A() {
         return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C;
-}(B), new B, new A, new B;
+}(B), AA = B, BB = A, CC = B;
+new AA, new BB, new CC;

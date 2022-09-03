@@ -1,2 +1,4 @@
 //// [parserComputedPropertyName12.ts]
-e;
+class C {
+    [e]() {}
+}

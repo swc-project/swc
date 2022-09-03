@@ -1,1 +1,2 @@
 //// [ts-expect-error.ts]
+var invalidCommentedFancySingle = "nope", invalidCommentedFancyMulti = "nope", validCommentedFancySingle = "nope", validCommentedFancyMulti = "nope", invalidCommentedPlainSingle = "nope", invalidCommentedPlainMulti = "nope", validCommentedPlainSingle = "nope", validCommentedPlainMulti1 = "nope", validCommentedPlainMulti2 = "nope", invalidPlain = "nope", validPlain = "nope";

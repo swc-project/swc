@@ -1,3 +1,2 @@
 //// [twoMergedInterfacesWithDifferingOverloads.ts]
-var c, d;
-(void 0).foo(!0), c.foo(1, 2), d.foo(1, 1);
+var b, c, d, r = b.foo(!0), r2 = c.foo(1, 2), r3 = d.foo(1, 1);

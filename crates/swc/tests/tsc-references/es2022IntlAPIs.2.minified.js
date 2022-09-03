@@ -1,12 +1,13 @@
 //// [es2022IntlAPIs.ts]
-for (const zoneName of [
+const timezoneNames = [
     'short',
     'long',
     'shortOffset',
     'longOffset',
     'shortGeneric',
     'longGeneric'
-])new Intl.DateTimeFormat('en-US', {
+];
+for (const zoneName of timezoneNames)var formatter = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/Los_Angeles',
     timeZoneName: zoneName
 });

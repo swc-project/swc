@@ -9,6 +9,7 @@ function _templateObject() {
         return data;
     }, data;
 }
-!function(x) {
+function declare(x) {
     for(var _len = arguments.length, ys = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)ys[_key - 1] = arguments[_key];
-}(_templateObject(), 0);
+}
+declare(_templateObject(), 0);

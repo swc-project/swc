@@ -1,6 +1,6 @@
 //// [scannertest1.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var CharacterInfo = function() {
     "use strict";
     function CharacterInfo() {
         _class_call_check(this, CharacterInfo);

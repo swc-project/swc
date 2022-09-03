@@ -1,6 +1,6 @@
 //// [looseThisTypeInFunctions.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var u, c = new (function() {
+var u, C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -13,7 +13,7 @@ var u, c = new (function() {
     }, _proto.explicitVoid = function(m) {
         return m + 1;
     }, C;
-}())();
+}(), c = new C();
 c.explicitVoid = c.explicitThis;
 var o = {
     n: 101,
@@ -23,7 +23,12 @@ var o = {
     implicitThis: function(m) {
         return m;
     }
-}, i = o;
-(0, i.explicitThis)(12), (0, u.implicitNoThis)(12), c.explicitVoid = c.implicitThis, o.implicitThis = c.implicitThis, o.implicitThis = c.explicitThis, o.implicitThis = i.explicitThis, i.explicitThis = function(m) {
+}, i = o, o2 = {
+    n: 1001,
+    explicitThis: function(m) {
+        return m + this.n.length;
+    }
+}, x = i.explicitThis, n = x(12), y = u.implicitNoThis;
+n = y(12), c.explicitVoid = c.implicitThis, o.implicitThis = c.implicitThis, o.implicitThis = c.explicitThis, o.implicitThis = i.explicitThis, i.explicitThis = function(m) {
     return this.n.length;
 };

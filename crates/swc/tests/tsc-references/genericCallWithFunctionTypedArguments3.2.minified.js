@@ -1,4 +1,3 @@
 //// [genericCallWithFunctionTypedArguments3.ts]
-var b;
 function foo4(cb) {}
-foo4(void 0), foo4(b);
+var a, b, r = foo4(a), r2 = foo4(b);

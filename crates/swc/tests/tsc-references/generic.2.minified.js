@@ -5,4 +5,11 @@ export var A = function A() {
     _class_call_check(this, A);
 };
 //// [/b.ts]
+var a = {
+    a: ""
+}, b = {
+    a: 3
+}, c = {}, d = {
+    a: ""
+};
 export { };

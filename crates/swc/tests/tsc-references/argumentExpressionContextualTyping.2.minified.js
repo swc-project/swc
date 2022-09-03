@@ -5,8 +5,12 @@ function foo(param) {
     var _x = _sliced_to_array(param.x, 2), _y = (_x[0], _x[1], param.y);
     _y.c, _y.d, _y.e;
 }
+function bar(param) {
+    var _x = _sliced_to_array(param.x, 2), _y = (_x[0], _x[1], param.y);
+    _y.c, _y.d, _y.e;
+}
 function baz(x) {}
-foo({
+var o = {
     x: [
         "string",
         1
@@ -16,7 +20,18 @@ foo({
         d: "world",
         e: 3
     }
-}), foo({
+}, o1 = {
+    x: [
+        "string",
+        1
+    ],
+    y: {
+        c: !0,
+        d: "world",
+        e: 3
+    }
+};
+foo(o1), foo({
     x: [
         "string",
         1
@@ -31,12 +46,12 @@ var array = [
     "string",
     1,
     !0
-];
-baz([
+], tuple = [
     "string",
     1,
     !0
-]), baz([
+];
+baz(tuple), baz([
     "string",
     1,
     !0
@@ -44,14 +59,4 @@ baz([
     "string",
     1,
     !0
-].concat(_to_consumable_array(array))), foo({
-    x: [
-        "string",
-        1
-    ],
-    y: {
-        c: !0,
-        d: "world",
-        e: 3
-    }
-});
+].concat(_to_consumable_array(array))), foo(o);

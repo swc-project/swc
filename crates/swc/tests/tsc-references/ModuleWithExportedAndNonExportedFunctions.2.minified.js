@@ -1,5 +1,4 @@
 //// [ModuleWithExportedAndNonExportedFunctions.ts]
-var A;
 !function(A) {
     var fn = function(s) {
         return !0;
@@ -7,4 +6,5 @@ var A;
         return null;
     };
     A.fn = fn, A.fng = fng;
-}(A || (A = {})), A.fn, A.fng, A.fn2, A.fng2;
+}(A || (A = {}));
+var A, fn, fng, fn = A.fn, fng = A.fng, fn2 = A.fn2, fng2 = A.fng2;

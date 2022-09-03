@@ -1,5 +1,8 @@
 //// [index.js]
 var x = {};
+function takeName(named) {
+    return named.name;
+}
 Object.defineProperty(x, "name", {
     value: "Charles",
     writable: !0
@@ -21,7 +24,18 @@ Object.defineProperty(x, "name", {
     set: function(str) {
         this.zip = Number(str);
     }
-}), x.name, x.zip, x.houseNumber, module.exports = x;
+}), takeName(x);
+var a = x.zip, b = x.houseNumber, returnExemplar = function() {
+    return x;
+}, needsExemplar = function() {
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+}, expected = null;
+function match(a, b) {}
+match(function() {
+    return expected;
+}, function() {
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+}), module.exports = x;
 //// [validate.ts]
 //! 
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.

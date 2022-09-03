@@ -1,5 +1,7 @@
 //// [test.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+function f(x) {}
+f();
 var C = function() {
     "use strict";
     function C() {

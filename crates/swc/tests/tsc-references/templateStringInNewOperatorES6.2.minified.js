@@ -1,2 +1,2 @@
 //// [templateStringInNewOperatorES6.ts]
-new ("abc1def");
+var x = new ("abc1def");

@@ -1,5 +1,4 @@
 //// [ModuleAndEnumWithSameNameAndCommonRoot.ts]
-var enumdule;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(enumdule) {
     var Point = function Point(x, y) {
@@ -9,4 +8,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     enumdule.Point = Point;
 }(enumdule || (enumdule = {})), function(enumdule) {
     enumdule[enumdule.Red = 0] = "Red", enumdule[enumdule.Blue = 1] = "Blue";
-}(enumdule || (enumdule = {})), enumdule.Red, new enumdule.Point(0, 0);
+}(enumdule || (enumdule = {}));
+var enumdule, x, y, x = enumdule.Red, y = new enumdule.Point(0, 0);

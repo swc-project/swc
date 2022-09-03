@@ -1,8 +1,8 @@
 //// [privateNameMethodAsync.ts]
-var _bar, _baz, _qux;
+var _bar, _baz, _qux, _class;
 import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
-let C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), class {
+let C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), _class = class {
     async foo() {
         let b = await _class_private_method_get(this, _bar, bar).call(this);
         return b + (_class_private_method_get(this, _baz, baz).call(this).next().value || 0) + ((await _class_private_method_get(this, _qux, qux).call(this).next()).value || 0);

@@ -1,2 +1,2 @@
 //// [destructuringTypeAssertionsES5_3.ts]
-foo().x;
+var x = foo().x;

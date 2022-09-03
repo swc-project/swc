@@ -1,4 +1,14 @@
 //// [mappedTypes6.ts]
+function f1(x, y, z) {
+    x = y, y = x = z, y = z, z = x, z = y;
+}
+function f2(w, x, y, z) {
+    w = x, w = y, x = w = z, x = y, x = z, y = w, y = x, y = z, z = w, z = x, z = y;
+}
+function f3(w, x, y, z) {}
+function f10(x, y, z) {
+    x = y, y = x = z, y = z, z = x, z = y;
+}
 x1.a, x1.b, x1.c, x1.d, x1 = {
     a: 1
 }, x1 = {

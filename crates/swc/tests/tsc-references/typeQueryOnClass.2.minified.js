@@ -1,7 +1,7 @@
 //// [typeQueryOnClass.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
-var C = function() {
+var c, r1, r2, d, r3, r4, C = function() {
     "use strict";
     function C(x) {
         var _this = this;
@@ -44,3 +44,10 @@ var C = function() {
 C.sa = 1, C.sb = function() {
     return 1;
 };
+var D = function() {
+    "use strict";
+    function D(y) {
+        _class_call_check(this, D), this.y = y;
+    }
+    return D.prototype.foo = function() {}, D;
+}();

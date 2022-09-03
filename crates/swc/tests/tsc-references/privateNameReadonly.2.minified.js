@@ -1,8 +1,8 @@
 //// [privateNameReadonly.ts]
-var _bar;
+var _bar, _class;
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
-let C = (_bar = new WeakSet(), class {
+let C = (_bar = new WeakSet(), _class = class {
     foo() {
         _class_private_field_set(this, _bar, console.log("should log this then throw"));
     }
@@ -10,4 +10,5 @@ let C = (_bar = new WeakSet(), class {
         _class_private_method_init(this, _bar);
     }
 });
+function bar() {}
 console.log(new C().foo());

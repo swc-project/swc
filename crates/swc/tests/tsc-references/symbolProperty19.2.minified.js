@@ -6,5 +6,4 @@ var i = {
     [Symbol.toStringTag]: ()=>({
             p: void 0
         })
-};
-i[Symbol.iterator], i[Symbol.toStringTag]();
+}, it = i[Symbol.iterator], str = i[Symbol.toStringTag]();

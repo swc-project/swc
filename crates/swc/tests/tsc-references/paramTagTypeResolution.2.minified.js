@@ -3,4 +3,5 @@ module.exports = function(x, k) {
     return k(x);
 };
 //// [main.js]
-require("./first")(1, function(n) {});
+var f = require("./first");
+f(1, function(n) {});

@@ -4,7 +4,7 @@ import _class_private_field_init from "@swc/helpers/src/_class_private_field_ini
 let getX;
 var _x = new WeakMap();
 let tmp = (getX = (a)=>_class_private_field_get(a, _x), "_");
-console.log(getX(new class {
+class A {
     [tmp]() {}
     constructor(){
         _class_private_field_init(this, _x, {
@@ -12,4 +12,5 @@ console.log(getX(new class {
             value: 100
         });
     }
-}));
+}
+console.log(getX(new A));

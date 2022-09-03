@@ -11,5 +11,7 @@ Object.defineProperty(exports, "__esModule", {
 var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, C = function C() {
     "use strict";
     _classCallCheck(this, C);
+}, __ = {
+    writable: !0,
+    value: void (C.x = 1)
 };
-C.x = 1;

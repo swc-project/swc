@@ -1,2 +1,6 @@
 //// [templateStringInArray.ts]
-"abc".concat(123, "def");
+var x = [
+    1,
+    2,
+    "abc".concat(123, "def")
+];

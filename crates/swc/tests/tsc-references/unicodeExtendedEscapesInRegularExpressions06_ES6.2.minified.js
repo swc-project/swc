@@ -1,1 +1,2 @@
 //// [unicodeExtendedEscapesInRegularExpressions06_ES6.ts]
+var x = /\u{10FFFF}/g;

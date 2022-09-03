@@ -1,2 +1,3 @@
 //// [voidParamAssignmentCompatibility.ts]
-o.method;
+var gg = g;
+gg = o.method;

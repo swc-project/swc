@@ -1,8 +1,15 @@
 //// [typeofANonExportedType.ts]
-var M, E;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var c2, i2, M, E, x = 1;
 export var r1;
+var y = {
+    foo: ""
+};
 export var r2;
+var C = function C() {
+    "use strict";
+    _class_call_check(this, C);
+};
 export var c;
 export var r3;
 export var r4;

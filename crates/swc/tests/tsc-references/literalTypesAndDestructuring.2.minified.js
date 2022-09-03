@@ -1,2 +1,2 @@
 //// [literalTypesAndDestructuring.ts]
-x.a, x.a, x.a, x.a, x.a, x.a, x.a, x.a;
+var _a, _a1, _a2, a1 = x.a, tmp = x.a, a2 = void 0 === tmp ? 0 : tmp, tmp1 = x.a, a3 = void 0 === tmp1 ? 2 : tmp1, tmp2 = x.a, a4 = void 0 === tmp2 ? 2 : tmp2, b1 = x.a, b2 = null !== (_a = x.a) && void 0 !== _a ? _a : 0, b3 = null !== (_a1 = x.a) && void 0 !== _a1 ? _a1 : 2, b4 = null !== (_a2 = x.a) && void 0 !== _a2 ? _a2 : 2, ref = {}, _bar = ref.bar, bar = void 0 === _bar ? "yo" : _bar;

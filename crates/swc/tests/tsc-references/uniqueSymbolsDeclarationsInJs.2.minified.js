@@ -1,2 +1,9 @@
 //// [uniqueSymbolsDeclarationsInJs.js]
-Symbol(), Symbol(), Symbol(), Symbol();
+class C {
+    static readonlyStaticCall = Symbol();
+    static readonlyStaticTypeAndCall = Symbol();
+    static readwriteStaticCall = Symbol();
+    readonlyCall = Symbol();
+    readwriteCall = Symbol();
+}
+const a = Symbol();

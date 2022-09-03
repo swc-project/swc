@@ -1,9 +1,13 @@
 //// [plusOperatorWithStringType.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var STRING, M, STRING1 = [
+    "",
+    "abc"
+];
 function foo() {
     return "abc";
 }
-var STRING, M, A = function() {
+var A = function() {
     "use strict";
     function A() {
         _class_call_check(this, A);
@@ -16,5 +20,5 @@ var STRING, M, A = function() {
     var n;
     M.n = n;
 }(M || (M = {}));
-var objA = new A();
-objA.a, M.n, foo(), A.foo(), STRING.charAt(0), foo(), objA.a, M.n;
+var objA = new A(), ResultIsNumber1 = +STRING, ResultIsNumber2 = +STRING1, ResultIsNumber3 = 0, ResultIsNumber4 = NaN, ResultIsNumber5 = NaN, ResultIsNumber6 = +objA.a, ResultIsNumber7 = +M.n, ResultIsNumber8 = +STRING1[0], ResultIsNumber9 = +foo(), ResultIsNumber10 = +A.foo(), ResultIsNumber11 = +(STRING + STRING), ResultIsNumber12 = +STRING.charAt(0);
+foo(), objA.a, M.n;

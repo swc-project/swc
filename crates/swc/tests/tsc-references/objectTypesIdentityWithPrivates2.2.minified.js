@@ -14,5 +14,10 @@ var C = function C() {
     }
     return D;
 }(C);
+function foo1(x) {}
+function foo2(x) {}
+function foo3(x) {}
 function foo4(x) {}
-foo4(new C()), foo4(new D());
+var r = foo4(new C()), r = foo4(new D());
+function foo5(x) {}
+function foo6(x) {}

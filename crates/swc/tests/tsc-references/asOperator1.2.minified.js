@@ -1,2 +1,3 @@
 //// [asOperator1.ts]
-null.length;
+var as = 43, x = void 0, y = null.length, z = Date, j = 32;
+j = "";

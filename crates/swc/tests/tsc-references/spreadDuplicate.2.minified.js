@@ -1,19 +1,19 @@
 //// [spreadDuplicate.ts]
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-_object_spread({
+var a1 = _object_spread({
     a: 123
-}, a), _object_spread({
+}, a), b1 = _object_spread({
     a: 123
-}, b), _object_spread({
+}, b), c1 = _object_spread({
     a: 123
-}, c), _object_spread({
+}, c), d1 = _object_spread({
     a: 123
-}, d), _object_spread({
+}, d), a2 = _object_spread({
     a: 123
-}, t ? a : {}), _object_spread({
+}, t ? a : {}), b2 = _object_spread({
     a: 123
-}, t ? b : {}), _object_spread({
+}, t ? b : {}), c2 = _object_spread({
     a: 123
-}, t ? c : {}), _object_spread({
+}, t ? c : {}), d2 = _object_spread({
     a: 123
 }, t ? d : {});

@@ -1,2 +1,3 @@
 //// [symbolType16.ts]
-(void 0).newSymbolProp;
+var sym;
+sym.newSymbolProp;

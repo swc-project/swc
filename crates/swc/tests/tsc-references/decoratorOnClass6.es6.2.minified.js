@@ -8,4 +8,5 @@ export let C = ((_C = class {
 }).y = 1, _C);
 C = _ts_decorate([
     dec
-], C), new C();
+], C);
+let c = new C();

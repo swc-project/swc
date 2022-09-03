@@ -5,7 +5,7 @@ import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.
 import _extends from "@swc/helpers/src/_extends.mjs";
 import _class_private_field_destructure from "@swc/helpers/src/_class_private_field_destructure.mjs";
 var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(), _valueCompound = new WeakMap();
-new class {
+class Test {
     m() {
         var _tmp, _tmp1;
         let foo = {
@@ -34,16 +34,21 @@ new class {
     constructor(){
         _class_private_field_init(this, _value, {
             get: void 0,
-            set: function(v) {}
+            set: set_value
         }), _class_private_field_init(this, _valueRest, {
             get: void 0,
-            set: function(v) {}
+            set: set_valueRest
         }), _class_private_field_init(this, _valueOne, {
             get: void 0,
-            set: function(v) {}
+            set: set_valueOne
         }), _class_private_field_init(this, _valueCompound, {
             get: void 0,
-            set: function(v) {}
+            set: set_valueCompound
         });
     }
-}().m();
+}
+function set_value(v) {}
+function set_valueRest(v) {}
+function set_valueOne(v) {}
+function set_valueCompound(v) {}
+new Test().m();

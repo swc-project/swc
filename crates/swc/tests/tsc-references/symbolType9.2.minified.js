@@ -1,2 +1,2 @@
 //// [symbolType9.ts]
-Symbol.for("equal");
+var s = Symbol.for("equal");

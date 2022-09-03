@@ -1,5 +1,13 @@
 //// [invalidUndefinedValues.ts]
-var M, E;
-(M || (M = {})).x = 1, function(E) {
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+x = 1, x = "", x = !0, x = a, x = null;
+var x, a, b, c, M, E, C = function C() {
+    "use strict";
+    _class_call_check(this, C);
+};
+function f(a) {}
+x = C, x = b, x = c, (M || (M = {})).x = 1, x = M, x = {
+    f: function() {}
+}, x = f, function(E) {
     E[E.A = 0] = "A";
-}(E || (E = {})), E.A;
+}(E || (E = {})), x = E, x = E.A;

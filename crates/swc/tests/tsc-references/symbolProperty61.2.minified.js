@@ -11,4 +11,7 @@ export class MyObservable {
         this._val = _val;
     }
 }
-new MyObservable(42)[Symbol.obs]();
+function from(obs) {
+    return obs[Symbol.obs]();
+}
+from(new MyObservable(42));

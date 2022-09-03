@@ -1,2 +1,2 @@
 //// [templateStringWithEmbeddedTypeAssertionOnAddition.ts]
-"abc".concat(20, "def");
+var x = "abc".concat(20, "def");

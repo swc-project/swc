@@ -7,4 +7,5 @@ Object.defineProperty(exports, "__esModule", {
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("./foo_0");
+});
+var foo0 = require("./foo_0"), x = {}, y = foo0;

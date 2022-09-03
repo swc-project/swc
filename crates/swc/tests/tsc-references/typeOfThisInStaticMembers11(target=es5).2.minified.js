@@ -10,7 +10,11 @@ import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
 var _C, _D, C = (_define_property(_C = function C() {
     "use strict";
     _class_call_check(this, C);
-}, "a", 1), _define_property(_C, "b", _C.a + 1), _C), D = (_D = function(C) {
+}, "a", 1), _define_property(_C, "b", _C.a + 1), _C);
+C = _ts_decorate([
+    foo
+], C);
+var D = (_D = function(C) {
     "use strict";
     _inherits(D, C);
     var _super = _create_super(D);
@@ -34,9 +38,7 @@ var _C, _D, C = (_define_property(_C = function C() {
             }
         }
     ]), D;
-}(C = _ts_decorate([
-    foo
-], C)), _define_property(_D, "c", 2), _define_property(_D, "d", _D.c + 1), _define_property(_D, "e", _get(_get_prototype_of(_D), "a", _D) + _D.c + 1), _define_property(_D, "f", function() {
+}(C), _define_property(_D, "c", 2), _define_property(_D, "d", _D.c + 1), _define_property(_D, "e", _get(_get_prototype_of(_D), "a", _D) + _D.c + 1), _define_property(_D, "f", function() {
     return _D.c + 1;
 }), _define_property(_D, "ff", function() {
     this.c;

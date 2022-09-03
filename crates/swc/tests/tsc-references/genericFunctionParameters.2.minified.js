@@ -1,10 +1,10 @@
 //// [genericFunctionParameters.ts]
-f1(function(x) {
+var x1 = f1(function(x) {
     return x;
-}), f2(function(x) {
+}), x2 = f2(function(x) {
     return x;
-}), f3(function(x) {
+}), x3 = f3(function(x) {
     return x;
-}), s(function(a) {
+}), x = s(function(a) {
     return a.init();
 });

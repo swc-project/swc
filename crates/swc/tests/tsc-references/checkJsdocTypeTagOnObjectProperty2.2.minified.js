@@ -14,4 +14,5 @@ var lol, obj = {
     },
     lol: lol
 };
-lol = "string", obj.method1(0), obj.method2("0");
+lol = "string";
+var s = obj.method1(0), s1 = obj.method2("0");

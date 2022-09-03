@@ -1,10 +1,9 @@
 //// [constructSignaturesWithIdenticalOverloads.ts]
-var i, i2, a, b;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-new function C(x) {
+var i, i2, a, b, C = function C(x) {
     "use strict";
     _class_call_check(this, C);
-}(1, ""), new function C2(x) {
+}, r1 = new C(1, ""), C2 = function C2(x) {
     "use strict";
     _class_call_check(this, C2);
-}(1, ""), new i(1, ""), new i2(1, ""), new a(1, ""), new b(1, "");
+}, r2 = new C2(1, ""), r3 = new i(1, ""), r4 = new i2(1, ""), r5 = new a(1, ""), r6 = new b(1, "");

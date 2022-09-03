@@ -6,6 +6,10 @@ var Private = function Private() {
     "use strict";
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Private);
+}, Private2 = function Private2() {
+    "use strict";
+    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+    _class_call_check(this, Private2);
 }, Protected = function Protected() {
     "use strict";
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
@@ -23,7 +27,25 @@ var Private = function Private() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Public2);
 };
-!function(_superClass) {
+function f1(x) {
+    x.p;
+}
+function f2(x) {
+    x.p;
+}
+function f3(x) {
+    x.p;
+}
+function f4(x) {
+    x.p;
+}
+function f5(x) {
+    x.p;
+}
+function f6(x) {
+    x.p;
+}
+var C1 = function(_superClass) {
     "use strict";
     _inherits(C1, _superClass);
     var _super = _create_super(C1);
@@ -31,12 +53,23 @@ var Private = function Private() {
         return _class_call_check(this, C1), _super.apply(this, arguments);
     }
     return C1;
-}(Mix(Private, function Private2() {
+}(Mix(Private, Private2)), C2 = function(_superClass) {
     "use strict";
-    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-    _class_call_check(this, Private2);
-})), Mix(Private, Protected), Mix(Private, Public);
-var C4 = function(_superClass) {
+    _inherits(C2, _superClass);
+    var _super = _create_super(C2);
+    function C2() {
+        return _class_call_check(this, C2), _super.apply(this, arguments);
+    }
+    return C2;
+}(Mix(Private, Protected)), C3 = function(_superClass) {
+    "use strict";
+    _inherits(C3, _superClass);
+    var _super = _create_super(C3);
+    function C3() {
+        return _class_call_check(this, C3), _super.apply(this, arguments);
+    }
+    return C3;
+}(Mix(Private, Public)), C4 = function(_superClass) {
     "use strict";
     _inherits(C4, _superClass);
     var _super = _create_super(C4);
@@ -72,12 +105,27 @@ var C4 = function(_superClass) {
     }, C6.g = function() {
         C4.s, C5.s, C6.s;
     }, C6;
-}(Mix(Public, Public2));
-!function() {
+}(Mix(Public, Public2)), ProtectedGeneric = function() {
     "use strict";
     function ProtectedGeneric() {
         _class_call_check(this, ProtectedGeneric);
     }
     var _proto = ProtectedGeneric.prototype;
     return _proto.privateMethod = function() {}, _proto.protectedMethod = function() {}, ProtectedGeneric;
+}(), ProtectedGeneric2 = function() {
+    "use strict";
+    function ProtectedGeneric2() {
+        _class_call_check(this, ProtectedGeneric2);
+    }
+    var _proto = ProtectedGeneric2.prototype;
+    return _proto.privateMethod = function() {}, _proto.protectedMethod = function() {}, ProtectedGeneric2;
 }();
+function f7(x) {
+    x.privateMethod(), x.protectedMethod();
+}
+function f8(x) {
+    x.privateMethod(), x.protectedMethod();
+}
+function f9(x) {
+    x.privateMethod(), x.protectedMethod();
+}

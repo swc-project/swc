@@ -4,4 +4,5 @@ export let C = class {
 };
 C = _ts_decorate([
     dec
-], C), new C();
+], C);
+let c = new C();

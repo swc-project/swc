@@ -1,5 +1,4 @@
 //// [for-inStatements.ts]
-var aString, anAny, c, d, e, i, M, Color;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
@@ -32,22 +31,7 @@ for(var x in function(x) {
 for(var x in function(x, y) {
     return x + y;
 });
-for(var x in !function(A) {
-    "use strict";
-    _inherits(B, A);
-    var _super = _create_super(B);
-    function B() {
-        return _class_call_check(this, B), _super.apply(this, arguments);
-    }
-    return B.prototype.boz = function() {
-        for(var x in this.biz());
-        for(var x in this.biz);
-        for(var x in this);
-        for(var x in _get(_get_prototype_of(B.prototype), "biz", this));
-        for(var x in _get(_get_prototype_of(B.prototype), "biz", this).call(this));
-        return null;
-    }, B;
-}(function() {
+var aString, anAny, c, d, e, i, M, Color, A = function() {
     "use strict";
     function A() {
         _class_call_check(this, A);
@@ -63,7 +47,23 @@ for(var x in !function(A) {
         for(var x in this.baz());
         return null;
     }, A;
-}()), i[42]);
+}(), B = function(A) {
+    "use strict";
+    _inherits(B, A);
+    var _super = _create_super(B);
+    function B() {
+        return _class_call_check(this, B), _super.apply(this, arguments);
+    }
+    return B.prototype.boz = function() {
+        for(var x in this.biz());
+        for(var x in this.biz);
+        for(var x in this);
+        for(var x in _get(_get_prototype_of(B.prototype), "biz", this));
+        for(var x in _get(_get_prototype_of(B.prototype), "biz", this).call(this));
+        return null;
+    }, B;
+}(A);
+for(var x in i[42]);
 for(var x in !function(M) {
     var X = function X() {
         "use strict";

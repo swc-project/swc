@@ -1,5 +1,5 @@
 //// [genericSetterInClassTypeJsDoc.js]
-new class {
+class Box {
     #value;
     constructor(initialValue){
         this.#value = initialValue;
@@ -10,4 +10,5 @@ new class {
     set value(value) {
         this.#value = value;
     }
-}(3).value = 3;
+}
+new Box(3).value = 3;

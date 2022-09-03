@@ -1,3 +1,3 @@
 //// [nonPrimitiveIndexingWithForInNoImplicitAny.ts]
 var a;
-for(var key in a)a[key];
+for(var key in a)var value = a[key];

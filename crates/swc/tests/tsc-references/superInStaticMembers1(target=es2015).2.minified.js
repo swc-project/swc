@@ -12,7 +12,10 @@ import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 C._ = [
-    void _get(_get_prototype_of(C), "w", C).call(C),
+    (()=>{
+        var Reflect;
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
     (()=>{
         var { Reflect  } = {
             Reflect: null
@@ -39,26 +42,64 @@ C._ = [
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C), 
-], (()=>{
-    var { Reflect  } = {
-        Reflect: null
-    };
-    super.w();
-})(), (()=>{
-    var [Reflect] = [
-        null
-    ];
-    super.w();
-})(), super.w(), super.w(), super.w(), (()=>{
-    let Reflect;
-    Reflect || (Reflect = {}), super.w();
-})(), (()=>{
-    let Reflect;
-    Reflect || (Reflect = {}), super.w();
-})(), super.w(), super.w(), super.w(), super.w();
+];
+var __ = {
+    writable: !0,
+    value: (()=>{
+        var { Reflect  } = {
+            Reflect: null
+        };
+        super.w();
+    })()
+}, __1 = {
+    writable: !0,
+    value: (()=>{
+        var [Reflect] = [
+            null
+        ];
+        super.w();
+    })()
+}, __2 = {
+    writable: !0,
+    value: (()=>{
+        var Reflect;
+        super.w();
+    })()
+}, __3 = {
+    writable: !0,
+    value: void super.w()
+}, __4 = {
+    writable: !0,
+    value: void super.w()
+}, __5 = {
+    writable: !0,
+    value: (()=>{
+        let Reflect;
+        Reflect || (Reflect = {}), super.w();
+    })()
+}, __6 = {
+    writable: !0,
+    value: (()=>{
+        let Reflect;
+        Reflect || (Reflect = {}), super.w();
+    })()
+}, __7 = {
+    writable: !0,
+    value: void super.w()
+}, __8 = {
+    writable: !0,
+    value: void super.w()
+}, __9 = {
+    writable: !0,
+    value: void super.w()
+}, __10 = {
+    writable: !0,
+    value: void super.w()
+};
 //// [varInContainingScopeStaticField1.ts]
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+var Reflect = null;
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
@@ -81,37 +122,69 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [varInContainingScopeStaticBlock1.ts]
-super.w();
+var Reflect = null;
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [varInContainingScopeStaticBlock2.ts]
 var { Reflect  } = {
     Reflect: null
 };
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [varInContainingScopeStaticBlock3.ts]
 var [Reflect] = [
     null
 ];
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [classDeclInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+class Reflect {
+}
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [classDeclInContainingScopeStaticBlock.ts]
-super.w();
+class Reflect {
+}
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [funcDeclInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+function Reflect() {}
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [funcDeclInContainingScopeStaticBlock.ts]
-super.w();
+function Reflect() {}
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [valueNamespaceInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -120,7 +193,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [enumInContainingScopeStaticField.ts]
 var Reflect;
@@ -131,8 +209,13 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [enumInContainingScopeStaticBlock.ts]
-var Reflect;
-Reflect || (Reflect = {}), super.w();
+Reflect || (Reflect = {});
+class C extends B {
+}
+var Reflect, __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
 var Reflect;
@@ -143,8 +226,13 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [constEnumInContainingScopeStaticBlock.ts]
-var Reflect;
-Reflect || (Reflect = {}), super.w();
+Reflect || (Reflect = {});
+class C extends B {
+}
+var Reflect, __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [namespaceImportInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -153,7 +241,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [namespaceImportInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [namedImportInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -162,7 +255,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [namedImportInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [namedImportOfInterfaceInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -171,7 +269,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -180,7 +283,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [namedImportOfConstEnumInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -189,7 +297,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [typeOnlyNamedImportInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -198,7 +311,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [defaultImportInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -207,7 +325,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [defaultImportInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -216,7 +339,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [typeInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -225,7 +353,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [typeInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [interfaceInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -234,7 +367,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [interfaceInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -243,7 +381,12 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [uninstantiatedNamespaceInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [classExprInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -252,18 +395,38 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [classExprInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [inContainingClassExprStaticField.ts]
+var _Reflect, __;
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-(()=>{
-    class C extends B {
-    }
-    C._ = _get(_get_prototype_of(C), "w", C).call(C);
-})();
+_Reflect = class {
+}, __ = {
+    writable: !0,
+    value: (()=>{
+        class C extends B {
+        }
+        C._ = _get(_get_prototype_of(C), "w", C).call(C);
+    })()
+};
 //// [inContainingClassExprStaticBlock.ts]
-super.w();
+var _Reflect, __;
+_Reflect = class {
+}, __ = {
+    writable: !0,
+    value: (()=>{
+        var __ = {
+            writable: !0,
+            value: void super.w()
+        };
+    })()
+};
 export { };
 //// [funcExprInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";
@@ -272,9 +435,15 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [funcExprInContainingScopeStaticBlock.ts]
-super.w();
+class C extends B {
+}
+var __ = {
+    writable: !0,
+    value: void super.w()
+};
 export { };
 //// [inContainingFuncExprStaticField.ts]
-export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 //// [inContainingFuncExprStaticBlock.ts]
 export { };

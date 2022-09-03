@@ -23,6 +23,7 @@ var Thing = function() {
         };
     }, Thing;
 }();
+function F() {}
 exports.x = {
     status: "done",
     m: function(n) {}
@@ -32,7 +33,10 @@ exports.x = {
 }, module.exports.y, Thing.prototype.x = {
     status: "done",
     m: function(n) {}
-}, Thing.prototype.x;
+}, Thing.prototype.x, F.prototype = {
+    status: "done",
+    m: function(n) {}
+};
 //// [mod.js]
 module.exports = {
     status: "done",

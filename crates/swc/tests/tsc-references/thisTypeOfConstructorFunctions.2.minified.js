@@ -16,4 +16,5 @@ Cp.prototype = {
     return this.z = this.y, this;
 };
 var cp = new Cp(1), cpp = new Cpp(2);
-cp.dit, cpp.m2(), cp.m3(), cp.m4();
+cp.dit;
+var cppn = cpp.m2(), cpn = cp.m3(), cpn = cp.m4();

@@ -1,2 +1,2 @@
 //// [intersectionTypeInference3.ts]
-Array.from(a).concat(Array.from(b)), from();
+const c1 = Array.from(a).concat(Array.from(b)), c2 = from();

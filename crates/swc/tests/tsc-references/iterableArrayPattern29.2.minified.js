@@ -1,5 +1,6 @@
 //// [iterableArrayPattern29.ts]
-!function(...[[k1, v1], [k2, v2]]) {}(...new Map([
+function takeFirstTwoEntries(...[[k1, v1], [k2, v2]]) {}
+takeFirstTwoEntries(...new Map([
     [
         "",
         !0

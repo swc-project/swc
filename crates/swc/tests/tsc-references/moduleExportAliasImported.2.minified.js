@@ -1,4 +1,5 @@
 //// [bug28014.js]
-exports.version = 1, module.exports = function() {};
+function alias() {}
+exports.version = 1, module.exports = alias;
 //// [importer.js]
 import('./bug28014');

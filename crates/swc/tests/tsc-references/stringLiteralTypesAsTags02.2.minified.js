@@ -6,4 +6,7 @@ var x = {
     kind: "A",
     a: 100
 };
-hasKind(x, "A"), hasKind(x, "B");
+if (hasKind(x, "A")) var a = x;
+else var b = x;
+if (hasKind(x, "B")) var d = x;
+else var c = x;

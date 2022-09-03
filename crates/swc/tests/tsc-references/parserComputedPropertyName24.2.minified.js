@@ -1,2 +1,4 @@
 //// [parserComputedPropertyName24.ts]
-e;
+class C {
+    set [e](v) {}
+}

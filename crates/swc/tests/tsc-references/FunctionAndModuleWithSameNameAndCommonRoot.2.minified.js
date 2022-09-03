@@ -18,9 +18,8 @@ var A;
     };
 }(A || (A = {}));
 //// [test.ts]
-A.Point, A.Point(), A.Point.Origin;
+var fn, cl, fn = A.Point, cl = A.Point(), cl = A.Point.Origin;
 //// [simple.ts]
-var B;
 !function(B) {
     var Point = function() {
         return {
@@ -32,4 +31,5 @@ var B;
         x: 0,
         y: 0
     };
-}(B || (B = {})), B.Point, B.Point(), B.Point.Origin;
+}(B || (B = {}));
+var B, fn, cl, fn = B.Point, cl = B.Point(), cl = B.Point.Origin;

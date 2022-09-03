@@ -1,2 +1,11 @@
 //// [symbolProperty7.ts]
-Symbol(), Symbol(), Symbol();
+let _ref = Symbol(), tmp = Symbol(), tmp1 = Symbol();
+class C {
+    [tmp]() {}
+    get [tmp1]() {
+        return 0;
+    }
+    constructor(){
+        this[_ref] = 0;
+    }
+}

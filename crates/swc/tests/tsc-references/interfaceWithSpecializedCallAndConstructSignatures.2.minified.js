@@ -1,3 +1,2 @@
 //// [interfaceWithSpecializedCallAndConstructSignatures.ts]
-var f;
-f("a"), f("A"), new f("a"), new f("A");
+var f, r = f("a"), r2 = f("A"), r3 = new f("a"), r4 = new f("A");

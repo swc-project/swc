@@ -8,6 +8,12 @@ function e(a, b) {
 function f(a) {
     return a;
 }
+function g(a, b) {
+    return a.x && b.y();
+}
+function hh(a, b) {
+    return a.x && b.y();
+}
 Object.defineProperty(module.exports, "a", {
     value: function() {}
 }), Object.defineProperty(module.exports, "b", {
@@ -23,13 +29,9 @@ Object.defineProperty(module.exports, "a", {
 }), Object.defineProperty(module.exports.f, "self", {
     value: module.exports.f
 }), Object.defineProperty(module.exports, "g", {
-    value: function(a, b) {
-        return a.x && b.y();
-    }
+    value: g
 }), Object.defineProperty(module.exports, "h", {
-    value: function(a, b) {
-        return a.x && b.y();
-    }
+    value: hh
 }), Object.defineProperty(module.exports, "i", {
     value: function() {}
 }), Object.defineProperty(module.exports, "ii", {

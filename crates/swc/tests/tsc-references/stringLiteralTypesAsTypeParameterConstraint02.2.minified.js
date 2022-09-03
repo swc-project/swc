@@ -1,4 +1,7 @@
 //// [stringLiteralTypesAsTypeParameterConstraint02.ts]
-!function(y) {
+function foo(f) {
+    return f;
+}
+var f = foo(function(y) {
     return "foo" === y ? y : "foo";
-}("foo");
+}), fResult = f("foo");

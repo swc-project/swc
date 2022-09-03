@@ -4,4 +4,4 @@ export function foo() {
     return "foo";
 }
 //// [1.ts]
-import("./0");
+var p1 = import("./0");

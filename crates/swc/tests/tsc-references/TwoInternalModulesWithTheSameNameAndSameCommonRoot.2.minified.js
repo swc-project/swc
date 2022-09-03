@@ -22,8 +22,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     }, Utils.Plane = Plane;
 }(A || (A = {}));
 //// [part3.ts]
-var o = A.Origin, o = A.Utils.mirror(o);
-new A.Utils.Plane(o, {
+var o, p, o = A.Origin, o = A.Utils.mirror(o), p = new A.Utils.Plane(o, {
     x: 1,
     y: 1
 });

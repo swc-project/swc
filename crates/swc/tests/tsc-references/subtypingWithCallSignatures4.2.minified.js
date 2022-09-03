@@ -2,15 +2,10 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-!function(Derived) {
+var Base = function Base() {
     "use strict";
-    _inherits(Derived2, Derived);
-    var _super = _create_super(Derived2);
-    function Derived2() {
-        return _class_call_check(this, Derived2), _super.apply(this, arguments);
-    }
-    return Derived2;
-}(function(Base) {
+    _class_call_check(this, Base);
+}, Derived = function(Base) {
     "use strict";
     _inherits(Derived, Base);
     var _super = _create_super(Derived);
@@ -18,31 +13,116 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         return _class_call_check(this, Derived), _super.apply(this, arguments);
     }
     return Derived;
-}(function Base() {
+}(Base), Derived2 = function(Derived) {
     "use strict";
-    _class_call_check(this, Base);
-})), foo1(function(x) {
+    _inherits(Derived2, Derived);
+    var _super = _create_super(Derived2);
+    function Derived2() {
+        return _class_call_check(this, Derived2), _super.apply(this, arguments);
+    }
+    return Derived2;
+}(Derived), OtherDerived = function(Base) {
+    "use strict";
+    _inherits(OtherDerived, Base);
+    var _super = _create_super(OtherDerived);
+    function OtherDerived() {
+        return _class_call_check(this, OtherDerived), _super.apply(this, arguments);
+    }
+    return OtherDerived;
+}(Base), r1arg = function(x) {
     return null;
-}), foo2(function(x) {
+}, r1arg2 = function(x) {
+    return null;
+}, r1 = foo1(r1arg), r1a = [
+    r1arg,
+    r1arg2
+], r1b = [
+    r1arg2,
+    r1arg
+], r2arg = function(x) {
     return [
         ""
     ];
-}), foo3(function(x) {
+}, r2arg2 = function(x) {
+    return [
+        ""
+    ];
+}, r2 = foo2(r2arg), r2a = [
+    r2arg,
+    r2arg2
+], r2b = [
+    r2arg2,
+    r2arg
+], r3arg = function(x) {
     return null;
-}), foo4(function(x, y) {
+}, r3arg2 = function(x) {}, r3 = foo3(r3arg), r3a = [
+    r3arg,
+    r3arg2
+], r3b = [
+    r3arg2,
+    r3arg
+], r4arg = function(x, y) {
     return "";
-}), foo5(function(x) {
+}, r4arg2 = function(x, y) {
+    return "";
+}, r4 = foo4(r4arg), r4a = [
+    r4arg,
+    r4arg2
+], r4b = [
+    r4arg2,
+    r4arg
+], r5arg = function(x) {
     return null;
-}), foo6(function(x) {
+}, r5arg2 = function(x) {
     return null;
-}), foo11(function(x, y) {
+}, r5 = foo5(r5arg), r5a = [
+    r5arg,
+    r5arg2
+], r5b = [
+    r5arg2,
+    r5arg
+], r6arg = function(x) {
     return null;
-}), foo15(function(x) {
+}, r6arg2 = function(x) {
     return null;
-}), foo16(function(x) {
+}, r6 = foo6(r6arg), r6a = [
+    r6arg,
+    r6arg2
+], r6b = [
+    r6arg2,
+    r6arg
+], r11arg = function(x, y) {
     return null;
-}), foo17(function(x) {
+}, r11arg2 = function(x, y) {
     return null;
-}), foo18(function(x) {
+}, r11 = foo11(r11arg), r11a = [
+    r11arg,
+    r11arg2
+], r11b = [
+    r11arg2,
+    r11arg
+], r15arg = function(x) {
     return null;
-});
+}, r15arg2 = function(x) {
+    return null;
+}, r15 = foo15(r15arg), r15a = [
+    r15arg,
+    r15arg2
+], r15b = [
+    r15arg2,
+    r15arg
+], r16arg = function(x) {
+    return null;
+}, r16arg2 = function(x) {
+    return null;
+}, r16 = foo16(r16arg), r16a = [
+    r16arg,
+    r16arg2
+], r16b = [
+    r16arg2,
+    r16arg
+], r17arg = function(x) {
+    return null;
+}, r17 = foo17(r17arg), r18arg = function(x) {
+    return null;
+}, r18 = foo18(r18arg);

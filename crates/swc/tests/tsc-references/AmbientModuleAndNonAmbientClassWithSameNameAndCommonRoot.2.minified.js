@@ -10,4 +10,4 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     A.Point = Point;
 }(A || (A = {}));
 //// [test.ts]
-A.Point.Origin, new A.Point(0, 0);
+var p, p = A.Point.Origin, p = new A.Point(0, 0);

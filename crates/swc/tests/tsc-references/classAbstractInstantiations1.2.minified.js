@@ -2,7 +2,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var A = function A() {
+var a, b, c, A = function A() {
     "use strict";
     _class_call_check(this, A);
 }, B = function(A) {
@@ -22,4 +22,4 @@ var A = function A() {
     }
     return C;
 }(B);
-new A, new A(1), new B, new C, new B, new B, new B;
+new A, new A(1), new B, new C, a = new B, b = new B, c = new B;

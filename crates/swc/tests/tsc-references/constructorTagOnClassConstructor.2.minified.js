@@ -8,3 +8,7 @@ export var Beta = function Beta() {
     "use strict";
     _class_call_check(this, Beta);
 };
+var arr = [
+    Alpha,
+    Beta
+];

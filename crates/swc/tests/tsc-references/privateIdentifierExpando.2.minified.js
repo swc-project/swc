@@ -1,2 +1,3 @@
 //// [privateIdentifierExpando.js]
-({}).#bar.baz = 20;
+var x = {};
+x.#bar.baz = 20;

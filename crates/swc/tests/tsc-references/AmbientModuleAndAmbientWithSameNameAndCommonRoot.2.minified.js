@@ -1,4 +1,4 @@
 //// [module.d.ts]
 //// [class.d.ts]
 //// [test.ts]
-A.Point.Origin, new A.Point(0, 0);
+var p, p = A.Point.Origin, p = new A.Point(0, 0);

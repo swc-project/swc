@@ -1,4 +1,5 @@
 //// [typeofAnExportedType.ts]
+var c2, i2;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 export var x = 1;
 export var r1;

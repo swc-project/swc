@@ -13,4 +13,5 @@ var foo = 42;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("./foo_0.js").foo;
+});
+var foo = require("./foo_0.js"), x = foo.foo + 42;

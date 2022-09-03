@@ -1,7 +1,7 @@
 //// [restElementWithAssignmentPattern4.ts]
-var ref;
 import _to_array from "@swc/helpers/src/_to_array.mjs";
-(ref = _to_array([
+var a, b, ref, ref1, ref2, tuple = [
     "",
     1
-]).slice(0))[0], ref.b;
+];
+a = void 0 === (ref2 = (ref1 = (ref = _to_array(tuple)).slice(0))[0]) ? "" : ref2, b = ref1.b;

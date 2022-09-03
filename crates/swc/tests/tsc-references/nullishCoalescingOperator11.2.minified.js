@@ -1,2 +1,2 @@
 //// [nullishCoalescingOperator11.ts]
-null != f11 || f11.toFixed();
+var g11 = null != f11 ? f11 : f11.toFixed();

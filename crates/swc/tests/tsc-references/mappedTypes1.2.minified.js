@@ -1,2 +1,2 @@
 //// [mappedTypes1.ts]
-f1(), f2(), f3(), f4();
+var x1 = f1(), x2 = f2(), x3 = f3(), x4 = f4();

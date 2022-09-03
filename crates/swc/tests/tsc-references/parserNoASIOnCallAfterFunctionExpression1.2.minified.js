@@ -1,2 +1,2 @@
 //// [parserNoASIOnCallAfterFunctionExpression1.ts]
-(void window).foo;
+var x = (void window).foo;

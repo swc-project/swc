@@ -3,7 +3,10 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _class, Derived = function(Base) {
+var Base = function Base(x, y) {
+    "use strict";
+    _class_call_check(this, Base), this.x = x, this.y = y;
+}, Derived = function(Base) {
     "use strict";
     _inherits(Derived, Base);
     var _super = _create_super(Derived);
@@ -12,10 +15,20 @@ var _class, Derived = function(Base) {
         return _class_call_check(this, Derived), (_this = _super.call(this, x, y)).z = z, _this;
     }
     return Derived;
-}(function Base(x, y) {
-    "use strict";
-    _class_call_check(this, Base), this.x = x, this.y = y;
-});
+}(Base), Printable = function(superClass) {
+    var _class = function(superClass) {
+        "use strict";
+        _inherits(_class, superClass);
+        var _super = _create_super(_class);
+        function _class() {
+            return _class_call_check(this, _class), _super.apply(this, arguments);
+        }
+        return _class.prototype.print = function() {
+            this.x, this.y;
+        }, _class;
+    }(superClass);
+    return _class.message = "hello", _class;
+};
 function Tagged(superClass) {
     return function(superClass) {
         "use strict";
@@ -30,14 +43,25 @@ function Tagged(superClass) {
         return C;
     }(superClass);
 }
-Tagged(Derived), Tagged(((_class = function(superClass) {
+var Thing1 = Tagged(Derived), Thing2 = Tagged(Printable(Derived));
+function f1() {
+    var thing = new Thing1(1, 2, 3);
+    thing.x, thing._tag;
+}
+function f2() {
+    var thing = new Thing2(1, 2, 3);
+    thing.x, thing._tag, thing.print();
+}
+Thing2.message;
+var Thing3 = function(Thing2) {
     "use strict";
-    _inherits(_class, superClass);
-    var _super = _create_super(_class);
-    function _class() {
-        return _class_call_check(this, _class), _super.apply(this, arguments);
+    _inherits(Thing3, Thing2);
+    var _super = _create_super(Thing3);
+    function Thing3(tag) {
+        var _this;
+        return _class_call_check(this, Thing3), (_this = _super.call(this, 10, 20, 30))._tag = tag, _this;
     }
-    return _class.prototype.print = function() {
-        this.x, this.y;
-    }, _class;
-}(Derived)).message = "hello", _class)).message;
+    return Thing3.prototype.test = function() {
+        this.print();
+    }, Thing3;
+}(Thing2);

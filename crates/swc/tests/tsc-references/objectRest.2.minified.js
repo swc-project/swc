@@ -5,81 +5,66 @@ import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 var _complex, _tmp, _o, o = {
     a: 1,
     b: 'no'
-};
-_extends({}, o);
-var { a  } = o;
-_object_without_properties(o, [
+}, clone = _extends({}, o), { a  } = o, justB = _object_without_properties(o, [
     "a"
-]);
-var { a , b: renamed  } = o;
-_object_without_properties(o, [
+]), { a , b: renamed  } = o, empty = _object_without_properties(o, [
     "a",
     "b"
-]);
-var { b: renamed  } = o;
-_object_without_properties(o, [
+]), { b: renamed  } = o, justA = _object_without_properties(o, [
     'b'
-]);
-var { b: renamed  } = o;
-_object_without_properties(o, [
+]), { b: renamed  } = o, justA = _object_without_properties(o, [
     'b'
-]);
-var { b: { 0: n , 1: oooo  }  } = o;
-_object_without_properties(o, [
+]), { b: { 0: n , 1: oooo  }  } = o, justA = _object_without_properties(o, [
     "b"
 ]);
 let o2 = {
     c: 'terrible idea?',
     d: 'yes'
 };
-var { d: renamed  } = o2;
-_object_without_properties(o2, [
+var { d: renamed  } = o2, d = _object_without_properties(o2, [
     "d"
 ]);
 let nestedrest;
-var { x , n1: { y , n2: { z  }  }  } = nestedrest;
-_extends({}, nestedrest.n1.n2.n3), _object_without_properties(nestedrest, [
+var { x , n1: { y , n2: { z  }  }  } = nestedrest, nr = _extends({}, nestedrest.n1.n2.n3), restrest = _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);
 let complex;
-var { x: { ka  } , y: other  } = complex;
-_object_without_properties(complex.x, [
+var { x: { ka  } , y: other  } = complex, nested = _object_without_properties(complex.x, [
     "ka"
-]), _object_without_properties(complex, [
+]), rest = _object_without_properties(complex, [
     "x",
     "y"
-]), _object_without_properties((_complex = complex).x, [
+]);
+_complex = complex, nested = _object_without_properties(_complex.x, [
     "ka"
-]), _object_without_properties(_complex, [
+]), rest = _object_without_properties(_complex, [
     "x",
     "y"
 ]), { x: { ka  } , y: other  } = _complex;
 var _ref = {
     x: 1,
     y: 2
-}, { x  } = _ref;
-_object_without_properties(_ref, [
+}, { x  } = _ref, fresh = _object_without_properties(_ref, [
     "x"
-]), _object_without_properties(_tmp = {
+]);
+fresh = _object_without_properties(_tmp = {
     x: 1,
     y: 2
 }, [
     "x"
 ]), { x  } = _tmp;
-var removable = new class {
+class Removable {
     set z(value) {}
     get both() {
         return 12;
     }
     set both(value) {}
     m() {}
-}(), { removed  } = removable;
-_object_without_properties(removable, [
+}
+var removable = new Removable(), { removed  } = removable, removableRest = _object_without_properties(removable, [
     "removed"
-]);
-var i = removable, { removed  } = i;
-_object_without_properties(i, [
+]), i = removable, { removed  } = i, removableRest2 = _object_without_properties(i, [
     "removed"
 ]);
 let computed = 'b', computed2 = 'a';
@@ -91,3 +76,9 @@ _o = o, o = _object_without_properties(_o, [
     computed,
     computed2
 ].map(_to_property_key)), { [computed]: stillNotGreat , [computed2]: soSo  } = _o;
+var noContextualType = (_param)=>{
+    var notEmptyObject, { aNumber =12  } = _param;
+    return aNumber + _object_without_properties(_param, [
+        "aNumber"
+    ]).anythingGoes;
+};

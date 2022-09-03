@@ -1,2 +1,2 @@
 //// [for-of54.ts]
-for (let v of []);
+for (let v of [])var v1 = 0;

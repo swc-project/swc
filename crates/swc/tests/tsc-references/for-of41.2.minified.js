@@ -1,5 +1,5 @@
 //// [for-of41.ts]
-for (var { x: [a] , y: { p  }  } of [
+var array = [
     {
         x: [
             0
@@ -8,4 +8,5 @@ for (var { x: [a] , y: { p  }  } of [
             p: ""
         }
     }
-]);
+];
+for (var { x: [a] , y: { p  }  } of array);

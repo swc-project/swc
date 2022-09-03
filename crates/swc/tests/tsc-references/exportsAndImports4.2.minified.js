@@ -16,18 +16,19 @@ var _default = "hello";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _t1 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./t1"));
-require("./t1").default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default;
+var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _t1 = _interopRequireWildcard(require("./t1")), a = require("./t1");
+a.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default;
 //// [t3.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     a: function() {
         return a;
     },
@@ -53,5 +54,5 @@ Object.defineProperty(exports, "__esModule", {
         return _t1.default;
     }
 });
-var _t1 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./t1")), a = require("./t1");
+var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _t1 = _interopRequireWildcard(require("./t1")), a = require("./t1");
 a.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default;

@@ -1,5 +1,7 @@
 //// [computedPropertyNames7_ES6.ts]
-var E;
 !function(E) {
     E[E.member = 0] = "member";
-}(E || (E = {})), E.member;
+}(E || (E = {}));
+var E, v = {
+    [E.member]: 0
+};

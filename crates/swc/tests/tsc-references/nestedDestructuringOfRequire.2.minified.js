@@ -1,7 +1,9 @@
 //// [nestedDestructuringOfRequire.ts]
 //// [mod1.js]
-module.exports.chalk = {
+var chalk = {
     grey: {}
 };
+module.exports.chalk = chalk;
 //// [main.js]
-require("./mod1").chalk.grey, chalk;
+var ref = require("./mod1"), grey = ref.chalk.grey;
+chalk;

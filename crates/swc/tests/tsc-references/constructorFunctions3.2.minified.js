@@ -1,13 +1,17 @@
 //// [a.js]
+function Instance() {
+    this.i = "simple";
+}
+var i = new Instance();
 function StaticToo() {
     this.i = "more complex";
 }
+StaticToo.property = "yep";
+var s = new StaticToo();
 function A() {
     this.x = 1, this.second = 1;
 }
-new function() {
-    this.i = "simple";
-}(), StaticToo.property = "yep", new StaticToo(), A.prototype.z = function(n) {
+A.prototype.z = function(n) {
     return n + this.x;
 }, A.t = function(m) {
     return m + 1;

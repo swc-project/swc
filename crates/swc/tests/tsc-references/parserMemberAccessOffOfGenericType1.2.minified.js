@@ -1,2 +1,2 @@
 //// [parserMemberAccessOffOfGenericType1.ts]
-List.makeChild();
+var v = List.makeChild();

@@ -11,4 +11,5 @@ exports.formatters = {};
 };
 //// [use.js]
 import * as debug from "./mod";
-debug.formatters.j, debug.formatters.o(1);
+debug.formatters.j;
+var one = debug.formatters.o(1);

@@ -1,7 +1,9 @@
 //// [a.js]
-({
-    f: function(s) {
-        return this.n + s.length;
-    },
+function f(s) {
+    return this.n + s.length;
+}
+var o = {
+    f: f,
     n: 1
-}).f("hi");
+};
+o.f("hi");

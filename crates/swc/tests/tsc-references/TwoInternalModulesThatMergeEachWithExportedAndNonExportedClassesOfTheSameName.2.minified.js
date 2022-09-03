@@ -1,5 +1,5 @@
 //// [TwoInternalModulesThatMergeEachWithExportedAndNonExportedClassesOfTheSameName.ts]
-var A, X;
+var A, p, X, l;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(A) {
     var Point = function Point() {

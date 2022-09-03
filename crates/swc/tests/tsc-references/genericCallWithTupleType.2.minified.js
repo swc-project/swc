@@ -1,16 +1,21 @@
 //// [genericCallWithTupleType.ts]
-var i1, i2;
 i1.tuple1 = [
     "foo",
     5
-], i1.tuple1[0], i1.tuple1[1], i1.tuple1 = [
+];
+var i1, i2, e1 = i1.tuple1[0], e2 = i1.tuple1[1];
+i1.tuple1 = [
     "foo",
     5,
     !1,
     !0
-], i1.tuple1[2], i1.tuple1[3] = {
+];
+var e3 = i1.tuple1[2];
+i1.tuple1[3] = {
     a: "string"
-}, i1.tuple1[3], i2.tuple1 = [
+};
+var e4 = i1.tuple1[3];
+i2.tuple1 = [
     "foo",
     5
 ], i2.tuple1 = [

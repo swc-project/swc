@@ -6,24 +6,27 @@ var arg = {
     cb: function(x) {
         return "";
     }
-};
-foo(arg), foo({
+}, r = foo(arg), r2 = foo({
     cb: function(x, y) {
         return "";
     }
-}), foo({
+}), r3 = foo({
     cb: function(x, y) {
         return "";
     }
-}), foo(arg), foo({
+});
+function foo2(arg) {
+    return arg.cb(null, null);
+}
+var r4 = foo(arg), r5 = foo({
     cb: function(x) {
         return "";
     }
-}), foo({
+}), r6 = foo({
     cb: function(x) {
         return "";
     }
-}), foo({
+}), r7 = foo({
     cb: function() {
         return "";
     }

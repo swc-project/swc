@@ -17,4 +17,6 @@ C1.s1 = !0;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("./foo_0").C1.s1;
+});
+var foo = require("./foo_0");
+foo.C1.s1;

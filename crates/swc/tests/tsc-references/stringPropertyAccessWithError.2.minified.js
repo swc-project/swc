@@ -1,2 +1,2 @@
 //// [stringPropertyAccessWithError.ts]
-"".charAt("invalid");
+var x = "", d = x.charAt("invalid");

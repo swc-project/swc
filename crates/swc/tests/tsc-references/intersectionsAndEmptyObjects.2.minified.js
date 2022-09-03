@@ -1,9 +1,12 @@
 //// [intersectionsAndEmptyObjects.ts]
 "use strict";
+var defaultChoices, defaultChoicesAndEmpty, myChoices, myChoicesAndEmpty, unknownChoices, unknownChoicesAndEmpty;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, intersectDictionaries = (d1, d2)=>Object.assign({}, d1, d2), testDictionary = (_value)=>{}, d1 = {};
+const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+let x01, x02, x03, x04, x05, x06, x07, x08, x09, x10, x11, x12, x13, x14;
+const intersectDictionaries = (d1, d2)=>Object.assign({}, d1, d2), testDictionary = (_value)=>{}, d1 = {};
 testDictionary(d1);
 const d2 = intersectDictionaries(d1, d1);
 testDictionary(d2);

@@ -1,2 +1,2 @@
 //// [parserForOfStatement17.ts]
-for(;;);
+for(var of;;);

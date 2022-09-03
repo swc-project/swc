@@ -1,1 +1,13 @@
 //// [privateNameComputedPropertyName4.ts]
+class C1 {
+    static #qux = 42;
+    bar() {}
+}
+class C2 {
+    static #qux = 42;
+    static bar() {}
+}
+class C3 {
+    static #qux = 42;
+    static bar = "test";
+}

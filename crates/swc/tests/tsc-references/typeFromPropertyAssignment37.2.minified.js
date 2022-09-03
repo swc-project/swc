@@ -1,4 +1,8 @@
 //// [mod.js]
-exports = module.exports = {};
+var util = exports = module.exports = {};
 //// [use.js]
-require("./mod").existy;
+var util = require("./mod");
+function n() {
+    util.existy;
+}
+util.existy;

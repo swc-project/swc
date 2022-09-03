@@ -8,4 +8,9 @@ exports.n = {}, exports.n.K = function() {
 };
 //// [use.js]
 import * as s from "./mod";
-new s.n.K().x, new s.Classic();
+var k = new s.n.K();
+k.x;
+var classic = new s.Classic();
+function f(c, classic) {
+    c.x, classic.p;
+}

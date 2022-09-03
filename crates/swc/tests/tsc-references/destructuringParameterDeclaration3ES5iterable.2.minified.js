@@ -2,14 +2,41 @@
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_array from "@swc/helpers/src/_to_array.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+function a1() {
+    for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
+}
+function a2() {
+    for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
+}
+function a3() {
+    for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
+}
+function a4() {
+    for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
+}
+function a5() {
+    for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
+}
+function a9(param) {
+    var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1));
+    _sliced_to_array(ref[0], 1)[0];
+}
 function a10(param) {
     var _param = _to_array(param), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1));
     _sliced_to_array(ref[0], 1)[0], _param.slice(3);
+}
+function a11(param) {
+    var _param = _to_array(param);
+    _param[0], _param[1], _param[2], _param.slice(3);
 }
 var E, E1, array = [
     1,
     2,
     3
+], array2 = [
+    !0,
+    !1,
+    "hello"
 ];
 function foo() {
     for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
@@ -17,14 +44,7 @@ function foo() {
 function foo1() {
     for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
 }
-!function() {
-    for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
-}(_to_consumable_array(array)), (function() {
-    for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
-}).apply(void 0, _to_consumable_array(array)), function(param) {
-    var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1));
-    _sliced_to_array(ref[0], 1)[0];
-}([
+a2(_to_consumable_array(array)), a1.apply(void 0, _to_consumable_array(array)), a9([
     1,
     2,
     [
@@ -53,10 +73,7 @@ function foo1() {
 ]), a10([
     1,
     2
-]), function(param) {
-    var _param = _to_array(param);
-    _param[0], _param[1], _param[2], _param.slice(3);
-}([
+]), a11([
     1,
     2
 ]), foo("hello", 1, 2), foo("hello", "world"), function(E) {

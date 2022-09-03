@@ -23,9 +23,9 @@ var a, b;
 console.log(a, b);
 export { };
 //// [/d.ts]
-var b;
 import { A } from "./a";
-console.log(A, b);
+var b, a = A;
+console.log(a, b);
 //// [/e.ts]
 export { };
 //// [/f.ts]

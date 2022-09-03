@@ -37,5 +37,7 @@ var Base = function() {
             set: function(v) {}
         }
     ]), Derived;
-}(Base);
-Base.x, Derived.x, Base.fn(), Derived.fn(), Base.a, Base.a = 2, Derived.a, Derived.a = 2;
+}(Base), r = Base.x, r2 = Derived.x, r3 = Base.fn(), r4 = Derived.fn(), r5 = Base.a;
+Base.a = 2;
+var r6 = Derived.a;
+Derived.a = 2;

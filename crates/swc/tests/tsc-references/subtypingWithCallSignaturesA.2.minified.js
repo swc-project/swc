@@ -1,4 +1,4 @@
 //// [subtypingWithCallSignaturesA.ts]
-foo3(function(x) {
+var r5 = foo3(function(x) {
     return "";
 });

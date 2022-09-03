@@ -1,2 +1,2 @@
 //// [keyofInferenceIntersectsResults.ts]
-foo("a", "b"), foo("a", "b"), bar("a", "b");
+var a = foo("a", "b"), b = foo("a", "b"), c = bar("a", "b");

@@ -1,7 +1,6 @@
 //// [classExpression4.ts]
-var C;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-(new (function() {
+var C = function() {
     "use strict";
     function C1() {
         _class_call_check(this, C1);
@@ -9,4 +8,4 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     return C1.prototype.foo = function() {
         return new C();
     }, C1;
-}())).foo();
+}(), x = (new C).foo();

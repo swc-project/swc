@@ -8,6 +8,7 @@ function _templateObject() {
         return data;
     }, data;
 }
-!function() {
+function f() {
     for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
-}(_templateObject());
+}
+f(_templateObject());

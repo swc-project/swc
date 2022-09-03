@@ -1,2 +1,3 @@
 //// [taggedTemplateStringsWithTypeErrorInFunctionExpressionsInSubstitutionExpressionES6.ts]
-(function(...rest) {})`${function(x) {}}`;
+function foo(...rest) {}
+foo`${function(x) {}}`;

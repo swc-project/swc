@@ -1,10 +1,10 @@
 //// [ES5SymbolProperty5.ts]
-var Symbol;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-(new (function() {
+var Symbol, C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
     }
     return C.prototype[Symbol.iterator] = function() {}, C;
-}()))[Symbol.iterator](0);
+}();
+(new C)[Symbol.iterator](0);

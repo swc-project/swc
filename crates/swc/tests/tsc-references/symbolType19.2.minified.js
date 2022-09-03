@@ -1,3 +1,3 @@
 //// [symbolType19.ts]
-var E;
+var E, x;
 E || (E = {});

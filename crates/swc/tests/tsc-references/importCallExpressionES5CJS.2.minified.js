@@ -13,14 +13,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 //// [1.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     p2: function() {
         return p2;
     },
@@ -31,15 +32,22 @@ Object.defineProperty(exports, "__esModule", {
 var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 Promise.resolve().then(function() {
     return _interopRequireWildcard(require("./0"));
-}), Promise.resolve().then(function() {
+});
+var p1 = Promise.resolve().then(function() {
     return _interopRequireWildcard(require("./0"));
-}).then(function(zero) {
+});
+p1.then(function(zero) {
     return zero.foo();
 });
 var p2 = Promise.resolve().then(function() {
     return _interopRequireWildcard(require("./0"));
 });
-!function() {
+function foo() {
+    Promise.resolve().then(function() {
+        return _interopRequireWildcard(require("./0"));
+    });
+}
+var C = function() {
     "use strict";
     function C() {
         _classCallCheck(this, C);
@@ -49,8 +57,7 @@ var p2 = Promise.resolve().then(function() {
             return _interopRequireWildcard(require("./0"));
         });
     }, C;
-}();
-var D = function() {
+}(), D = function() {
     "use strict";
     function D() {
         _classCallCheck(this, D);

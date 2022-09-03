@@ -2,7 +2,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var A = function() {
+var a, A = function() {
     "use strict";
     function A() {
         _class_call_check(this, A);
@@ -20,5 +20,13 @@ var A = function() {
     return B.prototype.bar = function() {
         return "";
     }, B;
-}(A);
-new A(), new B(), new B();
+}(A), Foo = function Foo() {
+    "use strict";
+    _class_call_check(this, Foo);
+}, b = {
+    1.0: new A(),
+    2.0: new B(),
+    "2.5": new B(),
+    3.0: 1,
+    "4.0": ""
+};

@@ -1,2 +1,2 @@
 //// [asOperatorAmbiguity.ts]
-(void 0)[0].m;
+var x, y = x, z = y[0].m;

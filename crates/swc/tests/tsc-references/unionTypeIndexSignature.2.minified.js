@@ -1,3 +1,3 @@
 //// [unionTypeIndexSignature.ts]
-var unionOfDifferentReturnType, unionOfTypesWithAndWithoutStringSignature, unionOfDifferentReturnType1, unionOfTypesWithAndWithoutStringSignature1;
-unionOfDifferentReturnType.hello, unionOfDifferentReturnType[10], unionOfTypesWithAndWithoutStringSignature.hello, unionOfTypesWithAndWithoutStringSignature[10], unionOfDifferentReturnType1.hello, unionOfDifferentReturnType1[10], unionOfTypesWithAndWithoutStringSignature1.hello, unionOfTypesWithAndWithoutStringSignature1[10];
+var numOrDate, anyVar, unionOfDifferentReturnType, unionOfTypesWithAndWithoutStringSignature, unionOfDifferentReturnType1, unionOfTypesWithAndWithoutStringSignature1;
+numOrDate = unionOfDifferentReturnType.hello, numOrDate = unionOfDifferentReturnType[10], anyVar = unionOfTypesWithAndWithoutStringSignature.hello, anyVar = unionOfTypesWithAndWithoutStringSignature[10], numOrDate = unionOfDifferentReturnType1.hello, numOrDate = unionOfDifferentReturnType1[10], anyVar = unionOfTypesWithAndWithoutStringSignature1.hello, anyVar = unionOfTypesWithAndWithoutStringSignature1[10];

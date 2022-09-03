@@ -1,2 +1,2 @@
 //// [booleanPropertyAccess.ts]
-(!0).toString(), (!0).toString();
+var x = !0, a = x.toString(), b = x.toString();

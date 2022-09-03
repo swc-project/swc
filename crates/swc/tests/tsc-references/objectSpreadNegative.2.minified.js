@@ -6,32 +6,43 @@ import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 var _obj, o = {
     a: 1,
     b: "no"
-}, o2 = _object_spread({}, publicX, privateOptionalX);
-o2.x, _object_spread({}, optionalString, optionalNumber), _object_spread({}, {
+}, PrivateOptionalX = function PrivateOptionalX() {
+    "use strict";
+    _class_call_check(this, PrivateOptionalX);
+}, PublicX = function PublicX() {
+    "use strict";
+    _class_call_check(this, PublicX);
+}, o2 = _object_spread({}, publicX, privateOptionalX), sn = o2.x, allOptional = _object_spread({}, optionalString, optionalNumber), spread = _object_spread({}, {
     b: !0
 }, {
     s: "foo"
-}), _object_spread_props(_object_spread(_object_spread_props(_object_spread({
+});
+spread = {
+    s: "foo"
+};
+var b = {
+    b: !1
+};
+spread = b;
+var duplicated = _object_spread_props(_object_spread(_object_spread_props(_object_spread({
     b: "bad"
 }, o), {
     b: "bad"
 }), o2), {
     b: "bad"
-}), _object_spread({}, o, o), _object_spread({
+}), duplicatedSpread = _object_spread({}, o, o), ignore = _object_spread({
     b: "ignored"
-}, o);
-var o3 = {
+}, o), o3 = {
     a: 1,
     b: "no"
 }, o4 = {
     b: "yes",
     c: !0
-};
-_object_spread({
+}, combinedBefore = _object_spread({
     b: "ok"
-}, o3, o4), _object_spread(_object_spread_props(_object_spread({}, o3), {
+}, o3, o4), combinedMid = _object_spread(_object_spread_props(_object_spread({}, o3), {
     b: "ok"
-}), o4), _object_spread(_object_spread_props(_object_spread({}, _object_spread({
+}), o4), combinedNested = _object_spread(_object_spread_props(_object_spread({}, _object_spread({
     a: 4
 }, {
     b: !1,
@@ -41,18 +52,29 @@ _object_spread({
 }), {
     a: 5,
     d: "maybe new"
-}), _object_spread({
+}), changeTypeBefore = _object_spread({
     a: "wrong type?"
-}, o3), _object_spread(_object_spread_props(_object_spread({}, o3), (_define_property(_obj = {}, "in the middle", 13), _define_property(_obj, "b", "maybe?"), _obj)), o4), _object_spread({}, 12), _object_spread({}, 2), _object_spread({}, 0).toFixed(), _object_spread({}, !0).valueOf();
+}, o3), computedMiddle = _object_spread(_object_spread_props(_object_spread({}, o3), (_define_property(_obj = {}, "in the middle", 13), _define_property(_obj, "b", "maybe?"), _obj)), o4), spreadNum = _object_spread({}, 12), spreadSum = _object_spread({}, 2), spreadZero = _object_spread({}, 0);
+spreadZero.toFixed();
+var spreadBool = _object_spread({}, !0);
+spreadBool.valueOf();
 var spreadStr = _object_spread({}, "foo");
-spreadStr.length, spreadStr.charAt(1), _object_spread({}, function() {})(), _object_spread({}, {
+spreadStr.length, spreadStr.charAt(1);
+var spreadFunc = _object_spread({}, function() {});
+spreadFunc();
+var setterOnly = _object_spread({}, {
     set b (bad){}
-}).b = 12, _object_spread({}, new (function() {
+});
+setterOnly.b = 12;
+var C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C), this.p = 1;
     }
     return C.prototype.m = function() {}, C;
-}())()).m(), _object_spread({}, {
+}(), c = new C(), spreadC = _object_spread({}, c);
+spreadC.m();
+var obj = {
     a: 123
-}).a;
+}, spreadObj = _object_spread({}, obj);
+spreadObj.a;

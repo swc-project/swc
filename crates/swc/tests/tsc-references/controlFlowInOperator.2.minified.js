@@ -1,2 +1,3 @@
 //// [controlFlowInOperator.ts]
-"a" in c && c.a, "a" in c && c.a;
+var a = "a", b = "b", d = "d";
+"a" in c && c.a, a in c && c[a];

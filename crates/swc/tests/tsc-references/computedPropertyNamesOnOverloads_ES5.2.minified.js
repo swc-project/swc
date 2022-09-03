@@ -1,9 +1,9 @@
 //// [computedPropertyNamesOnOverloads_ES5.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var methodName = "method", accessorName = "accessor", C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype.method = function(v) {}, C;
+    return C.prototype[methodName] = function(v) {}, C;
 }();

@@ -14,7 +14,7 @@ Wagon.circle = function(wagons) {
 }, Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
-var db = new (function(Wagon) {
+var Sql = function(Wagon) {
     "use strict";
     _inherits(Sql, Wagon);
     var _super = _create_super(Sql);
@@ -26,13 +26,25 @@ var db = new (function(Wagon) {
         if ("xmlolololol" === format) throw Error("please do not use XML. It was a joke.");
         _get(_get_prototype_of(Sql.prototype), "speed", this).call(this), _get(_get_prototype_of(Sql.prototype), "weight", this).call(this);
     }, Sql;
-}(Wagon))();
-db.numberOxen = db.foonly, Dragon;
+}(Wagon), db = new Sql();
+db.numberOxen = db.foonly;
+var Drakkhen = function(Dragon1) {
+    "use strict";
+    _inherits(Drakkhen, Dragon1);
+    var _super = _create_super(Drakkhen);
+    function Drakkhen() {
+        return _class_call_check(this, Drakkhen), _super.apply(this, arguments);
+    }
+    return Drakkhen;
+}(Dragon);
 //// [second.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-!function(Dragon) {
+function Dragon(numberEaten) {
+    this.numberEaten = numberEaten;
+}
+var Firedrake = function(Dragon) {
     "use strict";
     _inherits(Firedrake, Dragon);
     var _super = _create_super(Firedrake);
@@ -40,10 +52,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         return _class_call_check(this, Firedrake), _super.call(this);
     }
     return Firedrake;
-}(function(numberEaten) {
-    this.numberEaten = numberEaten;
-});
-var c = new (function(Wagon1) {
+}(Dragon), Conestoga = function(Wagon1) {
     "use strict";
     _inherits(Conestoga, Wagon1);
     var _super = _create_super(Conestoga);
@@ -54,7 +63,7 @@ var c = new (function(Wagon1) {
     return Conestoga.circle = function(others) {
         return others.length;
     }, Conestoga;
-}(Wagon))(!0);
+}(Wagon), c = new Conestoga(!0);
 c.drunkOO, c.numberOxen;
 //// [generic.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -73,7 +82,10 @@ var Chowder = function(Soup) {
     return Chowder.prototype.log = function() {
         return this.flavour;
     }, Chowder;
-}(Soup);
-new Soup(1).flavour, new Chowder({
+}(Soup), soup = new Soup(1);
+soup.flavour;
+var chowder = new Chowder({
     claim: "ignorant"
-}).flavour.claim, new Chowder(), new Chowder(0);
+});
+chowder.flavour.claim;
+var errorNoArgs = new Chowder(), errorArgType = new Chowder(0);

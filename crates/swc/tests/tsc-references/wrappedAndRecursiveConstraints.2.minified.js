@@ -1,6 +1,6 @@
 //// [wrappedAndRecursiveConstraints.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-new (function() {
+var C = function() {
     "use strict";
     function C(data) {
         _class_call_check(this, C), this.data = data;
@@ -8,4 +8,4 @@ new (function() {
     return C.prototype.foo = function(x) {
         return x;
     }, C;
-}())(null).foo(null);
+}(), y = null, c = new C(y), r = c.foo(y);

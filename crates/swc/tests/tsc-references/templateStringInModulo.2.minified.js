@@ -1,2 +1,2 @@
 //// [templateStringInModulo.ts]
-"abc".concat(1, "def");
+var x = 1 % "abc".concat(1, "def");

@@ -1,11 +1,13 @@
 //// [timer.js]
-module.exports = function(timeout) {
+function Timer(timeout) {
     this.timeout = timeout;
-};
+}
+module.exports = Timer;
 //// [hook.js]
-module.exports = function(handle) {
+function Hook(handle) {
     this.handle = handle;
-};
+}
+module.exports = Hook;
 //// [context.js]
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 function Context(input) {

@@ -10,9 +10,10 @@ class SymbolIterator {
         return this;
     }
 }
-[
+var array = [
     0,
     1
-].concat([
+];
+array.concat([
     ...new SymbolIterator
 ]);

@@ -1,3 +1,5 @@
 //// [symbolProperty10.ts]
-new class {
-};
+class C {
+}
+i = new C;
+var i, c = i;

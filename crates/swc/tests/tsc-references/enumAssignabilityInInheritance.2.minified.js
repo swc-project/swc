@@ -1,13 +1,24 @@
 //// [enumAssignabilityInInheritance.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-function f() {}
 !function(E) {
     E[E.A = 0] = "A";
-}(E || (E = {})), foo(E.A), foo(1), foo(null), foo2(E.A), foo3(E.A), foo4(E.A), foo5(E.A), foo6(E.A), foo7(E.A), foo8(E.A), foo9(E.A), foo10(E.A), foo11(E.A), foo12(E.A), function(E2) {
+}(E || (E = {}));
+var E, E2, r = foo(E.A), r2 = foo(1), r3 = foo(null), r4 = foo2(E.A), r4 = foo3(E.A), r4 = foo4(E.A), r4 = foo5(E.A), r4 = foo6(E.A), r4 = foo7(E.A), r4 = foo8(E.A), A = function A() {
+    "use strict";
+    _class_call_check(this, A);
+}, r4 = foo9(E.A), A2 = function A2() {
+    "use strict";
+    _class_call_check(this, A2);
+}, r4 = foo10(E.A), r4 = foo11(E.A), r4 = foo12(E.A);
+!function(E2) {
     E2[E2.A = 0] = "A";
-}(E2 || (E2 = {})), foo13(E.A), (f || (f = {})).bar = 1, foo14(E.A);
-var E, E2, CC = function CC() {
+}(E2 || (E2 = {}));
+var r4 = foo13(E.A);
+function f() {}
+(f || (f = {})).bar = 1;
+var r4 = foo14(E.A), CC = function CC() {
     "use strict";
     _class_call_check(this, CC);
 };
-(CC || (CC = {})).bar = 1, foo15(E.A), foo16(E.A), foo16(E.A);
+(CC || (CC = {})).bar = 1;
+var r4 = foo15(E.A), r4 = foo16(E.A), r4 = foo16(E.A);

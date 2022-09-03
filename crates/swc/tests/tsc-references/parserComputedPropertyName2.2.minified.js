@@ -1,2 +1,4 @@
 //// [parserComputedPropertyName2.ts]
-e;
+var v = {
+    [e]: 1
+};

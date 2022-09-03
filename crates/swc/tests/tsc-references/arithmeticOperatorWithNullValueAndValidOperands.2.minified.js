@@ -1,5 +1,5 @@
 //// [arithmeticOperatorWithNullValueAndValidOperands.ts]
-var E;
 !function(E) {
     E[E.a = 0] = "a", E[E.b = 1] = "b";
-}(E || (E = {})), E.a, E.b, E.a, E.b, E.a, E.b, E.a, E.b, E.a, E.b, E.a, E.b, E.a, E.b, E.a, E.b, E.a, E.b, E.a, E.b;
+}(E || (E = {}));
+var E, a, b, ra1 = null * a, ra2 = null * b, ra3 = 0, ra4 = null * E.a, ra5 = null * a, ra6 = null * b, ra7 = 0, ra8 = null * E.b, rb1 = null / a, rb2 = null / b, rb3 = 0, rb4 = null / E.a, rb5 = a / null, rb6 = b / null, rb7 = 0 / null, rb8 = E.b / null, rc1 = null % a, rc2 = null % b, rc3 = 0, rc4 = null % E.a, rc5 = a % null, rc6 = b % null, rc7 = 0 % null, rc8 = E.b % null, rd1 = null - a, rd2 = null - b, rd3 = -1, rd4 = null - E.a, rd5 = a - null, rd6 = b - null, rd7 = 0, rd8 = E.b - null, re1 = null << a, re2 = null << b, re3 = null << 1, re4 = null << E.a, re5 = a << null, re6 = b << null, re7 = 0 << null, re8 = E.b << null, rf1 = null >> a, rf2 = null >> b, rf3 = null >> 1, rf4 = null >> E.a, rf5 = a >> null, rf6 = b >> null, rf7 = 0 >> null, rf8 = E.b >> null, rg1 = null >>> a, rg2 = null >>> b, rg3 = null >>> 1, rg4 = null >>> E.a, rg5 = a >>> null, rg6 = b >>> null, rg7 = 0 >>> null, rg8 = E.b >>> null, rh1 = null & a, rh2 = null & b, rh3 = 0, rh4 = null & E.a, rh5 = null & a, rh6 = null & b, rh7 = 0, rh8 = null & E.b, ri1 = null ^ a, ri2 = null ^ b, ri3 = 1, ri4 = null ^ E.a, ri5 = null ^ a, ri6 = null ^ b, ri7 = 0, ri8 = null ^ E.b, rj1 = null | a, rj2 = null | b, rj3 = 1, rj4 = null | E.a, rj5 = null | a, rj6 = null | b, rj7 = 0, rj8 = null | E.b;

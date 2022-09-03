@@ -1,1 +1,4 @@
 //// [logicalAndOperatorStrictMode.ts]
+var a = [
+    0
+], s = "", x = 0, b = !1, v = void 0, u = void 0, n = null, z = s || x || u, a1 = a && a, a2 = a && s, a3 = a && x, a4 = a && b, a5 = a && v, a6 = a && u, a7 = a && n, a8 = a && z, s1 = s && a, s2 = s && s, s3 = s && x, s4 = s && b, s5 = s && v, s6 = s && u, s7 = s && n, s8 = s && z, x1 = x && a, x2 = x && s, x3 = x && x, x4 = x && b, x5 = x && v, x6 = x && u, x7 = x && n, x8 = x && z, b1 = b && a, b2 = b && s, b3 = b && x, b4 = b && b, b5 = b && v, b6 = b && u, b7 = b && n, b8 = b && z, v1 = v && a, v2 = v && s, v3 = v && x, v4 = v && b, v5 = v && v, v6 = v && u, v7 = v && n, v8 = v && z, u1 = u && a, u2 = u && s, u3 = u && x, u4 = u && b, u5 = u && v, u6 = u && u, u7 = u && n, u8 = u && z, n1 = n && a, n2 = n && s, n3 = n && x, n4 = n && b, n5 = n && v, n6 = n && u, n7 = n && n, n8 = n && z, z1 = z && a, z2 = z && s, z3 = z && x, z4 = z && b, z5 = z && v, z6 = z && u, z7 = z && n, z8 = z && z;

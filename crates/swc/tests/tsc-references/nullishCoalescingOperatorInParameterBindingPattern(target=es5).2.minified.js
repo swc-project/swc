@@ -1,2 +1,3 @@
 //// [nullishCoalescingOperatorInParameterBindingPattern.ts]
-(void 0).d;
+var ref, a = function() {};
+(void 0)[null !== (ref = a()) && void 0 !== ref ? ref : "d"];

@@ -1,2 +1,2 @@
 //// [bivariantInferences.ts]
-a.equalsShallow(b);
+var x = a.equalsShallow(b);

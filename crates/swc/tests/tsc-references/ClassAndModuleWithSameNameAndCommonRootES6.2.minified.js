@@ -15,8 +15,9 @@ var X;
     (Point = (Y = X.Y || (X.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
 }(X || (X = {}));
 //// [test.ts]
-new X.Y.Point(1, 1), X.Y.Point.Origin;
+var cl = new X.Y.Point(1, 1), cl = X.Y.Point.Origin;
 //// [simple.ts]
 class A {
 }
-(A || (A = {})).Instance = new A(), A.Instance, new A();
+(A || (A = {})).Instance = new A();
+var a, a = A.Instance, a = new A();

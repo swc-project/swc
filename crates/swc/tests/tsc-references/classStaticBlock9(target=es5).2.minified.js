@@ -4,4 +4,9 @@ var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
-A.bar = A.foo + 1, A.foo, A.foo = 1;
+A.bar = A.foo + 1;
+var __ = {
+    writable: !0,
+    value: void A.foo
+};
+A.foo = 1;

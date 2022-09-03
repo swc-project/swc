@@ -23,5 +23,5 @@ module.exports = {
     Render: Render
 };
 //// [test.js]
-var render = new (require("./index")).Render();
+var Render = require("./index").Render, render = new Render();
 render.addRectangle(), console.log("Objects", render.objects);

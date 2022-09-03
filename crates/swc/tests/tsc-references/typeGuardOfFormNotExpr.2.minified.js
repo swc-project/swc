@@ -1,3 +1,3 @@
 //// [typeGuardOfFormNotExpr.ts]
-if ("string" != typeof strOrNumOrBool && numOrBool !== strOrNumOrBool) numOrBool = strOrNumOrBool;
-else var strOrNumOrBool, numOrBool;
+if (("string" == typeof strOrNumOrBool || "number" == typeof strOrNumOrBool) && (strOrNum = strOrNumOrBool), "string" != typeof strOrNumOrBool && "number" != typeof strOrNumOrBool || (strOrNum = strOrNumOrBool), "string" != typeof strOrNumOrBool && "number" != typeof strOrNumOrBool || (strOrNum = strOrNumOrBool), "string" != typeof strOrNumOrBool && "number" != typeof strOrNumOrBool || (strOrNum = strOrNumOrBool), "string" != typeof strOrNumOrBool && numOrBool !== strOrNumOrBool) numOrBool = strOrNumOrBool;
+else var str, bool, num, strOrNum, strOrNumOrBool, numOrBool, r1 = strOrNumOrBool;

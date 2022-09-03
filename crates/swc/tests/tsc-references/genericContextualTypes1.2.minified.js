@@ -1,18 +1,21 @@
 //// [genericContextualTypes1.ts]
-wrap(list), wrap(function(x) {
+var f00 = list, f01 = function(x) {
     return [
         x
     ];
-}), compose(function(a) {
+}, f02 = wrap(list), f03 = wrap(function(x) {
+    return [
+        x
+    ];
+}), f10 = compose(function(a) {
     return list(a);
 }, function(b) {
     return box(b);
-}), compose(list, box), compose(function(a) {
+}), f11 = compose(list, box), f12 = compose(function(a) {
     return unbox(a);
 }, function(b) {
     return unlist(b);
-}), compose(unbox, unlist);
-var arrayMap = function(f) {
+}), f13 = compose(unbox, unlist), arrayMap = function(f) {
     return function(a) {
         return a.map(f);
     };
@@ -20,19 +23,20 @@ var arrayMap = function(f) {
     return function(a) {
         return a.filter(f);
     };
-};
-arrayMap(function(x) {
+}, f20 = arrayMap(function(x) {
     return x.length;
-}), arrayMap(function(x) {
+}), f21 = arrayMap(function(x) {
     return [
         x
     ];
-}), arrayMap(identity), arrayMap(function(value) {
+}), f22 = arrayMap(identity), f23 = arrayMap(function(value) {
     return {
         value: value
     };
-}), arrayFilter(function(x) {
+}), f30 = arrayFilter(function(x) {
     return x.length > 10;
-}), arrayFilter(function(x) {
+}), f31 = arrayFilter(function(x) {
     return x.value > 10;
-}), flip(zip);
+}), f40 = flip(zip), fn = function(a) {
+    return a;
+};

@@ -7,7 +7,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     };
     moduleA.Point = Point;
 }(moduleA || (moduleA = {}));
-var moduleA, clodule = function clodule() {
+var moduleA, p, clodule = function clodule() {
     "use strict";
     _class_call_check(this, clodule);
 };

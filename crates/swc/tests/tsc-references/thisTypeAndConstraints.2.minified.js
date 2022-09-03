@@ -1,6 +1,6 @@
 //// [thisTypeAndConstraints.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var A = function() {
     "use strict";
     function A() {
         _class_call_check(this, A);
@@ -8,4 +8,19 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     return A.prototype.self = function() {
         return this;
     }, A;
+}();
+function f(x) {
+    x = x.self();
+}
+var B = function() {
+    "use strict";
+    function B() {
+        _class_call_check(this, B);
+    }
+    var _proto = B.prototype;
+    return _proto.foo = function(x) {
+        x = x.self();
+    }, _proto.bar = function(x) {
+        x = x.self();
+    }, B;
 }();

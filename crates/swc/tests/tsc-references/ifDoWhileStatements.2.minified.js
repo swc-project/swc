@@ -5,8 +5,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var M, N, C = function C() {
     "use strict";
     _class_call_check(this, C);
-};
-!function(C) {
+}, C2 = function(C) {
     "use strict";
     _inherits(C2, C);
     var _super = _create_super(C2);
@@ -14,11 +13,16 @@ var M, N, C = function C() {
         return _class_call_check(this, C2), _super.apply(this, arguments);
     }
     return C2;
-}(C);
-var D = function D() {
+}(C), D = function D() {
     "use strict";
     _class_call_check(this, D);
 };
+function F(x) {
+    return 42;
+}
+function F2(x) {
+    return x < 42;
+}
 for(!function(M) {
     var F2 = function(x) {
         return x.toString();
@@ -57,14 +61,24 @@ while (new C());
 for(new D(); new D(););
 do ;
 while (new D());
-for(;;);
-for(;;);
+for(var a = !0; a;);
+do ;
+while (a);
+for(var b = null; b;);
+do ;
+while (b);
 for(var c = void 0; c;);
 do ;
 while (c);
+for(var d = 0.0; d;);
+do ;
+while (d);
 for(var e = "a string"; e;);
 do ;
 while (e);
+for(var f = ""; f;);
+do ;
+while (f);
 for(var g = /[a-z]/; g;);
 do ;
 while (g);
@@ -89,6 +103,9 @@ while (k);
 function fn(x) {
     return null;
 }
+for(fn(); fn(););
+do ;
+while (fn());
 for(; fn;);
 do ;
 while (fn);

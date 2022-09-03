@@ -1,2 +1,2 @@
 //// [numberPropertyAccess.ts]
-1..toExponential(), 1..hasOwnProperty("toFixed"), 1..toExponential(), 1..hasOwnProperty("toFixed");
+var x = 1, a = x.toExponential(), b = x.hasOwnProperty("toFixed"), c = x.toExponential(), d = x.hasOwnProperty("toFixed");

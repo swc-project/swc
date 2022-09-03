@@ -1,2 +1,2 @@
 //// [symbolType8.ts]
-Symbol.for("compare");
+var s = Symbol.for("compare");

@@ -1,3 +1,2 @@
 //// [stringLiteralTypesWithVariousOperators02.ts]
-var abcOrXyzOrNumber = "ABC";
-abcOrXyzOrNumber++, --abcOrXyzOrNumber;
+var abc = "ABC", xyz = "XYZ", abcOrXyz = abc || xyz, abcOrXyzOrNumber = abcOrXyz || 100, a = abcOrXyzOrNumber + 100, b = 100 + abcOrXyzOrNumber, c = abcOrXyzOrNumber + abcOrXyzOrNumber, d = abcOrXyzOrNumber + !0, e = !1 + abcOrXyzOrNumber, f = abcOrXyzOrNumber++, g = --abcOrXyzOrNumber, h = 10 ^ abcOrXyzOrNumber, i = 10 | abcOrXyzOrNumber, j = abc < xyz, k = abc === xyz, l = abc != xyz;

@@ -2,14 +2,15 @@
 "use strict";
 //// [t1.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     v: ()=>v,
     f: ()=>f,
     C: ()=>C,
@@ -33,14 +34,15 @@ class C {
 var a = M.x;
 //// [t2.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     v: ()=>_t1.v,
     f: ()=>_t1.f,
     C: ()=>_t1.C,
@@ -55,14 +57,15 @@ Object.defineProperty(exports, "__esModule", {
 const _t1 = require("./t1");
 //// [t3.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     v: ()=>_t1.v,
     f: ()=>_t1.f,
     C: ()=>_t1.C,

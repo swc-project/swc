@@ -7,7 +7,14 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _set from "@swc/helpers/src/_set.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-!function(A) {
+var A = function() {
+    "use strict";
+    function A() {
+        _class_call_check(this, A);
+    }
+    var _proto = A.prototype;
+    return _proto.x = function() {}, _proto.y = function() {}, A;
+}(), B = function(A) {
     "use strict";
     _inherits(B, A);
     var _super = _create_super(B);
@@ -68,11 +75,4 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
             });
         })();
     }, B;
-}(function() {
-    "use strict";
-    function A() {
-        _class_call_check(this, A);
-    }
-    var _proto = A.prototype;
-    return _proto.x = function() {}, _proto.y = function() {}, A;
-}());
+}(A);

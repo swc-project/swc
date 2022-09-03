@@ -1,5 +1,4 @@
 //// [callChain.ts]
-var _o2, _o21, _o22, _o23, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12;
 null == o1 || o1(), null == o1 || o1(1), null == o1 || o1.apply(void 0, [
     1,
     2
@@ -54,4 +53,6 @@ null == o1 || o1(), null == o1 || o1(1), null == o1 || o1.apply(void 0, [
     2,
     3,
     4
-]).c, null == o4 || o4(incr), null === (ref12 = o5()) || void 0 === ref12 || ref12(), null == o2 || o2.b().toString, null == o2 || o2.b().toString;
+]).c;
+var _o2, _o21, _o22, _o23, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12, v = null == o4 ? void 0 : o4(incr);
+null === (ref12 = o5()) || void 0 === ref12 || ref12(), null == o2 || o2.b().toString, null == o2 || o2.b().toString;

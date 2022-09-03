@@ -1,5 +1,4 @@
 //// [ModuleWithExportedAndNonExportedClasses.ts]
-var A;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(A) {
     var _$A = function A() {
@@ -12,4 +11,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         _class_call_check(this, AG);
     };
     A.AG = AG;
-}(A || (A = {})), new A.A(), new A.AG(), new A.A2(), new A.A2();
+}(A || (A = {}));
+var A, a, a = new A.A(), AG = new A.AG(), a2 = new A.A2(), ag2 = new A.A2();

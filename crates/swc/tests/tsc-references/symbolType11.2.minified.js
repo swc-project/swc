@@ -1,2 +1,2 @@
 //// [symbolType11.ts]
-Symbol.for("logical");
+var s = Symbol.for("logical");

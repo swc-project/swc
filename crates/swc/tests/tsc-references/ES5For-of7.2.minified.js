@@ -1,3 +1,6 @@
 //// [ES5For-of7.ts]
-for(var _i = 0, _iter = []; _i < _iter.length; _i++)_iter[_i];
-for(var _i1 = 0, _iter1 = []; _i1 < _iter1.length; _i1++)_iter1[_i1];
+for(var _i = 0, _iter = []; _i < _iter.length; _i++)var w = _iter[_i], x = w;
+for(var _i1 = 0, _iter1 = []; _i1 < _iter1.length; _i1++)var v, x = [
+    w,
+    _iter1[_i1]
+];

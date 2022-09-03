@@ -1,5 +1,18 @@
 //// [typeGuardsInFunctionAndModuleBlock.ts]
 var m, m1;
+function foo(x) {
+    return "string" == typeof x ? x : x.toString();
+}
+function foo2(x) {
+    return "string" == typeof x ? x : x.toString();
+}
+function foo3(x) {
+    return "string" == typeof x ? x : x.toString();
+}
+function foo4(x) {
+    return "string" == typeof x ? x : x.toString();
+}
+function foo5(x) {}
 !function(m) {
     var x, m2;
     m2 || (m2 = {}), "string" == typeof x || x.toString();

@@ -10,8 +10,7 @@ var Base = function() {
     return Base.prototype.bar = function() {
         return 0;
     }, Base;
-}(), tmp = super.bar();
-!function(Base) {
+}(), tmp = super.bar(), C = function(Base) {
     "use strict";
     _inherits(C, Base);
     var _super = _create_super(C);

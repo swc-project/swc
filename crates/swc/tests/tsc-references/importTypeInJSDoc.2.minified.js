@@ -6,6 +6,10 @@
 //!     : ^^^^^^^^^^^^^^^^^
 //!     `----
 //// [index.js]
-new Foo({
+let a;
+a = new Foo({
     doer: Foo.Bar
 });
+const q = {
+    doer: (q)=>q
+}, r = (r)=>r;

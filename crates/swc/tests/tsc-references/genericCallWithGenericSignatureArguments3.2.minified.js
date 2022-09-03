@@ -1,58 +1,60 @@
 //// [genericCallWithGenericSignatureArguments3.ts]
-var E, F, x;
 function foo(x, a, b) {}
-function foo2(x, a, b) {}
-foo("", function(x) {
+var E, F, x, r1 = foo("", function(x) {
     return "";
 }, function(x) {
     return null;
-}), foo("", function(x) {
+}), r1ii = foo("", function(x) {
     return "";
 }, function(x) {
     return null;
-}), foo("", function(x) {
+}), r2 = foo("", function(x) {
     return "";
 }, function(x) {
     return "";
-}), foo(null, function(x) {
+}), r3 = foo(null, function(x) {
     return "";
 }, function(x) {
     return "";
-}), foo(null, function(x) {
+}), r4 = foo(null, function(x) {
     return "";
 }, function(x) {
     return "";
-}), foo({}, function(x) {
+}), r5 = foo({}, function(x) {
     return "";
 }, function(x) {
     return "";
-}), function(E) {
+});
+!function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), function(F) {
     F[F.A = 0] = "A";
-}(F || (F = {})), foo(E.A, function(x) {
+}(F || (F = {}));
+var r6 = foo(E.A, function(x) {
     return E.A;
 }, function(x) {
     return F.A;
-}), foo2("", function(x) {
+});
+function foo2(x, a, b) {}
+var r8 = foo2("", function(x) {
     return "";
 }, function(x) {
     return null;
-}), foo2(null, function(x) {
+}), r9 = foo2(null, function(x) {
     return "";
 }, function(x) {
     return "";
-}), foo2(null, function(x) {
+}), r10 = foo2(null, function(x) {
     return "";
 }, function(x) {
     return "";
-}), foo2(x, function(a1) {
+}), r11 = foo2(x, function(a1) {
     return function(n) {
         return 1;
     };
 }, function(a2) {
     return 2;
-}), foo2(x, function(a1) {
+}), r12 = foo2(x, function(a1) {
     return function(n) {
         return 1;
     };

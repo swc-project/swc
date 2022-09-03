@@ -1,5 +1,5 @@
 //// [privateNameComputedPropertyName3.ts]
-console.log(new class {
+class Foo {
     #name;
     constructor(name){
         this.#name = name;
@@ -13,4 +13,5 @@ console.log(new class {
         }
         return new Bar()[this.#name]();
     }
-}("NAME").getValue(100));
+}
+console.log(new Foo("NAME").getValue(100));

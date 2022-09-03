@@ -1,5 +1,5 @@
 //// [typeGuardsInModule.ts]
-var num, var1, m1, m2, m3;
+var num, strOrNum, var1, m1, m2, m3;
 !function(m1) {
     var var2, var3;
     num = "string" == typeof var1 && var1.length, "string" == typeof var2 && (num = var2.length), m1.var3 = var3;

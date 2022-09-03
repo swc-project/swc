@@ -5,7 +5,13 @@ import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-!function(CBase) {
+var CBase = function() {
+    "use strict";
+    function CBase(param) {
+        _class_call_check(this, CBase);
+    }
+    return CBase.prototype.foo = function(param) {}, CBase;
+}(), C = function(CBase) {
     "use strict";
     _inherits(C, CBase);
     var _super = _create_super(C);
@@ -23,10 +29,4 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         }), _this;
     }
     return C;
-}(function() {
-    "use strict";
-    function CBase(param) {
-        _class_call_check(this, CBase);
-    }
-    return CBase.prototype.foo = function(param) {}, CBase;
-}());
+}(CBase);

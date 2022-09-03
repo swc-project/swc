@@ -1,3 +1,3 @@
 //// [loop.js]
-var loop2 = loop2;
+var loop1 = loop2, loop2 = loop1;
 module.exports = loop2;

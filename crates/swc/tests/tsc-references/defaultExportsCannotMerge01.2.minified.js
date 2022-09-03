@@ -3,17 +3,18 @@
 //// [m1.ts]
 "use strict";
 var Decl;
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+}
 function Decl() {
     return 0;
 }
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
+}), _export(exports, {
     Decl: function() {
         return Decl;
     },
@@ -28,5 +29,5 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _m1 = (0, require("@swc/helpers/lib/_interop_require_default.js").default)(require("m1"));
+var x, y, _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default, _m1 = _interopRequireDefault(require("m1"));
 (0, _m1.default)(), _m1.default.x, _m1.default.y;

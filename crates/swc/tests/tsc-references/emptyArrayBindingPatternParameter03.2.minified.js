@@ -1,1 +1,5 @@
 //// [emptyArrayBindingPatternParameter03.ts]
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+function f(a, param) {
+    _sliced_to_array(param, 0);
+}

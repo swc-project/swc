@@ -7,4 +7,4 @@ function funky(declaration) {
 }
 module.exports = donkey, module.exports.funky = funky;
 //// [bug43713.js]
-(0, require("./commonJSAliasedExport").funky)(1);
+var diddy, funky = require("./commonJSAliasedExport").funky, diddy = funky(1);

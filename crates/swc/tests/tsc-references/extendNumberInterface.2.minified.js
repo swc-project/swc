@@ -1,2 +1,2 @@
 //// [extendNumberInterface.ts]
-1..doStuff(), 1..doOtherStuff("hm"), 1..doStuff(), 1..doOtherStuff("hm");
+var x = 1, a = x.doStuff(), b = x.doOtherStuff("hm"), c = x.doStuff(), d = x.doOtherStuff("hm");

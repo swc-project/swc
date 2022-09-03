@@ -1,1 +1,2 @@
 //// [typeGuardTautologicalConsistiency.ts]
+var stringOrNumber;

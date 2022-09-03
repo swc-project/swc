@@ -1,3 +1,3 @@
 //// [genericCallWithConstraintsTypeArgumentInference2.ts]
 function foo(t) {}
-foo(1), foo(null), foo({}), foo(1), foo(new Date());
+var r = foo(1), r2 = foo(null), r3 = foo({}), r4 = foo(1), r5 = foo(new Date());

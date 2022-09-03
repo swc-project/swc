@@ -1,2 +1,2 @@
 //// [interfaceWithCallSignaturesThatHidesBaseSignature.ts]
-(void 0)();
+var d, r = d();

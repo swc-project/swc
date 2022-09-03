@@ -4,6 +4,8 @@ class ApiItem {
         return [];
     }
 }
+class ApiEnumMember extends ApiItem {
+}
 function ApiItemContainerMixin(baseClass) {
     return class extends baseClass {
         get members() {

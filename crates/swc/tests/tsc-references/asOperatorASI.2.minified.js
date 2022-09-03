@@ -12,5 +12,7 @@ function _templateObject() {
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
-};
-as(_templateObject()), as(Foo);
+}, x = 10;
+as(_templateObject());
+var y = 20;
+as(Foo);

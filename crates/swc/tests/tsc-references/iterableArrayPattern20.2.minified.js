@@ -16,6 +16,7 @@ class FooArrayIterator {
         return this;
     }
 }
-!function(...[[a = new Foo], b = [
+function fun(...[[a = new Foo], b = [
     new Foo
-]]) {}(...new FooArrayIterator);
+]]) {}
+fun(...new FooArrayIterator);

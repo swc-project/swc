@@ -280,12 +280,25 @@ function _templateObject27() {
         return data;
     }, data;
 }
+function noParams(n) {}
+function noGenericParams(n) {}
+function someGenerics1a(n, m) {}
+function someGenerics1b(n, m) {}
+function someGenerics2a(strs, n) {}
+function someGenerics2b(strs, n) {}
 function someGenerics3(strs, producer) {}
 function someGenerics4(strs, n, f) {}
 function someGenerics5(strs, n, f) {}
 function someGenerics6(strs, a, b, c) {}
 function someGenerics7(strs, a, b, c) {}
-_templateObject(), _templateObject1(), _templateObject2(), _templateObject3(), _templateObject4(), _templateObject5(), someGenerics3(_templateObject6(), function() {
+function someGenerics8(strs, n) {
+    return n;
+}
+noParams(_templateObject()), noGenericParams(_templateObject1()), someGenerics1a(_templateObject2(), 3), someGenerics1b(_templateObject3(), 3), someGenerics2a(_templateObject4(), function(n) {
+    return n;
+}), someGenerics2b(_templateObject5(), function(n, x) {
+    return n;
+}), someGenerics3(_templateObject6(), function() {
     return "";
 }), someGenerics3(_templateObject7(), function() {}), someGenerics3(_templateObject8(), function() {
     return 3;
@@ -333,4 +346,22 @@ _templateObject(), _templateObject1(), _templateObject2(), _templateObject3(), _
     return n;
 }, function(n) {
     return n;
-}), (_templateObject21(), someGenerics7)(_templateObject22(), null, null, null), _templateObject23(), _templateObject24(), _templateObject25(), _templateObject26(), _templateObject27();
+});
+var a9a, a9e, a9d, anyVar, a, arr, x = someGenerics8(_templateObject21(), someGenerics7);
+function someGenerics9(strs, a, b, c) {
+    return null;
+}
+x(_templateObject22(), null, null, null);
+var a9a = someGenerics9(_templateObject23(), "", 0, []), a9e = someGenerics9(_templateObject24(), void 0, {
+    x: 6,
+    z: new Date()
+}, {
+    x: 6,
+    y: ""
+}), a9d = someGenerics9(_templateObject25(), {
+    x: 3
+}, {
+    x: 6
+}, {
+    x: 6
+}), a = someGenerics9(_templateObject26(), 7, anyVar, 4), arr = someGenerics9(_templateObject27(), [], null, void 0);

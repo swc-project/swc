@@ -28,5 +28,4 @@ C.prop = function() {
     Math.random() ? C.inStaticPropertyDeclaration = 0 : C.inStaticPropertyDeclaration = "string";
 };
 //// [b.ts]
-var c = new C();
-c.inConstructor, c.inMethod, c.inGetter, c.inSetter, c.inPropertyDeclaration, c.inNestedArrowFunction, c.inMultiple, c.inMultipleMethods, c.inMethodNullable, C.inStaticMethod, C.inStaticGetter, C.inStaticSetter, C.inStaticPropertyDeclaration, C.inStaticNestedArrowFunction;
+var stringOrNumber, stringOrNumberOrUndefined, stringOrNumberOrBoolean, number, stringOrBooleanOrUndefined, any, c = new C(), stringOrNumber = c.inConstructor, stringOrNumberOrUndefined = c.inMethod, stringOrNumberOrUndefined = c.inGetter, stringOrNumberOrUndefined = c.inSetter, stringOrNumberOrUndefined = c.inPropertyDeclaration, stringOrNumberOrUndefined = c.inNestedArrowFunction, number = c.inMultiple, stringOrBooleanOrUndefined = c.inMultipleMethods, any = c.inMethodNullable, stringOrNumberOrUndefined = C.inStaticMethod, stringOrNumberOrUndefined = C.inStaticGetter, stringOrNumberOrUndefined = C.inStaticSetter, stringOrNumberOrUndefined = C.inStaticPropertyDeclaration, stringOrNumberOrUndefined = C.inStaticNestedArrowFunction;

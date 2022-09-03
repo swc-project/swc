@@ -2,7 +2,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-!function() {
+var C1 = function() {
     "use strict";
     function C1() {
         _class_call_check(this, C1);
@@ -21,7 +21,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-!function() {
+var C2 = function() {
     "use strict";
     function C2() {
         _class_call_check(this, C2);
@@ -48,7 +48,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-!function() {
+var C3 = function() {
     "use strict";
     function C3() {
         _class_call_check(this, C3);
@@ -80,7 +80,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import _ts_values from "@swc/helpers/src/_ts_values.mjs";
-!function() {
+var C4 = function() {
     "use strict";
     function C4() {
         _class_call_check(this, C4);
@@ -114,7 +114,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import _ts_values from "@swc/helpers/src/_ts_values.mjs";
-!function() {
+var C5 = function() {
     "use strict";
     function C5() {
         _class_call_check(this, C5);
@@ -157,7 +157,7 @@ import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs"
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-!function() {
+var C6 = function() {
     "use strict";
     function C6() {
         _class_call_check(this, C6);
@@ -185,7 +185,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-!function() {
+var C7 = function() {
     "use strict";
     function C7() {
         _class_call_check(this, C7);
@@ -205,7 +205,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-!function() {
+var C8 = function() {
     "use strict";
     function C8() {
         _class_call_check(this, C8);
@@ -230,7 +230,13 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-!function(B9) {
+var B9 = function() {
+    "use strict";
+    function B9() {
+        _class_call_check(this, B9);
+    }
+    return B9.prototype.g = function() {}, B9;
+}(), C9 = function(B9) {
     "use strict";
     _inherits(C9, B9);
     var _super = _create_super(C9);
@@ -247,10 +253,4 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
             });
         })();
     }, C9;
-}(function() {
-    "use strict";
-    function B9() {
-        _class_call_check(this, B9);
-    }
-    return B9.prototype.g = function() {}, B9;
-}());
+}(B9);

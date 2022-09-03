@@ -1,9 +1,11 @@
 //// [overloadResolutionConstructors.ts]
-var fn1, fn2, fn3, fn4, fn5;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-!function(SomeBase) {
+var fn1, s, fn2, d, fn3, n, fn4, fn5, SomeBase = function SomeBase() {
+    "use strict";
+    _class_call_check(this, SomeBase);
+}, SomeDerived1 = function(SomeBase) {
     "use strict";
     _inherits(SomeDerived1, SomeBase);
     var _super = _create_super(SomeDerived1);
@@ -11,11 +13,30 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         return _class_call_check(this, SomeDerived1), _super.apply(this, arguments);
     }
     return SomeDerived1;
-}(function SomeBase() {
+}(SomeBase), SomeDerived2 = function(SomeBase) {
     "use strict";
-    _class_call_check(this, SomeBase);
-}), new fn1(void 0), new fn1({}), new fn2(0, void 0), new fn2(0, ""), new fn2("", 0), new fn2("", 0), new fn3(3), new fn3("", 3, ""), new fn3(5, 5, 5), new fn3(4), new fn3("", "", ""), new fn3("", "", 3), new fn3(), new fn4("", 3), new fn4(3, ""), new fn4("", 3), new fn4(3, ""), new fn4("", 3), new fn4(3, ""), new fn4(3, void 0), new fn4("", null), new fn4(null, null), new fn4(!0, null), new fn4(null, !0), new fn5(function(n) {
+    _inherits(SomeDerived2, SomeBase);
+    var _super = _create_super(SomeDerived2);
+    function SomeDerived2() {
+        return _class_call_check(this, SomeDerived2), _super.apply(this, arguments);
+    }
+    return SomeDerived2;
+}(SomeBase), SomeDerived3 = function(SomeBase) {
+    "use strict";
+    _inherits(SomeDerived3, SomeBase);
+    var _super = _create_super(SomeDerived3);
+    function SomeDerived3() {
+        return _class_call_check(this, SomeDerived3), _super.apply(this, arguments);
+    }
+    return SomeDerived3;
+}(SomeBase), s = new fn1(void 0);
+new fn1({});
+var d = new fn2(0, void 0), s = new fn2(0, "");
+new fn2("", 0), new fn2("", 0);
+var s = new fn3(3), s = new fn3("", 3, ""), n = new fn3(5, 5, 5), s = new fn3(4), s = new fn3("", "", ""), n = new fn3("", "", 3);
+new fn3(), new fn4("", 3), new fn4(3, ""), new fn4("", 3), new fn4(3, ""), new fn4("", 3), new fn4(3, ""), new fn4(3, void 0), new fn4("", null), new fn4(null, null), new fn4(!0, null), new fn4(null, !0);
+var n = new fn5(function(n) {
     return n.toFixed();
-}), new fn5(function(n) {
+}), s = new fn5(function(n) {
     return n.substr(0);
 });

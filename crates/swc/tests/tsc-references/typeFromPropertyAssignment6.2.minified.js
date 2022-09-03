@@ -1,4 +1,6 @@
 //// [def.js]
+class Outer {
+}
 //// [a.js]
 Outer.Inner = class {
     messages() {
@@ -6,4 +8,5 @@ Outer.Inner = class {
     }
 }, Outer.i;
 //// [b.js]
-Outer.i.messages();
+var msgs = Outer.i.messages();
+function x(inner) {}

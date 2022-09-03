@@ -1,3 +1,5 @@
 //// [subtypingWithObjectMembersOptionality.ts]
-var TwoLevels;
+var a, TwoLevels, b = {
+    Foo: null
+}, r = a;
 TwoLevels || (TwoLevels = {});

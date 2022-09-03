@@ -1,6 +1,8 @@
 //// [asyncFunctionDeclarationCapturesArguments_es5.ts]
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+var C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);

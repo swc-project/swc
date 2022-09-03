@@ -6,7 +6,8 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-C.f = 1, function(C) {
+C.f = 1;
+var D = function(C) {
     "use strict";
     _inherits(D, C);
     var _super = _create_super(D);
@@ -14,4 +15,5 @@ C.f = 1, function(C) {
         return _class_call_check(this, D), _super.apply(this, arguments);
     }
     return D;
-}(C).c = super();
+}(C);
+D.c = super();

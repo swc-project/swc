@@ -1,4 +1,5 @@
 //// [symbolProperty15.ts]
 var i;
-foo(new class {
-}), bar(i);
+class C {
+}
+foo(new C), bar(i);

@@ -2,8 +2,7 @@
 "use strict";
 //// [index.js]
 "use strict";
-new (require("./other"))().id;
-var B = function() {
+var A = require("./other"), a = new A().id, B = function() {
     this.id = 1;
 };
 B.prototype.m = function() {
@@ -13,6 +12,7 @@ var b = new B();
 b.id, b.x;
 //// [other.js]
 "use strict";
-module.exports = function() {
+function A() {
     this.id = 1;
-};
+}
+module.exports = A;

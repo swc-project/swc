@@ -1,9 +1,12 @@
 //// [parser553699.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var Foo = function() {
     "use strict";
     function Foo() {
         _class_call_check(this, Foo);
     }
     return Foo.prototype.banana = function(x) {}, Foo;
-}();
+}(), Bar = function Bar(c) {
+    "use strict";
+    _class_call_check(this, Bar);
+};

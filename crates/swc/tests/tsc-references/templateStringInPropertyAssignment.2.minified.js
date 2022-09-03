@@ -1,2 +1,4 @@
 //// [templateStringInPropertyAssignment.ts]
-"abc".concat(123, "def", 456, "ghi");
+var x = {
+    a: "abc".concat(123, "def", 456, "ghi")
+};

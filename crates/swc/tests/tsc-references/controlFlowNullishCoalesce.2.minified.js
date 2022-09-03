@@ -1,3 +1,3 @@
 //// [controlFlowNullishCoalesce.ts]
-var a;
-null != o || (a = 1), a.toString();
+var a, x;
+null != o || (a = 1), a.toString(), x = null == o || o;

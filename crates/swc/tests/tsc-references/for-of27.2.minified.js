@@ -1,3 +1,4 @@
 //// [for-of27.ts]
-for (var v of new class {
-});
+class StringIterator {
+}
+for (var v of new StringIterator);

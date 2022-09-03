@@ -1,6 +1,6 @@
 //// [callWithMissingVoid.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var X = function() {
     "use strict";
     function X() {
         _class_call_check(this, X);
@@ -10,7 +10,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             a: t
         };
     }, X;
-}(), x.f(), xUnion.f(42), xUnion.f(), xAny.f(), xUnknown.f(), xNever.f();
+}();
+x.f(), xUnion.f(42), xUnion.f(), xAny.f(), xUnknown.f(), xNever.f();
 var MyPromise = function MyPromise(executor) {
     "use strict";
     _class_call_check(this, MyPromise);

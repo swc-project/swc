@@ -1,6 +1,6 @@
 //// [propertyAccessOnTypeParameterWithConstraints4.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-new (function() {
+var i, a, C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -9,11 +9,9 @@ new (function() {
         var x;
         return x.notHere() + x.notHere();
     }, C;
-}())().f(), i.foo.notHere(), i.foo.notHere(), a().notHere(), a().notHere();
-var i, a, b = {
+}(), r = new C().f(), r2 = i.foo.notHere(), r2b = i.foo.notHere(), r3 = a().notHere(), r3b = a().notHere(), b = {
     foo: function(x) {
         return x.notHere() + x.notHere();
     },
     bar: b.foo().notHere()
-};
-b.foo(new Date());
+}, r4 = b.foo(new Date());

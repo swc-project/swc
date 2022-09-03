@@ -16,5 +16,4 @@ var C = function() {
 C.g = function() {
     return "";
 };
-var c = new C();
-c.x, c.a, c.b, c.c(), c.d(), C.e, C.f(), C.g();
+var c = new C(), r1 = c.x, r2 = c.a, r3 = c.b, r4 = c.c(), r5 = c.d(), r6 = C.e, r7 = C.f(), r8 = C.g();

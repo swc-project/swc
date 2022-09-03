@@ -1,2 +1,2 @@
 //// [usePromiseFinally.ts]
-new Promise(function(resolve, reject) {}).finally(function() {});
+var promise1 = new Promise(function(resolve, reject) {}).finally(function() {});

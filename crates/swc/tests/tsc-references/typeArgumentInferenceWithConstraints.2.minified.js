@@ -9,6 +9,9 @@ function someGenerics4(n, f) {}
 function someGenerics5(n, f) {}
 function someGenerics6(a, b, c) {}
 function someGenerics7(a, b, c) {}
+function someGenerics8(n) {
+    return n;
+}
 noParams(), noParams(), noParams(), noGenericParams(""), noGenericParams(""), noGenericParams(""), someGenerics1(3, 4), someGenerics1(3, 4), someGenerics1(3, 4), someGenerics1(3, 4), someGenerics2a(function(n) {
     return n;
 }), someGenerics2a(function(n) {
@@ -79,4 +82,32 @@ noParams(), noParams(), noParams(), noGenericParams(""), noGenericParams(""), no
     return n;
 }, function(n) {
     return n;
-}), someGenerics7(null, null, null), window, window;
+});
+var a9a, a9b, a9e, a9f, a9d, anyVar, a, arr, x = someGenerics8(someGenerics7);
+function someGenerics9(a, b, c) {
+    return null;
+}
+x(null, null, null);
+var a9a = someGenerics9("", 0, []), a9b = someGenerics9({
+    a: 0
+}, {
+    b: ""
+}, null), a9e = someGenerics9(void 0, {
+    x: 6,
+    z: window
+}, {
+    x: 6,
+    y: ""
+}), a9f = someGenerics9(void 0, {
+    x: 6,
+    z: window
+}, {
+    x: 6,
+    y: ""
+}), a9d = someGenerics9({
+    x: 3
+}, {
+    x: 6
+}, {
+    x: 6
+}), a = someGenerics9(7, anyVar, 4), arr = someGenerics9([], null, void 0);

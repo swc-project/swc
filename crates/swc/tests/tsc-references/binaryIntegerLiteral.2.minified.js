@@ -1,14 +1,14 @@
 //// [binaryIntegerLiteral.ts]
-var obj1 = {
+var bin1 = 26, bin2 = 26, bin3 = 9671406556917009000000000, bin4 = Infinity, obj1 = {
     26: "Hello",
-    a: 26,
-    bin1: 26,
+    a: bin1,
+    bin1: bin1,
     b: 26,
     Infinity: !0
 }, obj2 = {
     26: "World",
-    a: 26,
-    bin2: 26,
+    a: bin2,
+    bin2: bin2,
     b: 26,
     9671406556917009000000000: !1
 };

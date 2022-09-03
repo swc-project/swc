@@ -1,4 +1,4 @@
 //// [parserCommaInTypeMemberList2.ts]
-$.extend({
+var s = $.extend({
     workItem: this._workItem
 }, {});

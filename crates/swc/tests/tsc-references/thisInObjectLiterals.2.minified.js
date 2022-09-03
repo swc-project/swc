@@ -1,6 +1,6 @@
 //// [thisInObjectLiterals.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var obj, MyClass = function() {
     "use strict";
     function MyClass() {
         _class_call_check(this, MyClass);
@@ -8,4 +8,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     return MyClass.prototype.fn = function() {
         this.t;
     }, MyClass;
-}();
+}(), obj = {
+    f: function() {
+        return this.spaaace;
+    }
+};

@@ -1,2 +1,2 @@
 //// [nullAssignedToUndefined.ts]
-undefined = null;
+var x = undefined = null, y = null;

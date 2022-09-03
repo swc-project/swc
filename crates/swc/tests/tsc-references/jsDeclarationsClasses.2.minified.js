@@ -140,15 +140,16 @@ export var O = function(N) {
     }
     return O;
 }(N);
+var x = null;
 export var VariableBase = function(x) {
     "use strict";
-    _inherits(VariableBase, null);
+    _inherits(VariableBase, x);
     var _super = _create_super(VariableBase);
     function VariableBase() {
         return _class_call_check(this, VariableBase), _super.apply(this, arguments);
     }
     return VariableBase;
-}(null);
+}(x);
 export var HasStatics = function() {
     "use strict";
     function HasStatics() {

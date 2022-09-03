@@ -1,5 +1,5 @@
 //// [templateStringWithEmbeddedArray.ts]
-"abc".concat([
+var x = "abc".concat([
     1,
     2,
     3

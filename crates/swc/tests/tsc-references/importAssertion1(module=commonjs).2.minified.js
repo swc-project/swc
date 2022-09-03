@@ -2,14 +2,15 @@
 "use strict";
 //// [0.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     a: ()=>a,
     b: ()=>b
 });
@@ -33,19 +34,18 @@ _0.a, _0.b, _0.a, _0.b;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-Promise.resolve().then(()=>_interopRequireWildcard(require("./0"))), Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {
+const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, a = Promise.resolve().then(()=>_interopRequireWildcard(require("./0"))), b = Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {
         assert: {
             type: "json"
         }
-    }))), Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {
+    }))), c = Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {
         assert: {
             type: "json",
             ttype: "typo"
         }
-    }))), Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {
+    }))), d = Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {
         assert: {}
-    }))), Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {}))), Promise.resolve().then(()=>_interopRequireWildcard(require("./0", foo()))), Promise.resolve().then((p)=>_interopRequireWildcard(require(p))), Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {}, {}))), Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {
+    }))), dd = Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {}))), e = Promise.resolve().then(()=>_interopRequireWildcard(require("./0", foo()))), f = Promise.resolve().then((p)=>_interopRequireWildcard(require(p))), g = Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {}, {}))), h = Promise.resolve().then(()=>_interopRequireWildcard(require("./0", {
         assert: {
             type: "json"
         }

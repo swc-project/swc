@@ -1,5 +1,11 @@
 //// [generatorTypeCheck62.ts]
 "use strict";
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+}
 function strategy(stratName, gen) {
     return function*(state) {
         for (let next of gen(state))next && (next.lastStrategyApplied = stratName), yield next;
@@ -7,12 +13,7 @@ function strategy(stratName, gen) {
 }
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
+}), _export(exports, {
     strategy: ()=>strategy,
     Nothing1: ()=>Nothing1,
     Nothing2: ()=>Nothing2,

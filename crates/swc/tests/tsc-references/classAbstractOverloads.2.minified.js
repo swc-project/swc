@@ -1,9 +1,12 @@
 //// [classAbstractOverloads.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var A = function() {
     "use strict";
     function A() {
         _class_call_check(this, A);
     }
     return A.prototype.baz = function() {}, A;
-}();
+}(), B = function B() {
+    "use strict";
+    _class_call_check(this, B);
+};

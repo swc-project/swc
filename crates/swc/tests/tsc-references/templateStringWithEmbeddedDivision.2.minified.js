@@ -1,2 +1,2 @@
 //// [templateStringWithEmbeddedDivision.ts]
-"abc".concat(1, "def");
+var x = "abc".concat(1, "def");

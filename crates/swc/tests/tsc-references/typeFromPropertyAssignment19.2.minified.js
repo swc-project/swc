@@ -7,4 +7,4 @@ exports = module.exports = C, C.f = function(n) {
     return n + 1;
 };
 //// [index.js]
-require("./semver").f(1);
+var C = require("./semver"), two = C.f(1);

@@ -25,5 +25,4 @@ var y = 42;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var foo = require("./foo_0");
-foo.x, foo.y;
+var foo = require("./foo_0"), z1 = foo.x + 10, z2 = foo.y + 10;

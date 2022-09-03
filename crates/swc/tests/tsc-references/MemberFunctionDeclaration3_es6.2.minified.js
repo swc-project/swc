@@ -1,2 +1,4 @@
 //// [MemberFunctionDeclaration3_es6.ts]
-foo;
+class C {
+    *[foo]() {}
+}

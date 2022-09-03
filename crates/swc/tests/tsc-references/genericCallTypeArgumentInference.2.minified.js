@@ -1,6 +1,14 @@
 //// [genericCallTypeArgumentInference.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var i, c = new (function() {
+function foo(t) {
+    return t;
+}
+var i, r = foo("");
+function foo2(t, u) {
+    return u;
+}
+function foo2b(u) {}
+var r2 = foo2("", 1), r3 = foo2b(1), C = function() {
     "use strict";
     function C(t, u) {
         _class_call_check(this, C), this.t = t, this.u = u;
@@ -17,5 +25,4 @@ var i, c = new (function() {
     }, _proto.foo5 = function(t, u) {
         return t;
     }, _proto.foo6 = function() {}, _proto.foo7 = function(u) {}, _proto.foo8 = function() {}, C;
-}())("", 1);
-c.foo("", 1), c.foo2("", 1), c.foo3(!0, 1), c.foo4("", !0), c.foo5(!0, 1), c.foo6(), c.foo7(""), c.foo8(), i.foo("", 1), i.foo2("", 1), i.foo3(!0, 1), i.foo4("", !0), i.foo5(!0, 1), i.foo6(), i.foo7(""), i.foo8();
+}(), c = new C("", 1), r4 = c.foo("", 1), r5 = c.foo2("", 1), r6 = c.foo3(!0, 1), r7 = c.foo4("", !0), r8 = c.foo5(!0, 1), r9 = c.foo6(), r10 = c.foo7(""), r11 = c.foo8(), r4 = i.foo("", 1), r5 = i.foo2("", 1), r6 = i.foo3(!0, 1), r7 = i.foo4("", !0), r8 = i.foo5(!0, 1), r9 = i.foo6(), r10 = i.foo7(""), r11 = i.foo8();

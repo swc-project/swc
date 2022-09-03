@@ -1,2 +1,2 @@
 //// [symbolType7.ts]
-Symbol.for("shift");
+var s = Symbol.for("shift");

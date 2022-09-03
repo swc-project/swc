@@ -1,5 +1,5 @@
 //// [classExpressionES63.ts]
-let c = new class extends class extends class {
+let C = class extends class extends class {
     constructor(){
         this.a = 1;
     }
@@ -11,5 +11,5 @@ let c = new class extends class extends class {
     constructor(...args){
         super(...args), this.c = 3;
     }
-}();
+}, c = new C();
 c.a, c.b, c.c;

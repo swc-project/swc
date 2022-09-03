@@ -1,2 +1,5 @@
 //// [for-of55.ts]
-for (let v of v);
+let v = [
+    1
+];
+for (let v1 of v1);

@@ -5,4 +5,5 @@ export var A = function A() {
     _class_call_check(this, A);
 };
 //// [/b.ts]
+var AConstructor;
 export { };

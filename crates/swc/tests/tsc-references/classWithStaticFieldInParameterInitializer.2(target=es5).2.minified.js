@@ -16,7 +16,9 @@ var _class, _class1, C = function C() {
         }
         return _class;
     }(C)).x = 1, _class);
-}(), function() {
+}();
+var x = "";
+!function() {
     arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : ((_class1 = function(C) {
         "use strict";
         _inherits(_class, C);

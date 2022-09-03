@@ -1,5 +1,4 @@
 //// [typeArgumentInferenceConstructSignatures.ts]
-var noParams, noGenericParams, someGenerics1, someGenerics2a, someGenerics2b, someGenerics3, someGenerics4, someGenerics5, someGenerics6, someGenerics7, someGenerics9, anyVar;
 new noParams(), new noParams(), new noParams(), new noGenericParams(""), new noGenericParams(""), new noGenericParams(""), new someGenerics1(3, 4), new someGenerics1(3, 4), new someGenerics1(3, 4), new someGenerics2a(function(n) {
     return n;
 }), new someGenerics2a(function(n) {
@@ -70,26 +69,29 @@ new noParams(), new noParams(), new noParams(), new noGenericParams(""), new noG
     return n;
 }, function(n) {
     return n;
-}), new new (void 0)(someGenerics7)(null, null, null), new someGenerics9("", 0, []), new someGenerics9({
+});
+var noParams, noGenericParams, someGenerics1, someGenerics2a, someGenerics2b, someGenerics3, someGenerics4, someGenerics5, someGenerics6, someGenerics7, someGenerics8, someGenerics9, a9a, a9b, a9e, a9f, a9d, anyVar, a, arr, x = new someGenerics8(someGenerics7);
+new x(null, null, null);
+var a9a = new someGenerics9("", 0, []), a9b = new someGenerics9({
     a: 0
 }, {
     b: ""
-}, null), new someGenerics9(void 0, {
+}, null), a9e = new someGenerics9(void 0, {
     x: 6,
     z: window
 }, {
     x: 6,
     y: ""
-}), new someGenerics9(void 0, {
+}), a9f = new someGenerics9(void 0, {
     x: 6,
     z: window
 }, {
     x: 6,
     y: ""
-}), new someGenerics9({
+}), a9d = new someGenerics9({
     x: 3
 }, {
     x: 6
 }, {
     x: 6
-}), new someGenerics9(7, anyVar, 4), new someGenerics9([], null, void 0);
+}), a = new someGenerics9(7, anyVar, 4), arr = new someGenerics9([], null, void 0);

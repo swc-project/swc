@@ -1,3 +1,3 @@
 //// [assignmentCompatWithStringIndexer2.ts]
-var Generics;
-Generics || (Generics = {});
+var a, b, b2, Generics;
+b = a = b, b2 = a = b2, Generics || (Generics = {});

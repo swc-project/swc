@@ -4,7 +4,7 @@ var obj = {
     foo: "bar",
     baz: "qux",
     quux: "quuz"
-};
-obj.foo, delete _object_without_properties(obj, [
+}, foo = obj.foo, rest = _object_without_properties(obj, [
     "foo"
-]).baz;
+]);
+delete rest.baz;

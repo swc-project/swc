@@ -1,1 +1,13 @@
 //// [await_unaryExpression_es2017.ts]
+async function bar() {
+    await 42;
+}
+async function bar1() {
+    await 42;
+}
+async function bar3() {
+    await 42;
+}
+async function bar4() {
+    await 42;
+}

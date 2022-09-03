@@ -1,3 +1,13 @@
 //// [mergedInterfacesWithMultipleBases.ts]
-var M;
-(void 0).a, M || (M = {});
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var a, M, C = function C() {
+    "use strict";
+    _class_call_check(this, C);
+}, C2 = function C2() {
+    "use strict";
+    _class_call_check(this, C2);
+}, D = function D() {
+    "use strict";
+    _class_call_check(this, D);
+}, r = a.a;
+M || (M = {});

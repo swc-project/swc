@@ -12,3 +12,17 @@ export function backup() {
     return "backup";
 }
 //// [2.ts]
+class C {
+    method() {
+        import("./0"), this.myModule.then((Zero)=>{
+            console.log(Zero.foo());
+        }, async (err)=>{
+            console.log(err);
+            let one = await import("./1");
+            console.log(one.backup());
+        });
+    }
+    constructor(){
+        this.myModule = import("./0");
+    }
+}

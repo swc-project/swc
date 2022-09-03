@@ -1,8 +1,8 @@
 //// [restElementWithAssignmentPattern3.ts]
-var ref;
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_array from "@swc/helpers/src/_to_array.mjs";
-(ref = _sliced_to_array(_to_array([
+var a, b, ref, ref1, ref2, tuple = [
     "",
     1
-]).slice(0), 2))[0], ref[1];
+];
+a = (ref1 = _sliced_to_array((ref = _to_array(tuple)).slice(0), 2))[0], b = void 0 === (ref2 = ref1[1]) ? 0 : ref2;

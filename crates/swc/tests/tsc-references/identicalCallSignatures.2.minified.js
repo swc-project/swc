@@ -1,1 +1,2 @@
 //// [identicalCallSignatures.ts]
+var a;

@@ -29,5 +29,4 @@ var B = function B() {
         return _class_call_check(this, DD), _super.apply(this, arguments);
     }
     return DD;
-}(D);
-B.f, B[42], D.f, D[42], ED.f, ED[42], DD.f, DD[42];
+}(D), a = B.f, b = B[42], c = D.f, d = D[42], e = ED.f, f = ED[42], g = DD.f, h = DD[42];

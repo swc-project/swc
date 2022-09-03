@@ -1,7 +1,44 @@
 //// [O1.ts]
+const o1 = {
+    async *f () {}
+};
 //// [O2.ts]
+const o2 = {
+    async *f () {
+        yield;
+    }
+};
 //// [O3.ts]
+const o3 = {
+    async *f () {
+        yield 1;
+    }
+};
 //// [O4.ts]
+const o4 = {
+    async *f () {
+        yield* [
+            1
+        ];
+    }
+};
 //// [O5.ts]
+const o5 = {
+    async *f () {
+        yield* async function*() {
+            yield 1;
+        }();
+    }
+};
 //// [O6.ts]
+const o6 = {
+    async *f () {
+        await 1;
+    }
+};
 //// [O7.ts]
+const o7 = {
+    async *f () {
+        return 1;
+    }
+};

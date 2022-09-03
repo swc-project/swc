@@ -1,2 +1,3 @@
 //// [index.js]
-({}).prototype.b = {};
+var A;
+(A = {}).prototype.b = {};

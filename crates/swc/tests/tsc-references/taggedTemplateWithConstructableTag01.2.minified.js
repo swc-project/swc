@@ -9,7 +9,8 @@ function _templateObject() {
         return data;
     }, data;
 }
-!function CtorTag() {
+var CtorTag = function CtorTag() {
     "use strict";
     _class_call_check(this, CtorTag);
-}(_templateObject());
+};
+CtorTag(_templateObject());

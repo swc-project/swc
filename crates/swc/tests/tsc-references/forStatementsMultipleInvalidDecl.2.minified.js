@@ -2,7 +2,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var M, C = function C() {
+var M, a, b, arr, m, C = function C() {
     "use strict";
     _class_call_check(this, C);
 }, C2 = function(C) {
@@ -17,6 +17,9 @@ var M, C = function C() {
     "use strict";
     _class_call_check(this, D);
 };
+function F(x) {
+    return 42;
+}
 for(!function(M) {
     var F2 = function(x) {
         return x.toString();
@@ -26,21 +29,33 @@ for(!function(M) {
     };
     M.A = A, M.F2 = F2;
 }(M || (M = {}));;);
+for(var a = 1;;);
+for(var a = "a string";;);
+for(var a = new C();;);
+for(var a = new D();;);
+for(var a = M;;);
 for(;;);
+for(var b = new C();;);
+for(var b = new C2();;);
+for(var f = F;;);
+for(var f = function(x) {
+    return "";
+};;);
 for(;;);
+for(var arr = [
+    1,
+    2,
+    3,
+    4
+];;);
+for(var arr = [
+    new C(),
+    new C2(),
+    new D()
+];;);
+for(var arr2 = [
+    new D()
+];;);
+for(var arr2 = [];;);
 for(;;);
-for(new C();;);
-for(new D();;);
-for(;;);
-for(;;);
-for(new C();;);
-for(new C2();;);
-for(;;);
-for(;;);
-for(;;);
-for(;;);
-for(new C(), new C2(), new D();;);
-for(new D();;);
-for(;;);
-for(;;);
-M.A;
+for(var m = M.A;;);

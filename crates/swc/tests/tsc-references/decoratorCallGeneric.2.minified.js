@@ -1,6 +1,7 @@
 //// [decoratorCallGeneric.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
+function dec(c) {}
 var C = function() {
     "use strict";
     function C() {
@@ -9,5 +10,5 @@ var C = function() {
     return C.m = function() {}, C;
 }();
 C = _ts_decorate([
-    function(c) {}
+    dec
 ], C);

@@ -1,6 +1,6 @@
 //// [typeGuardsOnClassProperty.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var D = function() {
     "use strict";
     function D() {
         _class_call_check(this, D);
@@ -12,8 +12,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     }, _proto.getData1 = function() {
         return "string" == typeof this.data ? this.data : this.data.join(" ");
     }, D;
-}();
-var o = {
+}(), o = {
     prop1: "string",
     prop2: !0
 };

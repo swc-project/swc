@@ -1,4 +1,7 @@
 //// [iteratorSpreadInCall9.ts]
+class Foo {
+    constructor(...s){}
+}
 class SymbolIterator {
     next() {
         return {
@@ -21,8 +24,6 @@ class _StringIterator {
         return this;
     }
 }
-new class {
-    constructor(...s){}
-}(...new SymbolIterator, ...[
+new Foo(...new SymbolIterator, ...[
     ...new _StringIterator
 ]);

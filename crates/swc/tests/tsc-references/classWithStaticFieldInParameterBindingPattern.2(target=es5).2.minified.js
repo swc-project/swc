@@ -14,7 +14,9 @@ var _class, _class1, C = function C() {
         return _class_call_check(this, _class), _super.apply(this, arguments);
     }
     return _class;
-}(C)).x = 1, _class).x], function() {
+}(C)).x = 1, _class).x];
+var x = "";
+!function(param) {
     (void 0)[((_class1 = function(C) {
         "use strict";
         _inherits(_class, C);

@@ -1,2 +1,2 @@
 //// [extendStringInterface.ts]
-"".doStuff(), "".doOtherStuff("hm"), "".doStuff(), "".doOtherStuff("hm");
+var x = "", a = x.doStuff(), b = x.doOtherStuff("hm"), c = x.doStuff(), d = x.doOtherStuff("hm");

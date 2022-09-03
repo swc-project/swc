@@ -3,15 +3,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var d2, Derived = function(Base) {
-    "use strict";
-    _inherits(Derived, Base);
-    var _super = _create_super(Derived);
-    function Derived() {
-        return _class_call_check(this, Derived), _super.apply(this, arguments);
-    }
-    return Derived;
-}(function() {
+var d2, Base = function() {
     "use strict";
     function Base(x) {
         _class_call_check(this, Base);
@@ -33,5 +25,27 @@ var d2, Derived = function(Base) {
             set: function(v) {}
         }
     ]), Base;
-}()), d = new Derived(1);
-d.a, d.b(), d.c, d.c = "", Derived.r, Derived.s(), Derived.t, Derived.t = "", d2[""], d2[1];
+}(), Derived = function(Base) {
+    "use strict";
+    _inherits(Derived, Base);
+    var _super = _create_super(Derived);
+    function Derived() {
+        return _class_call_check(this, Derived), _super.apply(this, arguments);
+    }
+    return Derived;
+}(Base), d = new Derived(1), r1 = d.a, r2 = d.b(), r3 = d.c;
+d.c = "";
+var r4 = Derived.r, r5 = Derived.s(), r6 = Derived.t;
+Derived.t = "";
+var Base2 = function Base2() {
+    "use strict";
+    _class_call_check(this, Base2);
+}, Derived2 = function(Base2) {
+    "use strict";
+    _inherits(Derived2, Base2);
+    var _super = _create_super(Derived2);
+    function Derived2() {
+        return _class_call_check(this, Derived2), _super.apply(this, arguments);
+    }
+    return Derived2;
+}(Base2), r7 = d2[""], r8 = d2[1];

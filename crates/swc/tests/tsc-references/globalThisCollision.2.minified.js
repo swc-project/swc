@@ -1,1 +1,2 @@
 //// [globalThisCollision.js]
+var globalThis;

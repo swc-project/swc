@@ -1,1 +1,36 @@
 //// [contextuallyTypedClassExpressionMethodDeclaration02.ts]
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+function getFoo1() {
+    return function() {
+        "use strict";
+        function _class() {
+            _class_call_check(this, _class);
+        }
+        var _proto = _class.prototype;
+        return _proto.method1 = function(arg) {
+            arg.numProp = 10;
+        }, _proto.method2 = function(arg) {
+            arg.strProp = "hello";
+        }, _class;
+    }();
+}
+function getFoo2() {
+    return function _class() {
+        "use strict";
+        _class_call_check(this, _class), this.method1 = function(arg) {
+            arg.numProp = 10;
+        }, this.method2 = function(arg) {
+            arg.strProp = "hello";
+        };
+    };
+}
+function getFoo3() {
+    return function _class() {
+        "use strict";
+        _class_call_check(this, _class), this.method1 = function(arg) {
+            arg.numProp = 10;
+        }, this.method2 = function(arg) {
+            arg.strProp = "hello";
+        };
+    };
+}

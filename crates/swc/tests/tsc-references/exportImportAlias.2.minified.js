@@ -1,5 +1,4 @@
 //// [exportImportAlias.ts]
-var A, C, X, Z, K, M;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(A) {
     A.x = "hello world";
@@ -11,7 +10,9 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 }(A || (A = {})), function(C) {
     var a = A;
     C.a = a;
-}(C || (C = {})), C.a.x, new C.a.Point(0, 0), function(X) {
+}(C || (C = {}));
+var A, C, c, X, Z, K, M, o, p, a = C.a.x, b = new C.a.Point(0, 0);
+!function(X) {
     var Y, Point, Y1 = function() {
         return 42;
     };
@@ -22,7 +23,9 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 }(X || (X = {})), function(Z) {
     var y = X.Y;
     Z.y = y;
-}(Z || (Z = {})), Z.y(), new Z.y.Point(0, 0), function(K) {
+}(Z || (Z = {}));
+var m = Z.y(), n = new Z.y.Point(0, 0);
+!function(K) {
     var L = function L(name) {
         "use strict";
         _class_call_check(this, L), this.name = name;
@@ -31,4 +34,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 }(K || (K = {})), function(M) {
     var D = K.L;
     M.D = D;
-}(M || (M = {})), new M.D("Hello");
+}(M || (M = {}));
+var o = new M.D("Hello");

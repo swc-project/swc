@@ -1,2 +1,4 @@
 //// [computedPropertyNames20_ES6.ts]
-this.bar;
+var obj = {
+    [this.bar]: 0
+};

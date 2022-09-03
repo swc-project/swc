@@ -1,2 +1,2 @@
 //// [symbolType5.ts]
-Symbol.for("multiply");
+var s = Symbol.for("multiply");

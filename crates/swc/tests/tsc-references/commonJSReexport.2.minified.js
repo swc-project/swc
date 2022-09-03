@@ -1,13 +1,14 @@
 //// [commonJSReexport.ts]
 //// [first.js]
+var hardline = {
+    type: "hard"
+};
 module.exports = {
-    hardline: {
-        type: "hard"
-    }
+    hardline: hardline
 };
 //// [second.js]
 module.exports = {
     nested: require("./first")
 };
 //// [main.js]
-require("./second").nested.hardline;
+var hardline = require("./second").nested.hardline;

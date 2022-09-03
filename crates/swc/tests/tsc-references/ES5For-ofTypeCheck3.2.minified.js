@@ -1,10 +1,10 @@
 //// [ES5For-ofTypeCheck3.ts]
-var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
+var tuple = [
+    "",
+    0
+], _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
-    for(var _step, _iterator = [
-        "",
-        0
-    ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_step.value;
+    for(var _step, _iterator = tuple[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)var v = _step.value;
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{

@@ -1,7 +1,7 @@
 //// [typeOfThisInAccessor.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
-!function() {
+var C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -21,4 +21,29 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
             }
         }
     ]), C;
-}();
+}(), D = function() {
+    "use strict";
+    function D() {
+        _class_call_check(this, D);
+    }
+    return _create_class(D, [
+        {
+            key: "x",
+            get: function() {
+                return 1;
+            }
+        }
+    ], [
+        {
+            key: "y",
+            get: function() {
+                return 1;
+            }
+        }
+    ]), D;
+}(), x = {
+    get a () {
+        var r3 = this;
+        return 1;
+    }
+};

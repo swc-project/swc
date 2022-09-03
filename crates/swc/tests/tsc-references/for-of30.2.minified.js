@@ -1,6 +1,6 @@
 //// [for-of30.ts]
 let _iterator = Symbol.iterator;
-for (var v of new class {
+class StringIterator {
     next() {
         return {
             done: !1,
@@ -13,4 +13,5 @@ for (var v of new class {
     constructor(){
         this.return = 0;
     }
-});
+}
+for (var v of new StringIterator);

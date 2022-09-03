@@ -22,20 +22,26 @@ var Base = function Base() {
     }
     return Derived2;
 }(Base);
+function f(a) {}
+var r1 = f({
+    x: new Derived(),
+    y: new Derived2()
+});
 function f2(a) {}
+var r2 = f2({
+    x: new Derived(),
+    y: new Derived2()
+}), r3 = f2({
+    x: new Derived(),
+    y: new Derived2()
+});
 function f3(y, x) {
     return y(null);
 }
-new Derived(), new Derived2(), f2({
-    x: new Derived(),
-    y: new Derived2()
-}), f2({
-    x: new Derived(),
-    y: new Derived2()
-}), f3(function(x) {
+var r4 = f3(function(x) {
     return x;
-}, new Base()), f3(function(x) {
+}, new Base()), r5 = f3(function(x) {
     return x;
-}, new Derived()), f3(function(x) {
+}, new Derived()), r6 = f3(function(x) {
     return x;
 }, null);

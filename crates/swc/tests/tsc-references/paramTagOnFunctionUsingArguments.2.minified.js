@@ -1,5 +1,10 @@
 //// [decls.d.ts]
 //// [a.js]
-!function() {
+function concat() {
+    for(var s = "", i = 0, l = arguments.length; i < l; i++)s += arguments[i];
+    return s;
+}
+function correct() {
     arguments;
-}(1, 2, 3);
+}
+correct(1, 2, 3);

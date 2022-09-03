@@ -11,8 +11,7 @@ var Base = function() {
     return Base.prototype.bar = function() {
         return 0;
     }, Base;
-}(), tmp = _define_property({}, super.bar(), 1)[0];
-!function(Base) {
+}(), tmp = _define_property({}, super.bar(), 1)[0], C = function(Base) {
     "use strict";
     _inherits(C, Base);
     var _super = _create_super(C);

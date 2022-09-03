@@ -1,5 +1,6 @@
 //// [incrementOperatorWithEnumType.ts]
-var ENUM1;
 !function(ENUM1) {
     ENUM1[ENUM1.A = 0] = "A", ENUM1[ENUM1.B = 1] = "B", ENUM1[ENUM1[""] = 2] = "";
-}(ENUM1 || (ENUM1 = {})), ++ENUM1.B, ENUM1.B++, ++ENUM1.B, ENUM1.B++;
+}(ENUM1 || (ENUM1 = {}));
+var ENUM1, ResultIsNumber1 = ++ENUM1.B, ResultIsNumber2 = ENUM1.B++;
+++ENUM1.B, ENUM1.B++;

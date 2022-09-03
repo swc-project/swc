@@ -1,4 +1,5 @@
 //// [classStaticBlock3.ts]
+const a = 1;
 class C {
     static f1 = 1;
     static{

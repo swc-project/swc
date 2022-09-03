@@ -1,13 +1,14 @@
 //// [foo_0.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     E1: function() {
         return E1;
     },
@@ -26,4 +27,5 @@ C1.s1 = !0, function(E1) {
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("./foo_0");
+});
+var i, z, foo = require("./foo_0"), x = {}, y = !1, e = 0;

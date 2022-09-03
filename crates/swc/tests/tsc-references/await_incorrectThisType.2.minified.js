@@ -21,4 +21,7 @@ class EPromise {
     }
 }
 const withTypedFailure = EPromise.fail(1);
+async function test() {
+    await withTypedFailure;
+}
 withTypedFailure.then((s)=>s.toUpperCase()).then(console.log);

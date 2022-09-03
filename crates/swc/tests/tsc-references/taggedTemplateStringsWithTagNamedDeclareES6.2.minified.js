@@ -1,2 +1,3 @@
 //// [taggedTemplateStringsWithTagNamedDeclareES6.ts]
-(function(x, ...ys) {})`Hello ${0} world!`;
+function declare(x, ...ys) {}
+declare`Hello ${0} world!`;

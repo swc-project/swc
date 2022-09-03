@@ -1,7 +1,6 @@
 //// [spreadUnion.ts]
-var union;
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
-_object_spread({}, union), _object_spread_props(_object_spread({}, union), {
+var union, o3, o4, o5, o3 = _object_spread({}, union), o4 = _object_spread_props(_object_spread({}, union), {
     a: !1
-}), _object_spread({}, union, union);
+}), o5 = _object_spread({}, union, union);

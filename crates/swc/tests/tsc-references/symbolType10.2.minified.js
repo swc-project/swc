@@ -1,2 +1,2 @@
 //// [symbolType10.ts]
-Symbol.for("bitwise");
+var s = Symbol.for("bitwise");

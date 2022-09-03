@@ -1,5 +1,4 @@
 //// [parserErrorRecovery_IncompleteMemberVariable1.ts]
-var Shapes;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(Shapes) {
     var Point = function() {
@@ -12,4 +11,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         }, Point;
     }();
     Point.origin = new Point(0, 0), Shapes.Point = Point;
-}(Shapes || (Shapes = {})), new Shapes.Point(3, 4).getDist();
+}(Shapes || (Shapes = {}));
+var Shapes, p = new Shapes.Point(3, 4), dist = p.getDist();

@@ -1,2 +1,2 @@
 //// [fluentInterfaces.ts]
-(void 0).foo().bar().baz();
+var c, z = c.foo().bar().baz();

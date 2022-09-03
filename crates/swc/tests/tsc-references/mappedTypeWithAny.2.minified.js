@@ -1,3 +1,4 @@
 //// [mappedTypeWithAny.ts]
-for(var id in z)z[id].notAValue;
-stringifyArray(void 0), stringifyPair(void 0);
+for(var id in z)var data, x = z[id].notAValue;
+function bar(arrayish, objectish, indirectArrayish) {}
+var abc = stringifyArray(void 0), def = stringifyPair(void 0);

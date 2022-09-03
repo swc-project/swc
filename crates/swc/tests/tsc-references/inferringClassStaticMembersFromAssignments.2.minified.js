@@ -16,6 +16,20 @@ C2.staticProp = 0;
 export var F2 = function() {};
 F2.staticProp = 0;
 //// [global.js]
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var C3 = function C3() {
+    "use strict";
+    _class_call_check(this, C3);
+};
+function F3() {}
+C3.staticProp = 0, F3.staticProp = 0;
+var C4 = function C4() {
+    "use strict";
+    _class_call_check(this, C4);
+};
+C4.staticProp = 0;
+var F4 = function() {};
+F4.staticProp = 0;
 //// [b.ts]
 import * as a from "./a";
-a.C1.staticProp, a.C2.staticProp, a.F1.staticProp, a.F2.staticProp, C3.staticProp, C4.staticProp, F3.staticProp, F4.staticProp;
+var n, n = a.C1.staticProp, n = a.C2.staticProp, n = a.F1.staticProp, n = a.F2.staticProp, n = C3.staticProp, n = C4.staticProp, n = F3.staticProp, n = F4.staticProp;

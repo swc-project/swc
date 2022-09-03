@@ -4,7 +4,7 @@ import _type_of from "@swc/helpers/src/_type_of.mjs";
 function foo() {
     return !0;
 }
-var BOOLEAN, M, A = function() {
+var BOOLEAN, M, z, x, r, A = function() {
     "use strict";
     function A() {
         _class_call_check(this, A);
@@ -17,14 +17,18 @@ var BOOLEAN, M, A = function() {
     var n;
     M.n = n;
 }(M || (M = {}));
-var objA = new A();
-void 0 === BOOLEAN || _type_of(BOOLEAN), _type_of(!0), _type_of({
+var objA = new A(), ResultIsString1 = void 0 === BOOLEAN ? "undefined" : _type_of(BOOLEAN), ResultIsString2 = _type_of(!0), ResultIsString3 = _type_of({
     x: !0,
     y: !1
-}), _type_of(objA.a), _type_of(M.n), _type_of(foo()), _type_of(A.foo()), _type_of(void 0 === BOOLEAN ? "undefined" : _type_of(BOOLEAN)), _type_of(!0), void 0 === BOOLEAN || _type_of(BOOLEAN), _type_of(foo()), _type_of(!0), _type_of(objA.a), _type_of(M.n);
+}), ResultIsString4 = _type_of(objA.a), ResultIsString5 = _type_of(M.n), ResultIsString6 = _type_of(foo()), ResultIsString7 = _type_of(A.foo()), ResultIsString8 = _type_of(void 0 === BOOLEAN ? "undefined" : _type_of(BOOLEAN));
+_type_of(!0), void 0 === BOOLEAN || _type_of(BOOLEAN), _type_of(foo()), _type_of(!0), _type_of(objA.a), _type_of(M.n);
 z: void 0 === BOOLEAN || _type_of(BOOLEAN);
 r: _type_of(foo);
-z: _type_of(!0);
+var y = {
+    a: !0,
+    b: !1
+};
+z: _type_of(y.a);
 z: _type_of(objA.a);
 z: _type_of(A.foo);
 z: _type_of(M.n);

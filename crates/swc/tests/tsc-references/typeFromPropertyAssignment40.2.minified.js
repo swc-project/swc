@@ -1,2 +1,7 @@
 //// [typeFromPropertyAssignment40.js]
-(void 0).y;
+var ok;
+function Outer() {
+    var self = this;
+    self.y = 2;
+}
+ok.y;

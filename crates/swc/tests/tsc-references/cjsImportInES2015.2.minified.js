@@ -7,4 +7,5 @@
 //!    : ^^^^^^^^^^^^^^^^^^^^^^
 //!    `----
 //// [/project/index.ts]
+function handleError(err) {}
 export { };

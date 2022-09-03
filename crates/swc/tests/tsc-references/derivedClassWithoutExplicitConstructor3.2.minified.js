@@ -23,18 +23,10 @@ var Base = function Base(x) {
         return _class_call_check(this, Derived2), _this = _super.apply(this, arguments), _this.x = 1, _this.y = "hello", _this;
     }
     return Derived2;
-}(Derived);
-new Derived(), new Derived2(1), new Derived("", "");
-var D2 = function(D) {
+}(Derived), r = new Derived(), r2 = new Derived2(1), r3 = new Derived("", ""), Base2 = function Base2(x) {
     "use strict";
-    _inherits(D2, D);
-    var _super = _create_super(D2);
-    function D2() {
-        var _this;
-        return _class_call_check(this, D2), _this = _super.apply(this, arguments), _this.x = 2, _this.y = null, _this;
-    }
-    return D2;
-}(function(Base) {
+    _class_call_check(this, Base2), this.a = x;
+}, D = function(Base) {
     "use strict";
     _inherits(D, Base);
     var _super = _create_super(D);
@@ -43,5 +35,13 @@ var D2 = function(D) {
         return _class_call_check(this, D), (_this = _super.call(this, 2)).b = null, _this.b = y, _this;
     }
     return D;
-}(Base));
-new D2(), new D2(new Date()), new D2(new Date(), new Date());
+}(Base), D2 = function(D) {
+    "use strict";
+    _inherits(D2, D);
+    var _super = _create_super(D2);
+    function D2() {
+        var _this;
+        return _class_call_check(this, D2), _this = _super.apply(this, arguments), _this.x = 2, _this.y = null, _this;
+    }
+    return D2;
+}(D), d = new D2(), d2 = new D2(new Date()), d3 = new D2(new Date(), new Date());

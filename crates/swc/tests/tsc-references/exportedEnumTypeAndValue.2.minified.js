@@ -1,9 +1,10 @@
 //// [exportedEnumTypeAndValue.ts]
 //// [def.js]
-export default {
+var MyEnum = {
     a: 1,
     b: 2
 };
+export default MyEnum;
 //// [use.js]
 import MyEnum from "./def";
-MyEnum.b;
+var v = MyEnum.b;

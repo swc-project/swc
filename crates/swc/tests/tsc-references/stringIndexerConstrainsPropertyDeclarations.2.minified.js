@@ -1,7 +1,7 @@
 //// [stringIndexerConstrainsPropertyDeclarations.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
-!function() {
+var a, C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -14,7 +14,7 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
             get: function() {
                 return "";
             },
-            set: function(v) {}
+            set: function(v1) {}
         }
     ], [
         {
@@ -24,4 +24,22 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
             }
         }
     ]), C;
-}();
+}(), b = {
+    a: "",
+    b: 1,
+    c: function() {},
+    d: "",
+    e: 1,
+    1.0: "",
+    2.0: 1,
+    "3.0": "",
+    "4.0": 1,
+    f: null,
+    get X () {
+        return "";
+    },
+    set X (v){},
+    foo: function() {
+        return "";
+    }
+};

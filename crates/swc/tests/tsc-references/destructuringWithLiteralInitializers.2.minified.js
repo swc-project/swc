@@ -1,5 +1,8 @@
 //// [destructuringWithLiteralInitializers.ts]
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+function f1(param) {
+    param.x, param.y;
+}
 function f2(param) {
     param.x, param.y;
 }
@@ -29,6 +32,14 @@ function f7() {
     }, _a = ref.a;
     _a.x, _a.y;
 }
+function g1(param) {
+    var _param = _sliced_to_array(param, 2);
+    _param[0], _param[1];
+}
+function g2(param) {
+    var _param = _sliced_to_array(param, 2);
+    _param[0], _param[1];
+}
 function g3() {
     var ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0,
@@ -46,9 +57,7 @@ function g5() {
     var ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
     ref[0], ref[1];
 }
-!function(param) {
-    param.x, param.y;
-}({
+f1({
     x: 1,
     y: 1
 }), f2({
@@ -93,16 +102,10 @@ function g5() {
         x: 1,
         y: 1
     }
-}), function(param) {
-    var _param = _sliced_to_array(param, 2);
-    _param[0], _param[1];
-}([
+}), g1([
     1,
     1
-]), function(param) {
-    var _param = _sliced_to_array(param, 2);
-    _param[0], _param[1];
-}([
+]), g2([
     1,
     1
 ]), g3(), g3([

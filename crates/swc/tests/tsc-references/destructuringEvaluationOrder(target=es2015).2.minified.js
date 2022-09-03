@@ -4,11 +4,9 @@ import _object_without_properties from "@swc/helpers/src/_object_without_propert
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 let trace = [], order = (n)=>trace.push(n), [{ [order(1)]: x  } = order(0)] = [], [{ [order(1)]: y  } = order(0)] = [
     {}
-], _ref = {}, key = order(0), key1 = order(2), { [key]: { [key1]: z  } = order(1)  } = _ref;
-_object_without_properties(_ref, [
+], _ref = {}, key = order(0), key1 = order(2), { [key]: { [key1]: z  } = order(1)  } = _ref, w = _object_without_properties(_ref, [
     key
-].map(_to_property_key));
-let _ref1 = [
+].map(_to_property_key)), _ref1 = [
     {
         x: 1
     }

@@ -1,3 +1,29 @@
 //// [classConstructorParametersAccessibility2.ts]
-var c2;
-(void 0).x, c2.p, (void 0).p;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
+var c1, c2, c3, C1 = function C1(x) {
+    "use strict";
+    _class_call_check(this, C1), this.x = x;
+};
+c1.x;
+var C2 = function C2(p) {
+    "use strict";
+    _class_call_check(this, C2), this.p = p;
+};
+c2.p;
+var C3 = function C3(p) {
+    "use strict";
+    _class_call_check(this, C3), this.p = p;
+};
+c3.p;
+var Derived = function(C3) {
+    "use strict";
+    _inherits(Derived, C3);
+    var _super = _create_super(Derived);
+    function Derived(p) {
+        var _this;
+        return _class_call_check(this, Derived), (_this = _super.call(this, p)).p, _this;
+    }
+    return Derived;
+}(C3);

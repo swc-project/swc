@@ -1,2 +1,7 @@
 //// [parserComputedPropertyName25.ts]
-e;
+let _e = e;
+class C {
+    constructor(){
+        this[_e] = 0[e2] = 1;
+    }
+}

@@ -7,4 +7,9 @@ var A = function A() {
 export { A as default };
 //// [/b.ts]
 new A();
+var a = {
+    a: ""
+}, b = {
+    A: A
+};
 export { };

@@ -21,4 +21,7 @@ class NumberIterator {
         return this;
     }
 }
-new NumberIterator, new SymbolIterator;
+var array = [
+    ...new NumberIterator,
+    ...new SymbolIterator
+];

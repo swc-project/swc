@@ -2,4 +2,4 @@
 export var x = function() {
     return 1;
 };
-x("a", "b");
+var res = x("a", "b");

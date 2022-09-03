@@ -1,5 +1,6 @@
 //// [iterableArrayPattern16.ts]
-!function(...[a, b]) {}(...new FooIteratorIterator);
+function fun(...[a, b]) {}
+fun(...new FooIteratorIterator);
 class Bar {
 }
 class Foo extends Bar {

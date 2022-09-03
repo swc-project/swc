@@ -1,6 +1,6 @@
 //// [webpackLibNormalModule.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var C = function() {
     "use strict";
     function C(x) {
         _class_call_check(this, C), this.x = x, this.exports = [
@@ -11,3 +11,12 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         return this.x + y;
     }, C;
 }();
+function exec() {
+    return new C(12).exports;
+}
+function tricky() {
+    var module = new C(12);
+    return function() {
+        return module.exports;
+    };
+}

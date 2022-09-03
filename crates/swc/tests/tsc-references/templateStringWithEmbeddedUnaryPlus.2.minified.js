@@ -1,2 +1,2 @@
 //// [templateStringWithEmbeddedUnaryPlus.ts]
-"abc".concat(Infinity, "def");
+var x = "abc".concat(Infinity, "def");

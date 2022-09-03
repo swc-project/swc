@@ -6,7 +6,20 @@ import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-new (function(SomeBaseClass) {
+var SomeBaseClass = function() {
+    "use strict";
+    function SomeBaseClass() {
+        _class_call_check(this, SomeBaseClass);
+    }
+    var _proto = SomeBaseClass.prototype;
+    return _proto.func = function() {
+        return "";
+    }, _proto.returnThis = function() {
+        return this;
+    }, SomeBaseClass.func = function() {
+        return 3;
+    }, SomeBaseClass;
+}(), SomeDerivedClass = function(SomeBaseClass) {
     "use strict";
     _inherits(SomeDerivedClass, SomeBaseClass);
     var _super = _create_super(SomeDerivedClass);
@@ -43,17 +56,5 @@ new (function(SomeBaseClass) {
             }
         }
     ]), SomeDerivedClass;
-}(function() {
-    "use strict";
-    function SomeBaseClass() {
-        _class_call_check(this, SomeBaseClass);
-    }
-    var _proto = SomeBaseClass.prototype;
-    return _proto.func = function() {
-        return "";
-    }, _proto.returnThis = function() {
-        return this;
-    }, SomeBaseClass.func = function() {
-        return 3;
-    }, SomeBaseClass;
-}()))().returnThis().fn();
+}(SomeBaseClass), instance = new SomeDerivedClass();
+instance.returnThis().fn();

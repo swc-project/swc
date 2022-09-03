@@ -1,22 +1,21 @@
 //// [module.js]
-module.exports = {
-    taskGroups: {
-        parseHTML: {
-            id: "parseHTML",
-            label: "Parse HTML & CSS"
-        },
-        styleLayout: {
-            id: "styleLayout",
-            label: "Style & Layout"
-        }
+var taskGroups = {
+    parseHTML: {
+        id: "parseHTML",
+        label: "Parse HTML & CSS"
     },
-    taskNameToGroup: {}
+    styleLayout: {
+        id: "styleLayout",
+        label: "Style & Layout"
+    }
+}, taskNameToGroup = {};
+module.exports = {
+    taskGroups: taskGroups,
+    taskNameToGroup: taskNameToGroup
 };
 //// [index.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var ref = require("./module.js");
-ref.taskGroups, ref.taskNameToGroup;
-var MainThreadTasks = function MainThreadTasks(x, y) {
+var ref = require("./module.js"), taskGroups = ref.taskGroups, taskNameToGroup = ref.taskNameToGroup, MainThreadTasks = function MainThreadTasks(x, y) {
     "use strict";
     _class_call_check(this, MainThreadTasks);
 };

@@ -1,4 +1,4 @@
 //// [templateStringWithEmbeddedArrowFunction.ts]
-"abc".concat(function(x) {
+var x = "abc".concat(function(x) {
     return x;
 }, "def");

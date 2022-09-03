@@ -10,7 +10,7 @@ Object.defineProperty(exports, "__esModule", {
         return _default;
     }
 });
-var _default = {
+var R, _default = R = {
     ___: 30,
     ___hello: 21,
     _hi: 40
@@ -20,5 +20,4 @@ var _default = {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _m1 = (0, require("@swc/helpers/lib/_interop_require_default.js").default)(require("./m1"));
-_m1.default.___, _m1.default.___hello, _m1.default._hi;
+var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default, _m1 = _interopRequireDefault(require("./m1")), ___ = _m1.default.___, ___hello = _m1.default.___hello, _hi = _m1.default._hi;

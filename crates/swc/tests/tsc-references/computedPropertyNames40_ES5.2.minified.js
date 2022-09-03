@@ -6,8 +6,7 @@ var Foo = function Foo() {
 }, Foo2 = function Foo2() {
     "use strict";
     _class_call_check(this, Foo2);
-};
-!function() {
+}, C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);

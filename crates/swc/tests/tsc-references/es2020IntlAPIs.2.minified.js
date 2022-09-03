@@ -1,5 +1,5 @@
 //// [es2020IntlAPIs.ts]
-const date = new Date("2012-05-24");
+const count = 26254.39, date = new Date("2012-05-24");
 function log(locale) {
     console.log(`${new Intl.DateTimeFormat(locale).format(date)} ${new Intl.NumberFormat(locale).format(26254.39)}`);
 }
@@ -21,13 +21,15 @@ const regionNamesInEnglish = new Intl.DisplayNames([
 ], {
     type: 'region'
 });
-console.log(regionNamesInEnglish.of('US')), console.log(regionNamesInTraditionalChinese.of('US')), console.log(Intl.DisplayNames.supportedLocalesOf([
+console.log(regionNamesInEnglish.of('US')), console.log(regionNamesInTraditionalChinese.of('US'));
+const locales1 = [
     'ban',
     'id-u-co-pinyin',
     'de-ID'
-], {
+], options1 = {
     localeMatcher: 'lookup'
-}).join(', ')), new Intl.Locale(), new Intl.Locale(new Intl.Locale('en-US')), new Intl.DisplayNames(), new Intl.DisplayNames('en'), new Intl.DisplayNames('en', {}), console.log(new Intl.DisplayNames(void 0, {
+};
+console.log(Intl.DisplayNames.supportedLocalesOf(locales1, options1).join(', ')), new Intl.Locale(), new Intl.Locale(new Intl.Locale('en-US')), new Intl.DisplayNames(), new Intl.DisplayNames('en'), new Intl.DisplayNames('en', {}), console.log(new Intl.DisplayNames(void 0, {
     type: 'language'
 }).of('en-GB'));
 const localesArg = [

@@ -1,1 +1,21 @@
 //// [classWithOnlyPublicMembersEquivalentToInterface.ts]
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
+var c, i, C = function() {
+    "use strict";
+    function C() {
+        _class_call_check(this, C);
+    }
+    return C.prototype.y = function(a) {
+        return null;
+    }, _create_class(C, [
+        {
+            key: "z",
+            get: function() {
+                return 1;
+            },
+            set: function(v) {}
+        }
+    ]), C;
+}();
+i = c = i;

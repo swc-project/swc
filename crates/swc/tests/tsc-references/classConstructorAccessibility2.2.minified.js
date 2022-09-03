@@ -76,5 +76,4 @@ var BaseA = function() {
     }, DerivedC.staticBaseInstance = function() {
         new BaseC(11);
     }, DerivedC;
-}(BaseC);
-new BaseA(1), new BaseB(1), new BaseC(1), new DerivedA(1), new DerivedB(1), new DerivedC(1);
+}(BaseC), ba = new BaseA(1), bb = new BaseB(1), bc = new BaseC(1), da = new DerivedA(1), db = new DerivedB(1), dc = new DerivedC(1);

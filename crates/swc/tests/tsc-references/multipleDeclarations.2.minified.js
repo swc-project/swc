@@ -1,8 +1,9 @@
 //// [input.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-(function() {
+function C() {
     this.m = null;
-}).prototype.m = function() {
+}
+C.prototype.m = function() {
     this.nothing();
 };
 var X = function() {

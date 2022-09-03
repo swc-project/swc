@@ -1,2 +1,2 @@
 //// [parserExportAsFunctionIdentifier.ts]
-(void 0).export();
+var f, x = f.export();

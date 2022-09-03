@@ -1,6 +1,12 @@
 //// [genericClassWithObjectTypeArgsAndConstraints.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var Class, Interface, X = function X() {
+var Class, Interface, C = function C() {
+    "use strict";
+    _class_call_check(this, C);
+}, D = function D() {
+    "use strict";
+    _class_call_check(this, D);
+}, X = function X() {
     "use strict";
     _class_call_check(this, X);
 };

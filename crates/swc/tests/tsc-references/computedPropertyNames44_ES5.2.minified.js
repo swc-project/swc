@@ -6,21 +6,10 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
-};
-!function(C) {
+}, Foo2 = function Foo2() {
     "use strict";
-    _inherits(D, C);
-    var _super = _create_super(D);
-    function D() {
-        return _class_call_check(this, D), _super.apply(this, arguments);
-    }
-    return _create_class(D, [
-        {
-            key: "set1",
-            set: function(p) {}
-        }
-    ]), D;
-}(function() {
+    _class_call_check(this, Foo2);
+}, C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -33,4 +22,17 @@ var Foo = function Foo() {
             }
         }
     ]), C;
-}());
+}(), D = function(C) {
+    "use strict";
+    _inherits(D, C);
+    var _super = _create_super(D);
+    function D() {
+        return _class_call_check(this, D), _super.apply(this, arguments);
+    }
+    return _create_class(D, [
+        {
+            key: "set1",
+            set: function(p) {}
+        }
+    ]), D;
+}(C);

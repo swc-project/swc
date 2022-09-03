@@ -5,6 +5,9 @@ import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function f(x, y) {
     for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
 }
+function f2() {
+    for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
+}
 var a, b, c, d, e, g, h, i, B = function B(x, y) {
     "use strict";
     for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
@@ -18,9 +21,7 @@ new f(1, 2, "string"), _construct(f, [
     2
 ].concat(_to_consumable_array(a), [
     "string"
-])), _construct(function() {
-    for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
-}, _to_consumable_array(a).concat(_to_consumable_array(a))), _construct(f, [
+])), _construct(f2, _to_consumable_array(a).concat(_to_consumable_array(a))), _construct(f, [
     1,
     2
 ].concat(_to_consumable_array(a), _to_consumable_array(a))), new f(1, 2, "string")(), _construct(f, [

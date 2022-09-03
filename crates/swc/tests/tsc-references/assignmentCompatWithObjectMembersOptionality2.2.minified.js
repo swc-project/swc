@@ -5,16 +5,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var TargetHasOptional, SourceHasOptional, Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
-};
-!function(Derived) {
-    "use strict";
-    _inherits(Derived2, Derived);
-    var _super = _create_super(Derived2);
-    function Derived2() {
-        return _class_call_check(this, Derived2), _super.apply(this, arguments);
-    }
-    return Derived2;
-}(function(Base) {
+}, Derived = function(Base) {
     "use strict";
     _inherits(Derived, Base);
     var _super = _create_super(Derived);
@@ -22,7 +13,16 @@ var TargetHasOptional, SourceHasOptional, Base = function Base() {
         return _class_call_check(this, Derived), _super.apply(this, arguments);
     }
     return Derived;
-}(Base)), TargetHasOptional || (TargetHasOptional = {}), new Base(), function(SourceHasOptional) {
+}(Base), Derived2 = function(Derived) {
+    "use strict";
+    _inherits(Derived2, Derived);
+    var _super = _create_super(Derived2);
+    function Derived2() {
+        return _class_call_check(this, Derived2), _super.apply(this, arguments);
+    }
+    return Derived2;
+}(Derived);
+TargetHasOptional || (TargetHasOptional = {}), new Base(), function(SourceHasOptional) {
     var c, a, d, e, f;
     new Base(), c = d, c = e, c = f, c = a, a = d, a = e, a = f, a = c;
 }(SourceHasOptional || (SourceHasOptional = {}));

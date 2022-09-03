@@ -2,14 +2,15 @@
 "use strict";
 //// [0.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     B: ()=>B,
     foo: ()=>foo
 });
@@ -41,6 +42,18 @@ Object.defineProperty(exports, "__esModule", {
     get: ()=>D
 });
 const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+class C {
+    myModule = Promise.resolve().then(()=>_interopRequireWildcard(require("./0")));
+    method() {
+        Promise.resolve().then(()=>_interopRequireWildcard(require("./0"))), this.myModule.then((Zero)=>{
+            console.log(Zero.foo());
+        }, async (err)=>{
+            console.log(err);
+            let one = await Promise.resolve().then(()=>_interopRequireWildcard(require("./1")));
+            console.log(one.backup());
+        });
+    }
+}
 class D {
     myModule = Promise.resolve().then(()=>_interopRequireWildcard(require("./0")));
     method() {

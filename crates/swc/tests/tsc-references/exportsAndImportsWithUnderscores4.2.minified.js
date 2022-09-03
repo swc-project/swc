@@ -2,6 +2,12 @@
 "use strict";
 //// [m1.ts]
 "use strict";
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+}
 function _() {
     console.log("_");
 }
@@ -25,12 +31,7 @@ function ___hello() {
 }
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
+}), _export(exports, {
     _: function() {
         return _;
     },

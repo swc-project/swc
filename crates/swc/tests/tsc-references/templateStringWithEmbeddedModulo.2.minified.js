@@ -1,2 +1,2 @@
 //// [templateStringWithEmbeddedModulo.ts]
-"abc".concat(0, "def");
+var x = "abc".concat(0, "def");

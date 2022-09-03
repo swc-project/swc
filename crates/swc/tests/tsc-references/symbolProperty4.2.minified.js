@@ -1,2 +1,8 @@
 //// [symbolProperty4.ts]
-Symbol(), Symbol(), Symbol();
+var x = {
+    [Symbol()]: 0,
+    [Symbol()] () {},
+    get [Symbol()] () {
+        return 0;
+    }
+};

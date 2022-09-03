@@ -1,4 +1,4 @@
 //// [nonPrimitiveAccessProperty.ts]
-var a;
 import _extends from "@swc/helpers/src/_extends.mjs";
-a.toString(), a.nonExist(), a.destructuring, _extends({}, a);
+a.toString(), a.nonExist();
+var a, destructuring = a.destructuring, rest = _extends({}, a);

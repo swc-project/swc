@@ -1,5 +1,5 @@
 //// [inferringClassMembersFromAssignments8.ts]
-new function() {
+var app = function() {
     var _this = this;
     _this.swap = function() {};
-}();
+}, a = new app();

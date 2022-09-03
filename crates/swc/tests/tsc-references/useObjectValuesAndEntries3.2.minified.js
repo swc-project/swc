@@ -4,4 +4,4 @@ var o = {
     b: 2
 };
 for (var x of Object.values(o));
-Object.entries(o);
+var entries = Object.entries(o);

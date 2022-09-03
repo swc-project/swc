@@ -41,7 +41,7 @@ Object.defineProperty(module.exports, "thing", {
     }
 });
 //// [index.js]
-require("./mod1").thing, require("./mod2").thing;
+var q = require("./mod1").thing, u = require("./mod2").thing;
 //// [validator.ts]
 //! 
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.

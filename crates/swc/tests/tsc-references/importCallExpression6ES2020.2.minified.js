@@ -13,4 +13,4 @@ export function backup() {
 }
 //// [2.ts]
 const specify = bar() ? "./0" : void 0;
-import(specify), import(void 0), import(bar() ? "./1" : null), import(null);
+let myModule = import(specify), myModule1 = import(void 0), myModule2 = import(bar() ? "./1" : null), myModule3 = import(null);

@@ -1,4 +1,11 @@
 //// [genericCallWithFunctionTypedArguments4.ts]
-var a, b;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+var a, b, C = function C() {
+    "use strict";
+    _class_call_check(this, C);
+}, D = function D() {
+    "use strict";
+    _class_call_check(this, D);
+};
 function foo4(cb) {}
-foo4(a), foo4(b);
+var r = foo4(a), r2 = foo4(b);

@@ -1,4 +1,5 @@
 //// [index.js]
+var x = 12;
 module.exports = {
     extends: "base",
     more: {
@@ -6,5 +7,5 @@ module.exports = {
             "strs"
         ]
     },
-    x: 12
+    x: x
 };

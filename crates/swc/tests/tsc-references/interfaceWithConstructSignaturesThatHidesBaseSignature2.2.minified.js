@@ -1,2 +1,2 @@
 //// [interfaceWithConstructSignaturesThatHidesBaseSignature2.ts]
-new (void 0)();
+var d, r = new d();

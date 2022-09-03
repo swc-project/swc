@@ -5,4 +5,8 @@ export var Crunch = function Crunch() {
     _class_call_check(this, Crunch);
 };
 //// [use.js]
-new (require("./ex")).Crunch(1).n;
+var ex = require("./ex"), crunch = new ex.Crunch(1);
+function f(greatest, wrap) {
+    greatest.day, wrap.n;
+}
+crunch.n;

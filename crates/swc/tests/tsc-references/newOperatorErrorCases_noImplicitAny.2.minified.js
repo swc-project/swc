@@ -1,4 +1,7 @@
 //// [newOperatorErrorCases_noImplicitAny.ts]
-new function() {
+function fnNumber() {
     return 90;
-}();
+}
+function fnVoid() {}
+function functionVoidNoThis() {}
+new fnNumber(), new fnVoid(), new functionVoidNoThis();

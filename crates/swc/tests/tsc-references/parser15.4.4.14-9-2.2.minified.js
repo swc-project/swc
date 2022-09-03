@@ -1,5 +1,5 @@
 //// [parser15.4.4.14-9-2.ts]
-runTestCase(function() {
+function testcase() {
     var a = [
         !1,
         void 0,
@@ -23,4 +23,5 @@ runTestCase(function() {
         -4 / 3
     ];
     if (14 === a.indexOf(-4 / 3) && 7 === a.indexOf(0) && 7 === a.indexOf(-0) && 10 === a.indexOf(1)) return !0;
-});
+}
+runTestCase(testcase);

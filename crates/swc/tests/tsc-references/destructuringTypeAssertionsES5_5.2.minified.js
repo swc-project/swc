@@ -1,2 +1,2 @@
 //// [destructuringTypeAssertionsES5_5.ts]
-0..x;
+var x = 0..x;

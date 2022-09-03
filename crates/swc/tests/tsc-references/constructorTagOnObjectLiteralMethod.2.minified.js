@@ -1,6 +1,7 @@
 //// [example.js]
-new ({
+var obj = {
     Foo: function() {
         this.bar = "bar";
     }
-}).Foo().bar;
+};
+new obj.Foo().bar;

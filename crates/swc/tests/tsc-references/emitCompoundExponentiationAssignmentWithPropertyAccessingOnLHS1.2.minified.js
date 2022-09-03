@@ -7,13 +7,8 @@ function foo() {
 }
 var ref = foo().prop;
 foo().prop = Math.pow(ref, 2);
-var ref1 = foo().prop;
-foo().prop = Math.pow(ref1, 2);
-var ref2 = foo().prop, ref3 = foo().prop;
+var ref1 = foo().prop, result0 = foo().prop = Math.pow(ref1, 2), ref2 = foo().prop, ref3 = foo().prop;
 foo().prop = Math.pow(ref3, foo().prop = Math.pow(ref2, 2));
-var ref4 = foo().prop, ref5 = foo().prop;
-foo().prop = Math.pow(ref5, foo().prop = Math.pow(ref4, 2));
-var ref6 = foo().prop;
+var ref4 = foo().prop, ref5 = foo().prop, result1 = foo().prop = Math.pow(ref5, foo().prop = Math.pow(ref4, 2)), ref6 = foo().prop;
 foo().prop = Math.pow(ref6, Math.pow(foo().prop, 2));
-var ref7 = foo().prop;
-foo().prop = Math.pow(ref7, Math.pow(foo().prop, 2));
+var ref7 = foo().prop, result2 = foo().prop = Math.pow(ref7, Math.pow(foo().prop, 2));

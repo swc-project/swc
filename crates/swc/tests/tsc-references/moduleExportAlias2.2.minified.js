@@ -1,10 +1,10 @@
 //// [node.d.ts]
 //// [semver.js]
-(exports = module.exports = function() {
+function C() {
     this.p = 1;
-}).f = function(n) {
+}
+(exports = module.exports = C).f = function(n) {
     return n + 1;
 };
 //// [index.js]
-var C = require("./semver");
-C.f(1), new C;
+var C = require("./semver"), two = C.f(1), c = new C;

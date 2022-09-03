@@ -1,2 +1,2 @@
 //// [parser630933.ts]
-"Hello".match(/\/ver=([^/]+)/);
+var a = "Hello", b = a.match(/\/ver=([^/]+)/);

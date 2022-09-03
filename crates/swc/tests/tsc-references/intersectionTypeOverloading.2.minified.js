@@ -1,3 +1,2 @@
 //// [intersectionTypeOverloading.ts]
-var gf;
-(void 0)("abc"), gf("abc");
+var fg, gf, x, y, x = fg("abc"), y = gf("abc");

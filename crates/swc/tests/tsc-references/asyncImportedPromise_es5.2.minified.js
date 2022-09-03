@@ -22,8 +22,7 @@ var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, 
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default, _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
-!function() {
+var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default, _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default, Test = function() {
     "use strict";
     function Test() {
         _classCallCheck(this, Test);

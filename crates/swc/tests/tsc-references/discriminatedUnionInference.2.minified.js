@@ -1,8 +1,8 @@
 //// [discriminatedUnionInference.ts]
-foo({
+var x1 = foo({
     kind: "a",
     data: 42
-}), foo({
+}), x2 = foo({
     kind: "b",
     data: [
         1,

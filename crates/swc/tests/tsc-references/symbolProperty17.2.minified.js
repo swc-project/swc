@@ -1,2 +1,2 @@
 //// [symbolProperty17.ts]
-(void 0)[Symbol.iterator];
+var i, it = i[Symbol.iterator];

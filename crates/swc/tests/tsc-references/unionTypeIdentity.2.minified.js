@@ -1,1 +1,2 @@
 //// [unionTypeIdentity.ts]
+var strOrNum;

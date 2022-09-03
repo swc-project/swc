@@ -21,7 +21,8 @@ function _templateObject1() {
 function foo1() {
     for(var _len = arguments.length, stuff = Array(_len), _key = 0; _key < _len; _key++)stuff[_key] = arguments[_key];
 }
+var a = foo1(_templateObject(), 1), b = foo1([], 1);
 function foo2() {
     for(var _len = arguments.length, stuff = Array(_len), _key = 0; _key < _len; _key++)stuff[_key] = arguments[_key];
 }
-foo1(_templateObject(), 1), foo1([], 1), foo2(_templateObject1(), 1), foo2([], 1);
+var c = foo2(_templateObject1(), 1), d = foo2([], 1);

@@ -12,3 +12,8 @@ export var Foo = function() {
         this.foo;
     }, Foo;
 }();
+function C() {
+    this.x = 0, this.x = function() {
+        this.x.toString();
+    };
+}

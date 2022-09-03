@@ -1,4 +1,6 @@
 //// [moduleExportAliasDuplicateAlias.js]
-exports.apply = void 0, exports.apply(), exports.apply = function() {}, exports.apply();
+function a() {}
+exports.apply = void 0, exports.apply(), exports.apply = a, exports.apply();
 //// [test.js]
-(0, require("./moduleExportAliasDuplicateAlias").apply)();
+var apply = require("./moduleExportAliasDuplicateAlias").apply;
+apply();

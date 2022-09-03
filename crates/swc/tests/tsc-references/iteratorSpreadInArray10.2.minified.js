@@ -4,4 +4,6 @@ class SymbolIterator {
         return this;
     }
 }
-new SymbolIterator;
+var array = [
+    ...new SymbolIterator
+];

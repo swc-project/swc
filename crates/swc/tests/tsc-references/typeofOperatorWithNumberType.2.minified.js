@@ -1,7 +1,7 @@
 //// [typeofOperatorWithNumberType.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _type_of from "@swc/helpers/src/_type_of.mjs";
-var NUMBER, M, NUMBER1 = [
+var NUMBER, M, z, x, NUMBER1 = [
     1,
     2
 ];
@@ -21,20 +21,24 @@ var A = function() {
     var n;
     M.n = n;
 }(M || (M = {}));
-var objA = new A();
-void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(1), _type_of({
+var objA = new A(), ResultIsString1 = void 0 === NUMBER ? "undefined" : _type_of(NUMBER), ResultIsString2 = void 0 === NUMBER1 ? "undefined" : _type_of(NUMBER1), ResultIsString3 = _type_of(1), ResultIsString4 = _type_of({
     x: 1,
     y: 2
-}), _type_of({
+}), ResultIsString5 = _type_of({
     x: 1,
     y: function(n) {
         return n;
     }
-}), _type_of(objA.a), _type_of(M.n), _type_of(NUMBER1[0]), _type_of(foo()), _type_of(A.foo()), _type_of(NUMBER + NUMBER), _type_of(void 0 === NUMBER ? "undefined" : _type_of(NUMBER)), _type_of(_type_of(_type_of(NUMBER + NUMBER))), _type_of(1), void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(foo()), _type_of(objA.a), _type_of(M.n), _type_of(objA.a), M.n;
+}), ResultIsString6 = _type_of(objA.a), ResultIsString7 = _type_of(M.n), ResultIsString8 = _type_of(NUMBER1[0]), ResultIsString9 = _type_of(foo()), ResultIsString10 = _type_of(A.foo()), ResultIsString11 = _type_of(NUMBER + NUMBER), ResultIsString12 = _type_of(void 0 === NUMBER ? "undefined" : _type_of(NUMBER)), ResultIsString13 = _type_of(_type_of(_type_of(NUMBER + NUMBER)));
+_type_of(1), void 0 === NUMBER || _type_of(NUMBER), void 0 === NUMBER1 || _type_of(NUMBER1), _type_of(foo()), _type_of(objA.a), _type_of(M.n), _type_of(objA.a), M.n;
 z: void 0 === NUMBER || _type_of(NUMBER);
-x: _type_of(NUMBER1);
+x: void 0 === NUMBER1 || _type_of(NUMBER1);
 r: _type_of(foo);
-z: _type_of(1);
+var y = {
+    a: 1,
+    b: 2
+};
+z: _type_of(y.a);
 z: _type_of(objA.a);
 z: _type_of(A.foo);
 z: _type_of(M.n);

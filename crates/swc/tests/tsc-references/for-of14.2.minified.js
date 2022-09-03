@@ -1,7 +1,8 @@
 //// [for-of14.ts]
 var v;
-for (v of new class {
+class StringIterator {
     next() {
         return "";
     }
-});
+}
+for (v of new StringIterator);

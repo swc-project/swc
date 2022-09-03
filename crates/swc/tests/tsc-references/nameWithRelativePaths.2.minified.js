@@ -38,5 +38,5 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var foo0 = require("../foo_0"), foo1 = require("./test/foo_1");
-require("./.././test/foo_2").M2.x && (foo0.foo, foo1.f());
+var foo0 = require("../foo_0"), foo1 = require("./test/foo_1"), foo2 = require("./.././test/foo_2");
+if (foo2.M2.x) var x = foo0.foo + foo1.f();

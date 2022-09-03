@@ -1,2 +1,7 @@
 //// [superSymbolIndexedAccess4.ts]
-Symbol.for('myThing');
+var symbol = Symbol.for('myThing');
+class Bar {
+    [symbol]() {
+        return super[symbol]();
+    }
+}

@@ -1,11 +1,12 @@
 //// [spreadMethods.ts]
-let k = new class {
+class K {
     p = 12;
     m() {}
     get g() {
         return 0;
     }
-}(), sk = {
+}
+let k = new K(), sk = {
     ...k
 }, ssk = {
     ...k,

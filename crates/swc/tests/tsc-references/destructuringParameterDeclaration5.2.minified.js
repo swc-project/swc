@@ -13,7 +13,10 @@ var Class = function Class() {
         return _class_call_check(this, SubClass), _super.call(this);
     }
     return SubClass;
-}(Class), SubD = function(D) {
+}(Class), D = function D() {
+    "use strict";
+    _class_call_check(this, D);
+}, SubD = function(D) {
     "use strict";
     _inherits(SubD, D);
     var _super = _create_super(SubD);
@@ -21,29 +24,51 @@ var Class = function Class() {
         return _class_call_check(this, SubD), _super.call(this);
     }
     return SubD;
-}(function D() {
-    "use strict";
-    _class_call_check(this, D);
-});
+}(D);
 function d0() {
     (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: new Class()
     }).x;
 }
-new Class(), d0({
+function d1(param) {
+    param.x;
+}
+function d2(param) {
+    param.x;
+}
+function d3(param) {
+    param.y;
+}
+function d4() {
+    (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+        y: new D()
+    }).y;
+}
+var obj = new Class();
+d0({
     x: 1
 }), d0({
     x: {}
 }), d0({
     x: "string"
-}), ({
+}), d1({
     x: new Class()
-}).x, ({
+}), d1({
+    x: {}
+}), d1({
+    x: "string"
+}), d2({
     x: new SubClass()
-}).x, ({
+}), d2({
+    x: {}
+}), d3({
     y: new SubD()
-}).y, ({
+}), d3({
     y: new SubClass()
-}).y, ({
+}), d3({
     y: new Class()
-}).y, ({}).y;
+}), d3({}), d3({
+    y: 1
+}), d3({
+    y: "world"
+});

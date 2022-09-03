@@ -1,2 +1,2 @@
 //// [parserVariableDeclaration1.ts]
-a, b, c, d;
+var selection = a, position = b, model = c, support = d;

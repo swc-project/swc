@@ -9,7 +9,8 @@ var Bar;
 import { Foo } from './enum';
 !function(Bar) {
     Bar[Bar.A = 0] = "A", Bar[Bar.B = 1] = "B";
-}(Bar || (Bar = {})), Foo.A, Bar.A;
+}(Bar || (Bar = {}));
+let foo = Foo.A, bar = Bar.A;
 //// [ns.ts]
 var ns;
 !function(ns1) {

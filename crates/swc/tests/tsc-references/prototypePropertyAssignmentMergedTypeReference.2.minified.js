@@ -1,5 +1,7 @@
 //// [prototypePropertyAssignmentMergedTypeReference.ts]
 //// [prototypePropertyAssignmentMergedTypeReference.js]
-(function() {
+var f = function() {
     return 12;
-}).prototype.a = "a";
+};
+f.prototype.a = "a";
+var x = f;

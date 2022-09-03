@@ -17,5 +17,5 @@ var Foo;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var foo = require("./foo_0");
-foo.a(), foo.b && (foo.Test.answer = foo.c(42));
+var foo = require("./foo_0"), a = foo.a();
+foo.b && (foo.Test.answer = foo.c(42));

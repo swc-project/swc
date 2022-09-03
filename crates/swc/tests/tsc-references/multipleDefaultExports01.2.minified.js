@@ -37,4 +37,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), (0, (0, require("@swc/helpers/lib/_interop_require_default.js").default)(require("./m1")).default)();
+});
+var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default, _m1 = _interopRequireDefault(require("./m1"));
+(0, _m1.default)();

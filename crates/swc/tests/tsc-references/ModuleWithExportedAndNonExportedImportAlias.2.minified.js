@@ -1,5 +1,4 @@
 //// [ModuleWithExportedAndNonExportedImportAlias.ts]
-var B, Geometry;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(B) {
     var Line = function Line(start, end) {
@@ -17,4 +16,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         x: 1,
         y: 0
     });
-}(Geometry || (Geometry = {})), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;
+}(Geometry || (Geometry = {}));
+var B, Geometry, p, line, p = Geometry.Origin, line = Geometry.Unit, line = Geometry.Lines.Line;

@@ -31,27 +31,29 @@ a2.a, a2.b, a2 = {
 };
 var b2 = _object_spread_props(_object_spread({}, b1), {
     z: 55
-});
-_object_spread({}, b2);
-var d1 = {
+}), b3 = _object_spread({}, b2), c1 = opts, c2 = {}, c3 = {}, c4 = {
+    a: 0,
+    b: 0
+}, d1 = {
     kind: "a",
     pos: {
         x: 0,
         y: 0
     }
 };
-d1.kind, d1.pos, d1.pos.x, d1.pos.y, d1.pos.a, d1.pos.b, f({
+d1.kind, d1.pos, d1.pos.x, d1.pos.y, d1.pos.a, d1.pos.b;
+var e1 = f({
     a: 1,
     b: 2
 }, {
     a: "abc"
-}, {}), f({}, {
+}, {}), e2 = f({}, {
     a: "abc"
 }, {
     a: 1,
     b: 2
-}), f(data, {
+}), e3 = f(data, {
     a: 2
-}), f({
+}), e4 = f({
     a: 2
 }, data);

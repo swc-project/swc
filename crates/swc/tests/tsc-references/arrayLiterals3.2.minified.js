@@ -1,18 +1,23 @@
 //// [arrayLiterals3.ts]
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
-var ref = [
+var a0 = [], a1 = [
+    "string",
+    1,
+    !0
+], ref = [
     1,
     2,
     "string",
     !0
-];
-ref[0], ref[1];
-var temp1 = [
+], b1 = ref[0], b2 = ref[1], temp = [
+    "s",
+    "t",
+    "r"
+], temp1 = [
     1,
     2,
     3
-];
-_to_consumable_array([
+], temp2 = [
     [
         1,
         2,
@@ -22,8 +27,4 @@ _to_consumable_array([
         "hello",
         "string"
     ]
-]), _to_consumable_array(temp1), _to_consumable_array(temp1).concat(_to_consumable_array([
-    "s",
-    "t",
-    "r"
-]));
+], c0 = _to_consumable_array(temp2), c1 = _to_consumable_array(temp1), c2 = _to_consumable_array(temp1).concat(_to_consumable_array(temp));

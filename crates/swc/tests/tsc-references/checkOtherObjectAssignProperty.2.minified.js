@@ -1,11 +1,16 @@
 //// [mod1.js]
-Object.defineProperty(exports, "thing", {
+var obj = {
     value: 42,
     writable: !0
-}), Object.defineProperty(exports, "other", {
+};
+Object.defineProperty(exports, "thing", obj);
+var str = "other";
+Object.defineProperty(exports, str, {
     value: 42,
     writable: !0
-}), Object.defineProperty(exports, "prop", {
+});
+var propName = "prop";
+Object.defineProperty(exports, propName, {
     value: 42,
     writable: !0
 }), Object.defineProperty(exports, "bad1", {}), Object.defineProperty(exports, "bad2", {

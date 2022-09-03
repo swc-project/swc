@@ -9,14 +9,18 @@ export class C {
     constructor(){
         _class_private_method_init(this, _b), _class_private_field_init(this, _c, {
             get: void 0,
-            set: function(v) {
-                _class_private_field_set(this, _a, _class_private_field_get(this, _a) + v);
-            }
+            set: set_c
         }), _class_private_field_init(this, _a, {
             writable: !0,
             value: 1
         });
     }
+}
+function b() {
+    _class_private_field_set(this, _c, 42);
+}
+function set_c(v) {
+    _class_private_field_set(this, _a, _class_private_field_get(this, _a) + v);
 }
 //// [tslib.d.ts]
 export { };

@@ -9,4 +9,4 @@ function _templateObject() {
         return data;
     }, data;
 }
-new new new ((void 0)(_templateObject(), 0)).member("hello")(42);
+var f, x = (new new new (f(_templateObject(), 0)).member("hello")(42), !1);

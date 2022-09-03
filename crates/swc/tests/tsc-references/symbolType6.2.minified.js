@@ -1,2 +1,2 @@
 //// [symbolType6.ts]
-Symbol.for("add");
+var a, s = Symbol.for("add");

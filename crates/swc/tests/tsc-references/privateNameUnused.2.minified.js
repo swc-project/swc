@@ -18,24 +18,28 @@ export class A {
 var _used1 = new WeakSet(), _unused1 = new WeakSet();
 export class A2 {
     constructor(){
-        _class_private_method_init(this, _used1), _class_private_method_init(this, _unused1), console.log(_class_private_method_get(this, _used1, function() {}).call(this));
+        _class_private_method_init(this, _used1), _class_private_method_init(this, _unused1), console.log(_class_private_method_get(this, _used1, used).call(this));
     }
 }
+function used() {}
+function unused() {}
 var _used2 = new WeakMap(), _unused2 = new WeakMap();
 export class A3 {
     constructor(){
         _class_private_field_init(this, _used2, {
             get: get_used,
-            set: function(value) {}
+            set: set_used
         }), _class_private_field_init(this, _unused2, {
             get: get_unused,
-            set: function(value) {}
+            set: set_unused
         }), console.log(_class_private_field_get(this, _used2));
     }
 }
 function get_used() {
     return 0;
 }
+function set_used(value) {}
 function get_unused() {
     return 0;
 }
+function set_unused(value) {}

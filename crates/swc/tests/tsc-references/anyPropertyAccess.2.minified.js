@@ -1,3 +1,2 @@
 //// [anyPropertyAccess.ts]
-var x;
-x.foo, x.foo, x.fn(), x.bar.baz, x[0].foo, x["0"].bar;
+var x, a = x.foo, b = x.foo, c = x.fn(), d = x.bar.baz, e = x[0].foo, f = x["0"].bar;

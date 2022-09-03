@@ -1,2 +1,3 @@
 //// [mixedPropertyElementAccessAssignmentDeclaration.ts]
-[][0].prop[2] = {};
+var arr = [];
+arr[0].prop[2] = {};

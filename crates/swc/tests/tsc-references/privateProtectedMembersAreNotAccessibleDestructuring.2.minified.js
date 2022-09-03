@@ -13,8 +13,7 @@ var K = function() {
         var ref = new K();
         ref.priv, ref.prot;
     }, K;
-}();
-!function(K) {
+}(), C = function(K) {
     "use strict";
     _inherits(C, K);
     var _super = _create_super(C);
@@ -24,6 +23,7 @@ var K = function() {
     return C.prototype.m2 = function() {
         this.priv, this.prot;
     }, C;
-}(K);
-var k = new K();
-k.priv, k.prot, k.privateMethod, k.priv, k.prot, k.privateMethod;
+}(K), k = new K(), priv = k.priv, prot = k.prot, privateMethod = k.privateMethod, a = k.priv, b = k.prot, pm = k.privateMethod;
+function f(param) {
+    param.priv, param.prot, param.privateMethod;
+}

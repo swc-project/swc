@@ -1,4 +1,3 @@
 //// [instanceofOperatorWithAny.ts]
-var a;
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
-_instanceof(a, a);
+var a, r = _instanceof(a, a);

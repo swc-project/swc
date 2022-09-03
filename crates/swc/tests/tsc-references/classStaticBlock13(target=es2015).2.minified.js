@@ -8,5 +8,7 @@ class C {
 var _x = {
     writable: !0,
     value: 123
+}, __ = {
+    writable: !0,
+    value: void console.log(_class_static_private_field_spec_get(C, C, _x))
 };
-console.log(_class_static_private_field_spec_get(C, C, _x));

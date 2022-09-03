@@ -2,7 +2,10 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var explicitCFunction, explicitPropertyFunction, _this = this, C = function() {
+var explicitCFunction, explicitPropertyFunction, _this = this, B = function B() {
+    "use strict";
+    _class_call_check(this, B);
+}, C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -26,6 +29,12 @@ var explicitCFunction, explicitPropertyFunction, _this = this, C = function() {
     }
     return D;
 }(C);
+function explicitStructural(x) {
+    return x + this.y;
+}
+function justThis() {
+    return this.y;
+}
 function implicitThis(n) {
     return this.m + n + 12;
 }
@@ -61,17 +70,17 @@ impl.explicitVoid1 = function() {
     return 12;
 }, impl.explicitThis = function() {
     return this.a;
-}, ({
+};
+var ok = {
     y: 12,
-    f: function(x) {
-        return x + this.y;
-    }
-}).f(13), implicitThis(12), ({
+    f: explicitStructural
+}, implicitAnyOk = {
     notSpecified: 12,
     f: implicitThis
-}).f(12);
-var c = new C(), d = new D();
-c.explicitC, c.explicitC(12), c.explicitProperty(12), c.explicitThis(12), d.explicitC(12), d.explicitProperty(12), d.explicitThis(12);
+};
+ok.f(13), implicitThis(12), implicitAnyOk.f(12);
+var c = new C(), d = new D(), ripped = c.explicitC;
+c.explicitC(12), c.explicitProperty(12), c.explicitThis(12), d.explicitC(12), d.explicitProperty(12), d.explicitThis(12);
 var reconstructed = {
     n: 12,
     explicitThis: c.explicitThis,
@@ -79,7 +88,19 @@ var reconstructed = {
     explicitProperty: c.explicitProperty,
     explicitVoid: c.explicitVoid
 };
-reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstructed.explicitVoid)(12), c.explicitC = explicitCFunction, c.explicitC = function(m) {
+reconstructed.explicitThis(10), reconstructed.explicitProperty(11);
+var explicitVoid = reconstructed.explicitVoid;
+explicitVoid(12);
+var unboundToSpecified = function(x) {
+    return x + _this.y;
+}, specifiedToSpecified = explicitStructural, anyToSpecified = function(x) {
+    return x + 12;
+}, unspecifiedLambda = function(x) {
+    return x + 12;
+}, specifiedLambda = function(x) {
+    return x + 12;
+}, unspecifiedLambdaToSpecified = unspecifiedLambda, specifiedLambdaToSpecified = specifiedLambda;
+c.explicitC = explicitCFunction, c.explicitC = function(m) {
     return this.n + m;
 }, c.explicitProperty = explicitPropertyFunction, c.explicitProperty = function(m) {
     return this.n + m;
@@ -151,10 +172,17 @@ var Base1 = function() {
     }
     return Derived2;
 }(Base2), b1 = new Base1(), b2 = new Base2(), d1 = new Derived1(), d2 = new Derived2();
-d2.polymorphic = d1.polymorphic, d1.polymorphic = d2.polymorphic, d1.polymorphic = b2.polymorphic, d2.polymorphic = d1.explicit, b1.polymorphic = d2.polymorphic, b1.explicit = d2.polymorphic, new function() {
+function InterfaceThis() {
     this.a = 12;
-}(), new function() {
+}
+function LiteralTypeThis() {
     this.x = "ok";
-}(), new function() {
+}
+function AnyThis() {
     this.x = "ok";
-}(), f.call(12);
+}
+d2.polymorphic = d1.polymorphic, d1.polymorphic = d2.polymorphic, d1.polymorphic = b2.polymorphic, d2.polymorphic = d1.explicit, b1.polymorphic = d2.polymorphic, b1.explicit = d2.polymorphic;
+var interfaceThis = new InterfaceThis(), literalTypeThis = new LiteralTypeThis(), anyThis = new AnyThis(), n = f.call(12);
+function missingTypeIsImplicitAny(a) {
+    return this.anything + a;
+}

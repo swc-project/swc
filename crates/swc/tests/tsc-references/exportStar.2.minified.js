@@ -2,14 +2,15 @@
 "use strict";
 //// [t1.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     x: function() {
         return x;
     },
@@ -20,14 +21,15 @@ Object.defineProperty(exports, "__esModule", {
 var x = 1, y = 2;
 //// [t2.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     default: function() {
         return _default;
     },
@@ -39,14 +41,15 @@ var _default = "hello";
 function foo() {}
 //// [t3.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
+function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
     });
-}(exports, {
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), _export(exports, {
     x: function() {
         return x;
     },
@@ -70,5 +73,5 @@ _exportStar(require("./t1"), exports), _exportStar(require("./t2"), exports), _e
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _t4 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./t4"));
+var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _t4 = _interopRequireWildcard(require("./t4"));
 _t4.default, _t4.x, _t4.y, _t4.z, _t4.foo;

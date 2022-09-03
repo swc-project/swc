@@ -1,2 +1,2 @@
 //// [nullishCoalescingOperator4.ts]
-null != a1 || a1.toLowerCase(), a1 || a1.toLocaleUpperCase();
+var aa1 = null != a1 ? a1 : a1.toLowerCase(), aa2 = a1 || a1.toLocaleUpperCase();

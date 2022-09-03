@@ -1,7 +1,8 @@
 //// [for-of42.ts]
-for (var { x: a , y: b  } of [
+var array = [
     {
         x: "",
         y: 0
     }
-]);
+];
+for (var { x: a , y: b  } of array);

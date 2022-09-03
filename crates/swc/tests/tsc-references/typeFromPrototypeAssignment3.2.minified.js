@@ -6,4 +6,5 @@ Multimap3.prototype = {
     get: function(key) {
         return this._map[key + ""];
     }
-}, new Multimap3().get("hi");
+};
+var map = new Multimap3(), n = map.get("hi");

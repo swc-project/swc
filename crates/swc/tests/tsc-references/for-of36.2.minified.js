@@ -1,5 +1,6 @@
 //// [for-of36.ts]
-for (var v of [
+var tuple = [
     "",
     !0
-]);
+];
+for (var v of tuple);

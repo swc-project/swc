@@ -1,5 +1,5 @@
 //// [exponentiationOperatorWithInvalidOperands.ts]
-var E;
 !function(E) {
     E[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c";
-}(E || (E = {})), E.a, E.a, E.a, E.a, E.a, E.a, E.b, E.b, E.b, E.b, E.b, E.b;
+}(E || (E = {}));
+var E, a, b, c, d, e, f, r1a1 = Math.pow(a, a), r1a2 = Math.pow(a, b), r1a3 = Math.pow(a, c), r1a4 = Math.pow(a, d), r1a5 = Math.pow(a, e), r1a6 = Math.pow(a, f), r1b1 = Math.pow(b, a), r1b2 = Math.pow(b, b), r1b3 = Math.pow(b, c), r1b4 = Math.pow(b, d), r1b5 = Math.pow(b, e), r1b6 = Math.pow(b, f), r1c1 = Math.pow(c, a), r1c2 = Math.pow(c, b), r1c3 = Math.pow(c, c), r1c4 = Math.pow(c, d), r1c5 = Math.pow(c, e), r1c6 = Math.pow(c, f), r1d1 = Math.pow(d, a), r1d2 = Math.pow(d, b), r1d3 = Math.pow(d, c), r1d4 = Math.pow(d, d), r1d5 = Math.pow(d, e), r1d6 = Math.pow(d, f), r1e1 = Math.pow(e, a), r1e2 = Math.pow(e, b), r1e3 = Math.pow(e, c), r1e4 = Math.pow(e, d), r1e5 = Math.pow(e, e), r1e6 = Math.pow(e, f), r1f1 = Math.pow(f, a), r1f2 = Math.pow(f, b), r1f3 = Math.pow(f, c), r1f4 = Math.pow(f, d), r1f5 = Math.pow(f, e), r1f6 = Math.pow(f, f), r1g1 = Math.pow(E.a, a), r1g2 = Math.pow(E.a, b), r1g3 = Math.pow(E.a, c), r1g4 = Math.pow(E.a, d), r1g5 = Math.pow(E.a, e), r1g6 = Math.pow(E.a, f), r1h1 = Math.pow(a, E.b), r1h2 = Math.pow(b, E.b), r1h3 = Math.pow(c, E.b), r1h4 = Math.pow(d, E.b), r1h5 = Math.pow(e, E.b), r1h6 = Math.pow(f, E.b);

@@ -1,10 +1,12 @@
 //// [typeInferenceWithTupleType.ts]
-var combineResult = [
-    "string",
-    10
-];
-combineResult[0], combineResult[1];
-var zipResult = function(array1, array2) {
+function combine(x, y) {
+    return [
+        x,
+        y
+    ];
+}
+var expected, combineResult = combine("string", 10), combineEle1 = combineResult[0], combineEle2 = combineResult[1];
+function zip(array1, array2) {
     if (array1.length != array2.length) return [
         [
             void 0,
@@ -16,11 +18,12 @@ var zipResult = function(array1, array2) {
         array2[i]
     ]);
     return zipResult;
-}([
+}
+var zipResult = zip([
     "foo",
     "bar"
 ], [
     5,
     6
-]);
-zipResult[0], zipResult[0][0], f1(void 0), f2(void 0);
+]), zipResultEle = zipResult[0], zipResultEleEle = zipResult[0][0];
+expected = f1(void 0), expected = f2(void 0);

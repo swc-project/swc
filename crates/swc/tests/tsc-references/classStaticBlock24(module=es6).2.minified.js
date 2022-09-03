@@ -4,4 +4,7 @@ export var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-C.x = 1;
+var __ = {
+    writable: !0,
+    value: void (C.x = 1)
+};

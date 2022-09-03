@@ -3,7 +3,7 @@ import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _d = new WeakMap(), _e = new WeakMap();
-new class {
+class A {
     test() {
         let data = {
             a: 'a',
@@ -34,4 +34,5 @@ new class {
             value: ''
         }), _class_private_field_set(this, _b, 'b'), _class_private_field_set(this, _d, 'd');
     }
-}().test();
+}
+new A().test();

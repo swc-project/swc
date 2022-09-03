@@ -1,12 +1,12 @@
 //// [objectLiteralContextualTyping.ts]
-foo({
+var x, y, z, w, b, x = foo({
     name: "Sprocket"
-}), foo({
+}), y = foo({
     name: "Sprocket",
     description: "Bumpy wheel"
-}), foo({
+}), z = foo({
     name: "Sprocket",
     description: !1
-}), foo({
+}), w = foo({
     a: 10
-}), bar({});
+}), b = bar({});

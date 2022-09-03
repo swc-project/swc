@@ -32,7 +32,8 @@
         u: 23
     };
     ref.u;
-}(), ({
+}();
+var twelve = 12, eleven = ({
     a: function(n) {
         return n;
     }

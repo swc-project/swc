@@ -1,3 +1,5 @@
 //// [logicalAssignment11.ts]
-let x;
-(x ?? "x").length, (x ?? "x").length;
+let x, d;
+(d = x ?? "x").length;
+let e;
+(e = x ?? "x").length;

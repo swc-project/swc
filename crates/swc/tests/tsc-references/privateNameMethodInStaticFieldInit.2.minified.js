@@ -7,6 +7,7 @@ class C {
         _class_private_method_init(this, _method);
     }
 }
-C.s = _class_private_method_get(_ref = new C(), _method, function() {
+function method() {
     return 42;
-}).call(_ref), console.log(C.s);
+}
+C.s = _class_private_method_get(_ref = new C(), _method, method).call(_ref), console.log(C.s);

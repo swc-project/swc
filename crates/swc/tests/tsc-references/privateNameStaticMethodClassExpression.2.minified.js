@@ -11,8 +11,9 @@ let C = (_D = class D {
     }
 }, _field = {
     writable: !0,
-    value: _class_static_private_method_get(_D, _D, function() {
-        return 42;
-    }).call(_D)
+    value: _class_static_private_method_get(_D, _D, method).call(_D)
 }, _D);
+function method() {
+    return 42;
+}
 console.log(C.getClass().getField()), C.getClass().#method, C.getClass().#field;

@@ -1,6 +1,6 @@
 //// [emitDefaultParametersMethod.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var C = function() {
     "use strict";
     function C(t, z, x) {
         arguments.length > 3 && void 0 !== arguments[3] && arguments[3], _class_call_check(this, C);
@@ -17,4 +17,12 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
         for(var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)rest[_key - 1] = arguments[_key];
     }, C;
-}();
+}(), D = function D() {
+    "use strict";
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], _class_call_check(this, D);
+}, E = function E() {
+    "use strict";
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+    for(var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)rest[_key - 1] = arguments[_key];
+    _class_call_check(this, E);
+};

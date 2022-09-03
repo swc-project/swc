@@ -10,4 +10,8 @@ class SymbolIterator {
         return this;
     }
 }
-new SymbolIterator;
+var array = [
+    0,
+    1,
+    ...new SymbolIterator
+];

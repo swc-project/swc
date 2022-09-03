@@ -6,4 +6,5 @@
 //!    : ^^^^^^^^^^^^^^^
 //!    `----
 //// [index.js]
-module.exports = [];
+var items = [];
+module.exports = items;

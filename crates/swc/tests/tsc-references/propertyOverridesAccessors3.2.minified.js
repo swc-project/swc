@@ -13,7 +13,8 @@ class Animal {
 }
 const a = new Animal;
 a.makeSound();
-const lion = new class extends Animal {
+class Lion extends Animal {
     sound = 'RAWR!';
-};
+}
+const lion = new Lion;
 lion.makeSound();

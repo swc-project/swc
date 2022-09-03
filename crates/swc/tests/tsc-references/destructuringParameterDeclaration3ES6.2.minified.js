@@ -1,15 +1,26 @@
 //// [destructuringParameterDeclaration3ES6.ts]
+function a1(...x) {}
+function a2(...a) {}
+function a3(...a) {}
+function a4(...a) {}
+function a5(...a) {}
+function a9([a, b, [[c]]]) {}
 function a10([a, b, [[c]], ...x]) {}
+function a11([a, b, c, ...x]) {}
 var E, E1, array = [
     1,
     2,
     3
+], array2 = [
+    !0,
+    !1,
+    "hello"
 ];
 function foo(...a) {}
 function foo1(...a) {}
-!function(...a) {}([
+a2([
     ...array
-]), function(...x) {}(...array), function([a, b, [[c]]]) {}([
+]), a1(...array), a9([
     1,
     2,
     [
@@ -38,7 +49,7 @@ function foo1(...a) {}
 ]), a10([
     1,
     2
-]), function([a, b, c, ...x]) {}([
+]), a11([
     1,
     2
 ]), foo("hello", 1, 2), foo("hello", "world"), function(E) {

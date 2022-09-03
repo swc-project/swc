@@ -1,4 +1,4 @@
 //// [a.js]
-b = function() {
+var a = b = function() {
     return 0;
 };

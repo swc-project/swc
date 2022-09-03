@@ -9,4 +9,5 @@ module.exports = Foo;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), new (require("./foo_0"))().test;
+});
+var foo = require("./foo_0"), x = new foo(), y = x.test;

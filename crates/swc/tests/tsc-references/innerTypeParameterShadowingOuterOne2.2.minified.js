@@ -1,6 +1,6 @@
 //// [innerTypeParameterShadowingOuterOne2.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
+var C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -11,4 +11,15 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     }, _proto.h = function() {
         (void 0).getDate();
     }, C;
+}(), C2 = function() {
+    "use strict";
+    function C2() {
+        _class_call_check(this, C2);
+    }
+    var _proto = C2.prototype;
+    return _proto.g = function() {
+        (void 0).toFixed();
+    }, _proto.h = function() {
+        (void 0).getDate();
+    }, C2;
 }();

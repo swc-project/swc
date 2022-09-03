@@ -6,6 +6,7 @@ let C = ((_C = class {
         return C.y;
     }
 }).y = 1, _C);
-new (C = _ts_decorate([
+C = _ts_decorate([
     dec
-], C))();
+], C);
+let c = new C();

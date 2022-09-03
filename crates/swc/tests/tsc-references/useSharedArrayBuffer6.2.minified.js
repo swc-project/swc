@@ -1,2 +1,4 @@
 //// [useSharedArrayBuffer6.ts]
-new SharedArrayBuffer(1024).length, SharedArrayBuffer.length;
+var foge = new SharedArrayBuffer(1024);
+foge.length;
+var length = SharedArrayBuffer.length;

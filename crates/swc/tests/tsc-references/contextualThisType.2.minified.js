@@ -3,5 +3,4 @@ var x = {
     a: function(p) {
         return p;
     }
-};
-x.a(x);
+}, y = x.a(x);

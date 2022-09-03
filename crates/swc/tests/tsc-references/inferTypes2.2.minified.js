@@ -5,3 +5,4 @@ export function bar(obj) {
 export function bar2(obj) {
     return foo2(obj);
 }
+var a = null, b = a;
