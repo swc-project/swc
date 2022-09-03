@@ -1,5 +1,6 @@
 use std::{borrow::Cow, sync::Arc};
 
+use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, prelude::DiGraphMap, Direction::Incoming};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -100,21 +101,16 @@ struct Data {
 
     /// Variable usage graph
     graph: DiGraphMap<usize, VarInfo>,
-    graph_ix: Vec<Id>,
+    graph_ix: IndexSet<Id, ahash::RandomState>,
 }
 
 impl Data {
     fn node(&mut self, id: &Id) -> usize {
-        let ix = self.graph_ix.iter().position(|v| v == id);
-        match ix {
-            Some(ix) => ix,
-            None => {
-                let ix = self.graph_ix.len();
-                self.graph_ix.push(id.clone());
-                self.graph.add_node(ix);
-                ix
-            }
-        }
+        self.graph_ix.get_full(id).map(|v| v.0).unwrap_or_else(|| {
+            let ix = self.graph_ix.len();
+            self.graph_ix.insert_full(id.clone());
+            ix
+        })
     }
 
     /// Add an edge to dependency graph
@@ -169,7 +165,7 @@ impl Data {
                         continue;
                     }
 
-                    let id = self.graph_ix.get(j);
+                    let id = self.graph_ix.get_index(j);
                     let id = match id {
                         Some(id) => id,
                         None => continue,
