@@ -301,7 +301,7 @@ swc_ecma_codegen                 = { optional = true, version = "0.123.0", path 
 swc_ecma_loader                  = { optional = true, version = "0.39.4", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "0.152.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser                  = { optional = true, version = "0.118.0", path = "../swc_ecma_parser" }
-swc_ecma_quote_macros            = { optional = true, version = "0.29.0", path = "../swc_ecma_quote_macros" }
+swc_ecma_quote_macros            = { optional = true, version = "0.29.1", path = "../swc_ecma_quote_macros" }
 swc_ecma_transforms              = { optional = true, version = "0.191.0", path = "../swc_ecma_transforms" }
 swc_ecma_transforms_module       = { optional = true, version = "0.146.0", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_optimization = { optional = true, version = "0.160.0", path = "../swc_ecma_transforms_optimization" }
