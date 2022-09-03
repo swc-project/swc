@@ -3,12 +3,12 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     helpers::{Helpers, HELPERS},
-    perf::{ParVisitMut, Parallel},
+    perf::Parallel,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use crate::{
-    analyzer::{analyze, ModuleInfo, ProgramData, UsageAnalyzer},
+    analyzer::{ModuleInfo, UsageAnalyzer},
     marks::Marks,
     maybe_par,
     option::CompressOptions,
@@ -27,7 +27,6 @@ pub(crate) fn precompress_optimizer<'a>(
         options,
         module_info,
         marks,
-        data: Default::default(),
         ctx: Default::default(),
     }
 }
@@ -39,7 +38,6 @@ pub(crate) struct PrecompressOptimizer<'a> {
 
     marks: Marks,
 
-    data: Option<&'a ProgramData>,
     ctx: Ctx,
 }
 
@@ -62,45 +60,34 @@ impl PrecompressOptimizer<'_> {
         T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + ModuleItemExt,
         Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + VisitWith<UsageAnalyzer>,
     {
-        if self.data.is_some() {
-            self.visit_mut_par(*crate::LIGHT_TASK_PARALLELS, stmts);
+        let has_decl = maybe_par!(
+            stmts
+                .iter()
+                .any(|stmt| matches!(stmt.as_module_decl(), Ok(..) | Err(Stmt::Decl(..)))),
+            *crate::LIGHT_TASK_PARALLELS
+        );
+
+        if has_decl {
+            stmts.visit_mut_children_with(&mut PrecompressOptimizer {
+                options: self.options,
+                module_info: self.module_info,
+                marks: self.marks,
+                ctx: self.ctx,
+            });
             return;
         }
 
-        if self.data.is_none() {
-            let has_decl = maybe_par!(
-                stmts
-                    .iter()
-                    .any(|stmt| matches!(stmt.as_module_decl(), Ok(..) | Err(Stmt::Decl(..)))),
-                *crate::LIGHT_TASK_PARALLELS
-            );
-
-            if has_decl {
-                let data = Some(analyze(&*stmts, self.module_info, Some(self.marks)));
-
-                stmts.visit_mut_children_with(&mut PrecompressOptimizer {
+        maybe_par!(
+            stmts.iter_mut().for_each(|stmt| {
+                stmt.visit_mut_with(&mut PrecompressOptimizer {
                     options: self.options,
                     module_info: self.module_info,
                     marks: self.marks,
-                    data: data.as_ref(),
                     ctx: self.ctx,
-                });
-                return;
-            }
-
-            maybe_par!(
-                stmts.iter_mut().for_each(|stmt| {
-                    stmt.visit_mut_with(&mut PrecompressOptimizer {
-                        options: self.options,
-                        module_info: self.module_info,
-                        marks: self.marks,
-                        data: None,
-                        ctx: self.ctx,
-                    })
-                }),
-                *crate::LIGHT_TASK_PARALLELS
-            );
-        }
+                })
+            }),
+            *crate::HEAVY_TASK_PARALLELS
+        );
     }
 }
 
