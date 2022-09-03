@@ -313,12 +313,12 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
         r#"
         {
             "compress": {
-                "toplevel": true,
+                "toplevel": false,
                 "module": true,
                 "passes": 0
             },
             "mangle": false,
-            "toplevel": true
+            "toplevel": false
         }
     "#,
     );
