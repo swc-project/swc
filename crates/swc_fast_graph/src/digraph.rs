@@ -897,14 +897,7 @@ where
     }
 }
 
-impl<N, E, Ty> GraphRef for FastGraphMap<N, E, Ty>
-where
-    N: Copy + Ord + Hash,
-    Ty: EdgeType,
-{
-}
-
-impl<N, E, Ty> IntoNodeIdentifiers for FastGraphMap<N, E, Ty>
+impl<N, E, Ty> IntoNodeIdentifiers for &'_ FastGraphMap<N, E, Ty>
 where
     N: Copy + Ord + Hash,
     Ty: EdgeType,
