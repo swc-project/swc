@@ -1,5 +1,7 @@
 use std::{borrow::Cow, sync::Arc};
 
+use indexmap::IndexSet;
+use petgraph::{algo::tarjan_scc, prelude::DiGraphMap, Direction::Incoming};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -96,7 +98,90 @@ struct Data {
     bindings: AHashSet<Id>,
 
     used_names: AHashMap<Id, VarInfo>,
+
+    /// Variable usage graph
+    graph: DiGraphMap<usize, VarInfo>,
+    graph_ix: IndexSet<Id, ahash::RandomState>,
 }
+
+impl Data {
+    fn node(&mut self, id: &Id) -> usize {
+        self.graph_ix.get_full(id).map(|v| v.0).unwrap_or_else(|| {
+            let ix = self.graph_ix.len();
+            self.graph_ix.insert_full(id.clone());
+            ix
+        })
+    }
+
+    /// Add an edge to dependency graph
+    fn add_dep_edge(&mut self, from: Id, to: Id, assign: bool) {
+        let from = self.node(&from);
+        let to = self.node(&to);
+
+        match self.graph.edge_weight_mut(from, to) {
+            Some(info) => {
+                if assign {
+                    info.assign += 1;
+                } else {
+                    info.usage += 1;
+                }
+            }
+            None => {
+                self.graph.add_edge(
+                    from,
+                    to,
+                    VarInfo {
+                        usage: if !assign { 1 } else { 0 },
+                        assign: if assign { 1 } else { 0 },
+                    },
+                );
+            }
+        };
+    }
+
+    /// Traverse the graph and subtract usages from `used_names`.
+    fn subtract_cycles(&mut self) {
+        let cycles = tarjan_scc(&self.graph);
+
+        'c: for cycle in cycles {
+            if cycle.len() == 1 {
+                continue;
+            }
+
+            // We have to exclude cycle from remove list if an outer node refences an item
+            // of cycle.
+            for &node in &cycle {
+                if self.graph.neighbors_directed(node, Incoming).any(|node| {
+                    // Node in cycle does not matter
+                    !cycle.contains(&node)
+                }) {
+                    continue 'c;
+                }
+            }
+
+            for &i in &cycle {
+                for &j in &cycle {
+                    if i == j {
+                        continue;
+                    }
+
+                    let id = self.graph_ix.get_index(j);
+                    let id = match id {
+                        Some(id) => id,
+                        None => continue,
+                    };
+
+                    if let Some(w) = self.graph.edge_weight(i, j) {
+                        let e = self.used_names.entry(id.clone()).or_default();
+                        e.usage -= w.usage;
+                        e.assign -= w.assign;
+                    }
+                }
+            }
+        }
+    }
+}
+
 #[derive(Debug, Default)]
 struct VarInfo {
     /// This does not include self-references in a function.
@@ -111,12 +196,12 @@ struct Analyzer<'a> {
     in_var_decl: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
+    cur_class_id: Option<Id>,
     cur_fn_id: Option<Id>,
 }
 
 #[derive(Debug, Default)]
 struct Scope<'a> {
-    #[allow(dead_code)]
     parent: Option<&'a Scope<'a>>,
 
     bindings_affected_by_eval: AHashSet<Id>,
@@ -124,6 +209,11 @@ struct Scope<'a> {
 
     found_arguemnts: bool,
     bindings_affected_by_arguements: Vec<Id>,
+
+    /// Used to construct a graph.
+    ///
+    /// This includes all bindings to current node.
+    ast_path: Vec<Id>,
 }
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -133,6 +223,19 @@ enum ScopeKind {
 }
 
 impl Analyzer<'_> {
+    fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
+    where
+        F: for<'aa> FnOnce(&mut Analyzer<'aa>),
+    {
+        let prev_len = self.scope.ast_path.len();
+
+        self.scope.ast_path.extend(ids);
+
+        op(self);
+
+        self.scope.ast_path.truncate(prev_len);
+    }
+
     fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
@@ -147,6 +250,7 @@ impl Analyzer<'_> {
                 scope: child,
                 data: self.data,
                 cur_fn_id: self.cur_fn_id.clone(),
+                cur_class_id: self.cur_class_id.clone(),
                 ..*self
             };
 
@@ -180,6 +284,7 @@ impl Analyzer<'_> {
         }
     }
 
+    /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
         if id.0 == js_word!("arguments") {
             self.scope.found_arguemnts = true;
@@ -188,6 +293,28 @@ impl Analyzer<'_> {
         if let Some(f) = &self.cur_fn_id {
             if id == *f {
                 return;
+            }
+        }
+        if let Some(f) = &self.cur_class_id {
+            if id == *f {
+                return;
+            }
+        }
+
+        if self.scope.is_ast_path_empty() {
+            // Add references from top level items into graph
+            self.data
+                .add_dep_edge(Default::default(), id.clone(), assign)
+        } else {
+            let mut scope = Some(&self.scope);
+
+            while let Some(s) = scope {
+                for component in &s.ast_path {
+                    self.data
+                        .add_dep_edge(component.clone(), id.clone(), assign)
+                }
+
+                scope = s.parent;
             }
         }
 
@@ -223,11 +350,16 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
-        n.visit_children_with(self);
+        self.with_ast_path(vec![n.ident.to_id()], |v| {
+            let old = v.cur_class_id.take();
+            v.cur_class_id = Some(n.ident.to_id());
+            n.visit_children_with(v);
+            v.cur_class_id = old;
 
-        if !n.class.decorators.is_empty() {
-            self.add(n.ident.to_id(), false);
-        }
+            if !n.class.decorators.is_empty() {
+                v.add(n.ident.to_id(), false);
+            }
+        })
     }
 
     fn visit_class_expr(&mut self, n: &ClassExpr) {
@@ -322,14 +454,16 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        let old = self.cur_fn_id.take();
-        self.cur_fn_id = Some(n.ident.to_id());
-        n.visit_children_with(self);
-        self.cur_fn_id = old;
+        self.with_ast_path(vec![n.ident.to_id()], |v| {
+            let old = v.cur_fn_id.take();
+            v.cur_fn_id = Some(n.ident.to_id());
+            n.visit_children_with(v);
+            v.cur_fn_id = old;
 
-        if !n.function.decorators.is_empty() {
-            self.add(n.ident.to_id(), false);
-        }
+            if !n.function.decorators.is_empty() {
+                v.add(n.ident.to_id(), false);
+            }
+        })
     }
 
     fn visit_fn_expr(&mut self, n: &FnExpr) {
@@ -360,14 +494,14 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
+    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
         let old = self.in_var_decl;
 
         self.in_var_decl = true;
-        v.name.visit_with(self);
+        n.name.visit_with(self);
 
         self.in_var_decl = false;
-        v.init.visit_with(self);
+        n.init.visit_with(self);
 
         self.in_var_decl = old;
     }
@@ -441,7 +575,10 @@ impl TreeShaker {
             return false;
         }
 
-        !self.data.used_names.contains_key(&name)
+        match self.data.used_names.get(&name) {
+            Some(v) => v.usage == 0 && v.assign == 0,
+            None => true,
+        }
     }
 
     fn can_drop_assignment_to(&self, name: Id, is_var: bool) -> bool {
@@ -520,12 +657,22 @@ impl VisitMut for TreeShaker {
                 if self.can_drop_binding(c.ident.to_id(), false)
                     && c.class.body.iter().all(|m| match m {
                         ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
-                        ClassMember::ClassProp(m) => !matches!(m.key, PropName::Computed(..)),
+                        ClassMember::ClassProp(m) => {
+                            !matches!(m.key, PropName::Computed(..))
+                                && !m
+                                    .value
+                                    .as_deref()
+                                    .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx))
+                        }
+
+                        ClassMember::PrivateProp(m) => !m
+                            .value
+                            .as_deref()
+                            .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx)),
 
                         ClassMember::StaticBlock(_) => false,
 
                         ClassMember::TsIndexSignature(_)
-                        | ClassMember::PrivateProp(_)
                         | ClassMember::Empty(_)
                         | ClassMember::Constructor(_)
                         | ClassMember::PrivateMethod(_) => true,
@@ -646,13 +793,15 @@ impl VisitMut for TreeShaker {
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
-                data: &mut data,
                 in_var_decl: false,
                 scope: Default::default(),
+                data: &mut data,
+                cur_class_id: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
+        data.subtract_cycles();
         self.data = Arc::new(data);
 
         HELPERS.set(&Helpers::new(true), || {
@@ -671,13 +820,15 @@ impl VisitMut for TreeShaker {
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
-                data: &mut data,
                 in_var_decl: false,
                 scope: Default::default(),
+                data: &mut data,
+                cur_class_id: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
+        data.subtract_cycles();
         self.data = Arc::new(data);
 
         HELPERS.set(&Helpers::new(true), || {
@@ -853,5 +1004,18 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
         self.visit_mut_par(cpu_count() * 8, n);
+    }
+}
+
+impl Scope<'_> {
+    /// Returns true if it's not in a function or class.
+    fn is_ast_path_empty(&self) -> bool {
+        if !self.ast_path.is_empty() {
+            return false;
+        }
+        match &self.parent {
+            Some(p) => p.is_ast_path_empty(),
+            None => true,
+        }
     }
 }
