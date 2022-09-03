@@ -28,6 +28,9 @@
 
 - **(es/minifier)** Support cycles in DCE (#5715) ([5e151c8](https://github.com/swc-project/swc/commit/5e151c8a8e48eae6cd93d5166fcaa87b84f4a341))
 
+
+- **(es/minifier)** Relax requirement for IIFE invokation (#5721) ([5b2d024](https://github.com/swc-project/swc/commit/5b2d024788008436c7500ef243641db87e2c11f8))
+
 ### Performance
 
 
