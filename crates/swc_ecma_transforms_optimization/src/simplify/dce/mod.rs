@@ -100,25 +100,30 @@ struct Data {
 
     /// Variable usage graph
     graph: DiGraphMap<usize, VarInfo>,
-    graph_ix: AHashMap<Id, usize>,
+    graph_ix: Vec<Id>,
 }
 
 impl Data {
+    fn node(&mut self, id: &Id) -> usize {
+        let ix = self.graph_ix.iter().position(|v| v == id);
+        match ix {
+            Some(ix) => ix,
+            None => {
+                let ix = self.graph_ix.len();
+                self.graph_ix.push(id.clone());
+                self.graph.add_node(ix);
+                ix
+            }
+        }
+    }
+
     /// Add an edge to dependency graph
     fn add_dep_edge(&mut self, from: Id, to: Id, assign: bool) {
-        let from = *self
-            .graph_ix
-            .entry(from.clone())
-            .or_insert_with(|| self.graph.add_node(from.clone()));
+        let from = self.node(&from);
+        let to = self.node(&to);
 
-        let to = *self
-            .graph_ix
-            .entry(to.clone())
-            .or_insert_with(|| self.graph.add_node(to.clone()));
-
-        match self.graph.find_edge(from, to) {
-            Some(idx) => {
-                let mut info = self.graph.edge_weight_mut(idx).unwrap();
+        match self.graph.edge_weight_mut(from, to) {
+            Some(info) => {
                 if assign {
                     info.assign += 1;
                 } else {
@@ -164,19 +169,13 @@ impl Data {
                         continue;
                     }
 
-                    let id = self.graph.node_weight(j);
+                    let id = self.graph_ix.get(j);
                     let id = match id {
                         Some(id) => id,
                         None => continue,
                     };
 
-                    let edge_idx = self.graph.find_edge(i, j);
-                    let edge_idx = match edge_idx {
-                        Some(edge_idx) => edge_idx,
-                        None => continue,
-                    };
-
-                    if let Some(w) = self.graph.edge_weight(edge_idx) {
+                    if let Some(w) = self.graph.edge_weight(i, j) {
                         let e = self.used_names.entry(id.clone()).or_default();
                         e.usage -= w.usage;
                         e.assign -= w.assign;
