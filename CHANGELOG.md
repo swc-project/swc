@@ -17,6 +17,9 @@
 
 
 
+- **(atoms)** Introduce bytecheck-ed rkyv version (#5686) ([d6e67b5](https://github.com/swc-project/swc/commit/d6e67b5944131e429d341f565c52fc3237a81bb7))
+
+
 - **(es/minifier)** Relax function inline requirement (#5607) ([4ef99f3](https://github.com/swc-project/swc/commit/4ef99f346b9e7e4dfd1f42e7308c6b6e1142e311))
 
 
@@ -24,6 +27,18 @@
 
 
 - **(es/minifier)** Support cycles in DCE (#5715) ([5e151c8](https://github.com/swc-project/swc/commit/5e151c8a8e48eae6cd93d5166fcaa87b84f4a341))
+
+
+- **(es/minifier)** Relax requirement for IIFE invokation (#5721) ([5b2d024](https://github.com/swc-project/swc/commit/5b2d024788008436c7500ef243641db87e2c11f8))
+
+### Performance
+
+
+
+- **(es/minifier)** Use faster hash algorithm for DCE (#5725) ([25c96b4](https://github.com/swc-project/swc/commit/25c96b4b7aa9a75892b1ae49a65e836229465195))
+
+
+- **(es/minifier)** Optimize precompress optimizer (#5727) ([31c516a](https://github.com/swc-project/swc/commit/31c516a9228ebe304cd461f7e139f13a8519b43c))
 
 ### Refactor
 

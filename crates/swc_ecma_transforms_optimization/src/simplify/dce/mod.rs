@@ -1,7 +1,7 @@
 use std::{borrow::Cow, sync::Arc};
 
 use indexmap::IndexSet;
-use petgraph::{algo::tarjan_scc, prelude::DiGraphMap, Direction::Incoming};
+use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -20,6 +20,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_fast_graph::digraph::FastDiGraphMap;
 use tracing::{debug, span, Level};
 
 use crate::debug_assert_valid;
@@ -100,7 +101,7 @@ struct Data {
     used_names: AHashMap<Id, VarInfo>,
 
     /// Variable usage graph
-    graph: DiGraphMap<usize, VarInfo>,
+    graph: FastDiGraphMap<usize, VarInfo>,
     graph_ix: IndexSet<Id, ahash::RandomState>,
 }
 

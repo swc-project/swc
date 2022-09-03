@@ -1662,22 +1662,19 @@
                 return $browser1 = $browser, XHR1 = XHR, $browserDefer = $browser.defer, callbacks = $window.angular.callbacks, rawDocument = $document[0], function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
                     var status;
                     if ($browser1.$$incOutstandingRequestCount(), url = url || $browser1.url(), "jsonp" == lowercase(method)) {
-                        var callbackId = "_" + (callbacks.counter++).toString(36);
+                        var url1, done, script, doneWrapper, callbackId = "_" + (callbacks.counter++).toString(36);
                         callbacks[callbackId] = function(data) {
                             callbacks[callbackId].data = data;
                         };
-                        var jsonpDone = function(url, done) {
-                            var script = rawDocument.createElement("script"), doneWrapper = function() {
-                                script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
-                            };
-                            return script.type = "text/javascript", script.src = url, msie && msie <= 8 ? script.onreadystatechange = function() {
-                                /loaded|complete/.test(script.readyState) && doneWrapper();
-                            } : script.onload = script.onerror = function() {
-                                doneWrapper();
-                            }, rawDocument.body.appendChild(script), doneWrapper;
-                        }(url.replace("JSON_CALLBACK", "angular.callbacks." + callbackId), function() {
+                        var jsonpDone = (url1 = url.replace("JSON_CALLBACK", "angular.callbacks." + callbackId), done = function() {
                             callbacks[callbackId].data ? completeRequest(callback, 200, callbacks[callbackId].data) : completeRequest(callback, status || -2), delete callbacks[callbackId];
-                        });
+                        }, script = rawDocument.createElement("script"), doneWrapper = function() {
+                            script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
+                        }, script.type = "text/javascript", script.src = url1, msie && msie <= 8 ? script.onreadystatechange = function() {
+                            /loaded|complete/.test(script.readyState) && doneWrapper();
+                        } : script.onload = script.onerror = function() {
+                            doneWrapper();
+                        }, rawDocument.body.appendChild(script), doneWrapper);
                     } else {
                         var xhr = new XHR1();
                         xhr.open(method, url, !0), forEach(headers, function(value, key) {
@@ -3357,21 +3354,18 @@
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
             if (!isArray(array) || !sortPredicate) return array;
-            sortPredicate = function(obj, iterator, context) {
-                var results = [];
-                return forEach(obj, function(value, index, list) {
-                    results.push(iterator.call(void 0, value, index, list));
-                }), results;
-            }(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
+            sortPredicate = (obj = sortPredicate = isArray(sortPredicate) ? sortPredicate : [
                 sortPredicate
-            ], function(predicate) {
+            ], iterator = function(predicate) {
                 var descending = !1, get = predicate || identity;
                 return isString(predicate) && (("+" == predicate.charAt(0) || "-" == predicate.charAt(0)) && (descending = "-" == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
                     var v1, v2, t1, t2;
                     return v1 = get(a), v2 = get(b), t1 = typeof v1, t1 != (t2 = typeof v2) ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
                 }, descending);
-            });
-            for(var arrayCopy = [], i = 0; i < array.length; i++)arrayCopy.push(array[i]);
+            }, results = [], forEach(obj, function(value, index, list) {
+                results.push(iterator.call(void 0, value, index, list));
+            }), results);
+            for(var obj, iterator, results, arrayCopy = [], i = 0; i < array.length; i++)arrayCopy.push(array[i]);
             return arrayCopy.sort(reverseComparator(function(o1, o2) {
                 for(var i = 0; i < sortPredicate.length; i++){
                     var comp = sortPredicate[i](o1, o2);

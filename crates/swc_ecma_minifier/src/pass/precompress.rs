@@ -1,12 +1,15 @@
 use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::{
+    helpers::{Helpers, HELPERS},
+    perf::Parallel,
+};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use crate::{
-    analyzer::{analyze, ModuleInfo, ProgramData, UsageAnalyzer},
+    analyzer::{ModuleInfo, UsageAnalyzer},
     marks::Marks,
-    maybe_par,
     option::CompressOptions,
     util::ModuleItemExt,
 };
@@ -23,7 +26,6 @@ pub(crate) fn precompress_optimizer<'a>(
         options,
         module_info,
         marks,
-        data: Default::default(),
         ctx: Default::default(),
     }
 }
@@ -35,8 +37,15 @@ pub(crate) struct PrecompressOptimizer<'a> {
 
     marks: Marks,
 
-    data: Option<ProgramData>,
     ctx: Ctx,
+}
+
+impl Parallel for PrecompressOptimizer<'_> {
+    fn create(&self) -> Self {
+        Self { ..*self }
+    }
+
+    fn merge(&mut self, _: Self) {}
 }
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -50,41 +59,12 @@ impl PrecompressOptimizer<'_> {
         T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + ModuleItemExt,
         Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + VisitWith<UsageAnalyzer>,
     {
-        if self.data.is_some() {
-            stmts.visit_mut_children_with(self);
-            return;
-        }
-
-        if self.data.is_none() {
-            let has_decl = maybe_par!(
-                stmts
-                    .iter()
-                    .any(|stmt| matches!(stmt.as_module_decl(), Ok(..) | Err(Stmt::Decl(..)))),
-                *crate::LIGHT_TASK_PARALLELS
-            );
-
-            if has_decl {
-                let data = Some(analyze(&*stmts, self.module_info, Some(self.marks)));
-
-                stmts.visit_mut_children_with(&mut PrecompressOptimizer {
-                    options: self.options,
-                    module_info: self.module_info,
-                    marks: self.marks,
-                    data,
-                    ctx: self.ctx,
-                });
-                return;
-            }
-            stmts.iter_mut().for_each(|stmt| {
-                stmt.visit_mut_with(&mut PrecompressOptimizer {
-                    options: self.options,
-                    module_info: self.module_info,
-                    marks: self.marks,
-                    data: None,
-                    ctx: self.ctx,
-                })
-            });
-        }
+        stmts.visit_mut_children_with(&mut PrecompressOptimizer {
+            options: self.options,
+            module_info: self.module_info,
+            marks: self.marks,
+            ctx: self.ctx,
+        });
     }
 }
 
@@ -124,7 +104,9 @@ impl VisitMut for PrecompressOptimizer<'_> {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.handle_stmts(n);
+        HELPERS.set(&Helpers::new(true), || {
+            self.handle_stmts(n);
+        });
 
         n.retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
     }
