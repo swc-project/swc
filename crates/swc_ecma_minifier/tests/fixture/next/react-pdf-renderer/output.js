@@ -16015,6 +16015,10 @@
                             else {
                                 var d, p, h, y, g = (d = e, "number" != typeof p && (p = 0), p + 1 > d.length || -1 === d.indexOf(".", p)) ? "argument" : "property";
                                 y = 'The "'.concat(e, '" ').concat(g, " ").concat(h, " ").concat(c(t, "type"));
+                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(!u || u < 0 ? 0 : +u, o.length) === o)) ? ($ = "must not be", t = t.replace(/^not /, "")) : $ = "must be", l = e, s = " argument", (void 0 === f || f > l.length) && (f = l.length), l.substring(f - s.length, f) === s) y = "The ".concat(e, " ").concat($, " ").concat(c(t, "type"));
+                            else {
+                                var o, u, l, s, f, d, p, h, $, y, g = (d = e, "number" != typeof h && (h = 0), h + (p = ".").length > d.length || -1 === d.indexOf(p, h)) ? "argument" : "property";
+                                y = 'The "'.concat(e, '" ').concat(g, " ").concat($, " ").concat(c(t, "type"));
                             }
                             return y + ". Received type ".concat(n(i));
                         }, TypeError), s("ERR_INVALID_ARG_VALUE", function(e, t) {
@@ -21041,17 +21045,16 @@
                         r("ERR_INVALID_OPT_VALUE", function(e, t) {
                             return 'The value "' + t + '" is invalid for option "' + e + '"';
                         }, TypeError), r("ERR_INVALID_ARG_TYPE", function(e, t, r) {
-                            let i;
-                            var o, a, u, l = "not ";
-                            "string" == typeof t && t.substr(!u || u < 0 ? 0 : +u, l.length) === l ? (i = "must not be", t = t.replace(/^not /, "")) : i = "must be";
-                            let s;
-                            var c, f, d = " argument";
-                            if (c = e, (void 0 === f || f > c.length) && (f = c.length), c.substring(f - d.length, f) === d) s = `The ${e} ${i} ${n(t, "type")}`;
+                            var i, o, a, u, l, s, c, f;
+                            let d;
+                            "string" == typeof t && (i = "not ", t.substr(!o || o < 0 ? 0 : +o, i.length) === i) ? (d = "must not be", t = t.replace(/^not /, "")) : d = "must be";
+                            let p;
+                            if (a = e, u = " argument", (void 0 === l || l > a.length) && (l = a.length), a.substring(l - u.length, l) === u) p = `The ${e} ${d} ${n(t, "type")}`;
                             else {
-                                const p = (o = e, "number" != typeof a && (a = 0), a + 1 > o.length || -1 === o.indexOf(".", a)) ? "argument" : "property";
-                                s = `The "${e}" ${p} ${i} ${n(t, "type")}`;
+                                const h = (s = e, "number" != typeof f && (f = 0), f + (c = ".").length > s.length || -1 === s.indexOf(c, f)) ? "argument" : "property";
+                                p = `The "${e}" ${h} ${d} ${n(t, "type")}`;
                             }
-                            return s + `. Received type ${typeof r}`;
+                            return p + `. Received type ${typeof r}`;
                         }, TypeError), r("ERR_STREAM_PUSH_AFTER_EOF", "stream.push() after EOF"), r("ERR_METHOD_NOT_IMPLEMENTED", function(e) {
                             return "The " + e + " method is not implemented";
                         }), r("ERR_STREAM_PREMATURE_CLOSE", "Premature close"), r("ERR_STREAM_DESTROYED", function(e) {

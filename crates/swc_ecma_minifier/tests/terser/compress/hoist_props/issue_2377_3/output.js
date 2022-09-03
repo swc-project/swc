@@ -1,1 +1,2 @@
-console.log(1, 27);
+var x;
+console.log(1, (x = 3) * x * x);

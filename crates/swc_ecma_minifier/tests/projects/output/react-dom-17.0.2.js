@@ -535,8 +535,8 @@
             case REACT_PROVIDER_TYPE:
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
-                var outerType, innerType, functionName, wrapperName = "ForwardRef";
-                return outerType = type, functionName = (innerType = type.render).displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                var outerType, innerType, wrapperName, functionName;
+                return outerType = type, innerType = type.render, wrapperName = "ForwardRef", functionName = innerType.displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:
@@ -6452,20 +6452,18 @@
     function updateSuspenseComponent(current, workInProgress, renderLanes) {
         var fiber, nextProps = workInProgress.pendingProps;
         fiber = workInProgress, shouldSuspendImpl(fiber) && (workInProgress.flags |= 64);
-        var suspenseContext, current1, workInProgress1, renderLanes1, suspenseContext1 = suspenseStackCursor.current, showFallback = !1;
-        if ((64 & workInProgress.flags) == 0 && (suspenseContext = suspenseContext1, current1 = current, null !== current1 && null === current1.memoizedState ? 1 : (2 & suspenseContext) == 0)) (null === current || null !== current.memoizedState) && void 0 !== nextProps.fallback && !0 !== nextProps.unstable_avoidThisFallback && (suspenseContext1 |= 1);
-        else showFallback = !0, workInProgress.flags &= -65;
-        if (pushSuspenseContext(workInProgress, suspenseContext1 &= 1), null === current) {
+        var suspenseContext, current1, suspenseContext1 = suspenseStackCursor.current, showFallback = !1;
+        if ((64 & workInProgress.flags) == 0 && (suspenseContext = suspenseContext1, null !== (current1 = current) && null === current1.memoizedState ? 1 : (2 & suspenseContext) == 0) ? (null === current || null !== current.memoizedState) && void 0 !== nextProps.fallback && !0 !== nextProps.unstable_avoidThisFallback && (suspenseContext1 |= 1) : (showFallback = !0, workInProgress.flags &= -65), pushSuspenseContext(workInProgress, suspenseContext1 &= 1), null === current) {
             void 0 !== nextProps.fallback && tryToClaimNextHydratableInstance(workInProgress);
-            var workInProgress2, primaryChildren, renderLanes2, primaryChildFragment, nextPrimaryChildren = nextProps.children, nextFallbackChildren = nextProps.fallback;
+            var workInProgress1, primaryChildren, renderLanes1, primaryChildFragment, nextPrimaryChildren = nextProps.children, nextFallbackChildren = nextProps.fallback;
             if (showFallback) {
                 var fallbackFragment = mountSuspenseFallbackChildren(workInProgress, nextPrimaryChildren, nextFallbackChildren, renderLanes);
                 return workInProgress.child.memoizedState = mountSuspenseOffscreenState(renderLanes), workInProgress.memoizedState = SUSPENDED_MARKER, fallbackFragment;
             }
-            if ("number" != typeof nextProps.unstable_expectedLoadTime) return workInProgress2 = workInProgress, primaryChildren = nextPrimaryChildren, renderLanes2 = renderLanes, (primaryChildFragment = createFiberFromOffscreen({
+            if ("number" != typeof nextProps.unstable_expectedLoadTime) return workInProgress1 = workInProgress, primaryChildren = nextPrimaryChildren, renderLanes1 = renderLanes, (primaryChildFragment = createFiberFromOffscreen({
                 mode: "visible",
                 children: primaryChildren
-            }, workInProgress2.mode, renderLanes2, null)).return = workInProgress2, workInProgress2.child = primaryChildFragment, primaryChildFragment;
+            }, workInProgress1.mode, renderLanes1, null)).return = workInProgress1, workInProgress1.child = primaryChildFragment, primaryChildFragment;
             var _fallbackFragment = mountSuspenseFallbackChildren(workInProgress, nextPrimaryChildren, nextFallbackChildren, renderLanes);
             return workInProgress.child.memoizedState = mountSuspenseOffscreenState(renderLanes), workInProgress.memoizedState = SUSPENDED_MARKER, workInProgress.lanes = 33554432, markSpawnedWork(33554432), _fallbackFragment;
         }
@@ -7214,7 +7212,7 @@
                     var next = renderState.tail;
                     renderState.rendering = next, renderState.tail = next.sibling, renderState.lastEffect = workInProgress.lastEffect, renderState.renderingStartTime = now(), next.sibling = null;
                     var suspenseContext = suspenseStackCursor.current;
-                    return didSuspendAlready ? suspenseContext = 1 & suspenseContext | 2 : suspenseContext &= 1, pushSuspenseContext(workInProgress, suspenseContext), next;
+                    return pushSuspenseContext(workInProgress, suspenseContext = didSuspendAlready ? 1 & suspenseContext | 2 : 1 & suspenseContext), next;
                 }
                 return null;
             case 20:
@@ -8602,6 +8600,8 @@
         null !== (retryCache = boundaryFiber.stateNode) && retryCache.delete(wakeable);
         var retryCache, boundaryFiber1, eventTime, root, fiber, lane, mode, retryLane = 0;
         boundaryFiber1 = boundaryFiber, 0 === retryLane && (retryLane = (2 & (mode = (fiber = boundaryFiber1).mode)) == 0 ? 1 : (4 & mode) == 0 ? 99 === getCurrentPriorityLevel() ? 1 : 2 : (0 === currentEventWipLanes && (currentEventWipLanes = workInProgressRootIncludedLanes), 0 === (lane = pickArbitraryLane(62914560 & ~currentEventWipLanes)) && (lane = pickArbitraryLane(62914560)), lane)), eventTime = requestEventTime(), null !== (root = markUpdateLaneFromFiberToRoot(boundaryFiber1, retryLane)) && (markRootUpdated(root, retryLane, eventTime), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, retryLane));
+        var retryCache, boundaryFiber1, retryLane, eventTime, root, fiber, wipLanes, lane, mode;
+        null !== (retryCache = boundaryFiber.stateNode) && retryCache.delete(wakeable), boundaryFiber1 = boundaryFiber, 0 == (retryLane = 0) && (retryLane = (2 & (mode = (fiber = boundaryFiber1).mode)) == 0 ? SyncLane : (4 & mode) == 0 ? 99 === getCurrentPriorityLevel() ? SyncLane : 2 : (currentEventWipLanes === NoLanes && (currentEventWipLanes = workInProgressRootIncludedLanes), wipLanes = currentEventWipLanes, 0 === (lane = pickArbitraryLane(62914560 & ~wipLanes)) && (lane = pickArbitraryLane(62914560)), lane)), eventTime = requestEventTime(), null !== (root = markUpdateLaneFromFiberToRoot(boundaryFiber1, retryLane)) && (markRootUpdated(root, retryLane, eventTime), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, retryLane));
     }
     var didWarnStateUpdateForNotYetMountedComponent = null;
     function warnAboutUpdateOnNotYetMountedFiberInDEV(fiber) {
@@ -9205,8 +9205,8 @@
         return container ? 9 === container.nodeType ? container.documentElement : container.firstChild : null;
     }
     function legacyRenderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
-        topLevelUpdateWarnings(container), null !== (callback1 = void 0 === callback ? null : callback) && "function" != typeof callback1 && error("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", "render", callback1);
-        var callback1, fiberRoot, root = container._reactRootContainer;
+        topLevelUpdateWarnings(container), callerName = "render", null !== (callback1 = void 0 === callback ? null : callback) && "function" != typeof callback1 && error("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", callerName, callback1);
+        var callback1, callerName, fiberRoot, root = container._reactRootContainer;
         if (root) {
             if (fiberRoot = root._internalRoot, "function" == typeof callback) {
                 var _originalCallback = callback;

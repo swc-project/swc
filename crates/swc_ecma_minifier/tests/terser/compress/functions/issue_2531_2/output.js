@@ -1,6 +1,7 @@
 function outer() {
-    return function () {
-        return "Hello";
+    var value;
+    return value = "Hello", function() {
+        return value;
     };
 }
 console.log("Greeting:", outer()());

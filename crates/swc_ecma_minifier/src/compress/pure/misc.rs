@@ -919,7 +919,9 @@ impl Pure<'_> {
                     // Convert `a = a` to `a`.
                     if let Some(l) = assign.left.as_ident() {
                         if let Expr::Ident(r) = &*assign.right {
-                            if l.to_id() == r.to_id() {
+                            if l.to_id() == r.to_id()
+                                && l.span.ctxt != self.expr_ctx.unresolved_ctxt
+                            {
                                 self.changed = true;
                                 *e = *assign.right.take();
                             }

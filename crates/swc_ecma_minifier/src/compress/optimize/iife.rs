@@ -366,7 +366,6 @@ where
 
                             *e = new;
                         }
-                        return;
                     }
                     BlockStmtOrExpr::Expr(body) => {
                         if let Expr::Lit(Lit::Num(..)) = &**body {
@@ -374,14 +373,7 @@ where
                                 return;
                             }
                         }
-                    }
-                }
 
-                match &mut f.body {
-                    BlockStmtOrExpr::BlockStmt(_) => {
-                        // TODO
-                    }
-                    BlockStmtOrExpr::Expr(body) => {
                         self.changed = true;
 
                         // We remap variables.
@@ -729,40 +721,29 @@ where
         }
         body.visit_mut_with(&mut Remapper { vars: remap });
 
-        // TODO: temporary workaround as swc currently cannot inline
-        // let a; a = 1; console.log(a)
         let mut vars = Vec::new();
         let mut exprs = Vec::new();
         let param_len = params.len();
 
         for (idx, param) in params.into_iter().enumerate() {
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
-            let init = if let Some(arg) = arg {
-                let (expr, init) = if !arg.is_lit() {
-                    (
-                        Expr::Assign(AssignExpr {
-                            span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                            op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
-                            right: arg,
-                        }),
-                        None,
-                    )
-                } else {
-                    (Expr::Ident(param.clone()), Some(arg))
-                };
 
-                exprs.push(expr.into());
-
-                init
-            } else {
-                None
+            if let Some(arg) = arg {
+                exprs.push(
+                    Expr::Assign(AssignExpr {
+                        span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                        op: op!("="),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
+                        right: arg,
+                    })
+                    .into(),
+                )
             };
 
             vars.push(VarDeclarator {
                 span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                 name: Pat::Ident(param.into()),
-                init,
+                init: None,
                 definite: Default::default(),
             });
         }

@@ -136,8 +136,8 @@
             case REACT_PROVIDER_TYPE:
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
-                var outerType, innerType, functionName, wrapperName = "ForwardRef";
-                return outerType = type, functionName = (innerType = type.render).displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                var outerType, innerType, wrapperName, functionName;
+                return outerType = type, innerType = type.render, wrapperName = "ForwardRef", functionName = innerType.displayName || innerType.name || "", outerType.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:
