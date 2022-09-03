@@ -363,18 +363,13 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_class_expr(&mut self, n: &ClassExpr) {
-        self.with_ast_path(
-            n.ident.clone().map(|v| v.to_id()).into_iter().collect(),
-            |v| {
-                n.visit_children_with(v);
+        n.visit_children_with(self);
 
-                if !n.class.decorators.is_empty() {
-                    if let Some(i) = &n.ident {
-                        v.add(i.to_id(), false);
-                    }
-                }
-            },
-        )
+        if !n.class.decorators.is_empty() {
+            if let Some(i) = &n.ident {
+                self.add(i.to_id(), false);
+            }
+        }
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
@@ -472,18 +467,13 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_expr(&mut self, n: &FnExpr) {
-        self.with_ast_path(
-            n.ident.clone().map(|v| v.to_id()).into_iter().collect(),
-            |v| {
-                n.visit_children_with(v);
+        n.visit_children_with(self);
 
-                if !n.function.decorators.is_empty() {
-                    if let Some(i) = &n.ident {
-                        v.add(i.to_id(), false);
-                    }
-                }
-            },
-        )
+        if !n.function.decorators.is_empty() {
+            if let Some(i) = &n.ident {
+                self.add(i.to_id(), false);
+            }
+        }
     }
 
     fn visit_pat(&mut self, p: &Pat) {
