@@ -88,15 +88,18 @@ impl PrecompressOptimizer<'_> {
                 return;
             }
 
-            stmts.iter_mut().for_each(|stmt| {
-                stmt.visit_mut_with(&mut PrecompressOptimizer {
-                    options: self.options,
-                    module_info: self.module_info,
-                    marks: self.marks,
-                    data: None,
-                    ctx: self.ctx,
-                })
-            });
+            maybe_par!(
+                stmts.iter_mut().for_each(|stmt| {
+                    stmt.visit_mut_with(&mut PrecompressOptimizer {
+                        options: self.options,
+                        module_info: self.module_info,
+                        marks: self.marks,
+                        data: None,
+                        ctx: self.ctx,
+                    })
+                }),
+                *crate::LIGHT_TASK_PARALLELS
+            );
         }
     }
 }
