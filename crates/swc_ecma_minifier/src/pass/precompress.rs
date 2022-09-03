@@ -1,6 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use crate::{
@@ -37,6 +38,14 @@ pub(crate) struct PrecompressOptimizer<'a> {
 
     data: Option<&'a ProgramData>,
     ctx: Ctx,
+}
+
+impl Parallel for PrecompressOptimizer<'_> {
+    fn create(&self) -> Self {
+        Self { ..*self }
+    }
+
+    fn merge(&mut self, _: Self) {}
 }
 
 #[derive(Debug, Default, Clone, Copy)]
