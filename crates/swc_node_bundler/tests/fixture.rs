@@ -10,7 +10,7 @@ use anyhow::Error;
 use swc::{config::SourceMapsConfig, resolver::environment_resolver};
 use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
-use swc_common::{FileName, Span, GLOBALS};
+use swc_common::{errors::HANDLER, FileName, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, EsVersion, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
     MetaPropKind, PropName, Str,
@@ -48,97 +48,101 @@ fn pass(input_dir: PathBuf) {
         .collect::<Result<HashMap<_, _>, _>>()
         .unwrap();
 
-    testing::run_test2(false, |cm, _handler| {
-        let compiler = Arc::new(swc::Compiler::new(cm.clone()));
+    testing::run_test2(false, |cm, handler| {
+        HANDLER.set(&handler, || {
+            let compiler = Arc::new(swc::Compiler::new(cm.clone()));
 
-        GLOBALS.set(compiler.globals(), || {
-            let loader = SwcLoader::new(
-                compiler.clone(),
-                swc::config::Options {
-                    swcrc: true,
-                    ..Default::default()
-                },
-            );
-            let mut bundler = Bundler::new(
-                compiler.globals(),
-                cm.clone(),
-                &loader,
-                environment_resolver(TargetEnv::Node, Default::default(), false),
-                Config {
-                    require: true,
-                    disable_inliner: true,
-                    module: Default::default(),
-                    external_modules: NODE_BUILTINS.iter().copied().map(From::from).collect(),
-                    ..Default::default()
-                },
-                Box::new(Hook),
-            );
+            GLOBALS.set(compiler.globals(), || {
+                let loader = SwcLoader::new(
+                    compiler.clone(),
+                    swc::config::Options {
+                        swcrc: true,
+                        ..Default::default()
+                    },
+                );
+                let mut bundler = Bundler::new(
+                    compiler.globals(),
+                    cm.clone(),
+                    &loader,
+                    environment_resolver(TargetEnv::Node, Default::default(), false),
+                    Config {
+                        require: true,
+                        disable_inliner: true,
+                        module: Default::default(),
+                        external_modules: NODE_BUILTINS.iter().copied().map(From::from).collect(),
+                        ..Default::default()
+                    },
+                    Box::new(Hook),
+                );
 
-            let modules = bundler
-                .bundle(entries)
-                .map_err(|err| println!("{:?}", err))?;
-            println!("Bundled as {} modules", modules.len());
+                let modules = bundler
+                    .bundle(entries)
+                    .map_err(|err| println!("{:?}", err))?;
+                println!("Bundled as {} modules", modules.len());
 
-            let mut error = false;
+                let mut error = false;
 
-            for bundled in modules {
-                let comments = compiler.comments().clone();
-                let code = compiler
-                    .print(
-                        &bundled.module.fold_with(&mut fixer(None)),
-                        None,
-                        None,
-                        false,
-                        EsVersion::Es2020,
-                        SourceMapsConfig::Bool(false),
-                        &Default::default(),
-                        None,
-                        false,
-                        Some(&comments),
-                        false,
-                        false,
-                    )
-                    .expect("failed to print?")
-                    .code;
+                for bundled in modules {
+                    let comments = compiler.comments().clone();
+                    let code = compiler
+                        .print(
+                            &bundled.module.fold_with(&mut fixer(None)),
+                            None,
+                            None,
+                            false,
+                            EsVersion::Es2020,
+                            SourceMapsConfig::Bool(false),
+                            &Default::default(),
+                            None,
+                            false,
+                            Some(&comments),
+                            false,
+                            false,
+                        )
+                        .expect("failed to print?")
+                        .code;
 
-                let name = match bundled.kind {
-                    BundleKind::Named { name } | BundleKind::Lib { name } => PathBuf::from(name),
-                    BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
-                };
+                    let name = match bundled.kind {
+                        BundleKind::Named { name } | BundleKind::Lib { name } => {
+                            PathBuf::from(name)
+                        }
+                        BundleKind::Dynamic => format!("dynamic.{}.js", bundled.id).into(),
+                    };
 
-                let output_path = entry
-                    .join("output")
-                    .join(name.file_name().unwrap())
-                    .with_extension("js");
+                    let output_path = entry
+                        .join("output")
+                        .join(name.file_name().unwrap())
+                        .with_extension("js");
 
-                println!("Printing {}", output_path.display());
+                    println!("Printing {}", output_path.display());
 
-                // {
-                //     let status = Command::new("node")
-                //         .arg(&output_path)
-                //         .stdout(Stdio::inherit())
-                //         .stderr(Stdio::inherit())
-                //         .status()
-                //         .unwrap();
-                //     assert!(status.success());
-                // }
+                    // {
+                    //     let status = Command::new("node")
+                    //         .arg(&output_path)
+                    //         .stdout(Stdio::inherit())
+                    //         .stderr(Stdio::inherit())
+                    //         .status()
+                    //         .unwrap();
+                    //     assert!(status.success());
+                    // }
 
-                let s = NormalizedOutput::from(code);
+                    let s = NormalizedOutput::from(code);
 
-                match s.compare_to_file(&output_path) {
-                    Ok(_) => {}
-                    Err(err) => {
-                        println!("Diff: {:?}", err);
-                        error = true;
+                    match s.compare_to_file(&output_path) {
+                        Ok(_) => {}
+                        Err(err) => {
+                            println!("Diff: {:?}", err);
+                            error = true;
+                        }
                     }
                 }
-            }
 
-            if error {
-                return Err(());
-            }
+                if error {
+                    return Err(());
+                }
 
-            Ok(())
+                Ok(())
+            })
         })
     })
     .expect("failed to process a module");
