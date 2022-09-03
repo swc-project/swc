@@ -10,7 +10,6 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use crate::{
     analyzer::{ModuleInfo, UsageAnalyzer},
     marks::Marks,
-    maybe_par,
     option::CompressOptions,
     util::ModuleItemExt,
 };
@@ -60,31 +59,12 @@ impl PrecompressOptimizer<'_> {
         T: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + ModuleItemExt,
         Vec<T>: for<'aa> VisitMutWith<PrecompressOptimizer<'aa>> + VisitWith<UsageAnalyzer>,
     {
-        let has_decl = maybe_par!(
-            stmts
-                .iter()
-                .any(|stmt| matches!(stmt.as_module_decl(), Ok(..) | Err(Stmt::Decl(..)))),
-            *crate::LIGHT_TASK_PARALLELS
-        );
-
-        if has_decl {
-            stmts.visit_mut_children_with(&mut PrecompressOptimizer {
-                options: self.options,
-                module_info: self.module_info,
-                marks: self.marks,
-                ctx: self.ctx,
-            });
-            return;
-        }
-
-        stmts.iter_mut().for_each(|stmt| {
-            stmt.visit_mut_with(&mut PrecompressOptimizer {
-                options: self.options,
-                module_info: self.module_info,
-                marks: self.marks,
-                ctx: self.ctx,
-            })
-        })
+        stmts.visit_mut_children_with(&mut PrecompressOptimizer {
+            options: self.options,
+            module_info: self.module_info,
+            marks: self.marks,
+            ctx: self.ctx,
+        });
     }
 }
 
