@@ -8,4 +8,4 @@
 
 
 export RUST_LOG=off
-cargo profile instruments -t time --bench full --features concurrent --release -- $@
+cargo profile instruments -t time --bench full --features concurrent --features swc_common/perf --release -- $@
