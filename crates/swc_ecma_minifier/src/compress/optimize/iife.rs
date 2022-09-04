@@ -501,13 +501,6 @@ where
                         log_abort!("iife: [x] Found spread argument");
                         return;
                     }
-                    match &*arg.expr {
-                        Expr::Fn(..) | Expr::Arrow(..) => {
-                            log_abort!("iife: [x] Found callable argument");
-                            return;
-                        }
-                        _ => {}
-                    }
                 }
 
                 let body = f.function.body.as_mut().unwrap();

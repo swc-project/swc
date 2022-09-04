@@ -3109,7 +3109,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.20.2"
+version = "0.20.4"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3131,7 +3131,7 @@ dependencies = [
  "swc_ecma_minifier",
  "swc_ecma_parser",
  "swc_ecma_quote_macros",
- "swc_ecma_transforms",
+ "swc_ecma_transforms_base",
  "swc_ecma_transforms_module",
  "swc_ecma_transforms_optimization",
  "swc_ecma_transforms_proposal",
@@ -3422,7 +3422,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.152.1"
+version = "0.152.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3463,7 +3463,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.118.4"
+version = "0.118.5"
 dependencies = [
  "criterion",
  "either",
@@ -3527,7 +3527,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.29.0"
+version = "0.29.1"
 dependencies = [
  "anyhow",
  "pmutil",

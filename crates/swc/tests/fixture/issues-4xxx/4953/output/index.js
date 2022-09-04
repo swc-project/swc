@@ -1,16 +1,15 @@
 "use strict";
 function e(e, t) {
     "use strict";
-    !function(e, n) {
-        n(t);
-    }(void 0, function(e) {
+    var r;
+    (r = function(e) {
         "use strict";
-        e.vr = function(e, t, n) {
+        e.vr = function(e, t, r) {
             return function() {
                 return '123';
             };
         };
-    });
+    })(t);
 }
 Object.defineProperty(exports, "__esModule", {
     value: !0

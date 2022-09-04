@@ -477,29 +477,27 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = function(element, callback, options) {
-                        var ref = function(options) {
-                            var id = options.rootMargin || "", instance = observers.get(id);
-                            if (instance) return instance;
-                            var elements = new Map(), observer = new IntersectionObserver(function(entries) {
-                                entries.forEach(function(entry) {
-                                    var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
-                                    callback && isVisible && callback(isVisible);
-                                });
-                            }, options);
-                            return observers.set(id, instance = {
-                                id: id,
-                                observer: observer,
-                                elements: elements
-                            }), instance;
-                        }(options), id = ref.id, observer = ref.observer, elements = ref.elements;
-                        return elements.set(element, callback), observer.observe(element), function() {
-                            elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
-                        };
-                    }(el, function(isVisible) {
+                    var element, callback, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (element = el, callback = function(isVisible) {
                         return isVisible && setVisible(isVisible);
-                    }, {
+                    }, id = (ref = function(options) {
+                        var id = options.rootMargin || "", instance = observers.get(id);
+                        if (instance) return instance;
+                        var elements = new Map(), observer = new IntersectionObserver(function(entries) {
+                            entries.forEach(function(entry) {
+                                var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+                                callback && isVisible && callback(isVisible);
+                            });
+                        }, options);
+                        return observers.set(id, instance = {
+                            id: id,
+                            observer: observer,
+                            elements: elements
+                        }), instance;
+                    }({
                         rootMargin: rootMargin
+                    })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
+                        elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
                     isDisabled,
