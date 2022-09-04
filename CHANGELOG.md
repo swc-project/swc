@@ -49,6 +49,9 @@
 
 - **(es/minifier)** Skip useless analysis if not required (#5733) ([8963db0](https://github.com/swc-project/swc/commit/8963db0a1d46184a7e0f8ea0663cbe8a2972418a))
 
+
+- **(es/minifier)** Make rename operator parallel (#5732) ([5936bd2](https://github.com/swc-project/swc/commit/5936bd2b5e6034de09ebcf13543861f8cd53a581))
+
 ### Refactor
 
 
