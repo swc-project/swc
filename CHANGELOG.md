@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Fix example (#5739) ([4e98980](https://github.com/swc-project/swc/commit/4e989807d71aa9a6c019c6a5a01acbbee9ec6020))
 
+### Performance
+
+
+
+- **(bindings)** Enable LTO (#5740) ([49e0c71](https://github.com/swc-project/swc/commit/49e0c71cba9291ea313deffc891d9db8c9216627))
+
 ## [1.2.247] - 2022-09-04
 
 ### Bug Fixes
