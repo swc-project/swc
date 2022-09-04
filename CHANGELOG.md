@@ -13,6 +13,9 @@
 
 - **(bindings)** Enable LTO (#5740) ([49e0c71](https://github.com/swc-project/swc/commit/49e0c71cba9291ea313deffc891d9db8c9216627))
 
+
+- **(es/minifier)** Make passes more parallel (#5741) ([2baa640](https://github.com/swc-project/swc/commit/2baa640e98bd8bac2995157c42ff6489b73d85cf))
+
 ### Refactor
 
 
