@@ -116,6 +116,15 @@ pub trait ParVisitMut: VisitMut + Parallel {
     fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
     where
         N: Send + Sync + VisitMutWith<Self>;
+
+    /// Invoke `op` in parallel, if `swc_ecma_transforms_base` is compiled with
+    /// concurrent feature enabled.
+    ///
+    ///
+    /// This does not configure thread-local storages
+    fn invoke_mut_par<N, F>(&mut self, threshold: usize, nodes: &mut [N], op: F)
+    where
+        F: Send + Sync + FnMut(&mut Self, &mut N);
 }
 
 #[cfg(feature = "concurrent")]
