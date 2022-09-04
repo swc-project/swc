@@ -3,6 +3,7 @@ use swc_common::util::move_map::MoveMap;
 use swc_common::{errors::HANDLER, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_utils::parallel::Parallel;
+pub use swc_ecma_utils::parallel::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
 #[cfg(feature = "concurrent")]
