@@ -52,6 +52,9 @@
 
 - **(es/minifier)** Make rename operator parallel (#5732) ([5936bd2](https://github.com/swc-project/swc/commit/5936bd2b5e6034de09ebcf13543861f8cd53a581))
 
+
+- **(es/minifier)** Make dead branch remover parallel (#5734) ([6ba6da6](https://github.com/swc-project/swc/commit/6ba6da62d72edf69d699e2c031aa38c630e00e39))
+
 ### Refactor
 
 
