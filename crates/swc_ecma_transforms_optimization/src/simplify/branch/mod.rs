@@ -1231,6 +1231,24 @@ impl VisitMut for Remover {
             s.cases.clear();
         }
     }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
 }
 
 impl Remover {
