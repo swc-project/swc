@@ -16,6 +16,9 @@
 
 - **(es/minifier)** Make passes more parallel (#5741) ([2baa640](https://github.com/swc-project/swc/commit/2baa640e98bd8bac2995157c42ff6489b73d85cf))
 
+
+- **(es/minifier)** Pre-allocate in analyzer (#5743) ([96b2e17](https://github.com/swc-project/swc/commit/96b2e17a8fdb5e500eb1e6a10ffa16d4d0c98957))
+
 ### Refactor
 
 
