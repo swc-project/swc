@@ -1006,6 +1006,10 @@ impl VisitMut for TreeShaker {
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
         self.visit_mut_par(cpu_count() * 8, n);
     }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
 }
 
 impl Scope<'_> {
