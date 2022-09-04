@@ -1249,6 +1249,12 @@ impl VisitMut for Remover {
             n.visit_mut_with(v);
         })
     }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
 }
 
 impl Remover {
