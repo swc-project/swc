@@ -281,8 +281,20 @@ where
     }
 }
 
+/// This is considered as a private type and it's NOT A PUBLIC API.
+#[cfg(feature = "concurrent")]
 pub trait Items {
     type Item: Send + Sync;
+
+    fn len(&self) -> usize;
+}
+
+/// This is considered as a private type and it's NOT A PUBLIC API.
+#[cfg(not(feature = "concurrent"))]
+pub trait Items {
+    type Item: Send + Sync;
+
+    fn len(&self) -> usize;
 }
 
 pub trait ParallelExt: Parallel {
@@ -297,6 +309,7 @@ pub trait ParallelExt: Parallel {
         F: Send + Sync + Fn(&mut Self, I::Item);
 }
 
+#[cfg(feature = "concurrent")]
 impl<T> ParallelExt for T
 where
     T: Parallel,
