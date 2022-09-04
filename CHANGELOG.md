@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Fix example (#5739) ([4e98980](https://github.com/swc-project/swc/commit/4e989807d71aa9a6c019c6a5a01acbbee9ec6020))
+
+## [1.2.247] - 2022-09-04
+
 ### Bug Fixes
 
 
