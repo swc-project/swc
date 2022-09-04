@@ -7,7 +7,7 @@ use swc_common::{
     Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::pass::RepeatedJsPass;
+use swc_ecma_transforms_base::{pass::RepeatedJsPass, perf::Parallel};
 use swc_ecma_utils::{
     extract_var_ids, is_literal, prepend_stmt, undefined, ExprCtx, ExprExt, ExprFactory, Hoister,
     IsEmpty, StmtExt, StmtLike, Value::Known,
@@ -56,6 +56,17 @@ struct Remover {
     normal_block: bool,
 
     expr_ctx: ExprCtx,
+}
+
+impl Parallel for Remover {
+    fn create(&self) -> Self {
+        Self {
+            expr_ctx: self.expr_ctx.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, _: Self) {}
 }
 
 impl VisitMut for Remover {
