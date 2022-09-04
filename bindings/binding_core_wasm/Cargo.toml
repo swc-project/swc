@@ -20,10 +20,10 @@ swc_v2 = []
 plugin = ["swc_core/plugin_transform_host_js"]
 
 [dependencies]
-swc_core = { version = "0.18.0", features = [
+swc_core = {version = "0.20.4", features = [
   "common_perf",
   "binding_macro_wasm",
-] }
+]}
 wasm-bindgen = {version = "0.2.82", features = [
   "serde-serialize",
   "enable-interning",
