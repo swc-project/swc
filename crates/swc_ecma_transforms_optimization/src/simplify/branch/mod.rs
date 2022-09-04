@@ -7,7 +7,10 @@ use swc_common::{
     Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{pass::RepeatedJsPass, perf::Parallel};
+use swc_ecma_transforms_base::{
+    pass::RepeatedJsPass,
+    perf::{cpu_count, Parallel, ParallelExt},
+};
 use swc_ecma_utils::{
     extract_var_ids, is_literal, prepend_stmt, undefined, ExprCtx, ExprExt, ExprFactory, Hoister,
     IsEmpty, StmtExt, StmtLike, Value::Known,
@@ -1242,12 +1245,13 @@ impl Remover {
 
         let mut new_stmts = Vec::with_capacity(stmts.len());
 
-        let mut iter = stmts.take().into_iter();
-        while let Some(mut stmt_like) = iter.next() {
-            self.normal_block = true;
-            stmt_like.visit_mut_with(self);
-            self.normal_block = false;
+        self.maybe_par(cpu_count() * 8, &mut *stmts, |visitor, stmt| {
+            visitor.normal_block = true;
+            stmt.visit_mut_with(visitor);
+        });
 
+        let mut iter = stmts.take().into_iter();
+        while let Some(stmt_like) = iter.next() {
             let stmt_like = match stmt_like.try_into_stmt() {
                 Ok(stmt) => {
                     let stmt = match stmt {
