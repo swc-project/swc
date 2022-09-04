@@ -125,7 +125,7 @@ pub trait ParVisitMut: VisitMut + Parallel {
     fn invoke_mut_par<N, F>(&mut self, threshold: usize, nodes: &mut [N], op: F)
     where
         N: Send + Sync,
-        F: Send + Sync + FnMut(&mut Self, &mut N);
+        F: Send + Sync + Fn(&mut Self, &mut N);
 }
 
 #[cfg(feature = "concurrent")]
@@ -176,6 +176,45 @@ where
 
         for n in nodes {
             n.visit_mut_with(self);
+        }
+    }
+
+    fn invoke_mut_par<N, F>(&mut self, threshold: usize, nodes: &mut [N], op: F)
+    where
+        N: Send + Sync,
+        F: Send + Sync + Fn(&mut Self, &mut N),
+    {
+        if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
+            GLOBALS.with(|globals| {
+                use rayon::prelude::*;
+
+                let visitor = nodes
+                    .into_par_iter()
+                    .map(|node| {
+                        GLOBALS.set(globals, || {
+                            let mut visitor = Parallel::create(&*self);
+                            op(&mut visitor, node);
+
+                            visitor
+                        })
+                    })
+                    .reduce(
+                        || Parallel::create(&*self),
+                        |mut a, b| {
+                            Parallel::merge(&mut a, b);
+
+                            a
+                        },
+                    );
+
+                Parallel::merge(self, visitor);
+            });
+
+            return;
+        }
+
+        for n in nodes {
+            op(self, n);
         }
     }
 }
