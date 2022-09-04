@@ -315,6 +315,16 @@ where
             n.visit_mut_with(self);
         }
     }
+
+    fn invoke_mut_par<N, F>(&mut self, threshold: usize, nodes: &mut [N], op: F)
+    where
+        N: Send + Sync,
+        F: Send + Sync + Fn(&mut Self, &mut N),
+    {
+        for n in nodes {
+            op(self, n);
+        }
+    }
 }
 
 #[cfg(not(feature = "concurrent"))]
