@@ -3109,7 +3109,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.20.5"
+version = "0.20.6"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3691,7 +3691,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.160.5"
+version = "0.160.6"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3818,7 +3818,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.101.1"
+version = "0.101.2"
 dependencies = [
  "indexmap",
  "num_cpus",
