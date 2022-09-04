@@ -13,6 +13,12 @@
 
 - **(bindings)** Enable LTO (#5740) ([49e0c71](https://github.com/swc-project/swc/commit/49e0c71cba9291ea313deffc891d9db8c9216627))
 
+### Refactor
+
+
+
+- **(es/utils)** Move utilities for parallel processing (#5742) ([64f42be](https://github.com/swc-project/swc/commit/64f42bec27c4c7cf60cb6d6043fec93e479fb9b8))
+
 ## [1.2.247] - 2022-09-04
 
 ### Bug Fixes

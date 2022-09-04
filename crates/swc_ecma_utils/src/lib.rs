@@ -46,6 +46,7 @@ pub mod constructor;
 mod factory;
 pub mod function;
 pub mod ident;
+pub mod parallel;
 mod value;
 pub mod var;
 
