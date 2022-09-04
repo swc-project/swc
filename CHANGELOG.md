@@ -46,6 +46,9 @@
 
 - **(es/minifier)** Optimize precompress optimizer (#5727) ([31c516a](https://github.com/swc-project/swc/commit/31c516a9228ebe304cd461f7e139f13a8519b43c))
 
+
+- **(es/minifier)** Skip useless analysis if not required (#5733) ([8963db0](https://github.com/swc-project/swc/commit/8963db0a1d46184a7e0f8ea0663cbe8a2972418a))
+
 ### Refactor
 
 
