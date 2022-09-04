@@ -2,7 +2,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
-    Spanned, SyntaxContext, DUMMY_SP,
+    Spanned, SyntaxContext, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -11,7 +11,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use crate::perf::cpu_count;
 use crate::{
     hygiene::Config,
-    perf::{ParExplode, Parallel},
+    perf::{ParExplode, ParVisitMut, Parallel},
 };
 
 pub(super) struct Operator<'a> {
@@ -545,6 +545,36 @@ impl<'a> VisitMut for Operator<'a> {
         if let SuperProp::Computed(c) = &mut expr.prop {
             c.visit_mut_with(self);
         }
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        GLOBALS.with(|globals| {
+            self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
+                GLOBALS.set(globals, || {
+                    n.visit_mut_with(v);
+                })
+            })
+        })
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        GLOBALS.with(|globals| {
+            self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
+                GLOBALS.set(globals, || {
+                    n.visit_mut_with(v);
+                })
+            })
+        })
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        GLOBALS.with(|globals| {
+            self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
+                GLOBALS.set(globals, || {
+                    n.visit_mut_with(v);
+                })
+            })
+        })
     }
 }
 
