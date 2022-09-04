@@ -3587,7 +3587,6 @@ dependencies = [
  "better_scoped_tls",
  "bitflags",
  "criterion",
- "num_cpus",
  "once_cell",
  "phf",
  "rayon",
@@ -3822,6 +3821,7 @@ name = "swc_ecma_utils"
 version = "0.101.0"
 dependencies = [
  "indexmap",
+ "num_cpus",
  "once_cell",
  "rayon",
  "swc_atoms",
