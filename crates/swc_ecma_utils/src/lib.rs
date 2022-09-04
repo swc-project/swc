@@ -2603,6 +2603,18 @@ where
         self.is_pat_decl = old;
     }
 
+    fn visit_stmts(&mut self, n: &[Stmt]) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_with(v);
+        })
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_with(v);
+        })
+    }
+
     fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
         self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_with(v);
