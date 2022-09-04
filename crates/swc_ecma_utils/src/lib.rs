@@ -16,7 +16,7 @@ use std::{
     ops::Add,
 };
 
-use parallel::Parallel;
+use parallel::{cpu_count, Parallel, ParallelExt};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -2601,6 +2601,30 @@ where
         self.is_pat_decl = false;
         node.init.visit_with(self);
         self.is_pat_decl = old;
+    }
+
+    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_with(v);
+        })
+    }
+
+    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_with(v);
+        })
+    }
+
+    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_with(v);
+        })
+    }
+
+    fn visit_exprs(&mut self, n: &[Box<Expr>]) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_with(v);
+        })
     }
 }
 
