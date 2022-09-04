@@ -283,6 +283,8 @@ impl Pure<'_> {
 
         if &*method.sym == "toFixed" {
             if let Some(precision) = eval_as_number(&self.expr_ctx, &args[0].expr) {
+                debug_assert!(precision.is_nan());
+
                 let precision = precision.floor() as usize;
                 let value = num_to_fixed(num.value, precision + 1);
 
