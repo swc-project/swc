@@ -165,12 +165,14 @@ var ts;
         function addExportEqualsIfNeeded(statements, emitAsReturn) {
             if (currentModuleInfo.exportEquals) {
                 var expressionResult = ts.visitNode(currentModuleInfo.exportEquals.expression, visitor);
-                if (expressionResult) if (emitAsReturn) {
-                    var statement = factory.createReturnStatement(expressionResult);
-                    ts.setTextRange(statement, currentModuleInfo.exportEquals), ts.setEmitFlags(statement, 1920), statements.push(statement);
-                } else {
-                    var statement = factory.createExpressionStatement(factory.createAssignment(factory.createPropertyAccessExpression(factory.createIdentifier("module"), "exports"), expressionResult));
-                    ts.setTextRange(statement, currentModuleInfo.exportEquals), ts.setEmitFlags(statement, 1536), statements.push(statement);
+                if (expressionResult) {
+                    if (emitAsReturn) {
+                        var statement = factory.createReturnStatement(expressionResult);
+                        ts.setTextRange(statement, currentModuleInfo.exportEquals), ts.setEmitFlags(statement, 1920), statements.push(statement);
+                    } else {
+                        var statement = factory.createExpressionStatement(factory.createAssignment(factory.createPropertyAccessExpression(factory.createIdentifier("module"), "exports"), expressionResult));
+                        ts.setTextRange(statement, currentModuleInfo.exportEquals), ts.setEmitFlags(statement, 1536), statements.push(statement);
+                    }
                 }
             }
         }
@@ -243,10 +245,12 @@ var ts;
                             for(var statements, variables, expressions, modifiers = void 0, removeCommentsOnExpressions = !1, _i = 0, _a = node.declarationList.declarations; _i < _a.length; _i++){
                                 var variable = _a[_i];
                                 if (ts.isIdentifier(variable.name) && ts.isLocalName(variable.name)) modifiers || (modifiers = ts.visitNodes(node.modifiers, modifierVisitor, ts.isModifier)), variables = ts.append(variables, variable);
-                                else if (variable.initializer) if (!ts.isBindingPattern(variable.name) && (ts.isArrowFunction(variable.initializer) || ts.isFunctionExpression(variable.initializer) || ts.isClassExpression(variable.initializer))) {
-                                    var expression = factory.createAssignment(ts.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), variable.name), variable.name), factory.createIdentifier(ts.getTextOfIdentifierOrLiteral(variable.name))), updatedVariable = factory.createVariableDeclaration(variable.name, variable.exclamationToken, variable.type, ts.visitNode(variable.initializer, visitor));
-                                    variables = ts.append(variables, updatedVariable), expressions = ts.append(expressions, expression), removeCommentsOnExpressions = !0;
-                                } else expressions = ts.append(expressions, transformInitializedVariable(variable));
+                                else if (variable.initializer) {
+                                    if (!ts.isBindingPattern(variable.name) && (ts.isArrowFunction(variable.initializer) || ts.isFunctionExpression(variable.initializer) || ts.isClassExpression(variable.initializer))) {
+                                        var expression = factory.createAssignment(ts.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), variable.name), variable.name), factory.createIdentifier(ts.getTextOfIdentifierOrLiteral(variable.name))), updatedVariable = factory.createVariableDeclaration(variable.name, variable.exclamationToken, variable.type, ts.visitNode(variable.initializer, visitor));
+                                        variables = ts.append(variables, updatedVariable), expressions = ts.append(expressions, expression), removeCommentsOnExpressions = !0;
+                                    } else expressions = ts.append(expressions, transformInitializedVariable(variable));
+                                }
                             }
                             if (variables && (statements = ts.append(statements, factory.updateVariableStatement(node, modifiers, factory.updateVariableDeclarationList(node.declarationList, variables)))), expressions) {
                                 var statement = ts.setOriginalNode(ts.setTextRange(factory.createExpressionStatement(factory.inlineExpressions(expressions)), node), node);
