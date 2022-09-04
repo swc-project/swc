@@ -16,6 +16,7 @@ use std::{
     ops::Add,
 };
 
+use parallel::Parallel;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -2485,6 +2486,22 @@ where
     only: Option<SyntaxContext>,
     bindings: AHashSet<I>,
     is_pat_decl: bool,
+}
+
+impl<I> Parallel for BindingCollector<I>
+where
+    I: IdentLike + Eq + Hash + Send + Sync,
+{
+    fn create(&self) -> Self {
+        Self {
+            bindings: Default::default(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.bindings.extend(other.bindings);
+    }
 }
 
 impl<I> BindingCollector<I>
