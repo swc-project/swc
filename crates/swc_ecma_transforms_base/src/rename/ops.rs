@@ -11,7 +11,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use crate::perf::cpu_count;
 use crate::{
     hygiene::Config,
-    perf::{ParExplode, ParVisitMut, Parallel},
+    perf::{ParExplode, Parallel, ParallelExt},
 };
 
 pub(super) struct Operator<'a> {
@@ -548,19 +548,19 @@ impl<'a> VisitMut for Operator<'a> {
     }
 
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         })
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         })
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
             n.visit_mut_with(v);
         })
     }
