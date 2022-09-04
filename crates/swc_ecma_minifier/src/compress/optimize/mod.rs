@@ -9,6 +9,7 @@ use swc_common::{
     SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
     prepend_stmts, undefined, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike,
     Type, Value,
@@ -2221,6 +2222,8 @@ where
         self.merge_sequences_in_seq_expr(n);
 
         self.lift_seqs_of_assign(n);
+
+        debug_assert_valid(&n.exprs);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
