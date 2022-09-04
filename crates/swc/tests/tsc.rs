@@ -46,13 +46,18 @@ fn fixture(input: PathBuf) {
             //
 
             catch_unwind(AssertUnwindSafe(|| {
-                let output_dir = Path::new("tests").join("tsc-references");
+                testing::run_test(false, |_, _| {
+                    let output_dir = Path::new("tests").join("tsc-references");
 
-                let _ = create_dir_all(&output_dir);
+                    let _ = create_dir_all(&output_dir);
 
-                let output_path = output_dir.join(&test_unit_data.output);
+                    let output_path = output_dir.join(&test_unit_data.output);
 
-                compile(&output_path, test_unit_data);
+                    compile(&output_path, test_unit_data);
+
+                    Ok(())
+                })
+                .unwrap();
             }))
             .err()
         })
