@@ -223,7 +223,7 @@ where
             thread::current().name()
         );
 
-        {
+        if self.options.hoist_vars || self.options.hoist_fns {
             let data = analyze(&*n, self.module_info, Some(self.marks));
 
             let mut v = decl_hoister(
