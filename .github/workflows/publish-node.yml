@@ -5,6 +5,7 @@ env:
   APP_NAME: swc
   MACOSX_DEPLOYMENT_TARGET: "10.13"
   CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_RELEASE_LTO: "fat"
   CI: "1"
   DISABLE_PLUGIN_E2E_TESTS: true
 
@@ -33,6 +34,7 @@ jobs:
               strip -x *.node
           - host: windows-latest
             build: |
+              export CARGO_PROFILE_RELEASE_LTO=false
               yarn build
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
               cp ./bindings/target/release/swc .
