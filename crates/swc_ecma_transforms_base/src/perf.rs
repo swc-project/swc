@@ -121,9 +121,10 @@ pub trait ParVisitMut: VisitMut + Parallel {
     /// concurrent feature enabled.
     ///
     ///
-    /// This does not configure thread-local storages
+    /// This configures [GLOBALS], while not configuring [HANDLER] nor [HELPERS]
     fn invoke_mut_par<N, F>(&mut self, threshold: usize, nodes: &mut [N], op: F)
     where
+        N: Send + Sync,
         F: Send + Sync + FnMut(&mut Self, &mut N);
 }
 

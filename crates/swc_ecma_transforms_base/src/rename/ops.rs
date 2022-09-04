@@ -548,32 +548,20 @@ impl<'a> VisitMut for Operator<'a> {
     }
 
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        GLOBALS.with(|globals| {
-            self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
-                GLOBALS.set(globals, || {
-                    n.visit_mut_with(v);
-                })
-            })
+        self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
         })
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        GLOBALS.with(|globals| {
-            self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
-                GLOBALS.set(globals, || {
-                    n.visit_mut_with(v);
-                })
-            })
+        self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
         })
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        GLOBALS.with(|globals| {
-            self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
-                GLOBALS.set(globals, || {
-                    n.visit_mut_with(v);
-                })
-            })
+        self.invoke_mut_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
         })
     }
 }
