@@ -7,11 +7,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-#[cfg(feature = "concurrent")]
-use crate::perf::cpu_count;
 use crate::{
     hygiene::Config,
-    perf::{ParExplode, Parallel},
+    perf::{cpu_count, ParExplode, Parallel, ParallelExt},
 };
 
 pub(super) struct Operator<'a> {
@@ -358,7 +356,7 @@ impl<'a> VisitMut for Operator<'a> {
         use std::mem::take;
 
         #[cfg(feature = "concurrent")]
-        if nodes.len() >= 64 * cpu_count() {
+        if nodes.len() >= 8 * cpu_count() {
             ::swc_common::GLOBALS.with(|globals| {
                 use rayon::prelude::*;
 
@@ -411,6 +409,67 @@ impl<'a> VisitMut for Operator<'a> {
         }
 
         self.after_module_items(&mut buf);
+
+        *nodes = buf;
+    }
+
+    fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
+        use std::mem::take;
+
+        #[cfg(feature = "concurrent")]
+        if nodes.len() >= 8 * cpu_count() {
+            ::swc_common::GLOBALS.with(|globals| {
+                use rayon::prelude::*;
+
+                let (visitor, new_nodes) = take(nodes)
+                    .into_par_iter()
+                    .map(|mut node| {
+                        ::swc_common::GLOBALS.set(globals, || {
+                            let mut visitor = Parallel::create(&*self);
+                            node.visit_mut_with(&mut visitor);
+
+                            let mut nodes = Vec::with_capacity(4);
+
+                            ParExplode::after_one_stmt(&mut visitor, &mut nodes);
+
+                            nodes.push(node);
+
+                            (visitor, nodes)
+                        })
+                    })
+                    .reduce(
+                        || (Parallel::create(&*self), vec![]),
+                        |mut a, b| {
+                            Parallel::merge(&mut a.0, b.0);
+
+                            a.1.extend(b.1);
+
+                            a
+                        },
+                    );
+
+                Parallel::merge(self, visitor);
+
+                {
+                    self.after_stmts(nodes);
+                }
+
+                *nodes = new_nodes;
+            });
+
+            return;
+        }
+
+        let mut buf = Vec::with_capacity(nodes.len());
+
+        for mut node in take(nodes) {
+            let mut visitor = Parallel::create(&*self);
+            node.visit_mut_with(&mut visitor);
+            buf.push(node);
+            visitor.after_one_stmt(&mut buf);
+        }
+
+        self.after_stmts(&mut buf);
 
         *nodes = buf;
     }
@@ -484,6 +543,24 @@ impl<'a> VisitMut for Operator<'a> {
         if let SuperProp::Computed(c) = &mut expr.prop {
             c.visit_mut_with(self);
         }
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
     }
 }
 
