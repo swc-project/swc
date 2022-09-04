@@ -281,26 +281,6 @@ where
     }
 }
 
-/// This is considered as a private type and it's NOT A PUBLIC API.
-#[cfg(feature = "concurrent")]
-#[allow(clippy::len_without_is_empty)]
-pub trait Items:
-    rayon::iter::IntoParallelIterator<Item = Self::Elem> + IntoIterator<Item = Self::Elem>
-{
-    type Elem: Send + Sync;
-
-    fn len(&self) -> usize;
-}
-
-/// This is considered as a private type and it's NOT A PUBLIC API.
-#[cfg(not(feature = "concurrent"))]
-#[allow(clippy::len_without_is_empty)]
-pub trait Items: IntoIterator<Item = Self::Elem> {
-    type Elem: Send + Sync;
-
-    fn len(&self) -> usize;
-}
-
 pub trait ParallelExt: Parallel {
     /// Invoke `op` in parallel, if `swc_ecma_transforms_base` is compiled with
     /// concurrent feature enabled and `nodes.len()` is bigger than threshold.
@@ -371,49 +351,5 @@ where
         for n in nodes {
             op(self, n);
         }
-    }
-}
-
-impl<T> Items for Vec<T>
-where
-    T: Send + Sync,
-{
-    type Elem = T;
-
-    fn len(&self) -> usize {
-        Vec::len(self)
-    }
-}
-
-impl<'a, T> Items for &'a mut Vec<T>
-where
-    T: Send + Sync,
-{
-    type Elem = &'a mut T;
-
-    fn len(&self) -> usize {
-        Vec::len(self)
-    }
-}
-
-impl<'a, T> Items for &'a mut [T]
-where
-    T: Send + Sync,
-{
-    type Elem = &'a mut T;
-
-    fn len(&self) -> usize {
-        <[T]>::len(self)
-    }
-}
-
-impl<'a, T> Items for &'a [T]
-where
-    T: Send + Sync,
-{
-    type Elem = &'a T;
-
-    fn len(&self) -> usize {
-        <[T]>::len(self)
     }
 }
