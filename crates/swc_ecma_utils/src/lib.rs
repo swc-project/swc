@@ -2614,30 +2614,6 @@ where
             n.visit_with(v);
         })
     }
-
-    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_with(v);
-        })
-    }
-
-    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_with(v);
-        })
-    }
-
-    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_with(v);
-        })
-    }
-
-    fn visit_exprs(&mut self, n: &[Box<Expr>]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_with(v);
-        })
-    }
 }
 
 /// Collects binding identifiers.
