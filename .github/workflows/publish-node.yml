@@ -34,6 +34,7 @@ jobs:
               strip -x *.node
           - host: windows-latest
             build: |
+              export CARGO_PROFILE_RELEASE_LTO=false
               yarn build
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
               cp ./bindings/target/release/swc .
