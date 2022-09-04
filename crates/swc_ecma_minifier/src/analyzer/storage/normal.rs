@@ -112,6 +112,10 @@ impl Storage for ProgramData {
                 }
             }
         }
+
+        if kind == ScopeKind::Block {
+            self.initialized_vars.extend(child.initialized_vars)
+        }
     }
 
     fn report_usage(&mut self, ctx: Ctx, i: &Ident, is_assign: bool) {
@@ -156,7 +160,8 @@ impl Storage for ProgramData {
 
         v.declared_count += 1;
         v.declared = true;
-        if has_init {
+        // not a VarDecl, thus always inited
+        if has_init || kind.is_none() {
             self.initialized_vars.insert(i.to_id());
         }
         v.declared_as_catch_param |= ctx.in_catch_param;
@@ -207,7 +212,7 @@ impl ProgramData {
 
         let inited = self.initialized_vars.contains(&i);
 
-        let e = self.vars.entry(i).or_insert_with(|| {
+        let e = self.vars.entry(i.clone()).or_insert_with(|| {
             // trace!("insert({}{:?})", i.0, i.1);
 
             VarUsageInfo {
@@ -221,6 +226,9 @@ impl ProgramData {
 
         if is_first {
             e.ref_count += 1;
+            if !is_modify && !inited {
+                // e.used_above_decl = true;
+            }
             if e.var_initialized && !inited {
                 e.cond_init = true;
             }
@@ -238,6 +246,10 @@ impl ProgramData {
 
             if ctx.is_op_assign {
                 e.usage_count += 1;
+            } else {
+                if e.ref_count == 1 {
+                    self.initialized_vars.insert(i);
+                }
             }
 
             for other in e.infects.clone() {

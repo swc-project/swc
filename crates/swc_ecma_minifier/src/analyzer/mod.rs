@@ -630,12 +630,10 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
-        let ctx = Ctx {
+        n.visit_children_with(&mut *self.with_ctx(Ctx {
             executed_multiple_time: true,
-            in_cond: true,
             ..self.ctx
-        };
-        self.with_ctx(ctx).visit_children_in_cond(n);
+        }));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
@@ -759,6 +757,14 @@ where
                 }
             }
         }
+    }
+
+    fn visit_labeled_stmt(&mut self, n: &LabeledStmt) {
+        self.with_ctx(Ctx {
+            in_cond: true,
+            ..self.ctx
+        })
+        .visit_children_in_cond(n)
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
@@ -1191,13 +1197,17 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
+        n.test.visit_with(&mut *self.with_ctx(Ctx {
+            executed_multiple_time: true,
+            ..self.ctx
+        }));
         let ctx = Ctx {
             executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };
 
-        self.with_ctx(ctx).visit_children_in_cond(n);
+        self.with_ctx(ctx).visit_in_cond(&n.body);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
