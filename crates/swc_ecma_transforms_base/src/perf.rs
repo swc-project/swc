@@ -371,3 +371,36 @@ where
         }
     }
 }
+
+impl<T> Items for Vec<T>
+where
+    T: Send + Sync,
+{
+    type Elem = T;
+
+    fn len(&self) -> usize {
+        Vec::len(self)
+    }
+}
+
+impl<'a, T> Items for &'a mut [T]
+where
+    T: Send + Sync,
+{
+    type Elem = &'a mut T;
+
+    fn len(&self) -> usize {
+        <[T]>::len(self)
+    }
+}
+
+impl<'a, T> Items for &'a [T]
+where
+    T: Send + Sync,
+{
+    type Elem = &'a T;
+
+    fn len(&self) -> usize {
+        <[T]>::len(self)
+    }
+}
