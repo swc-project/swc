@@ -363,7 +363,7 @@ impl<T> ParallelExt for T
 where
     T: Parallel,
 {
-    fn maybe_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
+    fn maybe_par<I, F>(&mut self, _threshold: usize, nodes: I, op: F)
     where
         I: Items,
         F: Send + Sync + Fn(&mut Self, I::Elem),
