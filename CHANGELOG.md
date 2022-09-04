@@ -52,6 +52,9 @@
 
 - **(swc_core)** Use namespace `ecma` (#5713) ([975cbfe](https://github.com/swc-project/swc/commit/975cbfe0d9d1399c543df5041a6775514a3c43ee))
 
+
+- **(swc_core)** Directly export `swc_ecma_transforms_base` (#5731) ([aad50dc](https://github.com/swc-project/swc/commit/aad50dcc6e890fdd26a7b3208ebc81e4d4fe2975))
+
 ## [1.2.246] - 2022-09-01
 
 ### Bug Fixes
