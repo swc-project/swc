@@ -301,11 +301,11 @@ pub trait Items: IntoIterator<Item = Self::Elem> {
 
 pub trait ParallelExt: Parallel {
     /// Invoke `op` in parallel, if `swc_ecma_transforms_base` is compiled with
-    /// concurrent feature enabled.
+    /// concurrent feature enabled and `nodes.len()` is bigger than threshold.
     ///
     ///
     /// This configures [GLOBALS], while not configuring [HANDLER] nor [HELPERS]
-    fn invoke_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
+    fn maybe_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
     where
         I: Items,
         F: Send + Sync + Fn(&mut Self, I::Elem);
@@ -316,7 +316,7 @@ impl<T> ParallelExt for T
 where
     T: Parallel,
 {
-    fn invoke_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
+    fn maybe_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
     where
         I: Items,
         F: Send + Sync + Fn(&mut Self, I::Elem),
