@@ -349,7 +349,7 @@ where
 
         if let Expr::Call(..) = e {
             if let Some(value) = eval_as_number(&self.expr_ctx, e) {
-                debug_assert!(value.is_nan());
+                debug_assert!(value.is_nan(), "Expr became NaN: {:?}", e);
 
                 self.changed = true;
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
