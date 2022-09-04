@@ -10,11 +10,6 @@ use napi::{
 };
 use serde::Deserialize;
 use swc_core::{
-    ast::{
-        Bool, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
-        PropName, Str,
-    },
-    atoms::{js_word, JsWord},
     base::{
         config::SourceMapsConfig,
         resolver::{environment_resolver, paths_resolver},
@@ -22,7 +17,14 @@ use swc_core::{
     },
     bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
     common::{collections::AHashMap, Span},
-    loader::{TargetEnv, NODE_BUILTINS},
+    ecma::{
+        ast::{
+            Bool, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
+            MetaPropKind, PropName, Str,
+        },
+        atoms::{js_word, JsWord},
+        loader::{TargetEnv, NODE_BUILTINS},
+    },
     node::{get_deserialized, MapErr},
 };
 

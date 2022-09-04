@@ -5,11 +5,11 @@ use napi::{
     Env, Task,
 };
 use swc_core::{
-    ast::{EsVersion, Program},
     base::{
         config::{Options, SourceMapsConfig},
         Compiler, TransformOutput,
     },
+    ecma::ast::{EsVersion, Program},
     node::{deserialize_json, get_deserialized, MapErr},
 };
 

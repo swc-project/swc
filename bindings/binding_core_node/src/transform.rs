@@ -10,9 +10,9 @@ use napi::{
 };
 use path_clean::clean;
 use swc_core::{
-    ast::Program,
     base::{config::Options, Compiler, TransformOutput},
     common::FileName,
+    ecma::ast::Program,
     node::{deserialize_json, get_deserialized, MapErr},
 };
 use tracing::instrument;
