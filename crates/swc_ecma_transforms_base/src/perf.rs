@@ -116,16 +116,6 @@ pub trait ParVisitMut: VisitMut + Parallel {
     fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
     where
         N: Send + Sync + VisitMutWith<Self>;
-
-    /// Invoke `op` in parallel, if `swc_ecma_transforms_base` is compiled with
-    /// concurrent feature enabled.
-    ///
-    ///
-    /// This configures [GLOBALS], while not configuring [HANDLER] nor [HELPERS]
-    fn invoke_mut_par<N, F>(&mut self, threshold: usize, nodes: &mut [N], op: F)
-    where
-        N: Send + Sync,
-        F: Send + Sync + Fn(&mut Self, &mut N);
 }
 
 #[cfg(feature = "concurrent")]
@@ -176,45 +166,6 @@ where
 
         for n in nodes {
             n.visit_mut_with(self);
-        }
-    }
-
-    fn invoke_mut_par<N, F>(&mut self, threshold: usize, nodes: &mut [N], op: F)
-    where
-        N: Send + Sync,
-        F: Send + Sync + Fn(&mut Self, &mut N),
-    {
-        if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
-            GLOBALS.with(|globals| {
-                use rayon::prelude::*;
-
-                let visitor = nodes
-                    .into_par_iter()
-                    .map(|node| {
-                        GLOBALS.set(globals, || {
-                            let mut visitor = Parallel::create(&*self);
-                            op(&mut visitor, node);
-
-                            visitor
-                        })
-                    })
-                    .reduce(
-                        || Parallel::create(&*self),
-                        |mut a, b| {
-                            Parallel::merge(&mut a, b);
-
-                            a
-                        },
-                    );
-
-                Parallel::merge(self, visitor);
-            });
-
-            return;
-        }
-
-        for n in nodes {
-            op(self, n);
         }
     }
 }
@@ -315,16 +266,6 @@ where
             n.visit_mut_with(self);
         }
     }
-
-    fn invoke_mut_par<N, F>(&mut self, threshold: usize, nodes: &mut [N], op: F)
-    where
-        N: Send + Sync,
-        F: Send + Sync + Fn(&mut Self, &mut N),
-    {
-        for n in nodes {
-            op(self, n);
-        }
-    }
 }
 
 #[cfg(not(feature = "concurrent"))]
@@ -337,5 +278,67 @@ where
         N: Send + Sync + FoldWith<Self>,
     {
         nodes.move_map(|n| n.fold_with(self))
+    }
+}
+
+pub trait Items {
+    type Item: Send + Sync;
+}
+
+pub trait ParallelExt: Parallel {
+    /// Invoke `op` in parallel, if `swc_ecma_transforms_base` is compiled with
+    /// concurrent feature enabled.
+    ///
+    ///
+    /// This configures [GLOBALS], while not configuring [HANDLER] nor [HELPERS]
+    fn invoke_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
+    where
+        I: Items,
+        F: Send + Sync + Fn(&mut Self, I::Item);
+}
+
+impl<T> ParallelExt for T
+where
+    T: Parallel,
+{
+    fn invoke_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
+    where
+        I: Items,
+        F: Send + Sync + Fn(&mut Self, I::Item),
+    {
+        {
+            if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
+                GLOBALS.with(|globals| {
+                    use rayon::prelude::*;
+
+                    let visitor = nodes
+                        .into_par_iter()
+                        .map(|node| {
+                            GLOBALS.set(globals, || {
+                                let mut visitor = Parallel::create(&*self);
+                                op(&mut visitor, node);
+
+                                visitor
+                            })
+                        })
+                        .reduce(
+                            || Parallel::create(&*self),
+                            |mut a, b| {
+                                Parallel::merge(&mut a, b);
+
+                                a
+                            },
+                        );
+
+                    Parallel::merge(self, visitor);
+                });
+
+                return;
+            }
+
+            for n in nodes {
+                op(self, n);
+            }
+        }
     }
 }
