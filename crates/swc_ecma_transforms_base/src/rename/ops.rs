@@ -7,11 +7,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-#[cfg(feature = "concurrent")]
-use crate::perf::cpu_count;
 use crate::{
     hygiene::Config,
-    perf::{ParExplode, Parallel, ParallelExt},
+    perf::{cpu_count, ParExplode, Parallel, ParallelExt},
 };
 
 pub(super) struct Operator<'a> {
