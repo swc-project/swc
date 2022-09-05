@@ -34,6 +34,9 @@
 
 - **(es/minifier)** Cache the list of bindings for DCE (#5750) ([8789184](https://github.com/swc-project/swc/commit/8789184d447eb09e1b0dddc6156ac150d4cbf0d7))
 
+
+- **(es/minifier)** Improve codegen of name mangler (#5751) ([6e2002a](https://github.com/swc-project/swc/commit/6e2002a148f6d0660b17c4e617049972ee0fb3bf))
+
 ### Refactor
 
 
