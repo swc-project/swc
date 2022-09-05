@@ -5,6 +5,9 @@
 
 
 
+- **(es/parser)** Fix detection of wrong delete targets (#5754) ([9fc6eda](https://github.com/swc-project/swc/commit/9fc6eda89a3f9e613468276eea50f90917fa0f91))
+
+
 - **(swc_core)** Update deps (#5746) ([83dbe6c](https://github.com/swc-project/swc/commit/83dbe6cdc3252af50954938582379268a375e6b6))
 
 ### Miscellaneous Tasks
