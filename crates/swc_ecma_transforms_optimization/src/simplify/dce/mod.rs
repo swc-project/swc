@@ -192,6 +192,34 @@ impl Data {
             }
         }
     }
+
+    fn drop_id(&mut self, id: &Id) {
+        let ix = self.node(id);
+        self.drop_ix(ix);
+    }
+
+    fn drop_ix(&mut self, ix: usize) {
+        let deps = self
+            .graph
+            .neighbors_directed(ix, petgraph::Direction::Outgoing)
+            .collect::<Vec<_>>();
+
+        for dep in deps {
+            let dep_id = self.graph_ix.get_index(dep).unwrap();
+
+            let edge = self.graph.remove_edge(ix, dep).unwrap();
+            if let Some(usage) = self.used_names.get_mut(dep_id) {
+                usage.usage -= edge.usage;
+                usage.assign -= edge.assign;
+
+                if usage.assign == 0 && usage.usage == 0 {
+                    self.drop_ix(dep);
+                }
+            }
+        }
+
+        self.graph.remove_node(ix);
+    }
 }
 
 #[derive(Debug, Default)]
