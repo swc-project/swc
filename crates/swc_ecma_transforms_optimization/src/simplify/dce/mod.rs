@@ -2,6 +2,7 @@ use std::{borrow::Cow, sync::Arc};
 
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
+use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -103,7 +104,7 @@ struct Data {
     /// Variable usage graph
     graph: FastDiGraphMap<usize, VarInfo>,
     /// Entrypoints.
-    entries: Vec<usize>,
+    entries: FxHashSet<usize>,
 
     graph_ix: IndexSet<Id, ahash::RandomState>,
 }
