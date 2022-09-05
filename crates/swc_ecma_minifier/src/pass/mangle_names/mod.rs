@@ -80,6 +80,7 @@ impl SourceMapperExt for DummySourceMap {
 }
 
 impl CharFreq {
+    #[inline(always)]
     fn write(&mut self, data: &str) -> io::Result<()> {
         self.scan(data.as_bytes(), 1);
         Ok(())
@@ -87,89 +88,107 @@ impl CharFreq {
 }
 
 impl WriteJs for CharFreq {
+    #[inline(always)]
     fn increase_indent(&mut self) -> io::Result<()> {
         Ok(())
     }
 
+    #[inline(always)]
     fn decrease_indent(&mut self) -> io::Result<()> {
         Ok(())
     }
 
+    #[inline(always)]
     fn write_semi(&mut self, _: Option<Span>) -> io::Result<()> {
         self.write(";")?;
         Ok(())
     }
 
+    #[inline(always)]
     fn write_space(&mut self) -> io::Result<()> {
         self.write(" ")?;
         Ok(())
     }
 
+    #[inline(always)]
     fn write_keyword(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
         self.write(s)?;
         Ok(())
     }
 
+    #[inline(always)]
     fn write_operator(&mut self, _: Option<Span>, s: &str) -> io::Result<()> {
         self.write(s)?;
         Ok(())
     }
 
+    #[inline(always)]
     fn write_param(&mut self, s: &str) -> io::Result<()> {
         self.write(s)?;
         Ok(())
     }
 
+    #[inline(always)]
     fn write_property(&mut self, s: &str) -> io::Result<()> {
         self.write(s)?;
         Ok(())
     }
 
+    #[inline(always)]
     fn write_line(&mut self) -> io::Result<()> {
         Ok(())
     }
 
+    #[inline(always)]
     fn write_lit(&mut self, _: Span, s: &str) -> io::Result<()> {
         self.write(s)?;
 
         Ok(())
     }
 
+    #[inline(always)]
     fn write_comment(&mut self, s: &str) -> io::Result<()> {
         self.write(s)?;
 
         Ok(())
     }
 
+    #[inline(always)]
     fn write_str_lit(&mut self, _: Span, s: &str) -> io::Result<()> {
         self.write(s)?;
 
         Ok(())
     }
 
+    #[inline(always)]
     fn write_str(&mut self, s: &str) -> io::Result<()> {
         self.write(s)?;
         Ok(())
     }
 
+    #[inline(always)]
     fn write_symbol(&mut self, _: Span, s: &str) -> io::Result<()> {
         self.write(s)?;
         Ok(())
     }
 
+    #[inline(always)]
     fn write_punct(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
         self.write(s)?;
         Ok(())
     }
 
+    #[inline(always)]
     fn care_about_srcmap(&self) -> bool {
         false
     }
 
+    #[inline(always)]
     fn add_srcmap(&mut self, _: BytePos) -> io::Result<()> {
         Ok(())
     }
 
+    #[inline(always)]
     fn commit_pending_semi(&mut self) -> io::Result<()> {
         Ok(())
     }
