@@ -528,23 +528,23 @@ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
             // Android 3.1 (Honeycomb)  - Tested on the Samsung Galaxy Tab 10.1 and Motorola XOOM
             // Android 4.0 (ICS)  - Tested on a Galaxy Nexus. Note: transition performance can be poor on upgraded devices
             // Android 4.1 (Jelly Bean)  - Tested on a Galaxy Nexus and Galaxy 7
-            (t.version("Android") > 2.1 && t.is("Webkit")) || // Windows Phone 7-7.5 - Tested on the HTC Surround (7.0) HTC Trophy (7.5), LG-E900 (7.5), Nokia Lumia 800
+            t.version("Android") > 2.1 && t.is("Webkit") || // Windows Phone 7-7.5 - Tested on the HTC Surround (7.0) HTC Trophy (7.5), LG-E900 (7.5), Nokia Lumia 800
             t.version("Windows Phone OS") >= 7.0 || // Blackberry 7 - Tested on BlackBerry Torch 9810
             // Blackberry 6.0 - Tested on the Torch 9800 and Style 9670
             t.is("BlackBerry") && t.version("BlackBerry") >= 6.0 || // Blackberry Playbook (1.0-2.0) - Tested on PlayBook
             t.match("Playbook.*Tablet") || // Palm WebOS (1.4-2.0) - Tested on the Palm Pixi (1.4), Pre (1.4), Pre 2 (2.0)
-            (t.version("webOS") >= 1.4 && t.match("Palm|Pre|Pixi")) || // Palm WebOS 3.0  - Tested on HP TouchPad
+            t.version("webOS") >= 1.4 && t.match("Palm|Pre|Pixi") || // Palm WebOS 3.0  - Tested on HP TouchPad
             t.match("hp.*TouchPad") || // Firefox Mobile (12 Beta) - Tested on Android 2.3 device
-            (t.is("Firefox") && t.version("Firefox") >= 12) || // Chrome for Android - Tested on Android 4.0, 4.1 device
-            (t.is("Chrome") && t.is("AndroidOS") && t.version("Android") >= 4.0) || // Skyfire 4.1 - Tested on Android 2.3 device
-            (t.is("Skyfire") && t.version("Skyfire") >= 4.1 && t.is("AndroidOS") && t.version("Android") >= 2.3) || // Opera Mobile 11.5-12: Tested on Android 2.3
-            (t.is("Opera") && t.version("Opera Mobi") > 11 && t.is("AndroidOS")) || // Meego 1.2 - Tested on Nokia 950 and N9
+            t.is("Firefox") && t.version("Firefox") >= 12 || // Chrome for Android - Tested on Android 4.0, 4.1 device
+            t.is("Chrome") && t.is("AndroidOS") && t.version("Android") >= 4.0 || // Skyfire 4.1 - Tested on Android 2.3 device
+            t.is("Skyfire") && t.version("Skyfire") >= 4.1 && t.is("AndroidOS") && t.version("Android") >= 2.3 || // Opera Mobile 11.5-12: Tested on Android 2.3
+            t.is("Opera") && t.version("Opera Mobi") > 11 && t.is("AndroidOS") || // Meego 1.2 - Tested on Nokia 950 and N9
             t.is("MeeGoOS") || // Tizen (pre-release) - Tested on early hardware
             t.is("Tizen") || // Samsung Bada 2.0 - Tested on a Samsung Wave 3, Dolphin browser
             // @todo: more tests here!
             t.is("Dolfin") && t.version("Bada") >= 2.0 || // UC Browser - Tested on Android 2.3 device
-            ((t.is("UC Browser") || t.is("Dolfin")) && t.version("Android") >= 2.3) || // Kindle 3 and Fire  - Tested on the built-in WebKit browser for each
-            (t.match("Kindle Fire") || t.is("Kindle") && t.version("Kindle") >= 3.0) || // Nook Color 1.4.1 - Tested on original Nook Color, not Nook Tablet
+            (t.is("UC Browser") || t.is("Dolfin")) && t.version("Android") >= 2.3 || // Kindle 3 and Fire  - Tested on the built-in WebKit browser for each
+            t.match("Kindle Fire") || t.is("Kindle") && t.version("Kindle") >= 3.0 || // Nook Color 1.4.1 - Tested on original Nook Color, not Nook Tablet
             t.is("AndroidOS") && t.is("NookTablet") || // Chrome Desktop 11-21 - Tested on OS X 10.7 and Windows 7
             t.version("Chrome") >= 11 && !$isMobile || // Safari Desktop 4-5 - Tested on OS X 10.7 and Windows 7
             t.version("Safari") >= 5.0 && !$isMobile || // Firefox Desktop 4-13 - Tested on OS X 10.7 and Windows 7
@@ -556,7 +556,7 @@ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
             }
             if (t.os("iOS") && t.version("iPad") < 4.3 || t.os("iOS") && t.version("iPhone") < 3.1 || t.os("iOS") && t.version("iPod") < 3.1 || // Blackberry 5.0: Tested on the Storm 2 9550, Bold 9770
             t.is("Blackberry") && t.version("BlackBerry") >= 5 && t.version("BlackBerry") < 6 || //Opera Mini (5.0-6.5) - Tested on iOS 3.2/4.3 and Android 2.3
-            (t.version("Opera Mini") >= 5.0 && t.version("Opera Mini") <= 6.5 && (t.version("Android") >= 2.3 || t.is("iOS"))) || // Nokia Symbian^3 - Tested on Nokia N8 (Symbian^3), C7 (Symbian^3), also works on N97 (Symbian^1)
+            t.version("Opera Mini") >= 5.0 && t.version("Opera Mini") <= 6.5 && (t.version("Android") >= 2.3 || t.is("iOS")) || // Nokia Symbian^3 - Tested on Nokia N8 (Symbian^3), C7 (Symbian^3), also works on N97 (Symbian^1)
             t.match("NokiaN8|NokiaC7|N97.*Series60|Symbian/3") || // @todo: report this (tested on Nokia N71)
             t.version("Opera Mobi") >= 11 && t.is("SymbianOS")) {
                 return "B";

@@ -343,9 +343,9 @@ fn issue_528() {
 [
 //foo
 a,
+//baz
 //bar
-(//baz
-b)
+b
 ];"
     );
 }

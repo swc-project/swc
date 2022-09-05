@@ -929,20 +929,6 @@ impl Fixer<'_> {
 
     /// Removes paren
     fn unwrap_expr(&mut self, e: &mut Expr) {
-        if let Expr::Paren(paren) = &*e {
-            match &*paren.expr {
-                Expr::Call(..) | Expr::Fn(..) => {}
-                _ => {
-                    let inner_span = paren.span;
-                    if let Some(comments) = self.comments {
-                        if comments.has_leading(inner_span.lo) {
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-
         match e {
             Expr::Seq(SeqExpr { exprs, .. }) if exprs.len() == 1 => {
                 self.unwrap_expr(exprs.last_mut().unwrap());

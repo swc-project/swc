@@ -6,7 +6,7 @@ var obj = {
 Object.defineProperty(exports, "thing", obj);
 /**
  * @type {string}
- */ var str = /** @type {string} */ ("other");
+ */ var str = /** @type {string} */ "other";
 Object.defineProperty(exports, str, {
     value: 42,
     writable: true
