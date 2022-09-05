@@ -313,8 +313,8 @@ impl Analyzer<'_> {
 
         if self.scope.is_ast_path_empty() {
             // Add references from top level items into graph
-            self.data
-                .add_dep_edge(Default::default(), id.clone(), assign)
+            let idx = self.data.node(&id);
+            self.data.entries.insert(idx);
         } else {
             let mut scope = Some(&self.scope);
 
