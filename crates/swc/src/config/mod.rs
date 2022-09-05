@@ -599,7 +599,7 @@ impl Options {
                 }),
                 syntax.decorators()
             ),
-            paren_remover(Some(Box::leak(Box::new(comments)) as _)),
+            paren_remover(comments.map(|x| x as &dyn Comments)),
             // The transform strips import assertions, so it's only enabled if
             // keep_import_assertions is false.
             Optional::new(import_assertions(), !keep_import_assertions),
