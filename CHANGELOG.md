@@ -1,11 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(swc_core)** Update deps (#5746) ([83dbe6c](https://github.com/swc-project/swc/commit/83dbe6cdc3252af50954938582379268a375e6b6))
+
 ### Miscellaneous Tasks
 
 
 
 - **(es/minifier)** Fix example (#5739) ([4e98980](https://github.com/swc-project/swc/commit/4e989807d71aa9a6c019c6a5a01acbbee9ec6020))
+
+
+- **(swc_core)** Update deps (#5748) ([1202762](https://github.com/swc-project/swc/commit/1202762f30db43c972c1367f85e30e69baaf0c59))
 
 ### Performance
 
