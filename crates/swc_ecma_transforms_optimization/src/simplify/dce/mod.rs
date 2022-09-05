@@ -102,6 +102,9 @@ struct Data {
 
     /// Variable usage graph
     graph: FastDiGraphMap<usize, VarInfo>,
+    /// Entrypoints.
+    entries: Vec<usize>,
+
     graph_ix: IndexSet<Id, ahash::RandomState>,
 }
 
