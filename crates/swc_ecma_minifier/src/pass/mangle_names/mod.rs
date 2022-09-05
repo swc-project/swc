@@ -79,112 +79,53 @@ impl SourceMapperExt for DummySourceMap {
     }
 }
 
-impl Write for CharFreq {
-    fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
-        self.scan(buf, 1);
-        Ok(buf.len())
-    }
-
-    fn flush(&mut self) -> io::Result<()> {
-        Ok(())
-    }
-}
-
 impl CharFreq {
-    fn raw_write(&mut self, data: &str) -> io::Result<usize> {
-        self.wr.write_all(data.as_bytes())?;
+    fn write(&mut self, data: &str) -> io::Result<usize> {
+        self.scan(data.as_bytes(), 1);
         Ok(())
-    }
-
-    fn write(&mut self, span: Option<Span>, data: &str) -> io::Result<()> {
-        if !data.is_empty() {
-            if self.line_start {
-                self.write_indent_string()?;
-                self.line_start = false;
-
-                if let Some(pending) = self.pending_srcmap.take() {
-                    self.srcmap(pending);
-                }
-            }
-
-            if let Some(span) = span {
-                if !span.is_dummy() {
-                    self.srcmap(span.lo())
-                }
-            }
-
-            self.raw_write(data)?;
-
-            if let Some(span) = span {
-                if !span.is_dummy() {
-                    self.srcmap(span.hi())
-                }
-            }
-        }
-
-        Ok(())
-    }
-
-    fn srcmap(&mut self, byte_pos: BytePos) {
-        if byte_pos.is_dummy() {
-            return;
-        }
-
-        if let Some(ref mut srcmap) = self.srcmap {
-            if self
-                .srcmap_done
-                .insert((byte_pos, self.line_count as _, self.line_pos as _))
-            {
-                let loc = LineCol {
-                    line: self.line_count as _,
-                    col: self.line_pos as _,
-                };
-                srcmap.push((byte_pos, loc));
-            }
-        }
     }
 }
 
 impl WriteJs for CharFreq {
-    fn increase_indent(&mut self) -> Result {
+    fn increase_indent(&mut self) -> io::Result<()> {
         Ok(())
     }
 
-    fn decrease_indent(&mut self) -> Result {
+    fn decrease_indent(&mut self) -> io::Result<()> {
         Ok(())
     }
 
-    fn write_semi(&mut self, span: Option<Span>) -> Result {
+    fn write_semi(&mut self, _: Option<Span>) -> io::Result<()> {
         self.write(span, ";")?;
         Ok(())
     }
 
-    fn write_space(&mut self) -> Result {
+    fn write_space(&mut self) -> io::Result<()> {
         self.write(None, " ")?;
         Ok(())
     }
 
-    fn write_keyword(&mut self, span: Option<Span>, s: &'static str) -> Result {
+    fn write_keyword(&mut self, span: Option<Span>, s: &'static str) -> io::Result<()> {
         self.write(span, s)?;
         Ok(())
     }
 
-    fn write_operator(&mut self, span: Option<Span>, s: &str) -> Result {
+    fn write_operator(&mut self, span: Option<Span>, s: &str) -> io::Result<()> {
         self.write(span, s)?;
         Ok(())
     }
 
-    fn write_param(&mut self, s: &str) -> Result {
+    fn write_param(&mut self, s: &str) -> io::Result<()> {
         self.write(None, s)?;
         Ok(())
     }
 
-    fn write_property(&mut self, s: &str) -> Result {
+    fn write_property(&mut self, s: &str) -> io::Result<()> {
         self.write(None, s)?;
         Ok(())
     }
 
-    fn write_line(&mut self) -> Result {
+    fn write_line(&mut self) -> io::Result<()> {
         let pending = self.pending_srcmap.take();
         if !self.line_start {
             self.raw_write(self.new_line)?;
