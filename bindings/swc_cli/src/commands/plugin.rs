@@ -267,7 +267,7 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
 }
 
 // An example to test plugin transform.
-// Recommended streategy to test plugin's transform is verify
+// Recommended strategy to test plugin's transform is verify
 // the Visitor's behavior, instead of trying to run `process_transform` with mocks
 // unless explicitly required to do so.
 test!(
