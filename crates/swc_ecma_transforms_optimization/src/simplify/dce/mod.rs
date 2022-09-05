@@ -13,10 +13,7 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{
-    helpers::{Helpers, HELPERS},
-    perf::{cpu_count, ParVisitMut, Parallel},
-};
+use swc_ecma_transforms_base::helpers::{Helpers, HELPERS};
 use swc_ecma_utils::{
     collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike,
 };
@@ -88,7 +85,7 @@ struct TreeShaker {
     in_block_stmt: bool,
     var_decl_kind: Option<VarDeclKind>,
 
-    data: Arc<Data>,
+    data: Data,
 
     bindings: Arc<AHashSet<Id>>,
 }
@@ -559,22 +556,6 @@ impl Repeated for TreeShaker {
     }
 }
 
-impl Parallel for TreeShaker {
-    fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx.clone(),
-            data: self.data.clone(),
-            config: self.config.clone(),
-            bindings: self.bindings.clone(),
-            ..*self
-        }
-    }
-
-    fn merge(&mut self, other: Self) {
-        self.changed |= other.changed;
-    }
-}
-
 impl TreeShaker {
     fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -589,7 +570,7 @@ impl TreeShaker {
             }
         }
 
-        self.visit_mut_par(cpu_count() * 8, stmts);
+        stmts.visit_mut_children_with(self);
 
         stmts.retain(|s| match s.as_stmt() {
             Some(Stmt::Empty(..)) => false,
@@ -846,7 +827,7 @@ impl VisitMut for TreeShaker {
             m.visit_with(&mut analyzer);
         }
         data.subtract_cycles();
-        self.data = Arc::new(data);
+        self.data = data;
 
         HELPERS.set(&Helpers::new(true), || {
             m.visit_mut_children_with(self);
@@ -876,7 +857,7 @@ impl VisitMut for TreeShaker {
             m.visit_with(&mut analyzer);
         }
         data.subtract_cycles();
-        self.data = Arc::new(data);
+        self.data = data;
 
         HELPERS.set(&Helpers::new(true), || {
             m.visit_mut_children_with(self);
@@ -1012,6 +993,7 @@ impl VisitMut for TreeShaker {
                 && self.can_drop_binding(i.id.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
             {
                 self.changed = true;
+                self.data.drop_id(&i.id.to_id());
                 debug!("Dropping {} because it's not used", i.id);
                 v.name.take();
             }
@@ -1039,22 +1021,6 @@ impl VisitMut for TreeShaker {
             return;
         }
         n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.visit_mut_par(cpu_count() * 8, n);
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.visit_mut_par(cpu_count() * 8, n);
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_mut_par(cpu_count() * 8, n);
-    }
-
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.visit_mut_par(cpu_count() * 8, n);
     }
 }
 
