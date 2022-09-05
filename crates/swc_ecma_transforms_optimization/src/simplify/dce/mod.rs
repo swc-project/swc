@@ -552,7 +552,6 @@ impl Repeated for TreeShaker {
     fn reset(&mut self) {
         self.pass += 1;
         self.changed = false;
-        self.data = Default::default();
     }
 }
 
@@ -813,23 +812,25 @@ impl VisitMut for TreeShaker {
             self.bindings = Arc::new(collect_decls(&*m))
         }
 
-        let mut data = Data {
-            ..Default::default()
-        };
-
-        {
-            let mut analyzer = Analyzer {
-                config: &self.config,
-                in_var_decl: false,
-                scope: Default::default(),
-                data: &mut data,
-                cur_class_id: Default::default(),
-                cur_fn_id: Default::default(),
+        if self.data.graph_ix.is_empty() {
+            let mut data = Data {
+                ..Default::default()
             };
-            m.visit_with(&mut analyzer);
+
+            {
+                let mut analyzer = Analyzer {
+                    config: &self.config,
+                    in_var_decl: false,
+                    scope: Default::default(),
+                    data: &mut data,
+                    cur_class_id: Default::default(),
+                    cur_fn_id: Default::default(),
+                };
+                m.visit_with(&mut analyzer);
+            }
+            data.subtract_cycles();
+            self.data = data;
         }
-        data.subtract_cycles();
-        self.data = data;
 
         HELPERS.set(&Helpers::new(true), || {
             m.visit_mut_children_with(self);
@@ -843,23 +844,25 @@ impl VisitMut for TreeShaker {
             self.bindings = Arc::new(collect_decls(&*m))
         }
 
-        let mut data = Data {
-            ..Default::default()
-        };
-
-        {
-            let mut analyzer = Analyzer {
-                config: &self.config,
-                in_var_decl: false,
-                scope: Default::default(),
-                data: &mut data,
-                cur_class_id: Default::default(),
-                cur_fn_id: Default::default(),
+        if self.data.graph_ix.is_empty() {
+            let mut data = Data {
+                ..Default::default()
             };
-            m.visit_with(&mut analyzer);
+
+            {
+                let mut analyzer = Analyzer {
+                    config: &self.config,
+                    in_var_decl: false,
+                    scope: Default::default(),
+                    data: &mut data,
+                    cur_class_id: Default::default(),
+                    cur_fn_id: Default::default(),
+                };
+                m.visit_with(&mut analyzer);
+            }
+            data.subtract_cycles();
+            self.data = data;
         }
-        data.subtract_cycles();
-        self.data = data;
 
         HELPERS.set(&Helpers::new(true), || {
             m.visit_mut_children_with(self);
