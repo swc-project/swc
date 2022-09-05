@@ -1579,7 +1579,7 @@ where
         match n {
             DefaultDecl::Class(_) => {}
             DefaultDecl::Fn(f) => {
-                if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
+                if !self.options.keep_fargs && self.options.unused {
                     self.drop_unused_params(&mut f.function.params);
                 }
             }
@@ -1602,9 +1602,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         if let Decl::Fn(f) = &mut n.decl {
-            // I don't know why, but terser removes parameters from an exported function if
-            // `unused` is true, regardless of keep_fargs or others.
-            if self.options.unused {
+            if !self.options.keep_fargs && self.options.unused {
                 self.drop_unused_params(&mut f.function.params);
             }
         }
@@ -1816,7 +1814,7 @@ where
             .entry(f.ident.to_id())
             .or_insert_with(|| FnMetadata::from(&f.function));
 
-        if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
+        if !self.options.keep_fargs && self.options.unused {
             self.drop_unused_params(&mut f.function.params);
         }
 

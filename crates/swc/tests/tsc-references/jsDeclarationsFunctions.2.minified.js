@@ -8,10 +8,10 @@ c.Cls = function _class() {
     "use strict";
     _class_call_check(this, _class);
 };
-export function d() {
+export function d(a, b) {
     return null;
 }
-export function e() {
+export function e(a, b) {
     return null;
 }
 export function f(a) {

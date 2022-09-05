@@ -1,5 +1,5 @@
 //// [bug24934.js]
-export function abc() {
+export function abc(a, b, c) {
     return 5;
 }
 module.exports = {
