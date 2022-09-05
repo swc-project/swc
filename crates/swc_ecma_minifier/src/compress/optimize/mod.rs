@@ -242,7 +242,7 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: AHashMap<Id, Box<Expr>>,
+    lits: FxHashMap<Id, Box<Expr>>,
 
     /// Used for copying functions.
     ///
@@ -275,6 +275,15 @@ impl Vars {
             n.visit_mut_with(&mut MultiReplacer::new(
                 &mut self.vars_for_inlining,
                 false,
+                MultiReplacerMode::Normal,
+                &mut changed,
+            ));
+        }
+
+        if !self.lits.is_empty() {
+            n.visit_mut_with(&mut MultiReplacer::new(
+                &mut self.lits,
+                true,
                 MultiReplacerMode::Normal,
                 &mut changed,
             ));
