@@ -46,7 +46,7 @@ swc_ecma_minifier   = { version = "0.152.0", path = "../swc_ecma_minifier", opti
 swc_ecma_parser     = { version = "0.118.0", path = "../swc_ecma_parser", optional = true, default-features = false }
 swc_ecma_preset_env = { version = "0.167.0", path = "../swc_ecma_preset_env", optional = true }
 swc_ecma_quote      = { version = "0.34.0", path = "../swc_ecma_quote", optional = true }
-swc_ecma_transforms = { version = "0.191.0", path = "../swc_ecma_transforms", optional = true }
+swc_ecma_transforms = { version = "0.191.1", path = "../swc_ecma_transforms", optional = true }
 swc_ecma_utils      = { version = "0.101.0", path = "../swc_ecma_utils", optional = true }
 swc_ecma_visit      = { version = "0.76.6", path = "../swc_ecma_visit", optional = true }
 
