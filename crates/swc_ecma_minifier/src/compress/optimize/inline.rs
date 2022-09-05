@@ -283,7 +283,7 @@ where
                         }
                     }
 
-                    Expr::Object(..) => {
+                    Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
                                 if v_usage.reassigned() {
