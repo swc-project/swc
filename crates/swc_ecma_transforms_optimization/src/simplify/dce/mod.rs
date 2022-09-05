@@ -2,6 +2,7 @@ use std::{borrow::Cow, sync::Arc};
 
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
+use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -102,6 +103,9 @@ struct Data {
 
     /// Variable usage graph
     graph: FastDiGraphMap<usize, VarInfo>,
+    /// Entrypoints.
+    entries: FxHashSet<usize>,
+
     graph_ix: IndexSet<Id, ahash::RandomState>,
 }
 
@@ -152,6 +156,11 @@ impl Data {
             // We have to exclude cycle from remove list if an outer node refences an item
             // of cycle.
             for &node in &cycle {
+                // It's referenced by an outer node.
+                if self.entries.contains(&node) {
+                    continue 'c;
+                }
+
                 if self.graph.neighbors_directed(node, Incoming).any(|node| {
                     // Node in cycle does not matter
                     !cycle.contains(&node)
@@ -304,8 +313,8 @@ impl Analyzer<'_> {
 
         if self.scope.is_ast_path_empty() {
             // Add references from top level items into graph
-            self.data
-                .add_dep_edge(Default::default(), id.clone(), assign)
+            let idx = self.data.node(&id);
+            self.data.entries.insert(idx);
         } else {
             let mut scope = Some(&self.scope);
 

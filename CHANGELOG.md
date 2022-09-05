@@ -1,11 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(swc_core)** Update deps (#5746) ([83dbe6c](https://github.com/swc-project/swc/commit/83dbe6cdc3252af50954938582379268a375e6b6))
+
 ### Miscellaneous Tasks
 
 
 
 - **(es/minifier)** Fix example (#5739) ([4e98980](https://github.com/swc-project/swc/commit/4e989807d71aa9a6c019c6a5a01acbbee9ec6020))
+
+
+- **(swc_core)** Update deps (#5748) ([1202762](https://github.com/swc-project/swc/commit/1202762f30db43c972c1367f85e30e69baaf0c59))
 
 ### Performance
 
@@ -18,6 +27,9 @@
 
 
 - **(es/minifier)** Pre-allocate in analyzer (#5743) ([96b2e17](https://github.com/swc-project/swc/commit/96b2e17a8fdb5e500eb1e6a10ffa16d4d0c98957))
+
+
+- **(es/minifier)** Use efficient logic for entry tracking in DCE (#5749) ([08b2aea](https://github.com/swc-project/swc/commit/08b2aea2b0d1d0bec707394d9f5cf6d2713431a9))
 
 ### Refactor
 

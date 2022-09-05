@@ -2923,7 +2923,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.224.1"
+version = "0.224.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2993,7 +2993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.185.0"
+version = "0.185.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3109,7 +3109,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.20.6"
+version = "0.20.7"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3422,7 +3422,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.152.5"
+version = "0.152.6"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3557,7 +3557,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.191.0"
+version = "0.191.1"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3691,7 +3691,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.160.6"
+version = "0.160.7"
 dependencies = [
  "ahash",
  "dashmap",
