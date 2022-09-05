@@ -2737,7 +2737,7 @@
         }), fxNow = jQuery.now();
     }
     function Animation(elem, properties, options) {
-        var animation, props, result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
+        var animation, result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
             delete tick.elem;
         }), tick = function() {
             if (stopped) return !1;
@@ -2776,13 +2776,13 @@
                     gotoEnd
                 ]), this;
             }
-        }), props1 = animation1.props;
+        }), props = animation1.props;
         for(function(props, specialEasing) {
             var value, name1, index, easing, hooks;
             for(index in props)if (easing = specialEasing[name1 = jQuery.camelCase(index)], value = props[index], jQuery.isArray(value) && (easing = value[1], value = props[index] = value[0]), index !== name1 && (props[name1] = value, delete props[index]), (hooks = jQuery.cssHooks[name1]) && ("expand" in hooks)) for(index in value = hooks.expand(value), delete props[name1], value)(index in props) || (props[index] = value[index], specialEasing[index] = easing);
             else specialEasing[name1] = easing;
-        }(props1, animation1.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation1, elem, props1, animation1.opts)) return result;
-        return animation = animation1, props = props1, jQuery.each(props, function(prop, value) {
+        }(props, animation1.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation1, elem, props, animation1.opts)) return result;
+        return animation = animation1, jQuery.each(props, function(prop, value) {
             for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
         }), jQuery.isFunction(animation1.opts.start) && animation1.opts.start.call(elem, animation1), jQuery.fx.timer(jQuery.extend(tick, {
             elem: elem,

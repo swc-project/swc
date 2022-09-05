@@ -4755,7 +4755,7 @@
                         if (null === c) return null;
                         if (a.finishedWork = null, a.finishedLanes = 0, c === a.current) throw Error(p(177));
                         a.callbackNode = null, a.callbackPriority = 0;
-                        var a1, b1, f = c.lanes | c.childLanes;
+                        var b1, f = c.lanes | c.childLanes;
                         if (function(a, b) {
                             var c = a.pendingLanes & ~b;
                             a.pendingLanes = b, a.suspendedLanes = 0, a.pingedLanes = 0, a.expiredLanes &= b, a.mutableReadLanes &= b, a.entangledLanes &= b, b = a.entanglements;
@@ -4764,13 +4764,13 @@
                                 var e = 31 - nc(c), f = 1 << e;
                                 b[e] = 0, d[e] = -1, a[e] = -1, c &= ~f;
                             }
-                        }(a, f), a === P && (X = P = null, Y = 0), 0 == (2064 & c.subtreeFlags) && 0 == (2064 & c.flags) || tk || (tk = !0, a1 = gc, b1 = function() {
+                        }(a, f), a === P && (X = P = null, Y = 0), 0 == (2064 & c.subtreeFlags) && 0 == (2064 & c.flags) || tk || (tk = !0, b1 = function() {
                             return Gk(), null;
-                        }, $b(a1, b1)), f = 0 != (15990 & c.flags), 0 != (15990 & c.subtreeFlags) || f) {
+                        }, $b(gc, b1)), f = 0 != (15990 & c.flags), 0 != (15990 & c.subtreeFlags) || f) {
                             f = mk.transition, mk.transition = null;
                             var g = C;
                             C = 1;
-                            var a2, b2, c1, h = W;
+                            var a1, b2, h = W;
                             W |= 4, lk.current = null, function(a, b) {
                                 if (Bf = cd, Me(a = Le())) {
                                     if ("selectionStart" in a) var c = {
@@ -4876,7 +4876,7 @@
                                     });
                                     for("function" == typeof c.focus && c.focus(), c = 0; c < b.length; c++)(a = b[c]).element.scrollLeft = a.left, a.element.scrollTop = a.top;
                                 }
-                            }(Cf), cd = !!Bf, Cf = Bf = null, a.current = c, a2 = c, b2 = a, c1 = e, T = a2, function gk(a, b, c) {
+                            }(Cf), cd = !!Bf, Cf = Bf = null, a.current = c, a1 = c, b2 = a, T = a1, function gk(a, b, c) {
                                 for(var d = 0 != (1 & a.mode); null !== T;){
                                     var e = T, f = e.child;
                                     if (22 === e.tag && d) {
@@ -4892,7 +4892,7 @@
                                         ik(a, b, c);
                                     } else 0 != (8772 & e.subtreeFlags) && null !== f ? (f.return = e, T = f) : ik(a, b, c);
                                 }
-                            }(a2, b2, c1), cc(), W = h, C = g, mk.transition = f;
+                            }(a1, b2, e), cc(), W = h, C = g, mk.transition = f;
                         } else a.current = c;
                         if (tk && (tk = !1, uk = a, vk = e), 0 === (f = a.pendingLanes) && (Oi = null), function(a) {
                             if (kc && "function" == typeof kc.onCommitFiberRoot) try {

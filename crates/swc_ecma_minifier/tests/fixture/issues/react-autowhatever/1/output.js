@@ -42,13 +42,13 @@ var ItemsList = function(Component) {
     "use strict";
     var Constructor, protoProps, staticProps;
     function ItemsList() {
-        var _this, self, call, obj;
+        var _this, call, obj;
         return !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-        }(this, ItemsList), _this = (self = this, call = _getPrototypeOf(ItemsList).apply(this, arguments), call && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : function(self) {
+        }(this, ItemsList), _this = (call = _getPrototypeOf(ItemsList).apply(this, arguments), call && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : function(self) {
             if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
             return self;
-        }(self)), _this.storeHighlightedItemReference = function(highlightedItem) {
+        }(this)), _this.storeHighlightedItemReference = function(highlightedItem) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }, _this;
     }

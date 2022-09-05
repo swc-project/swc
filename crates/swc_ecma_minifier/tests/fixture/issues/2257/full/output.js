@@ -68,10 +68,10 @@
                 margin: "100px 0",
                 color: "#ed3131"
             }, ErrorBoundaryFallback = function(param) {
-                var error, componentStack, componentStack1 = param.componentStack, error1 = param.error;
+                var error, componentStack = param.componentStack, error1 = param.error;
                 return _jsxRuntime.jsxs("div", {
                     style: style,
-                    title: (error = error1, componentStack = componentStack1, "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack)),
+                    title: (error = error1, "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack)),
                     children: [
                         _jsxRuntime.jsxs("svg", {
                             viewBox: "0 0 1024 1024",
@@ -1638,7 +1638,6 @@
             function wrapNativeSuper(Class) {
                 var _cache = "function" == typeof Map ? new Map() : void 0;
                 return (wrapNativeSuper = function(Class) {
-                    var o;
                     if (null === Class || !_isNativeFunction(Class)) return Class;
                     if ("function" != typeof Class) throw TypeError("Super expression must either be null or a function");
                     if (void 0 !== _cache) {
@@ -1646,8 +1645,7 @@
                         _cache.set(Class, Wrapper);
                     }
                     function Wrapper() {
-                        var o;
-                        return _construct(Class, arguments, (o = this, getPrototypeOf(o)).constructor);
+                        return _construct(Class, arguments, getPrototypeOf(this).constructor);
                     }
                     return Wrapper.prototype = Object.create(Class.prototype, {
                         constructor: {
@@ -1656,7 +1654,7 @@
                             writable: !0,
                             configurable: !0
                         }
-                    }), o = Wrapper, setPrototypeOf(o, Class);
+                    }), setPrototypeOf(Wrapper, Class);
                 })(Class);
             }
             function _wrapNativeSuper(Class) {
@@ -9759,11 +9757,11 @@
                         var location, a, b, location1 = getDOMLocation(), prevLocation = history.location;
                         if (!forceNextPop && (a = prevLocation, b = location1, a.pathname === b.pathname && a.search === b.search && a.hash === b.hash) || ignorePath === createPath(location1)) return;
                         ignorePath = null, location = location1, forceNextPop ? (forceNextPop = !1, setState()) : transitionManager.confirmTransitionTo(location, "POP", getUserConfirmation, function(ok) {
-                            var fromLocation, toLocation, toIndex, fromIndex, delta;
+                            var toLocation, toIndex, fromIndex, delta;
                             ok ? setState({
                                 action: "POP",
                                 location: location
-                            }) : (fromLocation = location, toLocation = history.location, -1 === (toIndex = allPaths.lastIndexOf(createPath(toLocation))) && (toIndex = 0), -1 === (fromIndex = allPaths.lastIndexOf(createPath(fromLocation))) && (fromIndex = 0), (delta = toIndex - fromIndex) && (forceNextPop = !0, go(delta)));
+                            }) : (toLocation = history.location, -1 === (toIndex = allPaths.lastIndexOf(createPath(toLocation))) && (toIndex = 0), -1 === (fromIndex = allPaths.lastIndexOf(createPath(location))) && (fromIndex = 0), (delta = toIndex - fromIndex) && (forceNextPop = !0, go(delta)));
                         });
                     }
                 }
@@ -10023,7 +10021,7 @@
         85971: function(module, __unused_webpack_exports, __webpack_require__) {
             var isarray = __webpack_require__(85762);
             module.exports = function pathToRegexp(path, keys, options) {
-                var path1, keys1, options1;
+                var keys1, options1;
                 return (isarray(keys) || (options = keys || options, keys = []), options = options || {}, path instanceof RegExp) ? function(path, keys) {
                     var groups = path.source.match(/\((?!\?)/g);
                     if (groups) for(var i = 0; i < groups.length; i++)keys.push({
@@ -10041,7 +10039,7 @@
                     for(var parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
                     var regexp = RegExp("(?:" + parts.join("|") + ")", flags(options));
                     return attachKeys(regexp, keys);
-                }(path, keys, options) : (path1 = path, keys1 = keys, tokensToRegExp(parse(path1, options1 = options), keys1, options1));
+                }(path, keys, options) : (keys1 = keys, tokensToRegExp(parse(path, options1 = options), keys1, options1));
             }, module.exports.parse = parse, module.exports.compile = function(str, options) {
                 return tokensToFunction(parse(str, options), options);
             }, module.exports.tokensToFunction = tokensToFunction, module.exports.tokensToRegExp = tokensToRegExp;
@@ -10682,7 +10680,7 @@
                                 return runtime = (_e = createBaseApp(appConfig, buildConfig, context)).runtime, modifiedAppConfig = _e.appConfig, initAppLifeCycles(), __initialData__ = context.initialData, emitLifeCycles(), [
                                     2,
                                     function(runtime, options) {
-                                        var mountNode, rootId, _a, _b = options.appConfig, _c = (void 0 === _b ? {} : _b).app, rootId1 = _c.rootId, mountNode1 = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = (mountNode = mountNode1, rootId = rootId1, mountNode || document.getElementById(rootId) || document.getElementById("ice-container"));
+                                        var _a, _b = options.appConfig, _c = (void 0 === _b ? {} : _b).app, rootId = _c.rootId, mountNode = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = mountNode || document.getElementById(rootId) || document.getElementById("ice-container");
                                         if (null == runtime ? void 0 : runtime.modifyDOMRender) return null === (_a = null == runtime ? void 0 : runtime.modifyDOMRender) || void 0 === _a ? void 0 : _a.call(runtime, {
                                             App: App,
                                             appMountNode: appMountNode

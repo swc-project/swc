@@ -832,6 +832,21 @@ where
                 return Some(e.take());
             }
 
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left: PatOrExpr::Pat(pat),
+                right,
+                ..
+            }) => {
+                if let Pat::Ident(i) = &mut **pat {
+                    self.store_var_for_inlining(&mut i.id, right, false, true);
+
+                    if right.is_invalid() {
+                        return None;
+                    }
+                }
+            }
+
             // We drop `f.g` in
             //
             // function f() {
@@ -1655,6 +1670,30 @@ where
                 *e = *seq.exprs[0].take();
             }
 
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left: PatOrExpr::Pat(pat),
+                right,
+                ..
+            }) => {
+                if let Pat::Ident(i) = &mut **pat {
+                    let old = i.to_id();
+
+                    self.store_var_for_inlining(&mut i.id, right, false, false);
+
+                    if right.is_invalid() {
+                        if let Some(lit) = self
+                            .vars
+                            .lits
+                            .get(&old)
+                            .or_else(|| self.vars.vars_for_inlining.get(&old))
+                        {
+                            *e = (**lit).clone();
+                        }
+                    }
+                }
+            }
+
             _ => {}
         }
 
@@ -2161,19 +2200,6 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         {
-            let ctx = Ctx {
-                dont_use_negated_iife: true,
-                ..self.ctx
-            };
-
-            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
-
-        self.shift_void(n);
-
-        self.shift_assignment(n);
-
-        {
             let should_preserve_zero = matches!(
                 n.exprs.last().map(|v| &**v),
                 Some(Expr::Member(..))
@@ -2215,6 +2241,19 @@ where
                 .collect::<Vec<_>>();
             n.exprs = exprs;
         }
+
+        {
+            let ctx = Ctx {
+                dont_use_negated_iife: true,
+                ..self.ctx
+            };
+
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+
+        self.shift_void(n);
+
+        self.shift_assignment(n);
 
         self.merge_sequences_in_seq_expr(n);
 
@@ -2621,7 +2660,19 @@ where
 
         self.remove_duplicate_name_of_function(var);
 
-        self.store_var_for_inlining(var);
+        if let VarDeclarator {
+            name: Pat::Ident(id),
+            init: Some(init),
+            definite: false,
+            ..
+        } = var
+        {
+            let should_preserve = !var.span.has_mark(self.marks.non_top_level)
+                && (!self.options.top_level() && self.options.top_retain.is_empty())
+                && self.ctx.in_top_level();
+            self.store_var_for_inlining(&mut id.id, init, should_preserve, false);
+        };
+
         self.store_var_for_prop_hoisting(var);
     }
 

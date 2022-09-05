@@ -1914,13 +1914,13 @@
                 return new Pt(Xn(n));
             }
             function Hn(t, e) {
-                var t1, e1, t2;
-                return t1 = t.databaseId, e1 = e, (t2 = t1, new ht([
+                var t1;
+                return (t1 = t.databaseId, new ht([
                     "projects",
-                    t2.projectId,
+                    t1.projectId,
                     "databases",
-                    t2.database, 
-                ])).child("documents").child(e1).canonicalString();
+                    t1.database, 
+                ])).child("documents").child(e).canonicalString();
             }
             function Yn(t) {
                 return new ht([
@@ -4148,7 +4148,7 @@
                         const n = t, s = e.snapshotVersion;
                         let i = n.Un;
                         return n.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
-                            var t1, e1, n1, s1, i1;
+                            var e1, n1, s1, i1;
                             const r = n.jn.newChangeBuffer({
                                 trackRemovals: !0
                             });
@@ -4168,7 +4168,7 @@
                             let c = pn, r1;
                             if (e.documentUpdates.forEach((s, i)=>{
                                 e.resolvedLimboDocuments.has(s) && o.push(n.persistence.referenceDelegate.updateLimboDocument(t, s));
-                            }), o.push((t1 = t, e1 = r, n1 = e.documentUpdates, s1 = s, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), e1.getEntries(t1, r1).next((t)=>{
+                            }), o.push((e1 = r, n1 = e.documentUpdates, s1 = s, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), e1.getEntries(t, r1).next((t)=>{
                                 let r = pn;
                                 return n1.forEach((n, o)=>{
                                     const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s1;
@@ -4331,9 +4331,9 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    var s, t1, e, n;
-                    const e1 = Yr(t.databaseInfo.databaseId), n1 = (s = t.databaseInfo, new zr(s));
-                    return t1 = t.credentials, e = n1, n = e1, new no(t1, e, n);
+                    var s, t1;
+                    const e = Yr(t.databaseInfo.databaseId), n = (s = t.databaseInfo, new zr(s));
+                    return t1 = t.credentials, new no(t1, n, e);
                 }
                 createRemoteStore(t) {
                     var e, n, s, i, r;
@@ -4706,6 +4706,92 @@
             class ka extends Ta {
                 constructor(t, e){
                     super(t, e), this.type = "firestore", this._queue = new Da(), this._persistenceKey = "name" in t ? t.name : "[DEFAULT]";
+                    super(t, e), this.type = "firestore", this._queue = new class {
+                        constructor(){
+                            this._c = Promise.resolve(), this.mc = [], this.gc = !1, this.yc = [], this.Tc = null, this.Ec = !1, this.Ic = !1, this.Ac = [], this.ar = new Xr(this, "async_queue_retry"), this.Rc = ()=>{
+                                const t = Jr();
+                                t && $("AsyncQueue", "Visibility state changed to " + t.visibilityState), this.ar.tr();
+                            };
+                            const t = Jr();
+                            t && "function" == typeof t.addEventListener && t.addEventListener("visibilitychange", this.Rc);
+                        }
+                        get isShuttingDown() {
+                            return this.gc;
+                        }
+                        enqueueAndForget(t) {
+                            this.enqueue(t);
+                        }
+                        enqueueAndForgetEvenWhileRestricted(t) {
+                            this.bc(), this.Pc(t);
+                        }
+                        enterRestrictedMode(t) {
+                            if (!this.gc) {
+                                this.gc = !0, this.Ic = t || !1;
+                                const e = Jr();
+                                e && "function" == typeof e.removeEventListener && e.removeEventListener("visibilitychange", this.Rc);
+                            }
+                        }
+                        enqueue(t) {
+                            if (this.bc(), this.gc) return new Promise(()=>{});
+                            const e = new Q();
+                            return this.Pc(()=>this.gc && this.Ic ? Promise.resolve() : (t().then(e.resolve, e.reject), e.promise)).then(()=>e.promise);
+                        }
+                        enqueueRetryable(t) {
+                            this.enqueueAndForget(()=>(this.mc.push(t), this.vc()));
+                        }
+                        async vc() {
+                            if (0 !== this.mc.length) {
+                                try {
+                                    await this.mc[0](), this.mc.shift(), this.ar.reset();
+                                } catch (t) {
+                                    if (!Hs(t)) throw t;
+                                    $("AsyncQueue", "Operation failed with retryable error: " + t);
+                                }
+                                this.mc.length > 0 && this.ar.Xi(()=>this.vc());
+                            }
+                        }
+                        Pc(t) {
+                            const e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
+                                    var t1;
+                                    this.Tc = t, this.Ec = !1;
+                                    let e;
+                                    const e1 = (e = (t1 = t).message || "", t1.stack && (e = t1.stack.includes(t1.message) ? t1.stack : t1.message + "\n" + t1.stack), e);
+                                    throw O("INTERNAL UNHANDLED ERROR: ", e1), t;
+                                }).then((t)=>(this.Ec = !1, t))));
+                            return this._c = e, e;
+                        }
+                        enqueueAfterDelay(t, e, n) {
+                            this.bc(), this.Ac.indexOf(t);
+                            const s = xo.createAndSchedule(this, t, 0, n, (t)=>this.Vc(t));
+                            return this.yc.push(s), s;
+                        }
+                        bc() {
+                            this.Tc && L();
+                        }
+                        verifyOperationInProgress() {}
+                        async Sc() {
+                            let t;
+                            do await (t = this._c);
+                            while (t !== this._c)
+                        }
+                        Dc(t) {
+                            for (const e of this.yc)if (e.timerId === t) return !0;
+                            return !1;
+                        }
+                        Cc(t) {
+                            return this.Sc().then(()=>{
+                                for (const e of (this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs), this.yc))if (e.skipDelay(), "all" !== t && e.timerId === t) break;
+                                return this.Sc();
+                            });
+                        }
+                        Nc(t) {
+                            this.Ac.push(t);
+                        }
+                        Vc(t) {
+                            const e = this.yc.indexOf(t);
+                            this.yc.splice(e, 1);
+                        }
+                    }(), this._persistenceKey = "name" in t ? t.name : "[DEFAULT]";
                 }
                 _terminate() {
                     return this._firestoreClient || Ma(this), this._firestoreClient.terminate();

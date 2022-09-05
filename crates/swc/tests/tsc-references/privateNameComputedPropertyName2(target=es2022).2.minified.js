@@ -1,7 +1,5 @@
 //// [privateNameComputedPropertyName2.ts]
-let getX;
-class A {
+console.log((new class {
     #x = 100;
-    [(getX = (a)=>a.#x, "_")]() {}
-}
-console.log(getX(new A));
+    _() {}
+}).#x);

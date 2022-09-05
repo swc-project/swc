@@ -1,7 +1,7 @@
 //// [callNonGenericFunctionWithTypeArguments.ts]
-var i, i2, a, a2;
+var f3, i, i2, a, a2;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-(void 0)(1), new (function() {
+f3(1), new (function() {
     "use strict";
     function C() {
         _class_call_check(this, C);

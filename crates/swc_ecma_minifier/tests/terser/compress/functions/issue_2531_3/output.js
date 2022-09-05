@@ -1,4 +1,2 @@
 var value;
-console.log("Greeting:", (value = "Hello", function() {
-    return value;
-})());
+console.log("Greeting:", "Hello");

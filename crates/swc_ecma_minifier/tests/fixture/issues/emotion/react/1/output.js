@@ -23,8 +23,8 @@
                     nodes.forEach(this._insertTag);
                 }, _proto.insert = function(rule) {
                     if (this.ctr % (this.isSpeedy ? 65000 : 1) == 0) {
-                        var options, tag;
-                        this._insertTag((options = this, (tag = document.createElement("style")).setAttribute("data-emotion", options.key), void 0 !== options.nonce && tag.setAttribute("nonce", options.nonce), tag.appendChild(document.createTextNode("")), tag.setAttribute("data-s", ""), tag));
+                        var tag;
+                        this._insertTag(((tag = document.createElement("style")).setAttribute("data-emotion", this.key), void 0 !== this.nonce && tag.setAttribute("nonce", this.nonce), tag.appendChild(document.createTextNode("")), tag.setAttribute("data-s", ""), tag));
                     }
                     var tag1 = this.tags[this.tags.length - 1];
                     if (this.isSpeedy) {
@@ -226,7 +226,7 @@
                     for(var value = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; "rule" !== parent.type;)if (!(parent = parent.parent)) return;
                     if ((1 !== element.props.length || 58 === value.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
                         fixedElements.set(element, !0);
-                        for(var value1, points, points1 = [], rules = (value1 = value, points = points1, dealloc(toRules(alloc(value1), points))), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points1[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
+                        for(var points = [], rules = dealloc(toRules(alloc(value), points)), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
                     }
                 }
             }, removeLabel = function(element) {
