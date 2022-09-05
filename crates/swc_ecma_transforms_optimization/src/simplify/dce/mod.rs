@@ -1,3 +1,5 @@
+mod vars;
+
 use std::{borrow::Cow, sync::Arc};
 
 use indexmap::IndexSet;
