@@ -8,7 +8,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -1088,15 +1088,25 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
-    fn visit_switch_case(&mut self, n: &SwitchCase) {
-        n.test.visit_with(self);
+    fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
+        n.discriminant.visit_with(self);
 
-        {
+        let mut fallthrough = false;
+
+        for case in n.cases.iter() {
             let ctx = Ctx {
                 in_cond: true,
                 ..self.ctx
             };
-            self.with_ctx(ctx).visit_in_cond(&n.cons);
+            if fallthrough {
+                self.with_child(case.span.ctxt, ScopeKind::Block, |child| {
+                    child.with_ctx(ctx).visit_in_cond(&case.test);
+                });
+                self.with_ctx(ctx).visit_in_cond(&case.cons);
+            } else {
+                self.with_ctx(ctx).visit_in_cond(case);
+            }
+            fallthrough = !case.cons.terminates()
         }
     }
 

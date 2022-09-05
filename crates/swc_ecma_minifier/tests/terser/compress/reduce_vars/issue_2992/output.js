@@ -3,7 +3,7 @@ var c = "PASS";
     switch(0){
         case 0:
         case b = 1:
-            c = "FAIL";
+            b && (c = "FAIL");
     }
 })();
 console.log(c);
