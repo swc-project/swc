@@ -671,6 +671,7 @@ impl VisitMut for TreeShaker {
                 if self.can_drop_binding(f.ident.to_id(), true) {
                     debug!("Dropping function `{}` as it's not used", f.ident);
                     self.changed = true;
+                    self.data.drop_id(&f.ident.to_id());
 
                     n.take();
                 }
@@ -702,6 +703,7 @@ impl VisitMut for TreeShaker {
                 {
                     debug!("Dropping class `{}` as it's not used", c.ident);
                     self.changed = true;
+                    self.data.drop_id(&c.ident.to_id());
 
                     n.take();
                 }
