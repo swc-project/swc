@@ -294,14 +294,6 @@ impl<I: Tokens> Parser<I> {
             }
 
             if self.input.syntax().typescript() && op == op!("delete") {
-                fn unwrap_paren_iterate(e: &Expr) -> &Expr {
-                    let mut cur = e;
-                    while let Expr::Paren(ref expr) = cur {
-                        cur = &expr.expr;
-                    }
-                    cur
-                }
-
                 fn is_valid_arg(e: &Expr) -> bool {
                     match e {
                         Expr::Member(..)
@@ -309,13 +301,13 @@ impl<I: Tokens> Parser<I> {
                             base: OptChainBase::Member(..),
                             ..
                         }) => true,
-                        Expr::Paren(expr) => is_valid_arg(unwrap_paren_iterate(&expr.expr)),
+                        Expr::Paren(expr) => is_valid_arg(expr.expr.unwrap_parens()),
                         _ => false,
                     }
                 }
 
                 if !is_valid_arg(&arg) {
-                    self.emit_err(unwrap_paren_iterate(&arg).span(), SyntaxError::TS2703);
+                    self.emit_err(arg.unwrap_parens().span(), SyntaxError::TS2703);
                 }
             }
 

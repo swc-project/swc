@@ -172,10 +172,11 @@ impl Expr {
     ///
     /// If `self` is not a parenthesized expression, it will be returned as is.
     pub fn unwrap_parens(&self) -> &Expr {
-        match self {
-            Expr::Paren(ParenExpr { expr, .. }) => expr.unwrap_parens(),
-            _ => self,
+        let mut cur = self;
+        while let Expr::Paren(ref expr) = cur {
+            cur = &expr.expr;
         }
+        cur
     }
 
     /// Normalize parenthesized expressions.
@@ -184,10 +185,11 @@ impl Expr {
     ///
     /// If `self` is not a parenthesized expression, it will be returned as is.
     pub fn unwrap_parens_mut(&mut self) -> &mut Expr {
-        match self {
-            Expr::Paren(ParenExpr { expr, .. }) => expr.unwrap_parens_mut(),
-            _ => self,
+        let mut cur = self;
+        while let Expr::Paren(ref mut expr) = cur {
+            cur = &mut expr.expr;
         }
+        cur
     }
 
     /// Creates an expression from `exprs`. This will return first element if
