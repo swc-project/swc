@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(swc_core)** Update deps (#5746) ([83dbe6c](https://github.com/swc-project/swc/commit/83dbe6cdc3252af50954938582379268a375e6b6))
+
 ### Miscellaneous Tasks
 
 
