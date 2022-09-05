@@ -1,6 +1,6 @@
 use std::{
     cmp::Reverse,
-    io::{self, Write},
+    io::{self},
     ops::AddAssign,
 };
 
@@ -80,7 +80,7 @@ impl SourceMapperExt for DummySourceMap {
 }
 
 impl CharFreq {
-    fn write(&mut self, data: &str) -> io::Result<usize> {
+    fn write(&mut self, data: &str) -> io::Result<()> {
         self.scan(data.as_bytes(), 1);
         Ok(())
     }
@@ -96,139 +96,81 @@ impl WriteJs for CharFreq {
     }
 
     fn write_semi(&mut self, _: Option<Span>) -> io::Result<()> {
-        self.write(span, ";")?;
+        self.write(";")?;
         Ok(())
     }
 
     fn write_space(&mut self) -> io::Result<()> {
-        self.write(None, " ")?;
+        self.write(" ")?;
         Ok(())
     }
 
-    fn write_keyword(&mut self, span: Option<Span>, s: &'static str) -> io::Result<()> {
-        self.write(span, s)?;
+    fn write_keyword(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
+        self.write(s)?;
         Ok(())
     }
 
-    fn write_operator(&mut self, span: Option<Span>, s: &str) -> io::Result<()> {
-        self.write(span, s)?;
+    fn write_operator(&mut self, _: Option<Span>, s: &str) -> io::Result<()> {
+        self.write(s)?;
         Ok(())
     }
 
     fn write_param(&mut self, s: &str) -> io::Result<()> {
-        self.write(None, s)?;
+        self.write(s)?;
         Ok(())
     }
 
     fn write_property(&mut self, s: &str) -> io::Result<()> {
-        self.write(None, s)?;
+        self.write(s)?;
         Ok(())
     }
 
     fn write_line(&mut self) -> io::Result<()> {
-        let pending = self.pending_srcmap.take();
-        if !self.line_start {
-            self.raw_write(self.new_line)?;
-            self.line_count += 1;
-            self.line_pos = 0;
-            self.line_start = true;
+        Ok(())
+    }
 
-            if let Some(pending) = pending {
-                self.srcmap(pending)
-            }
-        }
+    fn write_lit(&mut self, _: Span, s: &str) -> io::Result<()> {
+        self.write(s)?;
 
         Ok(())
     }
 
-    fn write_lit(&mut self, span: Span, s: &str) -> Result {
-        if !s.is_empty() {
-            if !span.is_dummy() {
-                self.srcmap(span.lo())
-            }
-
-            self.write(None, s)?;
-
-            let line_start_of_s = compute_line_starts(s);
-            if line_start_of_s.len() > 1 {
-                self.line_count = self.line_count + line_start_of_s.len() - 1;
-                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
-                self.line_pos = s[last_line_byte_index..].chars().count();
-            }
-
-            if !span.is_dummy() {
-                self.srcmap(span.hi())
-            }
-        }
+    fn write_comment(&mut self, s: &str) -> io::Result<()> {
+        self.write(s)?;
 
         Ok(())
     }
 
-    fn write_comment(&mut self, s: &str) -> Result {
-        self.write(None, s)?;
-        {
-            let line_start_of_s = compute_line_starts(s);
-            if line_start_of_s.len() > 1 {
-                self.line_count = self.line_count + line_start_of_s.len() - 1;
-                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
-                self.line_pos = s[last_line_byte_index..].chars().count();
-            }
-        }
-        Ok(())
-    }
-
-    fn write_str_lit(&mut self, span: Span, s: &str) -> Result {
-        if !s.is_empty() {
-            if !span.is_dummy() {
-                self.srcmap(span.lo())
-            }
-
-            self.write(None, s)?;
-
-            let line_start_of_s = compute_line_starts(s);
-            if line_start_of_s.len() > 1 {
-                self.line_count = self.line_count + line_start_of_s.len() - 1;
-                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
-                self.line_pos = s[last_line_byte_index..].chars().count();
-            }
-
-            if !span.is_dummy() {
-                self.srcmap(span.hi())
-            }
-        }
+    fn write_str_lit(&mut self, _: Span, s: &str) -> io::Result<()> {
+        self.write(s)?;
 
         Ok(())
     }
 
-    fn write_str(&mut self, s: &str) -> Result {
-        self.write(None, s)?;
+    fn write_str(&mut self, s: &str) -> io::Result<()> {
+        self.write(s)?;
         Ok(())
     }
 
-    fn write_symbol(&mut self, span: Span, s: &str) -> Result {
-        self.write(Some(span), s)?;
+    fn write_symbol(&mut self, _: Span, s: &str) -> io::Result<()> {
+        self.write(s)?;
         Ok(())
     }
 
-    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
-        self.write(span, s)?;
+    fn write_punct(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
+        self.write(s)?;
         Ok(())
     }
 
     fn care_about_srcmap(&self) -> bool {
-        self.srcmap.is_some()
+        false
     }
 
-    fn add_srcmap(&mut self, pos: BytePos) -> Result {
-        if self.line_start {
-            self.pending_srcmap = Some(pos);
-        } else {
-            self.srcmap(pos);
-        }
+    fn add_srcmap(&mut self, _: BytePos) -> io::Result<()> {
         Ok(())
     }
 
-    fn commit_pending_semi(&mut self) -> Result {
+    fn commit_pending_semi(&mut self) -> io::Result<()> {
         Ok(())
     }
 }
@@ -272,7 +214,7 @@ impl CharFreq {
                 cfg: Default::default(),
                 cm,
                 comments: None,
-                wr: SimpleJsWriter::new(Default::default(), "\n", &mut freq, None),
+                wr: &mut freq,
             };
 
             emitter.emit_program(p).unwrap();
