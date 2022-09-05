@@ -38,10 +38,11 @@ pub fn dce(
         config,
         changed: false,
         pass: 0,
-        data: Default::default(),
-        in_block_stmt: false,
         in_fn: false,
+        in_block_stmt: false,
         var_decl_kind: None,
+        data: Default::default(),
+        bindings: Default::default(),
     })
 }
 
@@ -85,6 +86,8 @@ struct TreeShaker {
     var_decl_kind: Option<VarDeclKind>,
 
     data: Arc<Data>,
+
+    bindings: Arc<AHashSet<Id>>,
 }
 
 impl CompilerPass for TreeShaker {
@@ -95,9 +98,6 @@ impl CompilerPass for TreeShaker {
 
 #[derive(Default)]
 struct Data {
-    /// Bindings in the module.
-    bindings: AHashSet<Id>,
-
     used_names: AHashMap<Id, VarInfo>,
 
     /// Variable usage graph
@@ -526,6 +526,7 @@ impl Parallel for TreeShaker {
             expr_ctx: self.expr_ctx.clone(),
             data: self.data.clone(),
             config: self.config.clone(),
+            bindings: self.bindings.clone(),
             ..*self
         }
     }
@@ -597,7 +598,7 @@ impl TreeShaker {
             return false;
         }
 
-        self.data.bindings.contains(&name)
+        self.bindings.contains(&name)
             && self
                 .data
                 .used_names
@@ -786,8 +787,11 @@ impl VisitMut for TreeShaker {
     fn visit_mut_module(&mut self, m: &mut Module) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
+        if self.bindings.is_empty() {
+            self.bindings = Arc::new(collect_decls(&*m))
+        }
+
         let mut data = Data {
-            bindings: collect_decls(&*m),
             ..Default::default()
         };
 
@@ -813,8 +817,11 @@ impl VisitMut for TreeShaker {
     fn visit_mut_script(&mut self, m: &mut Script) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
+        if self.bindings.is_empty() {
+            self.bindings = Arc::new(collect_decls(&*m))
+        }
+
         let mut data = Data {
-            bindings: collect_decls(&*m),
             ..Default::default()
         };
 
