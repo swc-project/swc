@@ -53,7 +53,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-                assign_count: 2,
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: true,
@@ -67,7 +67,7 @@ TestSnapshot {
                 is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: true,
+                used_in_cond: false,
                 var_kind: None,
                 var_initialized: true,
                 declared_as_catch_param: false,
@@ -169,7 +169,11 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
+<<<<<<< HEAD
                 assign_count: 0,
+=======
+                assign_count: 1,
+>>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -183,7 +187,7 @@ TestSnapshot {
                 is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,
-                used_in_cond: true,
+                used_in_cond: false,
                 var_kind: Some(
                     "var",
                 ),

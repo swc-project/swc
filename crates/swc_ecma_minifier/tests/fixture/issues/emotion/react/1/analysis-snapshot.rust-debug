@@ -11897,7 +11897,7 @@ TestSnapshot {
                 ),
                 var_initialized: true,
                 declared_as_catch_param: false,
-                no_side_effect_for_member_access: true,
+                no_side_effect_for_member_access: false,
                 used_as_callee: true,
                 used_as_arg: false,
                 pure_fn: false,
@@ -25135,7 +25135,11 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
+<<<<<<< HEAD
                 assign_count: 0,
+=======
+                assign_count: 1,
+>>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 4,
                 usage_count: 5,
                 reassigned_with_assignment: false,
@@ -28659,7 +28663,7 @@ TestSnapshot {
                 ),
                 var_initialized: true,
                 declared_as_catch_param: false,
-                no_side_effect_for_member_access: true,
+                no_side_effect_for_member_access: false,
                 used_as_callee: false,
                 used_as_arg: true,
                 pure_fn: false,
@@ -30585,7 +30589,7 @@ TestSnapshot {
                 ),
                 var_initialized: true,
                 declared_as_catch_param: false,
-                no_side_effect_for_member_access: true,
+                no_side_effect_for_member_access: false,
                 used_as_callee: false,
                 used_as_arg: false,
                 pure_fn: false,

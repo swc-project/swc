@@ -6822,7 +6822,7 @@
             }
             function fromByteArray(uint8) {
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], maxChunkLength = 16383, i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength)parts.push(encodeChunk(uint8, i, i + maxChunkLength > len2 ? len2 : i + maxChunkLength));
-                return 1 === extraBytes ? parts.push(lookup[(tmp = uint8[len - 1]) >> 2] + lookup[tmp << 4 & 0x3F] + '==') : 2 === extraBytes && parts.push(lookup[(tmp = (uint8[len - 2] << 8) + uint8[len - 1]) >> 10] + lookup[tmp >> 4 & 0x3F] + lookup[tmp << 2 & 0x3F] + '='), parts.join('');
+                return 1 === extraBytes ? (tmp = uint8[len - 1], parts.push(lookup[tmp >> 2] + lookup[tmp << 4 & 0x3F] + '==')) : 2 === extraBytes && (tmp = (uint8[len - 2] << 8) + uint8[len - 1], parts.push(lookup[tmp >> 10] + lookup[tmp >> 4 & 0x3F] + lookup[tmp << 2 & 0x3F] + '=')), parts.join('');
             }
             revLookup['-'.charCodeAt(0)] = 62, revLookup['_'.charCodeAt(0)] = 63;
         },

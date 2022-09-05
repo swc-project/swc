@@ -6740,12 +6740,12 @@
                     var _config$capacity, canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), results = [], capacity = null !== (_config$capacity = config.capacity) && void 0 !== _config$capacity ? _config$capacity : 20, capture = !0 === config.capture;
                     return {
                         addResult: function(data, imageSize, codeResult) {
-                            var codeResult1, codeResult2, list, filter, result = {};
+                            var codeResult1, codeResult2, list, codeResult3, filter, result = {};
                             codeResult1 = codeResult, capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && list.some(function(item) {
                                 return Object.keys(item).every(function(key) {
                                     return item[key] === codeResult2[key];
                                 });
-                            }))) && ("function" != typeof (filter = config.filter) || filter(codeResult1)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
+                            }))) && (codeResult3 = codeResult1, "function" != typeof (filter = config.filter) || filter(codeResult3)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
                         },
                         getResults: function() {
                             return results;

@@ -7678,7 +7678,7 @@
             case 1:
                 safelyDetachRef(current);
                 var current1, instance, instance1 = current.stateNode;
-                "function" != typeof instance1.componentWillUnmount || (invokeGuardedCallback(null, callComponentWillUnmountWithTimer, null, current1 = current, instance1), hasError && captureCommitPhaseError(current1, clearCaughtError()));
+                "function" != typeof instance1.componentWillUnmount || (current1 = current, invokeGuardedCallback(null, callComponentWillUnmountWithTimer, null, current1, instance = instance1), hasError && captureCommitPhaseError(current1, clearCaughtError()));
                 return;
             case 5:
                 safelyDetachRef(current);
@@ -7997,7 +7997,7 @@
                 }
             }
         }(fiber), null;
-        markRootUpdated(root, lane, eventTime), root === workInProgressRoot && (workInProgressRootUpdatedLanes = (a = workInProgressRootUpdatedLanes) | lane, 4 === workInProgressRootExitStatus && markRootSuspended$1(root, workInProgressRootRenderLanes));
+        markRootUpdated(root, lane, eventTime), root === workInProgressRoot && (workInProgressRootUpdatedLanes = (a = workInProgressRootUpdatedLanes, b = lane, a | b), 4 === workInProgressRootExitStatus && markRootSuspended$1(root, workInProgressRootRenderLanes));
         var priorityLevel = getCurrentPriorityLevel();
         1 === lane ? (8 & executionContext) != 0 && (48 & executionContext) == 0 ? (schedulePendingInteractions(root, lane), performSyncWorkOnRoot(root)) : (ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, lane), 0 === executionContext && (resetRenderTimer(), flushSyncCallbackQueue())) : ((4 & executionContext) != 0 && (98 === priorityLevel || 99 === priorityLevel) && (null === rootsWithPendingDiscreteUpdates ? rootsWithPendingDiscreteUpdates = new Set([
             root
@@ -9215,7 +9215,7 @@
             updateContainer(children, fiberRoot, parentComponent, callback);
         } else {
             if (fiberRoot = (root = container._reactRootContainer = function(container, forceHydrate) {
-                var rootElement, shouldHydrate = forceHydrate || !!((rootElement = getReactRootElementInContainer(container)) && 1 === rootElement.nodeType && rootElement.hasAttribute(ROOT_ATTRIBUTE_NAME));
+                var container1, rootElement, shouldHydrate = forceHydrate || (container1 = container, !!((rootElement = getReactRootElementInContainer(container1)) && 1 === rootElement.nodeType && rootElement.hasAttribute(ROOT_ATTRIBUTE_NAME)));
                 if (!shouldHydrate) for(var rootSibling, warned = !1; rootSibling = container.lastChild;)!warned && 1 === rootSibling.nodeType && rootSibling.hasAttribute(ROOT_ATTRIBUTE_NAME) && (warned = !0, error("render(): Target node has markup rendered by React, but there are unrelated nodes as well. This is most commonly caused by white-space inserted around server-rendered markup.")), container.removeChild(rootSibling);
                 return !shouldHydrate || forceHydrate || warnedAboutHydrateAPI || (warnedAboutHydrateAPI = !0, warn("render(): Calling ReactDOM.render() to hydrate server-rendered markup will stop working in React v18. Replace the ReactDOM.render() call with ReactDOM.hydrate() if you want React to attach to the server HTML.")), new ReactDOMBlockingRoot(container, 0, shouldHydrate ? {
                     hydrate: !0

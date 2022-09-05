@@ -113,7 +113,7 @@
                             return 2 === o && (r = f[e.charCodeAt(h)] << 2 | f[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f[e.charCodeAt(h)] << 10 | f[e.charCodeAt(h + 1)] << 4 | f[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
                         }, r.fromByteArray = function(e) {
                             for(var r, f = e.length, n = f % 3, i = [], u = 0, a = f - n; u < a; u += 16383)i.push(encodeChunk(e, u, u + 16383 > a ? a : u + 16383));
-                            return 1 === n ? i.push(t[(r = e[f - 1]) >> 2] + t[r << 4 & 63] + "==") : 2 === n && i.push(t[(r = (e[f - 2] << 8) + e[f - 1]) >> 10] + t[r >> 4 & 63] + t[r << 2 & 63] + "="), i.join("");
+                            return 1 === n ? (r = e[f - 1], i.push(t[r >> 2] + t[r << 4 & 63] + "==")) : 2 === n && (r = (e[f - 2] << 8) + e[f - 1], i.push(t[r >> 10] + t[r >> 4 & 63] + t[r << 2 & 63] + "=")), i.join("");
                         };
                         for(var t = [], f = [], n = "undefined" != typeof Uint8Array ? Uint8Array : Array, i = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", o = 0, u = i.length; o < u; ++o)t[o] = i[o], f[i.charCodeAt(o)] = o;
                         function getLens(e) {

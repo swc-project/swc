@@ -1190,7 +1190,7 @@
     }, handler = function() {
         (diff = (curr = new Date().getTime()) - lastCall) >= 250 ? (lastCall = curr, $12(this).trigger("throttledresize")) : (heldCall && clearTimeout(heldCall), heldCall = setTimeout(handler, 250 - diff));
     }, lastCall = 0, function($, window) {
-        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, win = $(window), event_name = "orientationchange", portrait_map = {
+        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, landscape_threshold, win = $(window), event_name = "orientationchange", portrait_map = {
             0: !0,
             180: !0
         };
@@ -1198,7 +1198,7 @@
             var orientation = get_orientation();
             orientation !== last_orientation && (last_orientation = orientation, win.trigger(event_name));
         }
-        $.support.orientation && (initial_orientation_is_landscape = (ww = window.innerWidth || win.width()) > (wh = window.innerHeight || win.height()) && ww - wh > 50, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
+        $.support.orientation && (ww = window.innerWidth || win.width(), wh = window.innerHeight || win.height(), landscape_threshold = 50, initial_orientation_is_landscape = ww > wh && ww - wh > landscape_threshold, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
             "-90": !0,
             90: !0
         })), $.event.special.orientationchange = $.extend({}, $.event.special.orientationchange, {

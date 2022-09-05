@@ -4761,8 +4761,8 @@
                             return this._c = e, e;
                         }
                         enqueueAfterDelay(t, e, n) {
-                            this.bc(), this.Ac.indexOf(t);
-                            const s = xo.createAndSchedule(this, t, 0, n, (t)=>this.Vc(t));
+                            this.bc(), this.Ac.indexOf(t) > -1 && (e = 0);
+                            const s = xo.createAndSchedule(this, t, e, n, (t)=>this.Vc(t));
                             return this.yc.push(s), s;
                         }
                         bc() {

@@ -2475,12 +2475,12 @@
                 }(this);
                 if (updateSel) {
                     this.domObserver.stop();
-                    var sel1, sel2, depth, anchorDOM, domSel, forceSelUpdate = updateDoc && (result.ie || result.chrome) && !this.composing && !prev.selection.empty && !state.selection.empty && (sel1 = prev.selection, sel2 = state.selection, depth = Math.min(sel1.$anchor.sharedDepth(sel1.head), sel2.$anchor.sharedDepth(sel2.head)), sel1.$anchor.start(depth) != sel2.$anchor.start(depth));
+                    var sel1, sel2, depth, view, anchorDOM, domSel, forceSelUpdate = updateDoc && (result.ie || result.chrome) && !this.composing && !prev.selection.empty && !state.selection.empty && (sel1 = prev.selection, sel2 = state.selection, depth = Math.min(sel1.$anchor.sharedDepth(sel1.head), sel2.$anchor.sharedDepth(sel2.head)), sel1.$anchor.start(depth) != sel2.$anchor.start(depth));
                     if (updateDoc) {
                         var chromeKludge = result.chrome ? this.trackWrites = this.root.getSelection().focusNode : null;
                         (redraw || !this.docView.update(state.doc, outerDeco, innerDeco, this)) && (this.docView.updateOuterDeco([]), this.docView.destroy(), this.docView = docViewDesc(state.doc, outerDeco, innerDeco, this.dom, this)), chromeKludge && !this.trackWrites && (forceSelUpdate = !0);
                     }
-                    forceSelUpdate || !(this.mouseDown && this.domObserver.currentSelection.eq(this.root.getSelection()) && (anchorDOM = this.docView.domFromPos(this.state.selection.anchor, 0), domSel = this.root.getSelection(), isEquivalentPosition(anchorDOM.node, anchorDOM.offset, domSel.anchorNode, domSel.anchorOffset))) ? selectionToDOM(this, forceSelUpdate) : (syncNodeSelection(this, state.selection), this.domObserver.setCurSelection()), this.domObserver.start();
+                    forceSelUpdate || !(this.mouseDown && this.domObserver.currentSelection.eq(this.root.getSelection()) && (view = this, anchorDOM = view.docView.domFromPos(view.state.selection.anchor, 0), domSel = view.root.getSelection(), isEquivalentPosition(anchorDOM.node, anchorDOM.offset, domSel.anchorNode, domSel.anchorOffset))) ? selectionToDOM(this, forceSelUpdate) : (syncNodeSelection(this, state.selection), this.domObserver.setCurSelection()), this.domObserver.start();
                 }
                 if (this.updatePluginViews(prev), "reset" == scroll) this.dom.scrollTop = 0;
                 else if ("to selection" == scroll) {

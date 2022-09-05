@@ -218,14 +218,14 @@
         }
         if (key || ref) {
             var props1, displayName, warnAboutAccessingKey, props2, displayName1, warnAboutAccessingRef, displayName2 = "function" == typeof type ? type.displayName || type.name || "Unknown" : type;
-            key && (displayName = displayName2, (warnAboutAccessingKey = function() {
+            key && (props1 = props, displayName = displayName2, (warnAboutAccessingKey = function() {
                 specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
-            }).isReactWarning = !0, Object.defineProperty(props, "key", {
+            }).isReactWarning = !0, Object.defineProperty(props1, "key", {
                 get: warnAboutAccessingKey,
                 configurable: !0
-            })), ref && (displayName1 = displayName2, (warnAboutAccessingRef = function() {
+            })), ref && (props2 = props, displayName1 = displayName2, (warnAboutAccessingRef = function() {
                 specialPropRefWarningShown || (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName1));
-            }).isReactWarning = !0, Object.defineProperty(props, "ref", {
+            }).isReactWarning = !0, Object.defineProperty(props2, "ref", {
                 get: warnAboutAccessingRef,
                 configurable: !0
             }));

@@ -5111,7 +5111,7 @@
                 return 2 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(encodeChunk(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
-                return 1 === extraBytes ? parts.push(lookup[(tmp = uint8[len - 1]) >> 2] + lookup[tmp << 4 & 0x3f] + "==") : 2 === extraBytes && parts.push(lookup[(tmp = (uint8[len - 2] << 8) + uint8[len - 1]) >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "="), parts.join("");
+                return 1 === extraBytes ? (tmp = uint8[len - 1], parts.push(lookup[tmp >> 2] + lookup[tmp << 4 & 0x3f] + "==")) : 2 === extraBytes && (tmp = (uint8[len - 2] << 8) + uint8[len - 1], parts.push(lookup[tmp >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "=")), parts.join("");
             };
             for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i = 0, len = code.length; i < len; ++i)lookup[i] = code[i], revLookup[code.charCodeAt(i)] = i;
             function getLens(b64) {
