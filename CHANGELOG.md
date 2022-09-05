@@ -28,6 +28,9 @@
 
 - **(es/minifier)** Pre-allocate in analyzer (#5743) ([96b2e17](https://github.com/swc-project/swc/commit/96b2e17a8fdb5e500eb1e6a10ffa16d4d0c98957))
 
+
+- **(es/minifier)** Use efficient logic for entry tracking in DCE (#5749) ([08b2aea](https://github.com/swc-project/swc/commit/08b2aea2b0d1d0bec707394d9f5cf6d2713431a9))
+
 ### Refactor
 
 
