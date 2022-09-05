@@ -65,7 +65,7 @@ TestSnapshot {
                 is_fn_local: true,
                 used_by_nested_fn: false,
                 executed_multiple_time: false,
-                used_in_cond: true,
+                used_in_cond: false,
                 var_kind: None,
                 var_initialized: false,
                 declared_as_catch_param: false,

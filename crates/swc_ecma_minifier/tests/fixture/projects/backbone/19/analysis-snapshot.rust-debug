@@ -105,7 +105,7 @@ TestSnapshot {
                 executed_multiple_time: false,
                 used_in_cond: true,
                 var_kind: None,
-                var_initialized: false,
+                var_initialized: true,
                 declared_as_catch_param: false,
                 no_side_effect_for_member_access: false,
                 used_as_callee: false,
