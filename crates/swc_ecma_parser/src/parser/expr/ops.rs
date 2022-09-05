@@ -294,19 +294,20 @@ impl<I: Tokens> Parser<I> {
             }
 
             if self.input.syntax().typescript() && op == op!("delete") {
-                fn unwrap_paren(e: &Expr) -> &Expr {
-                    match *e {
-                        Expr::Paren(ref p) => unwrap_paren(&p.expr),
-                        _ => e,
+                fn is_valid_arg(e: &Expr) -> bool {
+                    match e {
+                        Expr::Member(..)
+                        | Expr::OptChain(OptChainExpr {
+                            base: OptChainBase::Member(..),
+                            ..
+                        }) => true,
+                        Expr::Paren(expr) => is_valid_arg(expr.expr.unwrap_parens()),
+                        _ => false,
                     }
                 }
-                match &*arg {
-                    Expr::Member(..) => {}
-                    Expr::OptChain(OptChainExpr {
-                        base: OptChainBase::Member(..),
-                        ..
-                    }) => {}
-                    _ => self.emit_err(unwrap_paren(&arg).span(), SyntaxError::TS2703),
+
+                if !is_valid_arg(&arg) {
+                    self.emit_err(arg.unwrap_parens().span(), SyntaxError::TS2703);
                 }
             }
 
