@@ -38,7 +38,7 @@ const execAsync = promisify(exec);
         if (action.breaking) {
             await execAsync(`cargo mono bump ${action.crate} --breaking`);
         } else {
-            await execAsync(`cargo mono bump ${action.crate}`);
+            await execAsync(`cargo mono bump ${action.crate} -D`);
         }
     }
 })();
