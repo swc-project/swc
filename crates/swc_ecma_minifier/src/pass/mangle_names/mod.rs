@@ -1,4 +1,8 @@
-use std::{cmp::Reverse, io::Write, ops::AddAssign};
+use std::{
+    cmp::Reverse,
+    io::{self, Write},
+    ops::AddAssign,
+};
 
 use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
@@ -7,7 +11,7 @@ use swc_common::{
     chain, sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError,
 };
 use swc_ecma_ast::{Module, *};
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitMut, VisitWith};
 
@@ -76,12 +80,214 @@ impl SourceMapperExt for DummySourceMap {
 }
 
 impl Write for CharFreq {
-    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+    fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
         self.scan(buf, 1);
         Ok(buf.len())
     }
 
-    fn flush(&mut self) -> std::io::Result<()> {
+    fn flush(&mut self) -> io::Result<()> {
+        Ok(())
+    }
+}
+
+impl CharFreq {
+    fn raw_write(&mut self, data: &str) -> io::Result<usize> {
+        self.wr.write_all(data.as_bytes())?;
+        Ok(())
+    }
+
+    fn write(&mut self, span: Option<Span>, data: &str) -> io::Result<()> {
+        if !data.is_empty() {
+            if self.line_start {
+                self.write_indent_string()?;
+                self.line_start = false;
+
+                if let Some(pending) = self.pending_srcmap.take() {
+                    self.srcmap(pending);
+                }
+            }
+
+            if let Some(span) = span {
+                if !span.is_dummy() {
+                    self.srcmap(span.lo())
+                }
+            }
+
+            self.raw_write(data)?;
+
+            if let Some(span) = span {
+                if !span.is_dummy() {
+                    self.srcmap(span.hi())
+                }
+            }
+        }
+
+        Ok(())
+    }
+
+    fn srcmap(&mut self, byte_pos: BytePos) {
+        if byte_pos.is_dummy() {
+            return;
+        }
+
+        if let Some(ref mut srcmap) = self.srcmap {
+            if self
+                .srcmap_done
+                .insert((byte_pos, self.line_count as _, self.line_pos as _))
+            {
+                let loc = LineCol {
+                    line: self.line_count as _,
+                    col: self.line_pos as _,
+                };
+                srcmap.push((byte_pos, loc));
+            }
+        }
+    }
+}
+
+impl WriteJs for CharFreq {
+    fn increase_indent(&mut self) -> Result {
+        Ok(())
+    }
+
+    fn decrease_indent(&mut self) -> Result {
+        Ok(())
+    }
+
+    fn write_semi(&mut self, span: Option<Span>) -> Result {
+        self.write(span, ";")?;
+        Ok(())
+    }
+
+    fn write_space(&mut self) -> Result {
+        self.write(None, " ")?;
+        Ok(())
+    }
+
+    fn write_keyword(&mut self, span: Option<Span>, s: &'static str) -> Result {
+        self.write(span, s)?;
+        Ok(())
+    }
+
+    fn write_operator(&mut self, span: Option<Span>, s: &str) -> Result {
+        self.write(span, s)?;
+        Ok(())
+    }
+
+    fn write_param(&mut self, s: &str) -> Result {
+        self.write(None, s)?;
+        Ok(())
+    }
+
+    fn write_property(&mut self, s: &str) -> Result {
+        self.write(None, s)?;
+        Ok(())
+    }
+
+    fn write_line(&mut self) -> Result {
+        let pending = self.pending_srcmap.take();
+        if !self.line_start {
+            self.raw_write(self.new_line)?;
+            self.line_count += 1;
+            self.line_pos = 0;
+            self.line_start = true;
+
+            if let Some(pending) = pending {
+                self.srcmap(pending)
+            }
+        }
+
+        Ok(())
+    }
+
+    fn write_lit(&mut self, span: Span, s: &str) -> Result {
+        if !s.is_empty() {
+            if !span.is_dummy() {
+                self.srcmap(span.lo())
+            }
+
+            self.write(None, s)?;
+
+            let line_start_of_s = compute_line_starts(s);
+            if line_start_of_s.len() > 1 {
+                self.line_count = self.line_count + line_start_of_s.len() - 1;
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s[last_line_byte_index..].chars().count();
+            }
+
+            if !span.is_dummy() {
+                self.srcmap(span.hi())
+            }
+        }
+
+        Ok(())
+    }
+
+    fn write_comment(&mut self, s: &str) -> Result {
+        self.write(None, s)?;
+        {
+            let line_start_of_s = compute_line_starts(s);
+            if line_start_of_s.len() > 1 {
+                self.line_count = self.line_count + line_start_of_s.len() - 1;
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s[last_line_byte_index..].chars().count();
+            }
+        }
+        Ok(())
+    }
+
+    fn write_str_lit(&mut self, span: Span, s: &str) -> Result {
+        if !s.is_empty() {
+            if !span.is_dummy() {
+                self.srcmap(span.lo())
+            }
+
+            self.write(None, s)?;
+
+            let line_start_of_s = compute_line_starts(s);
+            if line_start_of_s.len() > 1 {
+                self.line_count = self.line_count + line_start_of_s.len() - 1;
+                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                self.line_pos = s[last_line_byte_index..].chars().count();
+            }
+
+            if !span.is_dummy() {
+                self.srcmap(span.hi())
+            }
+        }
+
+        Ok(())
+    }
+
+    fn write_str(&mut self, s: &str) -> Result {
+        self.write(None, s)?;
+        Ok(())
+    }
+
+    fn write_symbol(&mut self, span: Span, s: &str) -> Result {
+        self.write(Some(span), s)?;
+        Ok(())
+    }
+
+    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
+        self.write(span, s)?;
+        Ok(())
+    }
+
+    fn care_about_srcmap(&self) -> bool {
+        self.srcmap.is_some()
+    }
+
+    fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        if self.line_start {
+            self.pending_srcmap = Some(pos);
+        } else {
+            self.srcmap(pos);
+        }
+        Ok(())
+    }
+
+    fn commit_pending_semi(&mut self) -> Result {
         Ok(())
     }
 }
@@ -125,7 +331,7 @@ impl CharFreq {
                 cfg: Default::default(),
                 cm,
                 comments: None,
-                wr: Box::new(JsWriter::new(Default::default(), "\n", &mut freq, None)),
+                wr: SimpleJsWriter::new(Default::default(), "\n", &mut freq, None),
             };
 
             emitter.emit_program(p).unwrap();
