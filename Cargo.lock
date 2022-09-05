@@ -3422,7 +3422,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.152.6"
+version = "0.152.7"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3691,7 +3691,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.160.7"
+version = "0.160.8"
 dependencies = [
  "ahash",
  "dashmap",

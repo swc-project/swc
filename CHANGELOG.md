@@ -31,6 +31,9 @@
 
 - **(es/minifier)** Use efficient logic for entry tracking in DCE (#5749) ([08b2aea](https://github.com/swc-project/swc/commit/08b2aea2b0d1d0bec707394d9f5cf6d2713431a9))
 
+
+- **(es/minifier)** Cache the list of bindings for DCE (#5750) ([8789184](https://github.com/swc-project/swc/commit/8789184d447eb09e1b0dddc6156ac150d4cbf0d7))
+
 ### Refactor
 
 
