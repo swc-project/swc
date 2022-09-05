@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.20.5"
+version       = "0.20.6"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -304,7 +304,7 @@ swc_ecma_parser                  = { optional = true, version = "0.118.0", path 
 swc_ecma_quote_macros            = { optional = true, version = "0.29.1", path = "../swc_ecma_quote_macros" }
 swc_ecma_transforms_base         = { optional = true, version = "0.106.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_module       = { optional = true, version = "0.146.0", path = "../swc_ecma_transforms_module" }
-swc_ecma_transforms_optimization = { optional = true, version = "0.160.4", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { optional = true, version = "0.160.6", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_transforms_proposal     = { optional = true, version = "0.137.0", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_react        = { optional = true, version = "0.148.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing      = { optional = true, version = "0.108.0", path = "../swc_ecma_transforms_testing" }
