@@ -156,6 +156,11 @@ impl Data {
             // We have to exclude cycle from remove list if an outer node refences an item
             // of cycle.
             for &node in &cycle {
+                // It's referenced by an outer node.
+                if self.entries.contains(&node) {
+                    continue 'c;
+                }
+
                 if self.graph.neighbors_directed(node, Incoming).any(|node| {
                     // Node in cycle does not matter
                     !cycle.contains(&node)
