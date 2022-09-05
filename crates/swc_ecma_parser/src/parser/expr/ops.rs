@@ -300,13 +300,13 @@ impl<I: Tokens> Parser<I> {
                         _ => e,
                     }
                 }
-                match &*arg {
+                match unwrap_paren(&*arg) {
                     Expr::Member(..) => {}
                     Expr::OptChain(OptChainExpr {
                         base: OptChainBase::Member(..),
                         ..
                     }) => {}
-                    _ => self.emit_err(unwrap_paren(&arg).span(), SyntaxError::TS2703),
+                    expr => self.emit_err(expr.span(), SyntaxError::TS2703),
                 }
             }
 
