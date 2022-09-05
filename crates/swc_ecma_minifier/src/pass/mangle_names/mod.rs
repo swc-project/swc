@@ -1,4 +1,8 @@
-use std::{cmp::Reverse, io::Write, ops::AddAssign};
+use std::{
+    cmp::Reverse,
+    io::{self},
+    ops::AddAssign,
+};
 
 use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
@@ -7,7 +11,7 @@ use swc_common::{
     chain, sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError,
 };
 use swc_ecma_ast::{Module, *};
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitMut, VisitWith};
 
@@ -75,13 +79,117 @@ impl SourceMapperExt for DummySourceMap {
     }
 }
 
-impl Write for CharFreq {
-    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        self.scan(buf, 1);
-        Ok(buf.len())
+impl CharFreq {
+    #[inline(always)]
+    fn write(&mut self, data: &str) -> io::Result<()> {
+        self.scan(data.as_bytes(), 1);
+        Ok(())
+    }
+}
+
+impl WriteJs for CharFreq {
+    #[inline(always)]
+    fn increase_indent(&mut self) -> io::Result<()> {
+        Ok(())
     }
 
-    fn flush(&mut self) -> std::io::Result<()> {
+    #[inline(always)]
+    fn decrease_indent(&mut self) -> io::Result<()> {
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_semi(&mut self, _: Option<Span>) -> io::Result<()> {
+        self.write(";")?;
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_space(&mut self) -> io::Result<()> {
+        self.write(" ")?;
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_keyword(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
+        self.write(s)?;
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_operator(&mut self, _: Option<Span>, s: &str) -> io::Result<()> {
+        self.write(s)?;
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_param(&mut self, s: &str) -> io::Result<()> {
+        self.write(s)?;
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_property(&mut self, s: &str) -> io::Result<()> {
+        self.write(s)?;
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_line(&mut self) -> io::Result<()> {
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_lit(&mut self, _: Span, s: &str) -> io::Result<()> {
+        self.write(s)?;
+
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_comment(&mut self, s: &str) -> io::Result<()> {
+        self.write(s)?;
+
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_str_lit(&mut self, _: Span, s: &str) -> io::Result<()> {
+        self.write(s)?;
+
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_str(&mut self, s: &str) -> io::Result<()> {
+        self.write(s)?;
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_symbol(&mut self, _: Span, s: &str) -> io::Result<()> {
+        self.write(s)?;
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_punct(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
+        self.write(s)?;
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn care_about_srcmap(&self) -> bool {
+        false
+    }
+
+    #[inline(always)]
+    fn add_srcmap(&mut self, _: BytePos) -> io::Result<()> {
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn commit_pending_semi(&mut self) -> io::Result<()> {
         Ok(())
     }
 }
@@ -125,7 +233,7 @@ impl CharFreq {
                 cfg: Default::default(),
                 cm,
                 comments: None,
-                wr: Box::new(JsWriter::new(Default::default(), "\n", &mut freq, None)),
+                wr: &mut freq,
             };
 
             emitter.emit_program(p).unwrap();

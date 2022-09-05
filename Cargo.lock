@@ -3302,7 +3302,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.15"
+version = "0.90.16"
 dependencies = [
  "arbitrary",
  "bitflags",
@@ -3321,7 +3321,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.123.0"
+version = "0.123.1"
 dependencies = [
  "criterion",
  "memchr",
@@ -3422,7 +3422,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.152.7"
+version = "0.152.8"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3463,7 +3463,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.118.5"
+version = "0.118.6"
 dependencies = [
  "criterion",
  "either",

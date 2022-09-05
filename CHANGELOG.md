@@ -5,6 +5,9 @@
 
 
 
+- **(es/parser)** Fix detection of wrong delete targets (#5754) ([9fc6eda](https://github.com/swc-project/swc/commit/9fc6eda89a3f9e613468276eea50f90917fa0f91))
+
+
 - **(swc_core)** Update deps (#5746) ([83dbe6c](https://github.com/swc-project/swc/commit/83dbe6cdc3252af50954938582379268a375e6b6))
 
 ### Miscellaneous Tasks
@@ -33,6 +36,9 @@
 
 
 - **(es/minifier)** Cache the list of bindings for DCE (#5750) ([8789184](https://github.com/swc-project/swc/commit/8789184d447eb09e1b0dddc6156ac150d4cbf0d7))
+
+
+- **(es/minifier)** Improve codegen of name mangler (#5751) ([6e2002a](https://github.com/swc-project/swc/commit/6e2002a148f6d0660b17c4e617049972ee0fb3bf))
 
 ### Refactor
 
