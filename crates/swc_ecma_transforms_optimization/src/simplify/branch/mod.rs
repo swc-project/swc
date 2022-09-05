@@ -7,7 +7,10 @@ use swc_common::{
     Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::pass::RepeatedJsPass;
+use swc_ecma_transforms_base::{
+    pass::RepeatedJsPass,
+    perf::{cpu_count, Parallel, ParallelExt},
+};
 use swc_ecma_utils::{
     extract_var_ids, is_literal, prepend_stmt, undefined, ExprCtx, ExprExt, ExprFactory, Hoister,
     IsEmpty, StmtExt, StmtLike, Value::Known,
@@ -56,6 +59,17 @@ struct Remover {
     normal_block: bool,
 
     expr_ctx: ExprCtx,
+}
+
+impl Parallel for Remover {
+    fn create(&self) -> Self {
+        Self {
+            expr_ctx: self.expr_ctx.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, _: Self) {}
 }
 
 impl VisitMut for Remover {
@@ -1217,6 +1231,30 @@ impl VisitMut for Remover {
             s.cases.clear();
         }
     }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
 }
 
 impl Remover {
@@ -1231,12 +1269,13 @@ impl Remover {
 
         let mut new_stmts = Vec::with_capacity(stmts.len());
 
-        let mut iter = stmts.take().into_iter();
-        while let Some(mut stmt_like) = iter.next() {
-            self.normal_block = true;
-            stmt_like.visit_mut_with(self);
-            self.normal_block = false;
+        self.maybe_par(cpu_count() * 8, &mut *stmts, |visitor, stmt| {
+            visitor.normal_block = true;
+            stmt.visit_mut_with(visitor);
+        });
 
+        let mut iter = stmts.take().into_iter();
+        while let Some(stmt_like) = iter.next() {
             let stmt_like = match stmt_like.try_into_stmt() {
                 Ok(stmt) => {
                     let stmt = match stmt {

@@ -27,4 +27,4 @@ let D = class extends C {
 };
 D = _ts_decorate([
     foo
-], D);
+], D), this.a, this.c, super.a, this.c;

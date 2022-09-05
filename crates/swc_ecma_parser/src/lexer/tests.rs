@@ -1081,6 +1081,35 @@ fn issue_191() {
 }
 
 #[test]
+fn issue_5722() {
+    assert_eq!(
+        lex_tokens(Default::default(), "`${{class: 0}}`"),
+        vec![
+            tok!('`'),
+            Template {
+                raw: "".into(),
+                cooked: Ok("".into()),
+            },
+            tok!("${"),
+            tok!('{'),
+            Word(Word::Keyword(Keyword::Class)),
+            tok!(':'),
+            Num {
+                value: 0.into(),
+                raw: "0".into()
+            },
+            tok!('}'),
+            tok!('}'),
+            Template {
+                raw: "".into(),
+                cooked: Ok("".into()),
+            },
+            tok!('`'),
+        ]
+    )
+}
+
+#[test]
 fn jsx_05() {
     assert_eq!(
         lex_tokens(

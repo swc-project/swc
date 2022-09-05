@@ -5,10 +5,69 @@
 
 
 
+- **(swc_core)** Update deps (#5746) ([83dbe6c](https://github.com/swc-project/swc/commit/83dbe6cdc3252af50954938582379268a375e6b6))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Fix example (#5739) ([4e98980](https://github.com/swc-project/swc/commit/4e989807d71aa9a6c019c6a5a01acbbee9ec6020))
+
+
+- **(swc_core)** Update deps (#5748) ([1202762](https://github.com/swc-project/swc/commit/1202762f30db43c972c1367f85e30e69baaf0c59))
+
+### Performance
+
+
+
+- **(bindings)** Enable LTO (#5740) ([49e0c71](https://github.com/swc-project/swc/commit/49e0c71cba9291ea313deffc891d9db8c9216627))
+
+
+- **(es/minifier)** Make passes more parallel (#5741) ([2baa640](https://github.com/swc-project/swc/commit/2baa640e98bd8bac2995157c42ff6489b73d85cf))
+
+
+- **(es/minifier)** Pre-allocate in analyzer (#5743) ([96b2e17](https://github.com/swc-project/swc/commit/96b2e17a8fdb5e500eb1e6a10ffa16d4d0c98957))
+
+
+- **(es/minifier)** Use efficient logic for entry tracking in DCE (#5749) ([08b2aea](https://github.com/swc-project/swc/commit/08b2aea2b0d1d0bec707394d9f5cf6d2713431a9))
+
+
+- **(es/minifier)** Cache the list of bindings for DCE (#5750) ([8789184](https://github.com/swc-project/swc/commit/8789184d447eb09e1b0dddc6156ac150d4cbf0d7))
+
+
+- **(es/minifier)** Improve codegen of name mangler (#5751) ([6e2002a](https://github.com/swc-project/swc/commit/6e2002a148f6d0660b17c4e617049972ee0fb3bf))
+
+### Refactor
+
+
+
+- **(es/utils)** Move utilities for parallel processing (#5742) ([64f42be](https://github.com/swc-project/swc/commit/64f42bec27c4c7cf60cb6d6043fec93e479fb9b8))
+
+## [1.2.247] - 2022-09-04
+
+### Bug Fixes
+
+
+
 - **(bundler)** Handle star export with top-level `await` (#5707) ([2b7cba8](https://github.com/swc-project/swc/commit/2b7cba8a97b971a00f4e851365462ba6d87e5ee0))
+
+
+- **(es/lexer)** Drop `ClassExpr` context in object properties (#5729) ([a3a7277](https://github.com/swc-project/swc/commit/a3a72779096b4f0afbbe94320e53feb48e7fe45d))
+
+
+- **(es/parser)** Improve error message (#5719) ([383aa85](https://github.com/swc-project/swc/commit/383aa8510c629d909f9ef50f190915660b273706))
+
+
+- **(swc_core)** Fix reexport of ES transforms (#5716) ([9bef836](https://github.com/swc-project/swc/commit/9bef83681ff790b81effae61c45399608b1507cf))
+
+
+- **(swc_core)** Bump `swc_ecma_quote_macros` (#5723) ([9c43713](https://github.com/swc-project/swc/commit/9c43713109a070e23bb8ed655f149b49de6cf321))
 
 ### Features
 
+
+
+- **(atoms)** Introduce bytecheck-ed rkyv version (#5686) ([d6e67b5](https://github.com/swc-project/swc/commit/d6e67b5944131e429d341f565c52fc3237a81bb7))
 
 
 - **(es/minifier)** Relax function inline requirement (#5607) ([4ef99f3](https://github.com/swc-project/swc/commit/4ef99f346b9e7e4dfd1f42e7308c6b6e1142e311))
@@ -16,11 +75,38 @@
 
 - **(es/minifier)** Make DCE single-pass (#5699) ([8827c38](https://github.com/swc-project/swc/commit/8827c38faf527e3f0485d2537dc1515df12f889c))
 
+
+- **(es/minifier)** Support cycles in DCE (#5715) ([5e151c8](https://github.com/swc-project/swc/commit/5e151c8a8e48eae6cd93d5166fcaa87b84f4a341))
+
+
+- **(es/minifier)** Relax requirement for IIFE invokation (#5721) ([5b2d024](https://github.com/swc-project/swc/commit/5b2d024788008436c7500ef243641db87e2c11f8))
+
+### Performance
+
+
+
+- **(es/minifier)** Use faster hash algorithm for DCE (#5725) ([25c96b4](https://github.com/swc-project/swc/commit/25c96b4b7aa9a75892b1ae49a65e836229465195))
+
+
+- **(es/minifier)** Optimize precompress optimizer (#5727) ([31c516a](https://github.com/swc-project/swc/commit/31c516a9228ebe304cd461f7e139f13a8519b43c))
+
+
+- **(es/minifier)** Skip useless analysis if not required (#5733) ([8963db0](https://github.com/swc-project/swc/commit/8963db0a1d46184a7e0f8ea0663cbe8a2972418a))
+
+
+- **(es/minifier)** Make rename operator parallel (#5732) ([5936bd2](https://github.com/swc-project/swc/commit/5936bd2b5e6034de09ebcf13543861f8cd53a581))
+
+
+- **(es/minifier)** Make dead branch remover parallel (#5734) ([6ba6da6](https://github.com/swc-project/swc/commit/6ba6da62d72edf69d699e2c031aa38c630e00e39))
+
 ### Refactor
 
 
 
 - **(swc_core)** Use namespace `ecma` (#5713) ([975cbfe](https://github.com/swc-project/swc/commit/975cbfe0d9d1399c543df5041a6775514a3c43ee))
+
+
+- **(swc_core)** Directly export `swc_ecma_transforms_base` (#5731) ([aad50dc](https://github.com/swc-project/swc/commit/aad50dcc6e890fdd26a7b3208ebc81e4d4fe2975))
 
 ## [1.2.246] - 2022-09-01
 

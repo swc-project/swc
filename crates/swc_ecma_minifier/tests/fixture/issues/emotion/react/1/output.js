@@ -199,7 +199,7 @@
             function declaration(value, root, parent, length) {
                 return node(value, root, parent, DECLARATION, Utility_substr(value, 0, length), Utility_substr(value, length + 1, -1), length);
             }
-            var identifierWithPointTracking = function(begin, points, index) {
+            var fn, cache, identifierWithPointTracking = function(begin, points, index) {
                 for(var previous = 0, character = 0; previous = character, character = peek(), 38 === previous && 12 === character && (points[index] = 1), !token(character);)next();
                 return slice(begin, position);
             }, toRules = function(parsed, points) {
@@ -356,25 +356,26 @@
                                 copy(replace(element.value, "@", "@" + WEBKIT), element, ""), 
                             ], callback);
                         case Enum_RULESET:
-                            if (element.length) return function(array, callback) {
-                                return array.map(callback).join("");
-                            }(element.props, function(value) {
-                                var value1;
-                                switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
-                                    case ":read-only":
-                                    case ":read-write":
-                                        return serialize([
-                                            copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, ""), 
-                                        ], callback);
-                                    case "::placeholder":
-                                        return serialize([
-                                            copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, ""), 
-                                        ], callback);
-                                }
-                                return "";
-                            });
+                            if (element.length) {
+                                var array, callback1;
+                                return array = element.props, callback1 = function(value) {
+                                    var value1;
+                                    switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
+                                        case ":read-only":
+                                        case ":read-write":
+                                            return serialize([
+                                                copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, ""), 
+                                            ], callback);
+                                        case "::placeholder":
+                                            return serialize([
+                                                copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
+                                                copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
+                                                copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, ""), 
+                                            ], callback);
+                                    }
+                                    return "";
+                                }, array.map(callback1).join("");
+                            }
                     }
                 }
             ], hash_browser_esm = function(str) {
@@ -438,13 +439,10 @@
                 return 45 === property.charCodeAt(1);
             }, isProcessableValue = function(value) {
                 return null != value && "boolean" != typeof value;
-            }, processStyleName = function(fn) {
-                var cache = Object.create(null);
-                return function(arg) {
-                    return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
-                };
-            }(function(styleName) {
+            }, processStyleName = (fn = function(styleName) {
                 return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
+            }, cache = Object.create(null), function(arg) {
+                return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
             }), processStyleValue = function(key, value) {
                 switch(key){
                     case "animation":
@@ -540,14 +538,12 @@
                     for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
                 });
-                var container, _insert, currentSheet, collection, length, finalizingPlugins = [
+                var callback, container, _insert, currentSheet, collection, length, finalizingPlugins = [
                     stringify,
-                    function(callback) {
-                        return function(element) {
-                            !element.root && (element = element.return) && callback(element);
-                        };
-                    }(function(rule) {
+                    (callback = function(rule) {
                         currentSheet.insert(rule);
+                    }, function(element) {
+                        !element.root && (element = element.return) && callback(element);
                     }), 
                 ], serializer = (collection = [
                     compat,
@@ -668,19 +664,14 @@
             EmotionCacheContext.Provider;
             var emotion_element_99289b21_browser_esm_ThemeContext = (0, react.createContext)({});
             __webpack_require__(8679);
-            var emotion_utils_browser_esm_insertStyles = function(cache, serialized, isStringTag) {
+            var func, emotion_utils_browser_esm_insertStyles = function(cache, serialized, isStringTag) {
                 var className = cache.key + "-" + serialized.name;
                 if (!1 === isStringTag && void 0 === cache.registered[className] && (cache.registered[className] = serialized.styles), void 0 === cache.inserted[serialized.name]) {
                     var current = serialized;
                     do cache.insert(serialized === current ? "." + className : "", current, cache.sheet, !0), current = current.next;
                     while (void 0 !== current)
                 }
-            }, Global = function(func) {
-                return (0, react.forwardRef)(function(props, ref) {
-                    var cache = (0, react.useContext)(EmotionCacheContext);
-                    return func(props, cache, ref);
-                });
-            }(function(props, cache) {
+            }, Global = (func = function(props, cache) {
                 var serialized = emotion_serialize_browser_esm_serializeStyles([
                     props.styles
                 ], void 0, (0, react.useContext)(emotion_element_99289b21_browser_esm_ThemeContext)), sheetRef = (0, react.useRef)();
@@ -716,7 +707,10 @@
                     cache,
                     serialized.name
                 ]), null;
-            });
+            }, (0, react.forwardRef)(function(props, ref) {
+                var cache = (0, react.useContext)(EmotionCacheContext);
+                return func(props, cache, ref);
+            }));
         },
         8679: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -895,29 +889,27 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = function(element, callback, options) {
-                        var ref = function(options) {
-                            var id = options.rootMargin || "", instance = observers.get(id);
-                            if (instance) return instance;
-                            var elements = new Map(), observer = new IntersectionObserver(function(entries) {
-                                entries.forEach(function(entry) {
-                                    var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
-                                    callback && isVisible && callback(isVisible);
-                                });
-                            }, options);
-                            return observers.set(id, instance = {
-                                id: id,
-                                observer: observer,
-                                elements: elements
-                            }), instance;
-                        }(options), id = ref.id, observer = ref.observer, elements = ref.elements;
-                        return elements.set(element, callback), observer.observe(element), function() {
-                            elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
-                        };
-                    }(el, function(isVisible) {
+                    var element, callback, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (element = el, callback = function(isVisible) {
                         return isVisible && setVisible(isVisible);
-                    }, {
+                    }, id = (ref = function(options) {
+                        var id = options.rootMargin || "", instance = observers.get(id);
+                        if (instance) return instance;
+                        var elements = new Map(), observer = new IntersectionObserver(function(entries) {
+                            entries.forEach(function(entry) {
+                                var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+                                callback && isVisible && callback(isVisible);
+                            });
+                        }, options);
+                        return observers.set(id, instance = {
+                            id: id,
+                            observer: observer,
+                            elements: elements
+                        }), instance;
+                    }({
                         rootMargin: rootMargin
+                    })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
+                        elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
                     isDisabled,

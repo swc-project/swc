@@ -18,16 +18,6 @@ function error(message) {
     }, _proto.never2 = function() {
         for(;;);
     }, C;
-}(), function(cb) {
-    cb();
-}(function() {
-    return "hello";
-}), function(cb) {
-    cb();
-}(function() {
-    return error("Something failed");
-}), function(cb) {
-    cb();
-}(function() {
+}(), error("Something failed"), function() {
     throw Error();
-}), error("Error callback");
+}(), error("Error callback");

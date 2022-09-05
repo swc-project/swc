@@ -1,8 +1,8 @@
-use once_cell::sync::Lazy;
 use swc_common::util::move_map::MoveMap;
 #[cfg(feature = "concurrent")]
 use swc_common::{errors::HANDLER, GLOBALS};
 use swc_ecma_ast::*;
+pub use swc_ecma_utils::parallel::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
 #[cfg(feature = "concurrent")]
@@ -20,26 +20,6 @@ where
     let mut checker = C::default();
     n.visit_with(&mut checker);
     checker.should_handle()
-}
-
-static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
-
-pub fn cpu_count() -> usize {
-    *CPU_COUNT
-}
-
-pub trait Parallel: swc_common::sync::Send + swc_common::sync::Sync {
-    /// Used to create visitor.
-    fn create(&self) -> Self;
-
-    /// This can be called in anytime.
-    fn merge(&mut self, other: Self);
-
-    /// Invoked after visiting all [Stmt]s, possibly in parallel.
-    fn after_stmts(&mut self, _stmts: &mut Vec<Stmt>) {}
-
-    /// Invoked after visiting all [ModuleItem]s, possibly in parallel.
-    fn after_module_items(&mut self, _stmts: &mut Vec<ModuleItem>) {}
 }
 
 pub trait ParExplode: Parallel {

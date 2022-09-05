@@ -3,6 +3,7 @@ collapse_vars/collapse_vars_do_while/input.js
 collapse_vars/collapse_vars_misc1/input.js
 drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
+drop_unused/unused_circular_references_1/input.js
 evaluate/issue_2535_1/input.js
 harmony/array_literal_with_spread_4a/input.js
 harmony/issue_2794_3/input.js

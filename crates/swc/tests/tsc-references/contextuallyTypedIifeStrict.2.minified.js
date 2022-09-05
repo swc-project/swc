@@ -32,11 +32,7 @@
         u: 23
     };
     ref.u;
-}(), function(f) {
-    f(12);
-}(function(i) {
-    return i;
-}), ({
+}(), ({
     a: function(n) {
         return n;
     }

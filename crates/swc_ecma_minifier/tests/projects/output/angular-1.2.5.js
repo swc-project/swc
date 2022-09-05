@@ -1189,14 +1189,16 @@
                         if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = undefined, terminalPriority > directive.priority) break;
                         if ((directiveValue = directive.scope) && (newScopeDirective = newScopeDirective || directive, !directive.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive))), directiveName = directive.name, !directive.templateUrl && directive.controller && (directiveValue = directive.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {})[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
                             nonTlbTranscludeDirective: nonTlbTranscludeDirective
-                        })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template, directiveValue = denormalizeTemplate(directiveValue), directive.replace) {
-                            if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
-                            replaceWith(jqCollection, $compileNode, compileNode);
-                            var newTemplateAttrs = {
-                                $attr: {}
-                            }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
-                            newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
-                        } else $compileNode.html(directiveValue);
+                        })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) {
+                            if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template, directiveValue = denormalizeTemplate(directiveValue), directive.replace) {
+                                if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
+                                replaceWith(jqCollection, $compileNode, compileNode);
+                                var newTemplateAttrs = {
+                                    $attr: {}
+                                }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
+                                newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
+                            } else $compileNode.html(directiveValue);
+                        }
                         if (directive.templateUrl) assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directive.replace && (replaceDirective = directive), nodeLinkFn = compileTemplateUrl(directives.splice(i, directives.length - i), $compileNode, templateAttrs, jqCollection, childTranscludeFn, preLinkFns, postLinkFns, {
                             controllerDirectives: controllerDirectives,
                             newIsolateScopeDirective: newIsolateScopeDirective,
@@ -1662,22 +1664,19 @@
                 return $browser1 = $browser, XHR1 = XHR, $browserDefer = $browser.defer, callbacks = $window.angular.callbacks, rawDocument = $document[0], function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
                     var status;
                     if ($browser1.$$incOutstandingRequestCount(), url = url || $browser1.url(), "jsonp" == lowercase(method)) {
-                        var callbackId = "_" + (callbacks.counter++).toString(36);
+                        var url1, done, script, doneWrapper, callbackId = "_" + (callbacks.counter++).toString(36);
                         callbacks[callbackId] = function(data) {
                             callbacks[callbackId].data = data;
                         };
-                        var jsonpDone = function(url, done) {
-                            var script = rawDocument.createElement("script"), doneWrapper = function() {
-                                script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
-                            };
-                            return script.type = "text/javascript", script.src = url, msie && msie <= 8 ? script.onreadystatechange = function() {
-                                /loaded|complete/.test(script.readyState) && doneWrapper();
-                            } : script.onload = script.onerror = function() {
-                                doneWrapper();
-                            }, rawDocument.body.appendChild(script), doneWrapper;
-                        }(url.replace("JSON_CALLBACK", "angular.callbacks." + callbackId), function() {
+                        var jsonpDone = (url1 = url.replace("JSON_CALLBACK", "angular.callbacks." + callbackId), done = function() {
                             callbacks[callbackId].data ? completeRequest(callback, 200, callbacks[callbackId].data) : completeRequest(callback, status || -2), delete callbacks[callbackId];
-                        });
+                        }, script = rawDocument.createElement("script"), doneWrapper = function() {
+                            script.onreadystatechange = script.onload = script.onerror = null, rawDocument.body.removeChild(script), done && done();
+                        }, script.type = "text/javascript", script.src = url1, msie && msie <= 8 ? script.onreadystatechange = function() {
+                            /loaded|complete/.test(script.readyState) && doneWrapper();
+                        } : script.onload = script.onerror = function() {
+                            doneWrapper();
+                        }, rawDocument.body.appendChild(script), doneWrapper);
                     } else {
                         var xhr = new XHR1();
                         xhr.open(method, url, !0), forEach(headers, function(value, key) {
@@ -3357,21 +3356,18 @@
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
             if (!isArray(array) || !sortPredicate) return array;
-            sortPredicate = function(obj, iterator, context) {
-                var results = [];
-                return forEach(obj, function(value, index, list) {
-                    results.push(iterator.call(void 0, value, index, list));
-                }), results;
-            }(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
+            sortPredicate = (obj = sortPredicate = isArray(sortPredicate) ? sortPredicate : [
                 sortPredicate
-            ], function(predicate) {
+            ], iterator = function(predicate) {
                 var descending = !1, get = predicate || identity;
                 return isString(predicate) && (("+" == predicate.charAt(0) || "-" == predicate.charAt(0)) && (descending = "-" == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
                     var v1, v2, t1, t2;
                     return v1 = get(a), v2 = get(b), t1 = typeof v1, t1 != (t2 = typeof v2) ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
                 }, descending);
-            });
-            for(var arrayCopy = [], i = 0; i < array.length; i++)arrayCopy.push(array[i]);
+            }, results = [], forEach(obj, function(value, index, list) {
+                results.push(iterator.call(void 0, value, index, list));
+            }), results);
+            for(var obj, iterator, results, arrayCopy = [], i = 0; i < array.length; i++)arrayCopy.push(array[i]);
             return arrayCopy.sort(reverseComparator(function(o1, o2) {
                 for(var i = 0; i < sortPredicate.length; i++){
                     var comp = sortPredicate[i](o1, o2);

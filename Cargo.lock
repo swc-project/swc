@@ -728,7 +728,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.51.1"
+version = "0.51.4"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -1959,9 +1959,9 @@ checksum = "d4fd5641d01c8f18a23da7b6fe29298ff4b55afcccdf78973b24cf3175fee32e"
 
 [[package]]
 name = "petgraph"
-version = "0.6.0"
+version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a13a2fa9d0b63e5f22328828741e523766fff0ee9e779316902290dff3f824f"
+checksum = "e6d5014253a1331579ce62aa67443b4a658c5e7dd03d4bc6d302b94474888143"
 dependencies = [
  "fixedbitset",
  "indexmap",
@@ -2430,10 +2430,35 @@ dependencies = [
 ]
 
 [[package]]
+name = "rkyv-test"
+version = "0.7.38-test.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6c920f62b6e022ed303a3cafbad393dbb5dd40e05f555f489f69ca9fb61efff1"
+dependencies = [
+ "bytecheck",
+ "hashbrown 0.12.0",
+ "ptr_meta",
+ "rend",
+ "rkyv_derive_test",
+ "seahash",
+]
+
+[[package]]
 name = "rkyv_derive"
 version = "0.7.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e289706df51226e84814bf6ba1a9e1013112ae29bc7a9878f73fce360520c403"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "rkyv_derive_test"
+version = "0.7.38"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "70a0d3a9b62c4666451f35d96f5e5f5f44340673459a1cbf9e77e7140af68813"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2898,7 +2923,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.224.0"
+version = "0.224.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2954,11 +2979,12 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.9"
+version = "0.4.10"
 dependencies = [
  "bytecheck",
  "once_cell",
  "rkyv",
+ "rkyv-test",
  "rustc-hash",
  "serde",
  "string_cache",
@@ -2967,7 +2993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.185.0"
+version = "0.185.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3083,7 +3109,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.20.0"
+version = "0.20.7"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3105,7 +3131,7 @@ dependencies = [
  "swc_ecma_minifier",
  "swc_ecma_parser",
  "swc_ecma_quote_macros",
- "swc_ecma_transforms",
+ "swc_ecma_transforms_base",
  "swc_ecma_transforms_module",
  "swc_ecma_transforms_optimization",
  "swc_ecma_transforms_proposal",
@@ -3295,7 +3321,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.123.0"
+version = "0.123.1"
 dependencies = [
  "criterion",
  "memchr",
@@ -3396,7 +3422,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.152.0"
+version = "0.152.8"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3437,7 +3463,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.118.3"
+version = "0.118.5"
 dependencies = [
  "criterion",
  "either",
@@ -3501,7 +3527,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.29.0"
+version = "0.29.1"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -3531,7 +3557,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.191.0"
+version = "0.191.1"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3556,12 +3582,11 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.106.0"
+version = "0.106.3"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
  "criterion",
- "num_cpus",
  "once_cell",
  "phf",
  "rayon",
@@ -3666,12 +3691,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.160.0"
+version = "0.160.8"
 dependencies = [
  "ahash",
  "dashmap",
  "indexmap",
  "once_cell",
+ "petgraph",
  "rayon",
  "rustc-hash",
  "serde_json",
@@ -3689,6 +3715,7 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_fast_graph",
  "testing",
  "tracing",
 ]
@@ -3791,9 +3818,10 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.101.0"
+version = "0.101.2"
 dependencies = [
  "indexmap",
+ "num_cpus",
  "once_cell",
  "rayon",
  "swc_atoms",
@@ -3894,7 +3922,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_graph"
-version = "0.15.4"
+version = "0.15.6"
 dependencies = [
  "ahash",
  "indexmap",
@@ -4122,7 +4150,6 @@ name = "swc_plugin_proxy"
 version = "0.18.13"
 dependencies = [
  "better_scoped_tls",
- "bytecheck",
  "rkyv",
  "swc_common",
  "swc_ecma_ast",

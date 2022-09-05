@@ -6,7 +6,7 @@ use std::{env, fs, path::PathBuf, time::Instant};
 
 use anyhow::Result;
 use rayon::prelude::*;
-use swc_common::{sync::Lrc, Mark, SourceMap, GLOBALS};
+use swc_common::{errors::HANDLER, sync::Lrc, Mark, SourceMap, GLOBALS};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
@@ -25,62 +25,69 @@ fn main() {
     let start = Instant::now();
     testing::run_test2(false, |cm, handler| {
         GLOBALS.with(|globals| {
-            let _ = files
-                .into_iter()
-                .map(|path| -> Result<_> {
-                    GLOBALS.set(globals, || {
-                        let fm = cm.load_file(&path).expect("failed to load file");
+            HANDLER.set(&handler, || {
+                let _ = files
+                    .into_iter()
+                    .map(|path| -> Result<_> {
+                        GLOBALS.set(globals, || {
+                            let fm = cm.load_file(&path).expect("failed to load file");
 
-                        let unresolved_mark = Mark::new();
-                        let top_level_mark = Mark::new();
+                            let unresolved_mark = Mark::new();
+                            let top_level_mark = Mark::new();
 
-                        let program = parse_file_as_module(
-                            &fm,
-                            Default::default(),
-                            Default::default(),
-                            None,
-                            &mut vec![],
-                        )
-                        .map_err(|err| {
-                            err.into_diagnostic(&handler).emit();
-                        })
-                        .map(|module| {
-                            module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false))
-                        })
-                        .unwrap();
+                            let program = parse_file_as_module(
+                                &fm,
+                                Default::default(),
+                                Default::default(),
+                                None,
+                                &mut vec![],
+                            )
+                            .map_err(|err| {
+                                err.into_diagnostic(&handler).emit();
+                            })
+                            .map(|module| {
+                                module.fold_with(&mut resolver(
+                                    unresolved_mark,
+                                    top_level_mark,
+                                    false,
+                                ))
+                            })
+                            .unwrap();
 
-                        let output = optimize(
-                            program.into(),
-                            cm.clone(),
-                            None,
-                            None,
-                            &MinifyOptions {
-                                compress: Some(Default::default()),
-                                mangle: Some(MangleOptions {
-                                    top_level: true,
+                            let output = optimize(
+                                program.into(),
+                                cm.clone(),
+                                None,
+                                None,
+                                &MinifyOptions {
+                                    compress: Some(Default::default()),
+                                    mangle: Some(MangleOptions {
+                                        top_level: true,
+                                        ..Default::default()
+                                    }),
                                     ..Default::default()
-                                }),
-                                ..Default::default()
-                            },
-                            &ExtraOptions {
-                                unresolved_mark,
-                                top_level_mark,
-                            },
-                        )
-                        .expect_module();
+                                },
+                                &ExtraOptions {
+                                    unresolved_mark,
+                                    top_level_mark,
+                                },
+                            )
+                            .expect_module();
 
-                        let output = output.fold_with(&mut fixer(None));
+                            let output = output.fold_with(&mut fixer(None));
 
-                        let code = print(cm.clone(), &[output], true);
+                            let code = print(cm.clone(), &[output], true);
 
-                        fs::write("output.js", code.as_bytes()).expect("failed to write output");
+                            fs::write("output.js", code.as_bytes())
+                                .expect("failed to write output");
 
-                        Ok(())
+                            Ok(())
+                        })
                     })
-                })
-                .collect::<Vec<_>>();
+                    .collect::<Vec<_>>();
 
-            Ok(())
+                Ok(())
+            })
         })
     })
     .unwrap();

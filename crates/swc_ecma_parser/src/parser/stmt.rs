@@ -2488,4 +2488,11 @@ const foo;"#;
 
         test_parser(src, Default::default(), |p| p.parse_script());
     }
+
+    #[test]
+    fn issue_5722_class_keyword_in_tpl() {
+        let src = "console.log(`${toStr({class: fn})}`)";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
 }

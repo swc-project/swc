@@ -23,12 +23,16 @@ impl Storage for ProgramData {
     }
 
     fn merge(&mut self, kind: ScopeKind, child: Self) {
+        self.scopes.reserve(child.scopes.len());
+
         for (ctxt, scope) in child.scopes {
             let to = self.scopes.entry(ctxt).or_default();
             self.top.merge(scope.clone(), true);
 
             to.merge(scope, false);
         }
+
+        self.vars.reserve(child.vars.len());
 
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);

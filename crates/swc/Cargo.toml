@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.224.0"
+version       = "0.224.2"
 
 [lib]
 bench = false
@@ -55,7 +55,7 @@ rustc-hash = "1.1.0"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sourcemap = "6"
-swc_atoms = { version = "0.4.5", path = "../swc_atoms" }
+swc_atoms = { version = "0.4.10", path = "../swc_atoms" }
 swc_cached = { version = "0.3.5", path = "../swc_cached" }
 swc_common = { version = "0.27.13", path = "../swc_common", features = [
   "sourcemap",
@@ -71,10 +71,10 @@ swc_ecma_loader = { version = "0.39.4", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "0.152.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "0.152.4", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "0.118.0", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "0.167.0", path = "../swc_ecma_preset_env" }
-swc_ecma_transforms = { version = "0.191.0", path = "../swc_ecma_transforms", features = [
+swc_ecma_transforms = { version = "0.191.1", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
   "optimization",
@@ -84,7 +84,7 @@ swc_ecma_transforms = { version = "0.191.0", path = "../swc_ecma_transforms", fe
 ] }
 swc_ecma_transforms_base = { version = "0.106.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "0.129.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_optimization = { version = "0.160.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "0.160.6", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "0.101.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.76.6", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "0.11.4", path = "../swc_error_reporters" }

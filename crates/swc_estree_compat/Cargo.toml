@@ -22,7 +22,7 @@ copyless = "0.1.5"
 rayon = "1.5.0"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1.0.62"
-swc_atoms = { version = "0.4.5", path = "../swc_atoms" }
+swc_atoms = { version = "0.4.10", path = "../swc_atoms" }
 swc_common = { version = "0.27.13", path = "../swc_common", features = [
   "concurrent",
   "sourcemap",
@@ -41,7 +41,7 @@ pretty_assertions   = "1.1"
 swc                 = { version = "0.224.0", path = "../swc" }
 swc_ecma_ast        = { version = "0.90.15", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "0.118.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "0.191.0", path = "../swc_ecma_transforms/" }
+swc_ecma_transforms = { version = "0.191.1", path = "../swc_ecma_transforms/" }
 testing             = { version = "0.29.4", path = "../testing" }
 walkdir             = "2"
 
