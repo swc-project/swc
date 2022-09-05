@@ -386,18 +386,18 @@ where
         if self.options.unused {
             let _timer = timer!("remove dead code");
 
+            let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
+                swc_ecma_transforms_optimization::simplify::dce::Config {
+                    module_mark: None,
+                    top_level: self.options.top_level(),
+                    top_retain: self.options.top_retain.clone(),
+                },
+                self.marks.unresolved_mark,
+            );
+
             loop {
                 #[cfg(feature = "debug")]
                 let start = n.dump();
-
-                let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
-                    swc_ecma_transforms_optimization::simplify::dce::Config {
-                        module_mark: None,
-                        top_level: self.options.top_level(),
-                        top_retain: self.options.top_retain.clone(),
-                    },
-                    self.marks.unresolved_mark,
-                );
 
                 n.apply(&mut visitor);
 
@@ -417,6 +417,8 @@ where
                 } else {
                     break;
                 }
+
+                visitor.reset();
             }
         }
 
