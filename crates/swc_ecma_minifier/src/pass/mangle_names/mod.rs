@@ -277,8 +277,8 @@ impl CharFreq {
         arr.sort_by_key(|&(freq, _)| Reverse(freq));
 
         let mut digits = Vec::with_capacity(10);
-        let mut alpha = Vec::with_capacity(10);
-        let mut all = Vec::with_capacity(10);
+        let mut alpha = Vec::with_capacity(54);
+        let mut all = Vec::with_capacity(64);
 
         for (_, c) in arr {
             if (b'0'..=b'9').contains(&c) {
