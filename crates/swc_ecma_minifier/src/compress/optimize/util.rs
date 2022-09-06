@@ -150,8 +150,9 @@ impl VisitMut for Remapper {
 
 pub(crate) struct MultiReplacer<'a> {
     pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
+    pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
+
     pub changed: bool,
-    pub clone: bool,
     /// `worked` will be changed to `true` if any replacement is done
     pub worked: &'a mut bool,
 }
