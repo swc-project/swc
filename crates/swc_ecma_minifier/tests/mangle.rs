@@ -19,7 +19,7 @@ use swc_ecma_minifier::{
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
-use testing::{DebugUsingDisplay, NormalizedOutput};
+use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
     let mut buf = vec![];
