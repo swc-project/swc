@@ -26,7 +26,7 @@ do
         check_commands=$(echo $json_str | jq -e -r ".check.\"$crate\" | .[]")
 
         while IFS= read -r line; do
-            echo "    cargo $line"
+            echo "    $line"
         done <<< "$check_commands"
     fi
 
