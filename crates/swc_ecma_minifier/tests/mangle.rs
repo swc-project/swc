@@ -68,14 +68,14 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
 #[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/terser/**/input.js")]
 fn snapshot_compress_fixture(input: PathBuf) {
-    let terser_output =
-        get_terser_output(&input, false, true).expect("failed to get mangled output using terser");
+    let terser_output = get_terser_output(&input, false, true);
 
     let _ = testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &input)?;
 
-        let terser_fm = cm.new_source_file(FileName::Anon, terser_output);
-        let terser_module = parse_fm(&handler, terser_fm)?;
+        let terser_fm =
+            terser_output.map(|terser_output| cm.new_source_file(FileName::Anon, terser_output));
+        let terser_module = terser_fm.map(|terser_fm| parse_fm(&handler, terser_fm).unwrap());
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -103,12 +103,14 @@ fn snapshot_compress_fixture(input: PathBuf) {
         .expect_module();
 
         let mangled = print(cm.clone(), &m, false);
-        let terser_output = print(cm, &terser_module, false);
 
-        assert_eq!(
-            DebugUsingDisplay(&mangled),
-            DebugUsingDisplay(&terser_output)
-        );
+        if let Ok(terser_module) = terser_module {
+            let terser_output = print(cm, &terser_module, false);
+            assert_eq!(
+                DebugUsingDisplay(&mangled),
+                DebugUsingDisplay(&terser_output)
+            );
+        }
 
         NormalizedOutput::from(mangled)
             .compare_to_file(input.parent().unwrap().join("output.mangleOnly.js"))
