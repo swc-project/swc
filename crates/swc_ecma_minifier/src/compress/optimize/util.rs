@@ -167,8 +167,8 @@ pub enum MultiReplacerMode {
 
 impl<'a> MultiReplacer<'a> {
     fn var(&mut self, i: &Id, mode: MultiReplacerMode) -> Option<Box<Expr>> {
-        let e = if self.clone {
-            self.vars.get(i).cloned()?
+        let e = if matches!(mode, MultiReplacerMode::OnlyCallee) {
+            self.simple_functions.get(i).cloned()?
         } else {
             self.vars.remove(i)?
         };

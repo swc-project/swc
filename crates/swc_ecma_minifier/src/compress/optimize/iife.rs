@@ -9,10 +9,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::VisitMutWith;
 
-use super::{
-    util::{MultiReplacer, MultiReplacerMode},
-    Optimizer,
-};
+use super::{util::MultiReplacer, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
@@ -266,8 +263,8 @@ where
         trace_op!("inline: inline_vars_in_node");
 
         n.visit_mut_with(&mut MultiReplacer {
-            vars,
-            simple_functions: Default::default(),
+            vars: &mut vars,
+            simple_functions: &Default::default(),
             changed: false,
             worked: &mut self.changed,
         });

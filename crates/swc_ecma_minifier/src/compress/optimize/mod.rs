@@ -20,7 +20,7 @@ use Value::Known;
 
 use self::{
     unused::PropertyAccessOpts,
-    util::{extract_class_side_effect, MultiReplacer, MultiReplacerMode},
+    util::{extract_class_side_effect, MultiReplacer},
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
