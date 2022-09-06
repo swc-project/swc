@@ -17,6 +17,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::resolver;
+use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 use testing::{assert_eq, NormalizedOutput};
 use tracing::warn;
@@ -110,6 +111,12 @@ fn snapshot_compress_fixture(input: PathBuf) {
             },
         )
         .expect_module();
+
+        let expected = parse(&handler, cm.clone(), &input)?;
+
+        if drop_span(m.clone()) == drop_span(expected) {
+            return Ok(());
+        }
 
         let mangled = print(cm, &m, false);
 
