@@ -386,6 +386,7 @@ drop_unused/const_assign/input.js
 drop_unused/defun_lambda_same_name/input.js
 drop_unused/double_assign_3/input.js
 drop_unused/drop_assign/input.js
+drop_unused/drop_fargs/input.js
 drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
 drop_unused/drop_value/input.js
@@ -432,6 +433,8 @@ drop_unused/unused_class_which_might_throw_3/input.js
 drop_unused/unused_class_which_might_throw_4/input.js
 drop_unused/unused_class_with_static_props_side_effects/input.js
 drop_unused/unused_class_with_static_props_side_effects_2/input.js
+drop_unused/unused_funarg_1/input.js
+drop_unused/unused_funarg_2/input.js
 drop_unused/unused_keep_harmony_destructuring/input.js
 drop_unused/unused_keep_setter_arg/input.js
 drop_unused/unused_nested_function/input.js

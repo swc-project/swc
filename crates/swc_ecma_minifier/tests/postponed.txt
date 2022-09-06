@@ -129,7 +129,6 @@ drop_unused/delete_assign_1/input.js
 drop_unused/delete_assign_2/input.js
 drop_unused/double_assign_1/input.js
 drop_unused/double_assign_2/input.js
-drop_unused/drop_fargs/input.js
 drop_unused/drop_toplevel_all_retain/input.js
 drop_unused/drop_toplevel_funcs/input.js
 drop_unused/drop_toplevel_funcs_retain/input.js
@@ -172,8 +171,6 @@ drop_unused/issue_t161_top_retain_15/input.js
 drop_unused/issue_t183/input.js
 drop_unused/unused_circular_references_2/input.js
 drop_unused/unused_circular_references_3/input.js
-drop_unused/unused_funarg_1/input.js
-drop_unused/unused_funarg_2/input.js
 drop_unused/unused_null_conditional_chain/input.js
 drop_unused/var_catch_toplevel/input.js
 evaluate/call_args_drop_param/input.js
