@@ -1,6 +1,6 @@
 function n() {
     function n() {}
-    if (window) function f() {}
+    if (window) function i() {}
     else return;
-    function i() {}
+    function f() {}
 }

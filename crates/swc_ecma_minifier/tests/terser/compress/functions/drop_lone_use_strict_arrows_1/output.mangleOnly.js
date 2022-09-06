@@ -1,13 +1,13 @@
-var r = ()=>0;
-var s = ()=>{
+var r = () => 0;
+var s = () => {
     "use strict";
 };
-var t = ()=>{
+var t = () => {
     "use strict";
-    var r = ()=>{
+    var r = () => {
         "use strict";
     };
 };
-(()=>{
+(() => {
     "use strict";
 })();

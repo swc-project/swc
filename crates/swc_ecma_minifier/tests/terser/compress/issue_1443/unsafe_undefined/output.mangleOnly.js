@@ -1,5 +1,5 @@
 function n(n) {
-    return function() {
+    return function () {
         if (a) return b;
         if (c) return d;
     };

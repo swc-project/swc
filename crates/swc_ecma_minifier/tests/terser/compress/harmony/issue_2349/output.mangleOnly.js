@@ -1,11 +1,5 @@
-function t(t, n) {
-    const a = t.get();
-    return a.map(({ [n]: t  })=>t);
+function n(n, o) {
+    const t = n.get();
+    return t.map(({ [o]: n }) => n);
 }
-console.log(t({
-    get: ()=>[
-            {
-                blah: 42
-            }
-        ]
-}, "blah"));
+console.log(n({ get: () => [{ blah: 42 }] }, "blah"));

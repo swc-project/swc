@@ -1,8 +1,9 @@
-var c = 100, a = 10;
-(function(c, s) {
-    switch(~s){
-        case (a += s):
+var c = 100,
+    o = 10;
+(function (c, s) {
+    switch (~s) {
+        case (o += s):
         case s++:
     }
-})(--a, c);
-console.log(c, a);
+})(--o, c);
+console.log(c, o);

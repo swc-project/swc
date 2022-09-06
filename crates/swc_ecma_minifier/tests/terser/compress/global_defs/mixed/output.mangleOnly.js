@@ -1,6 +1,4 @@
-const o = {
-    BAR: 0
-};
+const o = { BAR: 0 };
 console.log(o.BAR);
 console.log(++CONFIG.DEBUG);
 console.log(++CONFIG.VALUE);

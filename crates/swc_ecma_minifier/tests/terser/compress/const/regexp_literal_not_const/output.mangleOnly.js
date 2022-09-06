@@ -1,8 +1,8 @@
-(function() {
+(function () {
     var c;
-    const a = "acdabcdeabbb";
-    const b = /ab*/g;
-    while((c = b.exec(a))){
+    const o = "acdabcdeabbb";
+    const a = /ab*/g;
+    while ((c = a.exec(o))) {
         console.log(c[0]);
     }
 })();

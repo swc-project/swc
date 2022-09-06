@@ -1,2 +1,2 @@
-var t;
+var n;
 console.log(null, undefined, Infinity, NaN, Infinity * undefined, Infinity.toString(), NaN.toString(), (Infinity * undefined).toString());

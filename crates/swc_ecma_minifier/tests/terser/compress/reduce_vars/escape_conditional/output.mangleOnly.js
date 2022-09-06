@@ -4,8 +4,8 @@ function n() {
     else console.log("PASS");
 }
 function o(n) {
-    return n ? f : i;
+    return n ? c : e;
 }
-function f() {}
-function i() {}
+function c() {}
+function e() {}
 n();

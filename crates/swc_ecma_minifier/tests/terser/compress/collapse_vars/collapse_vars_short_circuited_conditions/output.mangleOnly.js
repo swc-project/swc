@@ -1,54 +1,78 @@
 function r(r) {
-    var n = foo(), e = bar(), t = baz();
-    return n ? e : t;
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    return n ? a : o;
 }
 function n(r) {
-    var n = foo(), e = bar(), t = baz();
-    return n ? t : e;
-}
-function e(r) {
-    var n = foo(), e = bar(), t = baz();
-    return e ? n : t;
-}
-function t(r) {
-    var n = foo(), e = bar(), t = baz();
-    return e ? t : n;
-}
-function u(r) {
-    var n = foo(), e = bar(), t = baz();
-    return t ? n : e;
-}
-function f(r) {
-    var n = foo(), e = bar(), t = baz();
-    return t ? e : n;
-}
-function i(r) {
-    var n = foo(), e = bar(), t = baz();
-    if (n) return e;
-    else return t;
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    return n ? o : a;
 }
 function a(r) {
-    var n = foo(), e = bar(), t = baz();
-    if (n) return t;
-    else return e;
-}
-function c(r) {
-    var n = foo(), e = bar(), t = baz();
-    if (e) return n;
-    else return t;
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    return a ? n : o;
 }
 function o(r) {
-    var n = foo(), e = bar(), t = baz();
-    if (e) return t;
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    return a ? o : n;
+}
+function e(r) {
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    return o ? n : a;
+}
+function f(r) {
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    return o ? a : n;
+}
+function t(r) {
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    if (n) return a;
+    else return o;
+}
+function u(r) {
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    if (n) return o;
+    else return a;
+}
+function b(r) {
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    if (a) return n;
+    else return o;
+}
+function i(r) {
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    if (a) return o;
     else return n;
 }
-function v(r) {
-    var n = foo(), e = bar(), t = baz();
-    if (t) return n;
-    else return e;
+function c(r) {
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    if (o) return n;
+    else return a;
 }
-function l(r) {
-    var n = foo(), e = bar(), t = baz();
-    if (t) return e;
+function v(r) {
+    var n = foo(),
+        a = bar(),
+        o = baz();
+    if (o) return a;
     else return n;
 }

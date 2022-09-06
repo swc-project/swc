@@ -1,6 +1,7 @@
-var a;
-console.log(a, g);
-var a = 1, g = 2;
-console.log(a, g);
-var a = 3;
-console.log(a, g);
+var o;
+console.log(o, l);
+var o = 1,
+    l = 2;
+console.log(o, l);
+var o = 3;
+console.log(o, l);

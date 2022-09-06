@@ -1,18 +1,18 @@
-YArray.indexOf = Lang._isNative(Native.indexOf) ? function(n, i, f) {
-    return Native.indexOf.call(n, i, f);
-} : function(n, i, f) {
-    var r = n.length;
-    f = +f || 0;
-    f = (f > 0 || -1) * Math.floor(Math.abs(f));
-    if (f < 0) {
-        f += r;
-        if (f < 0) {
-            f = 0;
+YArray.indexOf = Lang._isNative(Native.indexOf) ? function(i, n, r) {
+    return Native.indexOf.call(i, n, r);
+} : function(i, n, r) {
+    var t = i.length;
+    r = +r || 0;
+    r = (r > 0 || -1) * Math.floor(Math.abs(r));
+    if (r < 0) {
+        r += t;
+        if (r < 0) {
+            r = 0;
         }
     }
-    for(; f < r; ++f){
-        if (f in n && n[f] === i) {
-            return f;
+    for(; r < t; ++r){
+        if (r in i && i[r] === n) {
+            return r;
         }
     }
     return -1;

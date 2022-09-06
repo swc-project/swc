@@ -1,4 +1,2 @@
 let l;
-console.log(([l] = [
-    "PASS"
-]) && l);
+console.log(([l] = ["PASS"]) && l);

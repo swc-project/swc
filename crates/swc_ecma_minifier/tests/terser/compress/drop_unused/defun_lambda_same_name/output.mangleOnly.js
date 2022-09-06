@@ -1,6 +1,8 @@
-function n(r) {
-    return r ? r * n(r - 1) : 1;
+function n(o) {
+    return o ? o * n(o - 1) : 1;
 }
-console.log((function n(r) {
-    return r ? r * n(r - 1) : 1;
-})(5));
+console.log(
+    (function n(o) {
+        return o ? o * n(o - 1) : 1;
+    })(5)
+);

@@ -15,7 +15,7 @@ function n() {
     }
     return x();
 }
-function t() {
+function f() {
     if (foo) {
         return x();
     }

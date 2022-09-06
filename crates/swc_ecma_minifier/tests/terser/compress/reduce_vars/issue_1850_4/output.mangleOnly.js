@@ -1,5 +1,5 @@
-function n() {
-    console.log(o, o, o);
+function o() {
+    console.log(n, n, n);
 }
-var o = 1;
-n();
+var n = 1;
+o();

@@ -1,7 +1,10 @@
-console.log((function(n) {
-    function o(n) {
-        return n.toUpperCase();
-    }
-    console.log("PASS");
-    return o("PA") + "SS";
-})());
+console.log(
+    (function (o) {
+        /* @license Foo bar */
+        function n(o) {
+            return o.toUpperCase();
+        }
+        console.log("PASS");
+        return n("PA") + "SS";
+    })()
+);

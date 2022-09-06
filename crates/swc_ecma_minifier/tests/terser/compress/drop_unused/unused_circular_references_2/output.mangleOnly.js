@@ -1,4 +1,7 @@
-function n(n, r) {
-    var t = 1, u = a, a = t + u, c = moo();
-    return n + r;
+function n(n, o) {
+    var r = 1,
+        t = u,
+        u = r + t,
+        a = moo();
+    return n + o;
 }

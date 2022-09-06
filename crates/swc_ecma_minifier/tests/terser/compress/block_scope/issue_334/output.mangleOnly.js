@@ -1,8 +1,8 @@
-(function(o) {
-    (function() {
-        f();
+(function (o) {
+    (function () {
+        c();
     })();
-    function f() {
+    function c() {
         n(o);
     }
 })("Hello World!");

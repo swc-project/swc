@@ -1,5 +1,5 @@
-var t = new (class {
-    constructor(){
+var s = new (class {
+    constructor() {
         this.x = 2;
     }
     ["method" + ""]() {
@@ -8,9 +8,9 @@ var t = new (class {
     get ["g" + ""]() {
         return this.x;
     }
-    set ["s" + ""](t) {
-        this.x = t;
+    set ["s" + ""](s) {
+        this.x = s;
     }
 })();
-t.method();
-console.log(t.g);
+s.method();
+console.log(s.g);

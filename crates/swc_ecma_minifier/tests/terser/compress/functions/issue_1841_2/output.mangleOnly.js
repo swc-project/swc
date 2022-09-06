@@ -1,7 +1,5 @@
-var a = 10;
-!(function(r) {
-    for(var i in "hi")var n = r.baz, n = [
-        (a = 42)
-    ];
-})(--a);
-console.log(a);
+var o = 10;
+!(function (a) {
+    for (var n in "hi") var r = a.baz, r = [(o = 42)];
+})(--o);
+console.log(o);

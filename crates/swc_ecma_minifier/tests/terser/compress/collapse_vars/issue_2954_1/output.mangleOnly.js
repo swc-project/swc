@@ -1,11 +1,11 @@
-var c = "PASS", o;
+var o = "PASS", c;
 try {
     do {
-        o = (function() {
+        c = (function() {
             throw 0;
         })();
-        c = "FAIL";
-        o && o.c;
+        o = "FAIL";
+        c && c.c;
     }while (0)
 } catch (t) {}
-console.log(c);
+console.log(o);

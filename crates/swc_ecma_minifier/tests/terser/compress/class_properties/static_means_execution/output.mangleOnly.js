@@ -1,13 +1,12 @@
 let s = 0;
-class l {
-}
-class a {
+class l {}
+class c {
     prop = (s = s === 1 ? "PASS" : "FAIL");
 }
-class c {
+class e {
     static prop = (s = s === 0 ? 1 : "FAIL");
 }
 new l();
-new a();
 new c();
+new e();
 console.log(s);

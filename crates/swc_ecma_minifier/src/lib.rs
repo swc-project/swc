@@ -24,7 +24,7 @@
 #![allow(clippy::match_like_matches_macro)]
 
 use once_cell::sync::Lazy;
-use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
+use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helpers::{Helpers, HELPERS};
 use swc_ecma_visit::VisitMutWith;
@@ -232,7 +232,11 @@ pub fn optimize(
             let _timer = timer!("mangle names");
             // TODO: base54.reset();
 
-            m.visit_mut_with(&mut name_mangler(mangle.clone(), &m));
+            m.visit_mut_with(&mut name_mangler(
+                mangle.clone(),
+                &m,
+                SyntaxContext::empty().apply_mark(extra.unresolved_mark),
+            ));
         }
 
         if let Some(property_mangle_options) =

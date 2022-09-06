@@ -1,11 +1,11 @@
 0;
-var $ = function() {
+var n = function () {
     "use asm";
     0.0;
 };
-function n() {
+function u() {
     0;
-    return function() {
+    return function () {
         "use asm";
         0.0;
     };

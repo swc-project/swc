@@ -1,4 +1,4 @@
-global.side = ()=>{
+global.side = () => {
     console.log("PASS");
 };
 (class {

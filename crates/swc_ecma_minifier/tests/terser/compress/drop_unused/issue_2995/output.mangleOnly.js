@@ -1,6 +1,6 @@
 function c(c) {
     var n;
-    c.b = n = function() {};
+    c.b = n = function () {};
     n.c = "PASS";
 }
 var n = {};

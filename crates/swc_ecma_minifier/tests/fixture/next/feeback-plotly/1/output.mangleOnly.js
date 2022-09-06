@@ -1,15 +1,15 @@
-export function log2(f) {
-    var x, r;
-    x = (f > 0xffff) << 4;
-    f >>>= x;
-    r = (f > 0xff) << 3;
-    f >>>= r;
-    x |= r;
-    r = (f > 0xf) << 2;
-    f >>>= r;
-    x |= r;
-    r = (f > 0x3) << 1;
-    f >>>= r;
-    x |= r;
-    return x | (f >> 1);
+export function log2(r) {
+    var n, o;
+    n = (r > 0xffff) << 4;
+    r >>>= n;
+    o = (r > 0xff) << 3;
+    r >>>= o;
+    n |= o;
+    o = (r > 0xf) << 2;
+    r >>>= o;
+    n |= o;
+    o = (r > 0x3) << 1;
+    r >>>= o;
+    n |= o;
+    return n | (r >> 1);
 }

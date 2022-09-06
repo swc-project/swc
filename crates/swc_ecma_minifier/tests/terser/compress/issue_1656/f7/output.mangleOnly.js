@@ -1,7 +1,8 @@
-var l = 100, $ = 10;
-function n() {
-    var n = 5;
-    while((($ = l) ? !l : ~l ? null : ($ += l)) && --n > 0){}
+var l = 100,
+    n = 10;
+function o() {
+    var o = 5;
+    while (((n = l) ? !l : ~l ? null : (n += l)) && --o > 0) {}
 }
-n();
-console.log(l, $);
+o();
+console.log(l, n);

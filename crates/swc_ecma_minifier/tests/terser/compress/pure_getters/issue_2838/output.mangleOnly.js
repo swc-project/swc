@@ -1,7 +1,7 @@
-function o(n, r) {
-    (n || r).c = "PASS";
-    (function() {
-        return o(n, r);
+function o(n, c) {
+    (n || c).c = "PASS";
+    (function () {
+        return o(n, c);
     }.prototype.foo = "bar");
 }
 var n = {};

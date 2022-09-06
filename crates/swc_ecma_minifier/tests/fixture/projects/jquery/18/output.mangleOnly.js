@@ -1,18 +1,18 @@
 export const obj = {
-    tweener: function(n, t) {
-        if (jQuery.isFunction(n)) {
-            t = n;
-            n = [
+    tweener: function(e, n) {
+        if (jQuery.isFunction(e)) {
+            n = e;
+            e = [
                 "*"
             ];
         } else {
-            n = n.split(" ");
+            e = e.split(" ");
         }
-        var e, i = 0, o = n.length;
-        for(; i < o; i++){
-            e = n[i];
-            tweeners[e] = tweeners[e] || [];
-            tweeners[e].unshift(t);
+        var t, r = 0, s = e.length;
+        for(; r < s; r++){
+            t = e[r];
+            tweeners[t] = tweeners[t] || [];
+            tweeners[t].unshift(n);
         }
     }
 };

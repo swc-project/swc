@@ -1,3 +1,3 @@
-var [] = a;
+var [, , , ,] = a;
 var [, , r] = c;
-var [v, ] = e;
+var [v, ,] = e;

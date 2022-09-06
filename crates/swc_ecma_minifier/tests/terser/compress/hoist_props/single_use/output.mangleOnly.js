@@ -1,6 +1,6 @@
 var r = {
-    bar: function() {
+    bar: function () {
         return 42;
-    }
+    },
 };
 console.log(r.bar());

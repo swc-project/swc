@@ -1,13 +1,13 @@
 function e(e) {
-    let o, a, c;
-    let f = e.a || {
+    let t, a, c;
+    let s = e.a || {
         e: 7,
         n: 8
     };
-    ({ t , e: l , n , s: o = 9 , o: a , r: c  } = f);
-    console.log(t, l, n, o, a, c);
+    ({ t: l , e: n , n: o , s: t = 9 , o: a , r: c  } = s);
+    console.log(l, n, o, t, a, c);
 }
-let t, l, n;
+let l, n, o;
 e({
     a: {
         t: 1,

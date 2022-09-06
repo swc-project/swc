@@ -1,11 +1,11 @@
-var r = console.log;
-var a = 0;
-global.problem = ()=>{
-    var e = a;
-    r(e);
+var e = console.log;
+var l = 0;
+global.problem = () => {
+    var r = l;
+    e(r);
 };
-global.increment = ()=>{
-    a++;
+global.increment = () => {
+    l++;
 };
 increment();
 problem();

@@ -1,61 +1,16 @@
-function _(_) {
-    console.log("(" + _ + ")");
-    return 10 * _;
+function o(o) {
+    console.log("(" + o + ")");
+    return 10 * o;
 }
-console.log([
-    _(1),
-    _(2)
-][0]);
-console.log([
-    _(1),
-    _(2)
-][1]);
-console.log([
-    _(1),
-    _(2)
-][2]);
-console.log([
-    ...[],
-    _(1),
-    _(2)
-][0]);
-console.log([
-    ...[],
-    _(1),
-    _(2)
-][1]);
-console.log([
-    ...[],
-    _(1),
-    _(2)
-][2]);
-console.log([
-    _(1),
-    ...[],
-    _(2)
-][0]);
-console.log([
-    _(1),
-    ...[],
-    _(2)
-][1]);
-console.log([
-    _(1),
-    ...[],
-    _(2)
-][2]);
-console.log([
-    _(1),
-    _(2),
-    ...[]
-][0]);
-console.log([
-    _(1),
-    _(2),
-    ...[]
-][1]);
-console.log([
-    _(1),
-    _(2),
-    ...[]
-][2]);
+console.log([o(1), o(2)][0]);
+console.log([o(1), o(2)][1]);
+console.log([o(1), o(2)][2]);
+console.log([...[], o(1), o(2)][0]);
+console.log([...[], o(1), o(2)][1]);
+console.log([...[], o(1), o(2)][2]);
+console.log([o(1), ...[], o(2)][0]);
+console.log([o(1), ...[], o(2)][1]);
+console.log([o(1), ...[], o(2)][2]);
+console.log([o(1), o(2), ...[]][0]);
+console.log([o(1), o(2), ...[]][1]);
+console.log([o(1), o(2), ...[]][2]);

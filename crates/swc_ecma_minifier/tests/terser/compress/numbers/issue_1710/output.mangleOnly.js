@@ -1,2 +1,2 @@
-var a = {};
-console.log((a += 1) + -a);
+var o = {};
+console.log((o += 1) + -o);

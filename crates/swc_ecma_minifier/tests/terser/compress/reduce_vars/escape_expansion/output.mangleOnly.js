@@ -1,15 +1,13 @@
 function n() {
-    var n = u();
-    if (n !== (n = u())) console.log("FAIL");
+    var n = e();
+    if (n !== (n = e())) console.log("FAIL");
     else console.log("PASS");
 }
 function o() {}
-function t(...n) {
+function c(...n) {
     return n[0];
 }
-function u() {
-    return t(...[
-        o
-    ]);
+function e() {
+    return c(...[o]);
 }
 n();

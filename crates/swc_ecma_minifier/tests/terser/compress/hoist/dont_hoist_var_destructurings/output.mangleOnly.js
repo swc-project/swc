@@ -1,3 +1,3 @@
-function n() {
-    var { x: n , y: a  } = foo;
+function o() {
+    var { x: o, y: f } = foo;
 }

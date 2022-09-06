@@ -1,5 +1,5 @@
 export default {
-    prop: function(r, t) {
+    prop: function (r, t) {
         return r - t;
-    }
+    },
 };

@@ -1,12 +1,12 @@
 function r(r, e) {
     var o;
     if (r > 0) {
-        var s = "hello";
+        var l = "hello";
     } else {
-        var s = "howdy";
+        var l = "howdy";
     }
     if (e > 0) {
-        o = s.substr(0, 2);
+        o = l.substr(0, 2);
     }
     return o;
 }

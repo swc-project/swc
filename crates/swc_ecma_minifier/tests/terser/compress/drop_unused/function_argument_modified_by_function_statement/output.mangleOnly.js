@@ -1,4 +1,4 @@
-var n = (function(n) {
+var n = (function (n) {
     function n() {
         console.log("PASS");
     }

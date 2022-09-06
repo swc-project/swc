@@ -1,3 +1,3 @@
-const l = ()=>null;
-const n = ()=>l;
-console.log(n() === n());
+const o = () => null;
+const l = () => o;
+console.log(l() === l());

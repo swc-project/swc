@@ -188,17 +188,17 @@ class e extends Text {
             for (let r of n)r.flatten(l);
             return new t(l, i);
         }
-        let o = Math.max(32, s >> 5), f = o << 1, u = o >> 1, c = [], g = 0, a = -1, $ = [];
-        function _(n) {
+        let o = Math.max(32, s >> 5), f = o << 1, u = o >> 1, c = [], a = 0, g = -1, p = [];
+        function d(n) {
             let i;
-            if (n.lines > f && n instanceof e) for (let s of n.children)_(s);
-            else n.lines > u && (g > u || !g) ? (p(), c.push(n)) : n instanceof t && g && (i = $[$.length - 1]) instanceof t && n.lines + i.lines <= 32 ? (g += n.lines, a += n.length + 1, $[$.length - 1] = new t(i.text.concat(n.text), i.length + 1 + n.length)) : (g + n.lines > o && p(), g += n.lines, a += n.length + 1, $.push(n));
+            if (n.lines > f && n instanceof e) for (let s of n.children)d(s);
+            else n.lines > u && (a > u || !a) ? (x(), c.push(n)) : n instanceof t && a && (i = p[p.length - 1]) instanceof t && n.lines + i.lines <= 32 ? (a += n.lines, g += n.length + 1, p[p.length - 1] = new t(i.text.concat(n.text), i.length + 1 + n.length)) : (a + n.lines > o && x(), a += n.lines, g += n.length + 1, p.push(n));
         }
-        function p() {
-            0 != g && (c.push(1 == $.length ? $[0] : e.from($, a)), a = -1, g = $.length = 0);
+        function x() {
+            0 != a && (c.push(1 == p.length ? p[0] : e.from(p, g)), g = -1, a = p.length = 0);
         }
-        for (let d of n)_(d);
-        return p(), 1 == c.length ? c[0] : new e(c, i);
+        for (let m of n)d(m);
+        return x(), 1 == c.length ? c[0] : new e(c, i);
     }
 }
 function n(t, e, n = 0, i = 1e9) {

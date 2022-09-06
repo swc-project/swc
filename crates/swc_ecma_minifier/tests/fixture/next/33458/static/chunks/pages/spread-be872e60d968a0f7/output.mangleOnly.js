@@ -3,111 +3,111 @@
         217
     ],
     {
-        2809: function(n, r, e) {
+        2809: function(n, e, r) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/spread",
                 function() {
-                    return e(1767);
+                    return r(1767);
                 }, 
             ]);
             if (false) {}
         },
-        2726: function(n, r, e) {
+        2726: function(n, e, r) {
             "use strict";
-            e.d(r, {
+            r.d(e, {
                 Z: function() {
-                    return i;
+                    return f;
                 }
             });
-            var t = e(5893);
-            var u = e(7294);
+            var t = r(5893);
+            var u = r(7294);
             function a(n) {
-                var r = n.value, e = n.onChange;
+                var e = n.value, r = n.onChange;
                 return (0, t.jsx)("input", {
-                    value: r,
-                    onChange: e
+                    value: e,
+                    onChange: r
                 });
             }
             var o = a;
-            function f(n) {
-                var r = n.value, e = n.onChange;
+            function c(n) {
+                var e = n.value, r = n.onChange;
                 (0, u.useEffect)(function() {
                     console.log("EFFECT");
                 }, []);
                 return (0, t.jsx)(o, {
-                    value: r,
-                    onChange: e
+                    value: e,
+                    onChange: r
                 });
             }
-            var i = f;
+            var f = c;
         },
-        1767: function(n, r, e) {
+        1767: function(n, e, r) {
             "use strict";
-            e.r(r);
-            e.d(r, {
+            r.r(e);
+            r.d(e, {
                 default: function() {
-                    return v;
+                    return l;
                 }
             });
-            var t = e(5893);
-            var u = e(7294);
-            var a = e(2726);
-            function o(n, r, e) {
-                if (r in n) {
-                    Object.defineProperty(n, r, {
-                        value: e,
+            var t = r(5893);
+            var u = r(7294);
+            var a = r(2726);
+            function o(n, e, r) {
+                if (e in n) {
+                    Object.defineProperty(n, e, {
+                        value: r,
                         enumerable: true,
                         configurable: true,
                         writable: true
                     });
                 } else {
-                    n[r] = e;
+                    n[e] = r;
                 }
                 return n;
             }
-            function f(n) {
-                for(var r = 1; r < arguments.length; r++){
-                    var e = arguments[r] != null ? arguments[r] : {};
-                    var t = Object.keys(e);
+            function c(n) {
+                for(var e = 1; e < arguments.length; e++){
+                    var r = arguments[e] != null ? arguments[e] : {};
+                    var t = Object.keys(r);
                     if (typeof Object.getOwnPropertySymbols === "function") {
-                        t = t.concat(Object.getOwnPropertySymbols(e).filter(function(n) {
-                            return Object.getOwnPropertyDescriptor(e, n).enumerable;
+                        t = t.concat(Object.getOwnPropertySymbols(r).filter(function(n) {
+                            return Object.getOwnPropertyDescriptor(r, n).enumerable;
                         }));
                     }
-                    t.forEach(function(r) {
-                        o(n, r, e[r]);
+                    t.forEach(function(e) {
+                        o(n, e, r[e]);
                     });
                 }
                 return n;
             }
-            function i(n) {
-                return (0, t.jsx)(a.Z, f({}, n));
+            function f(n) {
+                return (0, t.jsx)(a.Z, c({}, n));
             }
-            var c = i;
-            function v() {
-                var n = (0, u.useState)(""), r = n[0], e = n[1];
+            var i = f;
+            function l() {
+                var n = (0, u.useState)(""), e = n[0], r = n[1];
                 var a = (0, u.useCallback)(function(n) {
-                    e(n.target.value);
+                    r(n.target.value);
                 }, []);
-                return (0, t.jsx)(c, {
+                return (0, t.jsx)(i, {
                     onChange: a,
-                    value: r
+                    value: e
                 });
             }
         }
     },
     function(n) {
-        var r = function(r) {
-            return n((n.s = r));
+        var e = function(e) {
+            return n((n.s = e));
         };
         n.O(0, [
             774,
             888,
             179
         ], function() {
-            return r(2809);
+            return e(2809);
         });
-        var e = n.O();
-        _N_E = e;
+        var r = n.O();
+        _N_E = r;
     }, 
 ]);

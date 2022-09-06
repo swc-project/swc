@@ -1,4 +1,5 @@
-var i = 0;
-if (((i = 1 + i), 0)) switch((i = 1 + i)){
-}
-console.log(i);
+var o = 0;
+if (((o = 1 + o), 0))
+    switch ((o = 1 + o)) {
+    }
+console.log(o);

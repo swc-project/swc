@@ -1,3 +1,3 @@
-function n() {
-    for(var n in {})console.log(n);
+function o() {
+    for (var o in {}) console.log(o);
 }

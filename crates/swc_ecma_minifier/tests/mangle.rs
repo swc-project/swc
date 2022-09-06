@@ -1,6 +1,9 @@
 #![deny(warnings)]
 
-use std::path::{Path, PathBuf};
+use std::{
+    path::{Path, PathBuf},
+    process::{Command, Stdio},
+};
 
 use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
@@ -13,9 +16,11 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
+use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
-use testing::NormalizedOutput;
+use testing::{assert_eq, NormalizedOutput};
+use tracing::warn;
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
     let mut buf = vec![];
@@ -61,59 +66,26 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
     })
 }
 
-#[testing::fixture("tests/fixture/**/output.js")]
-#[testing::fixture("tests/terser/**/output.js")]
-fn compressed(compressed_file: PathBuf) {
-    let _ = testing::run_test2(false, |cm, handler| {
-        let mut m = parse(&handler, cm.clone(), &compressed_file)?;
-
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
-
-        let m = optimize(
-            m.into(),
-            cm.clone(),
-            None,
-            None,
-            &MinifyOptions {
-                mangle: Some(MangleOptions {
-                    props: Some(ManglePropertiesOptions {
-                        ..Default::default()
-                    }),
-                    top_level: true,
-                    keep_class_names: false,
-                    keep_fn_names: false,
-                    keep_private_props: false,
-                    ie8: false,
-                    safari10: false,
-                    reserved: Default::default(),
-                }),
-                compress: None,
-                ..Default::default()
-            },
-            &ExtraOptions {
-                unresolved_mark,
-                top_level_mark,
-            },
-        )
-        .expect_module();
-
-        let mangled = print(cm.clone(), &m, false);
-        let minified = print(cm.clone(), &m, true);
-
-        parse_fm(&handler, cm.new_source_file(FileName::Anon, mangled))?;
-        parse_fm(&handler, cm.new_source_file(FileName::Anon, minified))?;
-
-        Ok(())
-    });
-}
-
 #[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/terser/**/input.js")]
 fn snapshot_compress_fixture(input: PathBuf) {
+    let output_path = input.parent().unwrap().join("output.mangleOnly.js");
+
     let _ = testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &input)?;
+
+        if option_env!("CI") != Some("1") {
+            let mut c = Command::new("node");
+            c.arg("scripts/mangler/charfreq.js");
+            c.arg(&input);
+            c.stderr(Stdio::inherit());
+            let output = c.output().unwrap();
+
+            warn!(
+                "Chars of terser: {}",
+                String::from_utf8_lossy(&output.stdout)
+            );
+        }
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -140,10 +112,33 @@ fn snapshot_compress_fixture(input: PathBuf) {
         )
         .expect_module();
 
+        {
+            // Compare AST, and mark test as a success if ast is identical.
+
+            let mut actual = m.clone();
+            actual.visit_mut_with(&mut paren_remover(None));
+            actual = drop_span(actual);
+
+            let mut expected = parse(&handler, cm.clone(), &output_path)?;
+            expected.visit_mut_with(&mut paren_remover(None));
+            expected = drop_span(expected);
+
+            if actual == expected {
+                return Ok(());
+            }
+
+            let actual = print(cm.clone(), &actual, false);
+            let expected = print(cm.clone(), &expected, false);
+
+            if actual == expected {
+                return Ok(());
+            }
+        }
+
         let mangled = print(cm, &m, false);
 
         NormalizedOutput::from(mangled)
-            .compare_to_file(input.parent().unwrap().join("output.mangleOnly.js"))
+            .compare_to_file(output_path)
             .unwrap();
 
         Ok(())

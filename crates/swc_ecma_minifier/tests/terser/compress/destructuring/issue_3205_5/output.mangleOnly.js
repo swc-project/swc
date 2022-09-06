@@ -1,9 +1,8 @@
-(function() {
+(function () {
     function n(n) {
-        var a = n, { a: o  } = a;
-        console.log(o);
+        var o = n,
+            { a: a } = o;
+        console.log(a);
     }
-    n({
-        a: "PASS"
-    });
+    n({ a: "PASS" });
 })();

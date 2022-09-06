@@ -2,7 +2,7 @@ function a(c, r, s) {
     var t = c();
     var v = r();
     var f = s;
-    switch(t){
+    switch (t) {
         default:
             d();
         case v:

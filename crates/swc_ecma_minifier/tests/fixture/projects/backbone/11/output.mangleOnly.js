@@ -1,8 +1,8 @@
 const t = {
-    navigate: function(t, e) {
+    navigate: function(t, r) {
         if (!History.started) return false;
-        if (!e || e === true) e = {
-            trigger: !!e
+        if (!r || r === true) r = {
+            trigger: !!r
         };
     }
 };

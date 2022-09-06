@@ -1,5 +1,5 @@
 var a = 0;
-switch(a){
+switch (a) {
     default:
         console.log("FAIL");
     case 0:

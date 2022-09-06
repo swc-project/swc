@@ -1,24 +1,27 @@
 function r() {
-    var r = sideeffect(), a = g1 + g2;
-    var c = a / 4, n = "Bar" + c;
-    switch(n){
+    var r = sideeffect(),
+        e = g1 + g2;
+    var a = e / 4,
+        c = "Bar" + a;
+    switch (c) {
         case 0:
             return g9;
     }
 }
-function a() {
-    var r = g1 + g2, a = sideeffect();
-    var c = r / 4;
-    var n = "Bar" + c;
-    switch(n){
+function e() {
+    var r = g1 + g2,
+        e = sideeffect();
+    var a = r / 4;
+    var c = "Bar" + a;
+    switch (c) {
         case 0:
             return g9;
     }
 }
-function c(r) {
-    switch(r){
+function a(r) {
+    switch (r) {
         case 1:
-            var a = 3 - r;
-            return a;
+            var e = 3 - r;
+            return e;
     }
 }

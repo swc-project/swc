@@ -1,13 +1,13 @@
-function n(n, p) {
-    return new n(p).value;
+function n(n, e) {
+    return new n(e).value;
 }
-var p = {
+var e = {
     p: class n {
-        constructor(n){
+        constructor(n) {
             this.value = n * 10;
         }
     },
     x: 1,
-    y: 2
+    y: 2,
 };
-console.log(p.p.name, p.p === p.p, n(p.p, p.x), n(p.p, p.y));
+console.log(e.p.name, e.p === e.p, n(e.p, e.x), n(e.p, e.y));

@@ -1,4 +1,4 @@
 var n;
-(function(n) {
+(function (n) {
     x(n);
 })(n);

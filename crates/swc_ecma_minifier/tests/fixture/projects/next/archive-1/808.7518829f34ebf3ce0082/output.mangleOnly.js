@@ -6,9 +6,9 @@
     {
         2808: function(e, n, t) {
             t.r(n);
-            var u = t(4512);
-            var r = t(4652);
-            var s = (0, r.default)(function() {
+            var s = t(4512);
+            var u = t(4652);
+            var r = (0, u.default)(function() {
                 return t.e(383).then(t.bind(t, 1383));
             }, {
                 loadableGenerated: {
@@ -23,10 +23,10 @@
                 }
             });
             n["default"] = function() {
-                return (0, u.jsxs)("div", {
+                return (0, s.jsxs)("div", {
                     children: [
                         "Nested 1",
-                        (0, u.jsx)(s, {}), 
+                        (0, s.jsx)(r, {}), 
                     ]
                 });
             };

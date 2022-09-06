@@ -2,7 +2,7 @@ function s(s) {
     s();
 }
 class e {
-    constructor(s){
+    constructor(s) {
         this.message = s;
     }
     go() {
@@ -10,7 +10,7 @@ class e {
         console.log(this.message);
     }
     run() {
-        s(()=>{
+        s(() => {
             this.go();
         });
     }

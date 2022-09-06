@@ -1,10 +1,10 @@
 const n = id({
-    extname: (n)=>{
+    extname: (n) => {
         console.log("PASS:" + n);
-    }
+    },
 });
 global.getExtFn = function n() {
-    return function(n) {
+    return function (n) {
         return t(n);
     };
 };

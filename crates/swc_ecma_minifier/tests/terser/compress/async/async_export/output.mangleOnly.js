@@ -1,2 +1,2 @@
 export async function run() {}
-export default async function n() {};
+export default async function n() {}

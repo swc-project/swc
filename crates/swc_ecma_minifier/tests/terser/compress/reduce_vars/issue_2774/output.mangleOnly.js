@@ -1,7 +1,9 @@
-console.log({
-    get a () {
-        var a;
-        (a = true) && a.c;
-        a = void 0;
-    }
-}.a);
+console.log(
+    {
+        get a() {
+            var o;
+            (o = true) && o.c;
+            o = void 0;
+        },
+    }.a
+);

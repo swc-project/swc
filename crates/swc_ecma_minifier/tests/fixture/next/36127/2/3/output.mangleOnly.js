@@ -229,34 +229,34 @@ class t extends Text {
             return new e(h, i);
         }
         let o = Math.max(32, s >> 5), f = o << 1, u = o >> 1;
-        let c = [], a = 0, g = -1, $ = [];
-        function p(n) {
+        let a = [], c = 0, g = -1, p = [];
+        function d(n) {
             let i;
             if (n.lines > f && n instanceof t) {
-                for (let s of n.children)p(s);
-            } else if (n.lines > u && (a > u || !a)) {
-                _();
-                c.push(n);
-            } else if (n instanceof e && a && (i = $[$.length - 1]) instanceof e && n.lines + i.lines <= 32) {
-                a += n.lines;
+                for (let s of n.children)d(s);
+            } else if (n.lines > u && (c > u || !c)) {
+                x();
+                a.push(n);
+            } else if (n instanceof e && c && (i = p[p.length - 1]) instanceof e && n.lines + i.lines <= 32) {
+                c += n.lines;
                 g += n.length + 1;
-                $[$.length - 1] = new e(i.text.concat(n.text), i.length + 1 + n.length);
+                p[p.length - 1] = new e(i.text.concat(n.text), i.length + 1 + n.length);
             } else {
-                if (a + n.lines > o) _();
-                a += n.lines;
+                if (c + n.lines > o) x();
+                c += n.lines;
                 g += n.length + 1;
-                $.push(n);
+                p.push(n);
             }
         }
-        function _() {
-            if (a == 0) return;
-            c.push($.length == 1 ? $[0] : t.from($, g));
+        function x() {
+            if (c == 0) return;
+            a.push(p.length == 1 ? p[0] : t.from(p, g));
             g = -1;
-            a = $.length = 0;
+            c = p.length = 0;
         }
-        for (let d of n)p(d);
-        _();
-        return c.length == 1 ? c[0] : new t(c, i);
+        for (let m of n)d(m);
+        x();
+        return a.length == 1 ? a[0] : new t(a, i);
     }
 }
 Text.empty = new e([

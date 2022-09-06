@@ -1,6 +1,6 @@
-while(a){
+while (a) {
     if (b) {
-        switch(true){
+        switch (true) {
             case c():
                 d();
         }

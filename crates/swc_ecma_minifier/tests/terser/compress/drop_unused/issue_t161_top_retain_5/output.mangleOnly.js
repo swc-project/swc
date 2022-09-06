@@ -1,9 +1,9 @@
-(function() {
+(function () {
     function n() {
         return 2;
     }
-    function t() {
+    function o() {
         return 3;
     }
-    console.log(n(), t());
+    console.log(n(), o());
 })();

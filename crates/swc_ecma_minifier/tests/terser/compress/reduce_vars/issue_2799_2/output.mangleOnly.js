@@ -1,9 +1,6 @@
-(function() {
-    function l() {
-        Function.prototype.call.apply(console.log, [
-            null,
-            "PASS"
-        ]);
+(function () {
+    function n() {
+        Function.prototype.call.apply(console.log, [null, "PASS"]);
     }
-    l();
+    n();
 })();

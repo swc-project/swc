@@ -3,31 +3,31 @@ function t(e, a, t, f) {
     if (!jQuery.acceptData(e)) {
         return;
     }
-    var i, n, o = jQuery.expando, d = typeof a === "string", c = e.nodeType, p = c ? jQuery.cache : e, r = c ? e[o] : e[o] && o;
-    if ((!r || !p[r] || (!f && !p[r].data)) && d && t === undefined) {
+    var i, r, d = jQuery.expando, n = typeof a === "string", u = e.nodeType, o = u ? jQuery.cache : e, y = u ? e[d] : e[d] && d;
+    if ((!y || !o[y] || (!f && !o[y].data)) && n && t === undefined) {
         return;
     }
-    if (!r) {
-        if (c) {
-            e[o] = r = core_deletedIds.pop() || jQuery.guid++;
+    if (!y) {
+        if (u) {
+            e[d] = y = core_deletedIds.pop() || jQuery.guid++;
         } else {
-            r = o;
+            y = d;
         }
     }
-    if (!p[r]) {
-        p[r] = {};
-        if (!c) {
-            p[r].toJSON = jQuery.noop;
+    if (!o[y]) {
+        o[y] = {};
+        if (!u) {
+            o[y].toJSON = jQuery.noop;
         }
     }
     if (typeof a === "object" || typeof a === "function") {
         if (f) {
-            p[r] = jQuery.extend(p[r], a);
+            o[y] = jQuery.extend(o[y], a);
         } else {
-            p[r].data = jQuery.extend(p[r].data, a);
+            o[y].data = jQuery.extend(o[y].data, a);
         }
     }
-    i = p[r];
+    i = o[y];
     if (!f) {
         if (!i.data) {
             i.data = {};
@@ -37,13 +37,13 @@ function t(e, a, t, f) {
     if (t !== undefined) {
         i[jQuery.camelCase(a)] = t;
     }
-    if (d) {
-        n = i[a];
-        if (n == null) {
-            n = i[jQuery.camelCase(a)];
+    if (n) {
+        r = i[a];
+        if (r == null) {
+            r = i[jQuery.camelCase(a)];
         }
     } else {
-        n = i;
+        r = i;
     }
-    return n;
+    return r;
 }

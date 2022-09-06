@@ -1,14 +1,14 @@
-function n() {
-    var n = t();
-    if (n !== (n = t())) console.log("FAIL");
+function o() {
+    var o = n();
+    if (o !== (o = n())) console.log("FAIL");
     else console.log("PASS");
 }
-function t() {
+function n() {
     try {
-        throw o;
-    } catch (n) {
-        return n;
+        throw c;
+    } catch (o) {
+        return o;
     }
 }
-function o() {}
-n();
+function c() {}
+o();

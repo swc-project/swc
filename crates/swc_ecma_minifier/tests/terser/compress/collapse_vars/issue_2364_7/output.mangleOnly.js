@@ -1,12 +1,12 @@
-function n(n, f) {
-    var r = n.p;
-    f.f();
-    return r;
+function n(n, o) {
+    var f = n.p;
+    o.f();
+    return f;
 }
-var f = {
+var o = {
     p: "PASS",
-    f: function() {
+    f: function () {
         this.p = "FAIL";
-    }
+    },
 };
-console.log(n(f, f));
+console.log(n(o, o));

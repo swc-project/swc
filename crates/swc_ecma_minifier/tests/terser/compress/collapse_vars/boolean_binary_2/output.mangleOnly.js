@@ -1,6 +1,8 @@
-var n = 0;
-n += 1;
-((function() {
-    n = 1 + n;
-} || 9).toString());
-console.log(n);
+var o = 0;
+o += 1;
+((
+    function () {
+        o = 1 + o;
+    } || 9
+).toString());
+console.log(o);

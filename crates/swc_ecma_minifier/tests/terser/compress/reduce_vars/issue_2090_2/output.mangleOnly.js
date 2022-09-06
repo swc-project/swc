@@ -1,7 +1,9 @@
-console.log((function() {
-    var r = 1;
-    [].forEach(()=>{
-        r = 2;
-    });
-    return r;
-})());
+console.log(
+    (function () {
+        var o = 1;
+        [].forEach(() => {
+            o = 2;
+        });
+        return o;
+    })()
+);

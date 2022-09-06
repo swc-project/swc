@@ -1,1 +1,1 @@
-var a = (a = 0)=>doSomething(a);
+var o = (o = 0) => doSomething(o);

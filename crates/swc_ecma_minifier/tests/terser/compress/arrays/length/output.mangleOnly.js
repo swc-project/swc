@@ -1,5 +1,2 @@
-var g = [
-    1,
-    2
-];
-console.log(g.length);
+var l = [1, 2];
+console.log(l.length);

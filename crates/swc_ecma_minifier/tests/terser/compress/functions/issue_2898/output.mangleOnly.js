@@ -1,9 +1,9 @@
-var i = 0;
-(function() {
-    while(n());
+var o = 0;
+(function () {
+    while (n());
     function n() {
-        var n = ((i = 1 + i), void (i = 1 + i));
+        var n = ((o = 1 + o), void (o = 1 + o));
         n && n[0];
     }
 })();
-console.log(i);
+console.log(o);

@@ -1,3 +1,4 @@
 var a = 1;
-var r = a++, a = NaN;
-console.log(r, a);
+var o = a++,
+    a = NaN;
+console.log(o, a);

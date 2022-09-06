@@ -1,5 +1,5 @@
-var t = new (class {
-    constructor(){
+var s = new (class {
+    constructor() {
         this[1] = 2;
     }
     [2 + 0]() {
@@ -8,9 +8,9 @@ var t = new (class {
     get [3 + 0]() {
         return this[1];
     }
-    set [4 + 0](t) {
-        this[1] = t;
+    set [4 + 0](s) {
+        this[1] = s;
     }
 })();
-t[2]();
-console.log(t[3]);
+s[2]();
+console.log(s[3]);

@@ -1,5 +1,5 @@
-function r(r) {
-    return r.raw[0];
+function o(o) {
+    return o.raw[0];
 }
 console.log(String.raw`\u`);
-console.log(r`\u`);
+console.log(o`\u`);

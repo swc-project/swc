@@ -1,91 +1,135 @@
-function n(n) {
-    return console.log(n), n;
+function r(r) {
+    return console.log(r), r;
 }
-function r() {
-    var n = foo(), r = bar(), t = baz();
-    return n + r + t;
-}
-function t() {
-    var n = foo(), r = bar(), t = baz();
-    return n + t + r;
-}
-function u() {
-    var n = foo(), r = bar(), t = baz();
-    return r + n + t;
+function n() {
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return r + n + o;
 }
 function o() {
-    var n = foo(), r = bar(), t = baz();
-    return t + n + r;
-}
-function c() {
-    var n = foo(), r = bar(), t = baz();
-    return r + t + n;
-}
-function e() {
-    var n = foo(), r = bar(), t = baz();
-    return t + r + n;
-}
-function f() {
-    var r = foo(), t = bar(), u = baz();
-    return n(r + t + u);
-}
-function i() {
-    var r = foo(), t = bar(), u = baz();
-    return n(r + u + t);
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return r + o + n;
 }
 function a() {
-    var r = foo(), t = bar(), u = baz();
-    return n(t + r + u);
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return n + r + o;
 }
-function v() {
-    var r = foo(), t = bar(), u = baz();
-    return n(u + r + t);
+function t() {
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return o + r + n;
 }
-function l() {
-    var r = foo(), t = bar(), u = baz();
-    return n(t + u + r);
+function u() {
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return n + o + r;
+}
+function f() {
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return o + n + r;
 }
 function b() {
-    var r = foo(), t = bar(), u = baz();
-    return n(u + t + r);
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(n + o + a);
 }
-function d() {
-    var r = foo(), t = bar(), u = baz();
-    return n(r) + n(t) + n(u);
+function c() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(n + a + o);
 }
-function h() {
-    var r = foo(), t = bar(), u = baz();
-    return n(r) + n(u) + n(t);
+function e() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(o + n + a);
 }
-function j() {
-    var r = foo(), t = bar(), u = baz();
-    return n(t) + n(r) + n(u);
+function i() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(a + n + o);
 }
-function k() {
-    var r = foo(), t = bar(), u = baz();
-    return n(u) + n(r) + n(t);
+function v() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(o + a + n);
 }
-function m() {
-    var r = foo(), t = bar(), u = baz();
-    return n(t) + n(u) + n(r);
+function z() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(a + o + n);
 }
-function p() {
-    var r = foo(), t = bar(), u = baz();
-    return n(u) + n(t) + n(r);
-}
-function q() {
-    var n = foo(), r = bar(), t = baz();
-    return g(n + r + t);
+function l() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(n) + r(o) + r(a);
 }
 function s() {
-    var n = foo(), r = bar(), t = baz();
-    return g(t + r + n);
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(n) + r(a) + r(o);
+}
+function d() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(o) + r(n) + r(a);
+}
+function h() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(a) + r(n) + r(o);
+}
+function j() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(o) + r(a) + r(n);
+}
+function k() {
+    var n = foo(),
+        o = bar(),
+        a = baz();
+    return r(a) + r(o) + r(n);
+}
+function m() {
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return g(r + n + o);
+}
+function p() {
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return g(o + n + r);
+}
+function q() {
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return g(r) + g(n) + g(o);
 }
 function w() {
-    var n = foo(), r = bar(), t = baz();
-    return g(n) + g(r) + g(t);
-}
-function x() {
-    var n = foo(), r = bar(), t = baz();
-    return g(t) + g(r) + g(n);
+    var r = foo(),
+        n = bar(),
+        o = baz();
+    return g(o) + g(n) + g(r);
 }

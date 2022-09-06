@@ -1,7 +1,7 @@
-function r(r, $) {
-    var _ = "";
-    var n = $ ? ">" : "<";
-    if (r) _ += "=";
-    return (_ += n);
+function n(n, o) {
+    var r = "";
+    var a = o ? ">" : "<";
+    if (n) r += "=";
+    return (r += a);
 }
-console.log(r(0, 0), r(0, 1), r(1, 0), r(1, 1));
+console.log(n(0, 0), n(0, 1), n(1, 0), n(1, 1));

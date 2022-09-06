@@ -1,1 +1,1 @@
-var a = object != Object;
+var b = object != Object;

@@ -104,8 +104,8 @@ var p = (function() {
     return e;
 })();
 var s;
-var u = ((s = {}), (s["no-app"] = "No Firebase App '{$appName}' has been created - " + "call Firebase App.initializeApp()"), (s["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a " + "Firebase App instance."), s);
-var c = new e.ErrorFactory("app-compat", "Firebase", u);
+var c = ((s = {}), (s["no-app"] = "No Firebase App '{$appName}' has been created - " + "call Firebase App.initializeApp()"), (s["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a " + "Firebase App instance."), s);
+var u = new e.ErrorFactory("app-compat", "Firebase", c);
 function l(t) {
     var r = {};
     var n = {
@@ -118,7 +118,7 @@ function l(t) {
         apps: null,
         SDK_VERSION: o.SDK_VERSION,
         INTERNAL: {
-            registerComponent: u,
+            registerComponent: c,
             removeApp: a,
             useAsService: l,
             modularAPIs: o
@@ -134,7 +134,7 @@ function l(t) {
     function i(t) {
         t = t || o._DEFAULT_ENTRY_NAME;
         if (!e.contains(r, t)) {
-            throw c.create("no-app", {
+            throw u.create("no-app", {
                 appName: t
             });
         }
@@ -158,7 +158,7 @@ function l(t) {
             return r[e];
         });
     }
-    function u(r) {
+    function c(r) {
         var a = r.name;
         var p = a.replace("-compat", "");
         if (o._registerComponent(r) && r.type === "PUBLIC") {
@@ -167,7 +167,7 @@ function l(t) {
                     e = i();
                 }
                 if (typeof e[p] !== "function") {
-                    throw c.create("invalid-app-argument", {
+                    throw u.create("invalid-app-argument", {
                         appName: a
                     });
                 }
@@ -197,10 +197,10 @@ function l(t) {
     }
     return n;
 }
-function f() {
+function d() {
     var r = l(p);
     r.INTERNAL = t.__assign(t.__assign({}, r.INTERNAL), {
-        createFirebaseNamespace: f,
+        createFirebaseNamespace: d,
         extendNamespace: n,
         createSubscribe: e.createSubscribe,
         ErrorFactory: e.ErrorFactory,
@@ -211,20 +211,20 @@ function f() {
     }
     return r;
 }
-var d = f();
+var f = d();
 var v = new a.Logger("@firebase/app-compat");
-var g = "@firebase/app-compat";
-var m = "0.1.5";
-function b(e) {
-    n.registerVersion(g, m, e);
+var m = "@firebase/app-compat";
+var b = "0.1.5";
+function g(e) {
+    n.registerVersion(m, b, e);
 }
 if (e.isBrowser() && self.firebase !== undefined) {
     v.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");
-    var h = self.firebase.SDK_VERSION;
-    if (h && h.indexOf("LITE") >= 0) {
+    var $ = self.firebase.SDK_VERSION;
+    if ($ && $.indexOf("LITE") >= 0) {
         v.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
     }
 }
-var y = d;
-b();
-module.exports = y;
+var h = f;
+g();
+module.exports = h;

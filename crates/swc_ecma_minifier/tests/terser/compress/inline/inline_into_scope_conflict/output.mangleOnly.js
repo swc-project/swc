@@ -3,12 +3,12 @@ const o = function o() {
     n();
 };
 const c = function n() {
-    for(;;){
+    for (;;) {
         o();
         break;
     }
 };
-(function() {
+(function () {
     var n = id(n);
     c();
 })();

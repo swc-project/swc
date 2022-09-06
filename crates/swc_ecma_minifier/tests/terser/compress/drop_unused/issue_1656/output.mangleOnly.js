@@ -1,1 +1,1 @@
-for(var r = 0;;);
+for (var r = 0; ; );

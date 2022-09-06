@@ -6,8 +6,8 @@ function r() {
         var n = 2;
         return n;
     } finally{
-        var a = 3;
-        return a;
+        var u = 3;
+        return u;
     }
 }
 function t() {

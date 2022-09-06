@@ -1,11 +1,11 @@
 var n = "PASS";
-function r() {
+function o() {
     return n;
 }
-function t() {
-    return r();
+function r() {
+    return o();
 }
-(function() {
+(function () {
     var n = "FAIL";
-    if (n == n) console.log(t());
+    if (n == n) console.log(r());
 })();

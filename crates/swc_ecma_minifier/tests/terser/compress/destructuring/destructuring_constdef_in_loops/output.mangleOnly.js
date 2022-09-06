@@ -1,3 +1,3 @@
-for(const [o, f] in pairs);
-for(const [n] = 0;;);
-for (const { c  } of cees);
+for(const [o, s] in pairs);
+for(const [c] = 0;;);
+for (const { c: f  } of cees);

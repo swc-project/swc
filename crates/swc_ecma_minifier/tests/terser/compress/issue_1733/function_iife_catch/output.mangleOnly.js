@@ -1,11 +1,11 @@
-function t(t) {
+function o(o) {
     !(function() {
         try {
             throw 0;
-        } catch (t) {
+        } catch (o) {
             var c = 1;
-            console.log(t, c);
+            console.log(o, c);
         }
     })();
 }
-t();
+o();

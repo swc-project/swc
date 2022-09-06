@@ -1,10 +1,12 @@
-if ((function() {
-    return t;
-})()) {
+if (
+    (function () {
+        return t;
+    })()
+) {
     foo(true);
 } else {
     bar(false);
 }
-(function() {
+(function () {
     console.log("something");
 })();

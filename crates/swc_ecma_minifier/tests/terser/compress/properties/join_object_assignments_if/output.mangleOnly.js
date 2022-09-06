@@ -1,4 +1,6 @@
-console.log((function() {
-    var a = {};
-    if ((a.a = "PASS")) return a.a;
-})());
+console.log(
+    (function () {
+        var n = {};
+        if ((n.a = "PASS")) return n.a;
+    })()
+);

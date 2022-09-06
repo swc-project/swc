@@ -6,9 +6,9 @@
         736: function(n, u, r) {
             "use strict";
             r.r(u);
-            var t = r(4512);
+            var e = r(4512);
             u["default"] = function() {
-                return (0, t.jsx)("div", {
+                return (0, e.jsx)("div", {
                     id: "node-env",
                     children: "production"
                 });

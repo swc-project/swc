@@ -11,7 +11,7 @@ for(const n in o){
         "f",
         "g"
     ];
-    for(const f in o){
-        console.log(f);
+    for(const l in o){
+        console.log(l);
     }
 }

@@ -1,1 +1,1 @@
-console.log(typeof function() {}.valueOf());
+console.log(typeof function () {}.valueOf());

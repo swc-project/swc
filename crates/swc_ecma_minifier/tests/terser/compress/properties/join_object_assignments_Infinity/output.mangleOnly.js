@@ -1,6 +1,6 @@
-var _ = {};
-_[Infinity] = 1;
-_[1 / 0] = 2;
-_[-Infinity] = 3;
-_[-1 / 0] = 4;
-console.log(_[Infinity], _[1 / 0], _[-Infinity], _[-1 / 0]);
+var n = {};
+n[Infinity] = 1;
+n[1 / 0] = 2;
+n[-Infinity] = 3;
+n[-1 / 0] = 4;
+console.log(n[Infinity], n[1 / 0], n[-Infinity], n[-1 / 0]);

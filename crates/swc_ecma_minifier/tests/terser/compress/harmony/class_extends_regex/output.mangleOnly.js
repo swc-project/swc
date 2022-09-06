@@ -1,4 +1,3 @@
 function n() {
-    class n extends /rx/ {
-    }
+    class n extends /rx/ {}
 }

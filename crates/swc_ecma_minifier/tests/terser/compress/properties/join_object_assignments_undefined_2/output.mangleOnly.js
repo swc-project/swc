@@ -1,3 +1,3 @@
-var a = {};
-a[undefined] = 1;
-console.log(a[undefined]);
+var e = {};
+e[undefined] = 1;
+console.log(e[undefined]);

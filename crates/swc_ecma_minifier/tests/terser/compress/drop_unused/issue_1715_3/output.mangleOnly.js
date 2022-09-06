@@ -1,11 +1,11 @@
-var a = 1;
+var o = 1;
 function c() {
-    a++;
+    o++;
     try {
         console;
-    } catch (a) {
-        var a = 2 + x();
+    } catch (o) {
+        var o = 2 + x();
     }
 }
 c();
-console.log(a);
+console.log(o);

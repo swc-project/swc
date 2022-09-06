@@ -1,3 +1,1 @@
-console.log({
-    "𝒶": "foo"
-});
+console.log({ "𝒶": "foo" });

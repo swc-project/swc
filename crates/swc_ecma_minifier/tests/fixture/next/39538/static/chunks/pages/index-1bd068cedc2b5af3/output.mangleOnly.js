@@ -46,18 +46,18 @@
             }));
             t["default"] = h;
             var o = (r(2769).Z);
-            var l = (r(4507).Z);
-            var s = (r(8167).Z);
+            var s = (r(4507).Z);
+            var l = (r(8167).Z);
             var c = (r(4719).Z);
-            var u = s(r(959));
-            var d = l(r(4357));
+            var u = l(r(959));
+            var d = s(r(4357));
             var f = r(1773);
             var v = r(757);
-            var g = r(9664);
-            var m = r(8827);
+            var m = r(9664);
+            var g = r(8827);
             var p = r(8236);
             function h(e) {
-                var t = e.src, r = e.sizes, l = e.unoptimized, s = l === void 0 ? false : l, m = e.priority, p = m === void 0 ? false : m, h = e.loading, $ = e.lazyRoot, y = $ === void 0 ? null : $, b = e.lazyBoundary, j = e.className, z = e.quality, A = e.width, k = e.height, N = e.style, I = e.objectFit, R = e.objectPosition, H = e.onLoadingComplete, D = e.placeholder, W = D === void 0 ? "empty" : D, B = e.blurDataURL, V = c(e, [
+                var t = e.src, r = e.sizes, s = e.unoptimized, l = s === void 0 ? false : s, g = e.priority, p = g === void 0 ? false : g, h = e.loading, b = e.lazyRoot, y = b === void 0 ? null : b, x = e.lazyBoundary, z = e.className, S = e.quality, N = e.width, k = e.height, E = e.style, L = e.objectFit, O = e.objectPosition, M = e.onLoadingComplete, D = e.placeholder, W = D === void 0 ? "empty" : D, B = e.blurDataURL, V = c(e, [
                     "src",
                     "sizes",
                     "unoptimized",
@@ -76,9 +76,9 @@
                     "placeholder",
                     "blurDataURL"
                 ]);
-                var Z = (0, u).useContext(g.ImageConfigContext);
-                var G = (0, u).useMemo(function() {
-                    var e = w || Z || f.imageConfigDefault;
+                var Z = (0, u).useContext(m.ImageConfigContext);
+                var U = (0, u).useMemo(function() {
+                    var e = $ || Z || f.imageConfigDefault;
                     var t = a(e.deviceSizes).concat(a(e.imageSizes)).sort(function(e, t) {
                         return e - t;
                     });
@@ -92,37 +92,37 @@
                 }, [
                     Z
                 ]);
-                var T = V;
-                var F = r ? "responsive" : "intrinsic";
-                if ("layout" in T) {
-                    if (T.layout) F = T.layout;
-                    delete T.layout;
+                var G = V;
+                var T = r ? "responsive" : "intrinsic";
+                if ("layout" in G) {
+                    if (G.layout) T = G.layout;
+                    delete G.layout;
                 }
-                var O = q;
-                if ("loader" in T) {
-                    if (T.loader) {
-                        var U = T.loader;
-                        var Q;
-                        Q = function(e) {
+                var F = q;
+                if ("loader" in G) {
+                    if (G.loader) {
+                        var Q = G.loader;
+                        var J;
+                        J = function(e) {
                             var t = e.config, r = c(e, [
                                 "config"
                             ]);
-                            return U(r);
-                        }, O = Q, Q;
+                            return Q(r);
+                        }, F = J, J;
                     }
-                    delete T.loader;
+                    delete G.loader;
                 }
                 var X = "";
-                if (L(t)) {
-                    var K = E(t) ? t.default : t;
+                if (R(t)) {
+                    var K = I(t) ? t.default : t;
                     if (!K.src) {
                         throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(K)));
                     }
                     B = B || K.blurDataURL;
                     X = K.src;
-                    if (!F || F !== "fill") {
+                    if (!T || T !== "fill") {
                         k = k || K.height;
-                        A = A || K.width;
+                        N = N || K.width;
                         if (!K.height || !K.width) {
                             throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(K)));
                         }
@@ -131,23 +131,23 @@
                 t = typeof t === "string" ? t : X;
                 var Y = !p && (h === "lazy" || typeof h === "undefined");
                 if (t.startsWith("data:") || t.startsWith("blob:")) {
-                    s = true;
+                    l = true;
                     Y = false;
                 }
-                if (true && _.has(t)) {
+                if (true && j.has(t)) {
                     Y = false;
                 }
-                if (x) {
-                    s = true;
+                if (w) {
+                    l = true;
                 }
-                var J = n((0, u).useState(false), 2), ee = J[0], et = J[1];
+                var _ = n((0, u).useState(false), 2), ee = _[0], et = _[1];
                 var er = n((0, v).useIntersection({
                     rootRef: y,
-                    rootMargin: b || "200px",
+                    rootMargin: x || "200px",
                     disabled: !Y
                 }), 3), ei = er[0], en = er[1], ea = er[2];
                 var eo = !Y || en;
-                var el = {
+                var es = {
                     boxSizing: "border-box",
                     display: "block",
                     overflow: "hidden",
@@ -159,7 +159,7 @@
                     margin: 0,
                     padding: 0
                 };
-                var es = {
+                var el = {
                     boxSizing: "border-box",
                     display: "block",
                     width: "initial",
@@ -189,125 +189,125 @@
                     maxWidth: "100%",
                     minHeight: "100%",
                     maxHeight: "100%",
-                    objectFit: I,
-                    objectPosition: R
+                    objectFit: L,
+                    objectPosition: O
                 };
-                var ef = P(A);
+                var ef = P(N);
                 var ev = P(k);
-                var eg = P(z);
+                var em = P(S);
                 if (false) {
-                    var em, ep, eh, e$;
+                    var eg, ep, eh, eb;
                 }
-                var ey = Object.assign({}, N, ed);
-                var eb = W === "blur" && !ee ? {
-                    backgroundSize: I || "cover",
-                    backgroundPosition: R || "0% 0%",
+                var ey = Object.assign({}, E, ed);
+                var ex = W === "blur" && !ee ? {
+                    backgroundSize: L || "cover",
+                    backgroundPosition: O || "0% 0%",
                     filter: "blur(20px)",
                     backgroundImage: 'url("'.concat(B, '")')
                 } : {};
-                if (F === "fill") {
-                    el.display = "block";
-                    el.position = "absolute";
-                    el.top = 0;
-                    el.left = 0;
-                    el.bottom = 0;
-                    el.right = 0;
+                if (T === "fill") {
+                    es.display = "block";
+                    es.position = "absolute";
+                    es.top = 0;
+                    es.left = 0;
+                    es.bottom = 0;
+                    es.right = 0;
                 } else if (typeof ef !== "undefined" && typeof ev !== "undefined") {
-                    var ex = ev / ef;
-                    var ew = isNaN(ex) ? "100%" : "".concat(ex * 100, "%");
-                    if (F === "responsive") {
-                        el.display = "block";
-                        el.position = "relative";
+                    var ew = ev / ef;
+                    var e$ = isNaN(ew) ? "100%" : "".concat(ew * 100, "%");
+                    if (T === "responsive") {
+                        es.display = "block";
+                        es.position = "relative";
                         ec = true;
-                        es.paddingTop = ew;
-                    } else if (F === "intrinsic") {
-                        el.display = "inline-block";
-                        el.position = "relative";
-                        el.maxWidth = "100%";
-                        ec = true;
+                        el.paddingTop = e$;
+                    } else if (T === "intrinsic") {
+                        es.display = "inline-block";
+                        es.position = "relative";
                         es.maxWidth = "100%";
+                        ec = true;
+                        el.maxWidth = "100%";
                         eu = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27".concat(ef, "%27%20height=%27").concat(ev, "%27/%3e");
-                    } else if (F === "fixed") {
-                        el.display = "inline-block";
-                        el.position = "relative";
-                        el.width = ef;
-                        el.height = ev;
+                    } else if (T === "fixed") {
+                        es.display = "inline-block";
+                        es.position = "relative";
+                        es.width = ef;
+                        es.height = ev;
                     }
                 } else {
                     if (false) {}
                 }
-                var e8 = {
-                    src: S,
+                var ej = {
+                    src: A,
                     srcSet: undefined,
                     sizes: undefined
                 };
                 if (eo) {
-                    e8 = C({
-                        config: G,
+                    ej = C({
+                        config: U,
                         src: t,
-                        unoptimized: s,
-                        layout: F,
+                        unoptimized: l,
+                        layout: T,
                         width: ef,
-                        quality: eg,
+                        quality: em,
                         sizes: r,
-                        loader: O
+                        loader: F
                     });
                 }
-                var e_ = t;
+                var ez = t;
                 if (false) {
-                    var ej;
+                    var eS;
                 }
-                var e0 = "imagesrcset";
-                var ez = "imagesizes";
+                var eA = "imagesrcset";
+                var eN = "imagesizes";
                 if (true) {
-                    e0 = "imageSrcSet";
-                    ez = "imageSizes";
+                    eA = "imageSrcSet";
+                    eN = "imageSizes";
                 }
-                var eS;
-                var eA = (eS = {}, i(eS, e0, e8.srcSet), i(eS, ez, e8.sizes), eS);
-                var e5 = false ? 0 : u.default.useLayoutEffect;
-                var ek = (0, u).useRef(H);
-                var e6 = (0, u).useRef(t);
+                var ek;
+                var eE = (ek = {}, i(ek, eA, ej.srcSet), i(ek, eN, ej.sizes), ek);
+                var eI = false ? 0 : u.default.useLayoutEffect;
+                var eL = (0, u).useRef(M);
+                var eR = (0, u).useRef(t);
                 (0, u).useEffect(function() {
-                    ek.current = H;
+                    eL.current = M;
                 }, [
-                    H
+                    M
                 ]);
-                e5(function() {
-                    if (e6.current !== t) {
+                eI(function() {
+                    if (eR.current !== t) {
                         ea();
-                        e6.current = t;
+                        eR.current = t;
                     }
                 }, [
                     ea,
                     t
                 ]);
-                var eN = o({
+                var eO = o({
                     isLazy: Y,
-                    imgAttributes: e8,
+                    imgAttributes: ej,
                     heightInt: ev,
                     widthInt: ef,
-                    qualityInt: eg,
-                    layout: F,
-                    className: j,
+                    qualityInt: em,
+                    layout: T,
+                    className: z,
                     imgStyle: ey,
-                    blurStyle: eb,
+                    blurStyle: ex,
                     loading: h,
-                    config: G,
-                    unoptimized: s,
+                    config: U,
+                    unoptimized: l,
                     placeholder: W,
-                    loader: O,
-                    srcString: e_,
-                    onLoadingCompleteRef: ek,
+                    loader: F,
+                    srcString: ez,
+                    onLoadingCompleteRef: eL,
                     setBlurComplete: et,
                     setIntersection: ei,
                     isVisible: eo,
                     noscriptSizes: r
-                }, T);
+                }, G);
                 return u.default.createElement(u.default.Fragment, null, u.default.createElement("span", {
-                    style: el
-                }, ec ? u.default.createElement("span", {
                     style: es
+                }, ec ? u.default.createElement("span", {
+                    style: el
                 }, eu ? u.default.createElement("img", {
                     style: {
                         display: "block",
@@ -323,13 +323,38 @@
                     alt: "",
                     "aria-hidden": true,
                     src: eu
-                }) : null) : null, u.default.createElement(M, Object.assign({}, eN))), p ? u.default.createElement(d.default, null, u.default.createElement("link", Object.assign({
-                    key: "__nimg-" + e8.src + e8.srcSet + e8.sizes,
+                }) : null) : null, u.default.createElement(H, Object.assign({}, eO))), p ? u.default.createElement(d.default, null, u.default.createElement("link", Object.assign({
+                    key: "__nimg-" + ej.src + ej.srcSet + ej.sizes,
                     rel: "preload",
                     as: "image",
-                    href: e8.srcSet ? undefined : e8.src
-                }, eA))) : null);
+                    href: ej.srcSet ? undefined : ej.src
+                }, eE))) : null);
             }
+            var b = {
+                "deviceSizes": [
+                    640,
+                    750,
+                    828,
+                    1080,
+                    1200,
+                    1920,
+                    2048,
+                    3840
+                ],
+                "imageSizes": [
+                    16,
+                    32,
+                    48,
+                    64,
+                    96,
+                    128,
+                    256,
+                    384
+                ],
+                "path": "/_next/image",
+                "loader": "default",
+                "dangerouslyAllowSVG": false
+            } || {}, y = b.experimentalRemotePatterns, x = y === void 0 ? [] : y, w = b.experimentalUnoptimized;
             var $ = {
                 "deviceSizes": [
                     640,
@@ -354,38 +379,13 @@
                 "path": "/_next/image",
                 "loader": "default",
                 "dangerouslyAllowSVG": false
-            } || {}, y = $.experimentalRemotePatterns, b = y === void 0 ? [] : y, x = $.experimentalUnoptimized;
-            var w = {
-                "deviceSizes": [
-                    640,
-                    750,
-                    828,
-                    1080,
-                    1200,
-                    1920,
-                    2048,
-                    3840
-                ],
-                "imageSizes": [
-                    16,
-                    32,
-                    48,
-                    64,
-                    96,
-                    128,
-                    256,
-                    384
-                ],
-                "path": "/_next/image",
-                "loader": "default",
-                "dangerouslyAllowSVG": false
             };
-            var _ = new Set();
-            var j = new Map();
-            var z;
-            var S = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+            var j = new Set();
+            var z = new Map();
+            var S;
+            var A = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
             if (false) {}
-            var A = (null && ([
+            var N = (null && ([
                 "lazy",
                 "eager",
                 undefined
@@ -393,7 +393,7 @@
             var k = new Map([
                 [
                     "default",
-                    G
+                    U
                 ],
                 [
                     "imgix",
@@ -412,33 +412,33 @@
                     Z
                 ], 
             ]);
-            var N = (null && ([
+            var E = (null && ([
                 "fill",
                 "fixed",
                 "intrinsic",
                 "responsive",
                 undefined, 
             ]));
-            function E(e) {
+            function I(e) {
                 return e.default !== undefined;
             }
-            function I(e) {
+            function L(e) {
                 return e.src !== undefined;
             }
-            function L(e) {
-                return typeof e === "object" && (E(e) || I(e));
+            function R(e) {
+                return typeof e === "object" && (I(e) || L(e));
             }
-            function R(e, t, r, i) {
+            function O(e, t, r, i) {
                 var n = e.deviceSizes, o = e.allSizes;
                 if (i && (r === "fill" || r === "responsive")) {
-                    var l = /(^|\s)(1?\d?\d)vw/g;
-                    var s = [];
-                    for(var c; c = l.exec(i); c){
-                        s.push(parseInt(c[2]));
+                    var s = /(^|\s)(1?\d?\d)vw/g;
+                    var l = [];
+                    for(var c; c = s.exec(i); c){
+                        l.push(parseInt(c[2]));
                     }
-                    if (s.length) {
+                    if (l.length) {
                         var u;
-                        var d = (u = Math).min.apply(u, a(s)) * 0.01;
+                        var d = (u = Math).min.apply(u, a(l)) * 0.01;
                         return {
                             widths: o.filter(function(e) {
                                 return e >= n[0] * d;
@@ -471,7 +471,7 @@
                 };
             }
             function C(e) {
-                var t = e.config, r = e.src, i = e.unoptimized, n = e.layout, a = e.width, o = e.quality, l = e.sizes, s = e.loader;
+                var t = e.config, r = e.src, i = e.unoptimized, n = e.layout, a = e.width, o = e.quality, s = e.sizes, l = e.loader;
                 if (i) {
                     return {
                         src: r,
@@ -479,19 +479,19 @@
                         sizes: undefined
                     };
                 }
-                var c = R(t, a, n, l), u = c.widths, d = c.kind;
+                var c = O(t, a, n, s), u = c.widths, d = c.kind;
                 var f = u.length - 1;
                 return {
-                    sizes: !l && d === "w" ? "100vw" : l,
+                    sizes: !s && d === "w" ? "100vw" : s,
                     srcSet: u.map(function(e, i) {
-                        return "".concat(s({
+                        return "".concat(l({
                             config: t,
                             src: r,
                             quality: o,
                             width: e
                         }), " ").concat(d === "w" ? e : i + 1).concat(d);
                     }).join(", "),
-                    src: s({
+                    src: l({
                         config: t,
                         src: r,
                         quality: o,
@@ -517,8 +517,8 @@
                 }
                 throw new Error('Unknown "loader" found in "next.config.js". Expected: '.concat(f.VALID_LOADERS.join(", "), ". Received: ").concat(r));
             }
-            function H(e, t, r, i, n, a) {
-                if (!e || e.src === S || e["data-loaded-src"] === t) {
+            function M(e, t, r, i, n, a) {
+                if (!e || e.src === A || e["data-loaded-src"] === t) {
                     return;
                 }
                 e["data-loaded-src"] = t;
@@ -527,7 +527,7 @@
                     if (!e.parentNode) {
                         return;
                     }
-                    _.add(t);
+                    j.add(t);
                     if (i === "blur") {
                         a(true);
                     }
@@ -539,12 +539,12 @@
                         });
                     }
                     if (false) {
-                        var l, s;
+                        var s, l;
                     }
                 });
             }
-            var M = function(e) {
-                var t = e.imgAttributes, r = e.heightInt, i = e.widthInt, n = e.qualityInt, a = e.layout, l = e.className, s = e.imgStyle, d = e.blurStyle, f = e.isLazy, v = e.placeholder, g = e.loading, m = e.srcString, p = e.config, h = e.unoptimized, $ = e.loader, y = e.onLoadingCompleteRef, b = e.setBlurComplete, x = e.setIntersection, w = e.onLoad, _ = e.onError, j = e.isVisible, z = e.noscriptSizes, S = c(e, [
+            var H = function(e) {
+                var t = e.imgAttributes, r = e.heightInt, i = e.widthInt, n = e.qualityInt, a = e.layout, s = e.className, l = e.imgStyle, d = e.blurStyle, f = e.isLazy, v = e.placeholder, m = e.loading, g = e.srcString, p = e.config, h = e.unoptimized, b = e.loader, y = e.onLoadingCompleteRef, x = e.setBlurComplete, w = e.setIntersection, $ = e.onLoad, j = e.onError, z = e.isVisible, S = e.noscriptSizes, A = c(e, [
                     "imgAttributes",
                     "heightInt",
                     "widthInt",
@@ -568,56 +568,56 @@
                     "isVisible",
                     "noscriptSizes"
                 ]);
-                g = f ? "lazy" : g;
-                return u.default.createElement(u.default.Fragment, null, u.default.createElement("img", Object.assign({}, S, t, {
+                m = f ? "lazy" : m;
+                return u.default.createElement(u.default.Fragment, null, u.default.createElement("img", Object.assign({}, A, t, {
                     decoding: "async",
                     "data-nimg": a,
-                    className: l,
-                    style: o({}, s, d),
+                    className: s,
+                    style: o({}, l, d),
                     ref: (0, u).useCallback(function(e) {
                         if (false) {}
-                        x(e);
+                        w(e);
                         if (e == null ? void 0 : e.complete) {
-                            H(e, m, a, v, y, b);
+                            M(e, g, a, v, y, x);
                         }
                     }, [
-                        x,
-                        m,
+                        w,
+                        g,
                         a,
                         v,
                         y,
-                        b, 
+                        x, 
                     ]),
                     onLoad: function(e) {
                         var t = e.currentTarget;
-                        H(t, m, a, v, y, b);
-                        if (w) {
-                            w(e);
+                        M(t, g, a, v, y, x);
+                        if ($) {
+                            $(e);
                         }
                     },
                     onError: function(e) {
                         if (v === "blur") {
-                            b(true);
+                            x(true);
                         }
-                        if (_) {
-                            _(e);
+                        if (j) {
+                            j(e);
                         }
                     }
-                })), (f || v === "blur") && u.default.createElement("noscript", null, u.default.createElement("img", Object.assign({}, S, C({
+                })), (f || v === "blur") && u.default.createElement("noscript", null, u.default.createElement("img", Object.assign({}, A, C({
                     config: p,
-                    src: m,
+                    src: g,
                     unoptimized: h,
                     layout: a,
                     width: i,
                     quality: n,
-                    sizes: z,
-                    loader: $
+                    sizes: S,
+                    loader: b
                 }), {
                     decoding: "async",
                     "data-nimg": a,
-                    style: s,
-                    className: l,
-                    loading: g
+                    style: l,
+                    className: s,
+                    loading: m
                 }))));
             };
             function D(e) {
@@ -654,10 +654,10 @@
                 var t = e.src;
                 throw new Error('Image with src "'.concat(t, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
             }
-            function G(e) {
+            function U(e) {
                 var t = e.config, r = e.src, i = e.width, n = e.quality;
                 if (false) {
-                    var a, o, l;
+                    var a, o, s;
                 }
                 if (r.endsWith(".svg") && !t.dangerouslyAllowSVG) {
                     return r;
@@ -681,25 +681,25 @@
             Object.defineProperty(t, "__esModule", ({
                 value: true
             }));
-            t.useIntersection = l;
+            t.useIntersection = s;
             var n = r(959);
             var a = r(6501);
             var o = typeof IntersectionObserver === "function";
-            function l(e) {
-                var t = e.rootRef, r = e.rootMargin, l = e.disabled;
-                var s = l || !o;
+            function s(e) {
+                var t = e.rootRef, r = e.rootMargin, s = e.disabled;
+                var l = s || !o;
                 var c = (0, n).useRef();
                 var d = i((0, n).useState(false), 2), f = d[0], v = d[1];
-                var g = i((0, n).useState(null), 2), m = g[0], p = g[1];
+                var m = i((0, n).useState(null), 2), g = m[0], p = m[1];
                 (0, n).useEffect(function() {
                     if (o) {
                         if (c.current) {
                             c.current();
                             c.current = undefined;
                         }
-                        if (s || f) return;
-                        if (m && m.tagName) {
-                            c.current = u(m, function(e) {
+                        if (l || f) return;
+                        if (g && g.tagName) {
+                            c.current = u(g, function(e) {
                                 return e && v(e);
                             }, {
                                 root: t == null ? void 0 : t.current,
@@ -721,8 +721,8 @@
                         }
                     }
                 }, [
-                    m,
-                    s,
+                    g,
+                    l,
                     r,
                     t,
                     f
@@ -736,7 +736,7 @@
                     h
                 ];
             }
-            var s = new Map();
+            var l = new Map();
             var c = [];
             function u(e, t, r) {
                 var i = d(r), n = i.id, a = i.observer, o = i.elements;
@@ -747,7 +747,7 @@
                     a.unobserve(e);
                     if (o.size === 0) {
                         a.disconnect();
-                        s.delete(n);
+                        l.delete(n);
                         var r = c.findIndex(function(e) {
                             return e.root === n.root && e.margin === n.margin;
                         });
@@ -767,7 +767,7 @@
                 });
                 var i;
                 if (r) {
-                    i = s.get(r);
+                    i = l.get(r);
                     if (i) {
                         return i;
                     }
@@ -788,7 +788,7 @@
                     elements: n
                 };
                 c.push(t);
-                s.set(t, i);
+                l.set(t, i);
                 return i;
             }
             if ((typeof t.default === "function" || typeof t.default === "object" && t.default !== null) && typeof t.default.__esModule === "undefined") {
@@ -804,15 +804,15 @@
             r.r(t);
             r.d(t, {
                 "default": function() {
-                    return g;
+                    return m;
                 }
             });
             var i = r(1527);
             var n = r(6224);
             var a = r.n(n);
             var o = r(8206);
-            var l = r.n(o);
-            var s = r(959);
+            var s = r.n(o);
+            var l = r(959);
             var c = r(9915);
             var u = r.n(c);
             ;
@@ -822,7 +822,7 @@
             };
             ;
             var v = function() {
-                (0, s.useEffect)(function() {
+                (0, l.useEffect)(function() {
                     console.log(d);
                     f();
                 }, []);
@@ -934,7 +934,7 @@
                                     " ",
                                     (0, i.jsx)("span", {
                                         className: (u()).logo,
-                                        children: (0, i.jsx)((l()), {
+                                        children: (0, i.jsx)((s()), {
                                             src: "/vercel.svg",
                                             alt: "Vercel Logo",
                                             width: 72,
@@ -947,7 +947,7 @@
                     ]
                 });
             };
-            var g = (v);
+            var m = (v);
         }),
         9915: (function(e) {
             e.exports = {

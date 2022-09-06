@@ -1,8 +1,8 @@
 function n(n, r) {
-    var t = function() {
+    var t = function () {
         return u();
     };
-    var u = function() {
+    var u = function () {
         return t();
     };
     return n + r;

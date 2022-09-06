@@ -5,7 +5,7 @@ try {
             return null;
         }
     }
-} catch (c) {
+} catch (o) {
     l = "PASS";
 }
 console.log(l);

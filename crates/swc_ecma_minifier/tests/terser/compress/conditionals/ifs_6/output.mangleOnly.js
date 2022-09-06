@@ -1,16 +1,16 @@
-var e, $;
+var o, f;
 if (!foo && !bar && !baz && !boo) {
-    e = 10;
+    o = 10;
 } else {
-    e = 20;
+    o = 20;
 }
-if ($) {
-    e[foo] = 10;
+if (f) {
+    o[foo] = 10;
 } else {
-    e[foo] = 20;
+    o[foo] = 20;
 }
 if (foo) {
-    e[bar] = 10;
+    o[bar] = 10;
 } else {
-    e[bar] = 20;
+    o[bar] = 20;
 }

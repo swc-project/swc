@@ -1,5 +1,5 @@
-function n(n) {
-    if (n) {
+function r(r) {
+    if (r) {
         return true;
     }
     foo();

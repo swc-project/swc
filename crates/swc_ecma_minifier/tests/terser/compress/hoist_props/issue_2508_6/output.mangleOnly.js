@@ -1,6 +1,6 @@
 var f = {
-    f: (f)=>{
+    f: (f) => {
         console.log(f);
-    }
+    },
 };
 f.f(f.f);

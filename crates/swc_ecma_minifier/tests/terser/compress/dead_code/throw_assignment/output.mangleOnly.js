@@ -1,55 +1,55 @@
-function t() {
+function o() {
     throw (w = a());
 }
-function o(t) {
-    throw (t = a());
+function n(o) {
+    throw (o = a());
 }
-function n() {
-    var t;
-    throw (t = a());
+function t() {
+    var o;
+    throw (o = a());
 }
-function r() {
+function c() {
     try {
         throw (w = a());
-    } catch (t) {
+    } catch (o) {
         console.log(w);
     }
 }
-function c(t) {
+function l(o) {
     try {
-        throw (t = a());
-    } catch (o) {
-        console.log(t);
+        throw (o = a());
+    } catch (n) {
+        console.log(o);
+    }
+}
+function r() {
+    var o;
+    try {
+        throw (o = a());
+    } catch (n) {
+        console.log(o);
     }
 }
 function f() {
-    var t;
-    try {
-        throw (t = a());
-    } catch (o) {
-        console.log(t);
-    }
-}
-function l() {
     try {
         throw (w = a());
     } finally{
         console.log(w);
     }
 }
-function i(t) {
+function i(o) {
     try {
-        throw (t = a());
+        throw (o = a());
     } finally{
-        console.log(t);
+        console.log(o);
     }
 }
 function h() {
-    var t;
+    var o;
     try {
-        throw (t = a());
+        throw (o = a());
     } finally{
-        console.log(t);
+        console.log(o);
     }
 }
 function u(u) {
@@ -60,21 +60,21 @@ function u(u) {
         return y;
     };
     [
-        t,
         o,
         n,
-        r,
+        t,
         c,
-        f,
         l,
+        r,
+        f,
         i,
         h
-    ].forEach(function(t, o) {
+    ].forEach(function(o, n) {
         w = null;
         try {
-            t(10 * (1 + o));
-        } catch (n) {
-            console.log("caught " + n);
+            o(10 * (1 + n));
+        } catch (t) {
+            console.log("caught " + t);
         }
         if (null !== w) console.log("a: " + w);
     });

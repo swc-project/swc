@@ -1,4 +1,4 @@
-!(function n() {
-    n = 2;
-    console.log(n);
+!(function o() {
+    o = 2;
+    console.log(o);
 })();

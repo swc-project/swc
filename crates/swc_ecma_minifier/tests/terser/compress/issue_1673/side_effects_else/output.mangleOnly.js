@@ -1,8 +1,8 @@
 function n(n) {
-    function f() {
-        if (n) ;
+    function o() {
+        if (n);
         else console.log("PASS");
     }
-    f();
+    o();
 }
 n(0);

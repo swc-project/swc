@@ -5,7 +5,7 @@ if (typeof window !== "undefined") {
 const e = (function e() {
     const o = new Map();
     function r(t) {
-        return s(t) || new IntersectionObserver(i, t);
+        return s(t) || new IntersectionObserver(u, t);
     }
     function s(e = {}) {
         const r = n(e);
@@ -24,12 +24,12 @@ const e = (function e() {
         o.set(n, e);
         t.observe(n);
     }
-    function u(t, n) {
+    function i(t, n) {
         const e = c(t);
         e.delete(n);
         t.unobserve(n);
     }
-    function i(t, n) {
+    function u(t, n) {
         for (let e of t){
             const o = c(n);
             const r = o.get(e.target);
@@ -41,7 +41,7 @@ const e = (function e() {
     return {
         d: r,
         l: f,
-        q: u
+        q: i
     };
 })();
 export default e;

@@ -4,5 +4,5 @@ function i() {
     v = void 0;
     return void 0;
 }
-var r = i();
-console.log(o === v, v === r, r === o);
+var n = i();
+console.log(o === v, v === n, n === o);

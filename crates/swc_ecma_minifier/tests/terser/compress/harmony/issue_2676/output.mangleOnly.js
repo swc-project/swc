@@ -1,3 +1,2 @@
-class a {
-}
+class a {}
 a.a = 42;

@@ -1,4 +1,4 @@
 export var webpackJsonpCallback = function(a, r) {
-    var c = r[2];
-    if (c) var n = c(__webpack_require__);
+    var e = r[2];
+    if (e) var $ = e(__webpack_require__);
 };

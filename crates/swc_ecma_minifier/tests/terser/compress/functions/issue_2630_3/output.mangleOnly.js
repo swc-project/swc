@@ -1,5 +1,6 @@
-var n = 2, o = 1;
-(function() {
+var n = 2,
+    o = 1;
+(function () {
     function c(o) {
         f();
         --n >= 0 && c({});

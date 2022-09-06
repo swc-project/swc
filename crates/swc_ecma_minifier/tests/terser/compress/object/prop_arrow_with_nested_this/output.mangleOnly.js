@@ -1,26 +1,26 @@
-function i(i) {
-    console.log(i === this ? "global" : i === n ? "foo" : i);
+function n(n) {
+    console.log(n === this ? "global" : n === o ? "foo" : n);
 }
-var n = {
-    func_func_this: function() {
-        (function() {
-            i(this);
+var o = {
+    func_func_this: function () {
+        (function () {
+            n(this);
         })();
     },
-    func_arrow_this: function() {
-        (()=>{
-            i(this);
+    func_arrow_this: function () {
+        (() => {
+            n(this);
         })();
     },
-    arrow_func_this: ()=>{
-        (function() {
-            i(this);
+    arrow_func_this: () => {
+        (function () {
+            n(this);
         })();
     },
-    arrow_arrow_this: ()=>{
-        (()=>{
-            i(this);
+    arrow_arrow_this: () => {
+        (() => {
+            n(this);
         })();
-    }
+    },
 };
-for(var o in n)n[o]();
+for (var i in o) o[i]();

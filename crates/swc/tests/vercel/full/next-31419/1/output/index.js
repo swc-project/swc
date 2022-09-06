@@ -3,16 +3,16 @@ import n from "@swc/helpers/src/_ts_generator.mjs";
 import t from "@swc/helpers/src/_ts_values.mjs";
 Promise.all(assignAll).then(function() {
     var e = r(function(r) {
-        var e, c, s, i, o, u;
+        var e, s, i, c, o, u;
         return n(this, function(a) {
             switch(a.label){
                 case 0:
-                    for(i in e = function(u) {
+                    for(c in e = function(u) {
                         var t, e;
                         return n(this, function(n) {
                             switch(n.label){
                                 case 0:
-                                    return t = r[u], c += "'".concat(t.id, "', "), [
+                                    return t = r[u], s += "'".concat(t.id, "', "), [
                                         4,
                                         listOfUser(t.id)
                                     ];
@@ -24,16 +24,16 @@ Promise.all(assignAll).then(function() {
                                     ];
                             }
                         });
-                    }, c = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', s = [], r);
+                    }, s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', i = [], r);
                     o = 0, a.label = 1;
                 case 1:
-                    if (!(o < s.length)) return [
+                    if (!(o < i.length)) return [
                         3,
                         4
                     ];
                     return [
                         5,
-                        t(e(u = s[o]))
+                        t(e(u = i[o]))
                     ];
                 case 2:
                     a.label = 3;
@@ -56,9 +56,9 @@ Promise.all(assignAll).then(function() {
 export var listOfUser = function(t) {
     var e;
     return new Promise((e = r(function(r, e) {
-        var c;
+        var s;
         return n(this, function(n) {
-            return c = 'Select Distinct id from "TABLE" Where id = \''.concat(t, "' And user_id IS not null"), postgreSQL.query(c, null, function(n, t) {
+            return s = 'Select Distinct id from "TABLE" Where id = \''.concat(t, "' And user_id IS not null"), postgreSQL.query(s, null, function(n, t) {
                 n ? e(n) : r(t.rows);
             }), [
                 2

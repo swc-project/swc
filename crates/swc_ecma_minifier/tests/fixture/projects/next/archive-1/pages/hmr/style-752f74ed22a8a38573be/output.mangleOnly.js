@@ -3,21 +3,21 @@
         329
     ],
     {
-        1501: function(n, e, r) {
+        1501: function(n, e, s) {
             "use strict";
-            r.r(e);
-            var s = r(4512);
-            var t = r(266);
-            var u = r(2735);
+            s.r(e);
+            var r = s(4512);
+            var t = s(266);
+            var i = s(2735);
             e["default"] = function() {
-                return (0, s.jsx)(u.Fragment, {
-                    children: (0, s.jsx)("div", {
+                return (0, r.jsx)(i.Fragment, {
+                    children: (0, r.jsx)("div", {
                         className: "hmr-style-page",
-                        children: (0, s.jsxs)("p", {
+                        children: (0, r.jsxs)("p", {
                             className: "jsx-3646360250",
                             children: [
                                 "This is the style page.",
-                                (0, s.jsx)(t.default, {
+                                (0, r.jsx)(t.default, {
                                     id: "3646360250",
                                     children: [
                                         "p.jsx-3646360250{font-size:100px;}", 
@@ -29,11 +29,11 @@
                 });
             };
         },
-        9675: function(n, e, r) {
+        9675: function(n, e, s) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/hmr/style",
                 function() {
-                    return r(1501);
+                    return s(1501);
                 }, 
             ]);
         }
@@ -50,7 +50,7 @@
         ], function() {
             return e(9675);
         });
-        var r = n.O();
-        _N_E = r;
+        var s = n.O();
+        _N_E = s;
     }, 
 ]);

@@ -1,6 +1,6 @@
 var n = 2;
-function r(o) {
-    return (o && r()) || n--;
+function o(r) {
+    return (r && o()) || n--;
 }
-r(1);
+o(1);
 console.log(n);

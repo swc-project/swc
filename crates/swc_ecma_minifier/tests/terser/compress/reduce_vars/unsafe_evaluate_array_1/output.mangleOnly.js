@@ -1,20 +1,16 @@
-function n() {
-    var n = 1;
-    var o = [];
-    o[n] = 2;
-    console.log(n + 3);
-}
 function o() {
-    var n = [
-        1
-    ];
-    n[2] = 3;
-    console.log(n.length);
+    var o = 1;
+    var n = [];
+    n[o] = 2;
+    console.log(o + 3);
 }
-function g() {
-    var n = [
-        1
-    ];
-    n.push(2);
-    console.log(n.length);
+function n() {
+    var o = [1];
+    o[2] = 3;
+    console.log(o.length);
+}
+function l() {
+    var o = [1];
+    o.push(2);
+    console.log(o.length);
 }

@@ -1,9 +1,9 @@
-function e(e, t) {
-    switch(true){
+function e(e, l) {
+    switch (true) {
         default:
             console.log("definitely");
             break;
-        case t:
+        case l:
             console.log("maybe");
             break;
         case e:

@@ -1,5 +1,5 @@
-function n(n) {
-    console.log(n);
+function o(o) {
+    console.log(o);
 }
-const o = 42;
-n(o);
+const n = 42;
+o(n);

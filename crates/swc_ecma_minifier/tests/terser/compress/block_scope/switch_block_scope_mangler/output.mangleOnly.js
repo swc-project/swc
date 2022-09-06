@@ -1,17 +1,17 @@
-var e = function(e) {
-    switch(e){
+var e = function (e) {
+    switch (e) {
         case 1:
             let l = e + 1;
-            let t = e + 4;
-            console.log(l, t);
+            let o = e + 4;
+            console.log(l, o);
             break;
         case 2:
-            let a = e + 2;
-            console.log(a);
+            let c = e + 2;
+            console.log(c);
             break;
         default:
-            let c = e + 3;
-            console.log(c);
+            let t = e + 3;
+            console.log(t);
     }
 };
 e(1);

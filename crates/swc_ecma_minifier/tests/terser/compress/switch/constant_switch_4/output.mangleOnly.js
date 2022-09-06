@@ -1,4 +1,4 @@
-switch(2){
+switch (2) {
     case 1:
         x();
         if (foo) break;

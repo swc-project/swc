@@ -1,5 +1,5 @@
 const n = 1;
 console.log(n);
-+(function(n) {
++(function (n) {
     return n;
 })(n);

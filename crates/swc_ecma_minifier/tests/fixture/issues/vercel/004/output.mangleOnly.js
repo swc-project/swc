@@ -1,13 +1,13 @@
 export function ItemsList() {
     var t;
-    var e, i, s;
+    var e, s, r;
     _classCallCheck(this, ItemsList);
-    for(var n = arguments.length, o = Array(n), r = 0; r < n; r++){
-        o[r] = arguments[r];
+    for(var o = arguments.length, i = Array(o), n = 0; n < o; n++){
+        i[n] = arguments[n];
     }
-    return ((s = ((e = ((i = _possibleConstructorReturn(this, (t = ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(t, [
+    return ((r = ((e = ((s = _possibleConstructorReturn(this, (t = ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(t, [
         this
-    ].concat(o)))), i)), (i.storeHighlightedItemReference = function(t) {
-        i.props.onHighlightedItemChange(t === null ? null : t.item);
-    }), e)), _possibleConstructorReturn(i, s));
+    ].concat(i)))), s)), (s.storeHighlightedItemReference = function(t) {
+        s.props.onHighlightedItemChange(t === null ? null : t.item);
+    }), e)), _possibleConstructorReturn(s, r));
 }

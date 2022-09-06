@@ -1,8 +1,8 @@
-let p = [], u = (p.push(0), 1), {} = {
+let p = [], s = (p.push(0), 1), {} = {
     k: 9
-}, s = p.push(2), { unused: h  } = (p.push(3), {
+}, u = p.push(2), { unused: o  } = (p.push(3), {
     unused: 7
-}), { a: e , prop: n , w: o , x: r , z: d  } = {
+}), { a: e , prop: h , w: n , x: _ , z: l  } = {
     prop: 8
-}, g = (p.push(4), 5);
-console.log(`${u} ${n} ${g} ${JSON.stringify(p)}`);
+}, r = (p.push(4), 5);
+console.log(`${s} ${h} ${r} ${JSON.stringify(p)}`);

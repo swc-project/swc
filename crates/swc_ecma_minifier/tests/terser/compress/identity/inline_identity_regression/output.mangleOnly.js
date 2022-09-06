@@ -1,5 +1,3 @@
-global.id = (a)=>a;
-const a = ({ bar: a  })=>id(a);
-console.log(a({
-    bar: "PASS"
-}));
+global.id = (o) => o;
+const o = ({ bar: o }) => id(o);
+console.log(o({ bar: "PASS" }));

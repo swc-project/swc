@@ -3,8 +3,9 @@ function f() {
         foo();
     }
 }
-function i() {
-    if (!(a == 1 || b == 2)) {} else {
+function o() {
+    if (!(a == 1 || b == 2)) {
+    } else {
         foo();
     }
 }

@@ -1,45 +1,45 @@
-function r(r, $, n) {
+function r(r, n, t) {
     "use asm";
-    var t = r.Math.exp;
-    var a = r.Math.log;
-    var e = new r.Float64Array(n);
-    function o(r, $) {
+    var a = r.Math.exp;
+    var e = r.Math.log;
+    var o = new r.Float64Array(t);
+    function u(r, n) {
         r = r | 0;
-        $ = $ | 0;
-        var n = 0.0, t = 0, o = 0;
-        for(t = r << 3, o = $ << 3; (t | 0) < (o | 0); t = (t + 8) | 0){
-            n = n + +a(e[t >> 3]);
+        n = n | 0;
+        var t = 0.0,
+            a = 0,
+            u = 0;
+        for (a = r << 3, u = n << 3; (a | 0) < (u | 0); a = (a + 8) | 0) {
+            t = t + +e(o[a >> 3]);
         }
-        return +n;
+        return +t;
     }
-    function u(r, $) {
+    function c(r, n) {
         r = r | 0;
-        $ = $ | 0;
-        return +t(+o(r, $) / +(($ - r) | 0));
+        n = n | 0;
+        return +a(+u(r, n) / +((n - r) | 0));
     }
-    return {
-        geometricMean: u
-    };
+    return { geometricMean: c };
 }
-function $(r, $, n) {
-    var t = r.Math.exp;
-    var a = r.Math.log;
-    var e = new r.Float64Array(n);
-    function o(r, $) {
+function n(r, n, t) {
+    var a = r.Math.exp;
+    var e = r.Math.log;
+    var o = new r.Float64Array(t);
+    function u(r, n) {
         r = r | 0;
-        $ = $ | 0;
-        var n = 0, t = 0, o = 0;
-        for(t = r << 3, o = $ << 3; (t | 0) < (o | 0); t = (t + 8) | 0){
-            n = n + +a(e[t >> 3]);
+        n = n | 0;
+        var t = 0,
+            a = 0,
+            u = 0;
+        for (a = r << 3, u = n << 3; (a | 0) < (u | 0); a = (a + 8) | 0) {
+            t = t + +e(o[a >> 3]);
         }
-        return +n;
+        return +t;
     }
-    function u(r, $) {
+    function c(r, n) {
         r = r | 0;
-        $ = $ | 0;
-        return +t(+o(r, $) / +(($ - r) | 0));
+        n = n | 0;
+        return +a(+u(r, n) / +((n - r) | 0));
     }
-    return {
-        geometricMean: u
-    };
+    return { geometricMean: c };
 }

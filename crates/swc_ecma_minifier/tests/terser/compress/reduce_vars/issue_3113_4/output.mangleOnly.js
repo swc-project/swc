@@ -1,6 +1,7 @@
-var n = 0, o = 0;
-function $() {
-    o += n;
+var o = 0,
+    n = 0;
+function c() {
+    n += o;
 }
-$($(), ++n);
-console.log(n, o);
+c(c(), ++o);
+console.log(o, n);

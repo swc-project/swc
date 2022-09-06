@@ -1,6 +1,6 @@
-function b(b) {
-    b.b = "PASS";
+function o(o) {
+    o.b = "PASS";
 }
 var n = {};
-b(n);
+o(n);
 console.log(n.b);

@@ -1,8 +1,4 @@
-let e = ({ w: e = console.log("side effect") , x: l , y: f  })=>{
-    console.log(l);
+let e = ({ w: e = console.log("side effect"), x: o, y: l }) => {
+    console.log(o);
 };
-e({
-    x: 4,
-    y: 5,
-    z: 6
-});
+e({ x: 4, y: 5, z: 6 });

@@ -1,1 +1,1 @@
-for(; bar();)if (foo()) break;
+for (; bar(); ) if (foo()) break;

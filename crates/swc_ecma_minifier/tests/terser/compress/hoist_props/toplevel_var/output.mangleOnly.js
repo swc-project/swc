@@ -1,5 +1,2 @@
-var b = {
-    b: 1,
-    c: 2
-};
-console.log(b.b + b.c);
+var c = { b: 1, c: 2 };
+console.log(c.b + c.c);

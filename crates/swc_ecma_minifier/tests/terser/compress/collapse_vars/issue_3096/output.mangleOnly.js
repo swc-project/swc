@@ -1,8 +1,7 @@
-console.log((function() {
-    var r = [
-        "a",
-        "b"
-    ];
-    var a = r.pop();
-    return r + "" + a;
-})());
+console.log(
+    (function () {
+        var o = ["a", "b"];
+        var n = o.pop();
+        return o + "" + n;
+    })()
+);

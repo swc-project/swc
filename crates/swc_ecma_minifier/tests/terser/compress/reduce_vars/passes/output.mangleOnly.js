@@ -1,12 +1,14 @@
-function l() {
-    var l = 1, o = 2, g = 3;
-    if (l) {
-        o = g;
+function o() {
+    var o = 1,
+        l = 2,
+        e = 3;
+    if (o) {
+        l = e;
     } else {
-        g = o;
+        e = l;
     }
-    console.log(l + o);
-    console.log(o + g);
-    console.log(l + g);
-    console.log(l + o + g);
+    console.log(o + l);
+    console.log(l + e);
+    console.log(o + e);
+    console.log(o + l + e);
 }

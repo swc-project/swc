@@ -4,16 +4,16 @@ function n() {
 global.SYMBOL_FAKE_ONREADYSTATECHANGE_1 = Symbol();
 global.xhrDesc = null;
 function e() {
-    return t();
+    return a();
 }
-function t() {
+function a() {
     if (!xhrDesc) {
         var e = new n();
-        var t = function() {};
-        e.onreadystatechange = t;
-        var a = e[SYMBOL_FAKE_ONREADYSTATECHANGE_1] === t;
+        var a = function () {};
+        e.onreadystatechange = a;
+        var o = e[SYMBOL_FAKE_ONREADYSTATECHANGE_1] === a;
         e.onreadystatechange = null;
-        return a;
+        return o;
     }
 }
 console.log(e());

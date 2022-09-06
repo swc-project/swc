@@ -1,7 +1,7 @@
 function n() {
     return 2;
 }
-function r() {
+function o() {
     return 3;
 }
-console.log(n(), r());
+console.log(n(), o());

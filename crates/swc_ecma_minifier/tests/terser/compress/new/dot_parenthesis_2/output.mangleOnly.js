@@ -1,3 +1,5 @@
-console.log(typeof new function() {
-    Math.random();
-}.constructor());
+console.log(
+    typeof new function () {
+        Math.random();
+    }.constructor()
+);

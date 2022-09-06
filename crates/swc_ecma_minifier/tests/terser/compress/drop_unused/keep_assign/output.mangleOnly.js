@@ -15,7 +15,7 @@ function u() {
 }
 function c() {
     var n;
-    return function() {
+    return function () {
         n = 1;
     };
 }

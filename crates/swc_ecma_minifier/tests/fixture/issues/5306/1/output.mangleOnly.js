@@ -1,10 +1,10 @@
-const n = [
+const o = [
     1,
     2,
     3
 ];
-const o = [
-    ...n
+const n = [
+    ...o
 ];
-n.length = 0;
-console.log(o);
+o.length = 0;
+console.log(n);

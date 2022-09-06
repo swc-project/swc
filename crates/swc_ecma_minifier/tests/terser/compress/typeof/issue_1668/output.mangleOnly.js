@@ -1,1 +1,1 @@
-if (typeof bar) ;
+if (typeof bar);

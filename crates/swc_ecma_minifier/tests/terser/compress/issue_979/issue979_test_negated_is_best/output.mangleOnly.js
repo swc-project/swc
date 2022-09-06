@@ -1,24 +1,26 @@
-function n() {
+function f() {
     if ((a == 1) | (b == 2)) {
         foo();
     }
 }
-function f() {
-    if (!((a == 1) | (b == 2))) {} else {
+function o() {
+    if (!((a == 1) | (b == 2))) {
+    } else {
         foo();
     }
 }
-function i() {
+function n() {
     if (a == 1 && b == 2) {
         foo();
     }
 }
-function e() {
-    if (!(a == 1 && b == 2)) {} else {
+function i() {
+    if (!(a == 1 && b == 2)) {
+    } else {
         foo();
     }
 }
-function t() {
+function e() {
     if (a == 1 || b == 2) {
         foo();
     } else {

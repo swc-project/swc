@@ -1,8 +1,10 @@
-console.log((function n(t) {
-    return (function(n) {
-        if (n) {
-            const t = n;
-            if (t) return t;
-        }
-    })(t);
-})("PASS"));
+console.log(
+    (function n(o) {
+        return (function (n) {
+            if (n) {
+                const o = n;
+                if (o) return o;
+            }
+        })(o);
+    })("PASS")
+);

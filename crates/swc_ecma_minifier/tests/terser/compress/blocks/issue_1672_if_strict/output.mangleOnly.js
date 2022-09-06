@@ -1,10 +1,12 @@
 "use strict";
-switch(function() {
-    return xxx;
-}){
+switch (
+    function () {
+        return xxx;
+    }
+) {
     case xxx:
         if (console.log("FAIL")) {
-            function t() {}
+            function c() {}
         }
         break;
 }

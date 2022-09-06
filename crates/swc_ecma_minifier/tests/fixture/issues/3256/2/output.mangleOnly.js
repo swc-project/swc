@@ -1,15 +1,15 @@
-const $ = ($, f, e, t)=>{
-    let l = ($ & 0xffff) | 0, _ = (($ >>> 16) & 0xffff) | 0, o = 0;
-    while(e !== 0){
-        o = e > 2000 ? 2000 : e;
-        e -= o;
+const e = (e, t, l, o)=>{
+    let r = (e & 0xffff) | 0, d = ((e >>> 16) & 0xffff) | 0, h = 0;
+    while(l !== 0){
+        h = l > 2000 ? 2000 : l;
+        l -= h;
         do {
-            l = (l + f[t++]) | 0;
-            _ = (_ + l) | 0;
-        }while (--o)
-        l %= 65521;
-        _ %= 65521;
+            r = (r + t[o++]) | 0;
+            d = (d + r) | 0;
+        }while (--h)
+        r %= 65521;
+        d %= 65521;
     }
-    return l | (_ << 16) | 0;
+    return r | (d << 16) | 0;
 };
-export default $;
+export default e;

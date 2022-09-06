@@ -1,6 +1,6 @@
-function a(a) {
-    var r = 2;
-    if (a) var r;
-    else var r;
-    console.log(r + 1);
+function o(o) {
+    var a = 2;
+    if (o) var a;
+    else var a;
+    console.log(a + 1);
 }

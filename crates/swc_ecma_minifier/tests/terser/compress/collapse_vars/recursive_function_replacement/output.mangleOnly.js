@@ -1,7 +1,7 @@
 function n(n) {
-    return x(r(n));
+    return x(o(n));
 }
-function r(r) {
-    return y(n(r));
+function o(o) {
+    return y(n(o));
 }
 console.log(n(c));

@@ -1,4 +1,6 @@
-var p, o = null, r = {};
+var p,
+    o = null,
+    r = {};
 p.prop;
 o.prop;
 r.prop;

@@ -109,8 +109,6 @@ dead_code/issue_2860_2/input.js
 dead_code/issue_718/input.js
 dead_code/return_assignment/input.js
 dead_code/unsafe_builtin/input.js
-destructuring/anon_func_with_destructuring_args/input.js
-destructuring/arrow_func_with_destructuring_args/input.js
 destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
 destructuring/export_unreferenced_declarations_2/input.js
 destructuring/issue_3205_2/input.js
@@ -119,8 +117,6 @@ destructuring/issue_3205_4/input.js
 destructuring/issue_3205_5/input.js
 destructuring/mangle_destructuring_assign_toplevel_false/input.js
 destructuring/mangle_destructuring_assign_toplevel_true/input.js
-destructuring/mangle_destructuring_decl/input.js
-destructuring/mangle_destructuring_decl_array/input.js
 destructuring/mangle_destructuring_decl_collapse_vars/input.js
 destructuring/unused_destructuring_arrow_param/input.js
 destructuring/unused_destructuring_getter_side_effect_2/input.js
@@ -129,7 +125,6 @@ drop_unused/delete_assign_1/input.js
 drop_unused/delete_assign_2/input.js
 drop_unused/double_assign_1/input.js
 drop_unused/double_assign_2/input.js
-drop_unused/drop_fargs/input.js
 drop_unused/drop_toplevel_all_retain/input.js
 drop_unused/drop_toplevel_funcs/input.js
 drop_unused/drop_toplevel_funcs_retain/input.js
@@ -172,8 +167,6 @@ drop_unused/issue_t161_top_retain_15/input.js
 drop_unused/issue_t183/input.js
 drop_unused/unused_circular_references_2/input.js
 drop_unused/unused_circular_references_3/input.js
-drop_unused/unused_funarg_1/input.js
-drop_unused/unused_funarg_2/input.js
 drop_unused/unused_null_conditional_chain/input.js
 drop_unused/var_catch_toplevel/input.js
 evaluate/call_args_drop_param/input.js
@@ -280,7 +273,6 @@ harmony/fat_arrow_as_param/input.js
 harmony/inline_arrow_using_arguments/input.js
 harmony/issue_1753_disable/input.js
 harmony/issue_1898/input.js
-harmony/issue_2349/input.js
 harmony/issue_2349b/input.js
 harmony/issue_2794_1/input.js
 harmony/issue_2794_2/input.js
@@ -289,9 +281,7 @@ harmony/issue_2874_2/input.js
 harmony/module_enabled/input.js
 harmony/module_enables_strict_mode/input.js
 harmony/module_mangle_scope/input.js
-harmony/object_rest_spread/input.js
 harmony/object_spread_of_sequence/input.js
-harmony/object_spread_unsafe/input.js
 harmony/regression_cannot_use_of/input.js
 hoist_props/contains_this_2/input.js
 hoist_props/direct_access_1/input.js
@@ -325,7 +315,6 @@ if_return/if_return_same_value/input.js
 if_return/if_var_return/input.js
 if_return/issue_2747/input.js
 if_return/issue_512/input.js
-inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
 inline/inline_annotation/input.js
 inline/inline_within_extends_1/input.js
 inline/inline_within_extends_2/input.js
@@ -410,7 +399,6 @@ issue_640/wrongly_optimized/input.js
 issue_747/dont_reuse_prop/input.js
 issue_747/unmangleable_props_should_always_be_reserved/input.js
 issue_751/negate_booleans_1/input.js
-issue_892/dont_mangle_arguments/input.js
 issue_913/keep_var_for_in/input.js
 issue_976/eval_collapse_vars/input.js
 issue_976/eval_mangle/input.js
@@ -522,7 +510,6 @@ pure_funcs/issue_2705_2/input.js
 pure_funcs/issue_2705_3/input.js
 pure_funcs/issue_2705_4/input.js
 pure_funcs/issue_2705_5/input.js
-pure_funcs/issue_3065_2b/input.js
 pure_funcs/issue_526_1/input.js
 pure_funcs/relational/input.js
 pure_getters/collapse_vars_1_true/input.js
@@ -618,7 +605,6 @@ reduce_vars/var_assign_2/input.js
 regexp/unsafe_slashes/input.js
 rename/function_iife_catch/input.js
 rename/function_iife_catch_ie8/input.js
-rename/mangle_catch_var/input.js
 return_undefined/return_undefined/input.js
 sequences/cascade_assignment_in_return/input.js
 sequences/delete_seq_4/input.js

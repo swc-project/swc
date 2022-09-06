@@ -1,4 +1,4 @@
-switch(10){
+switch (10) {
     case 1:
         foo();
     case 1 + 1:

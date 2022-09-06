@@ -1,2 +1,2 @@
 var a = 3;
-while(a)bar();
+while (a) bar();

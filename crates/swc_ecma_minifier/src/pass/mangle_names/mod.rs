@@ -6,9 +6,10 @@ use std::{
 
 use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     chain, sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError,
+    SyntaxContext,
 };
 use swc_ecma_ast::{Module, *};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -27,8 +28,7 @@ pub(crate) struct CharFreq([i32; 64]);
 
 #[derive(Clone, Copy)]
 pub(crate) struct Base54Chars {
-    head: [u8; 54],
-    tail: [u8; 64],
+    chars: [u8; 64],
 }
 
 impl Default for CharFreq {
@@ -82,7 +82,7 @@ impl SourceMapperExt for DummySourceMap {
 impl CharFreq {
     #[inline(always)]
     fn write(&mut self, data: &str) -> io::Result<()> {
-        self.scan(data.as_bytes(), 1);
+        self.scan(data, 1);
         Ok(())
     }
 }
@@ -100,13 +100,11 @@ impl WriteJs for CharFreq {
 
     #[inline(always)]
     fn write_semi(&mut self, _: Option<Span>) -> io::Result<()> {
-        self.write(";")?;
         Ok(())
     }
 
     #[inline(always)]
     fn write_space(&mut self) -> io::Result<()> {
-        self.write(" ")?;
         Ok(())
     }
 
@@ -195,12 +193,23 @@ impl WriteJs for CharFreq {
 }
 
 impl CharFreq {
-    pub fn scan(&mut self, s: &[u8], delta: i32) {
+    pub fn scan(&mut self, s: &str, delta: i32) {
         if delta == 0 {
             return;
         }
 
-        for &c in s {
+        #[cfg(feature = "debug")]
+        {
+            let considered = s
+                .chars()
+                .filter(|&c| Ident::is_valid_continue(c))
+                .collect::<String>();
+            if !considered.is_empty() {
+                tracing::debug!("Scanning: `{}` with delta {}", considered, delta);
+            }
+        }
+
+        for &c in s.as_bytes() {
             match c {
                 b'a'..=b'z' => {
                     self.0[c as usize - 'a' as usize] += delta;
@@ -223,14 +232,19 @@ impl CharFreq {
         }
     }
 
-    pub fn compute(p: &Program, preserved: &FxHashSet<Id>) -> Self {
+    pub fn compute(p: &Program, preserved: &FxHashSet<Id>, unresolved_ctxt: SyntaxContext) -> Self {
         let cm = Lrc::new(DummySourceMap);
 
         let mut freq = Self::default();
 
         {
             let mut emitter = Emitter {
-                cfg: Default::default(),
+                cfg: swc_ecma_codegen::Config {
+                    target: EsVersion::latest(),
+                    ascii_only: false,
+                    minify: true,
+                    ..Default::default()
+                },
                 cm,
                 comments: None,
                 wr: &mut freq,
@@ -243,6 +257,7 @@ impl CharFreq {
         p.visit_with(&mut CharFreqAnalyzer {
             freq: &mut freq,
             preserved,
+            unresolved_ctxt,
         });
 
         freq
@@ -250,7 +265,7 @@ impl CharFreq {
 
     pub fn compile(self) -> Base54Chars {
         static BASE54_DEFAULT_CHARS: &[u8; 64] =
-            b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
+            b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$_";
 
         let mut arr = BASE54_DEFAULT_CHARS
             .iter()
@@ -261,19 +276,25 @@ impl CharFreq {
 
         arr.sort_by_key(|&(freq, _)| Reverse(freq));
 
-        let mut head = vec![];
-        let mut tail = vec![];
+        let mut digits = Vec::with_capacity(10);
+        let mut alpha = Vec::with_capacity(54);
+        let mut all = Vec::with_capacity(64);
 
         for (_, c) in arr {
-            if !(b'0'..=b'9').contains(&c) {
-                head.push(c);
+            if (b'0'..=b'9').contains(&c) {
+                digits.push(c);
+            } else {
+                alpha.push(c);
             }
-            tail.push(c);
         }
+        all.extend_from_slice(&alpha);
+        all.extend_from_slice(&digits);
+
+        #[cfg(feature = "debug")]
+        tracing::info!("Chars: {}", String::from_utf8_lossy(&all));
 
         Base54Chars {
-            head: head.try_into().unwrap(),
-            tail: tail.try_into().unwrap(),
+            chars: all.try_into().unwrap(),
         }
     }
 }
@@ -281,6 +302,7 @@ impl CharFreq {
 struct CharFreqAnalyzer<'a> {
     freq: &'a mut CharFreq,
     preserved: &'a FxHashSet<Id>,
+    unresolved_ctxt: SyntaxContext,
 }
 
 impl Visit for CharFreqAnalyzer<'_> {
@@ -289,12 +311,16 @@ impl Visit for CharFreqAnalyzer<'_> {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
+        if i.sym != js_word!("arguments") && i.span.ctxt == self.unresolved_ctxt {
+            return;
+        }
+
         // It's not mangled
         if self.preserved.contains(&i.to_id()) {
             return;
         }
 
-        self.freq.scan(i.sym.as_bytes(), -1);
+        self.freq.scan(&i.sym, -1);
     }
 
     fn visit_prop_name(&mut self, n: &PropName) {
@@ -338,13 +364,13 @@ impl Base54Chars {
         let mut ret: ArrayVec<_, 14> = ArrayVec::new();
 
         base /= 54;
-        let mut c = self.head[n / base];
+        let mut c = self.chars[n / base];
         ret.push(c);
 
         while base > 1 {
             n %= base;
             base >>= 6;
-            c = self.tail[n / base];
+            c = self.chars[n / base];
 
             ret.push(c);
         }
@@ -367,10 +393,14 @@ impl Base54Chars {
     }
 }
 
-pub(crate) fn name_mangler(options: MangleOptions, program: &Program) -> impl VisitMut {
+pub(crate) fn name_mangler(
+    options: MangleOptions,
+    program: &Program,
+    unresolved_ctxt: SyntaxContext,
+) -> impl VisitMut {
     let preserved = idents_to_preserve(options.clone(), program);
 
-    let base54 = CharFreq::compute(program, &preserved).compile();
+    let base54 = CharFreq::compute(program, &preserved, unresolved_ctxt).compile();
 
     chain!(
         self::private_name::private_name_mangler(options.keep_private_props),

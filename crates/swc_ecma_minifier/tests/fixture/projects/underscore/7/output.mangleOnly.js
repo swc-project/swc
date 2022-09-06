@@ -1,6 +1,6 @@
-_.partial = function(a) {
-    var n = slice.call(arguments, 1);
+_.partial = function(c) {
+    var l = slice.call(arguments, 1);
     return function() {
-        return a.apply(this, n.concat(slice.call(arguments)));
+        return c.apply(this, l.concat(slice.call(arguments)));
     };
 };

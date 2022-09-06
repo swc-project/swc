@@ -1,7 +1,7 @@
-var e = function(e, i) {
+var e = function(e, r) {
     Browser.Engine.name = e;
-    Browser.Engine[e + i] = true;
-    Browser.Engine.version = i;
+    Browser.Engine[e + r] = true;
+    Browser.Engine.version = r;
 };
 if (Browser.ie) {
     Browser.Engine.trident = true;

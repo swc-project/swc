@@ -1,4 +1,4 @@
-switch(1 + 1){
+switch (1 + 1) {
     case 1:
         foo();
         break;

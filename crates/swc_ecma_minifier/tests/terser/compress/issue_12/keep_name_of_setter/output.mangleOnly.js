@@ -1,3 +1,1 @@
-a = {
-    set foo (<invalid>){}
-};
+a={set foo(){}};

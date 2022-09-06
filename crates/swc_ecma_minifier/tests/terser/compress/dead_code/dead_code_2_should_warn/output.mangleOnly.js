@@ -6,7 +6,7 @@ function n() {
         y();
         var n;
         function o() {}
-        (function() {
+        (function () {
             var n;
             function o() {}
         })();

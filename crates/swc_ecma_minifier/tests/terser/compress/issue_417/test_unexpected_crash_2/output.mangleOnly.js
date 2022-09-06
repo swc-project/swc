@@ -1,9 +1,9 @@
-function a() {
-    var a = function() {
-        var a = 3;
-        var n = 1 + a[0];
-        console.log(a);
+function o() {
+    var o = function () {
+        var o = 3;
+        var n = 1 + o[0];
+        console.log(o);
         console.log(n);
     };
-    var n = a();
+    var n = o();
 }

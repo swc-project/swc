@@ -1,4 +1,4 @@
-switch(0){
+switch (0) {
     default:
         console.log("FAIL");
         break;

@@ -2,7 +2,7 @@ function c() {
     try {
         a();
     } catch (c) {
-        var t = 1;
+        var o = 1;
     }
-    console.log(t);
+    console.log(o);
 }

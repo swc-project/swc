@@ -1,7 +1,3 @@
-var r = [];
-for(var a in [
-    1,
-    2,
-    3
-])r.push(a);
-console.log(r.length);
+var o = [];
+for (var l in [1, 2, 3]) o.push(l);
+console.log(o.length);
