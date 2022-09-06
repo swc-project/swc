@@ -68,6 +68,8 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
 #[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/terser/**/input.js")]
 fn snapshot_compress_fixture(input: PathBuf) {
+    let output_path = input.parent().unwrap().join("output.mangleOnly.js");
+
     let _ = testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &input)?;
 
@@ -112,7 +114,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
         let mangled = print(cm, &m, false);
 
         NormalizedOutput::from(mangled)
-            .compare_to_file(input.parent().unwrap().join("output.mangleOnly.js"))
+            .compare_to_file(output_path)
             .unwrap();
 
         Ok(())
