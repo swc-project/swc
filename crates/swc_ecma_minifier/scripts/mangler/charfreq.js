@@ -1,4 +1,7 @@
 const terser = require("terser");
+const fs = require("fs");
+
+const src = fs.readFileSync(process.argv[2], "utf8");
 
 const base54 = (() => {
     const leading =
@@ -16,6 +19,7 @@ const base54 = (() => {
         });
     }
     function consider(str, delta) {
+        console.log(`considering ${str} with delta ${delta}`);
         for (var i = str.length; --i >= 0; ) {
             frequency.set(str[i], frequency.get(str[i]) + delta);
         }
@@ -53,7 +57,7 @@ const base54 = (() => {
     };
 })();
 
-terser.minify(process.argv[2], {
+terser.minify(src, {
     mangle: {
         nth_identifier: base54,
     },
