@@ -1,7 +1,3 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got '{'
-//!     ,----
-//!  17 | return <test1 {...obj} />; // OK
-//!     :               ^
-//!     `----
+import _extends from "@swc/helpers/src/_extends.mjs";
+_extends({}, {}), _extends({}, {});

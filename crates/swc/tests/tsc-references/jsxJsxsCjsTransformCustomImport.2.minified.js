@@ -1,13 +1,5 @@
 //// [jsxJsxsCjsTransformCustomImport.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  2 | const a = <>
-//!    :            ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  3 | <p></p>
-//!    :     ^^^
-//!    `----
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), React.Fragment;

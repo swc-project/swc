@@ -1,37 +1,25 @@
 //// [renderer.d.ts]
 export { dom as default };
 //// [otherreacty.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  3 | <h></h>
-//!    :        ^
-//!    `----
 //// [other.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  3 | export const prerendered = <h></h>;
-//!    :                                    ^
-//!    `----
+import { dom as h } from "./renderer";
+export var prerendered = h("h", null);
 //// [othernoalias.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  3 | export const prerendered2 = <h></h>;
-//!    :                                     ^
-//!    `----
+import { otherdom } from "./renderer";
+export var prerendered2 = otherdom("h", null);
 //// [reacty.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  2 | export const prerendered3 = <h></h>;
-//!    :                                     ^
-//!    `----
+import React from "./renderer";
+export var prerendered3 = React.createElement("h", null);
 //// [index.tsx]
 //! 
-//!   x Unterminated regexp literal
+//!   x Expression expected
 //!    ,----
 //!  3 | <h></h>
-//!    :     ^^^
+//!    :   ^
+//!    `----
+//! 
+//!   x Unexpected token `/`. Expected jsx identifier
+//!    ,----
+//!  3 | <h></h>
+//!    :     ^
 //!    `----

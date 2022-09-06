@@ -11,16 +11,17 @@ define([
     "use strict";
 });
 //// [consumer.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  5 | <s1.MyElement />;
-//!    :               ^
-//!    `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  5 | <s1.MyElement />;
-//!    :                ^
-//!    `----
+///<reference path="file.tsx" />
+// Should keep s1 and elide s2
+define([
+    "require",
+    "exports",
+    "elements1",
+    "elements2"
+], function(require, exports, _elements1, _elements2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    /*#__PURE__*/ React.createElement(_elements1.MyElement, null);
+});

@@ -1,14 +1,15 @@
 //// [file.tsx]
-//! 
-//!   x Expression expected
-//!     ,----
-//!  19 | Foo, <Foo />;
-//!     :           ^
-//!     `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!     ,----
-//!  19 | Foo, <Foo />;
-//!     :            ^
-//!     `----
+var M;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+!function(M) {
+    var S1, Bar1, Foo1 = function Foo1() {
+        "use strict";
+        _class_call_check(this, Foo1);
+    };
+    M.Foo = Foo1, S1 = M.S || (M.S = {}), Bar1 = function Bar1() {
+        "use strict";
+        _class_call_check(this, Bar1);
+    }, S1.Bar = Bar1;
+}(M || (M = {})), function(M) {
+    Foo, Foo, M.S || (M.S = {}), Foo, Foo, Bar, Bar;
+}(M || (M = {})), M || (M = {}), S.Bar, S.Bar, M || (M = {}), Foo, Foo;

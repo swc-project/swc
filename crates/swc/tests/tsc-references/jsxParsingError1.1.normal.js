@@ -1,8 +1,8 @@
 //// [jsxParsingError1.tsx]
 //// [file.tsx]
-//! 
-//!   x Expected '>', got 'className'
-//!     ,----
-//!  11 | const elem = <div className={class1, class2}/>;
-//!     :                   ^^^^^^^^^
-//!     `----
+// This should be a parse error
+var class1 = "foo";
+var class2 = "bar";
+var elem = /*#__PURE__*/ React.createElement("div", {
+    className: (class1, class2)
+});

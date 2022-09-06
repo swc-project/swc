@@ -1,7 +1,5 @@
 //// [tsxIntrinsicAttributeErrors.tsx]
-//! 
-//!   x Expected '>', got 'x'
-//!     ,----
-//!  30 | <E x={10} />
-//!     :    ^
-//!     `----
+var E;
+/*#__PURE__*/ React.createElement(E, {
+    x: 10
+});

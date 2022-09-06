@@ -6,54 +6,21 @@ export { };
 //// [snabbdom.d.ts]
 export { };
 //// [reacty.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  2 | <><span></span></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unexpected token `regexp literal (span><, )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  2 | <><span></span></>
-//!    :          ^^^^^^^^
-//!    `----
+/*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("span", null));
+export { };
 //// [preacty.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  6 | <><div></div></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unexpected token `regexp literal (div><, )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  6 | <><div></div></>
-//!    :         ^^^^^^^
-//!    `----
+/**
+ * @jsx h
+ * @jsxFrag Frag
+ */ import { h, Frag } from "./preact";
+/*#__PURE__*/ h(Frag, null, /*#__PURE__*/ h("div", null));
 //// [snabbdomy.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  6 | <><div></div></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unexpected token `regexp literal (div><, )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  6 | <><div></div></>
-//!    :         ^^^^^^^
-//!    `----
+/**
+ * @jsx h
+ * @jsxfrag null
+ */ import { h } from "./snabbdom";
+/*#__PURE__*/ h(React.Fragment, null, /*#__PURE__*/ h("div", null));
 //// [mix-n-match.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  5 | <><span></span></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unexpected token `regexp literal (span><, )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  5 | <><span></span></>
-//!    :          ^^^^^^^^
-//!    `----
+/* @jsx h */ /* @jsxFrag Fragment */ import { h } from "./preact";
+import { Fragment } from "./react";
+/*#__PURE__*/ h(Fragment, null, /*#__PURE__*/ h("span", null));

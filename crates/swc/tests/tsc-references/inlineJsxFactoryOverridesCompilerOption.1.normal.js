@@ -1,16 +1,8 @@
 //// [renderer.d.ts]
 export { dom as p };
 //// [reacty.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  3 | <h></h>
-//!    :        ^
-//!    `----
+/** @jsx dom */ import { dom } from "./renderer";
+/*#__PURE__*/ dom("h", null);
 //// [index.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  2 | <h></h>
-//!    :        ^
-//!    `----
+/*#__PURE__*/ React.createElement("h", null);
+export { };

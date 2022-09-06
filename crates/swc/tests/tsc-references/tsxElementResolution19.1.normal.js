@@ -33,16 +33,19 @@ define([
     };
 });
 //// [file2.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  6 | <MyClass />;
-//!    :          ^
-//!    `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  6 | <MyClass />;
-//!    :           ^
-//!    `----
+// Should not elide React import
+define([
+    "require",
+    "exports",
+    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "react",
+    "./file1"
+], function(require, exports, _interopRequireWildcard, _react, _file1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    _interopRequireWildcard = _interopRequireWildcard.default;
+    _react = /*#__PURE__*/ _interopRequireWildcard(_react);
+    /*#__PURE__*/ _react.createElement(_file1.MyClass, null);
+});

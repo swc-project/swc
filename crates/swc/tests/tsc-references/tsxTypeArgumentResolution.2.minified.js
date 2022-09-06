@@ -1,7 +1,7 @@
 //// [file.tsx]
 //! 
-//!   x Expected '>', got 'a'
-//!     ,----
-//!  13 | let x = <MyComp<Prop> a={10} b="hi" />; // OK
-//!     :                       ^
-//!     `----
+//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
+//!    ,----
+//!  2 | import React = require('react');
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!    `----

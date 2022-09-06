@@ -7,16 +7,22 @@ export var texts = [];
 /**
  @ts-expect-error */ texts.push("100");
 //// [b.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  4 | return <div />;
-//!    :             ^
-//!    `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  4 | return <div />;
-//!    :              ^
-//!    `----
+import * as React from "react";
+export function MyComponent(props) {
+    return /*#__PURE__*/ React.createElement("div", null);
+}
+var x = /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(MyComponent, {
+    foo: 100
+}), /*#__PURE__*/ React.createElement(MyComponent, {
+    foo: 100
+}), /*#__PURE__*/ React.createElement(MyComponent, {
+    foo: 100
+}), /*#__PURE__*/ React.createElement(MyComponent, {
+    foo: 100
+}), /*#__PURE__*/ React.createElement(MyComponent, {
+    foo: 100
+}), /*#__PURE__*/ React.createElement(MyComponent, {
+    foo: 100
+}), /*#__PURE__*/ React.createElement(MyComponent, {
+    foo: "hooray"
+}));

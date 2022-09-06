@@ -1,7 +1,12 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got '{'
-//!     ,----
-//!  10 | let a0 = <OverloadComponent {...arg1} a="hello" ignore-prop />;
-//!     :                             ^
-//!     `----
+define([
+    "require",
+    "exports",
+    "@swc/helpers/src/_extends.mjs",
+    "react"
+], function(require, exports, _extends, _react) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    }), _extends = _extends.default;
+});

@@ -1,14 +1,7 @@
 //// [file.tsx]
 //! 
-//!   x Expression expected
-//!     ,----
-//!  13 | let x = <MyComp />
-//!     :                 ^
-//!     `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!     ,----
-//!  13 | let x = <MyComp />
-//!     :                  ^
-//!     `----
+//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
+//!    ,----
+//!  2 | import React = require('react');
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!    `----
