@@ -50,7 +50,6 @@ pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
     feature::FeatureFlag,
-    fixer::paren_remover,
     hygiene, modules,
     modules::{path::NodeImportResolver, rewriter::import_rewriter},
     optimization::{const_modules, json_parse, simplifier},
@@ -599,7 +598,6 @@ impl Options {
                 }),
                 syntax.decorators()
             ),
-            paren_remover(comments.map(|x| x as &dyn Comments)),
             // The transform strips import assertions, so it's only enabled if
             // keep_import_assertions is false.
             Optional::new(import_assertions(), !keep_import_assertions),
