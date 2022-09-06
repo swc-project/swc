@@ -218,11 +218,8 @@ impl CharFreq {
                     self.0[63] += delta;
                 }
 
-                _ => continue,
+                _ => {}
             }
-
-            #[cfg(feature = "debug")]
-            tracing::debug!("Scanning: `{}` with delta {}", c as char, delta);
         }
     }
 
