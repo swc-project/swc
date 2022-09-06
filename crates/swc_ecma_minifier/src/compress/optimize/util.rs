@@ -229,7 +229,7 @@ impl VisitMut for MultiReplacer<'_> {
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.changed = false;
-        if self.vars.is_empty() {
+        if self.vars.is_empty() && self.simple_functions.is_empty() {
             return;
         }
         items.visit_mut_children_with(self);
