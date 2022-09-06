@@ -82,7 +82,7 @@ impl SourceMapperExt for DummySourceMap {
 impl CharFreq {
     #[inline(always)]
     fn write(&mut self, data: &str) -> io::Result<()> {
-        self.scan(data.as_bytes(), 1);
+        self.scan(data, 1);
         Ok(())
     }
 }
@@ -195,12 +195,15 @@ impl WriteJs for CharFreq {
 }
 
 impl CharFreq {
-    pub fn scan(&mut self, s: &[u8], delta: i32) {
+    pub fn scan(&mut self, s: &str, delta: i32) {
         if delta == 0 {
             return;
         }
 
-        for &c in s {
+        #[cfg(feature = "debug")]
+        tracing::debug!("Scanning: `{}` with delta {}", s, delta);
+
+        for &c in s.as_bytes() {
             match c {
                 b'a'..=b'z' => {
                     self.0[c as usize - 'a' as usize] += delta;
@@ -297,7 +300,7 @@ impl Visit for CharFreqAnalyzer<'_> {
             return;
         }
 
-        self.freq.scan(i.sym.as_bytes(), -1);
+        self.freq.scan(&i.sym, -1);
     }
 
     fn visit_prop_name(&mut self, n: &PropName) {
