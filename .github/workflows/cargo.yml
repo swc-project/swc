@@ -111,7 +111,7 @@ jobs:
           - crate: string_enum
             os: ubuntu-latest
           - crate: swc
-            os: ubuntu-latest
+            os: ubuntu-large
             check: |
               cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest
           - crate: swc
