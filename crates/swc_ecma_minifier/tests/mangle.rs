@@ -72,7 +72,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
 
         if option_env!("CI") != Some("1") {
             let mut c = Command::new("node");
-            c.arg("tests/mangle/charfreq.js");
+            c.arg("scripts/mangle/charfreq.js");
             c.arg(&input);
             let output = c.output().unwrap();
 
