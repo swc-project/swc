@@ -20,36 +20,36 @@ os:
   macos:
     - swc_plugin_runner
 
+# host:
+#   swc: ubuntu-large
+
 check:
-  node:
-    - "check --features plugin"
-    - "check --no-default-features --features plugin --features swc_v2"
   swc:
     # plugin feature is verified by other tasks
-    - "hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin"
+    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest"
   swc_bundler:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps"
   swc_common:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest"
   swc_ecma_ast:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps"
   swc_ecma_loader:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms_base:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms_compat:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms_optimization:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps"
   swc_ecma_utils:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps"
   swc_ecma_visit:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps"
   swc_cli:
-    - "check"
-    - "check --features plugin"
+    - "cargo check"
+    - "cargo check --features plugin"
   swc_node_bundler:
-    - "check"
-    - "check --no-default-features --features swc_v2"
+    - "cargo check"
+    - "cargo check --no-default-features --features swc_v2"
