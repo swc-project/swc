@@ -1,14 +1,20 @@
 //// [file.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  8 | <Div />;
-//!    :      ^
-//!    `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  8 | <Div />;
-//!    :       ^
-//!    `----
+// Error
+var Div = 3;
+/*#__PURE__*/ React.createElement(Div, null);
+// OK
+function Fact() {
+    return null;
+}
+/*#__PURE__*/ React.createElement(Fact, null);
+// Error
+function Fnum() {
+    return 42;
+}
+/*#__PURE__*/ React.createElement(Fnum, null);
+var Obj1;
+/*#__PURE__*/ React.createElement(Obj1, null); // OK, prefer construct signatures
+var Obj2;
+/*#__PURE__*/ React.createElement(Obj2, null); // Error
+var Obj3;
+/*#__PURE__*/ React.createElement(Obj3, null); // Error

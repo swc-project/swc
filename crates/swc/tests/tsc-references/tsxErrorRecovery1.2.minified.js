@@ -1,13 +1,7 @@
 //// [file.tsx]
 //! 
-//!   x Expression expected
+//!   x Unexpected token `div`. Expected jsx identifier
 //!    ,----
 //!  5 | var x = <div>  { </div>
-//!    :                  ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  5 | var x = <div>  { </div>
-//!    :                   ^^^^^
+//!    :          ^^^
 //!    `----

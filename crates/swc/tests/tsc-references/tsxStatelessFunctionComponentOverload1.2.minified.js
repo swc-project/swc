@@ -1,7 +1,11 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got 'yxx'
-//!     ,----
-//!  11 | const c1 = <OneThing yxx='ok' />
-//!     :                      ^^^
-//!     `----
+define([
+    "require",
+    "exports",
+    "react"
+], function(require, exports, _react) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    });
+});

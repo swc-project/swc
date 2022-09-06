@@ -1,19 +1,16 @@
 //// [jsxJsxsCjsTransformNestedSelfClosingChild.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  6 | <div />
-//!    :      ^
-//!    `----
-//! 
-//!   x Expression expected
-//!    ,----
-//!  6 | <div />
-//!    :       ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  7 | </div>
-//!    :  ^^^^^
-//!    `----
+/// <reference path="/.lib/react16.d.ts" />
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+console.log(/*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("div", null)));
+console.log(/*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("div", null), /*#__PURE__*/ React.createElement("div", null)));
+console.log(/*#__PURE__*/ React.createElement("div", null, [
+    1,
+    2
+].map(function(i) {
+    return /*#__PURE__*/ React.createElement("div", {
+        key: i
+    }, i);
+})));

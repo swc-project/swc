@@ -4,21 +4,21 @@ export { };
 export { };
 //// [component.tsx]
 //! 
-//!   x Expected a semicolon
+//!   x Spread children are not supported in React.
 //!    ,----
 //!  4 | export const MySFC = (props: {x: number, y: number, children?: predom.JSX.Element[]}) => <p>{props.x} + {props.y} = {props.x + props.y}{...this.props.children}</p>;
-//!    :                                                                                                   ^
+//!    :                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
 //!    `----
 //! 
-//!   x Expected ',', got '.'
-//!    ,----
-//!  4 | export const MySFC = (props: {x: number, y: number, children?: predom.JSX.Element[]}) => <p>{props.x} + {props.y} = {props.x + props.y}{...this.props.children}</p>;
-//!    :                                                                                                   ^
-//!    `----
+//!   x Spread children are not supported in React.
+//!     ,----
+//!  12 | {...this.props.children}
+//!     : ^^^^^^^^^^^^^^^^^^^^^^^^
+//!     `----
 //// [index.tsx]
 //! 
-//!   x Unexpected token `regexp literal (h>; , )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  5 | elem = <h></h>; // Expect assignability error here
-//!    :            ^^^^^^
-//!    `----
+//!   x Spread children are not supported in React.
+//!     ,----
+//!  13 | return <p>{this.props.x} + {this.props.y} = {this.props.x + this.props.y}{...this.props.children}</p>;
+//!     :                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^
+//!     `----

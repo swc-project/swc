@@ -1,13 +1,7 @@
 //// [file.tsx]
 //! 
-//!   x Expected a semicolon
-//!     ,----
-//!  24 | { user => (
-//!     :        ^^
-//!     `----
-//! 
-//!   x Expected ',', got '=>'
-//!     ,----
-//!  24 | { user => (
-//!     :        ^^
-//!     `----
+//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
+//!    ,----
+//!  2 | import React = require('react');
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!    `----

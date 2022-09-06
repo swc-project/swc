@@ -1,108 +1,46 @@
 //// [renderer.d.ts]
 export { };
 //// [preacty.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  6 | <><div></div></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unexpected token `regexp literal (div><, )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  6 | <><div></div></>
-//!    :         ^^^^^^^
-//!    `----
+/**
+ * @jsx h
+ * @jsxFrag Fragment
+ */ import { h, Fragment } from "./renderer";
+/*#__PURE__*/ h(Fragment, null, /*#__PURE__*/ h("div", null));
 //// [snabbdomy.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  4 | <><span></span></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unexpected token `regexp literal (span><, )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  4 | <><span></span></>
-//!    :          ^^^^^^^^
-//!    `----
+/* @jsx jsx */ /* @jsxfrag null */ import { jsx } from "./renderer";
+/*#__PURE__*/ jsx(React.Fragment, null, /*#__PURE__*/ jsx("span", null));
 //// [preacty-only-fragment.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  6 | <></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  6 | <></>
-//!    :    ^^
-//!    `----
+/**
+ * @jsx h
+ * @jsxFrag Fragment
+ */ import { h, Fragment } from "./renderer";
+/*#__PURE__*/ h(Fragment, null);
 //// [snabbdomy-only-fragment.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  4 | <></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  4 | <></>
-//!    :    ^^
-//!    `----
+/* @jsx jsx */ /* @jsxfrag null */ import { jsx } from "./renderer";
+/*#__PURE__*/ jsx(React.Fragment, null);
 //// [preacty-only-fragment-no-jsx.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  6 | <></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  6 | <></>
-//!    :    ^^
-//!    `----
+/**
+ * @jsx h
+ * @jsxFrag Fragment
+ */ import { Fragment } from "./renderer";
+/*#__PURE__*/ h(Fragment, null);
 //// [snabbdomy-only-fragment-no-jsx.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  4 | <></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  4 | <></>
-//!    :    ^^
-//!    `----
+/* @jsx jsx */ /* @jsxfrag null */ import "./renderer";
+/*#__PURE__*/ jsx(React.Fragment, null);
 //// [preacty-no-fragment.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  6 | <div></div>
-//!    :            ^
-//!    `----
+/**
+ * @jsx h
+ * @jsxFrag Fragment
+ */ import { h, Fragment } from "./renderer";
+/*#__PURE__*/ h("div", null);
 //// [snabbdomy-no-fragment.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  4 | <div></div>
-//!    :            ^
-//!    `----
+/* @jsx jsx */ /* @jsxfrag null */ import { jsx } from "./renderer";
+/*#__PURE__*/ jsx("div", null);
 //// [preacty-only-component.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  6 | <Component />
-//!    :            ^
-//!    `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  6 | <Component />
-//!    :             ^
-//!    `----
+/**
+ * @jsx h
+ */ import { h } from "./renderer";
+function Component() {
+    return null;
+}
+/*#__PURE__*/ h(Component, null);

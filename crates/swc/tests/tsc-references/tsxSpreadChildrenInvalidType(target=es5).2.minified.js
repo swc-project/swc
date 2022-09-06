@@ -1,13 +1,13 @@
 //// [tsxSpreadChildrenInvalidType.tsx]
 //! 
-//!   x Expected a semicolon
+//!   x Spread children are not supported in React.
 //!     ,----
-//!  17 | return <div>{prop.key.toString() + prop.todo}</div>;
-//!     :                  ^
+//!  21 | {...<Todo key={todos[0].id} todo={todos[0].todo} />}
+//!     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //!     `----
 //! 
-//!   x Expected ',', got '.'
+//!   x Spread children are not supported in React.
 //!     ,----
-//!  17 | return <div>{prop.key.toString() + prop.todo}</div>;
-//!     :                  ^
+//!  27 | {...(<Todo key={todos[0].id} todo={todos[0].todo} /> as any)}
+//!     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //!     `----

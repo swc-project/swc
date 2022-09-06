@@ -7,16 +7,15 @@ define([
     "require"
 ], function(require) {});
 //// [test.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  7 | var routes1 = <Route />;
-//!    :                      ^
-//!    `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  7 | var routes1 = <Route />;
-//!    :                       ^
-//!    `----
+define([
+    "require",
+    "exports",
+    "react",
+    "react-router"
+], function(require, exports, _react, _reactRouter) {
+    "use strict";
+    var M, X1;
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    }), _reactRouter.Route, (M || (M = {})).X = X1, M || (M = {}), X;
+});

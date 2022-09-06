@@ -15,9 +15,17 @@ Object.defineProperty(exports, "React", {
 });
 var React;
 //// [react-consumer.tsx]
-//! 
-//!   x Expected '>', got 'x'
-//!    ,----
-//!  5 | var spread1 = <div x='' {...foo} y='' />;
-//!    :                    ^
-//!    `----
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var _extends = require("@swc/helpers/lib/_extends.js").default;
+var _test = require("./test");
+// Should emit test_1.React.createElement
+//  and React.__spread
+var foo;
+var spread1 = /*#__PURE__*/ _test.React.createElement("div", _extends({
+    x: ""
+}, foo, {
+    y: ""
+}));

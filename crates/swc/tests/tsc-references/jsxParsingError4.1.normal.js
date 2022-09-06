@@ -1,13 +1,3 @@
 //// [a.tsx]
-//! 
-//!   x Expression expected
-//!     ,----
-//!  10 | <public-foo></public-foo>
-//!     :        ^
-//!     `----
-//! 
-//!   x Unterminated regexp literal
-//!     ,----
-//!  10 | <public-foo></public-foo>
-//!     :              ^^^^^^^^^^^^
-//!     `----
+var a = /*#__PURE__*/ React.createElement("public-foo", null);
+var b = /*#__PURE__*/ React.createElement("public", null);

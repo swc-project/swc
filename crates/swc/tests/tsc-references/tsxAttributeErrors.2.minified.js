@@ -1,7 +1,5 @@
 //// [tsxAttributeErrors.tsx]
-//! 
-//!   x Expected '>', got 'text'
-//!     ,----
-//!  15 | <div text={42} />;
-//!     :      ^^^^
-//!     `----
+import _extends from "@swc/helpers/src/_extends.mjs";
+_extends({}, {
+    text: 100
+});

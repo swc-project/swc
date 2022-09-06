@@ -1,7 +1,4 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got 'x'
-//!     ,----
-//!  11 | <Obj1 x={10} />; // OK
-//!     :       ^
-//!     `----
+var attributes;
+import _extends from "@swc/helpers/src/_extends.mjs";
+_extends({}, attributes), _extends({}, {});

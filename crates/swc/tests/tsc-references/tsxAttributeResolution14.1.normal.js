@@ -11,9 +11,22 @@ define([
     "use strict";
 });
 //// [file.tsx]
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  8 | return <div>props.primaryText</div>
-//!    :                               ^^^^^
-//!    `----
+define([
+    "require"
+], function(require) {
+    "use strict";
+    function VerticalNavMenuItem(prop) {
+        return /*#__PURE__*/ React.createElement("div", null, "props.primaryText");
+    }
+    function VerticalNav() {
+        return /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
+            primaryText: 2
+        }), "  // error", /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
+            justRandomProp: 2,
+            primaryText: "hello"
+        }), "  // ok", /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
+            justRandomProp1: true,
+            primaryText: "hello"
+        }), "  // error");
+    }
+});

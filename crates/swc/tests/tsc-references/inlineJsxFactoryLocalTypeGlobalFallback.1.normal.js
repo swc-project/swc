@@ -3,16 +3,10 @@ export { };
 //// [renderer2.d.ts]
 export { };
 //// [component.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  3 | export default <h></h>
-//!    :                       ^
-//!    `----
+/** @jsx predom */ import { predom } from "./renderer2";
+export default /*#__PURE__*/ predom("h", null);
 //// [index.tsx]
-//! 
-//!   x Unexpected token `regexp literal (h>; , )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  5 | elem = <h></h>; // Expect assignability error here
-//!    :            ^^^^^^
-//!    `----
+/** @jsx dom */ import { dom } from "./renderer";
+import prerendered from "./component";
+var elem = prerendered;
+elem = /*#__PURE__*/ dom("h", null); // Expect assignability error here
