@@ -5,7 +5,7 @@ class Foo {
 const foo = new Foo();
 foo.m?.();
 foo.m?.();
-/*a1*/ /*a2*/ foo.m?.();
+/*a2*/ /*a1*/ foo.m?.();
 foo.m /*b3*/ ?.();
 // https://github.com/microsoft/TypeScript/issues/50148
 foo?.m.length;

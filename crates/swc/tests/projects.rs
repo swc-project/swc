@@ -343,8 +343,8 @@ fn issue_528() {
 [
 //foo
 a,
-//bar
 //baz
+//bar
 b
 ];"
     );

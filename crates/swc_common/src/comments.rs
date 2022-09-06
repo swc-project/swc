@@ -381,13 +381,7 @@ impl Comments for SingleThreadedComments {
     fn move_leading(&self, from: BytePos, to: BytePos) {
         let cmt = self.leading.borrow_mut().remove(&from);
 
-        if let Some(mut cmt) = cmt {
-            // TODO: if let chain
-            if from < to {
-                if let Some(to_cmt) = self.leading.borrow_mut().remove(&to) {
-                    cmt.extend(to_cmt);
-                }
-            }
+        if let Some(cmt) = cmt {
             self.leading.borrow_mut().entry(to).or_default().extend(cmt);
         }
     }
@@ -423,13 +417,7 @@ impl Comments for SingleThreadedComments {
     fn move_trailing(&self, from: BytePos, to: BytePos) {
         let cmt = self.trailing.borrow_mut().remove(&from);
 
-        if let Some(mut cmt) = cmt {
-            if from < to {
-                if let Some(to_cmt) = self.trailing.borrow_mut().remove(&to) {
-                    cmt.extend(to_cmt);
-                }
-            }
-
+        if let Some(cmt) = cmt {
             self.trailing
                 .borrow_mut()
                 .entry(to)
