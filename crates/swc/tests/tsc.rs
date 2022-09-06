@@ -34,7 +34,15 @@ use testing::NormalizedOutput;
         "privateNameStaticAccessorsDerivedClasses.ts",
     )
 )]
-#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
+#[testing::fixture(
+    "../swc_ecma_parser/tests/tsc/**/*.tsx",
+    exclude(
+        "checkJsxNamespaceNamesQuestionableForms.tsx",
+        "jsxEsprimaFbTestSuite.tsx",
+        "jsxInvalidEsprimaTestSuite.tsx",
+        "tsxGenericArrowFunctionParsing.tsx",
+    )
+)]
 fn fixture(input: PathBuf) {
     if input.to_string_lossy().contains("jsdoc") {
         return;
