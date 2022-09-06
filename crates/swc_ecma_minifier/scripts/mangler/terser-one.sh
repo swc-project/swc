@@ -5,5 +5,5 @@
 set -eu
 
 output="${1/input/output.mangleOnly}"
-npx terser --mangle --output "$output" $1
+npx terser --mangle --toplevel --output "$output" $1
 npx prettier --write "$output"
