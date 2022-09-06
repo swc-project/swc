@@ -2,7 +2,7 @@
 
 use std::{
     path::{Path, PathBuf},
-    process::Command,
+    process::{Command, Stdio},
 };
 
 use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
@@ -19,6 +19,7 @@ use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
 use testing::{assert_eq, NormalizedOutput};
+use tracing::warn;
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
     let mut buf = vec![];
@@ -72,11 +73,12 @@ fn snapshot_compress_fixture(input: PathBuf) {
 
         if option_env!("CI") != Some("1") {
             let mut c = Command::new("node");
-            c.arg("scripts/mangle/charfreq.js");
+            c.arg("scripts/mangler/charfreq.js");
             c.arg(&input);
+            c.stderr(Stdio::inherit());
             let output = c.output().unwrap();
 
-            println!(
+            warn!(
                 "Chars of terser: {}",
                 String::from_utf8_lossy(&output.stdout)
             );
