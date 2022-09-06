@@ -1,6 +1,9 @@
 #![deny(warnings)]
 
-use std::path::{Path, PathBuf};
+use std::{
+    path::{Path, PathBuf},
+    process::Command,
+};
 
 use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
@@ -66,6 +69,18 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
 fn snapshot_compress_fixture(input: PathBuf) {
     let _ = testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &input)?;
+
+        if option_env!("CI") != Some("1") {
+            let mut c = Command::new("node");
+            c.arg("tests/mangle/charfreq.js");
+            c.arg(&input);
+            let output = c.output().unwrap();
+
+            println!(
+                "Chars of terser: {}",
+                String::from_utf8_lossy(&output.stdout)
+            );
+        }
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
