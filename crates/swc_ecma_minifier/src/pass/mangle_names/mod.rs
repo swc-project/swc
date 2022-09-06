@@ -240,7 +240,12 @@ impl CharFreq {
 
         {
             let mut emitter = Emitter {
-                cfg: Default::default(),
+                cfg: swc_ecma_codegen::Config {
+                    target: EsVersion::latest(),
+                    ascii_only: false,
+                    minify: true,
+                    ..Default::default()
+                },
                 cm,
                 comments: None,
                 wr: &mut freq,
