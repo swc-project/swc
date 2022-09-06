@@ -5,6 +5,17 @@
 
 
 
+- **(es/minifier)** Don't drop parameters in an exported function (#5757) ([948d708](https://github.com/swc-project/swc/commit/948d7081447c50bc78764f5fe88ec6055ebbcc9c))
+
+### Miscellaneous Tasks
+- **general**: Typo (#5758) ([15e2357](https://github.com/swc-project/swc/commit/15e2357d1d7086f3a48def71c38acb7052f8d742))
+
+## [1.2.248] - 2022-09-06
+
+### Bug Fixes
+
+
+
 - **(es/parser)** Fix detection of wrong delete targets (#5754) ([9fc6eda](https://github.com/swc-project/swc/commit/9fc6eda89a3f9e613468276eea50f90917fa0f91))
 
 
@@ -17,7 +28,7 @@
 - **(es/minifier)** Fix example (#5739) ([4e98980](https://github.com/swc-project/swc/commit/4e989807d71aa9a6c019c6a5a01acbbee9ec6020))
 
 
-- **(swc_core)** Update deps (#5748) ([1202762](https://github.com/swc-project/swc/commit/1202762f30db43c972c1367f85e30e69baaf0c59))
+- **(swc_core)** Update deps (#5748) ([1202762](https://github.com/swc-project/swc/commit/1202762f30db43c972c1367f85e30e69baaf0c59))- **general**: Fix publish action ([f59d44e](https://github.com/swc-project/swc/commit/f59d44e295ea5b1f5f4b06240921bf4342d51686))
 
 ### Performance
 
