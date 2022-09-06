@@ -20,6 +20,9 @@ os:
   macos:
     - swc_plugin_runner
 
+host:
+  swc: ubuntu-large
+
 check:
   swc:
     # plugin feature is verified by other tasks
