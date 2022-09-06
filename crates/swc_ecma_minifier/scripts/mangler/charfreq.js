@@ -59,6 +59,7 @@ const base54 = (() => {
 
 terser.minify(src, {
     mangle: {
+        toplevel: true,
         nth_identifier: base54,
     },
 });
