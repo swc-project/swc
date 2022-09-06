@@ -28,8 +28,7 @@ pub(crate) struct CharFreq([i32; 64]);
 
 #[derive(Clone, Copy)]
 pub(crate) struct Base54Chars {
-    head: [u8; 54],
-    tail: [u8; 64],
+    chars: [u8; 64],
 }
 
 impl Default for CharFreq {
@@ -277,22 +276,25 @@ impl CharFreq {
 
         arr.sort_by_key(|&(freq, _)| Reverse(freq));
 
-        let mut head = vec![];
-        let mut tail = vec![];
+        let mut digits = Vec::with_capacity(10);
+        let mut alpha = Vec::with_capacity(10);
+        let mut all = Vec::with_capacity(10);
 
         for (_, c) in arr {
-            if !(b'0'..=b'9').contains(&c) {
-                head.push(c);
+            if (b'0'..=b'9').contains(&c) {
+                digits.push(c);
+            } else {
+                alpha.push(c);
             }
-            tail.push(c);
         }
+        all.extend_from_slice(&alpha);
+        all.extend_from_slice(&digits);
 
         #[cfg(feature = "debug")]
-        tracing::info!("Chars: {}", String::from_utf8_lossy(&tail));
+        tracing::info!("Chars: {}", String::from_utf8_lossy(&all));
 
         Base54Chars {
-            head: head.try_into().unwrap(),
-            tail: tail.try_into().unwrap(),
+            chars: all.try_into().unwrap(),
         }
     }
 }
@@ -362,13 +364,13 @@ impl Base54Chars {
         let mut ret: ArrayVec<_, 14> = ArrayVec::new();
 
         base /= 54;
-        let mut c = self.head[n / base];
+        let mut c = self.chars[n / base];
         ret.push(c);
 
         while base > 1 {
             n %= base;
             base >>= 6;
-            c = self.tail[n / base];
+            c = self.chars[n / base];
 
             ret.push(c);
         }
