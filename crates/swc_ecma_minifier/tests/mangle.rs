@@ -17,7 +17,7 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_visit::VisitMutWith;
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
@@ -104,7 +104,9 @@ fn snapshot_compress_fixture(input: PathBuf) {
 
         let mangled = print(cm.clone(), &m, false);
 
-        if let Ok(terser_module) = terser_module {
+        if let Ok(mut terser_module) = terser_module {
+            terser_module.visit_mut_with(&mut paren_remover(None));
+
             let terser_output = print(cm, &terser_module, false);
             assert_eq!(
                 DebugUsingDisplay(&mangled),
