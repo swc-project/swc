@@ -5459,7 +5459,7 @@
                         var updateSourceCaches = function(src) {
                             return _this7.updateSourceCaches_(src);
                         }, playerSrc = this.currentSource().src, eventSrc = event.src;
-                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (this.lastSource_ && (this.lastSource_.tech === eventSrc || this.lastSource_.player === playerSrc) || (updateSourceCaches = function() {})), updateSourceCaches(eventSrc), event.src || this.tech_.any([
+                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (!this.lastSource_ || this.lastSource_.tech !== eventSrc && this.lastSource_.player !== playerSrc) && (updateSourceCaches = function() {}), updateSourceCaches(eventSrc), event.src || this.tech_.any([
                             "sourceset",
                             "loadstart"
                         ], function(e) {

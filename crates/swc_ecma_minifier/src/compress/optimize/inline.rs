@@ -39,8 +39,6 @@ where
             return;
         }
 
-        self.vars.inline_with_multi_replacer(init);
-
         // TODO: Check for side effect between original decl position and inlined
         // position
 
@@ -85,6 +83,19 @@ where
                 return;
             }
 
+            // No use => dropped
+            if ref_count == 0 {
+                if init.may_have_side_effects(&self.expr_ctx) {
+                    // TODO: Inline partially
+                    return;
+                }
+
+                // TODO: Remove
+                return;
+            }
+
+            self.vars.inline_with_multi_replacer(init);
+
             if !usage.is_fn_local {
                 match init {
                     Expr::Lit(..) => {}
@@ -127,17 +138,6 @@ where
 
             if !usage.mutated {
                 self.mode.store(ident.to_id(), &*init);
-            }
-
-            // No use => dropped
-            if ref_count == 0 {
-                if init.may_have_side_effects(&self.expr_ctx) {
-                    // TODO: Inline partially
-                    return;
-                }
-
-                // TODO: Remove
-                return;
             }
 
             let is_inline_enabled =

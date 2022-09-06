@@ -1411,7 +1411,7 @@ var YUI = function() {
         },
         _addSkin: function(skin, mod, parent) {
             var mdef, pkg, name, nmod, info = this.moduleInfo, sinf = this.skin, ext = info[mod] && info[mod].ext;
-            return mod && (info[name = this.formatSkin(skin, mod)] || (pkg = (mdef = info[mod]).pkg || mod, nmod = {
+            return mod && !info[name = this.formatSkin(skin, mod)] && (pkg = (mdef = info[mod]).pkg || mod, nmod = {
                 skin: !0,
                 name: name,
                 group: mdef.group,
@@ -1419,7 +1419,7 @@ var YUI = function() {
                 after: sinf.after,
                 path: (parent || pkg) + "/" + sinf.base + skin + "/" + mod + ".css",
                 ext: ext
-            }, mdef.base && (nmod.base = mdef.base), mdef.configFn && (nmod.configFn = mdef.configFn), this.addModule(nmod, name))), name;
+            }, mdef.base && (nmod.base = mdef.base), mdef.configFn && (nmod.configFn = mdef.configFn), this.addModule(nmod, name)), name;
         },
         addAlias: function(use, name) {
             YUI.Env.aliases[name] = use, this.addModule({

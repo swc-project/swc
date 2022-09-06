@@ -242,7 +242,7 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: AHashMap<Id, Box<Expr>>,
 
     /// Used for copying functions.
     ///
@@ -275,15 +275,6 @@ impl Vars {
             n.visit_mut_with(&mut MultiReplacer::new(
                 &mut self.vars_for_inlining,
                 false,
-                MultiReplacerMode::Normal,
-                &mut changed,
-            ));
-        }
-
-        if !self.lits.is_empty() {
-            n.visit_mut_with(&mut MultiReplacer::new(
-                &mut self.lits,
-                true,
                 MultiReplacerMode::Normal,
                 &mut changed,
             ));
@@ -2208,57 +2199,52 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        {
-            let should_preserve_zero = matches!(
-                n.exprs.last().map(|v| &**v),
-                Some(Expr::Member(..))
-                    | Some(Expr::Ident(Ident {
-                        sym: js_word!("eval"),
-                        ..
-                    }))
-            );
+        let should_preserve_zero = matches!(
+            n.exprs.last().map(|v| &**v),
+            Some(Expr::Member(..))
+                | Some(Expr::Ident(Ident {
+                    sym: js_word!("eval"),
+                    ..
+                }))
+        );
 
-            let exprs = n
-                .exprs
-                .iter_mut()
-                .enumerate()
-                .identify_last()
-                .filter_map(|(last, (idx, expr))| {
-                    let is_injected_zero = match &**expr {
-                        Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
-                        _ => false,
-                    };
+        let ctx = Ctx {
+            dont_use_negated_iife: true,
+            ..self.ctx
+        };
 
-                    let can_remove = !last
-                        && (idx != 0
-                            || !is_injected_zero
-                            || !self.ctx.is_this_aware_callee
-                            || !should_preserve_zero);
+        let exprs = n
+            .exprs
+            .iter_mut()
+            .enumerate()
+            .identify_last()
+            .filter_map(|(last, (idx, expr))| {
+                expr.visit_mut_with(&mut *self.with_ctx(ctx));
+                let is_injected_zero = match &**expr {
+                    Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
+                    _ => false,
+                };
 
-                    if can_remove {
-                        // If negate_iife is true, it's already handled by
-                        // visit_mut_children_with(self) above.
-                        if !self.options.negate_iife {
-                            self.negate_iife_in_cond(expr);
-                        }
+                let can_remove = !last
+                    && (idx != 0
+                        || !is_injected_zero
+                        || !self.ctx.is_this_aware_callee
+                        || !should_preserve_zero);
 
-                        self.ignore_return_value(expr).map(Box::new)
-                    } else {
-                        Some(expr.take())
+                if can_remove {
+                    // If negate_iife is true, it's already handled by
+                    // visit_mut_children_with(self) above.
+                    if !self.options.negate_iife {
+                        self.negate_iife_in_cond(expr);
                     }
-                })
-                .collect::<Vec<_>>();
-            n.exprs = exprs;
-        }
 
-        {
-            let ctx = Ctx {
-                dont_use_negated_iife: true,
-                ..self.ctx
-            };
-
-            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
+                    self.ignore_return_value(expr).map(Box::new)
+                } else {
+                    Some(expr.take())
+                }
+            })
+            .collect::<Vec<_>>();
+        n.exprs = exprs;
 
         self.shift_void(n);
 
