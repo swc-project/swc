@@ -1,7 +1,7 @@
-var a = 1;
-var c = {
-    get c () {
-        console.log(a);
-    }
+var c = 1;
+var o = {
+    get c() {
+        console.log(c);
+    },
 };
-c.c;
+o.c;

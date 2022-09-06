@@ -1,23 +1,23 @@
-var $ = {
-    "\0\x01": "foo",
-    get "\0\x01" () {
+var r = {
+    "\0": "foo",
+    get "\0"() {
         return "bar";
     },
-    set "\0\x01" (foo){
-        save(foo);
+    set "\0"(r) {
+        save(r);
     },
-    *"\0\x01" () {
+    *"\0"() {
         return "foobar";
-    }
+    },
 };
-class r {
-    get "\0\x01"() {
+class e {
+    get "\0"() {
         return "bar";
     }
-    set "\0\x01"($) {
-        save($);
+    set "\0"(r) {
+        save(r);
     }
-    *"\0\x01"() {
+    *"\0"() {
         return "foobar";
     }
 }

@@ -1,7 +1,7 @@
 class e {
     method() {
         const e = "FAIL";
-        return s(e, ()=>console.log(this.message()));
+        return s(e, () => console.log(this.message()));
     }
     message() {
         return "PASS";

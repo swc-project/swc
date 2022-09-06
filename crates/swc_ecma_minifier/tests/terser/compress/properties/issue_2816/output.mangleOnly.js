@@ -1,7 +1,5 @@
 "use strict";
-var a = {
-    a: 1
-};
+var a = { a: 1 };
 a.b = 2;
 a.a = 3;
 a.c = 4;

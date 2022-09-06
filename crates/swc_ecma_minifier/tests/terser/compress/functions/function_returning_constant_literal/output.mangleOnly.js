@@ -1,7 +1,5 @@
 function e() {
-    return {
-        message: "Hello there"
-    };
+    return { message: "Hello there" };
 }
-var r = e();
-console.log(r.message);
+var o = e();
+console.log(o.message);

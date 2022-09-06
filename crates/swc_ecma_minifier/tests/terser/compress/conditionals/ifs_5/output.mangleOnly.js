@@ -3,7 +3,7 @@ function r() {
     bar();
     baz();
 }
-function n() {
+function f() {
     if (foo) return;
     if (bar) return;
     if (baz) return;

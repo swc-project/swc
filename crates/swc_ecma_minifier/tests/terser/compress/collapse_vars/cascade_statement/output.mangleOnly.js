@@ -5,11 +5,11 @@ function i(i, n) {
 }
 function n(i, n) {
     var r;
-    while(i)(r = n), (i = r + n);
+    while (i) (r = n), (i = r + n);
     do {
         throw ((r = i + n), r);
-    }while (r)
+    } while (r);
 }
 function r(i, n) {
-    for(; i < n; i++)if (((r = i), r && n)) var r = ((r = n(i)), r);
+    for (; i < n; i++) if (((r = i), r && n)) var r = ((r = n(i)), r);
 }

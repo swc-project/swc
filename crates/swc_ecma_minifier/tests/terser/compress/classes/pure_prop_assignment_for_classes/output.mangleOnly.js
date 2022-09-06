@@ -1,5 +1,4 @@
-class s {
-}
+class s {}
 s.staticProp = "A";
 class t {
     static get danger() {}

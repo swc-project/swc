@@ -6,5 +6,5 @@ function e() {
 }
 typeof 0 ? foo() : bar();
 !typeof console.log(1);
-var t = !typeof console.log(2);
-if (typeof (1 + foo())) ;
+var f = !typeof console.log(2);
+if (typeof (1 + foo()));

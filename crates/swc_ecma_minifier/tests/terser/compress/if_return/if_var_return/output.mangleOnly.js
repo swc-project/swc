@@ -1,7 +1,7 @@
 function r() {
     var r;
     return;
-    var a;
+    var v;
 }
 function a() {
     var r;

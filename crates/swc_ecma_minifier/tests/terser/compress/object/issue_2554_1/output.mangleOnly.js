@@ -1,14 +1,14 @@
 var t = {
     ["x" + ""]: 1,
-    ["method" + ""] () {
+    ["method" + ""]() {
         this.s = "PASS";
     },
-    get ["g" + ""] () {
+    get ["g" + ""]() {
         return this.x;
     },
-    set ["s" + ""] (value){
-        this.x = value;
-    }
+    set ["s" + ""](t) {
+        this.x = t;
+    },
 };
 t.method();
 console.log(t.g);

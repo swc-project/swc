@@ -1,11 +1,12 @@
-var a = 100, e = 10;
+var a = 100,
+    e = 10;
 function c() {
-    switch(--e){
+    switch (--e) {
         default:
         case !function a() {}:
             break;
         case e--:
-            switch(0){
+            switch (0) {
                 default:
                 case a--:
             }

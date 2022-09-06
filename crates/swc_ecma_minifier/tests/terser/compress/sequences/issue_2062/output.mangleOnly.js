@@ -1,7 +1,3 @@
-var a = 1;
-if ([
-    a || a++ + a--,
-    a++ + a--,
-    a && a.var
-]) ;
-console.log(a);
+var o = 1;
+if ([o || o++ + o--, o++ + o--, o && o.var]);
+console.log(o);

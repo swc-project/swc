@@ -1,2 +1,4 @@
-for (const o of y){}
-for(const f in y){}
+for (const o of y) {
+}
+for (const o in y) {
+}

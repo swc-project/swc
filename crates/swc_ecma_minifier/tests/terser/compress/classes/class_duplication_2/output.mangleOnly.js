@@ -1,6 +1,6 @@
-class o {
+class a {
     foo() {
-        leak(new o());
+        leak(new a());
     }
 }
-leak(o);
+leak(a);

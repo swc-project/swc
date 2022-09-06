@@ -1,15 +1,15 @@
 function n() {
     function n(n) {
-        l.call(null, n);
+        a.call(null, n);
     }
-    function l(n) {
-        var a = 4;
-        var l = n || never_called();
-        var c = (a - 1) * l;
+    function a(n) {
+        var l = 4;
+        var a = n || never_called();
+        var c = (l - 1) * a;
         console.log(c == 6 ? "PASS" : c);
     }
-    a = n;
+    l = n;
 }
-var a;
+var l;
 n();
-a(2);
+l(2);

@@ -1,12 +1,10 @@
-[
-    1
-][0] = 42;
-(function(n) {
+[1][0] = 42;
+(function (n) {
     n.b = "g";
 })("abc");
-(function(n) {
+(function (n) {
     n[2] = "g";
 })("def");
-(function(n) {
+(function (n) {
     n[""] = "g";
 })("ghi");

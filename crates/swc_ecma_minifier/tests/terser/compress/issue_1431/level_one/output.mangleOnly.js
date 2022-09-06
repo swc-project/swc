@@ -1,5 +1,5 @@
 function n(n) {
-    return function() {
+    return function () {
         function r(n) {
             return n * n;
         }

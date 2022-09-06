@@ -5,12 +5,12 @@ function o() {
 }
 var n = {
     count: 0,
-    foo: function() {
+    foo: function () {
         console.log("foo");
     },
-    bar: function() {
+    bar: function () {
         console.log("bar");
-    }
+    },
 };
 o.call(n);
 o.call(n);

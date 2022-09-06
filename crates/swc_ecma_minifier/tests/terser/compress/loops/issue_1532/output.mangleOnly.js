@@ -1,6 +1,6 @@
-function e(e, f) {
+function f(f, o) {
     do {
-        if (e) break;
+        if (f) break;
         foo();
-    }while (false)
+    } while (false);
 }

@@ -1,4 +1,4 @@
-switch(id(1)){
+switch (id(1)) {
     case id(2):
         console.log("FAIL");
 }

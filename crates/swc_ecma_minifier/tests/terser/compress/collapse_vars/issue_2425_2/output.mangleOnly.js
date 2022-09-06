@@ -1,5 +1,5 @@
-var n = 8;
-(function(n, o) {
-    n.toString();
-})(--n, (n |= 10));
-console.log(n);
+var o = 8;
+(function (o, n) {
+    o.toString();
+})(--o, (o |= 10));
+console.log(o);

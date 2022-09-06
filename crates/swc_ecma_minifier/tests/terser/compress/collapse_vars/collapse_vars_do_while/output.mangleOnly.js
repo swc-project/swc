@@ -1,33 +1,34 @@
-function n(n) {
-    var o = 9;
-    do {}while (o === 77)
+function o(o) {
+    var n = 9;
+    do {} while (n === 77);
 }
-function o(n) {
-    var o = 5 - n;
-    do {}while (o)
+function n(o) {
+    var n = 5 - o;
+    do {} while (n);
 }
-function i(n) {
-    function o(n) {
-        console.log(n);
+function i(o) {
+    function n(o) {
+        console.log(o);
     }
-    var i = 2, r = 7;
+    var i = 2,
+        c = 7;
     do {
-        o((i = r));
+        n((i = c));
         break;
-    }while (n)
+    } while (o);
 }
-function r(n) {
-    var o = n / 4;
+function c(o) {
+    var n = o / 4;
     do {
-        return o;
-    }while (n)
+        return n;
+    } while (o);
 }
-function t(n) {
-    function o(n) {
-        console.log(n);
+function e(o) {
+    function n(o) {
+        console.log(o);
     }
     do {
-        var i = n - 3;
-        o(i);
-    }while (--n)
+        var i = o - 3;
+        n(i);
+    } while (--o);
 }

@@ -2,12 +2,12 @@ function n(n) {
     var n;
     return typeof n;
 }
-function r(n) {
+function o(n) {
     var n = 42;
     return typeof n;
 }
-function t(n, r) {
-    var n = r;
+function r(n, o) {
+    var n = o;
     return typeof n;
 }
-console.log(n([]), r([]), t([]));
+console.log(n([]), o([]), r([]));

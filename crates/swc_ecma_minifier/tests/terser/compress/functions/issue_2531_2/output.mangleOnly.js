@@ -3,7 +3,7 @@ function n() {
         function r() {
             return n;
         }
-        return function() {
+        return function () {
             return r();
         };
     }

@@ -1,12 +1,9 @@
 let s = "";
-class t {
+class l {
     static _ = (s += "PA");
 }
-class a {
+class t {
     static _ = (s += "SS");
 }
-global.something = [
-    new a(),
-    new t()
-];
+global.something = [new t(), new l()];
 console.log(s);

@@ -1,3 +1,3 @@
-var _ = "hi";
-var a = "hello";
-var r = "testing \u{101111}";
+var a = "hi";
+var r = "hello";
+var v = "testing 􁄑";

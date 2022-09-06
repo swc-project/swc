@@ -1,14 +1,14 @@
 foo();
 bar();
-for(; false;);
+for (; false; );
 foo();
 bar();
-for(x = 5; false;);
+for (x = 5; false; );
 x = foo in bar;
-for(; false;);
+for (; false; );
 x = foo in bar;
-for(y = 5; false;);
-x = function() {
+for (y = 5; false; );
+x = function () {
     foo in bar;
 };
-for(y = 5; false;);
+for (y = 5; false; );

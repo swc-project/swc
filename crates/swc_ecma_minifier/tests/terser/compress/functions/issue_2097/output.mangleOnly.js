@@ -1,8 +1,8 @@
-function t() {
+function o() {
     try {
         throw 0;
-    } catch (t) {
+    } catch (o) {
         console.log(arguments[0]);
     }
 }
-t(1);
+o(1);

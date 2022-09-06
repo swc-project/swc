@@ -5,18 +5,33 @@ class n {
 }
 class u {
     num() {
-        return m;
+        return l;
     }
 }
 class e {
     num() {
-        return l;
+        return m;
     }
 }
-function r() {
+function s() {
     return c;
 }
-const s = ()=>m;
-const t = ()=>l;
-let c = 2, m = 3, l = 4;
-console.log(c, m, l, c * m, c * l, m * l, r(), s(), t(), new n().num(), new u().num(), new e().num());
+const r = () => l;
+const t = () => m;
+let c = 2,
+    l = 3,
+    m = 4;
+console.log(
+    c,
+    l,
+    m,
+    c * l,
+    c * m,
+    l * m,
+    s(),
+    r(),
+    t(),
+    new n().num(),
+    new u().num(),
+    new e().num()
+);

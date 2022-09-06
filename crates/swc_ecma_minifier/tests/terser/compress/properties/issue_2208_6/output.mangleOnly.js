@@ -1,3 +1,1 @@
-console.log({
-    p: ()=>42
-}.p());
+console.log({ p: () => 42 }.p());

@@ -1,5 +1,2 @@
-var _ = [
-    1,
-    2
-];
-console.log(_[0], _[1]);
+var o = [1, 2];
+console.log(o[0], o[1]);

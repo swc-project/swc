@@ -1,11 +1,11 @@
 x = {
-    foo (r, o) {
+    foo(r, o) {
         return x;
-    }
+    },
 };
 y = {
-    foo ([{ a: r  }]) {
+    foo([{ a: r }]) {
         return r;
     },
-    bar () {}
+    bar() {},
 };

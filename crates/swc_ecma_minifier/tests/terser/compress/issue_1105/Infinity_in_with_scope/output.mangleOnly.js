@@ -1,7 +1,5 @@
-var o = {
-    Infinity: "oInfinity"
-};
+var o = { Infinity: "oInfinity" };
 var vInfinity = "Infinity";
-with (o){
+with (o) {
     vInfinity = Infinity;
 }

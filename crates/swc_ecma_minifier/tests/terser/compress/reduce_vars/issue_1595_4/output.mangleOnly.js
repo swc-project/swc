@@ -1,4 +1,4 @@
-(function f(i, n, o) {
-    console.log(i, n, o);
-    if (i) f(i - 1, n, o);
+(function o(n, c, f) {
+    console.log(n, c, f);
+    if (n) o(n - 1, c, f);
 })(3, 4, 5);

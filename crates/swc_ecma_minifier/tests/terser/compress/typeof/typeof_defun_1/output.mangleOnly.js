@@ -1,14 +1,14 @@
-function n() {
+function o() {
     console.log("YES");
 }
-function o() {
-    f = 42;
+function n() {
+    c = 42;
     console.log("NOPE");
 }
-function f() {
+function c() {
     console.log("YUP");
 }
-o = 42;
-"function" == typeof n && n();
+n = 42;
 "function" == typeof o && o();
-"function" == typeof f && f();
+"function" == typeof n && n();
+"function" == typeof c && c();

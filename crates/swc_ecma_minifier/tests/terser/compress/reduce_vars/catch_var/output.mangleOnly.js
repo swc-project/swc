@@ -1,6 +1,6 @@
 try {
     throw {};
-} catch (r) {
-    var r;
-    console.log(!!r);
+} catch (o) {
+    var o;
+    console.log(!!o);
 }

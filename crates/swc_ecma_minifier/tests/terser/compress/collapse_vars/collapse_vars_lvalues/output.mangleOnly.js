@@ -6,35 +6,52 @@ function r(n) {
     var r = (n -= 3);
     return (n += r);
 }
+function e(n) {
+    var r = n,
+        e = ++r;
+    return (r += e);
+}
 function t(n) {
-    var r = n, t = ++r;
-    return (r += t);
+    var r = (n -= 3),
+        e = n + r;
+    return e;
 }
 function u(n) {
-    var r = (n -= 3), t = n + r;
-    return t;
-}
-function a(n) {
     var r = (n -= 3);
     return n + r;
 }
-function c(n) {
-    var r = e1(), t = e2(), u = (t = --n), a = (r = n);
-    return a - u;
+function a(n) {
+    var r = e1(),
+        e = e2(),
+        t = (e = --n),
+        u = (r = n);
+    return u - t;
 }
-function e(n) {
-    var r = e1(), t = e2(), u = (t = --n), a = (r = n);
-    return u - a;
+function c(n) {
+    var r = e1(),
+        e = e2(),
+        t = (e = --n),
+        u = (r = n);
+    return t - u;
 }
 function f(n) {
-    var r = e1(), t = e2(), u = t - n, a = (r = n);
-    return a - u;
+    var r = e1(),
+        e = e2(),
+        t = e - n,
+        u = (r = n);
+    return u - t;
 }
 function i(n) {
-    var r = e1(), t = e2(), u = (r = n), a = t - n;
-    return u - a;
+    var r = e1(),
+        e = e2(),
+        t = (r = n),
+        u = e - n;
+    return t - u;
 }
 function o(n) {
-    var r = e1(), t = e2(), u = (r = n), a = t - n;
-    return a - u;
+    var r = e1(),
+        e = e2(),
+        t = (r = n),
+        u = e - n;
+    return u - t;
 }

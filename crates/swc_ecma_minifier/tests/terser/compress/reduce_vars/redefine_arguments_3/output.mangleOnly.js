@@ -2,12 +2,12 @@ function n() {
     var arguments;
     return typeof arguments;
 }
-function r() {
+function o() {
     var arguments = 42;
     return typeof arguments;
 }
-function t(n) {
+function r(n) {
     var arguments = n;
     return typeof arguments;
 }
-console.log(n(), r(), t());
+console.log(n(), o(), r());

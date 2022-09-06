@@ -1,10 +1,11 @@
-var n = 1, r = "FAIL";
-(function t() {
-    (n-- && t()).p;
+var n = 1,
+    o = "FAIL";
+(function e() {
+    (n-- && e()).p;
     return {
-        get p () {
-            r = "PASS";
-        }
+        get p() {
+            o = "PASS";
+        },
     };
 })();
-console.log(r);
+console.log(o);

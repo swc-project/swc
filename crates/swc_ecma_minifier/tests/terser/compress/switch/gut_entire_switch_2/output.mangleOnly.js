@@ -1,4 +1,4 @@
-switch(id(123)){
+switch (id(123)) {
     case 1:
         "no side effect";
     case 1:

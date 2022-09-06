@@ -1,7 +1,7 @@
-function r(r, n) {
-    var r = 0;
-    n && n(r);
-    return r++;
+function n(n, o) {
+    var n = 0;
+    o && o(n);
+    return n++;
 }
-var n = r();
-console.log(n);
+var o = n();
+console.log(o);

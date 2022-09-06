@@ -1,2 +1,2 @@
-var l = typeof ((l)=>null);
+var l = typeof ((l) => null);
 console.log(l);

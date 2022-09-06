@@ -1,5 +1,5 @@
 function r(r) {
-    switch(r){
+    switch (r) {
         case "bar":
             return "PASS";
         default:

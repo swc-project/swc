@@ -1,13 +1,14 @@
-var o = "FAIL_1", t;
+var o = "FAIL_1",
+    r;
 try {
     throw 0;
 } catch (c) {
     do {
-        t = (function() {
+        r = (function () {
             throw new Error("PASS");
         })();
         o = "FAIL_2";
-        t && t.c;
-    }while (0)
+        r && r.c;
+    } while (0);
 }
 console.log(o);

@@ -1,16 +1,5 @@
-var g = {
-    x: 1
-};
-console.log({
-    ...(g, g)
-});
-console.log({
-    ...g,
-    a: g
-});
-console.log({
-    ...(g || g)
-});
-console.log({
-    ...(g || g)
-});
+var o = { x: 1 };
+console.log({ ...(o, o) });
+console.log({ ...o, a: o });
+console.log({ ...(o || o) });
+console.log({ ...(o || o) });

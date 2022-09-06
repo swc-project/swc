@@ -1,12 +1,16 @@
 {
-    const [a, r] = f;
-}{
-    const [t, [v, c]] = dd;
-}{
-    let [e, l] = f;
-}{
-    let [n, [o, s]] = dd;
-}var [b, d] = f;
-var [b, [d, f]] = dd;
-var [, [], , , g] = xx;
-var [, , h, ] = xxx;
+    const [d, x] = a;
+}
+{
+    const [d, [x, a]] = dd;
+}
+{
+    let [d, x] = a;
+}
+{
+    let [d, [x, a]] = dd;
+}
+var [d, x] = a;
+var [d, [x, a]] = dd;
+var [, [, , , , ,], , , r] = xx;
+var [, , t, ,] = xxx;

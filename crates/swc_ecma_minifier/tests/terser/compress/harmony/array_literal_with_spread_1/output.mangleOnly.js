@@ -1,6 +1,2 @@
-var S = (S)=>[
-        ...S
-    ][0];
-console.log(S([
-    "PASS"
-]));
+var o = (o) => [...o][0];
+console.log(o(["PASS"]));

@@ -1,10 +1,10 @@
-function l(l, n) {
-    n || l === undefined || l === null;
-    n || l === undefined || l !== null;
-    n || l !== undefined || l === null;
-    n || l !== undefined || l !== null;
-    n || (l === undefined && l === null);
-    n || (l === undefined && l !== null);
-    n || (l !== undefined && l === null);
-    n || (l !== undefined && l !== null);
+function n(n, u) {
+    u || n === undefined || n === null;
+    u || n === undefined || n !== null;
+    u || n !== undefined || n === null;
+    u || n !== undefined || n !== null;
+    u || (n === undefined && n === null);
+    u || (n === undefined && n !== null);
+    u || (n !== undefined && n === null);
+    u || (n !== undefined && n !== null);
 }

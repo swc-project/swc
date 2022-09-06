@@ -1,11 +1,13 @@
-var r = 1;
+var o = 1;
 do {
-    console.log((function() {
-        return r ? "FAIL" : (r = "PASS");
-        try {
-            r = 2;
-        } catch (r) {
-            var r;
-        }
-    })());
-}while (r--)
+    console.log(
+        (function () {
+            return o ? "FAIL" : (o = "PASS");
+            try {
+                o = 2;
+            } catch (o) {
+                var o;
+            }
+        })()
+    );
+} while (o--);

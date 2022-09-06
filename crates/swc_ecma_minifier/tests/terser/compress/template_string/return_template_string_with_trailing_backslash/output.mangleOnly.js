@@ -8,11 +8,11 @@ function u() {
     return;
     `baz`;
 }
-function t() {
+function o() {
     return;
     `qux`;
 }
-function o() {
+function t() {
     return `\nfin`;
 }
-console.log(n(), r(), u(), t(), o());
+console.log(n(), r(), u(), o(), t());

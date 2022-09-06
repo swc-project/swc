@@ -4,8 +4,8 @@ function n(n) {
 function o(o) {
     return n(o);
 }
-function t(n) {
+function c(n) {
     o(n);
 }
-t(42);
-t("PASS");
+c(42);
+c("PASS");

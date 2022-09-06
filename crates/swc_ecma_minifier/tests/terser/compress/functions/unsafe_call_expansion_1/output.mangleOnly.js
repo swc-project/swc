@@ -1,6 +1,3 @@
-(function(...l) {
-    console.log(...l);
-}.call(console, 1, ...[
-    2,
-    3
-], 4));
+(function (...o) {
+    console.log(...o);
+}.call(console, 1, ...[2, 3], 4));

@@ -1,3 +1,3 @@
-var a = 2;
-var a = 3 / a;
-console.log(a);
+var o = 2;
+var o = 3 / o;
+console.log(o);

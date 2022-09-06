@@ -1,11 +1,11 @@
 var s = {};
 s.Base = class {
-    constructor(){
+    constructor() {
         this.id = "PASS";
     }
 };
 s.Derived = class extends s.Base {
-    constructor(){
+    constructor() {
         super();
         console.log(this.id);
     }

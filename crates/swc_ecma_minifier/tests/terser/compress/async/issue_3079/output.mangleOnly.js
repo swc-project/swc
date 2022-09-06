@@ -1,8 +1,6 @@
-(g)=>1;
-var g = (g)=>g;
-console.log(g(1));
-g = (g)=>g;
-console.log(g(2));
-console.log({
-    m: (g)=>(g ? "3" : "4")
-}.m(true));
+(o) => 1;
+var o = (o) => o;
+console.log(o(1));
+o = (o) => o;
+console.log(o(2));
+console.log({ m: (o) => (o ? "3" : "4") }.m(true));

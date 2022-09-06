@@ -1,12 +1,13 @@
-var n = 1, i = 0;
-(function(o) {
-    var t = (function() {
+var n = 1,
+    o = 0;
+(function (c) {
+    var i = (function () {
         this;
-        n-- && c();
+        n-- && t();
     })();
-    function c() {
-        t && i++;
+    function t() {
+        i && o++;
     }
-    c((t = 1));
+    t((i = 1));
 })();
-console.log(i);
+console.log(o);

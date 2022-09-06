@@ -1,10 +1,10 @@
 function a() {
     bar();
     var a;
-    var n;
+    var r;
 }
-function n(a) {
+function r(a) {
     bar();
-    var n;
+    var r;
     var a;
 }

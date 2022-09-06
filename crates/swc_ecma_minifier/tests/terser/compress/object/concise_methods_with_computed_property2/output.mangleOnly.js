@@ -1,10 +1,6 @@
-var r = {
-    [[
-        1
-    ]] () {
+var e = {
+    [[1]]() {
         return "success";
-    }
+    },
 };
-doSomething(r[[
-    1
-]]());
+doSomething(e[[1]]());

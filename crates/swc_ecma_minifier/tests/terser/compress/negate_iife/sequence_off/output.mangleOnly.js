@@ -1,16 +1,20 @@
-function n() {
-    (function() {
+function o() {
+    (function () {
         return t;
-    })() ? console.log(true) : console.log(false);
-    (function() {
+    })()
+        ? console.log(true)
+        : console.log(false);
+    (function () {
         console.log("something");
     })();
 }
-function o() {
-    (function() {
+function n() {
+    (function () {
         console.log("something");
     })();
-    (function() {
+    (function () {
         return t;
-    })() ? console.log(true) : console.log(false);
+    })()
+        ? console.log(true)
+        : console.log(false);
 }

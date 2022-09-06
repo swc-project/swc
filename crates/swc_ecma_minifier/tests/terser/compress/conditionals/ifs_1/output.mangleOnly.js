@@ -1,7 +1,7 @@
 if (foo) bar();
-if (!foo) ;
+if (!foo);
 else bar();
-if (foo) ;
+if (foo);
 else bar();
-if (foo) ;
-else ;
+if (foo);
+else;

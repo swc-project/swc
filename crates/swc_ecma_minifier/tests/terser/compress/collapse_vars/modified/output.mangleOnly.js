@@ -15,7 +15,7 @@ function u(n) {
     return n++ + r;
 }
 function o(n) {
-    var r = (function() {
+    var r = (function () {
         return n;
     })();
     return n++ + r;

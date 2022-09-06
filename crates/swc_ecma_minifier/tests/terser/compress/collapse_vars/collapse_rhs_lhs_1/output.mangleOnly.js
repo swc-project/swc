@@ -1,5 +1,5 @@
 var n = 0;
-new (function() {
+new (function () {
     this[n++] = 1;
     n += 1;
 })();

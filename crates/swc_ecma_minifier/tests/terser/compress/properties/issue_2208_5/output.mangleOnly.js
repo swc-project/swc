@@ -1,6 +1,8 @@
-console.log({
-    p: "FAIL",
-    p: function() {
-        return 42;
-    }
-}.p());
+console.log(
+    {
+        p: "FAIL",
+        p: function () {
+            return 42;
+        },
+    }.p()
+);

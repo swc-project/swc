@@ -1,4 +1,4 @@
-for(; bar();){
+for (; bar(); ) {
     x();
     y();
     if (foo()) break;

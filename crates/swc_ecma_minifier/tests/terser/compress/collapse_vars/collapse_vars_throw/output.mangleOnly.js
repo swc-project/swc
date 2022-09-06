@@ -1,10 +1,14 @@
-var r = function(r, t) {
-    var a, c, o = r + t, h = o * o, n = h - o;
-    (a = n), (c = 7);
-    throw a + c;
+var o = function (o, c) {
+    var r,
+        t,
+        a = o + c,
+        n = a * a,
+        h = n - a;
+    (r = h), (t = 7);
+    throw r + t;
 };
 try {
-    r(1, 2);
-} catch (t) {
-    console.log(t);
+    o(1, 2);
+} catch (o) {
+    console.log(o);
 }

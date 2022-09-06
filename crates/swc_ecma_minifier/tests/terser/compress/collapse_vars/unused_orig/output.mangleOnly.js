@@ -1,15 +1,17 @@
 var r = 1;
-console.log((function(r) {
-    var a;
-    var v = r;
-    for(var n in v){
+console.log(
+    (function (r) {
         var a;
-        return --r + v[0];
-    }
-    try {} catch (t) {
-        --r + a;
-    }
-    a && a.NaN;
-})([
-    2
-]), r);
+        var n = r;
+        for (var o in n) {
+            var a;
+            return --r + n[0];
+        }
+        try {
+        } catch (n) {
+            --r + a;
+        }
+        a && a.NaN;
+    })([2]),
+    r
+);

@@ -1,2 +1,2 @@
 console.log(String.raw`\u`);
-console.log((()=>String.raw)()`\x`);
+console.log((() => String.raw)()`\x`);

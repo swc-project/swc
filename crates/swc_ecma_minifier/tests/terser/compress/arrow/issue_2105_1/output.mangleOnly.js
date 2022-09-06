@@ -1,19 +1,18 @@
-!(function(n) {
+!(function (n) {
     n();
-})(function() {
-    return (function(n) {
+})(function () {
+    return (function (n) {
         n()().prop();
-    })(function() {
+    })(function () {
         function n() {
-            var n = function() {
-                console.log("PASS");
-            }, o = function() {
-                console.log;
-                n();
-            };
-            return {
-                prop: o
-            };
+            var n = function () {
+                    console.log("PASS");
+                },
+                o = function () {
+                    console.log;
+                    n();
+                };
+            return { prop: o };
         }
         return n;
     });

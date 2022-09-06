@@ -1,3 +1,3 @@
-function* i() {
+function* e() {
     yield remote();
 }

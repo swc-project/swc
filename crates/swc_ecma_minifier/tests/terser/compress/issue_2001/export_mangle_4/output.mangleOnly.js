@@ -3,4 +3,4 @@ export default class r {
         var e = r;
         return r - a + e;
     }
-};
+}

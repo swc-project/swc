@@ -1,5 +1,5 @@
-var a = 1;
-!(function(n) {
-    a++;
-})(a++ + (a && a.var));
-console.log(a);
+var o = 1;
+!(function (n) {
+    o++;
+})(o++ + (o && o.var));
+console.log(o);

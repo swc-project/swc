@@ -1,15 +1,15 @@
 "use strict";
 function r(r) {
     if (r) {
-        return e(1);
+        return t(1);
     } else {
-        return e(2);
+        return t(2);
         var n;
     }
-    var t = e(3);
-    function e(r) {
+    var e = t(3);
+    function t(r) {
         return 7 - r;
     }
-    return n || t;
+    return n || e;
 }
 console.log(r(0), r(1));

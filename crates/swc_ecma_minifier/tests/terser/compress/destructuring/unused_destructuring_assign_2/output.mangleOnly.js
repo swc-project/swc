@@ -1,18 +1,15 @@
 function e(e) {
-    var a;
-    let t;
-    ({ a: a , b: t  } = e);
-    console.log(t);
+    var o;
+    let a;
+    ({ a: o, b: a } = e);
+    console.log(a);
 }
+e({ a: 1, b: 2 });
 e({
-    a: 1,
-    b: 2
-});
-e({
-    get a () {
-        var a = "side effect";
-        console.log(a);
-        return a;
+    get a() {
+        var e = "side effect";
+        console.log(e);
+        return e;
     },
-    b: 4
+    b: 4,
 });

@@ -1,18 +1,18 @@
 var r = "bar";
 var e = {
-    bar () {
+    bar() {
         return this.get;
     },
-    5 () {
+    5() {
         return "five";
     },
-    3925 () {
+    3925() {
         return "f five five";
     },
-    five () {
+    five() {
         return 5;
     },
-    10 (r) {
+    10(r) {
         this._ten = r;
-    }
+    },
 };

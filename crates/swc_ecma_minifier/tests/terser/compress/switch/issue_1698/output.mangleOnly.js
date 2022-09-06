@@ -1,6 +1,6 @@
-var c = 1;
-!(function() {
-    switch(c++){
+var o = 1;
+!(function () {
+    switch (o++) {
     }
 })();
-console.log(c);
+console.log(o);

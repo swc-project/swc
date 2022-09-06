@@ -1,7 +1,9 @@
-var n = function(n) {
-    console.log(n);
+var o = function (o) {
+    console.log(o);
 };
-n((function() {
-    console.log("PASS");
-    return "FAIL";
-})());
+o(
+    (function () {
+        console.log("PASS");
+        return "FAIL";
+    })()
+);

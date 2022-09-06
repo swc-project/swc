@@ -1,4 +1,4 @@
 var a = 1;
-var r = 2;
-var v = 4;
-console.log((v ** a) ** r, (v ** a) ** (a / r));
+var o = 2;
+var r = 4;
+console.log((r ** a) ** o, (r ** a) ** (a / o));

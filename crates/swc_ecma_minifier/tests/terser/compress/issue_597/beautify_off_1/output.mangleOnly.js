@@ -1,2 +1,11 @@
-var t;
-console.log(null, undefined, Infinity, NaN, Infinity * undefined, Infinity.toString(), NaN.toString(), (Infinity * undefined).toString());
+var n;
+console.log(
+    null,
+    undefined,
+    Infinity,
+    n,
+    Infinity * undefined,
+    Infinity.toString(),
+    n.toString(),
+    (Infinity * undefined).toString()
+);

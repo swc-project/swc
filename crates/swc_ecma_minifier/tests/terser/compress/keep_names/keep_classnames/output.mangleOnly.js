@@ -1,4 +1,3 @@
 function c() {
-    class c {
-    }
+    class c {}
 }

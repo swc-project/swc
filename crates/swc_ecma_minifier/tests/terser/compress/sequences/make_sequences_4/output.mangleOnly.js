@@ -1,11 +1,12 @@
 x = 5;
 if (y) z();
 x = 5;
-for(i = 0; i < 5; i++)console.log(i);
+for (i = 0; i < 5; i++) console.log(i);
 x = 5;
-for(; i < 5; i++)console.log(i);
+for (; i < 5; i++) console.log(i);
 x = 5;
-switch(y){
+switch (y) {
 }
 x = 5;
-with (obj){}
+with (obj) {
+}

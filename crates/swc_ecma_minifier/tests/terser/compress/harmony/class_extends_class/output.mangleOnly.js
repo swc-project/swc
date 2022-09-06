@@ -1,6 +1,2 @@
-class s extends class {
-} {
-}
-class a extends class s {
-} {
-}
+class s extends class {} {}
+class a extends class s {} {}

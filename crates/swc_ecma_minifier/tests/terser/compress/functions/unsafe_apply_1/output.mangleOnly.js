@@ -1,15 +1,9 @@
-(function(o, a) {
-    console.log(o, a);
-}.apply("foo", [
-    "bar"
-]));
-(function(o, a) {
-    console.log(this, o, a);
-}.apply("foo", [
-    "bar"
-]));
-(function(o, a) {
-    console.log(o, a);
-}.apply("foo", [
-    "bar"
-], "baz"));
+(function (o, l) {
+    console.log(o, l);
+}.apply("foo", ["bar"]));
+(function (o, l) {
+    console.log(this, o, l);
+}.apply("foo", ["bar"]));
+(function (o, l) {
+    console.log(o, l);
+}.apply("foo", ["bar"], "baz"));

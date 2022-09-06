@@ -1,20 +1,20 @@
-function l(l) {
-    l === undefined || l === null;
-    l === undefined || l !== null;
-    l !== undefined || l === null;
-    l !== undefined || l !== null;
-    l === undefined && l === null;
-    l === undefined && l !== null;
-    l !== undefined && l === null;
-    l !== undefined && l !== null;
+function n(n) {
+    n === undefined || n === null;
+    n === undefined || n !== null;
+    n !== undefined || n === null;
+    n !== undefined || n !== null;
+    n === undefined && n === null;
+    n === undefined && n !== null;
+    n !== undefined && n === null;
+    n !== undefined && n !== null;
 }
-function n(l) {
-    l === null || l === undefined;
-    l === null || l !== undefined;
-    l !== null || l === undefined;
-    l !== null || l !== undefined;
-    l === null && l === undefined;
-    l === null && l !== undefined;
-    l !== null && l === undefined;
-    l !== null && l !== undefined;
+function u(n) {
+    n === null || n === undefined;
+    n === null || n !== undefined;
+    n !== null || n === undefined;
+    n !== null || n !== undefined;
+    n === null && n === undefined;
+    n === null && n !== undefined;
+    n !== null && n === undefined;
+    n !== null && n !== undefined;
 }

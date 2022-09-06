@@ -1,6 +1,6 @@
-var f = {};
+var o = {};
 function n() {
     console.log("PASS");
 }
-f.f = n;
+o.f = n;
 n();

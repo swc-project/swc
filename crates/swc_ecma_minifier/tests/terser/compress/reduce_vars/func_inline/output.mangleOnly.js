@@ -1,9 +1,9 @@
 function n() {
-    var n = function() {
+    var n = function () {
         return 1;
     };
-    console.log(n() + r());
-    var r = function() {
+    console.log(n() + o());
+    var o = function () {
         return 2;
     };
 }

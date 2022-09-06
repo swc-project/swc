@@ -1,4 +1,10 @@
-foo((a)=>a);
-foo((a)=>a, (a)=>a);
-foo((a)=>(a, a));
-foo((a)=>(a, a), (a)=>(a, a));
+foo((o) => o);
+foo(
+    (o) => o,
+    (o) => o
+);
+foo((o) => (o, o));
+foo(
+    (o) => (o, o),
+    (o) => (o, o)
+);

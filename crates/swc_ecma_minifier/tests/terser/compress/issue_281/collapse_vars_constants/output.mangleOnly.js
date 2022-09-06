@@ -1,12 +1,26 @@
-function n(n) {
-    var r = 4, t = n.prop, u = 5, o = sideeffect1(), c = sideeffect2();
-    return (t + (function() {
-        return o - r * c - u;
-    })());
+function e(e) {
+    var f = 4,
+        n = e.prop,
+        r = 5,
+        t = sideeffect1(),
+        c = sideeffect2();
+    return (
+        n +
+        (function () {
+            return t - f * c - r;
+        })()
+    );
 }
-function r(n) {
-    var r = 4, t = n.prop, u = 5, o = sideeffect1(), c = sideeffect2();
-    return (t + (function() {
-        return -r * c - u;
-    })());
+function f(e) {
+    var f = 4,
+        n = e.prop,
+        r = 5,
+        t = sideeffect1(),
+        c = sideeffect2();
+    return (
+        n +
+        (function () {
+            return -f * c - r;
+        })()
+    );
 }

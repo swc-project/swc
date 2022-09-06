@@ -1,13 +1,15 @@
-(function(n, r) {
-    n.CryptoJS = r();
-})(this, function() {
-    var n = n || (function(n) {
-        var r = {};
-        r.demo = function(r) {
-            return n.ceil(r);
-        };
-        return r;
-    })(Math);
+(function (n, t) {
+    n.CryptoJS = t();
+})(this, function () {
+    var n =
+        n ||
+        (function (n) {
+            var t = {};
+            t.demo = function (t) {
+                return n.ceil(t);
+            };
+            return t;
+        })(Math);
     return n;
 });
 var n = this.CryptoJS.demo(1.3);

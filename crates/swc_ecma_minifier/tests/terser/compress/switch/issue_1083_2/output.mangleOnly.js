@@ -1,10 +1,10 @@
-function e(e, t) {
-    switch(true){
+function e(e, o) {
+    switch (true) {
         case e:
         default:
             console.log("PASS");
             break;
-        case t:
+        case o:
             console.log("FAIL");
             break;
     }

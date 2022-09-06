@@ -1,7 +1,7 @@
 var n = "FAIL";
-(function(r) {
+(function (o) {
     n = "PASS";
     return;
-    r(n);
+    o(n);
 })();
 console.log(n);

@@ -1,55 +1,55 @@
 function n() {}
-function r() {
+function o() {
     return undefined;
 }
 function u() {
     return void 0;
 }
-function t() {
+function r() {
     return void 123;
 }
-function o() {
+function t() {
     return;
 }
-function i(n, r) {
-    console.log(n, r);
+function e(n, o) {
+    console.log(n, o);
     baz(n);
     return;
 }
-function f(n, r) {
-    console.log(n, r);
+function f(n, o) {
+    console.log(n, o);
     if (n) {
-        foo(r);
+        foo(o);
         baz(n);
-        return n + r;
+        return n + o;
     }
     return undefined;
 }
-function e(n, r) {
-    console.log(n, r);
+function i(n, o) {
+    console.log(n, o);
     if (n) {
-        foo(r);
+        foo(o);
         baz(n);
         return void 0;
     }
-    return n + r;
+    return n + o;
 }
-function c(n, r) {
+function c(n, o) {
     foo(n);
-    bar(r);
+    bar(o);
     return void 0;
 }
-function l(n, r) {
+function d(n, o) {
     foo(n);
-    bar(r);
+    bar(o);
     return undefined;
 }
-function d() {
+function l() {
     return false;
 }
-function v() {
+function a() {
     return null;
 }
-function $() {
+function b() {
     return 0;
 }

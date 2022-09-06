@@ -1,5 +1,5 @@
 class s extends B {
-    constructor(s){
+    constructor(s) {
         x();
     }
     static s(s, t) {

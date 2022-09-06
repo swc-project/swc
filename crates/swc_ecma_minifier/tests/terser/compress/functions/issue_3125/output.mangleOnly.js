@@ -1,3 +1,5 @@
-console.log(function() {
-    return "PASS";
-}.call());
+console.log(
+    function () {
+        return "PASS";
+    }.call()
+);

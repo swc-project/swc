@@ -1,9 +1,7 @@
-var a = {
-    a: {
-        b: 2
+var o = {
+    a: { b: 2 },
+    f: function (o) {
+        console.log(o);
     },
-    f: function(a) {
-        console.log(a);
-    }
 };
-a.f(a.a);
+o.f(o.a);

@@ -1,10 +1,10 @@
-var a = 1;
-!(function a() {
-    a++;
+var c = 1;
+!(function c() {
+    c++;
     try {
         x();
     } catch (c) {
         var c;
     }
 })();
-console.log(a);
+console.log(c);

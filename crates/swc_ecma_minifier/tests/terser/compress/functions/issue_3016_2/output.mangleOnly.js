@@ -1,12 +1,12 @@
-var r = 1;
+var o = 1;
 do {
-    (function(t) {
-        return t[r];
+    (function (r) {
+        return r[o];
         try {
-            t = 2;
-        } catch (a) {
-            var a;
+            r = 2;
+        } catch (r) {
+            var r;
         }
     })(3);
-}while (0)
-console.log(r);
+} while (0);
+console.log(o);

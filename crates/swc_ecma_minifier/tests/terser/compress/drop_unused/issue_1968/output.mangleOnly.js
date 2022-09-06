@@ -1,8 +1,8 @@
 function n(n) {
-    var r;
+    var o;
     if (n) {
-        let t;
-        return (r = 2) + (t = 3);
+        let n;
+        return (o = 2) + (n = 3);
     }
 }
 console.log(n(1));

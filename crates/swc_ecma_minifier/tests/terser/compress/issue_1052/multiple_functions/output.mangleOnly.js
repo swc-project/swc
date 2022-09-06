@@ -1,7 +1,7 @@
-(function() {
+(function () {
     if (!window) {
         return;
     }
     function n() {}
-    function f() {}
+    function i() {}
 })();

@@ -1,6 +1,6 @@
-L1: for(var r = 0; r < 3; r++){
-    L2: for(var a = 0; a < 2; a++){
-        break L1;
+o: for (var o = 0; o < 3; o++) {
+    r: for (var r = 0; r < 2; r++) {
+        break o;
     }
 }
-console.log(r, a);
+console.log(o, r);

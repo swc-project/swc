@@ -1,6 +1,6 @@
-function n() {
+function o() {
     {
-        const n = 1;
+        const o = 1;
     }
     {
         let o;

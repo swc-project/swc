@@ -1,10 +1,10 @@
-(function() {
+(function () {
     do {
         try {
-            while("" == typeof a);
-        } finally{
+            while ("" == typeof a);
+        } finally {
             continue;
         }
         var e = "defined";
-    }while (e && e.c)
+    } while (e && e.c);
 })();

@@ -1,3 +1,1 @@
-const s = Base ? class extends Base {
-} : class {
-};
+const s = Base ? class extends Base {} : class {};

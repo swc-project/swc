@@ -1,29 +1,29 @@
 ({
-    null: function(n, i) {
-        n(i);
+    null: function (n, c) {
+        n(c);
     },
-    123: function(n, i) {
-        n(i);
+    123: function (n, c) {
+        n(c);
     },
-    "A B": function(n, i) {
-        n(i);
+    "A B": function (n, c) {
+        n(c);
     },
-    p1: function(n, i) {
-        n(i);
+    p1: function (n, c) {
+        n(c);
     },
-    p2: function*(n, i) {
-        yield n(i);
+    p2: function* (n, c) {
+        yield n(c);
     },
-    p3: async function(n, i) {
-        await n(i);
+    p3: async function (n, c) {
+        await n(c);
     },
-    [c1]: function(n, i) {
-        n(i);
+    [c1]: function (n, c) {
+        n(c);
     },
-    [c2]: function*(n, i) {
-        yield n(i);
+    [c2]: function* (n, c) {
+        yield n(c);
     },
-    [c3]: async function(n, i) {
-        await n(i);
-    }
+    [c3]: async function (n, c) {
+        await n(c);
+    },
 });

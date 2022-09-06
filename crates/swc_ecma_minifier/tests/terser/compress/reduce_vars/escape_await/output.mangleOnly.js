@@ -1,15 +1,15 @@
 function n() {
     var n;
-    e().then((t)=>{
-        n = t;
+    e().then((o) => {
+        n = o;
     });
-    e().then((t)=>{
-        if (n !== (n = t)) console.log("FAIL");
+    e().then((o) => {
+        if (n !== (n = o)) console.log("FAIL");
         else console.log("PASS");
     });
 }
-function t() {}
+function o() {}
 async function e() {
-    return await t;
+    return await o;
 }
 n();

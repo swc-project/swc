@@ -1,9 +1,7 @@
-function r(r, n) {
-    var p = r.p;
-    n.p = "FAIL";
-    return p;
+function n(n, o) {
+    var r = n.p;
+    o.p = "FAIL";
+    return r;
 }
-var n = {
-    p: "PASS"
-};
-console.log(r(n, n));
+var o = { p: "PASS" };
+console.log(n(o, o));

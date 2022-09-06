@@ -4,5 +4,5 @@ c = typeof [];
 d = typeof {};
 e = typeof /./;
 f = typeof false;
-g = typeof function() {};
+g = typeof function () {};
 h = typeof undefined;

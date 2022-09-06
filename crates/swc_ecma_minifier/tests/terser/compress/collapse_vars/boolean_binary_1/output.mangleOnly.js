@@ -1,4 +1,4 @@
-var n = 1;
-n++;
-((function() {} || n || 3).toString());
-console.log(n);
+var o = 1;
+o++;
+((function () {} || o || 3).toString());
+console.log(o);

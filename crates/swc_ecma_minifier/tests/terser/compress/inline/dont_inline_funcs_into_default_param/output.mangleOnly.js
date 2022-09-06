@@ -1,8 +1,6 @@
 "use strict";
-const t = (t)=>({
-        val: t
-    });
-const c = function(c = t(id("PASS"))) {
+const o = (o) => ({ val: o });
+const c = function (c = o(id("PASS"))) {
     console.log(c.val);
 };
 c();

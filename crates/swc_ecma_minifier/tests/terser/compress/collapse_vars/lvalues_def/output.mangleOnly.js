@@ -1,4 +1,6 @@
-var a = 0, n = 1;
-var a = n++, n = +(function() {})();
-a && a[a++];
-console.log(a, n);
+var o = 0,
+    n = 1;
+var o = n++,
+    n = +(function () {})();
+o && o[o++];
+console.log(o, n);

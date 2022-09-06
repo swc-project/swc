@@ -1,4 +1,2 @@
 var a = 123;
-var r = {
-    foo: a
-};
+var o = { foo: a };

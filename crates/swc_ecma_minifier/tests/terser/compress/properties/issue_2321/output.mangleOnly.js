@@ -1,10 +1,10 @@
 var o = {
-    foo: function() {
+    foo: function () {
         console.log("foo");
     },
-    bar () {
+    bar() {
         console.log("bar");
-    }
+    },
 };
 var a = new o.foo();
 var r = o.bar();

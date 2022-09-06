@@ -1,5 +1,5 @@
 function n(n, t) {
-    function u() {
+    function i() {
         something();
     }
     return n + t;

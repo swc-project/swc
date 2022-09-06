@@ -1,9 +1,9 @@
 let t = "FAIL";
 try {
-    class c extends might_throw_lol() {
-        constructor(){}
+    class t extends might_throw_lol() {
+        constructor() {}
     }
-} catch (s) {
+} catch (o) {
     t = "PASS";
 }
 console.log(t);

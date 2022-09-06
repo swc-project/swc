@@ -1,11 +1,12 @@
-var n = 0, r = 1;
-function t() {
+var n = 0,
+    r = 1;
+function o() {
     n = 2;
     return 4;
 }
-function u() {
-    var u = t();
-    r = n + u;
+function t() {
+    var t = o();
+    r = n + t;
     return r;
 }
-console.log(u());
+console.log(t());

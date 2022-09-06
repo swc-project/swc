@@ -1,7 +1,7 @@
 foo({
     baz: 4,
-    async *bar () {
+    async *bar() {
         yield await Promise.resolve(3);
     },
-    qux: qux
+    qux: qux,
 });

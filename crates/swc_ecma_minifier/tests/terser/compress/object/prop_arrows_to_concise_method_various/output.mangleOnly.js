@@ -1,23 +1,23 @@
 ({
-    null: (a, n)=>{
-        a(n);
+    null: (a, c) => {
+        a(c);
     },
-    123: (a, n)=>{
-        a(n);
+    123: (a, c) => {
+        a(c);
     },
-    "A B": (a, n)=>{
-        a(n);
+    "A B": (a, c) => {
+        a(c);
     },
-    p1: (a, n)=>{
-        a(n);
+    p1: (a, c) => {
+        a(c);
     },
-    p3: async (a, n)=>{
-        await a(n);
+    p3: async (a, c) => {
+        await a(c);
     },
-    [c1]: (a, n)=>{
-        a(n);
+    [c1]: (a, c) => {
+        a(c);
     },
-    [c3]: async (a, n)=>{
-        await a(n);
-    }
+    [c3]: async (a, c) => {
+        await a(c);
+    },
 });

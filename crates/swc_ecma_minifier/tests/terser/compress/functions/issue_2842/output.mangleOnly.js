@@ -1,16 +1,12 @@
-(function() {
+(function () {
     function n(n) {
         return n[n[0]];
     }
-    function t() {
+    function o() {
         if (true) {
-            const t = n([
-                1,
-                2,
-                3
-            ]);
-            console.log(t);
+            const o = n([1, 2, 3]);
+            console.log(o);
         }
     }
-    return t();
+    return o();
 })();

@@ -1,4 +1,4 @@
-switch(id(123)){
+switch (id(123)) {
     case 1:
     case 2:
     case 3:

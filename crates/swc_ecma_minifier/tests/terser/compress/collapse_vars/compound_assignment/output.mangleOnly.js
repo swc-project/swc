@@ -1,4 +1,4 @@
-var a;
-a = 1;
-a += a + 2;
-console.log(a);
+var o;
+o = 1;
+o += o + 2;
+console.log(o);

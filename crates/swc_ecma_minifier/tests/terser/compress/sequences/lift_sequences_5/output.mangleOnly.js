@@ -1,3 +1,4 @@
-var a = 2, g;
-a *= (g, (a = 4), 3);
-console.log(a);
+var o = 2,
+    l;
+o *= (l, (o = 4), 3);
+console.log(o);

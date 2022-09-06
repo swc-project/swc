@@ -1,7 +1,7 @@
-(function(a) {
-    switch(1){
-        case a:
-            console.log(a);
+(function (o) {
+    switch (1) {
+        case o:
+            console.log(o);
             break;
         default:
             console.log(2);

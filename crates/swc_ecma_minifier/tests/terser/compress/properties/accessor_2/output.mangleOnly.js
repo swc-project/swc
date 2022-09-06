@@ -1,7 +1,9 @@
-console.log({
-    get a () {
-        return "PASS";
-    },
-    set a (v){},
-    a: "FAIL"
-}.a);
+console.log(
+    {
+        get a() {
+            return "PASS";
+        },
+        set a(a) {},
+        a: "FAIL",
+    }.a
+);

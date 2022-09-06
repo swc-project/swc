@@ -1,14 +1,14 @@
-const n = ()=>{
-    o();
-};
-function o() {
-    function n() {
-        var n = ()=>{
-            o();
-        };
-        leak(n);
-    }
+const o = () => {
     n();
+};
+function n() {
+    function o() {
+        var o = () => {
+            n();
+        };
+        leak(o);
+    }
+    o();
 }
-leak(()=>Topology);
+leak(() => Topology);
 console.log("PASS");

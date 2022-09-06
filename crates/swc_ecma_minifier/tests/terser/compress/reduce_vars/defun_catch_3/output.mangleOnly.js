@@ -1,6 +1,6 @@
 try {
     throw 42;
-    function t() {}
-} catch (c) {
-    console.log(c);
+    function o() {}
+} catch (o) {
+    console.log(o);
 }

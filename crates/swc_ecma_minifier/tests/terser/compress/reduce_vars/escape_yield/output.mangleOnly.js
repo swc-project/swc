@@ -1,11 +1,11 @@
 function n() {
-    var n = o.next().value;
-    if (n !== (n = o.next().value)) console.log("FAIL");
+    var n = l.next().value;
+    if (n !== (n = l.next().value)) console.log("FAIL");
     else console.log("PASS");
 }
-function e() {}
-function* l(n) {
-    for(;;)yield e;
+function o() {}
+function* e(n) {
+    for (;;) yield o;
 }
-var o = l();
+var l = e();
 n();

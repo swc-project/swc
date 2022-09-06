@@ -1,10 +1,11 @@
-var n = 1, $ = 0;
-(function a(o) {
-    function c() {
-        o && (o.a = 0);
-        o && (o.a = 0);
-        o && (o[$++] *= 0);
+var n = 1,
+    o = 0;
+(function a(c) {
+    function f() {
+        c && (c.a = 0);
+        c && (c.a = 0);
+        c && (c[o++] *= 0);
     }
-    c(n-- && a(c((o = 42))));
+    f(n-- && a(f((c = 42))));
 })();
-console.log($);
+console.log(o);

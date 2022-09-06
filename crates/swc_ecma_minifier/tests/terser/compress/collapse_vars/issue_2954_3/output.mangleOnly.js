@@ -1,11 +1,13 @@
-var l = "FAIL_1", n;
-try {} finally{
+var o = "FAIL_1",
+    r;
+try {
+} finally {
     do {
-        n = (function() {
+        r = (function () {
             throw new Error("PASS");
         })();
-        l = "FAIL_2";
-        n && n.c;
-    }while (0)
+        o = "FAIL_2";
+        r && r.c;
+    } while (0);
 }
-console.log(l);
+console.log(o);

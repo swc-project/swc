@@ -1,80 +1,70 @@
-function t() {
+function o() {
     throw (w = a());
 }
-function o(t) {
-    throw (t = a());
+function n(o) {
+    throw (o = a());
 }
-function n() {
-    var t;
-    throw (t = a());
+function t() {
+    var o;
+    throw (o = a());
 }
-function r() {
+function c() {
     try {
         throw (w = a());
-    } catch (t) {
+    } catch (o) {
         console.log(w);
     }
 }
-function c(t) {
+function l(o) {
     try {
-        throw (t = a());
-    } catch (o) {
-        console.log(t);
+        throw (o = a());
+    } catch (n) {
+        console.log(o);
+    }
+}
+function r() {
+    var o;
+    try {
+        throw (o = a());
+    } catch (n) {
+        console.log(o);
     }
 }
 function f() {
-    var t;
-    try {
-        throw (t = a());
-    } catch (o) {
-        console.log(t);
-    }
-}
-function l() {
     try {
         throw (w = a());
-    } finally{
+    } finally {
         console.log(w);
     }
 }
-function i(t) {
+function i(o) {
     try {
-        throw (t = a());
-    } finally{
-        console.log(t);
+        throw (o = a());
+    } finally {
+        console.log(o);
     }
 }
 function h() {
-    var t;
+    var o;
     try {
-        throw (t = a());
-    } finally{
-        console.log(t);
+        throw (o = a());
+    } finally {
+        console.log(o);
     }
 }
 function u(u) {
     var y = 0;
-    a = function() {
+    a = function () {
         y += u;
         if (u < 0) throw y;
         return y;
     };
-    [
-        t,
-        o,
-        n,
-        r,
-        c,
-        f,
-        l,
-        i,
-        h
-    ].forEach(function(t, o) {
+    [o, n, t, c, l, r, f, i, h].forEach(function (o, n) {
         w = null;
         try {
-            t(10 * (1 + o));
-        } catch (n) {
-            console.log("caught " + n);
+            o(10 * (1 + n));
+        } catch (o) {
+            console.log("caught " + o);
         }
         if (null !== w) console.log("a: " + w);
     });

@@ -1,4 +1,4 @@
-switch(true){
+switch (true) {
     case boolCondition:
         console.log(1);
         break;

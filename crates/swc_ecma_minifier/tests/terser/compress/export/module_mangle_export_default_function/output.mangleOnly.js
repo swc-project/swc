@@ -1,10 +1,10 @@
-export default function r() {
+export default function n() {
     return 1;
-};
+}
 export function bar() {
     return 2;
 }
-function n() {
+function r() {
     return 3;
 }
-console.log(r(), bar(), n());
+console.log(n(), bar(), r());

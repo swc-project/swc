@@ -23,9 +23,9 @@ function o(n) {
     n = [];
     return n;
 }
-function a(n) {
+function c(n) {
     n = {};
     var n = [];
     return n;
 }
-console.log(n(), r(), t(), u(), o(), a());
+console.log(n(), r(), t(), u(), o(), c());

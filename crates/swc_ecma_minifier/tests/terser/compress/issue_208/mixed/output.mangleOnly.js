@@ -1,7 +1,7 @@
-const _ = 3;
-var a = 4;
-f(_ * 10);
---a;
+const B = 3;
+var D = 4;
+f(B * 10);
+--D;
 DEBUG = 1;
 DEBUG++;
 DEBUG += 1;

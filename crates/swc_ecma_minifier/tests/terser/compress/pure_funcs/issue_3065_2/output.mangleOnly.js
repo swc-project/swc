@@ -4,10 +4,10 @@ function n(n, r, t) {
     return t;
 }
 function r(r) {
-    return n(1, r, function(n) {
+    return n(1, r, function (n) {
         return r(n);
     });
 }
-var t = r(function(n) {
+var t = r(function (n) {
     return n;
 });

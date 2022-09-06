@@ -1,6 +1,4 @@
 "use strict";
-const s = (s)=>s;
-const t = {
-    leak: leak
-};
-leak(s(t.leak));
+const e = (e) => e;
+const a = { leak: leak };
+leak(e(a.leak));

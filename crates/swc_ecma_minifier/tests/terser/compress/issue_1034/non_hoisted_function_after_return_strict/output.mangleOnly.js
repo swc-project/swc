@@ -1,18 +1,18 @@
 "use strict";
 function n(n) {
     if (n) {
-        return r();
+        return t();
         not_called1();
     } else {
-        return u();
+        return r();
         not_called2();
     }
-    function r() {
+    function t() {
         return 7;
     }
     return not_reached;
-    function t() {}
-    function u() {
+    function e() {}
+    function r() {
         return 8;
     }
 }

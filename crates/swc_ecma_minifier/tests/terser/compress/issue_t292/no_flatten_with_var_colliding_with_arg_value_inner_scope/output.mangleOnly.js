@@ -1,21 +1,19 @@
-var n = [
-    "a"
-];
+var n = ["a"];
 function r(r) {
     return n.indexOf(r);
+}
+function o(n) {
+    return r(n);
 }
 function t(n) {
     return r(n);
 }
-function u(n) {
-    return r(n);
-}
-function o(r) {
-    var t = r * 2;
-    console.log(t);
-    return n[t];
+function u(r) {
+    var o = r * 2;
+    console.log(o);
+    return n[o];
 }
 function e(n) {
-    return o(u(n));
+    return u(t(n));
 }
 console.log(e("a"));
