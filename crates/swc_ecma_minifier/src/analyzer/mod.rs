@@ -577,7 +577,7 @@ where
             n.super_class.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        n.body.visit_with(self);
+        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| n.body.visit_with(child))
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]

@@ -5,12 +5,13 @@ console.log(new class {
         this.#name = name;
     }
     getValue(x) {
+        let obj = this;
         class Bar {
             #y = 100;
-            [this.#name]() {
+            [obj.#name]() {
                 return x + this.#y;
             }
         }
-        return new Bar()[this.#name]();
+        return new Bar()[obj.#name]();
     }
 }("NAME").getValue(100));

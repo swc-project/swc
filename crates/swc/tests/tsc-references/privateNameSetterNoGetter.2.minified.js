@@ -10,8 +10,9 @@ let C = (_x = new WeakMap(), class {
     constructor(){
         _class_private_field_init(this, _x, {
             get: void 0,
-            set: function(x) {}
+            set: set_x
         });
     }
 });
+function set_x(x) {}
 console.log(new C().m());

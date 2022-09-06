@@ -22,9 +22,8 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
         return _async_to_generator(function() {
-            var a, b;
             return _ts_generator(this, function(_state) {
-                return _superprop_get_x().call(_this1), _get(_get_prototype_of(B.prototype), "y", _this).call(_this1), _superprop_get("x").call(_this1), a = _superprop_get_x(), b = _superprop_get("x"), [
+                return _superprop_get_x().call(_this1), _get(_get_prototype_of(B.prototype), "y", _this).call(_this1), _superprop_get("x").call(_this1), _superprop_get_x(), _superprop_get("x"), [
                     2
                 ];
             });
@@ -56,9 +55,9 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, !0);
         };
         return _async_to_generator(function() {
-            var f, a, b, ref, ref1;
+            var f, ref, ref1;
             return _ts_generator(this, function(_state) {
-                return f = function() {}, _superprop_get_x().call(_this1), _superprop_get("x").call(_this1), a = _superprop_get_x(), b = _superprop_get("x"), _superprop_set_x(f), _superprop_set("x", f), ref = {
+                return f = function() {}, _superprop_get_x().call(_this1), _superprop_get("x").call(_this1), _superprop_get_x(), _superprop_get("x"), _superprop_set_x(f), _superprop_set("x", f), ref = {
                     f: f
                 }, _superprop_update_x._ = ref.f, ref1 = {
                     f: f

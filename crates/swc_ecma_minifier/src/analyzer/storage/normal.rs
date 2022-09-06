@@ -232,7 +232,9 @@ impl ProgramData {
         e.used_in_cond |= ctx.in_cond;
 
         if is_modify && ctx.is_exact_reassignment {
-            e.assign_count += 1;
+            if is_first {
+                e.assign_count += 1;
+            }
 
             if ctx.is_op_assign {
                 e.usage_count += 1;

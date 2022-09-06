@@ -9,15 +9,15 @@ var s = o.assetPrefix, i = o.page, $ = null, u = __webpack_hash__, d = (s = s ||
 function p() {
     return (p = e(function() {
         var e, a, r, n, c;
-        return t(this, function(t) {
-            switch(t.label){
+        return t(this, function(e) {
+            switch(e.label){
                 case 0:
                     if (!($ !== __webpack_hash__) || "idle" !== module.hot.status()) return [
                         2
                     ];
-                    t.label = 1;
+                    e.label = 1;
                 case 1:
-                    return t.trys.push([
+                    return e.trys.push([
                         1,
                         4,
                         ,
@@ -29,17 +29,17 @@ function p() {
                 case 2:
                     return [
                         4,
-                        (e = t.sent()).json()
+                        e.sent().json()
                     ];
                 case 3:
-                    return a = t.sent(), r = "/" === i ? "index" : i, (n = (Array.isArray(a.c) ? a.c : Object.keys(a.c)).some(function(e) {
+                    return a = e.sent(), r = "/" === i ? "index" : i, (Array.isArray(a.c) ? a.c : Object.keys(a.c)).some(function(e) {
                         return -1 !== e.indexOf("pages".concat(r.startsWith("/") ? r : "/".concat(r))) || -1 !== e.indexOf("pages".concat(r.startsWith("/") ? r : "/".concat(r)).replace(/\//g, "\\"));
-                    })) ? document.location.reload(!0) : u = $, [
+                    }) ? document.location.reload(!0) : u = $, [
                         3,
                         5
                     ];
                 case 4:
-                    return c = t.sent(), console.error("Error occurred checking for update", c), document.location.reload(!0), [
+                    return c = e.sent(), console.error("Error occurred checking for update", c), document.location.reload(!0), [
                         3,
                         5
                     ];

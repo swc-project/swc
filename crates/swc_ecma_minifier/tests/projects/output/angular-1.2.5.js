@@ -2877,9 +2877,9 @@
                         return event;
                     },
                     $broadcast: function(name, args) {
-                        var listeners, i, length, target = this, current = target, next = target, event = {
+                        var listeners, i, length, current = this, next = this, event = {
                             name: name,
-                            targetScope: target,
+                            targetScope: this,
                             preventDefault: function() {
                                 event.defaultPrevented = !0;
                             },
@@ -2899,7 +2899,7 @@
                                     $exceptionHandler(e);
                                 }
                             }
-                            if (!(next = current.$$childHead || current !== target && current.$$nextSibling)) for(; current !== target && !(next = current.$$nextSibling);)current = current.$parent;
+                            if (!(next = current.$$childHead || current !== this && current.$$nextSibling)) for(; current !== this && !(next = current.$$nextSibling);)current = current.$parent;
                         }while (current = next)
                         return event;
                     }
@@ -3240,14 +3240,6 @@
             return formatNumber(number, formats.PATTERNS[0], formats.GROUP_SEP, formats.DECIMAL_SEP, fractionSize);
         };
     }
-    $FilterProvider.$inject = [
-        "$provide"
-    ], currencyFilter.$inject = [
-        "$locale"
-    ], numberFilter.$inject = [
-        "$locale"
-    ];
-    var DECIMAL_SEP = ".";
     function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
         if (isNaN(number) || !isFinite(number)) return "";
         var isNegative = number < 0, numStr = (number = Math.abs(number)) + "", formatedText = "", parts = [], hasExponent = !1;
@@ -3257,9 +3249,9 @@
         }
         if (hasExponent) fractionSize > 0 && number > -1 && number < 1 && (formatedText = number.toFixed(fractionSize));
         else {
-            var fractionLen = (numStr.split(DECIMAL_SEP)[1] || "").length;
+            var fractionLen = (numStr.split(".")[1] || "").length;
             isUndefined(fractionSize) && (fractionSize = Math.min(Math.max(pattern.minFrac, fractionLen), pattern.maxFrac));
-            var pow = Math.pow(10, fractionSize), fraction = ("" + (number = Math.round(number * pow) / pow)).split(DECIMAL_SEP), whole = fraction[0];
+            var pow = Math.pow(10, fractionSize), fraction = ("" + (number = Math.round(number * pow) / pow)).split("."), whole = fraction[0];
             fraction = fraction[1] || "";
             var i, pos = 0, lgroup = pattern.lgSize, group = pattern.gSize;
             if (whole.length >= lgroup + group) for(i = 0, pos = whole.length - lgroup; i < pos; i++)(pos - i) % group == 0 && 0 !== i && (formatedText += groupSep), formatedText += whole.charAt(i);
@@ -3286,6 +3278,13 @@
             return formats[uppercase(shortForm ? "SHORT" + name : name)][value];
         };
     }
+    $FilterProvider.$inject = [
+        "$provide"
+    ], currencyFilter.$inject = [
+        "$locale"
+    ], numberFilter.$inject = [
+        "$locale"
+    ];
     var DATE_FORMATS = {
         yyyy: dateGetter("FullYear", 4),
         yy: dateGetter("FullYear", 2, 0, !0),
