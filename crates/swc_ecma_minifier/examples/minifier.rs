@@ -5,7 +5,7 @@ extern crate swc_node_base;
 use std::{env::args, fs, path::Path};
 
 use swc_common::{errors::HANDLER, sync::Lrc, Mark, SourceMap};
-use swc_ecma_codegen::text_writer::JsWriter;
+use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions},
@@ -82,7 +82,7 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
             },
             cm: cm.clone(),
             comments: None,
-            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
+            wr: omit_trailing_semi(JsWriter::new(cm, "\n", &mut buf, None)),
         };
 
         for n in nodes {
