@@ -17,6 +17,9 @@
 
 
 
+- **(ci)** Cleanup CI config (#5769) ([1e8a58d](https://github.com/swc-project/swc/commit/1e8a58da4d6d3ca2bfc6843eb4412245d1154682))
+
+
 - **(es/minifier)** Fix size calculator script (#5767) ([9d29abc](https://github.com/swc-project/swc/commit/9d29abcd5b9ab08fb3eed4d685806a6b0dac9d95))- **general**: Typo (#5758) ([15e2357](https://github.com/swc-project/swc/commit/15e2357d1d7086f3a48def71c38acb7052f8d742))
 
 ### Performance
