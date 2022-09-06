@@ -1,1 +1,1 @@
-a: break a;
+out: break out;

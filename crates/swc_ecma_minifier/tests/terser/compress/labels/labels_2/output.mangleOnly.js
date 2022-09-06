@@ -1,5 +1,5 @@
-e: {
+out: {
     if (foo) print("stuff");
-    else break e;
+    else break out;
     console.log("here");
 }

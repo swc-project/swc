@@ -1,8 +1,8 @@
-while (foo) {
+while(foo){
     if (bar) break;
     console.log("foo");
 }
-o: while (foo) {
-    if (bar) break o;
+out: while(foo){
+    if (bar) break out;
     console.log("foo");
 }

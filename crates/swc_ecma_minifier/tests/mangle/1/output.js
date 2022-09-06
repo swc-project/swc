@@ -1,33 +1,33 @@
 "use strict";
-var n = (this && this.__importDefault) || function(n) {
-    return n && n.__esModule ? n : {
-        default: n
+var t = (this && this.__importDefault) || function(t) {
+    return t && t.__esModule ? t : {
+        default: t
     };
 };
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const t = n(require("./config.json"));
-function e({ config: n = t.default  } = {}) {
-    function e(t) {
-        const e = n[t] || null;
-        if (!e) {
+const e = t(require("./config.json"));
+function n({ config: t = e.default  } = {}) {
+    function n(e) {
+        const n = t[e] || null;
+        if (!n) {
             return false;
         }
-        const { available: u , availableBy: r  } = e;
-        if (!r) {
-            return u;
+        const { available: r , availableBy: u  } = n;
+        if (!u) {
+            return r;
         }
-        return Date.now() >= r && u;
+        return Date.now() >= u && r;
     }
-    function u(t) {
-        const e = n[t] || null;
-        return e;
+    function r(e) {
+        const n = t[e] || null;
+        return n;
     }
     return {
-        longlong10: u,
-        longlong2: e,
-        longlong100: n
+        longlong10: r,
+        longlong2: n,
+        longlong100: t
     };
 }
-exports.default = e;
+exports.default = n;

@@ -1,20 +1,20 @@
 var n = function(n) {
     return $6aPrw.atTheBeginningOfBlock(n) && $6aPrw.atTheEndOfBlock(n);
 };
-function t() {
-    i(state);
+function e() {
+    t(state);
 }
-function i(t) {
-    if (!n(t) || $0204f19a3843e92f$export$7abbbf8335ec653(t)) {
-        return t;
+function t(e) {
+    if (!n(e) || $0204f19a3843e92f$export$7abbbf8335ec653(e)) {
+        return e;
     } else {
         return $04186525b01d7539$var$range();
     }
 }
-function e() {
-    this.x = e;
+function r() {
+    this.x = r;
     this.insertFile = function() {
-        t();
+        e();
     };
 }
 console.log(cls);

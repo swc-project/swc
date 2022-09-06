@@ -1,9 +1,7 @@
-switch (
-    function () {
-        return n;
-    }
-) {
-    case n:
+switch(function() {
+    return xxx;
+}){
+    case xxx:
         if (console.log("FAIL")) {
             function n() {}
         }

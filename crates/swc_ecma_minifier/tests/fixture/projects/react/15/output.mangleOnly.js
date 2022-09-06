@@ -1,11 +1,11 @@
 function e(e) {
     {
-        var a = Object.keys(e.props);
-        for(var n = 0; n < a.length; n++){
-            var r = a[n];
-            if (r !== "children" && r !== "key") {
+        var r = Object.keys(e.props);
+        for(var t = 0; t < r.length; t++){
+            var n = r[t];
+            if (n !== "children" && n !== "key") {
                 setCurrentlyValidatingElement$1(e);
-                error("Invalid prop `%s` supplied to `React.Fragment`. " + "React.Fragment can only have `key` and `children` props.", r);
+                error("Invalid prop `%s` supplied to `React.Fragment`. " + "React.Fragment can only have `key` and `children` props.", n);
                 setCurrentlyValidatingElement$1(null);
                 break;
             }

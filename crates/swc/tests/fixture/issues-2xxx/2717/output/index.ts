@@ -5,7 +5,7 @@ export var selectThemeObject = function(e) {
     return e.theme;
 };
 export function saveTheme(t) {
-    var s, o, a, n;
+    var s, o, n, a;
     return e(this, function(e) {
         switch(e.label){
             case 0:
@@ -14,13 +14,13 @@ export function saveTheme(t) {
                     r(selectThemeObject)
                 ];
             case 1:
-                return o = e.sent(), a = {}, window.localStorage.setItem("theme", JSON.stringify((a.theme = o.theme, a.mode = o.mode, a.palette = o.palette, a))), s === c && (n = window.document.querySelector("body")) && (n.classList.add("light" === o.mode ? "light" : "dark"), n.classList.remove("light" === o.mode ? "dark" : "light")), [
+                return o = e.sent(), n = {}, window.localStorage.setItem("theme", JSON.stringify((n.theme = o.theme, n.mode = o.mode, n.palette = o.palette, n))), s === c && (a = window.document.querySelector("body")) && (a.classList.add("light" === o.mode ? "light" : "dark"), a.classList.remove("light" === o.mode ? "dark" : "light")), [
                     2
                 ];
         }
     });
 }
-export default function a() {
+export default function n() {
     return e(this, function(e) {
         switch(e.label){
             case 0:

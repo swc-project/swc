@@ -1,3 +1,3 @@
-e: while (x()) {
-    break e;
+L1: while(x()){
+    break L1;
 }

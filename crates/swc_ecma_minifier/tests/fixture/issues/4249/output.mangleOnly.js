@@ -1,8 +1,8 @@
 foo({
-    bar: function o(e, g) {
-        if (!(g ? e.quxA : e.quxB) && !(g ? e.corgeA : e.corgeB) && (g ? e.get("waldo") : e.waldo)) {
+    bar: function o(e, a) {
+        if (!(a ? e.quxA : e.quxB) && !(a ? e.corgeA : e.corgeB) && (a ? e.get("waldo") : e.waldo)) {
             pass();
-        } else if (!(g ? e.quxA : e.quxB) && !(g ? e.get("waldo") : e.waldo) && (g ? e.corgeA : e.corgeB)) {
+        } else if (!(a ? e.quxA : e.quxB) && !(a ? e.get("waldo") : e.waldo) && (a ? e.corgeA : e.corgeB)) {
             pass();
         }
     }

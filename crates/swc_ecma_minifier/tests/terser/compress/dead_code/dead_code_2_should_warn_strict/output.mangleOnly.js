@@ -1,13 +1,13 @@
 "use strict";
 function n() {
-    g();
+    o();
     n = 10;
     throw new Error("foo");
     if (n) {
         y();
         var n;
         function o() {}
-        (function () {
+        (function() {
             var n;
             function o() {}
         })();

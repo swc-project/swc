@@ -1,10 +1,10 @@
 var e = 1;
 var t = {
-    get set() {
+    get set () {
         return e;
     },
-    set get(t) {
-        e = t;
-    },
+    set get (c){
+        e = c;
+    }
 };
 console.log(t.set, (t.get = 2), t.set);

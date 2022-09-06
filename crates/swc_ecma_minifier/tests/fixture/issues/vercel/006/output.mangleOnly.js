@@ -1,5 +1,5 @@
-import { jsx as e, jsxs as t, Fragment as r } from "react/jsx-runtime";
-import * as o from "react";
+import { jsx as e, jsxs as t, Fragment as o } from "react/jsx-runtime";
+import * as r from "react";
 import i from "invariant";
 import { injectScript as n } from "./utils/injectscript";
 import { preventGoogleFonts as s } from "./utils/prevent-google-fonts";
@@ -15,7 +15,7 @@ export const defaultLoadScriptProps = {
     id: "script-loader",
     version: "weekly"
 };
-class c extends o.PureComponent {
+class c extends r.PureComponent {
     componentDidMount() {
         if (a) {
             if (window.google && window.google.maps && !l) {
@@ -56,7 +56,7 @@ class c extends o.PureComponent {
         }
     }
     render() {
-        return t(r, {
+        return t(o, {
             children: [
                 e("div", {
                     ref: this.check
@@ -67,7 +67,7 @@ class c extends o.PureComponent {
     }
     constructor(...e){
         super(...e);
-        this.check = o.createRef();
+        this.check = r.createRef();
         this.state = {
             loaded: false
         };
@@ -81,7 +81,7 @@ class c extends o.PureComponent {
                     e();
                 } else {
                     if (a) {
-                        const t = window.setInterval(function r() {
+                        const t = window.setInterval(function o() {
                             if (!l) {
                                 window.clearInterval(t);
                                 e();

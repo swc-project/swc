@@ -1,4 +1,4 @@
-!(function () {
+!(function() {
     function o() {
         var o = n;
         var n = o++;
@@ -7,7 +7,7 @@
                 n[1] = "foo";
             })();
             console.log("FAIL");
-        } catch (o) {
+        } catch (c) {
             console.log("PASS");
         }
     }

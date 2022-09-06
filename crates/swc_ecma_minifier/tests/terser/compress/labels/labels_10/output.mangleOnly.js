@@ -1,7 +1,7 @@
-e: while (foo) {
+out: while(foo){
     x();
     y();
-    break e;
+    break out;
     z();
     k();
 }

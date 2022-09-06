@@ -9,12 +9,12 @@ function u(e) {
     }
     return e;
 }
-function f(e, t) {
+function c(e, t) {
     if (!(e instanceof t)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function c(e, t) {
+function f(e, t) {
     for(var r = 0; r < t.length; r++){
         var n = t[r];
         n.enumerable = n.enumerable || false;
@@ -24,8 +24,8 @@ function c(e, t) {
     }
 }
 function a(e, t, r) {
-    if (t) c(e.prototype, t);
-    if (r) c(e, r);
+    if (t) f(e.prototype, t);
+    if (r) f(e, r);
     return e;
 }
 function s(e, t, r) {
@@ -76,7 +76,7 @@ function p(e) {
     return e;
 }
 function d(e, t) {
-    if (t && (y(t) === "object" || typeof t === "function")) {
+    if (t && (b(t) === "object" || typeof t === "function")) {
         return t;
     }
     return u(e);
@@ -88,14 +88,14 @@ function h(e, t) {
     };
     return h(e, t);
 }
-var y = function(e) {
+var b = function(e) {
     return e && typeof Symbol !== "undefined" && e.constructor === Symbol ? "symbol" : typeof e;
 };
-var g = (function(t) {
+var y = (function(t) {
     "use strict";
     m(r, t);
     function r() {
-        f(this, r);
+        c(this, r);
         var e;
         e = d(this, l(r).apply(this, arguments));
         e.storeHighlightedItemReference = function(t) {
@@ -116,34 +116,34 @@ var g = (function(t) {
             key: "render",
             value: function t() {
                 var r = this;
-                var n = this.props, o = n.items, u = n.itemProps, f = n.renderItem, c = n.renderItemData, a = n.sectionIndex, s = n.highlightedItemIndex, l = n.getItemId, m = n.theme, d = n.keyPrefix;
+                var n = this.props, o = n.items, u = n.itemProps, c = n.renderItem, f = n.renderItemData, a = n.sectionIndex, s = n.highlightedItemIndex, l = n.getItemId, m = n.theme, d = n.keyPrefix;
                 var h = a === null ? d : "".concat(d, "section-").concat(a, "-");
-                var y = typeof u === "function";
+                var b = typeof u === "function";
                 return e("ul", p({
                     role: "listbox"
                 }, m("".concat(h, "items-list"), "itemsList"), {
                     children: o.map(function(t, n) {
                         var o = n === 0;
                         var d = n === s;
-                        var g = "".concat(h, "item-").concat(n);
-                        var I = y ? u({
+                        var y = "".concat(h, "item-").concat(n);
+                        var g = b ? u({
                             sectionIndex: a,
                             itemIndex: n
                         }) : u;
-                        var b = p({
+                        var I = p({
                             id: l(a, n),
                             "aria-selected": d
-                        }, m(g, "item", o && "itemFirst", d && "itemHighlighted"), I);
+                        }, m(y, "item", o && "itemFirst", d && "itemHighlighted"), g);
                         if (d) {
-                            b.ref = r.storeHighlightedItemReference;
+                            I.ref = r.storeHighlightedItemReference;
                         }
-                        return e(i, p({}, b, {
+                        return e(i, p({}, I, {
                             sectionIndex: a,
                             isHighlighted: d,
                             itemIndex: n,
                             item: t,
-                            renderItem: f,
-                            renderItemData: c
+                            renderItem: c,
+                            renderItemData: f
                         }));
                     })
                 }));
@@ -152,7 +152,7 @@ var g = (function(t) {
     ]);
     return r;
 })(r);
-g.propTypes = {
+y.propTypes = {
     items: n.array.isRequired,
     itemProps: n.oneOfType([
         n.object,
@@ -167,7 +167,7 @@ g.propTypes = {
     theme: n.func.isRequired,
     keyPrefix: n.string.isRequired
 };
-g.defaultProps = {
+y.defaultProps = {
     sectionIndex: null
 };
-export { g as default };
+export { y as default };

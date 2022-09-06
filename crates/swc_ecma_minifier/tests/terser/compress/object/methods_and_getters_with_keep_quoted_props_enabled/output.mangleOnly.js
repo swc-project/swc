@@ -1,16 +1,16 @@
 var e = {
-    a() {},
-    b() {},
-    get c() {
+    a () {},
+    b () {},
+    get c () {
         return "c";
     },
-    get d() {
+    get d () {
         return "d";
     },
-    set e(e) {
-        doSomething(e);
+    set e (a){
+        doSomething(a);
     },
-    set f(e) {
+    set f (a){
         doSomething(b);
-    },
+    }
 };

@@ -1,12 +1,12 @@
 var o = "PASS";
 try {
     throw 0;
-} catch (t) {
+} catch (c) {
     (function() {
-        function c() {
-            t = "FAIL";
+        function n() {
+            c = "FAIL";
         }
-        c(), c();
+        n(), n();
     })();
 }
 console.log(o);

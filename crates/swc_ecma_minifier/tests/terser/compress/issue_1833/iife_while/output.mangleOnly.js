@@ -1,6 +1,6 @@
 function n() {
     function n() {
-        n: while (1) break n;
+        L: while(1)break L;
     }
     n();
 }

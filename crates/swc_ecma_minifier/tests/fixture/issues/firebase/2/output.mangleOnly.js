@@ -1,14 +1,14 @@
-export function treeSubTree(e, n) {
-    let t = n instanceof Path ? n : new Path(n);
-    let l = e, r = pathGetFront(t);
-    while(r !== null){
-        const c = safeGet(l.node.children, r) || {
+export function treeSubTree(e, t) {
+    let n = t instanceof Path ? t : new Path(t);
+    let r = e, o = pathGetFront(n);
+    while(o !== null){
+        const h = safeGet(r.node.children, o) || {
             children: {},
             childCount: 0
         };
-        l = new Tree(r, l, c);
-        t = pathPopFront(t);
-        r = pathGetFront(t);
+        r = new Tree(o, r, h);
+        n = pathPopFront(n);
+        o = pathGetFront(n);
     }
-    return l;
+    return r;
 }

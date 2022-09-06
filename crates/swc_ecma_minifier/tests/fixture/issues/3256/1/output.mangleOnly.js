@@ -1,4 +1,4 @@
-var $ = 0;
-$ = 2000;
-console.log($++);
-export default $;
+var e = 0;
+e = 2000;
+console.log(e++);
+export default e;

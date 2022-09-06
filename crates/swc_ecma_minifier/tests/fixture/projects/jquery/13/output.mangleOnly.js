@@ -1,53 +1,53 @@
-function e(e, a, t) {
+function e(e, t, a) {
     if (!jQuery.acceptData(e)) {
         return;
     }
-    var i, n, l, f = e.nodeType, r = f ? jQuery.cache : e, c = f ? e[jQuery.expando] : jQuery.expando;
-    if (!r[c]) {
+    var r, i, u, n = e.nodeType, l = n ? jQuery.cache : e, y = n ? e[jQuery.expando] : jQuery.expando;
+    if (!l[y]) {
         return;
     }
-    if (a) {
-        l = t ? r[c] : r[c].data;
-        if (l) {
-            if (!jQuery.isArray(a)) {
-                if (a in l) {
-                    a = [
-                        a
+    if (t) {
+        u = a ? l[y] : l[y].data;
+        if (u) {
+            if (!jQuery.isArray(t)) {
+                if (t in u) {
+                    t = [
+                        t
                     ];
                 } else {
-                    a = jQuery.camelCase(a);
-                    if (a in l) {
-                        a = [
-                            a
+                    t = jQuery.camelCase(t);
+                    if (t in u) {
+                        t = [
+                            t
                         ];
                     } else {
-                        a = a.split(" ");
+                        t = t.split(" ");
                     }
                 }
             } else {
-                a = a.concat(jQuery.map(a, jQuery.camelCase));
+                t = t.concat(jQuery.map(t, jQuery.camelCase));
             }
-            for(i = 0, n = a.length; i < n; i++){
-                delete l[a[i]];
+            for(r = 0, i = t.length; r < i; r++){
+                delete u[t[r]];
             }
-            if (!(t ? isEmptyDataObject : jQuery.isEmptyObject)(l)) {
+            if (!(a ? isEmptyDataObject : jQuery.isEmptyObject)(u)) {
                 return;
             }
         }
     }
-    if (!t) {
-        delete r[c].data;
-        if (!isEmptyDataObject(r[c])) {
+    if (!a) {
+        delete l[y].data;
+        if (!isEmptyDataObject(l[y])) {
             return;
         }
     }
-    if (f) {
+    if (n) {
         jQuery.cleanData([
             e
         ], true);
-    } else if (jQuery.support.deleteExpando || r != r.window) {
-        delete r[c];
+    } else if (jQuery.support.deleteExpando || l != l.window) {
+        delete l[y];
     } else {
-        r[c] = null;
+        l[y] = null;
     }
 }

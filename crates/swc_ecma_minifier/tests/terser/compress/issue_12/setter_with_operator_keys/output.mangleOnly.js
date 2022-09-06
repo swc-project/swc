@@ -1,20 +1,20 @@
 var t = {
-    get instanceof() {
+    get instanceof () {
         return test0;
     },
-    set instanceof(t) {
-        test0 = t;
+    set instanceof (value){
+        test0 = value;
     },
-    set typeof(t) {
-        test1 = t;
+    set typeof (value){
+        test1 = value;
     },
-    get typeof() {
+    get typeof () {
         return test1;
     },
-    set else(t) {
-        test2 = t;
+    set else (value){
+        test2 = value;
     },
-    get else() {
+    get else () {
         return test2;
-    },
+    }
 };

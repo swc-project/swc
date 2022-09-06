@@ -1,9 +1,9 @@
 const e = 1000;
 const s = e * 60;
-const n = s * 60;
-const r = n * 24;
-const c = r * 7;
-const t = r * 365.25;
+const r = s * 60;
+const n = r * 24;
+const t = n * 7;
+const c = n * 365.25;
 function a(e, s) {
     try {
         if (typeof e === "string" && e.length > 0) {
@@ -12,9 +12,9 @@ function a(e, s) {
             return s?.long ? i(e) : u(e);
         }
         throw new Error("Value is not a string or number.");
-    } catch (n) {
-        const r = d(n) ? `${n.message}. value=${JSON.stringify(e)}` : "An unknown error has occured.";
-        throw new Error(r);
+    } catch (r) {
+        const n = m(r) ? `${r.message}. value=${JSON.stringify(e)}` : "An unknown error has occured.";
+        throw new Error(n);
     }
 }
 function o(a) {
@@ -34,21 +34,21 @@ function o(a) {
         case "yrs":
         case "yr":
         case "y":
-            return u * t;
+            return u * c;
         case "weeks":
         case "week":
         case "w":
-            return u * c;
+            return u * t;
         case "days":
         case "day":
         case "d":
-            return u * r;
+            return u * n;
         case "hours":
         case "hour":
         case "hrs":
         case "hr":
         case "h":
-            return u * n;
+            return u * r;
         case "minutes":
         case "minute":
         case "mins":
@@ -72,42 +72,42 @@ function o(a) {
     }
 }
 export default a;
-function u(c) {
-    const t = Math.abs(c);
-    if (t >= r) {
-        return `${Math.round(c / r)}d`;
+function u(t) {
+    const c = Math.abs(t);
+    if (c >= n) {
+        return `${Math.round(t / n)}d`;
     }
-    if (t >= n) {
-        return `${Math.round(c / n)}h`;
+    if (c >= r) {
+        return `${Math.round(t / r)}h`;
     }
-    if (t >= s) {
-        return `${Math.round(c / s)}m`;
+    if (c >= s) {
+        return `${Math.round(t / s)}m`;
     }
-    if (t >= e) {
-        return `${Math.round(c / e)}s`;
+    if (c >= e) {
+        return `${Math.round(t / e)}s`;
     }
-    return `${c}ms`;
+    return `${t}ms`;
 }
-function i(c) {
-    const t = Math.abs(c);
-    if (t >= r) {
-        return m(c, t, r, "day");
+function i(t) {
+    const c = Math.abs(t);
+    if (c >= n) {
+        return h(t, c, n, "day");
     }
-    if (t >= n) {
-        return m(c, t, n, "hour");
+    if (c >= r) {
+        return h(t, c, r, "hour");
     }
-    if (t >= s) {
-        return m(c, t, s, "minute");
+    if (c >= s) {
+        return h(t, c, s, "minute");
     }
-    if (t >= e) {
-        return m(c, t, e, "second");
+    if (c >= e) {
+        return h(t, c, e, "second");
     }
-    return `${c} ms`;
+    return `${t} ms`;
 }
-function m(e, s, n, r) {
-    const c = s >= n * 1.5;
-    return `${Math.round(e / n)} ${r}${c ? "s" : ""}`;
+function h(e, s, r, n) {
+    const t = s >= r * 1.5;
+    return `${Math.round(e / r)} ${n}${t ? "s" : ""}`;
 }
-function d(e) {
+function m(e) {
     return typeof e === "object" && e !== null && "message" in e;
 }

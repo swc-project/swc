@@ -33,14 +33,14 @@ function r() {
 function f() {
     try {
         throw (w = a());
-    } finally {
+    } finally{
         console.log(w);
     }
 }
 function i(o) {
     try {
         throw (o = a());
-    } finally {
+    } finally{
         console.log(o);
     }
 }
@@ -48,23 +48,33 @@ function h() {
     var o;
     try {
         throw (o = a());
-    } finally {
+    } finally{
         console.log(o);
     }
 }
 function u(u) {
     var y = 0;
-    a = function () {
+    a = function() {
         y += u;
         if (u < 0) throw y;
         return y;
     };
-    [o, n, t, c, l, r, f, i, h].forEach(function (o, n) {
+    [
+        o,
+        n,
+        t,
+        c,
+        l,
+        r,
+        f,
+        i,
+        h
+    ].forEach(function(o, n) {
         w = null;
         try {
             o(10 * (1 + n));
-        } catch (o) {
-            console.log("caught " + o);
+        } catch (t) {
+            console.log("caught " + t);
         }
         if (null !== w) console.log("a: " + w);
     });

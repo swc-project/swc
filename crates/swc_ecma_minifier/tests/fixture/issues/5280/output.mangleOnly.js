@@ -1,8 +1,8 @@
 export function source() {
     let e = 0;
-    let t = 1;
-    e += t;
-    t += 5;
+    let o = 1;
+    e += o;
+    o += 5;
     let l = e;
-    console.log(t, l, e);
+    console.log(o, l, e);
 }

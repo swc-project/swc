@@ -1,9 +1,9 @@
-export function foo(e) {
-    switch(e){
+export function foo(a) {
+    switch(a){
         case ENUM_VALUE:
             {
-                const { data: o  } = e;
-                call(o);
+                const { data: c  } = a;
+                call(c);
                 break;
             }
         default:

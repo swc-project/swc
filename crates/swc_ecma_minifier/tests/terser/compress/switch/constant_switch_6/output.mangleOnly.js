@@ -1,9 +1,9 @@
-a: {
+OUT: {
     foo();
-    switch (1) {
+    switch(1){
         case 1:
             x();
-            if (foo) break a;
+            if (foo) break OUT;
             y();
         case 1 + 1:
             bar();

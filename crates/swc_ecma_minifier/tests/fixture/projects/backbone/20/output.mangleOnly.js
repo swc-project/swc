@@ -6,39 +6,39 @@ export const E = {
         t = i ? (t ? [
             t
         ] : []) : _.clone(t);
-        var s, r, h, l, a, o, n;
+        var s, r, h, l, o, a, n;
         var f = e.at;
         var d = this.model;
         var g = this.comparator && f == null && e.sort !== false;
-        var u = _.isString(this.comparator) ? this.comparator : null;
-        var p = [], v = [], c = {};
+        var p = _.isString(this.comparator) ? this.comparator : null;
+        var u = [], v = [], c = {};
         var m = e.add, $ = e.merge, b = e.remove;
         var y = !g && m && b ? [] : false;
         for(s = 0, r = t.length; s < r; s++){
-            a = t[s];
-            if (a instanceof Model) {
-                h = l = a;
+            o = t[s];
+            if (o instanceof Model) {
+                h = l = o;
             } else {
-                h = a[d.prototype.idAttribute];
+                h = o[d.prototype.idAttribute];
             }
-            if ((o = this.get(h))) {
-                if (b) c[o.cid] = true;
+            if ((a = this.get(h))) {
+                if (b) c[a.cid] = true;
                 if ($) {
-                    a = a === l ? l.attributes : a;
-                    if (e.parse) a = o.parse(a, e);
-                    o.set(a, e);
-                    if (g && !n && o.hasChanged(u)) n = true;
+                    o = o === l ? l.attributes : o;
+                    if (e.parse) o = a.parse(o, e);
+                    a.set(o, e);
+                    if (g && !n && a.hasChanged(p)) n = true;
                 }
-                t[s] = o;
+                t[s] = a;
             } else if (m) {
-                l = t[s] = this._prepareModel(a, e);
+                l = t[s] = this._prepareModel(o, e);
                 if (!l) continue;
-                p.push(l);
+                u.push(l);
                 l.on("all", this._onModelEvent, this);
                 this._byId[l.cid] = l;
                 if (l.id != null) this._byId[l.id] = l;
             }
-            if (y) y.push(o || l);
+            if (y) y.push(a || l);
         }
         if (b) {
             for(s = 0, r = this.length; s < r; ++s){
@@ -46,18 +46,18 @@ export const E = {
             }
             if (v.length) this.remove(v, e);
         }
-        if (p.length || (y && y.length)) {
+        if (u.length || (y && y.length)) {
             if (g) n = true;
-            this.length += p.length;
+            this.length += u.length;
             if (f != null) {
-                for(s = 0, r = p.length; s < r; s++){
-                    this.models.splice(f + s, 0, p[s]);
+                for(s = 0, r = u.length; s < r; s++){
+                    this.models.splice(f + s, 0, u[s]);
                 }
             } else {
                 if (y) this.models.length = 0;
-                var A = y || p;
-                for(s = 0, r = A.length; s < r; s++){
-                    this.models.push(A[s]);
+                var M = y || u;
+                for(s = 0, r = M.length; s < r; s++){
+                    this.models.push(M[s]);
                 }
             }
         }
@@ -65,8 +65,8 @@ export const E = {
             silent: true
         });
         if (!e.silent) {
-            for(s = 0, r = p.length; s < r; s++){
-                (l = p[s]).trigger("add", l, this, e);
+            for(s = 0, r = u.length; s < r; s++){
+                (l = u[s]).trigger("add", l, this, e);
             }
             if (n || (y && y.length)) this.trigger("sort", this, e);
         }

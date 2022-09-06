@@ -1,13 +1,13 @@
-function n(n, t, r) {
-    n[t] = r;
+function n(n, o, t) {
+    n[o] = t;
 }
 n(module.exports, "A", function() {
-    return t;
-});
-n(module.exports, "B", function() {
-    return r;
-});
-n(module.exports, "C", function() {
     return o;
 });
-const t = "A", r = "B", o = "C";
+n(module.exports, "B", function() {
+    return t;
+});
+n(module.exports, "C", function() {
+    return u;
+});
+const o = "A", t = "B", u = "C";
