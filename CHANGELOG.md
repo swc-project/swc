@@ -14,7 +14,10 @@
 - **(es/minifier)** Align name mangler with terser (#5763) ([60ce462](https://github.com/swc-project/swc/commit/60ce46221529f70ccee98f808f532410724ed66b))
 
 ### Miscellaneous Tasks
-- **general**: Typo (#5758) ([15e2357](https://github.com/swc-project/swc/commit/15e2357d1d7086f3a48def71c38acb7052f8d742))
+
+
+
+- **(es/minifier)** Fix size calculator script (#5767) ([9d29abc](https://github.com/swc-project/swc/commit/9d29abcd5b9ab08fb3eed4d685806a6b0dac9d95))- **general**: Typo (#5758) ([15e2357](https://github.com/swc-project/swc/commit/15e2357d1d7086f3a48def71c38acb7052f8d742))
 
 ### Performance
 
