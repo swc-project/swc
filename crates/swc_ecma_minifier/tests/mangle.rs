@@ -19,7 +19,7 @@ use swc_ecma_minifier::{
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
-use testing::NormalizedOutput;
+use testing::{DebugUsingDisplay, NormalizedOutput};
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
     let mut buf = vec![];
@@ -153,7 +153,10 @@ fn snapshot_compress_fixture(input: PathBuf) {
         let mangled = print(cm.clone(), &m, false);
         let terser_output = print(cm, &terser_module, false);
 
-        assert_eq!(mangled, terser_output);
+        assert_eq!(
+            DebugUsingDisplay(&mangled),
+            DebugUsingDisplay(&terser_output)
+        );
 
         NormalizedOutput::from(mangled)
             .compare_to_file(input.parent().unwrap().join("output.mangleOnly.js"))
