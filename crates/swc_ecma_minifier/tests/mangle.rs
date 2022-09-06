@@ -117,13 +117,17 @@ fn snapshot_compress_fixture(input: PathBuf) {
 
             let mut m = m.clone();
             m.visit_mut_with(&mut paren_remover(None));
+            m = drop_span(m);
 
             let mut expected = parse(&handler, cm.clone(), &input)?;
             expected.visit_mut_with(&mut paren_remover(None));
+            expected = drop_span(expected);
 
-            if drop_span(m) == drop_span(expected) {
+            if m == expected {
                 return Ok(());
             }
+
+            assert_eq!(m, expected);
         }
 
         let mangled = print(cm, &m, false);
