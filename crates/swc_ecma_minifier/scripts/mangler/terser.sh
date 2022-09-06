@@ -6,4 +6,4 @@ set -eu
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-find ./tests/terser -name 'input.js' -exec $SCRIPT_DIR/terser-one.sh {} \;
+find ./tests/terser -name 'input.js' | xargs -L 1 -P 8 -I {} $SCRIPT_DIR/terser-one.sh {} \;
