@@ -1,7 +1,18 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got 'c1'
-//!     ,----
-//!  12 | <test1 c1={(x) => x.length} />; // OK
-//!     :        ^^
-//!     `----
+// OK
+/*#__PURE__*/ React.createElement("test1", {
+    c1: function(x) {
+        return x.length;
+    }
+}); // OK
+/*#__PURE__*/ React.createElement("test1", {
+    "data-c1": function(x) {
+        return x.leng;
+    }
+}); // OK
+// Errors
+/*#__PURE__*/ React.createElement("test1", {
+    c1: function(x) {
+        return x.leng;
+    }
+}); // Error, no leng on 'string'

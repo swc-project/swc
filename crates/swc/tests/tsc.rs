@@ -34,7 +34,15 @@ use testing::NormalizedOutput;
         "privateNameStaticAccessorsDerivedClasses.ts",
     )
 )]
-#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
+#[testing::fixture(
+    "../swc_ecma_parser/tests/tsc/**/*.tsx",
+    exclude(
+        "checkJsxNamespaceNamesQuestionableForms.tsx",
+        "jsxEsprimaFbTestSuite.tsx",
+        "jsxInvalidEsprimaTestSuite.tsx",
+        "tsxGenericArrowFunctionParsing.tsx",
+    )
+)]
 fn fixture(input: PathBuf) {
     if input.to_string_lossy().contains("jsdoc") {
         return;
@@ -325,6 +333,11 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
 
     let mut test_unit_data_list = vec![];
 
+    let is_jsx = input
+        .extension()
+        .map(|ext| ext == "tsx")
+        .unwrap_or_default();
+
     let base_name = input.with_extension("");
     let base_name = base_name.file_name().map(OsStr::to_string_lossy).unwrap();
 
@@ -361,7 +374,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                     config: Config {
                         jsc: JscConfig {
                             syntax: Some(Syntax::Typescript(TsConfig {
-                                tsx: filename.ends_with(".tsx"),
+                                tsx: is_jsx,
                                 decorators,
                                 dts: false,
                                 no_early_errors: false,

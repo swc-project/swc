@@ -1,7 +1,12 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got '{'
-//!    ,----
-//!  9 | let a1 = <ComponentSpecific1 {...arg} ignore-prop={10} />;
-//!    :                              ^
-//!    `----
+define([
+    "require",
+    "exports",
+    "@swc/helpers/src/_extends.mjs",
+    "react"
+], function(require, exports, _extends, _react) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    }), _extends = _extends.default;
+});

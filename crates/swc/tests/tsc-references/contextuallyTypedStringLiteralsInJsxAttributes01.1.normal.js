@@ -1,13 +1,16 @@
 //// [contextuallyTypedStringLiteralsInJsxAttributes01.tsx]
-//! 
-//!   x Expected a semicolon
-//!     ,----
-//!  11 | const FooComponent = (props: { foo: "A" | "B" | "C" }) => <span>{props.foo}</span>;
-//!     :                                                                       ^
-//!     `----
-//! 
-//!   x Expected ',', got '.'
-//!     ,----
-//!  11 | const FooComponent = (props: { foo: "A" | "B" | "C" }) => <span>{props.foo}</span>;
-//!     :                                                                       ^
-//!     `----
+var FooComponent = function(props) {
+    return /*#__PURE__*/ React.createElement("span", null, props.foo);
+};
+/*#__PURE__*/ React.createElement(FooComponent, {
+    foo: "A"
+});
+/*#__PURE__*/ React.createElement(FooComponent, {
+    foo: "A"
+});
+/*#__PURE__*/ React.createElement(FooComponent, {
+    foo: "f"
+});
+/*#__PURE__*/ React.createElement(FooComponent, {
+    foo: "f"
+});

@@ -1,7 +1,4 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got '{'
-//!     ,----
-//!  10 | <test1 {...x} />
-//!     :        ^
-//!     `----
+var x;
+import _extends from "@swc/helpers/src/_extends.mjs";
+_extends({}, x);

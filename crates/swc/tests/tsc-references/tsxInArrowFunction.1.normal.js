@@ -1,7 +1,25 @@
 //// [tsxInArrowFunction.tsx]
-//! 
-//!   x Unexpected token `(`. Expected identifier, string literal, numeric literal or [ for the computed key
-//!     ,----
-//!  13 | <div>{() => <div text="wat" />}</div>;
-//!     :       ^
-//!     `----
+// didn't work
+/*#__PURE__*/ React.createElement("div", null, function() {
+    return /*#__PURE__*/ React.createElement("div", {
+        text: "wat"
+    });
+});
+// didn't work
+/*#__PURE__*/ React.createElement("div", null, function(x) {
+    return /*#__PURE__*/ React.createElement("div", {
+        text: "wat"
+    });
+});
+// worked
+/*#__PURE__*/ React.createElement("div", null, function() {
+    return /*#__PURE__*/ React.createElement("div", {
+        text: "wat"
+    });
+});
+// worked (!)
+/*#__PURE__*/ React.createElement("div", null, function() {
+    return /*#__PURE__*/ React.createElement("div", {
+        text: "wat"
+    });
+});

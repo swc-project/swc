@@ -1,28 +1,8 @@
 //// [renderer.d.ts]
 export { };
 //// [reacty.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  3 | <><h></h></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unexpected token `regexp literal (h><, )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  3 | <><h></h></>
-//!    :       ^^^^^
-//!    `----
+/** @jsx React.createElement */ import * as React from "./renderer";
+/*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("h", null));
 //// [index.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  3 | <><h></h></>
-//!    :  ^
-//!    `----
-//! 
-//!   x Unexpected token `regexp literal (h><, )`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-//!    ,----
-//!  3 | <><h></h></>
-//!    :       ^^^^^
-//!    `----
+/** @jsx dom */ import { dom } from "./renderer";
+/*#__PURE__*/ dom(React.Fragment, null, /*#__PURE__*/ dom("h", null));

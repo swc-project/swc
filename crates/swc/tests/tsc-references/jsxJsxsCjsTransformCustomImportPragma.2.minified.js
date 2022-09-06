@@ -1,26 +1,12 @@
 //// [preact.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  3 | const a = <>
-//!    :            ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  4 | <p></p>
-//!    :     ^^^
-//!    `----
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), require("preact/jsx-runtime").Fragment;
 //// [react.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  4 | const a = <>
-//!    :            ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  5 | <p></p>
-//!    :     ^^^
-//!    `----
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+});
+var _jsxRuntime = require("react/jsx-runtime");
+require("./preact"), _jsxRuntime.Fragment;

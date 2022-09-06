@@ -7,16 +7,14 @@ define([
     "require"
 ], function(require) {});
 //// [consumer.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  5 | <s1.MyElement />;
-//!    :               ^
-//!    `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  5 | <s1.MyElement />;
-//!    :                ^
-//!    `----
+define([
+    "require",
+    "exports",
+    "elements1",
+    "elements2"
+], function(require, exports, _elements1, _elements2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    }), _elements1.MyElement;
+});

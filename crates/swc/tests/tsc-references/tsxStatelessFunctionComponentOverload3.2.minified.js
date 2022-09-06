@@ -1,14 +1,18 @@
 //// [file.tsx]
-//! 
-//!   x Expression expected
-//!     ,----
-//!  11 | const two1 = <ZeroThingOrTwoThing />;
-//!     :                                   ^
-//!     `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!     ,----
-//!  11 | const two1 = <ZeroThingOrTwoThing />;
-//!     :                                    ^
-//!     `----
+define([
+    "require",
+    "exports",
+    "@swc/helpers/src/_extends.mjs"
+], function(require, exports, _extends) {
+    "use strict";
+    var obj2;
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    }), (_extends = _extends.default)({}, obj2), _extends({
+        yy: 1000
+    }, obj2), _extends({}, obj2, {
+        yy: 1000
+    }), _extends({}, obj2, {
+        y2: 10
+    });
+});
