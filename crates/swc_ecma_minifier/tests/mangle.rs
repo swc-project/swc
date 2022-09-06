@@ -1,11 +1,7 @@
 #![deny(warnings)]
 
-use std::{
-    path::{Path, PathBuf},
-    process::{Command, Stdio},
-};
+use std::path::{Path, PathBuf};
 
-use anyhow::{bail, Context};
 use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
@@ -322,27 +318,4 @@ class a {
             ..Default::default()
         },
     )
-}
-
-pub fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> anyhow::Result<String> {
-    let mut cmd = Command::new("terser");
-    cmd.stderr(Stdio::inherit());
-
-    if compress {
-        cmd.arg("--compress");
-    }
-    if mangle {
-        cmd.arg("--mangle");
-    }
-    cmd.arg("--comments false");
-    cmd.arg("--");
-    cmd.arg(file);
-
-    let output = cmd.output().context("failed to get output")?;
-
-    if !output.status.success() {
-        bail!("failed to run terser");
-    }
-
-    String::from_utf8(output.stdout).context("terser emitted non-utf8 string")
 }
