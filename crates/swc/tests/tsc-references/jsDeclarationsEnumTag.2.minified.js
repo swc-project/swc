@@ -20,7 +20,7 @@ export var Fs = {
         return n - 1;
     }
 };
-export function consume() {
+export function consume(t, s, f) {
     Target.START;
 }
 export function ff(s) {

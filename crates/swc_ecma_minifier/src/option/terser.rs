@@ -151,8 +151,8 @@ pub struct TerserCompressorOptions {
     #[serde(default)]
     pub keep_classnames: bool,
 
-    #[serde(default)]
-    pub keep_fargs: Option<bool>,
+    #[serde(default = "true_by_default")]
+    pub keep_fargs: bool,
 
     #[serde(default)]
     pub keep_fnames: bool,
@@ -335,7 +335,7 @@ impl TerserCompressorOptions {
                 .unwrap_or(if self.defaults { 3 } else { 0 }),
             join_vars: self.join_vars.unwrap_or(self.defaults),
             keep_classnames: self.keep_classnames,
-            keep_fargs: self.keep_fargs.unwrap_or(self.defaults),
+            keep_fargs: self.keep_fargs,
             keep_fnames: self.keep_fnames,
             keep_infinity: self.keep_infinity,
             loops: self.loops.unwrap_or(self.defaults),
