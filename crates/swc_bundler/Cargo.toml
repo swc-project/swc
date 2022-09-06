@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = "Apache-2.0"
 name          = "swc_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.185.2"
+version       = "0.185.3"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -61,7 +61,7 @@ swc_ecma_loader = { version = "0.39.4", path = "../swc_ecma_loader", features = 
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "0.152.9", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "0.152.10", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
 swc_ecma_transforms_proposal = { version = "0.137.0", path = "../swc_ecma_transforms_proposal" }

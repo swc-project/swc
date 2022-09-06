@@ -10,6 +10,12 @@
 ### Miscellaneous Tasks
 - **general**: Typo (#5758) ([15e2357](https://github.com/swc-project/swc/commit/15e2357d1d7086f3a48def71c38acb7052f8d742))
 
+### Performance
+
+
+
+- **(es/minifier)** Make `MultiReplacer` single-pass (#5761) ([27e9254](https://github.com/swc-project/swc/commit/27e92542808048a12985ce15ee6ee65d44d5ac6c))
+
 ## [1.2.248] - 2022-09-06
 
 ### Bug Fixes
