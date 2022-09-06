@@ -4,6 +4,4 @@
 # 
 set -eu
 
-
-
-npx terser --mangle --output {}-terser.js
+npx terser --mangle --output "${1/input/output.mangleOnly}" $1
