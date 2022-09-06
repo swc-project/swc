@@ -18,12 +18,13 @@ json_str="$(yq -o=json $SCRIPT_DIR/tests.yml)"
 for crate in $crates
 do
     echo "- crate: $crate"
+    echo "  os: ubuntu-latest"
 
     if echo $json_str | jq -e "select(.host.\"$crate\")" > /dev/null; then
-        echo "  os: " `echo $json_str | jq -e -r ".host.\"$crate\""`
+        echo "  runner: " `echo $json_str | jq -e -r ".host.\"$crate\""`
         
     else
-        echo "  os: ubuntu-latest"
+        echo "  runner: ubuntu-latest"
     fi
 
     if echo $json_str | jq -e ".check.\"$crate\"" > /dev/null; then
@@ -40,10 +41,12 @@ do
     if echo $json_str | jq -e "select(.os.macos | index(\"$crate\"))" > /dev/null; then
         echo "- crate: $crate"
         echo "  os: macos-latest"
+        echo "  runner: macos-latest"
     fi
 
     if echo $json_str | jq -e "select(.os.windows | index(\"$crate\"))" > /dev/null; then
         echo "- crate: $crate"
         echo "  os: windows-latest"
+        echo "  runner: windows-latest"
     fi
 done
