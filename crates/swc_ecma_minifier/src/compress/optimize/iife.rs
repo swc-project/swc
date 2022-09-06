@@ -265,12 +265,12 @@ where
     {
         trace_op!("inline: inline_vars_in_node");
 
-        n.visit_mut_with(&mut MultiReplacer::new(
-            &mut vars,
-            false,
-            MultiReplacerMode::Normal,
-            &mut self.changed,
-        ));
+        n.visit_mut_with(&mut MultiReplacer {
+            vars,
+            simple_functions: Default::default(),
+            changed: false,
+            worked: &mut self.changed,
+        });
     }
 
     /// Fully inlines iife.
