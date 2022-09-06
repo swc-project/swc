@@ -115,19 +115,24 @@ fn snapshot_compress_fixture(input: PathBuf) {
         {
             // Compare AST, and mark test as a success if ast is identical.
 
-            let mut m = m.clone();
-            m.visit_mut_with(&mut paren_remover(None));
-            m = drop_span(m);
+            let mut actual = m.clone();
+            actual.visit_mut_with(&mut paren_remover(None));
+            actual = drop_span(actual);
 
             let mut expected = parse(&handler, cm.clone(), &input)?;
             expected.visit_mut_with(&mut paren_remover(None));
             expected = drop_span(expected);
 
-            if m == expected {
+            if actual == expected {
                 return Ok(());
             }
 
-            assert_eq!(m, expected);
+            let actual = print(cm.clone(), &actual, false);
+            let expected = print(cm.clone(), &expected, false);
+
+            if actual == expected {
+                return Ok(());
+            }
         }
 
         let mangled = print(cm, &m, false);
