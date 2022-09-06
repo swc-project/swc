@@ -4,4 +4,6 @@
 # 
 set -eu
 
-npx terser --mangle --output "${1/input/output.mangleOnly}" $1
+output="${1/input/output.mangleOnly}"
+npx terser --mangle --output "$output" $1
+npx prettier --write "$output"
