@@ -101,13 +101,11 @@ impl WriteJs for CharFreq {
 
     #[inline(always)]
     fn write_semi(&mut self, _: Option<Span>) -> io::Result<()> {
-        self.write(";")?;
         Ok(())
     }
 
     #[inline(always)]
     fn write_space(&mut self) -> io::Result<()> {
-        self.write(" ")?;
         Ok(())
     }
 
