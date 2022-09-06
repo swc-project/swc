@@ -65,54 +65,6 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
     })
 }
 
-#[testing::fixture("tests/fixture/**/output.js")]
-#[testing::fixture("tests/terser/**/output.js")]
-fn compressed(compressed_file: PathBuf) {
-    let _ = testing::run_test2(false, |cm, handler| {
-        let mut m = parse(&handler, cm.clone(), &compressed_file)?;
-
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
-
-        let m = optimize(
-            m.into(),
-            cm.clone(),
-            None,
-            None,
-            &MinifyOptions {
-                mangle: Some(MangleOptions {
-                    props: Some(ManglePropertiesOptions {
-                        ..Default::default()
-                    }),
-                    top_level: true,
-                    keep_class_names: false,
-                    keep_fn_names: false,
-                    keep_private_props: false,
-                    ie8: false,
-                    safari10: false,
-                    reserved: Default::default(),
-                }),
-                compress: None,
-                ..Default::default()
-            },
-            &ExtraOptions {
-                unresolved_mark,
-                top_level_mark,
-            },
-        )
-        .expect_module();
-
-        let mangled = print(cm.clone(), &m, false);
-        let minified = print(cm.clone(), &m, true);
-
-        parse_fm(&handler, cm.new_source_file(FileName::Anon, mangled))?;
-        parse_fm(&handler, cm.new_source_file(FileName::Anon, minified))?;
-
-        Ok(())
-    });
-}
-
 #[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/terser/**/input.js")]
 fn snapshot_compress_fixture(input: PathBuf) {
