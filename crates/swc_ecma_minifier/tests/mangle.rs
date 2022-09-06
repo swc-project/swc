@@ -119,7 +119,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
             actual.visit_mut_with(&mut paren_remover(None));
             actual = drop_span(actual);
 
-            let mut expected = parse(&handler, cm.clone(), &input)?;
+            let mut expected = parse(&handler, cm.clone(), &output_path)?;
             expected.visit_mut_with(&mut paren_remover(None));
             expected = drop_span(expected);
 
