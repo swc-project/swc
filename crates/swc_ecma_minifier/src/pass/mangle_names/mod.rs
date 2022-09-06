@@ -200,6 +200,15 @@ impl CharFreq {
             return;
         }
 
+        #[cfg(feature = "debug")]
+        tracing::debug!(
+            "Scanning: `{}` with delta {}",
+            s.chars()
+                .filter(|&c| Ident::is_valid_continue(c))
+                .collect::<String>(),
+            delta
+        );
+
         for &c in s.as_bytes() {
             match c {
                 b'a'..=b'z' => {
