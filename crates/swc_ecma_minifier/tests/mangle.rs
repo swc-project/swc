@@ -16,7 +16,7 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 use testing::{assert_eq, NormalizedOutput};
@@ -112,10 +112,16 @@ fn snapshot_compress_fixture(input: PathBuf) {
         )
         .expect_module();
 
-        let expected = parse(&handler, cm.clone(), &input)?;
+        {
+            let mut m = m.clone();
+            m.visit_mut_with(&mut paren_remover(None));
 
-        if drop_span(m.clone()) == drop_span(expected) {
-            return Ok(());
+            let mut expected = parse(&handler, cm.clone(), &input)?;
+            expected.visit_mut_with(&mut paren_remover(None));
+
+            if drop_span(m) == drop_span(expected) {
+                return Ok(());
+            }
         }
 
         let mangled = print(cm, &m, false);
