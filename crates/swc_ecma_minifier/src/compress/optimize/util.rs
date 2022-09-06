@@ -152,7 +152,7 @@ pub(crate) struct MultiReplacer<'a> {
     pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
     pub clone: bool,
-    pub mode: MultiReplacerMode,
+    /// `worked` will be changed to `true` if any replacement is done
     pub worked: &'a mut bool,
 }
 
@@ -165,23 +165,7 @@ pub enum MultiReplacerMode {
 }
 
 impl<'a> MultiReplacer<'a> {
-    /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(
-        vars: &'a mut FxHashMap<Id, Box<Expr>>,
-        clone: bool,
-        mode: MultiReplacerMode,
-        worked: &'a mut bool,
-    ) -> Self {
-        MultiReplacer {
-            vars,
-            changed: false,
-            clone,
-            mode,
-            worked,
-        }
-    }
-
-    fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
+    fn var(&mut self, i: &Id, mode: MultiReplacerMode) -> Option<Box<Expr>> {
         let e = if self.clone {
             self.vars.get(i).cloned()?
         } else {
