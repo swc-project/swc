@@ -17,9 +17,9 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
-use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
+use testing::{assert_eq, NormalizedOutput};
 
 fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
     let mut buf = vec![];
@@ -68,14 +68,8 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
 #[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/terser/**/input.js")]
 fn snapshot_compress_fixture(input: PathBuf) {
-    let terser_output = get_terser_output(&input, false, true);
-
     let _ = testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &input)?;
-
-        let terser_fm =
-            terser_output.map(|terser_output| cm.new_source_file(FileName::Anon, terser_output));
-        let terser_module = terser_fm.map(|terser_fm| parse_fm(&handler, terser_fm).unwrap());
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -102,17 +96,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
         )
         .expect_module();
 
-        let mangled = print(cm.clone(), &m, false);
-
-        if let Ok(mut terser_module) = terser_module {
-            terser_module.visit_mut_with(&mut paren_remover(None));
-
-            let terser_output = print(cm, &terser_module, false);
-            assert_eq!(
-                DebugUsingDisplay(&mangled),
-                DebugUsingDisplay(&terser_output)
-            );
-        }
+        let mangled = print(cm, &m, false);
 
         NormalizedOutput::from(mangled)
             .compare_to_file(input.parent().unwrap().join("output.mangleOnly.js"))
