@@ -271,6 +271,9 @@ impl CharFreq {
             tail.push(c);
         }
 
+        #[cfg(feature = "debug")]
+        tracing::info!("Chars: {}", String::from_utf8_lossy(&tail));
+
         Base54Chars {
             head: head.try_into().unwrap(),
             tail: tail.try_into().unwrap(),
