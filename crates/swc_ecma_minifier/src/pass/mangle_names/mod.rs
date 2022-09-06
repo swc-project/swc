@@ -200,9 +200,6 @@ impl CharFreq {
             return;
         }
 
-        #[cfg(feature = "debug")]
-        tracing::debug!("Scanning: `{}` with delta {}", s, delta);
-
         for &c in s.as_bytes() {
             match c {
                 b'a'..=b'z' => {
@@ -221,8 +218,11 @@ impl CharFreq {
                     self.0[63] += delta;
                 }
 
-                _ => {}
+                _ => continue,
             }
+
+            #[cfg(feature = "debug")]
+            tracing::debug!("Scanning: `{}` with delta {}", c as char, delta);
         }
     }
 
