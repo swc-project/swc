@@ -9,6 +9,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{
     chain, sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError,
+    SyntaxContext,
 };
 use swc_ecma_ast::{Module, *};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -234,7 +235,7 @@ impl CharFreq {
         }
     }
 
-    pub fn compute(p: &Program, preserved: &FxHashSet<Id>) -> Self {
+    pub fn compute(p: &Program, preserved: &FxHashSet<Id>, unresolved_ctxt: SyntaxContext) -> Self {
         let cm = Lrc::new(DummySourceMap);
 
         let mut freq = Self::default();
@@ -254,6 +255,7 @@ impl CharFreq {
         p.visit_with(&mut CharFreqAnalyzer {
             freq: &mut freq,
             preserved,
+            unresolved_ctxt,
         });
 
         freq
@@ -295,6 +297,7 @@ impl CharFreq {
 struct CharFreqAnalyzer<'a> {
     freq: &'a mut CharFreq,
     preserved: &'a FxHashSet<Id>,
+    unresolved_ctxt: SyntaxContext,
 }
 
 impl Visit for CharFreqAnalyzer<'_> {
@@ -305,6 +308,9 @@ impl Visit for CharFreqAnalyzer<'_> {
     fn visit_ident(&mut self, i: &Ident) {
         // It's not mangled
         if self.preserved.contains(&i.to_id()) {
+            return;
+        }
+        if i.span.ctxt == self.unresolved_ctxt {
             return;
         }
 
@@ -381,10 +387,14 @@ impl Base54Chars {
     }
 }
 
-pub(crate) fn name_mangler(options: MangleOptions, program: &Program) -> impl VisitMut {
+pub(crate) fn name_mangler(
+    options: MangleOptions,
+    program: &Program,
+    unresolved_ctxt: SyntaxContext,
+) -> impl VisitMut {
     let preserved = idents_to_preserve(options.clone(), program);
 
-    let base54 = CharFreq::compute(program, &preserved).compile();
+    let base54 = CharFreq::compute(program, &preserved, unresolved_ctxt).compile();
 
     chain!(
         self::private_name::private_name_mangler(options.keep_private_props),
