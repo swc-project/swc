@@ -265,7 +265,7 @@ impl CharFreq {
 
     pub fn compile(self) -> Base54Chars {
         static BASE54_DEFAULT_CHARS: &[u8; 64] =
-            b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
+            b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$_";
 
         let mut arr = BASE54_DEFAULT_CHARS
             .iter()
