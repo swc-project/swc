@@ -116,8 +116,14 @@ fn compressed(compressed_file: PathBuf) {
 #[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/terser/**/input.js")]
 fn snapshot_compress_fixture(input: PathBuf) {
+    let terser_output =
+        get_terser_output(&input, false, true).expect("failed to get mangled output using terser");
+
     let _ = testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &input)?;
+
+        let terser_fm = cm.new_source_file(FileName::Anon, terser_output);
+        let terser_module = parse_fm(&handler, terser_fm)?;
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -144,7 +150,10 @@ fn snapshot_compress_fixture(input: PathBuf) {
         )
         .expect_module();
 
-        let mangled = print(cm, &m, false);
+        let mangled = print(cm.clone(), &m, false);
+        let terser_output = print(cm, &terser_module, false);
+
+        assert_eq!(mangled, terser_output);
 
         NormalizedOutput::from(mangled)
             .compare_to_file(input.parent().unwrap().join("output.mangleOnly.js"))
