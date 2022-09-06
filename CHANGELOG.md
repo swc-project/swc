@@ -16,6 +16,12 @@
 
 - **(es/minifier)** Make `MultiReplacer` single-pass (#5761) ([27e9254](https://github.com/swc-project/swc/commit/27e92542808048a12985ce15ee6ee65d44d5ac6c))
 
+### Testing
+
+
+
+- **(es/tsc)** Handle tsx (#5764) ([52f6ca5](https://github.com/swc-project/swc/commit/52f6ca5fb826b9952b32946379cd696afb58867b))
+
 ## [1.2.248] - 2022-09-06
 
 ### Bug Fixes
