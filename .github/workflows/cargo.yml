@@ -121,7 +121,7 @@ jobs:
             runner: ubuntu-latest
           - crate: swc
             os: ubuntu-latest
-            runner: ubuntu-large
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest
           - crate: swc

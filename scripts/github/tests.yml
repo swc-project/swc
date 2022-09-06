@@ -20,8 +20,8 @@ os:
   macos:
     - swc_plugin_runner
 
-host:
-  swc: ubuntu-large
+# host:
+#   swc: ubuntu-large
 
 check:
   swc:
