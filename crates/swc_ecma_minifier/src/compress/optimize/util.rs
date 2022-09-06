@@ -167,11 +167,12 @@ pub enum MultiReplacerMode {
 
 impl<'a> MultiReplacer<'a> {
     fn var(&mut self, i: &Id, mode: MultiReplacerMode) -> Option<Box<Expr>> {
-        let e = if matches!(mode, MultiReplacerMode::OnlyCallee) {
+        let mut e = if matches!(mode, MultiReplacerMode::OnlyCallee) {
             self.simple_functions.get(i).cloned()?
         } else {
             self.vars.remove(i)?
         };
+        e.visit_mut_with(self);
 
         match &*e {
             Expr::Ident(Ident {
@@ -227,20 +228,17 @@ impl VisitMut for MultiReplacer<'_> {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        loop {
-            self.changed = false;
-            if self.vars.is_empty() {
-                break;
-            }
-            items.visit_mut_children_with(self);
+        self.changed = false;
+        if self.vars.is_empty() {
+            return;
+        }
+        items.visit_mut_children_with(self);
 
-            if !self.changed {
-                #[cfg(feature = "debug")]
-                {
-                    let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
-                    debug!("Dropping {:?}", keys);
-                }
-                break;
+        if !self.changed {
+            #[cfg(feature = "debug")]
+            {
+                let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
+                debug!("Dropping {:?}", keys);
             }
         }
     }
