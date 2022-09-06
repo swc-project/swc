@@ -149,11 +149,11 @@ impl VisitMut for Remapper {
 }
 
 pub(crate) struct MultiReplacer<'a> {
-    vars: &'a mut FxHashMap<Id, Box<Expr>>,
-    changed: bool,
-    clone: bool,
-    mode: MultiReplacerMode,
-    worked: &'a mut bool,
+    pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
+    pub changed: bool,
+    pub clone: bool,
+    pub mode: MultiReplacerMode,
+    pub worked: &'a mut bool,
 }
 
 #[repr(u8)]
