@@ -901,34 +901,20 @@
                 for(var t, r = 2; r < e.length && (t = e.readUInt16BE(r), r += 2, !p.includes(t));)r += e.readUInt16BE(r);
                 return !!p.includes(t);
             };
-            var y, g, v, b, m = (y = 30, g = {}, v = [], {
+            var y, g, v, b = (y = {}, g = [], {
                 get: function(e) {
-                    return g[e];
+                    return y[e];
                 },
                 set: function(e, t) {
-                    v.push(e), v.length > y && delete g[v.shift()], g[e] = t;
+                    g.push(e), g.length > 30 && delete y[g.shift()], y[e] = t;
                 },
                 reset: function() {
-                    g = {}, v = [];
+                    y = {}, g = [];
                 },
                 length: function() {
-                    return v.length;
+                    return g.length;
                 }
-            }), D = (b = s.default(c.default.mark(function e(t, r) {
-            var $, y, g, v = ($ = {}, y = [], {
-                get: function(e) {
-                    return $[e];
-                },
-                set: function(e, t) {
-                    y.push(e), y.length > 30 && delete $[y.shift()], $[e] = t;
-                },
-                reset: function() {
-                    $ = {}, y = [];
-                },
-                length: function() {
-                    return y.length;
-                }
-            }), _ = (g = s.default(c.default.mark(function e(t, r) {
+            }), m = (v = s.default(c.default.mark(function e(t, r) {
                 var i, o;
                 return c.default.wrap(function(e) {
                     for(;;)switch(e.prev = e.next){
@@ -944,10 +930,13 @@
                     }
                 }, e);
             })), function(e, t) {
-                return b.apply(this, arguments);
-            }), w = function(e) {
+                return v.apply(this, arguments);
+            }), D = function(e) {
                 var t = e.toLowerCase();
                 return "jpg" === t || "jpeg" === t || "png" === t;
+            }, w = function(e) {
+                var t;
+                return h.isValid(e) ? t = "jpg" : d.default.isValid(e) && (t = "png"), t;
             }, E = function(e) {
                 var t;
                 return h.isValid(e) ? t = "jpg" : d.default.isValid(e) && (t = "png"), t;
@@ -955,19 +944,7 @@
                 var t = e.uri;
                 return /^data:image\/[a-zA-Z]*;base64,[^"]*/g.test(t);
             };
-            function x(e, t) {
-                return g.apply(this, arguments);
-            }), m = function(e) {
-                var t = e.toLowerCase();
-                return "jpg" === t || "jpeg" === t || "png" === t;
-            }, b = function(e) {
-                var t;
-                return h.isValid(e) ? t = "jpg" : d.default.isValid(e) && (t = "png"), t;
-            }, D = function(e) {
-                var t = e.uri;
-                return /^data:image\/[a-zA-Z]*;base64,[^"]*/g.test(t);
-            };
-            function w(e, t) {
+            function $(e, t) {
                 switch(t.toLowerCase()){
                     case "jpg":
                     case "jpeg":
@@ -978,47 +955,29 @@
                         return null;
                 }
             }
-            var S, A = function(e) {
+            var x, S = function(e) {
                 var t = e.uri, r = /^data:image\/([a-zA-Z]*);base64,([^"]*)/g.exec(t), i = r[1], o = r[2];
-                if (!w(i)) throw Error("Base64 image invalid format: " + i);
+                if (!D(i)) throw Error("Base64 image invalid format: " + i);
                 return new Promise(function(e) {
-                    return e(x(n.from(o, "base64"), i));
+                    return e($(n.from(o, "base64"), i));
                 });
-            }, k = function(e) {
+            }, A = function(e) {
                 if (e.data && e.format) return new Promise(function(t) {
-                    return t(x(e.data, e.format));
+                    return t($(e.data, e.format));
                 });
                 throw Error("Invalid data given for local file: " + JSON.stringify(e));
+            }, k = function(e) {
+                var t = w(e);
+                return t ? new Promise(function(r) {
+                    return r($(e, t));
+                }) : Promise.resolve();
             }, T = function(e) {
-                var t = E(e);
-                return t ? new Promise(function(r) {
-                    return r(x(e, t));
-                }) : Promise.resolve();
-            }, O = function(e) {
-            var E, x = function(e) {
-                var t = e.uri, r = /^data:image\/([a-zA-Z]*);base64,([^"]*)/g.exec(t), i = r[1], o = r[2];
-                if (!m(i)) throw Error("Base64 image invalid format: " + i);
-                return new Promise(function(e) {
-                    return e(w(n.from(o, "base64"), i));
-                });
-            }, k = function(e) {
-                if (e.data && e.format) return new Promise(function(t) {
-                    return t(w(e.data, e.format));
-                });
-                throw Error("Invalid data given for local file: " + JSON.stringify(e));
-            }, C = function(e) {
-                var t = b(e);
-                return t ? new Promise(function(r) {
-                    return r(w(e, t));
-                }) : Promise.resolve();
-            }, S = function(e) {
                 var t = 137 === e[0] && 80 === e[1] && 78 === e[2] && 71 === e[3] && 13 === e[4] && 10 === e[5] && 26 === e[6] && 10 === e[7], r = 255 === e[0] && 216 === e[1] && 255 === e[2], n = "";
                 if (t) n = "png";
                 else if (r) n = "jpg";
                 else throw Error("Not valid image extension");
                 return n;
-            }, C = (S = s.default(c.default.mark(function e(t) {
-            }, T = (E = s.default(c.default.mark(function e(t) {
+            }, O = (x = s.default(c.default.mark(function e(t) {
                 var r, n, i, o, a, u, l;
                 return c.default.wrap(function(e) {
                     for(;;)switch(e.prev = e.next){
@@ -1029,8 +988,7 @@
                             e.t0 = e.sent, e.next = 10;
                             break;
                         case 7:
-                            return e.next = 9, D(r, {
-                            return e.next = 9, _(r, {
+                            return e.next = 9, m(r, {
                                 body: n,
                                 headers: i,
                                 method: a
@@ -1038,16 +996,15 @@
                         case 9:
                             e.t0 = e.sent;
                         case 10:
-                            return l = O(u = e.t0), e.abrupt("return", x(u, l));
-                            return l = S(u = e.t0), e.abrupt("return", w(u, l));
+                            return l = T(u = e.t0), e.abrupt("return", $(u, l));
                         case 13:
                         case "end":
                             return e.stop();
                     }
                 }, e);
             })), function(e) {
-                return S.apply(this, arguments);
-            }), P = function(e, t) {
+                return x.apply(this, arguments);
+            }), C = function(e, t) {
                 var r, i = (void 0 === t ? {} : t).cache, o = void 0 === i || i, a = e.data ? e.data.toString() : e.uri;
                 if (o && m.get(a)) return m.get(a);
                 if (!(r = _(e) ? A(e) : n.isBuffer(e) ? T(e) : "object" == typeof e && e.data ? k(e) : C(e))) throw Error("Cannot resolve image");
@@ -1058,8 +1015,11 @@
                 if (o && v.get(a)) return v.get(a);
                 if (!(r = D(e) ? x(e) : n.isBuffer(e) ? C(e) : "object" == typeof e && e.data ? k(e) : T(e))) throw Error("Cannot resolve image");
                 return o && v.set(a, r), r;
+                if (o && b.get(a)) return b.get(a);
+                if (!(r = E(e) ? S(e) : n.isBuffer(e) ? k(e) : "object" == typeof e && e.data ? A(e) : O(e))) throw Error("Cannot resolve image");
+                return o && b.set(a, r), r;
             };
-            t.default = A;
+            t.default = C;
         },
         791: function(e, t, r) {
             "use strict";
@@ -9563,59 +9523,32 @@
                         var c = a(s, e, p), _ = a(s, t, $), m = a(s, n, g) >> 0, b = _ + m;
                         return h[b] || (h[b] = u(r, _)), d[b] || (d[b] = o(h[b])), function(e, t, r, n, i, o, a, u) {
                             var s, c, f, d, p, h, $, y, g, v, _ = "", m = (s = e, c = i, f = o, d = a, p = RegExp.prototype.test.bind(/\s/), y = 0, [
+                            var s, c, f, d, p, h, y, g, v, b, m = "", D = (s = e, c = i, f = o, d = a, p = RegExp.prototype.test.bind(/\s/), g = 0, [
                                 function() {
                                     var e = "";
                                     h = void 0;
                                     chunkReader: for(; g <= s.length;){
                                         var t = s.charAt(g++), r = !!t && !/\s|[\!-\@\[-\`\{-\~\u2013-\u203C]/.test(t), n = "<" === t, i = ">" === t, o = t === c;
                                         do {
-                                            if (y === m) {
-                                                i && (y = w);
+                                            if (1 === y) {
+                                                i && (y = 3);
                                                 break;
                                             }
                                             if (o) {
-                                                h = b, y = D;
+                                                h = 2, y = 2;
                                                 break;
                                             }
                                             if (r) {
-                                                y = D;
+                                                y = 2;
                                                 break;
                                             }
-                                            if (y === D) {
-                                                y = E, h = h || e.length >= d && v;
+                                            if (2 === y) {
+                                                y = 4, h = h || e.length >= d && 1;
                                                 break;
                                             }
-                                            h = b, y = w;
+                                            h = 2, y = 3;
                                         }while (0)
-                                        switch(n && y !== E && f && !p(s.charAt(g)) && (h = b, y = m), y){
-                                            case m:
-                                            case D:
-                                                e += t;
-                                                break;
-                                            case w:
-                                                e += t;
-                                                break chunkReader;
-                                            case E:
-                                                g--;
-                                            if (1 === $) {
-                                                i && ($ = 3);
-                                                break;
-                                            }
-                                            if (o) {
-                                                h = 2, $ = 2;
-                                                break;
-                                            }
-                                            if (r) {
-                                                $ = 2;
-                                                break;
-                                            }
-                                            if (2 === $) {
-                                                $ = 4, h = h || e.length >= d && 1;
-                                                break;
-                                            }
-                                            h = 2, $ = 3;
-                                        }while (0)
-                                        switch(n && 4 !== $ && f && !p(s.charAt(y)) && (h = 2, $ = 1), $){
+                                        switch(n && 4 !== y && f && !p(s.charAt(g)) && (h = 2, y = 1), y){
                                             case 1:
                                             case 2:
                                                 e += t;
@@ -9624,7 +9557,7 @@
                                                 e += t;
                                                 break chunkReader;
                                             case 4:
-                                                y--;
+                                                g--;
                                                 break chunkReader;
                                         }
                                     }
@@ -9644,15 +9577,15 @@
                         }(i, g, d[w], c, m, b, D, f);
                                     return 1 === h;
                                 }
-                            ]), b = m[0], D = m[1], w = 0, E = 0, x = new Date(), k = 0, C = function() {};
-                            function S() {
-                                for(var e = new Date(); (!u || new Date() - e < 10) && (v = b());)g = v.length ? "$" + v : "", D() && (void 0 === r[g] && (r[g] = l(v, t, n, i)), v !== r[g] && E++, v = r[g]), _ += v, w++;
-                                k += new Date() - e, v ? setTimeout(S) : (x = new Date() - x, C(_), n && (console.log("----------------\nHyphenation stats: " + w + " text chunks processed, " + E + " words hyphenated"), console.log("Work time: " + k / 1000), console.log("Wait time: " + (x - k) / 1000), console.log("All time: " + x / 1000)));
+                            ]), w = D[0], E = D[1], $ = 0, x = 0, S = new Date(), A = 0, k = function() {};
+                            function T() {
+                                for(var e = new Date(); (!u || new Date() - e < 10) && (b = w());)v = b.length ? "$" + b : "", E() && (void 0 === r[v] && (r[v] = l(b, t, n, i)), b !== r[v] && x++, b = r[v]), m += b, $++;
+                                A += new Date() - e, b ? setTimeout(T) : (S = new Date() - S, k(m), n && (console.log("----------------\nHyphenation stats: " + $ + " text chunks processed, " + x + " words hyphenated"), console.log("Work time: " + A / 1000), console.log("Wait time: " + (S - A) / 1000), console.log("All time: " + S / 1000)));
                             }
-                            return u ? (setTimeout(S), new Promise(function(e) {
-                                C = e;
-                            })) : (S(), _);
-                        }(i, y, d[b], c, _, v, m, f);
+                            return u ? (setTimeout(T), new Promise(function(e) {
+                                k = e;
+                            })) : (T(), m);
+                        }(i, g, d[w], c, m, b, D, f);
                     };
                 };
             }) ? n.apply(t, []) : n) && (e.exports = i);
@@ -16101,21 +16034,12 @@
                             }), r > 2) ? "one of ".concat(t, " ").concat(e.slice(0, r - 1).join(", "), ", or ") + e[r - 1] : 2 === r ? "one of ".concat(t, " ").concat(e[0], " or ").concat(e[1]) : "of ".concat(t, " ").concat(e[0]);
                         }
                         s("ERR_AMBIGUOUS_ARGUMENT", 'The "%s" argument is ambiguous. %s', TypeError), s("ERR_INVALID_ARG_TYPE", function(e, t, i) {
-                            void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string");
-                            var o, u = "not ";
-                            "string" == typeof t && t.substr(!o || o < 0 ? 0 : +o, u.length) === u ? (h = "must not be", t = t.replace(/^not /, "")) : h = "must be";
-                            var l, s, f = " argument";
-                            if (l = e, (void 0 === s || s > l.length) && (s = l.length), l.substring(s - f.length, s) === f) y = "The ".concat(e, " ").concat(h, " ").concat(c(t, "type"));
+                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(!u || u < 0 ? 0 : +u, o.length) === o)) ? (h = "must not be", t = t.replace(/^not /, "")) : h = "must be", l = e, s = " argument", (void 0 === f || f > l.length) && (f = l.length), l.substring(f - s.length, f) === s) y = "The ".concat(e, " ").concat(h, " ").concat(c(t, "type"));
                             else {
-                                var d, p, h, y, g = (d = e, "number" != typeof p && (p = 0), p + 1 > d.length || -1 === d.indexOf(".", p)) ? "argument" : "property";
+                                var o, u, l, s, f, d, p, h, y, g = (d = e, "number" != typeof p && (p = 0), p + 1 > d.length || -1 === d.indexOf(".", p)) ? "argument" : "property";
                                 y = 'The "'.concat(e, '" ').concat(g, " ").concat(h, " ").concat(c(t, "type"));
-                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(!u || u < 0 ? 0 : +u, o.length) === o)) ? ($ = "must not be", t = t.replace(/^not /, "")) : $ = "must be", l = e, s = " argument", (void 0 === f || f > l.length) && (f = l.length), l.substring(f - s.length, f) === s) y = "The ".concat(e, " ").concat($, " ").concat(c(t, "type"));
-                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(!u || u < 0 ? 0 : +u, o.length) === o)) ? (h = "must not be", t = t.replace(/^not /, "")) : h = "must be", l = e, s = " argument", (void 0 === f || f > l.length) && (f = l.length), l.substring(f - s.length, f) === s) $ = "The ".concat(e, " ").concat(h, " ").concat(c(t, "type"));
-                            else {
-                                var o, u, l, s, f, d, p, h, $, y = (d = e, "number" != typeof p && (p = 0), p + 1 > d.length || -1 === d.indexOf(".", p)) ? "argument" : "property";
-                                $ = 'The "'.concat(e, '" ').concat(y, " ").concat(h, " ").concat(c(t, "type"));
                             }
-                            return $ + ". Received type ".concat(n(i));
+                            return y + ". Received type ".concat(n(i));
                         }, TypeError), s("ERR_INVALID_ARG_VALUE", function(e, t) {
                             var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : "is invalid";
                             void 0 === u && (u = r(650));
@@ -19987,13 +19911,8 @@
                         u(v);
                         var I = !1;
                         function j(e, t, r, n) {
-                            var i, o, u, l;
-                            E(e, 0 + (n ? 1 : 0), 3), i = e, o = t, u = r, l = !0, k(i), l && (w(i, u), w(i, ~u)), a.arraySet(i.pending_buf, i.window, o, u, i.pending), i.pending += u;
-                        u(g);
-                        var R = !1;
-                        function O(e, t, r, n) {
                             var i, o;
-                            D(e, 0 + (n ? 1 : 0), 3), i = e, o = r, C(i), b(i, o), b(i, ~o), a.arraySet(i.pending_buf, i.window, t, o, i.pending), i.pending += o;
+                            E(e, 0 + (n ? 1 : 0), 3), i = e, o = r, k(i), w(i, o), w(i, ~o), a.arraySet(i.pending_buf, i.window, t, o, i.pending), i.pending += o;
                         }
                         t._tr_init = function(e) {
                             I || (function() {
@@ -20488,15 +20407,9 @@
                                 case "utf-8":
                                     return m(this, e, t, r);
                                 case "ascii":
+                                case "latin1":
+                                case "binary":
                                     return D(this, e, t, r);
-                                case "latin1":
-                                case "binary":
-                                    return i = this, D(i, e, t, r);
-                                    return _(this, e, t, r);
-                                case "ascii":
-                                case "latin1":
-                                case "binary":
-                                    return m(this, e, t, r);
                                 case "base64":
                                     return w(this, e, t, r);
                                 case "ucs2":
@@ -20567,26 +20480,12 @@
                         }, u.prototype.readDoubleBE = function(e, t) {
                             return e >>>= 0, t || O(e, 8, this.length), i.read(this, e, !1, 52, 8);
                         }, u.prototype.writeUIntLE = function(e, t, r, n) {
-                            if (e = +e, t >>>= 0, r >>>= 0, !n) {
-                                var i = Math.pow(2, 8 * r) - 1;
-                                C(this, e, t, r, i, 0);
-                            }
-                            var o = 1, a = 0;
-                            for(this[t] = 255 & e; ++a < r && (o *= 256);)this[t + a] = e / o & 255;
-                            return t + r;
-                        }, u.prototype.writeUIntBE = function(e, t, r, n) {
-                            if (e = +e, t >>>= 0, r >>>= 0, !n) {
-                                var i = Math.pow(2, 8 * r) - 1;
-                                C(this, e, t, r, i, 0);
-                            }
-                            var o = r - 1, a = 1;
-                            for(this[t + o] = 255 & e; --o >= 0 && (a *= 256);)this[t + o] = e / a & 255;
-                            e = +e, t >>>= 0, r >>>= 0, n || A(this, e, t, r, Math.pow(2, 8 * r) - 1, 0);
+                            e = +e, t >>>= 0, r >>>= 0, n || C(this, e, t, r, Math.pow(2, 8 * r) - 1, 0);
                             var i = 1, o = 0;
                             for(this[t] = 255 & e; ++o < r && (i *= 256);)this[t + o] = e / i & 255;
                             return t + r;
                         }, u.prototype.writeUIntBE = function(e, t, r, n) {
-                            e = +e, t >>>= 0, r >>>= 0, n || A(this, e, t, r, Math.pow(2, 8 * r) - 1, 0);
+                            e = +e, t >>>= 0, r >>>= 0, n || C(this, e, t, r, Math.pow(2, 8 * r) - 1, 0);
                             var i = r - 1, o = 1;
                             for(this[t + i] = 255 & e; --i >= 0 && (o *= 256);)this[t + i] = e / o & 255;
                             return t + r;
@@ -20785,14 +20684,10 @@
                                     "function" == typeof e.removeListener && e.removeListener("error", u), r([].slice.call(arguments));
                                 }
                                 y(e, t, l, {
-                                $(e, t, a, {
-                                $(e, t, l, {
                                     once: !0
                                 }), "error" !== t && (i = e, o = u, a = {
                                     once: !0
                                 }, "function" == typeof i.on && y(i, "error", o, a));
-                                });
-                                }, "function" == typeof i.on && $(i, "error", o, a));
                             });
                         }, o.EventEmitter = o, o.prototype._events = void 0, o.prototype._eventsCount = 0, o.prototype._maxListeners = void 0;
                         var a = 10;
@@ -21469,11 +21364,6 @@
                             var e, t, r = this._readableState;
                             return r.flowing || (f("resume"), r.flowing = !r.readableListening, e = this, (t = r).resumeScheduled || (t.resumeScheduled = !0, n.nextTick(B, e, t))), r.paused = !1, this;
                         }, A.prototype.pause = function() {
-                            return ("readable" === e || void 0 === e) && n.nextTick(R, this), t;
-                        }, k.prototype.resume = function() {
-                            var e, t, r = this._readableState;
-                            return r.flowing || (f("resume"), r.flowing = !r.readableListening, e = this, (t = r).resumeScheduled || (t.resumeScheduled = !0, n.nextTick(B, e, t))), r.paused = !1, this;
-                        }, k.prototype.pause = function() {
                             return f("call pause flowing=%j", this._readableState.flowing), !1 !== this._readableState.flowing && (f("pause"), this._readableState.flowing = !1, this.emit("pause")), this._readableState.paused = !0, this;
                         }, A.prototype.wrap = function(e) {
                             var t = this, r = this._readableState, n = !1;
@@ -21692,6 +21582,11 @@
                                 "string",
                                 "Buffer"
                             ], s)), !p || (w(u, p), n.nextTick(d, p), 0))) && (y.pendingcb++, g = function(e, t, r, n, i, o) {
+                            var i, o, a, u, l, s, d, p, h, g = this._writableState, v = !1, b = !g.objectMode && (h = e, c.isBuffer(h) || h instanceof f);
+                            return b && !c.isBuffer(e) && (e = (i = e, c.from(i))), ("function" == typeof t && (r = t, t = null), b ? t = "buffer" : t || (t = g.defaultEncoding), "function" != typeof r && (r = x), g.ending) ? (o = r, $(this, a = new w()), n.nextTick(o, a)) : (b || (u = this, l = g, s = e, d = r, null === s ? p = new D() : "string" == typeof s || l.objectMode || (p = new y("chunk", [
+                                "string",
+                                "Buffer"
+                            ], s)), !p || ($(u, p), n.nextTick(d, p), 0))) && (g.pendingcb++, v = function(e, t, r, n, i, o) {
                                 if (!r) {
                                     var a, u, l, s = (a = t, u = n, l = i, a.objectMode || !1 === a.decodeStrings || "string" != typeof u || (u = c.from(u, l)), u);
                                     n !== s && (r = !0, i = "buffer", n = s);
@@ -21710,11 +21605,8 @@
                                     }, p ? p.next = t.lastBufferedRequest : t.bufferedRequest = t.lastBufferedRequest, t.bufferedRequestCount += 1;
                                 } else k(e, t, !1, f, n, i, o);
                                 return d;
-                            }(this, v, m, e, t, r)), b;
+                            }(this, g, b, e, t, r)), v;
                         }, A.prototype.cork = function() {
-                            }(this, h, g, e, t, r)), y;
-                            }(this, y, v, e, t, r)), g;
-                        }, k.prototype.cork = function() {
                             this._writableState.corked++;
                         }, A.prototype.uncork = function() {
                             var e = this._writableState;
