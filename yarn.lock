@@ -2337,6 +2337,7 @@ __metadata:
     "@taplo/cli": ^0.3.2
     "@types/jest": ^28.1.4
     "@types/node": ^14.14.41
+    "@types/terser": ^3.12.0
     acorn: ^8.6.0
     acorn-jsx: ^5.3.2
     axios: ^0.21.1
@@ -2573,6 +2574,15 @@ __metadata:
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
   checksum: 205fdbe3326b7046d7eaf5e494d8084f2659086a266f3f9cf00bccc549c8e36e407f88168ad4383c8b07099957ad669f75f2532ed4bc70be2b037330f7bae019
+  languageName: node
+  linkType: hard
+
+"@types/terser@npm:^3.12.0":
+  version: 3.12.0
+  resolution: "@types/terser@npm:3.12.0"
+  dependencies:
+    terser: "*"
+  checksum: 3d236cbdb7743a9fa52ca01542f82aed114862cdbb490eac8840a9895cb96774a5dc659c5ed231dd54ccd9388f96d2d88c9512dd1bddb0b4459991198bf315ff
   languageName: node
   linkType: hard
 
@@ -7104,6 +7114,20 @@ __metadata:
     ansi-escapes: ^4.2.1
     supports-hyperlinks: ^2.0.0
   checksum: ce3d2cd3a438c4a9453947aa664581519173ea40e77e2534d08c088ee6dda449eabdbe0a76d2a516b8b73c33262fedd10d5270ccf7576ae316e3db170ce6562f
+  languageName: node
+  linkType: hard
+
+"terser@npm:*":
+  version: 5.15.0
+  resolution: "terser@npm:5.15.0"
+  dependencies:
+    "@jridgewell/source-map": ^0.3.2
+    acorn: ^8.5.0
+    commander: ^2.20.0
+    source-map-support: ~0.5.20
+  bin:
+    terser: bin/terser
+  checksum: b2358c989fcb76b4a1c265f60e175c950d3f776e5f619a9f58f54e8d2d792cd6b4cca86071834075f3b9943556d695357bafdd4ee2390de2fc9fd96ba3efa8c8
   languageName: node
   linkType: hard
 
