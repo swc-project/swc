@@ -201,13 +201,15 @@ impl CharFreq {
         }
 
         #[cfg(feature = "debug")]
-        tracing::debug!(
-            "Scanning: `{}` with delta {}",
-            s.chars()
+        {
+            let considered = s
+                .chars()
                 .filter(|&c| Ident::is_valid_continue(c))
-                .collect::<String>(),
-            delta
-        );
+                .collect::<String>();
+            if !considered.is_empty() {
+                tracing::debug!("Scanning: `{}` with delta {}", considered, delta);
+            }
+        }
 
         for &c in s.as_bytes() {
             match c {
