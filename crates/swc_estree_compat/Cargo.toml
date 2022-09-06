@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_estree_compat"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.146.3"
+version       = "0.146.4"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -28,20 +28,20 @@ swc_common = { version = "0.27.13", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
-swc_ecma_ast = { version = "0.90.15", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.118.0", path = "../swc_ecma_parser" }
-swc_ecma_utils = { version = "0.101.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.76.6", path = "../swc_ecma_visit" }
+swc_ecma_ast = { version = "0.90.17", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.118.7", path = "../swc_ecma_parser" }
+swc_ecma_utils = { version = "0.101.3", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.76.7", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "0.17.4", path = "../swc_estree_ast" }
 swc_node_comments = { version = "0.14.4", path = "../swc_node_comments/" }
 
 [dev-dependencies]
 criterion           = "0.3"
 pretty_assertions   = "1.1"
-swc                 = { version = "0.224.5", path = "../swc" }
-swc_ecma_ast        = { version = "0.90.15", path = "../swc_ecma_ast" }
-swc_ecma_parser     = { version = "0.118.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "0.191.1", path = "../swc_ecma_transforms/" }
+swc                 = { version = "0.224.6", path = "../swc" }
+swc_ecma_ast        = { version = "0.90.17", path = "../swc_ecma_ast" }
+swc_ecma_parser     = { version = "0.118.7", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "0.191.2", path = "../swc_ecma_transforms/" }
 testing             = { version = "0.29.4", path = "../testing" }
 walkdir             = "2"
 

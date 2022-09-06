@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Don't drop parameters in an exported function (#5757) ([948d708](https://github.com/swc-project/swc/commit/948d7081447c50bc78764f5fe88ec6055ebbcc9c))
 
+### Features
+
+
+
+- **(es/minifier)** Align name mangler with terser (#5763) ([60ce462](https://github.com/swc-project/swc/commit/60ce46221529f70ccee98f808f532410724ed66b))
+
 ### Miscellaneous Tasks
 - **general**: Typo (#5758) ([15e2357](https://github.com/swc-project/swc/commit/15e2357d1d7086f3a48def71c38acb7052f8d742))
 
