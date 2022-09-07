@@ -79,6 +79,16 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
+    fn cur_as_ascii(&mut self) -> Option<u8> {
+        self.iter.clone().next().and_then(|i| {
+            if i.1.is_ascii() {
+                return Some(i.1 as u8);
+            }
+            None
+        })
+    }
+
+    #[inline]
     fn is_at_start(&self) -> bool {
         self.orig_start == self.last_pos
     }
