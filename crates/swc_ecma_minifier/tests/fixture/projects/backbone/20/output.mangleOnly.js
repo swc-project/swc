@@ -12,8 +12,8 @@ export const E = {
         var g = this.comparator && f == null && e.sort !== false;
         var p = _.isString(this.comparator) ? this.comparator : null;
         var u = [], v = [], c = {};
-        var m = e.add, $ = e.merge, b = e.remove;
-        var y = !g && m && b ? [] : false;
+        var m = e.add, b = e.merge, y = e.remove;
+        var M = !g && m && y ? [] : false;
         for(s = 0, r = t.length; s < r; s++){
             o = t[s];
             if (o instanceof Model) {
@@ -22,8 +22,8 @@ export const E = {
                 h = o[d.prototype.idAttribute];
             }
             if ((a = this.get(h))) {
-                if (b) c[a.cid] = true;
-                if ($) {
+                if (y) c[a.cid] = true;
+                if (b) {
                     o = o === l ? l.attributes : o;
                     if (e.parse) o = a.parse(o, e);
                     a.set(o, e);
@@ -38,15 +38,15 @@ export const E = {
                 this._byId[l.cid] = l;
                 if (l.id != null) this._byId[l.id] = l;
             }
-            if (y) y.push(a || l);
+            if (M) M.push(a || l);
         }
-        if (b) {
+        if (y) {
             for(s = 0, r = this.length; s < r; ++s){
                 if (!c[(l = this.models[s]).cid]) v.push(l);
             }
             if (v.length) this.remove(v, e);
         }
-        if (u.length || (y && y.length)) {
+        if (u.length || (M && M.length)) {
             if (g) n = true;
             this.length += u.length;
             if (f != null) {
@@ -54,10 +54,10 @@ export const E = {
                     this.models.splice(f + s, 0, u[s]);
                 }
             } else {
-                if (y) this.models.length = 0;
-                var M = y || u;
-                for(s = 0, r = M.length; s < r; s++){
-                    this.models.push(M[s]);
+                if (M) this.models.length = 0;
+                var A = M || u;
+                for(s = 0, r = A.length; s < r; s++){
+                    this.models.push(A[s]);
                 }
             }
         }
@@ -68,7 +68,7 @@ export const E = {
             for(s = 0, r = u.length; s < r; s++){
                 (l = u[s]).trigger("add", l, this, e);
             }
-            if (n || (y && y.length)) this.trigger("sort", this, e);
+            if (n || (M && M.length)) this.trigger("sort", this, e);
         }
         return i ? t[0] : t;
     }

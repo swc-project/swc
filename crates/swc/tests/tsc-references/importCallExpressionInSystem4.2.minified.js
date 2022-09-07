@@ -34,23 +34,10 @@ System.register([], function(_export, _context) {
 });
 //// [2.ts]
 System.register([], function(_export, _context) {
-    "use strict";
-    var C, D;
     return _export("D", void 0), {
         setters: [],
         execute: async function() {
-            C = class {
-                myModule = _context.import("./0");
-                method() {
-                    _context.import("./0"), this.myModule.then((Zero)=>{
-                        console.log(Zero.foo());
-                    }, async (err)=>{
-                        console.log(err);
-                        let one = await import("./1");
-                        console.log(one.backup());
-                    });
-                }
-            }, _export("D", D = class {
+            _export("D", class {
                 myModule = _context.import("./0");
                 method() {
                     _context.import("./0"), this.myModule.then((Zero)=>{

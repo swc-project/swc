@@ -17,7 +17,7 @@ Promise.all(assignAll).then(function() {
                                         listOfUser(t.id)
                                     ];
                                 case 1:
-                                    return (e = n.sent()).forEach(function(r) {
+                                    return n.sent().forEach(function(r) {
                                         insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(t.id, "', now());");
                                     }), [
                                         2

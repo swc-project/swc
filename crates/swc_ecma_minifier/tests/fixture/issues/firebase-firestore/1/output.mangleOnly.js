@@ -114,7 +114,7 @@
                     });
                 }
             }
-            class $ {
+            class _ {
                 constructor(e, t){
                     (this.user = t), (this.type = "OAuth"), (this.authHeaders = {}), (this.authHeaders.Authorization = `Bearer ${e}`);
                 }
@@ -174,7 +174,7 @@
                 }
                 getToken() {
                     const e = this.i, t = this.forceRefresh;
-                    return ((this.forceRefresh = !1), this.auth ? this.auth.getToken(t).then((t)=>this.i !== e ? (g("FirebaseCredentialsProvider", "getToken aborted due to token change."), this.getToken()) : t ? (v("string" == typeof t.accessToken), new $(t.accessToken, this.currentUser)) : null) : Promise.resolve(null));
+                    return ((this.forceRefresh = !1), this.auth ? this.auth.getToken(t).then((t)=>this.i !== e ? (g("FirebaseCredentialsProvider", "getToken aborted due to token change."), this.getToken()) : t ? (v("string" == typeof t.accessToken), new _(t.accessToken, this.currentUser)) : null) : Promise.resolve(null));
                 }
                 invalidateToken() {
                     this.forceRefresh = !0;
@@ -331,7 +331,7 @@
                 for(const t in e)if (Object.prototype.hasOwnProperty.call(e, t)) return !1;
                 return !0;
             }
-            class _ {
+            class $ {
                 constructor(e, t, n){
                     void 0 === t ? (t = 0) : t > e.length && I(), void 0 === n ? (n = e.length - t) : n > e.length - t && I(), (this.segments = e), (this.offset = t), (this.len = n);
                 }
@@ -339,11 +339,11 @@
                     return this.len;
                 }
                 isEqual(e) {
-                    return 0 === _.comparator(this, e);
+                    return 0 === $.comparator(this, e);
                 }
                 child(e) {
                     const t = this.segments.slice(this.offset, this.limit());
-                    return (e instanceof _ ? e.forEach((e)=>{
+                    return (e instanceof $ ? e.forEach((e)=>{
                         t.push(e);
                     }) : t.push(e), this.construct(t));
                 }
@@ -394,7 +394,7 @@
                     return e.length < t.length ? -1 : e.length > t.length ? 1 : 0;
                 }
             }
-            class z extends _ {
+            class z extends $ {
                 construct(e, t, n) {
                     return new z(e, t, n);
                 }
@@ -417,7 +417,7 @@
                 }
             }
             const j = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
-            class G extends _ {
+            class G extends $ {
                 construct(e, t, n) {
                     return new G(e, t, n);
                 }
@@ -926,7 +926,7 @@
             function eN(e, t = null, n = [], r = [], s = null, i = null, o = null) {
                 return new eS(e, t, n, r, s, i, o);
             }
-            function e$(e) {
+            function e_(e) {
                 const t = T(e);
                 if (null === t.A) {
                     let n = t.path.canonicalString();
@@ -948,7 +948,7 @@
             function eD(e, t) {
                 if (e.limit !== t.limit) return !1;
                 if (e.orderBy.length !== t.orderBy.length) return !1;
-                for(let n = 0; n < e.orderBy.length; n++)if (!e_(e.orderBy[n], t.orderBy[n])) return !1;
+                for(let n = 0; n < e.orderBy.length; n++)if (!e$(e.orderBy[n], t.orderBy[n])) return !1;
                 if (e.filters.length !== t.filters.length) return !1;
                 for(let r = 0; r < e.filters.length; r++)if (((s = e.filters[r]), (i = t.filters[r]), s.op !== i.op || !s.field.isEqual(i.field) || !ec(s.value, i.value))) return !1;
                 var s, i;
@@ -1085,7 +1085,7 @@
                     (this.field = e), (this.dir = t);
                 }
             }
-            function e_(e, t) {
+            function e$(e, t) {
                 return e.dir === t.dir && e.field.isEqual(t.field);
             }
             function ez(e, t, n) {
@@ -1174,7 +1174,7 @@
                 return eD(e1(e), e1(t)) && e.limitType === t.limitType;
             }
             function e3(e) {
-                return `${e$(e1(e))}|lt:${e.limitType}`;
+                return `${e_(e1(e))}|lt:${e.limitType}`;
             }
             function e6(e) {
                 return `Query(target=${eA(e1(e))}; limitType=${e.limitType})`;
@@ -1368,7 +1368,7 @@
                 e instanceof tN ? (function(e, t, n) {
                     const r = e.value.clone(), s = tD(e.fieldTransforms, t, n.transformResults);
                     r.setAll(s), t.convertToFoundDocument(n.version, r).setHasCommittedMutations();
-                })(e, t, n) : e instanceof t$ ? (function(e, t, n) {
+                })(e, t, n) : e instanceof t_ ? (function(e, t, n) {
                     if (!tw(e.precondition, t)) return void t.convertToUnknownDocument(n.version);
                     const r = tD(e.fieldTransforms, t, n.transformResults), s = t.data;
                     s.setAll(tA(e)), s.setAll(r), t.convertToFoundDocument(n.version, s).setHasCommittedMutations();
@@ -1381,7 +1381,7 @@
                     if (!tw(e.precondition, t)) return;
                     const r = e.value.clone(), s = tk(e.fieldTransforms, n, t);
                     r.setAll(s), t.convertToFoundDocument(tS(t), r).setHasLocalMutations();
-                })(e, t, n) : e instanceof t$ ? (function(e, t, n) {
+                })(e, t, n) : e instanceof t_ ? (function(e, t, n) {
                     if (!tw(e.precondition, t)) return;
                     const r = tk(e.fieldTransforms, n, t), s = t.data;
                     s.setAll(tA(e)), s.setAll(r), t.convertToFoundDocument(tS(t), s).setHasLocalMutations();
@@ -1410,7 +1410,7 @@
                     super(), (this.key = e), (this.value = t), (this.precondition = n), (this.fieldTransforms = r), (this.type = 0);
                 }
             }
-            class t$ extends tI {
+            class t_ extends tI {
                 constructor(e, t, n, r, s = []){
                     super(), (this.key = e), (this.data = t), (this.fieldMask = n), (this.precondition = r), (this.fieldTransforms = s), (this.type = 1);
                 }
@@ -1862,7 +1862,7 @@
                 }
             }
             const tK = new tP(eo.comparator);
-            function t_() {
+            function t$() {
                 return tK;
             }
             const tz = new tP(eo.comparator);
@@ -1889,7 +1889,7 @@
                 }
                 static createSynthesizedRemoteEventForCurrentChange(e, t) {
                     const n = new Map();
-                    return (n.set(e, tZ.createSynthesizedTargetChangeForCurrentChange(e, t)), new tX(U.min(), n, tJ(), t_(), tW()));
+                    return (n.set(e, tZ.createSynthesizedTargetChangeForCurrentChange(e, t)), new tX(U.min(), n, tJ(), t$(), tW()));
                 }
             }
             class tZ {
@@ -1973,7 +1973,7 @@
             }
             class t3 {
                 constructor(e){
-                    (this.tt = e), (this.et = new Map()), (this.nt = t_()), (this.st = t6()), (this.it = new tq(F));
+                    (this.tt = e), (this.et = new Map()), (this.nt = t$()), (this.st = t6()), (this.it = new tq(F));
                 }
                 rt(e) {
                     for (const t of e.k)e.$ && e.$.isFoundDocument() ? this.ot(t, e.$) : this.ct(t, e.key, e.$);
@@ -2042,7 +2042,7 @@
                         }), r && (n = n.add(e));
                     });
                     const r = new tX(e, t, this.it, this.nt, n);
-                    return ((this.nt = t_()), (this.st = t6()), (this.it = new tq(F)), r);
+                    return ((this.nt = t$()), (this.st = t6()), (this.it = new tq(F)), r);
                 }
                 ot(e, t) {
                     if (!this.ht(e)) return;
@@ -2246,8 +2246,8 @@
                     t.documentRemove;
                     const T = t.documentRemove;
                     T.document;
-                    const N = na(e, T.document), $ = T.removedTargetIds || [];
-                    n = new t0([], $, N, null);
+                    const N = na(e, T.document), _ = T.removedTargetIds || [];
+                    n = new t0([], _, N, null);
                 } else {
                     if (!("filter" in t)) return I();
                     {
@@ -2268,7 +2268,7 @@
                 else if (t instanceof tx) n = {
                     delete: no(e, t.key)
                 };
-                else if (t instanceof t$) n = {
+                else if (t instanceof t_) n = {
                     update: nd(e, t.key, t.data),
                     updateMask: nL(t.fieldMask)
                 };
@@ -2337,7 +2337,7 @@
                             const t = e.fieldPaths || [];
                             return new Q(t.map((e)=>G.fromServerFormat(e)));
                         })(t.updateMask);
-                        return new t$(s, i, o, n, r);
+                        return new t_(s, i, o, n, r);
                     }
                     return new tN(s, i, n, r);
                 }
@@ -2430,7 +2430,7 @@
                     return e.map((e)=>(function(e) {
                             return {
                                 field: nD(e.field),
-                                direction: n$(e.dir)
+                                direction: n_(e.dir)
                             };
                         })(e));
                 })(t.orderBy);
@@ -2510,7 +2510,7 @@
                 const t = !!e.before, n = e.values || [];
                 return new eq(n, t);
             }
-            function n$(e) {
+            function n_(e) {
                 return t8[e];
             }
             function nA(e) {
@@ -2688,7 +2688,7 @@
                 }
             }
             (nK.store = "documentMutations"), (nK.PLACEHOLDER = new nK());
-            class n_ {
+            class n$ {
                 constructor(e, t){
                     (this.path = e), (this.readTime = t);
                 }
@@ -3213,7 +3213,7 @@
                 }
                 if (t.isNoDocument()) {
                     const a = t.key.path.toArray(), c = rf(t.version), u = t.hasCommittedMutations;
-                    return new nj(null, new n_(a, c), null, u, r, s);
+                    return new nj(null, new n$(a, c), null, u, r, s);
                 }
                 if (t.isUnknownDocument()) {
                     const h = t.key.path.toArray(), l = rf(t.version);
@@ -3265,7 +3265,7 @@
                 let s;
                 s = ek(t.target) ? nI(e.Wt, t.target) : nv(e.Wt, t.target);
                 const i = t.resumeToken.toBase64();
-                return new nQ(t.targetId, e$(t.target), n, i, t.sequenceNumber, r, s);
+                return new nQ(t.targetId, e_(t.target), n, i, t.sequenceNumber, r, s);
             }
             function rw(e) {
                 const t = nE({
@@ -3384,7 +3384,7 @@
             function rN(e) {
                 return rs(e, nY.store);
             }
-            const r$ = {
+            const r_ = {
                 didRun: !1,
                 sequenceNumbersCollected: 0,
                 targetsRemoved: 0,
@@ -3689,7 +3689,7 @@
                     return this.re(e).next((e)=>e.targetCount);
                 }
                 getTargetData(e, t) {
-                    const n = e$(t), r = IDBKeyRange.bound([
+                    const n = e_(t), r = IDBKeyRange.bound([
                         n,
                         Number.NEGATIVE_INFINITY
                     ], [
@@ -3806,7 +3806,7 @@
                     return this.buffer.last()[0];
                 }
             }
-            class r_ {
+            class r$ {
                 constructor(e, t){
                     (this.garbageCollector = e), (this.asyncQueue = t), (this.de = !1), (this.we = null);
                 }
@@ -3851,7 +3851,7 @@
                     return this.me.removeOrphanedDocuments(e, t);
                 }
                 collect(e, t) {
-                    return -1 === this.params.cacheSizeCollectionThreshold ? (g("LruGarbageCollector", "Garbage collection skipped; disabled"), n4.resolve(r$)) : this.getCacheSize(e).next((n)=>n < this.params.cacheSizeCollectionThreshold ? (g("LruGarbageCollector", `Garbage collection skipped; Cache size ${n} is lower than threshold ${this.params.cacheSizeCollectionThreshold}`), r$) : this.pe(e, t));
+                    return -1 === this.params.cacheSizeCollectionThreshold ? (g("LruGarbageCollector", "Garbage collection skipped; disabled"), n4.resolve(r_)) : this.getCacheSize(e).next((n)=>n < this.params.cacheSizeCollectionThreshold ? (g("LruGarbageCollector", `Garbage collection skipped; Cache size ${n} is lower than threshold ${this.params.cacheSizeCollectionThreshold}`), r_) : this.pe(e, t));
                 }
                 getCacheSize(e) {
                     return this.me.getCacheSize(e);
@@ -4055,14 +4055,14 @@
                         }));
                 }
                 getEntries(e, t) {
-                    let n = t_();
+                    let n = t$();
                     return this.Pe(e, t, (e, t)=>{
                         const r = this.Re(e, t);
                         n = n.insert(e, r);
                     }).next(()=>n);
                 }
                 ve(e, t) {
-                    let n = t_(), r = new tP(eo.comparator);
+                    let n = t$(), r = new tP(eo.comparator);
                     return this.Pe(e, t, (e, t)=>{
                         const s = this.Re(e, t);
                         (n = n.insert(e, s)), (r = r.insert(e, rk(t)));
@@ -4086,7 +4086,7 @@
                     });
                 }
                 getDocumentsMatchingQuery(e, t, n) {
-                    let r = t_();
+                    let r = t$();
                     const s = t.path.length + 1, i = {};
                     if (n.isEqual(U.min())) {
                         const o = t.path.toArray();
@@ -4594,7 +4594,7 @@
                 }
                 Cn(e, t, n) {
                     let r = tW();
-                    for (const s of t)for (const i of s.mutations)i instanceof t$ && null === n.get(i.key) && (r = r.add(i.key));
+                    for (const s of t)for (const i of s.mutations)i instanceof t_ && null === n.get(i.key) && (r = r.add(i.key));
                     let o = n;
                     return this.He.getEntries(e, r).next((e)=>(e.forEach((e, t)=>{
                             t.isFoundDocument() && (o = o.insert(e, t));
@@ -4648,7 +4648,7 @@
             }
             class st {
                 constructor(e, t, n, r){
-                    (this.persistence = e), (this.Bn = t), (this.N = r), (this.Un = new tP(F)), (this.qn = new rQ((e)=>e$(e), eD)), (this.Kn = U.min()), (this.In = e.getMutationQueue(n)), (this.jn = e.getRemoteDocumentCache()), (this.ze = e.getTargetCache()), (this.Qn = new r9(this.jn, this.In, this.persistence.getIndexManager())), (this.Je = e.getBundleCache()), this.Bn.$n(this.Qn);
+                    (this.persistence = e), (this.Bn = t), (this.N = r), (this.Un = new tP(F)), (this.qn = new rQ((e)=>e_(e), eD)), (this.Kn = U.min()), (this.In = e.getMutationQueue(n)), (this.jn = e.getRemoteDocumentCache()), (this.ze = e.getTargetCache()), (this.Qn = new r9(this.jn, this.In, this.persistence.getIndexManager())), (this.Je = e.getBundleCache()), this.Bn.$n(this.Qn);
                 }
                 collectGarbage(e) {
                     return this.persistence.runTransaction("Collect garbage", "readwrite-primary", (t)=>e.collect(t, this.Un));
@@ -4727,7 +4727,7 @@
                             })(a, u, t) && o.push(n.ze.updateTargetData(e, u));
                         }
                     });
-                    let a = t_();
+                    let a = t$();
                     if ((t.documentUpdates.forEach((r, s)=>{
                         t.resolvedLimboDocuments.has(r) && o.push(n.persistence.referenceDelegate.updateLimboDocument(e, r));
                     }), o.push(sa(e, i, t.documentUpdates, r, void 0).next((e)=>{
@@ -4742,7 +4742,7 @@
             function sa(e, t, n, r, s) {
                 let i = tW();
                 return (n.forEach((e)=>(i = i.add(e))), t.getEntries(e, i).next((e)=>{
-                    let i = t_();
+                    let i = t$();
                     return (n.forEach((n, o)=>{
                         const a = e.get(n), c = (null == s ? void 0 : s.get(n)) || r;
                         o.isNoDocument() && o.version.isEqual(U.min()) ? (t.removeEntry(n, c), (i = i.insert(n, o))) : !a.isValidDocument() || o.version.compareTo(a.version) > 0 || (0 === o.version.compareTo(a.version) && a.hasPendingWrites) ? (t.addEntry(o, c), (i = i.insert(n, o))) : g("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", a.version, " Watch version:", o.version);
@@ -4796,7 +4796,7 @@
                 const t = T(e);
                 return t.persistence.runTransaction("Get new document changes", "readonly", (e)=>(function(e, t, n) {
                         const r = T(e);
-                        let s = t_(), i = rl(n);
+                        let s = t$(), i = rl(n);
                         const o = rX(t), a = IDBKeyRange.lowerBound(i, !0);
                         return o.Kt({
                             index: nj.readTimeIndex,
@@ -4827,7 +4827,7 @@
             }
             async function sg(e, t, n, r) {
                 const s = T(e);
-                let i = tW(), o = t_(), a = tQ();
+                let i = tW(), o = t$(), a = tQ();
                 for (const c of n){
                     const u = t.zn(c.metadata.name);
                     c.document && (i = i.add(u)), (o = o.insert(u, t.Hn(c))), (a = a.insert(u, t.Jn(c.metadata.readTime)));
@@ -5057,14 +5057,14 @@
                     return n4.resolve(n ? n.document.clone() : eb.newInvalidDocument(t));
                 }
                 getEntries(e, t) {
-                    let n = t_();
+                    let n = t$();
                     return (t.forEach((e)=>{
                         const t = this.docs.get(e);
                         n = n.insert(e, t ? t.document.clone() : eb.newInvalidDocument(e));
                     }), n4.resolve(n));
                 }
                 getDocumentsMatchingQuery(e, t, n) {
-                    let r = t_();
+                    let r = t$();
                     const s = new eo(t.path.child("")), i = this.docs.getIteratorFrom(s);
                     for(; i.hasNext();){
                         const { key: o , value: { document: a , readTime: c  } ,  } = i.getNext();
@@ -5102,7 +5102,7 @@
             }
             class sb {
                 constructor(e){
-                    (this.persistence = e), (this.Es = new rQ((e)=>e$(e), eD)), (this.lastRemoteSnapshotVersion = U.min()), (this.highestTargetId = 0), (this.Is = 0), (this.As = new sw()), (this.targetCount = 0), (this.Rs = rF.se());
+                    (this.persistence = e), (this.Es = new rQ((e)=>e_(e), eD)), (this.lastRemoteSnapshotVersion = U.min()), (this.highestTargetId = 0), (this.Is = 0), (this.As = new sw()), (this.targetCount = 0), (this.Rs = rF.se());
                 }
                 forEachTarget(e, t) {
                     return this.Es.forEach((e, n)=>t(n)), n4.resolve();
@@ -5216,12 +5216,12 @@
                     super(), (this.currentSequenceNumber = e);
                 }
             }
-            class s$ {
+            class s_ {
                 constructor(e){
                     (this.persistence = e), (this.Ds = new sw()), (this.Cs = null);
                 }
                 static Ns(e) {
-                    return new s$(e);
+                    return new s_(e);
                 }
                 get xs() {
                     if (this.Cs) return this.Cs;
@@ -5832,7 +5832,7 @@
             function sK() {
                 return "undefined" != typeof window ? window : null;
             }
-            function s_() {
+            function s$() {
                 return "undefined" != typeof document ? document : null;
             }
             function sz(e) {
@@ -6402,7 +6402,7 @@
                 }
                 if (s) return n.queries.delete(r), n.onUnlisten(r);
             }
-            function i$(e, t) {
+            function i_(e, t) {
                 const n = T(e);
                 let r = !1;
                 for (const s of t){
@@ -6697,7 +6697,7 @@
                     }).catch(rq));
                 } else iX(n, r.targetId), await sh(n.localStore, r.targetId, !0);
             }
-            async function i_(e, t, n) {
+            async function i$(e, t, n) {
                 const r = oo(e);
                 try {
                     const s = await (function(e, t) {
@@ -6708,7 +6708,7 @@
                                 const o = [];
                                 for (const a of t){
                                     const c = tT(a, i.get(a.key));
-                                    null != c && o.push(new t$(a.key, c, eT(c.value.mapValue), ty.exists(!0)));
+                                    null != c && o.push(new t_(a.key, c, eT(c.value.mapValue), ty.exists(!0)));
                                 }
                                 return n.In.addMutationBatch(e, r, o, t);
                             })).then((e)=>(e.applyToLocalDocumentSet(i), {
@@ -7005,7 +7005,7 @@
             }
             function oi(e) {
                 const t = T(e);
-                return ((t.remoteStore.remoteSyncer.applyRemoteEvent = iz.bind(null, t)), (t.remoteStore.remoteSyncer.getRemoteKeysForTarget = i6.bind(null, t)), (t.remoteStore.remoteSyncer.rejectListen = iG.bind(null, t)), (t.$o.Rr = i$.bind(null, t.eventManager)), (t.$o.Go = iA.bind(null, t.eventManager)), t);
+                return ((t.remoteStore.remoteSyncer.applyRemoteEvent = iz.bind(null, t)), (t.remoteStore.remoteSyncer.getRemoteKeysForTarget = i6.bind(null, t)), (t.remoteStore.remoteSyncer.rejectListen = iG.bind(null, t)), (t.$o.Rr = i_.bind(null, t.eventManager)), (t.$o.Go = iA.bind(null, t.eventManager)), t);
             }
             function oo(e) {
                 const t = T(e);
@@ -7061,7 +7061,7 @@
                     return sn(this.persistence, new se(), e.initialUser, this.N);
                 }
                 Jo(e) {
-                    return new sS(s$.Ns, this.N);
+                    return new sS(s_.Ns, this.N);
                 }
                 Ho(e) {
                     return new sO();
@@ -7082,11 +7082,11 @@
                 }
                 Yo(e) {
                     const t = this.persistence.referenceDelegate.garbageCollector;
-                    return new r_(t, e.asyncQueue);
+                    return new r$(t, e.asyncQueue);
                 }
                 Jo(e) {
                     const t = r5(e.databaseInfo.databaseId, e.databaseInfo.persistenceKey), n = void 0 !== this.cacheSizeBytes ? rA.withCacheSize(this.cacheSizeBytes) : rA.DEFAULT;
-                    return new r4(this.synchronizeTabs, t, e.clientId, n, e.asyncQueue, sK(), s_(), this.N, this.sharedClientState, !!this.forceOwnership);
+                    return new r4(this.synchronizeTabs, t, e.clientId, n, e.asyncQueue, sK(), s$(), this.N, this.sharedClientState, !!this.forceOwnership);
                 }
                 Ho(e) {
                     return new sO();
@@ -7435,7 +7435,7 @@
             function oN(e) {
                 return oE(e).then((e)=>e.syncEngine);
             }
-            async function o$(e) {
+            async function o_(e) {
                 const t = await oE(e), n = t.eventManager;
                 return ((n.onListen = iq.bind(null, t.syncEngine)), (n.onUnlisten = iK.bind(null, t.syncEngine)), n);
             }
@@ -7487,7 +7487,7 @@
                             fo: !0
                         });
                         return iS(e, o);
-                    })(await o$(e), e.asyncQueue, t, n, r)), r.promise);
+                    })(await o_(e), e.asyncQueue, t, n, r)), r.promise);
             }
             function oC(e, t) {
                 const n = new N();
@@ -7514,16 +7514,16 @@
                             fo: !0
                         });
                         return iS(e, o);
-                    })(await o$(e), e.asyncQueue, t, n, r)), r.promise);
+                    })(await o_(e), e.asyncQueue, t, n, r)), r.promise);
             }
             function oR(e, t) {
                 const n = new of(t);
                 return (e.asyncQueue.enqueueAndForget(async ()=>(function(e, t) {
                         T(e).so.add(t), t.next();
-                    })(await o$(e), n)), ()=>{
+                    })(await o_(e), n)), ()=>{
                     n.ec(), e.asyncQueue.enqueueAndForget(async ()=>(function(e, t) {
                             T(e).so.delete(t);
-                        })(await o$(e), n));
+                        })(await o_(e), n));
                 });
             }
             function oM(e, t) {
@@ -7584,7 +7584,7 @@
             function oK(e) {
                 if (!eo.isDocumentKey(e)) throw new S(b.INVALID_ARGUMENT, `Invalid document reference. Document references must have an even number of segments, but ${e} has ${e.length}.`);
             }
-            function o_(e) {
+            function o$(e) {
                 if (eo.isDocumentKey(e)) throw new S(b.INVALID_ARGUMENT, `Invalid collection reference. Collection references must have an odd number of segments, but ${e} has ${e.length}.`);
             }
             function oz(e) {
@@ -7707,7 +7707,7 @@
                         if (!c) throw new S(b.INVALID_ARGUMENT, "mockUserToken must contain 'sub' or 'user_id' field!");
                         a = new h(c);
                     }
-                    e._credentials = new D(new $(o, a));
+                    e._credentials = new D(new _(o, a));
                 }
             }
             class oY {
@@ -7759,12 +7759,12 @@
             function oZ(e, t, ...n) {
                 if (((e = (0, o.m9)(e)), oq("collection", "path", t), e instanceof oH)) {
                     const r = z.fromString(t, ...n);
-                    return o_(r), new oX(e, null, r);
+                    return o$(r), new oX(e, null, r);
                 }
                 {
                     if (!(e instanceof oY || e instanceof oX)) throw new S(b.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
                     const s = e._path.child(z.fromString(t, ...n));
-                    return (o_(s), new oX(e.firestore, null, s));
+                    return (o$(s), new oX(e.firestore, null, s));
                 }
             }
             function o0(e, t) {
@@ -7793,10 +7793,10 @@
             class o3 {
                 constructor(){
                     (this._c = Promise.resolve()), (this.mc = []), (this.gc = !1), (this.yc = []), (this.Tc = null), (this.Ec = !1), (this.Ic = !1), (this.Ac = []), (this.ar = new sj(this, "async_queue_retry")), (this.Rc = ()=>{
-                        const e = s_();
+                        const e = s$();
                         e && g("AsyncQueue", "Visibility state changed to " + e.visibilityState), this.ar.tr();
                     });
-                    const e = s_();
+                    const e = s$();
                     e && "function" == typeof e.addEventListener && e.addEventListener("visibilitychange", this.Rc);
                 }
                 get isShuttingDown() {
@@ -7811,7 +7811,7 @@
                 enterRestrictedMode(e) {
                     if (!this.gc) {
                         (this.gc = !0), (this.Ic = e || !1);
-                        const t = s_();
+                        const t = s$();
                         t && "function" == typeof t.removeEventListener && t.removeEventListener("visibilitychange", this.Rc);
                     }
                 }
@@ -8099,7 +8099,7 @@
                     (this.data = e), (this.fieldMask = t), (this.fieldTransforms = n);
                 }
                 toMutation(e, t) {
-                    return null !== this.fieldMask ? new t$(e, this.data, this.fieldMask, t, this.fieldTransforms) : new tN(e, this.data, t, this.fieldTransforms);
+                    return null !== this.fieldMask ? new t_(e, this.data, this.fieldMask, t, this.fieldTransforms) : new tN(e, this.data, t, this.fieldTransforms);
                 }
             }
             class aE {
@@ -8107,7 +8107,7 @@
                     (this.data = e), (this.fieldMask = t), (this.fieldTransforms = n);
                 }
                 toMutation(e, t) {
-                    return new t$(e, this.data, this.fieldMask, t, this.fieldTransforms);
+                    return new t_(e, this.data, this.fieldMask, t, this.fieldTransforms);
                 }
             }
             function aT(e) {
@@ -8159,7 +8159,7 @@
                     });
                 }
                 Uc(e) {
-                    return a_(e, this.settings.methodName, this.settings.qc || !1, this.path, this.settings.Kc);
+                    return a$(e, this.settings.methodName, this.settings.qc || !1, this.path, this.settings.Kc);
                 }
                 contains(e) {
                     return (void 0 !== this.fieldMask.find((t)=>e.isPrefixOf(t)) || void 0 !== this.fieldTransforms.find((t)=>e.isPrefixOf(t.field)));
@@ -8191,7 +8191,7 @@
                 const t = e._freezeSettings(), n = sz(e._databaseId);
                 return new aS(e._databaseId, !!t.ignoreUndefinedProperties, n);
             }
-            function a$(e, t, n, r, s, i = {}) {
+            function a_(e, t, n, r, s, i = {}) {
                 const o = e.jc(i.merge || i.mergeFields ? 2 : 0, t, n, s);
                 aU("Data must be an object, but it was:", o, r);
                 const a = aP(r, o);
@@ -8406,18 +8406,18 @@
             function aq(e, t, n) {
                 if ((t = getModularInstance(t)) instanceof am) return t._internalPath;
                 if ("string" == typeof t) return aK(e, t);
-                throw a_("Field path arguments must be of type string or FieldPath.", e, !1, void 0, n);
+                throw a$("Field path arguments must be of type string or FieldPath.", e, !1, void 0, n);
             }
             const aB = new RegExp("[~\\*/\\[\\]]");
             function aK(e, t, n) {
-                if (t.search(aB) >= 0) throw a_(`Invalid field path (${t}). Paths must not contain '~', '*', '/', '[', or ']'`, e, !1, void 0, n);
+                if (t.search(aB) >= 0) throw a$(`Invalid field path (${t}). Paths must not contain '~', '*', '/', '[', or ']'`, e, !1, void 0, n);
                 try {
                     return new am(...t.split("."))._internalPath;
                 } catch (r) {
-                    throw a_(`Invalid field path (${t}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, e, !1, void 0, n);
+                    throw a$(`Invalid field path (${t}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, e, !1, void 0, n);
                 }
             }
-            function a_(e, t, n, r, s) {
+            function a$(e, t, n, r, s) {
                 const i = r && !r.isEmpty(), o = void 0 !== s;
                 let a = `Function ${t}() called with invalid data`;
                 n && (a += " (via `toFirestore()`)"), (a += ". ");
@@ -8876,7 +8876,7 @@
                 }
                 set(e, t, n) {
                     this._verifyNotCommitted();
-                    const r = cm(e, this._firestore), s = cl(r.converter, t, n), i = a$(this._dataReader, "WriteBatch.set", r._key, s, null !== r.converter, n);
+                    const r = cm(e, this._firestore), s = cl(r.converter, t, n), i = a_(this._dataReader, "WriteBatch.set", r._key, s, null !== r.converter, n);
                     return (this._mutations.push(i.toMutation(r._key, ty.none())), this);
                 }
                 update(e, t, n, ...r) {
@@ -8951,7 +8951,7 @@
                 e = oj(e, oY);
                 const r = oj(e.firestore, o9), s = cl(e.converter, t, n);
                 return cD(r, [
-                    a$(aN(r), "setDoc", e._key, s, null !== e.converter, n).toMutation(e._key, ty.none()), 
+                    a_(aN(r), "setDoc", e._key, s, null !== e.converter, n).toMutation(e._key, ty.none()), 
                 ]);
             }
             function cb(e, t, n, ...r) {
@@ -8971,10 +8971,10 @@
             function cN(e, t) {
                 const n = oj(e.firestore, o9), r = o1(e), s = cl(e.converter, t);
                 return cD(n, [
-                    a$(aN(e.firestore), "addDoc", r._key, s, null !== e.converter, {}).toMutation(r._key, ty.exists(!1)), 
+                    a_(aN(e.firestore), "addDoc", r._key, s, null !== e.converter, {}).toMutation(r._key, ty.exists(!1)), 
                 ]).then(()=>r);
             }
-            function c$(e, ...t) {
+            function c_(e, ...t) {
                 var n, r, s;
                 e = getModularInstance(e);
                 let i = {
@@ -9010,8 +9010,8 @@
                 }
                 return (function(e, t, n, r) {
                     const s = new of(r), i = new ik(t, s, n);
-                    return (e.asyncQueue.enqueueAndForget(async ()=>iS(await o$(e), i)), ()=>{
-                        s.ec(), e.asyncQueue.enqueueAndForget(async ()=>iN(await o$(e), i));
+                    return (e.asyncQueue.enqueueAndForget(async ()=>iS(await o_(e), i)), ()=>{
+                        s.ec(), e.asyncQueue.enqueueAndForget(async ()=>iN(await o_(e), i));
                     });
                 })(at(h), l, a, u);
             }
@@ -9023,7 +9023,7 @@
             function cD(e, t) {
                 return (function(e, t) {
                     const n = new N();
-                    return (e.asyncQueue.enqueueAndForget(async ()=>i_(await oN(e), t, n)), n.promise);
+                    return (e.asyncQueue.enqueueAndForget(async ()=>i$(await oN(e), t, n)), n.promise);
                 })(at(e), t);
             }
             function ck(e, t, n) {
@@ -9047,7 +9047,7 @@
                     });
                 }
                 set(e, t, n) {
-                    const r = cm(e, this._firestore), s = cl(r.converter, t, n), i = a$(this._dataReader, "Transaction.set", r._key, s, null !== r.converter, n);
+                    const r = cm(e, this._firestore), s = cl(r.converter, t, n), i = a_(this._dataReader, "Transaction.set", r._key, s, null !== r.converter, n);
                     return this._transaction.set(r._key, i), this;
                 }
                 update(e, t, n, ...r) {

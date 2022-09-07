@@ -10651,8 +10651,8 @@
                     parsePesTime: parsePesTime,
                     videoPacketContainsKeyFrame: videoPacketContainsKeyFrame
                 }, probe.aac = utils;
-                var ONE_SECOND_IN_TS = clock.ONE_SECOND_IN_TS, MP2T_PACKET_LENGTH = 188, parsePsi_ = function(bytes, pmt) {
-                    for(var packet, startIndex = 0, endIndex = MP2T_PACKET_LENGTH; endIndex < bytes.byteLength;){
+                var ONE_SECOND_IN_TS = clock.ONE_SECOND_IN_TS, parsePsi_ = function(bytes, pmt) {
+                    for(var packet, startIndex = 0, endIndex = 188; endIndex < bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
                             switch(packet = bytes.subarray(startIndex, endIndex), probe.ts.parseType(packet, pmt.pid)){
                                 case "pat":
@@ -10664,30 +10664,30 @@
                                         pmt.table[key] = table[key];
                                     });
                             }
-                            startIndex += MP2T_PACKET_LENGTH, endIndex += MP2T_PACKET_LENGTH;
+                            startIndex += 188, endIndex += 188;
                             continue;
                         }
                         startIndex++, endIndex++;
                     }
                 }, parseAudioPes_ = function(bytes, pmt, result) {
-                    for(var packet, pesType, pusi, parsed, startIndex = 0, endIndex = MP2T_PACKET_LENGTH, endLoop = !1; endIndex <= bytes.byteLength;){
+                    for(var packet, pesType, pusi, parsed, startIndex = 0, endIndex = 188, endLoop = !1; endIndex <= bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && (0x47 === bytes[endIndex] || endIndex === bytes.byteLength)) {
                             if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "audio" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "audio", result.audio.push(parsed), endLoop = !0)), endLoop) break;
-                            startIndex += MP2T_PACKET_LENGTH, endIndex += MP2T_PACKET_LENGTH;
+                            startIndex += 188, endIndex += 188;
                             continue;
                         }
                         startIndex++, endIndex++;
                     }
-                    for(startIndex = (endIndex = bytes.byteLength) - MP2T_PACKET_LENGTH, endLoop = !1; startIndex >= 0;){
+                    for(startIndex = (endIndex = bytes.byteLength) - 188, endLoop = !1; startIndex >= 0;){
                         if (0x47 === bytes[startIndex] && (0x47 === bytes[endIndex] || endIndex === bytes.byteLength)) {
                             if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "audio" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "audio", result.audio.push(parsed), endLoop = !0)), endLoop) break;
-                            startIndex -= MP2T_PACKET_LENGTH, endIndex -= MP2T_PACKET_LENGTH;
+                            startIndex -= 188, endIndex -= 188;
                             continue;
                         }
                         startIndex--, endIndex--;
                     }
                 }, parseVideoPes_ = function(bytes, pmt, result) {
-                    for(var packet, pesType, pusi, parsed, frame, i, pes, startIndex = 0, endIndex = MP2T_PACKET_LENGTH, endLoop = !1, currentFrame = {
+                    for(var packet, pesType, pusi, parsed, frame, i, pes, startIndex = 0, endIndex = 188, endLoop = !1, currentFrame = {
                         data: [],
                         size: 0
                     }; endIndex < bytes.byteLength;){
@@ -10704,15 +10704,15 @@
                                 currentFrame.data.push(packet), currentFrame.size += packet.byteLength;
                             }
                             if (endLoop && result.firstKeyFrame) break;
-                            startIndex += MP2T_PACKET_LENGTH, endIndex += MP2T_PACKET_LENGTH;
+                            startIndex += 188, endIndex += 188;
                             continue;
                         }
                         startIndex++, endIndex++;
                     }
-                    for(startIndex = (endIndex = bytes.byteLength) - MP2T_PACKET_LENGTH, endLoop = !1; startIndex >= 0;){
+                    for(startIndex = (endIndex = bytes.byteLength) - 188, endLoop = !1; startIndex >= 0;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
                             if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "video" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "video", result.video.push(parsed), endLoop = !0)), endLoop) break;
-                            startIndex -= MP2T_PACKET_LENGTH, endIndex -= MP2T_PACKET_LENGTH;
+                            startIndex -= 188, endIndex -= 188;
                             continue;
                         }
                         startIndex--, endIndex--;

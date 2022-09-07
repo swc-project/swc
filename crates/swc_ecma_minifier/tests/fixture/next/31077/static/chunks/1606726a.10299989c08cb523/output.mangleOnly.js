@@ -367,7 +367,7 @@
                 }
                 return e;
             }
-            function $(e, t, r) {
+            function _(e, t, r) {
                 var n = B(t, r);
                 var o = n.node;
                 var i = n.offset;
@@ -476,7 +476,7 @@
                     }
                 }
                 if (u == null) {
-                    u = $(e, d, t);
+                    u = _(e, d, t);
                 }
                 var y = e.docView.nearestDesc(d, true);
                 return {
@@ -488,14 +488,14 @@
                 var r = e.getClientRects();
                 return !r.length ? e.getBoundingClientRect() : r[t < 0 ? 0 : r.length - 1];
             }
-            var _ = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/;
+            var $ = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/;
             function W(e, t, r) {
                 var n = e.docView.domFromPos(t, r < 0 ? -1 : 1);
                 var o = n.node;
                 var i = n.offset;
                 var a = s.webkit || s.gecko;
                 if (o.nodeType == 3) {
-                    if (a && (_.test(o.nodeValue) || (r < 0 ? !i : i == o.nodeValue.length))) {
+                    if (a && ($.test(o.nodeValue) || (r < 0 ? !i : i == o.nodeValue.length))) {
                         var l = q(v(o, i, i), r);
                         if (s.gecko && i && /\s/.test(o.nodeValue[i - 1]) && i < o.nodeValue.length) {
                             var c = q(v(o, i - 1, i - 1), -1);
@@ -2243,17 +2243,17 @@
                 var i = o < n.childNodes.length ? n.childNodes[o] : null;
                 var a = o ? n.childNodes[o - 1] : null;
                 if (s.safari && i && i.contentEditable == "false") {
-                    return e$(i);
+                    return e_(i);
                 }
                 if ((!i || i.contentEditable == "false") && (!a || a.contentEditable == "false")) {
                     if (i) {
-                        return e$(i);
+                        return e_(i);
                     } else if (a) {
-                        return e$(a);
+                        return e_(a);
                     }
                 }
             }
-            function e$(e) {
+            function e_(e) {
                 e.contentEditable = "true";
                 if (s.safari && e.draggable) {
                     e.draggable = false;
@@ -2304,17 +2304,17 @@
                 if (t instanceof n.NodeSelection) {
                     var r = e.docView.descAt(t.from);
                     if (r != e.lastSelectedViewDesc) {
-                        e_(e);
+                        e$(e);
                         if (r) {
                             r.selectNode();
                         }
                         e.lastSelectedViewDesc = r;
                     }
                 } else {
-                    e_(e);
+                    e$(e);
                 }
             }
-            function e_(e) {
+            function e$(e) {
                 if (e.lastSelectedViewDesc) {
                     if (e.lastSelectedViewDesc.parent) {
                         e.lastSelectedViewDesc.deselectNode();
@@ -3682,7 +3682,7 @@
                 var r = t.x - e.clientX, n = t.y - e.clientY;
                 return r * r + n * n < 100;
             }
-            function t$(e, t, r, n, o) {
+            function t_(e, t, r, n, o) {
                 if (n == -1) {
                     return false;
                 }
@@ -3751,17 +3751,17 @@
                 }
             }
             function tq(e, t, r, n, o) {
-                return (t$(e, "handleClickOn", t, r, n) || e.someProp("handleClick", function(r) {
+                return (t_(e, "handleClickOn", t, r, n) || e.someProp("handleClick", function(r) {
                     return r(e, t, n);
                 }) || (o ? tK(e, r) : tL(e, r)));
             }
-            function t_(e, t, r, n) {
-                return (t$(e, "handleDoubleClickOn", t, r, n) || e.someProp("handleDoubleClick", function(r) {
+            function t$(e, t, r, n) {
+                return (t_(e, "handleDoubleClickOn", t, r, n) || e.someProp("handleDoubleClick", function(r) {
                     return r(e, t, n);
                 }));
             }
             function tW(e, t, r, n) {
-                return (t$(e, "handleTripleClickOn", t, r, n) || e.someProp("handleTripleClick", function(r) {
+                return (t_(e, "handleTripleClickOn", t, r, n) || e.someProp("handleTripleClick", function(r) {
                     return r(e, t, n);
                 }) || tH(e, r, n));
             }
@@ -3821,7 +3821,7 @@
                         e.mouseDown.done();
                     }
                     e.mouseDown = new tG(e, i, t, r);
-                } else if ((o == "doubleClick" ? t_ : tW)(e, i.pos, i.inside, t)) {
+                } else if ((o == "doubleClick" ? t$ : tW)(e, i.pos, i.inside, t)) {
                     t.preventDefault();
                 } else {
                     tA(e, "pointer");

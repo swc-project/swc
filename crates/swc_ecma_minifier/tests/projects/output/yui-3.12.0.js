@@ -137,8 +137,8 @@ var YUI = function() {
             return this;
         },
         _attach: function(r, moot) {
-            var i, name, mod, details, req, use, after, j, loader, def, go, mods = YUI.Env.mods, aliases = YUI.Env.aliases, Y = this, cache = YUI.Env._renderedMods, loader = Y.Env._loader, done = Y.Env._attached, len = r.length, c = [];
-            for(i = 0; i < len; i++)if (mod = mods[name = r[i]], c.push(name), loader && loader.conditions[name]) for(j in loader.conditions[name])loader.conditions[name].hasOwnProperty(j) && (go = (def = loader.conditions[name][j]) && (def.ua && Y.UA[def.ua] || def.test && def.test(Y))) && c.push(def.name);
+            var i, name, mod, details, req, use, after, j, loader, def, mods = YUI.Env.mods, aliases = YUI.Env.aliases, Y = this, cache = YUI.Env._renderedMods, loader = Y.Env._loader, done = Y.Env._attached, len = r.length, c = [];
+            for(i = 0; i < len; i++)if (mod = mods[name = r[i]], c.push(name), loader && loader.conditions[name]) for(j in loader.conditions[name])loader.conditions[name].hasOwnProperty(j) && (def = loader.conditions[name][j]) && (def.ua && Y.UA[def.ua] || def.test && def.test(Y)) && c.push(def.name);
             for(i = 0, len = (r = c).length; i < len; i++)if (!done[r[i]]) {
                 if (mod = mods[name = r[i]], aliases && aliases[name] && !mod) {
                     Y._attach(aliases[name]);
@@ -226,7 +226,7 @@ var YUI = function() {
             this.Array || this._attach([
                 "yui-base"
             ]);
-            var len, loader, handleBoot, i, Y = this, G_ENV = YUI.Env, mods = G_ENV.mods, Env = Y.Env, used = Env._used, aliases = G_ENV.aliases, queue = G_ENV._loaderQueue, firstArg = args[0], YArray = Y.Array, config = Y.config, boot = config.bootstrap, missing = [], r = [], ret = !0, fetchCSS = config.fetchCSS, process1 = function(names, skip) {
+            var len, loader, handleBoot, i, Y = this, G_ENV = YUI.Env, mods = G_ENV.mods, Env = Y.Env, used = Env._used, aliases = G_ENV.aliases, queue = G_ENV._loaderQueue, firstArg = args[0], YArray = Y.Array, config = Y.config, boot = config.bootstrap, missing = [], r = [], fetchCSS = config.fetchCSS, process1 = function(names, skip) {
                 var name, len, m, req, use, i = 0, a = [];
                 if (names.length) {
                     if (aliases) {
@@ -246,7 +246,7 @@ var YUI = function() {
             };
             if ("*" === firstArg) {
                 for(i in args = [], mods)mods.hasOwnProperty(i) && args.push(i);
-                return (ret = Y._attach(args)) && handleLoader(), Y;
+                return Y._attach(args) && handleLoader(), Y;
             }
             return (mods.loader || mods["loader-base"]) && !Y.Loader && Y._attach([
                 "loader" + (mods.loader ? "" : "-base")
@@ -256,7 +256,7 @@ var YUI = function() {
                 ]) && Y._use(args, callback);
             }, G_ENV._bootstrapping ? queue.add(handleBoot) : (G_ENV._bootstrapping = !0, Y.Get.script(config.base + config.loaderPath, {
                 onEnd: handleBoot
-            }))) : (ret = Y._attach(args)) && handleLoader(), Y;
+            }))) : Y._attach(args) && handleLoader(), Y;
         },
         namespace: function() {
             for(var o, j, d, arg, a = arguments, i = 0; i < a.length; i++)if (o = this, (arg = a[i]).indexOf(".") > -1) for(j = "YAHOO" == (d = arg.split("."))[0] ? 1 : 0; j < d.length; j++)o[d[j]] = o[d[j]] || {}, o = o[d[j]];
@@ -1328,13 +1328,13 @@ var YUI = function() {
         "groups",
         "skin"
     ], 0, !0), YUI.Env[VERSION] = META;
-    var VERSION, BUILD, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate, modulekey, NOT_FOUND = {}, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, INTL = "intl", VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
+    var VERSION, BUILD, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate, NOT_FOUND = {}, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, INTL = "intl", VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
         var path = dir + "/" + file;
         return nomin || (path += "-min"), path += "." + (type || "css");
     };
     YUI.Env._cssLoaded || (YUI.Env._cssLoaded = {}), Y.Env.meta = META1, Y.Loader = function(o) {
         var self = this;
-        o = o || {}, modulekey = META1.md5, self.context = Y, self.base = Y.Env.meta.base + Y.Env.meta.root, self.comboBase = Y.Env.meta.comboBase, self.combine = o.base && o.base.indexOf(self.comboBase.substr(0, 20)) > -1, self.comboSep = "&", self.maxURLLength = 1024, self.ignoreRegistered = o.ignoreRegistered, self.root = Y.Env.meta.root, self.timeout = 0, self.forceMap = {}, self.allowRollup = !1, self.filters = {}, self.required = {}, self.patterns = {}, self.moduleInfo = {}, self.groups = Y.merge(Y.Env.meta.groups), self.skin = Y.merge(Y.Env.meta.skin), self.conditions = {}, self.config = o, self._internal = !0, self._populateCache(), self.loaded = GLOBAL_LOADED[VERSION1], self.async = !0, self._inspectPage(), self._internal = !1, self._config(o), self.forceMap = self.force ? Y.Array.hash(self.force) : {}, self.testresults = null, Y.config.tests && (self.testresults = Y.config.tests), self.sorted = [], self.dirty = !0, self.inserted = {}, self.skipped = {}, self.tested = {}, self.ignoreRegistered && self._resetModules();
+        o = o || {}, META1.md5, self.context = Y, self.base = Y.Env.meta.base + Y.Env.meta.root, self.comboBase = Y.Env.meta.comboBase, self.combine = o.base && o.base.indexOf(self.comboBase.substr(0, 20)) > -1, self.comboSep = "&", self.maxURLLength = 1024, self.ignoreRegistered = o.ignoreRegistered, self.root = Y.Env.meta.root, self.timeout = 0, self.forceMap = {}, self.allowRollup = !1, self.filters = {}, self.required = {}, self.patterns = {}, self.moduleInfo = {}, self.groups = Y.merge(Y.Env.meta.groups), self.skin = Y.merge(Y.Env.meta.skin), self.conditions = {}, self.config = o, self._internal = !0, self._populateCache(), self.loaded = GLOBAL_LOADED[VERSION1], self.async = !0, self._inspectPage(), self._internal = !1, self._config(o), self.forceMap = self.force ? Y.Array.hash(self.force) : {}, self.testresults = null, Y.config.tests && (self.testresults = Y.config.tests), self.sorted = [], self.dirty = !0, self.inserted = {}, self.skipped = {}, self.tested = {}, self.ignoreRegistered && self._resetModules();
     }, Y.Loader.prototype = {
         _populateCache: function() {
             var i, self = this, defaults = META1.modules, cache = GLOBAL_ENV._renderedMods;

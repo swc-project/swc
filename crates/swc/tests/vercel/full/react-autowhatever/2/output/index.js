@@ -28,13 +28,13 @@ var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@
             role: "listbox"
         }, p("".concat(h, "items-list"), "itemsList")), {
             children: r.map(function(t, r) {
-                var m = r === a, I = "".concat(h, "item-").concat(r), $ = f ? n({
+                var m = r === a, I = "".concat(h, "item-").concat(r), _ = f ? n({
                     sectionIndex: u,
                     itemIndex: r
                 }) : n, g = i({
                     id: d(u, r),
                     "aria-selected": m
-                }, p(I, "item", 0 === r && "itemFirst", m && "itemHighlighted"), $);
+                }, p(I, "item", 0 === r && "itemFirst", m && "itemHighlighted"), _);
                 return m && (g.ref = e.storeHighlightedItemReference), (0, l.jsx)(Item, s(i({}, g), {
                     sectionIndex: u,
                     isHighlighted: m,

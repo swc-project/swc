@@ -1,6 +1,6 @@
 (()=>{
-    var $ = {
-        746: ($, e, r)=>{
+    var _ = {
+        746: (_, e, r)=>{
             const c = Object.prototype.hasOwnProperty;
             const t = 4;
             const a = t * 12;
@@ -10,11 +10,11 @@
             const b = (a - o) / 2;
         }
     };
-    __webpack_require__.m = $;
+    __webpack_require__.m = _;
     (()=>{
-        __webpack_require__.O = ($, e, r, c)=>{
+        __webpack_require__.O = (_, e, r, c)=>{
             for(var t = 0; t < e.length; t++){
-                Object.keys(__webpack_require__.O).every(($)=>__webpack_require__.O[$](e[t]));
+                Object.keys(__webpack_require__.O).every((_)=>__webpack_require__.O[_](e[t]));
             }
         };
     })();

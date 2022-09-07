@@ -78,7 +78,7 @@
                 ]);
                 var Z = (0, u).useContext(m.ImageConfigContext);
                 var U = (0, u).useMemo(function() {
-                    var e = $ || Z || f.imageConfigDefault;
+                    var e = _ || Z || f.imageConfigDefault;
                     var t = a(e.deviceSizes).concat(a(e.imageSizes)).sort(function(e, t) {
                         return e - t;
                     });
@@ -140,7 +140,7 @@
                 if (w) {
                     l = true;
                 }
-                var _ = n((0, u).useState(false), 2), ee = _[0], et = _[1];
+                var $ = n((0, u).useState(false), 2), ee = $[0], et = $[1];
                 var er = n((0, v).useIntersection({
                     rootRef: y,
                     rootMargin: x || "200px",
@@ -214,12 +214,12 @@
                     es.right = 0;
                 } else if (typeof ef !== "undefined" && typeof ev !== "undefined") {
                     var ew = ev / ef;
-                    var e$ = isNaN(ew) ? "100%" : "".concat(ew * 100, "%");
+                    var e_ = isNaN(ew) ? "100%" : "".concat(ew * 100, "%");
                     if (T === "responsive") {
                         es.display = "block";
                         es.position = "relative";
                         ec = true;
-                        el.paddingTop = e$;
+                        el.paddingTop = e_;
                     } else if (T === "intrinsic") {
                         es.display = "inline-block";
                         es.position = "relative";
@@ -355,7 +355,7 @@
                 "loader": "default",
                 "dangerouslyAllowSVG": false
             } || {}, y = b.experimentalRemotePatterns, x = y === void 0 ? [] : y, w = b.experimentalUnoptimized;
-            var $ = {
+            var _ = {
                 "deviceSizes": [
                     640,
                     750,
@@ -544,7 +544,7 @@
                 });
             }
             var H = function(e) {
-                var t = e.imgAttributes, r = e.heightInt, i = e.widthInt, n = e.qualityInt, a = e.layout, s = e.className, l = e.imgStyle, d = e.blurStyle, f = e.isLazy, v = e.placeholder, m = e.loading, g = e.srcString, p = e.config, h = e.unoptimized, b = e.loader, y = e.onLoadingCompleteRef, x = e.setBlurComplete, w = e.setIntersection, $ = e.onLoad, j = e.onError, z = e.isVisible, S = e.noscriptSizes, A = c(e, [
+                var t = e.imgAttributes, r = e.heightInt, i = e.widthInt, n = e.qualityInt, a = e.layout, s = e.className, l = e.imgStyle, d = e.blurStyle, f = e.isLazy, v = e.placeholder, m = e.loading, g = e.srcString, p = e.config, h = e.unoptimized, b = e.loader, y = e.onLoadingCompleteRef, x = e.setBlurComplete, w = e.setIntersection, _ = e.onLoad, j = e.onError, z = e.isVisible, S = e.noscriptSizes, A = c(e, [
                     "imgAttributes",
                     "heightInt",
                     "widthInt",
@@ -591,8 +591,8 @@
                     onLoad: function(e) {
                         var t = e.currentTarget;
                         M(t, g, a, v, y, x);
-                        if ($) {
-                            $(e);
+                        if (_) {
+                            _(e);
                         }
                     },
                     onError: function(e) {

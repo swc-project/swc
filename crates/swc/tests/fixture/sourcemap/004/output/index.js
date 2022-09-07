@@ -7,7 +7,7 @@
             "use strict";
             var r = function(n) {
                 var t = n.data;
-                return (0, $.jsx)("div", {
+                return (0, _.jsx)("div", {
                     children: t.foo
                 });
             };
@@ -19,7 +19,7 @@
                     return r;
                 }
             });
-            var $ = u(4512), i = !0;
+            var _ = u(4512), i = !0;
         },
         7139: function(n, t, u) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
