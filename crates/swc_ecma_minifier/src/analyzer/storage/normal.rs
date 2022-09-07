@@ -254,7 +254,7 @@ impl ProgramData {
                 if e.ref_count == 1
                     && ctx.in_assign_lhs
                     && e.var_kind != Some(VarDeclKind::Const)
-                    && !e.var_initialized
+                    && !inited
                 {
                     self.initialized_vars.insert(i);
                     e.assign_count -= 1;

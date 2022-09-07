@@ -709,15 +709,13 @@ where
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         if e.op.may_short_circuit() {
             e.left.visit_with(self);
-            // faked scope to trigger merge
-            self.with_child(e.span.ctxt, ScopeKind::Block, |child| {
-                let ctx = Ctx {
-                    in_cond: true,
-                    ..child.ctx
-                };
-                child.with_ctx(ctx).visit_in_cond(&e.right);
-            })
+            let ctx = Ctx {
+                in_cond: true,
+                ..self.ctx
+            };
+            self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
+            println!("else");
             e.visit_children_with(self);
         }
     }
@@ -1099,9 +1097,7 @@ where
                 ..self.ctx
             };
             if fallthrough {
-                self.with_child(case.span.ctxt, ScopeKind::Block, |child| {
-                    child.with_ctx(ctx).visit_in_cond(&case.test);
-                });
+                self.with_ctx(ctx).visit_in_cond(&case.test);
                 self.with_ctx(ctx).visit_in_cond(&case.cons);
             } else {
                 self.with_ctx(ctx).visit_in_cond(case);

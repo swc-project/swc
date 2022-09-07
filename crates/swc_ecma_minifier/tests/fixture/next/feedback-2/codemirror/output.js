@@ -4289,8 +4289,8 @@
         return gutterEvent(cm, e, "gutterClick", !0);
     }
     function onContextMenu(cm, e) {
-        var cm1, e1;
-        !(eventInWidget(cm.display, e) || (cm1 = cm, e1 = e, hasHandler(cm1, "gutterContextMenu") && gutterEvent(cm1, e1, "gutterContextMenu", !1)) || signalDOMEvent(cm, e, "contextmenu")) && (captureRightClick || cm.display.input.onContextMenu(e));
+        var cm1;
+        !(eventInWidget(cm.display, e) || hasHandler(cm1 = cm, "gutterContextMenu") && gutterEvent(cm1, e, "gutterContextMenu", !1) || signalDOMEvent(cm, e, "contextmenu")) && (captureRightClick || cm.display.input.onContextMenu(e));
     }
     function themeChanged(cm) {
         cm.display.wrapper.className = cm.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") + cm.options.theme.replace(/(^|\s)\s*/g, " cm-s-"), clearCaches(cm);
@@ -5299,18 +5299,18 @@
             };
         },
         addWidget: function(pos, node, scroll, vert, horiz) {
-            var cm, rect, scrollPos, display = this.display, top = (pos = cursorCoords(this, clipPos(this.doc, pos))).bottom, left = pos.left;
+            var rect, scrollPos, display = this.display, top = (pos = cursorCoords(this, clipPos(this.doc, pos))).bottom, left = pos.left;
             if (node.style.position = "absolute", node.setAttribute("cm-ignore-events", "true"), this.display.input.setUneditable(node), display.sizer.appendChild(node), "over" == vert) top = pos.top;
             else if ("above" == vert || "near" == vert) {
                 var vspace = Math.max(display.wrapper.clientHeight, this.doc.height), hspace = Math.max(display.sizer.clientWidth, display.lineSpace.clientWidth);
                 ("above" == vert || pos.bottom + node.offsetHeight > vspace) && pos.top > node.offsetHeight ? top = pos.top - node.offsetHeight : pos.bottom + node.offsetHeight <= vspace && (top = pos.bottom), left + node.offsetWidth > hspace && (left = hspace - node.offsetWidth);
             }
-            node.style.top = top + "px", node.style.left = node.style.right = "", "right" == horiz ? (left = display.sizer.clientWidth - node.offsetWidth, node.style.right = "0px") : ("left" == horiz ? left = 0 : "middle" == horiz && (left = (display.sizer.clientWidth - node.offsetWidth) / 2), node.style.left = left + "px"), scroll && (cm = this, rect = {
+            node.style.top = top + "px", node.style.left = node.style.right = "", "right" == horiz ? (left = display.sizer.clientWidth - node.offsetWidth, node.style.right = "0px") : ("left" == horiz ? left = 0 : "middle" == horiz && (left = (display.sizer.clientWidth - node.offsetWidth) / 2), node.style.left = left + "px"), scroll && (rect = {
                 left: left,
                 top: top,
                 right: left + node.offsetWidth,
                 bottom: top + node.offsetHeight
-            }, null != (scrollPos = calculateScrollPos(cm, rect)).scrollTop && updateScrollTop(cm, scrollPos.scrollTop), null != scrollPos.scrollLeft && setScrollLeft(cm, scrollPos.scrollLeft));
+            }, null != (scrollPos = calculateScrollPos(this, rect)).scrollTop && updateScrollTop(this, scrollPos.scrollTop), null != scrollPos.scrollLeft && setScrollLeft(this, scrollPos.scrollLeft));
         },
         triggerOnKeyDown: methodOp(onKeyDown),
         triggerOnKeyPress: methodOp(onKeyPress),
