@@ -15,7 +15,7 @@ export function foo(n, r, e) {
     var h = r.STACK_MAX | 0;
     var d = r.cttz_i8 | 0;
     var w = r.___dso_handle | 0;
-    var $ = 0;
+    var _ = 0;
     var m = 0;
     var y = 0;
     var p = 0;
@@ -45,7 +45,7 @@ export function foo(n, r, e) {
     var Q = r.assert;
     var V = r.enlargeMemory;
     var W = r.getTotalMemory;
-    var _ = r.abortOnCannotGrowMemory;
+    var $ = r.abortOnCannotGrowMemory;
     var nn = r.invoke_viiiii;
     var nr = r.invoke_vif;
     var ne = r.invoke_vid;
@@ -64,7 +64,7 @@ export function foo(n, r, e) {
     var nh = r.invoke_viiiiii;
     var nd = r.invoke_dii;
     var nw = r.invoke_i;
-    var n$ = r.invoke_iiiiii;
+    var n_ = r.invoke_iiiiii;
     var nm = r.invoke_viiid;
     var ny = r.invoke_viififi;
     var np = r.invoke_viii;
@@ -99,7 +99,7 @@ export function foo(n, r, e) {
     var nQ = r._llvm_stacksave;
     var nV = r.___syscall54;
     var nW = r._defineHidden;
-    var n_ = r._emscripten_set_main_loop;
+    var n$ = r._emscripten_set_main_loop;
     var n0 = r._emscripten_get_now;
     var n2 = r.__nbind_register_callback_signature;
     var n1 = r._emscripten_asm_const_iiiiii;
@@ -136,8 +136,8 @@ export function foo(n, r, e) {
     function rf(n, r) {
         n = n | 0;
         r = r | 0;
-        if (!$) {
-            $ = n;
+        if (!_) {
+            _ = n;
             m = r;
         }
     }
@@ -268,7 +268,7 @@ export function foo(n, r, e) {
         }while ((e | 0) < (r | 0))
         return;
     }
-    function r$(n) {
+    function r_(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0, t = 0;
         r = (n + 944) | 0;
@@ -560,15 +560,15 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
-        var i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, $ = 0, m = 0;
-        $ = k;
+        var i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, _ = 0, m = 0;
+        _ = k;
         k = (k + 64) | 0;
-        s = ($ + 52) | 0;
-        c = ($ + 48) | 0;
-        b = ($ + 28) | 0;
-        h = ($ + 24) | 0;
-        d = ($ + 20) | 0;
-        w = $;
+        s = (_ + 52) | 0;
+        c = (_ + 48) | 0;
+        b = (_ + 28) | 0;
+        h = (_ + 24) | 0;
+        d = (_ + 20) | 0;
+        w = _;
         i = u[n >> 2] | 0;
         f = i;
         r = (i + ((((u[r >> 2] | 0) - f) >> 2) << 2)) | 0;
@@ -652,7 +652,7 @@ export function foo(n, r, e) {
             i6(w);
         }
         while (0)
-        k = $;
+        k = _;
         return r | 0;
     }
     function rE(n) {
@@ -798,7 +798,7 @@ export function foo(n, r, e) {
         }
         return;
     }
-    function r_(n) {
+    function r$(n) {
         n = n | 0;
         return u[(n + 20) >> 2] | 0;
     }
@@ -1129,7 +1129,7 @@ export function foo(n, r, e) {
         }
         return;
     }
-    function e$(n) {
+    function e_(n) {
         n = n | 0;
         var r = 0;
         r = (n + 352) | 0;
@@ -1553,33 +1553,33 @@ export function foo(n, r, e) {
         v = Z(v);
         s = Z(s);
         b = b | 0;
-        var k = 0, h = rr, d = rr, w = rr, $ = rr, m = rr, y = rr;
+        var k = 0, h = rr, d = rr, w = rr, _ = rr, m = rr, y = rr;
         if ((c < Z(0.0)) | (l < Z(0.0))) b = 0;
         else {
             if ((b | 0) != 0 ? ((h = Z(a[(b + 4) >> 2])), h != Z(0.0)) : 0) {
                 w = Z(eV(r, h, 0, 0));
-                $ = Z(eV(i, h, 0, 0));
+                _ = Z(eV(i, h, 0, 0));
                 d = Z(eV(u, h, 0, 0));
                 h = Z(eV(o, h, 0, 0));
             } else {
                 d = u;
                 w = r;
                 h = o;
-                $ = i;
+                _ = i;
             }
             if ((t | 0) == (n | 0)) k = eZ(d, w) | 0;
             else k = 0;
-            if ((f | 0) == (e | 0)) b = eZ(h, $) | 0;
+            if ((f | 0) == (e | 0)) b = eZ(h, _) | 0;
             else b = 0;
-            if ((!k ? ((m = Z(r - v)), !(e_(n, m, c) | 0)) : 0) ? !(e0(n, m, t, c) | 0) : 0) k = e2(n, m, t, u, c) | 0;
+            if ((!k ? ((m = Z(r - v)), !(e$(n, m, c) | 0)) : 0) ? !(e0(n, m, t, c) | 0) : 0) k = e2(n, m, t, u, c) | 0;
             else k = 1;
-            if ((!b ? ((y = Z(i - s)), !(e_(e, y, l) | 0)) : 0) ? !(e0(e, y, f, l) | 0) : 0) b = e2(e, y, f, o, l) | 0;
+            if ((!b ? ((y = Z(i - s)), !(e$(e, y, l) | 0)) : 0) ? !(e0(e, y, f, l) | 0) : 0) b = e2(e, y, f, o, l) | 0;
             else b = 1;
             b = k & b;
         }
         return b | 0;
     }
-    function e_(n, r, e) {
+    function e$(n, r, e) {
         n = n | 0;
         r = Z(r);
         e = Z(e);
@@ -1622,7 +1622,7 @@ export function foo(n, r, e) {
         s = s | 0;
         b = b | 0;
         h = h | 0;
-        var d = 0, w = 0, $ = 0, m = 0, y = rr, p = rr, C = 0, M = 0, g = 0, A = 0, I = 0, S = 0, T = 0, x = 0, N = 0, L = 0, O = 0, P = rr, E = rr, G = rr, B = 0.0, R = 0.0;
+        var d = 0, w = 0, _ = 0, m = 0, y = rr, p = rr, C = 0, M = 0, g = 0, A = 0, I = 0, S = 0, T = 0, x = 0, N = 0, L = 0, O = 0, P = rr, E = rr, G = rr, B = 0.0, R = 0.0;
         O = k;
         k = (k + 160) | 0;
         x = (O + 152) | 0;
@@ -1665,8 +1665,8 @@ export function foo(n, r, e) {
                 C = 22;
                 break;
             }
-            $ = u[(n + 520) >> 2] | 0;
-            if (!$) C = 21;
+            _ = u[(n + 520) >> 2] | 0;
+            if (!_) C = 21;
             else {
                 w = 0;
                 while(1){
@@ -1676,7 +1676,7 @@ export function foo(n, r, e) {
                         break a;
                     }
                     w = (w + 1) | 0;
-                    if (w >>> 0 >= $ >>> 0) {
+                    if (w >>> 0 >= _ >>> 0) {
                         C = 21;
                         break;
                     }
@@ -1690,8 +1690,8 @@ export function foo(n, r, e) {
             E = Z(a[(n + 920) >> 2]);
             P = Z(a[(n + 932) >> 2]);
             if (!(eW(f, r, o, e, u[(n + 924) >> 2] | 0, G, u[(n + 928) >> 2] | 0, E, P, Z(a[(n + 936) >> 2]), y, p, h) | 0)) {
-                $ = u[(n + 520) >> 2] | 0;
-                if (!$) C = 21;
+                _ = u[(n + 520) >> 2] | 0;
+                if (!_) C = 21;
                 else {
                     w = 0;
                     while(1){
@@ -1704,7 +1704,7 @@ export function foo(n, r, e) {
                             break a;
                         }
                         w = (w + 1) | 0;
-                        if (w >>> 0 >= $ >>> 0) {
+                        if (w >>> 0 >= _ >>> 0) {
                             C = 21;
                             break;
                         }
@@ -1732,8 +1732,8 @@ export function foo(n, r, e) {
             }
             m = (d + 16) | 0;
             u[(n + 908) >> 2] = u[m >> 2];
-            $ = (d + 20) | 0;
-            u[(n + 912) >> 2] = u[$ >> 2];
+            _ = (d + 20) | 0;
+            u[(n + 912) >> 2] = u[_ >> 2];
             if (!(((i[11698] | 0) == 0) | (w ^ 1))) {
                 u[M >> 2] = e3(A) | 0;
                 u[(M + 4) >> 2] = A;
@@ -1743,7 +1743,7 @@ export function foo(n, r, e) {
                 f = e6(f, s) | 0;
                 o = e6(o, s) | 0;
                 R = +Z(a[m >> 2]);
-                B = +Z(a[$ >> 2]);
+                B = +Z(a[_ >> 2]);
                 u[I >> 2] = f;
                 u[(I + 4) >> 2] = o;
                 l[(I + 8) >> 3] = +r;
@@ -1887,7 +1887,7 @@ export function foo(n, r, e) {
         v = Z(v);
         b = b | 0;
         h = h | 0;
-        var d = 0, w = 0, $ = 0, m = 0, y = rr, p = rr, C = rr, M = rr, g = rr, A = rr, I = rr, S = 0, T = 0, x = 0, N = rr, L = rr, O = 0, P = rr, E = 0, G = 0, B = 0, R = 0, Y = 0, U = 0, j = 0, z = 0, D = 0, F = 0, K = 0, q = 0, H = 0, X = 0, J = 0, Q = 0, V = 0, W = 0, _ = rr, nn = rr, nr = rr, ne = rr, ni = rr, nt = 0, nu = 0, nf = 0, no = 0, nc = 0, na = rr, nl = rr, nv = rr, ns = rr, nb = rr, nk = rr, nh = 0, nd = rr, nw = rr, n$ = rr, nm = rr, ny = rr, np = rr, nC = 0, nM = 0, ng = rr, nA = rr, nI = 0, nS = 0, nT = 0, nx = 0, nN = rr, nL = 0, nO = 0, nP = 0, nE = 0, nG = 0, nB = 0, nR = 0, nY = rr, nU = 0, nj = 0;
+        var d = 0, w = 0, _ = 0, m = 0, y = rr, p = rr, C = rr, M = rr, g = rr, A = rr, I = rr, S = 0, T = 0, x = 0, N = rr, L = rr, O = 0, P = rr, E = 0, G = 0, B = 0, R = 0, Y = 0, U = 0, j = 0, z = 0, D = 0, F = 0, K = 0, q = 0, H = 0, X = 0, J = 0, Q = 0, V = 0, W = 0, $ = rr, nn = rr, nr = rr, ne = rr, ni = rr, nt = 0, nu = 0, nf = 0, no = 0, nc = 0, na = rr, nl = rr, nv = rr, ns = rr, nb = rr, nk = rr, nh = 0, nd = rr, nw = rr, n_ = rr, nm = rr, ny = rr, np = rr, nC = 0, nM = 0, ng = rr, nA = rr, nI = 0, nS = 0, nT = 0, nx = 0, nN = rr, nL = 0, nO = 0, nP = 0, nE = 0, nG = 0, nB = 0, nR = 0, nY = rr, nU = 0, nj = 0;
         nR = k;
         k = (k + 16) | 0;
         nt = (nR + 12) | 0;
@@ -1931,7 +1931,7 @@ export function foo(n, r, e) {
             W = (u[nS >> 2] | 0) != 0;
             ny = nL ? l : v;
             ng = nL ? v : l;
-            _ = Z(ix(n, nG, l));
+            $ = Z(ix(n, nG, l));
             nn = Z(iN(n, nG, l));
             y = Z(ix(n, nB, l));
             np = Z(iL(n, nG, l));
@@ -1954,10 +1954,10 @@ export function foo(n, r, e) {
             else nN = Z(Mm(Z(Mp(r, C)), p));
             nw = Z(e - M);
             r = Z(nw - g);
-            if (rv(r) | 0) n$ = r;
-            else n$ = Z(Mm(Z(Mp(r, I)), A));
-            p = nL ? nN : n$;
-            nd = nL ? n$ : nN;
+            if (rv(r) | 0) n_ = r;
+            else n_ = Z(Mm(Z(Mp(r, I)), A));
+            p = nL ? nN : n_;
+            nd = nL ? n_ : nN;
             a: do if ((x | 0) == 1) {
                 t = 0;
                 w = 0;
@@ -1983,9 +1983,9 @@ export function foo(n, r, e) {
             t = 0;
             d = 0;
             r = Z(0.0);
-            $ = 0;
+            _ = 0;
             do {
-                w = u[((u[nP >> 2] | 0) + ($ << 2)) >> 2] | 0;
+                w = u[((u[nP >> 2] | 0) + (_ << 2)) >> 2] | 0;
                 if ((u[(w + 36) >> 2] | 0) == 1) {
                     iG(w);
                     i[(w + 985) >> 0] = 1;
@@ -1999,7 +1999,7 @@ export function foo(n, r, e) {
                             a[T >> 2] = Z(0.0);
                             break;
                         } else {
-                            iB(n, w, nN, o, n$, nN, n$, c, nO, h);
+                            iB(n, w, nN, o, n_, nN, n_, c, nO, h);
                             break;
                         }
                     } else {
@@ -2012,8 +2012,8 @@ export function foo(n, r, e) {
                     nk = Z(a[(w + 504) >> 2]);
                     r = Z(r + Z(nk + Z(e4(w, nG, nN))));
                 }
-                $ = ($ + 1) | 0;
-            }while (($ | 0) != (nE | 0))
+                _ = (_ + 1) | 0;
+            }while ((_ | 0) != (nE | 0))
             B = r > p;
             nh = W & (((x | 0) == 2) & B) ? 1 : x;
             E = (nI | 0) == 1;
@@ -2038,7 +2038,7 @@ export function foo(n, r, e) {
             while(1){
                 b: do if (O >>> 0 < nE >>> 0) {
                     T = u[nP >> 2] | 0;
-                    $ = 0;
+                    _ = 0;
                     I = Z(0.0);
                     A = Z(0.0);
                     C = Z(0.0);
@@ -2055,8 +2055,8 @@ export function foo(n, r, e) {
                             g = Z(a[(S + 504) >> 2]);
                             e = Z(Mp(e, g));
                             e = Z(Mm(Z(ii((S + 364 + (J << 3)) | 0, ny)), e));
-                            if (W & (($ | 0) != 0) & (Z(M + Z(A + e)) > r)) {
-                                c = $;
+                            if (W & ((_ | 0) != 0) & (Z(M + Z(A + e)) > r)) {
+                                c = _;
                                 M = I;
                                 x = m;
                                 break b;
@@ -2070,7 +2070,7 @@ export function foo(n, r, e) {
                             }
                             if (d | 0) u[(d + 960) >> 2] = S;
                             u[(S + 960) >> 2] = 0;
-                            $ = ($ + 1) | 0;
+                            _ = (_ + 1) | 0;
                             d = S;
                             w = (w | 0) == 0 ? S : w;
                         } else {
@@ -2082,7 +2082,7 @@ export function foo(n, r, e) {
                             I = M;
                             A = e;
                         } else {
-                            c = $;
+                            c = _;
                             x = m;
                             break;
                         }
@@ -2140,7 +2140,7 @@ export function foo(n, r, e) {
                     }
                 }
                 if (!Y ? ((nc = (w | 0) == 0), !nc) : 0) {
-                    $ = u[z >> 2] | 0;
+                    _ = u[z >> 2] | 0;
                     m = L < Z(0.0);
                     g = Z(L / I);
                     S = L > Z(0.0);
@@ -2150,8 +2150,8 @@ export function foo(n, r, e) {
                     r = Z(0.0);
                     d = w;
                     do {
-                        e = Z(ii((d + 380 + ($ << 3)) | 0, ny));
-                        p = Z(ii((d + 364 + ($ << 3)) | 0, ny));
+                        e = Z(ii((d + 380 + (_ << 3)) | 0, ny));
+                        p = Z(ii((d + 364 + (_ << 3)) | 0, ny));
                         p = Z(Mp(e, Z(Mm(p, Z(a[(d + 504) >> 2])))));
                         if (m) {
                             e = Z(p * Z(iE(d)));
@@ -2173,7 +2173,7 @@ export function foo(n, r, e) {
                         S = p < Z(0.0);
                         T = r == Z(0.0);
                         A = Z(p / r);
-                        $ = p > Z(0.0);
+                        _ = p > Z(0.0);
                         g = Z(p / g);
                         r = Z(0.0);
                         do {
@@ -2187,7 +2187,7 @@ export function foo(n, r, e) {
                                     nY = Z(A * p);
                                     p = Z(iR(w, nG, Z(C + (T ? p : nY)), P, nN));
                                 } else p = C;
-                            } else if ($ ? ((ns = Z(iP(w))), ns != Z(0.0)) : 0) p = Z(iR(w, nG, Z(C + Z(g * ns)), P, nN));
+                            } else if (_ ? ((ns = Z(iP(w))), ns != Z(0.0)) : 0) p = Z(iR(w, nG, Z(C + Z(g * ns)), P, nN));
                             else p = C;
                             r = Z(r - Z(p - C));
                             M = Z(e4(w, nG, nN));
@@ -2242,7 +2242,7 @@ export function foo(n, r, e) {
                             N = Z(a[nt >> 2]);
                             nU = u[no >> 2] | 0;
                             nj = u[nf >> 2] | 0;
-                            e1(w, nL ? nY : N, nL ? N : nY, nO, nL ? nU : nj, nL ? nj : nU, nN, n$, b & (d ^ 1), 3488, h) | 0;
+                            e1(w, nL ? nY : N, nL ? N : nY, nO, nL ? nU : nj, nL ? nj : nU, nN, n_, b & (d ^ 1), 3488, h) | 0;
                             i[Q >> 0] = i[Q >> 0] | i[(w + 508) >> 0];
                             w = u[(w + 960) >> 2] | 0;
                         }while ((w | 0) != 0)
@@ -2259,16 +2259,16 @@ export function foo(n, r, e) {
                 S = O >>> 0 < x >>> 0;
                 if (S) {
                     m = u[nP >> 2] | 0;
-                    $ = O;
+                    _ = O;
                     d = 0;
                     do {
-                        w = u[(m + ($ << 2)) >> 2] | 0;
+                        w = u[(m + (_ << 2)) >> 2] | 0;
                         if (!(u[(w + 24) >> 2] | 0)) {
                             d = ((((u[((iU(w, nG) | 0) + 4) >> 2] | 0) == 3) & 1) + d) | 0;
                             d = (d + (((u[((ij(w, nG) | 0) + 4) >> 2] | 0) == 3) & 1)) | 0;
                         }
-                        $ = ($ + 1) | 0;
-                    }while (($ | 0) != (x | 0))
+                        _ = (_ + 1) | 0;
+                    }while ((_ | 0) != (x | 0))
                     if (d) {
                         M = Z(0.0);
                         e = Z(0.0);
@@ -2329,14 +2329,14 @@ export function foo(n, r, e) {
                     }
                 }
                 while (0)
-                r = Z(_ + M);
+                r = Z($ + M);
                 if (S) {
                     C = Z(p / Z(d | 0));
-                    $ = u[nP >> 2] | 0;
+                    _ = u[nP >> 2] | 0;
                     w = O;
                     p = Z(0.0);
                     do {
-                        d = u[($ + (w << 2)) >> 2] | 0;
+                        d = u[(_ + (w << 2)) >> 2] | 0;
                         e: do if ((u[(d + 36) >> 2] | 0) != 1) {
                             switch(u[(d + 24) >> 2] | 0){
                                 case 1:
@@ -2394,76 +2394,76 @@ export function foo(n, r, e) {
                 if (S & b) {
                     w = O;
                     do {
-                        $ = u[((u[nP >> 2] | 0) + (w << 2)) >> 2] | 0;
-                        do if ((u[($ + 36) >> 2] | 0) != 1) {
-                            if ((u[($ + 24) >> 2] | 0) == 1) {
-                                if (iD($, nB) | 0) {
-                                    nY = Z(iF($, nB, nd));
+                        _ = u[((u[nP >> 2] | 0) + (w << 2)) >> 2] | 0;
+                        do if ((u[(_ + 36) >> 2] | 0) != 1) {
+                            if ((u[(_ + 24) >> 2] | 0) == 1) {
+                                if (iD(_, nB) | 0) {
+                                    nY = Z(iF(_, nB, nd));
                                     nY = Z(nY + Z(ip(n, nB)));
-                                    nY = Z(nY + Z(ih($, nB, nN)));
+                                    nY = Z(nY + Z(ih(_, nB, nN)));
                                     d = u[F >> 2] | 0;
-                                    a[($ + 400 + (d << 2)) >> 2] = nY;
+                                    a[(_ + 400 + (d << 2)) >> 2] = nY;
                                     if (!(rv(nY) | 0)) break;
                                 } else d = u[F >> 2] | 0;
                                 nY = Z(ip(n, nB));
-                                a[($ + 400 + (d << 2)) >> 2] = Z(nY + Z(ih($, nB, nN)));
+                                a[(_ + 400 + (d << 2)) >> 2] = Z(nY + Z(ih(_, nB, nN)));
                                 break;
                             }
-                            d = iY(n, $) | 0;
+                            d = iY(n, _) | 0;
                             do if ((d | 0) == 4) {
-                                if ((u[((iU($, nB) | 0) + 4) >> 2] | 0) == 3) {
+                                if ((u[((iU(_, nB) | 0) + 4) >> 2] | 0) == 3) {
                                     J = 139;
                                     break;
                                 }
-                                if ((u[((ij($, nB) | 0) + 4) >> 2] | 0) == 3) {
+                                if ((u[((ij(_, nB) | 0) + 4) >> 2] | 0) == 3) {
                                     J = 139;
                                     break;
                                 }
-                                if (ie($, nB, nd) | 0) {
+                                if (ie(_, nB, nd) | 0) {
                                     r = y;
                                     break;
                                 }
-                                nU = u[($ + 908 + (u[z >> 2] << 2)) >> 2] | 0;
+                                nU = u[(_ + 908 + (u[z >> 2] << 2)) >> 2] | 0;
                                 u[nt >> 2] = nU;
-                                r = Z(a[($ + 396) >> 2]);
+                                r = Z(a[(_ + 396) >> 2]);
                                 nj = rv(r) | 0;
                                 p = ((u[s >> 2] = nU), Z(a[s >> 2]));
                                 if (nj) r = C;
                                 else {
-                                    L = Z(e4($, nB, nN));
+                                    L = Z(e4(_, nB, nN));
                                     nY = Z(p / r);
                                     r = Z(r * p);
                                     r = Z(L + (nL ? nY : r));
                                 }
                                 a[nu >> 2] = r;
-                                a[nt >> 2] = Z(Z(e4($, nG, nN)) + p);
+                                a[nt >> 2] = Z(Z(e4(_, nG, nN)) + p);
                                 u[nf >> 2] = 1;
                                 u[no >> 2] = 1;
-                                iz($, nG, P, nN, nf, nt);
-                                iz($, nB, nd, nN, no, nu);
+                                iz(_, nG, P, nN, nf, nt);
+                                iz(_, nB, nd, nN, no, nu);
                                 r = Z(a[nt >> 2]);
                                 L = Z(a[nu >> 2]);
                                 nY = nL ? r : L;
                                 r = nL ? L : r;
                                 nj = ((rv(nY) | 0) ^ 1) & 1;
-                                e1($, nY, r, nO, nj, ((rv(r) | 0) ^ 1) & 1, nN, n$, 1, 3493, h) | 0;
+                                e1(_, nY, r, nO, nj, ((rv(r) | 0) ^ 1) & 1, nN, n_, 1, 3493, h) | 0;
                                 r = y;
                             } else J = 139;
                             while (0)
                             f: do if ((J | 0) == 139) {
                                 J = 0;
-                                r = Z(M - Z(iK($, nB, nN)));
-                                do if ((u[((iU($, nB) | 0) + 4) >> 2] | 0) == 3) {
-                                    if ((u[((ij($, nB) | 0) + 4) >> 2] | 0) != 3) break;
+                                r = Z(M - Z(iK(_, nB, nN)));
+                                do if ((u[((iU(_, nB) | 0) + 4) >> 2] | 0) == 3) {
+                                    if ((u[((ij(_, nB) | 0) + 4) >> 2] | 0) != 3) break;
                                     r = Z(y + Z(Mm(Z(0.0), Z(r * Z(0.5)))));
                                     break f;
                                 }
                                 while (0)
-                                if ((u[((ij($, nB) | 0) + 4) >> 2] | 0) == 3) {
+                                if ((u[((ij(_, nB) | 0) + 4) >> 2] | 0) == 3) {
                                     r = y;
                                     break;
                                 }
-                                if ((u[((iU($, nB) | 0) + 4) >> 2] | 0) == 3) {
+                                if ((u[((iU(_, nB) | 0) + 4) >> 2] | 0) == 3) {
                                     r = Z(y + Z(Mm(Z(0.0), r)));
                                     break;
                                 }
@@ -2487,7 +2487,7 @@ export function foo(n, r, e) {
                             }
                             while (0)
                             nY = Z(nk + r);
-                            nj = ($ + 400 + (u[F >> 2] << 2)) | 0;
+                            nj = (_ + 400 + (u[F >> 2] << 2)) | 0;
                             a[nj >> 2] = Z(nY + Z(a[nj >> 2]));
                         }
                         while (0)
@@ -2559,9 +2559,9 @@ export function foo(n, r, e) {
                                 p = Z(0.0);
                                 C = Z(0.0);
                                 r = Z(0.0);
-                                $ = w;
+                                _ = w;
                                 while(1){
-                                    d = u[((u[nP >> 2] | 0) + ($ << 2)) >> 2] | 0;
+                                    d = u[((u[nP >> 2] | 0) + (_ << 2)) >> 2] | 0;
                                     do if ((u[(d + 36) >> 2] | 0) != 1 ? (u[(d + 24) >> 2] | 0) == 0 : 0) {
                                         if ((u[(d + 940) >> 2] | 0) != (m | 0)) break h;
                                         if (iH(d, nB) | 0) {
@@ -2580,23 +2580,23 @@ export function foo(n, r, e) {
                                         r = Z(Mm(r, Z(nb + nY)));
                                     }
                                     while (0)
-                                    d = ($ + 1) | 0;
-                                    if (d >>> 0 < nE >>> 0) $ = d;
+                                    d = (_ + 1) | 0;
+                                    if (d >>> 0 < nE >>> 0) _ = d;
                                     else {
-                                        $ = d;
+                                        _ = d;
                                         break;
                                     }
                                 }
                             } else {
                                 C = Z(0.0);
                                 r = Z(0.0);
-                                $ = w;
+                                _ = w;
                             }
                             while (0)
                             g = Z(A + r);
                             e = y;
                             y = Z(y + g);
-                            if (w >>> 0 < $ >>> 0) {
+                            if (w >>> 0 < _ >>> 0) {
                                 M = Z(e + C);
                                 d = w;
                                 do {
@@ -2636,7 +2636,7 @@ export function foo(n, r, e) {
                                                     p = Z(a[(w + 908) >> 2]);
                                                 }
                                                 if (eZ(r, p) | 0 ? eZ(C, Z(a[(w + 912) >> 2])) | 0 : 0) break i;
-                                                e1(w, r, C, nO, 1, 1, nN, n$, 1, 3501, h) | 0;
+                                                e1(w, r, C, nO, 1, 1, nN, n_, 1, 3501, h) | 0;
                                                 break i;
                                             }
                                         case 5:
@@ -2649,11 +2649,11 @@ export function foo(n, r, e) {
                                     }
                                     while (0)
                                     d = (d + 1) | 0;
-                                }while ((d | 0) != ($ | 0))
+                                }while ((d | 0) != (_ | 0))
                             }
                             m = (m + 1) | 0;
                             if ((m | 0) == (c | 0)) break;
-                            else w = $;
+                            else w = _;
                         }
                     }
                 }
@@ -2686,14 +2686,14 @@ export function foo(n, r, e) {
             if (b) {
                 if ((u[nS >> 2] | 0) == 2) {
                     w = (976 + (nB << 2)) | 0;
-                    $ = (1040 + (nB << 2)) | 0;
+                    _ = (1040 + (nB << 2)) | 0;
                     d = 0;
                     do {
                         m = rp(n, d) | 0;
                         if (!(u[(m + 24) >> 2] | 0)) {
                             nU = u[w >> 2] | 0;
                             nY = Z(a[(n + 908 + (nU << 2)) >> 2]);
-                            nj = (m + 400 + (u[$ >> 2] << 2)) | 0;
+                            nj = (m + 400 + (u[_ >> 2] << 2)) | 0;
                             nY = Z(nY - Z(a[nj >> 2]));
                             a[nj >> 2] = Z(nY - Z(a[(m + 908 + (nU << 2)) >> 2]));
                         }
@@ -2703,7 +2703,7 @@ export function foo(n, r, e) {
                 if (t | 0) {
                     d = nL ? nh : o;
                     do {
-                        iJ(n, t, nN, d, n$, nO, h);
+                        iJ(n, t, nN, d, n_, nO, h);
                         t = u[(t + 960) >> 2] | 0;
                     }while ((t | 0) != 0)
                 }
@@ -2712,10 +2712,10 @@ export function foo(n, r, e) {
                 if (d | w) {
                     t = 0;
                     do {
-                        $ = u[((u[nP >> 2] | 0) + (t << 2)) >> 2] | 0;
-                        if ((u[($ + 36) >> 2] | 0) != 1) {
-                            if (d) iQ(n, $, nG);
-                            if (w) iQ(n, $, nB);
+                        _ = u[((u[nP >> 2] | 0) + (t << 2)) >> 2] | 0;
+                        if ((u[(_ + 36) >> 2] | 0) != 1) {
+                            if (d) iQ(n, _, nG);
+                            if (w) iQ(n, _, nB);
                         }
                         t = (t + 1) | 0;
                     }while ((t | 0) != (nE | 0))
@@ -3005,7 +3005,7 @@ export function foo(n, r, e) {
         e = Z(e);
         if (iw(r) | 0 ? (u[(n + 96) >> 2] | 0) != 0 : 0) n = (n + 92) | 0;
         else n = rs((n + 60) | 0, u[(1040 + (r << 2)) >> 2] | 0, 992) | 0;
-        return Z(i$(n, e));
+        return Z(i_(n, e));
     }
     function id(n, r, e) {
         n = n | 0;
@@ -3013,13 +3013,13 @@ export function foo(n, r, e) {
         e = Z(e);
         if (iw(r) | 0 ? (u[(n + 104) >> 2] | 0) != 0 : 0) n = (n + 100) | 0;
         else n = rs((n + 60) | 0, u[(1e3 + (r << 2)) >> 2] | 0, 992) | 0;
-        return Z(i$(n, e));
+        return Z(i_(n, e));
     }
     function iw(n) {
         n = n | 0;
         return ((n | 1 | 0) == 3) | 0;
     }
-    function i$(n, r) {
+    function i_(n, r) {
         n = n | 0;
         r = Z(r);
         if ((u[(n + 4) >> 2] | 0) == 3) r = Z(0.0);
@@ -3094,10 +3094,10 @@ export function foo(n, r, e) {
         t = t | 0;
         f = Z(f);
         o = Z(o);
-        var c = rr, l = rr, v = rr, s = rr, b = rr, h = rr, d = 0, w = 0, $ = 0;
-        $ = k;
+        var c = rr, l = rr, v = rr, s = rr, b = rr, h = rr, d = 0, w = 0, _ = 0;
+        _ = k;
         k = (k + 16) | 0;
-        d = $;
+        d = _;
         w = (n + 964) | 0;
         rA(n, (u[w >> 2] | 0) != 0, 3519);
         c = Z(iL(n, 2, r));
@@ -3121,7 +3121,7 @@ export function foo(n, r, e) {
             r = Z(iR(n, 0, (t | 2 | 0) == 2 ? h : r, o, f));
         }
         a[(n + 912) >> 2] = r;
-        k = $;
+        k = _;
         return;
     }
     function iI(n, r, e, i, t, u, f) {
@@ -3262,7 +3262,7 @@ export function foo(n, r, e) {
         c = c | 0;
         l = l | 0;
         v = v | 0;
-        var s = 0, b = rr, h = 0, d = 0, w = rr, $ = rr, m = 0, y = rr, p = 0, M = rr, g = 0, A = 0, I = 0, S = 0, T = 0, x = 0, N = 0, L = 0, O = 0, P = 0;
+        var s = 0, b = rr, h = 0, d = 0, w = rr, _ = rr, m = 0, y = rr, p = 0, M = rr, g = 0, A = 0, I = 0, S = 0, T = 0, x = 0, N = 0, L = 0, O = 0, P = 0;
         O = k;
         k = (k + 16) | 0;
         I = (O + 12) | 0;
@@ -3277,7 +3277,7 @@ export function foo(n, r, e) {
         do if (!(rv(b) | 0) ? !(rv(g ? e : t) | 0) : 0) {
             s = (r + 504) | 0;
             if (!(rv(Z(a[s >> 2])) | 0)) {
-                if (!(i_(u[(r + 976) >> 2] | 0, 0) | 0)) break;
+                if (!(i$(u[(r + 976) >> 2] | 0, 0) | 0)) break;
                 if ((u[(r + 500) >> 2] | 0) == (u[2278] | 0)) break;
             }
             a[s >> 2] = Z(Mm(b, Z(iL(r, L, f))));
@@ -3334,18 +3334,18 @@ export function foo(n, r, e) {
                 s = 2;
                 b = t;
             }
-            $ = Z(a[(r + 396) >> 2]);
-            m = rv($) | 0;
+            _ = Z(a[(r + 396) >> 2]);
+            m = rv(_) | 0;
             do if (!m) {
                 if (((d | 0) == 1) & p) {
-                    a[S >> 2] = Z(Z(w - y) / $);
+                    a[S >> 2] = Z(Z(w - y) / _);
                     u[x >> 2] = 1;
                     s = 1;
                     h = 1;
                     break;
                 }
                 if (g & ((s | 0) == 1)) {
-                    a[I >> 2] = Z($ * Z(b - M));
+                    a[I >> 2] = Z(_ * Z(b - M));
                     u[T >> 2] = 1;
                     s = 1;
                     h = 1;
@@ -3355,12 +3355,12 @@ export function foo(n, r, e) {
             P = rv(e) | 0;
             d = (iY(n, r) | 0) != 4;
             if (!(g | A | (((i | 0) != 1) | P) | (d | ((h | 0) == 1))) ? ((a[I >> 2] = e), (u[T >> 2] = 1), !m) : 0) {
-                a[S >> 2] = Z(Z(e - y) / $);
+                a[S >> 2] = Z(Z(e - y) / _);
                 u[x >> 2] = 1;
                 s = 1;
             }
             if (!(N | p | (((c | 0) != 1) | (rv(t) | 0)) | (d | ((s | 0) == 1))) ? ((a[S >> 2] = t), (u[x >> 2] = 1), !m) : 0) {
-                a[I >> 2] = Z($ * Z(t - M));
+                a[I >> 2] = Z(_ * Z(t - M));
                 u[T >> 2] = 1;
             }
             iz(r, 2, f, f, T, I);
@@ -3581,10 +3581,10 @@ export function foo(n, r, e) {
         t = Z(t);
         f = f | 0;
         o = o | 0;
-        var c = rr, l = rr, v = 0, s = 0, b = rr, k = rr, h = rr, d = 0, w = 0, $ = 0, m = 0, y = rr, p = 0;
-        $ = iy(u[(n + 4) >> 2] | 0, f) | 0;
-        d = iT($, f) | 0;
-        w = iw($) | 0;
+        var c = rr, l = rr, v = 0, s = 0, b = rr, k = rr, h = rr, d = 0, w = 0, _ = 0, m = 0, y = rr, p = 0;
+        _ = iy(u[(n + 4) >> 2] | 0, f) | 0;
+        d = iT(_, f) | 0;
+        w = iw(_) | 0;
         b = Z(e4(r, 2, e));
         k = Z(e4(r, 0, e));
         if (!(ie(r, 2, e) | 0)) {
@@ -3629,28 +3629,28 @@ export function foo(n, r, e) {
             l = Z(l + Z(e4(r, 0, e)));
         }
         e1(r, c, l, f, 1, 1, c, l, 1, 3635, o) | 0;
-        if (i0(r, $) | 0 ? !(iD(r, $) | 0) : 0) {
-            p = u[(976 + ($ << 2)) >> 2] | 0;
+        if (i0(r, _) | 0 ? !(iD(r, _) | 0) : 0) {
+            p = u[(976 + (_ << 2)) >> 2] | 0;
             y = Z(a[(n + 908 + (p << 2)) >> 2]);
             y = Z(y - Z(a[(r + 908 + (p << 2)) >> 2]));
-            y = Z(y - Z(iC(n, $)));
-            y = Z(y - Z(id(r, $, e)));
-            y = Z(y - Z(i2(r, $, w ? e : t)));
-            a[(r + 400 + (u[(1040 + ($ << 2)) >> 2] << 2)) >> 2] = y;
+            y = Z(y - Z(iC(n, _)));
+            y = Z(y - Z(id(r, _, e)));
+            y = Z(y - Z(i2(r, _, w ? e : t)));
+            a[(r + 400 + (u[(1040 + (_ << 2)) >> 2] << 2)) >> 2] = y;
         } else m = 21;
         do if ((m | 0) == 21) {
-            if (!(iD(r, $) | 0) ? (u[(n + 8) >> 2] | 0) == 1 : 0) {
-                p = u[(976 + ($ << 2)) >> 2] | 0;
+            if (!(iD(r, _) | 0) ? (u[(n + 8) >> 2] | 0) == 1 : 0) {
+                p = u[(976 + (_ << 2)) >> 2] | 0;
                 y = Z(a[(n + 908 + (p << 2)) >> 2]);
                 y = Z(Z(y - Z(a[(r + 908 + (p << 2)) >> 2])) * Z(0.5));
-                a[(r + 400 + (u[(1040 + ($ << 2)) >> 2] << 2)) >> 2] = y;
+                a[(r + 400 + (u[(1040 + (_ << 2)) >> 2] << 2)) >> 2] = y;
                 break;
             }
-            if (!(iD(r, $) | 0) ? (u[(n + 8) >> 2] | 0) == 2 : 0) {
-                p = u[(976 + ($ << 2)) >> 2] | 0;
+            if (!(iD(r, _) | 0) ? (u[(n + 8) >> 2] | 0) == 2 : 0) {
+                p = u[(976 + (_ << 2)) >> 2] | 0;
                 y = Z(a[(n + 908 + (p << 2)) >> 2]);
                 y = Z(y - Z(a[(r + 908 + (p << 2)) >> 2]));
-                a[(r + 400 + (u[(1040 + ($ << 2)) >> 2] << 2)) >> 2] = y;
+                a[(r + 400 + (u[(1040 + (_ << 2)) >> 2] << 2)) >> 2] = y;
             }
         }
         while (0)
@@ -3715,7 +3715,7 @@ export function foo(n, r, e) {
         }
         return n | 0;
     }
-    function i_(n, r) {
+    function i$(n, r) {
         n = n | 0;
         r = r | 0;
         return ((i[(n + r) >> 0] | 0) != 0) | 0;
@@ -3942,7 +3942,7 @@ export function foo(n, r, e) {
     function to(n, r) {
         n = n | 0;
         r = r | 0;
-        return i_(u[n >> 2] | 0, r) | 0;
+        return i$(u[n >> 2] | 0, r) | 0;
     }
     function tc() {
         var n = 0;
@@ -3978,7 +3978,7 @@ export function foo(n, r, e) {
     function ts(n) {
         n = n | 0;
         var r = 0;
-        r$(u[n >> 2] | 0);
+        r_(u[n >> 2] | 0);
         r = (n + 4) | 0;
         n = u[r >> 2] | 0;
         u[r >> 2] = 0;
@@ -4022,7 +4022,7 @@ export function foo(n, r, e) {
         rU(u[n >> 2] | 0, u[r >> 2] | 0);
         return;
     }
-    function t$(n, r) {
+    function t_(n, r) {
         n = n | 0;
         r = r | 0;
         r0(u[n >> 2] | 0, r);
@@ -4154,7 +4154,7 @@ export function foo(n, r, e) {
     }
     function tU(n) {
         n = n | 0;
-        e$(u[n >> 2] | 0);
+        e_(u[n >> 2] | 0);
         return;
     }
     function tj(n, r) {
@@ -4235,7 +4235,7 @@ export function foo(n, r, e) {
         ek(u[n >> 2] | 0, r, Z(e));
         return;
     }
-    function t_(n, r, e) {
+    function t$(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = +e;
@@ -4290,7 +4290,7 @@ export function foo(n, r, e) {
     }
     function t9(n) {
         n = n | 0;
-        return r_(u[n >> 2] | 0) | 0;
+        return r$(u[n >> 2] | 0) | 0;
     }
     function t7(n) {
         n = n | 0;
@@ -4452,7 +4452,7 @@ export function foo(n, r, e) {
         rM(u[n >> 2] | 0, u[r >> 2] | 0);
         return;
     }
-    function u$(n) {
+    function u_(n) {
         n = n | 0;
         return ry(u[n >> 2] | 0) | 0;
     }
@@ -4729,7 +4729,7 @@ export function foo(n, r, e) {
         n = n | 0;
         return +(+Z(eF(u[n >> 2] | 0)));
     }
-    function u_(n, r) {
+    function u$(n, r) {
         n = n | 0;
         r = r | 0;
         l[n >> 3] = +Z(eY(u[r >> 2] | 0));
@@ -4793,7 +4793,7 @@ export function foo(n, r, e) {
     }
     function fr(n) {
         n = n | 0;
-        var r = 0, e = 0, i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, $ = 0, m = 0, y = 0, p = 0, C = 0, M = 0, g = 0, A = 0, I = 0, S = 0, T = 0, x = 0, N = 0, L = 0, O = 0, P = 0, E = 0, G = 0, B = 0, R = 0, Y = 0, U = 0, j = 0, z = 0, D = 0, F = 0, K = 0, q = 0, H = 0, X = 0, Z = 0, J = 0, Q = 0, V = 0, W = 0, _ = 0, nn = 0, nr = 0, ne = 0, ni = 0, nt = 0, nu = 0, nf = 0, no = 0, nc = 0, na = 0, nl = 0, nv = 0, ns = 0, nb = 0, nk = 0, nh = 0, nd = 0, nw = 0, n$ = 0, nm = 0, ny = 0, np = 0, nC = 0, nM = 0, ng = 0, nA = 0, nI = 0, nS = 0, nT = 0, nx = 0, nN = 0, nL = 0, nO = 0;
+        var r = 0, e = 0, i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, _ = 0, m = 0, y = 0, p = 0, C = 0, M = 0, g = 0, A = 0, I = 0, S = 0, T = 0, x = 0, N = 0, L = 0, O = 0, P = 0, E = 0, G = 0, B = 0, R = 0, Y = 0, U = 0, j = 0, z = 0, D = 0, F = 0, K = 0, q = 0, H = 0, X = 0, Z = 0, J = 0, Q = 0, V = 0, W = 0, $ = 0, nn = 0, nr = 0, ne = 0, ni = 0, nt = 0, nu = 0, nf = 0, no = 0, nc = 0, na = 0, nl = 0, nv = 0, ns = 0, nb = 0, nk = 0, nh = 0, nd = 0, nw = 0, n_ = 0, nm = 0, ny = 0, np = 0, nC = 0, nM = 0, ng = 0, nA = 0, nI = 0, nS = 0, nT = 0, nx = 0, nN = 0, nL = 0, nO = 0;
         r = k;
         k = (k + 672) | 0;
         e = (r + 656) | 0;
@@ -4811,7 +4811,7 @@ export function foo(n, r, e) {
         np = (r + 560) | 0;
         ny = (r + 552) | 0;
         nm = (r + 544) | 0;
-        n$ = (r + 536) | 0;
+        n_ = (r + 536) | 0;
         nw = (r + 528) | 0;
         nd = (r + 520) | 0;
         nh = (r + 512) | 0;
@@ -4830,7 +4830,7 @@ export function foo(n, r, e) {
         ne = (r + 408) | 0;
         nr = (r + 400) | 0;
         nn = (r + 392) | 0;
-        _ = (r + 384) | 0;
+        $ = (r + 384) | 0;
         W = (r + 376) | 0;
         V = (r + 368) | 0;
         Q = (r + 360) | 0;
@@ -4865,7 +4865,7 @@ export function foo(n, r, e) {
         p = (r + 128) | 0;
         y = (r + 120) | 0;
         m = (r + 112) | 0;
-        $ = (r + 104) | 0;
+        _ = (r + 104) | 0;
         w = (r + 96) | 0;
         d = (r + 88) | 0;
         h = (r + 80) | 0;
@@ -4953,10 +4953,10 @@ export function foo(n, r, e) {
         u[e >> 2] = u[nm >> 2];
         u[(e + 4) >> 2] = u[(nm + 4) >> 2];
         fc(n, 3870, e) | 0;
-        u[n$ >> 2] = 10;
-        u[(n$ + 4) >> 2] = 0;
-        u[e >> 2] = u[n$ >> 2];
-        u[(e + 4) >> 2] = u[(n$ + 4) >> 2];
+        u[n_ >> 2] = 10;
+        u[(n_ + 4) >> 2] = 0;
+        u[e >> 2] = u[n_ >> 2];
+        u[(e + 4) >> 2] = u[(n_ + 4) >> 2];
         fc(n, 3884, e) | 0;
         u[nw >> 2] = 11;
         u[(nw + 4) >> 2] = 0;
@@ -5048,10 +5048,10 @@ export function foo(n, r, e) {
         u[e >> 2] = u[nn >> 2];
         u[(e + 4) >> 2] = u[(nn + 4) >> 2];
         fl(n, 4129, e) | 0;
-        u[_ >> 2] = 16;
-        u[(_ + 4) >> 2] = 0;
-        u[e >> 2] = u[_ >> 2];
-        u[(e + 4) >> 2] = u[(_ + 4) >> 2];
+        u[$ >> 2] = 16;
+        u[($ + 4) >> 2] = 0;
+        u[e >> 2] = u[$ >> 2];
+        u[(e + 4) >> 2] = u[($ + 4) >> 2];
         fl(n, 4148, e) | 0;
         u[W >> 2] = 17;
         u[(W + 4) >> 2] = 0;
@@ -5207,7 +5207,7 @@ export function foo(n, r, e) {
         u[(C + 4) >> 2] = 0;
         u[e >> 2] = u[C >> 2];
         u[(e + 4) >> 2] = u[(C + 4) >> 2];
-        f$(n, 4554, e) | 0;
+        f_(n, 4554, e) | 0;
         u[p >> 2] = 13;
         u[(p + 4) >> 2] = 0;
         u[e >> 2] = u[p >> 2];
@@ -5223,10 +5223,10 @@ export function foo(n, r, e) {
         u[e >> 2] = u[m >> 2];
         u[(e + 4) >> 2] = u[(m + 4) >> 2];
         fp(n, 4587, e) | 0;
-        u[$ >> 2] = 22;
-        u[($ + 4) >> 2] = 0;
-        u[e >> 2] = u[$ >> 2];
-        u[(e + 4) >> 2] = u[($ + 4) >> 2];
+        u[_ >> 2] = 22;
+        u[(_ + 4) >> 2] = 0;
+        u[e >> 2] = u[_ >> 2];
+        u[(e + 4) >> 2] = u[(_ + 4) >> 2];
         ff(n, 4602, e) | 0;
         u[w >> 2] = 23;
         u[(w + 4) >> 2] = 0;
@@ -5543,7 +5543,7 @@ export function foo(n, r, e) {
         k = i;
         return n | 0;
     }
-    function f$(n, r, e) {
+    function f_(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -6053,11 +6053,11 @@ export function foo(n, r, e) {
         n = (n + (r >> 1)) | 0;
         if (r & 1) e = u[((u[n >> 2] | 0) + e) >> 2] | 0;
         gq[e & 31](i, n);
-        i = f_(i) | 0;
+        i = f$(i) | 0;
         k = t;
         return i | 0;
     }
-    function f_(n) {
+    function f$(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0, t = 0;
         t = k;
@@ -6343,7 +6343,7 @@ export function foo(n, r, e) {
         u[(c + 4) >> 2] = a;
         u[f >> 2] = u[c >> 2];
         u[(f + 4) >> 2] = u[(c + 4) >> 2];
-        fL(o, r, n, e, o$(f, i) | 0, i);
+        fL(o, r, n, e, o_(f, i) | 0, i);
         k = t;
         return;
     }
@@ -6371,7 +6371,7 @@ export function foo(n, r, e) {
         n = n | 0;
         return 0;
     }
-    function o$(n, r) {
+    function o_(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0;
@@ -6858,7 +6858,7 @@ export function foo(n, r, e) {
     }
     function oQ(n) {
         n = n | 0;
-        o_(n);
+        o$(n);
         return;
     }
     function oV(n) {
@@ -6879,7 +6879,7 @@ export function foo(n, r, e) {
         }
         return;
     }
-    function o_(n) {
+    function o$(n) {
         n = n | 0;
         var r = 0;
         r = fX() | 0;
@@ -7246,10 +7246,10 @@ export function foo(n, r, e) {
     function cw(n, r) {
         n = n | 0;
         r = r | 0;
-        c$(n, r);
+        c_(n, r);
         return;
     }
-    function c$(n, r) {
+    function c_(n, r) {
         n = n | 0;
         r = r | 0;
         u[n >> 2] = r;
@@ -7549,7 +7549,7 @@ export function foo(n, r, e) {
         if (r & 1) i = u[((u[n >> 2] | 0) + i) >> 2] | 0;
         cY(t, e);
         t = cU(t, e) | 0;
-        t = cj(g_[i & 15](n, t) | 0) | 0;
+        t = cj(g$[i & 15](n, t) | 0) | 0;
         k = f;
         return t | 0;
     }
@@ -7622,7 +7622,7 @@ export function foo(n, r, e) {
     function cK() {
         var n = 0, r = 0;
         if (!(i[7672] | 0)) {
-            c_(9376);
+            c$(9376);
             nB(30, 9376, w | 0) | 0;
             r = 7672;
             u[r >> 2] = 1;
@@ -7635,7 +7635,7 @@ export function foo(n, r, e) {
                 u[n >> 2] = 0;
                 n = (n + 4) | 0;
             }while ((n | 0) < (r | 0))
-            c_(9376);
+            c$(9376);
         }
         return 9376;
     }
@@ -7792,7 +7792,7 @@ export function foo(n, r, e) {
         if (n | 0) MG(n);
         return;
     }
-    function c_(n) {
+    function c$(n) {
         n = n | 0;
         c1(n);
         return;
@@ -8169,11 +8169,11 @@ export function foo(n, r, e) {
         u[(f + 4) >> 2] = o;
         u[t >> 2] = u[f >> 2];
         u[(t + 4) >> 2] = u[(f + 4) >> 2];
-        a$(n, e, t, 0);
+        a_(n, e, t, 0);
         k = i;
         return;
     }
-    function a$(n, r, e, i) {
+    function a_(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -8688,7 +8688,7 @@ export function foo(n, r, e) {
     }
     function aQ(n) {
         n = n | 0;
-        a_(n);
+        a$(n);
         return;
     }
     function aV(n) {
@@ -8709,7 +8709,7 @@ export function foo(n, r, e) {
         }
         return;
     }
-    function a_(n) {
+    function a$(n) {
         n = n | 0;
         var r = 0;
         r = fX() | 0;
@@ -9163,7 +9163,7 @@ export function foo(n, r, e) {
             u[(o + 4) >> 2] = i;
             u[t >> 2] = u[o >> 2];
             u[(t + 4) >> 2] = u[(o + 4) >> 2];
-            l$(e, t, n);
+            l_(e, t, n);
             n = ((u[r >> 2] | 0) + 12) | 0;
             u[r >> 2] = n;
         } else {
@@ -9173,7 +9173,7 @@ export function foo(n, r, e) {
         k = v;
         return (((((n - (u[l >> 2] | 0)) | 0) / 12) | 0) + -1) | 0;
     }
-    function l$(n, r, e) {
+    function l_(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -9211,7 +9211,7 @@ export function foo(n, r, e) {
             u[(o + 4) >> 2] = t;
             u[i >> 2] = u[o >> 2];
             u[(i + 4) >> 2] = u[(o + 4) >> 2];
-            l$(f, i, e);
+            l_(f, i, e);
             u[a >> 2] = (u[a >> 2] | 0) + 12;
             lC(n, c);
             lM(c);
@@ -9662,7 +9662,7 @@ export function foo(n, r, e) {
         else {
             f1(r, i);
             f4(e, r);
-            l_(n, e);
+            l$(n, e);
             n = f3(r) | 0;
         }
         k = t;
@@ -9679,7 +9679,7 @@ export function foo(n, r, e) {
         }
         return 9640;
     }
-    function l_(n, r) {
+    function l$(n, r) {
         n = n | 0;
         r = r | 0;
         l3(r, n, (n + 8) | 0) | 0;
@@ -10053,7 +10053,7 @@ export function foo(n, r, e) {
     function vw() {
         return 1280;
     }
-    function v$(n, r, e) {
+    function v_(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -10613,10 +10613,10 @@ export function foo(n, r, e) {
     }
     function vW(n) {
         n = n | 0;
-        v_((n + 24) | 0);
+        v$((n + 24) | 0);
         return;
     }
-    function v_(n) {
+    function v$(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0;
         e = u[n >> 2] | 0;
@@ -11030,7 +11030,7 @@ export function foo(n, r, e) {
         u[(c + 4) >> 2] = a;
         u[f >> 2] = u[c >> 2];
         u[(f + 4) >> 2] = u[(c + 4) >> 2];
-        fL(o, r, n, e, s$(f, i) | 0, i);
+        fL(o, r, n, e, s_(f, i) | 0, i);
         k = t;
         return;
     }
@@ -11058,7 +11058,7 @@ export function foo(n, r, e) {
         n = n | 0;
         return 0;
     }
-    function s$(n, r) {
+    function s_(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0;
@@ -11577,7 +11577,7 @@ export function foo(n, r, e) {
         n = (n + (r >> 1)) | 0;
         if (r & 1) i = u[((u[n >> 2] | 0) + i) >> 2] | 0;
         sW(t, e);
-        t = s_(t, e) | 0;
+        t = s$(t, e) | 0;
         gq[i & 31](n, t);
         k = f;
         return;
@@ -11587,7 +11587,7 @@ export function foo(n, r, e) {
         r = r | 0;
         return;
     }
-    function s_(n, r) {
+    function s$(n, r) {
         n = n | 0;
         r = r | 0;
         return s0(r) | 0;
@@ -11976,7 +11976,7 @@ export function foo(n, r, e) {
             o = (t + 8) | 0;
             bk(u[o >> 2] | 0, u[r >> 2] | 0, u[e >> 2] | 0);
             u[o >> 2] = (u[o >> 2] | 0) + 8;
-            b$(n, t);
+            b_(n, t);
             bm(t);
             k = c;
             return;
@@ -12009,7 +12009,7 @@ export function foo(n, r, e) {
         u[(n + 12) >> 2] = t + (r << 3);
         return;
     }
-    function b$(n, r) {
+    function b_(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0, t = 0, f = 0, o = 0;
@@ -12398,7 +12398,7 @@ export function foo(n, r, e) {
             r = ((u[e >> 2] | 0) + 8) | 0;
             u[e >> 2] = r;
         } else {
-            b_(o, t, f);
+            b$(o, t, f);
             r = u[e >> 2] | 0;
         }
         k = c;
@@ -12412,7 +12412,7 @@ export function foo(n, r, e) {
         u[(n + 4) >> 2] = e;
         return;
     }
-    function b_(n, r, e) {
+    function b$(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -12653,7 +12653,7 @@ export function foo(n, r, e) {
         u[(i + 4) >> 2] = 0;
         u[e >> 2] = u[i >> 2];
         u[(e + 4) >> 2] = u[(i + 4) >> 2];
-        k$(n, 4891, e) | 0;
+        k_(n, 4891, e) | 0;
         k = r;
         return;
     }
@@ -12678,7 +12678,7 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
-        h$(n, fI(r) | 0, e, 0);
+        h_(n, fI(r) | 0, e, 0);
         return n | 0;
     }
     function kd(n, r, e) {
@@ -12717,7 +12717,7 @@ export function foo(n, r, e) {
         k = i;
         return n | 0;
     }
-    function k$(n, r, e) {
+    function k_(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -13029,7 +13029,7 @@ export function foo(n, r, e) {
         if (r & 1) i = u[((u[n >> 2] | 0) + i) >> 2] | 0;
         oG(t, e);
         t = oB(t, e) | 0;
-        t = o8(g_[i & 15](n, t) | 0) | 0;
+        t = o8(g$[i & 15](n, t) | 0) | 0;
         k = f;
         return t | 0;
     }
@@ -13281,13 +13281,13 @@ export function foo(n, r, e) {
         n = n | 0;
         var r = 0;
         r = fX() | 0;
-        fQ(n, 2, 9, r, k_() | 0, 1);
+        fQ(n, 2, 9, r, k$() | 0, 1);
         u[(n + 24) >> 2] = 0;
         u[(n + 28) >> 2] = 0;
         u[(n + 32) >> 2] = 0;
         return;
     }
-    function k_() {
+    function k$() {
         return 1372;
     }
     function k0(n, r, e) {
@@ -13662,7 +13662,7 @@ export function foo(n, r, e) {
         n = n | 0;
         return ((n | 0) != 0) | 0;
     }
-    function h$(n, r, e, i) {
+    function h_(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -14087,13 +14087,13 @@ export function foo(n, r, e) {
     }
     function hV(n) {
         n = n | 0;
-        return h_(u[(hW(n) | 0) >> 2] | 0) | 0;
+        return h$(u[(hW(n) | 0) >> 2] | 0) | 0;
     }
     function hW(n) {
         n = n | 0;
         return ((u[((hR() | 0) + 24) >> 2] | 0) + (n << 3)) | 0;
     }
-    function h_(n) {
+    function h$(n) {
         n = n | 0;
         return h0(g4[n & 7]() | 0) | 0;
     }
@@ -14319,16 +14319,16 @@ export function foo(n, r, e) {
     function dw() {
         var n = 0;
         if (!(i[7896] | 0)) {
-            d$(10364);
+            d_(10364);
             nB(54, 10364, w | 0) | 0;
             n = 7896;
             u[n >> 2] = 1;
             u[(n + 4) >> 2] = 0;
         }
-        if (!(fK(10364) | 0)) d$(10364);
+        if (!(fK(10364) | 0)) d_(10364);
         return 10364;
     }
-    function d$(n) {
+    function d_(n) {
         n = n | 0;
         dp(n);
         dv(n, 55);
@@ -14590,7 +14590,7 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         u[n >> 2] = dW() | 0;
-        u[(n + 4) >> 2] = d_() | 0;
+        u[(n + 4) >> 2] = d$() | 0;
         u[(n + 12) >> 2] = r;
         u[(n + 8) >> 2] = d0() | 0;
         u[(n + 32) >> 2] = 6;
@@ -14599,7 +14599,7 @@ export function foo(n, r, e) {
     function dW() {
         return 11704;
     }
-    function d_() {
+    function d$() {
         return 1436;
     }
     function d0() {
@@ -14854,7 +14854,7 @@ export function foo(n, r, e) {
         u[(n + 32) >> 2] = 0;
         return;
     }
-    function w$(n) {
+    function w_(n) {
         n = n | 0;
         wm(n);
         return;
@@ -14966,7 +14966,7 @@ export function foo(n, r, e) {
         n = fI(r) | 0;
         r = wE(e) | 0;
         e = wG(e, 0) | 0;
-        $l(n, r, e, wB() | 0, 0);
+        _l(n, r, e, wB() | 0, 0);
         return;
     }
     function wE(n) {
@@ -15176,10 +15176,10 @@ export function foo(n, r, e) {
     }
     function wW(n) {
         n = n | 0;
-        w_(n, 4955);
+        w$(n, 4955);
         return;
     }
-    function w_(n, r) {
+    function w$(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0;
@@ -15192,7 +15192,7 @@ export function foo(n, r, e) {
     function w0() {
         var n = 0;
         if (!(i[7952] | 0)) {
-            $e(10612);
+            _e(10612);
             nB(25, 10612, w | 0) | 0;
             n = 7952;
             u[n >> 2] = 1;
@@ -15266,31 +15266,31 @@ export function foo(n, r, e) {
     function w5() {
         return ka() | 0;
     }
-    function $n(n, r, e, i) {
+    function _n(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
         i = i | 0;
         if ((ko(i, 896) | 0) == 512) {
             if (e | 0) {
-                $r(e);
+                _r(e);
                 MG(e);
             }
         } else if (r | 0) MG(r);
         return;
     }
-    function $r(n) {
+    function _r(n) {
         n = n | 0;
         n = u[(n + 4) >> 2] | 0;
         if (n | 0) ML(n);
         return;
     }
-    function $e(n) {
+    function _e(n) {
         n = n | 0;
         ob(n);
         return;
     }
-    function $i(n, r) {
+    function _i(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0;
@@ -15299,20 +15299,20 @@ export function foo(n, r, e) {
         a: do if (e | 0) {
             while(1){
                 i = u[(e + 4) >> 2] | 0;
-                if (i | 0 ? (C_($t(i) | 0, n) | 0) == 0 : 0) break;
+                if (i | 0 ? (C$(_t(i) | 0, n) | 0) == 0 : 0) break;
                 e = u[e >> 2] | 0;
                 if (!e) break a;
             }
-            $u(i, r);
+            _u(i, r);
         }
         while (0)
         return;
     }
-    function $t(n) {
+    function _t(n) {
         n = n | 0;
         return u[(n + 12) >> 2] | 0;
     }
-    function $u(n, r) {
+    function _u(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0;
@@ -15327,7 +15327,7 @@ export function foo(n, r, e) {
         u[n >> 2] = e;
         return;
     }
-    function $f() {
+    function _f() {
         if (!(i[11716] | 0)) {
             u[2664] = 0;
             nB(63, 10656, w | 0) | 0;
@@ -15335,17 +15335,17 @@ export function foo(n, r, e) {
         }
         return 10656;
     }
-    function $o() {
+    function _o() {
         var n = 0;
         if (!(i[11717] | 0)) {
-            $c();
+            _c();
             u[2665] = 1504;
             i[11717] = 1;
             n = 1504;
         } else n = u[2665] | 0;
         return n | 0;
     }
-    function $c() {
+    function _c() {
         if (!(i[11740] | 0)) {
             i[11718] = fG(fG(8, 0) | 0, 0) | 0;
             i[11719] = fG(fG(0, 0) | 0, 0) | 0;
@@ -15364,10 +15364,10 @@ export function foo(n, r, e) {
         }
         return;
     }
-    function $a() {
+    function _a() {
         return 1572;
     }
-    function $l(n, r, e, i, t) {
+    function _l(n, r, e, i, t) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -15386,12 +15386,12 @@ export function foo(n, r, e) {
         u[a >> 2] = e;
         u[c >> 2] = i;
         u[o >> 2] = t;
-        $f() | 0;
-        $v(10656, v, l, a, c, o);
+        _f() | 0;
+        _v(10656, v, l, a, c, o);
         k = f;
         return;
     }
-    function $v(n, r, e, i, t, f) {
+    function _v(n, r, e, i, t, f) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -15405,16 +15405,16 @@ export function foo(n, r, e) {
         u[n >> 2] = o;
         return;
     }
-    function $s(n, r, e) {
+    function _s(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
-        var i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, $ = 0, m = 0, y = 0;
+        var i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, _ = 0, m = 0, y = 0;
         y = k;
         k = (k + 32) | 0;
         d = (y + 20) | 0;
         w = (y + 8) | 0;
-        $ = (y + 4) | 0;
+        _ = (y + 4) | 0;
         m = y;
         r = u[r >> 2] | 0;
         if (r | 0) {
@@ -15426,14 +15426,14 @@ export function foo(n, r, e) {
             b = (d + 8) | 0;
             do {
                 o = (r + 4) | 0;
-                c = $b(o) | 0;
+                c = _b(o) | 0;
                 if (c | 0) {
-                    t = $k(c) | 0;
+                    t = _k(c) | 0;
                     u[d >> 2] = 0;
                     u[h >> 2] = 0;
                     u[a >> 2] = 0;
-                    i = (($h(c) | 0) + 1) | 0;
-                    $d(d, i);
+                    i = ((_h(c) | 0) + 1) | 0;
+                    _d(d, i);
                     if (i | 0) while(1){
                         i = (i + -1) | 0;
                         Cb(w, u[t >> 2] | 0);
@@ -15441,11 +15441,11 @@ export function foo(n, r, e) {
                         if (f >>> 0 < (u[b >> 2] | 0) >>> 0) {
                             u[f >> 2] = u[w >> 2];
                             u[h >> 2] = (u[h >> 2] | 0) + 4;
-                        } else $w(d, w);
+                        } else _w(d, w);
                         if (!i) break;
                         else t = (t + 4) | 0;
                     }
-                    i = $$(c) | 0;
+                    i = __(c) | 0;
                     u[w >> 2] = 0;
                     u[l >> 2] = 0;
                     u[v >> 2] = 0;
@@ -15453,7 +15453,7 @@ export function foo(n, r, e) {
                         t = 0;
                         f = 0;
                         while(1){
-                            if ((t | 0) == (f | 0)) $m(w, i);
+                            if ((t | 0) == (f | 0)) _m(w, i);
                             else {
                                 u[t >> 2] = u[i >> 2];
                                 u[l >> 2] = (u[l >> 2] | 0) + 4;
@@ -15465,11 +15465,11 @@ export function foo(n, r, e) {
                         }
                     }
                     while (0)
-                    u[$ >> 2] = $y(o) | 0;
+                    u[_ >> 2] = _y(o) | 0;
                     u[m >> 2] = fK(c) | 0;
-                    $p(e, n, $, m, d, w);
-                    $C(w);
-                    $M(d);
+                    _p(e, n, _, m, d, w);
+                    _C(w);
+                    _M(d);
                 }
                 r = u[r >> 2] | 0;
             }while ((r | 0) != 0)
@@ -15477,19 +15477,19 @@ export function foo(n, r, e) {
         k = y;
         return;
     }
-    function $b(n) {
+    function _b(n) {
         n = n | 0;
         return u[(n + 12) >> 2] | 0;
     }
-    function $k(n) {
+    function _k(n) {
         n = n | 0;
         return u[(n + 12) >> 2] | 0;
     }
-    function $h(n) {
+    function _h(n) {
         n = n | 0;
         return u[(n + 16) >> 2] | 0;
     }
-    function $d(n, r) {
+    function _d(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0, t = 0;
@@ -15498,14 +15498,14 @@ export function foo(n, r, e) {
         e = t;
         i = u[n >> 2] | 0;
         if ((((u[(n + 8) >> 2] | 0) - i) >> 2) >>> 0 < r >>> 0) {
-            $1(e, r, ((u[(n + 4) >> 2] | 0) - i) >> 2, (n + 8) | 0);
-            $4(n, e);
-            $8(e);
+            _1(e, r, ((u[(n + 4) >> 2] | 0) - i) >> 2, (n + 8) | 0);
+            _4(n, e);
+            _8(e);
         }
         k = t;
         return;
     }
-    function $w(n, r) {
+    function _w(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0;
@@ -15514,27 +15514,27 @@ export function foo(n, r, e) {
         e = o;
         i = (n + 4) | 0;
         t = ((((u[i >> 2] | 0) - (u[n >> 2] | 0)) >> 2) + 1) | 0;
-        f = $W(n) | 0;
+        f = _W(n) | 0;
         if (f >>> 0 < t >>> 0) MI(n);
         else {
             c = u[n >> 2] | 0;
             l = ((u[(n + 8) >> 2] | 0) - c) | 0;
             a = l >> 1;
-            $1(e, (l >> 2) >>> 0 < (f >>> 1) >>> 0 ? a >>> 0 < t >>> 0 ? t : a : f, ((u[i >> 2] | 0) - c) >> 2, (n + 8) | 0);
+            _1(e, (l >> 2) >>> 0 < (f >>> 1) >>> 0 ? a >>> 0 < t >>> 0 ? t : a : f, ((u[i >> 2] | 0) - c) >> 2, (n + 8) | 0);
             f = (e + 8) | 0;
             u[u[f >> 2] >> 2] = u[r >> 2];
             u[f >> 2] = (u[f >> 2] | 0) + 4;
-            $4(n, e);
-            $8(e);
+            _4(n, e);
+            _8(e);
             k = o;
             return;
         }
     }
-    function $$(n) {
+    function __(n) {
         n = n | 0;
         return u[(n + 8) >> 2] | 0;
     }
-    function $m(n, r) {
+    function _m(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0;
@@ -15543,37 +15543,37 @@ export function foo(n, r, e) {
         e = o;
         i = (n + 4) | 0;
         t = ((((u[i >> 2] | 0) - (u[n >> 2] | 0)) >> 2) + 1) | 0;
-        f = $J(n) | 0;
+        f = _J(n) | 0;
         if (f >>> 0 < t >>> 0) MI(n);
         else {
             c = u[n >> 2] | 0;
             l = ((u[(n + 8) >> 2] | 0) - c) | 0;
             a = l >> 1;
-            $_(e, (l >> 2) >>> 0 < (f >>> 1) >>> 0 ? a >>> 0 < t >>> 0 ? t : a : f, ((u[i >> 2] | 0) - c) >> 2, (n + 8) | 0);
+            _$(e, (l >> 2) >>> 0 < (f >>> 1) >>> 0 ? a >>> 0 < t >>> 0 ? t : a : f, ((u[i >> 2] | 0) - c) >> 2, (n + 8) | 0);
             f = (e + 8) | 0;
             u[u[f >> 2] >> 2] = u[r >> 2];
             u[f >> 2] = (u[f >> 2] | 0) + 4;
-            $0(n, e);
-            $2(e);
+            _0(n, e);
+            _2(e);
             k = o;
             return;
         }
     }
-    function $y(n) {
+    function _y(n) {
         n = n | 0;
         return u[n >> 2] | 0;
     }
-    function $p(n, r, e, i, t, u) {
+    function _p(n, r, e, i, t, u) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
         i = i | 0;
         t = t | 0;
         u = u | 0;
-        $g(n, r, e, i, t, u);
+        _g(n, r, e, i, t, u);
         return;
     }
-    function $C(n) {
+    function _C(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0;
         e = u[n >> 2] | 0;
@@ -15586,7 +15586,7 @@ export function foo(n, r, e) {
         }
         return;
     }
-    function $M(n) {
+    function _M(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0;
         e = u[n >> 2] | 0;
@@ -15599,7 +15599,7 @@ export function foo(n, r, e) {
         }
         return;
     }
-    function $g(n, r, e, i, t, f) {
+    function _g(n, r, e, i, t, f) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -15619,17 +15619,17 @@ export function foo(n, r, e) {
         u[s >> 2] = u[r >> 2];
         e = u[e >> 2] | 0;
         i = u[i >> 2] | 0;
-        $A(a, t);
-        $I(l, f);
+        _A(a, t);
+        _I(l, f);
         u[v >> 2] = u[s >> 2];
-        $S(n, v, e, i, a, l);
-        $C(l);
-        $M(a);
+        _S(n, v, e, i, a, l);
+        _C(l);
+        _M(a);
         Cp(c);
         k = o;
         return;
     }
-    function $A(n, r) {
+    function _A(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0;
@@ -15639,12 +15639,12 @@ export function foo(n, r, e) {
         e = (r + 4) | 0;
         i = ((u[e >> 2] | 0) - (u[r >> 2] | 0)) >> 2;
         if (i | 0) {
-            $Q(n, i);
-            $V(n, u[r >> 2] | 0, u[e >> 2] | 0, i);
+            _Q(n, i);
+            _V(n, u[r >> 2] | 0, u[e >> 2] | 0, i);
         }
         return;
     }
-    function $I(n, r) {
+    function _I(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0;
@@ -15654,12 +15654,12 @@ export function foo(n, r, e) {
         e = (r + 4) | 0;
         i = ((u[e >> 2] | 0) - (u[r >> 2] | 0)) >> 2;
         if (i | 0) {
-            $X(n, i);
-            $Z(n, u[r >> 2] | 0, u[e >> 2] | 0, i);
+            _X(n, i);
+            _Z(n, u[r >> 2] | 0, u[e >> 2] | 0, i);
         }
         return;
     }
-    function $S(n, r, e, i, t, f) {
+    function _S(n, r, e, i, t, f) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -15673,12 +15673,12 @@ export function foo(n, r, e) {
         s = (o + 24) | 0;
         c = (o + 12) | 0;
         a = o;
-        l = ux($T() | 0) | 0;
+        l = ux(_T() | 0) | 0;
         u[s >> 2] = u[r >> 2];
         u[v >> 2] = u[s >> 2];
-        r = $x(v) | 0;
-        e = $N(e) | 0;
-        i = $L(i) | 0;
+        r = _x(v) | 0;
+        e = _N(e) | 0;
+        i = _L(i) | 0;
         u[c >> 2] = u[t >> 2];
         v = (t + 4) | 0;
         u[(c + 4) >> 2] = u[v >> 2];
@@ -15687,7 +15687,7 @@ export function foo(n, r, e) {
         u[s >> 2] = 0;
         u[v >> 2] = 0;
         u[t >> 2] = 0;
-        t = $O(c) | 0;
+        t = _O(c) | 0;
         u[a >> 2] = u[f >> 2];
         v = (f + 4) | 0;
         u[(a + 4) >> 2] = u[v >> 2];
@@ -15696,43 +15696,43 @@ export function foo(n, r, e) {
         u[s >> 2] = 0;
         u[v >> 2] = 0;
         u[f >> 2] = 0;
-        nN(0, l | 0, n | 0, r | 0, e | 0, i | 0, t | 0, $P(a) | 0) | 0;
-        $C(a);
-        $M(c);
+        nN(0, l | 0, n | 0, r | 0, e | 0, i | 0, t | 0, _P(a) | 0) | 0;
+        _C(a);
+        _M(c);
         k = o;
         return;
     }
-    function $T() {
+    function _T() {
         var n = 0;
         if (!(i[7968] | 0)) {
-            $q(10708);
+            _q(10708);
             n = 7968;
             u[n >> 2] = 1;
             u[(n + 4) >> 2] = 0;
         }
         return 10708;
     }
-    function $x(n) {
+    function _x(n) {
         n = n | 0;
-        return $R(n) | 0;
+        return _R(n) | 0;
     }
-    function $N(n) {
+    function _N(n) {
         n = n | 0;
-        return $G(n) | 0;
+        return _G(n) | 0;
     }
-    function $L(n) {
+    function _L(n) {
         n = n | 0;
         return ad(n) | 0;
     }
-    function $O(n) {
+    function _O(n) {
         n = n | 0;
-        return $B(n) | 0;
+        return _B(n) | 0;
     }
-    function $P(n) {
+    function _P(n) {
         n = n | 0;
-        return $E(n) | 0;
+        return _E(n) | 0;
     }
-    function $E(n) {
+    function _E(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0;
         i = ((u[(n + 4) >> 2] | 0) - (u[n >> 2] | 0)) | 0;
@@ -15742,17 +15742,17 @@ export function foo(n, r, e) {
         if (e | 0) {
             r = 0;
             do {
-                u[(i + 4 + (r << 2)) >> 2] = $G(u[((u[n >> 2] | 0) + (r << 2)) >> 2] | 0) | 0;
+                u[(i + 4 + (r << 2)) >> 2] = _G(u[((u[n >> 2] | 0) + (r << 2)) >> 2] | 0) | 0;
                 r = (r + 1) | 0;
             }while ((r | 0) != (e | 0))
         }
         return i | 0;
     }
-    function $G(n) {
+    function _G(n) {
         n = n | 0;
         return n | 0;
     }
-    function $B(n) {
+    function _B(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0;
         i = ((u[(n + 4) >> 2] | 0) - (u[n >> 2] | 0)) | 0;
@@ -15762,21 +15762,21 @@ export function foo(n, r, e) {
         if (e | 0) {
             r = 0;
             do {
-                u[(i + 4 + (r << 2)) >> 2] = $R(((u[n >> 2] | 0) + (r << 2)) | 0) | 0;
+                u[(i + 4 + (r << 2)) >> 2] = _R(((u[n >> 2] | 0) + (r << 2)) | 0) | 0;
                 r = (r + 1) | 0;
             }while ((r | 0) != (e | 0))
         }
         return i | 0;
     }
-    function $R(n) {
+    function _R(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0, t = 0;
         t = k;
         k = (k + 32) | 0;
         r = (t + 12) | 0;
         e = t;
-        i = f2($Y() | 0) | 0;
-        if (!i) n = $U(n) | 0;
+        i = f2(_Y() | 0) | 0;
+        if (!i) n = _U(n) | 0;
         else {
             f1(r, i);
             f4(e, r);
@@ -15786,10 +15786,10 @@ export function foo(n, r, e) {
         k = t;
         return n | 0;
     }
-    function $Y() {
+    function _Y() {
         var n = 0;
         if (!(i[7960] | 0)) {
-            $K(10664);
+            _K(10664);
             nB(25, 10664, w | 0) | 0;
             n = 7960;
             u[n >> 2] = 1;
@@ -15797,7 +15797,7 @@ export function foo(n, r, e) {
         }
         return 10664;
     }
-    function $U(n) {
+    function _U(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0, t = 0, f = 0, o = 0, c = 0;
         e = k;
@@ -15814,12 +15814,12 @@ export function foo(n, r, e) {
         f = u[f >> 2] | 0;
         u[o >> 2] = 0;
         u[t >> 2] = u[o >> 2];
-        $j(n, f, t);
+        _j(n, f, t);
         u[i >> 2] = n;
         k = e;
         return r | 0;
     }
-    function $j(n, r, e) {
+    function _j(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -15832,41 +15832,41 @@ export function foo(n, r, e) {
         u[(n + 4) >> 2] = e;
         return;
     }
-    function $z(n) {
+    function _z(n) {
         n = n | 0;
         MS(n);
         MG(n);
         return;
     }
-    function $D(n) {
+    function _D(n) {
         n = n | 0;
         n = u[(n + 12) >> 2] | 0;
         if (n | 0) MG(n);
         return;
     }
-    function $F(n) {
+    function _F(n) {
         n = n | 0;
         MG(n);
         return;
     }
-    function $K(n) {
+    function _K(n) {
         n = n | 0;
         ob(n);
         return;
     }
-    function $q(n) {
+    function _q(n) {
         n = n | 0;
-        uz(n, $H() | 0, 5);
+        uz(n, _H() | 0, 5);
         return;
     }
-    function $H() {
+    function _H() {
         return 1676;
     }
-    function $X(n, r) {
+    function _X(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0;
-        if (($J(n) | 0) >>> 0 < r >>> 0) MI(n);
+        if ((_J(n) | 0) >>> 0 < r >>> 0) MI(n);
         if (r >>> 0 > 1073741823) nZ();
         else {
             e = MP(r << 2) | 0;
@@ -15876,7 +15876,7 @@ export function foo(n, r, e) {
             return;
         }
     }
-    function $Z(n, r, e, i) {
+    function _Z(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -15889,15 +15889,15 @@ export function foo(n, r, e) {
         }
         return;
     }
-    function $J(n) {
+    function _J(n) {
         n = n | 0;
         return 1073741823;
     }
-    function $Q(n, r) {
+    function _Q(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0;
-        if (($W(n) | 0) >>> 0 < r >>> 0) MI(n);
+        if ((_W(n) | 0) >>> 0 < r >>> 0) MI(n);
         if (r >>> 0 > 1073741823) nZ();
         else {
             e = MP(r << 2) | 0;
@@ -15907,7 +15907,7 @@ export function foo(n, r, e) {
             return;
         }
     }
-    function $V(n, r, e, i) {
+    function _V(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -15920,11 +15920,11 @@ export function foo(n, r, e) {
         }
         return;
     }
-    function $W(n) {
+    function _W(n) {
         n = n | 0;
         return 1073741823;
     }
-    function $_(n, r, e, i) {
+    function _$(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -15947,7 +15947,7 @@ export function foo(n, r, e) {
         u[(n + 12) >> 2] = t + (r << 2);
         return;
     }
-    function $0(n, r) {
+    function _0(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0, t = 0, f = 0, o = 0;
@@ -15977,7 +15977,7 @@ export function foo(n, r, e) {
         u[r >> 2] = u[i >> 2];
         return;
     }
-    function $2(n) {
+    function _2(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0;
         r = u[(n + 4) >> 2] | 0;
@@ -15988,7 +15988,7 @@ export function foo(n, r, e) {
         if (n | 0) MG(n);
         return;
     }
-    function $1(n, r, e, i) {
+    function _1(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -16011,7 +16011,7 @@ export function foo(n, r, e) {
         u[(n + 12) >> 2] = t + (r << 2);
         return;
     }
-    function $4(n, r) {
+    function _4(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0, t = 0, f = 0, o = 0;
@@ -16041,7 +16041,7 @@ export function foo(n, r, e) {
         u[r >> 2] = u[i >> 2];
         return;
     }
-    function $8(n) {
+    function _8(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0;
         r = u[(n + 4) >> 2] | 0;
@@ -16052,7 +16052,7 @@ export function foo(n, r, e) {
         if (n | 0) MG(n);
         return;
     }
-    function $3(n, r, e, i, t) {
+    function _3(n, r, e, i, t) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -16067,7 +16067,7 @@ export function foo(n, r, e) {
         b = (w + 4) | 0;
         h = w;
         d = (w + 8) | 0;
-        c = $o() | 0;
+        c = _o() | 0;
         f = u[c >> 2] | 0;
         o = u[f >> 2] | 0;
         if (o | 0) {
@@ -16075,7 +16075,7 @@ export function foo(n, r, e) {
             c = u[(c + 4) >> 2] | 0;
             while(1){
                 Cb(v, o);
-                $6(n, v, c, a);
+                _6(n, v, c, a);
                 f = (f + 4) | 0;
                 o = u[f >> 2] | 0;
                 if (!o) break;
@@ -16085,27 +16085,27 @@ export function foo(n, r, e) {
                 }
             }
         }
-        f = $a() | 0;
+        f = _a() | 0;
         o = u[f >> 2] | 0;
         if (o | 0) do {
             Cb(v, o);
             u[s >> 2] = u[(f + 4) >> 2];
-            $9(r, v, s);
+            _9(r, v, s);
             f = (f + 8) | 0;
             o = u[f >> 2] | 0;
         }while ((o | 0) != 0)
         f = u[(w4() | 0) >> 2] | 0;
         if (f | 0) do {
             r = u[(f + 4) >> 2] | 0;
-            Cb(v, u[($7(r) | 0) >> 2] | 0);
-            u[s >> 2] = $t(r) | 0;
-            $5(e, v, s);
+            Cb(v, u[(_7(r) | 0) >> 2] | 0);
+            u[s >> 2] = _t(r) | 0;
+            _5(e, v, s);
             f = u[f >> 2] | 0;
         }while ((f | 0) != 0)
         Cb(l, 0);
-        f = $f() | 0;
+        f = _f() | 0;
         u[v >> 2] = u[l >> 2];
-        $s(v, f, t);
+        _s(v, f, t);
         f = u[(w4() | 0) >> 2] | 0;
         if (f | 0) {
             n = (v + 4) | 0;
@@ -16113,7 +16113,7 @@ export function foo(n, r, e) {
             e = (v + 8) | 0;
             do {
                 a = u[(f + 4) >> 2] | 0;
-                Cb(s, u[($7(a) | 0) >> 2] | 0);
+                Cb(s, u[(_7(a) | 0) >> 2] | 0);
                 mr(b, mn(a) | 0);
                 o = u[b >> 2] | 0;
                 if (o | 0) {
@@ -16121,21 +16121,21 @@ export function foo(n, r, e) {
                     u[n >> 2] = 0;
                     u[r >> 2] = 0;
                     do {
-                        Cb(h, u[($7(u[(o + 4) >> 2] | 0) | 0) >> 2] | 0);
+                        Cb(h, u[(_7(u[(o + 4) >> 2] | 0) | 0) >> 2] | 0);
                         c = u[n >> 2] | 0;
                         if (c >>> 0 < (u[e >> 2] | 0) >>> 0) {
                             u[c >> 2] = u[h >> 2];
                             u[n >> 2] = (u[n >> 2] | 0) + 4;
-                        } else $w(v, h);
+                        } else _w(v, h);
                         o = u[o >> 2] | 0;
                     }while ((o | 0) != 0)
                     me(i, s, v);
-                    $M(v);
+                    _M(v);
                 }
                 u[d >> 2] = u[s >> 2];
                 l = mi(a) | 0;
                 u[v >> 2] = u[d >> 2];
-                $s(v, l, t);
+                _s(v, l, t);
                 ol(b);
                 f = u[f >> 2] | 0;
             }while ((f | 0) != 0)
@@ -16143,7 +16143,7 @@ export function foo(n, r, e) {
         k = w;
         return;
     }
-    function $6(n, r, e, i) {
+    function _6(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -16151,18 +16151,18 @@ export function foo(n, r, e) {
         mw(n, r, e, i);
         return;
     }
-    function $9(n, r, e) {
+    function _9(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
         md(n, r, e);
         return;
     }
-    function $7(n) {
+    function _7(n) {
         n = n | 0;
         return n | 0;
     }
-    function $5(n, r, e) {
+    function _5(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -16243,10 +16243,10 @@ export function foo(n, r, e) {
         Cm(t);
         n = uI(n) | 0;
         u[c >> 2] = u[r >> 2];
-        $A(f, e);
+        _A(f, e);
         u[o >> 2] = u[c >> 2];
         mu(n, o, f);
-        $M(f);
+        _M(f);
         Cp(t);
         k = i;
         return;
@@ -16264,7 +16264,7 @@ export function foo(n, r, e) {
         f = ux(mf() | 0) | 0;
         u[c >> 2] = u[r >> 2];
         u[o >> 2] = u[c >> 2];
-        r = $x(o) | 0;
+        r = _x(o) | 0;
         u[t >> 2] = u[e >> 2];
         o = (e + 4) | 0;
         u[(t + 4) >> 2] = u[o >> 2];
@@ -16273,8 +16273,8 @@ export function foo(n, r, e) {
         u[c >> 2] = 0;
         u[o >> 2] = 0;
         u[e >> 2] = 0;
-        nI(0, f | 0, n | 0, r | 0, $O(t) | 0) | 0;
-        $M(t);
+        nI(0, f | 0, n | 0, r | 0, _O(t) | 0) | 0;
+        _M(t);
         k = i;
         return;
     }
@@ -16336,8 +16336,8 @@ export function foo(n, r, e) {
         t = ux(mb() | 0) | 0;
         u[o >> 2] = u[r >> 2];
         u[f >> 2] = u[o >> 2];
-        r = $x(f) | 0;
-        nI(0, t | 0, n | 0, r | 0, $N(e) | 0) | 0;
+        r = _x(f) | 0;
+        nI(0, t | 0, n | 0, r | 0, _N(e) | 0) | 0;
         k = i;
         return;
     }
@@ -16396,12 +16396,12 @@ export function foo(n, r, e) {
         e = i[e >> 0] | 0;
         t = i[t >> 0] | 0;
         u[c >> 2] = u[a >> 2];
-        m$(n, c, e, t);
+        m_(n, c, e, t);
         Cp(o);
         k = f;
         return;
     }
-    function m$(n, r, e, i) {
+    function m_(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -16414,7 +16414,7 @@ export function foo(n, r, e) {
         f = ux(mm() | 0) | 0;
         u[c >> 2] = u[r >> 2];
         u[o >> 2] = u[c >> 2];
-        r = $x(o) | 0;
+        r = _x(o) | 0;
         e = my(e) | 0;
         n1(0, f | 0, n | 0, r | 0, e | 0, my(i) | 0) | 0;
         k = t;
@@ -16457,7 +16457,7 @@ export function foo(n, r, e) {
         l = (h + 4) | 0;
         v = (h + 20) | 0;
         s = h;
-        c$(n, 0);
+        c_(n, 0);
         t = Ch(r) | 0;
         u[a >> 2] = 0;
         b = (a + 4) | 0;
@@ -16496,7 +16496,7 @@ export function foo(n, r, e) {
                             if (t >>> 0 < (u[c >> 2] | 0) >>> 0) {
                                 u[t >> 2] = u[l >> 2];
                                 u[b >> 2] = (u[b >> 2] | 0) + 4;
-                            } else $w(a, l);
+                            } else _w(a, l);
                             if (!r) break;
                             else f = (f + 4) | 0;
                         }
@@ -16518,7 +16518,7 @@ export function foo(n, r, e) {
                     tk(l);
                 }
         }
-        $M(a);
+        _M(a);
         k = h;
         return;
     }
@@ -16587,10 +16587,10 @@ export function foo(n, r, e) {
         r = uI(r) | 0;
         e = i[e >> 0] | 0;
         u[v >> 2] = u[t >> 2];
-        $A(a, f);
+        _A(a, f);
         u[l >> 2] = u[v >> 2];
         mG(n, r, e, l, a);
-        $M(a);
+        _M(a);
         Cp(c);
         k = o;
         return;
@@ -16630,7 +16630,7 @@ export function foo(n, r, e) {
         e = my(e) | 0;
         u[c >> 2] = u[i >> 2];
         u[f >> 2] = u[c >> 2];
-        mO(n, nI(0, o | 0, r | 0, e | 0, $x(f) | 0) | 0);
+        mO(n, nI(0, o | 0, r | 0, e | 0, _x(f) | 0) | 0);
         k = t;
         return;
     }
@@ -16647,7 +16647,7 @@ export function foo(n, r, e) {
     function mO(n, r) {
         n = n | 0;
         r = r | 0;
-        c$(n, r);
+        c_(n, r);
         return;
     }
     function mP(n) {
@@ -16674,7 +16674,7 @@ export function foo(n, r, e) {
         e = my(e) | 0;
         u[l >> 2] = u[i >> 2];
         u[a >> 2] = u[l >> 2];
-        i = $x(a) | 0;
+        i = _x(a) | 0;
         u[o >> 2] = u[t >> 2];
         a = (t + 4) | 0;
         u[(o + 4) >> 2] = u[a >> 2];
@@ -16683,8 +16683,8 @@ export function foo(n, r, e) {
         u[l >> 2] = 0;
         u[a >> 2] = 0;
         u[t >> 2] = 0;
-        mO(n, n1(0, c | 0, r | 0, e | 0, i | 0, $O(o) | 0) | 0);
-        $M(o);
+        mO(n, n1(0, c | 0, r | 0, e | 0, i | 0, _O(o) | 0) | 0);
+        _M(o);
         k = f;
         return;
     }
@@ -16721,8 +16721,8 @@ export function foo(n, r, e) {
         e = my(e) | 0;
         u[a >> 2] = u[i >> 2];
         u[c >> 2] = u[a >> 2];
-        i = $x(c) | 0;
-        mO(n, n1(0, o | 0, r | 0, e | 0, i | 0, $L(t) | 0) | 0);
+        i = _x(c) | 0;
+        mO(n, n1(0, o | 0, r | 0, e | 0, i | 0, _L(t) | 0) | 0);
         k = f;
         return;
     }
@@ -16792,20 +16792,20 @@ export function foo(n, r, e) {
     function mV(n) {
         n = n | 0;
         mW(n, 5044);
-        m_(n) | 0;
+        m$(n) | 0;
         return;
     }
     function mW(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0;
-        e = $Y() | 0;
+        e = _Y() | 0;
         u[n >> 2] = e;
         yi(e, r);
         w1(u[n >> 2] | 0);
         return;
     }
-    function m_(n) {
+    function m$(n) {
         n = n | 0;
         var r = 0;
         r = u[n >> 2] | 0;
@@ -16916,7 +16916,7 @@ export function foo(n, r, e) {
         f = u[f >> 2] | 0;
         u[o >> 2] = 0;
         u[t >> 2] = u[o >> 2];
-        $j(n, f, t);
+        _j(n, f, t);
         u[i >> 2] = n;
         k = e;
         return r | 0;
@@ -17053,10 +17053,10 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
-        y$(n, fI(r) | 0, e, 0);
+        y_(n, fI(r) | 0, e, 0);
         return n | 0;
     }
-    function y$(n, r, e, i) {
+    function y_(n, r, e, i) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
@@ -17487,13 +17487,13 @@ export function foo(n, r, e) {
     function yV(n, r) {
         n = n | 0;
         r = r | 0;
-        return y_(u[(yW(n) | 0) >> 2] | 0, r) | 0;
+        return y$(u[(yW(n) | 0) >> 2] | 0, r) | 0;
     }
     function yW(n) {
         n = n | 0;
         return ((u[((yR() | 0) + 24) >> 2] | 0) + (n << 3)) | 0;
     }
-    function y_(n, r) {
+    function y$(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0;
@@ -17802,7 +17802,7 @@ export function foo(n, r, e) {
         f = u[n >> 2] | 0;
         t = pd() | 0;
         n = pw(e) | 0;
-        fL(f, r, t, n, p$(e, i) | 0, i);
+        fL(f, r, t, n, p_(e, i) | 0, i);
         return;
     }
     function pd() {
@@ -17829,7 +17829,7 @@ export function foo(n, r, e) {
         n = n | 0;
         return n | 0;
     }
-    function p$(n, r) {
+    function p_(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0, t = 0, f = 0, o = 0, c = 0, a = 0;
@@ -18278,9 +18278,9 @@ export function foo(n, r, e) {
     function pW(n, r) {
         n = n | 0;
         r = r | 0;
-        return p_(r) | 0;
+        return p$(r) | 0;
     }
-    function p_(n) {
+    function p$(n) {
         n = n | 0;
         return n | 0;
     }
@@ -18484,12 +18484,12 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         var e = 0;
-        e = C$(u[n >> 2] | 0, r) | 0;
+        e = C_(u[n >> 2] | 0, r) | 0;
         r = (n + 4) | 0;
         u[((u[r >> 2] | 0) + 8) >> 2] = e;
         return u[((u[r >> 2] | 0) + 8) >> 2] | 0;
     }
-    function C$(n, r) {
+    function C_(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0;
@@ -18514,7 +18514,7 @@ export function foo(n, r, e) {
         r = r | 0;
         var e = 0;
         e = ux(CC() | 0) | 0;
-        return n8(0, e | 0, n | 0, $L(r) | 0) | 0;
+        return n8(0, e | 0, n | 0, _L(r) | 0) | 0;
     }
     function Cp(n) {
         n = n | 0;
@@ -18544,13 +18544,13 @@ export function foo(n, r, e) {
         return;
     }
     function CI() {
-        var n = 0, r = 0, e = 0, t = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, $ = 0, m = 0;
-        $ = k;
+        var n = 0, r = 0, e = 0, t = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, _ = 0, m = 0;
+        _ = k;
         k = (k + 16) | 0;
-        b = ($ + 4) | 0;
-        h = $;
+        b = (_ + 4) | 0;
+        h = _;
         nP(65536, 10804, u[2702] | 0, 10812);
-        e = $o() | 0;
+        e = _o() | 0;
         r = u[e >> 2] | 0;
         n = u[r >> 2] | 0;
         if (n | 0) {
@@ -18567,7 +18567,7 @@ export function foo(n, r, e) {
                 }
             }
         }
-        n = $a() | 0;
+        n = _a() | 0;
         r = u[n >> 2] | 0;
         if (r | 0) do {
             nD(r | 0, u[(n + 4) >> 2] | 0);
@@ -18609,7 +18609,7 @@ export function foo(n, r, e) {
                         e = a;
                         t = l;
                         while(1){
-                            u[e >> 2] = u[($7(u[(r + 4) >> 2] | 0) | 0) >> 2];
+                            u[e >> 2] = u[(_7(u[(r + 4) >> 2] | 0) | 0) >> 2];
                             u[t >> 2] = u[(r + 8) >> 2];
                             r = u[r >> 2] | 0;
                             if (!r) break;
@@ -18619,27 +18619,27 @@ export function foo(n, r, e) {
                             }
                         }
                     }
-                    m = $7(o) | 0;
+                    m = _7(o) | 0;
                     r = CP(o) | 0;
                     e = CO(o) | 0;
                     t = CE(o) | 0;
-                    nH(m | 0, r | 0, a | 0, l | 0, e | 0, t | 0, $t(o) | 0);
+                    nH(m | 0, r | 0, a | 0, l | 0, e | 0, t | 0, _t(o) | 0);
                     nG(c | 0);
                 }while ((n | 0) != 0)
             }
         }
         while (0)
-        n = u[($f() | 0) >> 2] | 0;
+        n = u[(_f() | 0) >> 2] | 0;
         if (n | 0) do {
             m = (n + 4) | 0;
-            s = $b(m) | 0;
-            o = $$(s) | 0;
-            c = $k(s) | 0;
-            a = (($h(s) | 0) + 1) | 0;
+            s = _b(m) | 0;
+            o = __(s) | 0;
+            c = _k(s) | 0;
+            a = ((_h(s) | 0) + 1) | 0;
             l = CG(s) | 0;
             v = CB(m) | 0;
             s = fK(s) | 0;
-            b = $y(m) | 0;
+            b = _y(m) | 0;
             h = CR(m) | 0;
             nK(0, o | 0, c | 0, a | 0, l | 0, v | 0, s | 0, b | 0, h | 0, CY(m) | 0);
             n = u[n >> 2] | 0;
@@ -18648,11 +18648,11 @@ export function foo(n, r, e) {
         b: do if (n | 0) {
             c: while(1){
                 r = u[(n + 4) >> 2] | 0;
-                if (r | 0 ? ((d = u[($7(r) | 0) >> 2] | 0), (w = u[(mi(r) | 0) >> 2] | 0), w | 0) : 0) {
+                if (r | 0 ? ((d = u[(_7(r) | 0) >> 2] | 0), (w = u[(mi(r) | 0) >> 2] | 0), w | 0) : 0) {
                     e = w;
                     do {
                         r = (e + 4) | 0;
-                        t = $b(r) | 0;
+                        t = _b(r) | 0;
                         d: do if (t | 0) switch(fK(t) | 0){
                             case 0:
                                 break c;
@@ -18660,32 +18660,32 @@ export function foo(n, r, e) {
                             case 3:
                             case 2:
                                 {
-                                    l = $$(t) | 0;
-                                    v = $k(t) | 0;
-                                    s = (($h(t) | 0) + 1) | 0;
+                                    l = __(t) | 0;
+                                    v = _k(t) | 0;
+                                    s = ((_h(t) | 0) + 1) | 0;
                                     b = CG(t) | 0;
                                     h = fK(t) | 0;
-                                    m = $y(r) | 0;
+                                    m = _y(r) | 0;
                                     nK(d | 0, l | 0, v | 0, s | 0, b | 0, 0, h | 0, m | 0, CR(r) | 0, CY(r) | 0);
                                     break d;
                                 }
                             case 1:
                                 {
-                                    a = $$(t) | 0;
-                                    l = $k(t) | 0;
-                                    v = (($h(t) | 0) + 1) | 0;
+                                    a = __(t) | 0;
+                                    l = _k(t) | 0;
+                                    v = ((_h(t) | 0) + 1) | 0;
                                     s = CG(t) | 0;
                                     b = CB(r) | 0;
                                     h = fK(t) | 0;
-                                    m = $y(r) | 0;
+                                    m = _y(r) | 0;
                                     nK(d | 0, a | 0, l | 0, v | 0, s | 0, b | 0, h | 0, m | 0, CR(r) | 0, CY(r) | 0);
                                     break d;
                                 }
                             case 5:
                                 {
-                                    s = $$(t) | 0;
-                                    b = $k(t) | 0;
-                                    h = (($h(t) | 0) + 1) | 0;
+                                    s = __(t) | 0;
+                                    b = _k(t) | 0;
+                                    h = ((_h(t) | 0) + 1) | 0;
                                     m = CG(t) | 0;
                                     nK(d | 0, s | 0, b | 0, h | 0, m | 0, CU(t) | 0, fK(t) | 0, 0, 0, 0);
                                     break d;
@@ -18704,7 +18704,7 @@ export function foo(n, r, e) {
         }
         while (0)
         nX();
-        k = $;
+        k = _;
         return;
     }
     function CS() {
@@ -18771,7 +18771,7 @@ export function foo(n, r, e) {
     }
     function Cz(n) {
         n = n | 0;
-        var r = 0, e = 0, i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, $ = 0, m = 0, y = 0, p = 0, C = 0, M = 0;
+        var r = 0, e = 0, i = 0, t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, _ = 0, m = 0, y = 0, p = 0, C = 0, M = 0;
         M = k;
         k = (k + 16) | 0;
         b = M;
@@ -19409,8 +19409,8 @@ export function foo(n, r, e) {
             p = 133;
         }
         while (0)
-        if (((p | 0) == 133 ? l >>> 0 < 2147483647 : 0) ? ((y = MZ(l | 0) | 0), (w = MZ(0) | 0), ($ = (w - y) | 0), (m = $ >>> 0 > ((s + 40) | 0) >>> 0), !(((y | 0) == (-1 | 0)) | (m ^ 1) | (((y >>> 0 < w >>> 0) & (((y | 0) != (-1 | 0)) & ((w | 0) != (-1 | 0)))) ^ 1))) : 0) {
-            o = m ? $ : r;
+        if (((p | 0) == 133 ? l >>> 0 < 2147483647 : 0) ? ((y = MZ(l | 0) | 0), (w = MZ(0) | 0), (_ = (w - y) | 0), (m = _ >>> 0 > ((s + 40) | 0) >>> 0), !(((y | 0) == (-1 | 0)) | (m ^ 1) | (((y >>> 0 < w >>> 0) & (((y | 0) != (-1 | 0)) & ((w | 0) != (-1 | 0)))) ^ 1))) : 0) {
+            o = m ? _ : r;
             f = y;
             p = 135;
         }
@@ -20292,7 +20292,7 @@ export function foo(n, r, e) {
         k = f;
         return t | 0;
     }
-    function C_(n, r) {
+    function C$(n, r) {
         n = n | 0;
         r = r | 0;
         var e = 0, t = 0;
@@ -20339,13 +20339,13 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
-        var t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, $ = 0;
-        $ = k;
+        var t = 0, f = 0, o = 0, c = 0, a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, _ = 0;
+        _ = k;
         k = (k + 224) | 0;
-        s = ($ + 120) | 0;
-        b = ($ + 80) | 0;
-        d = $;
-        w = ($ + 136) | 0;
+        s = (_ + 120) | 0;
+        b = (_ + 80) | 0;
+        d = _;
+        w = (_ + 136) | 0;
         t = b;
         f = (t + 40) | 0;
         do {
@@ -20388,7 +20388,7 @@ export function foo(n, r, e) {
             if (h | 0) C8(n);
             e = ((t & 32) | 0) == 0 ? e : -1;
         }
-        k = $;
+        k = _;
         return e | 0;
     }
     function C1(n, r, e, f, o) {
@@ -20397,7 +20397,7 @@ export function foo(n, r, e) {
         e = e | 0;
         f = f | 0;
         o = o | 0;
-        var c = 0, a = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, $ = 0, m = 0, y = 0, p = 0, C = 0, M = 0, g = 0, A = 0, I = 0, S = 0, T = 0, N = 0, L = 0, O = 0, P = 0;
+        var c = 0, a = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0, _ = 0, m = 0, y = 0, p = 0, C = 0, M = 0, g = 0, A = 0, I = 0, S = 0, T = 0, N = 0, L = 0, O = 0, P = 0;
         P = k;
         k = (k + 64) | 0;
         T = (P + 16) | 0;
@@ -20581,19 +20581,19 @@ export function foo(n, r, e) {
                 c = -1;
                 break;
             }
-            $ = (y | 0) > -1;
+            _ = (y | 0) > -1;
             do if ((d << 24) >> 24 == 19) {
-                if ($) {
+                if (_) {
                     c = -1;
                     break a;
                 } else C = 49;
             } else {
-                if ($) {
+                if (_) {
                     u[(o + (y << 2)) >> 2] = w;
-                    $ = (f + (y << 3)) | 0;
-                    y = u[($ + 4) >> 2] | 0;
+                    _ = (f + (y << 3)) | 0;
+                    y = u[(_ + 4) >> 2] | 0;
                     C = N;
-                    u[C >> 2] = u[$ >> 2];
+                    u[C >> 2] = u[_ >> 2];
                     u[(C + 4) >> 2] = y;
                     C = 49;
                     break;
@@ -20612,8 +20612,8 @@ export function foo(n, r, e) {
             }
             s = i[s >> 0] | 0;
             s = ((m | 0) != 0) & (((s & 15) | 0) == 3) ? s & -33 : s;
-            $ = b & -65537;
-            y = ((b & 8192) | 0) == 0 ? b : $;
+            _ = b & -65537;
+            y = ((b & 8192) | 0) == 0 ? b : _;
             e: do switch(s | 0){
                 case 110:
                     switch(((m & 255) << 24) >> 24){
@@ -20698,11 +20698,11 @@ export function foo(n, r, e) {
                         r = u[s >> 2] | 0;
                         s = u[(s + 4) >> 2] | 0;
                         w = C5(r, s, g) | 0;
-                        $ = (A - w) | 0;
+                        _ = (A - w) | 0;
                         b = 0;
                         d = 5642;
-                        v = (((y & 8) | 0) == 0) | ((v | 0) > ($ | 0)) ? v : ($ + 1) | 0;
-                        $ = y;
+                        v = (((y & 8) | 0) == 0) | ((v | 0) > (_ | 0)) ? v : (_ + 1) | 0;
+                        _ = y;
                         C = 67;
                         break;
                     }
@@ -20747,7 +20747,7 @@ export function foo(n, r, e) {
                         d = 5642;
                         w = g;
                         s = 1;
-                        v = $;
+                        v = _;
                         break;
                     }
                 case 109:
@@ -20818,13 +20818,13 @@ export function foo(n, r, e) {
                 d = (((r & 8) | 0) == 0) | (((m | 0) == 0) & ((y | 0) == 0));
                 b = d ? 0 : 2;
                 d = d ? 5642 : (5642 + (s >> 4)) | 0;
-                $ = r;
+                _ = r;
                 r = m;
                 s = y;
                 C = 67;
             } else if ((C | 0) == 66) {
                 w = Mn(r, s, g) | 0;
-                $ = y;
+                _ = y;
                 C = 67;
             } else if ((C | 0) == 71) {
                 C = 0;
@@ -20835,7 +20835,7 @@ export function foo(n, r, e) {
                 d = 5642;
                 w = m ? (s + v) | 0 : y;
                 s = m ? v : (y - s) | 0;
-                v = $;
+                v = _;
             } else if ((C | 0) == 75) {
                 C = 0;
                 d = s;
@@ -20889,7 +20889,7 @@ export function foo(n, r, e) {
                 r = y ? w : g;
                 w = g;
                 s = y ? ((v | 0) > (s | 0) ? v : s) : v;
-                v = (v | 0) > -1 ? $ & -65537 : $;
+                v = (v | 0) > -1 ? _ & -65537 : _;
             } else if ((C | 0) == 84) {
                 C = 0;
                 Mi(n, 32, a, r, y ^ 8192);
@@ -20898,13 +20898,13 @@ export function foo(n, r, e) {
                 continue;
             }
             m = (w - r) | 0;
-            $ = (s | 0) < (m | 0) ? m : s;
-            y = ($ + b) | 0;
+            _ = (s | 0) < (m | 0) ? m : s;
+            y = (_ + b) | 0;
             a = (a | 0) < (y | 0) ? y : a;
             Mi(n, 32, a, y, v);
             C3(n, d, b);
             Mi(n, 48, a, y, v ^ 65536);
-            Mi(n, 48, $, m, 0);
+            Mi(n, 48, _, m, 0);
             C3(n, r, m);
             Mi(n, 32, a, y, v ^ 8192);
             r = p;
@@ -21234,7 +21234,7 @@ export function foo(n, r, e) {
         t = t | 0;
         o = o | 0;
         c = c | 0;
-        var a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0.0, $ = 0, m = 0, y = 0, p = 0, C = 0, M = 0, g = 0, A = 0, I = 0, S = 0, T = 0, N = 0, L = 0, O = 0, P = 0;
+        var a = 0, l = 0, v = 0, s = 0, b = 0, h = 0, d = 0, w = 0.0, _ = 0, m = 0, y = 0, p = 0, C = 0, M = 0, g = 0, A = 0, I = 0, S = 0, T = 0, N = 0, L = 0, O = 0, P = 0;
         P = k;
         k = (k + 560) | 0;
         v = (P + 8) | 0;
@@ -21261,8 +21261,8 @@ export function foo(n, r, e) {
             if (a) u[y >> 2] = (u[y >> 2] | 0) + -1;
             C = c | 32;
             if ((C | 0) == 97) {
-                $ = c & 32;
-                d = ($ | 0) == 0 ? I : (I + 9) | 0;
+                _ = c & 32;
+                d = (_ | 0) == 0 ? I : (I + 9) | 0;
                 h = S | 2;
                 a = (12 - t) | 0;
                 do if (!((t >>> 0 > 11) | ((a | 0) == 0))) {
@@ -21296,7 +21296,7 @@ export function foo(n, r, e) {
                 do {
                     T = ~~r;
                     l = (a + 1) | 0;
-                    i[a >> 0] = f[(5694 + T) >> 0] | $;
+                    i[a >> 0] = f[(5694 + T) >> 0] | _;
                     r = (r - +(T | 0)) * 16.0;
                     if (((l - L) | 0) == 1 ? !(v & (s & (r == 0.0))) : 0) {
                         i[l >> 0] = 46;
@@ -21372,16 +21372,16 @@ export function foo(n, r, e) {
                 t = (((((l + 25) | 0) / 9) | 0) + 1) | 0;
                 m = (C | 0) == 102;
                 do {
-                    $ = (0 - a) | 0;
-                    $ = ($ | 0) < 9 ? $ : 9;
+                    _ = (0 - a) | 0;
+                    _ = (_ | 0) < 9 ? _ : 9;
                     if (s >>> 0 < v >>> 0) {
-                        b = ((1 << $) + -1) | 0;
-                        h = 1e9 >>> $;
+                        b = ((1 << _) + -1) | 0;
+                        h = 1e9 >>> _;
                         d = 0;
                         a = s;
                         do {
                             g = u[a >> 2] | 0;
-                            u[a >> 2] = (g >>> $) + d;
+                            u[a >> 2] = (g >>> _) + d;
                             d = K(g & b, h) | 0;
                             a = (a + 4) | 0;
                         }while (a >>> 0 < v >>> 0)
@@ -21400,7 +21400,7 @@ export function foo(n, r, e) {
                     }
                     v = m ? T : s;
                     v = (((a - v) >> 2) | 0) > (t | 0) ? (v + (t << 2)) | 0 : a;
-                    a = ((u[y >> 2] | 0) + $) | 0;
+                    a = ((u[y >> 2] | 0) + _) | 0;
                     u[y >> 2] = a;
                 }while ((a | 0) < 0)
                 a = s;
@@ -21426,7 +21426,7 @@ export function foo(n, r, e) {
             s = (l - ((C | 0) != 102 ? v : 0) + (((p & m) << 31) >> 31)) | 0;
             if ((s | 0) < ((((((t - g) >> 2) * 9) | 0) + -9) | 0)) {
                 s = (s + 9216) | 0;
-                $ = (T + 4 + (((((s | 0) / 9) | 0) + -1024) << 2)) | 0;
+                _ = (T + 4 + (((((s | 0) / 9) | 0) + -1024) << 2)) | 0;
                 s = (((s | 0) % 9 | 0) + 1) | 0;
                 if ((s | 0) < 9) {
                     b = 10;
@@ -21435,9 +21435,9 @@ export function foo(n, r, e) {
                         s = (s + 1) | 0;
                     }while ((s | 0) != 9)
                 } else b = 10;
-                h = u[$ >> 2] | 0;
+                h = u[_ >> 2] | 0;
                 d = (h >>> 0) % (b >>> 0) | 0;
-                s = (($ + 4) | 0) == (t | 0);
+                s = ((_ + 4) | 0) == (t | 0);
                 if (!(s & ((d | 0) == 0))) {
                     w = (((((h >>> 0) / (b >>> 0)) | 0) & 1) | 0) == 0 ? 9007199254740992.0 : 9007199254740994.0;
                     M = ((b | 0) / 2) | 0;
@@ -21448,12 +21448,12 @@ export function foo(n, r, e) {
                         w = M ? -w : w;
                     }
                     s = (h - d) | 0;
-                    u[$ >> 2] = s;
+                    u[_ >> 2] = s;
                     if (w + r != w) {
                         M = (s + b) | 0;
-                        u[$ >> 2] = M;
+                        u[_ >> 2] = M;
                         if (M >>> 0 > 999999999) {
-                            v = $;
+                            v = _;
                             while(1){
                                 s = (v + -4) | 0;
                                 u[v >> 2] = 0;
@@ -21466,7 +21466,7 @@ export function foo(n, r, e) {
                                 if (M >>> 0 > 999999999) v = s;
                                 else break;
                             }
-                        } else s = $;
+                        } else s = _;
                         v = (((g - a) >> 2) * 9) | 0;
                         h = u[a >> 2] | 0;
                         if (h >>> 0 >= 10) {
@@ -21476,8 +21476,8 @@ export function foo(n, r, e) {
                                 v = (v + 1) | 0;
                             }while (h >>> 0 >= b >>> 0)
                         }
-                    } else s = $;
-                } else s = $;
+                    } else s = _;
+                } else s = _;
                 s = (s + 4) | 0;
                 s = t >>> 0 > s >>> 0 ? s : t;
                 M = a;
@@ -21522,25 +21522,25 @@ export function foo(n, r, e) {
                     } else s = 9;
                     a = (((((C - g) >> 2) * 9) | 0) + -9) | 0;
                     if ((b | 32 | 0) == 102) {
-                        $ = (a - s) | 0;
-                        $ = ($ | 0) > 0 ? $ : 0;
-                        l = (l | 0) < ($ | 0) ? l : $;
-                        $ = 0;
+                        _ = (a - s) | 0;
+                        _ = (_ | 0) > 0 ? _ : 0;
+                        l = (l | 0) < (_ | 0) ? l : _;
+                        _ = 0;
                         break;
                     } else {
-                        $ = (a + v - s) | 0;
-                        $ = ($ | 0) > 0 ? $ : 0;
-                        l = (l | 0) < ($ | 0) ? l : $;
-                        $ = 0;
+                        _ = (a + v - s) | 0;
+                        _ = (_ | 0) > 0 ? _ : 0;
+                        l = (l | 0) < (_ | 0) ? l : _;
+                        _ = 0;
                         break;
                     }
-                } else $ = a;
+                } else _ = a;
             } else {
                 b = c;
-                $ = o & 8;
+                _ = o & 8;
             }
             while (0)
-            m = l | $;
+            m = l | _;
             h = ((m | 0) != 0) & 1;
             d = (b | 32 | 0) == 102;
             if (d) {
@@ -21566,14 +21566,14 @@ export function foo(n, r, e) {
             Mi(n, 48, e, a, o ^ 65536);
             if (d) {
                 b = M >>> 0 > T >>> 0 ? T : M;
-                $ = (O + 9) | 0;
-                h = $;
+                _ = (O + 9) | 0;
+                h = _;
                 d = (O + 8) | 0;
                 s = b;
                 do {
-                    v = Mn(u[s >> 2] | 0, 0, $) | 0;
+                    v = Mn(u[s >> 2] | 0, 0, _) | 0;
                     if ((s | 0) == (b | 0)) {
-                        if ((v | 0) == ($ | 0)) {
+                        if ((v | 0) == (_ | 0)) {
                             i[d >> 0] = 48;
                             v = d;
                         }
@@ -21587,7 +21587,7 @@ export function foo(n, r, e) {
                 }while (s >>> 0 <= T >>> 0)
                 if (m | 0) C3(n, 5710, 1);
                 if ((s >>> 0 < C >>> 0) & ((l | 0) > 0)) while(1){
-                    v = Mn(u[s >> 2] | 0, 0, $) | 0;
+                    v = Mn(u[s >> 2] | 0, 0, _) | 0;
                     if (v >>> 0 > O >>> 0) {
                         Mz(O | 0, 48, (v - L) | 0) | 0;
                         do v = (v + -1) | 0;
@@ -21606,7 +21606,7 @@ export function foo(n, r, e) {
                 m = y ? C : (M + 4) | 0;
                 if ((l | 0) > -1) {
                     y = (O + 9) | 0;
-                    $ = ($ | 0) == 0;
+                    _ = (_ | 0) == 0;
                     t = y;
                     h = (0 - L) | 0;
                     d = (O + 8) | 0;
@@ -21620,7 +21620,7 @@ export function foo(n, r, e) {
                         do if ((b | 0) == (M | 0)) {
                             s = (v + 1) | 0;
                             C3(n, v, 1);
-                            if ($ & ((l | 0) < 1)) {
+                            if (_ & ((l | 0) < 1)) {
                                 v = s;
                                 break;
                             }
@@ -21826,7 +21826,7 @@ export function foo(n, r, e) {
                     t = 0;
                     break a;
                 }
-                t = C_(e, (n + f) | 0) | 0;
+                t = C$(e, (n + f) | 0) | 0;
                 if (!t) break;
                 t = (t | 0) < 0;
                 if ((o | 0) == 1) {
@@ -21861,7 +21861,7 @@ export function foo(n, r, e) {
         t = (e + 16) | 0;
         f = u[t >> 2] | 0;
         if (!f) {
-            if (!(M$(e) | 0)) {
+            if (!(M_(e) | 0)) {
                 f = u[t >> 2] | 0;
                 o = 5;
             } else t = 0;
@@ -21904,7 +21904,7 @@ export function foo(n, r, e) {
         while (0)
         return t | 0;
     }
-    function M$(n) {
+    function M_(n) {
         n = n | 0;
         var r = 0, e = 0;
         r = (n + 74) | 0;
@@ -22479,7 +22479,7 @@ export function foo(n, r, e) {
         r = u[v >> 2] | 0;
         n = (r + e) | 0;
         if ((((e | 0) > 0) & ((n | 0) < (r | 0))) | ((n | 0) < 0)) {
-            _() | 0;
+            $() | 0;
             nq(12);
             return -1;
         }
@@ -22536,7 +22536,7 @@ export function foo(n, r, e) {
         u = u | 0;
         gj[n & 1](r | 0, e | 0, i | 0, t | 0, u | 0);
     }
-    function M_(n, r, e) {
+    function M$(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = Z(e);
@@ -22615,7 +22615,7 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
-        return g_[n & 15](r | 0, e | 0) | 0;
+        return g$[n & 15](r | 0, e | 0) | 0;
     }
     function ge(n, r, e, i, t, u) {
         n = n | 0;
@@ -22730,7 +22730,7 @@ export function foo(n, r, e) {
         J(3);
         return rr;
     }
-    function g$(n) {
+    function g_(n) {
         n = n | 0;
         J(4);
     }
@@ -22870,7 +22870,7 @@ export function foo(n, r, e) {
     }
     var gj = [
         gk,
-        $3
+        _3
     ];
     var gz = [
         gh,
@@ -22914,7 +22914,7 @@ export function foo(n, r, e) {
         gw
     ];
     var gK = [
-        g$,
+        g_,
         MS,
         f7,
         f5,
@@ -22925,9 +22925,9 @@ export function foo(n, r, e) {
         wl,
         wv,
         ws,
-        $z,
-        $D,
-        $F,
+        _z,
+        _D,
+        _F,
         Ce,
         Ci,
         Ct,
@@ -22974,7 +22974,7 @@ export function foo(n, r, e) {
         dq,
         d5,
         wh,
-        w$,
+        w_,
         wY,
         w3,
         oa,
@@ -22986,67 +22986,67 @@ export function foo(n, r, e) {
         pK,
         p1,
         p3,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$,
-        g$, 
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_,
+        g_, 
     ];
     var gq = [
         gm,
         tw,
-        t$,
+        t_,
         tp,
         tC,
         tM,
@@ -23065,12 +23065,12 @@ export function foo(n, r, e) {
         us,
         uw,
         up,
-        u_,
+        u$,
         bo,
         bg,
         hP,
         m3,
-        $i,
+        _i,
         yd,
         gm,
         gm,
@@ -23090,7 +23090,7 @@ export function foo(n, r, e) {
         un,
         ue,
         ui,
-        u$,
+        u_,
         um,
         uq,
         b7,
@@ -23125,7 +23125,7 @@ export function foo(n, r, e) {
         CH,
         CW,
         cG,
-        v$,
+        v_,
         kG,
         pu
     ];
@@ -23155,7 +23155,7 @@ export function foo(n, r, e) {
         gI,
         dh
     ];
-    var g_ = [
+    var g$ = [
         gS,
         MT,
         uy,
@@ -23241,7 +23241,7 @@ export function foo(n, r, e) {
         tS,
         tT,
         tW,
-        t_,
+        t$,
         t0,
         v1,
         k0,
@@ -23265,7 +23265,7 @@ export function foo(n, r, e) {
         dP,
         d2,
         wN,
-        $n,
+        _n,
         yo,
         Cl,
         gU,
@@ -23280,7 +23280,7 @@ export function foo(n, r, e) {
         dynCall_i: gu,
         _i64Subtract: MU,
         ___udivdi3: MX,
-        dynCall_vif: M_,
+        dynCall_vif: M$,
         setThrew: rf,
         dynCall_viii: ga,
         _bitshift64Lshr: MF,

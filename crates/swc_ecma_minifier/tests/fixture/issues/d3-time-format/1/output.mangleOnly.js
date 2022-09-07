@@ -40,12 +40,12 @@ export default function h(e) {
         f: P,
         g: nu,
         G: nc,
-        H: _,
+        H: $,
         I: z,
         j: E,
         L: O,
         m: R,
-        M: $,
+        M: _,
         p: n0,
         q: n1,
         Q: nY,
@@ -98,7 +98,7 @@ export default function h(e) {
         "%": nS
     };
     var nX = {
-        a: n_,
+        a: n$,
         A: nz,
         b: nE,
         B: nO,
@@ -125,7 +125,7 @@ export default function h(e) {
         w: T,
         W: H,
         x: nR,
-        X: n$,
+        X: n_,
         y: S,
         Y: L,
         Z: Y,
@@ -215,7 +215,7 @@ export default function h(e) {
         var r = U.exec(e.slice(t));
         return r ? ((n.p = d.get(r[0].toLowerCase())), t + r[0].length) : -1;
     }
-    function n_(n, e, t) {
+    function n$(n, e, t) {
         var r = nD.exec(e.slice(t));
         return r ? ((n.w = nZ.get(r[0].toLowerCase())), t + r[0].length) : -1;
     }
@@ -237,7 +237,7 @@ export default function h(e) {
     function nR(n, e, t) {
         return nG(n, u, e, t);
     }
-    function n$(n, e, t) {
+    function n_(n, e, t) {
         return nG(n, c, e, t);
     }
     function nk(n) {
@@ -411,7 +411,7 @@ function G(n, e, t) {
 function I(n, e) {
     return d(n.getDate(), e, 2);
 }
-function _(n, e) {
+function $(n, e) {
     return d(n.getHours(), e, 2);
 }
 function z(n, e) {
@@ -429,7 +429,7 @@ function P(n, e) {
 function R(n, e) {
     return d(n.getMonth() + 1, e, 2);
 }
-function $(n, e) {
+function _(n, e) {
     return d(n.getMinutes(), e, 2);
 }
 function k(n, e) {

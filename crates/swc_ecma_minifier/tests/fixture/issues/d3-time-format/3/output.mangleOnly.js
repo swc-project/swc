@@ -154,7 +154,7 @@
             var Q = b.range;
             var X = W.range;
             var z = V.range;
-            var $ = O.range;
+            var _ = O.range;
             var k = j.range;
             var I = h(function(n) {
                 n.setDate(1);
@@ -189,7 +189,7 @@
             };
             var G = E;
             var P = E.range;
-            var _ = h(function(n) {
+            var $ = h(function(n) {
                 n.setUTCSeconds(0, 0);
             }, function(n, e) {
                 n.setTime(+n + e * o);
@@ -198,8 +198,8 @@
             }, function(n) {
                 return n.getUTCMinutes();
             });
-            var R = _;
-            var K = _.range;
+            var R = $;
+            var K = $.range;
             var nn = h(function(n) {
                 n.setUTCMinutes(0, 0, 0);
             }, function(n, e) {
@@ -426,7 +426,7 @@
             }
             function nV(n) {
                 var e = n.dateTime, t = n.date, r = n.time, u = n.periods, i = n.days, o = n.shortDays, a = n.months, c = n.shortMonths;
-                var f = nz(u), l = n$(u), s = nz(i), g = n$(i), v = nz(o), h = n$(o), T = nz(a), C = n$(a), U = nz(c), M = n$(c);
+                var f = nz(u), l = n_(u), s = nz(i), g = n_(i), v = nz(o), h = n_(o), T = nz(a), C = n_(a), U = nz(c), M = n_(c);
                 var y = {
                     a: V,
                     A: O,
@@ -464,7 +464,7 @@
                 var D = {
                     a: X,
                     A: z,
-                    b: $,
+                    b: _,
                     B: k,
                     c: null,
                     d: eD,
@@ -526,7 +526,7 @@
                     X: W,
                     y: nP,
                     Y: nG,
-                    Z: n_,
+                    Z: n$,
                     "%": n5
                 };
                 y.x = m(t, y);
@@ -662,7 +662,7 @@
                 function z(n) {
                     return i[n.getUTCDay()];
                 }
-                function $(n) {
+                function _(n) {
                     return c[n.getUTCMonth()];
                 }
                 function k(n) {
@@ -720,7 +720,7 @@
             function nz(n) {
                 return new RegExp("^(?:" + n.map(nX).join("|") + ")", "i");
             }
-            function n$(n) {
+            function n_(n) {
                 return new Map(n.map((n, e)=>[
                         n.toLowerCase(),
                         e
@@ -754,7 +754,7 @@
                 var r = nj.exec(e.slice(t, t + 2));
                 return r ? ((n.y = +r[0] + (+r[0] > 68 ? 1900 : 2000)), t + r[0].length) : -1;
             }
-            function n_(n, e, t) {
+            function n$(n, e, t) {
                 var r = /^(Z)|([+-]\d\d)(?::?(\d\d))?/.exec(e.slice(t, t + 6));
                 return r ? ((n.Z = r[1] ? 0 : -(r[2] + (r[3] || "00"))), t + r[0].length) : -1;
             }
@@ -948,7 +948,7 @@
             function ez(n) {
                 return Math.floor(+n / 1000);
             }
-            var e$;
+            var e_;
             var ek;
             var eI;
             var eN;
@@ -1009,16 +1009,16 @@
                 ]
             });
             function eE(n) {
-                e$ = nV(n);
-                ek = e$.format;
-                eI = e$.parse;
-                eN = e$.utcFormat;
-                eB = e$.utcParse;
-                return e$;
+                e_ = nV(n);
+                ek = e_.format;
+                eI = e_.parse;
+                eN = e_.utcFormat;
+                eB = e_.utcParse;
+                return e_;
             }
             var eG = t(73516);
             var eP = t(42287);
-            function e_(n, e) {
+            function e$(n, e) {
                 n = n.slice();
                 var t = 0, r = n.length - 1, u = n[t], i = n[r], o;
                 if (i < u) {

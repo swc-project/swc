@@ -384,7 +384,7 @@
                 });
                 return r;
             }
-            function $(e) {
+            function _(e) {
                 return e && e.__esModule ? e["default"] : e;
             }
             function O(e, t) {
@@ -452,7 +452,7 @@
                                 retry: n.retry
                             });
                         } else if (a.loaded) {
-                            return s["default"].createElement($(a.loaded), t);
+                            return s["default"].createElement(_(a.loaded), t);
                         } else {
                             return null;
                         }

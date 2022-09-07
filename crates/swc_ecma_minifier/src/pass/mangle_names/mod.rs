@@ -220,10 +220,10 @@ impl CharFreq {
                 b'0'..=b'9' => {
                     self.0[c as usize - '0' as usize + 52] += delta;
                 }
-                b'_' => {
+                b'$' => {
                     self.0[62] += delta;
                 }
-                b'$' => {
+                b'_' => {
                     self.0[63] += delta;
                 }
 

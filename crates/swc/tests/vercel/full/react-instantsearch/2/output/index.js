@@ -34,7 +34,7 @@ export default function S(u) {
         d(e), W.setClient(e), I();
     }, F = function() {
         W.clearCache(), I();
-    }, $ = function(e) {
+    }, _ = function(e) {
         return G.getWidgets().filter(function(e) {
             return Boolean(e.getMetadata);
         }).map(function(t) {
@@ -193,7 +193,7 @@ export default function S(u) {
             results: n.rawResults
         })));
     }, C = function() {
-        var e = $(K.getState().widgets);
+        var e = _(K.getState().widgets);
         K.setState(r(t({}, K.getState()), {
             metadata: e,
             searching: !0
@@ -206,7 +206,7 @@ export default function S(u) {
             return r.transitionState(t, e);
         }, e);
     }, O = function(e) {
-        var a = $(e);
+        var a = _(e);
         K.setState(r(t({}, K.getState()), {
             widgets: e,
             metadata: a,

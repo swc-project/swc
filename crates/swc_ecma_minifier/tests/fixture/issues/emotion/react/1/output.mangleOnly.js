@@ -127,7 +127,7 @@
             var k = 0;
             var S = 0;
             var C = 0;
-            var _ = "";
+            var $ = "";
             function E(e, r, t, n, a, i, o) {
                 return {
                     value: e,
@@ -142,30 +142,30 @@
                     return: ""
                 };
             }
-            function $(e, r, t) {
+            function _(e, r, t) {
                 return E(e, r.root, r.parent, t, r.props, r.children, 0);
             }
             function A() {
                 return C;
             }
             function O() {
-                C = S > 0 ? p(_, --S) : 0;
+                C = S > 0 ? p($, --S) : 0;
                 if ((x--, C === 10)) (x = 1), w--;
                 return C;
             }
             function j() {
-                C = S < k ? p(_, S++) : 0;
+                C = S < k ? p($, S++) : 0;
                 if ((x++, C === 10)) (x = 1), w++;
                 return C;
             }
             function M() {
-                return p(_, S);
+                return p($, S);
             }
             function N() {
                 return S;
             }
             function P(e, r) {
-                return h(_, e, r);
+                return h($, e, r);
             }
             function T(e) {
                 switch(e){
@@ -200,10 +200,10 @@
                 return 0;
             }
             function R(e) {
-                return ((w = x = 1), (k = y((_ = e))), (S = 0), []);
+                return ((w = x = 1), (k = y(($ = e))), (S = 0), []);
             }
             function L(e) {
-                return (_ = ""), e;
+                return ($ = ""), e;
             }
             function z(e) {
                 return f(P(S - 1, G(e === 91 ? e + 2 : e === 40 ? e + 1 : e)));
@@ -425,7 +425,7 @@
                         break;
                     case ei:
                         return eu([
-                            $(v(e.value, "@", "@" + K), e, ""), 
+                            _(v(e.value, "@", "@" + K), e, ""), 
                         ], n);
                     case J:
                         if (e.length) return g(e.props, function(r) {
@@ -433,13 +433,13 @@
                                 case ":read-only":
                                 case ":read-write":
                                     return eu([
-                                        $(v(r, /:(read-\w+)/, ":" + H + "$1"), e, ""), 
+                                        _(v(r, /:(read-\w+)/, ":" + H + "$1"), e, ""), 
                                     ], n);
                                 case "::placeholder":
                                     return eu([
-                                        $(v(r, /:(plac\w+)/, ":" + K + "input-$1"), e, ""),
-                                        $(v(r, /:(plac\w+)/, ":" + H + "$1"), e, ""),
-                                        $(v(r, /:(plac\w+)/, B + "input-$1"), e, ""), 
+                                        _(v(r, /:(plac\w+)/, ":" + K + "input-$1"), e, ""),
+                                        _(v(r, /:(plac\w+)/, ":" + H + "$1"), e, ""),
+                                        _(v(r, /:(plac\w+)/, B + "input-$1"), e, ""), 
                                     ], n);
                             }
                             return "";
@@ -500,24 +500,24 @@
                 var k = 0;
                 var S = "";
                 var C = a;
-                var _ = i;
+                var $ = i;
                 var E = n;
-                var $ = S;
+                var _ = S;
                 while(w)switch(((m = k), (k = j()))){
                     case 34:
                     case 39:
                     case 91:
                     case 40:
-                        $ += z(k);
+                        _ += z(k);
                         break;
                     case 9:
                     case 10:
                     case 13:
                     case 32:
-                        $ += D(m);
+                        _ += D(m);
                         break;
                     case 92:
-                        $ += U(N() - 1, 7);
+                        _ += U(N() - 1, 7);
                         continue;
                     case 47:
                         switch(M()){
@@ -526,11 +526,11 @@
                                 b(eg(W(j(), N()), r, t), u);
                                 break;
                             default:
-                                $ += "/";
+                                _ += "/";
                         }
                         break;
                     case 123 * g:
-                        s[f++] = y($) * x;
+                        s[f++] = y(_) * x;
                     case 125 * g:
                     case 59:
                     case 0:
@@ -539,45 +539,45 @@
                             case 125:
                                 w = 0;
                             case 59 + l:
-                                if (h > 0 && y($) - d) b(h > 32 ? ew($ + ";", n, t, d - 1) : ew(v($, " ", "") + ";", n, t, d - 2), u);
+                                if (h > 0 && y(_) - d) b(h > 32 ? ew(_ + ";", n, t, d - 1) : ew(v(_, " ", "") + ";", n, t, d - 2), u);
                                 break;
                             case 59:
-                                $ += ";";
+                                _ += ";";
                             default:
-                                b((E = eb($, r, t, f, l, a, s, S, (C = []), (_ = []), d)), i);
-                                if (k === 123) if (l === 0) em($, r, E, E, C, i, d, s, _);
+                                b((E = eb(_, r, t, f, l, a, s, S, (C = []), ($ = []), d)), i);
+                                if (k === 123) if (l === 0) em(_, r, E, E, C, i, d, s, $);
                                 else switch(p){
                                     case 100:
                                     case 109:
                                     case 115:
-                                        em(e, E, E, n && b(eb(e, E, E, 0, 0, a, s, S, a, (C = []), d), _), a, _, d, s, n ? C : _);
+                                        em(e, E, E, n && b(eb(e, E, E, 0, 0, a, s, S, a, (C = []), d), $), a, $, d, s, n ? C : $);
                                         break;
                                     default:
-                                        em($, E, E, E, [
+                                        em(_, E, E, E, [
                                             ""
-                                        ], _, d, s, _);
+                                        ], $, d, s, $);
                                 }
                         }
-                        (f = l = h = 0), (g = x = 1), (S = $ = ""), (d = o);
+                        (f = l = h = 0), (g = x = 1), (S = _ = ""), (d = o);
                         break;
                     case 58:
-                        (d = 1 + y($)), (h = m);
+                        (d = 1 + y(_)), (h = m);
                     default:
                         if (g < 1) if (k == 123) --g;
                         else if (k == 125 && g++ == 0 && O() == 125) continue;
-                        switch((($ += c(k)), k * g)){
+                        switch(((_ += c(k)), k * g)){
                             case 38:
-                                x = l > 0 ? 1 : (($ += "\f"), -1);
+                                x = l > 0 ? 1 : ((_ += "\f"), -1);
                                 break;
                             case 44:
-                                (s[f++] = (y($) - 1) * x), (x = 1);
+                                (s[f++] = (y(_) - 1) * x), (x = 1);
                                 break;
                             case 64:
-                                if (M() === 45) $ += z(j());
-                                (p = M()), (l = y((S = $ += q(N())))), k++;
+                                if (M() === 45) _ += z(j());
+                                (p = M()), (l = y((S = _ += q(N())))), k++;
                                 break;
                             case 45:
-                                if (m === 45 && y($) == 2) g = 0;
+                                if (m === 45 && y(_) == 2) g = 0;
                         }
                 }
                 return i;
@@ -645,7 +645,7 @@
             var eC = function e(r, t) {
                 return L(eS(R(r), t));
             };
-            var e_ = new WeakMap();
+            var e$ = new WeakMap();
             var eE = function e(r) {
                 if (r.type !== "rule" || !r.parent || !r.length) {
                     return;
@@ -656,13 +656,13 @@
                     n = n.parent;
                     if (!n) return;
                 }
-                if (r.props.length === 1 && t.charCodeAt(0) !== 58 && !e_.get(n)) {
+                if (r.props.length === 1 && t.charCodeAt(0) !== 58 && !e$.get(n)) {
                     return;
                 }
                 if (a) {
                     return;
                 }
-                e_.set(r, true);
+                e$.set(r, true);
                 var i = [];
                 var o = eC(t, i);
                 var s = n.props;
@@ -672,7 +672,7 @@
                     }
                 }
             };
-            var e$ = function e(r) {
+            var e_ = function e(r) {
                 if (r.type === "decl") {
                     var t = r.value;
                     if (t.charCodeAt(0) === 108 && t.charCodeAt(2) === 98) {
@@ -765,7 +765,7 @@
                 var u;
                 var f = [
                     eE,
-                    e$
+                    e_
                 ];
                 if (false) {}
                 {
@@ -1363,7 +1363,7 @@
                 }
                 return serializeStyles(r);
             }
-            var r_ = function e() {
+            var r$ = function e() {
                 var r = rC.apply(void 0, arguments);
                 var t = "animation-" + r.name;
                 return {
@@ -1414,7 +1414,7 @@
                 }
                 return a;
             };
-            function r$(e, r, t) {
+            function r_(e, r, t) {
                 var n = [];
                 var a = getRegisteredStyles(e, n, t);
                 if (n.length < 2) {
@@ -1440,7 +1440,7 @@
                     for(var a = arguments.length, i = new Array(a), o = 0; o < a; o++){
                         i[o] = arguments[o];
                     }
-                    return r$(r.registered, n, rE(i));
+                    return r_(r.registered, n, rE(i));
                 };
                 var i = {
                     css: n,
@@ -1639,14 +1639,14 @@
                 if (typeof w === "string") {
                     w = u.default.createElement("a", null, w);
                 }
-                var _;
+                var $;
                 if (false) {} else {
-                    _ = u.default.Children.only(w);
+                    $ = u.default.Children.only(w);
                 }
-                var E = _ && typeof _ === "object" && _.ref;
-                var $ = s((0, v).useIntersection({
+                var E = $ && typeof $ === "object" && $.ref;
+                var _ = s((0, v).useIntersection({
                     rootMargin: "200px"
-                }), 2), A = $[0], O = $[1];
+                }), 2), A = _[0], O = _[1];
                 var j = u.default.useCallback(function(e) {
                     A(e);
                     if (E) {
@@ -1679,8 +1679,8 @@
                 var M = {
                     ref: j,
                     onClick: function(e) {
-                        if (_.props && typeof _.props.onClick === "function") {
-                            _.props.onClick(e);
+                        if ($.props && typeof $.props.onClick === "function") {
+                            $.props.onClick(e);
                         }
                         if (!e.defaultPrevented) {
                             m(e, d, b, g, x, k, S, C);
@@ -1689,19 +1689,19 @@
                 };
                 M.onMouseEnter = function(e) {
                     if (!(0, f).isLocalURL(b)) return;
-                    if (_.props && typeof _.props.onMouseEnter === "function") {
-                        _.props.onMouseEnter(e);
+                    if ($.props && typeof $.props.onMouseEnter === "function") {
+                        $.props.onMouseEnter(e);
                     }
                     h(d, b, g, {
                         priority: true
                     });
                 };
-                if (e.passHref || (_.type === "a" && !("href" in _.props))) {
+                if (e.passHref || ($.type === "a" && !("href" in $.props))) {
                     var N = typeof C !== "undefined" ? C : d && d.locale;
                     var P = d && d.isLocaleDomain && (0, f).getDomainLocale(g, N, d && d.locales, d && d.domainLocales);
                     M.href = P || (0, f).addBasePath((0, f).addLocale(g, N, d && d.defaultLocale));
                 }
-                return u.default.cloneElement(_, M);
+                return u.default.cloneElement($, M);
             }
             var g = b;
             r["default"] = g;

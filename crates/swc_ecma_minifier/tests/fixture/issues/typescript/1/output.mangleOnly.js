@@ -237,7 +237,7 @@ var e;
                 case 236:
                     return er(e);
                 case 255:
-                    return _(e);
+                    return $(e);
                 case 256:
                     return ee(e);
                 case 350:
@@ -268,7 +268,7 @@ var e;
                     break;
                 case 220:
                     if (e.isDestructuringAssignment(t)) {
-                        return $(t, n);
+                        return _(t, n);
                     }
                     break;
                 case 218:
@@ -327,7 +327,7 @@ var e;
             }
             return false;
         }
-        function $(t, n) {
+        function _(t, n) {
             if (k(t.left)) {
                 return e.flattenDestructuringAssignment(t, C, r, 0, !n, et);
             }
@@ -591,7 +591,7 @@ var e;
             }
             return e.singleOrMany(t);
         }
-        function _(t) {
+        function $(t) {
             var n;
             if (e.hasSyntacticModifier(t, 1)) {
                 n = e.append(n, e.setOriginalNode(e.setTextRange(i.createFunctionDeclaration(undefined, e.visitNodes(t.modifiers, ev, e.isModifier), t.asteriskToken, i.getDeclarationName(t, true, true), undefined, e.visitNodes(t.parameters, C), undefined, e.visitEachChild(t.body, C, r)), t), t));

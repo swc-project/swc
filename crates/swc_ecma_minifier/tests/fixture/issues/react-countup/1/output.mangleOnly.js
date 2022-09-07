@@ -276,7 +276,7 @@
                 ],
                 path: "/_next/image",
                 loader: "default"
-            } || m.imageConfigDefault, D = F.deviceSizes, I = F.imageSizes, N = F.loader, $ = F.path, C = F.domains;
+            } || m.imageConfigDefault, D = F.deviceSizes, I = F.imageSizes, N = F.loader, _ = F.path, C = F.domains;
             var M = f(D).concat(f(I));
             D.sort(function(t, e) {
                 return t - e;
@@ -365,7 +365,7 @@
                 var e = S.get(N);
                 if (e) {
                     return e(b({
-                        root: $
+                        root: _
                     }, t));
                 }
                 throw new Error('Unknown "loader" found in "next.config.js". Expected: '.concat(m.VALID_LOADERS.join(", "), ". Received: ").concat(N));
@@ -428,14 +428,14 @@
                     if (I.layout) N = I.layout;
                     delete I["layout"];
                 }
-                var $ = "";
+                var _ = "";
                 if (z(e)) {
                     var C = R(e) ? e.default : e;
                     if (!C.src) {
                         throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(C)));
                     }
                     F = F || C.blurDataURL;
-                    $ = C.src;
+                    _ = C.src;
                     if (!N || N !== "fill") {
                         y = y || C.height;
                         g = g || C.width;
@@ -444,7 +444,7 @@
                         }
                     }
                 }
-                e = typeof e === "string" ? e : $;
+                e = typeof e === "string" ? e : _;
                 var M = U(g);
                 var T = U(y);
                 var W = U(m);
@@ -464,7 +464,7 @@
                     disabled: !H
                 }), 2), K = Z[0], X = Z[1];
                 var Y = !H || X;
-                var _ = {
+                var $ = {
                     boxSizing: "border-box",
                     display: "block",
                     overflow: "hidden",
@@ -516,32 +516,32 @@
                     backgroundPosition: O || "0% 0%"
                 } : {};
                 if (N === "fill") {
-                    _.display = "block";
-                    _.position = "absolute";
-                    _.top = 0;
-                    _.left = 0;
-                    _.bottom = 0;
-                    _.right = 0;
+                    $.display = "block";
+                    $.position = "absolute";
+                    $.top = 0;
+                    $.left = 0;
+                    $.bottom = 0;
+                    $.right = 0;
                 } else if (typeof M !== "undefined" && typeof T !== "undefined") {
                     var ta = T / M;
                     var to = isNaN(ta) ? "100%" : "".concat(ta * 100, "%");
                     if (N === "responsive") {
-                        _.display = "block";
-                        _.position = "relative";
+                        $.display = "block";
+                        $.position = "relative";
                         te = true;
                         tt.paddingTop = to;
                     } else if (N === "intrinsic") {
-                        _.display = "inline-block";
-                        _.position = "relative";
-                        _.maxWidth = "100%";
+                        $.display = "inline-block";
+                        $.position = "relative";
+                        $.maxWidth = "100%";
                         te = true;
                         tt.maxWidth = "100%";
                         tn = '<svg width="'.concat(M, '" height="').concat(T, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>');
                     } else if (N === "fixed") {
-                        _.display = "inline-block";
-                        _.position = "relative";
-                        _.width = M;
-                        _.height = T;
+                        $.display = "inline-block";
+                        $.position = "relative";
+                        $.width = M;
+                        $.height = T;
                     }
                 } else {
                     if (false) {}
@@ -567,7 +567,7 @@
                     var tl;
                 }
                 return d.default.createElement("span", {
-                    style: _
+                    style: $
                 }, te ? d.default.createElement("span", {
                     style: tt
                 }, tn ? d.default.createElement("img", {

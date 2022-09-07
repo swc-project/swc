@@ -70,7 +70,7 @@ export default function p({ indexName: s , initialState: a = {} , searchClient: 
         ...r
     });
     i(n);
-    S.on("search", $).on("result", P({
+    S.on("search", _).on("result", P({
         indexId: s
     })).on("error", b);
     let x = false;
@@ -192,7 +192,7 @@ export default function p({ indexName: s , initialState: a = {} , searchClient: 
             searching: false
         });
     }
-    function $() {
+    function _() {
         if (!y) {
             y = setTimeout(()=>{
                 const { resultsFacetValues: e , ...t } = A.getState();
@@ -358,13 +358,13 @@ export default function p({ indexName: s , initialState: a = {} , searchClient: 
     function T(e) {
         w = w.setIndex(e);
     }
-    function _() {
+    function $() {
         return A.getState().metadata.reduce((e, t)=>typeof t.id !== "undefined" ? e.concat(t.id) : e, []);
     }
     return {
         store: A,
         widgetsManager: R,
-        getWidgetsIds: _,
+        getWidgetsIds: $,
         getSearchParameters: V,
         onSearchForFacetValues: M,
         onExternalStateUpdate: J,
