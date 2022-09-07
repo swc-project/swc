@@ -37,6 +37,9 @@
 
 - **(es/minifier)** Make passes more parallel (#5773) ([c2d1050](https://github.com/swc-project/swc/commit/c2d10503db724e1b2349d5df9211489c1aa9507a))
 
+
+- **(es/parser)** Operate on `u8` (#5774) ([c10d557](https://github.com/swc-project/swc/commit/c10d55780e10a75ff0fcd0da87d1e7337fbe10bd))
+
 ### Testing
 
 

@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_xml"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.4"
+version = "0.2.5"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -16,7 +16,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 bench = false
 
 [dependencies]
-swc_xml_ast = {version = "0.2.4", path = "../swc_xml_ast"}
-swc_xml_codegen = {version = "0.2.4", path = "../swc_xml_codegen"}
-swc_xml_parser = {version = "0.2.4", path = "../swc_xml_parser"}
-swc_xml_visit = {version = "0.2.5", path = "../swc_xml_visit"}
+swc_xml_ast = {version = "0.2.5", path = "../swc_xml_ast"}
+swc_xml_codegen = {version = "0.2.6", path = "../swc_xml_codegen"}
+swc_xml_parser = {version = "0.2.5", path = "../swc_xml_parser"}
+swc_xml_visit = {version = "0.2.6", path = "../swc_xml_visit"}
