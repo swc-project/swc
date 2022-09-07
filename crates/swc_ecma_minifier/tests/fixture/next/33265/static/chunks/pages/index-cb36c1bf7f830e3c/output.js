@@ -3465,33 +3465,6 @@
                 return Object.keys(segmentInfo).forEach(function(key) {
                     segmentInfo[key] || delete segmentInfo[key];
                 }), segmentInfo;
-            }, parseCaptionServiceMetadata = function(service) {
-                return "urn:scte:dash:cc:cea-608:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
-                    if (language = value, /^CC\d=/.test(value)) {
-                        var channel, language, _value$split = value.split("=");
-                        channel = _value$split[0], language = _value$split[1];
-                    } else /^CC\d$/.test(value) && (channel = value);
-                    return {
-                        channel: channel,
-                        language: language
-                    };
-                }) : "urn:scte:dash:cc:cea-708:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
-                    var flags = {
-                        channel: void 0,
-                        language: void 0,
-                        aspectRatio: 1,
-                        easyReader: 0,
-                        "3D": 0
-                    };
-                    if (/=/.test(value)) {
-                        var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1];
-                        flags.channel = channel, flags.language = value, (void 0 === _value$split2$ ? "" : _value$split2$).split(",").forEach(function(opt) {
-                            var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
-                            "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
-                        });
-                    } else flags.language = value;
-                    return flags.channel && (flags.channel = "SERVICE" + flags.channel), flags;
-                }) : void 0;
             }, getPeriodStart = function(_ref) {
                 var attributes = _ref.attributes, priorPeriodAttributes = _ref.priorPeriodAttributes, mpdType = _ref.mpdType;
                 return "number" == typeof attributes.start ? attributes.start : priorPeriodAttributes && "number" == typeof priorPeriodAttributes.start && "number" == typeof priorPeriodAttributes.duration ? priorPeriodAttributes.start + priorPeriodAttributes.duration : priorPeriodAttributes || "static" !== mpdType ? null : 0;
@@ -3524,9 +3497,34 @@
                         "number" == typeof period.attributes.duration && (periodAttributes.periodDuration = period.attributes.duration);
                         var periodAttributes1, periodBaseUrls1, periodSegmentInfo, adaptationSets = findChildren(period.node, "AdaptationSet"), periodSegmentInfo1 = getSegmentInformation(period.node);
                         return flatten(adaptationSets.map((periodAttributes1 = periodAttributes, periodBaseUrls1 = periodBaseUrls, periodSegmentInfo = periodSegmentInfo1, function(adaptationSet) {
-                            var adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls1, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
+                            var service, adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls1, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
                                 role: parseAttributes(role)
-                            }, attrs = merge(periodAttributes1, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = parseCaptionServiceMetadata(parseAttributes(accessibility));
+                            }, attrs = merge(periodAttributes1, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(accessibility)).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                                if (language = value, /^CC\d=/.test(value)) {
+                                    var channel, language, _value$split = value.split("=");
+                                    channel = _value$split[0], language = _value$split[1];
+                                } else /^CC\d$/.test(value) && (channel = value);
+                                return {
+                                    channel: channel,
+                                    language: language
+                                };
+                            }) : "urn:scte:dash:cc:cea-708:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                                var flags = {
+                                    channel: void 0,
+                                    language: void 0,
+                                    aspectRatio: 1,
+                                    easyReader: 0,
+                                    "3D": 0
+                                };
+                                if (/=/.test(value)) {
+                                    var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1];
+                                    flags.channel = channel, flags.language = value, (void 0 === _value$split2$ ? "" : _value$split2$).split(",").forEach(function(opt) {
+                                        var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
+                                        "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
+                                    });
+                                } else flags.language = value;
+                                return flags.channel && (flags.channel = "SERVICE" + flags.channel), flags;
+                            }) : void 0;
                             captionServices && (attrs = merge(attrs, {
                                 captionServices: captionServices
                             }));

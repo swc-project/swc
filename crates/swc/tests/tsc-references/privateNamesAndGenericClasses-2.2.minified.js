@@ -16,10 +16,11 @@ class C {
         _class_private_method_init(this, _bar), _class_private_field_init(this, _foo, {
             writable: !0,
             value: void 0
-        }), _class_private_field_set(this, _foo, t), t = _class_private_method_get(this, _bar, function() {
-            return _class_private_field_get(this, _foo);
-        }).call(this);
+        }), _class_private_field_set(this, _foo, t), t = _class_private_method_get(this, _bar, bar).call(this);
     }
+}
+function bar() {
+    return _class_private_field_get(this, _foo);
 }
 let a = new C(3), b = new C("hello");
 a.baz = 5, a.baz, a.#foo, b = a = b;

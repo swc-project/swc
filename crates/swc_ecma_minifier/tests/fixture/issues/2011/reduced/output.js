@@ -1,6 +1,7 @@
+class ClassA {
+}
 module.exports = class ClassB {
-    static MyA = class {
-    };
+    static MyA = ClassA;
     it() {
         this.bb = new ClassB.MyA();
     }
