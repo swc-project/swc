@@ -989,7 +989,7 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
-        n.visit_mut_children_with(self);
+        self.visit_mut_par(cpu_count() * 8, n);
 
         n.retain(|v| {
             if v.name.is_invalid() {

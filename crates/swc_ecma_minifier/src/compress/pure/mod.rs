@@ -431,16 +431,20 @@ impl VisitMut for Pure<'_> {
         );
     }
 
-    fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
-        self.visit_par(exprs);
+    fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
+        self.visit_par(nodes);
     }
 
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, exprs: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_par(exprs);
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, nodes: &mut Vec<Option<ExprOrSpread>>) {
+        self.visit_par(nodes);
     }
 
-    fn visit_mut_expr_or_spreads(&mut self, exprs: &mut Vec<ExprOrSpread>) {
-        self.visit_par(exprs);
+    fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
+        self.visit_par(nodes);
+    }
+
+    fn visit_mut_var_declarators(&mut self, nodes: &mut Vec<VarDeclarator>) {
+        self.visit_par(nodes);
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
