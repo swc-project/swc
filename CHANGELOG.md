@@ -32,6 +32,9 @@
 
 
 
+- **(es/plugin)** Add E2E test for the published plugins (#5771) ([81ab8a2](https://github.com/swc-project/swc/commit/81ab8a29e36787feef3c23c1685ece1f0c82417e))
+
+
 - **(es/tsc)** Handle tsx (#5764) ([52f6ca5](https://github.com/swc-project/swc/commit/52f6ca5fb826b9952b32946379cd696afb58867b))
 
 ## [1.2.248] - 2022-09-06
