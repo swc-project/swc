@@ -1,8 +1,8 @@
 const o = "PASS";
-var e = ()=>{
+var e = () => {
     if (o) return o;
 };
 {
-    let l = e();
-    console.log(l);
+    let o = e();
+    console.log(o);
 }

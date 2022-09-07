@@ -1,10 +1,12 @@
 {
-    const n = function() {};
+    const n = function () {};
     n(bar());
-}{
-    let t = function() {};
-    t(bar());
-}{
-    var a = function() {};
-    a(bar());
+}
+{
+    let n = function () {};
+    n(bar());
+}
+{
+    var n = function () {};
+    n(bar());
 }

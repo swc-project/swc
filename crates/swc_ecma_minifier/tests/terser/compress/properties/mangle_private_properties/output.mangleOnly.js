@@ -1,6 +1,6 @@
-class s {
-    #a = 123;
-    #b() {}
-    get #c() {}
-    set #c(e) {}
+class o {
+    #o = 123;
+    #p() {}
+    get #r() {}
+    set #r(o) {}
 }

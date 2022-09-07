@@ -3,8 +3,8 @@ var c = 1;
     c++;
     try {
         x();
-    } catch (o) {
-        var o;
+    } catch (c) {
+        var c;
     }
 })();
 console.log(c);

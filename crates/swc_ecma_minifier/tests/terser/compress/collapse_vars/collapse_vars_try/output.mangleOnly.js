@@ -2,19 +2,19 @@ function r() {
     try {
         var r = 1;
         return r;
-    } catch (t) {
-        var n = 2;
+    } catch (r) {
+        var t = 2;
+        return t;
+    } finally {
+        var n = 3;
         return n;
-    } finally{
-        var u = 3;
-        return u;
     }
 }
 function t() {
     var r = could_throw();
     try {
         return r + might_throw();
-    } catch (t) {
+    } catch (r) {
         return 3;
     }
 }

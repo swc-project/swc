@@ -1,16 +1,13 @@
 function o(o) {
-    const { a: e , b: n  } = o;
+    const { a: e, b: n } = o;
     console.log(n);
 }
+o({ a: 1, b: 2 });
 o({
-    a: 1,
-    b: 2
-});
-o({
-    get a () {
-        var e = "side effect";
-        console.log(e);
-        return e;
+    get a() {
+        var o = "side effect";
+        console.log(o);
+        return o;
     },
-    b: 4
+    b: 4,
 });

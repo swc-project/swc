@@ -1,6 +1,7 @@
 try {
-    var o = A, c = 1;
+    var o = A,
+        c = 1;
     throw o;
-} catch (r) {
+} catch (o) {
     console.log(c);
 }

@@ -1,1 +1,1 @@
-var x = "\xb5\xfe";
+var a = "µþ";

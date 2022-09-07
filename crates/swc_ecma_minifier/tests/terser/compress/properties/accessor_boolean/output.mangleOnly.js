@@ -1,10 +1,10 @@
 var e = 1;
 var r = {
-    get true () {
+    get true() {
         return e;
     },
-    set false (c){
-        e = c;
-    }
+    set false(r) {
+        e = r;
+    },
 };
 console.log(r.true, (r.false = 2), r.true);

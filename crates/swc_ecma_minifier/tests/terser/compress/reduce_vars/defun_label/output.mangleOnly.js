@@ -1,7 +1,7 @@
-!(function() {
+!(function () {
     function n(n) {
-        L: {
-            if (n) break L;
+        n: {
+            if (n) break n;
             return 1;
         }
     }

@@ -3,17 +3,17 @@ function outer() {
     var unused = {};
     function foo() {
         function not_in_use() {
-            var n = "foo";
+            var o = "foo";
             return 24;
         }
         var unused = {};
-        with (o){
+        with (o) {
             var foo = "something";
         }
         doSomething(o);
     }
     function bar() {
-        var n = {};
+        var o = {};
         doSomethingElse();
     }
     foo();
