@@ -261,6 +261,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                     b'<' | b'>' => return self.read_token_lt_gt(),
 
                     b'!' | b'=' => {
+                        let start = self.cur_pos();
+                        let had_line_break_before_last = self.had_line_break_before_last();
+
                         self.input.bump();
 
                         return Ok(Some(if self.input.eat_byte(b'=') {
@@ -270,6 +273,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 if c == b'!' {
                                     BinOp(NotEqEq)
                                 } else {
+                                    if had_line_break_before_last && self.eat_str("====") {
+                                        self.emit_error_span(self.span(start), SyntaxError::TS1185);
+                                    }
+
                                     BinOp(EqEqEq)
                                 }
                             } else if c == b'!' {
@@ -454,6 +461,9 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_logical(&mut self, c: u8) -> LexResult<Token> {
+        let had_line_break_before_last = self.had_line_break_before_last();
+        let start = self.cur_pos();
+
         self.input.bump();
         let token = if c == b'&' { BitAnd } else { BitOr };
 
@@ -477,6 +487,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                     BitOr => op!("||="),
                     _ => unreachable!(),
                 }));
+            }
+
+            // |||||||
+            //   ^
+            if had_line_break_before_last && token == BitOr && self.eat_str("||||| ") {
+                self.emit_error_span(self.span(start), SyntaxError::TS1185);
             }
 
             return Ok(BinOp(match token {
@@ -688,6 +704,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
 
+        let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
         let c = self.cur().unwrap();
         self.bump();
@@ -727,6 +744,20 @@ impl<'a, I: Input> Lexer<'a, I> {
         } else {
             BinOp(op)
         };
+
+        // <<<<<<<
+        //   ^
+        // >>>>>>>
+        //    ^
+        if had_line_break_before_last
+            && match op {
+                LShift if self.eat_str("<<<<< ") => true,
+                ZeroFillRShift if self.eat_str(">>>> ") => true,
+                _ => false,
+            }
+        {
+            self.emit_error_span(self.span(start), SyntaxError::TS1185);
+        }
 
         Ok(Some(token))
     }

@@ -75,6 +75,19 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.input.eat_byte(c)
     }
 
+    pub(super) fn eat_str(&mut self, s: &str) -> bool {
+        let state = self.cur_pos();
+
+        for c in s.bytes() {
+            if !self.eat(c) {
+                self.input.reset_to(state);
+                return false;
+            }
+        }
+
+        true
+    }
+
     pub(super) fn cur(&mut self) -> Option<char> {
         self.input.cur()
     }

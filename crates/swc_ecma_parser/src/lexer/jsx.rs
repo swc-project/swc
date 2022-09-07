@@ -21,6 +21,9 @@ impl<'a, I: Input> Lexer<'a, I> {
             let cur_pos = self.input.cur_pos();
 
             match cur {
+                '<' if self.had_line_break_before_last() && self.eat_str("<<<<<< ") => {
+                    self.emit_error_span(self.span(cur_pos), SyntaxError::TS1185);
+                }
                 '<' | '{' => {
                     //
                     if cur_pos == self.state.start {
