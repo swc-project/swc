@@ -71,7 +71,6 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.input.is_byte(c)
     }
 
-    #[deprecated]
     pub(super) fn eat(&mut self, c: u8) -> bool {
         self.input.eat_byte(c)
     }

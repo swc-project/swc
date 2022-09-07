@@ -253,7 +253,6 @@ pub trait Input: Clone {
     ///
     /// `c` must be ASCII.
     #[inline]
-    #[deprecated]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
             self.bump();
