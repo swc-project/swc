@@ -160,6 +160,138 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Option<Token>> {
+        let c = self.input.cur_as_ascii();
+
+        match c {
+            None => {}
+            Some(c) => {
+                match c {
+                    b'#' => return self.read_token_number_sign(),
+
+                    //
+                    b'.' => return self.read_token_dot().map(Some),
+
+                    b'(' | b')' | b';' | b',' | b'[' | b']' | b'{' | b'}' | b'@' | b'`' | b'~' => {
+                        // These tokens are emitted directly.
+                        self.input.bump();
+                        return Ok(Some(match c {
+                            b'(' => LParen,
+                            b')' => RParen,
+                            b';' => Semi,
+                            b',' => Comma,
+                            b'[' => LBracket,
+                            b']' => RBracket,
+                            b'{' => LBrace,
+                            b'}' => RBrace,
+                            b'@' => At,
+                            b'`' => tok!('`'),
+                            b'~' => tok!('~'),
+
+                            _ => unreachable!(),
+                        }));
+                    }
+
+                    b'?' => return self.read_token_question_mark().map(Some),
+
+                    b':' => return self.read_token_colon().map(Some),
+
+                    b'0' => return self.read_token_zero().map(Some),
+
+                    b'1'..=b'9' => {
+                        return self
+                            .read_number(false)
+                            .map(|v| match v {
+                                Left((value, raw)) => Num { value, raw },
+                                Right((value, raw)) => BigInt { value, raw },
+                            })
+                            .map(Some);
+                    }
+
+                    b'"' | b'\'' => return self.read_str_lit().map(Some),
+
+                    b'/' => return self.read_slash(),
+
+                    b'%' | b'*' => return self.read_token_mul_mod(c).map(Some),
+
+                    // Logical operators
+                    b'|' | b'&' => return self.read_token_logical(c).map(Some),
+                    b'^' => {
+                        // Bitwise xor
+                        self.input.bump();
+                        return Ok(Some(if self.input.cur() == Some('=') {
+                            self.input.bump();
+                            AssignOp(BitXorAssign)
+                        } else {
+                            BinOp(BitXor)
+                        }));
+                    }
+
+                    b'+' | b'-' => {
+                        let start = self.cur_pos();
+
+                        self.input.bump();
+
+                        // '++', '--'
+                        return Ok(Some(if self.input.cur() == Some(c as char) {
+                            self.input.bump();
+
+                            // Handle -->
+                            if self.state.had_line_break && c == b'-' && self.eat(b'>') {
+                                self.emit_module_mode_error(
+                                    start,
+                                    SyntaxError::LegacyCommentInModule,
+                                );
+                                self.skip_line_comment(0);
+                                self.skip_space(true)?;
+                                return self.read_token();
+                            }
+
+                            if c == b'+' {
+                                PlusPlus
+                            } else {
+                                MinusMinus
+                            }
+                        } else if self.input.eat_byte(b'=') {
+                            AssignOp(if c == b'+' { AddAssign } else { SubAssign })
+                        } else {
+                            BinOp(if c == b'+' { Add } else { Sub })
+                        }));
+                    }
+
+                    b'<' | b'>' => return self.read_token_lt_gt(),
+
+                    b'!' | b'=' => {
+                        self.input.bump();
+
+                        return Ok(Some(if self.input.eat_byte(b'=') {
+                            // "=="
+
+                            if self.input.eat_byte(b'=') {
+                                if c == b'!' {
+                                    BinOp(NotEqEq)
+                                } else {
+                                    BinOp(EqEqEq)
+                                }
+                            } else if c == b'!' {
+                                BinOp(NotEq)
+                            } else {
+                                BinOp(EqEq)
+                            }
+                        } else if c == b'=' && self.input.eat_byte(b'>') {
+                            // "=>"
+
+                            Arrow
+                        } else if c == b'!' {
+                            Bang
+                        } else {
+                            AssignOp(Assign)
+                        }));
+                    }
+                    _ => {}
+                }
+            }
+        }
+
         let c = match self.input.cur() {
             Some(c) => c,
             None => {
@@ -167,142 +299,16 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         };
 
-        let token = match c {
-            '#' => return self.read_token_number_sign(),
-
-            //
-            '.' => return self.read_token_dot().map(Some),
-
-            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '`' | '~' => {
-                // These tokens are emitted directly.
-                self.input.bump();
-                return Ok(Some(match c {
-                    '(' => LParen,
-                    ')' => RParen,
-                    ';' => Semi,
-                    ',' => Comma,
-                    '[' => LBracket,
-                    ']' => RBracket,
-                    '{' => LBrace,
-                    '}' => RBrace,
-                    '@' => At,
-                    '`' => tok!('`'),
-                    '~' => tok!('~'),
-
-                    _ => unreachable!(),
-                }));
+        let token = {
+            // Identifier or keyword. '\uXXXX' sequences are allowed in
+            // identifiers, so '\' also dispatches to that.
+            if c == '\\' || c.is_ident_start() {
+                return self.read_ident_or_keyword().map(Some);
             }
 
-            '?' => return self.read_token_question_mark().map(Some),
-
-            ':' => return self.read_token_colon().map(Some),
-
-            '0' => return self.read_token_zero().map(Some),
-
-            '1'..='9' => {
-                return self
-                    .read_number(false)
-                    .map(|v| match v {
-                        Left((value, raw)) => Num { value, raw },
-                        Right((value, raw)) => BigInt { value, raw },
-                    })
-                    .map(Some);
-            }
-
-            '"' | '\'' => return self.read_str_lit().map(Some),
-
-            '/' => return self.read_slash(),
-
-            '%' | '*' => return self.read_token_mul_mod(c).map(Some),
-
-            // Logical operators
-            '|' | '&' => return self.read_token_logical(c).map(Some),
-            '^' => {
-                // Bitwise xor
-                self.input.bump();
-                if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    AssignOp(BitXorAssign)
-                } else {
-                    BinOp(BitXor)
-                }
-            }
-
-            '+' | '-' => {
-                let start = self.cur_pos();
-
-                self.input.bump();
-
-                // '++', '--'
-                if self.input.cur() == Some(c) {
-                    self.input.bump();
-
-                    // Handle -->
-                    if self.state.had_line_break && c == '-' && self.eat(b'>') {
-                        self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
-                        self.skip_line_comment(0);
-                        self.skip_space(true)?;
-                        return self.read_token();
-                    }
-
-                    if c == '+' {
-                        PlusPlus
-                    } else {
-                        MinusMinus
-                    }
-                } else if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    AssignOp(if c == '+' { AddAssign } else { SubAssign })
-                } else {
-                    BinOp(if c == '+' { Add } else { Sub })
-                }
-            }
-
-            '<' | '>' => return self.read_token_lt_gt(),
-
-            '!' | '=' => {
-                self.input.bump();
-
-                if self.input.cur() == Some('=') {
-                    // "=="
-                    self.input.bump();
-
-                    if self.input.cur() == Some('=') {
-                        self.input.bump();
-                        if c == '!' {
-                            BinOp(NotEqEq)
-                        } else {
-                            BinOp(EqEqEq)
-                        }
-                    } else if c == '!' {
-                        BinOp(NotEq)
-                    } else {
-                        BinOp(EqEq)
-                    }
-                } else if c == '=' && self.input.cur() == Some('>') {
-                    // "=>"
-                    self.input.bump();
-
-                    Arrow
-                } else if c == '!' {
-                    Bang
-                } else {
-                    AssignOp(Assign)
-                }
-            }
-
-            // unexpected character
-            c => {
-                // Identifier or keyword. '\uXXXX' sequences are allowed in
-                // identifiers, so '\' also dispatches to that.
-                if c == '\\' || c.is_ident_start() {
-                    return self.read_ident_or_keyword().map(Some);
-                }
-
-                let start = self.cur_pos();
-                self.input.bump();
-                self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
-            }
+            let start = self.cur_pos();
+            self.input.bump();
+            self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
         };
 
         Ok(Some(token))
@@ -447,13 +453,12 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_logical(&mut self, c: char) -> LexResult<Token> {
+    fn read_token_logical(&mut self, c: u8) -> LexResult<Token> {
         self.input.bump();
-        let token = if c == '&' { BitAnd } else { BitOr };
+        let token = if c == b'&' { BitAnd } else { BitOr };
 
         // '|=', '&='
-        if self.input.cur() == Some('=') {
-            self.input.bump();
+        if self.input.eat_byte(b'=') {
             return Ok(AssignOp(match token {
                 BitAnd => BitAndAssign,
                 BitOr => BitOrAssign,
@@ -462,7 +467,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         // '||', '&&'
-        if self.input.cur() == Some(c) {
+        if self.input.cur() == Some(c as char) {
             self.input.bump();
 
             if self.input.cur() == Some('=') {
@@ -488,19 +493,17 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_mul_mod(&mut self, c: char) -> LexResult<Token> {
-        let is_mul = c == '*';
+    fn read_token_mul_mod(&mut self, c: u8) -> LexResult<Token> {
+        let is_mul = c == b'*';
         self.input.bump();
         let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
 
         // check for **
-        if is_mul && self.input.cur() == Some('*') {
-            self.input.bump();
+        if is_mul && self.input.eat_byte(b'*') {
             token = BinOp(Exp)
         }
 
-        if self.input.cur() == Some('=') {
-            self.input.bump();
+        if self.input.eat_byte(b'=') {
             token = match token {
                 BinOp(Mul) => AssignOp(MulAssign),
                 BinOp(Mod) => AssignOp(ModAssign),

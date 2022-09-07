@@ -204,6 +204,18 @@ pub trait Input: Clone {
     fn peek_ahead(&mut self) -> Option<char>;
     fn bump(&mut self);
 
+    /// Returns [None] if it's end of input **or** current character is not an
+    /// ascii character.
+    #[inline]
+    fn cur_as_ascii(&mut self) -> Option<u8> {
+        self.cur().and_then(|i| {
+            if i.is_ascii() {
+                return Some(i as u8);
+            }
+            None
+        })
+    }
+
     fn is_at_start(&self) -> bool;
 
     fn cur_pos(&mut self) -> BytePos;
