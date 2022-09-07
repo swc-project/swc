@@ -1,33 +1,29 @@
 function n(n, r, o) {
     var t = 3 - r;
-    var u = n;
-    var a = 7;
-    var i = "run";
-    var w = (u[i](t)[a] = o);
-    return w;
+    var a = n;
+    var i = 7;
+    var w = "run";
+    var f = (a[w](t)[i] = o);
+    return f;
 }
 function r(n) {
     var r = 5 - n;
     return r;
 }
 function o(n) {
-    const r = foo(),
-        o = r / (5 - n);
+    const r = foo(), o = r / (5 - n);
     return o;
 }
 function t(n) {
-    var r = foo(),
-        o = (5 - n) / r;
+    var r = foo(), o = (5 - n) / r;
     return o;
 }
 function a(n) {
-    var r = foo(),
-        o = (5 - u) / r;
+    var r = foo(), o = (5 - u) / r;
     return o;
 }
 function i(n) {
-    const r = foo(),
-        o = (5 - window.x) / r;
+    const r = foo(), o = (5 - window.x) / r;
     return o;
 }
 function w() {
@@ -48,12 +44,10 @@ function c() {
     return bar() || n;
 }
 function e(n) {
-    var r = 5,
-        o = 3;
+    var r = 5, o = 3;
     return (r += o);
 }
 function d(n) {
-    var r = 5,
-        o = 3;
+    var r = 5, o = 3;
     return (r += --o);
 }

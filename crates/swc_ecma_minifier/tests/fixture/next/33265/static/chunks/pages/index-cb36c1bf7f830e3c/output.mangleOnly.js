@@ -1507,7 +1507,7 @@
                 0x00,
                 0x01, 
             ]);
-            var $ = (0, n.Ki)([
+            var _ = (0, n.Ki)([
                 0x00,
                 0x00,
                 0x03, 
@@ -1516,7 +1516,7 @@
                 var r = [];
                 var i = 1;
                 while(i < t.length - 2){
-                    if ((0, n.G3)(t.subarray(i, i + 3), $)) {
+                    if ((0, n.G3)(t.subarray(i, i + 3), _)) {
                         r.push(i + 2);
                         i++;
                     }
@@ -2514,7 +2514,7 @@
             var U = (S.NO_MODIFICATION_ALLOWED_ERR = ((x[7] = "No modification allowed"), 7));
             var M = (S.NOT_FOUND_ERR = ((x[8] = "Not found"), 8));
             var P = (S.NOT_SUPPORTED_ERR = ((x[9] = "Not supported"), 9));
-            var $ = (S.INUSE_ATTRIBUTE_ERR = ((x[10] = "Attribute in use"), 10));
+            var _ = (S.INUSE_ATTRIBUTE_ERR = ((x[10] = "Attribute in use"), 10));
             var k = (S.INVALID_STATE_ERR = ((x[11] = "Invalid state"), 11));
             var B = (S.SYNTAX_ERR = ((x[12] = "Syntax error"), 12));
             var X = (S.INVALID_MODIFICATION_ERR = ((x[13] = "Invalid modification"), 13));
@@ -2591,7 +2591,7 @@
                     }
                 }
             }
-            function _(e, t, r) {
+            function $(e, t, r) {
                 var n = q(t, r);
                 if (n >= 0) {
                     var i = t.length - 1;
@@ -2625,7 +2625,7 @@
                 setNamedItem: function(e) {
                     var t = e.ownerElement;
                     if (t && t != this._ownerElement) {
-                        throw new G($);
+                        throw new G(_);
                     }
                     var r = this.getNamedItem(e.nodeName);
                     Y(this._ownerElement, this, e, r);
@@ -2634,7 +2634,7 @@
                 setNamedItemNS: function(e) {
                     var t = e.ownerElement, r;
                     if (t && t != this._ownerElement) {
-                        throw new G($);
+                        throw new G(_);
                     }
                     r = this.getNamedItemNS(e.namespaceURI, e.localName);
                     Y(this._ownerElement, this, e, r);
@@ -2642,12 +2642,12 @@
                 },
                 removeNamedItem: function(e) {
                     var t = this.getNamedItem(e);
-                    _(this._ownerElement, this, t);
+                    $(this._ownerElement, this, t);
                     return t;
                 },
                 removeNamedItemNS: function(e, t) {
                     var r = this.getNamedItemNS(e, t);
-                    _(this._ownerElement, this, r);
+                    $(this._ownerElement, this, r);
                     return r;
                 },
                 getNamedItemNS: function(e, t) {
@@ -3943,12 +3943,12 @@
                                 break;
                             default:
                                 p && f(N);
-                                var $ = new x();
+                                var _ = new x();
                                 var k = v[v.length - 1].currentNSMap;
-                                var R = y(e, N, $, k, s, a);
-                                var B = $.length;
-                                if (!$.closed && T(e, R, $.tagName, g)) {
-                                    $.closed = true;
+                                var R = y(e, N, _, k, s, a);
+                                var B = _.length;
+                                if (!_.closed && T(e, R, _.tagName, g)) {
+                                    _.closed = true;
                                     if (!r.nbsp) {
                                         a.warning("unclosed xml attribute");
                                     }
@@ -3956,22 +3956,22 @@
                                 if (p && B) {
                                     var X = b(p, {});
                                     for(var H = 0; H < B; H++){
-                                        var V = $[H];
+                                        var V = _[H];
                                         f(V.offset);
                                         V.locator = b(p, {});
                                     }
                                     i.locator = X;
-                                    if (w($, i, k)) {
-                                        v.push($);
+                                    if (w(_, i, k)) {
+                                        v.push(_);
                                     }
                                     i.locator = p;
                                 } else {
-                                    if (w($, i, k)) {
-                                        v.push($);
+                                    if (w(_, i, k)) {
+                                        v.push(_);
                                     }
                                 }
-                                if (n.isHTML($.uri) && !$.closed) {
-                                    R = E(e, R, $.tagName, s, i);
+                                if (n.isHTML(_.uri) && !_.closed) {
+                                    R = E(e, R, _.tagName, s, i);
                                 } else {
                                     R++;
                                 }
@@ -6126,7 +6126,7 @@
                 var r = t.attributes;
                 return (r.mimeType === "video/mp4" || r.mimeType === "video/webm" || r.contentType === "video");
             };
-            var $ = function e(t) {
+            var _ = function e(t) {
                 var r = t.attributes;
                 return (r.mimeType === "audio/mp4" || r.mimeType === "audio/webm" || r.contentType === "audio");
             };
@@ -6144,7 +6144,7 @@
                 }
                 var a = t[0].attributes, o = a.sourceDuration, s = a.type, u = a.suggestedPresentationDelay, f = a.minimumUpdatePeriod;
                 var c = x(t.filter(P)).map(M);
-                var l = x(t.filter($));
+                var l = x(t.filter(_));
                 var h = t.filter(k);
                 var p = t.map(function(e) {
                     return e.attributes.captionServices;
@@ -6398,7 +6398,7 @@
                 }
                 return o;
             };
-            var _ = function e(t) {
+            var $ = function e(t) {
                 return t.map(Y);
             };
             var W = function e(t, r) {
@@ -6804,7 +6804,7 @@
                     r = {};
                 }
                 var n = el(eh(t), r);
-                var i = _(n.representationInfo);
+                var i = $(n.representationInfo);
                 return B(i, n.locations, r.sidxMapping);
             };
             var eg = function e(t) {
@@ -9272,7 +9272,7 @@
                         case "hex":
                             return r >>> 1;
                         case "base64":
-                            return _(e).length;
+                            return $(e).length;
                         default:
                             if (i) {
                                 return n ? -1 : K(e).length;
@@ -9314,7 +9314,7 @@
                             return P(this, t, r);
                         case "latin1":
                         case "binary":
-                            return $(this, t, r);
+                            return _(this, t, r);
                         case "base64":
                             return D(this, t, r);
                         case "ucs2":
@@ -9579,7 +9579,7 @@
                 return I(e, t, r, n);
             }
             function R(e, t, r, n) {
-                return W(_(t), e, r, n);
+                return W($(t), e, r, n);
             }
             function O(e, t, r, n) {
                 return W(Y(t, e.length - r), e, r, n);
@@ -9732,7 +9732,7 @@
                 }
                 return n;
             }
-            function $(e, t, r) {
+            function _(e, t, r) {
                 var n = "";
                 r = Math.min(e.length, r);
                 for(var i = t; i < r; ++i){
@@ -10267,7 +10267,7 @@
                 }
                 return a;
             }
-            function _(e) {
+            function $(e) {
                 return n.toByteArray(z(e));
             }
             function W(e, t, r, n) {

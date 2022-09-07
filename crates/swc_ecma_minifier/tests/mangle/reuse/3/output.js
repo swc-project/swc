@@ -214,7 +214,7 @@ const b = (u, t, e)=>{
     }
     throw new Error(`Option --${u.name} must be of type boolean but got: ${e}`);
 };
-const _ = (u, t, e)=>{
+const $ = (u, t, e)=>{
     if (isNaN(e)) {
         throw new Error(`Option --${u.name} must be of type number but got: ${e}`);
     }
@@ -225,10 +225,10 @@ const x = (u, t, e)=>{
 };
 const v = {
     [y.STRING]: x,
-    [y.NUMBER]: _,
+    [y.NUMBER]: $,
     [y.BOOLEAN]: b
 };
-function $(u, t) {
+function _(u, t) {
     while(t[0] === "-"){
         t = t.slice(1);
     }
@@ -254,7 +254,7 @@ function O(u, t, e, n) {
     }
     const A = o.map((t)=>({
             name: t,
-            option: $(u, m(t))
+            option: _(u, m(t))
         }));
     for (const { name: E , option: a  } of A){
         if (!a) {
@@ -312,12 +312,12 @@ function S(u, t = {}) {
     let A = false;
     t.flags.forEach((u)=>{
         u.depends?.forEach((u)=>{
-            if (!t.flags || !$(t.flags, u)) {
+            if (!t.flags || !_(t.flags, u)) {
                 throw new Error(`Unknown required option: ${u}`);
             }
         });
         u.conflicts?.forEach((u)=>{
-            if (!t.flags || !$(t.flags, u)) {
+            if (!t.flags || !_(t.flags, u)) {
                 throw new Error(`Unknown conflicting option: ${u}`);
             }
         });
@@ -342,7 +342,7 @@ function S(u, t = {}) {
             }
             i = l.indexOf("--no-") === 0;
             const c = l.replace(/^-+(no-)?/, "");
-            a = $(t.flags, c);
+            a = _(t.flags, c);
             if (!a) {
                 if (t.flags.length) {
                     throw new Error(`Unknown option: ${l}`);
@@ -565,7 +565,7 @@ class W extends T {
 }
 class q extends T {
     parse(u, t, e) {
-        return _(u, t, e);
+        return $(u, t, e);
     }
 }
 class L extends T {
@@ -1043,10 +1043,10 @@ class X {
                 const w = F(A);
                 const y = E && l && C && a;
                 const b = D && m && g && w;
-                const _ = f && B && p && d;
+                const $ = f && B && p && d;
                 if (b && y) {
                     c += this.options.chars.middle;
-                } else if (_ && y && s === o && r === A) {
+                } else if ($ && y && s === o && r === A) {
                     c += this.options.chars.mid;
                 } else if (f && B && s === o) {
                     c += this.options.chars.topMid;

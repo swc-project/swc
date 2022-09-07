@@ -20,7 +20,7 @@
             var m = i.n(p);
             var v = i(3407);
             var g = i.n(v);
-            var $ = i(8852);
+            var _ = i(8852);
             var y = i(136);
             var T = i(779);
             var b = i(9323);
@@ -232,7 +232,7 @@
                     return t(e[i], i);
                 });
             }
-            function _(e, t, i) {
+            function $(e, t, i) {
                 if (i === void 0) {
                     i = 0;
                 }
@@ -327,8 +327,8 @@
             })();
             var ev = /Safari/i.test(er) && !ef && !eu && !eh;
             var eg = /Windows/i.test(er);
-            var e$ = Boolean(eI() && ("ontouchstart" in n() || n().navigator.maxTouchPoints || (n().DocumentTouch && n().document instanceof n().DocumentTouch)));
-            var ey = /iPad/i.test(er) || (ev && e$ && !/iPhone/i.test(er));
+            var e_ = Boolean(eI() && ("ontouchstart" in n() || n().navigator.maxTouchPoints || (n().DocumentTouch && n().document instanceof n().DocumentTouch)));
+            var ey = /iPad/i.test(er) || (ev && e_ && !/iPhone/i.test(er));
             var eT = /iPhone/i.test(er) && !ey;
             var eb = eT || ey || es;
             var eS = (ev || eb) && !ef;
@@ -346,7 +346,7 @@
                 IE_VERSION: em,
                 IS_SAFARI: ev,
                 IS_WINDOWS: eg,
-                TOUCH_ENABLED: e$,
+                TOUCH_ENABLED: e_,
                 IS_IPAD: ey,
                 IS_IPHONE: eT,
                 IS_IOS: eb,
@@ -652,7 +652,7 @@
                 });
                 return e;
             }
-            function e_(e, t) {
+            function e$(e, t) {
                 return eY(eQ(e), t);
             }
             function eJ(e) {
@@ -698,7 +698,7 @@
                 emptyEl: eQ,
                 normalizeContent: eX,
                 appendContent: eY,
-                insertContent: e_,
+                insertContent: e$,
                 isSingleLeftClick: eJ,
                 $: e0,
                 $$: e1
@@ -1078,7 +1078,7 @@
                 any: tm
             });
             var tg = 30;
-            var t$ = function e(t, i, r) {
+            var t_ = function e(t, i, r) {
                 if (!i.guid) {
                     i.guid = ti();
                 }
@@ -1261,7 +1261,7 @@
                 tI(a, t, r);
                 tx(s, t, r);
                 tP(o, t, r);
-                o = t$(t, o);
+                o = t_(t, o);
                 return {
                     isTargetingSelf: n,
                     target: a,
@@ -1347,7 +1347,7 @@
                         tI(n, this, "off");
                         tx(a, this, "off");
                         tP(r, this, "off");
-                        r = t$(this, r);
+                        r = t_(this, r);
                         this.off("dispose", r);
                         if (n.nodeName) {
                             th(n, a, r);
@@ -2030,7 +2030,7 @@
                     if (!this.player() || !this.player().reportUserActivity) {
                         return;
                     }
-                    var t = t$(this.player(), this.player().reportUserActivity);
+                    var t = t_(this.player(), this.player().reportUserActivity);
                     var i;
                     this.on("touchstart", function() {
                         t();
@@ -2048,7 +2048,7 @@
                 t.setTimeout = function e(t, i) {
                     var r = this;
                     var a;
-                    t = t$(this, t);
+                    t = t_(this, t);
                     this.clearTimersOnDispose_();
                     a = n().setTimeout(function() {
                         if (r.setTimeoutIds_.has(a)) {
@@ -2067,7 +2067,7 @@
                     return t;
                 };
                 t.setInterval = function e(t, i) {
-                    t = t$(this, t);
+                    t = t_(this, t);
                     this.clearTimersOnDispose_();
                     var r = n().setInterval(t, i);
                     this.setIntervalIds_.add(r);
@@ -2087,7 +2087,7 @@
                     }
                     this.clearTimersOnDispose_();
                     var r;
-                    t = t$(this, t);
+                    t = t_(this, t);
                     r = n().requestAnimationFrame(function() {
                         if (i.rafIds_.has(r)) {
                             i.rafIds_["delete"](r);
@@ -2103,7 +2103,7 @@
                         return;
                     }
                     this.clearTimersOnDispose_();
-                    i = t$(this, i);
+                    i = t_(this, i);
                     var n = this.requestAnimationFrame(function() {
                         i();
                         if (r.namedRafs_.has(t)) {
@@ -2315,11 +2315,11 @@
                 tX[tX.errorTypes[tY]] = tY;
                 tX.prototype[tX.errorTypes[tY]] = tY;
             }
-            function t_(e) {
+            function t$(e) {
                 return (e !== undefined && e !== null && typeof e.then === "function");
             }
             function tJ(e) {
-                if (t_(e)) {
+                if (t$(e)) {
                     e.then(null, function(e) {});
                 }
             }
@@ -2523,7 +2523,7 @@
                     this.hasBeenFilled_ = true;
                     r.removeChild(i);
                     this.empty();
-                    e_(i, t);
+                    e$(i, t);
                     this.trigger("modalfill");
                     if (n) {
                         r.insertBefore(i, n);
@@ -3119,7 +3119,7 @@
                 }
                 r.flush();
             };
-            var i$ = function e(t, i) {
+            var i_ = function e(t, i) {
                 var r = {
                     uri: t
                 };
@@ -3131,7 +3131,7 @@
                 if (s) {
                     r.withCredentials = s;
                 }
-                m()(r, t$(this, function(e, t, r) {
+                m()(r, t_(this, function(e, t, r) {
                     if (e) {
                         return K.error(e, t);
                     }
@@ -3181,7 +3181,7 @@
                     var s = new ia(i.cues_);
                     var o = new ia(i.activeCues_);
                     var l = false;
-                    var d = t$((0, u.Z)(i), function() {
+                    var d = t_((0, u.Z)(i), function() {
                         if (!this.tech_.isReady_ || this.tech_.isDisposed()) {
                             return;
                         }
@@ -3218,7 +3218,7 @@
                                 }
                                 n = t;
                                 if (!this.preload_ && n !== "disabled" && this.cues.length === 0) {
-                                    i$(this.src, this);
+                                    i_(this.src, this);
                                 }
                                 this.tech_.off("timeupdate", d);
                                 if (n !== "disabled") {
@@ -3277,7 +3277,7 @@
                             i.loaded_ = true;
                         }
                         if (i.preload_ || (r.kind !== "subtitles" && r.kind !== "captions")) {
-                            i$(i.src, (0, u.Z)(i));
+                            i_(i.src, (0, u.Z)(i));
                         }
                     } else {
                         i.loaded_ = true;
@@ -3594,7 +3594,7 @@
                 };
                 i.trackProgress = function e(t) {
                     this.stopTrackingProgress();
-                    this.progressInterval = this.setInterval(t$(this, function() {
+                    this.progressInterval = this.setInterval(t_(this, function() {
                         var e = this.bufferedPercent();
                         if (this.bufferedPercent_ !== e) {
                             this.trigger("progress");
@@ -4201,7 +4201,7 @@
                 }
                 return iX(i);
             };
-            var i_ = function e(t) {
+            var i$ = function e(t) {
                 if (Array.isArray(t)) {
                     var i = [];
                     t.forEach(function(t) {
@@ -4504,7 +4504,7 @@
                     t.on("loadedmetadata", function(e) {
                         return a.preselectTrack(e);
                     });
-                    t.ready(t$((0, u.Z)(a), function() {
+                    t.ready(t_((0, u.Z)(a), function() {
                         if (t.tech_ && t.tech_.featuresNativeTextTracks) {
                             this.hide();
                             return;
@@ -4830,7 +4830,7 @@
                     var s = function e() {
                         return a.focus();
                     };
-                    if (t_(i)) {
+                    if (t$(i)) {
                         i.then(s, function() {});
                     } else {
                         this.setTimeout(s, 1);
@@ -5434,7 +5434,7 @@
                 return t;
             })(tW);
             tW.registerComponent("Slider", rg);
-            var r$ = function e(t, i) {
+            var r_ = function e(t, i) {
                 return rv((t / i) * 100, 0, 100).toFixed(2) + "%";
             };
             var ry = (function(e) {
@@ -5483,7 +5483,7 @@
                         var r = e && e.isLive() ? e.seekableEnd() : i.player_.duration();
                         var n = i.player_.bufferedEnd();
                         var a = i.partEls_;
-                        var s = r$(n, r);
+                        var s = r_(n, r);
                         if (i.percent_ !== s) {
                             i.el_.style.width = s;
                             eD(i.percentageEl_, s);
@@ -5502,8 +5502,8 @@
                             }
                             d.dataset.start = u;
                             d.dataset.end = l;
-                            d.style.left = r$(u, n);
-                            d.style.width = r$(l - u, n);
+                            d.style.left = r_(u, n);
+                            d.style.width = r_(l - u, n);
                         }
                         for(var c = a.length; c > t.length; c--){
                             i.el_.removeChild(a[c - 1]);
@@ -5519,7 +5519,7 @@
                 function t(t, i) {
                     var r;
                     r = e.call(this, t, i) || this;
-                    r.update = ty(t$((0, u.Z)(r), r.update), tg);
+                    r.update = ty(t_((0, u.Z)(r), r.update), tg);
                     return r;
                 }
                 var i = t.prototype;
@@ -5583,7 +5583,7 @@
                 function t(t, i) {
                     var r;
                     r = e.call(this, t, i) || this;
-                    r.update = ty(t$((0, u.Z)(r), r.update), tg);
+                    r.update = ty(t_((0, u.Z)(r), r.update), tg);
                     return r;
                 }
                 var i = t.prototype;
@@ -5616,7 +5616,7 @@
                 function t(t, i) {
                     var r;
                     r = e.call(this, t, i) || this;
-                    r.update = ty(t$((0, u.Z)(r), r.update), tg);
+                    r.update = ty(t_((0, u.Z)(r), r.update), tg);
                     return r;
                 }
                 var i = t.prototype;
@@ -5653,7 +5653,7 @@
                 var i = t.prototype;
                 i.setEventHandlers_ = function e() {
                     var t = this;
-                    this.update_ = t$(this, this.update);
+                    this.update_ = t_(this, this.update);
                     this.update = ty(this.update_, tg);
                     this.on(this.player_, [
                         "ended",
@@ -5939,8 +5939,8 @@
                 function t(t, i) {
                     var r;
                     r = e.call(this, t, i) || this;
-                    r.handleMouseMove = ty(t$((0, u.Z)(r), r.handleMouseMove), tg);
-                    r.throttledHandleMouseSeek = ty(t$((0, u.Z)(r), r.handleMouseSeek), tg);
+                    r.handleMouseMove = ty(t_((0, u.Z)(r), r.handleMouseMove), tg);
+                    r.throttledHandleMouseSeek = ty(t_((0, u.Z)(r), r.handleMouseSeek), tg);
                     r.handleMouseUpHandler_ = function(e) {
                         return r.handleMouseUp(e);
                     };
@@ -6177,7 +6177,7 @@
                 function t(t, i) {
                     var r;
                     r = e.call(this, t, i) || this;
-                    r.update = ty(t$((0, u.Z)(r), r.update), tg);
+                    r.update = ty(t_((0, u.Z)(r), r.update), tg);
                     return r;
                 }
                 var i = t.prototype;
@@ -6233,7 +6233,7 @@
                 function t(t, i) {
                     var r;
                     r = e.call(this, t, i) || this;
-                    r.update = ty(t$((0, u.Z)(r), r.update), tg);
+                    r.update = ty(t_((0, u.Z)(r), r.update), tg);
                     return r;
                 }
                 var i = t.prototype;
@@ -6372,7 +6372,7 @@
                     }
                     r = e.call(this, t, i) || this;
                     rP((0, u.Z)(r), t);
-                    r.throttledHandleMouseMove = ty(t$((0, u.Z)(r), r.handleMouseMove), tg);
+                    r.throttledHandleMouseMove = ty(t_((0, u.Z)(r), r.handleMouseMove), tg);
                     r.handleMouseUpHandler_ = function(e) {
                         return r.handleMouseUp(e);
                     };
@@ -6983,7 +6983,7 @@
                     if (!n) {
                         return (0, u.Z)(r);
                     }
-                    var a = t$((0, u.Z)(r), r.update);
+                    var a = t_((0, u.Z)(r), r.update);
                     n.addEventListener("removetrack", a);
                     n.addEventListener("addtrack", a);
                     n.addEventListener("labelchange", a);
@@ -7303,7 +7303,7 @@
                     r = e.call(this, t, i) || this;
                     r.track = n;
                     r.cue = a;
-                    n.addEventListener("cuechange", t$((0, u.Z)(r), r.update));
+                    n.addEventListener("cuechange", t_((0, u.Z)(r), r.update));
                     return r;
                 }
                 var i = t.prototype;
@@ -7410,7 +7410,7 @@
                     var n;
                     n = e.call(this, t, i, r) || this;
                     var a = t.textTracks();
-                    var s = t$((0, u.Z)(n), n.handleTracksChange);
+                    var s = t_((0, u.Z)(n), n.handleTracksChange);
                     a.addEventListener("change", s);
                     n.on("dispose", function() {
                         a.removeEventListener("change", s);
@@ -7515,7 +7515,7 @@
             rY.prototype.kind_ = "captions";
             rY.prototype.controlText_ = "Captions";
             tW.registerComponent("CaptionsButton", rY);
-            var r_ = (function(e) {
+            var r$ = (function(e) {
                 (0, l.Z)(t, e);
                 function t() {
                     return e.apply(this, arguments) || this;
@@ -7539,7 +7539,7 @@
                 };
                 return t;
             })(rV);
-            tW.registerComponent("SubsCapsMenuItem", r_);
+            tW.registerComponent("SubsCapsMenuItem", r$);
             var rJ = (function(e) {
                 (0, l.Z)(t, e);
                 function t(t, i) {
@@ -7575,7 +7575,7 @@
                         }));
                         this.hideThreshold_ += 1;
                     }
-                    i = e.prototype.createItems.call(this, i, r_);
+                    i = e.prototype.createItems.call(this, i, r$);
                     return i;
                 };
                 return t;
@@ -8315,7 +8315,7 @@
                 };
                 i.getValues = function e() {
                     var t = this;
-                    return _(nd, function(e, i, r) {
+                    return $(nd, function(e, i, r) {
                         var n = nh(t.$(i.selector), i.parser);
                         if (n !== undefined) {
                             e[r] = n;
@@ -8675,7 +8675,7 @@
                 return t;
             })(tW);
             tW.registerComponent("LiveTracker", ng);
-            var n$ = function e(t) {
+            var n_ = function e(t) {
                 var i = t.el();
                 if (i.hasAttribute("src")) {
                     t.triggerSourceset(i.src);
@@ -8751,7 +8751,7 @@
                             n[a] = arguments[a];
                         }
                         var s = r.apply(i, n);
-                        n$(t);
+                        n_(t);
                         return s;
                     };
                 };
@@ -8824,7 +8824,7 @@
                 };
                 i.load = function() {
                     var e = a.call(i);
-                    if (!n$(t)) {
+                    if (!n_(t)) {
                         t.triggerSourceset("");
                         nS(t);
                     }
@@ -8832,7 +8832,7 @@
                 };
                 if (i.currentSrc) {
                     t.triggerSourceset(i.currentSrc);
-                } else if (!n$(t)) {
+                } else if (!n_(t)) {
                     nS(t);
                 }
                 i.resetSourceset_ = function() {
@@ -8915,7 +8915,7 @@
                         K.warn("Text Tracks are being loaded from another origin but the crossorigin attribute isn't used.\n" + "This may prevent text tracks from loading.");
                     }
                     r.restoreMetadataTracksInIOSNativePlayer_();
-                    if ((e$ || eT || ed) && t.nativeControlsForTouch === true) {
+                    if ((e_ || eT || ed) && t.nativeControlsForTouch === true) {
                         r.setControls(true);
                     }
                     r.proxyWebkitFullscreen_();
@@ -9075,7 +9075,7 @@
                             i = s().createElement("video");
                             var n = this.options_.tag && eF(this.options_.tag);
                             var a = tF({}, n);
-                            if (!e$ || this.options_.nativeControlsForTouch !== true) {
+                            if (!e_ || this.options_.nativeControlsForTouch !== true) {
                                 delete a.controls;
                             }
                             eN(i, J(a, {
@@ -9853,7 +9853,7 @@
                     if (a.flexNotSupported_()) {
                         a.addClass("vjs-no-flex");
                     }
-                    if (e$) {
+                    if (e_) {
                         a.addClass("vjs-touch-enabled");
                     }
                     if (!eb) {
@@ -10192,7 +10192,7 @@
                         throw new Error("No Tech named '" + n + "' exists! '" + n + "' should be registered using videojs.registerTech()'");
                     }
                     this.tech_ = new u(o);
-                    this.tech_.ready(t$(this, this.handleTechReady_), true);
+                    this.tech_.ready(t_(this, this.handleTechReady_), true);
                     t4.jsonToTextTracks(this.textTracksJson_ || [], this.tech_);
                     nP.forEach(function(e) {
                         r.on(r.tech_, e, function(t) {
@@ -10349,7 +10349,7 @@
                         };
                         i.playTerminatedQueue_.push(r);
                         var n = i.play();
-                        if (!t_(n)) {
+                        if (!t$(n)) {
                             return;
                         }
                         return n["catch"](function(e) {
@@ -10360,7 +10360,7 @@
                     var n;
                     if (t === "any" && !this.muted()) {
                         n = this.play();
-                        if (t_(n)) {
+                        if (t$(n)) {
                             n = n["catch"](r);
                         }
                     } else if (t === "muted" && !this.muted()) {
@@ -10368,7 +10368,7 @@
                     } else {
                         n = this.play();
                     }
-                    if (!t_(n)) {
+                    if (!t$(n)) {
                         return;
                     }
                     return n.then(function() {
@@ -11210,7 +11210,7 @@
                     if (this.resetRetryOnError_) {
                         this.resetRetryOnError_();
                     }
-                    var n = i_(t);
+                    var n = i$(t);
                     if (!n.length) {
                         this.setTimeout(function() {
                             this.error({
@@ -11555,7 +11555,7 @@
                     var t;
                     var i;
                     var r;
-                    var n = t$(this, this.reportUserActivity);
+                    var n = t_(this, this.reportUserActivity);
                     var a = function e(t) {
                         if (t.screenX !== i || t.screenY !== r) {
                             i = t.screenX;
@@ -12007,7 +12007,7 @@
                     for(var e = arguments.length, r = new Array(e), n = 0; n < e; n++){
                         r[n] = arguments[n];
                     }
-                    var a = (0, $.Z)(i, [
+                    var a = (0, _.Z)(i, [
                         this
                     ].concat(r));
                     this[t] = function() {
@@ -12259,10 +12259,10 @@
                 enumerable: true
             });
             nZ.browser = ek;
-            nZ.TOUCH_ENABLED = e$;
+            nZ.TOUCH_ENABLED = e_;
             nZ.extend = nG;
             nZ.mergeOptions = tF;
-            nZ.bind = t$;
+            nZ.bind = t_;
             nZ.registerPlugin = nz.registerPlugin;
             nZ.deregisterPlugin = nz.deregisterPlugin;
             nZ.plugin = function(e, t) {
@@ -12322,7 +12322,7 @@
                 "Non-Fullscreen": "Exit Fullscreen"
             });
             var nY = T.Z;
-            var n_ = function e(t, i, r) {
+            var n$ = function e(t, i, r) {
                 if (t && r && r.responseURL && i !== r.responseURL) {
                     return r.responseURL;
                 }
@@ -12813,7 +12813,7 @@
             var ag = function e(t) {
                 return (t.excludeUntil && t.excludeUntil > Date.now());
             };
-            var a$ = function e(t) {
+            var a_ = function e(t) {
                 return (t.excludeUntil && t.excludeUntil === Infinity);
             };
             var ay = function e(t) {
@@ -12930,7 +12930,7 @@
                 isEnabled: ay,
                 isDisabled: aT,
                 isBlacklisted: ag,
-                isIncompatible: a$,
+                isIncompatible: a_,
                 playlistEnd: ap,
                 isAes: ab,
                 hasAttribute: aS,
@@ -13523,7 +13523,7 @@
                             return;
                         }
                         t.lastRequest = Date.now();
-                        t.resolvedUri = n_(r.handleManifestRedirects, t.resolvedUri, i);
+                        t.resolvedUri = n$(r.handleManifestRedirects, t.resolvedUri, i);
                         if (e) {
                             return r.playlistRequestError(r.request, t, s);
                         }
@@ -13631,7 +13631,7 @@
                             }
                             return t.trigger("error");
                         }
-                        t.src = n_(t.handleManifestRedirects, t.src, i);
+                        t.src = n$(t.handleManifestRedirects, t.src, i);
                         var r = t.parseManifest_({
                             manifestString: i.responseText,
                             url: t.src
@@ -13692,7 +13692,7 @@
                 }
                 n(i, t);
             };
-            var a_ = function e() {
+            var a$ = function e() {
                 var t = function e(t, i) {
                     t = aX({
                         timeout: 45e3
@@ -14152,7 +14152,7 @@
                 var n = r || Boolean(t.map && i.map && t.map.byterange.offset === i.map.byterange.offset && t.map.byterange.length === i.map.byterange.length);
                 return (n && t.uri === i.uri && t.byterange.offset === i.byterange.offset && t.byterange.length === i.byterange.length);
             };
-            var s$ = function e(t, i) {
+            var s_ = function e(t, i) {
                 var r = {};
                 for(var n in t){
                     var a = t[n];
@@ -14171,12 +14171,12 @@
                 return r;
             };
             var sy = function e(t, i) {
-                var r = s$(t.playlists, i);
+                var r = s_(t.playlists, i);
                 var n = r;
                 aD(t, function(e, t, r, a) {
                     if (e.playlists && e.playlists.length) {
                         var s = e.playlists;
-                        n = sf(n, s$(s, i));
+                        n = sf(n, s_(s, i));
                     }
                 });
                 return n;
@@ -14246,7 +14246,7 @@
                         }, 0);
                         return;
                     }
-                    var o = n_(this.handleManifestRedirects, t.sidx.resolvedUri);
+                    var o = n$(this.handleManifestRedirects, t.sidx.resolvedUri);
                     var u = function e(n, o) {
                         if (a.requestErrored_(n, o, i)) {
                             return;
@@ -14452,7 +14452,7 @@
                         } else {
                             i.masterLoaded_ = Date.now();
                         }
-                        i.masterPlaylistLoader_.srcUrl = n_(i.handleManifestRedirects, i.masterPlaylistLoader_.srcUrl, r);
+                        i.masterPlaylistLoader_.srcUrl = n$(i.handleManifestRedirects, i.masterPlaylistLoader_.srcUrl, r);
                         if (n) {
                             i.handleMaster_();
                             i.syncClientServerClock_(function() {
@@ -14753,7 +14753,7 @@
                 };
                 var t = e;
                 var i = Math.pow(2, 32) - 1;
-                var r, n, a, s, o, u, l, d, c, h, f, p, m, v, g, $, y, T, b, S, k, C, E, w, I, x, P, A, L, D, O, M, R, U, B, N;
+                var r, n, a, s, o, u, l, d, c, h, f, p, m, v, g, _, y, T, b, S, k, C, E, w, I, x, P, A, L, D, O, M, R, U, B, N;
                 (function() {
                     var e;
                     E = {
@@ -15040,7 +15040,7 @@
                 s = function e() {
                     return r(E.ftyp, w, I, w, x);
                 };
-                $ = function e(t) {
+                _ = function e(t) {
                     return r(E.hdlr, L[t]);
                 };
                 o = function e(t) {
@@ -15082,7 +15082,7 @@
                     return r(E.mdhd, i);
                 };
                 v = function e(t) {
-                    return r(E.mdia, g(t), $(t.type), l(t));
+                    return r(E.mdia, g(t), _(t.type), l(t));
                 };
                 u = function e(t) {
                     return r(E.mfhd, new Uint8Array([
@@ -15911,7 +15911,7 @@
                     191,
                     252, 
                 ];
-                var _ = function e(t) {
+                var $ = function e(t) {
                     var i = [];
                     while(t--){
                         i.push(0);
@@ -15936,7 +15936,7 @@
                                     227,
                                     64
                                 ],
-                                _(154),
+                                $(154),
                                 [
                                     56
                                 ], 
@@ -15946,7 +15946,7 @@
                                 [
                                     231
                                 ],
-                                _(170),
+                                $(170),
                                 [
                                     56
                                 ]
@@ -15957,7 +15957,7 @@
                                     248,
                                     192
                                 ],
-                                _(240),
+                                $(240),
                                 [
                                     56
                                 ], 
@@ -15968,13 +15968,13 @@
                                     255,
                                     192
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     55,
                                     148,
                                     128
                                 ],
-                                _(54),
+                                $(54),
                                 [
                                     112
                                 ], 
@@ -15985,13 +15985,13 @@
                                     255,
                                     192
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     55,
                                     163,
                                     128
                                 ],
-                                _(84),
+                                $(84),
                                 [
                                     112
                                 ], 
@@ -16002,12 +16002,12 @@
                                     255,
                                     192
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     55,
                                     234
                                 ],
-                                _(226),
+                                $(226),
                                 [
                                     112
                                 ], 
@@ -16018,18 +16018,18 @@
                                     255,
                                     192
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     55,
                                     255,
                                     128
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     111,
                                     112
                                 ],
-                                _(126),
+                                $(126),
                                 [
                                     224
                                 ], 
@@ -16040,23 +16040,23 @@
                                     255,
                                     192
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     55,
                                     255,
                                     128
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     111,
                                     255
                                 ],
-                                _(269),
+                                $(269),
                                 [
                                     223,
                                     108
                                 ],
-                                _(195),
+                                $(195),
                                 [
                                     1,
                                     192
@@ -16064,81 +16064,81 @@
                             ],
                             12000: [
                                 Y,
-                                _(268),
+                                $(268),
                                 [
                                     3,
                                     127,
                                     248
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     6,
                                     255,
                                     240
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     13,
                                     255,
                                     224
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     27,
                                     253,
                                     128
                                 ],
-                                _(259),
+                                $(259),
                                 [
                                     56
                                 ], 
                             ],
                             11025: [
                                 Y,
-                                _(268),
+                                $(268),
                                 [
                                     3,
                                     127,
                                     248
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     6,
                                     255,
                                     240
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     13,
                                     255,
                                     224
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     27,
                                     255,
                                     192
                                 ],
-                                _(268),
+                                $(268),
                                 [
                                     55,
                                     175,
                                     128
                                 ],
-                                _(108),
+                                $(108),
                                 [
                                     112
                                 ], 
                             ],
                             8000: [
                                 Y,
-                                _(268),
+                                $(268),
                                 [
                                     3,
                                     121,
                                     16
                                 ],
-                                _(47),
+                                $(47),
                                 [
                                     7
                                 ], 
@@ -16259,7 +16259,7 @@
                     concatenateFrameData: em
                 };
                 var eg = ed.ONE_SECOND_IN_TS;
-                var e$ = function e(t, i) {
+                var e_ = function e(t, i) {
                     if (typeof i.pts === "number") {
                         if (t.timelineStartInfo.pts === undefined) {
                             t.timelineStartInfo.pts = i.pts;
@@ -16315,7 +16315,7 @@
                 var eb = {
                     clearDtsInfo: ey,
                     calculateTrackBaseMediaDecodeTime: eT,
-                    collectDtsInfo: e$
+                    collectDtsInfo: e_
                 };
                 var eS = 4, ek = 128;
                 var eC = function e(t) {
@@ -17558,7 +17558,7 @@
                     return a;
                 }, eY = function e(t, i, r) {
                     return decodeURIComponent(eX(t, i, r));
-                }, e_ = function e(t, i, r) {
+                }, e$ = function e(t, i, r) {
                     return unescape(eX(t, i, r));
                 }, eJ = function e(t) {
                     return ((t[0] << 21) | (t[1] << 14) | (t[2] << 7) | t[3]);
@@ -17594,7 +17594,7 @@
                         var i;
                         for(i = 0; i < t.data.length; i++){
                             if (t.data[i] === 0) {
-                                t.owner = e_(t.data, 0, i);
+                                t.owner = e$(t.data, 0, i);
                                 break;
                             }
                         }
@@ -18397,7 +18397,7 @@
                         return s;
                     };
                     o = function e(t) {
-                        var i = 0, r = 0, n = 0, a = 0, s, o, l, d, c, h, f, p, m, v, g, $ = [
+                        var i = 0, r = 0, n = 0, a = 0, s, o, l, d, c, h, f, p, m, v, g, _ = [
                             1,
                             1
                         ], y, T;
@@ -18460,112 +18460,112 @@
                                 y = s.readUnsignedByte();
                                 switch(y){
                                     case 1:
-                                        $ = [
+                                        _ = [
                                             1,
                                             1
                                         ];
                                         break;
                                     case 2:
-                                        $ = [
+                                        _ = [
                                             12,
                                             11
                                         ];
                                         break;
                                     case 3:
-                                        $ = [
+                                        _ = [
                                             10,
                                             11
                                         ];
                                         break;
                                     case 4:
-                                        $ = [
+                                        _ = [
                                             16,
                                             11
                                         ];
                                         break;
                                     case 5:
-                                        $ = [
+                                        _ = [
                                             40,
                                             33
                                         ];
                                         break;
                                     case 6:
-                                        $ = [
+                                        _ = [
                                             24,
                                             11
                                         ];
                                         break;
                                     case 7:
-                                        $ = [
+                                        _ = [
                                             20,
                                             11
                                         ];
                                         break;
                                     case 8:
-                                        $ = [
+                                        _ = [
                                             32,
                                             11
                                         ];
                                         break;
                                     case 9:
-                                        $ = [
+                                        _ = [
                                             80,
                                             33
                                         ];
                                         break;
                                     case 10:
-                                        $ = [
+                                        _ = [
                                             18,
                                             11
                                         ];
                                         break;
                                     case 11:
-                                        $ = [
+                                        _ = [
                                             15,
                                             11
                                         ];
                                         break;
                                     case 12:
-                                        $ = [
+                                        _ = [
                                             64,
                                             33
                                         ];
                                         break;
                                     case 13:
-                                        $ = [
+                                        _ = [
                                             160,
                                             99
                                         ];
                                         break;
                                     case 14:
-                                        $ = [
+                                        _ = [
                                             4,
                                             3
                                         ];
                                         break;
                                     case 15:
-                                        $ = [
+                                        _ = [
                                             3,
                                             2
                                         ];
                                         break;
                                     case 16:
-                                        $ = [
+                                        _ = [
                                             2,
                                             1
                                         ];
                                         break;
                                     case 255:
                                         {
-                                            $ = [
+                                            _ = [
                                                 (s.readUnsignedByte() << 8) | s.readUnsignedByte(),
                                                 (s.readUnsignedByte() << 8) | s.readUnsignedByte(), 
                                             ];
                                             break;
                                         }
                                 }
-                                if ($) {
-                                    $[0] / $[1];
+                                if (_) {
+                                    _[0] / _[1];
                                 }
                             }
                         }
@@ -18575,7 +18575,7 @@
                             profileCompatibility: d,
                             width: (p + 1) * 16 - i * 2 - r * 2,
                             height: (2 - v) * (m + 1) * 16 - n * 2 - a * 2,
-                            sarRatio: $
+                            sarRatio: _
                         };
                     };
                 };
@@ -18628,7 +18628,7 @@
                     }
                     return a;
                 };
-                var t$ = function e(t, i, r) {
+                var t_ = function e(t, i, r) {
                     return unescape(tg(t, i, r));
                 };
                 var ty = function e(t, i) {
@@ -18671,7 +18671,7 @@
                             n = t.subarray(i + 10, i + r + 10);
                             for(var s = 0; s < n.byteLength; s++){
                                 if (n[s] === 0) {
-                                    var o = t$(n, 0, s);
+                                    var o = t_(n, 0, s);
                                     if (o === "com.apple.streaming.transportStreamTimestamp") {
                                         var u = n.subarray(s + 1);
                                         var l = ((u[3] & 0x01) << 30) | (u[4] << 22) | (u[5] << 14) | (u[6] << 6) | (u[7] >>> 2);
@@ -19534,7 +19534,7 @@
                     }
                     return i;
                 };
-                var t_ = tY;
+                var t$ = tY;
                 var tJ = function e(t) {
                     return {
                         isLeading: (t[0] & 0x0c) >>> 2,
@@ -19755,7 +19755,7 @@
                         var u = tQ(r, [
                             "tfdt"
                         ]);
-                        var l = u.length > 0 ? t_(u[0]).baseMediaDecodeTime : 0;
+                        var l = u.length > 0 ? t$(u[0]).baseMediaDecodeTime : 0;
                         var d = tQ(r, [
                             "trun"
                         ]);
@@ -19993,7 +19993,7 @@
                             s = d.trackId;
                         }
                         if (l) {
-                            var c = t_(l);
+                            var c = t$(l);
                             n = c.baseMediaDecodeTime;
                         }
                         if (u) {
@@ -20148,7 +20148,7 @@
                     }
                     return i;
                 };
-                var i$ = function e(t, i) {
+                var i_ = function e(t, i) {
                     var r = im(t);
                     if (r === 0) {
                         return "pat";
@@ -20309,7 +20309,7 @@
                     return s;
                 };
                 var iE = {
-                    parseType: i$,
+                    parseType: i_,
                     parsePat: iy,
                     parsePmt: iT,
                     parsePayloadUnitStartIndicator: iv,
@@ -20937,11 +20937,11 @@
                 i.gopInfo = t.data.gopInfo;
             };
             var sO = function e(t) {
-                var i = t.transmuxer, r = t.bytes, n = t.audioAppendStart, a = t.gopsToAlignWith, s = t.remux, o = t.onData, u = t.onTrackInfo, l = t.onAudioTimingInfo, d = t.onVideoTimingInfo, c = t.onVideoSegmentTimingInfo, h = t.onAudioSegmentTimingInfo, f = t.onId3, p = t.onCaptions, m = t.onDone, v = t.onEndedTimeline, g = t.onTransmuxerLog, $ = t.isEndOfTimeline;
+                var i = t.transmuxer, r = t.bytes, n = t.audioAppendStart, a = t.gopsToAlignWith, s = t.remux, o = t.onData, u = t.onTrackInfo, l = t.onAudioTimingInfo, d = t.onVideoTimingInfo, c = t.onVideoSegmentTimingInfo, h = t.onAudioSegmentTimingInfo, f = t.onId3, p = t.onCaptions, m = t.onDone, v = t.onEndedTimeline, g = t.onTransmuxerLog, _ = t.isEndOfTimeline;
                 var y = {
                     buffer: []
                 };
-                var T = $;
+                var T = _;
                 var b = function e(r) {
                     if (i.currentTransmux !== t) {
                         return;
@@ -21026,7 +21026,7 @@
                         S
                     ]);
                 }
-                if ($) {
+                if (_) {
                     i.postMessage({
                         action: "endTimeline"
                     });
@@ -21295,12 +21295,12 @@
                     return r(null, i);
                 };
             };
-            var s_ = function e(t) {
+            var s$ = function e(t) {
                 var i = t.segment, r = t.bytes, n = t.trackInfoFn, a = t.timingInfoFn, s = t.videoSegmentTimingInfoFn, o = t.audioSegmentTimingInfoFn, u = t.id3Fn, l = t.captionsFn, d = t.isEndOfTimeline, c = t.endedTimelineFn, h = t.dataFn, f = t.doneFn, p = t.onTransmuxerLog;
                 var m = (i.map && i.map.tracks) || {};
                 var v = Boolean(m.audio && m.video);
                 var g = a.bind(null, i, "audio", "start");
-                var $ = a.bind(null, i, "audio", "end");
+                var _ = a.bind(null, i, "audio", "end");
                 var y = a.bind(null, i, "video", "start");
                 var T = a.bind(null, i, "video", "end");
                 var b = function e() {
@@ -21327,8 +21327,8 @@
                                 g(t.start);
                                 g = null;
                             }
-                            if ($ && typeof t.end !== "undefined") {
-                                $(t.end);
+                            if (_ && typeof t.end !== "undefined") {
+                                _(t.end);
                             }
                         },
                         onVideoTimingInfo: function e(t) {
@@ -21417,7 +21417,7 @@
                         g.isMuxed = true;
                     }
                     n(i, g);
-                    var $ = function e(t) {
+                    var _ = function e(t) {
                         h(i, {
                             data: m,
                             type: g.hasAudio && !g.isMuxed ? "audio" : "video"
@@ -21443,7 +21443,7 @@
                                 a(i, "video", "start", s);
                             }
                             if (!v.video || !n.byteLength || !i.transmuxer) {
-                                $();
+                                _();
                                 return;
                             }
                             sq({
@@ -21463,7 +21463,7 @@
                                             stream: "mp4CaptionParser"
                                         }));
                                     });
-                                    $(t.captions);
+                                    _(t.captions);
                                 }
                             });
                         }
@@ -21485,7 +21485,7 @@
                     f(null, i, {});
                     return;
                 }
-                s_({
+                s$({
                     segment: i,
                     bytes: r,
                     trackInfoFn: n,
@@ -21658,7 +21658,7 @@
                 };
             };
             var s5 = function e(t) {
-                var i = t.xhr, r = t.xhrOptions, n = t.decryptionWorker, a = t.segment, s = t.abortFn, o = t.progressFn, u = t.trackInfoFn, l = t.timingInfoFn, d = t.videoSegmentTimingInfoFn, c = t.audioSegmentTimingInfoFn, h = t.id3Fn, f = t.captionsFn, p = t.isEndOfTimeline, m = t.endedTimelineFn, v = t.dataFn, g = t.doneFn, $ = t.onTransmuxerLog;
+                var i = t.xhr, r = t.xhrOptions, n = t.decryptionWorker, a = t.segment, s = t.abortFn, o = t.progressFn, u = t.trackInfoFn, l = t.timingInfoFn, d = t.videoSegmentTimingInfoFn, c = t.audioSegmentTimingInfoFn, h = t.id3Fn, f = t.captionsFn, p = t.isEndOfTimeline, m = t.endedTimelineFn, v = t.dataFn, g = t.doneFn, _ = t.onTransmuxerLog;
                 var y = [];
                 var T = s2({
                     activeXhrs: y,
@@ -21673,7 +21673,7 @@
                     endedTimelineFn: m,
                     dataFn: v,
                     doneFn: g,
-                    onTransmuxerLog: $
+                    onTransmuxerLog: _
                 });
                 if (a.key && !a.key.bytes) {
                     var b = [
@@ -21949,11 +21949,11 @@
                 os(g, function(e, t) {
                     return e.width - t.width;
                 });
-                var $ = g.filter(function(e) {
+                var _ = g.filter(function(e) {
                     return (e.width === r && e.height === a);
                 });
-                f = $[$.length - 1];
-                var y = $.filter(function(e) {
+                f = _[_.length - 1];
+                var y = _.filter(function(e) {
                     return (e.bandwidth === f.bandwidth);
                 })[0];
                 var T;
@@ -22158,7 +22158,7 @@
                     }
                 });
             };
-            var o$ = function e(t) {
+            var o_ = function e(t) {
                 var i = t.inbandTextTracks, r = t.metadataArray, a = t.timestampOffset, s = t.videoDuration;
                 if (!r) {
                     return;
@@ -22396,10 +22396,10 @@
                 }
                 var v = typeof h === "number";
                 var g = t.segment.uri ? "segment" : "pre-segment";
-                var $ = v ? ao({
+                var _ = v ? ao({
                     preloadSegment: n
                 }) - 1 : 0;
-                return (g + " [" + (o + c) + "/" + (o + p) + "]" + (v ? " part [" + h + "/" + $ + "]" : "") + (" segment start/end [" + n.start + " => " + n.end + "]") + (v ? " part start/end [" + a.start + " => " + a.end + "]" : "") + (" startOfSegment [" + i + "]") + (" duration [" + r + "]") + (" timeline [" + f + "]") + (" selected by [" + m + "]") + (" playlist [" + u + "]"));
+                return (g + " [" + (o + c) + "/" + (o + p) + "]" + (v ? " part [" + h + "/" + _ + "]" : "") + (" segment start/end [" + n.start + " => " + n.end + "]") + (v ? " part start/end [" + a.start + " => " + a.end + "]" : "") + (" startOfSegment [" + i + "]") + (" duration [" + r + "]") + (" timeline [" + f + "]") + (" selected by [" + m + "]") + (" playlist [" + u + "]"));
             };
             var oR = function e(t) {
                 return t + "TimingInfo";
@@ -23067,8 +23067,8 @@
                             o.independent = "previous part";
                         }
                     }
-                    var $ = this.mediaSource_ && this.mediaSource_.readyState === "ended";
-                    if (o.mediaIndex >= s.length - 1 && $ && !this.seeking_()) {
+                    var _ = this.mediaSource_ && this.mediaSource_.readyState === "ended";
+                    if (o.mediaIndex >= s.length - 1 && _ && !this.seeking_()) {
                         return null;
                     }
                     return this.generateSegmentInfo_(o);
@@ -23267,7 +23267,7 @@
                     }
                     var a = this.sourceUpdater_.videoTimestampOffset() === null ? this.sourceUpdater_.audioTimestampOffset() : this.sourceUpdater_.videoTimestampOffset();
                     oy(this.inbandTextTracks_, r, this.vhs_.tech_);
-                    o$({
+                    o_({
                         inbandTextTracks: this.inbandTextTracks_,
                         metadataArray: i,
                         timestampOffset: a,
@@ -24235,7 +24235,7 @@
                 });
                 oK(i, r);
             };
-            var o_ = function e(t, i) {
+            var o$ = function e(t, i) {
                 return function(e) {
                     if (i.queuePending[t]) {
                         var r = i.queuePending[t].doneFn;
@@ -24268,8 +24268,8 @@
                     i.delayedAudioAppendQueue_ = [];
                     i.videoAppendQueued_ = false;
                     i.codecs = {};
-                    i.onVideoUpdateEnd_ = o_("video", (0, u.Z)(i));
-                    i.onAudioUpdateEnd_ = o_("audio", (0, u.Z)(i));
+                    i.onVideoUpdateEnd_ = o$("video", (0, u.Z)(i));
+                    i.onAudioUpdateEnd_ = o$("audio", (0, u.Z)(i));
                     i.onVideoError_ = function(e) {
                         i.videoError_ = e;
                     };
@@ -25516,12 +25516,12 @@
                         var m = o.length / 4 - 2;
                         var v;
                         var g = 4;
-                        var $ = this._tables[1];
-                        var y = $[0];
-                        var T = $[1];
-                        var b = $[2];
-                        var S = $[3];
-                        var k = $[4];
+                        var _ = this._tables[1];
+                        var y = _[0];
+                        var T = _[1];
+                        var b = _[2];
+                        var S = _[3];
+                        var k = _[4];
                         for(v = 0; v < m; v++){
                             h = y[u >>> 24] ^ T[(l >> 16) & 255] ^ b[(d >> 8) & 255] ^ S[c & 255] ^ o[g];
                             f = y[l >>> 24] ^ T[(d >> 16) & 255] ^ b[(c >> 8) & 255] ^ S[u & 255] ^ o[g + 1];
@@ -25586,21 +25586,21 @@
                     var m;
                     var v;
                     var g;
-                    var $;
+                    var _;
                     u = r[0];
                     d = r[1];
                     h = r[2];
                     f = r[3];
-                    for($ = 0; $ < n.length; $ += 4){
-                        p = c(n[$]);
-                        m = c(n[$ + 1]);
-                        v = c(n[$ + 2]);
-                        g = c(n[$ + 3]);
-                        a.decrypt(p, m, v, g, o, $);
-                        o[$] = c(o[$] ^ u);
-                        o[$ + 1] = c(o[$ + 1] ^ d);
-                        o[$ + 2] = c(o[$ + 2] ^ h);
-                        o[$ + 3] = c(o[$ + 3] ^ f);
+                    for(_ = 0; _ < n.length; _ += 4){
+                        p = c(n[_]);
+                        m = c(n[_ + 1]);
+                        v = c(n[_ + 2]);
+                        g = c(n[_ + 3]);
+                        a.decrypt(p, m, v, g, o, _);
+                        o[_] = c(o[_] ^ u);
+                        o[_ + 1] = c(o[_ + 1] ^ d);
+                        o[_ + 2] = c(o[_ + 2] ^ h);
+                        o[_ + 3] = c(o[_ + 3] ^ f);
                         u = p;
                         d = m;
                         h = v;
@@ -25902,7 +25902,7 @@
                             uu[t](t, v.playlistLoader, i);
                             l[p].push(v);
                             if (typeof d[m] === "undefined") {
-                                var $ = new nZ.AudioTrack({
+                                var _ = new nZ.AudioTrack({
                                     id: m,
                                     kind: ut(v),
                                     enabled: false,
@@ -25910,7 +25910,7 @@
                                     default: v["default"],
                                     label: m
                                 });
-                                d[m] = $;
+                                d[m] = _;
                             }
                         }
                     }
@@ -25948,14 +25948,14 @@
                             uu[t](t, m.playlistLoader, i);
                             d[f].push(m);
                             if (typeof c[p] === "undefined") {
-                                var $ = r.addRemoteTextTrack({
+                                var _ = r.addRemoteTextTrack({
                                     id: p,
                                     kind: "subtitles",
                                     default: m["default"] && m.autoselect,
                                     language: m.language,
                                     label: p
                                 }, false).track;
-                                c[p] = $;
+                                c[p] = _;
                             }
                         }
                     }
@@ -26183,7 +26183,7 @@
             };
             var uv = 60 * 2;
             var ug;
-            var u$ = [
+            var u_ = [
                 "mediaRequests",
                 "mediaRequestsAborted",
                 "mediaRequestsTimedout",
@@ -26235,11 +26235,11 @@
                     return true;
                 }
                 if ((!l || m > v) && f >= s) {
-                    var $ = c + " as forwardBuffer >= bufferLowWaterLine (" + f + " >= " + s + ")";
+                    var _ = c + " as forwardBuffer >= bufferLowWaterLine (" + f + " >= " + s + ")";
                     if (l) {
-                        $ += " and next bandwidth > current bandwidth (" + m + " > " + v + ")";
+                        _ += " and next bandwidth > current bandwidth (" + m + " > " + v + ")";
                     }
-                    d($);
+                    d(_);
                     return true;
                 }
                 d("not " + c + " as no switching criteria met");
@@ -26250,7 +26250,7 @@
                 function t(t) {
                     var i;
                     i = e.call(this) || this;
-                    var r = t.src, a = t.handleManifestRedirects, s = t.withCredentials, o = t.tech, l = t.bandwidth, d = t.externVhs, c = t.useCueTags, h = t.blacklistDuration, f = t.enableLowInitialPlaylist, p = t.sourceType, m = t.cacheEncryptionKeys, v = t.experimentalBufferBasedABR, g = t.experimentalLeastPixelDiffSelector, $ = t.captionServices;
+                    var r = t.src, a = t.handleManifestRedirects, s = t.withCredentials, o = t.tech, l = t.bandwidth, d = t.externVhs, c = t.useCueTags, h = t.blacklistDuration, f = t.enableLowInitialPlaylist, p = t.sourceType, m = t.cacheEncryptionKeys, v = t.experimentalBufferBasedABR, g = t.experimentalLeastPixelDiffSelector, _ = t.captionServices;
                     if (!r) {
                         throw new Error("A non-empty playlist URL or JSON manifest string is required");
                     }
@@ -26302,7 +26302,7 @@
                     var T = {
                         vhs: i.vhs_,
                         parse708captions: t.parse708captions,
-                        captionServices: $,
+                        captionServices: _,
                         mediaSource: i.mediaSource,
                         currentTime: i.tech_.currentTime.bind(i.tech_),
                         seekable: function e() {
@@ -26355,7 +26355,7 @@
                             return i.startABRTimer_();
                         });
                     }
-                    u$.forEach(function(e) {
+                    u_.forEach(function(e) {
                         i[e + "_"] = uy.bind((0, u.Z)(i), e);
                     });
                     i.logger_ = nJ("MPC");
@@ -27457,7 +27457,7 @@
             var uS = function e(t, i, r) {
                 return function(e) {
                     var n = t.master.playlists[i];
-                    var a = a$(n);
+                    var a = a_(n);
                     var s = ay(n);
                     if (typeof e === "undefined") {
                         return s;
@@ -27501,7 +27501,7 @@
                         return [];
                     }
                     return i.filter(function(e) {
-                        return !a$(e);
+                        return !a_(e);
                     }).map(function(e, i) {
                         return new uk(t, e, e.id);
                     });
@@ -27994,7 +27994,7 @@
                 movingAverageBandwidthSelector: oc,
                 comparePlaylistBandwidth: oo,
                 comparePlaylistResolution: ou,
-                xhr: a_()
+                xhr: a$()
             };
             Object.keys(sb).forEach(function(e) {
                 Object.defineProperty(uR, e, {
@@ -28806,7 +28806,7 @@
                             configurable: true
                         });
                     }
-                    i.vhs.xhr = a_();
+                    i.vhs.xhr = a$();
                     i.vhs.src(t.src, t.type);
                     return i.vhs;
                 },

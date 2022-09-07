@@ -137,10 +137,10 @@
                     ...p.encode(),
                     ...m.encode(), 
                 ];
-                const $ = h(w);
+                const _ = h(w);
                 const S = [
-                    ...new Array(32 - $.byteLength()).fill(0),
-                    ...$.toArray()
+                    ...new Array(32 - _.byteLength()).fill(0),
+                    ..._.toArray()
                 ];
                 let E = true;
                 for(let x = 0; x < S.length; x++){
@@ -1129,7 +1129,7 @@
                     var y = v & 0x1fff;
                     var m = v >>> 13;
                     var w = i[3] | 0;
-                    var $ = w & 0x1fff;
+                    var _ = w & 0x1fff;
                     var S = w >>> 13;
                     var E = i[4] | 0;
                     var x = E & 0x1fff;
@@ -1148,7 +1148,7 @@
                     var L = C >>> 13;
                     var U = i[9] | 0;
                     var D = U & 0x1fff;
-                    var _ = U >>> 13;
+                    var $ = U >>> 13;
                     var F = o[0] | 0;
                     var W = F & 0x1fff;
                     var q = F >>> 13;
@@ -1214,8 +1214,8 @@
                     var tm = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
                     a = (((c + (u >>> 13)) | 0) + (tm >>> 26)) | 0;
                     tm &= 0x3ffffff;
-                    f = Math.imul($, W);
-                    u = Math.imul($, q);
+                    f = Math.imul(_, W);
+                    u = Math.imul(_, q);
                     u = (u + Math.imul(S, W)) | 0;
                     c = Math.imul(S, q);
                     f = (f + Math.imul(y, G)) | 0;
@@ -1237,8 +1237,8 @@
                     u = Math.imul(x, q);
                     u = (u + Math.imul(M, W)) | 0;
                     c = Math.imul(M, q);
-                    f = (f + Math.imul($, G)) | 0;
-                    u = (u + Math.imul($, K)) | 0;
+                    f = (f + Math.imul(_, G)) | 0;
+                    u = (u + Math.imul(_, K)) | 0;
                     u = (u + Math.imul(S, G)) | 0;
                     c = (c + Math.imul(S, K)) | 0;
                     f = (f + Math.imul(y, H)) | 0;
@@ -1253,9 +1253,9 @@
                     u = (u + Math.imul(h, te)) | 0;
                     u = (u + Math.imul(d, tt)) | 0;
                     c = (c + Math.imul(d, te)) | 0;
-                    var t$ = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
-                    a = (((c + (u >>> 13)) | 0) + (t$ >>> 26)) | 0;
-                    t$ &= 0x3ffffff;
+                    var t_ = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
+                    a = (((c + (u >>> 13)) | 0) + (t_ >>> 26)) | 0;
+                    t_ &= 0x3ffffff;
                     f = Math.imul(A, W);
                     u = Math.imul(A, q);
                     u = (u + Math.imul(O, W)) | 0;
@@ -1264,8 +1264,8 @@
                     u = (u + Math.imul(x, K)) | 0;
                     u = (u + Math.imul(M, G)) | 0;
                     c = (c + Math.imul(M, K)) | 0;
-                    f = (f + Math.imul($, H)) | 0;
-                    u = (u + Math.imul($, J)) | 0;
+                    f = (f + Math.imul(_, H)) | 0;
+                    u = (u + Math.imul(_, J)) | 0;
                     u = (u + Math.imul(S, H)) | 0;
                     c = (c + Math.imul(S, J)) | 0;
                     f = (f + Math.imul(y, Y)) | 0;
@@ -1295,8 +1295,8 @@
                     u = (u + Math.imul(x, J)) | 0;
                     u = (u + Math.imul(M, H)) | 0;
                     c = (c + Math.imul(M, J)) | 0;
-                    f = (f + Math.imul($, Y)) | 0;
-                    u = (u + Math.imul($, Z)) | 0;
+                    f = (f + Math.imul(_, Y)) | 0;
+                    u = (u + Math.imul(_, Z)) | 0;
                     u = (u + Math.imul(S, Y)) | 0;
                     c = (c + Math.imul(S, Z)) | 0;
                     f = (f + Math.imul(y, tt)) | 0;
@@ -1330,8 +1330,8 @@
                     u = (u + Math.imul(x, Z)) | 0;
                     u = (u + Math.imul(M, Y)) | 0;
                     c = (c + Math.imul(M, Z)) | 0;
-                    f = (f + Math.imul($, tt)) | 0;
-                    u = (u + Math.imul($, te)) | 0;
+                    f = (f + Math.imul(_, tt)) | 0;
+                    u = (u + Math.imul(_, te)) | 0;
                     u = (u + Math.imul(S, tt)) | 0;
                     c = (c + Math.imul(S, te)) | 0;
                     f = (f + Math.imul(y, tn)) | 0;
@@ -1369,8 +1369,8 @@
                     u = (u + Math.imul(x, te)) | 0;
                     u = (u + Math.imul(M, tt)) | 0;
                     c = (c + Math.imul(M, te)) | 0;
-                    f = (f + Math.imul($, tn)) | 0;
-                    u = (u + Math.imul($, ti)) | 0;
+                    f = (f + Math.imul(_, tn)) | 0;
+                    u = (u + Math.imul(_, ti)) | 0;
                     u = (u + Math.imul(S, tn)) | 0;
                     c = (c + Math.imul(S, ti)) | 0;
                     f = (f + Math.imul(y, ts)) | 0;
@@ -1390,8 +1390,8 @@
                     tM &= 0x3ffffff;
                     f = Math.imul(D, W);
                     u = Math.imul(D, q);
-                    u = (u + Math.imul(_, W)) | 0;
-                    c = Math.imul(_, q);
+                    u = (u + Math.imul($, W)) | 0;
+                    c = Math.imul($, q);
                     f = (f + Math.imul(B, G)) | 0;
                     u = (u + Math.imul(B, K)) | 0;
                     u = (u + Math.imul(L, G)) | 0;
@@ -1412,8 +1412,8 @@
                     u = (u + Math.imul(x, ti)) | 0;
                     u = (u + Math.imul(M, tn)) | 0;
                     c = (c + Math.imul(M, ti)) | 0;
-                    f = (f + Math.imul($, ts)) | 0;
-                    u = (u + Math.imul($, ta)) | 0;
+                    f = (f + Math.imul(_, ts)) | 0;
+                    u = (u + Math.imul(_, ta)) | 0;
                     u = (u + Math.imul(S, ts)) | 0;
                     c = (c + Math.imul(S, ta)) | 0;
                     f = (f + Math.imul(y, tu)) | 0;
@@ -1433,8 +1433,8 @@
                     tT &= 0x3ffffff;
                     f = Math.imul(D, G);
                     u = Math.imul(D, K);
-                    u = (u + Math.imul(_, G)) | 0;
-                    c = Math.imul(_, K);
+                    u = (u + Math.imul($, G)) | 0;
+                    c = Math.imul($, K);
                     f = (f + Math.imul(B, H)) | 0;
                     u = (u + Math.imul(B, J)) | 0;
                     u = (u + Math.imul(L, H)) | 0;
@@ -1455,8 +1455,8 @@
                     u = (u + Math.imul(x, ta)) | 0;
                     u = (u + Math.imul(M, ts)) | 0;
                     c = (c + Math.imul(M, ta)) | 0;
-                    f = (f + Math.imul($, tu)) | 0;
-                    u = (u + Math.imul($, tc)) | 0;
+                    f = (f + Math.imul(_, tu)) | 0;
+                    u = (u + Math.imul(_, tc)) | 0;
                     u = (u + Math.imul(S, tu)) | 0;
                     c = (c + Math.imul(S, tc)) | 0;
                     f = (f + Math.imul(y, th)) | 0;
@@ -1472,8 +1472,8 @@
                     tA &= 0x3ffffff;
                     f = Math.imul(D, H);
                     u = Math.imul(D, J);
-                    u = (u + Math.imul(_, H)) | 0;
-                    c = Math.imul(_, J);
+                    u = (u + Math.imul($, H)) | 0;
+                    c = Math.imul($, J);
                     f = (f + Math.imul(B, Y)) | 0;
                     u = (u + Math.imul(B, Z)) | 0;
                     u = (u + Math.imul(L, Y)) | 0;
@@ -1494,8 +1494,8 @@
                     u = (u + Math.imul(x, tc)) | 0;
                     u = (u + Math.imul(M, tu)) | 0;
                     c = (c + Math.imul(M, tc)) | 0;
-                    f = (f + Math.imul($, th)) | 0;
-                    u = (u + Math.imul($, td)) | 0;
+                    f = (f + Math.imul(_, th)) | 0;
+                    u = (u + Math.imul(_, td)) | 0;
                     u = (u + Math.imul(S, th)) | 0;
                     c = (c + Math.imul(S, td)) | 0;
                     f = (f + Math.imul(y, tg)) | 0;
@@ -1507,8 +1507,8 @@
                     tO &= 0x3ffffff;
                     f = Math.imul(D, Y);
                     u = Math.imul(D, Z);
-                    u = (u + Math.imul(_, Y)) | 0;
-                    c = Math.imul(_, Z);
+                    u = (u + Math.imul($, Y)) | 0;
+                    c = Math.imul($, Z);
                     f = (f + Math.imul(B, tt)) | 0;
                     u = (u + Math.imul(B, te)) | 0;
                     u = (u + Math.imul(L, tt)) | 0;
@@ -1529,8 +1529,8 @@
                     u = (u + Math.imul(x, td)) | 0;
                     u = (u + Math.imul(M, th)) | 0;
                     c = (c + Math.imul(M, td)) | 0;
-                    f = (f + Math.imul($, tg)) | 0;
-                    u = (u + Math.imul($, tb)) | 0;
+                    f = (f + Math.imul(_, tg)) | 0;
+                    u = (u + Math.imul(_, tb)) | 0;
                     u = (u + Math.imul(S, tg)) | 0;
                     c = (c + Math.imul(S, tb)) | 0;
                     var tk = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
@@ -1538,8 +1538,8 @@
                     tk &= 0x3ffffff;
                     f = Math.imul(D, tt);
                     u = Math.imul(D, te);
-                    u = (u + Math.imul(_, tt)) | 0;
-                    c = Math.imul(_, te);
+                    u = (u + Math.imul($, tt)) | 0;
+                    c = Math.imul($, te);
                     f = (f + Math.imul(B, tn)) | 0;
                     u = (u + Math.imul(B, ti)) | 0;
                     u = (u + Math.imul(L, tn)) | 0;
@@ -1565,8 +1565,8 @@
                     tI &= 0x3ffffff;
                     f = Math.imul(D, tn);
                     u = Math.imul(D, ti);
-                    u = (u + Math.imul(_, tn)) | 0;
-                    c = Math.imul(_, ti);
+                    u = (u + Math.imul($, tn)) | 0;
+                    c = Math.imul($, ti);
                     f = (f + Math.imul(B, ts)) | 0;
                     u = (u + Math.imul(B, ta)) | 0;
                     u = (u + Math.imul(L, ts)) | 0;
@@ -1588,8 +1588,8 @@
                     tR &= 0x3ffffff;
                     f = Math.imul(D, ts);
                     u = Math.imul(D, ta);
-                    u = (u + Math.imul(_, ts)) | 0;
-                    c = Math.imul(_, ta);
+                    u = (u + Math.imul($, ts)) | 0;
+                    c = Math.imul($, ta);
                     f = (f + Math.imul(B, tu)) | 0;
                     u = (u + Math.imul(B, tc)) | 0;
                     u = (u + Math.imul(L, tu)) | 0;
@@ -1607,8 +1607,8 @@
                     tN &= 0x3ffffff;
                     f = Math.imul(D, tu);
                     u = Math.imul(D, tc);
-                    u = (u + Math.imul(_, tu)) | 0;
-                    c = Math.imul(_, tc);
+                    u = (u + Math.imul($, tu)) | 0;
+                    c = Math.imul($, tc);
                     f = (f + Math.imul(B, th)) | 0;
                     u = (u + Math.imul(B, td)) | 0;
                     u = (u + Math.imul(L, th)) | 0;
@@ -1622,8 +1622,8 @@
                     tj &= 0x3ffffff;
                     f = Math.imul(D, th);
                     u = Math.imul(D, td);
-                    u = (u + Math.imul(_, th)) | 0;
-                    c = Math.imul(_, td);
+                    u = (u + Math.imul($, th)) | 0;
+                    c = Math.imul($, td);
                     f = (f + Math.imul(B, tg)) | 0;
                     u = (u + Math.imul(B, tb)) | 0;
                     u = (u + Math.imul(L, tg)) | 0;
@@ -1633,8 +1633,8 @@
                     tP &= 0x3ffffff;
                     f = Math.imul(D, tg);
                     u = Math.imul(D, tb);
-                    u = (u + Math.imul(_, tg)) | 0;
-                    c = Math.imul(_, tb);
+                    u = (u + Math.imul($, tg)) | 0;
+                    c = Math.imul($, tb);
                     var tC = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
                     a = (((c + (u >>> 13)) | 0) + (tC >>> 26)) | 0;
                     tC &= 0x3ffffff;
@@ -1642,7 +1642,7 @@
                     s[1] = ty;
                     s[2] = tm;
                     s[3] = tw;
-                    s[4] = t$;
+                    s[4] = t_;
                     s[5] = tS;
                     s[6] = tE;
                     s[7] = tx;
@@ -1666,7 +1666,7 @@
                 if (!Math.imul) {
                     w = m;
                 }
-                function $(t, e, r) {
+                function _(t, e, r) {
                     r.negative = e.negative ^ t.negative;
                     r.length = t.length + e.length;
                     var n = 0;
@@ -1701,7 +1701,7 @@
                     return r._strip();
                 }
                 function S(t, e, r) {
-                    return $(t, e, r);
+                    return _(t, e, r);
                 }
                 o.prototype.mulTo = function t(e, r) {
                     var n;
@@ -1711,7 +1711,7 @@
                     } else if (i < 63) {
                         n = m(this, e, r);
                     } else if (i < 1024) {
-                        n = $(this, e, r);
+                        n = _(this, e, r);
                     } else {
                         n = S(this, e, r);
                     }
@@ -3202,7 +3202,7 @@
             const y = Symbol('closeCallbacks');
             const m = Symbol('keyEncoding');
             const w = Symbol('valueEncoding');
-            const $ = Symbol('abortOnClose');
+            const _ = Symbol('abortOnClose');
             const S = Symbol('legacy');
             const E = Symbol('keys');
             const x = Symbol('values');
@@ -3234,7 +3234,7 @@
                     this[S] = r;
                     this[M] = Number.isInteger(e.limit) && e.limit >= 0 ? e.limit : Infinity;
                     this[T] = 0;
-                    this[$] = !!e.abortOnClose;
+                    this[_] = !!e.abortOnClose;
                     this.db = t;
                     this.db.attachResource(this);
                     this.nextTick = t.nextTick;
@@ -3374,7 +3374,7 @@
                 }
                 [d]() {
                     const t = this[f];
-                    if (this[$] && t === null) return O;
+                    if (this[_] && t === null) return O;
                     this[u] = false;
                     this[f] = null;
                     if (this[g]) this._close(this[b]);
@@ -3422,7 +3422,7 @@
                         this[y].push(t);
                         if (!this[u]) {
                             this._close(this[b]);
-                        } else if (this[$]) {
+                        } else if (this[_]) {
                             const e = this[d]();
                             e(new i('Aborted on iterator close()', {
                                 code: 'LEVEL_ITERATOR_NOT_OPEN'
@@ -3608,7 +3608,7 @@
             const y = Symbol('promise');
             const m = Symbol('landed');
             const w = Symbol('resources');
-            const $ = Symbol('closeResources');
+            const _ = Symbol('closeResources');
             const S = Symbol('operations');
             const E = Symbol('undefer');
             const x = Symbol('deferOpen');
@@ -3725,7 +3725,7 @@
                         this._open(t, (t)=>{
                             if (t) {
                                 this[T] = 'closed';
-                                this[$](()=>{
+                                this[_](()=>{
                                     this.emit(m);
                                     r(t);
                                 });
@@ -3772,7 +3772,7 @@
                             this.emit(m);
                             e(t);
                         };
-                        this[$](()=>{
+                        this[_](()=>{
                             this._close((t)=>{
                                 if (t) return r(t);
                                 this[T] = 'closed';
@@ -3789,7 +3789,7 @@
                     }
                     return t[y];
                 }
-                [$](t) {
+                [_](t) {
                     if (this[w].size === 0) {
                         return this.nextTick(t);
                     }
@@ -5477,7 +5477,7 @@
                 };
                 return y(i, e);
             }
-            function $(t, e) {
+            function _(t, e) {
                 var r = g.decode(t, "der");
                 var n = m(r.e.toString(16));
                 var i = {
@@ -5499,7 +5499,7 @@
             }
             function E(t, e) {
                 var r = b.decode(t, "der");
-                return $(r.privateKey.data, e);
+                return _(r.privateKey.data, e);
             }
             function x(t) {
                 var e = /^-----BEGIN (RSA )?(PUBLIC|PRIVATE) KEY-----$/.exec(t);
@@ -5509,7 +5509,7 @@
                 var r = !!e[1];
                 var n = e[2] === "PRIVATE";
                 if (n) {
-                    return r ? $ : E;
+                    return r ? _ : E;
                 } else {
                     return r ? w : S;
                 }
@@ -5826,7 +5826,7 @@
                 return e;
             }
             e.intToBuffer = w;
-            function $(t) {
+            function _(t) {
                 let e = 0;
                 for(var r = 0; r < t.length; r++){
                     e *= 256;
@@ -5834,7 +5834,7 @@
                 }
                 return e;
             }
-            e.bufferToInt = $;
+            e.bufferToInt = _;
             const S = (t, e)=>t.every((t, r)=>e[r] === t);
             e.arrayCompare = S;
             async function E(t, r, n, i, o) {
@@ -5868,7 +5868,7 @@
                 const h = o.slice(0, f);
                 const d = o.slice(h.length, h.length + f);
                 const p = o.slice(h.length + d.length, h.length + d.length + a);
-                const g = $(p);
+                const g = _(p);
                 const b = o.slice(h.length + d.length + p.length);
                 const v = await m([
                     await m(h),
@@ -5891,7 +5891,7 @@
                 const r = t.slice(0, f);
                 const i = t.slice(r.length, r.length + f);
                 const o = t.slice(r.length + i.length, r.length + i.length + a);
-                const s = $(o);
+                const s = _(o);
                 const u = t.slice(r.length + i.length + o.length);
                 const c = await m([
                     await m(r),
@@ -7856,8 +7856,8 @@
                 return e;
             }
             e.bufferToInt = w;
-            const $ = (t, e)=>t.every((t, r)=>e[r] === t);
-            e.arrayCompare = $;
+            const _ = (t, e)=>t.every((t, r)=>e[r] === t);
+            e.arrayCompare = _;
             async function S(t, r, n, i, o) {
                 if (i <= 0) {
                     return false;
@@ -10174,9 +10174,9 @@
                     }
                     var w = new XMLHttpRequest();
                     if (e.auth) {
-                        var $ = e.auth.username || '';
+                        var _ = e.auth.username || '';
                         var S = e.auth.password ? unescape(encodeURIComponent(e.auth.password)) : '';
-                        b.Authorization = 'Basic ' + btoa($ + ':' + S);
+                        b.Authorization = 'Basic ' + btoa(_ + ':' + S);
                     }
                     var E = a(e.baseURL, e.url);
                     w.open(e.method.toUpperCase(), s(E, e.params, e.paramsSerializer), true);
@@ -11353,7 +11353,7 @@
             function w(t) {
                 return i.call(t) === '[object Function]';
             }
-            function $(t) {
+            function _(t) {
                 return p(t) && w(t.pipe);
             }
             function S(t) {
@@ -11489,7 +11489,7 @@
                 isFile: v,
                 isBlob: y,
                 isFunction: w,
-                isStream: $,
+                isStream: _,
                 isURLSearchParams: E,
                 isStandardBrowserEnv: M,
                 forEach: T,
@@ -11683,7 +11683,7 @@
                                 u = b.length;
                             }
                         } else {
-                            $(e, 2, C.length, 'Base');
+                            _(e, 2, C.length, 'Base');
                             if (e == 10 && B) {
                                 v = new L(t);
                                 return F(v, M + v.e + 1, T);
@@ -11776,35 +11776,35 @@
                             if (typeof t == 'object') {
                                 if (t.hasOwnProperty(e = 'DECIMAL_PLACES')) {
                                     r = t[e];
-                                    $(r, 0, b, e);
+                                    _(r, 0, b, e);
                                     M = r;
                                 }
                                 if (t.hasOwnProperty(e = 'ROUNDING_MODE')) {
                                     r = t[e];
-                                    $(r, 0, 8, e);
+                                    _(r, 0, 8, e);
                                     T = r;
                                 }
                                 if (t.hasOwnProperty(e = 'EXPONENTIAL_AT')) {
                                     r = t[e];
                                     if (r && r.pop) {
-                                        $(r[0], -b, 0, e);
-                                        $(r[1], 0, b, e);
+                                        _(r[0], -b, 0, e);
+                                        _(r[1], 0, b, e);
                                         A = r[0];
                                         O = r[1];
                                     } else {
-                                        $(r, -b, b, e);
+                                        _(r, -b, b, e);
                                         A = -(O = r < 0 ? -r : r);
                                     }
                                 }
                                 if (t.hasOwnProperty(e = 'RANGE')) {
                                     r = t[e];
                                     if (r && r.pop) {
-                                        $(r[0], -b, -1, e);
-                                        $(r[1], 1, b, e);
+                                        _(r[0], -b, -1, e);
+                                        _(r[1], 1, b, e);
                                         k = r[0];
                                         I = r[1];
                                     } else {
-                                        $(r, -b, b, e);
+                                        _(r, -b, b, e);
                                         if (r) {
                                             k = -(I = r < 0 ? -r : r);
                                         } else {
@@ -11831,12 +11831,12 @@
                                 }
                                 if (t.hasOwnProperty(e = 'MODULO_MODE')) {
                                     r = t[e];
-                                    $(r, 0, 9, e);
+                                    _(r, 0, 9, e);
                                     N = r;
                                 }
                                 if (t.hasOwnProperty(e = 'POW_PRECISION')) {
                                     r = t[e];
-                                    $(r, 0, b, e);
+                                    _(r, 0, b, e);
                                     j = r;
                                 }
                                 if (t.hasOwnProperty(e = 'FORMAT')) {
@@ -11916,7 +11916,7 @@
                         return function(t) {
                             var r, n, i, s, c, l = 0, d = [], g = new L(o);
                             if (t == null) t = M;
-                            else $(t, 0, b);
+                            else _(t, 0, b);
                             s = a(t / h);
                             if (R) {
                                 if (crypto.getRandomValues) {
@@ -12095,7 +12095,7 @@
                             for(; !t[0] && t.length > 1; t.splice(0, 1));
                         }
                         return function(n, i, o, s, a) {
-                            var u, c, d, p, g, b, v, m, w, $, S, E, x, M, T, A, O, k = n.s == i.s ? 1 : -1, I = n.c, R = i.c;
+                            var u, c, d, p, g, b, v, m, w, _, S, E, x, M, T, A, O, k = n.s == i.s ? 1 : -1, I = n.c, R = i.c;
                             if (!I || !I[0] || !R || !R[0]) {
                                 return new L(!n.s || !i.s || (I ? R && I[0] == R[0] : !R) ? NaN : I && I[0] == 0 || !R ? k * 0 : k / 0);
                             }
@@ -12126,9 +12126,9 @@
                                     M = I.length;
                                 }
                                 x = A;
-                                $ = I.slice(0, A);
-                                S = $.length;
-                                for(; S < A; $[S++] = 0);
+                                _ = I.slice(0, A);
+                                S = _.length;
+                                for(; S < A; _[S++] = 0);
                                 O = R.slice();
                                 O = [
                                     0
@@ -12137,17 +12137,17 @@
                                 if (R[1] >= a / 2) T++;
                                 do {
                                     g = 0;
-                                    u = e(R, $, A, S);
+                                    u = e(R, _, A, S);
                                     if (u < 0) {
-                                        E = $[0];
-                                        if (A != S) E = E * a + ($[1] || 0);
+                                        E = _[0];
+                                        if (A != S) E = E * a + (_[1] || 0);
                                         g = f(E / T);
                                         if (g > 1) {
                                             if (g >= a) g = a - 1;
                                             b = t(R, g, a);
                                             v = b.length;
-                                            S = $.length;
-                                            while(e(b, $, v, S) == 1){
+                                            S = _.length;
+                                            while(e(b, _, v, S) == 1){
                                                 g--;
                                                 r(b, A < v ? O : R, v, a);
                                                 v = b.length;
@@ -12163,32 +12163,32 @@
                                         if (v < S) b = [
                                             0
                                         ].concat(b);
-                                        r($, b, S, a);
-                                        S = $.length;
+                                        r(_, b, S, a);
+                                        S = _.length;
                                         if (u == -1) {
-                                            while(e(R, $, A, S) < 1){
+                                            while(e(R, _, A, S) < 1){
                                                 g++;
-                                                r($, A < S ? O : R, S, a);
-                                                S = $.length;
+                                                r(_, A < S ? O : R, S, a);
+                                                S = _.length;
                                             }
                                         }
                                     } else if (u === 0) {
                                         g++;
-                                        $ = [
+                                        _ = [
                                             0
                                         ];
                                     }
                                     w[d++] = g;
-                                    if ($[0]) {
-                                        $[S++] = I[x] || 0;
+                                    if (_[0]) {
+                                        _[S++] = I[x] || 0;
                                     } else {
-                                        $ = [
+                                        _ = [
                                             I[x]
                                         ];
                                         S = 1;
                                     }
-                                }while ((x++ < M || $[0] != null) && k--)
-                                p = $[0] != null;
+                                }while ((x++ < M || _[0] != null) && k--)
+                                p = _[0] != null;
                                 if (!w[0]) w.splice(0, 1);
                             }
                             if (a == l) {
@@ -12204,7 +12204,7 @@
                     function U(t, e, r, n) {
                         var i, o, s, a, f;
                         if (r == null) r = T;
-                        else $(r, 0, 8);
+                        else _(r, 0, 8);
                         if (!t.c) return t.toString();
                         i = t.c[0];
                         s = t.e;
@@ -12248,7 +12248,7 @@
                         }
                         return i;
                     }
-                    function _(t, e, r) {
+                    function $(t, e, r) {
                         var n = 1, i = e.length;
                         for(; !e[--i]; e.pop());
                         for(i = e[0]; i >= 10; i /= 10, n++);
@@ -12392,9 +12392,9 @@
                     i.decimalPlaces = i.dp = function(t, e) {
                         var r, n, i, o = this;
                         if (t != null) {
-                            $(t, 0, b);
+                            _(t, 0, b);
                             if (e == null) e = T;
-                            else $(e, 0, 8);
+                            else _(e, 0, 8);
                             return F(new L(o), t + o.e + 1, e);
                         }
                         if (!(r = o.c)) return null;
@@ -12481,7 +12481,7 @@
                     i.integerValue = function(t) {
                         var e = new L(this);
                         if (t == null) t = T;
-                        else $(t, 0, 8);
+                        else _(t, 0, 8);
                         return F(e, e.e + 1, t);
                     };
                     i.isEqualTo = i.eq = function(t, e) {
@@ -12581,7 +12581,7 @@
                             ];
                             return t;
                         }
-                        return _(t, c, u);
+                        return $(t, c, u);
                     };
                     i.modulo = i.mod = function(t, r) {
                         var n, i, o = this;
@@ -12605,12 +12605,12 @@
                         return t;
                     };
                     i.multipliedBy = i.times = function(t, e) {
-                        var r, n, i, o, s, a, f, u, c, d, p, b, v, m, w, $ = this, S = $.c, E = (t = new L(t, e)).c;
+                        var r, n, i, o, s, a, f, u, c, d, p, b, v, m, w, _ = this, S = _.c, E = (t = new L(t, e)).c;
                         if (!S || !E || !S[0] || !E[0]) {
-                            if (!$.s || !t.s || S && !S[0] && !E || E && !E[0] && !S) {
+                            if (!_.s || !t.s || S && !S[0] && !E || E && !E[0] && !S) {
                                 t.c = t.e = t.s = null;
                             } else {
-                                t.s *= $.s;
+                                t.s *= _.s;
                                 if (!S || !E) {
                                     t.c = t.e = null;
                                 } else {
@@ -12622,8 +12622,8 @@
                             }
                             return t;
                         }
-                        n = y($.e / h) + y(t.e / h);
-                        t.s *= $.s;
+                        n = y(_.e / h) + y(t.e / h);
+                        t.s *= _.s;
                         f = S.length;
                         d = E.length;
                         if (f < d) {
@@ -12656,7 +12656,7 @@
                         } else {
                             v.splice(0, 1);
                         }
-                        return _(t, v, n);
+                        return $(t, v, n);
                     };
                     i.negated = function() {
                         var t = new L(this);
@@ -12710,14 +12710,14 @@
                             ].concat(a);
                             ++s;
                         }
-                        return _(t, a, s);
+                        return $(t, a, s);
                     };
                     i.precision = i.sd = function(t, e) {
                         var r, n, i, o = this;
                         if (t != null && t !== !!t) {
-                            $(t, 1, b);
+                            _(t, 1, b);
                             if (e == null) e = T;
-                            else $(e, 0, 8);
+                            else _(e, 0, 8);
                             return F(new L(o), t, e);
                         }
                         if (!(r = o.c)) return null;
@@ -12731,7 +12731,7 @@
                         return n;
                     };
                     i.shiftedBy = function(t) {
-                        $(t, -d, d);
+                        _(t, -d, d);
                         return this.times('1e' + t);
                     };
                     i.squareRoot = i.sqrt = function() {
@@ -12790,14 +12790,14 @@
                     };
                     i.toExponential = function(t, e) {
                         if (t != null) {
-                            $(t, 0, b);
+                            _(t, 0, b);
                             t++;
                         }
                         return U(this, t, e, 1);
                     };
                     i.toFixed = function(t, e) {
                         if (t != null) {
-                            $(t, 0, b);
+                            _(t, 0, b);
                             t = t + this.e + 1;
                         }
                         return U(this, t, e);
@@ -12887,7 +12887,7 @@
                         return +W(this);
                     };
                     i.toPrecision = function(t, e) {
-                        if (t != null) $(t, 1, b);
+                        if (t != null) _(t, 1, b);
                         return U(this, t, e, 2);
                     };
                     i.toString = function(t) {
@@ -12906,7 +12906,7 @@
                                 n = F(new L(n), M + o + 1, T);
                                 e = x(m(n.c), n.e, '0');
                             } else {
-                                $(t, 2, C.length, 'Base');
+                                _(t, 2, C.length, 'Base');
                                 e = r(x(m(n.c), o, '0'), 10, t, i, true);
                             }
                             if (i < 0 && n.c[0]) e = '-' + e;
@@ -12950,7 +12950,7 @@
                     for(s = 0; s < a; s++)if (i[s] != o[s]) return i[s] > o[s] ^ r ? 1 : -1;
                     return f == u ? 0 : f > u ^ r ? 1 : -1;
                 }
-                function $(t, e, r, n) {
+                function _(t, e, r, n) {
                     if (t < e || t > r || t !== f(t)) {
                         throw Error(u + (n || 'Argument') + (typeof t == 'number' ? t < e || t > r ? ' out of range: ' : ' not an integer: ' : ' not a primitive number: ') + String(t));
                     }
@@ -13881,7 +13881,7 @@
                     var y = v & 0x1fff;
                     var m = v >>> 13;
                     var w = i[3] | 0;
-                    var $ = w & 0x1fff;
+                    var _ = w & 0x1fff;
                     var S = w >>> 13;
                     var E = i[4] | 0;
                     var x = E & 0x1fff;
@@ -13900,7 +13900,7 @@
                     var L = C >>> 13;
                     var U = i[9] | 0;
                     var D = U & 0x1fff;
-                    var _ = U >>> 13;
+                    var $ = U >>> 13;
                     var F = o[0] | 0;
                     var W = F & 0x1fff;
                     var q = F >>> 13;
@@ -13966,8 +13966,8 @@
                     var tm = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
                     a = (((c + (u >>> 13)) | 0) + (tm >>> 26)) | 0;
                     tm &= 0x3ffffff;
-                    f = Math.imul($, W);
-                    u = Math.imul($, q);
+                    f = Math.imul(_, W);
+                    u = Math.imul(_, q);
                     u = (u + Math.imul(S, W)) | 0;
                     c = Math.imul(S, q);
                     f = (f + Math.imul(y, G)) | 0;
@@ -13989,8 +13989,8 @@
                     u = Math.imul(x, q);
                     u = (u + Math.imul(M, W)) | 0;
                     c = Math.imul(M, q);
-                    f = (f + Math.imul($, G)) | 0;
-                    u = (u + Math.imul($, K)) | 0;
+                    f = (f + Math.imul(_, G)) | 0;
+                    u = (u + Math.imul(_, K)) | 0;
                     u = (u + Math.imul(S, G)) | 0;
                     c = (c + Math.imul(S, K)) | 0;
                     f = (f + Math.imul(y, H)) | 0;
@@ -14005,9 +14005,9 @@
                     u = (u + Math.imul(h, te)) | 0;
                     u = (u + Math.imul(d, tt)) | 0;
                     c = (c + Math.imul(d, te)) | 0;
-                    var t$ = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
-                    a = (((c + (u >>> 13)) | 0) + (t$ >>> 26)) | 0;
-                    t$ &= 0x3ffffff;
+                    var t_ = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
+                    a = (((c + (u >>> 13)) | 0) + (t_ >>> 26)) | 0;
+                    t_ &= 0x3ffffff;
                     f = Math.imul(A, W);
                     u = Math.imul(A, q);
                     u = (u + Math.imul(O, W)) | 0;
@@ -14016,8 +14016,8 @@
                     u = (u + Math.imul(x, K)) | 0;
                     u = (u + Math.imul(M, G)) | 0;
                     c = (c + Math.imul(M, K)) | 0;
-                    f = (f + Math.imul($, H)) | 0;
-                    u = (u + Math.imul($, J)) | 0;
+                    f = (f + Math.imul(_, H)) | 0;
+                    u = (u + Math.imul(_, J)) | 0;
                     u = (u + Math.imul(S, H)) | 0;
                     c = (c + Math.imul(S, J)) | 0;
                     f = (f + Math.imul(y, Y)) | 0;
@@ -14047,8 +14047,8 @@
                     u = (u + Math.imul(x, J)) | 0;
                     u = (u + Math.imul(M, H)) | 0;
                     c = (c + Math.imul(M, J)) | 0;
-                    f = (f + Math.imul($, Y)) | 0;
-                    u = (u + Math.imul($, Z)) | 0;
+                    f = (f + Math.imul(_, Y)) | 0;
+                    u = (u + Math.imul(_, Z)) | 0;
                     u = (u + Math.imul(S, Y)) | 0;
                     c = (c + Math.imul(S, Z)) | 0;
                     f = (f + Math.imul(y, tt)) | 0;
@@ -14082,8 +14082,8 @@
                     u = (u + Math.imul(x, Z)) | 0;
                     u = (u + Math.imul(M, Y)) | 0;
                     c = (c + Math.imul(M, Z)) | 0;
-                    f = (f + Math.imul($, tt)) | 0;
-                    u = (u + Math.imul($, te)) | 0;
+                    f = (f + Math.imul(_, tt)) | 0;
+                    u = (u + Math.imul(_, te)) | 0;
                     u = (u + Math.imul(S, tt)) | 0;
                     c = (c + Math.imul(S, te)) | 0;
                     f = (f + Math.imul(y, tn)) | 0;
@@ -14121,8 +14121,8 @@
                     u = (u + Math.imul(x, te)) | 0;
                     u = (u + Math.imul(M, tt)) | 0;
                     c = (c + Math.imul(M, te)) | 0;
-                    f = (f + Math.imul($, tn)) | 0;
-                    u = (u + Math.imul($, ti)) | 0;
+                    f = (f + Math.imul(_, tn)) | 0;
+                    u = (u + Math.imul(_, ti)) | 0;
                     u = (u + Math.imul(S, tn)) | 0;
                     c = (c + Math.imul(S, ti)) | 0;
                     f = (f + Math.imul(y, ts)) | 0;
@@ -14142,8 +14142,8 @@
                     tM &= 0x3ffffff;
                     f = Math.imul(D, W);
                     u = Math.imul(D, q);
-                    u = (u + Math.imul(_, W)) | 0;
-                    c = Math.imul(_, q);
+                    u = (u + Math.imul($, W)) | 0;
+                    c = Math.imul($, q);
                     f = (f + Math.imul(B, G)) | 0;
                     u = (u + Math.imul(B, K)) | 0;
                     u = (u + Math.imul(L, G)) | 0;
@@ -14164,8 +14164,8 @@
                     u = (u + Math.imul(x, ti)) | 0;
                     u = (u + Math.imul(M, tn)) | 0;
                     c = (c + Math.imul(M, ti)) | 0;
-                    f = (f + Math.imul($, ts)) | 0;
-                    u = (u + Math.imul($, ta)) | 0;
+                    f = (f + Math.imul(_, ts)) | 0;
+                    u = (u + Math.imul(_, ta)) | 0;
                     u = (u + Math.imul(S, ts)) | 0;
                     c = (c + Math.imul(S, ta)) | 0;
                     f = (f + Math.imul(y, tu)) | 0;
@@ -14185,8 +14185,8 @@
                     tT &= 0x3ffffff;
                     f = Math.imul(D, G);
                     u = Math.imul(D, K);
-                    u = (u + Math.imul(_, G)) | 0;
-                    c = Math.imul(_, K);
+                    u = (u + Math.imul($, G)) | 0;
+                    c = Math.imul($, K);
                     f = (f + Math.imul(B, H)) | 0;
                     u = (u + Math.imul(B, J)) | 0;
                     u = (u + Math.imul(L, H)) | 0;
@@ -14207,8 +14207,8 @@
                     u = (u + Math.imul(x, ta)) | 0;
                     u = (u + Math.imul(M, ts)) | 0;
                     c = (c + Math.imul(M, ta)) | 0;
-                    f = (f + Math.imul($, tu)) | 0;
-                    u = (u + Math.imul($, tc)) | 0;
+                    f = (f + Math.imul(_, tu)) | 0;
+                    u = (u + Math.imul(_, tc)) | 0;
                     u = (u + Math.imul(S, tu)) | 0;
                     c = (c + Math.imul(S, tc)) | 0;
                     f = (f + Math.imul(y, th)) | 0;
@@ -14224,8 +14224,8 @@
                     tA &= 0x3ffffff;
                     f = Math.imul(D, H);
                     u = Math.imul(D, J);
-                    u = (u + Math.imul(_, H)) | 0;
-                    c = Math.imul(_, J);
+                    u = (u + Math.imul($, H)) | 0;
+                    c = Math.imul($, J);
                     f = (f + Math.imul(B, Y)) | 0;
                     u = (u + Math.imul(B, Z)) | 0;
                     u = (u + Math.imul(L, Y)) | 0;
@@ -14246,8 +14246,8 @@
                     u = (u + Math.imul(x, tc)) | 0;
                     u = (u + Math.imul(M, tu)) | 0;
                     c = (c + Math.imul(M, tc)) | 0;
-                    f = (f + Math.imul($, th)) | 0;
-                    u = (u + Math.imul($, td)) | 0;
+                    f = (f + Math.imul(_, th)) | 0;
+                    u = (u + Math.imul(_, td)) | 0;
                     u = (u + Math.imul(S, th)) | 0;
                     c = (c + Math.imul(S, td)) | 0;
                     f = (f + Math.imul(y, tg)) | 0;
@@ -14259,8 +14259,8 @@
                     tO &= 0x3ffffff;
                     f = Math.imul(D, Y);
                     u = Math.imul(D, Z);
-                    u = (u + Math.imul(_, Y)) | 0;
-                    c = Math.imul(_, Z);
+                    u = (u + Math.imul($, Y)) | 0;
+                    c = Math.imul($, Z);
                     f = (f + Math.imul(B, tt)) | 0;
                     u = (u + Math.imul(B, te)) | 0;
                     u = (u + Math.imul(L, tt)) | 0;
@@ -14281,8 +14281,8 @@
                     u = (u + Math.imul(x, td)) | 0;
                     u = (u + Math.imul(M, th)) | 0;
                     c = (c + Math.imul(M, td)) | 0;
-                    f = (f + Math.imul($, tg)) | 0;
-                    u = (u + Math.imul($, tb)) | 0;
+                    f = (f + Math.imul(_, tg)) | 0;
+                    u = (u + Math.imul(_, tb)) | 0;
                     u = (u + Math.imul(S, tg)) | 0;
                     c = (c + Math.imul(S, tb)) | 0;
                     var tk = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
@@ -14290,8 +14290,8 @@
                     tk &= 0x3ffffff;
                     f = Math.imul(D, tt);
                     u = Math.imul(D, te);
-                    u = (u + Math.imul(_, tt)) | 0;
-                    c = Math.imul(_, te);
+                    u = (u + Math.imul($, tt)) | 0;
+                    c = Math.imul($, te);
                     f = (f + Math.imul(B, tn)) | 0;
                     u = (u + Math.imul(B, ti)) | 0;
                     u = (u + Math.imul(L, tn)) | 0;
@@ -14317,8 +14317,8 @@
                     tI &= 0x3ffffff;
                     f = Math.imul(D, tn);
                     u = Math.imul(D, ti);
-                    u = (u + Math.imul(_, tn)) | 0;
-                    c = Math.imul(_, ti);
+                    u = (u + Math.imul($, tn)) | 0;
+                    c = Math.imul($, ti);
                     f = (f + Math.imul(B, ts)) | 0;
                     u = (u + Math.imul(B, ta)) | 0;
                     u = (u + Math.imul(L, ts)) | 0;
@@ -14340,8 +14340,8 @@
                     tR &= 0x3ffffff;
                     f = Math.imul(D, ts);
                     u = Math.imul(D, ta);
-                    u = (u + Math.imul(_, ts)) | 0;
-                    c = Math.imul(_, ta);
+                    u = (u + Math.imul($, ts)) | 0;
+                    c = Math.imul($, ta);
                     f = (f + Math.imul(B, tu)) | 0;
                     u = (u + Math.imul(B, tc)) | 0;
                     u = (u + Math.imul(L, tu)) | 0;
@@ -14359,8 +14359,8 @@
                     tN &= 0x3ffffff;
                     f = Math.imul(D, tu);
                     u = Math.imul(D, tc);
-                    u = (u + Math.imul(_, tu)) | 0;
-                    c = Math.imul(_, tc);
+                    u = (u + Math.imul($, tu)) | 0;
+                    c = Math.imul($, tc);
                     f = (f + Math.imul(B, th)) | 0;
                     u = (u + Math.imul(B, td)) | 0;
                     u = (u + Math.imul(L, th)) | 0;
@@ -14374,8 +14374,8 @@
                     tj &= 0x3ffffff;
                     f = Math.imul(D, th);
                     u = Math.imul(D, td);
-                    u = (u + Math.imul(_, th)) | 0;
-                    c = Math.imul(_, td);
+                    u = (u + Math.imul($, th)) | 0;
+                    c = Math.imul($, td);
                     f = (f + Math.imul(B, tg)) | 0;
                     u = (u + Math.imul(B, tb)) | 0;
                     u = (u + Math.imul(L, tg)) | 0;
@@ -14385,8 +14385,8 @@
                     tP &= 0x3ffffff;
                     f = Math.imul(D, tg);
                     u = Math.imul(D, tb);
-                    u = (u + Math.imul(_, tg)) | 0;
-                    c = Math.imul(_, tb);
+                    u = (u + Math.imul($, tg)) | 0;
+                    c = Math.imul($, tb);
                     var tC = (((a + f) | 0) + ((u & 0x1fff) << 13)) | 0;
                     a = (((c + (u >>> 13)) | 0) + (tC >>> 26)) | 0;
                     tC &= 0x3ffffff;
@@ -14394,7 +14394,7 @@
                     s[1] = ty;
                     s[2] = tm;
                     s[3] = tw;
-                    s[4] = t$;
+                    s[4] = t_;
                     s[5] = tS;
                     s[6] = tE;
                     s[7] = tx;
@@ -15400,19 +15400,19 @@
                     p192: null,
                     p25519: null
                 };
-                function $(t, e) {
+                function _(t, e) {
                     this.name = t;
                     this.p = new o(e, 16);
                     this.n = this.p.bitLength();
                     this.k = new o(1).iushln(this.n).isub(this.p);
                     this.tmp = this._tmp();
                 }
-                $.prototype._tmp = function t() {
+                _.prototype._tmp = function t() {
                     var e = new o(null);
                     e.words = new Array(Math.ceil(this.n / 13));
                     return e;
                 };
-                $.prototype.ireduce = function t(e) {
+                _.prototype.ireduce = function t(e) {
                     var r = e;
                     var n;
                     do {
@@ -15436,16 +15436,16 @@
                     }
                     return r;
                 };
-                $.prototype.split = function t(e, r) {
+                _.prototype.split = function t(e, r) {
                     e.iushrn(this.n, 0, r);
                 };
-                $.prototype.imulK = function t(e) {
+                _.prototype.imulK = function t(e) {
                     return e.imul(this.k);
                 };
                 function S() {
-                    $.call(this, 'k256', 'ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffe fffffc2f');
+                    _.call(this, 'k256', 'ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffe fffffc2f');
                 }
-                i(S, $);
+                i(S, _);
                 S.prototype.split = function t(e, r) {
                     var n = 0x3fffff;
                     var i = Math.min(e.length, 9);
@@ -15493,17 +15493,17 @@
                     return e;
                 };
                 function E() {
-                    $.call(this, 'p224', 'ffffffff ffffffff ffffffff ffffffff 00000000 00000000 00000001');
+                    _.call(this, 'p224', 'ffffffff ffffffff ffffffff ffffffff 00000000 00000000 00000001');
                 }
-                i(E, $);
+                i(E, _);
                 function x() {
-                    $.call(this, 'p192', 'ffffffff ffffffff ffffffff fffffffe ffffffff ffffffff');
+                    _.call(this, 'p192', 'ffffffff ffffffff ffffffff fffffffe ffffffff ffffffff');
                 }
-                i(x, $);
+                i(x, _);
                 function M() {
-                    $.call(this, '25519', '7fffffffffffffff ffffffffffffffff ffffffffffffffff ffffffffffffffed');
+                    _.call(this, '25519', '7fffffffffffffff ffffffffffffffff ffffffffffffffff ffffffffffffffed');
                 }
-                i(M, $);
+                i(M, _);
                 M.prototype.imulK = function t(e) {
                     var r = 0;
                     for(var n = 0; n < e.length; n++){
@@ -16138,8 +16138,8 @@
                             this.nextTick(w);
                         }
                     } else {
-                        const $ = !this[f].values && b.openKeyCursor ? 'openKeyCursor' : 'openCursor';
-                        b[$](n, 'prev').onsuccess = (e)=>{
+                        const _ = !this[f].values && b.openKeyCursor ? 'openKeyCursor' : 'openCursor';
+                        b[_](n, 'prev').onsuccess = (e)=>{
                             const r = e.target.result;
                             if (r) {
                                 const { key: n , value: i  } = r;
@@ -16443,7 +16443,7 @@
                 if (!u.isEncoding(e)) {
                     throw new TypeError('Unknown encoding: ' + e);
                 }
-                const r = $(t, e) | 0;
+                const r = _(t, e) | 0;
                 let n = f(r);
                 const i = n.write(t, e);
                 if (i !== r) {
@@ -16591,7 +16591,7 @@
                 }
                 return i;
             };
-            function $(t, e) {
+            function _(t, e) {
                 if (u.isBuffer(t)) {
                     return t.length;
                 }
@@ -16632,7 +16632,7 @@
                     }
                 }
             }
-            u.byteLength = $;
+            u.byteLength = _;
             function S(t, e, r) {
                 let n = false;
                 if (e === undefined || e < 0) {
@@ -17302,7 +17302,7 @@
                 if (!r) D(e, 8, this.length);
                 return i.read(this, e, false, 52, 8);
             };
-            function _(t, e, r, n, i, o) {
+            function $(t, e, r, n, i, o) {
                 if (!u.isBuffer(t)) throw new TypeError('"buffer" argument must be a Buffer instance');
                 if (e > i || e < o) throw new RangeError('"value" argument is out of bounds');
                 if (r + n > t.length) throw new RangeError('Index out of range');
@@ -17313,7 +17313,7 @@
                 n = n >>> 0;
                 if (!i) {
                     const o = Math.pow(2, 8 * n) - 1;
-                    _(this, e, r, n, o, 0);
+                    $(this, e, r, n, o, 0);
                 }
                 let s = 1;
                 let a = 0;
@@ -17329,7 +17329,7 @@
                 n = n >>> 0;
                 if (!i) {
                     const o = Math.pow(2, 8 * n) - 1;
-                    _(this, e, r, n, o, 0);
+                    $(this, e, r, n, o, 0);
                 }
                 let s = n - 1;
                 let a = 1;
@@ -17342,14 +17342,14 @@
             u.prototype.writeUint8 = u.prototype.writeUInt8 = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 1, 0xff, 0);
+                if (!n) $(this, e, r, 1, 0xff, 0);
                 this[r] = (e & 0xff);
                 return r + 1;
             };
             u.prototype.writeUint16LE = u.prototype.writeUInt16LE = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 2, 0xffff, 0);
+                if (!n) $(this, e, r, 2, 0xffff, 0);
                 this[r] = (e & 0xff);
                 this[r + 1] = (e >>> 8);
                 return r + 2;
@@ -17357,7 +17357,7 @@
             u.prototype.writeUint16BE = u.prototype.writeUInt16BE = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 2, 0xffff, 0);
+                if (!n) $(this, e, r, 2, 0xffff, 0);
                 this[r] = (e >>> 8);
                 this[r + 1] = (e & 0xff);
                 return r + 2;
@@ -17365,7 +17365,7 @@
             u.prototype.writeUint32LE = u.prototype.writeUInt32LE = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 4, 0xffffffff, 0);
+                if (!n) $(this, e, r, 4, 0xffffffff, 0);
                 this[r + 3] = (e >>> 24);
                 this[r + 2] = (e >>> 16);
                 this[r + 1] = (e >>> 8);
@@ -17375,7 +17375,7 @@
             u.prototype.writeUint32BE = u.prototype.writeUInt32BE = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 4, 0xffffffff, 0);
+                if (!n) $(this, e, r, 4, 0xffffffff, 0);
                 this[r] = (e >>> 24);
                 this[r + 1] = (e >>> 16);
                 this[r + 2] = (e >>> 8);
@@ -17433,7 +17433,7 @@
                 r = r >>> 0;
                 if (!i) {
                     const o = Math.pow(2, (8 * n) - 1);
-                    _(this, e, r, n, o - 1, -o);
+                    $(this, e, r, n, o - 1, -o);
                 }
                 let s = 0;
                 let a = 1;
@@ -17452,7 +17452,7 @@
                 r = r >>> 0;
                 if (!i) {
                     const o = Math.pow(2, (8 * n) - 1);
-                    _(this, e, r, n, o - 1, -o);
+                    $(this, e, r, n, o - 1, -o);
                 }
                 let s = n - 1;
                 let a = 1;
@@ -17469,7 +17469,7 @@
             u.prototype.writeInt8 = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 1, 0x7f, -0x80);
+                if (!n) $(this, e, r, 1, 0x7f, -0x80);
                 if (e < 0) e = 0xff + e + 1;
                 this[r] = (e & 0xff);
                 return r + 1;
@@ -17477,7 +17477,7 @@
             u.prototype.writeInt16LE = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 2, 0x7fff, -0x8000);
+                if (!n) $(this, e, r, 2, 0x7fff, -0x8000);
                 this[r] = (e & 0xff);
                 this[r + 1] = (e >>> 8);
                 return r + 2;
@@ -17485,7 +17485,7 @@
             u.prototype.writeInt16BE = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 2, 0x7fff, -0x8000);
+                if (!n) $(this, e, r, 2, 0x7fff, -0x8000);
                 this[r] = (e >>> 8);
                 this[r + 1] = (e & 0xff);
                 return r + 2;
@@ -17493,7 +17493,7 @@
             u.prototype.writeInt32LE = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 4, 0x7fffffff, -0x80000000);
+                if (!n) $(this, e, r, 4, 0x7fffffff, -0x80000000);
                 this[r] = (e & 0xff);
                 this[r + 1] = (e >>> 8);
                 this[r + 2] = (e >>> 16);
@@ -17503,7 +17503,7 @@
             u.prototype.writeInt32BE = function t(e, r, n) {
                 e = +e;
                 r = r >>> 0;
-                if (!n) _(this, e, r, 4, 0x7fffffff, -0x80000000);
+                if (!n) $(this, e, r, 4, 0x7fffffff, -0x80000000);
                 if (e < 0) e = 0xffffffff + e + 1;
                 this[r] = (e >>> 24);
                 this[r + 1] = (e >>> 16);
@@ -18081,9 +18081,9 @@
                     c[b] = new Array(l);
                     c[v] = new Array(l);
                     for(d = 0; d < l; d++){
-                        var $ = w[0][d] | 0;
+                        var _ = w[0][d] | 0;
                         var S = w[1][d] | 0;
-                        c[b][d] = m[($ + 1) * 3 + (S + 1)];
+                        c[b][d] = m[(_ + 1) * 3 + (S + 1)];
                         c[v][d] = 0;
                         u[b] = y;
                     }
@@ -18707,7 +18707,7 @@
                     var w = o.div(n);
                     y = o.sub(w.mul(n));
                     m = f.sub(w.mul(s));
-                    var $ = u.sub(w.mul(a));
+                    var _ = u.sub(w.mul(a));
                     if (!h && y.cmp(r) < 0) {
                         c = b.neg();
                         l = s;
@@ -18722,7 +18722,7 @@
                     f = s;
                     s = m;
                     u = a;
-                    a = $;
+                    a = _;
                 }
                 p = y.neg();
                 g = m;
@@ -21403,7 +21403,7 @@
                     }
                     return this;
                 })();
-                function $(t, e) {
+                function _(t, e) {
                     var r = !!(e && e.isStrict);
                     var n = (e && e.realm) || w;
                     var i = r ? b : g;
@@ -21483,14 +21483,14 @@
                     };
                     return o(t, d());
                 }
-                $.default = $;
-                $.strict = function t(e, r) {
-                    return $(e, {
+                _.default = _;
+                _.strict = function t(e, r) {
+                    return _(e, {
                         isStrict: true,
                         realm: r ? r.realm : void 0
                     });
                 };
-                return $;
+                return _;
             }));
         }),
         4029: (function(t, e, r) {
@@ -23156,7 +23156,7 @@
                 var y = this.h[4];
                 var m = n;
                 var w = i;
-                var $ = u;
+                var _ = u;
                 var S = c;
                 var E = y;
                 for(var x = 0; x < 80; x++){
@@ -23166,18 +23166,18 @@
                     c = o(u, 10);
                     u = i;
                     i = M;
-                    M = s(o(f(m, l(79 - x, w, $, S), e[g[x] + r], d(x)), v[x]), E);
+                    M = s(o(f(m, l(79 - x, w, _, S), e[g[x] + r], d(x)), v[x]), E);
                     m = E;
                     E = S;
-                    S = o($, 10);
-                    $ = w;
+                    S = o(_, 10);
+                    _ = w;
                     w = M;
                 }
                 M = a(this.h[1], u, S);
                 this.h[1] = a(this.h[2], c, E);
                 this.h[2] = a(this.h[3], y, m);
                 this.h[3] = a(this.h[4], n, w);
-                this.h[4] = a(this.h[0], i, $);
+                this.h[4] = a(this.h[0], i, _);
                 this.h[0] = M;
             };
             c.prototype._digest = function t(e) {
@@ -23748,14 +23748,14 @@
                 var y = this.h[3];
                 var m = this.h[4];
                 var w = this.h[5];
-                var $ = this.h[6];
+                var _ = this.h[6];
                 var S = this.h[7];
                 s(this.k.length === n.length);
                 for(i = 0; i < n.length; i++){
-                    var E = u(S, d(m), c(m, w, $), this.k[i], n[i]);
+                    var E = u(S, d(m), c(m, w, _), this.k[i], n[i]);
                     var x = a(h(o), l(o, b, v));
-                    S = $;
-                    $ = w;
+                    S = _;
+                    _ = w;
                     w = m;
                     m = a(y, E);
                     y = v;
@@ -23769,7 +23769,7 @@
                 this.h[3] = a(this.h[3], y);
                 this.h[4] = a(this.h[4], m);
                 this.h[5] = a(this.h[5], w);
-                this.h[6] = a(this.h[6], $);
+                this.h[6] = a(this.h[6], _);
                 this.h[7] = a(this.h[7], S);
             };
             y.prototype._digest = function t(e) {
@@ -24065,13 +24065,13 @@
                     var L = T(y, m);
                     var U = A(y, m);
                     var D = w(y, m, O, k, I, R);
-                    var _ = $(y, m, O, k, I, R);
+                    var $ = _(y, m, O, k, I, R);
                     var F = this.k[P];
                     var W = this.k[P + 1];
                     var q = n[P];
                     var z = n[P + 1];
-                    var G = g(C, B, L, U, D, _, F, W, q, z);
-                    var K = b(C, B, L, U, D, _, F, W, q, z);
+                    var G = g(C, B, L, U, D, $, F, W, q, z);
+                    var K = b(C, B, L, U, D, $, F, W, q, z);
                     C = x(i, s);
                     B = M(i, s);
                     L = S(i, s, a, f, u, d);
@@ -24113,7 +24113,7 @@
                 if (o < 0) o += 0x100000000;
                 return o;
             }
-            function $(t, e, r, n, i, o) {
+            function _(t, e, r, n, i, o) {
                 var s = (e & n) ^ ((~e) & o);
                 if (s < 0) s += 0x100000000;
                 return s;
@@ -24385,12 +24385,12 @@
                 t[e + 1] = s;
             }
             e.sum64 = w;
-            function $(t, e, r, n) {
+            function _(t, e, r, n) {
                 var i = (e + n) >>> 0;
                 var o = (i < e ? 1 : 0) + t + r;
                 return o >>> 0;
             }
-            e.sum64_hi = $;
+            e.sum64_hi = _;
             function S(t, e, r, n) {
                 var i = e + n;
                 return i >>> 0;
@@ -25627,13 +25627,13 @@
                     }
                     return e;
                 };
-                var $ = function(t, e) {
+                var _ = function(t, e) {
                     return function(r, n) {
                         return new x(r, e, true).update(n)[t]();
                     };
                 };
                 var S = function(t) {
-                    var e = $('hex', t);
+                    var e = _('hex', t);
                     e.create = function(e) {
                         return new x(e, t);
                     };
@@ -25642,7 +25642,7 @@
                     };
                     for(var r = 0; r < v.length; ++r){
                         var n = v[r];
-                        e[n] = $(n, t);
+                        e[n] = _(n, t);
                     }
                     return e;
                 };
@@ -25852,7 +25852,7 @@
                     this.hash();
                 };
                 E.prototype.hash = function() {
-                    var t = this.h0h, e = this.h0l, r = this.h1h, n = this.h1l, i = this.h2h, o = this.h2l, s = this.h3h, a = this.h3l, f = this.h4h, u = this.h4l, c = this.h5h, l = this.h5l, h = this.h6h, d = this.h6l, p = this.h7h, g = this.h7l, v = this.blocks, y, m, w, $, S, E, x, M, T, A, O, k, I, R, N, j, P, C, B, L, U, D, _, F, W;
+                    var t = this.h0h, e = this.h0l, r = this.h1h, n = this.h1l, i = this.h2h, o = this.h2l, s = this.h3h, a = this.h3l, f = this.h4h, u = this.h4l, c = this.h5h, l = this.h5l, h = this.h6h, d = this.h6l, p = this.h7h, g = this.h7l, v = this.blocks, y, m, w, _, S, E, x, M, T, A, O, k, I, R, N, j, P, C, B, L, U, D, $, F, W;
                     for(y = 32; y < 160; y += 2){
                         L = v[y - 30];
                         U = v[y - 29];
@@ -25860,16 +25860,16 @@
                         w = ((U >>> 1) | (L << 31)) ^ ((U >>> 8) | (L << 24)) ^ ((U >>> 7) | L << 25);
                         L = v[y - 4];
                         U = v[y - 3];
-                        $ = ((L >>> 19) | (U << 13)) ^ ((U >>> 29) | (L << 3)) ^ (L >>> 6);
+                        _ = ((L >>> 19) | (U << 13)) ^ ((U >>> 29) | (L << 3)) ^ (L >>> 6);
                         S = ((U >>> 19) | (L << 13)) ^ ((L >>> 29) | (U << 3)) ^ ((U >>> 6) | L << 26);
                         L = v[y - 32];
                         U = v[y - 31];
                         D = v[y - 14];
-                        _ = v[y - 13];
-                        E = (_ & 0xFFFF) + (U & 0xFFFF) + (w & 0xFFFF) + (S & 0xFFFF);
-                        x = (_ >>> 16) + (U >>> 16) + (w >>> 16) + (S >>> 16) + (E >>> 16);
-                        M = (D & 0xFFFF) + (L & 0xFFFF) + (m & 0xFFFF) + ($ & 0xFFFF) + (x >>> 16);
-                        T = (D >>> 16) + (L >>> 16) + (m >>> 16) + ($ >>> 16) + (M >>> 16);
+                        $ = v[y - 13];
+                        E = ($ & 0xFFFF) + (U & 0xFFFF) + (w & 0xFFFF) + (S & 0xFFFF);
+                        x = ($ >>> 16) + (U >>> 16) + (w >>> 16) + (S >>> 16) + (E >>> 16);
+                        M = (D & 0xFFFF) + (L & 0xFFFF) + (m & 0xFFFF) + (_ & 0xFFFF) + (x >>> 16);
+                        T = (D >>> 16) + (L >>> 16) + (m >>> 16) + (_ >>> 16) + (M >>> 16);
                         v[y] = (T << 16) | (M & 0xFFFF);
                         v[y + 1] = (x << 16) | (E & 0xFFFF);
                     }
@@ -25879,7 +25879,7 @@
                     for(y = 0; y < 160; y += 8){
                         m = ((q >>> 28) | (z << 4)) ^ ((z >>> 2) | (q << 30)) ^ ((z >>> 7) | (q << 25));
                         w = ((z >>> 28) | (q << 4)) ^ ((q >>> 2) | (z << 30)) ^ ((q >>> 7) | (z << 25));
-                        $ = ((Y >>> 14) | (Z << 18)) ^ ((Y >>> 18) | (Z << 14)) ^ ((Z >>> 9) | (Y << 23));
+                        _ = ((Y >>> 14) | (Z << 18)) ^ ((Y >>> 18) | (Z << 14)) ^ ((Z >>> 9) | (Y << 23));
                         S = ((Z >>> 14) | (Y << 18)) ^ ((Z >>> 18) | (Y << 14)) ^ ((Y >>> 9) | (Z << 23));
                         A = q & G;
                         O = z & K;
@@ -25890,11 +25890,11 @@
                         L = v[y];
                         U = v[y + 1];
                         D = b[y];
-                        _ = b[y + 1];
-                        E = (_ & 0xFFFF) + (U & 0xFFFF) + (W & 0xFFFF) + (S & 0xFFFF) + (ti & 0xFFFF);
-                        x = (_ >>> 16) + (U >>> 16) + (W >>> 16) + (S >>> 16) + (ti >>> 16) + (E >>> 16);
-                        M = (D & 0xFFFF) + (L & 0xFFFF) + (F & 0xFFFF) + ($ & 0xFFFF) + (tn & 0xFFFF) + (x >>> 16);
-                        T = (D >>> 16) + (L >>> 16) + (F >>> 16) + ($ >>> 16) + (tn >>> 16) + (M >>> 16);
+                        $ = b[y + 1];
+                        E = ($ & 0xFFFF) + (U & 0xFFFF) + (W & 0xFFFF) + (S & 0xFFFF) + (ti & 0xFFFF);
+                        x = ($ >>> 16) + (U >>> 16) + (W >>> 16) + (S >>> 16) + (ti >>> 16) + (E >>> 16);
+                        M = (D & 0xFFFF) + (L & 0xFFFF) + (F & 0xFFFF) + (_ & 0xFFFF) + (tn & 0xFFFF) + (x >>> 16);
+                        T = (D >>> 16) + (L >>> 16) + (F >>> 16) + (_ >>> 16) + (tn >>> 16) + (M >>> 16);
                         L = (T << 16) | (M & 0xFFFF);
                         U = (x << 16) | (E & 0xFFFF);
                         E = (B & 0xFFFF) + (w & 0xFFFF);
@@ -25902,22 +25902,22 @@
                         M = (C & 0xFFFF) + (m & 0xFFFF) + (x >>> 16);
                         T = (C >>> 16) + (m >>> 16) + (M >>> 16);
                         D = (T << 16) | (M & 0xFFFF);
-                        _ = (x << 16) | (E & 0xFFFF);
+                        $ = (x << 16) | (E & 0xFFFF);
                         E = (X & 0xFFFF) + (U & 0xFFFF);
                         x = (X >>> 16) + (U >>> 16) + (E >>> 16);
                         M = (J & 0xFFFF) + (L & 0xFFFF) + (x >>> 16);
                         T = (J >>> 16) + (L >>> 16) + (M >>> 16);
                         tn = (T << 16) | (M & 0xFFFF);
                         ti = (x << 16) | (E & 0xFFFF);
-                        E = (_ & 0xFFFF) + (U & 0xFFFF);
-                        x = (_ >>> 16) + (U >>> 16) + (E >>> 16);
+                        E = ($ & 0xFFFF) + (U & 0xFFFF);
+                        x = ($ >>> 16) + (U >>> 16) + (E >>> 16);
                         M = (D & 0xFFFF) + (L & 0xFFFF) + (x >>> 16);
                         T = (D >>> 16) + (L >>> 16) + (M >>> 16);
                         J = (T << 16) | (M & 0xFFFF);
                         X = (x << 16) | (E & 0xFFFF);
                         m = ((J >>> 28) | (X << 4)) ^ ((X >>> 2) | (J << 30)) ^ ((X >>> 7) | (J << 25));
                         w = ((X >>> 28) | (J << 4)) ^ ((J >>> 2) | (X << 30)) ^ ((J >>> 7) | (X << 25));
-                        $ = ((tn >>> 14) | (ti << 18)) ^ ((tn >>> 18) | (ti << 14)) ^ ((ti >>> 9) | (tn << 23));
+                        _ = ((tn >>> 14) | (ti << 18)) ^ ((tn >>> 18) | (ti << 14)) ^ ((ti >>> 9) | (tn << 23));
                         S = ((ti >>> 14) | (tn << 18)) ^ ((ti >>> 18) | (tn << 14)) ^ ((tn >>> 9) | (ti << 23));
                         k = J & q;
                         I = X & z;
@@ -25928,11 +25928,11 @@
                         L = v[y + 2];
                         U = v[y + 3];
                         D = b[y + 2];
-                        _ = b[y + 3];
-                        E = (_ & 0xFFFF) + (U & 0xFFFF) + (W & 0xFFFF) + (S & 0xFFFF) + (tr & 0xFFFF);
-                        x = (_ >>> 16) + (U >>> 16) + (W >>> 16) + (S >>> 16) + (tr >>> 16) + (E >>> 16);
-                        M = (D & 0xFFFF) + (L & 0xFFFF) + (F & 0xFFFF) + ($ & 0xFFFF) + (te & 0xFFFF) + (x >>> 16);
-                        T = (D >>> 16) + (L >>> 16) + (F >>> 16) + ($ >>> 16) + (te >>> 16) + (M >>> 16);
+                        $ = b[y + 3];
+                        E = ($ & 0xFFFF) + (U & 0xFFFF) + (W & 0xFFFF) + (S & 0xFFFF) + (tr & 0xFFFF);
+                        x = ($ >>> 16) + (U >>> 16) + (W >>> 16) + (S >>> 16) + (tr >>> 16) + (E >>> 16);
+                        M = (D & 0xFFFF) + (L & 0xFFFF) + (F & 0xFFFF) + (_ & 0xFFFF) + (te & 0xFFFF) + (x >>> 16);
+                        T = (D >>> 16) + (L >>> 16) + (F >>> 16) + (_ >>> 16) + (te >>> 16) + (M >>> 16);
                         L = (T << 16) | (M & 0xFFFF);
                         U = (x << 16) | (E & 0xFFFF);
                         E = (B & 0xFFFF) + (w & 0xFFFF);
@@ -25940,22 +25940,22 @@
                         M = (C & 0xFFFF) + (m & 0xFFFF) + (x >>> 16);
                         T = (C >>> 16) + (m >>> 16) + (M >>> 16);
                         D = (T << 16) | (M & 0xFFFF);
-                        _ = (x << 16) | (E & 0xFFFF);
+                        $ = (x << 16) | (E & 0xFFFF);
                         E = (H & 0xFFFF) + (U & 0xFFFF);
                         x = (H >>> 16) + (U >>> 16) + (E >>> 16);
                         M = (V & 0xFFFF) + (L & 0xFFFF) + (x >>> 16);
                         T = (V >>> 16) + (L >>> 16) + (M >>> 16);
                         te = (T << 16) | (M & 0xFFFF);
                         tr = (x << 16) | (E & 0xFFFF);
-                        E = (_ & 0xFFFF) + (U & 0xFFFF);
-                        x = (_ >>> 16) + (U >>> 16) + (E >>> 16);
+                        E = ($ & 0xFFFF) + (U & 0xFFFF);
+                        x = ($ >>> 16) + (U >>> 16) + (E >>> 16);
                         M = (D & 0xFFFF) + (L & 0xFFFF) + (x >>> 16);
                         T = (D >>> 16) + (L >>> 16) + (M >>> 16);
                         V = (T << 16) | (M & 0xFFFF);
                         H = (x << 16) | (E & 0xFFFF);
                         m = ((V >>> 28) | (H << 4)) ^ ((H >>> 2) | (V << 30)) ^ ((H >>> 7) | (V << 25));
                         w = ((H >>> 28) | (V << 4)) ^ ((V >>> 2) | (H << 30)) ^ ((V >>> 7) | (H << 25));
-                        $ = ((te >>> 14) | (tr << 18)) ^ ((te >>> 18) | (tr << 14)) ^ ((tr >>> 9) | (te << 23));
+                        _ = ((te >>> 14) | (tr << 18)) ^ ((te >>> 18) | (tr << 14)) ^ ((tr >>> 9) | (te << 23));
                         S = ((tr >>> 14) | (te << 18)) ^ ((tr >>> 18) | (te << 14)) ^ ((te >>> 9) | (tr << 23));
                         R = V & J;
                         N = H & X;
@@ -25966,11 +25966,11 @@
                         L = v[y + 4];
                         U = v[y + 5];
                         D = b[y + 4];
-                        _ = b[y + 5];
-                        E = (_ & 0xFFFF) + (U & 0xFFFF) + (W & 0xFFFF) + (S & 0xFFFF) + (tt & 0xFFFF);
-                        x = (_ >>> 16) + (U >>> 16) + (W >>> 16) + (S >>> 16) + (tt >>> 16) + (E >>> 16);
-                        M = (D & 0xFFFF) + (L & 0xFFFF) + (F & 0xFFFF) + ($ & 0xFFFF) + (Q & 0xFFFF) + (x >>> 16);
-                        T = (D >>> 16) + (L >>> 16) + (F >>> 16) + ($ >>> 16) + (Q >>> 16) + (M >>> 16);
+                        $ = b[y + 5];
+                        E = ($ & 0xFFFF) + (U & 0xFFFF) + (W & 0xFFFF) + (S & 0xFFFF) + (tt & 0xFFFF);
+                        x = ($ >>> 16) + (U >>> 16) + (W >>> 16) + (S >>> 16) + (tt >>> 16) + (E >>> 16);
+                        M = (D & 0xFFFF) + (L & 0xFFFF) + (F & 0xFFFF) + (_ & 0xFFFF) + (Q & 0xFFFF) + (x >>> 16);
+                        T = (D >>> 16) + (L >>> 16) + (F >>> 16) + (_ >>> 16) + (Q >>> 16) + (M >>> 16);
                         L = (T << 16) | (M & 0xFFFF);
                         U = (x << 16) | (E & 0xFFFF);
                         E = (B & 0xFFFF) + (w & 0xFFFF);
@@ -25978,22 +25978,22 @@
                         M = (C & 0xFFFF) + (m & 0xFFFF) + (x >>> 16);
                         T = (C >>> 16) + (m >>> 16) + (M >>> 16);
                         D = (T << 16) | (M & 0xFFFF);
-                        _ = (x << 16) | (E & 0xFFFF);
+                        $ = (x << 16) | (E & 0xFFFF);
                         E = (K & 0xFFFF) + (U & 0xFFFF);
                         x = (K >>> 16) + (U >>> 16) + (E >>> 16);
                         M = (G & 0xFFFF) + (L & 0xFFFF) + (x >>> 16);
                         T = (G >>> 16) + (L >>> 16) + (M >>> 16);
                         Q = (T << 16) | (M & 0xFFFF);
                         tt = (x << 16) | (E & 0xFFFF);
-                        E = (_ & 0xFFFF) + (U & 0xFFFF);
-                        x = (_ >>> 16) + (U >>> 16) + (E >>> 16);
+                        E = ($ & 0xFFFF) + (U & 0xFFFF);
+                        x = ($ >>> 16) + (U >>> 16) + (E >>> 16);
                         M = (D & 0xFFFF) + (L & 0xFFFF) + (x >>> 16);
                         T = (D >>> 16) + (L >>> 16) + (M >>> 16);
                         G = (T << 16) | (M & 0xFFFF);
                         K = (x << 16) | (E & 0xFFFF);
                         m = ((G >>> 28) | (K << 4)) ^ ((K >>> 2) | (G << 30)) ^ ((K >>> 7) | (G << 25));
                         w = ((K >>> 28) | (G << 4)) ^ ((G >>> 2) | (K << 30)) ^ ((G >>> 7) | (K << 25));
-                        $ = ((Q >>> 14) | (tt << 18)) ^ ((Q >>> 18) | (tt << 14)) ^ ((tt >>> 9) | (Q << 23));
+                        _ = ((Q >>> 14) | (tt << 18)) ^ ((Q >>> 18) | (tt << 14)) ^ ((tt >>> 9) | (Q << 23));
                         S = ((tt >>> 14) | (Q << 18)) ^ ((tt >>> 18) | (Q << 14)) ^ ((Q >>> 9) | (tt << 23));
                         j = G & V;
                         P = K & H;
@@ -26004,11 +26004,11 @@
                         L = v[y + 6];
                         U = v[y + 7];
                         D = b[y + 6];
-                        _ = b[y + 7];
-                        E = (_ & 0xFFFF) + (U & 0xFFFF) + (W & 0xFFFF) + (S & 0xFFFF) + (Z & 0xFFFF);
-                        x = (_ >>> 16) + (U >>> 16) + (W >>> 16) + (S >>> 16) + (Z >>> 16) + (E >>> 16);
-                        M = (D & 0xFFFF) + (L & 0xFFFF) + (F & 0xFFFF) + ($ & 0xFFFF) + (Y & 0xFFFF) + (x >>> 16);
-                        T = (D >>> 16) + (L >>> 16) + (F >>> 16) + ($ >>> 16) + (Y >>> 16) + (M >>> 16);
+                        $ = b[y + 7];
+                        E = ($ & 0xFFFF) + (U & 0xFFFF) + (W & 0xFFFF) + (S & 0xFFFF) + (Z & 0xFFFF);
+                        x = ($ >>> 16) + (U >>> 16) + (W >>> 16) + (S >>> 16) + (Z >>> 16) + (E >>> 16);
+                        M = (D & 0xFFFF) + (L & 0xFFFF) + (F & 0xFFFF) + (_ & 0xFFFF) + (Y & 0xFFFF) + (x >>> 16);
+                        T = (D >>> 16) + (L >>> 16) + (F >>> 16) + (_ >>> 16) + (Y >>> 16) + (M >>> 16);
                         L = (T << 16) | (M & 0xFFFF);
                         U = (x << 16) | (E & 0xFFFF);
                         E = (B & 0xFFFF) + (w & 0xFFFF);
@@ -26016,15 +26016,15 @@
                         M = (C & 0xFFFF) + (m & 0xFFFF) + (x >>> 16);
                         T = (C >>> 16) + (m >>> 16) + (M >>> 16);
                         D = (T << 16) | (M & 0xFFFF);
-                        _ = (x << 16) | (E & 0xFFFF);
+                        $ = (x << 16) | (E & 0xFFFF);
                         E = (z & 0xFFFF) + (U & 0xFFFF);
                         x = (z >>> 16) + (U >>> 16) + (E >>> 16);
                         M = (q & 0xFFFF) + (L & 0xFFFF) + (x >>> 16);
                         T = (q >>> 16) + (L >>> 16) + (M >>> 16);
                         Y = (T << 16) | (M & 0xFFFF);
                         Z = (x << 16) | (E & 0xFFFF);
-                        E = (_ & 0xFFFF) + (U & 0xFFFF);
-                        x = (_ >>> 16) + (U >>> 16) + (E >>> 16);
+                        E = ($ & 0xFFFF) + (U & 0xFFFF);
+                        x = ($ >>> 16) + (U >>> 16) + (E >>> 16);
                         M = (D & 0xFFFF) + (L & 0xFFFF) + (x >>> 16);
                         T = (D >>> 16) + (L >>> 16) + (M >>> 16);
                         q = (T << 16) | (M & 0xFFFF);
@@ -27032,12 +27032,12 @@
             t.exports = i;
         }),
         5990: (function(t, e, r) {
-            var n = r(6384), i = r(7412), o = r(4865), s = r(4037), a = r(3886), f = r(4626), u = r(278), c = r(8805), l = r(1911), h = r(8234), d = r(6904), p = r(4160), g = r(3824), b = r(9148), v = r(8517), y = r(1469), m = r(4144), w = r(6688), $ = r(3218), S = r(2928), E = r(3674), x = r(1704);
+            var n = r(6384), i = r(7412), o = r(4865), s = r(4037), a = r(3886), f = r(4626), u = r(278), c = r(8805), l = r(1911), h = r(8234), d = r(6904), p = r(4160), g = r(3824), b = r(9148), v = r(8517), y = r(1469), m = r(4144), w = r(6688), _ = r(3218), S = r(2928), E = r(3674), x = r(1704);
             var M = 1, T = 2, A = 4;
-            var O = '[object Arguments]', k = '[object Array]', I = '[object Boolean]', R = '[object Date]', N = '[object Error]', j = '[object Function]', P = '[object GeneratorFunction]', C = '[object Map]', B = '[object Number]', L = '[object Object]', U = '[object RegExp]', D = '[object Set]', _ = '[object String]', F = '[object Symbol]', W = '[object WeakMap]';
+            var O = '[object Arguments]', k = '[object Array]', I = '[object Boolean]', R = '[object Date]', N = '[object Error]', j = '[object Function]', P = '[object GeneratorFunction]', C = '[object Map]', B = '[object Number]', L = '[object Object]', U = '[object RegExp]', D = '[object Set]', $ = '[object String]', F = '[object Symbol]', W = '[object WeakMap]';
             var q = '[object ArrayBuffer]', z = '[object DataView]', G = '[object Float32Array]', K = '[object Float64Array]', V = '[object Int8Array]', H = '[object Int16Array]', J = '[object Int32Array]', X = '[object Uint8Array]', Y = '[object Uint8ClampedArray]', Z = '[object Uint16Array]', Q = '[object Uint32Array]';
             var tt = {};
-            tt[O] = tt[k] = tt[q] = tt[z] = tt[I] = tt[R] = tt[G] = tt[K] = tt[V] = tt[H] = tt[J] = tt[C] = tt[B] = tt[L] = tt[U] = tt[D] = tt[_] = tt[F] = tt[X] = tt[Y] = tt[Z] = tt[Q] = true;
+            tt[O] = tt[k] = tt[q] = tt[z] = tt[I] = tt[R] = tt[G] = tt[K] = tt[V] = tt[H] = tt[J] = tt[C] = tt[B] = tt[L] = tt[U] = tt[D] = tt[$] = tt[F] = tt[X] = tt[Y] = tt[Z] = tt[Q] = true;
             tt[N] = tt[j] = tt[W] = false;
             function te(t, e, r, k, I, R) {
                 var N, C = e & M, B = e & T, U = e & A;
@@ -27047,7 +27047,7 @@
                 if (N !== undefined) {
                     return N;
                 }
-                if (!$(t)) {
+                if (!_(t)) {
                     return t;
                 }
                 var D = y(t);
@@ -27057,20 +27057,20 @@
                         return u(t, N);
                     }
                 } else {
-                    var _ = p(t), F = _ == j || _ == P;
+                    var $ = p(t), F = $ == j || $ == P;
                     if (m(t)) {
                         return f(t, C);
                     }
-                    if (_ == L || _ == O || (F && !I)) {
+                    if ($ == L || $ == O || (F && !I)) {
                         N = (B || F) ? {} : v(t);
                         if (!C) {
                             return B ? l(t, a(N, t)) : c(t, s(N, t));
                         }
                     } else {
-                        if (!tt[_]) {
+                        if (!tt[$]) {
                             return I ? t : {};
                         }
-                        N = b(t, _, C);
+                        N = b(t, $, C);
                     }
                 }
                 R || (R = new n);
@@ -27185,9 +27185,9 @@
         8749: (function(t, e, r) {
             var n = r(4239), i = r(1780), o = r(7005);
             var s = '[object Arguments]', a = '[object Array]', f = '[object Boolean]', u = '[object Date]', c = '[object Error]', l = '[object Function]', h = '[object Map]', d = '[object Number]', p = '[object Object]', g = '[object RegExp]', b = '[object Set]', v = '[object String]', y = '[object WeakMap]';
-            var m = '[object ArrayBuffer]', w = '[object DataView]', $ = '[object Float32Array]', S = '[object Float64Array]', E = '[object Int8Array]', x = '[object Int16Array]', M = '[object Int32Array]', T = '[object Uint8Array]', A = '[object Uint8ClampedArray]', O = '[object Uint16Array]', k = '[object Uint32Array]';
+            var m = '[object ArrayBuffer]', w = '[object DataView]', _ = '[object Float32Array]', S = '[object Float64Array]', E = '[object Int8Array]', x = '[object Int16Array]', M = '[object Int32Array]', T = '[object Uint8Array]', A = '[object Uint8ClampedArray]', O = '[object Uint16Array]', k = '[object Uint32Array]';
             var I = {};
-            I[$] = I[S] = I[E] = I[x] = I[M] = I[T] = I[A] = I[O] = I[k] = true;
+            I[_] = I[S] = I[E] = I[x] = I[M] = I[T] = I[A] = I[O] = I[k] = true;
             I[s] = I[a] = I[m] = I[f] = I[w] = I[u] = I[c] = I[l] = I[h] = I[d] = I[p] = I[g] = I[b] = I[v] = I[y] = false;
             function R(t) {
                 return o(t) && i(t.length) && !!I[n(t)];
@@ -27467,9 +27467,9 @@
             var c = '[object Map]', l = '[object Object]', h = '[object Promise]', d = '[object Set]', p = '[object WeakMap]';
             var g = '[object DataView]';
             var b = u(n), v = u(i), y = u(o), m = u(s), w = u(a);
-            var $ = f;
-            if ((n && $(new n(new ArrayBuffer(1))) != g) || (i && $(new i) != c) || (o && $(o.resolve()) != h) || (s && $(new s) != d) || (a && $(new a) != p)) {
-                $ = function(t) {
+            var _ = f;
+            if ((n && _(new n(new ArrayBuffer(1))) != g) || (i && _(new i) != c) || (o && _(o.resolve()) != h) || (s && _(new s) != d) || (a && _(new a) != p)) {
+                _ = function(t) {
                     var e = f(t), r = e == l ? t.constructor : undefined, n = r ? u(r) : '';
                     if (n) {
                         switch(n){
@@ -27488,7 +27488,7 @@
                     return e;
                 };
             }
-            t.exports = $;
+            t.exports = _;
         }),
         7801: (function(t) {
             function e(t, e) {
@@ -27564,7 +27564,7 @@
         9148: (function(t, e, r) {
             var n = r(4318), i = r(7157), o = r(3147), s = r(419), a = r(7133);
             var f = '[object Boolean]', u = '[object Date]', c = '[object Map]', l = '[object Number]', h = '[object RegExp]', d = '[object Set]', p = '[object String]', g = '[object Symbol]';
-            var b = '[object ArrayBuffer]', v = '[object DataView]', y = '[object Float32Array]', m = '[object Float64Array]', w = '[object Int8Array]', $ = '[object Int16Array]', S = '[object Int32Array]', E = '[object Uint8Array]', x = '[object Uint8ClampedArray]', M = '[object Uint16Array]', T = '[object Uint32Array]';
+            var b = '[object ArrayBuffer]', v = '[object DataView]', y = '[object Float32Array]', m = '[object Float64Array]', w = '[object Int8Array]', _ = '[object Int16Array]', S = '[object Int32Array]', E = '[object Uint8Array]', x = '[object Uint8ClampedArray]', M = '[object Uint16Array]', T = '[object Uint32Array]';
             function A(t, e, r) {
                 var A = t.constructor;
                 switch(e){
@@ -27578,7 +27578,7 @@
                     case y:
                     case m:
                     case w:
-                    case $:
+                    case _:
                     case S:
                     case E:
                     case x:
@@ -28022,7 +28022,7 @@
             const y = Symbol('options');
             const m = Symbol('test');
             const w = Symbol('advance');
-            const $ = Symbol('init');
+            const _ = Symbol('init');
             function S(t, e) {
                 if (typeof t === 'string') {
                     return t < e ? -1 : t > e ? 1 : 0;
@@ -28049,7 +28049,7 @@
             class A extends o {
                 constructor(t, e){
                     super(t, e);
-                    this[$](t[h], e);
+                    this[_](t[h], e);
                 }
                 _next(t) {
                     if (!this[d].valid) return this.nextTick(t);
@@ -28088,7 +28088,7 @@
             class O extends s {
                 constructor(t, e){
                     super(t, e);
-                    this[$](t[h], e);
+                    this[_](t[h], e);
                 }
                 _next(t) {
                     if (!this[d].valid) return this.nextTick(t);
@@ -28120,7 +28120,7 @@
             class k extends a {
                 constructor(t, e){
                     super(t, e);
-                    this[$](t[h], e);
+                    this[_](t[h], e);
                 }
                 _next(t) {
                     if (!this[d].valid) return this.nextTick(t);
@@ -28155,7 +28155,7 @@
                 O,
                 k
             ]){
-                I.prototype[$] = function(t, e) {
+                I.prototype[_] = function(t, e) {
                     this[v] = e.reverse;
                     this[y] = e;
                     if (!this[v]) {
@@ -28832,7 +28832,7 @@
                         var g = n(41);
                         var b = n(289);
                         var v = n(483), y = v.getHighWaterMark;
-                        var m = n(349).q, w = m.ERR_INVALID_ARG_TYPE, $ = m.ERR_STREAM_PUSH_AFTER_EOF, S = m.ERR_METHOD_NOT_IMPLEMENTED, E = m.ERR_STREAM_UNSHIFT_AFTER_END_EVENT;
+                        var m = n(349).q, w = m.ERR_INVALID_ARG_TYPE, _ = m.ERR_STREAM_PUSH_AFTER_EOF, S = m.ERR_METHOD_NOT_IMPLEMENTED, E = m.ERR_STREAM_UNSHIFT_AFTER_END_EVENT;
                         var x;
                         var M;
                         var T;
@@ -28960,7 +28960,7 @@
                                         if (o.endEmitted) A(t, new E);
                                         else j(t, o, e, true);
                                     } else if (o.ended) {
-                                        A(t, new $);
+                                        A(t, new _);
                                     } else if (o.destroyed) {
                                         return false;
                                     } else {
@@ -29121,7 +29121,7 @@
                                 e.needReadable = false;
                                 if (!e.emittedReadable) {
                                     e.emittedReadable = true;
-                                    _(t);
+                                    $(t);
                                 }
                             }
                         }
@@ -29132,10 +29132,10 @@
                             if (!e.emittedReadable) {
                                 p("emitReadable", e.flowing);
                                 e.emittedReadable = true;
-                                i.nextTick(_, t);
+                                i.nextTick($, t);
                             }
                         }
-                        function _(t) {
+                        function $(t) {
                             var e = t._readableState;
                             p("emitReadable_", e.destroyed, e.length, e.ended);
                             if (!e.destroyed && (e.length || e.ended)) {
@@ -29652,7 +29652,7 @@
                         }
                         var p = n(289);
                         var g = n(483), b = g.getHighWaterMark;
-                        var v = n(349).q, y = v.ERR_INVALID_ARG_TYPE, m = v.ERR_METHOD_NOT_IMPLEMENTED, w = v.ERR_MULTIPLE_CALLBACK, $ = v.ERR_STREAM_CANNOT_PIPE, S = v.ERR_STREAM_DESTROYED, E = v.ERR_STREAM_NULL_VALUES, x = v.ERR_STREAM_WRITE_AFTER_END, M = v.ERR_UNKNOWN_ENCODING;
+                        var v = n(349).q, y = v.ERR_INVALID_ARG_TYPE, m = v.ERR_METHOD_NOT_IMPLEMENTED, w = v.ERR_MULTIPLE_CALLBACK, _ = v.ERR_STREAM_CANNOT_PIPE, S = v.ERR_STREAM_DESTROYED, E = v.ERR_STREAM_NULL_VALUES, x = v.ERR_STREAM_WRITE_AFTER_END, M = v.ERR_UNKNOWN_ENCODING;
                         var T = p.errorOrDestroy;
                         n(140)(I, u);
                         function A() {}
@@ -29740,7 +29740,7 @@
                             u.call(this);
                         }
                         I.prototype.pipe = function() {
-                            T(this, new $);
+                            T(this, new _);
                         };
                         function R(t, e) {
                             var r = new x;
@@ -29914,12 +29914,12 @@
                             }
                         }
                         function D(t, e, r, n) {
-                            if (!r) _(t, e);
+                            if (!r) $(t, e);
                             e.pendingcb--;
                             n();
                             G(t, e);
                         }
-                        function _(t, e) {
+                        function $(t, e) {
                             if (e.length === 0 && e.needDrain) {
                                 e.needDrain = false;
                                 t.emit("drain");
@@ -32803,9 +32803,9 @@
                             if (v.index >= i) v.index++;
                             break;
                         case 'code':
-                            for(const $ in v.entries){
-                                const S = v.entries[$];
-                                const E = u.entries[$];
+                            for(const _ in v.entries){
+                                const S = v.entries[_];
+                                const E = u.entries[_];
                                 const x = c.entries[E];
                                 const M = a(x, l.type);
                                 f(S, l.code, i, p, M);
@@ -33217,9 +33217,9 @@
                                         y += `\n${b}`;
                                         m = `,\n${b}`;
                                     }
-                                    const $ = Math.min(v.length, o);
+                                    const _ = Math.min(v.length, o);
                                     let S = 0;
-                                    for(; S < $ - 1; S++){
+                                    for(; S < _ - 1; S++){
                                         const E = s(S, v, h, d, p, b);
                                         y += E !== undefined ? E : 'null';
                                         y += m;
@@ -33343,17 +33343,17 @@
                                     return '{}';
                                 }
                                 s.push(n);
-                                let $ = '';
+                                let _ = '';
                                 if (c !== '') {
                                     l += c;
                                     p = `,\n${l}`;
-                                    $ = ' ';
+                                    _ = ' ';
                                 }
                                 let S = '';
                                 for (const E of f){
                                     const x = u(E, n[E], s, f, c, l);
                                     if (x !== undefined) {
-                                        d += `${S}"${a(E)}":${$}${x}`;
+                                        d += `${S}"${a(E)}":${_}${x}`;
                                         S = p;
                                     }
                                 }
@@ -33407,8 +33407,8 @@
                                     const m = Math.min(s.length, o);
                                     let w = 0;
                                     for(; w < m - 1; w++){
-                                        const $ = v(w, s[w], u, h, d);
-                                        b += $ !== undefined ? $ : 'null';
+                                        const _ = v(w, s[w], u, h, d);
+                                        b += _ !== undefined ? _ : 'null';
                                         b += y;
                                     }
                                     const S = v(w, s[w], u, h, d);
@@ -33518,15 +33518,15 @@
                                     return `[${h}]`;
                                 }
                                 let w = Object.keys(s);
-                                const $ = w.length;
-                                if ($ === 0) {
+                                const _ = w.length;
+                                if (_ === 0) {
                                     return '{}';
                                 }
                                 if (i < u.length + 1) {
                                     return '"[Object]"';
                                 }
                                 let S = '';
-                                let E = Math.min($, o);
+                                let E = Math.min(_, o);
                                 if (c(s)) {
                                     h += l(s, ',', o);
                                     w = w.slice(s.length);
@@ -33545,8 +33545,8 @@
                                         S = ',';
                                     }
                                 }
-                                if ($ > o) {
-                                    const A = $ - o;
+                                if (_ > o) {
+                                    const A = _ - o;
                                     h += `${S}"...":"${g(A)} not stringified"`;
                                 }
                                 u.pop();
@@ -34000,7 +34000,7 @@
             function d(t, e) {
                 var r = Uint8Array;
                 if (t[0] == 3 && t[1] == 0) return (e ? e : new r(0));
-                var n = $, i = w, o = g, s = S;
+                var n = _, i = w, o = g, s = S;
                 var a = (e == null);
                 if (a) e = new r((t.length >>> 2) << 3);
                 var f = 0, u = 0, c = 0, l = 0, h = 0, d = 0, m = 0;
@@ -34073,8 +34073,8 @@
                             }
                             var D = A[s(t, M) & m];
                             M += D & 15;
-                            var _ = D >>> 4;
-                            var F = E.ddef[_], W = (F >>> 4) + n(t, M, F & 15);
+                            var $ = D >>> 4;
+                            var F = E.ddef[$], W = (F >>> 4) + n(t, M, F & 15);
                             M += F & 15;
                             if (a) e = p(e, x + (1 << 17));
                             while(x < L){
@@ -34189,7 +34189,7 @@
             function w(t, e, r) {
                 return ((t[e >>> 3] | (t[(e >>> 3) + 1] << 8)) >>> (e & 7)) & ((1 << r) - 1);
             }
-            function $(t, e, r) {
+            function _(t, e, r) {
                 return ((t[e >>> 3] | (t[(e >>> 3) + 1] << 8) | (t[(e >>> 3) + 2] << 16)) >>> (e & 7)) & ((1 << r) - 1);
             }
             function S(t, e) {
@@ -34565,7 +34565,7 @@
                 }
                 return R.pop();
             }
-            function _(t, e, r, n) {
+            function $(t, e, r, n) {
                 const i = new Uint8Array(e);
                 M(t, i);
                 n(r ? new Blob([
@@ -34612,7 +34612,7 @@
                     if (s(c)) {
                         p = await o(c);
                     }
-                    _(p, l, h, d);
+                    $(p, l, h, d);
                 }
             }
             function W(t) {
@@ -34831,11 +34831,11 @@
                     h.comment = to(h.commentBytes);
                     s += d.length;
                     if (h.uncompressedSize === 0xffffffff || h.compressedSize === 0xffffffff || h.relativeOffsetOfLocalHeader === 0xffffffff) {
-                        const $ = h.extraFields.find((t)=>t.id === 0x0001);
-                        if (!$) {
+                        const _ = h.extraFields.find((t)=>t.id === 0x0001);
+                        if (!_) {
                             throw new Error('expected zip64 extended information extra field');
                         }
-                        const S = $.data;
+                        const S = _.data;
                         let E = 0;
                         if (h.uncompressedSize === 0xffffffff) {
                             if (E + 8 > S.length) {
@@ -35045,10 +35045,10 @@
                 return o(t) === 'Uint8ClampedArray';
             }
             e.isUint8ClampedArray = w;
-            function $(t) {
+            function _(t) {
                 return o(t) === 'Uint16Array';
             }
-            e.isUint16Array = $;
+            e.isUint16Array = _;
             function S(t) {
                 return o(t) === 'Uint32Array';
             }
@@ -35133,15 +35133,15 @@
                 return U.working ? U(t) : t instanceof ArrayBuffer;
             }
             e.isArrayBuffer = D;
-            function _(t) {
+            function $(t) {
                 return c(t) === '[object DataView]';
             }
-            _.working = (typeof ArrayBuffer !== 'undefined' && typeof DataView !== 'undefined' && _(new DataView(new ArrayBuffer(1), 0, 1)));
+            $.working = (typeof ArrayBuffer !== 'undefined' && typeof DataView !== 'undefined' && $(new DataView(new ArrayBuffer(1), 0, 1)));
             function F(t) {
                 if (typeof DataView === 'undefined') {
                     return false;
                 }
-                return _.working ? _(t) : t instanceof DataView;
+                return $.working ? $(t) : t instanceof DataView;
             }
             e.isDataView = F;
             var W = typeof SharedArrayBuffer !== 'undefined' ? SharedArrayBuffer : undefined;
@@ -35260,7 +35260,7 @@
                     }
                 });
                 for(var a = n[r]; r < i; a = n[++r]){
-                    if ($(a) || !O(a)) {
+                    if (_(a) || !O(a)) {
                         s += ' ' + a;
                     } else {
                         s += ' ' + u(a);
@@ -35487,16 +35487,16 @@
                     }
                 }
                 t.seen.push(r);
-                var $;
+                var _;
                 if (c) {
-                    $ = b(t, r, n, a, s);
+                    _ = b(t, r, n, a, s);
                 } else {
-                    $ = s.map(function(e) {
+                    _ = s.map(function(e) {
                         return v(t, r, n, a, e, c);
                     });
                 }
                 t.seen.pop();
-                return y($, u, l);
+                return y(_, u, l);
             }
             function p(t, e) {
                 if (T(e)) return t.stylize('undefined', 'undefined');
@@ -35506,7 +35506,7 @@
                 }
                 if (E(e)) return t.stylize('' + e, 'number');
                 if (w(e)) return t.stylize('' + e, 'boolean');
-                if ($(e)) return t.stylize('null', 'null');
+                if (_(e)) return t.stylize('null', 'null');
             }
             function g(t) {
                 return '[' + Error.prototype.toString.call(t) + ']';
@@ -35548,7 +35548,7 @@
                 }
                 if (!a) {
                     if (t.seen.indexOf(f.value) < 0) {
-                        if ($(r)) {
+                        if (_(r)) {
                             a = d(t, f.value, null);
                         } else {
                             a = d(t, f.value, r - 1);
@@ -35604,10 +35604,10 @@
                 return typeof t === 'boolean';
             }
             e.isBoolean = w;
-            function $(t) {
+            function _(t) {
                 return t === null;
             }
-            e.isNull = $;
+            e.isNull = _;
             function S(t) {
                 return t == null;
             }
@@ -35763,7 +35763,7 @@
                 }
                 return e(t);
             }
-            function _(t) {
+            function $(t) {
                 if (typeof t !== 'function') {
                     throw new TypeError('The "original" argument must be of type Function');
                 }
@@ -35790,7 +35790,7 @@
                 Object.defineProperties(e, i(t));
                 return e;
             }
-            e.callbackify = _;
+            e.callbackify = $;
         }),
         345: (function(t, e) {
             "use strict";
@@ -36019,7 +36019,7 @@
             const y = r(5082);
             const m = r(3611);
             const w = r(4217);
-            const $ = r(8102);
+            const _ = r(8102);
             class S {
                 constructor(t, e, r = null, n = null){
                     this._contractTxId = t;
@@ -36028,7 +36028,7 @@
                     this._callingInteraction = n;
                     this.logger = g.LoggerFactory.INST.create('HandlerBasedContract');
                     this._evaluationOptions = new l.DefaultEvaluationOptions();
-                    this._innerWritesEvaluator = new $.InnerWritesEvaluator();
+                    this._innerWritesEvaluator = new _.InnerWritesEvaluator();
                     this._benchmarkStats = null;
                     this.waitForConfirmation = this.waitForConfirmation.bind(this);
                     this._arweaveWrapper = new v.ArweaveWrapper(e.arweave);
@@ -36716,12 +36716,12 @@
                             meterType: 'i32'
                         });
                         m.push(w);
-                        const $ = await WebAssembly.compile(i);
-                        const S = WebAssembly.Module.imports($);
+                        const _ = await WebAssembly.compile(i);
+                        const S = WebAssembly.Module.imports(_);
                         let E;
                         if (this.isGoModule(S)) {
                             const x = new s.Go(null);
-                            const M = new WebAssembly.Instance($, x.importObject);
+                            const M = new WebAssembly.Instance(_, x.importObject);
                             x.run(M);
                             E = x.exports.lang();
                             v = x.exports.version();
@@ -37814,7 +37814,7 @@
                     r === null || r === void 0 ? void 0 : r.handler.initState(b);
                     const w = r.contract.callDepth();
                     this.logger.info(`${(0, u.indent)(w)}Evaluating state for ${p.txId} [${t.length} non-cached of ${g.length} all]`);
-                    let $ = null;
+                    let _ = null;
                     let S = null;
                     const E = t.length;
                     r.handler.initState(b);
@@ -37871,7 +37871,7 @@
                                 outputState: f.saveState ? b : undefined,
                                 executionTime: T.elapsed(true),
                                 valid: y[M.id],
-                                errorMessage: $,
+                                errorMessage: _,
                                 gasUsed: 0
                             });
                         } else {
@@ -37897,9 +37897,9 @@
                             this.logger.debug(`${(0, u.indent)(w)}Interaction:`, C);
                             const L = d.getCallStack().addInteractionData(B);
                             const U = await r.handler.handle(r, new c.EvalStateResult(b, y, m), B);
-                            $ = U.errorMessage;
+                            _ = U.errorMessage;
                             if (U.type !== 'ok') {
-                                m[M.id] = $;
+                                m[M.id] = _;
                             }
                             this.logResult(U, M, r);
                             this.logger.debug(`${(0, u.indent)(w)}Interaction evaluation`, T.elapsed());
@@ -37908,7 +37908,7 @@
                                 outputState: f.saveState ? b : undefined,
                                 executionTime: T.elapsed(true),
                                 valid: y[M.id],
-                                errorMessage: $,
+                                errorMessage: _,
                                 gasUsed: U.gasUsed
                             });
                             if (U.type === 'exception' && o !== true) {
@@ -37925,8 +37925,8 @@
                             }
                             await this.onStateUpdate(M, r, D);
                         }
-                        for (const { modify: _  } of this.executionContextModifiers){
-                            r = await _(b, r);
+                        for (const { modify: $  } of this.executionContextModifiers){
+                            r = await $(b, r);
                         }
                     }
                     const F = new c.EvalStateResult(b, y, m);
@@ -38025,7 +38025,7 @@
                     this.name = 'ContractError';
                 }
             }
-            class $ {
+            class _ {
                 constructor(t){
                     this.arweave = t;
                     this.logger = g.LoggerFactory.INST.create('HandlerExecutorFactory');
@@ -38054,7 +38054,7 @@
                                 }
                             case 'rust':
                                 {
-                                    const $ = {
+                                    const _ = {
                                         exports: null,
                                         modifiedExports: {
                                             wasm_bindgen__convert__closures__invoke2_mut__: null,
@@ -38066,17 +38066,17 @@
                                     const T = M.filter((t)=>{
                                         return t.module === '__wbindgen_placeholder__';
                                     }).map((t)=>t.name);
-                                    const { imports: A , exports: O  } = (0, u.rustWasmImports)(r, T, $, t.metadata.dtor);
+                                    const { imports: A , exports: O  } = (0, u.rustWasmImports)(r, T, _, t.metadata.dtor);
                                     o = O;
                                     i = await WebAssembly.instantiate(x, A);
-                                    $.exports = i.exports;
+                                    _.exports = i.exports;
                                     const k = Object.keys(i.exports);
                                     k.forEach((t)=>{
                                         if (t.startsWith('wasm_bindgen__convert__closures__invoke2_mut__')) {
-                                            $.modifiedExports.wasm_bindgen__convert__closures__invoke2_mut__ = i.exports[t];
+                                            _.modifiedExports.wasm_bindgen__convert__closures__invoke2_mut__ = i.exports[t];
                                         }
                                         if (t.startsWith('_dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__')) {
-                                            $.modifiedExports._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ = i.exports[t];
+                                            _.modifiedExports._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ = i.exports[t];
                                         }
                                     });
                                     break;
@@ -38143,7 +38143,7 @@
                     }
                 }
             }
-            e.HandlerExecutorFactory = $;
+            e.HandlerExecutorFactory = _;
             function S(t) {
                 const e = {
                     status: 200,
@@ -39629,7 +39629,7 @@
                 }
                 let m = 0;
                 let w = new TextEncoder('utf-8');
-                const $ = typeof w.encodeInto === 'function' ? function(t, e) {
+                const _ = typeof w.encodeInto === 'function' ? function(t, e) {
                     return w.encodeInto(t, e);
                 } : function(t, e) {
                     const r = w.encode(t);
@@ -39662,7 +39662,7 @@
                         }
                         s = r(s, o, (o = f + t.length * 3));
                         const c = d().subarray(s + f, s + o);
-                        const l = $(t, c);
+                        const l = _(t, c);
                         f += l.written;
                     }
                     m = f;
@@ -40869,7 +40869,7 @@
                 const w = ()=>{
                     throw Error(m);
                 };
-                const $ = typeof BigUint64Array !== "undefined";
+                const _ = typeof BigUint64Array !== "undefined";
                 const S = Symbol();
                 const E = 192;
                 const x = 1024;
@@ -40971,7 +40971,7 @@
                         return T(r, t);
                     }
                     t.__getString = D;
-                    function _(t, e, r) {
+                    function $(t, e, r) {
                         const n = E.buffer;
                         if (r) {
                             switch(t){
@@ -41006,17 +41006,17 @@
                             w = m;
                         } else {
                             A(m);
-                            const $ = M(i & s ? v : g, t);
+                            const _ = M(i & s ? v : g, t);
                             O(m);
                             const S = new Uint32Array(E.buffer);
-                            S[$ + h >>> 2] = m;
-                            S[$ + d >>> 2] = m;
-                            S[$ + p >>> 2] = y << o;
-                            if (i & s) S[$ + b >>> 2] = y;
-                            w = $;
+                            S[_ + h >>> 2] = m;
+                            S[_ + d >>> 2] = m;
+                            S[_ + p >>> 2] = y << o;
+                            if (i & s) S[_ + b >>> 2] = y;
+                            w = _;
                         }
                         if (f) {
-                            const x = _(o, i & u, i & c);
+                            const x = $(o, i & u, i & c);
                             const T = m >>> o;
                             if (i & l) {
                                 for(let k = 0; k < y; ++k){
@@ -41036,7 +41036,7 @@
                         const f = B(o);
                         let l = o & a ? t : n[t + d >>> 2];
                         const h = o & s ? n[t + b >>> 2] : n[l + r >>> 2] >>> f;
-                        return _(f, o & u, o & c).subarray(l >>>= f, l + h);
+                        return $(f, o & u, o & c).subarray(l >>>= f, l + h);
                     }
                     t.__getArrayView = W;
                     function q(t) {
@@ -41084,7 +41084,7 @@
                     ].forEach((t)=>{
                         H(t, t.name, 31 - Math.clz32(t.BYTES_PER_ELEMENT));
                     });
-                    if ($) {
+                    if (_) {
                         [
                             BigUint64Array,
                             BigInt64Array

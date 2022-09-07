@@ -1,36 +1,44 @@
 {
-    const [a, [c, d]] = r;
-}
+    const [a, [d, b]] = k;
+}{
+    let [r, [n, o]] = k;
+}var [s, [t, e]] = k;
+[s, [t, e]] = k;
 {
-    let [a, [c, d]] = r;
-}
-var [a, [d, b]] = r;
-[a, [d, b]] = r;
-{
-    const {
-        aa: a,
-        bb: { cc: c, dd: d },
-    } = { aa: 1, bb: { cc: 2, dd: 3 } };
-}
-{
-    let {
-        aa: a,
-        bb: { cc: c, dd: d },
-    } = { aa: 1, bb: { cc: 2, dd: 3 } };
-}
-var {
-    aa: a,
-    bb: { cc: b, dd: r },
-} = { aa: 1, bb: { cc: 2, dd: 3 } };
-({
-    aa: a,
-    bb: { cc: b, dd: r },
-} = { aa: 1, bb: { cc: 2, dd: 3 } });
-const [{ a: n }, o] = c;
-let [{ d: s }, t] = f;
-var [{ g: e }, l] = i;
-[{ a: n }, o] = c;
-for (const [a, c] in pairs);
-for (let [a, c] in pairs);
-for (var [p, v] in pairs);
-for ([p, v] in pairs);
+    const { aa: l , bb: { cc: p , dd: v  } ,  } = {
+        aa: 1,
+        bb: {
+            cc: 2,
+            dd: 3
+        }
+    };
+}{
+    let { aa: g , bb: { cc: h , dd: j  } ,  } = {
+        aa: 1,
+        bb: {
+            cc: 2,
+            dd: 3
+        }
+    };
+}var { aa: s , bb: { cc: e , dd: k  } ,  } = {
+    aa: 1,
+    bb: {
+        cc: 2,
+        dd: 3
+    }
+};
+({ aa: s , bb: { cc: e , dd: k  } ,  } = {
+    aa: 1,
+    bb: {
+        cc: 2,
+        dd: 3
+    }
+});
+const [{ a: m  }, q] = c;
+let [{ d: u  }, w] = f;
+var [{ g: x  }, y] = i;
+[{ a: m  }, q] = c;
+for(const [z, A] in pairs);
+for(let [B, C] in pairs);
+for(var [D, E] in pairs);
+for([D, E] in pairs);

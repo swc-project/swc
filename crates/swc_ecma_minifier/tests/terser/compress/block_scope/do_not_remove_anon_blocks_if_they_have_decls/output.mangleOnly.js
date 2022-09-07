@@ -3,16 +3,16 @@ function t() {
         let t;
     }
     {
-        var t;
+        var a;
     }
     {
-        const t = 1;
-        class a {}
+        const c = 1;
+        class l {
+        }
     }
 }
 {
-    let t;
-}
-{
-    var a;
+    let a;
+}{
+    var c;
 }

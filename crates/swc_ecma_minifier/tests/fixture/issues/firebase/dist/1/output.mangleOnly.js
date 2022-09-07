@@ -220,8 +220,8 @@ function g(e) {
 }
 if (e.isBrowser() && self.firebase !== undefined) {
     v.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");
-    var $ = self.firebase.SDK_VERSION;
-    if ($ && $.indexOf("LITE") >= 0) {
+    var _ = self.firebase.SDK_VERSION;
+    if (_ && _.indexOf("LITE") >= 0) {
         v.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
     }
 }

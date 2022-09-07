@@ -2,10 +2,10 @@ function o(o) {
     try {
         try {
             throw "foo";
-        } catch (r) {
+        } catch (t) {
             return (o = true);
         }
-    } finally {
+    } finally{
         o && (r = "PASS");
     }
 }

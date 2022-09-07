@@ -4,7 +4,7 @@ function a() {
         a++;
         x();
     } catch (a) {
-        if (a) var a;
+        if (c) var c;
         var a = 10;
     }
 }

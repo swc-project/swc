@@ -6,8 +6,8 @@ function n(e, s) {
 function i(e, s) {
     return e.charCodeAt(s) | 0;
 }
-export function prefix(u, _) {
-    switch(n(u, _)){
+export function prefix(u, $) {
+    switch(n(u, $)){
         case 5103:
             return a + "print-" + u + u;
         case 5737:
@@ -85,17 +85,17 @@ export function prefix(u, _) {
         case 5789:
         case 5021:
         case 4765:
-            if (c(u) - 1 - _ > 6) switch(i(u, _ + 1)){
+            if (c(u) - 1 - $ > 6) switch(i(u, $ + 1)){
                 case 109:
-                    if (i(u, _ + 4) !== 45) break;
+                    if (i(u, $ + 4) !== 45) break;
                 case 102:
-                    return (t(u, /(.+:)(.+)-([^]+)/, "$1" + a + "$2-$3" + "$1" + s + (i(u, _ + 3) == 108 ? "$3" : "$2-$3")) + u);
+                    return (t(u, /(.+:)(.+)-([^]+)/, "$1" + a + "$2-$3" + "$1" + s + (i(u, $ + 3) == 108 ? "$3" : "$2-$3")) + u);
                 case 115:
-                    return ~r(u, "stretch") ? prefix(t(u, "stretch", "fill-available"), _) + u : u;
+                    return ~r(u, "stretch") ? prefix(t(u, "stretch", "fill-available"), $) + u : u;
             }
             break;
         case 4949:
-            if (i(u, _ + 1) !== 115) break;
+            if (i(u, $ + 1) !== 115) break;
         case 6444:
             switch(i(u, c(u) - 3 - (~r(u, "!important") && 10))){
                 case 107:
@@ -105,7 +105,7 @@ export function prefix(u, _) {
             }
             break;
         case 5936:
-            switch(i(u, _ + 11)){
+            switch(i(u, $ + 11)){
                 case 114:
                     return (a + u + e + t(u, /[svh]\w+-[tblr]{2}/, "tb") + u);
                 case 108:

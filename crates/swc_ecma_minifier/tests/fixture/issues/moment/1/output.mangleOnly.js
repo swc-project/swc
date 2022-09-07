@@ -90,11 +90,11 @@
         }
         return e._pf;
     }
-    var $;
+    var _;
     if (Array.prototype.some) {
-        $ = Array.prototype.some;
+        _ = Array.prototype.some;
     } else {
-        $ = function(e) {
+        _ = function(e) {
             var t = Object(this), n = t.length >>> 0, i;
             for(i = 0; i < n; i++){
                 if (i in t && e.call(this, t[i], i, t)) {
@@ -106,7 +106,7 @@
     }
     function y(e) {
         if (e._isValid == null) {
-            var t = m(e), n = $.call(t.parsedDateParts, function(e) {
+            var t = m(e), n = _.call(t.parsedDateParts, function(e) {
                 return e != null;
             }), i = !isNaN(e._d.getTime()) && t.overflow < 0 && !t.empty && !t.invalidEra && !t.invalidMonth && !t.invalidWeekday && !t.weekdayMismatch && !t.nullInput && !t.invalidFormat && !t.userInvalidated && (!t.meridiem || (t.meridiem && n));
             if (e._strict) {
@@ -397,7 +397,7 @@
         return this._longDateFormat[e];
     }
     var z = "Invalid date";
-    function _() {
+    function $() {
         return this._invalidDate;
     }
     var q = "%d", B = /\d{1,2}/;
@@ -532,7 +532,7 @@
         }
         return this;
     }
-    var e$ = /\d/, ey = /\d\d/, eg = /\d{3}/, ew = /\d{4}/, ep = /[+-]?\d{6}/, ev = /\d\d?/, ek = /\d\d\d\d?/, eM = /\d\d\d\d\d\d?/, eD = /\d{1,3}/, eS = /\d{1,4}/, eY = /[+-]?\d{1,6}/, eO = /\d+/, eb = /[+-]?\d+/, ex = /Z|[+-]\d\d:?\d\d/gi, eT = /Z|[+-]\d\d(?::?\d\d)?/gi, eN = /[+-]?\d+(\.\d{1,3})?/, eP = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i, eR;
+    var e_ = /\d/, ey = /\d\d/, eg = /\d{3}/, ew = /\d{4}/, ep = /[+-]?\d{6}/, ev = /\d\d?/, ek = /\d\d\d\d?/, eM = /\d\d\d\d\d\d?/, eD = /\d{1,3}/, eS = /\d{1,4}/, eY = /[+-]?\d{1,6}/, eO = /\d+/, eb = /[+-]?\d+/, ex = /Z|[+-]\d\d:?\d\d/gi, eT = /Z|[+-]\d\d(?::?\d\d)?/gi, eN = /[+-]?\d+(\.\d{1,3})?/, eP = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i, eR;
     eR = {};
     function eW(e, t, n) {
         eR[e] = b(t) ? t : function(e, i) {
@@ -581,7 +581,7 @@
             eF[e](t, n._a, n, e);
         }
     }
-    var eE = 0, eA = 1, eI = 2, ej = 3, eZ = 4, ez = 5, e_ = 6, eq = 7, eB = 8;
+    var eE = 0, eA = 1, eI = 2, ej = 3, eZ = 4, ez = 5, e$ = 6, eq = 7, eB = 8;
     function eJ(e, t) {
         return ((e % t) + t) % t;
     }
@@ -979,7 +979,7 @@
         dow: 0,
         doy: 6
     };
-    function t$() {
+    function t_() {
         return this._week.dow;
     }
     function ty() {
@@ -1394,7 +1394,7 @@
         return (e + "").toLowerCase().charAt(0) === "p";
     }
     var tZ = /[ap]\.?m?\.?/i, tz = ef("Hours", true);
-    function t_(e, t, n) {
+    function t$(e, t, n) {
         if (e > 11) {
             return n ? "pm" : "PM";
         } else {
@@ -1579,7 +1579,7 @@
     function t9(e) {
         var t, n = e._a;
         if (n && m(e).overflow === -2) {
-            t = n[eA] < 0 || n[eA] > 11 ? eA : n[eI] < 1 || n[eI] > eX(n[eE], n[eA]) ? eI : n[ej] < 0 || n[ej] > 24 || (n[ej] === 24 && (n[eZ] !== 0 || n[ez] !== 0 || n[e_] !== 0)) ? ej : n[eZ] < 0 || n[eZ] > 59 ? eZ : n[ez] < 0 || n[ez] > 59 ? ez : n[e_] < 0 || n[e_] > 999 ? e_ : -1;
+            t = n[eA] < 0 || n[eA] > 11 ? eA : n[eI] < 1 || n[eI] > eX(n[eE], n[eA]) ? eI : n[ej] < 0 || n[ej] > 24 || (n[ej] === 24 && (n[eZ] !== 0 || n[ez] !== 0 || n[e$] !== 0)) ? ej : n[eZ] < 0 || n[eZ] > 59 ? eZ : n[ez] < 0 || n[ez] > 59 ? ez : n[e$] < 0 || n[e$] > 999 ? e$ : -1;
             if (m(e)._overflowDayOfYear && (t < eE || t > eI)) {
                 t = eI;
             }
@@ -1843,7 +1843,7 @@
         }
         return n;
     }
-    function n$(e) {
+    function n_(e) {
         var n = new Date(t.now());
         if (e._useUTC) {
             return [
@@ -1863,7 +1863,7 @@
         if (e._d) {
             return;
         }
-        r = n$(e);
+        r = n_(e);
         if (e._w && e._a[eI] == null && e._a[eA] == null) {
             ng(e);
         }
@@ -1882,7 +1882,7 @@
         for(; t < 7; t++){
             e._a[t] = i[t] = e._a[t] == null ? (t === 2 ? 1 : 0) : e._a[t];
         }
-        if (e._a[ej] === 24 && e._a[eZ] === 0 && e._a[ez] === 0 && e._a[e_] === 0) {
+        if (e._a[ej] === 24 && e._a[eZ] === 0 && e._a[ez] === 0 && e._a[e$] === 0) {
             e._nextDay = true;
             e._a[ej] = 0;
         }
@@ -2346,7 +2346,7 @@
             return this._isUTC ? r : nZ(this);
         }
     }
-    function n_(e, t) {
+    function n$(e, t) {
         if (e != null) {
             if (typeof e !== "string") {
                 e = -e;
@@ -2441,7 +2441,7 @@
                 h: el(i[ej]) * r,
                 m: el(i[eZ]) * r,
                 s: el(i[ez]) * r,
-                ms: el(nV(i[e_] * 1000)) * r
+                ms: el(nV(i[e$] * 1000)) * r
             };
         } else if ((i = n4.exec(e))) {
             r = i[1] === "-" ? -1 : 1;
@@ -2648,7 +2648,7 @@
             return this.clone().endOf(t).valueOf() < n.valueOf();
         }
     }
-    function i$(e, t, n, i) {
+    function i_(e, t, n, i) {
         var r = M(e) ? e : nO(e), s = M(t) ? t : nO(t);
         if (!(this.isValid() && r.isValid() && s.isValid())) {
             return false;
@@ -2964,7 +2964,7 @@
     function iz() {
         return this.isValid() ? this.toISOString() : null;
     }
-    function i_() {
+    function i$() {
         return y(this);
     }
     function iq() {
@@ -3296,7 +3296,7 @@
     V("Q", 0, "Qo", "quarter");
     et("quarter", "Q");
     es("quarter", 7);
-    eW("Q", e$);
+    eW("Q", e_);
     eL("Q", function(e, t) {
         t[eA] = (el(e) - 1) * 3;
     });
@@ -3365,7 +3365,7 @@
         "s",
         "ss"
     ], ez);
-    var r$ = ef("Seconds", false);
+    var r_ = ef("Seconds", false);
     V("S", 0, 0, function() {
         return ~~(this.millisecond() / 100);
     });
@@ -3417,7 +3417,7 @@
     });
     et("millisecond", "ms");
     es("millisecond", 16);
-    eW("S", eD, e$);
+    eW("S", eD, e_);
     eW("SS", eD, ey);
     eW("SSS", eD, eg);
     var ry, rg;
@@ -3425,7 +3425,7 @@
         eW(ry, eO);
     }
     function rw(e, t) {
-        t[e_] = el(("0." + e) * 1000);
+        t[e$] = el(("0." + e) * 1000);
     }
     for(ry = "S"; ry.length <= 9; ry += "S"){
         eL(ry, rw);
@@ -3454,11 +3454,11 @@
     rk.invalidAt = iB;
     rk.isAfter = ic;
     rk.isBefore = im;
-    rk.isBetween = i$;
+    rk.isBetween = i_;
     rk.isSame = iy;
     rk.isSameOrAfter = ig;
     rk.isSameOrBefore = iw;
-    rk.isValid = i_;
+    rk.isValid = i$;
     rk.lang = iN;
     rk.locale = iT;
     rk.localeData = iP;
@@ -3507,7 +3507,7 @@
     rk.dayOfYear = rc;
     rk.hour = rk.hours = tz;
     rk.minute = rk.minutes = rm;
-    rk.second = rk.seconds = r$;
+    rk.second = rk.seconds = r_;
     rk.millisecond = rk.milliseconds = rg;
     rk.utcOffset = nz;
     rk.utc = nq;
@@ -3524,7 +3524,7 @@
     rk.dates = S("dates accessor is deprecated. Use date instead.", rd);
     rk.months = S("months accessor is deprecated. Use month instead", e8);
     rk.years = S("years accessor is deprecated. Use year instead", ts);
-    rk.zone = S("moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/", n_);
+    rk.zone = S("moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/", n$);
     rk.isDSTShifted = S("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information", nK);
     function rM(e) {
         return nO(e * 1000);
@@ -3538,7 +3538,7 @@
     var rY = N.prototype;
     rY.calendar = W;
     rY.longDateFormat = Z;
-    rY.invalidDate = _;
+    rY.invalidDate = $;
     rY.ordinal = J;
     rY.preparse = rS;
     rY.postformat = rS;
@@ -3558,7 +3558,7 @@
     rY.monthsShortRegex = tt;
     rY.week = tc;
     rY.firstDayOfYear = ty;
-    rY.firstDayOfWeek = t$;
+    rY.firstDayOfWeek = t_;
     rY.weekdays = tx;
     rY.weekdaysMin = tN;
     rY.weekdaysShort = tT;
@@ -3567,7 +3567,7 @@
     rY.weekdaysShortRegex = tF;
     rY.weekdaysMinRegex = tL;
     rY.isPM = tj;
-    rY.meridiem = t_;
+    rY.meridiem = t$;
     function rO(e, t, n, i) {
         var r = t3(), s = d().set(i, t);
         return r[n](s, e);
@@ -3768,7 +3768,7 @@
             return this.as(e);
         };
     }
-    var rz = rZ("ms"), r_ = rZ("s"), rq = rZ("m"), rB = rZ("h"), rJ = rZ("d"), rQ = rZ("w"), rX = rZ("M"), rK = rZ("Q"), r0 = rZ("y");
+    var rz = rZ("ms"), r$ = rZ("s"), rq = rZ("m"), rB = rZ("h"), rJ = rZ("d"), rQ = rZ("w"), rX = rZ("M"), rK = rZ("Q"), r0 = rZ("y");
     function r1() {
         return n3(this);
     }
@@ -3924,7 +3924,7 @@
     sd.subtract = rL;
     sd.as = rI;
     sd.asMilliseconds = rz;
-    sd.asSeconds = r_;
+    sd.asSeconds = r$;
     sd.asMinutes = rq;
     sd.asHours = rB;
     sd.asDays = rJ;

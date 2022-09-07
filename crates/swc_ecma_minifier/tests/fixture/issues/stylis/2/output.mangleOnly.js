@@ -4,10 +4,10 @@ function n(e, s) {
     return e.charCodeAt(s) | 0;
 }
 export function prefix(i, u) {
-    function _(e, s) {
+    function $(e, s) {
         return ((((((((s << 2) ^ n(e, 0)) << 2) ^ n(e, 1)) << 2) ^ n(e, 2)) << 2) ^ n(e, 3));
     }
-    switch(_(i, u)){
+    switch($(i, u)){
         case 5103:
             return a + "print-" + i + i;
         case 5737:

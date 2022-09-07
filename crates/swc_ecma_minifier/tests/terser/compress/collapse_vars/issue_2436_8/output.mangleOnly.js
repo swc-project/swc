@@ -1,5 +1,6 @@
-console.log(
-    (function (o) {
-        return { x: o.a, y: o.b };
-    })(o)
-);
+console.log((function(n) {
+    return {
+        x: n.a,
+        y: n.b
+    };
+})(o));

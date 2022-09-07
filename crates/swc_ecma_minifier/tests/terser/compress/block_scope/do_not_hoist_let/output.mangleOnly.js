@@ -1,8 +1,8 @@
 function t() {
     if (FOO) {
-        let e;
-        let f;
-        var t;
-        var a;
+        let t;
+        let a;
+        var e;
+        var f;
     }
 }

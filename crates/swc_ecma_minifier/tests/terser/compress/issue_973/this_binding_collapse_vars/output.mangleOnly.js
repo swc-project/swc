@@ -1,6 +1,6 @@
-var v = a;
-v();
-var r = a.b;
-r();
-var b = eval;
-b();
+var c = a;
+c();
+var d = a.b;
+d();
+var e = eval;
+e();

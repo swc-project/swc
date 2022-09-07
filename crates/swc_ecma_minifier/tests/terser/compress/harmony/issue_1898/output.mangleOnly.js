@@ -1,9 +1,18 @@
 class o {
     bar() {
-        for (const f of [6, 5]) {
-            for (let r of [4, 3]) {
-                for (var o of [2, 1]) {
-                    console.log(f, r, o);
+        for (const o of [
+            6,
+            5
+        ]){
+            for (let f of [
+                4,
+                3
+            ]){
+                for (var r of [
+                    2,
+                    1
+                ]){
+                    console.log(o, f, r);
                 }
             }
         }

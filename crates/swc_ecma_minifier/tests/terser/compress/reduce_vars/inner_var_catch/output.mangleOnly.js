@@ -1,8 +1,8 @@
 function c() {
     try {
         a();
-    } catch (o) {
-        var c = 1;
+    } catch (c) {
+        var o = 1;
     }
-    console.log(c);
+    console.log(o);
 }

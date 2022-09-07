@@ -4,5 +4,5 @@ try {
         throw r;
     })(2);
     var a = --o + r;
-} catch (o) {}
+} catch (c) {}
 console.log(o);

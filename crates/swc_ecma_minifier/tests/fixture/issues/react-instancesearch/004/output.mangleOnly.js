@@ -330,7 +330,7 @@ export default function m(n) {
         }
         return new t.SearchResults(new t.SearchParameters(a.state), a.rawResults);
     };
-    var $ = function t() {
+    var _ = function t() {
         var r = w(z.getState().widgets);
         z.setState(e.objectSpread({}, z.getState(), {
             metadata: r,
@@ -394,7 +394,7 @@ export default function m(n) {
     var T = false;
     var k = null;
     var U = E.state;
-    var D = r($);
+    var D = r(_);
     R(S, h);
     var z = y({
         widgets: m,

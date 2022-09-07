@@ -1,4 +1,4 @@
 try {
     var c = (c.b, 2);
-} catch (c) {}
+} catch (o) {}
 console.log(c);

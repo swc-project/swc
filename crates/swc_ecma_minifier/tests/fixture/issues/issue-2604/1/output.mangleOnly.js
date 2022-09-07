@@ -20,7 +20,7 @@ push({
         var v = "";
         var t = "";
         var n = "";
-        var $ = "";
+        var _ = "";
         var s = "";
         var i = "";
         var u = "";
@@ -51,7 +51,7 @@ push({
             shadowmask_pars_fragment: v,
             skinbase_vertex: t,
             skinning_pars_vertex: n,
-            skinning_vertex: $,
+            skinning_vertex: _,
             skinnormal_vertex: s,
             specularmap_fragment: i,
             specularmap_pars_fragment: u,

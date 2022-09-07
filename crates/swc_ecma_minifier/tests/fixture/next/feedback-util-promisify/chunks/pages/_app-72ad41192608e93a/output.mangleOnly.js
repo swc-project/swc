@@ -524,7 +524,7 @@
                                         return e;
                                     case "utf8":
                                     case "utf-8":
-                                        return _(r).length;
+                                        return $(r).length;
                                     case "ucs2":
                                     case "ucs-2":
                                     case "utf16le":
@@ -536,7 +536,7 @@
                                         return Y(r).length;
                                     default:
                                         if (o) {
-                                            return n ? -1 : _(r).length;
+                                            return n ? -1 : $(r).length;
                                         }
                                         t = ("" + t).toLowerCase();
                                         o = true;
@@ -567,7 +567,7 @@
                             while(true){
                                 switch(r){
                                     case "hex":
-                                        return $(this, t, e);
+                                        return _(this, t, e);
                                     case "utf8":
                                     case "utf-8":
                                         return R(this, t, e);
@@ -831,7 +831,7 @@
                             return a;
                         }
                         function I(r, t, e, n) {
-                            return X(_(t, r.length - e), r, e, n);
+                            return X($(t, r.length - e), r, e, n);
                         }
                         function U(r, t, e, n) {
                             return X(q(t), r, e, n);
@@ -1001,7 +1001,7 @@
                             }
                             return n;
                         }
-                        function $(r, t, e) {
+                        function _(r, t, e) {
                             var n = r.length;
                             if (!t || t < 0) t = 0;
                             if (!e || e < 0 || e > n) e = n;
@@ -1460,7 +1460,7 @@
                             }
                             return r;
                         }
-                        function _(r, t) {
+                        function $(r, t) {
                             t = t || Infinity;
                             var e;
                             var n = r.length;
@@ -3218,10 +3218,10 @@
                             return y(r) === "[object WeakSet]";
                         }
                         N.working = typeof WeakSet !== "undefined" && N(new WeakSet());
-                        function $(r) {
+                        function _(r) {
                             return N(r);
                         }
-                        t.isWeakSet = $;
+                        t.isWeakSet = _;
                         function C(r) {
                             return y(r) === "[object ArrayBuffer]";
                         }
@@ -3262,10 +3262,10 @@
                             return y(r) === "[object AsyncFunction]";
                         }
                         t.isAsyncFunction = J;
-                        function _(r) {
+                        function $(r) {
                             return y(r) === "[object Map Iterator]";
                         }
-                        t.isMapIterator = _;
+                        t.isMapIterator = $;
                         function q(r) {
                             return y(r) === "[object Set Iterator]";
                         }
@@ -3804,15 +3804,15 @@
                         function N(r, t) {
                             return Object.prototype.hasOwnProperty.call(r, t);
                         }
-                        var $ = typeof Symbol !== "undefined" ? Symbol("util.promisify.custom") : undefined;
+                        var _ = typeof Symbol !== "undefined" ? Symbol("util.promisify.custom") : undefined;
                         t.promisify = function r(t) {
                             if (typeof t !== "function") throw new TypeError('The "original" argument must be of type Function');
-                            if ($ && t[$]) {
-                                var e = t[$];
+                            if (_ && t[_]) {
+                                var e = t[_];
                                 if (typeof e !== "function") {
                                     throw new TypeError('The "util.promisify.custom" argument must be of type Function');
                                 }
-                                Object.defineProperty(e, $, {
+                                Object.defineProperty(e, _, {
                                     value: e,
                                     enumerable: false,
                                     writable: false,
@@ -3845,7 +3845,7 @@
                                 return n;
                             }
                             Object.setPrototypeOf(e, Object.getPrototypeOf(t));
-                            if ($) Object.defineProperty(e, $, {
+                            if (_) Object.defineProperty(e, _, {
                                 value: e,
                                 enumerable: false,
                                 writable: false,
@@ -3853,7 +3853,7 @@
                             });
                             return Object.defineProperties(e, n(t));
                         };
-                        t.promisify.custom = $;
+                        t.promisify.custom = _;
                         function C(r, t) {
                             if (!r) {
                                 var e = new Error("Promise was rejected with a falsy value");

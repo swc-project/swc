@@ -570,7 +570,7 @@
                 }
                 return c;
             }
-            var $ = {
+            var _ = {
                 trace: function t(e, r) {
                     var n;
                     var a = 10;
@@ -1231,8 +1231,8 @@
                             var y;
                             var x;
                             var m = [];
-                            var $ = Math.PI;
-                            var b = $ / 4;
+                            var _ = Math.PI;
+                            var b = _ / 4;
                             if (e <= 0) {
                                 return m;
                             }
@@ -1272,12 +1272,12 @@
                                     h = l.m02 / l.m00 - y * y;
                                     d = l.m20 / l.m00 - g * g;
                                     x = (h - d) / (2 * v);
-                                    x = 0.5 * Math.atan(x) + (v >= 0 ? b : -b) + $;
-                                    l.theta = (((x * 180) / $ + 90) % 180) - 90;
+                                    x = 0.5 * Math.atan(x) + (v >= 0 ? b : -b) + _;
+                                    l.theta = (((x * 180) / _ + 90) % 180) - 90;
                                     if (l.theta < 0) {
                                         l.theta += 180;
                                     }
-                                    l.rad = x > $ ? x - $ : x;
+                                    l.rad = x > _ ? x - _ : x;
                                     l.vec = p.clone([
                                         Math.cos(x),
                                         Math.sin(x), 
@@ -1639,7 +1639,7 @@
                 var y;
                 var x;
                 var m;
-                var $;
+                var _;
                 var b;
                 var w;
                 var O;
@@ -1682,7 +1682,7 @@
                         y: (p.size.y / y.size.y) | 0
                     }, undefined, Array, true);
                     m = new u["a"](b.size, undefined, undefined, true);
-                    $ = new u["a"](b.size, undefined, Int32Array, true);
+                    _ = new u["a"](b.size, undefined, Int32Array, true);
                 }
                 function A() {
                     if (d.useWorker || typeof document === "undefined") {
@@ -1867,10 +1867,10 @@
                     for(e = 0; e < t; e++){
                         n.push(0);
                     }
-                    r = $.data.length;
+                    r = _.data.length;
                     while(r--){
-                        if ($.data[r] > 0) {
-                            n[$.data[r] - 1]++;
+                        if (_.data[r] > 0) {
+                            n[_.data[r] - 1]++;
                         }
                     }
                     n = n.map(function(t, e) {
@@ -1906,10 +1906,10 @@
                         0
                     ];
                     for(r = 0; r < t.length; r++){
-                        a = $.data.length;
+                        a = _.data.length;
                         o.length = 0;
                         while(a--){
-                            if ($.data[a] === t[r].label) {
+                            if (_.data[a] === t[r].label) {
                                 i = b.data[a];
                                 o.push(i);
                             }
@@ -2031,12 +2031,12 @@
                     ];
                     function h() {
                         var t;
-                        for(t = 0; t < $.data.length; t++){
-                            if ($.data[t] === 0 && m.data[t] === 1) {
+                        for(t = 0; t < _.data.length; t++){
+                            if (_.data[t] === 0 && m.data[t] === 1) {
                                 return t;
                             }
                         }
-                        return $.length;
+                        return _.length;
                     }
                     function p(t) {
                         var a;
@@ -2045,22 +2045,22 @@
                         var u;
                         var c;
                         var f = {
-                            x: t % $.size.x,
-                            y: (t / $.size.x) | 0
+                            x: t % _.size.x,
+                            y: (t / _.size.x) | 0
                         };
                         var s;
-                        if (t < $.data.length) {
+                        if (t < _.data.length) {
                             i = b.data[t];
-                            $.data[t] = e;
+                            _.data[t] = e;
                             for(c = 0; c < v["a"].searchDirections.length; c++){
                                 o = f.y + v["a"].searchDirections[c][0];
                                 a = f.x + v["a"].searchDirections[c][1];
-                                u = o * $.size.x + a;
+                                u = o * _.size.x + a;
                                 if (m.data[u] === 0) {
-                                    $.data[u] = Number.MAX_VALUE;
+                                    _.data[u] = Number.MAX_VALUE;
                                     continue;
                                 }
-                                if ($.data[u] === 0) {
+                                if (_.data[u] === 0) {
                                     s = Math.abs(n["dot"](b.data[u].vec, i.vec));
                                     if (s > r) {
                                         p(u);
@@ -2070,7 +2070,7 @@
                         }
                     }
                     f["a"].init(m.data, 0);
-                    f["a"].init($.data, 0);
+                    f["a"].init(_.data, 0);
                     f["a"].init(b.data, null);
                     for(o = 0; o < t.length; o++){
                         i = t[o];
@@ -2078,15 +2078,15 @@
                         m.data[i.index] = 1;
                     }
                     m.zeroBorder();
-                    while((a = h()) < $.data.length){
+                    while((a = h()) < _.data.length){
                         e++;
                         p(a);
                     }
                     if (true && d.debug.showPatchLabels) {
-                        for(o = 0; o < $.data.length; o++){
-                            if ($.data[o] > 0 && $.data[o] <= e) {
+                        for(o = 0; o < _.data.length; o++){
+                            if (_.data[o] > 0 && _.data[o] <= e) {
                                 i = b.data[o];
-                                u[0] = ($.data[o] / (e + 1)) * 360;
+                                u[0] = (_.data[o] / (e + 1)) * 360;
                                 Object(c["g"])(u, l);
                                 s["a"].drawRect(i.pos, y.size, R.ctx.binary, {
                                     color: "rgb(".concat(l.join(","), ")"),
@@ -2866,7 +2866,7 @@
                             var y;
                             var x;
                             var m;
-                            var $ = 0;
+                            var _ = 0;
                             var b;
                             for(b = 0; b < 400; b++){
                                 d[b] = 0;
@@ -2882,12 +2882,12 @@
                                         r = o[m];
                                         if (r !== n) {
                                             if (l === 0) {
-                                                s = $ + 1;
+                                                s = _ + 1;
                                                 d[s] = r;
                                                 n = r;
                                                 p = f.contourTracing(h, v, s, r, a.DIR.OUTSIDE_EDGE);
                                                 if (p !== null) {
-                                                    $++;
+                                                    _++;
                                                     l = s;
                                                     g = a.createContour2D();
                                                     g.dir = a.CONTOUR_DIR.CW_DIR;
@@ -2948,7 +2948,7 @@
                             }
                             return {
                                 cc: y,
-                                count: $
+                                count: _
                             };
                         },
                         debug: {
@@ -3541,13 +3541,13 @@
         },
         function(t, e, r) {
             var n = r(48), a = r(124), o = r(125), i = r(128), u = r(129), c = r(30), f = r(15), s = r(133), l = r(52), v = r(36), h = r(14), d = r(135), p = r(53), g = r(54), y = r(139);
-            function x(t, e, r, x, m, $, b) {
+            function x(t, e, r, x, m, _, b) {
                 var w = g(t, r), O = g(e, r), R = b.get(O);
                 if (R) {
                     n(t, r, R);
                     return;
                 }
-                var C = $ ? $(w, O, r + "", t, e, b) : undefined;
+                var C = _ ? _(w, O, r + "", t, e, b) : undefined;
                 var E = C === undefined;
                 if (E) {
                     var M = f(O), S = !M && l(O), A = !M && !S && p(O);
@@ -3579,7 +3579,7 @@
                 }
                 if (E) {
                     b.set(O, C);
-                    m(C, O, x, $, b);
+                    m(C, O, x, _, b);
                     b["delete"](O);
                 }
                 n(t, r, C);
@@ -3716,10 +3716,10 @@
         function(t, e, r) {
             var n = r(22), a = r(40), o = r(18);
             var i = "[object Arguments]", u = "[object Array]", c = "[object Boolean]", f = "[object Date]", s = "[object Error]", l = "[object Function]", v = "[object Map]", h = "[object Number]", d = "[object Object]", p = "[object RegExp]", g = "[object Set]", y = "[object String]", x = "[object WeakMap]";
-            var m = "[object ArrayBuffer]", $ = "[object DataView]", b = "[object Float32Array]", w = "[object Float64Array]", O = "[object Int8Array]", R = "[object Int16Array]", C = "[object Int32Array]", E = "[object Uint8Array]", M = "[object Uint8ClampedArray]", S = "[object Uint16Array]", A = "[object Uint32Array]";
+            var m = "[object ArrayBuffer]", _ = "[object DataView]", b = "[object Float32Array]", w = "[object Float64Array]", O = "[object Int8Array]", R = "[object Int16Array]", C = "[object Int32Array]", E = "[object Uint8Array]", M = "[object Uint8ClampedArray]", S = "[object Uint16Array]", A = "[object Uint32Array]";
             var k = {};
             k[b] = k[w] = k[O] = k[R] = k[C] = k[E] = k[M] = k[S] = k[A] = true;
-            k[i] = k[u] = k[m] = k[c] = k[$] = k[f] = k[s] = k[l] = k[v] = k[h] = k[d] = k[p] = k[g] = k[y] = k[x] = false;
+            k[i] = k[u] = k[m] = k[c] = k[_] = k[f] = k[s] = k[l] = k[v] = k[h] = k[d] = k[p] = k[g] = k[y] = k[x] = false;
             function P(t) {
                 return (o(t) && a(t.length) && !!k[n(t)]);
             }
@@ -4694,9 +4694,9 @@
                     return this;
                 };
                 var m = Object.getPrototypeOf;
-                var $ = m && m(m(A([])));
-                if ($ && $ !== e && r.call($, o)) {
-                    x = $;
+                var _ = m && m(m(A([])));
+                if (_ && _ !== e && r.call(_, o)) {
+                    x = _;
                 }
                 var b = (y.prototype = p.prototype = Object.create(x));
                 g.prototype = b.constructor = y;
@@ -5680,7 +5680,7 @@
                     i = s;
                 }
                 var m = o - n;
-                var $ = Math.abs(i - a);
+                var _ = Math.abs(i - a);
                 c = (m / 2) | 0;
                 f = a;
                 var b = a < i ? 1 : -1;
@@ -5690,7 +5690,7 @@
                     } else {
                         x(l, f);
                     }
-                    c -= $;
+                    c -= _;
                     if (c < 0) {
                         f += b;
                         c += m;
@@ -5796,8 +5796,8 @@
             var y = r.n(g);
             var x = r(1);
             var m = r.n(x);
-            var $ = r(6);
-            var b = r.n($);
+            var _ = r(6);
+            var b = r.n(_);
             var w = r(5);
             var O = r.n(w);
             var R = r(2);
@@ -7748,7 +7748,7 @@
             var Q = X;
             var Y = r(33);
             var Z = r.n(Y);
-            function _(t) {
+            function $(t) {
                 var e = J();
                 return function r() {
                     var n = C()(t), a;
@@ -7825,7 +7825,7 @@
             var tr = 0x094;
             var tn = (function(t) {
                 b()(r, t);
-                var e = _(r);
+                var e = $(r);
                 function r() {
                     var t;
                     p()(this, r);
@@ -8171,7 +8171,7 @@
             var ty = 4;
             var tx = 2.0;
             var tm = 1.5;
-            var t$ = (function(t) {
+            var t_ = (function(t) {
                 b()(r, t);
                 var e = tv(r);
                 function r() {
@@ -8445,7 +8445,7 @@
                 ]);
                 return r;
             })(P);
-            var tb = t$;
+            var tb = t_;
             function tw(t) {
                 var e = tO();
                 return function r() {
@@ -9026,7 +9026,7 @@
             }
             var tY = 1;
             var tZ = 3;
-            var t_ = (function(t) {
+            var t$ = (function(t) {
                 b()(r, t);
                 var e = tX(r);
                 function r(t) {
@@ -9395,7 +9395,7 @@
                 ]);
                 return r;
             })(P);
-            var tJ = t_;
+            var tJ = t$;
             function tK(t) {
                 var e = t0();
                 return function r() {
@@ -10556,8 +10556,8 @@
             var ey = r.n(eg);
             var ex = r(12);
             var em = r.n(ex);
-            var e$ = r(85);
-            var eb = r.n(e$);
+            var e_ = r(85);
+            var eb = r.n(e_);
             var ew = r(86);
             var eO = r.n(ew);
             function eR(t) {
@@ -10934,7 +10934,7 @@
             };
             var eY = eQ;
             var eZ = true ? eG : undefined;
-            var e_ = eZ;
+            var e$ = eZ;
             var eJ = r(7);
             var eK = function t() {
                 p()(this, t);
@@ -11473,11 +11473,11 @@
                         var n = p[t];
                         if (n && n.length > 0) {
                             for(r = 0; r < n.length; r++){
-                                n[r].apply($, e);
+                                n[r].apply(_, e);
                             }
                         }
                     }
-                    var $ = {
+                    var _ = {
                         trigger: m,
                         getWidth: function t() {
                             return v;
@@ -11571,7 +11571,7 @@
                             return e;
                         }
                     };
-                    return $;
+                    return _;
                 }
             };
             var rd = rh;
@@ -11669,7 +11669,7 @@
                 return r;
             };
             var rm = rx;
-            function r$(t, e) {
+            function r_(t, e) {
                 var r = Object.keys(t);
                 if (Object.getOwnPropertySymbols) {
                     var n = Object.getOwnPropertySymbols(t);
@@ -11686,13 +11686,13 @@
                 for(var e = 1; e < arguments.length; e++){
                     var r = arguments[e] != null ? arguments[e] : {};
                     if (e % 2) {
-                        r$(Object(r), true).forEach(function(e) {
+                        r_(Object(r), true).forEach(function(e) {
                             M()(t, e, r[e]);
                         });
                     } else if (Object.getOwnPropertyDescriptors) {
                         Object.defineProperties(t, Object.getOwnPropertyDescriptors(r));
                     } else {
-                        r$(Object(r)).forEach(function(e) {
+                        r_(Object(r)).forEach(function(e) {
                             Object.defineProperty(t, e, Object.getOwnPropertyDescriptor(r, e));
                         });
                     }
@@ -12252,7 +12252,7 @@
                             };
                         });
                     }
-                    a.context.config = u()({}, e_, e);
+                    a.context.config = u()({}, e$, e);
                     if (a.context.config.numOfWorkers > 0) {
                         a.context.config.numOfWorkers = 0;
                     }
