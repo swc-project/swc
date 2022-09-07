@@ -245,16 +245,15 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 return self.read_token();
                             }
 
-                            if c == '+' {
+                            if c == b'+' {
                                 PlusPlus
                             } else {
                                 MinusMinus
                             }
-                        } else if self.input.cur() == Some('=') {
-                            self.input.bump();
-                            AssignOp(if c == '+' { AddAssign } else { SubAssign })
+                        } else if self.input.eat_byte(b'=') {
+                            AssignOp(if c == b'+' { AddAssign } else { SubAssign })
                         } else {
-                            BinOp(if c == '+' { Add } else { Sub })
+                            BinOp(if c == b'+' { Add } else { Sub })
                         }
                     }
 
@@ -263,28 +262,25 @@ impl<'a, I: Input> Lexer<'a, I> {
                     b'!' | b'=' => {
                         self.input.bump();
 
-                        if self.input.cur() == Some('=') {
+                        if self.input.eat_byte(b'=') {
                             // "=="
-                            self.input.bump();
 
-                            if self.input.cur() == Some('=') {
-                                self.input.bump();
-                                if c == '!' {
+                            if self.input.eat_byte(b'=') {
+                                if c == b'!' {
                                     BinOp(NotEqEq)
                                 } else {
                                     BinOp(EqEqEq)
                                 }
-                            } else if c == '!' {
+                            } else if c == b'!' {
                                 BinOp(NotEq)
                             } else {
                                 BinOp(EqEq)
                             }
-                        } else if c == '=' && self.input.cur() == Some('>') {
+                        } else if c == b'=' && self.input.eat_byte(b'>') {
                             // "=>"
-                            self.input.bump();
 
                             Arrow
-                        } else if c == '!' {
+                        } else if c == b'!' {
                             Bang
                         } else {
                             AssignOp(Assign)
