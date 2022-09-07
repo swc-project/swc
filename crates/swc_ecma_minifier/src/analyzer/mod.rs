@@ -715,7 +715,6 @@ where
             };
             self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
-            println!("else");
             e.visit_children_with(self);
         }
     }
