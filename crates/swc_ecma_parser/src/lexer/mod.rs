@@ -273,8 +273,16 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 if c == b'!' {
                                     BinOp(NotEqEq)
                                 } else {
-                                    if had_line_break_before_last && self.eat_str("====") {
-                                        self.emit_error_span(self.span(start), SyntaxError::TS1185);
+                                    // =======
+                                    //    ^
+                                    if had_line_break_before_last && self.is_str("====") {
+                                        self.emit_error_span(
+                                            fixed_len_span(start, 7),
+                                            SyntaxError::TS1185,
+                                        );
+                                        self.skip_line_comment(5);
+                                        self.skip_space(true)?;
+                                        return self.read_token();
                                     }
 
                                     BinOp(EqEqEq)
@@ -491,8 +499,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             // |||||||
             //   ^
-            if had_line_break_before_last && token == BitOr && self.eat_str("||||| ") {
-                self.emit_error_span(self.span(start), SyntaxError::TS1185);
+            if had_line_break_before_last && token == BitOr && self.is_str("||||| ") {
+                let span = fixed_len_span(start, 7);
+                self.emit_error_span(span, SyntaxError::TS1185);
+                self.skip_line_comment(5);
+                self.skip_space(true)?;
+                return self.error_span(span, SyntaxError::TS1185);
             }
 
             return Ok(BinOp(match token {
@@ -745,18 +757,23 @@ impl<'a, I: Input> Lexer<'a, I> {
             BinOp(op)
         };
 
+        // All conflict markers consist of the same character repeated seven times.
+        // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
         // <<<<<<<
         //   ^
         // >>>>>>>
         //    ^
         if had_line_break_before_last
             && match op {
-                LShift if self.eat_str("<<<<< ") => true,
-                ZeroFillRShift if self.eat_str(">>>> ") => true,
+                LShift if self.is_str("<<<<< ") => true,
+                ZeroFillRShift if self.is_str(">>>> ") => true,
                 _ => false,
             }
         {
-            self.emit_error_span(self.span(start), SyntaxError::TS1185);
+            self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
+            self.skip_line_comment(5);
+            self.skip_space(true)?;
+            return self.read_token();
         }
 
         Ok(Some(token))
@@ -1274,4 +1291,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 fn pos_span(p: BytePos) -> Span {
     Span::new(p, p, Default::default())
+}
+
+fn fixed_len_span(p: BytePos, len: u32) -> Span {
+    Span::new(p, p + BytePos(len), Default::default())
 }

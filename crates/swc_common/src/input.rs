@@ -68,6 +68,13 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
+    fn peek_iter(&self) -> Box<dyn Iterator<Item = char> + '_> {
+        let iter = self.iter.clone().map(|i| i.1);
+
+        Box::new(iter)
+    }
+
+    #[inline]
     fn bump(&mut self) {
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.cur_pos + BytePos((i + c.len_utf8()) as u32);
@@ -202,6 +209,7 @@ pub trait Input: Clone {
     fn cur(&mut self) -> Option<char>;
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
+    fn peek_iter(&self) -> Box<dyn Iterator<Item = char> + '_>;
     fn bump(&mut self);
 
     /// Returns [None] if it's end of input **or** current character is not an
@@ -247,6 +255,24 @@ pub trait Input: Clone {
             Some(ch) => ch == c as char,
             _ => false,
         }
+    }
+
+    /// Implementors can override the method to make it faster.
+    ///
+    /// `c` must be ASCII.
+    #[inline]
+    #[allow(clippy::wrong_self_convention)]
+    fn is_str(&self, s: &str) -> bool {
+        let mut s_iter = s.as_bytes().iter();
+        let mut p_iter = self.peek_iter();
+
+        while let (Some(expected), Some(actual)) = (s_iter.next(), p_iter.next()) {
+            if *expected as char != actual {
+                return false;
+            }
+        }
+
+        s_iter.next().is_none()
     }
 
     /// Implementors can override the method to make it faster.

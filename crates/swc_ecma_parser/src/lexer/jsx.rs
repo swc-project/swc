@@ -21,8 +21,13 @@ impl<'a, I: Input> Lexer<'a, I> {
             let cur_pos = self.input.cur_pos();
 
             match cur {
-                '<' if self.had_line_break_before_last() && self.eat_str("<<<<<< ") => {
-                    self.emit_error_span(self.span(cur_pos), SyntaxError::TS1185);
+                '<' if self.had_line_break_before_last() && self.is_str("<<<<<< ") => {
+                    let span = Span::new(cur_pos, cur_pos + BytePos(7), Default::default());
+
+                    self.emit_error_span(span, SyntaxError::TS1185);
+                    self.skip_line_comment(6);
+                    self.skip_space(true)?;
+                    return self.read_token();
                 }
                 '<' | '{' => {
                     //
