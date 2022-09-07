@@ -34,6 +34,9 @@
 
 - **(es/minifier)** Make `MultiReplacer` single-pass (#5761) ([27e9254](https://github.com/swc-project/swc/commit/27e92542808048a12985ce15ee6ee65d44d5ac6c))
 
+
+- **(es/minifier)** Make passes more parallel (#5773) ([c2d1050](https://github.com/swc-project/swc/commit/c2d10503db724e1b2349d5df9211489c1aa9507a))
+
 ### Testing
 
 
