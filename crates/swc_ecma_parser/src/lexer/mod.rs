@@ -280,7 +280,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                                             fixed_len_span(start, 7),
                                             SyntaxError::TS1185,
                                         );
-                                        self.skip_line_comment(5);
+                                        self.skip_line_comment(4);
                                         self.skip_space(true)?;
                                         return self.read_token();
                                     }
