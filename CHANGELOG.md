@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Fix analysis of assignments and classes (#5770) ([90852f5](https://github.com/swc-project/swc/commit/90852f5aa60ba5584729f1cd7284f136a9e00794))
 
+
+- **(es/minifier)** Fix calculation of character frequency (#5772) ([32a73fb](https://github.com/swc-project/swc/commit/32a73fbf225c416771150add1c4040f6fbe71aaf))
+
 ### Features
 
 
