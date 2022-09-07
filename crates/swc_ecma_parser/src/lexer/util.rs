@@ -174,11 +174,13 @@ impl<'a, I: Input> Lexer<'a, I> {
             let cur_b = self.input.cur_as_ascii();
 
             if matches!(cur_b, Some(b'\n' | b'\r')) {
+                self.input.bump();
                 self.state.had_line_break = true;
                 continue;
             }
 
             if matches!(cur_b, Some(b'\x09' | b'\x0b' | b'\x0c' | b'\x20' | b'\xa0')) {
+                self.input.bump();
                 continue;
             }
 
