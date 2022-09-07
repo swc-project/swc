@@ -79,16 +79,6 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn cur_as_ascii(&mut self) -> Option<u8> {
-        self.iter.clone().next().and_then(|i| {
-            if i.1.is_ascii() {
-                return Some(i.1 as u8);
-            }
-            None
-        })
-    }
-
-    #[inline]
     fn is_at_start(&self) -> bool {
         self.orig_start == self.last_pos
     }
@@ -216,7 +206,15 @@ pub trait Input: Clone {
 
     /// Returns [None] if it's end of input **or** current character is not an
     /// ascii character.
-    fn cur_as_ascii(&mut self) -> Option<u8>;
+    #[inline]
+    fn cur_as_ascii(&mut self) -> Option<u8> {
+        self.cur().and_then(|i| {
+            if i.is_ascii() {
+                return Some(i as u8);
+            }
+            None
+        })
+    }
 
     fn is_at_start(&self) -> bool;
 
