@@ -162,7 +162,8 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn read_token(&mut self) -> LexResult<Option<Token>> {
         let c = self.input.cur_as_ascii();
 
-        let token = match c {
+        match c {
+            None => {}
             Some(c) => {
                 match c {
                     b'#' => return self.read_token_number_sign(),
@@ -217,12 +218,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                     b'^' => {
                         // Bitwise xor
                         self.input.bump();
-                        if self.input.cur() == Some('=') {
+                        return Ok(Some(if self.input.cur() == Some('=') {
                             self.input.bump();
                             AssignOp(BitXorAssign)
                         } else {
                             BinOp(BitXor)
-                        }
+                        }));
                     }
 
                     b'+' | b'-' => {
@@ -231,7 +232,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         self.input.bump();
 
                         // '++', '--'
-                        if self.input.cur() == Some(c as char) {
+                        return Ok(Some(if self.input.cur() == Some(c as char) {
                             self.input.bump();
 
                             // Handle -->
@@ -254,7 +255,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                             AssignOp(if c == b'+' { AddAssign } else { SubAssign })
                         } else {
                             BinOp(if c == b'+' { Add } else { Sub })
-                        }
+                        }));
                     }
 
                     b'<' | b'>' => return self.read_token_lt_gt(),
@@ -262,7 +263,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     b'!' | b'=' => {
                         self.input.bump();
 
-                        if self.input.eat_byte(b'=') {
+                        return Ok(Some(if self.input.eat_byte(b'=') {
                             // "=="
 
                             if self.input.eat_byte(b'=') {
@@ -284,12 +285,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                             Bang
                         } else {
                             AssignOp(Assign)
-                        }
+                        }));
                     }
                     _ => {}
                 }
             }
-        };
+        }
 
         let c = match self.input.cur() {
             Some(c) => c,
