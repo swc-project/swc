@@ -178,12 +178,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 continue;
             }
 
-            if self.input.eat_byte(b'\x09')
-                || self.input.eat_byte(b'\x0b')
-                || self.input.eat_byte(b'\x0c')
-                || self.input.eat_byte(b'\x20')
-                || self.input.eat_byte(b'\xa0')
-            {
+            if matches!(cur_b, Some(b'\x09' | b'\x0b' | b'\x0c' | b'\x20' | b'\xa0')) {
                 continue;
             }
 
