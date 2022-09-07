@@ -4526,7 +4526,9 @@
                     _lastPendingUpdate.next = null, update = _firstPendingUpdate, queue.lastBaseUpdate = _lastPendingUpdate, queue.shared.pending = null;
                 }
             }
-            null === newLastBaseUpdate && (newBaseState = newState), queue.baseState = newBaseState, queue.firstBaseUpdate = newFirstBaseUpdate, queue.lastBaseUpdate = newLastBaseUpdate, markSkippedUpdateLanes(newLanes), workInProgress.lanes = newLanes, workInProgress.memoizedState = newState;
+            null === newLastBaseUpdate && (newBaseState = newState), queue.baseState = newBaseState, queue.firstBaseUpdate = newFirstBaseUpdate, queue.lastBaseUpdate = newLastBaseUpdate, function(lane) {
+                workInProgressRootSkippedLanes |= lane;
+            }(newLanes), workInProgress.lanes = newLanes, workInProgress.memoizedState = newState;
         }
         currentlyProcessingQueue = null;
     }
@@ -5345,7 +5347,9 @@
                         eagerState: update.eagerState,
                         next: null
                     };
-                    null === newBaseQueueLast ? (newBaseQueueFirst = newBaseQueueLast = clone, newBaseState = newState) : newBaseQueueLast = newBaseQueueLast.next = clone, currentlyRenderingFiber$1.lanes = (a = currentlyRenderingFiber$1.lanes) | updateLane, markSkippedUpdateLanes(updateLane);
+                    null === newBaseQueueLast ? (newBaseQueueFirst = newBaseQueueLast = clone, newBaseState = newState) : newBaseQueueLast = newBaseQueueLast.next = clone, currentlyRenderingFiber$1.lanes = (a = currentlyRenderingFiber$1.lanes) | updateLane, function(lane) {
+                        workInProgressRootSkippedLanes |= lane;
+                    }(updateLane);
                 }
                 update = update.next;
             }while (null !== update && update !== first)
@@ -6272,7 +6276,7 @@
         var _type = Component.type, _innerPropTypes = _type.propTypes;
         _innerPropTypes && checkPropTypes(_innerPropTypes, nextProps, "prop", getComponentName(_type));
         var a, b, currentChild = current.child;
-        if (a = updateLanes, b = renderLanes, (a & b) == 0) {
+        if ((updateLanes & renderLanes) == 0) {
             var prevProps = currentChild.memoizedProps, compare = Component.compare;
             if ((compare = null !== compare ? compare : shallowEqual)(prevProps, nextProps) && current.ref === workInProgress.ref) return bailoutOnAlreadyFinishedWork(current, workInProgress, renderLanes);
         }
@@ -6301,27 +6305,20 @@
         return updateFunctionComponent(current, workInProgress, Component, nextProps, renderLanes);
     }
     function updateOffscreenComponent(current, workInProgress, renderLanes) {
-        var nextBaseLanes, a, a1, _subtreeRenderLanes, nextProps = workInProgress.pendingProps, nextChildren = nextProps.children, prevState = null !== current ? current.memoizedState : null;
+        var a, nextBaseLanes, a1, a2, _subtreeRenderLanes, nextProps = workInProgress.pendingProps, nextChildren = nextProps.children, prevState = null !== current ? current.memoizedState : null;
         if ("hidden" === nextProps.mode || "unstable-defer-without-hiding" === nextProps.mode) {
             if ((4 & workInProgress.mode) == 0) workInProgress.memoizedState = {
                 baseLanes: 0
             }, pushRenderLanes(workInProgress, renderLanes);
+            else if ((1073741824 & (a = renderLanes)) != 0) workInProgress.memoizedState = {
+                baseLanes: 0
+            }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
             else {
-                if ((1073741824 & (a1 = renderLanes)) != 0) workInProgress.memoizedState = {
-                    baseLanes: 0
-                }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
-                else {
-                    nextBaseLanes = null !== prevState ? (a2 = prevState.baseLanes) | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
-                    var a1, nextBaseLanes, a2, _nextState = {
-                        baseLanes: nextBaseLanes
-                    };
-                    return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
-                }
-                return nextBaseLanes = null !== prevState ? (a = prevState.baseLanes) | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824, workInProgress.memoizedState = {
+                return nextBaseLanes = null !== prevState ? (a1 = prevState.baseLanes) | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824, workInProgress.memoizedState = {
                     baseLanes: nextBaseLanes
                 }, pushRenderLanes(workInProgress, nextBaseLanes), null;
             }
-        } else null !== prevState ? (_subtreeRenderLanes = (a1 = prevState.baseLanes) | renderLanes, workInProgress.memoizedState = null) : _subtreeRenderLanes = renderLanes, pushRenderLanes(workInProgress, _subtreeRenderLanes);
+        } else null !== prevState ? (_subtreeRenderLanes = (a2 = prevState.baseLanes) | renderLanes, workInProgress.memoizedState = null) : _subtreeRenderLanes = renderLanes, pushRenderLanes(workInProgress, _subtreeRenderLanes);
         return reconcileChildren(current, workInProgress, nextChildren, renderLanes), workInProgress.child;
     }
     didWarnAboutBadClass = {}, didWarnAboutModulePatternComponent = {}, didWarnAboutContextTypeOnFunctionComponent = {}, didWarnAboutGetDerivedStateOnFunctionComponent = {}, didWarnAboutFunctionRefs = {}, didWarnAboutReassigningProps = !1, didWarnAboutRevealOrder = {}, didWarnAboutTailOptions = {};
@@ -6621,7 +6618,9 @@
     }
     function bailoutOnAlreadyFinishedWork(current, workInProgress, renderLanes) {
         var a, b;
-        return (null !== current && (workInProgress.dependencies = current.dependencies), profilerStartTime = -1, markSkippedUpdateLanes(workInProgress.lanes), ((a = renderLanes) & workInProgress.childLanes) != 0) ? (!function(current, workInProgress) {
+        return (null !== current && (workInProgress.dependencies = current.dependencies), profilerStartTime = -1, function(lane) {
+            workInProgressRootSkippedLanes |= lane;
+        }(workInProgress.lanes), (renderLanes & workInProgress.childLanes) != 0) ? (!function(current, workInProgress) {
             if (!(null === current || workInProgress.child === current.child)) throw Error("Resuming work not yet implemented.");
             if (null !== workInProgress.child) {
                 var currentChild = workInProgress.child, newChild = createWorkInProgress(currentChild, currentChild.pendingProps);
@@ -6682,7 +6681,7 @@
                         pushSuspenseContext(workInProgress, 1 & suspenseStackCursor.current);
                         break;
                     case 19:
-                        var a3, b3, didSuspendBefore = (64 & current.flags) != 0, _hasChildWork = (a3 = renderLanes, (a3 & (b3 = workInProgress.childLanes)) != 0);
+                        var a3, b3, didSuspendBefore = (64 & current.flags) != 0, _hasChildWork = (renderLanes & (b3 = workInProgress.childLanes)) != 0;
                         if (didSuspendBefore) {
                             if (_hasChildWork) return updateSuspenseListComponent(current, workInProgress, renderLanes);
                             workInProgress.flags |= 64;
@@ -8223,10 +8222,7 @@
         __interactionsRef.current = prevInteractions;
     }
     function markSkippedUpdateLanes(lane) {
-        var a;
-        workInProgressRootSkippedLanes = (a = lane) | workInProgressRootSkippedLanes;
-        var b;
-        workInProgressRootSkippedLanes = (b = workInProgressRootSkippedLanes, lane | b);
+        workInProgressRootSkippedLanes |= lane;
     }
     function renderRootSync(root, lanes) {
         var prevExecutionContext = executionContext;
@@ -8594,11 +8590,8 @@
         markRootPinged(root, pingedLanes), workInProgressRoot === root && isSubsetOfLanes(workInProgressRootRenderLanes, pingedLanes) && (4 === workInProgressRootExitStatus || 3 === workInProgressRootExitStatus && includesOnlyRetries(workInProgressRootRenderLanes) && now() - globalMostRecentFallbackTime < 500 ? prepareFreshStack(root, 0) : workInProgressRootPingedLanes = (a = workInProgressRootPingedLanes) | pingedLanes), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, pingedLanes);
     }
     function resolveRetryWakeable(boundaryFiber, wakeable) {
-        null !== (retryCache = boundaryFiber.stateNode) && retryCache.delete(wakeable);
-        var retryCache, boundaryFiber1, eventTime, root, fiber, lane, mode, retryLane = 0;
-        boundaryFiber1 = boundaryFiber, 0 === retryLane && (retryLane = (2 & (mode = (fiber = boundaryFiber1).mode)) == 0 ? 1 : (4 & mode) == 0 ? 99 === getCurrentPriorityLevel() ? 1 : 2 : (0 === currentEventWipLanes && (currentEventWipLanes = workInProgressRootIncludedLanes), 0 === (lane = pickArbitraryLane(62914560 & ~currentEventWipLanes)) && (lane = pickArbitraryLane(62914560)), lane)), eventTime = requestEventTime(), null !== (root = markUpdateLaneFromFiberToRoot(boundaryFiber1, retryLane)) && (markRootUpdated(root, retryLane, eventTime), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, retryLane));
-        var retryCache, boundaryFiber1, retryLane, eventTime, root, fiber, wipLanes, lane, mode;
-        null !== (retryCache = boundaryFiber.stateNode) && retryCache.delete(wakeable), boundaryFiber1 = boundaryFiber, 0 == (retryLane = 0) && (retryLane = (2 & (mode = (fiber = boundaryFiber1).mode)) == 0 ? SyncLane : (4 & mode) == 0 ? 99 === getCurrentPriorityLevel() ? SyncLane : 2 : (currentEventWipLanes === NoLanes && (currentEventWipLanes = workInProgressRootIncludedLanes), wipLanes = currentEventWipLanes, 0 === (lane = pickArbitraryLane(62914560 & ~wipLanes)) && (lane = pickArbitraryLane(62914560)), lane)), eventTime = requestEventTime(), null !== (root = markUpdateLaneFromFiberToRoot(boundaryFiber1, retryLane)) && (markRootUpdated(root, retryLane, eventTime), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, retryLane));
+        var retryCache, boundaryFiber1, retryLane, eventTime, root, fiber, lane, mode;
+        null !== (retryCache = boundaryFiber.stateNode) && retryCache.delete(wakeable), boundaryFiber1 = boundaryFiber, 0 == (retryLane = 0) && (retryLane = (2 & (mode = (fiber = boundaryFiber1).mode)) == 0 ? 1 : (4 & mode) == 0 ? 99 === getCurrentPriorityLevel() ? 1 : 2 : (0 === currentEventWipLanes && (currentEventWipLanes = workInProgressRootIncludedLanes), 0 === (lane = pickArbitraryLane(62914560 & ~currentEventWipLanes)) && (lane = pickArbitraryLane(62914560)), lane)), eventTime = requestEventTime(), null !== (root = markUpdateLaneFromFiberToRoot(boundaryFiber1, retryLane)) && (markRootUpdated(root, retryLane, eventTime), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, retryLane));
     }
     var didWarnStateUpdateForNotYetMountedComponent = null;
     function warnAboutUpdateOnNotYetMountedFiberInDEV(fiber) {
@@ -8690,7 +8683,7 @@
         var interactions = new Set();
         if (root.pendingInteractionMap.forEach(function(scheduledInteractions, scheduledLane) {
             var a, b;
-            a = lanes, (a & (b = scheduledLane)) != 0 && scheduledInteractions.forEach(function(interaction) {
+            (lanes & scheduledLane) != 0 && scheduledInteractions.forEach(function(interaction) {
                 return interactions.add(interaction);
             });
         }), root.memoizedInteractions = interactions, interactions.size > 0) {
@@ -8722,7 +8715,7 @@
             var pendingInteractionMap = root.pendingInteractionMap;
             pendingInteractionMap.forEach(function(scheduledInteractions, lane) {
                 var a, b;
-                a = remainingLanesAfterCommit, (a & (b = lane)) != 0 || (pendingInteractionMap.delete(lane), scheduledInteractions.forEach(function(interaction) {
+                (remainingLanesAfterCommit & lane) != 0 || (pendingInteractionMap.delete(lane), scheduledInteractions.forEach(function(interaction) {
                     if (interaction.__count--, null !== subscriber && 0 === interaction.__count) try {
                         subscriber.onInteractionScheduledWorkCompleted(interaction);
                     } catch (error) {

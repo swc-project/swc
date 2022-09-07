@@ -24903,11 +24903,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
-                assign_count: 2,
-=======
-                assign_count: 10,
->>>>>>> 470d0a3934 (update analyzer)
+                assign_count: 1,
                 mutation_by_call_count: 10,
                 usage_count: 15,
                 reassigned_with_assignment: true,

@@ -1255,11 +1255,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 1,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -1689,11 +1685,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 2,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 0,
                 usage_count: 4,
                 reassigned_with_assignment: false,
@@ -5893,11 +5885,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 2,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 0,
                 usage_count: 5,
                 reassigned_with_assignment: false,
@@ -11261,11 +11249,7 @@ TestSnapshot {
                 declared_count: 0,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 1,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 0,
                 usage_count: 8,
                 reassigned_with_assignment: false,
@@ -12699,11 +12683,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 8,
-=======
-                assign_count: 10,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 1,
                 usage_count: 9,
                 reassigned_with_assignment: true,
@@ -19179,11 +19159,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 1,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
@@ -50313,11 +50289,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 1,
-=======
-                assign_count: 2,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 2,
                 usage_count: 6,
                 reassigned_with_assignment: true,
@@ -64965,11 +64937,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
-                assign_count: 6,
-=======
-                assign_count: 11,
->>>>>>> 470d0a3934 (update analyzer)
+                assign_count: 7,
                 mutation_by_call_count: 0,
                 usage_count: 12,
                 reassigned_with_assignment: true,
@@ -65129,11 +65097,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
-                assign_count: 0,
-=======
-                assign_count: 2,
->>>>>>> 470d0a3934 (update analyzer)
+                assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 5,
                 reassigned_with_assignment: true,
@@ -67105,11 +67069,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 3,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -69391,11 +69351,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 3,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 10,
                 usage_count: 10,
                 reassigned_with_assignment: false,
@@ -69433,11 +69389,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 3,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 10,
                 usage_count: 10,
                 reassigned_with_assignment: false,
@@ -70693,11 +70645,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
-                assign_count: 3,
-=======
-                assign_count: 8,
->>>>>>> 470d0a3934 (update analyzer)
+                assign_count: 4,
                 mutation_by_call_count: 0,
                 usage_count: 5,
                 reassigned_with_assignment: true,
@@ -71335,11 +71283,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
-                assign_count: 20,
-=======
-                assign_count: 23,
->>>>>>> 470d0a3934 (update analyzer)
+                assign_count: 21,
                 mutation_by_call_count: 18,
                 usage_count: 40,
                 reassigned_with_assignment: true,
@@ -73785,11 +73729,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 1,
-=======
-                assign_count: 2,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 1,
                 usage_count: 5,
                 reassigned_with_assignment: true,
@@ -76487,11 +76427,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
-                assign_count: 2,
-=======
-                assign_count: 7,
->>>>>>> 470d0a3934 (update analyzer)
+                assign_count: 3,
                 mutation_by_call_count: 2,
                 usage_count: 4,
                 reassigned_with_assignment: true,
@@ -79323,11 +79259,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
-                assign_count: 3,
-=======
-                assign_count: 8,
->>>>>>> 470d0a3934 (update analyzer)
+                assign_count: 4,
                 mutation_by_call_count: 2,
                 usage_count: 5,
                 reassigned_with_assignment: true,
@@ -80379,11 +80311,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 1,
-=======
-                assign_count: 2,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 2,
                 usage_count: 7,
                 reassigned_with_assignment: true,
@@ -83551,11 +83479,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 3,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 3,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -83593,11 +83517,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: true,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 3,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 3,
                 usage_count: 3,
                 reassigned_with_assignment: false,
@@ -85393,15 +85313,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 2,
->>>>>>> 470d0a3934 (update analyzer)
-=======
-                assign_count: 1,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 0,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -85639,11 +85551,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 4,
-=======
-                assign_count: 5,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 0,
                 usage_count: 5,
                 reassigned_with_assignment: true,
@@ -85683,11 +85591,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
-                assign_count: 3,
-=======
-                assign_count: 7,
->>>>>>> 470d0a3934 (update analyzer)
+                assign_count: 4,
                 mutation_by_call_count: 6,
                 usage_count: 15,
                 reassigned_with_assignment: true,
@@ -86869,11 +86773,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 3,
-=======
-                assign_count: 4,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 8,
                 usage_count: 19,
                 reassigned_with_assignment: true,
@@ -86913,11 +86813,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 4,
-=======
-                assign_count: 6,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 5,
                 usage_count: 14,
                 reassigned_with_assignment: true,
@@ -90617,11 +90513,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 6,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 0,
                 usage_count: 2,
                 reassigned_with_assignment: false,
@@ -91557,11 +91449,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 5,
-=======
-                assign_count: 7,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 6,
                 usage_count: 19,
                 reassigned_with_assignment: true,
@@ -91601,11 +91489,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 3,
-=======
-                assign_count: 4,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 8,
                 usage_count: 12,
                 reassigned_with_assignment: true,
@@ -94103,11 +93987,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 1,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 1,
                 usage_count: 1,
                 reassigned_with_assignment: false,
@@ -94455,11 +94335,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 3,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 1,
                 usage_count: 6,
                 reassigned_with_assignment: false,
@@ -95287,11 +95163,7 @@ TestSnapshot {
                 declared_count: 1,
                 declared_as_fn_param: false,
                 declared_as_fn_expr: false,
-<<<<<<< HEAD
                 assign_count: 0,
-=======
-                assign_count: 3,
->>>>>>> dc5e736229 (fix 1)
                 mutation_by_call_count: 1,
                 usage_count: 6,
                 reassigned_with_assignment: false,

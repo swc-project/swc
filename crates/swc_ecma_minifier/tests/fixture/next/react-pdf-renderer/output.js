@@ -938,13 +938,10 @@
                 var t;
                 return h.isValid(e) ? t = "jpg" : d.default.isValid(e) && (t = "png"), t;
             }, E = function(e) {
-                var t;
-                return h.isValid(e) ? t = "jpg" : d.default.isValid(e) && (t = "png"), t;
-            }, _ = function(e) {
                 var t = e.uri;
                 return /^data:image\/[a-zA-Z]*;base64,[^"]*/g.test(t);
             };
-            function $(e, t) {
+            function _(e, t) {
                 switch(t.toLowerCase()){
                     case "jpg":
                     case "jpeg":
@@ -959,17 +956,17 @@
                 var t = e.uri, r = /^data:image\/([a-zA-Z]*);base64,([^"]*)/g.exec(t), i = r[1], o = r[2];
                 if (!D(i)) throw Error("Base64 image invalid format: " + i);
                 return new Promise(function(e) {
-                    return e($(n.from(o, "base64"), i));
+                    return e(_(n.from(o, "base64"), i));
                 });
             }, A = function(e) {
                 if (e.data && e.format) return new Promise(function(t) {
-                    return t($(e.data, e.format));
+                    return t(_(e.data, e.format));
                 });
                 throw Error("Invalid data given for local file: " + JSON.stringify(e));
             }, k = function(e) {
                 var t = w(e);
                 return t ? new Promise(function(r) {
-                    return r($(e, t));
+                    return r(_(e, t));
                 }) : Promise.resolve();
             }, T = function(e) {
                 var t = 137 === e[0] && 80 === e[1] && 78 === e[2] && 71 === e[3] && 13 === e[4] && 10 === e[5] && 26 === e[6] && 10 === e[7], r = 255 === e[0] && 216 === e[1] && 255 === e[2], n = "";
@@ -996,7 +993,7 @@
                         case 9:
                             e.t0 = e.sent;
                         case 10:
-                            return l = T(u = e.t0), e.abrupt("return", $(u, l));
+                            return l = T(u = e.t0), e.abrupt("return", _(u, l));
                         case 13:
                         case "end":
                             return e.stop();
@@ -1006,15 +1003,6 @@
                 return x.apply(this, arguments);
             }), C = function(e, t) {
                 var r, i = (void 0 === t ? {} : t).cache, o = void 0 === i || i, a = e.data ? e.data.toString() : e.uri;
-                if (o && m.get(a)) return m.get(a);
-                if (!(r = _(e) ? A(e) : n.isBuffer(e) ? T(e) : "object" == typeof e && e.data ? k(e) : C(e))) throw Error("Cannot resolve image");
-                return o && m.set(a, r), r;
-                return E.apply(this, arguments);
-            }), A = function(e, t) {
-                var r, i = (void 0 === t ? {} : t).cache, o = void 0 === i || i, a = e.data ? e.data.toString() : e.uri;
-                if (o && v.get(a)) return v.get(a);
-                if (!(r = D(e) ? x(e) : n.isBuffer(e) ? C(e) : "object" == typeof e && e.data ? k(e) : T(e))) throw Error("Cannot resolve image");
-                return o && v.set(a, r), r;
                 if (o && b.get(a)) return b.get(a);
                 if (!(r = E(e) ? S(e) : n.isBuffer(e) ? k(e) : "object" == typeof e && e.data ? A(e) : O(e))) throw Error("Cannot resolve image");
                 return o && b.set(a, r), r;
@@ -9518,11 +9506,6 @@
                         s = s || {};
                         var c = a(s, e, p), m = a(s, t, y), D = a(s, n, v) >> 0, w = m + D;
                         return h[w] || (h[w] = u(r, m)), d[w] || (d[w] = o(h[w])), function(e, t, r, n, i, o, a, u) {
-                            var s, c, f, d, p, h, y, g, v, b, m, D, w, E, _, x, S = "", A = (s = e, c = i, f = o, d = a, p = RegExp.prototype.test.bind(/\s/), g = 0, v = 1, b = 2, m = 1, D = 2, w = 3, E = 4, [
-                            var s, c, f, d, p, h, y, g, v, b, m, D, w, E, $, x, S = "", A = (s = e, c = i, f = o, d = a, p = RegExp.prototype.test.bind(/\s/), g = 0, v = 1, b = 2, m = 1, D = 2, w = 3, E = 4, [
-                        var c = a(s, e, p), _ = a(s, t, $), m = a(s, n, g) >> 0, b = _ + m;
-                        return h[b] || (h[b] = u(r, _)), d[b] || (d[b] = o(h[b])), function(e, t, r, n, i, o, a, u) {
-                            var s, c, f, d, p, h, $, y, g, v, _ = "", m = (s = e, c = i, f = o, d = a, p = RegExp.prototype.test.bind(/\s/), y = 0, [
                             var s, c, f, d, p, h, y, g, v, b, m = "", D = (s = e, c = i, f = o, d = a, p = RegExp.prototype.test.bind(/\s/), g = 0, [
                                 function() {
                                     var e = "";
@@ -9564,23 +9547,12 @@
                                     return e || void 0;
                                 },
                                 function() {
-                                    return h === v;
-                                }
-                            ]), k = A[0], T = A[1], O = 0, C = 0, P = new Date(), F = 0, R = function() {};
-                            function I() {
-                                for(var e = new Date(); (!u || new Date() - e < 10) && (x = k());)_ = x.length ? "$" + x : "", T() && (void 0 === r[_] && (r[_] = l(x, t, n, i)), x !== r[_] && C++, x = r[_]), S += x, O++;
-                                F += new Date() - e, x ? setTimeout(I) : (P = new Date() - P, R(S), n && (console.log("----------------\nHyphenation stats: " + O + " text chunks processed, " + C + " words hyphenated"), console.log("Work time: " + F / 1000), console.log("Wait time: " + (P - F) / 1000), console.log("All time: " + P / 1000)));
-                            }
-                            return u ? (setTimeout(I), new Promise(function(e) {
-                                R = e;
-                            })) : (I(), S);
-                        }(i, g, d[w], c, m, b, D, f);
                                     return 1 === h;
                                 }
-                            ]), w = D[0], E = D[1], $ = 0, x = 0, S = new Date(), A = 0, k = function() {};
+                            ]), w = D[0], E = D[1], _ = 0, x = 0, S = new Date(), A = 0, k = function() {};
                             function T() {
-                                for(var e = new Date(); (!u || new Date() - e < 10) && (b = w());)v = b.length ? "$" + b : "", E() && (void 0 === r[v] && (r[v] = l(b, t, n, i)), b !== r[v] && x++, b = r[v]), m += b, $++;
-                                A += new Date() - e, b ? setTimeout(T) : (S = new Date() - S, k(m), n && (console.log("----------------\nHyphenation stats: " + $ + " text chunks processed, " + x + " words hyphenated"), console.log("Work time: " + A / 1000), console.log("Wait time: " + (S - A) / 1000), console.log("All time: " + S / 1000)));
+                                for(var e = new Date(); (!u || new Date() - e < 10) && (b = w());)v = b.length ? "$" + b : "", E() && (void 0 === r[v] && (r[v] = l(b, t, n, i)), b !== r[v] && x++, b = r[v]), m += b, _++;
+                                A += new Date() - e, b ? setTimeout(T) : (S = new Date() - S, k(m), n && (console.log("----------------\nHyphenation stats: " + _ + " text chunks processed, " + x + " words hyphenated"), console.log("Work time: " + A / 1000), console.log("Wait time: " + (S - A) / 1000), console.log("All time: " + S / 1000)));
                             }
                             return u ? (setTimeout(T), new Promise(function(e) {
                                 k = e;
@@ -21568,25 +21540,11 @@
                         }, A.prototype.pipe = function() {
                             _(this, new b());
                         }, A.prototype.write = function(e, t, r) {
-                            var i, o, a, u, l, s, d, p, h, g, v = this._writableState, b = !1, m = !v.objectMode && (g = e, c.isBuffer(g) || g instanceof f);
-                            return m && !c.isBuffer(e) && (e = (i = e, c.from(i))), ("function" == typeof t && (r = t, t = null), m ? t = "buffer" : t || (t = v.defaultEncoding), "function" != typeof r && (r = x), v.ending) ? (o = this, a = r, _(o, u = new w()), n.nextTick(a, u)) : (m || (l = this, s = v, d = e, p = r, null === d ? h = new D() : "string" == typeof d || s.objectMode || (h = new y("chunk", [
-                                "string",
-                                "Buffer"
-                            ], d)), !h || (_(l, h), n.nextTick(p, h), 0))) && (v.pendingcb++, b = function(e, t, r, n, i, o) {
-                            ], d)), !h || ($(l, h), n.nextTick(p, h), 0))) && (v.pendingcb++, b = function(e, t, r, n, i, o) {
-                        }, k.prototype.pipe = function() {
-                            w(this, new v());
-                        }, k.prototype.write = function(e, t, r) {
-                            var i, o, a, u, l, s, d, p, h, y = this._writableState, g = !1, v = !y.objectMode && (h = e, c.isBuffer(h) || h instanceof f);
-                            return v && !c.isBuffer(e) && (e = (i = e, c.from(i))), ("function" == typeof t && (r = t, t = null), v ? t = "buffer" : t || (t = y.defaultEncoding), "function" != typeof r && (r = E), y.ending) ? (o = r, w(this, a = new b()), n.nextTick(o, a)) : (v || (u = this, l = y, s = e, d = r, null === s ? p = new m() : "string" == typeof s || l.objectMode || (p = new $("chunk", [
-                                "string",
-                                "Buffer"
-                            ], s)), !p || (w(u, p), n.nextTick(d, p), 0))) && (y.pendingcb++, g = function(e, t, r, n, i, o) {
                             var i, o, a, u, l, s, d, p, h, g = this._writableState, v = !1, b = !g.objectMode && (h = e, c.isBuffer(h) || h instanceof f);
-                            return b && !c.isBuffer(e) && (e = (i = e, c.from(i))), ("function" == typeof t && (r = t, t = null), b ? t = "buffer" : t || (t = g.defaultEncoding), "function" != typeof r && (r = x), g.ending) ? (o = r, $(this, a = new w()), n.nextTick(o, a)) : (b || (u = this, l = g, s = e, d = r, null === s ? p = new D() : "string" == typeof s || l.objectMode || (p = new y("chunk", [
+                            return b && !c.isBuffer(e) && (e = (i = e, c.from(i))), ("function" == typeof t && (r = t, t = null), b ? t = "buffer" : t || (t = g.defaultEncoding), "function" != typeof r && (r = x), g.ending) ? (o = r, _(this, a = new w()), n.nextTick(o, a)) : (b || (u = this, l = g, s = e, d = r, null === s ? p = new D() : "string" == typeof s || l.objectMode || (p = new y("chunk", [
                                 "string",
                                 "Buffer"
-                            ], s)), !p || ($(u, p), n.nextTick(d, p), 0))) && (g.pendingcb++, v = function(e, t, r, n, i, o) {
+                            ], s)), !p || (_(u, p), n.nextTick(d, p), 0))) && (g.pendingcb++, v = function(e, t, r, n, i, o) {
                                 if (!r) {
                                     var a, u, l, s = (a = t, u = n, l = i, a.objectMode || !1 === a.decodeStrings || "string" != typeof u || (u = c.from(u, l)), u);
                                     n !== s && (r = !0, i = "buffer", n = s);
