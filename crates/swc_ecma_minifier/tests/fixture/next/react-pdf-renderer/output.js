@@ -1403,15 +1403,7 @@
                 return function(t) {
                     return t.type === e;
                 };
-            }, e$ = eE(T.Svg), ex = eE(T.Text), eS = eE(T.TextInstance), eA = function(e) {
             }, e_ = eE(T.Svg), ex = eE(T.Text), eS = eE(T.TextInstance), eA = function(e) {
-                return function(t) {
-                    return n.mapValues(t, function(t, r) {
-                        var i = n.matchPercent(t);
-                        return i && eD.includes(r) ? i.percent * e.height : i && ew.includes(r) ? i.percent * e.width : t;
-                    });
-                };
-            }, ek = function(e) {
                 var t = n.matchPercent(e);
                 return t ? t.percent : parseFloat(e);
             }, ek = function(e) {
@@ -1514,8 +1506,7 @@
                 if (!t.children) return t;
                 var n = function(t) {
                     return e(t, r);
-                }, i = e$(t) ? eR(t, r) : t, o = i.children.map(n);
-                }, i = e_(t) ? eI(t, r) : t, o = i.children.map(n);
+                }, i = e_(t) ? eR(t, r) : t, o = i.children.map(n);
                 return Object.assign({}, i, {
                     children: o
                 });
@@ -1695,7 +1686,6 @@
                 ]) : Object.assign({}, r, t.style);
                 return O.default(e, n);
             }, eQ = function(e) {
-            }, e$ = function(e) {
                 var t, r = (null === (t = e.props) || void 0 === t ? void 0 : t.dpi) || 72, n = e.box || e.style;
                 return (function e(t) {
                     return function(r) {
@@ -1712,10 +1702,9 @@
                 })(U.default({}, n, {
                     dpi: r
                 }))(e);
-            }, e_ = function(e) {
+            }, e$ = function(e) {
                 if (!e.children) return e;
                 var t = e.children.map(eQ);
-                var t = e.children.map(e$);
                 return Object.assign({}, e, {
                     children: t
                 });
@@ -2177,10 +2166,9 @@
                 var t;
                 return (null === (t = e.props) || void 0 === t ? void 0 : t.break) || !1;
             }, tE = function(e) {
-            }, t_ = function(e) {
                 var t;
                 return null === (t = e.props) || void 0 === t ? void 0 : t.minPresenceAhead;
-            }, t$ = function(e) {
+            }, t_ = function(e) {
                 return function(t) {
                     return Math.min(e.box.height, t);
                 };
@@ -2188,7 +2176,7 @@
                 for(var r = 0, n = 0; n < e.length; n += 1){
                     var i = e[n];
                     if (i.box) {
-                        var o = t > i.box.top, a = i.props.presenceAhead || t$(i);
+                        var o = t > i.box.top, a = i.props.presenceAhead || t_(i);
                         i && o && (r += a(t - i.box.top));
                     }
                 }
@@ -2197,10 +2185,6 @@
                 var n = tE(e), i = tx(t, r), o = tD(t), a = r < e.box.top + e.box.height, u = td(e);
                 return tw(e) || !u && a || n < o && i < n;
             }, tA = [
-            }, tA = function(e, t, r) {
-                var n = t_(e), i = tS(t, r), o = tw(t), a = r < e.box.top + e.box.height, u = tp(e);
-                return tE(e) || !u && a || n < o && i < n;
-            }, tk = [
                 8232,
                 8233
             ], tk = [
@@ -2401,7 +2385,6 @@
                 wrap: q.default.WRAP_WRAP,
                 "wrap-reverse": q.default.WRAP_WRAP_REVERSE
             }, tQ = function(e, t) {
-            }, t$ = function(e, t) {
                 return function(r) {
                     return function(i) {
                         var o = i._yogaNode;
@@ -2413,8 +2396,7 @@
                         return i;
                     };
                 };
-            }, t_ = tQ("flexBasis"), t0 = {
-            }, t0 = t$("flexBasis"), t1 = {
+            }, t$ = tQ("flexBasis"), t0 = {
                 "flex-start": q.default.ALIGN_FLEX_START,
                 center: q.default.ALIGN_CENTER,
                 "flex-end": q.default.ALIGN_FLEX_END,
@@ -2444,7 +2426,6 @@
                 "space-around": q.default.JUSTIFY_SPACE_AROUND,
                 "space-evenly": q.default.JUSTIFY_SPACE_EVENLY
             }, t6 = tQ("margin", q.default.EDGE_TOP), t7 = tQ("margin", q.default.EDGE_RIGHT), t9 = tQ("margin", q.default.EDGE_BOTTOM), re = tQ("margin", q.default.EDGE_LEFT), rt = tQ("padding", q.default.EDGE_TOP), rr = tQ("padding", q.default.EDGE_RIGHT), rn = tQ("padding", q.default.EDGE_BOTTOM), ri = tQ("padding", q.default.EDGE_LEFT), ro = tQ("border", q.default.EDGE_TOP), ra = tQ("border", q.default.EDGE_RIGHT), ru = tQ("border", q.default.EDGE_BOTTOM), rl = tQ("border", q.default.EDGE_LEFT), rs = tQ("position", q.default.EDGE_TOP), rc = tQ("position", q.default.EDGE_RIGHT), rf = tQ("position", q.default.EDGE_BOTTOM), rd = tQ("position", q.default.EDGE_LEFT), rp = tQ("width"), rh = tQ("minWidth"), ry = tQ("maxWidth"), rg = tQ("height"), rv = tQ("minHeight"), rb = tQ("maxHeight"), rm = function(e) {
-            }, t7 = t$("margin", q.default.EDGE_TOP), t9 = t$("margin", q.default.EDGE_RIGHT), re = t$("margin", q.default.EDGE_BOTTOM), rt = t$("margin", q.default.EDGE_LEFT), rr = t$("padding", q.default.EDGE_TOP), rn = t$("padding", q.default.EDGE_RIGHT), ri = t$("padding", q.default.EDGE_BOTTOM), ro = t$("padding", q.default.EDGE_LEFT), ra = t$("border", q.default.EDGE_TOP), ru = t$("border", q.default.EDGE_RIGHT), rl = t$("border", q.default.EDGE_BOTTOM), rs = t$("border", q.default.EDGE_LEFT), rc = t$("position", q.default.EDGE_TOP), rf = t$("position", q.default.EDGE_RIGHT), rd = t$("position", q.default.EDGE_BOTTOM), rp = t$("position", q.default.EDGE_LEFT), rh = t$("width"), ry = t$("minWidth"), rg = t$("maxWidth"), rv = t$("height"), rb = t$("minHeight"), rm = t$("maxHeight"), rD = function(e) {
                 return e.lines ? Math.max.apply(Math, [
                     0
                 ].concat(e.lines.map(function(e) {
@@ -2458,10 +2439,9 @@
                 center: 0.5,
                 right: 1
             }, rE = function(e) {
-            }, r_ = function(e) {
                 var t;
                 return null !== (t = e.image) && void 0 !== t && t.data ? e.image.width / e.image.height : 1;
-            }, r$ = function(e) {
+            }, r_ = function(e) {
                 var t;
                 return n.isNil(null === (t = e.box) || void 0 === t ? void 0 : t.height);
             }, rx = function(e) {
@@ -2542,14 +2522,10 @@
                 }), (l = e.style.aspectRatio, function(e) {
                     var t = e._yogaNode;
                     return !n.isNil(l) && t && t.setAspectRatio(l), e;
-                }), t_(e.style.flexBasis), (s = e.style.flexGrow, function(e) {
+                }), t$(e.style.flexBasis), (s = e.style.flexGrow, function(e) {
                     return tQ("flexGrow")(s || 0)(e);
                 }), (c = e.style.flexShrink, function(e) {
                     return tQ("flexShrink")(c || 1)(e);
-                }), t0(e.style.flexBasis), (s = e.style.flexGrow, function(e) {
-                    return t$("flexGrow")(s || 0)(e);
-                }), (c = e.style.flexShrink, function(e) {
-                    return t$("flexShrink")(c || 1)(e);
                 }))(e);
             }, rN = function(e, t, r) {
                 var n, i, o, a, u, l, s, c = e[rA];
@@ -2566,9 +2542,7 @@
                     }
                     return {};
                 })), rR(e) && c.setMeasureFunc((o = t, a = e, function(e, t, r, n) {
-                    var i = rE(a), u = tq(a), l = th(o), s = r$(o) ? 1 / 0 : o.box.height - l.paddingTop - l.paddingBottom - u.marginTop - u.marginBottom - 10;
-                })), rI(e) && c.setMeasureFunc((o = t, a = e, function(e, t, r, n) {
-                    var i = r_(a), u = tV(a), l = ty(o), s = rx(o) ? 1 / 0 : o.box.height - l.paddingTop - l.paddingBottom - u.marginTop - u.marginBottom - 10;
+                    var i = rE(a), u = tq(a), l = th(o), s = r_(o) ? 1 / 0 : o.box.height - l.paddingTop - l.paddingBottom - u.marginTop - u.marginBottom - 10;
                     return a.image ? t === q.default.MEASURE_MODE_EXACTLY && n === q.default.MEASURE_MODE_UNDEFINED ? {
                         height: Math.min(s, e / i)
                     } : n === q.default.MEASURE_MODE_EXACTLY && (t === q.default.MEASURE_MODE_AT_MOST || t === q.default.MEASURE_MODE_UNDEFINED) ? {
@@ -2589,7 +2563,7 @@
                         height: 0
                     };
                 })), rI(e) && c.setMeasureFunc((u = t, l = e, function() {
-                    var e = tq(l), t = th(u), r = r$(u) ? 1 / 0 : u.box.height - t.paddingTop - t.paddingBottom - e.marginTop - e.marginBottom - 10, n = rS();
+                    var e = tq(l), t = th(u), r = r_(u) ? 1 / 0 : u.box.height - t.paddingTop - t.paddingBottom - e.marginTop - e.marginBottom - 10, n = rS();
                     l.props.paint(n);
                     var i = n.getWidth();
                     return {
@@ -2697,9 +2671,7 @@
                         break;
                     }
                     if (p) {
-                        var w = r0(a, e, t), E = w[0], $ = w[1];
-                        E && n.push(E), $ && i.push($);
-                        var w = r1(a, e, t), E = w[0], _ = w[1];
+                        var w = r0(a, e, t), E = w[0], _ = w[1];
                         E && n.push(E), _ && i.push(_);
                         continue;
                     }
@@ -2712,19 +2684,14 @@
             }, rQ = function(e, t, r) {
                 var n = r.children || [], i = e - rZ(r);
                 return rK(i, t, n);
-            }, r_ = function(e, t, r) {
-                var n = tc(e, t), i = n[0], o = n[1], a = rQ(t, r, e), u = a[0], l = a[1];
             }, r$ = function(e, t, r) {
-                var n = r.children || [], i = e - rX(r);
-                return rQ(i, t, n);
-            }, r0 = function(e, t, r) {
-                var n = tf(e, t), i = n[0], o = n[1], a = r$(t, r, e), u = a[0], l = a[1];
+                var n = tc(e, t), i = n[0], o = n[1], a = rQ(t, r, e), u = a[0], l = a[1];
                 return [
                     rH(u, i),
                     rH(l, o), 
                 ];
             }, r0 = function(e, t, r) {
-                return rV(e) ? tu(e, t) : r_(e, t, r);
+                return rV(e) ? tu(e, t) : r$(e, t, r);
             }, r1 = function e(t) {
                 var r = t.children || [];
                 return rX(t) || r.some(e);
@@ -2921,7 +2888,7 @@
                 return Object.assign({}, t, {
                     children: i
                 });
-            }, nD = n.asyncCompose(eM, e3, r7, tL, ni, rq, eI, eJ, tW, ns, nr, e_, nm, e5, tr);
+            }, nD = n.asyncCompose(eM, e3, r7, tL, ni, rq, eI, eJ, tW, ns, nr, e$, nm, e5, tr);
             t.Z = nD;
         },
         5648: function(e) {

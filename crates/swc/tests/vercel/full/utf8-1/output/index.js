@@ -34,8 +34,7 @@ function p() {
                 case 3:
                     return a = e.sent(), r = "/" === i ? "index" : i, (Array.isArray(a.c) ? a.c : Object.keys(a.c)).some(function(e) {
                         return -1 !== e.indexOf("pages".concat(r.startsWith("/") ? r : "/".concat(r))) || -1 !== e.indexOf("pages".concat(r.startsWith("/") ? r : "/".concat(r)).replace(/\//g, "\\"));
-                    }) ? document.location.reload(!0) : u = $, [
-                    })) ? document.location.reload(!0) : u = _, [
+                    }) ? document.location.reload(!0) : u = _, [
                         3,
                         5
                     ];
