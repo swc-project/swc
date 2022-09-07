@@ -1,10 +1,10 @@
 function o() {
     console.log("should be dropped");
 }
-function e() {
+function d() {
     console.log("should be dropped");
 }
-function d() {
+function e() {
     console.log("should be dropped");
 }
 function l() {

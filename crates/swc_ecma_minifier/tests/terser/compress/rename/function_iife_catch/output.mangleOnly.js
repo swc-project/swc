@@ -1,10 +1,10 @@
 function o(o) {
-    !(function() {
+    !(function () {
         try {
             throw 0;
-        } catch (o) {
-            var c = 1;
-            console.log(o, c);
+        } catch (c) {
+            var o = 1;
+            console.log(c, o);
         }
     })();
 }

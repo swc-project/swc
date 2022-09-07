@@ -21,7 +21,7 @@ function c(n) {
 function u(n) {
     try {
         return (n = f());
-    } finally{
+    } finally {
         console.log(n);
     }
 }
@@ -30,25 +30,18 @@ function l() {
 }
 function e(l) {
     var e = 0;
-    f = function() {
+    f = function () {
         e += l;
         if (l < 0) throw e;
         return e;
     };
-    [
-        n,
-        o,
-        t,
-        r,
-        c,
-        u
-    ].forEach(function(n, o) {
+    [n, o, t, r, c, u].forEach(function (n, o) {
         i = null;
         try {
             o += 1;
             console.log("result " + n(10 * o, 100 * o, 1e3 * o));
-        } catch (t) {
-            console.log("caught " + t);
+        } catch (n) {
+            console.log("caught " + n);
         }
         if (null !== i) console.log("e: " + i);
     });

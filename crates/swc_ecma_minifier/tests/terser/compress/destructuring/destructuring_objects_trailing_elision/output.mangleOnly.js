@@ -1,1 +1,1 @@
-var { cc: o  } = foo;
+var { cc: c } = foo;

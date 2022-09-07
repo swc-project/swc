@@ -1,11 +1,10 @@
 function c() {
     try {
         c();
-    } catch (o) {
-        let t = 10;
-        const e = 10;
-        class l {
-        }
+    } catch (c) {
+        let o = 10;
+        const t = 10;
+        class e {}
     }
     console.log(x, y, Zee);
 }

@@ -1,8 +1,8 @@
 function n(n) {
     try {
         throw "Stuff";
-    } catch (e) {
-        console.log("caught: " + e);
+    } catch (n) {
+        console.log("caught: " + n);
     }
     console.log("undefined is " + undefined);
     return n === undefined;

@@ -1,7 +1,7 @@
-OUT: switch(1){
+a: switch (1) {
     case 1:
         x();
-        for(;;)break OUT;
+        for (;;) break a;
         y();
         break;
     case 1 + 1:

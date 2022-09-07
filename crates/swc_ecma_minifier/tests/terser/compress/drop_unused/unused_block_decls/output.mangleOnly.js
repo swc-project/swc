@@ -3,7 +3,7 @@ function o() {
         const o = 1;
     }
     {
-        let n;
+        let o;
     }
     console.log(x, y);
 }

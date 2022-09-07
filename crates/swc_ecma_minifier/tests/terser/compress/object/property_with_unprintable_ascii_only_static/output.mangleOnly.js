@@ -1,8 +1,8 @@
 class t {
-    static get "\x02\x03"() {
+    static get ""() {
         return "bar";
     }
-    static set "\x04\x05"(t) {
+    static set ""(t) {
         save(t);
     }
 }

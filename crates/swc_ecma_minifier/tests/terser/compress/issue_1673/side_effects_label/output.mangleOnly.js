@@ -1,8 +1,8 @@
 function n(n) {
     function o() {
-        L: {
+        n: {
             console.log("PASS");
-            break L;
+            break n;
         }
     }
     o();

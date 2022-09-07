@@ -1,8 +1,8 @@
 function n() {
     function n() {
-        L: do {
-            break L;
-        }while (1)
+        n: do {
+            break n;
+        } while (1);
     }
     n();
 }

@@ -1,8 +1,1 @@
-var a = {
-    set b (<invalid>){
-        throw 0;
-    }
-};
-({
-    ...a
-}.b);
+var b={set b(){throw 0}};({...b}).b;
