@@ -204,6 +204,10 @@ pub trait Input: Clone {
     fn peek_ahead(&mut self) -> Option<char>;
     fn bump(&mut self);
 
+    /// Returns [None] if it's end of input **or** current character is not an
+    /// ascii character.
+    fn cur_as_ascii(&mut self) -> Option<u8>;
+
     fn is_at_start(&self) -> bool;
 
     fn cur_pos(&mut self) -> BytePos;
@@ -241,6 +245,7 @@ pub trait Input: Clone {
     ///
     /// `c` must be ASCII.
     #[inline]
+    #[deprecated]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
             self.bump();
