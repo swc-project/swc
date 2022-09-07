@@ -170,7 +170,9 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space(&mut self, lex_comments: bool) -> LexResult<()> {
         loop {
-            if self.input.eat_byte(b'\n') || self.input.eat_byte(b'\r') {
+            let cur_b = self.input.cur_as_ascii();
+
+            if matches!(cur_b, Some(b'\n' | b'\r')) {
                 self.state.had_line_break = true;
                 continue;
             }
