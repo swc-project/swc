@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Don't drop parameters in an exported function (#5757) ([948d708](https://github.com/swc-project/swc/commit/948d7081447c50bc78764f5fe88ec6055ebbcc9c))
 
+
+- **(es/minifier)** Fix analysis of assignments and classes (#5770) ([90852f5](https://github.com/swc-project/swc/commit/90852f5aa60ba5584729f1cd7284f136a9e00794))
+
 ### Features
 
 
