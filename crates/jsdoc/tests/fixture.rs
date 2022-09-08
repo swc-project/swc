@@ -91,14 +91,14 @@ impl Comments for SwcComments {
     }
 
     fn move_leading(&self, from: BytePos, to: BytePos) {
-        let cmt = self.leading.remove(&from);
+        let cmt = self.take_leading(from);
 
-        if let Some((_, mut cmt)) = cmt {
+        if let Some(mut cmt) = cmt {
             if from < to && self.has_leading(to) {
                 cmt.extend(self.take_leading(to).unwrap());
             }
 
-            self.leading.entry(to).or_default().extend(cmt);
+            self.add_leading_comments(to, cmt);
         }
     }
 
@@ -123,14 +123,14 @@ impl Comments for SwcComments {
     }
 
     fn move_trailing(&self, from: BytePos, to: BytePos) {
-        let cmt = self.trailing.remove(&from);
+        let cmt = self.take_trailing(from);
 
-        if let Some((_, mut cmt)) = cmt {
+        if let Some(mut cmt) = cmt {
             if from < to && self.has_trailing(to) {
                 cmt.extend(self.take_trailing(to).unwrap());
             }
 
-            self.trailing.entry(to).or_default().extend(cmt);
+            self.add_trailing_comments(to, cmt);
         }
     }
 
