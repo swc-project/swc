@@ -7258,10 +7258,10 @@
                             }
                             try {
                                 return a(e, 0);
-                            } catch (t) {
+                            } catch (n) {
                                 try {
                                     return a.call(null, e, 0);
-                                } catch (n) {
+                                } catch (t) {
                                     return a.call(this, e, 0);
                                 }
                             }
@@ -7276,10 +7276,10 @@
                             }
                             try {
                                 return n(e);
-                            } catch (t) {
+                            } catch (a) {
                                 try {
                                     return n.call(null, e);
-                                } catch (a) {
+                                } catch (t) {
                                     return n.call(this, e);
                                 }
                             }

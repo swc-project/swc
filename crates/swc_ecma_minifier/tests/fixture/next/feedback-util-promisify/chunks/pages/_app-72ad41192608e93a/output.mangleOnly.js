@@ -1700,10 +1700,10 @@
                             }
                             try {
                                 return e(r, 0);
-                            } catch (t) {
+                            } catch (n) {
                                 try {
                                     return e.call(null, r, 0);
-                                } catch (n) {
+                                } catch (t) {
                                     return e.call(this, r, 0);
                                 }
                             }
@@ -1718,10 +1718,10 @@
                             }
                             try {
                                 return n(r);
-                            } catch (t) {
+                            } catch (e) {
                                 try {
                                     return n.call(null, r);
-                                } catch (e) {
+                                } catch (t) {
                                     return n.call(this, r);
                                 }
                             }
@@ -1943,10 +1943,10 @@
                             try {
                                 arguments.callee;
                                 return throwTypeError;
-                            } catch (r) {
+                            } catch (t) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (t) {
+                                } catch (r) {
                                     return throwTypeError;
                                 }
                             }
@@ -2435,10 +2435,10 @@
                             try {
                                 arguments.callee;
                                 return throwTypeError;
-                            } catch (r) {
+                            } catch (t) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (t) {
+                                } catch (r) {
                                     return throwTypeError;
                                 }
                             }
@@ -3972,10 +3972,10 @@
                             try {
                                 arguments.callee;
                                 return throwTypeError;
-                            } catch (r) {
+                            } catch (t) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (t) {
+                                } catch (r) {
                                     return throwTypeError;
                                 }
                             }

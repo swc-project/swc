@@ -195,9 +195,9 @@
             function A(e) {
                 if (void 0 === $) try {
                     throw Error();
-                } catch (n) {
-                    var t = n.stack.trim().match(/\n( *(at )?)/);
-                    $ = (t && t[1]) || "";
+                } catch (t) {
+                    var n = t.stack.trim().match(/\n( *(at )?)/);
+                    $ = (n && n[1]) || "";
                 }
                 return "\n" + $ + e;
             }
@@ -217,15 +217,15 @@
                     }), "object" === typeof Reflect && Reflect.construct)) {
                         try {
                             Reflect.construct(n, []);
-                        } catch (r) {
-                            var l = r;
+                        } catch (l) {
+                            var r = l;
                         }
                         Reflect.construct(e, [], n);
                     } else {
                         try {
                             n.call();
                         } catch (a) {
-                            l = a;
+                            r = a;
                         }
                         e.call(n.prototype);
                     }
@@ -233,21 +233,21 @@
                         try {
                             throw Error();
                         } catch (u) {
-                            l = u;
+                            r = u;
                         }
                         e();
                     }
-                } catch (o) {
-                    if (o && l && "string" === typeof o.stack) {
-                        for(var i = o.stack.split("\n"), s = l.stack.split("\n"), c = i.length - 1, f = s.length - 1; 1 <= c && 0 <= f && i[c] !== s[f];)f--;
-                        for(; 1 <= c && 0 <= f; c--, f--)if (i[c] !== s[f]) {
-                            if (1 !== c || 1 !== f) {
-                                do if ((c--, f--, 0 > f || i[c] !== s[f])) {
-                                    var d = "\n" + i[c].replace(" at new ", " at ");
-                                    e.displayName && d.includes("<anonymous>") && (d = d.replace("<anonymous>", e.displayName));
-                                    return d;
+                } catch (d) {
+                    if (d && r && "string" === typeof d.stack) {
+                        for(var o = d.stack.split("\n"), i = r.stack.split("\n"), s = o.length - 1, c = i.length - 1; 1 <= s && 0 <= c && o[s] !== i[c];)c--;
+                        for(; 1 <= s && 0 <= c; s--, c--)if (o[s] !== i[c]) {
+                            if (1 !== s || 1 !== c) {
+                                do if ((s--, c--, 0 > c || o[s] !== i[c])) {
+                                    var f = "\n" + o[s].replace(" at new ", " at ");
+                                    e.displayName && f.includes("<anonymous>") && (f = f.replace("<anonymous>", e.displayName));
+                                    return f;
                                 }
-                                while (1 <= c && 0 <= f)
+                                while (1 <= s && 0 <= c)
                             }
                             break;
                         }

@@ -790,10 +790,10 @@
                             if ((r === defaultSetTimout || !r) && setTimeout) return r = setTimeout, setTimeout(e, 0);
                             try {
                                 return r(e, 0);
-                            } catch (t) {
+                            } catch (t1) {
                                 try {
                                     return r.call(null, e, 0);
-                                } catch (t1) {
+                                } catch (t) {
                                     return r.call(this, e, 0);
                                 }
                             }
@@ -827,10 +827,10 @@
                                     if ((n === defaultClearTimeout || !n) && clearTimeout) return n = clearTimeout, clearTimeout(e);
                                     try {
                                         n(e);
-                                    } catch (t) {
+                                    } catch (t1) {
                                         try {
                                             return n.call(null, e);
-                                        } catch (t1) {
+                                        } catch (t) {
                                             return n.call(this, e);
                                         }
                                     }
@@ -942,10 +942,10 @@
                         }, p = y ? function() {
                             try {
                                 return arguments.callee, throwTypeError;
-                            } catch (r) {
+                            } catch (r1) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (r1) {
+                                } catch (r) {
                                     return throwTypeError;
                                 }
                             }
@@ -1327,10 +1327,10 @@
                         }, p = y ? function() {
                             try {
                                 return arguments.callee, throwTypeError;
-                            } catch (r) {
+                            } catch (r1) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (r1) {
+                                } catch (r) {
                                     return throwTypeError;
                                 }
                             }
@@ -2300,10 +2300,10 @@
                         }, p = y ? function() {
                             try {
                                 return arguments.callee, throwTypeError;
-                            } catch (r) {
+                            } catch (r1) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (r1) {
+                                } catch (r) {
                                     return throwTypeError;
                                 }
                             }

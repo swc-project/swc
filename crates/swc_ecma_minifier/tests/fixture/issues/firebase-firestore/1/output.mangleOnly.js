@@ -2962,9 +2962,9 @@
                             this.db = await this.Dt(e);
                             const o = n3.open(this.db, e, s ? "readonly" : "readwrite", n), a = r(o).catch((e)=>(o.abort(e), n4.reject(e))).toPromise();
                             return (a.catch(()=>{}), await o.It, a);
-                        } catch (c) {
-                            const u = "FirebaseError" !== c.name && i < 3;
-                            if ((g("SimpleDb", "Transaction failed with error:", c.message, "Retrying:", u), this.close(), !u)) return Promise.reject(c);
+                        } catch (u) {
+                            const c = "FirebaseError" !== u.name && i < 3;
+                            if ((g("SimpleDb", "Transaction failed with error:", u.message, "Retrying:", c), this.close(), !c)) return Promise.reject(u);
                         }
                     }
                 }
@@ -6384,9 +6384,9 @@
                 let s = !1, i = n.queries.get(r);
                 if ((i || ((s = !0), (i = new iT())), s)) try {
                     i.no = await n.onListen(r);
-                } catch (o) {
-                    const a = iw(o, `Initialization of query '${e6(t.query)}' failed`);
-                    return void t.onError(a);
+                } catch (a) {
+                    const o = iw(a, `Initialization of query '${e6(t.query)}' failed`);
+                    return void t.onError(o);
                 }
                 if ((n.queries.set(r, i), i.listeners.push(t), t.io(n.onlineState), i.no)) {
                     t.ro(i.no) && iD(n);
@@ -6721,9 +6721,9 @@
                         r || (r = new tP(F));
                         (r = r.insert(t, n)), (e.qo[e.currentUser.toKey()] = r);
                     })(r, s.batchId, n), await i4(r, s.changes), await is(r.remoteStore);
-                } catch (i) {
-                    const o = iw(i, "Failed to persist write");
-                    n.reject(o);
+                } catch (o) {
+                    const i = iw(o, "Failed to persist write");
+                    n.reject(i);
                 }
             }
             async function iz(e, t) {
@@ -6801,9 +6801,9 @@
                     if (-1 === r) return void t.resolve();
                     const s = n.Ko.get(r) || [];
                     s.push(t), n.Ko.set(r, s);
-                } catch (i) {
-                    const o = iw(i, "Initialization of waitForPendingWrites() operation failed");
-                    t.reject(o);
+                } catch (o) {
+                    const i = iw(o, "Initialization of waitForPendingWrites() operation failed");
+                    t.reject(i);
                 }
             }
             function iY(e, t) {
@@ -7389,9 +7389,9 @@
                     return (this.asyncQueue.enqueueAndForgetEvenWhileRestricted(async ()=>{
                         try {
                             this.onlineComponents && (await this.onlineComponents.terminate()), this.offlineComponents && (await this.offlineComponents.terminate()), this.credentials.shutdown(), e.resolve();
-                        } catch (t) {
-                            const n = iw(t, "Failed to shutdown persistence");
-                            e.reject(n);
+                        } catch (n) {
+                            const t = iw(n, "Failed to shutdown persistence");
+                            e.reject(t);
                         }
                     }), e.promise);
                 }
@@ -7466,9 +7466,9 @@
                                 return n.persistence.runTransaction("read document", "readonly", (e)=>n.Qn.An(e, t));
                             })(e, t);
                             r.isFoundDocument() ? n.resolve(r) : r.isNoDocument() ? n.resolve(null) : n.reject(new S(b.UNAVAILABLE, "Failed to get document from cache. (However, this document may exist on the server. Run again without setting 'source' in the GetOptions to attempt to retrieve the document from the server.)"));
-                        } catch (s) {
-                            const i = iw(s, `Failed to get document '${t} from cache`);
-                            n.reject(i);
+                        } catch (i) {
+                            const s = iw(i, `Failed to get document '${t} from cache`);
+                            n.reject(s);
                         }
                     })(await ob(e), t, n)), n.promise);
             }
@@ -7495,9 +7495,9 @@
                         try {
                             const r = await sl(e, t, !0), s = new iO(t, r.Gn), i = s.bo(r.documents), o = s.applyChanges(i, !1);
                             n.resolve(o.snapshot);
-                        } catch (a) {
-                            const c = iw(a, `Failed to execute query '${t} against cache`);
-                            n.reject(c);
+                        } catch (c) {
+                            const a = iw(c, `Failed to execute query '${t} against cache`);
+                            n.reject(a);
                         }
                     })(await ob(e), t, n)), n.promise);
             }

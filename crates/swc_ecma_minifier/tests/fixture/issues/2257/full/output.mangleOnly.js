@@ -5143,11 +5143,11 @@
                 var r = /./;
                 try {
                     "/./"[e](r);
-                } catch (t) {
+                } catch (n) {
                     try {
                         r[a] = false;
                         return "/./"[e](r);
-                    } catch (n) {}
+                    } catch (t) {}
                 }
                 return false;
             };
@@ -15391,11 +15391,11 @@
             function i(e) {
                 try {
                     return decodeURIComponent(e);
-                } catch (r) {
-                    var n = e.match(t);
-                    for(var i = 1; i < n.length; i++){
-                        e = a(n, i).join("");
-                        n = e.match(t);
+                } catch (i) {
+                    var r = e.match(t);
+                    for(var n = 1; n < r.length; n++){
+                        e = a(r, n).join("");
+                        r = e.match(t);
                     }
                     return e;
                 }
@@ -15409,10 +15409,10 @@
                 while(t){
                     try {
                         r[t[0]] = decodeURIComponent(t[0]);
-                    } catch (a) {
-                        var o = i(t[0]);
-                        if (o !== t[0]) {
-                            r[t[0]] = o;
+                    } catch (o) {
+                        var a = i(t[0]);
+                        if (a !== t[0]) {
+                            r[t[0]] = a;
                         }
                     }
                     t = n.exec(e);
@@ -16686,10 +16686,10 @@
                 }
                 try {
                     return t(e, 0);
-                } catch (r) {
+                } catch (n) {
                     try {
                         return t.call(null, e, 0);
-                    } catch (n) {
+                    } catch (r) {
                         return t.call(this, e, 0);
                     }
                 }
@@ -16704,10 +16704,10 @@
                 }
                 try {
                     return n(e);
-                } catch (r) {
+                } catch (t) {
                     try {
                         return n.call(null, e);
-                    } catch (t) {
+                    } catch (r) {
                         return n.call(this, e);
                     }
                 }
@@ -17705,9 +17705,9 @@
             function H(e) {
                 if (void 0 === V) try {
                     throw Error();
-                } catch (r) {
-                    var t = r.stack.trim().match(/\n( *(at )?)/);
-                    V = (t && t[1]) || "";
+                } catch (t) {
+                    var r = t.stack.trim().match(/\n( *(at )?)/);
+                    V = (r && r[1]) || "";
                 }
                 return "\n" + V + e;
             }
@@ -17727,15 +17727,15 @@
                     }), "object" === typeof Reflect && Reflect.construct)) {
                         try {
                             Reflect.construct(r, []);
-                        } catch (n) {
-                            var a = n;
+                        } catch (a) {
+                            var n = a;
                         }
                         Reflect.construct(e, [], r);
                     } else {
                         try {
                             r.call();
                         } catch (i) {
-                            a = i;
+                            n = i;
                         }
                         e.call(r.prototype);
                     }
@@ -17743,17 +17743,17 @@
                         try {
                             throw Error();
                         } catch (o) {
-                            a = o;
+                            n = o;
                         }
                         e();
                     }
-                } catch (u) {
-                    if (u && a && "string" === typeof u.stack) {
-                        for(var l = u.stack.split("\n"), c = a.stack.split("\n"), f = l.length - 1, s = c.length - 1; 1 <= f && 0 <= s && l[f] !== c[s];)s--;
-                        for(; 1 <= f && 0 <= s; f--, s--)if (l[f] !== c[s]) {
-                            if (1 !== f || 1 !== s) {
-                                do if ((f--, s--, 0 > s || l[f] !== c[s])) return ("\n" + l[f].replace(" at new ", " at "));
-                                while (1 <= f && 0 <= s)
+                } catch (s) {
+                    if (s && n && "string" === typeof s.stack) {
+                        for(var u = s.stack.split("\n"), l = n.stack.split("\n"), c = u.length - 1, f = l.length - 1; 1 <= c && 0 <= f && u[c] !== l[f];)f--;
+                        for(; 1 <= c && 0 <= f; c--, f--)if (u[c] !== l[f]) {
+                            if (1 !== c || 1 !== f) {
+                                do if ((c--, f--, 0 > f || u[c] !== l[f])) return ("\n" + u[c].replace(" at new ", " at "));
+                                while (1 <= c && 0 <= f)
                             }
                             break;
                         }

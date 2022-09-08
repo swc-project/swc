@@ -14643,10 +14643,10 @@
                     ], {
                         type: "application/javascript"
                     }));
-                } catch (i) {
-                    var r = new BlobBuilder();
-                    r.append(t);
-                    return URL.createObjectURL(r.getBlob());
+                } catch (r) {
+                    var i = new BlobBuilder();
+                    i.append(t);
+                    return URL.createObjectURL(i.getBlob());
                 }
             };
             var sE = function e(t) {

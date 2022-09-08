@@ -10153,10 +10153,10 @@
                 if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) return cachedSetTimeout = setTimeout, setTimeout(fun, 0);
                 try {
                     return cachedSetTimeout(fun, 0);
-                } catch (e) {
+                } catch (e1) {
                     try {
                         return cachedSetTimeout.call(null, fun, 0);
-                    } catch (e1) {
+                    } catch (e) {
                         return cachedSetTimeout.call(this, fun, 0);
                     }
                 }
@@ -10190,10 +10190,10 @@
                         if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) return cachedClearTimeout = clearTimeout, clearTimeout(marker);
                         try {
                             cachedClearTimeout(marker);
-                        } catch (e) {
+                        } catch (e1) {
                             try {
                                 return cachedClearTimeout.call(null, marker);
-                            } catch (e1) {
+                            } catch (e) {
                                 return cachedClearTimeout.call(this, marker);
                             }
                         }
