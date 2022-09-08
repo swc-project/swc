@@ -117,7 +117,17 @@ impl Scope {
             return;
         }
 
-        if let Some(usage) = self.data.all.get_mut(id) {}
+        if let Some(usage) = self.data.all.get_mut(id) {
+            usage.cur -= 1;
+
+            self.children.iter_mut().for_each(|child| {
+                if let Some(child_usage) = child.data.all.get_mut(id) {
+                    child_usage.cur -= usage.own;
+                }
+
+                child.drop_id(id);
+            });
+        }
     }
 
     pub(crate) fn rename_single_thread<R>(
