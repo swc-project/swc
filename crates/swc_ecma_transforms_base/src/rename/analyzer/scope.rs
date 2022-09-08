@@ -49,12 +49,21 @@ pub(crate) type RenameMap = AHashMap<FastId, JsWord>;
 pub(crate) type ReverseMap = FxHashMap<JsWord, Vec<FastId>>;
 
 #[derive(Debug, Default)]
+struct Count {
+    total: u32,
+    own: u32,
+
+    cur: u32,
+}
+
+#[derive(Debug, Default)]
 pub(super) struct ScopeData {
     /// This is add-only.
     ///
     /// If the add-only contraint is violated, it is very likely to be a bug,
     /// because we merge every items in children to current scope.
     all: FxHashSet<FastId>,
+    all: FxHashMap<FastId, Count>,
 
     queue: Vec<Id>,
 }
