@@ -249,37 +249,6 @@ impl Scope {
             preserved_symbols,
         );
 
-        #[cfg(feature = "concurrent-renamer")]
-        if parallel && false {
-            #[cfg(not(target_arch = "wasm32"))]
-            let iter = self.children.par_iter_mut();
-            #[cfg(target_arch = "wasm32")]
-            let iter = self.children.iter_mut();
-
-            let iter = iter
-                .map(|child| {
-                    use std::collections::HashMap;
-
-                    let mut new_map = HashMap::default();
-                    child.rename_parallel(
-                        renamer,
-                        &mut new_map,
-                        to,
-                        &cloned_reverse,
-                        preserved,
-                        preserved_symbols,
-                        parallel,
-                    );
-                    new_map
-                })
-                .collect::<Vec<_>>();
-
-            for (k, v) in iter.into_iter().flatten() {
-                to.entry(k).or_insert(v);
-            }
-            return;
-        }
-
         for child in &mut self.children {
             child.rename_parallel(
                 renamer,
