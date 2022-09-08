@@ -21,7 +21,7 @@ swc_v2  = ["swc_core/bundler_node_v2"]
 # Experiemntal bytechecked plugin serialization / deserialization.
 plugin_bytecheck = [
   # We know what we're doing - enable internal features for the host plugin setup.
-  "swc_core/__plugin_transform_host_bytecheck",
+  # "swc_core/__plugin_transform_host_bytecheck",
   "swc_core/__plugin_transform_host_schema_v1",
   "swc_core/__plugin_transform_env_native",
 ]
