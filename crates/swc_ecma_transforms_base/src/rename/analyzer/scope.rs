@@ -112,6 +112,12 @@ impl Scope {
         });
     }
 
+    fn drop_id(&mut self, id: &Id) {
+        if id.0 == js_word!("arguments") {
+            return;
+        }
+    }
+
     pub(crate) fn rename_single_thread<R>(
         &mut self,
         renamer: &R,
@@ -318,8 +324,8 @@ impl Scope {
                     let fid = fast_id(id.clone());
                     to.insert(fid.clone(), sym.clone());
                     reverse.entry(sym).or_default().push(fid.clone());
-                    // self.data.decls.remove(&id);
-                    // self.data.usages.remove(&id);
+
+                    self.drop_id(&id);
 
                     break;
                 }
