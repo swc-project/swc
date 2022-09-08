@@ -110,6 +110,7 @@ collapse_vars/anonymous_function/input.js
 collapse_vars/assignment/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
+collapse_vars/cascade_call/input.js
 collapse_vars/cascade_if_1/input.js
 collapse_vars/cascade_if_2/input.js
 collapse_vars/cascade_return/input.js
@@ -661,6 +662,7 @@ hoist_props/direct_access_3/input.js
 hoist_props/does_not_hoist_objects_with_computed_props/input.js
 hoist_props/hoist_function_with_call/input.js
 hoist_props/issue_2377_1/input.js
+hoist_props/issue_2377_2/input.js
 hoist_props/issue_2377_3/input.js
 hoist_props/issue_2462/input.js
 hoist_props/issue_2473_1/input.js
@@ -1286,6 +1288,7 @@ reduce_vars/unsafe_evaluate_object_1/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js
+reduce_vars/var_assign_1/input.js
 reduce_vars/var_assign_3/input.js
 reduce_vars/var_assign_4/input.js
 reduce_vars/var_assign_5/input.js

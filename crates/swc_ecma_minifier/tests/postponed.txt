@@ -26,7 +26,6 @@ class_properties/mangle_class_properties/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 class_properties/static_means_execution/input.js
 classes/pure_prop_assignment_for_classes/input.js
-collapse_vars/cascade_call/input.js
 collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_forin/input.js
 collapse_vars/cascade_statement/input.js
@@ -599,7 +598,6 @@ reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_1/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_2/input.js
 reduce_vars/unused_modified/input.js
-reduce_vars/var_assign_1/input.js
 reduce_vars/var_assign_2/input.js
 regexp/unsafe_slashes/input.js
 rename/function_iife_catch_ie8/input.js
