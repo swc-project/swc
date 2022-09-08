@@ -123,7 +123,7 @@ jobs:
             os: ubuntu-latest
             runner: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin-bytecheck
           - crate: swc
             os: windows-latest
             runner: windows-latest
@@ -142,7 +142,7 @@ jobs:
             os: ubuntu-latest
             runner: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features plugin-bytecheck-base --exclude-features plugin-bytecheck-mode --exclude-features plugin-bytecheck-rt --exclude-features rkyv-bytecheck-impl --exclude-features rkyv-impl
           - crate: swc_common
             os: windows-latest
             runner: windows-latest
@@ -531,7 +531,7 @@ jobs:
       - name: Run cargo test (plugin)
         if: matrix.settings.crate == 'swc_plugin_runner'
         run: |
-          cargo test --color always -p swc_plugin_runner --features plugin_transform_schema_v1
+          cargo test --color always -p swc_plugin_runner --features plugin_transform_schema_v1 --features rkyv-impl
 
       - name: Run cargo test (swc_ecma_minifier)
         if: matrix.settings.crate == 'swc_ecma_minifier'
