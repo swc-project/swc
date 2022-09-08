@@ -1,6 +1,9 @@
 #![allow(clippy::too_many_arguments)]
 
-use std::mem::{transmute_copy, ManuallyDrop};
+use std::{
+    mem::{transmute_copy, ManuallyDrop},
+    ops::AddAssign,
+};
 
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
@@ -56,6 +59,14 @@ struct Count {
     cur: u32,
 }
 
+impl AddAssign<u32> for Count {
+    fn add_assign(&mut self, rhs: u32) {
+        self.total += rhs;
+        self.cur += rhs;
+        self.own += rhs;
+    }
+}
+
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
     /// This is add-only.
@@ -73,7 +84,7 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(fast_id(id.clone()));
+        *self.data.all.entry(fast_id(id.clone())).or_default() += 1;
         if !self.data.queue.contains(id) {
             self.data.queue.push(id.clone());
         }
@@ -84,7 +95,7 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(fast_id(id.clone()));
+        *self.data.all.entry(fast_id(id.clone())).or_default() += 1;
     }
 
     /// Copy `children.data.all` to `self.data.all`.
