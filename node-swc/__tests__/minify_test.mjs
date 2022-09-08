@@ -187,7 +187,7 @@ describe("should remove comments", () => {
         );
 
         expect(code).toMatchInlineSnapshot(
-            `"(function(){const n=Math.random()+\\"_\\"+Math.random();console.log(n)})();"`
+            `"(function(){const o=Math.random()+\\"_\\"+Math.random();console.log(o)})();"`
         );
     });
 
@@ -213,7 +213,7 @@ describe("should remove comments", () => {
         expect(code).toMatchInlineSnapshot(`
             "(function(){/**
                          * @license
-                         */ const n=Math.random()+\\"_\\"+Math.random();console.log(n)})();"
+                         */ const o=Math.random()+\\"_\\"+Math.random();console.log(o)})();"
         `);
     });
     it("should remove comment near to  licnese", async () => {
@@ -241,7 +241,7 @@ describe("should remove comments", () => {
         expect(code).toMatchInlineSnapshot(`
             "(function(){/**
                          * @license
-                         */ const n=Math.random()+\\"_\\"+Math.random();console.log(n)})();"
+                         */ const o=Math.random()+\\"_\\"+Math.random();console.log(o)})();"
         `);
     });
 });
