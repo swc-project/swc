@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Inline lazily initialized variables (#5737) ([ee26337](https://github.com/swc-project/swc/commit/ee26337a251ecb1fa4f369e6de614d3dc931ab5c))
+
+## [1.2.249] - 2022-09-08
+
 ### Bug Fixes
 
 
