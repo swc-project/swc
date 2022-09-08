@@ -132,7 +132,7 @@ TestSnapshot {
                 assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 4,
-                reassigned_with_assignment: true,
+                reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
                 has_property_access: false,
@@ -240,7 +240,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 5,
-                cond_init: false,
+                cond_init: true,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,
@@ -280,7 +280,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: false,
+                cond_init: true,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,

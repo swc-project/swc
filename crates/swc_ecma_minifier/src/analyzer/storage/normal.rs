@@ -37,7 +37,7 @@ impl Storage for ProgramData {
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             let inited = self.initialized_vars.contains(&id);
-            match self.vars.entry(id) {
+            match self.vars.entry(id.clone()) {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= var_info.inline_prevented;
 
@@ -86,6 +86,13 @@ impl Storage for ProgramData {
 
                     if !var_info.is_fn_local {
                         e.get_mut().is_fn_local = false;
+                    }
+
+                    if var_info.var_initialized {
+                        if e.get().var_initialized || e.get().ref_count > 0 {
+                            e.get_mut().assign_count += 1;
+                            e.get_mut().reassigned_with_assignment = true;
+                        }
                     }
 
                     match kind {
@@ -156,7 +163,8 @@ impl Storage for ProgramData {
 
         v.declared_count += 1;
         v.declared = true;
-        if has_init {
+        // not a VarDecl, thus always inited
+        if has_init || kind.is_none() {
             self.initialized_vars.insert(i.to_id());
         }
         v.declared_as_catch_param |= ctx.in_catch_param;
@@ -207,7 +215,7 @@ impl ProgramData {
 
         let inited = self.initialized_vars.contains(&i);
 
-        let e = self.vars.entry(i).or_insert_with(|| {
+        let e = self.vars.entry(i.clone()).or_insert_with(|| {
             // trace!("insert({}{:?})", i.0, i.1);
 
             VarUsageInfo {
@@ -221,11 +229,15 @@ impl ProgramData {
 
         if is_first {
             e.ref_count += 1;
-            if e.var_initialized && !inited {
+            if !inited && e.var_initialized {
                 e.cond_init = true;
+                if !is_modify {
+                    e.var_initialized = false;
+                    e.assign_count += 1;
+                    e.reassigned_with_assignment = true
+                }
             }
         }
-        e.reassigned_with_assignment |= is_first && is_modify && ctx.is_exact_reassignment;
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (ctx.in_call_arg && ctx.is_exact_arg);
         e.executed_multiple_time |= ctx.executed_multiple_time;
@@ -238,6 +250,18 @@ impl ProgramData {
 
             if ctx.is_op_assign {
                 e.usage_count += 1;
+            } else if is_first {
+                if e.ref_count == 1
+                    && ctx.in_assign_lhs
+                    && e.var_kind != Some(VarDeclKind::Const)
+                    && !inited
+                {
+                    self.initialized_vars.insert(i);
+                    e.assign_count -= 1;
+                    e.var_initialized = true;
+                } else {
+                    e.reassigned_with_assignment = true
+                }
             }
 
             for other in e.infects.clone() {

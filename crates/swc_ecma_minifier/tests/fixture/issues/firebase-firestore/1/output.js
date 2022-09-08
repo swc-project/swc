@@ -1914,13 +1914,13 @@
                 return new Pt(Xn(n));
             }
             function Hn(t, e) {
-                var t1, e1, t2;
-                return t1 = t.databaseId, e1 = e, (t2 = t1, new ht([
+                var t1;
+                return (t1 = t.databaseId, new ht([
                     "projects",
-                    t2.projectId,
+                    t1.projectId,
                     "databases",
-                    t2.database, 
-                ])).child("documents").child(e1).canonicalString();
+                    t1.database, 
+                ])).child("documents").child(e).canonicalString();
             }
             function Yn(t) {
                 return new ht([
@@ -4148,7 +4148,7 @@
                         const n = t, s = e.snapshotVersion;
                         let i = n.Un;
                         return n.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
-                            var t1, e1, n1, s1, i1;
+                            var e1, n1, s1, i1;
                             const r = n.jn.newChangeBuffer({
                                 trackRemovals: !0
                             });
@@ -4168,7 +4168,7 @@
                             let c = pn, r1;
                             if (e.documentUpdates.forEach((s, i)=>{
                                 e.resolvedLimboDocuments.has(s) && o.push(n.persistence.referenceDelegate.updateLimboDocument(t, s));
-                            }), o.push((t1 = t, e1 = r, n1 = e.documentUpdates, s1 = s, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), e1.getEntries(t1, r1).next((t)=>{
+                            }), o.push((e1 = r, n1 = e.documentUpdates, s1 = s, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), e1.getEntries(t, r1).next((t)=>{
                                 let r = pn;
                                 return n1.forEach((n, o)=>{
                                     const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s1;
@@ -4273,14 +4273,14 @@
                 }(s.localStore, r));
             }
             async function Tc(t, e) {
-                var t1;
+                var t1, e1;
                 const n = t;
                 if (!n.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
                     const t2 = await hr(n.localStore, e);
-                    n.currentUser = e, (t1 = n).Ko.forEach((t)=>{
+                    n.currentUser = e, e1 = "'waitForPendingWrites' promise is rejected due to a user change.", (t1 = n).Ko.forEach((t)=>{
                         t.forEach((t)=>{
-                            t.reject(new j(K.CANCELLED, "'waitForPendingWrites' promise is rejected due to a user change."));
+                            t.reject(new j(K.CANCELLED, e1));
                         });
                     }), t1.Ko.clear(), n.sharedClientState.handleUserChange(e, t2.removedBatchIds, t2.addedBatchIds), await pc(n, t2.Wn);
                 }
@@ -4331,9 +4331,9 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    var s, t1, e, n;
-                    const e1 = Yr(t.databaseInfo.databaseId), n1 = (s = t.databaseInfo, new zr(s));
-                    return t1 = t.credentials, e = n1, n = e1, new no(t1, e, n);
+                    var s, t1;
+                    const e = Yr(t.databaseInfo.databaseId), n = (s = t.databaseInfo, new zr(s));
+                    return t1 = t.credentials, new no(t1, n, e);
                 }
                 createRemoteStore(t) {
                     var e, n, s, i, r;

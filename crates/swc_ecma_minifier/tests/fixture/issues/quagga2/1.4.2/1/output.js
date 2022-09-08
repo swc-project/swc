@@ -6740,12 +6740,12 @@
                     var _config$capacity, canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), results = [], capacity = null !== (_config$capacity = config.capacity) && void 0 !== _config$capacity ? _config$capacity : 20, capture = !0 === config.capture;
                     return {
                         addResult: function(data, imageSize, codeResult) {
-                            var codeResult1, codeResult2, list, codeResult3, filter, result = {};
+                            var codeResult1, codeResult2, list, filter, result = {};
                             codeResult1 = codeResult, capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && list.some(function(item) {
                                 return Object.keys(item).every(function(key) {
                                     return item[key] === codeResult2[key];
                                 });
-                            }))) && (codeResult3 = codeResult1, "function" != typeof (filter = config.filter) || filter(codeResult3)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
+                            }))) && ("function" != typeof (filter = config.filter) || filter(codeResult1)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
                         },
                         getResults: function() {
                             return results;
@@ -6811,7 +6811,7 @@
                 return "undefined" == typeof document ? null : target instanceof HTMLElement && target.nodeName && 1 === target.nodeType ? target : document.querySelector("string" == typeof target ? target : "#interactive.viewport");
             }
             function getCanvasAndContext(selector, className) {
-                var selector1, className1, canvas, canvas1 = (selector1 = selector, className1 = className, (canvas = document.querySelector(selector1)) || ((canvas = document.createElement("canvas")).className = className1), canvas), context = canvas1.getContext("2d");
+                var canvas, canvas1 = ((canvas = document.querySelector(selector)) || ((canvas = document.createElement("canvas")).className = className), canvas), context = canvas1.getContext("2d");
                 return {
                     canvas: canvas1,
                     context: context

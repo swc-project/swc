@@ -356,7 +356,7 @@ TestSnapshot {
             VarUsageInfo {
                 inline_prevented: false,
                 ref_count: 4,
-                cond_init: false,
+                cond_init: true,
                 declared: true,
                 declared_count: 1,
                 declared_as_fn_param: false,

@@ -14,18 +14,18 @@ var ClassA = function ClassA() {
 module.exports = function() {
     var obj, value, ClassB = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
+        var Constructor, staticProps;
         function ClassB() {
             _classCallCheck(this, ClassB);
         }
-        return Constructor = ClassB, protoProps = [
+        return Constructor = ClassB, _defineProperties(Constructor.prototype, [
             {
                 key: "it",
                 value: function() {
                     this.bb = new ClassB.MyA();
                 }
             }, 
-        ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ClassB;
+        ]), staticProps && _defineProperties(Constructor, staticProps), ClassB;
     }();
     return obj = ClassB, value = ClassA, "MyA" in obj ? Object.defineProperty(obj, "MyA", {
         value: value,

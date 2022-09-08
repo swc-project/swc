@@ -1490,8 +1490,7 @@
             ],
             transformRequest: [
                 function(d) {
-                    var obj;
-                    return isObject(d) && (obj = d, "[object File]" !== toString.call(obj)) ? toJson(d) : d;
+                    return isObject(d) && "[object File]" !== toString.call(d) ? toJson(d) : d;
                 }, 
             ],
             headers: {

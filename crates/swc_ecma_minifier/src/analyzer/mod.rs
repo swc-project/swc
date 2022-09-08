@@ -8,7 +8,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty};
+use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -630,12 +630,14 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
-        let ctx = Ctx {
+        n.body.visit_with(&mut *self.with_ctx(Ctx {
             executed_multiple_time: true,
-            in_cond: true,
             ..self.ctx
-        };
-        self.with_ctx(ctx).visit_children_in_cond(n);
+        }));
+        n.test.visit_with(&mut *self.with_ctx(Ctx {
+            executed_multiple_time: true,
+            ..self.ctx
+        }));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
@@ -701,6 +703,19 @@ where
                 let is_assign = self.ctx.in_update_arg || self.ctx.in_assign_lhs;
                 self.with_ctx(ctx).report_usage(i, is_assign);
             }
+        }
+    }
+
+    fn visit_bin_expr(&mut self, e: &BinExpr) {
+        if e.op.may_short_circuit() {
+            e.left.visit_with(self);
+            let ctx = Ctx {
+                in_cond: true,
+                ..self.ctx
+            };
+            self.with_ctx(ctx).visit_in_cond(&e.right);
+        } else {
+            e.visit_children_with(self);
         }
     }
 
@@ -1070,15 +1085,23 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
-    fn visit_switch_case(&mut self, n: &SwitchCase) {
-        n.test.visit_with(self);
+    fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
+        n.discriminant.visit_with(self);
 
-        {
+        let mut fallthrough = false;
+
+        for case in n.cases.iter() {
             let ctx = Ctx {
                 in_cond: true,
                 ..self.ctx
             };
-            self.with_ctx(ctx).visit_in_cond(&n.cons);
+            if fallthrough {
+                self.with_ctx(ctx).visit_in_cond(&case.test);
+                self.with_ctx(ctx).visit_in_cond(&case.cons);
+            } else {
+                self.with_ctx(ctx).visit_in_cond(case);
+            }
+            fallthrough = !case.cons.terminates()
         }
     }
 
@@ -1191,13 +1214,17 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
+        n.test.visit_with(&mut *self.with_ctx(Ctx {
+            executed_multiple_time: true,
+            ..self.ctx
+        }));
         let ctx = Ctx {
             executed_multiple_time: true,
             in_cond: true,
             ..self.ctx
         };
 
-        self.with_ctx(ctx).visit_children_in_cond(n);
+        self.with_ctx(ctx).visit_in_cond(&n.body);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]

@@ -1918,9 +1918,9 @@
                         for(var i = 0; i < tracks.length; i++)tracks[i].removeEventListener("cuechange", updateDisplay);
                     });
                 }, _proto.addTextTrack = function(kind, label, language) {
-                    var self1, kind1, label1, language1, options, tracks, track;
+                    var kind1, label1, language1, options, tracks, track;
                     if (!kind) throw Error("TextTrack kind is required but was not provided");
-                    return self1 = this, kind1 = kind, label1 = label, language1 = language, void 0 === options && (options = {}), tracks = self1.textTracks(), options.kind = kind1, label1 && (options.label = label1), language1 && (options.language = language1), options.tech = self1, track = new ALL.text.TrackClass(options), tracks.addTrack(track), track;
+                    return kind1 = kind, label1 = label, language1 = language, void 0 === options && (options = {}), tracks = this.textTracks(), options.kind = kind1, label1 && (options.label = label1), language1 && (options.language = language1), options.tech = this, track = new ALL.text.TrackClass(options), tracks.addTrack(track), track;
                 }, _proto.createRemoteTextTrack = function(options) {
                     var track = mergeOptions$3(options, {
                         tech: this
@@ -4369,13 +4369,13 @@
                 }, _proto.buildCSSClass = function() {
                     return _ModalDialog.prototype.buildCSSClass.call(this) + " vjs-text-track-settings";
                 }, _proto.getValues = function() {
-                    var object, fn, initial, _this3 = this;
+                    var object, fn, _this3 = this;
                     return object = selectConfigs, fn = function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
-                    }, initial = {}, keys(object).reduce(function(accum, key) {
+                    }, keys(object).reduce(function(accum, key) {
                         return fn(accum, object[key], key);
-                    }, initial);
+                    }, {});
                 }, _proto.setValues = function(values) {
                     var _this4 = this;
                     each(selectConfigs, function(config, key) {
@@ -5570,8 +5570,8 @@
                 }, _proto.techCall_ = function(method, arg) {
                     this.ready(function() {
                         if (method in allowedSetters) {
-                            var middleware, tech, method1, arg1;
-                            return middleware = this.middleware_, tech = this.tech_, method1 = method, arg1 = arg, tech[method1](middleware.reduce(middlewareIterator(method1), arg1));
+                            var middleware, method1;
+                            return middleware = this.middleware_, (0, this.tech_)[method1 = method](middleware.reduce(middlewareIterator(method1), arg));
                         }
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method, arg);
                         try {
@@ -8317,7 +8317,7 @@
                     ]);
                     return box(types.tkhd, result);
                 }, traf = function(track) {
-                    var trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable, dataOffset, upperWordBaseMediaDecodeTime, lowerWordBaseMediaDecodeTime;
+                    var trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable, upperWordBaseMediaDecodeTime, lowerWordBaseMediaDecodeTime;
                     return (trackFragmentHeader = box(types.tfhd, new Uint8Array([
                         0x00,
                         0x00,
@@ -8356,7 +8356,7 @@
                         lowerWordBaseMediaDecodeTime >>> 16 & 0xff,
                         lowerWordBaseMediaDecodeTime >>> 8 & 0xff,
                         0xff & lowerWordBaseMediaDecodeTime, 
-                    ])), dataOffset = 92, "audio" === track.type) ? (trackFragmentRun = trun$1(track, dataOffset), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun)) : (sampleDependencyTable = sdtp(track), trackFragmentRun = trun$1(track, sampleDependencyTable.length + dataOffset), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable));
+                    ])), "audio" === track.type) ? (trackFragmentRun = trun$1(track, 92), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun)) : (sampleDependencyTable = sdtp(track), trackFragmentRun = trun$1(track, sampleDependencyTable.length + 92), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable));
                 }, trak = function(track) {
                     return track.duration = track.duration || 0xffffffff, box(types.trak, tkhd(track), mdia(track));
                 }, trex = function(track) {
@@ -9410,7 +9410,7 @@
                         }
                     };
                 }).prototype = new stream();
-                var metadataStream = _MetadataStream, TimestampRolloverStream = timestampRolloverStream.TimestampRolloverStream;
+                var TimestampRolloverStream = timestampRolloverStream.TimestampRolloverStream;
                 (_TransportPacketStream = function() {
                     var buffer = new Uint8Array(188), bytesInBuffer = 0;
                     _TransportPacketStream.prototype.init.call(this), this.push = function(bytes) {
@@ -9568,7 +9568,7 @@
                     CaptionStream: captionStream.CaptionStream,
                     Cea608Stream: captionStream.Cea608Stream,
                     Cea708Stream: captionStream.Cea708Stream,
-                    MetadataStream: metadataStream
+                    MetadataStream: _MetadataStream
                 };
                 for(var type in streamTypes)streamTypes.hasOwnProperty(type) && (m2ts[type] = streamTypes[type]);
                 var m2ts_1 = m2ts, ONE_SECOND_IN_TS$2 = clock.ONE_SECOND_IN_TS, ADTS_SAMPLING_FREQUENCIES$1 = [
@@ -9893,10 +9893,7 @@
                         };
                     };
                 }).prototype = new stream();
-                var h264 = {
-                    H264Stream: _H264Stream,
-                    NalByteStream: _NalByteStream
-                }, ADTS_SAMPLING_FREQUENCIES = [
+                var ADTS_SAMPLING_FREQUENCIES = [
                     96000,
                     88200,
                     64000,
@@ -10011,7 +10008,7 @@
                     "levelIdc",
                     "profileCompatibility",
                     "sarRatio", 
-                ], H264Stream = h264.H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
+                ], H264Stream = _H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
                     event.stream = key, this.trigger("log", event);
                 }, addPipelineLogRetriggers = function(transmuxer, pipeline) {
                     for(var keys = Object.keys(pipeline), i = 0; i < keys.length; i++){

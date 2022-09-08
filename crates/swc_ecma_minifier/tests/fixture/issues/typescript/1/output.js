@@ -297,7 +297,7 @@ var ts;
             }
         }
         function visitorWorker(node, valueIsDiscarded) {
-            var node1, node2, node3, valueIsDiscarded1, node4, valueIsDiscarded2, node5, valueIsDiscarded3;
+            var node1, node2, node3, node4, node5;
             if (!(71307264 & node.transformFlags)) return node;
             switch(node.kind){
                 case 241:
@@ -305,9 +305,9 @@ var ts;
                 case 237:
                     return node2 = node, factory.updateExpressionStatement(node2, ts.visitNode(node2.expression, discardedValueVisitor, ts.isExpression));
                 case 211:
-                    return node3 = node, valueIsDiscarded1 = valueIsDiscarded, factory.updateParenthesizedExpression(node3, ts.visitNode(node3.expression, valueIsDiscarded1 ? discardedValueVisitor : visitor, ts.isExpression));
+                    return node3 = node, factory.updateParenthesizedExpression(node3, ts.visitNode(node3.expression, valueIsDiscarded ? discardedValueVisitor : visitor, ts.isExpression));
                 case 348:
-                    return node4 = node, valueIsDiscarded2 = valueIsDiscarded, factory.updatePartiallyEmittedExpression(node4, ts.visitNode(node4.expression, valueIsDiscarded2 ? discardedValueVisitor : visitor, ts.isExpression));
+                    return node4 = node, factory.updatePartiallyEmittedExpression(node4, ts.visitNode(node4.expression, valueIsDiscarded ? discardedValueVisitor : visitor, ts.isExpression));
                 case 207:
                     if (ts.isImportCall(node) && void 0 === currentSourceFile.impliedNodeFormat) return function(node) {
                         var externalModuleName = ts.getExternalModuleNameLiteral(factory, node, currentSourceFile, host, resolver, compilerOptions), firstArgument = ts.visitNode(ts.firstOrUndefined(node.arguments), visitor), argument = !externalModuleName || firstArgument && ts.isStringLiteral(firstArgument) && firstArgument.text === externalModuleName.text ? firstArgument : externalModuleName, containsLexicalThis = !!(8192 & node.transformFlags);
@@ -330,7 +330,7 @@ var ts;
                     }(node);
                     break;
                 case 220:
-                    if (ts.isDestructuringAssignment(node)) return node5 = node, valueIsDiscarded3 = valueIsDiscarded, !function destructuringNeedsFlattening(node) {
+                    if (ts.isDestructuringAssignment(node)) return !function destructuringNeedsFlattening(node) {
                         if (ts.isObjectLiteralExpression(node)) for(var _i = 0, _a = node.properties; _i < _a.length; _i++){
                             var elem = _a[_i];
                             switch(elem.kind){
@@ -359,7 +359,7 @@ var ts;
                         }
                         else if (ts.isIdentifier(node)) return ts.length(getExports(node)) > (ts.isExportName(node) ? 1 : 0);
                         return !1;
-                    }(node5.left) ? ts.visitEachChild(node5, visitor, context) : ts.flattenDestructuringAssignment(node5, visitor, context, 0, !valueIsDiscarded3, createAllExportExpressions);
+                    }((node5 = node).left) ? ts.visitEachChild(node5, visitor, context) : ts.flattenDestructuringAssignment(node5, visitor, context, 0, !valueIsDiscarded, createAllExportExpressions);
                     break;
                 case 218:
                 case 219:
@@ -486,8 +486,8 @@ var ts;
             return statements;
         }
         function appendExportStatement(statements, exportName, expression, location, allowComments, liveBinding) {
-            var name, value, location1, allowComments1, liveBinding1, statement;
-            return statements = ts.append(statements, (name = exportName, value = expression, location1 = location, allowComments1 = allowComments, liveBinding1 = liveBinding, statement = ts.setTextRange(factory.createExpressionStatement(createExportExpression(name, value, void 0, liveBinding1)), location1), ts.startOnNewLine(statement), allowComments1 || ts.setEmitFlags(statement, 1536), statement));
+            var statement;
+            return statements = ts.append(statements, (statement = ts.setTextRange(factory.createExpressionStatement(createExportExpression(exportName, expression, void 0, liveBinding)), location), ts.startOnNewLine(statement), allowComments || ts.setEmitFlags(statement, 1536), statement));
         }
         function createUnderscoreUnderscoreESModule() {
             var statement;
