@@ -27,7 +27,7 @@ pub trait Renamer: Send + Sync {
     /// Should reset `n` to 0 for each identifier?
     const RESET_N: bool;
 
-    const PARALLEL: bool;
+    const MANGLE: bool;
 
     fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
         Default::default()
@@ -139,7 +139,7 @@ where
                 .extend(self.preserved.iter().map(|v| v.0.clone()));
         }
 
-        if R::PARALLEL {
+        if R::MANGLE {
             let cost = scope.rename_cost();
             scope.rename_parallel(
                 &self.renamer,

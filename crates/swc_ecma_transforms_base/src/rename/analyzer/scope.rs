@@ -5,8 +5,6 @@ use std::{
     ops::AddAssign,
 };
 
-#[cfg(feature = "concurrent-renamer")]
-use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
@@ -110,18 +108,6 @@ impl Scope {
                 e.cur += count.total;
             }
         });
-    }
-
-    fn drop_id(&mut self, id: &FastId, reduce: bool) {
-        // if let Some(count) = self.data.all.get_mut(id) {
-        //     // dbg!(&*count);
-        //     if reduce || count.total == count.own {
-        //         count.cur -= 1;
-        //         self.children.iter_mut().for_each(|child| {
-        //             // child.drop_id(id, true);
-        //         });
-        //     }
-        // }
     }
 
     pub(crate) fn rename_single_thread<R>(
@@ -299,8 +285,6 @@ impl Scope {
                     let fid = fast_id(id.clone());
                     to.insert(fid.clone(), sym.clone());
                     reverse.entry(sym).or_default().push(fid.clone());
-
-                    self.drop_id(&fid, false);
 
                     break;
                 }

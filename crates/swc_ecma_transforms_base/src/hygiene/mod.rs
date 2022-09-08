@@ -53,7 +53,7 @@ pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
 struct HygieneRenamer;
 
 impl Renamer for HygieneRenamer {
-    const PARALLEL: bool = false;
+    const MANGLE: bool = false;
     const RESET_N: bool = true;
 
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> swc_atoms::JsWord {
