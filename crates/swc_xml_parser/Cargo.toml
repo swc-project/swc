@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license = "Apache-2.0"
 name = "swc_xml_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.5"
+version = "0.2.6"
 
 [lib]
 bench = false
@@ -20,13 +20,13 @@ debug = []
 
 [dependencies]
 swc_atoms   = { version = "0.4.10", path = "../swc_atoms" }
-swc_common  = { version = "0.27.14", path = "../swc_common" }
-swc_xml_ast = { version = "0.2.5", path = "../swc_xml_ast" }
+swc_common  = { version = "0.27.15", path = "../swc_common" }
+swc_xml_ast = { version = "0.2.6", path = "../swc_xml_ast" }
 
 [dev-dependencies]
 criterion     = "0.3"
 serde         = "1.0.127"
 serde_json    = "1.0.66"
 swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
-swc_xml_visit = { version = "0.2.6", path = "../swc_xml_visit" }
-testing       = { version = "0.29.5", path = "../testing" }
+swc_xml_visit = { version = "0.2.7", path = "../swc_xml_visit" }
+testing       = { version = "0.29.6", path = "../testing" }

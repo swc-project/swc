@@ -1,5 +1,5 @@
 
-  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
+  x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/font/input.html:1:1]
  1 | <p><font size=4><font color=red><font color=red><p>X
    : ^^^

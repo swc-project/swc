@@ -261,6 +261,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                     b'<' | b'>' => return self.read_token_lt_gt(),
 
                     b'!' | b'=' => {
+                        let start = self.cur_pos();
+                        let had_line_break_before_last = self.had_line_break_before_last();
+
                         self.input.bump();
 
                         return Ok(Some(if self.input.eat_byte(b'=') {
@@ -270,6 +273,18 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 if c == b'!' {
                                     BinOp(NotEqEq)
                                 } else {
+                                    // =======
+                                    //    ^
+                                    if had_line_break_before_last && self.is_str("====") {
+                                        self.emit_error_span(
+                                            fixed_len_span(start, 7),
+                                            SyntaxError::TS1185,
+                                        );
+                                        self.skip_line_comment(4);
+                                        self.skip_space(true)?;
+                                        return self.read_token();
+                                    }
+
                                     BinOp(EqEqEq)
                                 }
                             } else if c == b'!' {
@@ -454,6 +469,9 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_logical(&mut self, c: u8) -> LexResult<Token> {
+        let had_line_break_before_last = self.had_line_break_before_last();
+        let start = self.cur_pos();
+
         self.input.bump();
         let token = if c == b'&' { BitAnd } else { BitOr };
 
@@ -477,6 +495,16 @@ impl<'a, I: Input> Lexer<'a, I> {
                     BitOr => op!("||="),
                     _ => unreachable!(),
                 }));
+            }
+
+            // |||||||
+            //   ^
+            if had_line_break_before_last && token == BitOr && self.is_str("||||| ") {
+                let span = fixed_len_span(start, 7);
+                self.emit_error_span(span, SyntaxError::TS1185);
+                self.skip_line_comment(5);
+                self.skip_space(true)?;
+                return self.error_span(span, SyntaxError::TS1185);
             }
 
             return Ok(BinOp(match token {
@@ -688,6 +716,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
 
+        let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
         let c = self.cur().unwrap();
         self.bump();
@@ -727,6 +756,25 @@ impl<'a, I: Input> Lexer<'a, I> {
         } else {
             BinOp(op)
         };
+
+        // All conflict markers consist of the same character repeated seven times.
+        // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
+        // <<<<<<<
+        //   ^
+        // >>>>>>>
+        //    ^
+        if had_line_break_before_last
+            && match op {
+                LShift if self.is_str("<<<<< ") => true,
+                ZeroFillRShift if self.is_str(">>>> ") => true,
+                _ => false,
+            }
+        {
+            self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
+            self.skip_line_comment(5);
+            self.skip_space(true)?;
+            return self.read_token();
+        }
 
         Ok(Some(token))
     }
@@ -1243,4 +1291,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 fn pos_span(p: BytePos) -> Span {
     Span::new(p, p, Default::default())
+}
+
+fn fixed_len_span(p: BytePos, len: u32) -> Span {
+    Span::new(p, p + BytePos(len), Default::default())
 }
