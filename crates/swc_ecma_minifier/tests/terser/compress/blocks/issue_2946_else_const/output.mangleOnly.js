@@ -1,15 +1,17 @@
 if (1) {
     const s = 6;
 } else {
-    const s = 12;
+    const e = 12;
 }
 if (2) {
-    let s = 24;
+    let l = 24;
 } else {
-    let s = 48;
+    let c = 48;
 }
 if (3) {
-    class s {}
+    class t {
+    }
 } else {
-    class s {}
+    class f {
+    }
 }
