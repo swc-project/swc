@@ -137,7 +137,6 @@ where
         }
 
         if R::MANGLE {
-            let cost = scope.rename_cost();
             scope.rename_in_mangling_mode(
                 &self.renamer,
                 &mut map,
@@ -145,7 +144,6 @@ where
                 &Default::default(),
                 &self.preserved,
                 &unresolved,
-                cost > 1024,
             );
         } else {
             scope.rename_single_thread(

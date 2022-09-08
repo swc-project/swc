@@ -216,7 +216,6 @@ impl Scope {
         reverse: &ReverseMap,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
-        parallel: bool,
     ) where
         R: Renamer,
     {
@@ -242,7 +241,6 @@ impl Scope {
                 &cloned_reverse,
                 preserved,
                 preserved_symbols,
-                parallel,
             );
         }
     }
@@ -289,11 +287,6 @@ impl Scope {
                 }
             }
         }
-    }
-
-    pub fn rename_cost(&self) -> usize {
-        let children = &self.children;
-        self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
     }
 }
 
