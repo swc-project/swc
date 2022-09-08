@@ -209,6 +209,7 @@ __plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
 ## Plugins
 
+# Internal flags for any transform plugin feature
 __plugin_transform = [
   # Dependent features
   "ecma_visit",
@@ -221,7 +222,7 @@ __plugin_transform = [
   "swc_plugin_macro",
   "swc_plugin",
   "once_cell",
-] # Internal flags for any transform plugin feature
+]
 
 # Internal flags for any transform plugin host feature
 __plugin_transform_host = [
@@ -234,6 +235,18 @@ __plugin_transform_host = [
   "swc_plugin_proxy/plugin-rt",
   "swc/plugin",
 ]
+
+# Internal flags for the transform plugin host, if it needs to enable bytecheck
+__plugin_transform_host_bytecheck = [
+  "__common",
+  "swc_atoms/rkyv-bytecheck-impl",
+
+  # "swc_ecma_ast/rkyv-impl",
+  # "swc_common/plugin-rt",
+  # "swc_plugin_proxy/plugin-rt",
+  # "swc/plugin",
+]
+
 # Internal flags to control plugin environment
 __plugin_transform_env_native = [
   "swc_plugin_runner/filesystem_cache",
