@@ -1,3 +1,3 @@
-export const { keys: keys } = Object;
-export let { L: L, M: M } = Object;
-export var { V: V, W: W } = Object;
+export const { keys  } = Object;
+export let { L , M  } = Object;
+export var { V , W  } = Object;

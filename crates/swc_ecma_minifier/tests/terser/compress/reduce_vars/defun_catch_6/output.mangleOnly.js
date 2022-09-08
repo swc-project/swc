@@ -3,4 +3,4 @@ try {
 } catch (o) {
     console.log(o);
 }
-function o() {}
+function c() {}

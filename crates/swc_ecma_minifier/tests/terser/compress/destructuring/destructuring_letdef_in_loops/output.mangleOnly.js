@@ -1,3 +1,3 @@
-for (let [e, f] in pairs);
-for (let [e] = 0; ; );
-for (let { c: e } of cees);
+for(let [e, f] in pairs);
+for(let [o] = 0;;);
+for (let { c: r  } of cees);

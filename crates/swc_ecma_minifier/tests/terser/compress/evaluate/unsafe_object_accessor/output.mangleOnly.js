@@ -1,1 +1,9 @@
-function t(){var t={get b(){},set b(){}};return{a:t}}
+function n() {
+    var n = {
+        get b () {},
+        set b (<invalid>){}
+    };
+    return {
+        a: n
+    };
+}

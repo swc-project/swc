@@ -1,8 +1,8 @@
-!(function () {
+!(function() {
     try {
         var o = 1;
         throw "";
         var c = 2;
-    } catch (o) {}
+    } catch (r) {}
     console.log(o, c);
 })();

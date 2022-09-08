@@ -5,11 +5,11 @@ class t {
     another = "A";
     get;
     set = "S";
-    #t;
-    #i = "S";
+    #a;
+    #b = "S";
     toString() {
         if ("bar" in this && "foo" in t) {
-            return t.fil + this.another + this.set + this.#i;
+            return t.fil + this.another + this.set + this.#b;
         }
     }
 }

@@ -1,13 +1,17 @@
 function n() {
-    for (const o of n(t)) {
-        console.log(o);
+    for (const n of c(t)){
+        console.log(n);
     }
-    function n(n) {
+    function c(n) {
         return o(n);
     }
 }
 function o(n) {
-    return [n, 2 * n, 3 * n];
+    return [
+        n,
+        2 * n,
+        3 * n
+    ];
 }
 const t = 10;
 n();

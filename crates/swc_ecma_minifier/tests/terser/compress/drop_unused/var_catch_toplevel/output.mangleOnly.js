@@ -1,11 +1,11 @@
 function a() {
-    a--;
+    c--;
     try {
-        a++;
+        c++;
         x();
-    } catch (a) {
+    } catch (c) {
         if (a) var a;
-        var a = 10;
+        var c = 10;
     }
 }
 a();

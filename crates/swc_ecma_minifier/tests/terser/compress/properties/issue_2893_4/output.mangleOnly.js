@@ -1,8 +1,8 @@
 var a = {
-    set a(a) {
-        this.b = a;
+    set a (v){
+        this.b = v;
     },
-    b: "FAIL",
+    b: "FAIL"
 };
 a.a = "PASS";
 console.log(a.b);

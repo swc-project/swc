@@ -1,7 +1,7 @@
 function c() {
     try {
         c();
-    } catch (c) {
+    } catch (a) {
         var t = 10;
     }
 }

@@ -1,6 +1,6 @@
 function n() {
     function n() {
-        n: for (var n in x) break n;
+        L: for(var n in x)break L;
     }
     n();
 }

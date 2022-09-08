@@ -1,11 +1,11 @@
 function foo() {
     var o = 42;
-    with (o) {
+    with (o){
         var foo = "something";
     }
     doSomething(o);
 }
 function bar() {
-    var o = 42;
+    var n = 42;
     return something();
 }
