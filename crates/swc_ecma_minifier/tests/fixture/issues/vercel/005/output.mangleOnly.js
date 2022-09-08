@@ -12,9 +12,9 @@ function a(e, s) {
             return s?.long ? i(e) : u(e);
         }
         throw new Error("Value is not a string or number.");
-    } catch (r) {
-        const n = m(r) ? `${r.message}. value=${JSON.stringify(e)}` : "An unknown error has occured.";
-        throw new Error(n);
+    } catch (n) {
+        const r = m(n) ? `${n.message}. value=${JSON.stringify(e)}` : "An unknown error has occured.";
+        throw new Error(r);
     }
 }
 function o(a) {

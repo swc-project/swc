@@ -13815,10 +13815,10 @@
                 try {
                     arguments.callee;
                     return throwTypeError;
-                } catch (e) {
+                } catch (t) {
                     try {
                         return $gOPD(arguments, "callee").get;
-                    } catch (t) {
+                    } catch (e) {
                         return throwTypeError;
                     }
                 }
@@ -22731,10 +22731,10 @@
                             try {
                                 arguments.callee;
                                 return throwTypeError;
-                            } catch (e) {
+                            } catch (t) {
                                 try {
                                     return c(arguments, "callee").get;
-                                } catch (t) {
+                                } catch (e) {
                                     return throwTypeError;
                                 }
                             }
@@ -23315,10 +23315,10 @@
                             try {
                                 arguments.callee;
                                 return throwTypeError;
-                            } catch (e) {
+                            } catch (t) {
                                 try {
                                     return c(arguments, "callee").get;
-                                } catch (t) {
+                                } catch (e) {
                                     return throwTypeError;
                                 }
                             }
@@ -25077,10 +25077,10 @@
                             try {
                                 arguments.callee;
                                 return throwTypeError;
-                            } catch (e) {
+                            } catch (t) {
                                 try {
                                     return c(arguments, "callee").get;
-                                } catch (t) {
+                                } catch (e) {
                                     return throwTypeError;
                                 }
                             }
@@ -31932,10 +31932,10 @@
                             }
                             try {
                                 return r(e, 0);
-                            } catch (t) {
+                            } catch (n) {
                                 try {
                                     return r.call(null, e, 0);
-                                } catch (n) {
+                                } catch (t) {
                                     return r.call(this, e, 0);
                                 }
                             }
@@ -31950,10 +31950,10 @@
                             }
                             try {
                                 return n(e);
-                            } catch (t) {
+                            } catch (r) {
                                 try {
                                     return n.call(null, e);
-                                } catch (r) {
+                                } catch (t) {
                                     return n.call(this, e);
                                 }
                             }
@@ -34901,10 +34901,10 @@
                             try {
                                 arguments.callee;
                                 return throwTypeError;
-                            } catch (e) {
+                            } catch (t) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (t) {
+                                } catch (e) {
                                     return throwTypeError;
                                 }
                             }
@@ -35393,10 +35393,10 @@
                             try {
                                 arguments.callee;
                                 return throwTypeError;
-                            } catch (e) {
+                            } catch (t) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (t) {
+                                } catch (e) {
                                     return throwTypeError;
                                 }
                             }
@@ -36930,10 +36930,10 @@
                             try {
                                 arguments.callee;
                                 return throwTypeError;
-                            } catch (e) {
+                            } catch (t) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (t) {
+                                } catch (e) {
                                     return throwTypeError;
                                 }
                             }

@@ -22499,10 +22499,10 @@
                 try {
                     arguments.callee;
                     return throwTypeError;
-                } catch (t) {
+                } catch (e) {
                     try {
                         return $gOPD(arguments, 'callee').get;
-                    } catch (e) {
+                    } catch (t) {
                         return throwTypeError;
                     }
                 }
@@ -28446,10 +28446,10 @@
                             }
                             try {
                                 return r(t, 0);
-                            } catch (e) {
+                            } catch (n) {
                                 try {
                                     return r.call(null, t, 0);
-                                } catch (n) {
+                                } catch (e) {
                                     return r.call(this, t, 0);
                                 }
                             }
@@ -28464,10 +28464,10 @@
                             }
                             try {
                                 return n(t);
-                            } catch (e) {
+                            } catch (r) {
                                 try {
                                     return n.call(null, t);
-                                } catch (r) {
+                                } catch (e) {
                                     return n.call(this, t);
                                 }
                             }
@@ -38655,21 +38655,21 @@
                             state: this.doGetCurrentState(),
                             gasUsed: this.swGlobal.gasUsed
                         };
-                    } catch (a) {
-                        const f = {
-                            errorMessage: a.message,
+                    } catch (f) {
+                        const a = {
+                            errorMessage: f.message,
                             state: e.state,
                             result: null
                         };
-                        if (a.message.startsWith('[RE:')) {
-                            this.logger.fatal(a);
+                        if (f.message.startsWith('[RE:')) {
+                            this.logger.fatal(f);
                             return {
-                                ...f,
+                                ...a,
                                 type: 'exception'
                             };
                         } else {
                             return {
-                                ...f,
+                                ...a,
                                 type: 'error'
                             };
                         }

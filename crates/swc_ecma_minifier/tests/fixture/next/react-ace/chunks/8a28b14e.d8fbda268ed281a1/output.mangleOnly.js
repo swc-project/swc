@@ -18104,11 +18104,11 @@ margin: 0 10px;\
                         ], {
                             type: "application/javascript"
                         });
-                    } catch (i) {
-                        var n = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
-                        var s = new n();
-                        s.append(t);
-                        return s.getBlob("application/javascript");
+                    } catch (s) {
+                        var i = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+                        var n = new i();
+                        n.append(t);
+                        return n.getBlob("application/javascript");
                     }
                 }
                 function l(e) {

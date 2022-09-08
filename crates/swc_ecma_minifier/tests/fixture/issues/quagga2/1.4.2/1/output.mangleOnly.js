@@ -10602,17 +10602,17 @@
             function eS() {
                 try {
                     return navigator.mediaDevices.enumerateDevices();
-                } catch (t) {
-                    var e = new eE("enumerateDevices is not defined. ".concat(eM), -1);
-                    return Promise.reject(e);
+                } catch (e) {
+                    var t = new eE("enumerateDevices is not defined. ".concat(eM), -1);
+                    return Promise.reject(t);
                 }
             }
             function eA(t) {
                 try {
                     return navigator.mediaDevices.getUserMedia(t);
-                } catch (e) {
-                    var r = new eE("getUserMedia is not defined. ".concat(eM), -1);
-                    return Promise.reject(r);
+                } catch (r) {
+                    var e = new eE("getUserMedia is not defined. ".concat(eM), -1);
+                    return Promise.reject(e);
                 }
             }
             var ek;
