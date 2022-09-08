@@ -101,14 +101,14 @@ impl Scope {
     /// Copy `children.data.all` to `self.data.all`.
     pub(crate) fn prepare_renaming(&mut self) {
         self.children.iter_mut().for_each(|child| {
-            for (id, count) in self.data.all.iter() {
-                let e = child.data.all.entry(id.clone()).or_default();
+            child.prepare_renaming();
+
+            for (id, count) in child.data.all.iter() {
+                let e = self.data.all.entry(id.clone()).or_default();
 
                 e.total += count.total;
                 e.cur += count.total;
             }
-
-            child.prepare_renaming();
         });
     }
 
