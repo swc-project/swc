@@ -208,7 +208,6 @@ impl Scope {
         true
     }
 
-    #[cfg_attr(not(feature = "concurrent-renamer"), allow(unused))]
     pub(crate) fn rename_parallel<R>(
         &mut self,
         renamer: &R,
