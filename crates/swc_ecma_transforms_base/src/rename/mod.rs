@@ -27,6 +27,7 @@ pub trait Renamer: Send + Sync {
     /// Should reset `n` to 0 for each identifier?
     const RESET_N: bool;
 
+    /// Should be true if the rename expects lots of collisions.
     const MANGLE: bool;
 
     fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
