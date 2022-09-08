@@ -17,6 +17,9 @@
 
 
 
+- **(es/lexer)** Recover from git merge conflict (#5775) ([7deadd8](https://github.com/swc-project/swc/commit/7deadd86679f820c113d92fe8b034086be2736ff))
+
+
 - **(es/minifier)** Align name mangler with terser (#5763) ([60ce462](https://github.com/swc-project/swc/commit/60ce46221529f70ccee98f808f532410724ed66b))
 
 ### Miscellaneous Tasks
