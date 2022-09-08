@@ -113,10 +113,6 @@ impl Scope {
     }
 
     fn drop_id(&mut self, id: &FastId) {
-        if id.0 == js_word!("arguments") {
-            return;
-        }
-
         if let Some(usage) = self.data.all.get_mut(id) {
             usage.cur -= 1;
 
