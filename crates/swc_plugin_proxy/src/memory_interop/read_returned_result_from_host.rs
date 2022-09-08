@@ -3,6 +3,7 @@ use rkyv;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+#[cfg(any(feature = "__plugin_rt", feature = "__plugin_mode"))]
 use swc_common::plugin::serialized::{
     deserialize_from_ptr, deserialize_from_ptr_into_fallible, PluginSerializedBytes,
 };
