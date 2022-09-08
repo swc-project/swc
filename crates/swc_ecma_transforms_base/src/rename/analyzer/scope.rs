@@ -112,15 +112,17 @@ impl Scope {
         });
     }
 
-    fn drop_id(&mut self, id: &FastId) {
-        if let Some(usage) = self.data.all.get_mut(id) {
-            usage.cur -= 1;
-
-            self.children.iter_mut().for_each(|child| {
-                // if let Some(child_usage) = child.data.all.get_mut(id) {}
-
-                child.drop_id(id);
-            });
+    fn drop_id(&mut self, id: &FastId, reduce: bool) {
+        if let Some(count) = self.data.all.get_mut(id) {
+            if reduce {
+                count.cur -= 1;
+            }
+            dbg!(&*count);
+            if reduce || count.cur == count.own {
+                self.children.iter_mut().for_each(|child| {
+                    child.drop_id(id, true);
+                });
+            }
         }
     }
 
@@ -331,7 +333,7 @@ impl Scope {
                     to.insert(fid.clone(), sym.clone());
                     reverse.entry(sym).or_default().push(fid.clone());
 
-                    self.drop_id(&fid);
+                    self.drop_id(&fid, false);
 
                     break;
                 }
