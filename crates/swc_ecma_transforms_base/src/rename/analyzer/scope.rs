@@ -282,7 +282,7 @@ impl Scope {
     }
 
     fn rename_one_scope_parallel<R>(
-        &self,
+        &mut self,
         renamer: &R,
         to: &mut RenameMap,
         previous: &RenameMap,
