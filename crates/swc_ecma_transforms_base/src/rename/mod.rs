@@ -138,7 +138,7 @@ where
 
         if R::MANGLE {
             let cost = scope.rename_cost();
-            scope.rename_parallel(
+            scope.rename_in_mangling_mode(
                 &self.renamer,
                 &mut map,
                 &Default::default(),

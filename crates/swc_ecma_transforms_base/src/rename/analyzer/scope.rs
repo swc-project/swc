@@ -208,7 +208,7 @@ impl Scope {
         true
     }
 
-    pub(crate) fn rename_parallel<R>(
+    pub(crate) fn rename_in_mangling_mode<R>(
         &mut self,
         renamer: &R,
         to: &mut RenameMap,
@@ -224,7 +224,7 @@ impl Scope {
 
         let mut cloned_reverse = reverse.clone();
 
-        self.rename_one_scope_parallel(
+        self.rename_one_scope_in_mangling_mode(
             renamer,
             to,
             previous,
@@ -235,7 +235,7 @@ impl Scope {
         );
 
         for child in &mut self.children {
-            child.rename_parallel(
+            child.rename_in_mangling_mode(
                 renamer,
                 to,
                 &Default::default(),
@@ -247,7 +247,7 @@ impl Scope {
         }
     }
 
-    fn rename_one_scope_parallel<R>(
+    fn rename_one_scope_in_mangling_mode<R>(
         &mut self,
         renamer: &R,
         to: &mut RenameMap,
