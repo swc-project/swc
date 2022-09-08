@@ -22,6 +22,9 @@
 
 - **(es/minifier)** Align name mangler with terser (#5763) ([60ce462](https://github.com/swc-project/swc/commit/60ce46221529f70ccee98f808f532410724ed66b))
 
+
+- **(es/minifier)** Change order of renaming to align with terser (#5780) ([24b60d2](https://github.com/swc-project/swc/commit/24b60d2b64efad49d101fc8a4f23f04050b0ab9a))
+
 ### Miscellaneous Tasks
 
 
