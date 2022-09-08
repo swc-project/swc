@@ -4,7 +4,7 @@
 /// prevent handshake failure.
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(
-    feature = "plugin-base",
+    feature = "__plugin",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct PluginCorePkgDiagnostics {

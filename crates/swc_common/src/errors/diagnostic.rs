@@ -20,7 +20,7 @@ use crate::syntax_pos::{MultiSpan, Span};
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    feature = "plugin-base",
+    feature = "__plugin",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct Diagnostic {
@@ -38,7 +38,7 @@ pub struct Diagnostic {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    feature = "plugin-base",
+    feature = "__plugin",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub enum DiagnosticId {
@@ -53,7 +53,7 @@ pub enum DiagnosticId {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    feature = "plugin-base",
+    feature = "__plugin",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct SubDiagnostic {

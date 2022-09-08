@@ -181,7 +181,7 @@ pub struct StyledString {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    feature = "plugin-base",
+    feature = "__plugin",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub enum Style {

@@ -29,9 +29,9 @@ use crate::syntax_pos::{MultiSpan, Span};
 #[derive(Clone)]
 pub struct DiagnosticBuilder<'a> {
     pub handler: &'a Handler,
-    #[cfg(not(feature = "plugin-mode"))]
+    #[cfg(not(feature = "__plugin_mode"))]
     pub(crate) diagnostic: Box<Diagnostic>,
-    #[cfg(feature = "plugin-mode")]
+    #[cfg(feature = "__plugin_mode")]
     pub diagnostic: Box<Diagnostic>,
     allow_suggestions: bool,
 }
