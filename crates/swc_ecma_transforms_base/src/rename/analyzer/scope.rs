@@ -103,7 +103,12 @@ impl Scope {
         self.children.iter_mut().for_each(|child| {
             child.prepare_renaming();
 
-            self.data.all.extend(child.data.all.iter().cloned());
+            for (id, count) in child.data.all.iter() {
+                let e = self.data.all.entry(id.clone()).or_default();
+
+                e.total += count.total;
+                e.cur += count.total;
+            }
         });
     }
 
@@ -196,7 +201,7 @@ impl Scope {
                     continue;
                 }
 
-                if self.data.all.contains(left) {
+                if self.data.all.get(left).copied().unwrap_or_default().cur > 0 {
                     return false;
                 }
             }
