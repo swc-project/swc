@@ -114,11 +114,9 @@ impl Scope {
 
     fn drop_id(&mut self, id: &FastId, reduce: bool) {
         if let Some(count) = self.data.all.get_mut(id) {
-            if reduce {
-                count.cur -= 1;
-            }
             dbg!(&*count);
-            if reduce || count.cur == count.own {
+            if reduce || count.total == count.own {
+                count.cur -= 1;
                 self.children.iter_mut().for_each(|child| {
                     child.drop_id(id, true);
                 });
