@@ -13,8 +13,7 @@ version = "0.106.7"
 bench = false
 
 [features]
-concurrent = ["concurrent-renamer", "rayon", "swc_ecma_utils/concurrent"]
-concurrent-renamer = ["rayon"]
+concurrent = ["rayon", "swc_ecma_utils/concurrent"]
 
 [dependencies]
 better_scoped_tls = {version = "0.1.0", path = "../better_scoped_tls"}

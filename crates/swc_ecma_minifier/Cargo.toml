@@ -1,17 +1,17 @@
 [package]
-authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
-description   = "EcmaScript code minifier."
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "EcmaScript code minifier."
 documentation = "https://rustdoc.swc.rs/swc_ecma_minifier/"
-edition       = "2021"
-include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
-license       = "Apache-2.0"
-name          = "swc_ecma_minifier"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "0.152.19"
+edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
+license = "Apache-2.0"
+name = "swc_ecma_minifier"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.152.19"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
@@ -20,7 +20,6 @@ bench = false
 # This enables global concurrent mode
 concurrent = [
   "swc_common/concurrent",
-  "swc_ecma_transforms_base/concurrent-renamer",
   "swc_ecma_transforms_optimization/concurrent",
   "rayon",
   "indexmap/rayon",
@@ -29,45 +28,45 @@ debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
 trace-ast = []
 
 [dependencies]
-ahash                            = "0.7.6"
-arrayvec                         = "0.7.2"
-backtrace                        = { version = "0.3.61", optional = true }
-indexmap                         = "1.7.0"
-num-bigint                       = "0.4.3"
-num_cpus                         = "1.13.1"
-once_cell                        = "1.10.0"
-parking_lot                      = "0.12.0"
-pretty_assertions                = { version = "1.1", optional = true }
-rayon                            = { version = "1.5.1", optional = true }
-regex                            = "1.5.3"
-retain_mut                       = "0.1.2"
-rustc-hash                       = "1.1.0"
-serde                            = { version = "1.0.118", features = ["derive"] }
-serde_json                       = "1.0.61"
-swc_atoms                        = { version = "0.4.10", path = "../swc_atoms" }
-swc_cached                       = { version = "0.3.5", path = "../swc_cached" }
-swc_common                       = { version = "0.27.15", path = "../swc_common" }
-swc_config                       = { version = "0.1.0", path = "../swc_config" }
-swc_ecma_ast                     = { version = "0.90.19", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { version = "0.123.4", path = "../swc_ecma_codegen" }
-swc_ecma_parser                  = { version = "0.118.9", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base         = { version = "0.106.7", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.160.12", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils                   = { version = "0.101.5", path = "../swc_ecma_utils" }
-swc_ecma_visit                   = { version = "0.76.9", path = "../swc_ecma_visit" }
-swc_timer                        = { version = "0.15.6", path = "../swc_timer" }
-tracing                          = "0.1.32"
+ahash = "0.7.6"
+arrayvec = "0.7.2"
+backtrace = {version = "0.3.61", optional = true}
+indexmap = "1.7.0"
+num-bigint = "0.4.3"
+num_cpus = "1.13.1"
+once_cell = "1.10.0"
+parking_lot = "0.12.0"
+pretty_assertions = {version = "1.1", optional = true}
+rayon = {version = "1.5.1", optional = true}
+regex = "1.5.3"
+retain_mut = "0.1.2"
+rustc-hash = "1.1.0"
+serde = {version = "1.0.118", features = ["derive"]}
+serde_json = "1.0.61"
+swc_atoms = {version = "0.4.10", path = "../swc_atoms"}
+swc_cached = {version = "0.3.5", path = "../swc_cached"}
+swc_common = {version = "0.27.15", path = "../swc_common"}
+swc_config = {version = "0.1.0", path = "../swc_config"}
+swc_ecma_ast = {version = "0.90.19", path = "../swc_ecma_ast"}
+swc_ecma_codegen = {version = "0.123.4", path = "../swc_ecma_codegen"}
+swc_ecma_parser = {version = "0.118.9", path = "../swc_ecma_parser"}
+swc_ecma_transforms_base = {version = "0.106.7", path = "../swc_ecma_transforms_base"}
+swc_ecma_transforms_optimization = {version = "0.160.12", path = "../swc_ecma_transforms_optimization"}
+swc_ecma_utils = {version = "0.101.5", path = "../swc_ecma_utils"}
+swc_ecma_visit = {version = "0.76.9", path = "../swc_ecma_visit"}
+swc_timer = {version = "0.15.6", path = "../swc_timer"}
+tracing = "0.1.32"
 
 [dev-dependencies]
-ansi_term         = "0.12.1"
-anyhow            = "1"
-criterion         = "0.3.5"
+ansi_term = "0.12.1"
+anyhow = "1"
+criterion = "0.3.5"
 pretty_assertions = "1.1"
-swc_ecma_testing  = { version = "0.16.3", path = "../swc_ecma_testing" }
-swc_node_base     = { version = "0.5.0", path = "../swc_node_base" }
-testing           = { version = "0.29.6", path = "../testing" }
-walkdir           = "2"
+swc_ecma_testing = {version = "0.16.3", path = "../swc_ecma_testing"}
+swc_node_base = {version = "0.5.0", path = "../swc_node_base"}
+testing = {version = "0.29.6", path = "../testing"}
+walkdir = "2"
 
 [[bench]]
 harness = false
-name    = "full"
+name = "full"
