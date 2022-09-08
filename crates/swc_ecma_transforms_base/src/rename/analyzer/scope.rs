@@ -113,15 +113,15 @@ impl Scope {
     }
 
     fn drop_id(&mut self, id: &FastId, reduce: bool) {
-        if let Some(count) = self.data.all.get_mut(id) {
-            dbg!(&*count);
-            if reduce || count.total == count.own {
-                count.cur -= 1;
-                self.children.iter_mut().for_each(|child| {
-                    child.drop_id(id, true);
-                });
-            }
-        }
+        // if let Some(count) = self.data.all.get_mut(id) {
+        //     // dbg!(&*count);
+        //     if reduce || count.total == count.own {
+        //         count.cur -= 1;
+        //         self.children.iter_mut().for_each(|child| {
+        //             // child.drop_id(id, true);
+        //         });
+        //     }
+        // }
     }
 
     pub(crate) fn rename_single_thread<R>(
@@ -250,7 +250,7 @@ impl Scope {
         );
 
         #[cfg(feature = "concurrent-renamer")]
-        if parallel {
+        if parallel && false {
             #[cfg(not(target_arch = "wasm32"))]
             let iter = self.children.par_iter_mut();
             #[cfg(target_arch = "wasm32")]
