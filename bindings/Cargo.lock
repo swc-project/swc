@@ -185,7 +185,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.248"
+version = "1.2.249"
 dependencies = [
  "swc_core",
  "wasm-bindgen",
@@ -2378,7 +2378,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.4"
+version = "0.91.5"
 dependencies = [
  "anyhow",
  "atty",
