@@ -227,10 +227,11 @@ __plugin_transform = [
 # Internal flags for any transform plugin host feature
 __plugin_transform_host = [
   # Dependent features
-  "__common",               # Enable optional packages
+  "__common",                    # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
   "swc_atoms/rkyv-impl",
   "swc_common/plugin-rt",
+  "swc_plugin_runner/rkyv-impl",
   # TODO: we may simply flag around downlevel plugin feature
   "swc_plugin_proxy/plugin-rt",
   "swc/plugin",

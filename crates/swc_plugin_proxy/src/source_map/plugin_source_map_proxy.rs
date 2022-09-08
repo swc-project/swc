@@ -3,7 +3,8 @@
 #[cfg(feature = "__plugin_mode")]
 use swc_common::{
     source_map::{
-        DistinctSources, FileLinesResult, MalformedSourceMapPositions, Pos, SpanSnippetError,
+        DistinctSources, FileLinesResult, MalformedSourceMapPositions, PartialFileLinesResult,
+        PartialLoc, Pos, SpanSnippetError,
     },
     BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };
