@@ -156,7 +156,7 @@ impl Error {
                 format!("\"{}\" element between \"head\" and \"body\"", tag_name).into()
             }
             ErrorKind::StartTagWithoutDoctype => {
-                "Start tag seen without seeing a doctype firs, expected \"<!DOCTYPE html>\"".into()
+                "Start tag seen without seeing a doctype first, expected \"<!DOCTYPE html>\"".into()
             }
             ErrorKind::StartSelectWhereEndSelectExpected => {
                 "\"select\" start tag where end tag expected".into()
