@@ -113,11 +113,11 @@ impl Scope {
     }
 
     fn drop_id(&mut self, id: &FastId) {
-        if let Some(usage) = self.data.all.get(id) {
+        if let Some(usage) = self.data.all.get_mut(id) {
+            usage.cur -= 1;
+
             self.children.iter_mut().for_each(|child| {
-                if let Some(child_usage) = child.data.all.get_mut(id) {
-                    child_usage.cur -= usage.own;
-                }
+                // if let Some(child_usage) = child.data.all.get_mut(id) {}
 
                 child.drop_id(id);
             });
