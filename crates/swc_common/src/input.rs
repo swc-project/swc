@@ -68,6 +68,20 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
+    fn is_str(&self, s: &str) -> bool {
+        let mut s_iter = s.as_bytes().iter();
+        let mut p_iter = self.iter.clone().map(|i| i.1);
+
+        while let (Some(expected), Some(actual)) = (s_iter.next(), p_iter.next()) {
+            if *expected as char != actual {
+                return false;
+            }
+        }
+
+        s_iter.next().is_none()
+    }
+
+    #[inline]
     fn bump(&mut self) {
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.cur_pos + BytePos((i + c.len_utf8()) as u32);
@@ -248,6 +262,11 @@ pub trait Input: Clone {
             _ => false,
         }
     }
+
+    /// Implementors can override the method to make it faster.
+    ///
+    /// `s` must be ASCII only.
+    fn is_str(&self, s: &str) -> bool;
 
     /// Implementors can override the method to make it faster.
     ///
