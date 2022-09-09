@@ -1,7 +1,7 @@
 pub mod diagnostics;
 pub mod metadata;
-#[cfg(feature = "plugin-base")]
-#[cfg_attr(docsrs, doc(cfg(feature = "plugin-base")))]
+#[cfg(feature = "__plugin")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__plugin")))]
 pub mod serialized;
 
 /**

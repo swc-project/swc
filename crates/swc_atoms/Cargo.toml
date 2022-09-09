@@ -15,17 +15,17 @@ bench = false
 [features]
 __rkyv = []
 # Enably rkyv serialization with stable version of rkyv.
-rkyv-impl = ["__rkyv", "rkyv-stable"]
+rkyv-impl = ["__rkyv", "rkyv"]
 # Enable rkyv serialization with updated version of rkyv, along with bytecheck.
 rkyv-bytecheck-impl = ["__rkyv", "rkyv-latest"]
 
 [dependencies]
-bytecheck   = { version = "0.6.9", optional = true }
-once_cell   = "1"
-rkyv-stable = { package = "rkyv", version = "=0.7.37", optional = true }
+bytecheck = { version = "0.6.9", optional = true }
+once_cell = "1"
+rkyv      = { package = "rkyv", version = "=0.7.37", optional = true }
 # This is to avoid cargo version selection conflict between rkyv=0.7.37 and other versions, as it is strictly pinned
 # cannot be merged.
-rkyv-latest  = { package = "rkyv-test", version = "=0.7.38-test.1", optional = true }
+rkyv-latest  = { package = "rkyv-test", version = "=0.7.38-test.2", optional = true }
 rustc-hash   = "1.1.0"
 serde        = "1"
 string_cache = "0.8.4"

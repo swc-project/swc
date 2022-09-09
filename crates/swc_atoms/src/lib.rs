@@ -25,8 +25,6 @@ use std::{
 
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
-#[cfg(feature = "rkyv-impl")]
-use rkyv_stable as rkyv;
 use rustc_hash::FxHashSet;
 use serde::Serializer;
 

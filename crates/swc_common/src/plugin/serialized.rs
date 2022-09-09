@@ -1,12 +1,15 @@
 use std::any::type_name;
 
 use anyhow::Error;
+#[cfg(feature = "__rkyv")]
 use rkyv::Deserialize;
+#[cfg(feature = "rkyv-bytecheck-impl")]
+use rkyv_latest as rkyv;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
 #[cfg_attr(
-    feature = "plugin-base",
+    feature = "__plugin",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 /// Enum for possible errors while running transform via plugin.
@@ -36,7 +39,7 @@ pub struct PluginSerializedBytes {
     pub(crate) field: rkyv::AlignedVec,
 }
 
-#[cfg(feature = "plugin-base")]
+#[cfg(feature = "__plugin")]
 impl PluginSerializedBytes {
     /**
      * Constructs an instance from already serialized byte

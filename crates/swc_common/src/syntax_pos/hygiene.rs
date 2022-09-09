@@ -21,6 +21,8 @@ use std::{
     fmt,
 };
 
+#[cfg(feature = "rkyv-bytecheck-impl")]
+use rkyv_latest as rkyv;
 use serde::{Deserialize, Serialize};
 
 use super::GLOBALS;
@@ -31,10 +33,10 @@ use crate::collections::AHashMap;
 #[derive(Clone, Copy, PartialEq, Eq, Default, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
 #[cfg_attr(
-    feature = "rkyv",
+    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-pub struct SyntaxContext(#[cfg_attr(feature = "rkyv", omit_bounds)] u32);
+pub struct SyntaxContext(#[cfg_attr(feature = "__rkyv", omit_bounds)] u32);
 
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
@@ -67,7 +69,7 @@ struct MarkData {
 }
 
 #[cfg_attr(
-    feature = "rkyv",
+    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct MutableMarkContext(pub u32, pub u32, pub u32);
@@ -103,13 +105,13 @@ impl Mark {
     pub fn fresh(parent: Mark) -> Self {
         // Note: msvc tries to link against proxied fn for normal build,
         // have to limit build target to wasm only to avoid it.
-        #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
         return Mark(unsafe { __mark_fresh_proxy(parent.as_u32()) });
 
         // https://github.com/swc-project/swc/pull/3492#discussion_r802224857
         // We loosen conditions here for the cases like running plugin's test without
         // targeting wasm32-*.
-        #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         return HygieneData::with(|data| {
             data.marks.push(MarkData {
                 parent,
@@ -138,19 +140,19 @@ impl Mark {
 
     #[inline]
     pub fn parent(self) -> Mark {
-        #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
         return Mark(unsafe { __mark_parent_proxy(self.0) });
 
-        #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         return HygieneData::with(|data| data.marks[self.0 as usize].parent);
     }
 
     #[inline]
     pub fn is_builtin(self) -> bool {
-        #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
         return unsafe { __mark_is_builtin_proxy(self.0) != 0 };
 
-        #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         {
             assert_ne!(self, Mark::root());
 
@@ -160,11 +162,11 @@ impl Mark {
 
     #[inline]
     pub fn set_is_builtin(self, is_builtin: bool) {
-        #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
         unsafe {
             __mark_set_builtin_proxy(self.0, is_builtin as u32)
         }
-        #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         {
             assert_ne!(self, Mark::root());
 
@@ -173,7 +175,7 @@ impl Mark {
     }
 
     #[allow(unused_assignments)]
-    #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+    #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
     pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
         // This code path executed inside of the guest memory context.
         // In here, preallocate memory for the context.
@@ -202,7 +204,7 @@ impl Mark {
         return context.2 != 0;
     }
 
-    #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+    #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
     pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
         HygieneData::with(|data| {
             while self != ancestor {
@@ -216,7 +218,7 @@ impl Mark {
     }
 
     #[allow(unused_mut, unused_assignments)]
-    #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+    #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
         let serialized = crate::plugin::serialized::PluginSerializedBytes::try_serialize(
             &MutableMarkContext(0, 0, 0),
@@ -250,7 +252,7 @@ impl Mark {
     /// assert!(b.is_descendant_of(la))
     /// ```
     #[allow(unused_mut)]
-    #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+    #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
         HygieneData::with(|data| {
             // Compute the path from a to the root
@@ -336,10 +338,10 @@ impl SyntaxContext {
     /// Extend a syntax context with a given mark and default transparency for
     /// that mark.
     pub fn apply_mark(self, mark: Mark) -> SyntaxContext {
-        #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
         return unsafe { SyntaxContext(__syntax_context_apply_mark_proxy(self.0, mark.0)) };
 
-        #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         {
             assert_ne!(mark, Mark::root());
             self.apply_mark_internal(mark)
@@ -381,7 +383,7 @@ impl SyntaxContext {
         })
     }
 
-    #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+    #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
     pub fn remove_mark(&mut self) -> Mark {
         let context = MutableMarkContext(0, 0, 0);
         let serialized = crate::plugin::serialized::PluginSerializedBytes::try_serialize(&context)
@@ -421,7 +423,7 @@ impl SyntaxContext {
     /// an invocation of g (call it g1), calling remove_mark will result in
     /// the SyntaxContext for the invocation of f that created g1.
     /// Returns the mark that was removed.
-    #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+    #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
     pub fn remove_mark(&mut self) -> Mark {
         HygieneData::with(|data| {
             let outer_mark = data.syntax_contexts[self.0 as usize].outer_mark;
@@ -540,10 +542,10 @@ impl SyntaxContext {
 
     #[inline]
     pub fn outer(self) -> Mark {
-        #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
         return unsafe { Mark(__syntax_context_outer_proxy(self.0)) };
 
-        #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         HygieneData::with(|data| data.syntax_contexts[self.0 as usize].outer_mark)
     }
 }

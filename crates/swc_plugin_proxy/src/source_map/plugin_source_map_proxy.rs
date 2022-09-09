@@ -1,22 +1,19 @@
 #![allow(unused_imports)]
 #![allow(unused_variables)]
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 use swc_common::{
     source_map::{
-        DistinctSources, FileLinesResult, MalformedSourceMapPositions, Pos, SpanSnippetError,
+        DistinctSources, FileLinesResult, MalformedSourceMapPositions, PartialFileLinesResult,
+        PartialLoc, Pos, SpanSnippetError,
     },
     BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };
-use swc_common::{
-    source_map::{PartialFileLinesResult, PartialLoc},
-    sync::OnceCell,
-    CharPos, FileLines, SourceFile,
-};
-#[cfg(feature = "plugin-mode")]
+use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
+#[cfg(feature = "__plugin_mode")]
 use swc_ecma_ast::SourceMapperExt;
 use swc_trace_macro::swc_trace;
 
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 use crate::memory_interop::read_returned_result_from_host_fallible;
 
@@ -59,7 +56,7 @@ extern "C" {
     fn __lookup_byte_offset_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
 }
 
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 #[derive(Debug, Clone)]
 pub struct PluginSourceMapProxy {
     // Sharable instance to `SourceFile` per plugin transform.
@@ -68,7 +65,7 @@ pub struct PluginSourceMapProxy {
     pub source_file: OnceCell<swc_common::sync::Lrc<SourceFile>>,
 }
 
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 #[swc_trace]
 impl PluginSourceMapProxy {
     /*
@@ -175,7 +172,7 @@ impl PluginSourceMapProxy {
 
 /// Subset of SourceMap interface supported in plugin.
 /// Unlike `Comments`, this does not fully implement `SourceMap`.
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 impl SourceMapper for PluginSourceMapProxy {
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
     fn lookup_char_pos(&self, pos: BytePos) -> Loc {
@@ -345,7 +342,7 @@ impl SourceMapper for PluginSourceMapProxy {
     }
 }
 
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 impl SourceMapperExt for PluginSourceMapProxy {
     fn get_code_map(&self) -> &dyn SourceMapper {
         self

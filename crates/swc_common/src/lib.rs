@@ -81,3 +81,19 @@ pub mod util;
 
 #[cfg(all(not(debug_assertions), feature = "plugin-rt", feature = "plugin-mode"))]
 compile_error!("You can't enable `plugin-rt` and `plugin-mode` at the same time");
+
+#[cfg(all(
+    not(debug_assertions),
+    feature = "plugin-bytecheck-rt",
+    feature = "plugin-bytecheck-mode"
+))]
+compile_error!(
+    "You can't enable `plugin-bytecheck-rt` and `plugin-bytecheck-mode` at the same time"
+);
+
+#[cfg(all(
+    not(debug_assertions),
+    feature = "plugin-base",
+    feature = "plugin-bytecheck-base"
+))]
+compile_error!("Bytecheck, non-bytecheck serialization cannot be enabled same time");
