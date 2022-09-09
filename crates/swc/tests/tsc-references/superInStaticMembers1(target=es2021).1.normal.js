@@ -139,16 +139,16 @@ var __9 = {
     writable: true,
     value: (()=>{
         (class Reflect {
-        }) // no collision
-        ;
+        } // no collision
+        );
         super.w();
     })()
 };
 var __10 = {
     writable: true,
     value: (()=>{
-        (function Reflect() {}) // no collision
-        ;
+        (function Reflect() {} // no collision
+        );
         super.w();
     })()
 };

@@ -281,9 +281,9 @@ var DerivedWithParenthesis = /*#__PURE__*/ function(Base) {
     function DerivedWithParenthesis() {
         _class_call_check(this, DerivedWithParenthesis);
         var _this;
-        var _temp;
-        _temp = _this = _super.call(this), _this.prop = true, _temp;
-        return _possible_constructor_return(_this);
+        _this = _super.call(this);
+        _this.prop = true;
+        return _this;
     }
     return DerivedWithParenthesis;
 }(Base);
@@ -295,9 +295,9 @@ var DerivedWithParenthesisAfterStatement = /*#__PURE__*/ function(Base) {
         _class_call_check(this, DerivedWithParenthesisAfterStatement);
         var _this;
         _this.prop;
-        var _temp;
-        _temp = _this = _super.call(this), _this.prop = true, _temp;
-        return _possible_constructor_return(_this);
+        _this = _super.call(this);
+        _this.prop = true;
+        return _this;
     }
     return DerivedWithParenthesisAfterStatement;
 }(Base);
@@ -308,10 +308,10 @@ var DerivedWithParenthesisBeforeStatement = /*#__PURE__*/ function(Base) {
     function DerivedWithParenthesisBeforeStatement() {
         _class_call_check(this, DerivedWithParenthesisBeforeStatement);
         var _this;
-        var _temp;
-        _temp = _this = _super.call(this), _this.prop = true, _temp;
+        _this = _super.call(this);
+        _this.prop = true;
         _this.prop;
-        return _possible_constructor_return(_this);
+        return _this;
     }
     return DerivedWithParenthesisBeforeStatement;
 }(Base);

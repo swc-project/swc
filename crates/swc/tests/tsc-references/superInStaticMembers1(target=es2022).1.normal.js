@@ -107,13 +107,13 @@ class C extends B {
     }
     static{
         (class Reflect {
-        }) // no collision
-        ;
+        } // no collision
+        );
         super.w();
     }
     static{
-        (function Reflect() {}) // no collision
-        ;
+        (function Reflect() {} // no collision
+        );
         super.w();
     }
 }

@@ -96,13 +96,13 @@ var B = /*#__PURE__*/ function(A) {
                 // element access (assign)
                 _superprop_set("x", f);
                 // destructuring assign with property access
-                (ref = {
+                ref = {
                     f: f
-                }, _superprop_update_x._ = ref.f, ref);
+                }, _superprop_update_x._ = ref.f, ref;
                 // destructuring assign with element access
-                (ref1 = {
+                ref1 = {
                     f: f
-                }, _superprop_update("x")._ = ref1.f, ref1);
+                }, _superprop_update("x")._ = ref1.f, ref1;
                 return [
                     2
                 ];

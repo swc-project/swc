@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es)** Use `paren_remover` pass (#5753) ([9c998d4](https://github.com/swc-project/swc/commit/9c998d4406fe641198092074d3ee3a859fc7b97e))
+
 ### Features
 
 
@@ -12,6 +18,9 @@
 
 
 - **(es)** Enable tests for fixed issues (#5784) ([f11461d](https://github.com/swc-project/swc/commit/f11461d3f546799113cc7bda4ac52c10e62bbaa0))
+
+
+- **(es)** Add more execution tests (#5788) ([097245a](https://github.com/swc-project/swc/commit/097245a1960ee94585aaf8f10ce39947642da03c))
 
 ## [1.2.249] - 2022-09-08
 

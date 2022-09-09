@@ -22,7 +22,7 @@ use swc_cached::regex::CachedRegex;
 use swc_common::{
     chain,
     collections::{AHashMap, AHashSet},
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::Handler,
     plugin::metadata::TransformPluginMetadataContext,
     FileName, Mark, SourceMap, SyntaxContext,

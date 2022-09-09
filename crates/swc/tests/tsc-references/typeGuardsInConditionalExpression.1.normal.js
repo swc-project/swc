@@ -50,21 +50,21 @@ function foo10(x) {
     // Mixing typeguards
     var b;
     return typeof x === "string" ? x // string
-     : (b = x) // x is number | boolean
-     && typeof x === "number" && x.toString(); // x is number
+     : (b = x // x is number | boolean
+    ) && typeof x === "number" && x.toString(); // x is number
 }
 function foo11(x) {
     // Mixing typeguards
     var b;
     return typeof x === "string" ? x // string
-     : (b = x) // x is number | boolean
-     && typeof x === "number" && (x = 10) // assignment to x
-     && x; // x is number
+     : (b = x // x is number | boolean
+    ) && typeof x === "number" && (x = 10 // assignment to x
+    ) && x; // x is number
 }
 function foo12(x) {
     // Mixing typeguards
     var b;
     return typeof x === "string" ? (x = 10) && x.toString().length // number
-     : (b = x) // x is number | boolean
-     && typeof x === "number" && x; // x is number
+     : (b = x // x is number | boolean
+    ) && typeof x === "number" && x; // x is number
 }

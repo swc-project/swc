@@ -11,7 +11,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
-    this.a = /** @type {Foo} */ (null);
+    this.a = /** @type {Foo} */ null;
 };
 export { Foo as default };
 export var X = Foo;
@@ -29,7 +29,7 @@ var Bar = /*#__PURE__*/ function(Fab) {
         _class_call_check(this, Bar);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.x = /** @type {Bar} */ (null);
+        _this.x = /** @type {Bar} */ null;
         return _this;
     }
     return Bar;

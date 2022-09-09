@@ -13,7 +13,7 @@ module.exports.c.Cls = function _class() {
  * @param {number} b
  * @return {string} 
  */ module.exports.d = function d(a, b) {
-    return /** @type {*} */ (null);
+    return /** @type {*} */ null;
 };
 /**
  * @template T,U
@@ -21,7 +21,7 @@ module.exports.c.Cls = function _class() {
  * @param {U} b
  * @return {T & U} 
  */ module.exports.e = function e(a, b) {
-    return /** @type {*} */ (null);
+    return /** @type {*} */ null;
 };
 /**
  * @template T

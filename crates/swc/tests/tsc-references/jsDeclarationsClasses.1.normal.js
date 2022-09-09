@@ -39,7 +39,7 @@ export var D = function D(a, b) {
             get: /**
      * @return {U}
      */ function get() {
-                return /** @type {*} */ (null);
+                return /** @type {*} */ null;
             },
             set: /**
      * @param {U} _p
@@ -50,7 +50,7 @@ export var D = function D(a, b) {
             get: /**
      * @return {U}
      */ function get() {
-                return /** @type {*} */ (null);
+                return /** @type {*} */ null;
             }
         },
         {
@@ -191,7 +191,7 @@ export var M = /*#__PURE__*/ function(_superClass) {
     }
     return O;
 }(N);
-var x = /** @type {*} */ (null);
+var x = /** @type {*} */ null;
 export var VariableBase = /*#__PURE__*/ function(x) {
     "use strict";
     _inherits(VariableBase, x);
