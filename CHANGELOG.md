@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es)** Use `paren_remover` pass (#5753) ([9c998d4](https://github.com/swc-project/swc/commit/9c998d4406fe641198092074d3ee3a859fc7b97e))
+
 ### Features
 
 
