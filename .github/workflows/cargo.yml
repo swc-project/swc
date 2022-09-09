@@ -481,15 +481,8 @@ jobs:
         shell: bash
         run: |
           yarn
-          # I don't want to think deeply about this
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || true
+          alias jest="$(yarn bin jest)"
+          alias mocha="$(yarn bin mocha)"
 
       - name: Configure path (windows)
         shell: bash
