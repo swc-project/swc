@@ -165,16 +165,16 @@ var __9 = {
         (function Reflect() {
             "use strict";
             _class_call_check(this, Reflect);
-        }) // no collision
-        ;
+        } // no collision
+        );
         _superprop_get_w().call(_this);
     }()
 };
 var __10 = {
     writable: true,
     value: function() {
-        (function Reflect() {}) // no collision
-        ;
+        (function Reflect() {} // no collision
+        );
         _superprop_get_w().call(_this);
     }()
 };

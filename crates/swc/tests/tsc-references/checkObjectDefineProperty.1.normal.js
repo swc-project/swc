@@ -46,7 +46,7 @@ var needsExemplar = function() {
     var _ = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : x;
     return void 0;
 };
-var expected = /** @type {{name: string, readonly middleInit: string, readonly lastName: string, zip: number, readonly houseNumber: number, zipStr: string}} */ (/** @type {*} */ (null));
+var expected = /** @type {{name: string, readonly middleInit: string, readonly lastName: string, zip: number, readonly houseNumber: number, zipStr: string}} */ /** @type {*} */ null;
 /**
  * 
  * @param {typeof returnExemplar} a 

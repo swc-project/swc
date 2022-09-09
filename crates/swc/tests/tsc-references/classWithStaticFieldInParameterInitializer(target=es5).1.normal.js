@@ -1,7 +1,7 @@
 //// [classWithStaticFieldInParameterInitializer.ts]
-// https://github.com/microsoft/TypeScript/issues/36295
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var _class;
+// https://github.com/microsoft/TypeScript/issues/36295
 (function() {
     var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : (_class = function _class() {
         "use strict";

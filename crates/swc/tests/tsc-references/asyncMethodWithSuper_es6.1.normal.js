@@ -62,15 +62,15 @@ class B extends A {
                 f
             });
             // property access in arrow
-            (()=>_superprop_get_x().call(_this));
+            ()=>_superprop_get_x().call(_this);
             // element access in arrow
-            (()=>_superprop_get("x").call(_this));
-            /*#__PURE__*/ // property access in async arrow
-            _async_to_generator(function*() {
+            ()=>_superprop_get("x").call(_this);
+            // property access in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_get_x().call(_this);
             });
-            /*#__PURE__*/ // element access in async arrow
-            _async_to_generator(function*() {
+            // element access in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_get("x").call(_this);
             });
         })();
@@ -83,9 +83,9 @@ class B extends A {
             // property access (read)
             const a = _superprop_get_x();
             // property access in arrow
-            (()=>_superprop_get_x().call(_this));
-            /*#__PURE__*/ // property access in async arrow
-            _async_to_generator(function*() {
+            ()=>_superprop_get_x().call(_this);
+            // property access in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_get_x().call(_this);
             });
         })();
@@ -108,9 +108,9 @@ class B extends A {
                 f
             });
             // property access (assign) in arrow
-            (()=>_superprop_set_x(f));
-            /*#__PURE__*/ // property access (assign) in async arrow
-            _async_to_generator(function*() {
+            ()=>_superprop_set_x(f);
+            // property access (assign) in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_set_x(f);
             });
         })();
@@ -123,9 +123,9 @@ class B extends A {
             // element access (read)
             const a = _superprop_get("x");
             // element access in arrow
-            (()=>_superprop_get("x").call(_this));
-            /*#__PURE__*/ // element access in async arrow
-            _async_to_generator(function*() {
+            ()=>_superprop_get("x").call(_this);
+            // element access in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_get("x").call(_this);
             });
         })();
@@ -148,9 +148,9 @@ class B extends A {
                 f
             });
             // element access (assign) in arrow
-            (()=>_superprop_set("x", f));
-            /*#__PURE__*/ // element access (assign) in async arrow
-            _async_to_generator(function*() {
+            ()=>_superprop_set("x", f);
+            // element access (assign) in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_set("x", f);
             });
         })();
@@ -163,9 +163,9 @@ class B extends A {
             // property access (read)
             const a = _superprop_get_x();
             // property access in arrow
-            (()=>_superprop_get_x().call(_this));
-            /*#__PURE__*/ // property access in async arrow
-            _async_to_generator(function*() {
+            ()=>_superprop_get_x().call(_this);
+            // property access in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_get_x().call(_this);
             });
         })();
@@ -188,9 +188,9 @@ class B extends A {
                 f
             });
             // property access (assign) in arrow
-            (()=>_superprop_set_x(f));
-            /*#__PURE__*/ // property access (assign) in async arrow
-            _async_to_generator(function*() {
+            ()=>_superprop_set_x(f);
+            // property access (assign) in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_set_x(f);
             });
         })();
@@ -203,9 +203,9 @@ class B extends A {
             // element access (read)
             const a = _superprop_get("x");
             // element access in arrow
-            (()=>_superprop_get("x").call(_this));
-            /*#__PURE__*/ // element access in async arrow
-            _async_to_generator(function*() {
+            ()=>_superprop_get("x").call(_this);
+            // element access in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_get("x").call(_this);
             });
         })();
@@ -228,9 +228,9 @@ class B extends A {
                 f
             });
             // element access (assign) in arrow
-            (()=>_superprop_set("x", f));
-            /*#__PURE__*/ // element access (assign) in async arrow
-            _async_to_generator(function*() {
+            ()=>_superprop_set("x", f);
+            // element access (assign) in async arrow
+            /*#__PURE__*/ _async_to_generator(function*() {
                 return _superprop_set("x", f);
             });
         })();

@@ -18,9 +18,9 @@ var validCommentedPlainSingle = "nope";
 var invalidPlain = "nope";
 var validPlain = "nope";
 // @ts-expect-error
-(({
+({
     a: true
-}).a === false); // <-- compiles (as expected via comment)
+}).a === false; // <-- compiles (as expected via comment)
 ({
     a: true
 }).a === false; // Should error

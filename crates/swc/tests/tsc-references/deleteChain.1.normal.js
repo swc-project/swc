@@ -3,7 +3,7 @@ var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref
 o1 === null || o1 === void 0 ? void 0 : delete o1.b;
 delete (o1 === null || o1 === void 0 ? void 0 : o1.b);
 o2 === null || o2 === void 0 ? void 0 : delete o2.b.c;
-delete (o2 === null || o2 === void 0 ? void 0 : o2.b.c);
+o2 === null || o2 === void 0 ? void 0 : delete o2.b.c;
 (ref = o3.b) === null || ref === void 0 ? void 0 : delete ref.c;
 delete ((ref1 = o3.b) === null || ref1 === void 0 ? void 0 : ref1.c);
 (ref3 = (ref2 = o4.b) === null || ref2 === void 0 ? void 0 : ref2.c.d) === null || ref3 === void 0 ? void 0 : delete ref3.e;

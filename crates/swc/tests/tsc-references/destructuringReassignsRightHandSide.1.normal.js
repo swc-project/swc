@@ -6,6 +6,6 @@ var foo = {
 var bar;
 var ref;
 // reassignment in destructuring pattern
-(ref = foo, foo = ref.foo, bar = ref.bar, ref);
+ref = foo, foo = ref.foo, bar = ref.bar, ref;
 // reassignment in subsequent var
 var foo = foo.foo, baz = foo.baz;

@@ -19,7 +19,8 @@ use swc_ecma_transforms::{
     compat,
     compat::es2022::private_in_object,
     feature::{enable_available_feature_from_es_version, FeatureFlag},
-    fixer, helpers, hygiene,
+    fixer::{fixer, paren_remover},
+    helpers, hygiene,
     hygiene::hygiene_with_config,
     modules,
     optimization::const_modules,
@@ -324,6 +325,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
         chain!(
             self.pass,
+            Optional::new(
+                paren_remover(comments.map(|v| v as &dyn Comments)),
+                self.fixer
+            ),
             Optional::new(private_in_object(), syntax.private_in_object()),
             compat_pass,
             // module / helper

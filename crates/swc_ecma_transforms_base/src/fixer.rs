@@ -1,5 +1,6 @@
+use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, comments::Comments, util::take::Take, Span, Spanned};
+use swc_common::{comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -36,7 +37,7 @@ struct Fixer<'a> {
     ///
     /// Key is span of inner expression, and value is span of the paren
     /// expression.
-    span_map: AHashMap<Span, Span>,
+    span_map: FxHashMap<Span, Span>,
 
     in_for_stmt_head: bool,
 
@@ -929,20 +930,6 @@ impl Fixer<'_> {
 
     /// Removes paren
     fn unwrap_expr(&mut self, e: &mut Expr) {
-        if let Expr::Paren(paren) = &*e {
-            match &*paren.expr {
-                Expr::Call(..) | Expr::Fn(..) => {}
-                _ => {
-                    let inner_span = paren.span;
-                    if let Some(comments) = self.comments {
-                        if comments.has_leading(inner_span.lo) {
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-
         match e {
             Expr::Seq(SeqExpr { exprs, .. }) if exprs.len() == 1 => {
                 self.unwrap_expr(exprs.last_mut().unwrap());

@@ -391,12 +391,12 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             }
         } else {
             // By default, we never revalidate.
-            (data).revalidate = false;
+            data.revalidate = false;
         }
         props.pageProps = Object.assign({}, props.pageProps, "props" in data ? data.props : undefined);
         // pass up revalidate and props for export
         // TODO: change this to a different passing mechanism
-        (renderOpts).revalidate = "revalidate" in data ? data.revalidate : undefined;
+        renderOpts.revalidate = "revalidate" in data ? data.revalidate : undefined;
         renderOpts.pageData = props;
         // this must come after revalidate is added to renderOpts
         if (renderOpts.isNotFound) {
