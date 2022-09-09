@@ -481,14 +481,9 @@ jobs:
         shell: bash
         run: |
           yarn
-          alias jest="$(yarn bin jest)"
-          alias mocha="$(yarn bin mocha)"
-
-      - name: Configure path (windows)
-        shell: bash
-        if: runner.os == 'Windows'
-        run: |
-          echo $(yarn global bin) >> $GITHUB_PATH
+          ln -s $(yarn bin jest) ./scripts/jest
+          ln -s $(yarn bin mocha) ./scripts/mocha
+          echo "$PWD/scripts" >> $GITHUB_PATH
 
       - name: Verify dependencies
         shell: bash
