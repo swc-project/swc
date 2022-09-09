@@ -2314,7 +2314,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core@^1.2.220, @swc/core@workspace:.":
+"@swc/core@workspace:.":
   version: 0.0.0-use.local
   resolution: "@swc/core@workspace:."
   dependencies:
@@ -2328,7 +2328,6 @@ __metadata:
     "@babel/preset-typescript": ^7.13.0
     "@babel/types": ^7.14.0
     "@napi-rs/cli": ^2.10.0
-    "@swc/core": ^1.2.220
     "@swc/core-android-arm-eabi": 1.2.146
     "@swc/core-android-arm64": 1.2.146
     "@swc/core-darwin-arm64": 1.2.146
@@ -7295,11 +7294,11 @@ __metadata:
 
 "typescript@patch:typescript@^4.5.2#~builtin<compat/typescript>":
   version: 4.8.2
-  resolution: "typescript@patch:typescript@npm%3A4.8.2#~builtin<compat/typescript>::version=4.8.2&hash=f456af"
+  resolution: "typescript@patch:typescript@npm%3A4.8.2#~builtin<compat/typescript>::version=4.8.2&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 6f49363af8af2fe480da1d5fa68712644438785208b06690a3cbe5e7365fd652c3a0f1e587bc8684d78fb69de3dde4de185c0bad7bb4f3664ddfc813ce8caad6
+  checksum: 5cb0f02f414f5405f4b0e7ee1fd7fa9177b6a8783c9017b6cad85f56ce4c4f93e0e6f2ce37e863cb597d44227cd009474c9fbd85bf7a50004e5557426cb58079
   languageName: node
   linkType: hard
 
