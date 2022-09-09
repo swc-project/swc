@@ -4,6 +4,8 @@ use std::{
     sync::Arc,
 };
 
+#[cfg(feature = "rkyv-bytecheck-impl")]
+use rkyv_latest as rkyv;
 use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom};
 
@@ -543,7 +545,7 @@ impl SingleThreadedComments {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(
-    feature = "__rkyv",
+    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct Comment {
@@ -561,7 +563,7 @@ impl Spanned for Comment {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[cfg_attr(
-    feature = "__rkyv",
+    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub enum CommentKind {

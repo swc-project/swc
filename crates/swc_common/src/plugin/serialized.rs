@@ -1,7 +1,10 @@
 use std::any::type_name;
 
 use anyhow::Error;
+#[cfg(feature = "__rkyv")]
 use rkyv::Deserialize;
+#[cfg(feature = "rkyv-bytecheck-impl")]
+use rkyv_latest as rkyv;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]

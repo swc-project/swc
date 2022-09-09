@@ -19,7 +19,6 @@ use swc_ecma_parser::parse_file_as_program;
 
 static SOURCE: &str = include_str!("./assets/input.js");
 
-#[cfg(feature = "__rkyv")]
 fn plugin_group(c: &mut Criterion) {
     let plugin_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
         .join("..")
@@ -43,8 +42,8 @@ fn plugin_group(c: &mut Criterion) {
     c.bench_function("es/plugin/invoke/1", |b| bench_transform(b, &plugin_dir));
 }
 
-#[cfg(feature = "__rkyv")]
 fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
+    #[cfg(feature = "__rkyv")]
     b.iter(|| {
         let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
@@ -90,7 +89,5 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
     })
 }
 
-#[cfg(feature = "__rkyv")]
 criterion_group!(benches, plugin_group);
-#[cfg(feature = "__rkyv")]
 criterion_main!(benches);

@@ -21,6 +21,8 @@ use std::{
     fmt,
 };
 
+#[cfg(feature = "rkyv-bytecheck-impl")]
+use rkyv_latest as rkyv;
 use serde::{Deserialize, Serialize};
 
 use super::GLOBALS;
@@ -31,7 +33,7 @@ use crate::collections::AHashMap;
 #[derive(Clone, Copy, PartialEq, Eq, Default, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
 #[cfg_attr(
-    feature = "__rkyv",
+    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct SyntaxContext(#[cfg_attr(feature = "__rkyv", omit_bounds)] u32);
@@ -67,7 +69,7 @@ struct MarkData {
 }
 
 #[cfg_attr(
-    feature = "__rkyv",
+    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct MutableMarkContext(pub u32, pub u32, pub u32);
