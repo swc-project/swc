@@ -9,7 +9,7 @@ function n(n) {
         return 3;
     }
     t.inject = [];
-    r = function() {
+    r = function () {
         return 4;
     };
     return n() + t() + r();

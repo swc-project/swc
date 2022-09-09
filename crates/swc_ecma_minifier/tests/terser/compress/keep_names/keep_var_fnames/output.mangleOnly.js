@@ -1,4 +1,4 @@
-const o = function() {
+const o = function () {
     return "barfoo";
 };
-const n = ()=>"foobar";
+const n = () => "foobar";

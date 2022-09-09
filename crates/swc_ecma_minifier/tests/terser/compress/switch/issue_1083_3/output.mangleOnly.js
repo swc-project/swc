@@ -1,5 +1,5 @@
 function e(e, t) {
-    switch(true){
+    switch (true) {
         case t:
             console.log("maybe");
             break;

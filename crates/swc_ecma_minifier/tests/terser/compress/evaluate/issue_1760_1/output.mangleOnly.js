@@ -1,7 +1,7 @@
-!(function(o) {
+!(function (o) {
     try {
         throw 0;
-    } catch (t) {
+    } catch (c) {
         o = +"foo";
     }
     console.log(o);

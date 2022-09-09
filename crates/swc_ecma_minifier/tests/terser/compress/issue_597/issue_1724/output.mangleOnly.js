@@ -1,3 +1,3 @@
-var $ = 0;
-++$ % Infinity | Infinity ? $++ : 0;
-console.log($);
+var n = 0;
+++n % Infinity | Infinity ? n++ : 0;
+console.log(n);

@@ -3,24 +3,24 @@ export const obj = {
         if (!this[0]) {
             return;
         }
-        var t, e, o = {
+        var t, e, r = {
             top: 0,
             left: 0
-        }, s = this[0];
-        if (jQuery.css(s, "position") === "fixed") {
-            e = s.getBoundingClientRect();
+        }, o = this[0];
+        if (jQuery.css(o, "position") === "fixed") {
+            e = o.getBoundingClientRect();
         } else {
             t = this.offsetParent();
             e = this.offset();
             if (!jQuery.nodeName(t[0], "html")) {
-                o = t.offset();
+                r = t.offset();
             }
-            o.top += jQuery.css(t[0], "borderTopWidth", true);
-            o.left += jQuery.css(t[0], "borderLeftWidth", true);
+            r.top += jQuery.css(t[0], "borderTopWidth", true);
+            r.left += jQuery.css(t[0], "borderLeftWidth", true);
         }
         return {
-            top: e.top - o.top - jQuery.css(s, "marginTop", true),
-            left: e.left - o.left - jQuery.css(s, "marginLeft", true)
+            top: e.top - r.top - jQuery.css(o, "marginTop", true),
+            left: e.left - r.left - jQuery.css(o, "marginLeft", true)
         };
     }
 };

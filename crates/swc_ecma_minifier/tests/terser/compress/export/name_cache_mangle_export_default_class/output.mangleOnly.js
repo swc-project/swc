@@ -1,10 +1,7 @@
-export default class s {
-};
-export class bar {
-}
+export default class s {}
+export class bar {}
 class a {
     meth() {}
 }
-class l {
-}
+class l {}
 console.log(s, bar, a, l, l);

@@ -2,12 +2,12 @@ function r() {
     try {
         var r = 1;
         return r;
-    } catch (t) {
-        var n = 2;
-        return n;
+    } catch (n) {
+        var t = 2;
+        return t;
     } finally{
-        var a = 3;
-        return a;
+        var u = 3;
+        return u;
     }
 }
 function t() {

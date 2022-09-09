@@ -1,7 +1,9 @@
 var n, r;
-console.log((function(t) {
-    return function() {
-        if (n) return b;
-        if (r) return d;
-    };
-})(1)());
+console.log(
+    (function (o) {
+        return function () {
+            if (n) return b;
+            if (r) return d;
+        };
+    })(1)()
+);

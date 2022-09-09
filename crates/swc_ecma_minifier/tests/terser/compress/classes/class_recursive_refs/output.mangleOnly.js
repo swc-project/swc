@@ -6,7 +6,7 @@ class s {
     }
 }
 class c {
-    constructor(){
+    constructor() {
         c();
     }
 }

@@ -1,4 +1,4 @@
-var r = function() {
+var r = function () {
     return x();
 };
-for(;;)r();
+for (;;) r();

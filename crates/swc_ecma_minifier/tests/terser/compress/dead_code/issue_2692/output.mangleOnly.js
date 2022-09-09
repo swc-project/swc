@@ -1,6 +1,6 @@
 function n(n) {
-    return (n = t);
-    function t() {
+    return (n = o);
+    function o() {
         return n;
     }
 }

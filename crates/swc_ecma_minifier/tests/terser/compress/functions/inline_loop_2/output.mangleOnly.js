@@ -1,4 +1,4 @@
-for(;;)n();
+for (;;) n();
 function n() {
     return x();
 }

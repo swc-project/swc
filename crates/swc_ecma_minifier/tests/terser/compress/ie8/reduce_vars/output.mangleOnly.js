@@ -1,9 +1,9 @@
-function c() {
-    var c;
+function t() {
+    var t;
     try {
         x();
-    } catch (t) {
+    } catch (a) {
         y();
     }
-    alert(c);
+    alert(t);
 }

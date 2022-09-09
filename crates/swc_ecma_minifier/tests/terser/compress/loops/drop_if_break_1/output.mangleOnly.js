@@ -1,1 +1,1 @@
-for(;;)if (foo()) break;
+for (;;) if (foo()) break;

@@ -1,18 +1,18 @@
-_.max = function(u, a, e) {
-    if (!a && _.isArray(u) && u[0] === +u[0] && u.length < 65535) {
-        return Math.max.apply(Math, u);
+_.max = function(t, n, a) {
+    if (!n && _.isArray(t) && t[0] === +t[0] && t.length < 65535) {
+        return Math.max.apply(Math, t);
     }
-    if (!a && _.isEmpty(u)) return -Infinity;
-    var r = {
+    if (!n && _.isEmpty(t)) return -Infinity;
+    var i = {
         computed: -Infinity,
         value: -Infinity
     };
-    each(u, function(u, t, n) {
-        var l = a ? a.call(e, u, t, n) : u;
-        l > r.computed && (r = {
-            value: u,
-            computed: l
+    each(t, function(t, e, u) {
+        var r = n ? n.call(a, t, e, u) : t;
+        r > i.computed && (i = {
+            value: t,
+            computed: r
         });
     });
-    return r.value;
+    return i.value;
 };

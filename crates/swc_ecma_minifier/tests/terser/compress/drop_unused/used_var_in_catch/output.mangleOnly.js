@@ -1,8 +1,8 @@
 function r() {
     try {
         r();
-    } catch (t) {
-        var c = 10;
+    } catch (c) {
+        var t = 10;
     }
-    return c;
+    return t;
 }

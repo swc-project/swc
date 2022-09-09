@@ -1,7 +1,7 @@
-var a = "PASS", r;
+var o = "PASS", a;
 try {
-    r = c.p = 0;
-    a = "FAIL";
-    r();
-} catch (t) {}
-console.log(a);
+    a = c.p = 0;
+    o = "FAIL";
+    a();
+} catch (l) {}
+console.log(o);

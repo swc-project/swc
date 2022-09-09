@@ -1,14 +1,14 @@
-let t = ()=>0;
-let e = ()=>{
+let t = () => 0;
+let e = () => {
     "use strict";
 };
-let s = ()=>{
+let s = () => {
     "use strict";
-    let t = ()=>{
+    let t = () => {
         "use strict";
     };
 };
-(()=>{
+(() => {
     "use strict";
     return undefined;
 })();

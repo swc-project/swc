@@ -1,7 +1,5 @@
 //// [jsxJsxsCjsTransformChildren.tsx]
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  2 | const a = <div>text</div>;
-//!    :                     ^^^^^^
-//!    `----
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+});

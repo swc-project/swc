@@ -1,9 +1,7 @@
-var a = {
-    a: [
-        a
-    ],
-    f: function(a) {
-        console.log(a);
-    }
+var o = {
+    a: [o],
+    f: function (o) {
+        console.log(o);
+    },
 };
-a.f(a.a);
+o.f(o.a);

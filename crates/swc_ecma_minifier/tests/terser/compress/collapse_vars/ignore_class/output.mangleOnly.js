@@ -1,13 +1,13 @@
-global.leak = (s)=>class e {
+global.leak = (e) =>
+    class l {
         get pass() {
-            return s;
+            return e;
         }
     };
 global.module = {};
-(function() {
-    const s = leak("PASS");
-    class e extends s {
-    }
-    module.exports = e;
+(function () {
+    const e = leak("PASS");
+    class l extends e {}
+    module.exports = l;
 })();
 console.log(new module.exports().pass);

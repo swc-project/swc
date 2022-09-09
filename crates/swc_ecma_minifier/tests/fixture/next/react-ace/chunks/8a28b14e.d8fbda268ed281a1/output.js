@@ -4,7 +4,7 @@
     ],
     {
         3239: function(module, __unused_webpack_exports, __webpack_require__) {
-            var global, define, _require, require, normalizeModule, lookup, ns, root;
+            var global, define, _require, require, normalizeModule, lookup, root;
             module = __webpack_require__.nmd(module), (global = function() {
                 return this;
             }()) || "undefined" == typeof window || (global = window), (define = function(module, deps, payload) {
@@ -56,7 +56,7 @@
                     module = define.modules[moduleName] = exports || module;
                 }
                 return module;
-            }, ns = "ace", root = global, ns && (global[ns] || (global[ns] = {}), root = global[ns]), root.define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require.original = root.require, root.require = require, root.require.packaged = !0), ace.define("ace/lib/fixoldbrowsers", [
+            }, root = global, global.ace || (global.ace = {}), (root = global.ace).define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require.original = root.require, root.require = require, root.require.packaged = !0), ace.define("ace/lib/fixoldbrowsers", [
                 "require",
                 "exports",
                 "module"
@@ -11793,7 +11793,7 @@ margin: 0 10px;\
                     }, this.selectMore = function(dir, skip, stopAtFirst) {
                         var session = this.session, range = session.multiSelect.toOrientedRange();
                         if (!range.isEmpty() || ((range = session.getWordRange(range.start.row, range.start.column)).cursor = -1 == dir ? range.start : range.end, this.multiSelect.addRange(range), !stopAtFirst)) {
-                            var session1, needle, dir1, needle1 = session.getTextRange(range), newRange = (session1 = session, needle = needle1, dir1 = dir, search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir1, search.find(session1));
+                            var needle, dir1, newRange = (needle = session.getTextRange(range), dir1 = dir, search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir1, search.find(session));
                             newRange && (newRange.cursor = -1 == dir ? newRange.start : newRange.end, this.session.unfold(newRange), this.multiSelect.addRange(newRange), this.renderer.scrollCursorIntoView(null, 0.5)), skip && this.multiSelect.substractPoint(range.cursor);
                         }
                     }, this.alignCursors = function() {

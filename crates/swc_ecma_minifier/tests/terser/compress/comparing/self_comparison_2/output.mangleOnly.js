@@ -1,3 +1,3 @@
-function n() {}
-var o = {};
-console.log(n != n, o === o);
+function o() {}
+var n = {};
+console.log(o != o, n === n);

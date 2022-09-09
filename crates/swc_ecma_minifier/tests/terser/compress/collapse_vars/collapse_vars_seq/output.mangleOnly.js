@@ -1,6 +1,10 @@
-var r = function(r, n) {
-    var a, o, t = r + n, u = t * t, v = u - t;
-    (a = v), (o = 7);
-    return a + o;
+var n = function (n, o) {
+    var r,
+        a,
+        c = n + o,
+        e = c * c,
+        l = e - c;
+    (r = l), (a = 7);
+    return r + a;
 };
-console.log(r(1, 2));
+console.log(n(1, 2));

@@ -150,7 +150,6 @@ impl VisitMut for Remapper {
 
 pub(crate) struct MultiReplacer<'a> {
     vars: &'a mut FxHashMap<Id, Box<Expr>>,
-    changed: bool,
     clone: bool,
     mode: MultiReplacerMode,
     worked: &'a mut bool,
@@ -174,7 +173,6 @@ impl<'a> MultiReplacer<'a> {
     ) -> Self {
         MultiReplacer {
             vars,
-            changed: false,
             clone,
             mode,
             worked,
@@ -182,11 +180,13 @@ impl<'a> MultiReplacer<'a> {
     }
 
     fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
-        let e = if self.clone {
+        let mut e = if self.clone {
             self.vars.get(i).cloned()?
         } else {
             self.vars.remove(i)?
         };
+
+        e.visit_mut_children_with(self);
 
         match &*e {
             Expr::Ident(Ident {
@@ -213,7 +213,6 @@ impl VisitMut for MultiReplacer<'_> {
                     if let Some(new) = self.var(&i.to_id()) {
                         debug!("multi-replacer: Replaced `{}`", i);
                         *self.worked = true;
-                        self.changed = true;
 
                         **e = *new;
                     }
@@ -237,7 +236,6 @@ impl VisitMut for MultiReplacer<'_> {
                 if let Some(new) = self.var(&i.to_id()) {
                     debug!("multi-replacer: Replaced `{}`", i);
                     *self.worked = true;
-                    self.changed = true;
 
                     *e = *new;
                 }
@@ -246,21 +244,15 @@ impl VisitMut for MultiReplacer<'_> {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        loop {
-            self.changed = false;
-            if self.vars.is_empty() {
-                break;
-            }
-            items.visit_mut_children_with(self);
+        if self.vars.is_empty() {
+            return;
+        }
+        items.visit_mut_children_with(self);
 
-            if !self.changed {
-                #[cfg(feature = "debug")]
-                {
-                    let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
-                    debug!("Dropping {:?}", keys);
-                }
-                break;
-            }
+        #[cfg(feature = "debug")]
+        if !self.vars.is_empty() {
+            let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
+            debug!("Dropping {:?}", keys);
         }
     }
 
@@ -272,7 +264,6 @@ impl VisitMut for MultiReplacer<'_> {
                 if let Some(value) = self.var(&i.to_id()) {
                     debug!("multi-replacer: Replaced `{}` as shorthand", i);
                     *self.worked = true;
-                    self.changed = true;
 
                     *p = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident::new(

@@ -4,10 +4,10 @@ function a() {
     a.map(n);
     function m() {}
     a.map(m);
-    var p = ()=>{};
+    var p = () => {};
     a.map(p);
     a.map(p);
-    var c = function() {};
+    var c = function () {};
     a.map(c);
     a.map(c);
 }

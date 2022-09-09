@@ -1,7 +1,7 @@
-var t = {
-    u: function() {
+var n = {
+    u: function () {
         return this === this;
     },
-    p: 1
+    p: 1,
 };
-console.log(t.p, t.p, t.u);
+console.log(n.p, n.p, n.u);

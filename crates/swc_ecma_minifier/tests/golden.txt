@@ -110,6 +110,7 @@ collapse_vars/anonymous_function/input.js
 collapse_vars/assignment/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
+collapse_vars/cascade_call/input.js
 collapse_vars/cascade_if_1/input.js
 collapse_vars/cascade_if_2/input.js
 collapse_vars/cascade_return/input.js
@@ -317,6 +318,8 @@ defaults/defaults_true/input.js
 defaults/defaults_true_conditionals_false/input.js
 defaults/defaults_true_evaluate_false/input.js
 defaults/defaults_undefined/input.js
+destructuring/anon_func_with_destructuring_args/input.js
+destructuring/arrow_func_with_destructuring_args/input.js
 destructuring/destructure_empty_array_1/input.js
 destructuring/destructure_empty_array_2/input.js
 destructuring/destructure_empty_array_3/input.js
@@ -355,6 +358,8 @@ destructuring/issue_t111_2b/input.js
 destructuring/issue_t111_2c/input.js
 destructuring/issue_t111_3/input.js
 destructuring/issue_t111_4/input.js
+destructuring/mangle_destructuring_decl/input.js
+destructuring/mangle_destructuring_decl_array/input.js
 destructuring/nested_destructuring_objects/input.js
 destructuring/object_destructuring_may_need_parentheses/input.js
 destructuring/reduce_vars/input.js
@@ -386,6 +391,7 @@ drop_unused/const_assign/input.js
 drop_unused/defun_lambda_same_name/input.js
 drop_unused/double_assign_3/input.js
 drop_unused/drop_assign/input.js
+drop_unused/drop_fargs/input.js
 drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
 drop_unused/drop_value/input.js
@@ -432,6 +438,8 @@ drop_unused/unused_class_which_might_throw_3/input.js
 drop_unused/unused_class_which_might_throw_4/input.js
 drop_unused/unused_class_with_static_props_side_effects/input.js
 drop_unused/unused_class_with_static_props_side_effects_2/input.js
+drop_unused/unused_funarg_1/input.js
+drop_unused/unused_funarg_2/input.js
 drop_unused/unused_keep_harmony_destructuring/input.js
 drop_unused/unused_keep_setter_arg/input.js
 drop_unused/unused_nested_function/input.js
@@ -625,6 +633,7 @@ harmony/issue_1613/input.js
 harmony/issue_1753/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
+harmony/issue_2349/input.js
 harmony/issue_2676/input.js
 harmony/issue_2762/input.js
 harmony/issue_2794_4/input.js
@@ -637,6 +646,8 @@ harmony/issue_t80/input.js
 harmony/new_target/input.js
 harmony/number_literals/input.js
 harmony/object_literal_method_using_arguments/input.js
+harmony/object_rest_spread/input.js
+harmony/object_spread_unsafe/input.js
 harmony/regression_cannot_destructure/input.js
 harmony/regression_for_of_const/input.js
 harmony/shorthand_keywords/input.js
@@ -651,6 +662,7 @@ hoist_props/direct_access_3/input.js
 hoist_props/does_not_hoist_objects_with_computed_props/input.js
 hoist_props/hoist_function_with_call/input.js
 hoist_props/issue_2377_1/input.js
+hoist_props/issue_2377_2/input.js
 hoist_props/issue_2377_3/input.js
 hoist_props/issue_2462/input.js
 hoist_props/issue_2473_1/input.js
@@ -712,6 +724,7 @@ if_return/issue_1317/input.js
 if_return/issue_1317_strict/input.js
 if_return/issue_1437/input.js
 if_return/issue_1437_conditionals/input.js
+inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
 inline/dont_inline_funcs_into_default_param/input.js
 inline/dont_inline_funcs_into_default_param_2/input.js
 inline/inline_annotation_2/input.js
@@ -789,6 +802,7 @@ issue_1704/mangle_catch_var_ie8/input.js
 issue_1704/mangle_catch_var_ie8_toplevel/input.js
 issue_1704/mangle_catch_var_toplevel/input.js
 issue_1733/function_catch_catch_ie8/input.js
+issue_1733/function_iife_catch/input.js
 issue_1750/case_2/input.js
 issue_1787/unary_prefix/input.js
 issue_1833/iife_for/input.js
@@ -874,6 +888,7 @@ issue_640/negate_iife_5_off/input.js
 issue_751/negate_booleans_2/input.js
 issue_782/dont_remove_this_binding_sequence/input.js
 issue_782/remove_redundant_sequence_items/input.js
+issue_892/dont_mangle_arguments/input.js
 issue_926/template_strings/input.js
 issue_973/this_binding_collapse_vars/input.js
 issue_973/this_binding_conditionals/input.js
@@ -1066,6 +1081,7 @@ pure_funcs/issue_2705_1/input.js
 pure_funcs/issue_2705_6/input.js
 pure_funcs/issue_3065_1/input.js
 pure_funcs/issue_3065_2/input.js
+pure_funcs/issue_3065_2b/input.js
 pure_funcs/issue_3065_3/input.js
 pure_funcs/issue_3065_4/input.js
 pure_funcs/side_effects/input.js
@@ -1272,6 +1288,7 @@ reduce_vars/unsafe_evaluate_object_1/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js
+reduce_vars/var_assign_1/input.js
 reduce_vars/var_assign_3/input.js
 reduce_vars/var_assign_4/input.js
 reduce_vars/var_assign_5/input.js
@@ -1284,6 +1301,7 @@ regexp/regexp_simple/input.js
 regexp/regexp_slashes/input.js
 rename/function_catch_catch/input.js
 rename/function_catch_catch_ie8/input.js
+rename/function_iife_catch/input.js
 rename/issue_2120_1/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch/input.js
@@ -1298,6 +1316,7 @@ rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_redef_2_ie8_toplevel/input.js
 rename/mangle_catch_redef_2_toplevel/input.js
 rename/mangle_catch_toplevel/input.js
+rename/mangle_catch_var/input.js
 rename/mangle_catch_var_ie8/input.js
 rename/mangle_catch_var_ie8_toplevel/input.js
 rename/mangle_catch_var_toplevel/input.js

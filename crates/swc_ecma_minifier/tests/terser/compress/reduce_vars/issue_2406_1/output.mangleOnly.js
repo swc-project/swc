@@ -1,16 +1,16 @@
 const n = {
-    fn: function() {
+    fn: function () {
         return this;
-    }
+    },
 };
 let t = {
-    fn: function() {
+    fn: function () {
         return this;
-    }
+    },
 };
 var f = {
-    fn: function() {
+    fn: function () {
         return this;
-    }
+    },
 };
 console.log(n.fn(), t.fn(), f.fn());

@@ -1,11 +1,11 @@
 var n = "FAIL";
-(function() {
+(function () {
     function o(o) {
-        function f(n) {
+        function c(n) {
             n && n();
         }
-        f();
-        (function() {
+        c();
+        (function () {
             o && (n = "PASS");
         })();
     }

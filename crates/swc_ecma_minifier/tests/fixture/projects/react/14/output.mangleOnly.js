@@ -1,29 +1,29 @@
 function e(e) {
-    function t(e, t, s, o, n) {
+    function t(e, t, r, n, o) {
         {
-            var a = Function.call.bind(Object.prototype.hasOwnProperty);
-            for(var r in e){
-                if (a(e, r)) {
+            var s = Function.call.bind(Object.prototype.hasOwnProperty);
+            for(var a in e){
+                if (s(e, a)) {
                     var p = void 0;
                     try {
-                        if (typeof e[r] !== "function") {
-                            var i = Error((o || "React class") + ": " + s + " type `" + r + "` is invalid; " + "it must be a function, usually from the `prop-types` package, but received `" + typeof e[r] + "`." + "This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
+                        if (typeof e[a] !== "function") {
+                            var i = Error((n || "React class") + ": " + r + " type `" + a + "` is invalid; " + "it must be a function, usually from the `prop-types` package, but received `" + typeof e[a] + "`." + "This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
                             i.name = "Invariant Violation";
                             throw i;
                         }
-                        p = e[r](t, r, o, s, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
-                    } catch (f) {
-                        p = f;
+                        p = e[a](t, a, n, r, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
+                    } catch (l) {
+                        p = l;
                     }
                     if (p && !(p instanceof Error)) {
-                        setCurrentlyValidatingElement(n);
-                        error("%s: type specification of %s" + " `%s` is invalid; the type checker " + "function must return `null` or an `Error` but returned a %s. " + "You may have forgotten to pass an argument to the type checker " + "creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and " + "shape all require an argument).", o || "React class", s, r, typeof p);
+                        setCurrentlyValidatingElement(o);
+                        error("%s: type specification of %s" + " `%s` is invalid; the type checker " + "function must return `null` or an `Error` but returned a %s. " + "You may have forgotten to pass an argument to the type checker " + "creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and " + "shape all require an argument).", n || "React class", r, a, typeof p);
                         setCurrentlyValidatingElement(null);
                     }
                     if (p instanceof Error && !(p.message in loggedTypeFailures)) {
                         loggedTypeFailures[p.message] = true;
-                        setCurrentlyValidatingElement(n);
-                        error("Failed %s type: %s", s, p.message);
+                        setCurrentlyValidatingElement(o);
+                        error("Failed %s type: %s", r, p.message);
                         setCurrentlyValidatingElement(null);
                     }
                 }
@@ -31,27 +31,27 @@ function e(e) {
         }
     }
     {
-        var s = e.type;
-        if (s === null || s === undefined || typeof s === "string") {
+        var r = e.type;
+        if (r === null || r === undefined || typeof r === "string") {
             return;
         }
-        var o;
-        if (typeof s === "function") {
-            o = s.propTypes;
-        } else if (typeof s === "object" && (s.$$typeof === REACT_FORWARD_REF_TYPE || s.$$typeof === REACT_MEMO_TYPE)) {
-            o = s.propTypes;
+        var n;
+        if (typeof r === "function") {
+            n = r.propTypes;
+        } else if (typeof r === "object" && (r.$$typeof === REACT_FORWARD_REF_TYPE || r.$$typeof === REACT_MEMO_TYPE)) {
+            n = r.propTypes;
         } else {
             return;
         }
-        if (o) {
-            var n = getComponentName(s);
-            t(o, e.props, "prop", n, e);
-        } else if (s.PropTypes !== undefined && !propTypesMisspellWarningShown) {
+        if (n) {
+            var o = getComponentName(r);
+            t(n, e.props, "prop", o, e);
+        } else if (r.PropTypes !== undefined && !propTypesMisspellWarningShown) {
             propTypesMisspellWarningShown = true;
-            var a = getComponentName(s);
-            error("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", a || "Unknown");
+            var s = getComponentName(r);
+            error("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", s || "Unknown");
         }
-        if (typeof s.getDefaultProps === "function" && !s.getDefaultProps.isReactClassApproved) {
+        if (typeof r.getDefaultProps === "function" && !r.getDefaultProps.isReactClassApproved) {
             error("getDefaultProps is only used on classic React.createClass " + "definitions. Use a static property named `defaultProps` instead.");
         }
     }

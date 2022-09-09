@@ -1,58 +1,13 @@
-var $ = [];
-console.log([
-    10,
-    20
-][0]);
-console.log([
-    10,
-    20
-][1]);
-console.log([
-    10,
-    20
-][2]);
-console.log([
-    ...$,
-    10,
-    20
-][0]);
-console.log([
-    ...$,
-    10,
-    20
-][1]);
-console.log([
-    ...$,
-    10,
-    20
-][2]);
-console.log([
-    10,
-    ...$,
-    20
-][0]);
-console.log([
-    10,
-    ...$,
-    20
-][1]);
-console.log([
-    10,
-    ...$,
-    20
-][2]);
-console.log([
-    10,
-    20,
-    ...$
-][0]);
-console.log([
-    10,
-    20,
-    ...$
-][1]);
-console.log([
-    10,
-    20,
-    ...$
-][2]);
+var o = [];
+console.log([10, 20][0]);
+console.log([10, 20][1]);
+console.log([10, 20][2]);
+console.log([...o, 10, 20][0]);
+console.log([...o, 10, 20][1]);
+console.log([...o, 10, 20][2]);
+console.log([10, ...o, 20][0]);
+console.log([10, ...o, 20][1]);
+console.log([10, ...o, 20][2]);
+console.log([10, 20, ...o][0]);
+console.log([10, 20, ...o][1]);
+console.log([10, 20, ...o][2]);

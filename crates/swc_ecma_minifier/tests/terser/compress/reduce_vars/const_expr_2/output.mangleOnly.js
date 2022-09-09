@@ -1,9 +1,6 @@
-Object.prototype.c = function() {
+Object.prototype.c = function () {
     this.a++;
 };
-var a = {
-    a: 1,
-    b: 2
-};
-a.c();
-console.log(a.a, a.b);
+var o = { a: 1, b: 2 };
+o.c();
+console.log(o.a, o.b);

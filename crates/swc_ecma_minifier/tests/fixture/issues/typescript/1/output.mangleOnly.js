@@ -1,109 +1,109 @@
 var e;
 (function(e) {
-    function t(t) {
-        function a(t) {
-            switch(t){
+    function r(r) {
+        function n(r) {
+            switch(r){
                 case e.ModuleKind.AMD:
                     return M;
                 case e.ModuleKind.UMD:
                     return D;
                 default:
-                    return A;
+                    return h;
             }
         }
-        var i = t.factory, n = t.getEmitHelperFactory, s = t.startLexicalEnvironment, o = t.endLexicalEnvironment, c = t.hoistVariableDeclaration;
-        var l = t.getCompilerOptions();
-        var u = t.getEmitResolver();
-        var d = t.getEmitHost();
-        var p = e.getEmitScriptTarget(l);
-        var f = e.getEmitModuleKind(l);
-        var m = t.onSubstituteNode;
-        var g = t.onEmitNode;
-        t.onSubstituteNode = eN;
-        t.onEmitNode = eE;
-        t.enableSubstitution(207);
-        t.enableSubstitution(209);
-        t.enableSubstitution(79);
-        t.enableSubstitution(220);
-        t.enableSubstitution(295);
-        t.enableEmitNotification(303);
+        var i = r.factory, a = r.getEmitHelperFactory, s = r.startLexicalEnvironment, d = r.endLexicalEnvironment, o = r.hoistVariableDeclaration;
+        var u = r.getCompilerOptions();
+        var c = r.getEmitResolver();
+        var l = r.getEmitHost();
+        var f = e.getEmitScriptTarget(u);
+        var p = e.getEmitModuleKind(u);
+        var m = r.onSubstituteNode;
+        var g = r.onEmitNode;
+        r.onSubstituteNode = eN;
+        r.onEmitNode = eE;
+        r.enableSubstitution(207);
+        r.enableSubstitution(209);
+        r.enableSubstitution(79);
+        r.enableSubstitution(220);
+        r.enableSubstitution(295);
+        r.enableEmitNotification(303);
         var x = [];
         var v = [];
         var E;
         var N;
         var I = [];
         var S;
-        return e.chainBundle(t, y);
-        function y(r) {
-            if (r.isDeclarationFile || !(e.isEffectiveExternalModule(r, l) || r.transformFlags & 4194304 || (e.isJsonSourceFile(r) && e.hasJsonModuleEmitEnabled(l) && e.outFile(l)))) {
-                return r;
+        return e.chainBundle(r, y);
+        function y(t) {
+            if (t.isDeclarationFile || !(e.isEffectiveExternalModule(t, u) || t.transformFlags & 4194304 || (e.isJsonSourceFile(t) && e.hasJsonModuleEmitEnabled(u) && e.outFile(u)))) {
+                return t;
             }
-            E = r;
-            N = e.collectExternalModuleInfo(t, r, u, l);
-            x[e.getOriginalNodeId(r)] = N;
-            var i = a(f);
-            var n = i(r);
+            E = t;
+            N = e.collectExternalModuleInfo(r, t, c, u);
+            x[e.getOriginalNodeId(t)] = N;
+            var i = n(p);
+            var a = i(t);
             E = undefined;
             N = undefined;
             S = false;
-            return n;
+            return a;
         }
-        function h() {
+        function A() {
             if (!N.exportEquals && e.isExternalModule(E)) {
                 return true;
             }
             return false;
         }
-        function A(r) {
+        function h(t) {
             s();
-            var a = [];
-            var n = e.getStrictOptionValue(l, "alwaysStrict") || (!l.noImplicitUseStrict && e.isExternalModule(E));
-            var c = i.copyPrologue(r.statements, a, n && !e.isJsonSourceFile(r), O);
-            if (h()) {
-                e.append(a, em());
+            var n = [];
+            var a = e.getStrictOptionValue(u, "alwaysStrict") || (!u.noImplicitUseStrict && e.isExternalModule(E));
+            var o = i.copyPrologue(t.statements, n, a && !e.isJsonSourceFile(t), P);
+            if (A()) {
+                e.append(n, em());
             }
             if (e.length(N.exportedNames)) {
-                var u = 50;
-                for(var d = 0; d < N.exportedNames.length; d += u){
-                    e.append(a, i.createExpressionStatement(e.reduceLeft(N.exportedNames.slice(d, d + u), function(t, r) {
-                        return i.createAssignment(i.createPropertyAccessExpression(i.createIdentifier("exports"), i.createIdentifier(e.idText(r))), t);
+                var c = 50;
+                for(var l = 0; l < N.exportedNames.length; l += c){
+                    e.append(n, i.createExpressionStatement(e.reduceLeft(N.exportedNames.slice(l, l + c), function(r, t) {
+                        return i.createAssignment(i.createPropertyAccessExpression(i.createIdentifier("exports"), i.createIdentifier(e.idText(t))), r);
                     }, i.createVoidZero())));
                 }
             }
-            e.append(a, e.visitNode(N.externalHelpersImportDeclaration, O, e.isStatement));
-            e.addRange(a, e.visitNodes(r.statements, O, e.isStatement, c));
-            T(a, false);
-            e.insertStatementsAfterStandardPrologue(a, o());
-            var p = i.updateSourceFile(r, e.setTextRange(i.createNodeArray(a), r.statements));
-            e.addEmitHelpers(p, t.readEmitHelpers());
-            return p;
+            e.append(n, e.visitNode(N.externalHelpersImportDeclaration, P, e.isStatement));
+            e.addRange(n, e.visitNodes(t.statements, P, e.isStatement, o));
+            O(n, false);
+            e.insertStatementsAfterStandardPrologue(n, d());
+            var f = i.updateSourceFile(t, e.setTextRange(i.createNodeArray(n), t.statements));
+            e.addEmitHelpers(f, r.readEmitHelpers());
+            return f;
         }
-        function M(r) {
-            var a = i.createIdentifier("define");
-            var n = e.tryGetModuleNameFromFile(i, r, d, l);
-            var s = e.isJsonSourceFile(r) && r;
-            var o = b(r, true), c = o.aliasedModuleNames, u = o.unaliasedModuleNames, p = o.importAliasNames;
-            var f = i.updateSourceFile(r, e.setTextRange(i.createNodeArray([
-                i.createExpressionStatement(i.createCallExpression(a, undefined, __spreadArray(__spreadArray([], (n ? [
-                    n
+        function M(t) {
+            var n = i.createIdentifier("define");
+            var a = e.tryGetModuleNameFromFile(i, t, l, u);
+            var s = e.isJsonSourceFile(t) && t;
+            var d = b(t, true), o = d.aliasedModuleNames, c = d.unaliasedModuleNames, f = d.importAliasNames;
+            var p = i.updateSourceFile(t, e.setTextRange(i.createNodeArray([
+                i.createExpressionStatement(i.createCallExpression(n, undefined, __spreadArray(__spreadArray([], (a ? [
+                    a
                 ] : []), true), [
                     i.createArrayLiteralExpression(s ? e.emptyArray : __spreadArray(__spreadArray([
                         i.createStringLiteral("require"),
                         i.createStringLiteral("exports")
-                    ], c, true), u, true)),
+                    ], o, true), c, true)),
                     s ? s.statements.length ? s.statements[0].expression : i.createObjectLiteralExpression() : i.createFunctionExpression(undefined, undefined, undefined, undefined, __spreadArray([
                         i.createParameterDeclaration(undefined, undefined, undefined, "require"),
                         i.createParameterDeclaration(undefined, undefined, undefined, "exports")
-                    ], p, true), undefined, $(r))
+                    ], f, true), undefined, T(t))
                 ], false)))
-            ]), r.statements));
-            e.addEmitHelpers(f, t.readEmitHelpers());
-            return f;
+            ]), t.statements));
+            e.addEmitHelpers(p, r.readEmitHelpers());
+            return p;
         }
-        function D(r) {
-            var a = b(r, false), n = a.aliasedModuleNames, s = a.unaliasedModuleNames, o = a.importAliasNames;
-            var c = e.tryGetModuleNameFromFile(i, r, d, l);
-            var u = i.createFunctionExpression(undefined, undefined, undefined, undefined, [
+        function D(t) {
+            var n = b(t, false), a = n.aliasedModuleNames, s = n.unaliasedModuleNames, d = n.importAliasNames;
+            var o = e.tryGetModuleNameFromFile(i, t, l, u);
+            var c = i.createFunctionExpression(undefined, undefined, undefined, undefined, [
                 i.createParameterDeclaration(undefined, undefined, undefined, "factory")
             ], undefined, e.setTextRange(i.createBlock([
                 i.createIfStatement(i.createLogicalAnd(i.createTypeCheck(i.createIdentifier("module"), "object"), i.createTypeCheck(i.createPropertyAccessExpression(i.createIdentifier("module"), "exports"), "object")), i.createBlock([
@@ -115,129 +115,129 @@ var e;
                     ]),
                     e.setEmitFlags(i.createIfStatement(i.createStrictInequality(i.createIdentifier("v"), i.createIdentifier("undefined")), i.createExpressionStatement(i.createAssignment(i.createPropertyAccessExpression(i.createIdentifier("module"), "exports"), i.createIdentifier("v")))), 1)
                 ]), i.createIfStatement(i.createLogicalAnd(i.createTypeCheck(i.createIdentifier("define"), "function"), i.createPropertyAccessExpression(i.createIdentifier("define"), "amd")), i.createBlock([
-                    i.createExpressionStatement(i.createCallExpression(i.createIdentifier("define"), undefined, __spreadArray(__spreadArray([], (c ? [
-                        c
+                    i.createExpressionStatement(i.createCallExpression(i.createIdentifier("define"), undefined, __spreadArray(__spreadArray([], (o ? [
+                        o
                     ] : []), true), [
                         i.createArrayLiteralExpression(__spreadArray(__spreadArray([
                             i.createStringLiteral("require"),
                             i.createStringLiteral("exports")
-                        ], n, true), s, true)),
+                        ], a, true), s, true)),
                         i.createIdentifier("factory")
                     ], false)))
                 ])))
             ], true), undefined));
-            var p = i.updateSourceFile(r, e.setTextRange(i.createNodeArray([
-                i.createExpressionStatement(i.createCallExpression(u, undefined, [
+            var f = i.updateSourceFile(t, e.setTextRange(i.createNodeArray([
+                i.createExpressionStatement(i.createCallExpression(c, undefined, [
                     i.createFunctionExpression(undefined, undefined, undefined, undefined, __spreadArray([
                         i.createParameterDeclaration(undefined, undefined, undefined, "require"),
                         i.createParameterDeclaration(undefined, undefined, undefined, "exports")
-                    ], o, true), undefined, $(r))
+                    ], d, true), undefined, T(t))
                 ]))
-            ]), r.statements));
-            e.addEmitHelpers(p, t.readEmitHelpers());
-            return p;
+            ]), t.statements));
+            e.addEmitHelpers(f, r.readEmitHelpers());
+            return f;
         }
-        function b(t, r) {
-            var a = [];
+        function b(r, t) {
             var n = [];
+            var a = [];
             var s = [];
-            for(var o = 0, c = t.amdDependencies; o < c.length; o++){
-                var p = c[o];
-                if (p.name) {
-                    a.push(i.createStringLiteral(p.path));
-                    s.push(i.createParameterDeclaration(undefined, undefined, undefined, p.name));
+            for(var d = 0, o = r.amdDependencies; d < o.length; d++){
+                var f = o[d];
+                if (f.name) {
+                    n.push(i.createStringLiteral(f.path));
+                    s.push(i.createParameterDeclaration(undefined, undefined, undefined, f.name));
                 } else {
-                    n.push(i.createStringLiteral(p.path));
+                    a.push(i.createStringLiteral(f.path));
                 }
             }
-            for(var f = 0, m = N.externalImports; f < m.length; f++){
-                var g = m[f];
-                var x = e.getExternalModuleNameLiteral(i, g, E, d, u, l);
+            for(var p = 0, m = N.externalImports; p < m.length; p++){
+                var g = m[p];
+                var x = e.getExternalModuleNameLiteral(i, g, E, l, c, u);
                 var v = e.getLocalNameForExternalImport(i, g, E);
                 if (x) {
-                    if (r && v) {
+                    if (t && v) {
                         e.setEmitFlags(v, 4);
-                        a.push(x);
+                        n.push(x);
                         s.push(i.createParameterDeclaration(undefined, undefined, undefined, v));
                     } else {
-                        n.push(x);
+                        a.push(x);
                     }
                 }
             }
             return {
-                aliasedModuleNames: a,
-                unaliasedModuleNames: n,
+                aliasedModuleNames: n,
+                unaliasedModuleNames: a,
                 importAliasNames: s
             };
         }
-        function F(t) {
-            if (e.isImportEqualsDeclaration(t) || e.isExportDeclaration(t) || !e.getExternalModuleNameLiteral(i, t, E, d, u, l)) {
+        function F(r) {
+            if (e.isImportEqualsDeclaration(r) || e.isExportDeclaration(r) || !e.getExternalModuleNameLiteral(i, r, E, l, c, u)) {
                 return undefined;
             }
-            var r = e.getLocalNameForExternalImport(i, t, E);
-            var a = U(t, r);
-            if (a === r) {
+            var t = e.getLocalNameForExternalImport(i, r, E);
+            var n = J(r, t);
+            if (n === t) {
                 return undefined;
             }
-            return i.createExpressionStatement(i.createAssignment(r, a));
+            return i.createExpressionStatement(i.createAssignment(t, n));
         }
-        function $(t) {
+        function T(r) {
             s();
-            var a = [];
-            var n = i.copyPrologue(t.statements, a, !l.noImplicitUseStrict, O);
-            if (h()) {
-                e.append(a, em());
+            var n = [];
+            var a = i.copyPrologue(r.statements, n, !u.noImplicitUseStrict, P);
+            if (A()) {
+                e.append(n, em());
             }
             if (e.length(N.exportedNames)) {
-                e.append(a, i.createExpressionStatement(e.reduceLeft(N.exportedNames, function(t, r) {
-                    return i.createAssignment(i.createPropertyAccessExpression(i.createIdentifier("exports"), i.createIdentifier(e.idText(r))), t);
+                e.append(n, i.createExpressionStatement(e.reduceLeft(N.exportedNames, function(r, t) {
+                    return i.createAssignment(i.createPropertyAccessExpression(i.createIdentifier("exports"), i.createIdentifier(e.idText(t))), r);
                 }, i.createVoidZero())));
             }
-            e.append(a, e.visitNode(N.externalHelpersImportDeclaration, O, e.isStatement));
-            if (f === e.ModuleKind.AMD) {
-                e.addRange(a, e.mapDefined(N.externalImports, F));
+            e.append(n, e.visitNode(N.externalHelpersImportDeclaration, P, e.isStatement));
+            if (p === e.ModuleKind.AMD) {
+                e.addRange(n, e.mapDefined(N.externalImports, F));
             }
-            e.addRange(a, e.visitNodes(t.statements, O, e.isStatement, n));
-            T(a, true);
-            e.insertStatementsAfterStandardPrologue(a, o());
-            var c = i.createBlock(a, true);
+            e.addRange(n, e.visitNodes(r.statements, P, e.isStatement, a));
+            O(n, true);
+            e.insertStatementsAfterStandardPrologue(n, d());
+            var o = i.createBlock(n, true);
             if (S) {
-                e.addEmitHelper(c, r);
+                e.addEmitHelper(o, t);
             }
-            return c;
+            return o;
         }
-        function T(t, r) {
+        function O(r, t) {
             if (N.exportEquals) {
-                var a = e.visitNode(N.exportEquals.expression, L);
-                if (a) {
-                    if (r) {
-                        var n = i.createReturnStatement(a);
-                        e.setTextRange(n, N.exportEquals);
-                        e.setEmitFlags(n, 384 | 1536);
-                        t.push(n);
+                var n = e.visitNode(N.exportEquals.expression, C);
+                if (n) {
+                    if (t) {
+                        var a = i.createReturnStatement(n);
+                        e.setTextRange(a, N.exportEquals);
+                        e.setEmitFlags(a, 384 | 1536);
+                        r.push(a);
                     } else {
-                        var n = i.createExpressionStatement(i.createAssignment(i.createPropertyAccessExpression(i.createIdentifier("module"), "exports"), a));
-                        e.setTextRange(n, N.exportEquals);
-                        e.setEmitFlags(n, 1536);
-                        t.push(n);
+                        var a = i.createExpressionStatement(i.createAssignment(i.createPropertyAccessExpression(i.createIdentifier("module"), "exports"), n));
+                        e.setTextRange(a, N.exportEquals);
+                        e.setEmitFlags(a, 1536);
+                        r.push(a);
                     }
                 }
             }
         }
-        function O(e) {
+        function P(e) {
             switch(e.kind){
                 case 265:
-                    return J(e);
+                    return Z(e);
                 case 264:
-                    return Q(e);
-                case 271:
                     return W(e);
-                case 270:
+                case 271:
                     return X(e);
-                case 236:
-                    return et(e);
-                case 255:
+                case 270:
                     return Y(e);
+                case 236:
+                    return er(e);
+                case 255:
+                    return $(e);
                 case 256:
                     return ee(e);
                 case 350:
@@ -245,61 +245,61 @@ var e;
                 case 351:
                     return es(e);
                 default:
-                    return L(e);
+                    return C(e);
             }
         }
-        function P(r, a) {
-            if (!(r.transformFlags & (4194304 | 4096 | 67108864))) {
-                return r;
+        function L(t, n) {
+            if (!(t.transformFlags & (4194304 | 4096 | 67108864))) {
+                return t;
             }
-            switch(r.kind){
+            switch(t.kind){
                 case 241:
-                    return k(r);
+                    return q(t);
                 case 237:
-                    return q(r);
+                    return V(t);
                 case 211:
-                    return V(r, a);
+                    return H(t, n);
                 case 348:
-                    return H(r, a);
+                    return B(t, n);
                 case 207:
-                    if (e.isImportCall(r) && E.impliedNodeFormat === undefined) {
-                        return G(r);
+                    if (e.isImportCall(t) && E.impliedNodeFormat === undefined) {
+                        return j(t);
                     }
                     break;
                 case 220:
-                    if (e.isDestructuringAssignment(r)) {
-                        return _(r, a);
+                    if (e.isDestructuringAssignment(t)) {
+                        return _(t, n);
                     }
                     break;
                 case 218:
                 case 219:
-                    return B(r, a);
+                    return G(t, n);
             }
-            return e.visitEachChild(r, L, t);
-        }
-        function L(e) {
-            return P(e, false);
+            return e.visitEachChild(t, C, r);
         }
         function C(e) {
-            return P(e, true);
+            return L(e, false);
         }
-        function R(t) {
-            if (e.isObjectLiteralExpression(t)) {
-                for(var r = 0, a = t.properties; r < a.length; r++){
-                    var i = a[r];
+        function R(e) {
+            return L(e, true);
+        }
+        function k(r) {
+            if (e.isObjectLiteralExpression(r)) {
+                for(var t = 0, n = r.properties; t < n.length; t++){
+                    var i = n[t];
                     switch(i.kind){
                         case 294:
-                            if (R(i.initializer)) {
+                            if (k(i.initializer)) {
                                 return true;
                             }
                             break;
                         case 295:
-                            if (R(i.name)) {
+                            if (k(i.name)) {
                                 return true;
                             }
                             break;
                         case 296:
-                            if (R(i.expression)) {
+                            if (k(i.expression)) {
                                 return true;
                             }
                             break;
@@ -311,495 +311,495 @@ var e;
                             e.Debug.assertNever(i, "Unhandled object member kind");
                     }
                 }
-            } else if (e.isArrayLiteralExpression(t)) {
-                for(var n = 0, s = t.elements; n < s.length; n++){
-                    var i = s[n];
+            } else if (e.isArrayLiteralExpression(r)) {
+                for(var a = 0, s = r.elements; a < s.length; a++){
+                    var i = s[a];
                     if (e.isSpreadElement(i)) {
-                        if (R(i.expression)) {
+                        if (k(i.expression)) {
                             return true;
                         }
-                    } else if (R(i)) {
+                    } else if (k(i)) {
                         return true;
                     }
                 }
-            } else if (e.isIdentifier(t)) {
-                return e.length(eD(t)) > (e.isExportName(t) ? 1 : 0);
+            } else if (e.isIdentifier(r)) {
+                return e.length(eD(r)) > (e.isExportName(r) ? 1 : 0);
             }
             return false;
         }
-        function _(r, a) {
-            if (R(r.left)) {
-                return e.flattenDestructuringAssignment(r, L, t, 0, !a, er);
+        function _(t, n) {
+            if (k(t.left)) {
+                return e.flattenDestructuringAssignment(t, C, r, 0, !n, et);
             }
-            return e.visitEachChild(r, L, t);
-        }
-        function k(r) {
-            return i.updateForStatement(r, e.visitNode(r.initializer, C, e.isForInitializer), e.visitNode(r.condition, L, e.isExpression), e.visitNode(r.incrementor, C, e.isExpression), e.visitIterationBody(r.statement, L, t));
+            return e.visitEachChild(t, C, r);
         }
         function q(t) {
-            return i.updateExpressionStatement(t, e.visitNode(t.expression, C, e.isExpression));
+            return i.updateForStatement(t, e.visitNode(t.initializer, R, e.isForInitializer), e.visitNode(t.condition, C, e.isExpression), e.visitNode(t.incrementor, R, e.isExpression), e.visitIterationBody(t.statement, C, r));
         }
-        function V(t, r) {
-            return i.updateParenthesizedExpression(t, e.visitNode(t.expression, r ? C : L, e.isExpression));
+        function V(r) {
+            return i.updateExpressionStatement(r, e.visitNode(r.expression, R, e.isExpression));
         }
-        function H(t, r) {
-            return i.updatePartiallyEmittedExpression(t, e.visitNode(t.expression, r ? C : L, e.isExpression));
+        function H(r, t) {
+            return i.updateParenthesizedExpression(r, e.visitNode(r.expression, t ? R : C, e.isExpression));
         }
-        function B(r, a) {
-            if ((r.operator === 45 || r.operator === 46) && e.isIdentifier(r.operand) && !e.isGeneratedIdentifier(r.operand) && !e.isLocalName(r.operand) && !e.isDeclarationNameOfEnumOrNamespace(r.operand)) {
-                var n = eD(r.operand);
-                if (n) {
+        function B(r, t) {
+            return i.updatePartiallyEmittedExpression(r, e.visitNode(r.expression, t ? R : C, e.isExpression));
+        }
+        function G(t, n) {
+            if ((t.operator === 45 || t.operator === 46) && e.isIdentifier(t.operand) && !e.isGeneratedIdentifier(t.operand) && !e.isLocalName(t.operand) && !e.isDeclarationNameOfEnumOrNamespace(t.operand)) {
+                var a = eD(t.operand);
+                if (a) {
                     var s = void 0;
-                    var o = e.visitNode(r.operand, L, e.isExpression);
-                    if (e.isPrefixUnaryExpression(r)) {
-                        o = i.updatePrefixUnaryExpression(r, o);
+                    var d = e.visitNode(t.operand, C, e.isExpression);
+                    if (e.isPrefixUnaryExpression(t)) {
+                        d = i.updatePrefixUnaryExpression(t, d);
                     } else {
-                        o = i.updatePostfixUnaryExpression(r, o);
-                        if (!a) {
-                            s = i.createTempVariable(c);
-                            o = i.createAssignment(s, o);
-                            e.setTextRange(o, r);
+                        d = i.updatePostfixUnaryExpression(t, d);
+                        if (!n) {
+                            s = i.createTempVariable(o);
+                            d = i.createAssignment(s, d);
+                            e.setTextRange(d, t);
                         }
-                        o = i.createComma(o, i.cloneNode(r.operand));
-                        e.setTextRange(o, r);
+                        d = i.createComma(d, i.cloneNode(t.operand));
+                        e.setTextRange(d, t);
                     }
-                    for(var l = 0, u = n; l < u.length; l++){
-                        var d = u[l];
-                        I[e.getNodeId(o)] = true;
-                        o = ex(d, o);
-                        e.setTextRange(o, r);
+                    for(var u = 0, c = a; u < c.length; u++){
+                        var l = c[u];
+                        I[e.getNodeId(d)] = true;
+                        d = ex(l, d);
+                        e.setTextRange(d, t);
                     }
                     if (s) {
-                        I[e.getNodeId(o)] = true;
-                        o = i.createComma(o, s);
-                        e.setTextRange(o, r);
+                        I[e.getNodeId(d)] = true;
+                        d = i.createComma(d, s);
+                        e.setTextRange(d, t);
                     }
-                    return o;
+                    return d;
                 }
             }
-            return e.visitEachChild(r, L, t);
+            return e.visitEachChild(t, C, r);
         }
-        function G(t) {
-            var r = e.getExternalModuleNameLiteral(i, t, E, d, u, l);
-            var a = e.visitNode(e.firstOrUndefined(t.arguments), L);
-            var n = r && (!a || !e.isStringLiteral(a) || a.text !== r.text) ? r : a;
-            var s = !!(t.transformFlags & 8192);
-            switch(l.module){
+        function j(r) {
+            var t = e.getExternalModuleNameLiteral(i, r, E, l, c, u);
+            var n = e.visitNode(e.firstOrUndefined(r.arguments), C);
+            var a = t && (!n || !e.isStringLiteral(n) || n.text !== t.text) ? t : n;
+            var s = !!(r.transformFlags & 8192);
+            switch(u.module){
                 case e.ModuleKind.AMD:
-                    return w(n, s);
+                    return z(a, s);
                 case e.ModuleKind.UMD:
-                    return j(n !== null && n !== void 0 ? n : i.createVoidZero(), s);
+                    return w(a !== null && a !== void 0 ? a : i.createVoidZero(), s);
                 case e.ModuleKind.CommonJS:
                 default:
-                    return z(n, s);
+                    return K(a, s);
             }
         }
-        function j(t, r) {
+        function w(r, t) {
             S = true;
-            if (e.isSimpleCopiableExpression(t)) {
-                var a = e.isGeneratedIdentifier(t) ? t : e.isStringLiteral(t) ? i.createStringLiteralFromNode(t) : e.setEmitFlags(e.setTextRange(i.cloneNode(t), t), 1536);
-                return i.createConditionalExpression(i.createIdentifier("__syncRequire"), undefined, z(t, r), undefined, w(a, r));
+            if (e.isSimpleCopiableExpression(r)) {
+                var n = e.isGeneratedIdentifier(r) ? r : e.isStringLiteral(r) ? i.createStringLiteralFromNode(r) : e.setEmitFlags(e.setTextRange(i.cloneNode(r), r), 1536);
+                return i.createConditionalExpression(i.createIdentifier("__syncRequire"), undefined, K(r, t), undefined, z(n, t));
             } else {
-                var n = i.createTempVariable(c);
-                return i.createComma(i.createAssignment(n, t), i.createConditionalExpression(i.createIdentifier("__syncRequire"), undefined, z(n, r), undefined, w(n, r)));
+                var a = i.createTempVariable(o);
+                return i.createComma(i.createAssignment(a, r), i.createConditionalExpression(i.createIdentifier("__syncRequire"), undefined, K(a, t), undefined, z(a, t)));
             }
         }
-        function w(t, r) {
-            var a = i.createUniqueName("resolve");
+        function z(r, t) {
+            var n = i.createUniqueName("resolve");
             var s = i.createUniqueName("reject");
-            var o = [
-                i.createParameterDeclaration(undefined, undefined, undefined, a),
+            var d = [
+                i.createParameterDeclaration(undefined, undefined, undefined, n),
                 i.createParameterDeclaration(undefined, undefined, undefined, s)
             ];
-            var c = i.createBlock([
+            var o = i.createBlock([
                 i.createExpressionStatement(i.createCallExpression(i.createIdentifier("require"), undefined, [
                     i.createArrayLiteralExpression([
-                        t || i.createOmittedExpression()
+                        r || i.createOmittedExpression()
                     ]),
-                    a,
+                    n,
                     s
                 ]))
             ]);
-            var u;
-            if (p >= 2) {
-                u = i.createArrowFunction(undefined, undefined, o, undefined, undefined, c);
+            var c;
+            if (f >= 2) {
+                c = i.createArrowFunction(undefined, undefined, d, undefined, undefined, o);
             } else {
-                u = i.createFunctionExpression(undefined, undefined, undefined, undefined, o, undefined, c);
-                if (r) {
-                    e.setEmitFlags(u, 8);
+                c = i.createFunctionExpression(undefined, undefined, undefined, undefined, d, undefined, o);
+                if (t) {
+                    e.setEmitFlags(c, 8);
                 }
             }
-            var d = i.createNewExpression(i.createIdentifier("Promise"), undefined, [
-                u
+            var l = i.createNewExpression(i.createIdentifier("Promise"), undefined, [
+                c
             ]);
-            if (e.getESModuleInterop(l)) {
-                return i.createCallExpression(i.createPropertyAccessExpression(d, i.createIdentifier("then")), undefined, [
-                    n().createImportStarCallbackHelper()
+            if (e.getESModuleInterop(u)) {
+                return i.createCallExpression(i.createPropertyAccessExpression(l, i.createIdentifier("then")), undefined, [
+                    a().createImportStarCallbackHelper()
                 ]);
             }
-            return d;
+            return l;
         }
-        function z(t, r) {
-            var a = i.createCallExpression(i.createPropertyAccessExpression(i.createIdentifier("Promise"), "resolve"), undefined, []);
-            var s = i.createCallExpression(i.createIdentifier("require"), undefined, t ? [
-                t
+        function K(r, t) {
+            var n = i.createCallExpression(i.createPropertyAccessExpression(i.createIdentifier("Promise"), "resolve"), undefined, []);
+            var s = i.createCallExpression(i.createIdentifier("require"), undefined, r ? [
+                r
             ] : []);
-            if (e.getESModuleInterop(l)) {
-                s = n().createImportStarHelper(s);
+            if (e.getESModuleInterop(u)) {
+                s = a().createImportStarHelper(s);
             }
-            var o;
-            if (p >= 2) {
-                o = i.createArrowFunction(undefined, undefined, [], undefined, undefined, s);
+            var d;
+            if (f >= 2) {
+                d = i.createArrowFunction(undefined, undefined, [], undefined, undefined, s);
             } else {
-                o = i.createFunctionExpression(undefined, undefined, undefined, undefined, [], undefined, i.createBlock([
+                d = i.createFunctionExpression(undefined, undefined, undefined, undefined, [], undefined, i.createBlock([
                     i.createReturnStatement(s)
                 ]));
-                if (r) {
-                    e.setEmitFlags(o, 8);
+                if (t) {
+                    e.setEmitFlags(d, 8);
                 }
             }
-            return i.createCallExpression(i.createPropertyAccessExpression(a, "then"), undefined, [
-                o
+            return i.createCallExpression(i.createPropertyAccessExpression(n, "then"), undefined, [
+                d
             ]);
         }
-        function K(t, r) {
-            if (!e.getESModuleInterop(l) || e.getEmitFlags(t) & 67108864) {
-                return r;
+        function U(r, t) {
+            if (!e.getESModuleInterop(u) || e.getEmitFlags(r) & 67108864) {
+                return t;
             }
-            if (e.getExportNeedsImportStarHelper(t)) {
-                return n().createImportStarHelper(r);
+            if (e.getExportNeedsImportStarHelper(r)) {
+                return a().createImportStarHelper(t);
             }
-            return r;
+            return t;
         }
-        function U(t, r) {
-            if (!e.getESModuleInterop(l) || e.getEmitFlags(t) & 67108864) {
-                return r;
+        function J(r, t) {
+            if (!e.getESModuleInterop(u) || e.getEmitFlags(r) & 67108864) {
+                return t;
             }
-            if (e.getImportNeedsImportStarHelper(t)) {
-                return n().createImportStarHelper(r);
+            if (e.getImportNeedsImportStarHelper(r)) {
+                return a().createImportStarHelper(t);
             }
-            if (e.getImportNeedsImportDefaultHelper(t)) {
-                return n().createImportDefaultHelper(r);
+            if (e.getImportNeedsImportDefaultHelper(r)) {
+                return a().createImportDefaultHelper(t);
             }
-            return r;
+            return t;
         }
-        function J(t) {
-            var r;
-            var a = e.getNamespaceDeclarationNode(t);
-            if (f !== e.ModuleKind.AMD) {
-                if (!t.importClause) {
-                    return e.setOriginalNode(e.setTextRange(i.createExpressionStatement(Z(t)), t), t);
+        function Z(r) {
+            var t;
+            var n = e.getNamespaceDeclarationNode(r);
+            if (p !== e.ModuleKind.AMD) {
+                if (!r.importClause) {
+                    return e.setOriginalNode(e.setTextRange(i.createExpressionStatement(Q(r)), r), r);
                 } else {
-                    var n = [];
-                    if (a && !e.isDefaultImport(t)) {
-                        n.push(i.createVariableDeclaration(i.cloneNode(a.name), undefined, undefined, U(t, Z(t))));
+                    var a = [];
+                    if (n && !e.isDefaultImport(r)) {
+                        a.push(i.createVariableDeclaration(i.cloneNode(n.name), undefined, undefined, J(r, Q(r))));
                     } else {
-                        n.push(i.createVariableDeclaration(i.getGeneratedNameForNode(t), undefined, undefined, U(t, Z(t))));
-                        if (a && e.isDefaultImport(t)) {
-                            n.push(i.createVariableDeclaration(i.cloneNode(a.name), undefined, undefined, i.getGeneratedNameForNode(t)));
+                        a.push(i.createVariableDeclaration(i.getGeneratedNameForNode(r), undefined, undefined, J(r, Q(r))));
+                        if (n && e.isDefaultImport(r)) {
+                            a.push(i.createVariableDeclaration(i.cloneNode(n.name), undefined, undefined, i.getGeneratedNameForNode(r)));
                         }
                     }
-                    r = e.append(r, e.setOriginalNode(e.setTextRange(i.createVariableStatement(undefined, i.createVariableDeclarationList(n, p >= 2 ? 2 : 0)), t), t));
+                    t = e.append(t, e.setOriginalNode(e.setTextRange(i.createVariableStatement(undefined, i.createVariableDeclarationList(a, f >= 2 ? 2 : 0)), r), r));
                 }
-            } else if (a && e.isDefaultImport(t)) {
-                r = e.append(r, i.createVariableStatement(undefined, i.createVariableDeclarationList([
-                    e.setOriginalNode(e.setTextRange(i.createVariableDeclaration(i.cloneNode(a.name), undefined, undefined, i.getGeneratedNameForNode(t)), t), t)
-                ], p >= 2 ? 2 : 0)));
+            } else if (n && e.isDefaultImport(r)) {
+                t = e.append(t, i.createVariableStatement(undefined, i.createVariableDeclarationList([
+                    e.setOriginalNode(e.setTextRange(i.createVariableDeclaration(i.cloneNode(n.name), undefined, undefined, i.getGeneratedNameForNode(r)), r), r)
+                ], f >= 2 ? 2 : 0)));
             }
-            if (en(t)) {
-                var s = e.getOriginalNodeId(t);
-                v[s] = eo(v[s], t);
+            if (ea(r)) {
+                var s = e.getOriginalNodeId(r);
+                v[s] = ed(v[s], r);
             } else {
-                r = eo(r, t);
+                t = ed(t, r);
             }
-            return e.singleOrMany(r);
+            return e.singleOrMany(t);
         }
-        function Z(t) {
-            var r = e.getExternalModuleNameLiteral(i, t, E, d, u, l);
-            var a = [];
-            if (r) {
-                a.push(r);
+        function Q(r) {
+            var t = e.getExternalModuleNameLiteral(i, r, E, l, c, u);
+            var n = [];
+            if (t) {
+                n.push(t);
             }
-            return i.createCallExpression(i.createIdentifier("require"), undefined, a);
+            return i.createCallExpression(i.createIdentifier("require"), undefined, n);
         }
-        function Q(t) {
-            e.Debug.assert(e.isExternalModuleImportEqualsDeclaration(t), "import= for internal module references should be handled in an earlier transformer.");
-            var r;
-            if (f !== e.ModuleKind.AMD) {
-                if (e.hasSyntacticModifier(t, 1)) {
-                    r = e.append(r, e.setOriginalNode(e.setTextRange(i.createExpressionStatement(ex(t.name, Z(t))), t), t));
+        function W(r) {
+            e.Debug.assert(e.isExternalModuleImportEqualsDeclaration(r), "import= for internal module references should be handled in an earlier transformer.");
+            var t;
+            if (p !== e.ModuleKind.AMD) {
+                if (e.hasSyntacticModifier(r, 1)) {
+                    t = e.append(t, e.setOriginalNode(e.setTextRange(i.createExpressionStatement(ex(r.name, Q(r))), r), r));
                 } else {
-                    r = e.append(r, e.setOriginalNode(e.setTextRange(i.createVariableStatement(undefined, i.createVariableDeclarationList([
-                        i.createVariableDeclaration(i.cloneNode(t.name), undefined, undefined, Z(t))
-                    ], p >= 2 ? 2 : 0)), t), t));
+                    t = e.append(t, e.setOriginalNode(e.setTextRange(i.createVariableStatement(undefined, i.createVariableDeclarationList([
+                        i.createVariableDeclaration(i.cloneNode(r.name), undefined, undefined, Q(r))
+                    ], f >= 2 ? 2 : 0)), r), r));
                 }
             } else {
-                if (e.hasSyntacticModifier(t, 1)) {
-                    r = e.append(r, e.setOriginalNode(e.setTextRange(i.createExpressionStatement(ex(i.getExportName(t), i.getLocalName(t))), t), t));
+                if (e.hasSyntacticModifier(r, 1)) {
+                    t = e.append(t, e.setOriginalNode(e.setTextRange(i.createExpressionStatement(ex(i.getExportName(r), i.getLocalName(r))), r), r));
                 }
             }
-            if (en(t)) {
-                var a = e.getOriginalNodeId(t);
-                v[a] = ec(v[a], t);
+            if (ea(r)) {
+                var n = e.getOriginalNodeId(r);
+                v[n] = eo(v[n], r);
             } else {
-                r = ec(r, t);
+                t = eo(t, r);
             }
-            return e.singleOrMany(r);
+            return e.singleOrMany(t);
         }
-        function W(t) {
-            if (!t.moduleSpecifier) {
+        function X(r) {
+            if (!r.moduleSpecifier) {
                 return undefined;
             }
-            var r = i.getGeneratedNameForNode(t);
-            if (t.exportClause && e.isNamedExports(t.exportClause)) {
-                var a = [];
-                if (f !== e.ModuleKind.AMD) {
-                    a.push(e.setOriginalNode(e.setTextRange(i.createVariableStatement(undefined, i.createVariableDeclarationList([
-                        i.createVariableDeclaration(r, undefined, undefined, Z(t))
-                    ])), t), t));
+            var t = i.getGeneratedNameForNode(r);
+            if (r.exportClause && e.isNamedExports(r.exportClause)) {
+                var n = [];
+                if (p !== e.ModuleKind.AMD) {
+                    n.push(e.setOriginalNode(e.setTextRange(i.createVariableStatement(undefined, i.createVariableDeclarationList([
+                        i.createVariableDeclaration(t, undefined, undefined, Q(r))
+                    ])), r), r));
                 }
-                for(var s = 0, o = t.exportClause.elements; s < o.length; s++){
-                    var c = o[s];
-                    if (p === 0) {
-                        a.push(e.setOriginalNode(e.setTextRange(i.createExpressionStatement(n().createCreateBindingHelper(r, i.createStringLiteralFromNode(c.propertyName || c.name), c.propertyName ? i.createStringLiteralFromNode(c.name) : undefined)), c), c));
+                for(var s = 0, d = r.exportClause.elements; s < d.length; s++){
+                    var o = d[s];
+                    if (f === 0) {
+                        n.push(e.setOriginalNode(e.setTextRange(i.createExpressionStatement(a().createCreateBindingHelper(t, i.createStringLiteralFromNode(o.propertyName || o.name), o.propertyName ? i.createStringLiteralFromNode(o.name) : undefined)), o), o));
                     } else {
-                        var u = !!e.getESModuleInterop(l) && !(e.getEmitFlags(t) & 67108864) && e.idText(c.propertyName || c.name) === "default";
-                        var d = i.createPropertyAccessExpression(u ? n().createImportDefaultHelper(r) : r, c.propertyName || c.name);
-                        a.push(e.setOriginalNode(e.setTextRange(i.createExpressionStatement(ex(i.getExportName(c), d, undefined, true)), c), c));
+                        var c = !!e.getESModuleInterop(u) && !(e.getEmitFlags(r) & 67108864) && e.idText(o.propertyName || o.name) === "default";
+                        var l = i.createPropertyAccessExpression(c ? a().createImportDefaultHelper(t) : t, o.propertyName || o.name);
+                        n.push(e.setOriginalNode(e.setTextRange(i.createExpressionStatement(ex(i.getExportName(o), l, undefined, true)), o), o));
                     }
                 }
-                return e.singleOrMany(a);
-            } else if (t.exportClause) {
-                var a = [];
-                a.push(e.setOriginalNode(e.setTextRange(i.createExpressionStatement(ex(i.cloneNode(t.exportClause.name), K(t, f !== e.ModuleKind.AMD ? Z(t) : e.isExportNamespaceAsDefaultDeclaration(t) ? r : i.createIdentifier(e.idText(t.exportClause.name))))), t), t));
-                return e.singleOrMany(a);
+                return e.singleOrMany(n);
+            } else if (r.exportClause) {
+                var n = [];
+                n.push(e.setOriginalNode(e.setTextRange(i.createExpressionStatement(ex(i.cloneNode(r.exportClause.name), U(r, p !== e.ModuleKind.AMD ? Q(r) : e.isExportNamespaceAsDefaultDeclaration(r) ? t : i.createIdentifier(e.idText(r.exportClause.name))))), r), r));
+                return e.singleOrMany(n);
             } else {
-                return e.setOriginalNode(e.setTextRange(i.createExpressionStatement(n().createExportStarHelper(f !== e.ModuleKind.AMD ? Z(t) : r)), t), t);
+                return e.setOriginalNode(e.setTextRange(i.createExpressionStatement(a().createExportStarHelper(p !== e.ModuleKind.AMD ? Q(r) : t)), r), r);
             }
-        }
-        function X(t) {
-            if (t.isExportEquals) {
-                return undefined;
-            }
-            var r;
-            var a = t.original;
-            if (a && en(a)) {
-                var n = e.getOriginalNodeId(t);
-                v[n] = ef(v[n], i.createIdentifier("default"), e.visitNode(t.expression, L), t, true);
-            } else {
-                r = ef(r, i.createIdentifier("default"), e.visitNode(t.expression, L), t, true);
-            }
-            return e.singleOrMany(r);
         }
         function Y(r) {
-            var a;
-            if (e.hasSyntacticModifier(r, 1)) {
-                a = e.append(a, e.setOriginalNode(e.setTextRange(i.createFunctionDeclaration(undefined, e.visitNodes(r.modifiers, ev, e.isModifier), r.asteriskToken, i.getDeclarationName(r, true, true), undefined, e.visitNodes(r.parameters, L), undefined, e.visitEachChild(r.body, L, t)), r), r));
-            } else {
-                a = e.append(a, e.visitEachChild(r, L, t));
+            if (r.isExportEquals) {
+                return undefined;
             }
-            if (en(r)) {
-                var n = e.getOriginalNodeId(r);
-                v[n] = ed(v[n], r);
+            var t;
+            var n = r.original;
+            if (n && ea(n)) {
+                var a = e.getOriginalNodeId(r);
+                v[a] = ep(v[a], i.createIdentifier("default"), e.visitNode(r.expression, C), r, true);
             } else {
-                a = ed(a, r);
+                t = ep(t, i.createIdentifier("default"), e.visitNode(r.expression, C), r, true);
             }
-            return e.singleOrMany(a);
+            return e.singleOrMany(t);
         }
-        function ee(r) {
-            var a;
-            if (e.hasSyntacticModifier(r, 1)) {
-                a = e.append(a, e.setOriginalNode(e.setTextRange(i.createClassDeclaration(undefined, e.visitNodes(r.modifiers, ev, e.isModifier), i.getDeclarationName(r, true, true), undefined, e.visitNodes(r.heritageClauses, L), e.visitNodes(r.members, L)), r), r));
-            } else {
-                a = e.append(a, e.visitEachChild(r, L, t));
-            }
-            if (en(r)) {
-                var n = e.getOriginalNodeId(r);
-                v[n] = ed(v[n], r);
-            } else {
-                a = ed(a, r);
-            }
-            return e.singleOrMany(a);
-        }
-        function et(r) {
-            var a;
+        function $(t) {
             var n;
+            if (e.hasSyntacticModifier(t, 1)) {
+                n = e.append(n, e.setOriginalNode(e.setTextRange(i.createFunctionDeclaration(undefined, e.visitNodes(t.modifiers, ev, e.isModifier), t.asteriskToken, i.getDeclarationName(t, true, true), undefined, e.visitNodes(t.parameters, C), undefined, e.visitEachChild(t.body, C, r)), t), t));
+            } else {
+                n = e.append(n, e.visitEachChild(t, C, r));
+            }
+            if (ea(t)) {
+                var a = e.getOriginalNodeId(t);
+                v[a] = el(v[a], t);
+            } else {
+                n = el(n, t);
+            }
+            return e.singleOrMany(n);
+        }
+        function ee(t) {
+            var n;
+            if (e.hasSyntacticModifier(t, 1)) {
+                n = e.append(n, e.setOriginalNode(e.setTextRange(i.createClassDeclaration(undefined, e.visitNodes(t.modifiers, ev, e.isModifier), i.getDeclarationName(t, true, true), undefined, e.visitNodes(t.heritageClauses, C), e.visitNodes(t.members, C)), t), t));
+            } else {
+                n = e.append(n, e.visitEachChild(t, C, r));
+            }
+            if (ea(t)) {
+                var a = e.getOriginalNodeId(t);
+                v[a] = el(v[a], t);
+            } else {
+                n = el(n, t);
+            }
+            return e.singleOrMany(n);
+        }
+        function er(t) {
+            var n;
+            var a;
             var s;
-            if (e.hasSyntacticModifier(r, 1)) {
-                var o = void 0;
-                var c = false;
-                for(var l = 0, u = r.declarationList.declarations; l < u.length; l++){
-                    var d = u[l];
-                    if (e.isIdentifier(d.name) && e.isLocalName(d.name)) {
-                        if (!o) {
-                            o = e.visitNodes(r.modifiers, ev, e.isModifier);
+            if (e.hasSyntacticModifier(t, 1)) {
+                var d = void 0;
+                var o = false;
+                for(var u = 0, c = t.declarationList.declarations; u < c.length; u++){
+                    var l = c[u];
+                    if (e.isIdentifier(l.name) && e.isLocalName(l.name)) {
+                        if (!d) {
+                            d = e.visitNodes(t.modifiers, ev, e.isModifier);
                         }
-                        n = e.append(n, d);
-                    } else if (d.initializer) {
-                        if (!e.isBindingPattern(d.name) && (e.isArrowFunction(d.initializer) || e.isFunctionExpression(d.initializer) || e.isClassExpression(d.initializer))) {
-                            var p = i.createAssignment(e.setTextRange(i.createPropertyAccessExpression(i.createIdentifier("exports"), d.name), d.name), i.createIdentifier(e.getTextOfIdentifierOrLiteral(d.name)));
-                            var f = i.createVariableDeclaration(d.name, d.exclamationToken, d.type, e.visitNode(d.initializer, L));
-                            n = e.append(n, f);
-                            s = e.append(s, p);
-                            c = true;
+                        a = e.append(a, l);
+                    } else if (l.initializer) {
+                        if (!e.isBindingPattern(l.name) && (e.isArrowFunction(l.initializer) || e.isFunctionExpression(l.initializer) || e.isClassExpression(l.initializer))) {
+                            var f = i.createAssignment(e.setTextRange(i.createPropertyAccessExpression(i.createIdentifier("exports"), l.name), l.name), i.createIdentifier(e.getTextOfIdentifierOrLiteral(l.name)));
+                            var p = i.createVariableDeclaration(l.name, l.exclamationToken, l.type, e.visitNode(l.initializer, C));
+                            a = e.append(a, p);
+                            s = e.append(s, f);
+                            o = true;
                         } else {
-                            s = e.append(s, ea(d));
+                            s = e.append(s, en(l));
                         }
                     }
                 }
-                if (n) {
-                    a = e.append(a, i.updateVariableStatement(r, o, i.updateVariableDeclarationList(r.declarationList, n)));
+                if (a) {
+                    n = e.append(n, i.updateVariableStatement(t, d, i.updateVariableDeclarationList(t.declarationList, a)));
                 }
                 if (s) {
-                    var m = e.setOriginalNode(e.setTextRange(i.createExpressionStatement(i.inlineExpressions(s)), r), r);
-                    if (c) {
+                    var m = e.setOriginalNode(e.setTextRange(i.createExpressionStatement(i.inlineExpressions(s)), t), t);
+                    if (o) {
                         e.removeAllComments(m);
                     }
-                    a = e.append(a, m);
+                    n = e.append(n, m);
                 }
             } else {
-                a = e.append(a, e.visitEachChild(r, L, t));
+                n = e.append(n, e.visitEachChild(t, C, r));
             }
-            if (en(r)) {
-                var g = e.getOriginalNodeId(r);
-                v[g] = el(v[g], r);
+            if (ea(t)) {
+                var g = e.getOriginalNodeId(t);
+                v[g] = eu(v[g], t);
             } else {
-                a = el(a, r);
+                n = eu(n, t);
             }
-            return e.singleOrMany(a);
+            return e.singleOrMany(n);
         }
-        function er(t, r, a) {
-            var n = eD(t);
-            if (n) {
-                var s = e.isExportName(t) ? r : i.createAssignment(t, r);
-                for(var o = 0, c = n; o < c.length; o++){
-                    var l = c[o];
+        function et(r, t, n) {
+            var a = eD(r);
+            if (a) {
+                var s = e.isExportName(r) ? t : i.createAssignment(r, t);
+                for(var d = 0, o = a; d < o.length; d++){
+                    var u = o[d];
                     e.setEmitFlags(s, 4);
-                    s = ex(l, s, a);
+                    s = ex(u, s, n);
                 }
                 return s;
             }
-            return i.createAssignment(t, r);
-        }
-        function ea(r) {
-            if (e.isBindingPattern(r.name)) {
-                return e.flattenDestructuringAssignment(e.visitNode(r, L), undefined, t, 0, false, er);
-            } else {
-                return i.createAssignment(e.setTextRange(i.createPropertyAccessExpression(i.createIdentifier("exports"), r.name), r.name), r.initializer ? e.visitNode(r.initializer, L) : i.createVoidZero());
-            }
-        }
-        function ei(t) {
-            if (en(t) && t.original.kind === 236) {
-                var r = e.getOriginalNodeId(t);
-                v[r] = el(v[r], t.original);
-            }
-            return t;
+            return i.createAssignment(r, t);
         }
         function en(t) {
-            return (e.getEmitFlags(t) & 4194304) !== 0;
-        }
-        function es(t) {
-            var r = e.getOriginalNodeId(t);
-            var a = v[r];
-            if (a) {
-                delete v[r];
-                return e.append(a, t);
+            if (e.isBindingPattern(t.name)) {
+                return e.flattenDestructuringAssignment(e.visitNode(t, C), undefined, r, 0, false, et);
+            } else {
+                return i.createAssignment(e.setTextRange(i.createPropertyAccessExpression(i.createIdentifier("exports"), t.name), t.name), t.initializer ? e.visitNode(t.initializer, C) : i.createVoidZero());
             }
-            return t;
         }
-        function eo(e, t) {
+        function ei(r) {
+            if (ea(r) && r.original.kind === 236) {
+                var t = e.getOriginalNodeId(r);
+                v[t] = eu(v[t], r.original);
+            }
+            return r;
+        }
+        function ea(r) {
+            return (e.getEmitFlags(r) & 4194304) !== 0;
+        }
+        function es(r) {
+            var t = e.getOriginalNodeId(r);
+            var n = v[t];
+            if (n) {
+                delete v[t];
+                return e.append(n, r);
+            }
+            return r;
+        }
+        function ed(e, r) {
             if (N.exportEquals) {
                 return e;
             }
-            var r = t.importClause;
-            if (!r) {
+            var t = r.importClause;
+            if (!t) {
                 return e;
             }
-            if (r.name) {
-                e = ep(e, r);
+            if (t.name) {
+                e = ef(e, t);
             }
-            var a = r.namedBindings;
-            if (a) {
-                switch(a.kind){
+            var n = t.namedBindings;
+            if (n) {
+                switch(n.kind){
                     case 267:
-                        e = ep(e, a);
+                        e = ef(e, n);
                         break;
                     case 268:
-                        for(var i = 0, n = a.elements; i < n.length; i++){
-                            var s = n[i];
-                            e = ep(e, s, true);
+                        for(var i = 0, a = n.elements; i < a.length; i++){
+                            var s = a[i];
+                            e = ef(e, s, true);
                         }
                         break;
                 }
             }
             return e;
         }
-        function ec(e, t) {
+        function eo(e, r) {
             if (N.exportEquals) {
                 return e;
             }
-            return ep(e, t);
+            return ef(e, r);
         }
-        function el(e, t) {
+        function eu(e, r) {
             if (N.exportEquals) {
                 return e;
             }
-            for(var r = 0, a = t.declarationList.declarations; r < a.length; r++){
-                var i = a[r];
-                e = eu(e, i);
+            for(var t = 0, n = r.declarationList.declarations; t < n.length; t++){
+                var i = n[t];
+                e = ec(e, i);
             }
             return e;
         }
-        function eu(t, r) {
+        function ec(r, t) {
             if (N.exportEquals) {
-                return t;
+                return r;
             }
-            if (e.isBindingPattern(r.name)) {
-                for(var a = 0, i = r.name.elements; a < i.length; a++){
-                    var n = i[a];
-                    if (!e.isOmittedExpression(n)) {
-                        t = eu(t, n);
+            if (e.isBindingPattern(t.name)) {
+                for(var n = 0, i = t.name.elements; n < i.length; n++){
+                    var a = i[n];
+                    if (!e.isOmittedExpression(a)) {
+                        r = ec(r, a);
                     }
                 }
-            } else if (!e.isGeneratedIdentifier(r.name)) {
-                t = ep(t, r);
+            } else if (!e.isGeneratedIdentifier(t.name)) {
+                r = ef(r, t);
             }
-            return t;
+            return r;
         }
-        function ed(t, r) {
+        function el(r, t) {
             if (N.exportEquals) {
-                return t;
+                return r;
             }
-            if (e.hasSyntacticModifier(r, 1)) {
-                var a = e.hasSyntacticModifier(r, 512) ? i.createIdentifier("default") : i.getDeclarationName(r);
-                t = ef(t, a, i.getLocalName(r), r);
+            if (e.hasSyntacticModifier(t, 1)) {
+                var n = e.hasSyntacticModifier(t, 512) ? i.createIdentifier("default") : i.getDeclarationName(t);
+                r = ep(r, n, i.getLocalName(t), t);
             }
-            if (r.name) {
-                t = ep(t, r);
+            if (t.name) {
+                r = ef(r, t);
             }
-            return t;
+            return r;
         }
-        function ep(t, r, a) {
-            var n = i.getDeclarationName(r);
-            var s = N.exportSpecifiers.get(e.idText(n));
+        function ef(r, t, n) {
+            var a = i.getDeclarationName(t);
+            var s = N.exportSpecifiers.get(e.idText(a));
             if (s) {
-                for(var o = 0, c = s; o < c.length; o++){
-                    var l = c[o];
-                    t = ef(t, l.name, n, l.name, undefined, a);
+                for(var d = 0, o = s; d < o.length; d++){
+                    var u = o[d];
+                    r = ep(r, u.name, a, u.name, undefined, n);
                 }
             }
-            return t;
+            return r;
         }
-        function ef(t, r, a, i, n, s) {
-            t = e.append(t, eg(r, a, i, n, s));
-            return t;
+        function ep(r, t, n, i, a, s) {
+            r = e.append(r, eg(t, n, i, a, s));
+            return r;
         }
         function em() {
-            var t;
-            if (p === 0) {
-                t = i.createExpressionStatement(ex(i.createIdentifier("__esModule"), i.createTrue()));
+            var r;
+            if (f === 0) {
+                r = i.createExpressionStatement(ex(i.createIdentifier("__esModule"), i.createTrue()));
             } else {
-                t = i.createExpressionStatement(i.createCallExpression(i.createPropertyAccessExpression(i.createIdentifier("Object"), "defineProperty"), undefined, [
+                r = i.createExpressionStatement(i.createCallExpression(i.createPropertyAccessExpression(i.createIdentifier("Object"), "defineProperty"), undefined, [
                     i.createIdentifier("exports"),
                     i.createStringLiteral("__esModule"),
                     i.createObjectLiteralExpression([
@@ -807,28 +807,28 @@ var e;
                     ])
                 ]));
             }
-            e.setEmitFlags(t, 1048576);
-            return t;
+            e.setEmitFlags(r, 1048576);
+            return r;
         }
-        function eg(t, r, a, n, s) {
-            var o = e.setTextRange(i.createExpressionStatement(ex(t, r, undefined, s)), a);
-            e.startOnNewLine(o);
-            if (!n) {
-                e.setEmitFlags(o, 1536);
+        function eg(r, t, n, a, s) {
+            var d = e.setTextRange(i.createExpressionStatement(ex(r, t, undefined, s)), n);
+            e.startOnNewLine(d);
+            if (!a) {
+                e.setEmitFlags(d, 1536);
             }
-            return o;
+            return d;
         }
-        function ex(t, r, a, n) {
-            return e.setTextRange(n && p !== 0 ? i.createCallExpression(i.createPropertyAccessExpression(i.createIdentifier("Object"), "defineProperty"), undefined, [
+        function ex(r, t, n, a) {
+            return e.setTextRange(a && f !== 0 ? i.createCallExpression(i.createPropertyAccessExpression(i.createIdentifier("Object"), "defineProperty"), undefined, [
                 i.createIdentifier("exports"),
-                i.createStringLiteralFromNode(t),
+                i.createStringLiteralFromNode(r),
                 i.createObjectLiteralExpression([
                     i.createPropertyAssignment("enumerable", i.createTrue()),
                     i.createPropertyAssignment("get", i.createFunctionExpression(undefined, undefined, undefined, undefined, [], undefined, i.createBlock([
-                        i.createReturnStatement(r)
+                        i.createReturnStatement(t)
                     ])))
                 ])
-            ]) : i.createAssignment(i.createPropertyAccessExpression(i.createIdentifier("exports"), i.cloneNode(t)), r), a);
+            ]) : i.createAssignment(i.createPropertyAccessExpression(i.createIdentifier("exports"), i.cloneNode(r)), t), n);
         }
         function ev(e) {
             switch(e.kind){
@@ -838,125 +838,125 @@ var e;
             }
             return e;
         }
-        function eE(t, r, a) {
-            if (r.kind === 303) {
-                E = r;
+        function eE(r, t, n) {
+            if (t.kind === 303) {
+                E = t;
                 N = x[e.getOriginalNodeId(E)];
-                g(t, r, a);
+                g(r, t, n);
                 E = undefined;
                 N = undefined;
             } else {
-                g(t, r, a);
+                g(r, t, n);
             }
         }
-        function eN(t, r) {
-            r = m(t, r);
-            if (r.id && I[r.id]) {
-                return r;
+        function eN(r, t) {
+            t = m(r, t);
+            if (t.id && I[t.id]) {
+                return t;
             }
-            if (t === 1) {
-                return eS(r);
-            } else if (e.isShorthandPropertyAssignment(r)) {
-                return eI(r);
-            }
-            return r;
-        }
-        function eI(t) {
-            var r = t.name;
-            var a = eA(r);
-            if (a !== r) {
-                if (t.objectAssignmentInitializer) {
-                    var n = i.createAssignment(a, t.objectAssignmentInitializer);
-                    return e.setTextRange(i.createPropertyAssignment(r, n), t);
-                }
-                return e.setTextRange(i.createPropertyAssignment(r, a), t);
+            if (r === 1) {
+                return eS(t);
+            } else if (e.isShorthandPropertyAssignment(t)) {
+                return eI(t);
             }
             return t;
+        }
+        function eI(r) {
+            var t = r.name;
+            var n = eh(t);
+            if (n !== t) {
+                if (r.objectAssignmentInitializer) {
+                    var a = i.createAssignment(n, r.objectAssignmentInitializer);
+                    return e.setTextRange(i.createPropertyAssignment(t, a), r);
+                }
+                return e.setTextRange(i.createPropertyAssignment(t, n), r);
+            }
+            return r;
         }
         function eS(e) {
             switch(e.kind){
                 case 79:
-                    return eA(e);
+                    return eh(e);
                 case 207:
                     return ey(e);
                 case 209:
-                    return eh(e);
+                    return eA(e);
                 case 220:
                     return eM(e);
             }
             return e;
         }
-        function ey(t) {
-            if (e.isIdentifier(t.expression)) {
-                var r = eA(t.expression);
-                I[e.getNodeId(r)] = true;
-                if (!e.isIdentifier(r) && !(e.getEmitFlags(t.expression) & 4096)) {
-                    return e.addEmitFlags(i.updateCallExpression(t, r, undefined, t.arguments), 536870912);
+        function ey(r) {
+            if (e.isIdentifier(r.expression)) {
+                var t = eh(r.expression);
+                I[e.getNodeId(t)] = true;
+                if (!e.isIdentifier(t) && !(e.getEmitFlags(r.expression) & 4096)) {
+                    return e.addEmitFlags(i.updateCallExpression(r, t, undefined, r.arguments), 536870912);
                 }
             }
-            return t;
+            return r;
         }
-        function eh(t) {
-            if (e.isIdentifier(t.tag)) {
-                var r = eA(t.tag);
-                I[e.getNodeId(r)] = true;
-                if (!e.isIdentifier(r) && !(e.getEmitFlags(t.tag) & 4096)) {
-                    return e.addEmitFlags(i.updateTaggedTemplateExpression(t, r, undefined, t.template), 536870912);
+        function eA(r) {
+            if (e.isIdentifier(r.tag)) {
+                var t = eh(r.tag);
+                I[e.getNodeId(t)] = true;
+                if (!e.isIdentifier(t) && !(e.getEmitFlags(r.tag) & 4096)) {
+                    return e.addEmitFlags(i.updateTaggedTemplateExpression(r, t, undefined, r.template), 536870912);
                 }
             }
-            return t;
+            return r;
         }
-        function eA(t) {
-            var r, a;
-            if (e.getEmitFlags(t) & 4096) {
-                var n = e.getExternalHelpersModuleName(E);
-                if (n) {
-                    return i.createPropertyAccessExpression(n, t);
+        function eh(r) {
+            var t, n;
+            if (e.getEmitFlags(r) & 4096) {
+                var a = e.getExternalHelpersModuleName(E);
+                if (a) {
+                    return i.createPropertyAccessExpression(a, r);
                 }
-                return t;
-            } else if (!(e.isGeneratedIdentifier(t) && !(t.autoGenerateFlags & 64)) && !e.isLocalName(t)) {
-                var s = u.getReferencedExportContainer(t, e.isExportName(t));
+                return r;
+            } else if (!(e.isGeneratedIdentifier(r) && !(r.autoGenerateFlags & 64)) && !e.isLocalName(r)) {
+                var s = c.getReferencedExportContainer(r, e.isExportName(r));
                 if (s && s.kind === 303) {
-                    return e.setTextRange(i.createPropertyAccessExpression(i.createIdentifier("exports"), i.cloneNode(t)), t);
+                    return e.setTextRange(i.createPropertyAccessExpression(i.createIdentifier("exports"), i.cloneNode(r)), r);
                 }
-                var o = u.getReferencedImportDeclaration(t);
-                if (o) {
-                    if (e.isImportClause(o)) {
-                        return e.setTextRange(i.createPropertyAccessExpression(i.getGeneratedNameForNode(o.parent), i.createIdentifier("default")), t);
-                    } else if (e.isImportSpecifier(o)) {
-                        var c = o.propertyName || o.name;
-                        return e.setTextRange(i.createPropertyAccessExpression(i.getGeneratedNameForNode(((a = (r = o.parent) === null || r === void 0 ? void 0 : r.parent) === null || a === void 0 ? void 0 : a.parent) || o), i.cloneNode(c)), t);
+                var d = c.getReferencedImportDeclaration(r);
+                if (d) {
+                    if (e.isImportClause(d)) {
+                        return e.setTextRange(i.createPropertyAccessExpression(i.getGeneratedNameForNode(d.parent), i.createIdentifier("default")), r);
+                    } else if (e.isImportSpecifier(d)) {
+                        var o = d.propertyName || d.name;
+                        return e.setTextRange(i.createPropertyAccessExpression(i.getGeneratedNameForNode(((n = (t = d.parent) === null || t === void 0 ? void 0 : t.parent) === null || n === void 0 ? void 0 : n.parent) || d), i.cloneNode(o)), r);
                     }
                 }
             }
-            return t;
+            return r;
         }
-        function eM(t) {
-            if (e.isAssignmentOperator(t.operatorToken.kind) && e.isIdentifier(t.left) && !e.isGeneratedIdentifier(t.left) && !e.isLocalName(t.left) && !e.isDeclarationNameOfEnumOrNamespace(t.left)) {
-                var r = eD(t.left);
-                if (r) {
-                    var a = t;
-                    for(var i = 0, n = r; i < n.length; i++){
-                        var s = n[i];
-                        I[e.getNodeId(a)] = true;
-                        a = ex(s, a, t);
+        function eM(r) {
+            if (e.isAssignmentOperator(r.operatorToken.kind) && e.isIdentifier(r.left) && !e.isGeneratedIdentifier(r.left) && !e.isLocalName(r.left) && !e.isDeclarationNameOfEnumOrNamespace(r.left)) {
+                var t = eD(r.left);
+                if (t) {
+                    var n = r;
+                    for(var i = 0, a = t; i < a.length; i++){
+                        var s = a[i];
+                        I[e.getNodeId(n)] = true;
+                        n = ex(s, n, r);
                     }
-                    return a;
+                    return n;
                 }
             }
-            return t;
+            return r;
         }
-        function eD(t) {
-            if (!e.isGeneratedIdentifier(t)) {
-                var r = u.getReferencedImportDeclaration(t) || u.getReferencedValueDeclaration(t);
-                if (r) {
-                    return N && N.exportedBindings[e.getOriginalNodeId(r)];
+        function eD(r) {
+            if (!e.isGeneratedIdentifier(r)) {
+                var t = c.getReferencedImportDeclaration(r) || c.getReferencedValueDeclaration(r);
+                if (t) {
+                    return N && N.exportedBindings[e.getOriginalNodeId(t)];
                 }
             }
         }
     }
-    e.transformModule = t;
-    var r = {
+    e.transformModule = r;
+    var t = {
         name: "typescript:dynamicimport-sync-require",
         scoped: true,
         text: "\n            var __syncRequire = typeof module === \"object\" && typeof module.exports === \"object\";"

@@ -7,6 +7,6 @@ export function foo() {
         retry: subscription.retry
     });
     if (!state.loaded) return null;
-    var e;
-    return _react.default.createElement((e = state.loaded) && e.__esModule ? e.default : e, props);
+    var t;
+    return _react.default.createElement((t = state.loaded) && t.__esModule ? t.default : t, props);
 }

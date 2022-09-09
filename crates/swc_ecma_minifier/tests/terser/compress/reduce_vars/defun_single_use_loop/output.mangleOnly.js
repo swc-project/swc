@@ -1,6 +1,6 @@
-for(var o, r = 2; --r >= 0;){
-    var a = o;
-    o = f;
-    console.log(o === a);
+for (var o, n = 2; --n >= 0; ) {
+    var r = o;
+    o = a;
+    console.log(o === r);
 }
-function f() {}
+function a() {}

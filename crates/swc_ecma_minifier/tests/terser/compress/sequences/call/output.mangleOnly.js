@@ -1,19 +1,21 @@
-var n = (function() {
+var o = (function () {
     return this;
 })();
-function o() {
+function n() {
     console.log("foo");
 }
-o.c = function() {
-    console.log(this === o ? "bar" : "baz");
+n.c = function () {
+    console.log(this === n ? "bar" : "baz");
 };
-(n, o)();
-(n, o.c)();
-(n, function() {
-    console.log(this === n);
+(o, n)();
+(o, n.c)();
+(o,
+function () {
+    console.log(this === o);
 })();
-new (n, o)();
-new (n, o.c)();
-new (n, function() {
-    console.log(this === n);
+new (o, n)();
+new (o, n.c)();
+new (o,
+function () {
+    console.log(this === o);
 })();

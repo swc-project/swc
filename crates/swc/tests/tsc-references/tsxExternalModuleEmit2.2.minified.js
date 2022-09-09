@@ -3,9 +3,9 @@
 //// [modules.d.ts]
 "use strict";
 //// [app.tsx]
-//! 
-//!   x Expected '>', got 'handler'
-//!    ,----
-//!  4 | <Foo handler={Main}></Foo>;
-//!    :      ^^^^^^^
-//!    `----
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+});
+var _extends = require("@swc/helpers/lib/_extends.js").default, _mod = (0, require("@swc/helpers/lib/_interop_require_default.js").default)(require("mod"));
+_mod.default, _extends({}, _mod.default);

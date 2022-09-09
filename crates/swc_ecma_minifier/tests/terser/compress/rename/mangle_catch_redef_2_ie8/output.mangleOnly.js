@@ -1,6 +1,6 @@
 try {
     throw "FAIL1";
-} catch (r) {
-    var r = "FAIL2";
+} catch (o) {
+    var o = "FAIL2";
 }
-console.log(r);
+console.log(o);

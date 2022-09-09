@@ -1,4 +1,8 @@
-for(var r = (r)=>{
-    var a = +r;
-    return console.log(a + a) && 0;
-}; r(1););
+for (
+    var r = (r) => {
+        var o = +r;
+        return console.log(o + o) && 0;
+    };
+    r(1);
+
+);

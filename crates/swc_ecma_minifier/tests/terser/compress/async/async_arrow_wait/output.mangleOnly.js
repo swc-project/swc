@@ -1,1 +1,1 @@
-var a = async (a, c)=>await a(c);
+var a = async (a, c) => await a(c);

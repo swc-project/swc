@@ -1,46 +1,54 @@
 function o() {
-    var o = 1, l = 2;
+    var o = 1,
+        l = 2;
     l++;
     console.log(o + 1);
     console.log(l + 1);
 }
 function l() {
-    var o = 1, l = 2;
+    var o = 1,
+        l = 2;
     --l;
     console.log(o + 1);
     console.log(l + 1);
 }
-function g() {
-    var o = 1, l = 2, g = 3;
-    l = g;
-    console.log(o + l);
-    console.log(l + g);
-    console.log(o + g);
-    console.log(o + l + g);
-}
 function n() {
-    var o = 1, l = 2, g = 3;
-    l *= g;
+    var o = 1,
+        l = 2,
+        n = 3;
+    l = n;
     console.log(o + l);
-    console.log(l + g);
-    console.log(o + g);
-    console.log(o + l + g);
+    console.log(l + n);
+    console.log(o + n);
+    console.log(o + l + n);
 }
-function f() {
-    var o = 1, l = 2, g = 3;
+function c() {
+    var o = 1,
+        l = 2,
+        n = 3;
+    l *= n;
+    console.log(o + l);
+    console.log(l + n);
+    console.log(o + n);
+    console.log(o + l + n);
+}
+function e() {
+    var o = 1,
+        l = 2,
+        n = 3;
     if (o) {
-        l = g;
+        l = n;
     } else {
-        g = l;
+        n = l;
     }
     console.log(o + l);
-    console.log(l + g);
-    console.log(o + g);
-    console.log(o + l + g);
+    console.log(l + n);
+    console.log(o + n);
+    console.log(o + l + n);
 }
-function _(o) {
+function s(o) {
     B = o;
     console.log(typeof A ? "yes" : "no");
     console.log(typeof B ? "yes" : "no");
 }
-o(), l(), g(), n(), f(), _();
+o(), l(), n(), c(), e(), s();

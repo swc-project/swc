@@ -68,9 +68,9 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
         };
     }, e;
 }(), s = ((e = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", e["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", e), c = new t.ErrorFactory("app-compat", "Firebase", s), u = function e() {
-    var r, i, a, s, u, l, d, f, g = function(e) {
-        t.deepExtend(m, e);
-    }, m = (r = p, i = function(e) {
+    var r, i, a, s, u, l, d, f, m = function(e) {
+        t.deepExtend(b, e);
+    }, b = (r = p, i = function(e) {
         delete d[e];
     }, a = function(e) {
         if (e = e || o._DEFAULT_ENTRY_NAME, !t.contains(d, e)) throw c.create("no-app", {
@@ -122,13 +122,13 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
     }).default = f, Object.defineProperty(f, "apps", {
         get: s
     }), a.App = r, f);
-    return m.INTERNAL = n.__assign(n.__assign({}, m.INTERNAL), {
+    return b.INTERNAL = n.__assign(n.__assign({}, b.INTERNAL), {
         createFirebaseNamespace: e,
-        extendNamespace: g,
+        extendNamespace: m,
         createSubscribe: t.createSubscribe,
         ErrorFactory: t.ErrorFactory,
         deepExtend: t.deepExtend
-    }), m;
+    }), b;
 }(), l = new a.Logger("@firebase/app-compat");
 if (t.isBrowser() && void 0 !== self.firebase) {
     l.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");

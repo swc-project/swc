@@ -1,4 +1,4 @@
-!(function() {
-    var f;
-    if ((f = 2)) console.log(f);
+!(function () {
+    var o;
+    if ((o = 2)) console.log(o);
 })();

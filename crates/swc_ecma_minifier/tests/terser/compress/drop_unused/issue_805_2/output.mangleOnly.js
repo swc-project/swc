@@ -1,11 +1,11 @@
-(function(o) {
+(function (o) {
     function n() {}
     n.prototype[o()] = 42;
-    (n.prototype.bar = function() {
+    (n.prototype.bar = function () {
         console.log("bar");
     })();
     return n;
-})(function() {
+})(function () {
     console.log("foo");
     return "foo";
 });

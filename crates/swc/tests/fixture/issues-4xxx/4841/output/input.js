@@ -1,10 +1,10 @@
-global._processChunk = function r(i, t, e) {
-    if (i) {
-        if (!t) {
+global._processChunk = function r(c, i, a) {
+    if (c) {
+        if (!i) {
             return true;
         }
-        var e = this.write();
-        return (e.callback = callback), void 0;
+        var a = this.write();
+        return (a.callback = callback), void 0;
     }
     cb();
 };

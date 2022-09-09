@@ -1,7 +1,2 @@
 //// [file.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  6 | var x = </**/div></div>;
-//!    :                         ^
-//!    `----
+var x = /*#__PURE__*/ React.createElement(/**/ "div", null);

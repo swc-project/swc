@@ -3,6 +3,6 @@ class l {
     static [s = "PASS"];
 }
 console.log(s);
-class t {
+class c {
     static [console.log("PASS")];
 }

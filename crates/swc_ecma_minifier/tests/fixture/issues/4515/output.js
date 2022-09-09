@@ -3,4 +3,4 @@ B.c = {
         for(var a = 1; a < 10; a++);
     }
 };
-export function setGetChildNodes() {}
+export function setGetChildNodes(getChildNodesImpl) {}

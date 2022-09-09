@@ -1,4 +1,4 @@
-switch(foo){
+switch (foo) {
     default:
         other();
     case "bar":

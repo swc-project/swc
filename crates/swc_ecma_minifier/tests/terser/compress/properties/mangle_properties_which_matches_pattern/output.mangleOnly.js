@@ -1,7 +1,7 @@
-var a = {
-    get asd () {
+var s = {
+    get asd() {
         return this._asd;
     },
-    _asd: true
+    _asd: true,
 };
-console.log(a);
+console.log(s);

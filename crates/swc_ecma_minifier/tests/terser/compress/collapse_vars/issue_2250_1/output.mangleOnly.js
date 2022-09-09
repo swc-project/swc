@@ -1,18 +1,18 @@
-function n(n) {
-    if (n) {
+function o(o) {
+    if (o) {
         const f = foo();
-        n(f);
+        o(f);
     }
 }
-function f(n) {
-    if (n) {
+function f(o) {
+    if (o) {
         let f = foo();
-        n(f);
+        o(f);
     }
 }
-function i(n) {
-    if (n) {
+function n(o) {
+    if (o) {
         var f = foo();
-        n(f);
+        o(f);
     }
 }

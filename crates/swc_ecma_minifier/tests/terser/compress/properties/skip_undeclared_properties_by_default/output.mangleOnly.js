@@ -1,5 +1,5 @@
 var r = {
-    foo: function() {
+    foo: function () {
         return Bar.bar();
-    }
+    },
 };

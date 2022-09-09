@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.2.248",
+    "version": "1.2.249",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -98,9 +98,11 @@
         "@napi-rs/cli": "^2.10.0",
         "@swc/core": "^1.2.220",
         "@swc/helpers": "^0.4.2",
+        "@swc/plugin-jest": "^1.2.12",
         "@taplo/cli": "^0.3.2",
         "@types/jest": "^28.1.4",
         "@types/node": "^14.14.41",
+        "@types/terser": "^3.12.0",
         "acorn": "^8.6.0",
         "acorn-jsx": "^5.3.2",
         "axios": "^0.21.1",
@@ -129,6 +131,7 @@
         "source-map": "^0.7.3",
         "source-map-support": "^0.5.19",
         "sourcemap-validator": "^2.1.0",
+        "swc-plugin-coverage-instrument": "^0.0.12",
         "terser": "^5.7.1",
         "ts-node": "^10.5.0",
         "typescript": "^4.5.2"

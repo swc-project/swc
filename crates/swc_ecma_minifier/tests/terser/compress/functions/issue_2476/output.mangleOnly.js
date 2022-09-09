@@ -1,5 +1,5 @@
-function r(r, n, o) {
-    return r < n ? r * n + o : r * o - n;
+function o(o, n, r) {
+    return o < n ? o * n + r : o * r - n;
 }
-for(var n = 0, o = 0; o < 10; o++)n += r(o, o + 1, 3 * o);
+for (var n = 0, r = 0; r < 10; r++) n += o(r, r + 1, 3 * r);
 console.log(n);

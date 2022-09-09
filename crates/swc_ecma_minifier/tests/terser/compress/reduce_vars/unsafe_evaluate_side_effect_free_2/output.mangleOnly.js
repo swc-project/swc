@@ -1,9 +1,8 @@
-console.log((function() {
-    var n = {
-        p: 1
-    }, o = [
-        n
-    ];
-    console.log(o[0].p);
-    return n.p;
-})());
+console.log(
+    (function () {
+        var o = { p: 1 },
+            n = [o];
+        console.log(n[0].p);
+        return o.p;
+    })()
+);

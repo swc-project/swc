@@ -1,15 +1,27 @@
 function n() {
-    var n = 3, r = 5, o = 2, r = 1, r = 3;
-    return -r;
+    var n = 3,
+        o = 5,
+        r = 2,
+        o = 1,
+        o = 3;
+    return -o;
 }
-function r(n) {
-    var r = 3, r = n;
-    return r;
+function o(n) {
+    var o = 3,
+        o = n;
+    return o;
 }
-(function(n) {
-    var r = "GOOD" + n, o = "BAD", t = "!", o = r;
-    console.log(o + t);
-})("!"), (function(n) {
-    var r = "GOOD" + n, o = "BAD" + n, t = "!", o = r;
-    console.log(o + t);
-})("!");
+(function (n) {
+    var o = "GOOD" + n,
+        r = "BAD",
+        c = "!",
+        r = o;
+    console.log(r + c);
+})("!"),
+    (function (n) {
+        var o = "GOOD" + n,
+            r = "BAD" + n,
+            c = "!",
+            r = o;
+        console.log(r + c);
+    })("!");

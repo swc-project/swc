@@ -1,10 +1,10 @@
 const t = {
     flatten: function() {
         var t = [];
-        for(var n = 0, a = this.length; n < a; n++){
-            var i = typeOf(this[n]);
-            if (i == "null") continue;
-            t = t.concat(i == "array" || i == "collection" || i == "arguments" || instanceOf(this[n], Array) ? Array.flatten(this[n]) : this[n]);
+        for(var n = 0, r = this.length; n < r; n++){
+            var a = typeOf(this[n]);
+            if (a == "null") continue;
+            t = t.concat(a == "array" || a == "collection" || a == "arguments" || instanceOf(this[n], Array) ? Array.flatten(this[n]) : this[n]);
         }
         return t;
     }

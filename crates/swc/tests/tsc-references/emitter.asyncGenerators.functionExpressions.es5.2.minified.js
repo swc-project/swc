@@ -18,7 +18,6 @@ import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 !function() {
     var _ref = _wrap_async_generator(function() {
-        var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -26,7 +25,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
                         4
                     ];
                 case 1:
-                    return x = _state.sent(), [
+                    return _state.sent(), [
                         2
                     ];
             }
@@ -41,7 +40,6 @@ import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 !function() {
     var _ref = _wrap_async_generator(function() {
-        var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -50,7 +48,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
                         1
                     ];
                 case 1:
-                    return x = _state.sent(), [
+                    return _state.sent(), [
                         2
                     ];
             }
@@ -69,7 +67,6 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import _ts_values from "@swc/helpers/src/_ts_values.mjs";
 !function() {
     var _ref = _wrap_async_generator(function() {
-        var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -80,7 +77,7 @@ import _ts_values from "@swc/helpers/src/_ts_values.mjs";
                         ]), _await_async_generator))
                     ];
                 case 1:
-                    return x = _state.sent(), [
+                    return _state.sent(), [
                         2
                     ];
             }
@@ -99,7 +96,6 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import _ts_values from "@swc/helpers/src/_ts_values.mjs";
 !function() {
     var _ref = _wrap_async_generator(function() {
-        var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -122,7 +118,7 @@ import _ts_values from "@swc/helpers/src/_ts_values.mjs";
                         })()), _await_async_generator))
                     ];
                 case 1:
-                    return x = _state.sent(), [
+                    return _state.sent(), [
                         2
                     ];
             }
@@ -138,7 +134,6 @@ import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 !function() {
     var _ref = _wrap_async_generator(function() {
-        var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -147,7 +142,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
                         _await_async_generator(1)
                     ];
                 case 1:
-                    return x = _state.sent(), [
+                    return _state.sent(), [
                         2
                     ];
             }

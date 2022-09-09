@@ -1,12 +1,13 @@
-var a = 100, r = 10;
-function t() {
-    switch(1){
+var a = 100,
+    c = 10;
+function e() {
+    switch (1) {
         case 1:
-            r = a++;
-            return ++r;
+            c = a++;
+            return ++c;
         default:
-            var r;
+            var c;
     }
 }
-t();
-console.log(a, r);
+e();
+console.log(a, c);

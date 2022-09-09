@@ -1,8 +1,8 @@
-for(let l = 0; l < 3; l++){
-    let o = 100;
-    console.log(l, o);
+for(let o = 0; o < 3; o++){
+    let l = 100;
+    console.log(o, l);
     for(let e = 0; e < 2; e++){
-        console.log(e, o);
+        console.log(e, l);
         let t = 2;
         console.log(t);
     }

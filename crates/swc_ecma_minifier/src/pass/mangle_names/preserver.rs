@@ -138,9 +138,9 @@ impl Visit for Preserver {
         }
     }
 
-    fn visit_stmts(&mut self, n: &[Stmt]) {
+    fn visit_block_stmt(&mut self, n: &BlockStmt) {
         let old_top_level = self.in_top_level;
-        for n in n {
+        for n in n.stmts.iter() {
             self.in_top_level = false;
             n.visit_with(self);
         }

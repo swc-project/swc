@@ -1,7 +1,7 @@
 var e = 10;
-function a() {
-    var a;
-    if (delete a) e--;
+function o() {
+    var o;
+    if (delete o) e--;
 }
-a();
+o();
 console.log(e);

@@ -6,9 +6,9 @@
         4426: function(n, u, t) {
             "use strict";
             t.r(u);
-            var r = t(4512);
+            var e = t(4512);
             u["default"] = function() {
-                return (0, r.jsx)("div", {
+                return (0, e.jsx)("div", {
                     className: "about-page",
                     children: "About Page"
                 });

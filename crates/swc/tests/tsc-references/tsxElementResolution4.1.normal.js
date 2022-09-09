@@ -1,7 +1,13 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got 'n'
-//!     ,----
-//!  10 | <div n='x' />;
-//!     :      ^
-//!     `----
+// OK
+/*#__PURE__*/ React.createElement("div", {
+    n: "x"
+});
+// OK
+/*#__PURE__*/ React.createElement("span", {
+    m: "ok"
+});
+// Error
+/*#__PURE__*/ React.createElement("span", {
+    q: ""
+});

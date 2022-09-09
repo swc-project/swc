@@ -1,14 +1,14 @@
 (function() {
     if (1) {
-        let t;
+        let e;
         const o = 1;
-        class f {
+        class t {
         }
     }
     if (1) {
-        let e;
-        const p = 2;
-        class s {
+        let f;
+        const s = 2;
+        class c {
         }
     }
     console.log(typeof x, typeof y, typeof Zee, typeof ex, typeof why, typeof Zi);

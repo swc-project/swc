@@ -3,7 +3,7 @@ import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 a = b, a = c, b = a = d, b = c, b = d, c = a, c = b, c = d, d = a, d = b, d = c;
 export var func = null;
-export function useState() {
+export function useState(initial) {
     return null;
 }
 export function readSegment(param) {

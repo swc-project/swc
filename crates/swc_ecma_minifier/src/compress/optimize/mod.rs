@@ -832,6 +832,21 @@ where
                 return Some(e.take());
             }
 
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left: PatOrExpr::Pat(pat),
+                right,
+                ..
+            }) => {
+                if let Pat::Ident(i) = &mut **pat {
+                    self.store_var_for_inlining(&mut i.id, right, false, true);
+
+                    if right.is_invalid() {
+                        return None;
+                    }
+                }
+            }
+
             // We drop `f.g` in
             //
             // function f() {
@@ -1579,7 +1594,7 @@ where
         match n {
             DefaultDecl::Class(_) => {}
             DefaultDecl::Fn(f) => {
-                if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
+                if !self.options.keep_fargs && self.options.unused {
                     self.drop_unused_params(&mut f.function.params);
                 }
             }
@@ -1602,9 +1617,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         if let Decl::Fn(f) = &mut n.decl {
-            // I don't know why, but terser removes parameters from an exported function if
-            // `unused` is true, regardless of keep_fargs or others.
-            if self.options.unused {
+            if !self.options.keep_fargs && self.options.unused {
                 self.drop_unused_params(&mut f.function.params);
             }
         }
@@ -1655,6 +1668,30 @@ where
         match e {
             Expr::Seq(seq) if seq.exprs.len() == 1 => {
                 *e = *seq.exprs[0].take();
+            }
+
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left: PatOrExpr::Pat(pat),
+                right,
+                ..
+            }) => {
+                if let Pat::Ident(i) = &mut **pat {
+                    let old = i.to_id();
+
+                    self.store_var_for_inlining(&mut i.id, right, false, false);
+
+                    if right.is_invalid() {
+                        if let Some(lit) = self
+                            .vars
+                            .lits
+                            .get(&old)
+                            .or_else(|| self.vars.vars_for_inlining.get(&old))
+                        {
+                            *e = (**lit).clone();
+                        }
+                    }
+                }
             }
 
             _ => {}
@@ -1816,7 +1853,7 @@ where
             .entry(f.ident.to_id())
             .or_insert_with(|| FnMetadata::from(&f.function));
 
-        if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
+        if !self.options.keep_fargs && self.options.unused {
             self.drop_unused_params(&mut f.function.params);
         }
 
@@ -2162,61 +2199,56 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        {
-            let ctx = Ctx {
-                dont_use_negated_iife: true,
-                ..self.ctx
-            };
+        let should_preserve_zero = matches!(
+            n.exprs.last().map(|v| &**v),
+            Some(Expr::Member(..))
+                | Some(Expr::Ident(Ident {
+                    sym: js_word!("eval"),
+                    ..
+                }))
+        );
 
-            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
+        let ctx = Ctx {
+            dont_use_negated_iife: true,
+            ..self.ctx
+        };
+
+        let exprs = n
+            .exprs
+            .iter_mut()
+            .enumerate()
+            .identify_last()
+            .filter_map(|(last, (idx, expr))| {
+                expr.visit_mut_with(&mut *self.with_ctx(ctx));
+                let is_injected_zero = match &**expr {
+                    Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
+                    _ => false,
+                };
+
+                let can_remove = !last
+                    && (idx != 0
+                        || !is_injected_zero
+                        || !self.ctx.is_this_aware_callee
+                        || !should_preserve_zero);
+
+                if can_remove {
+                    // If negate_iife is true, it's already handled by
+                    // visit_mut_children_with(self) above.
+                    if !self.options.negate_iife {
+                        self.negate_iife_in_cond(expr);
+                    }
+
+                    self.ignore_return_value(expr).map(Box::new)
+                } else {
+                    Some(expr.take())
+                }
+            })
+            .collect::<Vec<_>>();
+        n.exprs = exprs;
 
         self.shift_void(n);
 
         self.shift_assignment(n);
-
-        {
-            let should_preserve_zero = matches!(
-                n.exprs.last().map(|v| &**v),
-                Some(Expr::Member(..))
-                    | Some(Expr::Ident(Ident {
-                        sym: js_word!("eval"),
-                        ..
-                    }))
-            );
-
-            let exprs = n
-                .exprs
-                .iter_mut()
-                .enumerate()
-                .identify_last()
-                .filter_map(|(last, (idx, expr))| {
-                    let is_injected_zero = match &**expr {
-                        Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
-                        _ => false,
-                    };
-
-                    let can_remove = !last
-                        && (idx != 0
-                            || !is_injected_zero
-                            || !self.ctx.is_this_aware_callee
-                            || !should_preserve_zero);
-
-                    if can_remove {
-                        // If negate_iife is true, it's already handled by
-                        // visit_mut_children_with(self) above.
-                        if !self.options.negate_iife {
-                            self.negate_iife_in_cond(expr);
-                        }
-
-                        self.ignore_return_value(expr).map(Box::new)
-                    } else {
-                        Some(expr.take())
-                    }
-                })
-                .collect::<Vec<_>>();
-            n.exprs = exprs;
-        }
 
         self.merge_sequences_in_seq_expr(n);
 
@@ -2623,7 +2655,19 @@ where
 
         self.remove_duplicate_name_of_function(var);
 
-        self.store_var_for_inlining(var);
+        if let VarDeclarator {
+            name: Pat::Ident(id),
+            init: Some(init),
+            definite: false,
+            ..
+        } = var
+        {
+            let should_preserve = !var.span.has_mark(self.marks.non_top_level)
+                && (!self.options.top_level() && self.options.top_retain.is_empty())
+                && self.ctx.in_top_level();
+            self.store_var_for_inlining(&mut id.id, init, should_preserve, false);
+        };
+
         self.store_var_for_prop_hoisting(var);
     }
 

@@ -4,6 +4,6 @@ try {
             throw "PASS";
         }
     }.length = "FAIL"), "FAIL"));
-} catch (t) {
-    console.log(t);
+} catch (o) {
+    console.log(o);
 }

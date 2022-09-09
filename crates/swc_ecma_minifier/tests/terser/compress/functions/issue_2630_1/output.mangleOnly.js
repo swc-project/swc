@@ -1,9 +1,10 @@
 var n = 0;
-(function() {
-    while(i());
-    function i() {
-        var i = (function() {
-            var i = n++, o = (n = 1 + n);
+(function () {
+    while (o());
+    function o() {
+        var o = (function () {
+            var o = n++,
+                c = (n = 1 + n);
         })();
     }
 })();

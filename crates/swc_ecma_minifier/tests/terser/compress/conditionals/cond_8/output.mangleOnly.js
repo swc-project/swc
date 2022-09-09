@@ -1,36 +1,36 @@
-var e;
-e = condition ? true : false;
-e = !condition ? true : false;
-e = condition() ? true : false;
-e = condition ? !0 : !1;
-e = !condition ? !null : !2;
-e = condition() ? !0 : !-3.5;
+var i;
+i = condition ? true : false;
+i = !condition ? true : false;
+i = condition() ? true : false;
+i = condition ? !0 : !1;
+i = !condition ? !null : !2;
+i = condition() ? !0 : !-3.5;
 if (condition) {
-    e = true;
+    i = true;
 } else {
-    e = false;
+    i = false;
 }
 if (condition) {
-    e = !0;
+    i = !0;
 } else {
-    e = !1;
+    i = !1;
 }
-e = condition ? false : true;
-e = !condition ? false : true;
-e = condition() ? false : true;
-e = condition ? !3 : !0;
-e = !condition ? !2 : !0;
-e = condition() ? !1 : !0;
+i = condition ? false : true;
+i = !condition ? false : true;
+i = condition() ? false : true;
+i = condition ? !3 : !0;
+i = !condition ? !2 : !0;
+i = condition() ? !1 : !0;
 if (condition) {
-    e = false;
+    i = false;
 } else {
-    e = true;
+    i = true;
 }
 if (condition) {
-    e = !1;
+    i = !1;
 } else {
-    e = !0;
+    i = !0;
 }
-e = condition ? 1 : false;
-e = !condition ? true : 0;
-e = condition ? 1 : 0;
+i = condition ? 1 : false;
+i = !condition ? true : 0;
+i = condition ? 1 : 0;

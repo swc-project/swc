@@ -5,7 +5,7 @@ function n() {
 }
 function o(n) {
     function o() {}
-    function f() {}
-    return n ? o : f;
+    function c() {}
+    return n ? o : c;
 }
 n();

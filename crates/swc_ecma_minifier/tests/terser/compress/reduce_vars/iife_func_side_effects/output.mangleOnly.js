@@ -4,14 +4,18 @@ function n() {
 function o() {
     console.log("y");
 }
-function t() {
+function c() {
     console.log("z");
 }
-(function(n, o, t) {
-    function u() {
+(function (n, o, c) {
+    function l() {
         console.log("FAIL");
     }
-    return u + o();
-})(n(), function() {
-    return o();
-}, t());
+    return l + o();
+})(
+    n(),
+    function () {
+        return o();
+    },
+    c()
+);

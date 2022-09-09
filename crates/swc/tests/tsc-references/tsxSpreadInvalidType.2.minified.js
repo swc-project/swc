@@ -1,7 +1,3 @@
 //// [a.tsx]
-//! 
-//!   x Expected '>', got '{'
-//!    ,----
-//!  9 | const d = <div { ...a } />
-//!    :                ^
-//!    `----
+import _extends from "@swc/helpers/src/_extends.mjs";
+_extends({}, {}), _extends({}, null), _extends({}, void 0);

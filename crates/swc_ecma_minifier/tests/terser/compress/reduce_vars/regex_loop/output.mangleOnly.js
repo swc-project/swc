@@ -1,7 +1,7 @@
 function a(a) {
-    for(var b, c = "acdabcdeabbb"; (b = a().exec(c));)console.log(b[0]);
+    for (var c, n = "acdabcdeabbb"; (c = a().exec(n)); ) console.log(c[0]);
 }
-var b = /ab*/g;
-a(function() {
-    return b;
+var c = /ab*/g;
+a(function () {
+    return c;
 });

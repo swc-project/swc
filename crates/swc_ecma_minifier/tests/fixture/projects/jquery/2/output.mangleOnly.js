@@ -1,38 +1,38 @@
 jQuery.extend = jQuery.fn.extend = function() {
-    var e, i, n, f, t, l, o = arguments[0] || {}, s = 1, r = arguments.length, a = false;
-    if (typeof o === "boolean") {
-        a = o;
-        o = arguments[1] || {};
-        s = 2;
+    var e, i, n, f, r, t, u = arguments[0] || {}, y = 1, j = arguments.length, l = false;
+    if (typeof u === "boolean") {
+        l = u;
+        u = arguments[1] || {};
+        y = 2;
     }
-    if (typeof o !== "object" && !jQuery.isFunction(o)) {
-        o = {};
+    if (typeof u !== "object" && !jQuery.isFunction(u)) {
+        u = {};
     }
-    if (r === s) {
-        o = this;
-        --s;
+    if (j === y) {
+        u = this;
+        --y;
     }
-    for(; s < r; s++){
-        if ((t = arguments[s]) != null) {
-            for(f in t){
-                e = o[f];
-                n = t[f];
-                if (o === n) {
+    for(; y < j; y++){
+        if ((r = arguments[y]) != null) {
+            for(f in r){
+                e = u[f];
+                n = r[f];
+                if (u === n) {
                     continue;
                 }
-                if (a && n && (jQuery.isPlainObject(n) || (i = jQuery.isArray(n)))) {
+                if (l && n && (jQuery.isPlainObject(n) || (i = jQuery.isArray(n)))) {
                     if (i) {
                         i = false;
-                        l = e && jQuery.isArray(e) ? e : [];
+                        t = e && jQuery.isArray(e) ? e : [];
                     } else {
-                        l = e && jQuery.isPlainObject(e) ? e : {};
+                        t = e && jQuery.isPlainObject(e) ? e : {};
                     }
-                    o[f] = jQuery.extend(a, l, n);
+                    u[f] = jQuery.extend(l, t, n);
                 } else if (n !== undefined) {
-                    o[f] = n;
+                    u[f] = n;
                 }
             }
         }
     }
-    return o;
+    return u;
 };

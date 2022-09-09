@@ -1,12 +1,10 @@
 function n() {
     var n = {
-        inner: function() {
+        inner: function () {
             return n;
-        }
+        },
     };
 }
 function r() {
-    var n = {
-        inner: n
-    };
+    var n = { inner: n };
 }

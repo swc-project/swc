@@ -1,8 +1,6 @@
-(function() {
+(function () {
     function n() {
-        return {
-            a: 1
-        };
+        return { a: 1 };
     }
     function r() {
         return n();

@@ -1,14 +1,11 @@
 //// [file.tsx]
-//! 
-//!   x Expression expected
-//!     ,----
-//!  10 | const foo = <Foo />;
-//!     :                  ^
-//!     `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!     ,----
-//!  10 | const foo = <Foo />;
-//!     :                   ^
-//!     `----
+define([
+    "require",
+    "exports",
+    "react"
+], function(require, exports, _react) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    });
+});

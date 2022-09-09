@@ -1,7 +1,10 @@
-var a, n = 1;
-a = --n + (function a() {
-    var n;
-    a[--n] = 1;
-})();
-n |= a;
-console.log(a, n);
+var o,
+    n = 1;
+o =
+    --n +
+    (function o() {
+        var n;
+        o[--n] = 1;
+    })();
+n |= o;
+console.log(o, n);

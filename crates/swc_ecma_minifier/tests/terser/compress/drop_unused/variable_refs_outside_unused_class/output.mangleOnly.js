@@ -1,16 +1,9 @@
-var p = id({
-    prop: "method"
-});
-var o = id({
-    prop: class {
-    }
-});
-var r = id({
-    prop: "foo"
-});
-class a extends o.prop {
+var o = id({ prop: "method" });
+var p = id({ prop: class {} });
+var r = id({ prop: "foo" });
+class s extends p.prop {
     static prop = r.prop;
-    [p.prop]() {
+    [o.prop]() {
         console.log("PASS");
     }
 }

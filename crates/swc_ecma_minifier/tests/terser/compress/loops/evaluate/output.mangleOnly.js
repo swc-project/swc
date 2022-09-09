@@ -1,12 +1,12 @@
-while(true){
+while (true) {
     a();
 }
-while(false){
+while (false) {
     b();
 }
 do {
     c();
-}while (true)
+} while (true);
 do {
     d();
-}while (false)
+} while (false);

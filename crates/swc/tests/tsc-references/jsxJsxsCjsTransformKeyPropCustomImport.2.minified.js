@@ -1,7 +1,13 @@
 //// [jsxJsxsCjsTransformKeyPropCustomImport.tsx]
-//! 
-//!   x Expected '>', got 'key'
-//!    ,----
-//!  3 | const a = <div key="foo" {...props}>text</div>;
-//!    :                ^^^
-//!    `----
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+});
+var _extends = require("@swc/helpers/lib/_extends.js").default, props = {
+    answer: 42
+};
+_extends({
+    key: "foo"
+}, props), _extends({}, props, {
+    key: "bar"
+});

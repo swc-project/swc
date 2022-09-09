@@ -2,7 +2,7 @@ new (class {
     ["constructor"]() {
         console.log("FAIL");
     }
-    constructor(){
+    constructor() {
         console.log("PASS");
     }
 })();

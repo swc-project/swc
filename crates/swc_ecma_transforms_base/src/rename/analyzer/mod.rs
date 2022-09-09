@@ -67,11 +67,11 @@ impl Visit for Analyzer {
     fn visit_catch_clause(&mut self, n: &CatchClause) {
         let old = self.is_pat_decl;
 
-        self.is_pat_decl = true;
-        n.param.visit_with(self);
-
         self.is_pat_decl = false;
         n.body.visit_with(self);
+
+        self.is_pat_decl = true;
+        n.param.visit_with(self);
 
         self.is_pat_decl = old;
     }

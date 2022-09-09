@@ -1,5 +1,5 @@
-new ((function(n) {
-    return function t() {
+new ((function (n) {
+    return function o() {
         this.x = n;
         console.log(this);
     };

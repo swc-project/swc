@@ -1,4 +1,4 @@
-var e = (function(e) {
+var e = (function (e) {
     function e() {
         console.log("Value after override");
     }

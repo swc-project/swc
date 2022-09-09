@@ -1,6 +1,6 @@
-import*as t from"react";export default function e(){const[e,s]=t.useState({hits:[]}),[c,o]=t.useState("react");return t.useEffect(()=>{""!==c&&t();async function t(){const t=await fetch("https://hn.algolia.com/api/v1/search?query="+c),e=await t.json();s(e)}},[c]),<>
+import*as t from"react";export default function e(){const[e,i]=t.useState({hits:[]}),[u,c]=t.useState("react");return t.useEffect(()=>{""!==u&&t();async function t(){const t=await fetch("https://hn.algolia.com/api/v1/search?query="+u),e=await t.json();i(e)}},[u]),<>
 
-            <input value={c}onChange={t=>o(t.target.value)}/>
+            <input value={u}onChange={t=>c(t.target.value)}/>
 
             <ul >
 

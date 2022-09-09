@@ -1,6 +1,6 @@
-!(function() {
+!(function () {
     var n;
-    !(function(o) {
+    !(function (o) {
         n = 2;
         console.log(n, o);
     })(n);

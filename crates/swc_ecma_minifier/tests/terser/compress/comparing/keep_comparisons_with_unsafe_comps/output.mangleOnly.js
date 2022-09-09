@@ -1,14 +1,14 @@
-var a = {
-    valueOf: function() {
+var r = {
+    valueOf: function () {
         triggeredFirst();
-    }
+    },
 };
-var v = {
-    valueOf: function() {
+var a = {
+    valueOf: function () {
         triggeredSecond();
-    }
+    },
 };
-var r = a <= v;
-var f = a < v;
-var n = a >= v;
-var u = a > v;
+var v = r <= a;
+var e = r < a;
+var i = r >= a;
+var n = r > a;

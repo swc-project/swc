@@ -9,7 +9,6 @@ var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcar
     function cl1() {}
     return cl1.prototype.m = function() {
         return _asyncToGenerator(function() {
-            var req;
             return _tsGenerator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -20,7 +19,7 @@ var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcar
                             })
                         ];
                     case 1:
-                        return req = _state.sent(), [
+                        return _state.sent(), [
                             2
                         ];
                 }

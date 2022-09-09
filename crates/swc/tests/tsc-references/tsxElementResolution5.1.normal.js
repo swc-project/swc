@@ -1,7 +1,5 @@
 //// [file1.tsx]
-//! 
-//!   x Expected '>', got 'n'
-//!    ,----
-//!  6 | <div n='x' />;
-//!    :      ^
-//!    `----
+// OK, but implicit any
+/*#__PURE__*/ React.createElement("div", {
+    n: "x"
+});

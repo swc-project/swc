@@ -1,7 +1,6 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got 'n'
-//!    ,----
-//!  8 | <div n='x' />;
-//!    :      ^
-//!    `----
+var div;
+// Still an error
+/*#__PURE__*/ React.createElement("div", {
+    n: "x"
+});

@@ -1,9 +1,9 @@
 export const obj = {
-    setRequestHeader: function(e, t) {
-        var o = e.toLowerCase();
+    setRequestHeader: function(e, s) {
+        var t = e.toLowerCase();
         if (!state) {
-            e = requestHeadersNames[o] = requestHeadersNames[o] || e;
-            requestHeaders[e] = t;
+            e = requestHeadersNames[t] = requestHeadersNames[t] || e;
+            requestHeaders[e] = s;
         }
         return this;
     }

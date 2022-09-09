@@ -1,8 +1,8 @@
 function n(n) {
     {
-        for(var _ = arguments.length, r = new Array(_ > 1 ? _ - 1 : 0), a = 1; a < _; a++){
-            r[a - 1] = arguments[a];
+        for(var r = arguments.length, a = new Array(r > 1 ? r - 1 : 0), i = 1; i < r; i++){
+            a[i - 1] = arguments[i];
         }
-        printWarning("warn", n, r);
+        printWarning("warn", n, a);
     }
 }

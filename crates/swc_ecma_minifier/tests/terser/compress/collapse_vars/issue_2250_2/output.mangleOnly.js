@@ -5,6 +5,6 @@
     let t = function() {};
     t(bar());
 }{
-    var c = function() {};
-    c(bar());
+    var a = function() {};
+    a(bar());
 }

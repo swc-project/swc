@@ -1,4 +1,4 @@
-function t() {}
+function o() {}
 try {
     throw 42;
 } catch (c) {

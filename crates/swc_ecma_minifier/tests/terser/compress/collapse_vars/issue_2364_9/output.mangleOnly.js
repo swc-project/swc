@@ -3,12 +3,14 @@ function n(n, r) {
     return r.f(f);
 }
 var r = {
-    f: function() {
+    f: function () {
         return "FAIL";
-    }
+    },
 };
-console.log(n(function() {
-    r.f = function() {
-        return "PASS";
-    };
-}, r));
+console.log(
+    n(function () {
+        r.f = function () {
+            return "PASS";
+        };
+    }, r)
+);

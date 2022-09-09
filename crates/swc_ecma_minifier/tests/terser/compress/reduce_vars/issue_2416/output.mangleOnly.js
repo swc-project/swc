@@ -1,3 +1,2 @@
-class a {
-}
-console.log(a.name);
+class l {}
+console.log(l.name);

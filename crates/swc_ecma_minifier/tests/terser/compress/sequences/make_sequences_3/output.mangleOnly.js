@@ -1,9 +1,9 @@
-function n() {
+function o() {
     foo();
     bar();
     return baz();
 }
-function t() {
+function r() {
     foo();
     bar();
     throw new Error();

@@ -1,2 +1,1 @@
-export class C {
-}
+export class C {}

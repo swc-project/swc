@@ -1,37 +1,27 @@
 //// [renderer.d.ts]
 export { dom as default };
 //// [otherreacty.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  3 | <h></h>
-//!    :        ^
-//!    `----
+/** @jsx React.createElement */ import * as React from "./renderer";
+/*#__PURE__*/ React.createElement("h", null);
 //// [other.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  3 | export const prerendered = <h></h>;
-//!    :                                    ^
-//!    `----
+/** @jsx h */ import { dom as h } from "./renderer";
+export var prerendered = /*#__PURE__*/ h("h", null);
 //// [othernoalias.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  3 | export const prerendered2 = <h></h>;
-//!    :                                     ^
-//!    `----
+/** @jsx otherdom */ import { otherdom } from "./renderer";
+export var prerendered2 = /*#__PURE__*/ otherdom("h", null);
 //// [reacty.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  2 | export const prerendered3 = <h></h>;
-//!    :                                     ^
-//!    `----
+import React from "./renderer";
+export var prerendered3 = /*#__PURE__*/ React.createElement("h", null);
 //// [index.tsx]
 //! 
-//!   x Unterminated regexp literal
+//!   x Expression expected
 //!    ,----
 //!  3 | <h></h>
-//!    :     ^^^
+//!    :   ^
+//!    `----
+//! 
+//!   x Unexpected token `/`. Expected jsx identifier
+//!    ,----
+//!  3 | <h></h>
+//!    :     ^
 //!    `----

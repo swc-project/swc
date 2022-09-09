@@ -1,16 +1,12 @@
 function a() {
-    class a {
-    }
+    class a {}
     a.bar;
-    class s {
-    }
+    class s {}
     s.foo;
 }
 function s() {
-    var a = class a {
-    };
+    var a = class a {};
     a.bar;
-    var s = class a {
-    };
+    var s = class a {};
     s.bar;
 }

@@ -1,8 +1,11 @@
-var r = 1;
-console.log({
-    get a () {
-        r = 2;
-        return r;
-    },
-    b: 1
-}.b, r);
+var e = 1;
+console.log(
+    {
+        get a() {
+            e = 2;
+            return e;
+        },
+        b: 1,
+    }.b,
+    e
+);

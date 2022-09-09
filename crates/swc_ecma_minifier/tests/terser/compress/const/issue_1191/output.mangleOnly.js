@@ -1,5 +1,5 @@
 function n(n) {
-    const c = 5;
-    if (n < -c || n > c) bar();
+    const a = 5;
+    if (n < -a || n > a) bar();
     baz();
 }

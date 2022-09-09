@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var n;
     function t() {}
     t.g = function t() {
@@ -7,7 +7,7 @@
             console.log(n ? "PASS" : "FAIL");
         }
         n = true;
-        (function() {
+        (function () {
             return r;
         })()();
         n = false;
@@ -15,4 +15,6 @@
         return u;
     };
     return t;
-})().g().g();
+})()
+    .g()
+    .g();

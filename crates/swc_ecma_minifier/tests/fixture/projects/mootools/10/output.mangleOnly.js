@@ -1,12 +1,12 @@
 export const exported = {
-    fireEvent: function(t, e, i) {
-        t = removeOn(t);
-        var n = this.$events[t];
-        if (!n) return this;
-        e = Array.from(e);
-        n.each(function(t) {
-            if (i) t.delay(i, this, e);
-            else t.apply(this, e);
+    fireEvent: function(e, t, r) {
+        e = removeOn(e);
+        var i = this.$events[e];
+        if (!i) return this;
+        t = Array.from(t);
+        i.each(function(e) {
+            if (r) e.delay(r, this, t);
+            else e.apply(this, t);
         }, this);
         return this;
     }

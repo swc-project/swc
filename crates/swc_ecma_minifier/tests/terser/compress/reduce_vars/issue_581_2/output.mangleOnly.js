@@ -1,9 +1,7 @@
-(function() {
-    return (function(e) {
+(function () {
+    return (function (e) {
         return e();
-    })(()=>{
+    })(() => {
         console.log(this.message);
     });
-}.call({
-    message: "PASS"
-}));
+}.call({ message: "PASS" }));

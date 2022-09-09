@@ -16,11 +16,11 @@ import _define_enumerable_properties from "@swc/helpers/src/_define_enumerable_p
         }
     ]), C;
 }();
-var _obj, _mutatorMap = {};
-_obj = {
+var _mutatorMap = {};
+_mutatorMap.x = _mutatorMap.x || {}, _mutatorMap.x.get = function() {
+    return 1;
+}, _define_enumerable_properties({
     get x () {
         return 1;
     }
-}, _mutatorMap.x = _mutatorMap.x || {}, _mutatorMap.x.get = function() {
-    return 1;
-}, _define_enumerable_properties(_obj, _mutatorMap);
+}, _mutatorMap);

@@ -1,17 +1,17 @@
 "use strict";
-function r(r) {
-    if (r) {
-        return e(1);
-        var n = not_called(1);
+function n(n) {
+    if (n) {
+        return o(1);
+        var r = not_called(1);
     } else {
-        return e(2);
+        return o(2);
         var t = not_called(2);
     }
-    var u = e(3);
-    function e(r) {
-        return 7 - r;
+    var e = o(3);
+    function o(n) {
+        return 7 - n;
     }
-    function i() {}
-    return t || u;
+    function u() {}
+    return t || e;
 }
-console.log(r(0), r(1));
+console.log(n(0), n(1));

@@ -1,7 +1,3 @@
 var o = [];
-for (var r of [
-    1,
-    2,
-    3
-])o.push(r);
+for (var l of [1, 2, 3]) o.push(l);
 console.log(o.length);

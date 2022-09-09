@@ -1,16 +1,8 @@
 //// [tsxAttributeResolution12.tsx]
 //// [react.d.ts]
 //// [file.tsx]
-//! 
-//!   x Expression expected
-//!     ,----
-//!  26 | var t1 = <T />;
-//!     :             ^
-//!     `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!     ,----
-//!  26 | var t1 = <T />;
-//!     :              ^
-//!     `----
+// Errors correctly
+var T = TestMod.Test;
+var t1 = /*#__PURE__*/ React.createElement(T, null);
+// Should error
+var t2 = /*#__PURE__*/ React.createElement(TestMod.Test, null);

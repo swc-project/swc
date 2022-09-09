@@ -1,7 +1,7 @@
 function n(n) {
-    f(n);
+    o(n);
 }
-function f(n) {
+function o(n) {
     if (n === 1) {
         throw new Error();
     }

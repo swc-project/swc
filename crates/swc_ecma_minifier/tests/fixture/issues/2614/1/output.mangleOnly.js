@@ -1,5 +1,5 @@
-expose(()=>v);
-var a = require("70jDX");
+expose(()=>a);
+var e = require("70jDX");
 var r;
-r = a.default;
-var v = r;
+r = e.default;
+var a = r;

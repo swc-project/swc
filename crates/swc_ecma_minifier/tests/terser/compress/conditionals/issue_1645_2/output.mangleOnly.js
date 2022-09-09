@@ -1,6 +1,6 @@
 var n = 0;
-function r() {
+function o() {
     return n++;
 }
-r() ? (n += 2) : (n += 4);
+o() ? (n += 2) : (n += 4);
 console.log(n);

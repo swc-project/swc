@@ -1,6 +1,79 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Inline lazily initialized variables (#5737) ([ee26337](https://github.com/swc-project/swc/commit/ee26337a251ecb1fa4f369e6de614d3dc931ab5c))
+
+### Testing
+
+
+
+- **(es)** Enable tests for fixed issues (#5784) ([f11461d](https://github.com/swc-project/swc/commit/f11461d3f546799113cc7bda4ac52c10e62bbaa0))
+
+## [1.2.249] - 2022-09-08
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Don't drop parameters in an exported function (#5757) ([948d708](https://github.com/swc-project/swc/commit/948d7081447c50bc78764f5fe88ec6055ebbcc9c))
+
+
+- **(es/minifier)** Fix analysis of assignments and classes (#5770) ([90852f5](https://github.com/swc-project/swc/commit/90852f5aa60ba5584729f1cd7284f136a9e00794))
+
+
+- **(es/minifier)** Fix calculation of character frequency (#5772) ([32a73fb](https://github.com/swc-project/swc/commit/32a73fbf225c416771150add1c4040f6fbe71aaf))
+
+### Features
+
+
+
+- **(es/lexer)** Recover from git merge conflict (#5775) ([7deadd8](https://github.com/swc-project/swc/commit/7deadd86679f820c113d92fe8b034086be2736ff))
+
+
+- **(es/minifier)** Align name mangler with terser (#5763) ([60ce462](https://github.com/swc-project/swc/commit/60ce46221529f70ccee98f808f532410724ed66b))
+
+
+- **(es/minifier)** Change order of renaming to align with terser (#5780) ([24b60d2](https://github.com/swc-project/swc/commit/24b60d2b64efad49d101fc8a4f23f04050b0ab9a))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Cleanup CI config (#5769) ([1e8a58d](https://github.com/swc-project/swc/commit/1e8a58da4d6d3ca2bfc6843eb4412245d1154682))
+
+
+- **(es/minifier)** Fix size calculator script (#5767) ([9d29abc](https://github.com/swc-project/swc/commit/9d29abcd5b9ab08fb3eed4d685806a6b0dac9d95))
+
+
+- **(html/parser)** Typo (#5778) ([1b200a0](https://github.com/swc-project/swc/commit/1b200a0582f77aaca9abcbd4d693be13e172b9ec))- **general**: Typo (#5758) ([15e2357](https://github.com/swc-project/swc/commit/15e2357d1d7086f3a48def71c38acb7052f8d742))
+
+### Performance
+
+
+
+- **(es/minifier)** Make `MultiReplacer` single-pass (#5761) ([27e9254](https://github.com/swc-project/swc/commit/27e92542808048a12985ce15ee6ee65d44d5ac6c))
+
+
+- **(es/minifier)** Make passes more parallel (#5773) ([c2d1050](https://github.com/swc-project/swc/commit/c2d10503db724e1b2349d5df9211489c1aa9507a))
+
+
+- **(es/parser)** Operate on `u8` (#5774) ([c10d557](https://github.com/swc-project/swc/commit/c10d55780e10a75ff0fcd0da87d1e7337fbe10bd))
+
+### Testing
+
+
+
+- **(es/plugin)** Add E2E test for the published plugins (#5771) ([81ab8a2](https://github.com/swc-project/swc/commit/81ab8a29e36787feef3c23c1685ece1f0c82417e))
+
+
+- **(es/tsc)** Handle tsx (#5764) ([52f6ca5](https://github.com/swc-project/swc/commit/52f6ca5fb826b9952b32946379cd696afb58867b))
+
+## [1.2.248] - 2022-09-06
+
 ### Bug Fixes
 
 
@@ -17,7 +90,7 @@
 - **(es/minifier)** Fix example (#5739) ([4e98980](https://github.com/swc-project/swc/commit/4e989807d71aa9a6c019c6a5a01acbbee9ec6020))
 
 
-- **(swc_core)** Update deps (#5748) ([1202762](https://github.com/swc-project/swc/commit/1202762f30db43c972c1367f85e30e69baaf0c59))
+- **(swc_core)** Update deps (#5748) ([1202762](https://github.com/swc-project/swc/commit/1202762f30db43c972c1367f85e30e69baaf0c59))- **general**: Fix publish action ([f59d44e](https://github.com/swc-project/swc/commit/f59d44e295ea5b1f5f4b06240921bf4342d51686))
 
 ### Performance
 

@@ -1,4 +1,4 @@
 function r() {
     var r = this;
-    for(;;)r.bar();
+    for (;;) r.bar();
 }

@@ -4,6 +4,6 @@ try {
     Object;
     String;
     Array;
-} catch (c) {
+} catch (e) {
     console.log("side effect!");
 }

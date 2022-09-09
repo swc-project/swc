@@ -5,7 +5,7 @@ function n() {
     function r() {
         return 2;
     }
-    n = function() {
+    n = function () {
         return 3;
     };
     return n() + r();

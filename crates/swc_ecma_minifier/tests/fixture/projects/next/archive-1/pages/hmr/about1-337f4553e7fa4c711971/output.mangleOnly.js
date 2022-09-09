@@ -3,24 +3,24 @@
         25
     ],
     {
-        1107: function(n, u, t) {
+        1107: function(n, u, e) {
             "use strict";
-            t.r(u);
-            var r = t(4512);
+            e.r(u);
+            var t = e(4512);
             u["default"] = function() {
-                return (0, r.jsx)("div", {
+                return (0, t.jsx)("div", {
                     className: "hmr-about-page",
-                    children: (0, r.jsx)("p", {
+                    children: (0, t.jsx)("p", {
                         children: "This is the about page."
                     })
                 });
             };
         },
-        8000: function(n, u, t) {
+        8000: function(n, u, e) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
                 "/hmr/about1",
                 function() {
-                    return t(1107);
+                    return e(1107);
                 }, 
             ]);
         }
@@ -36,7 +36,7 @@
         ], function() {
             return u(8000);
         });
-        var t = n.O();
-        _N_E = t;
+        var e = n.O();
+        _N_E = e;
     }, 
 ]);

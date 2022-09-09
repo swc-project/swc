@@ -1,16 +1,18 @@
-(function() {
+(function () {
     var n;
     function t() {}
     t.g = function t() {
-        var r = this;
-        function u() {
+        var o = this;
+        function r() {
             console.log(n ? "PASS" : "FAIL");
         }
         n = true;
-        r();
+        o();
         n = false;
-        u.g = t;
-        return u;
+        r.g = t;
+        return r;
     };
     return t;
-})().g().g();
+})()
+    .g()
+    .g();

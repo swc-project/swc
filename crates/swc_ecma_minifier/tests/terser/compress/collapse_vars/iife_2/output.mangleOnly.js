@@ -1,4 +1,4 @@
-var n = bar();
-!(function(n) {
-    console.log(n);
-})(n);
+var o = bar();
+!(function (o) {
+    console.log(o);
+})(o);

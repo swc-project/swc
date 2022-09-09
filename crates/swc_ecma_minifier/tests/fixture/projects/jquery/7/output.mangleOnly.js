@@ -1,6 +1,6 @@
 export const obj = {
     proxy: function(i, n) {
-        var t, r, u;
+        var r, e, u;
         if (typeof n === "string") {
             u = i[n];
             n = i;
@@ -9,11 +9,11 @@ export const obj = {
         if (!jQuery.isFunction(i)) {
             return undefined;
         }
-        t = core_slice.call(arguments, 2);
-        r = function() {
-            return i.apply(n || this, t.concat(core_slice.call(arguments)));
+        r = core_slice.call(arguments, 2);
+        e = function() {
+            return i.apply(n || this, r.concat(core_slice.call(arguments)));
         };
-        r.guid = i.guid = i.guid || jQuery.guid++;
-        return r;
+        e.guid = i.guid = i.guid || jQuery.guid++;
+        return e;
     }
 };

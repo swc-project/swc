@@ -108,7 +108,7 @@
                             var r = getLens(e), t = r[0], f = r[1];
                             return (t + f) * 3 / 4 - f;
                         }, r.toByteArray = function(e) {
-                            var r, h, r1, t, t1 = getLens(e), i = t1[0], o = t1[1], u = new n((r1 = i, t = o, (r1 + t) * 3 / 4 - t)), a = 0, s = o > 0 ? i - 4 : i;
+                            var r, h, t, t1 = getLens(e), i = t1[0], o = t1[1], u = new n((t = o, (i + t) * 3 / 4 - t)), a = 0, s = o > 0 ? i - 4 : i;
                             for(h = 0; h < s; h += 4)r = f[e.charCodeAt(h)] << 18 | f[e.charCodeAt(h + 1)] << 12 | f[e.charCodeAt(h + 2)] << 6 | f[e.charCodeAt(h + 3)], u[a++] = r >> 16 & 255, u[a++] = r >> 8 & 255, u[a++] = 255 & r;
                             return 2 === o && (r = f[e.charCodeAt(h)] << 2 | f[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f[e.charCodeAt(h)] << 10 | f[e.charCodeAt(h + 1)] << 4 | f[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
                         }, r.fromByteArray = function(e) {
@@ -508,7 +508,7 @@
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
                             else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                            var e1, n = this.length - r;
+                            var n = this.length - r;
                             if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
                             f || (f = "utf8");
                             for(var i = !1;;)switch(f){
@@ -518,10 +518,9 @@
                                 case "utf-8":
                                     return utf8Write(this, e, r, t);
                                 case "ascii":
-                                    return asciiWrite(this, e, r, t);
                                 case "latin1":
                                 case "binary":
-                                    return e1 = this, asciiWrite(e1, e, r, t);
+                                    return asciiWrite(this, e, r, t);
                                 case "base64":
                                     return base64Write(this, e, r, t);
                                 case "ucs2":
@@ -592,18 +591,12 @@
                         }, Buffer.prototype.readDoubleBE = function(e, r) {
                             return e >>>= 0, r || checkOffset(e, 8, this.length), n.read(this, e, !1, 52, 8);
                         }, Buffer.prototype.writeUIntLE = function(e, r, t, f) {
-                            if (e = +e, r >>>= 0, t >>>= 0, !f) {
-                                var n = Math.pow(2, 8 * t) - 1;
-                                checkInt(this, e, r, t, n, 0);
-                            }
+                            e = +e, r >>>= 0, t >>>= 0, f || checkInt(this, e, r, t, Math.pow(2, 8 * t) - 1, 0);
                             var i = 1, o = 0;
                             for(this[r] = 255 & e; ++o < t && (i *= 256);)this[r + o] = e / i & 255;
                             return r + t;
                         }, Buffer.prototype.writeUIntBE = function(e, r, t, f) {
-                            if (e = +e, r >>>= 0, t >>>= 0, !f) {
-                                var n = Math.pow(2, 8 * t) - 1;
-                                checkInt(this, e, r, t, n, 0);
-                            }
+                            e = +e, r >>>= 0, t >>>= 0, f || checkInt(this, e, r, t, Math.pow(2, 8 * t) - 1, 0);
                             var i = t - 1, o = 1;
                             for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)this[r + i] = e / o & 255;
                             return r + t;
@@ -790,10 +783,10 @@
                             if ((r === defaultSetTimout || !r) && setTimeout) return r = setTimeout, setTimeout(e, 0);
                             try {
                                 return r(e, 0);
-                            } catch (t) {
+                            } catch (t1) {
                                 try {
                                     return r.call(null, e, 0);
-                                } catch (t1) {
+                                } catch (t) {
                                     return r.call(this, e, 0);
                                 }
                             }
@@ -827,10 +820,10 @@
                                     if ((n === defaultClearTimeout || !n) && clearTimeout) return n = clearTimeout, clearTimeout(e);
                                     try {
                                         n(e);
-                                    } catch (t) {
+                                    } catch (t1) {
                                         try {
                                             return n.call(null, e);
-                                        } catch (t1) {
+                                        } catch (t) {
                                             return n.call(this, e);
                                         }
                                     }
@@ -942,10 +935,10 @@
                         }, p = y ? function() {
                             try {
                                 return arguments.callee, throwTypeError;
-                            } catch (r) {
+                            } catch (r1) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (r1) {
+                                } catch (r) {
                                     return throwTypeError;
                                 }
                             }
@@ -1327,10 +1320,10 @@
                         }, p = y ? function() {
                             try {
                                 return arguments.callee, throwTypeError;
-                            } catch (r) {
+                            } catch (r1) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (r1) {
+                                } catch (r) {
                                     return throwTypeError;
                                 }
                             }
@@ -2300,10 +2293,10 @@
                         }, p = y ? function() {
                             try {
                                 return arguments.callee, throwTypeError;
-                            } catch (r) {
+                            } catch (r1) {
                                 try {
                                     return y(arguments, "callee").get;
-                                } catch (r1) {
+                                } catch (r) {
                                     return throwTypeError;
                                 }
                             }

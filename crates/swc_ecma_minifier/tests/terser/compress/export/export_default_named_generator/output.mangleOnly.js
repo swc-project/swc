@@ -1,3 +1,3 @@
-export default function* e() {
+export default function* o() {
     yield foo();
-};
+}

@@ -1,13 +1,11 @@
-function n() {
-    var n = 1;
-    var o = {};
-    o[n] = 2;
-    console.log(n + 3);
-}
 function o() {
-    var n = {
-        b: 1
-    };
-    n.b = 2;
-    console.log(n.b + 3);
+    var o = 1;
+    var n = {};
+    n[o] = 2;
+    console.log(o + 3);
+}
+function n() {
+    var o = { b: 1 };
+    o.b = 2;
+    console.log(o.b + 3);
 }

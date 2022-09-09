@@ -1,4 +1,5 @@
-var o = 42, f;
+var o = 42,
+    n;
 function o() {}
-function f() {}
-console.log(typeof o, typeof f);
+function n() {}
+console.log(typeof o, typeof n);

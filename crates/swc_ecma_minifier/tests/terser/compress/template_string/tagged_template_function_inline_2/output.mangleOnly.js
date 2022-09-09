@@ -1,2 +1,2 @@
-var t = function() {};
+var t = function () {};
 t`test`;

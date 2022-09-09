@@ -1,4 +1,5 @@
-function n(n, o) {
+const n = 10, o = 5;
+function c(n, o) {
     return ((n % o) + o) % o;
 }
-console.log(n(10, 15));
+console.log(c(n, n + o));

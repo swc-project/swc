@@ -1,2 +1,2 @@
-const o = (o)=>o;
-console.log(o(), o(undefined));
+const n = (n) => n;
+console.log(n(), n(undefined));

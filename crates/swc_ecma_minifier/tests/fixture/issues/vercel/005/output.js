@@ -56,9 +56,9 @@ export default function(value, options) {
             return msAbs >= 86400000 ? `${Math.round(ms / 86400000)}d` : msAbs >= 3600000 ? `${Math.round(ms / 3600000)}h` : msAbs >= 60000 ? `${Math.round(ms / 60000)}m` : msAbs >= 1000 ? `${Math.round(ms / 1000)}s` : `${ms}ms`;
         }(value);
         throw Error("Value is not a string or number.");
-    } catch (error) {
-        var error1;
-        const message = "object" == typeof (error1 = error) && null !== error1 && "message" in error1 ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.";
+    } catch (error1) {
+        var error;
+        const message = "object" == typeof (error = error1) && null !== error && "message" in error ? `${error1.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.";
         throw Error(message);
     }
 };

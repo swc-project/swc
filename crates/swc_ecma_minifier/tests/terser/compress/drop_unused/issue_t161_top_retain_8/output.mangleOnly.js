@@ -1,11 +1,13 @@
 function n() {
-    return u;
+    return t;
 }
 function r() {
-    return o;
+    return u;
 }
-function t() {
+function o() {
     return c;
 }
-var u = 2, o = 3, c = 4;
-console.log(u, o, c, u * o, u * c, o * c, n(), r(), t());
+var t = 2,
+    u = 3,
+    c = 4;
+console.log(t, u, c, t * u, t * c, u * c, n(), r(), o());

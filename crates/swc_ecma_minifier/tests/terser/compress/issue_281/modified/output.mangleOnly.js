@@ -1,7 +1,7 @@
 function n(n) {
-    var r = (function() {
+    var o = (function () {
         return n;
     })();
-    return n++ + r;
+    return n++ + o;
 }
 console.log(n(1));

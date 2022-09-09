@@ -1,11 +1,11 @@
 var n = 0;
-(function(f, i) {
-    function o() {
-        if (f) n++;
+(function (o, c) {
+    function f() {
+        if (o) n++;
     }
-    i = o();
-    f = 1;
-    i && i.b;
-    o();
+    c = f();
+    o = 1;
+    c && c.b;
+    f();
 })();
 console.log(n);

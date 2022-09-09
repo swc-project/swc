@@ -1,11 +1,13 @@
-(function(n) {
+(function (n) {
     n();
-})(function() {
-    window.used = function() {
-        var n = window.foo, r = window.bar, o = window.foobar;
-        return (function(n, r) {
-            if (-1 === r) return n;
-            return $(n, r);
-        })(r, o);
+})(function () {
+    window.used = function () {
+        var n = window.foo,
+            o = window.bar,
+            i = window.foobar;
+        return (function (n, o) {
+            if (-1 === o) return n;
+            return $(n, o);
+        })(o, i);
     }.call(this);
 });

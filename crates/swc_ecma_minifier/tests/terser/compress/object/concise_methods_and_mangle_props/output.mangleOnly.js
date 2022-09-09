@@ -1,7 +1,7 @@
-function n() {
+function o() {
     obj = {
-        _foo () {
+        _foo() {
             return 1;
-        }
+        },
     };
 }

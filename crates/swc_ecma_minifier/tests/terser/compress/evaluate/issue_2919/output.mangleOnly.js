@@ -1,3 +1,1 @@
-console.log([
-    function() {}
-].toString());
+console.log([function () {}].toString());

@@ -198,13 +198,24 @@
                 else for(let e1 = 0; e1 < t; e1++)n[e1] = Math.floor(256 * Math.random());
                 return n;
             }
+            X.T = -1;
+            class tt {
+                static I() {
+                    const t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", e = Math.floor(256 / t.length) * t.length;
+                    let n = "";
+                    for(; n.length < 20;){
+                        const s = Z(40);
+                        for(let i = 0; i < s.length; ++i)n.length < 20 && s[i] < e && (n += t.charAt(s[i] % t.length));
+                    }
+                    return n;
+                }
+            }
             function et(t, e) {
                 return t < e ? -1 : t > e ? 1 : 0;
             }
             function nt(t, e, n) {
                 return t.length === e.length && t.every((t, s)=>n(t, e[s]));
             }
-            X.T = -1;
             class it {
                 constructor(t, e){
                     if (this.seconds = t, this.nanoseconds = e, e < 0 || e >= 1e9) throw new j(K.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + e);
@@ -1903,13 +1914,13 @@
                 return new Pt(Xn(n));
             }
             function Hn(t, e) {
-                var t1, e1, t2;
-                return t1 = t.databaseId, e1 = e, (t2 = t1, new ht([
+                var t1;
+                return (t1 = t.databaseId, new ht([
                     "projects",
-                    t2.projectId,
+                    t1.projectId,
                     "databases",
-                    t2.database, 
-                ])).child("documents").child(e1).canonicalString();
+                    t1.database, 
+                ])).child("documents").child(e).canonicalString();
             }
             function Yn(t) {
                 return new ht([
@@ -2208,6 +2219,38 @@
                     return new ii(this.target, this.targetId, this.purpose, this.sequenceNumber, this.snapshotVersion, t, this.resumeToken);
                 }
             }
+            class ri {
+                constructor(t){
+                    this.Wt = t;
+                }
+            }
+            class pi {
+                constructor(){
+                    this.Gt = new Ti();
+                }
+                addToCollectionParentIndex(t, e) {
+                    return this.Gt.add(e), js.resolve();
+                }
+                getCollectionParents(t, e) {
+                    return js.resolve(this.Gt.getEntries(e));
+                }
+            }
+            class Ti {
+                constructor(){
+                    this.index = {};
+                }
+                add(t) {
+                    const e = t.lastSegment(), n = t.popLast(), s = this.index[e] || new gn(ht.comparator), i = !s.has(n);
+                    return this.index[e] = s.add(n), i;
+                }
+                has(t) {
+                    const e = t.lastSegment(), n = t.popLast(), s = this.index[e];
+                    return s && s.has(n);
+                }
+                getEntries(t) {
+                    return (this.index[t] || new gn(ht.comparator)).toArray();
+                }
+            }
             class Ri {
                 constructor(t, e, n){
                     this.cacheSizeCollectionThreshold = t, this.percentileToCollect = e, this.maximumSequenceNumbersToCollect = n;
@@ -2485,6 +2528,132 @@
                             Gn: r
                         })));
             }
+            class Rr {
+                constructor(t){
+                    this.N = t, this.Yn = new Map(), this.Xn = new Map();
+                }
+                getBundleMetadata(t, e) {
+                    return js.resolve(this.Yn.get(e));
+                }
+                saveBundleMetadata(t, e) {
+                    var n;
+                    return this.Yn.set(e.id, {
+                        id: (n = e).id,
+                        version: n.version,
+                        createTime: jn(n.createTime)
+                    }), js.resolve();
+                }
+                getNamedQuery(t, e) {
+                    return js.resolve(this.Xn.get(e));
+                }
+                saveNamedQuery(t, e) {
+                    var t1;
+                    return this.Xn.set(e.name, {
+                        name: (t1 = e).name,
+                        query: function(t) {
+                            var t1, e;
+                            const e1 = function(t) {
+                                var t1, t2, e, n, s, i, o, c;
+                                let e1 = function(t) {
+                                    const e = Wn(t);
+                                    return 4 === e.length ? ht.emptyPath() : Xn(e);
+                                }(t.parent);
+                                const n1 = t.structuredQuery, s1 = n1.from ? n1.from.length : 0;
+                                let i1 = null;
+                                if (s1 > 0) {
+                                    1 === s1 || L();
+                                    const t3 = n1.from[0];
+                                    t3.allDescendants ? i1 = t3.collectionId : e1 = e1.child(t3.collectionId);
+                                }
+                                let r = [];
+                                n1.where && (r = function hs(t) {
+                                    var t1;
+                                    return t ? void 0 !== t.unaryFilter ? [
+                                        function(t) {
+                                            switch(t.unaryFilter.op){
+                                                case "IS_NAN":
+                                                    const e = ms(t.unaryFilter.field);
+                                                    return Jt.create(e, "==", {
+                                                        doubleValue: NaN
+                                                    });
+                                                case "IS_NULL":
+                                                    const n = ms(t.unaryFilter.field);
+                                                    return Jt.create(n, "==", {
+                                                        nullValue: "NULL_VALUE"
+                                                    });
+                                                case "IS_NOT_NAN":
+                                                    const s = ms(t.unaryFilter.field);
+                                                    return Jt.create(s, "!=", {
+                                                        doubleValue: NaN
+                                                    });
+                                                case "IS_NOT_NULL":
+                                                    const i = ms(t.unaryFilter.field);
+                                                    return Jt.create(i, "!=", {
+                                                        nullValue: "NULL_VALUE"
+                                                    });
+                                                default:
+                                                    return L();
+                                            }
+                                        }(t)
+                                    ] : void 0 !== t.fieldFilter ? [
+                                        (t1 = t, Jt.create(ms(t1.fieldFilter.field), function(t) {
+                                            switch(t){
+                                                case "EQUAL":
+                                                    return "==";
+                                                case "NOT_EQUAL":
+                                                    return "!=";
+                                                case "GREATER_THAN":
+                                                    return ">";
+                                                case "GREATER_THAN_OR_EQUAL":
+                                                    return ">=";
+                                                case "LESS_THAN":
+                                                    return "<";
+                                                case "LESS_THAN_OR_EQUAL":
+                                                    return "<=";
+                                                case "ARRAY_CONTAINS":
+                                                    return "array-contains";
+                                                case "IN":
+                                                    return "in";
+                                                case "NOT_IN":
+                                                    return "not-in";
+                                                case "ARRAY_CONTAINS_ANY":
+                                                    return "array-contains-any";
+                                                default:
+                                                    return L();
+                                            }
+                                        }(t1.fieldFilter.op), t1.fieldFilter.value))
+                                    ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
+                                }(n1.where));
+                                let o1 = [];
+                                n1.orderBy && (o1 = n1.orderBy.map((t)=>{
+                                    var t1;
+                                    return t1 = t, new ae(ms(t1.field), function(t) {
+                                        switch(t){
+                                            case "ASCENDING":
+                                                return "asc";
+                                            case "DESCENDING":
+                                                return "desc";
+                                            default:
+                                                return;
+                                        }
+                                    }(t1.direction));
+                                }));
+                                let c1 = null, e2;
+                                n1.limit && (c1 = At(e2 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e2);
+                                let a = null;
+                                n1.startAt && (a = fs(n1.startAt));
+                                let u = null;
+                                return n1.endAt && (u = fs(n1.endAt)), t2 = e1, e = i1, n = o1, s = r, i = c1, o = a, c = u, new fe(t2, e, n, s, i, "F", o, c);
+                            }({
+                                parent: t.parent,
+                                structuredQuery: t.structuredQuery
+                            });
+                            return "LAST" === t.limitType ? (t1 = e1, e = e1.limit, new fe(t1.path, t1.collectionGroup, t1.explicitOrderBy.slice(), t1.filters.slice(), e, "L", t1.startAt, t1.endAt)) : e1;
+                        }(t1.bundledQuery),
+                        readTime: jn(t1.readTime)
+                    }), js.resolve();
+                }
+            }
             class br {
                 constructor(){
                     this.Zn = new gn(Pr.ts), this.es = new gn(Pr.ns);
@@ -2642,6 +2811,53 @@
                     return e < 0 || e >= this.In.length ? null : this.In[e];
                 }
             }
+            class Vr {
+                constructor(t, e){
+                    this.Ht = t, this.ps = e, this.docs = new wn(Pt.comparator), this.size = 0;
+                }
+                addEntry(t, e, n) {
+                    const s = e.key, i = this.docs.get(s), r = i ? i.size : 0, o = this.ps(e);
+                    return this.docs = this.docs.insert(s, {
+                        document: e.clone(),
+                        size: o,
+                        readTime: n
+                    }), this.size += o - r, this.Ht.addToCollectionParentIndex(t, s.path.popLast());
+                }
+                removeEntry(t) {
+                    const e = this.docs.get(t);
+                    e && (this.docs = this.docs.remove(t), this.size -= e.size);
+                }
+                getEntry(t, e) {
+                    const n = this.docs.get(e);
+                    return js.resolve(n ? n.document.clone() : Kt.newInvalidDocument(e));
+                }
+                getEntries(t, e) {
+                    let n = pn;
+                    return e.forEach((t)=>{
+                        const e = this.docs.get(t);
+                        n = n.insert(t, e ? e.document.clone() : Kt.newInvalidDocument(t));
+                    }), js.resolve(n);
+                }
+                getDocumentsMatchingQuery(t, e, n) {
+                    let s = pn;
+                    const i = new Pt(e.path.child("")), r = this.docs.getIteratorFrom(i);
+                    for(; r.hasNext();){
+                        const { key: t1 , value: { document: i1 , readTime: o  } ,  } = r.getNext();
+                        if (!e.path.isPrefixOf(t1.path)) break;
+                        0 >= o.compareTo(n) || Pe(e, i1) && (s = s.insert(i1.key, i1.clone()));
+                    }
+                    return js.resolve(s);
+                }
+                Ts(t, e) {
+                    return js.forEach(this.docs, (t)=>e(t));
+                }
+                newChangeBuffer(t) {
+                    return new Sr(this);
+                }
+                getSize(t) {
+                    return js.resolve(this.size);
+                }
+            }
             class Sr extends Qi {
                 constructor(t){
                     super(), this.Se = t;
@@ -2659,277 +2875,78 @@
                     return this.Se.getEntries(t, e);
                 }
             }
+            class Dr {
+                constructor(t){
+                    this.persistence = t, this.Es = new ji((t)=>Wt(t), zt), this.lastRemoteSnapshotVersion = rt.min(), this.highestTargetId = 0, this.Is = 0, this.As = new br(), this.targetCount = 0, this.Rs = Ni.se();
+                }
+                forEachTarget(t, e) {
+                    return this.Es.forEach((t, n)=>e(n)), js.resolve();
+                }
+                getLastRemoteSnapshotVersion(t) {
+                    return js.resolve(this.lastRemoteSnapshotVersion);
+                }
+                getHighestSequenceNumber(t) {
+                    return js.resolve(this.Is);
+                }
+                allocateTargetId(t) {
+                    return this.highestTargetId = this.Rs.next(), js.resolve(this.highestTargetId);
+                }
+                setTargetsMetadata(t, e, n) {
+                    return n && (this.lastRemoteSnapshotVersion = n), e > this.Is && (this.Is = e), js.resolve();
+                }
+                ce(t) {
+                    this.Es.set(t.target, t);
+                    const e = t.targetId;
+                    e > this.highestTargetId && (this.Rs = new Ni(e), this.highestTargetId = e), t.sequenceNumber > this.Is && (this.Is = t.sequenceNumber);
+                }
+                addTargetData(t, e) {
+                    return this.ce(e), this.targetCount += 1, js.resolve();
+                }
+                updateTargetData(t, e) {
+                    return this.ce(e), js.resolve();
+                }
+                removeTargetData(t, e) {
+                    return this.Es.delete(e.target), this.As.cs(e.targetId), this.targetCount -= 1, js.resolve();
+                }
+                removeTargets(t, e, n) {
+                    let s = 0;
+                    const i = [];
+                    return this.Es.forEach((r, o)=>{
+                        o.sequenceNumber <= e && null === n.get(o.targetId) && (this.Es.delete(r), i.push(this.removeMatchingKeysForTargetId(t, o.targetId)), s++);
+                    }), js.waitFor(i).next(()=>s);
+                }
+                getTargetCount(t) {
+                    return js.resolve(this.targetCount);
+                }
+                getTargetData(t, e) {
+                    const n = this.Es.get(e) || null;
+                    return js.resolve(n);
+                }
+                addMatchingKeys(t, e, n) {
+                    return this.As.ss(e, n), js.resolve();
+                }
+                removeMatchingKeys(t, e, n) {
+                    this.As.os(e, n);
+                    const s = this.persistence.referenceDelegate, i = [];
+                    return s && e.forEach((e)=>{
+                        i.push(s.markPotentiallyOrphaned(t, e));
+                    }), js.waitFor(i);
+                }
+                removeMatchingKeysForTargetId(t, e) {
+                    return this.As.cs(e), js.resolve();
+                }
+                getMatchingKeysForTargetId(t, e) {
+                    const n = this.As.hs(e);
+                    return js.resolve(n);
+                }
+                containsKey(t, e) {
+                    return js.resolve(this.As.containsKey(e));
+                }
+            }
             class Cr {
                 constructor(t, e){
                     var t1, e1;
-                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new class {
-                        constructor(t){
-                            this.persistence = t, this.Es = new ji((t)=>Wt(t), zt), this.lastRemoteSnapshotVersion = rt.min(), this.highestTargetId = 0, this.Is = 0, this.As = new br(), this.targetCount = 0, this.Rs = Ni.se();
-                        }
-                        forEachTarget(t, e) {
-                            return this.Es.forEach((t, n)=>e(n)), js.resolve();
-                        }
-                        getLastRemoteSnapshotVersion(t) {
-                            return js.resolve(this.lastRemoteSnapshotVersion);
-                        }
-                        getHighestSequenceNumber(t) {
-                            return js.resolve(this.Is);
-                        }
-                        allocateTargetId(t) {
-                            return this.highestTargetId = this.Rs.next(), js.resolve(this.highestTargetId);
-                        }
-                        setTargetsMetadata(t, e, n) {
-                            return n && (this.lastRemoteSnapshotVersion = n), e > this.Is && (this.Is = e), js.resolve();
-                        }
-                        ce(t) {
-                            this.Es.set(t.target, t);
-                            const e = t.targetId;
-                            e > this.highestTargetId && (this.Rs = new Ni(e), this.highestTargetId = e), t.sequenceNumber > this.Is && (this.Is = t.sequenceNumber);
-                        }
-                        addTargetData(t, e) {
-                            return this.ce(e), this.targetCount += 1, js.resolve();
-                        }
-                        updateTargetData(t, e) {
-                            return this.ce(e), js.resolve();
-                        }
-                        removeTargetData(t, e) {
-                            return this.Es.delete(e.target), this.As.cs(e.targetId), this.targetCount -= 1, js.resolve();
-                        }
-                        removeTargets(t, e, n) {
-                            let s = 0;
-                            const i = [];
-                            return this.Es.forEach((r, o)=>{
-                                o.sequenceNumber <= e && null === n.get(o.targetId) && (this.Es.delete(r), i.push(this.removeMatchingKeysForTargetId(t, o.targetId)), s++);
-                            }), js.waitFor(i).next(()=>s);
-                        }
-                        getTargetCount(t) {
-                            return js.resolve(this.targetCount);
-                        }
-                        getTargetData(t, e) {
-                            const n = this.Es.get(e) || null;
-                            return js.resolve(n);
-                        }
-                        addMatchingKeys(t, e, n) {
-                            return this.As.ss(e, n), js.resolve();
-                        }
-                        removeMatchingKeys(t, e, n) {
-                            this.As.os(e, n);
-                            const s = this.persistence.referenceDelegate, i = [];
-                            return s && e.forEach((e)=>{
-                                i.push(s.markPotentiallyOrphaned(t, e));
-                            }), js.waitFor(i);
-                        }
-                        removeMatchingKeysForTargetId(t, e) {
-                            return this.As.cs(e), js.resolve();
-                        }
-                        getMatchingKeysForTargetId(t, e) {
-                            const n = this.As.hs(e);
-                            return js.resolve(n);
-                        }
-                        containsKey(t, e) {
-                            return js.resolve(this.As.containsKey(e));
-                        }
-                    }(this), this.Ht = new class {
-                        constructor(){
-                            this.Gt = new class {
-                                constructor(){
-                                    this.index = {};
-                                }
-                                add(t) {
-                                    const e = t.lastSegment(), n = t.popLast(), s = this.index[e] || new gn(ht.comparator), i = !s.has(n);
-                                    return this.index[e] = s.add(n), i;
-                                }
-                                has(t) {
-                                    const e = t.lastSegment(), n = t.popLast(), s = this.index[e];
-                                    return s && s.has(n);
-                                }
-                                getEntries(t) {
-                                    return (this.index[t] || new gn(ht.comparator)).toArray();
-                                }
-                            }();
-                        }
-                        addToCollectionParentIndex(t, e) {
-                            return this.Gt.add(e), js.resolve();
-                        }
-                        getCollectionParents(t, e) {
-                            return js.resolve(this.Gt.getEntries(e));
-                        }
-                    }(), this.He = (t1 = this.Ht, e1 = (t)=>this.referenceDelegate.Ps(t), new class {
-                        constructor(t, e){
-                            this.Ht = t, this.ps = e, this.docs = new wn(Pt.comparator), this.size = 0;
-                        }
-                        addEntry(t, e, n) {
-                            const s = e.key, i = this.docs.get(s), r = i ? i.size : 0, o = this.ps(e);
-                            return this.docs = this.docs.insert(s, {
-                                document: e.clone(),
-                                size: o,
-                                readTime: n
-                            }), this.size += o - r, this.Ht.addToCollectionParentIndex(t, s.path.popLast());
-                        }
-                        removeEntry(t) {
-                            const e = this.docs.get(t);
-                            e && (this.docs = this.docs.remove(t), this.size -= e.size);
-                        }
-                        getEntry(t, e) {
-                            const n = this.docs.get(e);
-                            return js.resolve(n ? n.document.clone() : Kt.newInvalidDocument(e));
-                        }
-                        getEntries(t, e) {
-                            let n = pn;
-                            return e.forEach((t)=>{
-                                const e = this.docs.get(t);
-                                n = n.insert(t, e ? e.document.clone() : Kt.newInvalidDocument(t));
-                            }), js.resolve(n);
-                        }
-                        getDocumentsMatchingQuery(t, e, n) {
-                            let s = pn;
-                            const i = new Pt(e.path.child("")), r = this.docs.getIteratorFrom(i);
-                            for(; r.hasNext();){
-                                const { key: t1 , value: { document: i1 , readTime: o  } ,  } = r.getNext();
-                                if (!e.path.isPrefixOf(t1.path)) break;
-                                0 >= o.compareTo(n) || Pe(e, i1) && (s = s.insert(i1.key, i1.clone()));
-                            }
-                            return js.resolve(s);
-                        }
-                        Ts(t, e) {
-                            return js.forEach(this.docs, (t)=>e(t));
-                        }
-                        newChangeBuffer(t) {
-                            return new Sr(this);
-                        }
-                        getSize(t) {
-                            return js.resolve(this.size);
-                        }
-                    }(t1, e1)), this.N = new class {
-                        constructor(t){
-                            this.Wt = t;
-                        }
-                    }(e), this.Je = new class {
-                        constructor(t){
-                            this.N = t, this.Yn = new Map(), this.Xn = new Map();
-                        }
-                        getBundleMetadata(t, e) {
-                            return js.resolve(this.Yn.get(e));
-                        }
-                        saveBundleMetadata(t, e) {
-                            var n;
-                            return this.Yn.set(e.id, {
-                                id: (n = e).id,
-                                version: n.version,
-                                createTime: jn(n.createTime)
-                            }), js.resolve();
-                        }
-                        getNamedQuery(t, e) {
-                            return js.resolve(this.Xn.get(e));
-                        }
-                        saveNamedQuery(t, e) {
-                            var t1;
-                            return this.Xn.set(e.name, {
-                                name: (t1 = e).name,
-                                query: function(t) {
-                                    var t1, e;
-                                    const e1 = function(t) {
-                                        var t1, t2, e, n, s, i, o, c;
-                                        let e1 = function(t) {
-                                            const e = Wn(t);
-                                            return 4 === e.length ? ht.emptyPath() : Xn(e);
-                                        }(t.parent);
-                                        const n1 = t.structuredQuery, s1 = n1.from ? n1.from.length : 0;
-                                        let i1 = null;
-                                        if (s1 > 0) {
-                                            1 === s1 || L();
-                                            const t3 = n1.from[0];
-                                            t3.allDescendants ? i1 = t3.collectionId : e1 = e1.child(t3.collectionId);
-                                        }
-                                        let r = [];
-                                        n1.where && (r = function hs(t) {
-                                            var t1;
-                                            return t ? void 0 !== t.unaryFilter ? [
-                                                function(t) {
-                                                    switch(t.unaryFilter.op){
-                                                        case "IS_NAN":
-                                                            const e = ms(t.unaryFilter.field);
-                                                            return Jt.create(e, "==", {
-                                                                doubleValue: NaN
-                                                            });
-                                                        case "IS_NULL":
-                                                            const n = ms(t.unaryFilter.field);
-                                                            return Jt.create(n, "==", {
-                                                                nullValue: "NULL_VALUE"
-                                                            });
-                                                        case "IS_NOT_NAN":
-                                                            const s = ms(t.unaryFilter.field);
-                                                            return Jt.create(s, "!=", {
-                                                                doubleValue: NaN
-                                                            });
-                                                        case "IS_NOT_NULL":
-                                                            const i = ms(t.unaryFilter.field);
-                                                            return Jt.create(i, "!=", {
-                                                                nullValue: "NULL_VALUE"
-                                                            });
-                                                        default:
-                                                            return L();
-                                                    }
-                                                }(t)
-                                            ] : void 0 !== t.fieldFilter ? [
-                                                (t1 = t, Jt.create(ms(t1.fieldFilter.field), function(t) {
-                                                    switch(t){
-                                                        case "EQUAL":
-                                                            return "==";
-                                                        case "NOT_EQUAL":
-                                                            return "!=";
-                                                        case "GREATER_THAN":
-                                                            return ">";
-                                                        case "GREATER_THAN_OR_EQUAL":
-                                                            return ">=";
-                                                        case "LESS_THAN":
-                                                            return "<";
-                                                        case "LESS_THAN_OR_EQUAL":
-                                                            return "<=";
-                                                        case "ARRAY_CONTAINS":
-                                                            return "array-contains";
-                                                        case "IN":
-                                                            return "in";
-                                                        case "NOT_IN":
-                                                            return "not-in";
-                                                        case "ARRAY_CONTAINS_ANY":
-                                                            return "array-contains-any";
-                                                        default:
-                                                            return L();
-                                                    }
-                                                }(t1.fieldFilter.op), t1.fieldFilter.value))
-                                            ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
-                                        }(n1.where));
-                                        let o1 = [];
-                                        n1.orderBy && (o1 = n1.orderBy.map((t)=>{
-                                            var t1;
-                                            return t1 = t, new ae(ms(t1.field), function(t) {
-                                                switch(t){
-                                                    case "ASCENDING":
-                                                        return "asc";
-                                                    case "DESCENDING":
-                                                        return "desc";
-                                                    default:
-                                                        return;
-                                                }
-                                            }(t1.direction));
-                                        }));
-                                        let c1 = null, e2;
-                                        n1.limit && (c1 = At(e2 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e2);
-                                        let a = null;
-                                        n1.startAt && (a = fs(n1.startAt));
-                                        let u = null;
-                                        return n1.endAt && (u = fs(n1.endAt)), t2 = e1, e = i1, n = o1, s = r, i = c1, o = a, c = u, new fe(t2, e, n, s, i, "F", o, c);
-                                    }({
-                                        parent: t.parent,
-                                        structuredQuery: t.structuredQuery
-                                    });
-                                    return "LAST" === t.limitType ? (t1 = e1, e = e1.limit, new fe(t1.path, t1.collectionGroup, t1.explicitOrderBy.slice(), t1.filters.slice(), e, "L", t1.startAt, t1.endAt)) : e1;
-                                }(t1.bundledQuery),
-                                readTime: jn(t1.readTime)
-                            }), js.resolve();
-                        }
-                    }(this.N);
+                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = (t1 = this.Ht, e1 = (t)=>this.referenceDelegate.Ps(t), new Vr(t1, e1)), this.N = new ri(e), this.Je = new Rr(this.N);
                 }
                 start() {
                     return Promise.resolve();
@@ -3583,6 +3600,30 @@
                     this.kr = !0;
                 }
             }
+            class so {
+                constructor(t, e){
+                    this.asyncQueue = t, this.onlineStateHandler = e, this.state = "Unknown", this.Or = 0, this.Fr = null, this.Mr = !0;
+                }
+                Lr() {
+                    0 === this.Or && (this.Br("Unknown"), this.Fr = this.asyncQueue.enqueueAfterDelay("online_state_timeout", 1e4, ()=>(this.Fr = null, this.Ur("Backend didn't respond within 10 seconds."), this.Br("Offline"), Promise.resolve())));
+                }
+                qr(t) {
+                    "Online" === this.state ? this.Br("Unknown") : (this.Or++, this.Or >= 1 && (this.Kr(), this.Ur(`Connection failed 1 times. Most recent error: ${t.toString()}`), this.Br("Offline")));
+                }
+                set(t) {
+                    this.Kr(), this.Or = 0, "Online" === t && (this.Mr = !1), this.Br(t);
+                }
+                Br(t) {
+                    t !== this.state && (this.state = t, this.onlineStateHandler(t));
+                }
+                Ur(t) {
+                    const e = `Could not reach Cloud Firestore backend. ${t}\nThis typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.`;
+                    this.Mr ? (O(e), this.Mr = !1) : $("OnlineStateTracker", e);
+                }
+                Kr() {
+                    null !== this.Fr && (this.Fr.cancel(), this.Fr = null);
+                }
+            }
             class io {
                 constructor(t, e, n, s, i){
                     this.localStore = t, this.datastore = e, this.asyncQueue = n, this.remoteSyncer = {}, this.jr = [], this.Qr = new Map(), this.Wr = new Set(), this.Gr = [], this.zr = i, this.zr.Ti((t)=>{
@@ -3592,30 +3633,7 @@
                                 e.Wr.add(4), await oo(e), e.Hr.set("Unknown"), e.Wr.delete(4), await ro(e);
                             }(this));
                         });
-                    }), this.Hr = new class {
-                        constructor(t, e){
-                            this.asyncQueue = t, this.onlineStateHandler = e, this.state = "Unknown", this.Or = 0, this.Fr = null, this.Mr = !0;
-                        }
-                        Lr() {
-                            0 === this.Or && (this.Br("Unknown"), this.Fr = this.asyncQueue.enqueueAfterDelay("online_state_timeout", 1e4, ()=>(this.Fr = null, this.Ur("Backend didn't respond within 10 seconds."), this.Br("Offline"), Promise.resolve())));
-                        }
-                        qr(t) {
-                            "Online" === this.state ? this.Br("Unknown") : (this.Or++, this.Or >= 1 && (this.Kr(), this.Ur(`Connection failed 1 times. Most recent error: ${t.toString()}`), this.Br("Offline")));
-                        }
-                        set(t) {
-                            this.Kr(), this.Or = 0, "Online" === t && (this.Mr = !1), this.Br(t);
-                        }
-                        Br(t) {
-                            t !== this.state && (this.state = t, this.onlineStateHandler(t));
-                        }
-                        Ur(t) {
-                            const e = `Could not reach Cloud Firestore backend. ${t}\nThis typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.`;
-                            this.Mr ? (O(e), this.Mr = !1) : $("OnlineStateTracker", e);
-                        }
-                        Kr() {
-                            null !== this.Fr && (this.Fr.cancel(), this.Fr = null);
-                        }
-                    }(n, s);
+                    }), this.Hr = new so(n, s);
                 }
             }
             async function ro(t) {
@@ -4130,7 +4148,7 @@
                         const n = t, s = e.snapshotVersion;
                         let i = n.Un;
                         return n.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
-                            var t1, e1, n1, s1, i1;
+                            var e1, n1, s1, i1;
                             const r = n.jn.newChangeBuffer({
                                 trackRemovals: !0
                             });
@@ -4150,7 +4168,7 @@
                             let c = pn, r1;
                             if (e.documentUpdates.forEach((s, i)=>{
                                 e.resolvedLimboDocuments.has(s) && o.push(n.persistence.referenceDelegate.updateLimboDocument(t, s));
-                            }), o.push((t1 = t, e1 = r, n1 = e.documentUpdates, s1 = s, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), e1.getEntries(t1, r1).next((t)=>{
+                            }), o.push((e1 = r, n1 = e.documentUpdates, s1 = s, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), e1.getEntries(t, r1).next((t)=>{
                                 let r = pn;
                                 return n1.forEach((n, o)=>{
                                     const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s1;
@@ -4255,14 +4273,14 @@
                 }(s.localStore, r));
             }
             async function Tc(t, e) {
-                var t1;
+                var t1, e1;
                 const n = t;
                 if (!n.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
                     const t2 = await hr(n.localStore, e);
-                    n.currentUser = e, (t1 = n).Ko.forEach((t)=>{
+                    n.currentUser = e, e1 = "'waitForPendingWrites' promise is rejected due to a user change.", (t1 = n).Ko.forEach((t)=>{
                         t.forEach((t)=>{
-                            t.reject(new j(K.CANCELLED, "'waitForPendingWrites' promise is rejected due to a user change."));
+                            t.reject(new j(K.CANCELLED, e1));
                         });
                     }), t1.Ko.clear(), n.sharedClientState.handleUserChange(e, t2.removedBatchIds, t2.addedBatchIds), await pc(n, t2.Wn);
                 }
@@ -4313,9 +4331,9 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    var s, t1, e, n;
-                    const e1 = Yr(t.databaseInfo.databaseId), n1 = (s = t.databaseInfo, new zr(s));
-                    return t1 = t.credentials, e = n1, n = e1, new no(t1, e, n);
+                    var s, t1;
+                    const e = Yr(t.databaseInfo.databaseId), n = (s = t.databaseInfo, new zr(s));
+                    return t1 = t.credentials, new no(t1, n, e);
                 }
                 createRemoteStore(t) {
                     var e, n, s, i, r;
@@ -4355,17 +4373,7 @@
             }
             class Kc {
                 constructor(t, e, n){
-                    this.credentials = t, this.asyncQueue = e, this.databaseInfo = n, this.user = D.UNAUTHENTICATED, this.clientId = (class {
-                        static I() {
-                            const t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", e = Math.floor(256 / t.length) * t.length;
-                            let n = "";
-                            for(; n.length < 20;){
-                                const s = Z(40);
-                                for(let i = 0; i < s.length; ++i)n.length < 20 && s[i] < e && (n += t.charAt(s[i] % t.length));
-                            }
-                            return n;
-                        }
-                    }).I(), this.credentialListener = ()=>Promise.resolve(), this.credentials.start(e, async (t)=>{
+                    this.credentials = t, this.asyncQueue = e, this.databaseInfo = n, this.user = D.UNAUTHENTICATED, this.clientId = tt.I(), this.credentialListener = ()=>Promise.resolve(), this.credentials.start(e, async (t)=>{
                         $("FirestoreClient", "Received user=", t.uid), await this.credentialListener(t), this.user = t;
                     });
                 }
@@ -4609,94 +4617,95 @@
                     return _a(s1), new Ra(t.firestore, null, s1);
                 }
             }
+            class Da {
+                constructor(){
+                    this._c = Promise.resolve(), this.mc = [], this.gc = !1, this.yc = [], this.Tc = null, this.Ec = !1, this.Ic = !1, this.Ac = [], this.ar = new Xr(this, "async_queue_retry"), this.Rc = ()=>{
+                        const t = Jr();
+                        t && $("AsyncQueue", "Visibility state changed to " + t.visibilityState), this.ar.tr();
+                    };
+                    const t = Jr();
+                    t && "function" == typeof t.addEventListener && t.addEventListener("visibilitychange", this.Rc);
+                }
+                get isShuttingDown() {
+                    return this.gc;
+                }
+                enqueueAndForget(t) {
+                    this.enqueue(t);
+                }
+                enqueueAndForgetEvenWhileRestricted(t) {
+                    this.bc(), this.Pc(t);
+                }
+                enterRestrictedMode(t) {
+                    if (!this.gc) {
+                        this.gc = !0, this.Ic = t || !1;
+                        const e = Jr();
+                        e && "function" == typeof e.removeEventListener && e.removeEventListener("visibilitychange", this.Rc);
+                    }
+                }
+                enqueue(t) {
+                    if (this.bc(), this.gc) return new Promise(()=>{});
+                    const e = new Q();
+                    return this.Pc(()=>this.gc && this.Ic ? Promise.resolve() : (t().then(e.resolve, e.reject), e.promise)).then(()=>e.promise);
+                }
+                enqueueRetryable(t) {
+                    this.enqueueAndForget(()=>(this.mc.push(t), this.vc()));
+                }
+                async vc() {
+                    if (0 !== this.mc.length) {
+                        try {
+                            await this.mc[0](), this.mc.shift(), this.ar.reset();
+                        } catch (t) {
+                            if (!Hs(t)) throw t;
+                            $("AsyncQueue", "Operation failed with retryable error: " + t);
+                        }
+                        this.mc.length > 0 && this.ar.Xi(()=>this.vc());
+                    }
+                }
+                Pc(t) {
+                    const e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
+                            var t1;
+                            this.Tc = t, this.Ec = !1;
+                            let e;
+                            const e1 = (e = (t1 = t).message || "", t1.stack && (e = t1.stack.includes(t1.message) ? t1.stack : t1.message + "\n" + t1.stack), e);
+                            throw O("INTERNAL UNHANDLED ERROR: ", e1), t;
+                        }).then((t)=>(this.Ec = !1, t))));
+                    return this._c = e, e;
+                }
+                enqueueAfterDelay(t, e, n) {
+                    this.bc(), this.Ac.indexOf(t) > -1 && (e = 0);
+                    const s = xo.createAndSchedule(this, t, e, n, (t)=>this.Vc(t));
+                    return this.yc.push(s), s;
+                }
+                bc() {
+                    this.Tc && L();
+                }
+                verifyOperationInProgress() {}
+                async Sc() {
+                    let t;
+                    do await (t = this._c);
+                    while (t !== this._c)
+                }
+                Dc(t) {
+                    for (const e of this.yc)if (e.timerId === t) return !0;
+                    return !1;
+                }
+                Cc(t) {
+                    return this.Sc().then(()=>{
+                        for (const e of (this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs), this.yc))if (e.skipDelay(), "all" !== t && e.timerId === t) break;
+                        return this.Sc();
+                    });
+                }
+                Nc(t) {
+                    this.Ac.push(t);
+                }
+                Vc(t) {
+                    const e = this.yc.indexOf(t);
+                    this.yc.splice(e, 1);
+                }
+            }
             class ka extends Ta {
                 constructor(t, e){
-                    super(t, e), this.type = "firestore", this._queue = new class {
-                        constructor(){
-                            this._c = Promise.resolve(), this.mc = [], this.gc = !1, this.yc = [], this.Tc = null, this.Ec = !1, this.Ic = !1, this.Ac = [], this.ar = new Xr(this, "async_queue_retry"), this.Rc = ()=>{
-                                const t = Jr();
-                                t && $("AsyncQueue", "Visibility state changed to " + t.visibilityState), this.ar.tr();
-                            };
-                            const t = Jr();
-                            t && "function" == typeof t.addEventListener && t.addEventListener("visibilitychange", this.Rc);
-                        }
-                        get isShuttingDown() {
-                            return this.gc;
-                        }
-                        enqueueAndForget(t) {
-                            this.enqueue(t);
-                        }
-                        enqueueAndForgetEvenWhileRestricted(t) {
-                            this.bc(), this.Pc(t);
-                        }
-                        enterRestrictedMode(t) {
-                            if (!this.gc) {
-                                this.gc = !0, this.Ic = t || !1;
-                                const e = Jr();
-                                e && "function" == typeof e.removeEventListener && e.removeEventListener("visibilitychange", this.Rc);
-                            }
-                        }
-                        enqueue(t) {
-                            if (this.bc(), this.gc) return new Promise(()=>{});
-                            const e = new Q();
-                            return this.Pc(()=>this.gc && this.Ic ? Promise.resolve() : (t().then(e.resolve, e.reject), e.promise)).then(()=>e.promise);
-                        }
-                        enqueueRetryable(t) {
-                            this.enqueueAndForget(()=>(this.mc.push(t), this.vc()));
-                        }
-                        async vc() {
-                            if (0 !== this.mc.length) {
-                                try {
-                                    await this.mc[0](), this.mc.shift(), this.ar.reset();
-                                } catch (t) {
-                                    if (!Hs(t)) throw t;
-                                    $("AsyncQueue", "Operation failed with retryable error: " + t);
-                                }
-                                this.mc.length > 0 && this.ar.Xi(()=>this.vc());
-                            }
-                        }
-                        Pc(t) {
-                            const e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
-                                    var t1;
-                                    this.Tc = t, this.Ec = !1;
-                                    let e;
-                                    const e1 = (e = (t1 = t).message || "", t1.stack && (e = t1.stack.includes(t1.message) ? t1.stack : t1.message + "\n" + t1.stack), e);
-                                    throw O("INTERNAL UNHANDLED ERROR: ", e1), t;
-                                }).then((t)=>(this.Ec = !1, t))));
-                            return this._c = e, e;
-                        }
-                        enqueueAfterDelay(t, e, n) {
-                            this.bc(), this.Ac.indexOf(t) > -1 && (e = 0);
-                            const s = xo.createAndSchedule(this, t, e, n, (t)=>this.Vc(t));
-                            return this.yc.push(s), s;
-                        }
-                        bc() {
-                            this.Tc && L();
-                        }
-                        verifyOperationInProgress() {}
-                        async Sc() {
-                            let t;
-                            do await (t = this._c);
-                            while (t !== this._c)
-                        }
-                        Dc(t) {
-                            for (const e of this.yc)if (e.timerId === t) return !0;
-                            return !1;
-                        }
-                        Cc(t) {
-                            return this.Sc().then(()=>{
-                                for (const e of (this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs), this.yc))if (e.skipDelay(), "all" !== t && e.timerId === t) break;
-                                return this.Sc();
-                            });
-                        }
-                        Nc(t) {
-                            this.Ac.push(t);
-                        }
-                        Vc(t) {
-                            const e = this.yc.indexOf(t);
-                            this.yc.splice(e, 1);
-                        }
-                    }(), this._persistenceKey = "name" in t ? t.name : "[DEFAULT]";
+                    super(t, e), this.type = "firestore", this._queue = new Da(), this._persistenceKey = "name" in t ? t.name : "[DEFAULT]";
                 }
                 _terminate() {
                     return this._firestoreClient || Ma(this), this._firestoreClient.terminate();

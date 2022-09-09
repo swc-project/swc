@@ -1,11 +1,12 @@
-function l(l) {
-    if ({}.b === undefined || {}.b === null) return l.b !== undefined && l.b !== null;
+function n(n) {
+    if ({}.b === undefined || {}.b === null)
+        return n.b !== undefined && n.b !== null;
 }
-console.log(l({
-    a: [
-        null
-    ],
-    get b () {
-        return this.a.shift();
-    }
-}));
+console.log(
+    n({
+        a: [null],
+        get b() {
+            return this.a.shift();
+        },
+    })
+);

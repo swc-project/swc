@@ -1,7 +1,7 @@
-var a = 1;
-var c = class {
+var c = 1;
+var a = class {
     c() {
-        console.log(a);
+        console.log(c);
     }
 };
-new c().c();
+new a().c();

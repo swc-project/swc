@@ -1,3 +1,1 @@
-const o = {
-    [console.log("PASS")]: 42
-};
+const o = { [console.log("PASS")]: 42 };

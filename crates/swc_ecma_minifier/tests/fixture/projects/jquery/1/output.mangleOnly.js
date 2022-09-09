@@ -1,62 +1,62 @@
 export const obj = {
-    init: function(t, e, i) {
-        var n, r;
-        if (!t) {
+    init: function(e, t, i) {
+        var r, n;
+        if (!e) {
             return this;
         }
-        if (typeof t === "string") {
-            if (t.charAt(0) === "<" && t.charAt(t.length - 1) === ">" && t.length >= 3) {
-                n = [
+        if (typeof e === "string") {
+            if (e.charAt(0) === "<" && e.charAt(e.length - 1) === ">" && e.length >= 3) {
+                r = [
                     null,
-                    t,
+                    e,
                     null
                 ];
             } else {
-                n = rquickExpr.exec(t);
+                r = rquickExpr.exec(e);
             }
-            if (n && (n[1] || !e)) {
-                if (n[1]) {
-                    e = e instanceof jQuery ? e[0] : e;
-                    jQuery.merge(this, jQuery.parseHTML(n[1], e && e.nodeType ? e.ownerDocument || e : document, true));
-                    if (rsingleTag.test(n[1]) && jQuery.isPlainObject(e)) {
-                        for(n in e){
-                            if (jQuery.isFunction(this[n])) {
-                                this[n](e[n]);
+            if (r && (r[1] || !t)) {
+                if (r[1]) {
+                    t = t instanceof jQuery ? t[0] : t;
+                    jQuery.merge(this, jQuery.parseHTML(r[1], t && t.nodeType ? t.ownerDocument || t : document, true));
+                    if (rsingleTag.test(r[1]) && jQuery.isPlainObject(t)) {
+                        for(r in t){
+                            if (jQuery.isFunction(this[r])) {
+                                this[r](t[r]);
                             } else {
-                                this.attr(n, e[n]);
+                                this.attr(r, t[r]);
                             }
                         }
                     }
                     return this;
                 } else {
-                    r = document.getElementById(n[2]);
-                    if (r && r.parentNode) {
-                        if (r.id !== n[2]) {
-                            return i.find(t);
+                    n = document.getElementById(r[2]);
+                    if (n && n.parentNode) {
+                        if (n.id !== r[2]) {
+                            return i.find(e);
                         }
                         this.length = 1;
-                        this[0] = r;
+                        this[0] = n;
                     }
                     this.context = document;
-                    this.selector = t;
+                    this.selector = e;
                     return this;
                 }
-            } else if (!e || e.jquery) {
-                return (e || i).find(t);
+            } else if (!t || t.jquery) {
+                return (t || i).find(e);
             } else {
-                return this.constructor(e).find(t);
+                return this.constructor(t).find(e);
             }
-        } else if (t.nodeType) {
-            this.context = this[0] = t;
+        } else if (e.nodeType) {
+            this.context = this[0] = e;
             this.length = 1;
             return this;
-        } else if (jQuery.isFunction(t)) {
-            return i.ready(t);
+        } else if (jQuery.isFunction(e)) {
+            return i.ready(e);
         }
-        if (t.selector !== undefined) {
-            this.selector = t.selector;
-            this.context = t.context;
+        if (e.selector !== undefined) {
+            this.selector = e.selector;
+            this.context = e.context;
         }
-        return jQuery.makeArray(t, this);
+        return jQuery.makeArray(e, this);
     }
 };

@@ -64,8 +64,8 @@ function f(e) {
     }
     return f(e);
 }
-function a() {
-    a = Object.assign || function(e) {
+function c() {
+    c = Object.assign || function(e) {
         for(var t = 1; t < arguments.length; t++){
             var r = arguments[t];
             for(var n in r){
@@ -76,9 +76,9 @@ function a() {
         }
         return e;
     };
-    return a.apply(this, arguments);
+    return c.apply(this, arguments);
 }
-function c(e, t) {
+function a(e, t) {
     var r = Object.keys(e);
     if (Object.getOwnPropertySymbols) {
         var n = Object.getOwnPropertySymbols(e);
@@ -93,13 +93,13 @@ function l(e) {
     for(var t = 1; t < arguments.length; t++){
         var r = arguments[t] != null ? arguments[t] : {};
         if (t % 2) {
-            c(Object(r), true).forEach(function(t) {
-                I(e, t, r[t]);
+            a(Object(r), true).forEach(function(t) {
+                j(e, t, r[t]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(e, Object.getOwnPropertyDescriptors(r));
         } else {
-            c(Object(r)).forEach(function(t) {
+            a(Object(r)).forEach(function(t) {
                 Object.defineProperty(e, t, Object.getOwnPropertyDescriptor(r, t));
             });
         }
@@ -127,17 +127,17 @@ function d(e, t, r) {
 }
 function y(e) {
     return function() {
-        var t = v(e), r;
-        if (g()) {
-            var n = v(this).constructor;
+        var t = g(e), r;
+        if (h()) {
+            var n = g(this).constructor;
             r = Reflect.construct(t, arguments, n);
         } else {
             r = t.apply(this, arguments);
         }
-        return h(this, r);
+        return b(this, r);
     };
 }
-function h(e, t) {
+function b(e, t) {
     if (t && (f(t) === "object" || typeof t === "function")) {
         return t;
     }
@@ -149,7 +149,7 @@ function m(e) {
     }
     return e;
 }
-function g() {
+function h() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
@@ -160,13 +160,13 @@ function g() {
         return false;
     }
 }
-function v(e) {
-    v = Object.setPrototypeOf ? Object.getPrototypeOf : function e(t) {
+function g(e) {
+    g = Object.setPrototypeOf ? Object.getPrototypeOf : function e(t) {
         return t.__proto__ || Object.getPrototypeOf(t);
     };
-    return v(e);
+    return g(e);
 }
-function b(e, t) {
+function v(e, t) {
     if (typeof t !== "function" && t !== null) {
         throw new TypeError("Super expression must either be null or a function");
     }
@@ -177,16 +177,16 @@ function b(e, t) {
             configurable: true
         }
     });
-    if (t) P(e, t);
+    if (t) O(e, t);
 }
-function P(e, t) {
-    P = Object.setPrototypeOf || function e(t, r) {
+function O(e, t) {
+    O = Object.setPrototypeOf || function e(t, r) {
         t.__proto__ = r;
         return t;
     };
-    return P(e, t);
+    return O(e, t);
 }
-function I(e, t, r) {
+function j(e, t, r) {
     if (t in e) {
         Object.defineProperty(e, t, {
             value: r,
@@ -199,8 +199,8 @@ function I(e, t, r) {
     }
     return e;
 }
-var w = (function(t) {
-    b(i, t);
+var P = (function(t) {
+    v(i, t);
     var o = y(i);
     function i() {
         var e;
@@ -211,7 +211,7 @@ var w = (function(t) {
         e = o.call.apply(o, [
             this
         ].concat(r));
-        I(m(e), "storeHighlightedItemReference", function(t) {
+        j(m(e), "storeHighlightedItemReference", function(t) {
             e.props.onHighlightedItemChange(t === null ? null : t.item);
         });
         return e;
@@ -229,33 +229,33 @@ var w = (function(t) {
             key: "render",
             value: function t() {
                 var n = this;
-                var o = this.props, i = o.items, u = o.itemProps, f = o.renderItem, c = o.renderItemData, s = o.sectionIndex, p = o.highlightedItemIndex, d = o.getItemId, y = o.theme, h = o.keyPrefix;
-                var m = s === null ? h : "".concat(h, "section-").concat(s, "-");
-                var g = typeof u === "function";
-                return e["default"].createElement("ul", a({
+                var o = this.props, i = o.items, u = o.itemProps, f = o.renderItem, a = o.renderItemData, s = o.sectionIndex, p = o.highlightedItemIndex, d = o.getItemId, y = o.theme, b = o.keyPrefix;
+                var m = s === null ? b : "".concat(b, "section-").concat(s, "-");
+                var h = typeof u === "function";
+                return e["default"].createElement("ul", c({
                     role: "listbox"
                 }, y("".concat(m, "items-list"), "itemsList")), i.map(function(t, o) {
                     var i = o === 0;
-                    var h = o === p;
-                    var v = "".concat(m, "item-").concat(o);
-                    var b = g ? u({
+                    var b = o === p;
+                    var g = "".concat(m, "item-").concat(o);
+                    var v = h ? u({
                         sectionIndex: s,
                         itemIndex: o
                     }) : u;
-                    var P = l({
+                    var O = l({
                         id: d(s, o),
-                        "aria-selected": h
-                    }, y(v, "item", i && "itemFirst", h && "itemHighlighted"), {}, b);
-                    if (h) {
-                        P.ref = n.storeHighlightedItemReference;
+                        "aria-selected": b
+                    }, y(g, "item", i && "itemFirst", b && "itemHighlighted"), {}, v);
+                    if (b) {
+                        O.ref = n.storeHighlightedItemReference;
                     }
-                    return e["default"].createElement(r["default"], a({}, P, {
+                    return e["default"].createElement(r["default"], c({}, O, {
                         sectionIndex: s,
-                        isHighlighted: h,
+                        isHighlighted: b,
                         itemIndex: o,
                         item: t,
                         renderItem: f,
-                        renderItemData: c
+                        renderItemData: a
                     }));
                 }));
             }
@@ -263,8 +263,8 @@ var w = (function(t) {
     ]);
     return i;
 })(e.Component);
-exports["default"] = w;
-I(w, "propTypes", {
+exports["default"] = P;
+j(P, "propTypes", {
     items: t["default"].array.isRequired,
     itemProps: t["default"].oneOfType([
         t["default"].object,
@@ -279,6 +279,6 @@ I(w, "propTypes", {
     theme: t["default"].func.isRequired,
     keyPrefix: t["default"].string.isRequired
 });
-I(w, "defaultProps", {
+j(P, "defaultProps", {
     sectionIndex: null
 });

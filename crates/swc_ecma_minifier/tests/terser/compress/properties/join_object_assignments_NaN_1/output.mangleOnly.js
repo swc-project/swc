@@ -1,4 +1,4 @@
-var $ = {};
-$[NaN] = 1;
-$[0 / 0] = 2;
-console.log($[NaN], $[NaN]);
+var N = {};
+N[NaN] = 1;
+N[0 / 0] = 2;
+console.log(N[NaN], N[NaN]);

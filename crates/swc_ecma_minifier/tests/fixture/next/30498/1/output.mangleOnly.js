@@ -4,18 +4,18 @@ export function string_create() {
 export class StringSchema extends BaseSchema {
     matches(e, t) {
         let s = false;
-        let r;
         let a;
+        let r;
         if (t) {
             if (typeof t === "object") {
-                ({ excludeEmptyString: s = false , message: r , name: a  } = t);
+                ({ excludeEmptyString: s = false , message: a , name: r  } = t);
             } else {
-                r = t;
+                a = t;
             }
         }
         return this.test({
-            name: a || "matches",
-            message: r || string.matches,
+            name: r || "matches",
+            message: a || string.matches,
             params: {
                 regex: e
             },

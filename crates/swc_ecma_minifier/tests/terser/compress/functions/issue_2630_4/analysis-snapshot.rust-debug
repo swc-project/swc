@@ -56,7 +56,7 @@ TestSnapshot {
                 assign_count: 1,
                 mutation_by_call_count: 0,
                 usage_count: 1,
-                reassigned_with_assignment: true,
+                reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
                 has_property_access: false,
@@ -221,7 +221,7 @@ TestSnapshot {
                 is_fn_local: false,
                 used_by_nested_fn: true,
                 executed_multiple_time: true,
-                used_in_cond: true,
+                used_in_cond: false,
                 var_kind: Some(
                     "var",
                 ),

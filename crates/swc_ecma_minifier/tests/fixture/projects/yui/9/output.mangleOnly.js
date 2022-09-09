@@ -1,10 +1,10 @@
 export const E = {
-    _addLangPack: function(n, o, e) {
-        var t = o.name, a, r, g = this.moduleInfo[e];
+    _addLangPack: function(n, o, t) {
+        var a = o.name, e, r, g = this.moduleInfo[t];
         if (!g) {
-            a = _path(o.pkg || t, e, JS, true);
+            e = _path(o.pkg || a, t, JS, true);
             r = {
-                path: a,
+                path: e,
                 intl: true,
                 langPack: true,
                 ext: o.ext,
@@ -20,13 +20,13 @@ export const E = {
             if (o.configFn) {
                 r.configFn = o.configFn;
             }
-            this.addModule(r, e);
+            this.addModule(r, t);
             if (n) {
                 Y.Env.lang = Y.Env.lang || {};
                 Y.Env.lang[n] = Y.Env.lang[n] || {};
-                Y.Env.lang[n][t] = true;
+                Y.Env.lang[n][a] = true;
             }
         }
-        return this.moduleInfo[e];
+        return this.moduleInfo[t];
     }
 };

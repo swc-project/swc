@@ -14,8 +14,8 @@ export default function i() {
         function t() {
             return (t = r(function() {
                 var r, t;
-                return e(this, function(e) {
-                    switch(e.label){
+                return e(this, function(r) {
+                    switch(r.label){
                         case 0:
                             return [
                                 4,
@@ -24,10 +24,10 @@ export default function i() {
                         case 1:
                             return [
                                 4,
-                                (r = e.sent()).json()
+                                r.sent().json()
                             ];
                         case 2:
-                            return u(t = e.sent()), [
+                            return u(r.sent()), [
                                 2
                             ];
                     }

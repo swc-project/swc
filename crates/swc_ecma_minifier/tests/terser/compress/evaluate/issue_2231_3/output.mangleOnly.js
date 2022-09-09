@@ -1,3 +1,1 @@
-console.log(Object.keys({
-    foo: "bar"
-})[0]);
+console.log(Object.keys({ foo: "bar" })[0]);

@@ -2122,7 +2122,7 @@
                     domBuilder.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
                             var code, k = a.slice(1, -1);
-                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code) : (errorHandler.error("entity not found:" + a), a);
+                            return k in entityMap ? entityMap[k] : "#" !== k.charAt(0) ? (errorHandler.error("entity not found:" + a), a) : (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code);
                         }
                         function appendText(end) {
                             if (end > start) {
@@ -3465,33 +3465,6 @@
                 return Object.keys(segmentInfo).forEach(function(key) {
                     segmentInfo[key] || delete segmentInfo[key];
                 }), segmentInfo;
-            }, parseCaptionServiceMetadata = function(service) {
-                return "urn:scte:dash:cc:cea-608:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
-                    if (language = value, /^CC\d=/.test(value)) {
-                        var channel, language, _value$split = value.split("=");
-                        channel = _value$split[0], language = _value$split[1];
-                    } else /^CC\d$/.test(value) && (channel = value);
-                    return {
-                        channel: channel,
-                        language: language
-                    };
-                }) : "urn:scte:dash:cc:cea-708:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
-                    var flags = {
-                        channel: void 0,
-                        language: void 0,
-                        aspectRatio: 1,
-                        easyReader: 0,
-                        "3D": 0
-                    };
-                    if (/=/.test(value)) {
-                        var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1];
-                        flags.channel = channel, flags.language = value, (void 0 === _value$split2$ ? "" : _value$split2$).split(",").forEach(function(opt) {
-                            var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
-                            "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
-                        });
-                    } else flags.language = value;
-                    return flags.channel && (flags.channel = "SERVICE" + flags.channel), flags;
-                }) : void 0;
             }, getPeriodStart = function(_ref) {
                 var attributes = _ref.attributes, priorPeriodAttributes = _ref.priorPeriodAttributes, mpdType = _ref.mpdType;
                 return "number" == typeof attributes.start ? attributes.start : priorPeriodAttributes && "number" == typeof priorPeriodAttributes.start && "number" == typeof priorPeriodAttributes.duration ? priorPeriodAttributes.start + priorPeriodAttributes.duration : priorPeriodAttributes || "static" !== mpdType ? null : 0;
@@ -3524,9 +3497,34 @@
                         "number" == typeof period.attributes.duration && (periodAttributes.periodDuration = period.attributes.duration);
                         var periodAttributes1, periodBaseUrls1, periodSegmentInfo, adaptationSets = findChildren(period.node, "AdaptationSet"), periodSegmentInfo1 = getSegmentInformation(period.node);
                         return flatten(adaptationSets.map((periodAttributes1 = periodAttributes, periodBaseUrls1 = periodBaseUrls, periodSegmentInfo = periodSegmentInfo1, function(adaptationSet) {
-                            var adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls1, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
+                            var service, adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls1, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
                                 role: parseAttributes(role)
-                            }, attrs = merge(periodAttributes1, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = parseCaptionServiceMetadata(parseAttributes(accessibility));
+                            }, attrs = merge(periodAttributes1, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(accessibility)).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                                if (language = value, /^CC\d=/.test(value)) {
+                                    var channel, language, _value$split = value.split("=");
+                                    channel = _value$split[0], language = _value$split[1];
+                                } else /^CC\d$/.test(value) && (channel = value);
+                                return {
+                                    channel: channel,
+                                    language: language
+                                };
+                            }) : "urn:scte:dash:cc:cea-708:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                                var flags = {
+                                    channel: void 0,
+                                    language: void 0,
+                                    aspectRatio: 1,
+                                    easyReader: 0,
+                                    "3D": 0
+                                };
+                                if (/=/.test(value)) {
+                                    var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1];
+                                    flags.channel = channel, flags.language = value, (void 0 === _value$split2$ ? "" : _value$split2$).split(",").forEach(function(opt) {
+                                        var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
+                                        "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
+                                    });
+                                } else flags.language = value;
+                                return flags.channel && (flags.channel = "SERVICE" + flags.channel), flags;
+                            }) : void 0;
                             captionServices && (attrs = merge(attrs, {
                                 captionServices: captionServices
                             }));
@@ -4732,8 +4730,8 @@
                     function parseHeader(input) {
                         input.match(/X-TIMESTAMP-MAP/) ? parseOptions(input, function(k, v) {
                             if ("X-TIMESTAMP-MAP" === k) {
-                                var input, settings;
-                                input = v, settings = new Settings(), parseOptions(input, function(k, v) {
+                                var settings;
+                                settings = new Settings(), parseOptions(v, function(k, v) {
                                     switch(k){
                                         case "MPEGT":
                                             settings.integer(k + "S", v);
@@ -5108,7 +5106,7 @@
                 var lens = getLens(b64), validLen = lens[0], placeHoldersLen = lens[1];
                 return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
             }, exports.toByteArray = function(b64) {
-                var tmp, i, validLen, placeHoldersLen, lens = getLens(b64), validLen1 = lens[0], placeHoldersLen1 = lens[1], arr = new Arr((validLen = validLen1, placeHoldersLen = placeHoldersLen1, (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen)), curByte = 0, len = placeHoldersLen1 > 0 ? validLen1 - 4 : validLen1;
+                var tmp, i, placeHoldersLen, lens = getLens(b64), validLen = lens[0], placeHoldersLen1 = lens[1], arr = new Arr((placeHoldersLen = placeHoldersLen1, (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen)), curByte = 0, len = placeHoldersLen1 > 0 ? validLen - 4 : validLen;
                 for(i = 0; i < len; i += 4)tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)], arr[curByte++] = tmp >> 16 & 0xff, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp;
                 return 2 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
@@ -5508,7 +5506,7 @@
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                var buf, remaining = this.length - offset;
+                var remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5518,10 +5516,9 @@
                     case "utf-8":
                         return utf8Write(this, string, offset, length);
                     case "ascii":
-                        return asciiWrite(this, string, offset, length);
                     case "latin1":
                     case "binary":
-                        return buf = this, asciiWrite(buf, string, offset, length);
+                        return asciiWrite(this, string, offset, length);
                     case "base64":
                         return base64Write(this, string, offset, length);
                     case "ucs2":
@@ -5592,18 +5589,12 @@
             }, Buffer.prototype.readDoubleBE = function(offset, noAssert) {
                 return offset >>>= 0, noAssert || checkOffset(offset, 8, this.length), ieee754.read(this, offset, !1, 52, 8);
             }, Buffer.prototype.writeUIntLE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, byteLength >>>= 0, !noAssert) {
-                    var maxBytes = Math.pow(2, 8 * byteLength) - 1;
-                    checkInt(this, value, offset, byteLength, maxBytes, 0);
-                }
+                value = +value, offset >>>= 0, byteLength >>>= 0, noAssert || checkInt(this, value, offset, byteLength, Math.pow(2, 8 * byteLength) - 1, 0);
                 var mul = 1, i = 0;
                 for(this[offset] = 0xff & value; ++i < byteLength && (mul *= 0x100);)this[offset + i] = value / mul & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeUIntBE = function(value, offset, byteLength, noAssert) {
-                if (value = +value, offset >>>= 0, byteLength >>>= 0, !noAssert) {
-                    var maxBytes = Math.pow(2, 8 * byteLength) - 1;
-                    checkInt(this, value, offset, byteLength, maxBytes, 0);
-                }
+                value = +value, offset >>>= 0, byteLength >>>= 0, noAssert || checkInt(this, value, offset, byteLength, Math.pow(2, 8 * byteLength) - 1, 0);
                 var i = byteLength - 1, mul = 1;
                 for(this[offset + i] = 0xff & value; --i >= 0 && (mul *= 0x100);)this[offset + i] = value / mul & 0xff;
                 return offset + byteLength;

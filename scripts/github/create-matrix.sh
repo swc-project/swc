@@ -20,24 +20,33 @@ do
     echo "- crate: $crate"
     echo "  os: ubuntu-latest"
 
-    if echo $json_str | jq -e ".check.\"$crate\"" > /dev/null``; then
+    if echo $json_str | jq -e "select(.host.\"$crate\")" > /dev/null; then
+        echo "  runner: " `echo $json_str | jq -e -r ".host.\"$crate\""`
+        
+    else
+        echo "  runner: ubuntu-latest"
+    fi
+
+    if echo $json_str | jq -e ".check.\"$crate\"" > /dev/null; then
         echo "  check: |"
 
         check_commands=$(echo $json_str | jq -e -r ".check.\"$crate\" | .[]")
 
         while IFS= read -r line; do
-            echo "    cargo $line"
+            echo "    $line"
         done <<< "$check_commands"
     fi
 
     
-    if echo $json_str | jq -e "select(.os.macos | index(\"$crate\"))" > /dev/null``; then
+    if echo $json_str | jq -e "select(.os.macos | index(\"$crate\"))" > /dev/null; then
         echo "- crate: $crate"
         echo "  os: macos-latest"
+        echo "  runner: macos-latest"
     fi
 
-    if echo $json_str | jq -e "select(.os.windows | index(\"$crate\"))" > /dev/null``; then
+    if echo $json_str | jq -e "select(.os.windows | index(\"$crate\"))" > /dev/null; then
         echo "- crate: $crate"
         echo "  os: windows-latest"
+        echo "  runner: windows-latest"
     fi
 done

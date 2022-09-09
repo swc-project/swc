@@ -1,4 +1,4 @@
-while(foo){
+while (foo) {
     x();
     y();
     break;

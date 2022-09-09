@@ -1,9 +1,10 @@
-var n = 1, o = "PASS";
+var o = 1,
+    n = "PASS";
 do {
-    (function() {
-        (function(n) {
-            n = 0 != (n && (o = "FAIL"));
+    (function () {
+        (function (o) {
+            o = 0 != (o && (n = "FAIL"));
         })();
     })();
-}while (n--)
-console.log(o);
+} while (o--);
+console.log(n);

@@ -1,8 +1,8 @@
-!(function(n) {
+!(function (n) {
     if (n) return;
-    let t = 1;
-    function r() {
-        return t;
+    let o = 1;
+    function t() {
+        return o;
     }
-    console.log(r());
+    console.log(t());
 })();

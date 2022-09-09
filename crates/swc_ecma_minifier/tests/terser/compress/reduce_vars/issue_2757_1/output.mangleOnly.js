@@ -1,5 +1,5 @@
 let l;
-(function() {
-    let t;
-    console.log(l, t);
+(function () {
+    let o;
+    console.log(l, o);
 })();

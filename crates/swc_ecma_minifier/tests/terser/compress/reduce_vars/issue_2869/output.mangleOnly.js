@@ -1,7 +1,7 @@
-var f = "FAIL";
-(function i(a) {
-    var a;
-    if (!i) a = 0;
-    if (a) f = "PASS";
+var o = "FAIL";
+(function f(i) {
+    var i;
+    if (!f) i = 0;
+    if (i) o = "PASS";
 })(1);
-console.log(f);
+console.log(o);

@@ -1,5 +1,5 @@
-const r = (r)=>{
-    return r;
-    var r;
+const o = (o) => {
+    return o;
+    var o;
 };
-console.log(r(1), r(2));
+console.log(o(1), o(2));

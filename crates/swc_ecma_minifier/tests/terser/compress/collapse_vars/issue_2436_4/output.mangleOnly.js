@@ -1,11 +1,7 @@
-var a = {
-    a: 1,
-    b: 2
-};
-console.log((function(a) {
-    return {
-        x: a.a,
-        y: a.b
-    };
-    var r;
-})(a));
+var a = { a: 1, b: 2 };
+console.log(
+    (function (a) {
+        return { x: a.a, y: a.b };
+        var n;
+    })(a)
+);

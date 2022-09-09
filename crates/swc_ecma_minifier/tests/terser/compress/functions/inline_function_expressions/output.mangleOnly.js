@@ -1,11 +1,11 @@
-(async ()=>2)().catch((n)=>null);
-(async function() {
+(async () => 2)().catch((n) => null);
+(async function () {
     return 3;
-})().catch((n)=>null);
-(()=>4)();
-(function() {
+})().catch((n) => null);
+(() => 4)();
+(function () {
     return 5;
 })();
-(function*() {
+(function* () {
     return 6;
 })();

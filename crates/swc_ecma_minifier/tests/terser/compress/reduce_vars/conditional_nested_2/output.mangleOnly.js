@@ -1,5 +1,5 @@
 var n = 0;
-(function(o) {
+(function (o) {
     function c() {
         o && n++;
     }

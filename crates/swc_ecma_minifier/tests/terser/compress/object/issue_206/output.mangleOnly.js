@@ -1,3 +1,1 @@
-throw {
-    ["__proto__"]: 1
-};
+throw { ["__proto__"]: 1 };

@@ -1,3 +1,3 @@
-!(function(n, ...o) {
-    console.log(o);
+!(function (o, ...n) {
+    console.log(n);
 })();

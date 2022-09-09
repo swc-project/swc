@@ -1,18 +1,19 @@
-((r)=>{
-    r();
-})(()=>((r)=>{
-        r()().prop();
-    })(()=>{
-        let r = ()=>{
-            var r = ()=>{
-                console.log("PASS");
-            }, o = ()=>{
-                console.log;
-                r();
-            };
-            return {
-                prop: o
-            };
+((o) => {
+    o();
+})(() =>
+    ((o) => {
+        o()().prop();
+    })(() => {
+        let o = () => {
+            var o = () => {
+                    console.log("PASS");
+                },
+                r = () => {
+                    console.log;
+                    o();
+                };
+            return { prop: r };
         };
-        return r;
-    }));
+        return o;
+    })
+);

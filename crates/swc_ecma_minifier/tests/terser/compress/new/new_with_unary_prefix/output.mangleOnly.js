@@ -1,1 +1,1 @@
-var n = (+new Date()).toString(32);
+var t = (+new Date()).toString(32);

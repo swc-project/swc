@@ -71,6 +71,10 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.input.is_byte(c)
     }
 
+    pub(super) fn is_str(&self, s: &str) -> bool {
+        self.input.is_str(s)
+    }
+
     pub(super) fn eat(&mut self, c: u8) -> bool {
         self.input.eat_byte(c)
     }
@@ -170,17 +174,16 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space(&mut self, lex_comments: bool) -> LexResult<()> {
         loop {
-            if self.input.eat_byte(b'\n') || self.input.eat_byte(b'\r') {
+            let cur_b = self.input.cur_as_ascii();
+
+            if matches!(cur_b, Some(b'\n' | b'\r')) {
+                self.input.bump();
                 self.state.had_line_break = true;
                 continue;
             }
 
-            if self.input.eat_byte(b'\x09')
-                || self.input.eat_byte(b'\x0b')
-                || self.input.eat_byte(b'\x0c')
-                || self.input.eat_byte(b'\x20')
-                || self.input.eat_byte(b'\xa0')
-            {
+            if matches!(cur_b, Some(b'\x09' | b'\x0b' | b'\x0c' | b'\x20' | b'\xa0')) {
+                self.input.bump();
                 continue;
             }
 

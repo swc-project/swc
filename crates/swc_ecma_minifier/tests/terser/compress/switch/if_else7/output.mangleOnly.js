@@ -1,4 +1,4 @@
-switch(foo){
+switch (foo) {
     case "bar":
         break;
         bar();

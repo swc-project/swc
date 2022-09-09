@@ -84,7 +84,7 @@ jobs:
         run: cargo check --color always --all --all-targets
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
-    runs-on: ${{ matrix.settings.os }}
+    runs-on: ${{ matrix.settings.runner }}
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     strategy:
@@ -94,244 +94,350 @@ jobs:
           # Use scripts/github/create-matrix.sh to create this.
           - crate: ast_node
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: better_scoped_tls
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: binding_macros
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: dbg-swc
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: from_variant
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: jsdoc
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: preset_env_base
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: string_enum
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest
           - crate: swc
             os: windows-latest
+            runner: windows-latest
           - crate: swc_atoms
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_bundler
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_cached
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_common
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest
           - crate: swc_common
             os: windows-latest
+            runner: windows-latest
           - crate: swc_config
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_config_macro
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_core
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_ast
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_codegen
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_codegen
             os: windows-latest
+            runner: windows-latest
           - crate: swc_css_codegen_macros
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_lints
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_minifier
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_parser
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_parser
             os: windows-latest
+            runner: windows-latest
           - crate: swc_css_prefixer
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_utils
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_visit
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_ast
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_codegen
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_codegen
             os: windows-latest
+            runner: windows-latest
           - crate: swc_ecma_codegen_macros
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_dep_graph
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_ext_transforms
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_lints
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_loader
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_loader
             os: windows-latest
+            runner: windows-latest
           - crate: swc_ecma_minifier
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_parser
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_parser
             os: windows-latest
+            runner: windows-latest
           - crate: swc_ecma_preset_env
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_preset_env
             os: windows-latest
+            runner: windows-latest
           - crate: swc_ecma_quote
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_quote_macros
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_testing
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_transforms
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_base
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_classes
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_transforms_compat
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_macros
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_transforms_module
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_transforms_module
             os: windows-latest
+            runner: windows-latest
           - crate: swc_ecma_transforms_optimization
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_proposal
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_transforms_react
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_transforms_testing
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_transforms_testing
             os: windows-latest
+            runner: windows-latest
           - crate: swc_ecma_transforms_typescript
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_utils
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_visit
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecmascript
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_eq_ignore_macros
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_error_reporters
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_estree_ast
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_estree_compat
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_fast_graph
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_graph_analyzer
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_html
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_html_ast
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_html_codegen
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_html_codegen
             os: windows-latest
+            runner: windows-latest
           - crate: swc_html_codegen_macros
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_html_minifier
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_html_parser
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_html_parser
             os: windows-latest
+            runner: windows-latest
           - crate: swc_html_utils
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_html_visit
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_macros_common
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_node_base
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_node_bundler
             os: ubuntu-latest
+            runner: ubuntu-latest
             check: |
               cargo check
               cargo check --no-default-features --features swc_v2
           - crate: swc_node_bundler
             os: windows-latest
+            runner: windows-latest
           - crate: swc_node_comments
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_nodejs_common
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_plugin
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_plugin
             os: windows-latest
+            runner: windows-latest
           - crate: swc_plugin_macro
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_plugin_proxy
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_plugin_runner
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_plugin_runner
             os: macos-latest
+            runner: macos-latest
           - crate: swc_plugin_runner
             os: windows-latest
+            runner: windows-latest
           - crate: swc_plugin_testing
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_plugin_testing
             os: windows-latest
+            runner: windows-latest
           - crate: swc_timer
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_trace_macro
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_visit
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_visit_macros
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_xml
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_xml_ast
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_xml_codegen
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_xml_codegen_macros
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_xml_parser
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_xml_visit
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: testing
             os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: testing_macros
             os: ubuntu-latest
-
+            runner: ubuntu-latest
     steps:
       - name: Handle line endings
         shell: bash

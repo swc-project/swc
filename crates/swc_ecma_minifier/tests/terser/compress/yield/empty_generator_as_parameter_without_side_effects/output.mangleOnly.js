@@ -1,2 +1,2 @@
-var t = Object.getPrototypeOf(Object.getPrototypeOf((function*() {})()));
+var t = Object.getPrototypeOf(Object.getPrototypeOf((function* () {})()));
 evaluate(t);

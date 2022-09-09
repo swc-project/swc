@@ -1,12 +1,9 @@
-(function() {
+(function () {
     function n() {
         console.log(this.p);
     }
-    (function() {
-        var f = {
-            p: "PASS",
-            f: n
-        };
-        f.f();
+    (function () {
+        var o = { p: "PASS", f: n };
+        o.f();
     })();
 })();

@@ -1,15 +1,13 @@
-function n() {
+function o() {
     console.log(1);
     return {
-        y: function() {
+        y: function () {
             console.log(2);
-            return {
-                z: 0
-            };
-        }
+            return { z: 0 };
+        },
     };
 }
-n().y().z++;
-if (n().y().z) {
+o().y().z++;
+if (o().y().z) {
     console.log(3);
 }

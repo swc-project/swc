@@ -1,8 +1,8 @@
-var r = 1;
-console.log(r);
+var o = 1;
+console.log(o);
 var n = {
-    "": function() {
-        return r + r;
-    }
+    "": function () {
+        return o + o;
+    },
 };
 console.log(n[""]());

@@ -1,13 +1,13 @@
 var n = "FAIL";
-(function() {
-    function f(f) {
-        var i = (function n(f) {
-            f && f();
+(function () {
+    function o(o) {
+        var c = (function n(o) {
+            o && o();
         })();
-        if (f) {
-            var o = (n = "PASS");
+        if (o) {
+            var f = (n = "PASS");
         }
     }
-    f(1);
+    o(1);
 })();
 console.log(n);

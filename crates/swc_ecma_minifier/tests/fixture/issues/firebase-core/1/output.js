@@ -2338,7 +2338,9 @@
                 Yd: function() {
                     return Logger;
                 }
-            }), (LogLevel1 = LogLevel || (LogLevel = {}))[LogLevel1.DEBUG = 0] = "DEBUG", LogLevel1[LogLevel1.VERBOSE = 1] = "VERBOSE", LogLevel1[LogLevel1.INFO = 2] = "INFO", LogLevel1[LogLevel1.WARN = 3] = "WARN", LogLevel1[LogLevel1.ERROR = 4] = "ERROR", LogLevel1[LogLevel1.SILENT = 5] = "SILENT";
+            });
+            const instances = [];
+            (LogLevel1 = LogLevel || (LogLevel = {}))[LogLevel1.DEBUG = 0] = "DEBUG", LogLevel1[LogLevel1.VERBOSE = 1] = "VERBOSE", LogLevel1[LogLevel1.INFO = 2] = "INFO", LogLevel1[LogLevel1.WARN = 3] = "WARN", LogLevel1[LogLevel1.ERROR = 4] = "ERROR", LogLevel1[LogLevel1.SILENT = 5] = "SILENT";
             const levelStringToEnum = {
                 debug: LogLevel.DEBUG,
                 verbose: LogLevel.VERBOSE,
@@ -2360,7 +2362,7 @@
             };
             class Logger {
                 constructor(name){
-                    this.name = name, this._logLevel = defaultLogLevel, this._logHandler = defaultLogHandler, this._userLogHandler = null, [].push(this);
+                    this.name = name, this._logLevel = defaultLogLevel, this._logHandler = defaultLogHandler, this._userLogHandler = null, instances.push(this);
                 }
                 get logLevel() {
                     return this._logLevel;

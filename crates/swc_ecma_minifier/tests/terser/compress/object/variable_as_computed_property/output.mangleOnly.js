@@ -1,5 +1,3 @@
 function n(n) {
-    return {
-        [n]: {}
-    };
+    return { [n]: {} };
 }

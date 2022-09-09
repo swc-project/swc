@@ -3,9 +3,9 @@ function r(r) {
     n = 200;
     return 100;
 }
-function $() {
-    var $ = r();
-    n += $;
+function o() {
+    var o = r();
+    n += o;
     return n;
 }
-console.log($());
+console.log(o());

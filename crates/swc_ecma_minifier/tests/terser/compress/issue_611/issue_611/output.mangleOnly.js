@@ -1,4 +1,4 @@
-define(function() {
+define(function () {
     function n() {}
     if (n()) {
         n();

@@ -568,6 +568,12 @@ impl<'a> VisitMut for Operator<'a> {
             n.visit_mut_with(v);
         })
     }
+
+    fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
 }
 
 struct VarFolder<'a, 'b> {

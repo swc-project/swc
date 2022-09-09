@@ -1,12 +1,15 @@
 function n(n, r, f) {
-    var t = n[(r.f = function() {
-        return "PASS";
-    })];
-    return f.f(t);
+    var o =
+        n[
+            (r.f = function () {
+                return "PASS";
+            })
+        ];
+    return f.f(o);
 }
 var r = {
-    f: function() {
+    f: function () {
         return "FAIL";
-    }
+    },
 };
 console.log(n({}, r, r));

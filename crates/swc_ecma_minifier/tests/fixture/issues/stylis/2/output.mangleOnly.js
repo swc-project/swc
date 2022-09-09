@@ -1,15 +1,15 @@
 import { MS as e, MOZ as s, WEBKIT as a } from "./Enum.js.js";
 import { strlen as c, indexof as r, replace as t } from "./Utility.js.js";
-function _(e, s) {
+function n(e, s) {
     return e.charCodeAt(s) | 0;
 }
-export function prefix(n, i) {
-    function u(e, s) {
-        return ((((((((s << 2) ^ _(e, 0)) << 2) ^ _(e, 1)) << 2) ^ _(e, 2)) << 2) ^ _(e, 3));
+export function prefix(i, u) {
+    function $(e, s) {
+        return ((((((((s << 2) ^ n(e, 0)) << 2) ^ n(e, 1)) << 2) ^ n(e, 2)) << 2) ^ n(e, 3));
     }
-    switch(u(n, i)){
+    switch($(i, u)){
         case 5103:
-            return a + "print-" + n + n;
+            return a + "print-" + i + i;
         case 5737:
         case 4201:
         case 3177:
@@ -35,44 +35,44 @@ export function prefix(n, i) {
         case 5365:
         case 5621:
         case 3829:
-            return a + n + n;
+            return a + i + i;
         case 5349:
         case 4246:
         case 4810:
         case 6968:
         case 2756:
-            return a + n + s + n + e + n + n;
+            return a + i + s + i + e + i + i;
         case 6828:
         case 4268:
-            return a + n + e + n + n;
+            return a + i + e + i + i;
         case 6165:
-            return a + n + e + "flex-" + n + n;
+            return a + i + e + "flex-" + i + i;
         case 5187:
-            return (a + n + t(n, /(\w+).+(:[^]+)/, a + "box-$1$2" + e + "flex-$1$2") + n);
+            return (a + i + t(i, /(\w+).+(:[^]+)/, a + "box-$1$2" + e + "flex-$1$2") + i);
         case 5443:
-            return (a + n + e + "flex-item-" + t(n, /flex-|-self/, "") + n);
+            return (a + i + e + "flex-item-" + t(i, /flex-|-self/, "") + i);
         case 4675:
-            return (a + n + e + "flex-line-pack" + t(n, /align-content|flex-|-self/, "") + n);
+            return (a + i + e + "flex-line-pack" + t(i, /align-content|flex-|-self/, "") + i);
         case 5548:
-            return (a + n + e + t(n, "shrink", "negative") + n);
+            return (a + i + e + t(i, "shrink", "negative") + i);
         case 5292:
-            return (a + n + e + t(n, "basis", "preferred-size") + n);
+            return (a + i + e + t(i, "basis", "preferred-size") + i);
         case 6060:
-            return (a + "box-" + t(n, "-grow", "") + a + n + e + t(n, "grow", "positive") + n);
+            return (a + "box-" + t(i, "-grow", "") + a + i + e + t(i, "grow", "positive") + i);
         case 4554:
-            return (a + t(n, /([^-])(transform)/g, "$1" + a + "$2") + n);
+            return (a + t(i, /([^-])(transform)/g, "$1" + a + "$2") + i);
         case 6187:
-            return (t(t(t(n, /(zoom-|grab)/, a + "$1"), /(image-set)/, a + "$1"), n, "") + n);
+            return (t(t(t(i, /(zoom-|grab)/, a + "$1"), /(image-set)/, a + "$1"), i, "") + i);
         case 5495:
         case 3959:
-            return t(n, /(image-set\([^]*)/, a + "$1" + "$`$1");
+            return t(i, /(image-set\([^]*)/, a + "$1" + "$`$1");
         case 4968:
-            return (t(t(n, /(.+:)(flex-)?(.*)/, a + "box-pack:$3" + e + "flex-pack:$3"), /s.+-b[^;]+/, "justify") + a + n + n);
+            return (t(t(i, /(.+:)(flex-)?(.*)/, a + "box-pack:$3" + e + "flex-pack:$3"), /s.+-b[^;]+/, "justify") + a + i + i);
         case 4095:
         case 3583:
         case 4068:
         case 2532:
-            return t(n, /(.+)-inline(.+)/, a + "$1$2") + n;
+            return t(i, /(.+)-inline(.+)/, a + "$1$2") + i;
         case 8116:
         case 7059:
         case 5753:
@@ -85,35 +85,35 @@ export function prefix(n, i) {
         case 5789:
         case 5021:
         case 4765:
-            if (c(n) - 1 - i > 6) switch(_(n, i + 1)){
+            if (c(i) - 1 - u > 6) switch(n(i, u + 1)){
                 case 109:
-                    if (_(n, i + 4) !== 45) break;
+                    if (n(i, u + 4) !== 45) break;
                 case 102:
-                    return (t(n, /(.+:)(.+)-([^]+)/, "$1" + a + "$2-$3" + "$1" + s + (_(n, i + 3) == 108 ? "$3" : "$2-$3")) + n);
+                    return (t(i, /(.+:)(.+)-([^]+)/, "$1" + a + "$2-$3" + "$1" + s + (n(i, u + 3) == 108 ? "$3" : "$2-$3")) + i);
                 case 115:
-                    return ~r(n, "stretch") ? prefix(t(n, "stretch", "fill-available"), i) + n : n;
+                    return ~r(i, "stretch") ? prefix(t(i, "stretch", "fill-available"), u) + i : i;
             }
             break;
         case 4949:
-            if (_(n, i + 1) !== 115) break;
+            if (n(i, u + 1) !== 115) break;
         case 6444:
-            switch(_(n, c(n) - 3 - (~r(n, "!important") && 10))){
+            switch(n(i, c(i) - 3 - (~r(i, "!important") && 10))){
                 case 107:
-                    return t(n, ":", ":" + a) + n;
+                    return t(i, ":", ":" + a) + i;
                 case 101:
-                    return (t(n, /(.+:)([^;!]+)(;|!.+)?/, "$1" + a + (_(n, 14) === 45 ? "inline-" : "") + "box$3" + "$1" + a + "$2$3" + "$1" + e + "$2box$3") + n);
+                    return (t(i, /(.+:)([^;!]+)(;|!.+)?/, "$1" + a + (n(i, 14) === 45 ? "inline-" : "") + "box$3" + "$1" + a + "$2$3" + "$1" + e + "$2box$3") + i);
             }
             break;
         case 5936:
-            switch(_(n, i + 11)){
+            switch(n(i, u + 11)){
                 case 114:
-                    return (a + n + e + t(n, /[svh]\w+-[tblr]{2}/, "tb") + n);
+                    return (a + i + e + t(i, /[svh]\w+-[tblr]{2}/, "tb") + i);
                 case 108:
-                    return (a + n + e + t(n, /[svh]\w+-[tblr]{2}/, "tb-rl") + n);
+                    return (a + i + e + t(i, /[svh]\w+-[tblr]{2}/, "tb-rl") + i);
                 case 45:
-                    return (a + n + e + t(n, /[svh]\w+-[tblr]{2}/, "lr") + n);
+                    return (a + i + e + t(i, /[svh]\w+-[tblr]{2}/, "lr") + i);
             }
-            return a + n + e + n + n;
+            return a + i + e + i + i;
     }
-    return n;
+    return i;
 }

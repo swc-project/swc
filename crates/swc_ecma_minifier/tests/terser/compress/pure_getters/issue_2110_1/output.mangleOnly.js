@@ -1,9 +1,9 @@
 function n() {
     function n() {}
-    function t() {
+    function o() {
         return this;
     }
-    n.g = t;
+    n.g = o;
     return n.g();
 }
 console.log(typeof n());

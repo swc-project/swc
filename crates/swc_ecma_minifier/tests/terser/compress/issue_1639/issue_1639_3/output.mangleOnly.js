@@ -1,3 +1,4 @@
-var $ = 100, a = 10;
-$++ && false && $ ? 0 : 0;
-console.log($, a);
+var l = 100,
+    o = 10;
+l++ && false && l ? 0 : 0;
+console.log(l, o);

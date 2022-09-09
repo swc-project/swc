@@ -11,16 +11,26 @@ define([
     "use strict";
 });
 //// [test.tsx]
-//! 
-//!   x Expression expected
-//!    ,----
-//!  7 | var routes1 = <Route />;
-//!    :                      ^
-//!    `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!    ,----
-//!  7 | var routes1 = <Route />;
-//!    :                       ^
-//!    `----
+// Should emit 'react-router' in the AMD dependency list
+define([
+    "require",
+    "exports",
+    "react",
+    "react-router"
+], function(require, exports, _react, _reactRouter) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    var Route = _reactRouter.Route;
+    var routes1 = /*#__PURE__*/ _react.createElement(Route, null);
+    var M;
+    (function(M) {
+        var X1;
+        M.X = X1;
+    })(M || (M = {}));
+    (function(M) {
+        // Should emit 'M.X' in both opening and closing tags
+        var y = /*#__PURE__*/ _react.createElement(X, null);
+    })(M || (M = {}));
+});

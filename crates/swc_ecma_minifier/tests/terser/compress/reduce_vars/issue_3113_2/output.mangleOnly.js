@@ -1,13 +1,13 @@
 var n = 0;
-(function() {
+(function () {
+    function o() {
+        while (i());
+    }
+    var c = o();
     function i() {
-        while(c());
+        c && c[n++];
     }
-    var o = i();
-    function c() {
-        o && o[n++];
-    }
-    o = 1;
-    c();
+    c = 1;
+    i();
 })();
 console.log(n);

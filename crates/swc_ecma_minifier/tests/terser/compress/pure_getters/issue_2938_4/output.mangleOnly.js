@@ -1,9 +1,9 @@
 var n = function n() {};
-var t = n.prototype;
-var i = t.x;
-t.initialContext = function n() {
-    t.y;
+var o = n.prototype;
+var t = o.x;
+o.initialContext = function n() {
+    o.y;
     console.log("PASS");
 };
-t.braceIsBlock = function() {};
+o.braceIsBlock = function () {};
 new n().initialContext();

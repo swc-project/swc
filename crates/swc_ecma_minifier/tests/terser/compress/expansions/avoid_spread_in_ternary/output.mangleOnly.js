@@ -1,16 +1,12 @@
 function e(...e) {
     console.log(...e);
 }
-var f = [
-    1,
-    2
-], i = [
-    3,
-    4
-], l = Math;
-if (l) e(f);
-else e(i);
-if (l) e(...f);
-else e(i);
-if (l.no_such_property) e(f);
-else e(...i);
+var o = [1, 2],
+    l = [3, 4],
+    s = Math;
+if (s) e(o);
+else e(l);
+if (s) e(...o);
+else e(l);
+if (s.no_such_property) e(o);
+else e(...l);

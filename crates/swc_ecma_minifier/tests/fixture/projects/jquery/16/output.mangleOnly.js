@@ -1,34 +1,34 @@
 export const obj = {
-    setOffset: function(t, s, i) {
-        var o = jQuery.css(t, "position");
-        if (o === "static") {
+    setOffset: function(t, e, s) {
+        var i = jQuery.css(t, "position");
+        if (i === "static") {
             t.style.position = "relative";
         }
-        var e = jQuery(t), l = e.offset(), f = jQuery.css(t, "top"), n = jQuery.css(t, "left"), c = (o === "absolute" || o === "fixed") && jQuery.inArray("auto", [
+        var o = jQuery(t), l = o.offset(), f = jQuery.css(t, "top"), n = jQuery.css(t, "left"), r = (i === "absolute" || i === "fixed") && jQuery.inArray("auto", [
             f,
             n
-        ]) > -1, p = {}, a = {}, u, r;
-        if (c) {
-            a = e.position();
-            u = a.top;
-            r = a.left;
+        ]) > -1, u = {}, a = {}, p, c;
+        if (r) {
+            a = o.position();
+            p = a.top;
+            c = a.left;
         } else {
-            u = parseFloat(f) || 0;
-            r = parseFloat(n) || 0;
+            p = parseFloat(f) || 0;
+            c = parseFloat(n) || 0;
         }
-        if (jQuery.isFunction(s)) {
-            s = s.call(t, i, l);
+        if (jQuery.isFunction(e)) {
+            e = e.call(t, s, l);
         }
-        if (s.top != null) {
-            p.top = s.top - l.top + u;
+        if (e.top != null) {
+            u.top = e.top - l.top + p;
         }
-        if (s.left != null) {
-            p.left = s.left - l.left + r;
+        if (e.left != null) {
+            u.left = e.left - l.left + c;
         }
-        if ("using" in s) {
-            s.using.call(t, p);
+        if ("using" in e) {
+            e.using.call(t, u);
         } else {
-            e.css(p);
+            o.css(u);
         }
     }
 };

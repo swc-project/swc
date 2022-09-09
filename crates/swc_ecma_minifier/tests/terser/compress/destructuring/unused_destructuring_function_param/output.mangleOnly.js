@@ -1,8 +1,4 @@
-function e({ w: e = console.log("side effect") , x: f , y: o  }) {
-    console.log(f);
+function o({ w: o = console.log("side effect"), x: e, y: c }) {
+    console.log(e);
 }
-e({
-    x: 1,
-    y: 2,
-    z: 3
-});
+o({ x: 1, y: 2, z: 3 });

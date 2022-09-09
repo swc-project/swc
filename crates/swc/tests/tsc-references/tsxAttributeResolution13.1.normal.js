@@ -1,8 +1,4 @@
 //// [tsxAttributeResolution13.tsx]
 //// [test.tsx]
-//! 
-//!   x Unexpected eof
-//!    ,----
-//!  2 | <Test></Test>
-//!    :              ^
-//!    `----
+function Test() {}
+/*#__PURE__*/ React.createElement(Test, null);

@@ -53,8 +53,8 @@ function n() {
     var o = {
         h: 1
     };
-    var [n, ..._] = r;
-    var [...[b, c]] = v;
-    var [...{ g: i  }] = o;
-    c(n, _, b, c, g);
+    var [n, ...b] = r;
+    var [...[c, i]] = v;
+    var [...{ g: t  }] = o;
+    i(n, b, c, i, g);
 }

@@ -1238,7 +1238,7 @@
                 }
             }
             var Anatomy = function() {
-                var Constructor, protoProps, staticProps;
+                var Constructor, staticProps;
                 function Anatomy(name) {
                     var _this = this;
                     this.map = {}, this.called = !1, this.assert = function() {
@@ -1281,7 +1281,7 @@
                         };
                     }, this.__type = {};
                 }
-                return Constructor = Anatomy, protoProps = [
+                return Constructor = Anatomy, _defineProperties(Constructor.prototype, [
                     {
                         key: "selectors",
                         get: function() {
@@ -1310,7 +1310,7 @@
                             return Object.keys(this.map);
                         }
                     }, 
-                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Object.defineProperty(Constructor, "prototype", {
+                ]), staticProps && _defineProperties(Constructor, staticProps), Object.defineProperty(Constructor, "prototype", {
                     writable: !1
                 }), Anatomy;
             }();
@@ -1391,13 +1391,13 @@
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
-                var value, prefix, value1, prefix1, name1, fallback, fallback1, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, void 0 === (prefix1 = prefix) && (prefix1 = ""), [
+                var prefix, prefix1, fallback, fallback1, cssVariable = (void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (void 0 === (prefix1 = prefix) && (prefix1 = ""), [
                     prefix1,
-                    chakra_ui_theme_tools_esm_escape(value1)
+                    chakra_ui_theme_tools_esm_escape(name)
                 ].filter(Boolean).join("-")));
                 return {
                     variable: cssVariable,
-                    reference: (name1 = cssVariable, fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference, "var(" + chakra_ui_theme_tools_esm_escape(name1) + (fallback ? ", " + fallback : "") + ")")
+                    reference: (fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference, "var(" + chakra_ui_theme_tools_esm_escape(cssVariable) + (fallback ? ", " + fallback : "") + ")")
                 };
             }
             var accordionAnatomy = anatomy("accordion").parts("root", "container", "button", "panel").extend("icon"), alertAnatomy = anatomy("alert").parts("title", "description", "container").extend("icon", "spinner"), avatarAnatomy = anatomy("avatar").parts("label", "badge", "container").extend("excessLabel", "group"), breadcrumbAnatomy = anatomy("breadcrumb").parts("link", "item", "container").extend("separator");
@@ -1711,17 +1711,16 @@
                     verticalAlign: "top"
                 };
             }, baseStyle$B = function(props) {
-                var props1, props2;
                 return {
-                    badge: (props1 = props, {
+                    badge: {
                         transform: "translate(25%, 25%)",
                         borderRadius: "full",
                         border: "0.2em solid",
-                        borderColor: mode("white", "gray.800")(props1)
-                    }),
-                    excessLabel: (props2 = props, {
-                        bg: mode("gray.200", "whiteAlpha.400")(props2)
-                    }),
+                        borderColor: mode("white", "gray.800")(props)
+                    },
+                    excessLabel: {
+                        bg: mode("gray.200", "whiteAlpha.400")(props)
+                    },
                     container: baseStyleContainer$3(props)
                 };
             };
@@ -2148,39 +2147,37 @@
                     }
                 }
             }, baseStyle$q = function(props) {
-                var props1, props2;
                 return {
                     container: {
                         width: "100%",
                         position: "relative"
                     },
-                    requiredIndicator: (props1 = props, {
+                    requiredIndicator: {
                         marginStart: 1,
-                        color: mode("red.500", "red.300")(props1)
-                    }),
-                    helperText: (props2 = props, {
+                        color: mode("red.500", "red.300")(props)
+                    },
+                    helperText: {
                         mt: 2,
-                        color: mode("gray.500", "whiteAlpha.600")(props2),
+                        color: mode("gray.500", "whiteAlpha.600")(props),
                         lineHeight: "normal",
                         fontSize: "sm"
-                    })
+                    }
                 };
             }, Form = {
                 parts: formAnatomy.keys,
                 baseStyle: baseStyle$q
             }, baseStyle$p = function(props) {
-                var props1, props2;
                 return {
-                    text: (props1 = props, {
-                        color: mode("red.500", "red.300")(props1),
+                    text: {
+                        color: mode("red.500", "red.300")(props),
                         mt: 2,
                         fontSize: "sm",
                         lineHeight: "normal"
-                    }),
-                    icon: (props2 = props, {
+                    },
+                    icon: {
                         marginEnd: "0.5em",
-                        color: mode("red.500", "red.300")(props2)
-                    })
+                        color: mode("red.500", "red.300")(props)
+                    }
                 };
             }, FormError = {
                 parts: formErrorAnatomy.keys,
@@ -2579,7 +2576,7 @@
                     }
                 };
             }
-            var config, sizes$c = {
+            var sizes$c = {
                 xs: getSize("xs"),
                 sm: getSize("sm"),
                 md: getSize("md"),
@@ -2660,13 +2657,12 @@
                     bgColor: bgColor
                 })));
             }, baseStyle$d = function(props) {
-                var props1;
                 return {
                     label: baseStyleLabel$2,
                     filledTrack: baseStyleFilledTrack$1(props),
-                    track: (props1 = props, {
-                        bg: mode("gray.100", "whiteAlpha.300")(props1)
-                    })
+                    track: {
+                        bg: mode("gray.100", "whiteAlpha.300")(props)
+                    }
                 };
             }, Progress = {
                 parts: progressAnatomy.keys,
@@ -3525,18 +3521,18 @@
                 ], _ref[$arrowBg.variable] = [
                     $bg.reference
                 ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
-            }, breakpoints = (config = {
+            }, breakpoints = ((0, chakra_ui_utils_esm.ZK)({
+                condition: !0,
+                message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
+            }), chakra_ui_theme_tools_esm_extends({
+                base: "0em"
+            }, {
                 sm: "30em",
                 md: "48em",
                 lg: "62em",
                 xl: "80em",
                 "2xl": "96em"
-            }, (0, chakra_ui_utils_esm.ZK)({
-                condition: !0,
-                message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
-            }), chakra_ui_theme_tools_esm_extends({
-                base: "0em"
-            }, config)), foundations = sizes_501602a9_esm_extends({
+            })), foundations = sizes_501602a9_esm_extends({
                 breakpoints: breakpoints,
                 zIndices: {
                     hide: -1,

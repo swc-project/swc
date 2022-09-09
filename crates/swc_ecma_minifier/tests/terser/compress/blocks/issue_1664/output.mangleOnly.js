@@ -1,10 +1,10 @@
 var n = 1;
-function f() {
-    if (f) n = 2;
+function o() {
+    if (o) n = 2;
     {
-        function f() {}
-        f();
+        function o() {}
+        o();
     }
 }
-f();
+o();
 console.log(n);

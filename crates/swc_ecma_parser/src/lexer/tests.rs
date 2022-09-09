@@ -1994,3 +1994,125 @@ fn normalize_tpl_carriage_return() {
         lex_tokens(Syntax::default(), "`\n`")
     );
 }
+
+#[test]
+fn conflict_marker_trivia1() {
+    let (_, errors) = lex_errors(
+        Default::default(),
+        r#"
+class C {
+<<<<<<< HEAD
+    v = 1;
+=======
+    v = 2;
+>>>>>>> Branch-a
+}
+"#,
+    );
+
+    assert_eq!(errors.len(), 3);
+    assert!(errors.iter().all(|e| e.kind() == &SyntaxError::TS1185));
+}
+
+#[test]
+fn conflict_marker_trivia2() {
+    let (_, errors) = lex_errors(
+        crate::Syntax::Typescript(Default::default()),
+        r#"
+class C {
+  foo() {
+<<<<<<< B
+     a();
+  }
+=======
+     b();
+  }
+>>>>>>> A
+
+  public bar() { }
+}
+"#,
+    );
+
+    assert_eq!(errors.len(), 3);
+    assert!(errors.iter().all(|e| e.kind() == &SyntaxError::TS1185));
+}
+
+#[test]
+fn conflict_marker_trivia3() {
+    let (_, errors) = lex_errors(
+        crate::Syntax::Typescript(crate::TsConfig {
+            tsx: true,
+            ..Default::default()
+        }),
+        r#"
+const x = <div />
+<<<<<<< HEAD
+"#,
+    );
+
+    assert_eq!(errors.len(), 1);
+    assert!(errors.iter().all(|e| e.kind() == &SyntaxError::TS1185));
+}
+
+#[test]
+fn conflict_marker_trivia4() {
+    let (_, errors) = lex_errors(
+        crate::Syntax::Typescript(Default::default()),
+        r#"
+const x = <div>
+<<<<<<< HEAD
+"#,
+    );
+
+    assert_eq!(errors.len(), 1);
+    assert!(errors.iter().all(|e| e.kind() == &SyntaxError::TS1185));
+}
+
+#[test]
+fn conflict_marker_diff3_trivia1() {
+    let (_, errors) = lex_errors(
+        crate::Syntax::Typescript(Default::default()),
+        r#"
+class C {
+<<<<<<< HEAD
+    v = 1;
+||||||| merged common ancestors
+    v = 3;
+=======
+    v = 2;
+>>>>>>> Branch-a
+}
+"#,
+    );
+
+    assert_eq!(errors.len(), 4);
+    assert!(errors.iter().all(|e| e.kind() == &SyntaxError::TS1185));
+}
+
+#[test]
+fn conflict_marker_diff3_trivia2() {
+    let (_, errors) = lex_errors(
+        crate::Syntax::Typescript(Default::default()),
+        r#"
+class C {
+  foo() {
+<<<<<<< B
+     a();
+  }
+||||||| merged common ancestors
+     c();
+  }
+=======
+     b();
+  }
+>>>>>>> A
+
+  public bar() { }
+}
+"#,
+    );
+
+    assert_eq!(errors.len(), 4);
+    assert!(errors.iter().all(|e| e.kind() == &SyntaxError::TS1185));
+}

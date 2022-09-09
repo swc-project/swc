@@ -1,16 +1,16 @@
 const l = ()=>{
     let l;
     {
-        let t = [];
+        let o = [];
         {
             console.log();
         }
-        l = t;
+        l = o;
         {
             let e = l;
-            let o = 123456;
-            console.log(o);
-            e.push(o);
+            let t = 123456;
+            console.log(t);
+            e.push(t);
         }
     }
 };

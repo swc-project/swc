@@ -1,22 +1,15 @@
 //// [tsxErrorRecovery3.tsx]
 //// [file1.tsx]
 //! 
-//!   x Expression expected
+//!   x Unexpected token `div`. Expected jsx identifier
 //!    ,----
-//!  4 | <div></div>
-//!    : ^
-//!    `----
-//! 
-//!   x Unterminated regexp literal
-//!    ,----
-//!  4 | <div></div>
-//!    :       ^^^^^
+//!  3 | <div></div>
+//!    :  ^^^
 //!    `----
 //// [file2.tsx]
 //! 
-//!   x Unexpected token `regexp literal (div><div><, div)`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {,
-//!   | [, (
+//!   x Unexpected token `div`. Expected jsx identifier
 //!    ,----
 //!  1 | var x = <div></div><div></div>
-//!    :               ^^^^^^^^^^^^^^^
+//!    :          ^^^
 //!    `----

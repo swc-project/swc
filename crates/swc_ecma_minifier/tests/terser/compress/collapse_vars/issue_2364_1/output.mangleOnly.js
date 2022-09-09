@@ -1,13 +1,11 @@
 function n(n) {
     return n.count++;
 }
-function t() {
-    var u = arguments[0];
-    var o = n(u);
-    return (t.amount = u.count), o;
+function o() {
+    var t = arguments[0];
+    var u = n(t);
+    return (o.amount = t.count), u;
 }
-var u = {
-    count: 0
-};
-var o = t(u);
-console.log(t.amount, o);
+var t = { count: 0 };
+var u = o(t);
+console.log(o.amount, u);

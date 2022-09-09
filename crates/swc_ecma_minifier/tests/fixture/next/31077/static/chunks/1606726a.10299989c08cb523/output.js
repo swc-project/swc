@@ -1661,7 +1661,7 @@
             var selectNodeModifier = result.mac ? "metaKey" : "ctrlKey";
             handlers.mousedown = function(view, event) {
                 view.shiftKey = event.shiftKey;
-                var view1, event1, click, dx, dy, flushed = (view1 = view, endComposition(view1)), now = Date.now(), type = "singleClick";
+                var event1, click, dx, dy, flushed = endComposition(view), now = Date.now(), type = "singleClick";
                 now - view.lastClick.time < 500 && (event1 = event, (dx = (click = view.lastClick).x - event1.clientX) * dx + (dy = click.y - event1.clientY) * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
                     time: now,
                     x: event.clientX,
@@ -2475,12 +2475,12 @@
                 }(this);
                 if (updateSel) {
                     this.domObserver.stop();
-                    var sel1, sel2, depth, view, anchorDOM, domSel, forceSelUpdate = updateDoc && (result.ie || result.chrome) && !this.composing && !prev.selection.empty && !state.selection.empty && (sel1 = prev.selection, sel2 = state.selection, depth = Math.min(sel1.$anchor.sharedDepth(sel1.head), sel2.$anchor.sharedDepth(sel2.head)), sel1.$anchor.start(depth) != sel2.$anchor.start(depth));
+                    var sel1, sel2, depth, anchorDOM, domSel, forceSelUpdate = updateDoc && (result.ie || result.chrome) && !this.composing && !prev.selection.empty && !state.selection.empty && (sel1 = prev.selection, sel2 = state.selection, depth = Math.min(sel1.$anchor.sharedDepth(sel1.head), sel2.$anchor.sharedDepth(sel2.head)), sel1.$anchor.start(depth) != sel2.$anchor.start(depth));
                     if (updateDoc) {
                         var chromeKludge = result.chrome ? this.trackWrites = this.root.getSelection().focusNode : null;
                         (redraw || !this.docView.update(state.doc, outerDeco, innerDeco, this)) && (this.docView.updateOuterDeco([]), this.docView.destroy(), this.docView = docViewDesc(state.doc, outerDeco, innerDeco, this.dom, this)), chromeKludge && !this.trackWrites && (forceSelUpdate = !0);
                     }
-                    forceSelUpdate || !(this.mouseDown && this.domObserver.currentSelection.eq(this.root.getSelection()) && (view = this, anchorDOM = view.docView.domFromPos(view.state.selection.anchor, 0), domSel = view.root.getSelection(), isEquivalentPosition(anchorDOM.node, anchorDOM.offset, domSel.anchorNode, domSel.anchorOffset))) ? selectionToDOM(this, forceSelUpdate) : (syncNodeSelection(this, state.selection), this.domObserver.setCurSelection()), this.domObserver.start();
+                    forceSelUpdate || !(this.mouseDown && this.domObserver.currentSelection.eq(this.root.getSelection()) && (anchorDOM = this.docView.domFromPos(this.state.selection.anchor, 0), domSel = this.root.getSelection(), isEquivalentPosition(anchorDOM.node, anchorDOM.offset, domSel.anchorNode, domSel.anchorOffset))) ? selectionToDOM(this, forceSelUpdate) : (syncNodeSelection(this, state.selection), this.domObserver.setCurSelection()), this.domObserver.start();
                 }
                 if (this.updatePluginViews(prev), "reset" == scroll) this.dom.scrollTop = 0;
                 else if ("to selection" == scroll) {
@@ -2658,10 +2658,10 @@
                 if (null == pos) throw RangeError("DOM position not inside the editor");
                 return pos;
             }, EditorView.prototype.endOfTextblock = function(dir, state) {
-                var view, state1, dir1, view1, state2, dir2, sel, $pos;
-                return view = this, state1 = state || this.state, dir1 = dir, cachedState == state1 && cachedDir == dir1 ? cachedResult : (cachedState = state1, cachedDir = dir1, cachedResult = "up" == dir1 || "down" == dir1 ? (view1 = view, state2 = state1, dir2 = dir1, sel = state2.selection, $pos = "up" == dir2 ? sel.$from : sel.$to, withFlushedState(view1, state2, function() {
-                    for(var dom = view1.docView.domFromPos($pos.pos, "up" == dir2 ? -1 : 1).node;;){
-                        var nearest = view1.docView.nearestDesc(dom, !0);
+                var state1, dir1, view, state2, dir2, sel, $pos;
+                return state1 = state || this.state, dir1 = dir, cachedState == state1 && cachedDir == dir1 ? cachedResult : (cachedState = state1, cachedDir = dir1, cachedResult = "up" == dir1 || "down" == dir1 ? (view = this, state2 = state1, dir2 = dir1, sel = state2.selection, $pos = "up" == dir2 ? sel.$from : sel.$to, withFlushedState(view, state2, function() {
+                    for(var dom = view.docView.domFromPos($pos.pos, "up" == dir2 ? -1 : 1).node;;){
+                        var nearest = view.docView.nearestDesc(dom, !0);
                         if (!nearest) break;
                         if (nearest.node.isBlock) {
                             dom = nearest.dom;
@@ -2669,7 +2669,7 @@
                         }
                         dom = nearest.dom.parentNode;
                     }
-                    for(var coords = coordsAtPos(view1, $pos.pos, 1), child = dom.firstChild; child; child = child.nextSibling){
+                    for(var coords = coordsAtPos(view, $pos.pos, 1), child = dom.firstChild; child; child = child.nextSibling){
                         var boxes = void 0;
                         if (1 == child.nodeType) boxes = child.getClientRects();
                         else {
@@ -2692,15 +2692,15 @@
                         var result = !($head.depth ? view.docView.domAfterPos($head.before()) : view.dom).contains(1 == sel.focusNode.nodeType ? sel.focusNode : sel.focusNode.parentNode) || oldNode == sel.focusNode && oldOff == sel.focusOffset;
                         return sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result;
                     }) : "left" == dir || "backward" == dir ? !offset : atEnd;
-                }(view, state1, dir1));
+                }(this, state1, dir1));
             }, EditorView.prototype.destroy = function() {
                 this.docView && (function(view) {
                     for(var type in view.domObserver.stop(), view.eventHandlers)view.dom.removeEventListener(type, view.eventHandlers[type]);
                     clearTimeout(view.composingTimeout), clearTimeout(view.lastIOSEnterFallbackTimeout);
                 }(this), this.destroyPluginViews(), this.mounted ? (this.docView.update(this.state.doc, [], viewDecorations(this), this), this.dom.textContent = "") : this.dom.parentNode && this.dom.parentNode.removeChild(this.dom), this.docView.destroy(), this.docView = null);
             }, EditorView.prototype.dispatchEvent = function(event) {
-                var view, event1;
-                return view = this, void (runCustomHandler(view, event1 = event) || !handlers[event1.type] || !view.editable && event1.type in editHandlers || handlers[event1.type](view, event1));
+                var event1;
+                runCustomHandler(this, event1 = event) || !handlers[event1.type] || !this.editable && event1.type in editHandlers || handlers[event1.type](this, event1);
             }, EditorView.prototype.dispatch = function(tr) {
                 var dispatchTransaction = this._props.dispatchTransaction;
                 dispatchTransaction ? dispatchTransaction.call(this, tr) : this.updateState(this.state.apply(tr));

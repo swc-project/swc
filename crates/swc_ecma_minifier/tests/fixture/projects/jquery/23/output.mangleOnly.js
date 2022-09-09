@@ -1,36 +1,36 @@
 export const obj = {
-    style: function(e, s, r, t) {
+    style: function(e, r, s, n) {
         if (!e || e.nodeType === 3 || e.nodeType === 8 || !e.style) {
             return;
         }
-        var n, o, i, c = jQuery.camelCase(s), f = e.style;
-        s = jQuery.cssProps[c] || (jQuery.cssProps[c] = vendorPropName(f, c));
-        i = jQuery.cssHooks[s] || jQuery.cssHooks[c];
-        if (r !== undefined) {
-            o = typeof r;
-            if (o === "string" && (n = rrelNum.exec(r))) {
-                r = (n[1] + 1) * n[2] + parseFloat(jQuery.css(e, s));
-                o = "number";
+        var u, t, i, o = jQuery.camelCase(r), y = e.style;
+        r = jQuery.cssProps[o] || (jQuery.cssProps[o] = vendorPropName(y, o));
+        i = jQuery.cssHooks[r] || jQuery.cssHooks[o];
+        if (s !== undefined) {
+            t = typeof s;
+            if (t === "string" && (u = rrelNum.exec(s))) {
+                s = (u[1] + 1) * u[2] + parseFloat(jQuery.css(e, r));
+                t = "number";
             }
-            if (r == null || (o === "number" && isNaN(r))) {
+            if (s == null || (t === "number" && isNaN(s))) {
                 return;
             }
-            if (o === "number" && !jQuery.cssNumber[c]) {
-                r += "px";
+            if (t === "number" && !jQuery.cssNumber[o]) {
+                s += "px";
             }
-            if (!jQuery.support.clearCloneStyle && r === "" && s.indexOf("background") === 0) {
-                f[s] = "inherit";
+            if (!jQuery.support.clearCloneStyle && s === "" && r.indexOf("background") === 0) {
+                y[r] = "inherit";
             }
-            if (!i || !("set" in i) || (r = i.set(e, r, t)) !== undefined) {
+            if (!i || !("set" in i) || (s = i.set(e, s, n)) !== undefined) {
                 try {
-                    f[s] = r;
-                } catch (u) {}
+                    y[r] = s;
+                } catch (f) {}
             }
         } else {
-            if (i && "get" in i && (n = i.get(e, false, t)) !== undefined) {
-                return n;
+            if (i && "get" in i && (u = i.get(e, false, n)) !== undefined) {
+                return u;
             }
-            return f[s];
+            return y[r];
         }
     }
 };

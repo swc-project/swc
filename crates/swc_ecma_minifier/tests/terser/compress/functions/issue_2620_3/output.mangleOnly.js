@@ -1,7 +1,7 @@
 var c = "FAIL";
 (function() {
     function n(n, a) {
-        function e() {
+        function o() {
             switch(n){
                 case n:
                     break;
@@ -9,7 +9,7 @@ var c = "FAIL";
                     break;
             }
         }
-        e();
+        o();
     }
     n(0 / 0);
 })();

@@ -4,9 +4,9 @@ function* n() {
 function* i() {
     yield undefined;
 }
-function* l() {
+function* d() {
     yield null;
 }
-function* u() {
+function* e() {
     yield* undefined;
 }

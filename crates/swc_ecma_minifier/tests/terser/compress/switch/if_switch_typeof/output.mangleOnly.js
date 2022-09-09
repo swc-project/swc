@@ -1,2 +1,3 @@
-if (a) switch(typeof b){
-}
+if (a)
+    switch (typeof b) {
+    }

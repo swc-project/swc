@@ -4,9 +4,9 @@ const i = {
     bar: "bar"
 };
 function r() {
-    const [r, s] = n(null);
+    const [r, e] = n(null);
     o(()=>{
-        fetch("./pages/foo.json").then((n)=>n.json()).then((n)=>s(n));
+        fetch("./pages/foo.json").then((n)=>n.json()).then((n)=>e(n));
     }, []);
     return t`<div><p>import: ${JSON.stringify(i)}</p><p>fetch: ${JSON.stringify(r)}</p></div>`;
 }

@@ -68,10 +68,10 @@
                 margin: "100px 0",
                 color: "#ed3131"
             }, ErrorBoundaryFallback = function(param) {
-                var error, componentStack, componentStack1 = param.componentStack, error1 = param.error;
+                var error, componentStack = param.componentStack, error1 = param.error;
                 return _jsxRuntime.jsxs("div", {
                     style: style,
-                    title: (error = error1, componentStack = componentStack1, "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack)),
+                    title: (error = error1, "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack)),
                     children: [
                         _jsxRuntime.jsxs("svg", {
                             viewBox: "0 0 1024 1024",
@@ -546,18 +546,18 @@
                         var ref = _react.useState(window.__ICE_PAGE_PROPS__), data = ref[0], setData = ref[1];
                         return _react.useEffect(function() {
                             title && (document.title = title), scrollToTop && window.scrollTo(0, 0), window.__ICE_PAGE_PROPS__ ? window.__ICE_PAGE_PROPS__ = null : PageComponent.getInitialProps && swcHelpers.asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
-                                var _location, href, origin, pathname, search, curPath, query, ssrError, initialContext, result;
+                                var _location, href, origin, pathname, search, initialContext;
                                 return _regeneratorRuntime.default.wrap(function(_ctx) {
                                     for(;;)switch(_ctx.prev = _ctx.next){
                                         case 0:
                                             return href = (_location = window.location).href, origin = _location.origin, pathname = _location.pathname, search = _location.search, initialContext = {
                                                 pathname: pathname,
-                                                path: curPath = href.replace(origin, ""),
-                                                query: query = queryString.parse(search),
-                                                ssrError: ssrError = window.__ICE_SSR_ERROR__
+                                                path: href.replace(origin, ""),
+                                                query: queryString.parse(search),
+                                                ssrError: window.__ICE_SSR_ERROR__
                                             }, _ctx.next = 7, PageComponent.getInitialProps(initialContext);
                                         case 7:
-                                            setData(result = _ctx.sent);
+                                            setData(_ctx.sent);
                                         case 9:
                                         case "end":
                                             return _ctx.stop();
@@ -1638,7 +1638,6 @@
             function wrapNativeSuper(Class) {
                 var _cache = "function" == typeof Map ? new Map() : void 0;
                 return (wrapNativeSuper = function(Class) {
-                    var o;
                     if (null === Class || !_isNativeFunction(Class)) return Class;
                     if ("function" != typeof Class) throw TypeError("Super expression must either be null or a function");
                     if (void 0 !== _cache) {
@@ -1646,8 +1645,7 @@
                         _cache.set(Class, Wrapper);
                     }
                     function Wrapper() {
-                        var o;
-                        return _construct(Class, arguments, (o = this, getPrototypeOf(o)).constructor);
+                        return _construct(Class, arguments, getPrototypeOf(this).constructor);
                     }
                     return Wrapper.prototype = Object.create(Class.prototype, {
                         constructor: {
@@ -1656,7 +1654,7 @@
                             writable: !0,
                             configurable: !0
                         }
-                    }), o = Wrapper, setPrototypeOf(o, Class);
+                    }), setPrototypeOf(Wrapper, Class);
                 })(Class);
             }
             function _wrapNativeSuper(Class) {
@@ -4663,7 +4661,7 @@
         },
         41075: function(module) {
             "use strict";
-            var base = 36, regexNonASCII = /[^\0-\u007E]/, regexSeparators = /[.\u3002\uFF0E\uFF61]/g, OVERFLOW_ERROR = "Overflow: input needs wider integers to process", baseMinusTMin = base - 1, floor = Math.floor, stringFromCharCode = String.fromCharCode, ucs2decode = function(string) {
+            var regexNonASCII = /[^\0-\u007E]/, regexSeparators = /[.\u3002\uFF0E\uFF61]/g, OVERFLOW_ERROR = "Overflow: input needs wider integers to process", floor = Math.floor, stringFromCharCode = String.fromCharCode, ucs2decode = function(string) {
                 for(var output = [], counter = 0, length = string.length; counter < length;){
                     var value = string.charCodeAt(counter++);
                     if (value >= 0xd800 && value <= 0xdbff && counter < length) {
@@ -4676,8 +4674,8 @@
                 return digit + 22 + 75 * (digit < 26);
             }, adapt = function(delta, numPoints, firstTime) {
                 var k = 0;
-                for(delta = firstTime ? floor(delta / 700) : delta >> 1, delta += floor(delta / numPoints); delta > 26 * baseMinusTMin >> 1; k += base)delta = floor(delta / baseMinusTMin);
-                return floor(k + (baseMinusTMin + 1) * delta / (delta + 38));
+                for(delta = firstTime ? floor(delta / 700) : delta >> 1, delta += floor(delta / numPoints); delta > 455; k += 36)delta = floor(delta / 35);
+                return floor(k + 36 * delta / (delta + 38));
             }, encode = function(input) {
                 var i, currentValue, output = [], inputLength = (input = ucs2decode(input)).length, n = 128, delta = 0, bias = 72;
                 for(i = 0; i < input.length; i++)(currentValue = input[i]) < 0x80 && output.push(stringFromCharCode(currentValue));
@@ -4690,10 +4688,10 @@
                     for(delta += (m - n) * handledCPCountPlusOne, n = m, i = 0; i < input.length; i++){
                         if ((currentValue = input[i]) < n && ++delta > 2147483647) throw RangeError(OVERFLOW_ERROR);
                         if (currentValue == n) {
-                            for(var q = delta, k = base;; k += base){
+                            for(var q = delta, k = 36;; k += 36){
                                 var t = k <= bias ? 1 : k >= bias + 26 ? 26 : k - bias;
                                 if (q < t) break;
-                                var qMinusT = q - t, baseMinusT = base - t;
+                                var qMinusT = q - t, baseMinusT = 36 - t;
                                 output.push(stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT))), q = floor(qMinusT / baseMinusT);
                             }
                             output.push(stringFromCharCode(digitToBasic(q))), bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength), delta = 0, ++handledCPCount;
@@ -9759,11 +9757,11 @@
                         var location, a, b, location1 = getDOMLocation(), prevLocation = history.location;
                         if (!forceNextPop && (a = prevLocation, b = location1, a.pathname === b.pathname && a.search === b.search && a.hash === b.hash) || ignorePath === createPath(location1)) return;
                         ignorePath = null, location = location1, forceNextPop ? (forceNextPop = !1, setState()) : transitionManager.confirmTransitionTo(location, "POP", getUserConfirmation, function(ok) {
-                            var fromLocation, toLocation, toIndex, fromIndex, delta;
+                            var toLocation, toIndex, fromIndex, delta;
                             ok ? setState({
                                 action: "POP",
                                 location: location
-                            }) : (fromLocation = location, toLocation = history.location, -1 === (toIndex = allPaths.lastIndexOf(createPath(toLocation))) && (toIndex = 0), -1 === (fromIndex = allPaths.lastIndexOf(createPath(fromLocation))) && (fromIndex = 0), (delta = toIndex - fromIndex) && (forceNextPop = !0, go(delta)));
+                            }) : (toLocation = history.location, -1 === (toIndex = allPaths.lastIndexOf(createPath(toLocation))) && (toIndex = 0), -1 === (fromIndex = allPaths.lastIndexOf(createPath(location))) && (fromIndex = 0), (delta = toIndex - fromIndex) && (forceNextPop = !0, go(delta)));
                         });
                     }
                 }
@@ -10023,7 +10021,7 @@
         85971: function(module, __unused_webpack_exports, __webpack_require__) {
             var isarray = __webpack_require__(85762);
             module.exports = function pathToRegexp(path, keys, options) {
-                var path1, keys1, options1;
+                var keys1, options1;
                 return (isarray(keys) || (options = keys || options, keys = []), options = options || {}, path instanceof RegExp) ? function(path, keys) {
                     var groups = path.source.match(/\((?!\?)/g);
                     if (groups) for(var i = 0; i < groups.length; i++)keys.push({
@@ -10041,7 +10039,7 @@
                     for(var parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
                     var regexp = RegExp("(?:" + parts.join("|") + ")", flags(options));
                     return attachKeys(regexp, keys);
-                }(path, keys, options) : (path1 = path, keys1 = keys, tokensToRegExp(parse(path1, options1 = options), keys1, options1));
+                }(path, keys, options) : (keys1 = keys, tokensToRegExp(parse(path, options1 = options), keys1, options1));
             }, module.exports.parse = parse, module.exports.compile = function(str, options) {
                 return tokensToFunction(parse(str, options), options);
             }, module.exports.tokensToFunction = tokensToFunction, module.exports.tokensToRegExp = tokensToRegExp;
@@ -10153,10 +10151,10 @@
                 if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) return cachedSetTimeout = setTimeout, setTimeout(fun, 0);
                 try {
                     return cachedSetTimeout(fun, 0);
-                } catch (e) {
+                } catch (e1) {
                     try {
                         return cachedSetTimeout.call(null, fun, 0);
-                    } catch (e1) {
+                    } catch (e) {
                         return cachedSetTimeout.call(this, fun, 0);
                     }
                 }
@@ -10190,10 +10188,10 @@
                         if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) return cachedClearTimeout = clearTimeout, clearTimeout(marker);
                         try {
                             cachedClearTimeout(marker);
-                        } catch (e) {
+                        } catch (e1) {
                             try {
                                 return cachedClearTimeout.call(null, marker);
-                            } catch (e1) {
+                            } catch (e) {
                                 return cachedClearTimeout.call(this, marker);
                             }
                         }
@@ -10650,7 +10648,7 @@
             exports.setInitialData = setInitialData, exports.getInitialData = getInitialData, exports.getRenderApp = getRenderApp, exports.reactAppRenderer = function(options) {
                 var _a;
                 return __awaiter(this, void 0, void 0, function() {
-                    var appConfig, _b, buildConfig, appLifecycle, createBaseApp, emitLifeCycles, initAppLifeCycles, context, _c, href, origin_1, pathname, search, path, query, ssrError, initialContext, _d, _e, runtime, modifiedAppConfig;
+                    var appConfig, _b, buildConfig, appLifecycle, createBaseApp, emitLifeCycles, initAppLifeCycles, context, _c, href, origin_1, pathname, search, initialContext, _d, _e, runtime, modifiedAppConfig;
                     return __generator(this, function(_f) {
                         switch(_f.label){
                             case 0:
@@ -10669,9 +10667,9 @@
                                 ];
                                 return href = (_c = window.location).href, origin_1 = _c.origin, pathname = _c.pathname, search = _c.search, initialContext = {
                                     pathname: pathname,
-                                    path: path = href.replace(origin_1, ""),
-                                    query: query = queryString.parse(search),
-                                    ssrError: ssrError = window.__ICE_SSR_ERROR__
+                                    path: href.replace(origin_1, ""),
+                                    query: queryString.parse(search),
+                                    ssrError: window.__ICE_SSR_ERROR__
                                 }, _d = context, [
                                     4,
                                     appConfig.app.getInitialData(initialContext), 
@@ -10682,7 +10680,7 @@
                                 return runtime = (_e = createBaseApp(appConfig, buildConfig, context)).runtime, modifiedAppConfig = _e.appConfig, initAppLifeCycles(), __initialData__ = context.initialData, emitLifeCycles(), [
                                     2,
                                     function(runtime, options) {
-                                        var mountNode, rootId, _a, _b = options.appConfig, _c = (void 0 === _b ? {} : _b).app, rootId1 = _c.rootId, mountNode1 = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = (mountNode = mountNode1, rootId = rootId1, mountNode || document.getElementById(rootId) || document.getElementById("ice-container"));
+                                        var _a, _b = options.appConfig, _c = (void 0 === _b ? {} : _b).app, rootId = _c.rootId, mountNode = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = mountNode || document.getElementById(rootId) || document.getElementById("ice-container");
                                         if (null == runtime ? void 0 : runtime.modifyDOMRender) return null === (_a = null == runtime ? void 0 : runtime.modifyDOMRender) || void 0 === _a ? void 0 : _a.call(runtime, {
                                             App: App,
                                             appMountNode: appMountNode

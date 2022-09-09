@@ -1,4 +1,6 @@
-console.log((function() {
-    var r = {};
-    for(var n in ((r.a = "PASS"), r))return r[n];
-})());
+console.log(
+    (function () {
+        var n = {};
+        for (var o in ((n.a = "PASS"), n)) return n[o];
+    })()
+);

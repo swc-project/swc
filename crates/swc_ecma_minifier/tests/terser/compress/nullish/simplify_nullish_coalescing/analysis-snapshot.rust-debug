@@ -183,7 +183,7 @@ TestSnapshot {
                 is_fn_local: true,
                 used_by_nested_fn: false,
                 executed_multiple_time: false,
-                used_in_cond: false,
+                used_in_cond: true,
                 var_kind: Some(
                     "const",
                 ),

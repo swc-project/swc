@@ -22,19 +22,16 @@ where
     ///
     /// This method may remove value of initializer. It mean that the value will
     /// be inlined and should be removed from [Vec<VarDeclarator>].
-    pub(super) fn store_var_for_inlining(&mut self, var: &mut VarDeclarator) {
-        let init = match &mut var.init {
-            Some(v) => v,
-            None => return,
-        };
-
-        let should_preserve = !var.span.has_mark(self.marks.non_top_level)
-            && (!self.options.top_level() && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level();
-
+    pub(super) fn store_var_for_inlining(
+        &mut self,
+        ident: &mut Ident,
+        init: &mut Expr,
+        should_preserve: bool,
+        can_drop: bool,
+    ) {
         trace_op!(
             "inline: store_var_for_inlining({}, should_preserve = {:?})",
-            crate::debug::dump(&var.name, false),
+            crate::debug::dump(ident, false),
             should_preserve
         );
 
@@ -42,326 +39,329 @@ where
             return;
         }
 
-        self.vars.inline_with_multi_replacer(init);
-
         // TODO: Check for side effect between original decl position and inlined
         // position
 
         // We will inline if possible.
-        if let Pat::Ident(i) = &var.name {
-            if i.id.sym == js_word!("arguments") {
+        if ident.sym == js_word!("arguments") {
+            return;
+        }
+        if self.options.top_retain.contains(&ident.sym) {
+            return;
+        }
+
+        if let Some(usage) = self.data.vars.get(&ident.to_id()) {
+            let ref_count = usage.ref_count
+                - if can_drop && usage.ref_count > 1 {
+                    1
+                } else {
+                    0
+                };
+            if !usage.var_initialized {
                 return;
             }
-            if self.options.top_retain.contains(&i.id.sym) {
+            if self.data.top.used_arguments && usage.declared_as_fn_param {
+                return;
+            }
+            if usage.declared_as_catch_param {
+                return;
+            }
+            if usage.inline_prevented {
                 return;
             }
 
-            // Store variables if it's used only once
-            if let Some(usage) = self.data.vars.get(&i.to_id()) {
-                if usage.declared_as_catch_param {
+            if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
+                log_abort!(
+                    "inline: [x] Preserving non-const variable `{}` because it's top-level",
+                    crate::debug::dump(ident, false)
+                );
+                return;
+            }
+
+            if usage.cond_init || usage.used_above_decl {
+                log_abort!("inline: [x] It's cond init or used before decl",);
+                return;
+            }
+
+            // No use => dropped
+            if ref_count == 0 {
+                if init.may_have_side_effects(&self.expr_ctx) {
+                    // TODO: Inline partially
                     return;
                 }
-                if usage.inline_prevented {
-                    return;
-                }
 
-                if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
-                    log_abort!(
-                        "inline: [x] Preserving non-const variable `{}` because it's top-level",
-                        crate::debug::dump(&var.name, false)
-                    );
-                    return;
-                }
+                // TODO: Remove
+                return;
+            }
 
-                if usage.cond_init || usage.used_above_decl {
-                    log_abort!("inline: [x] It's cond init or used before decl",);
-                    return;
-                }
+            self.vars.inline_with_multi_replacer(init);
 
-                if !usage.is_fn_local {
-                    match &**init {
-                        Expr::Lit(..) => {}
+            if !usage.is_fn_local {
+                match init {
+                    Expr::Lit(..) => {}
 
-                        Expr::Unary(UnaryExpr {
-                            op: op!("!"), arg, ..
-                        }) if matches!(&**arg, Expr::Lit(..)) => {}
+                    Expr::Unary(UnaryExpr {
+                        op: op!("!"), arg, ..
+                    }) if matches!(&**arg, Expr::Lit(..)) => {}
 
-                        Expr::Fn(FnExpr {
-                            function:
-                                Function {
-                                    body: Some(body), ..
-                                },
-                            ..
-                        }) => {
-                            if body.stmts.len() == 1 && matches!(&body.stmts[0], Stmt::Return(..)) {
-                            } else {
-                                log_abort!("inline: [x] It's not fn-local");
-                                return;
-                            }
-                        }
-                        _ => {
+                    Expr::Fn(FnExpr {
+                        function:
+                            Function {
+                                body: Some(body), ..
+                            },
+                        ..
+                    }) => {
+                        if body.stmts.len() == 1 && matches!(&body.stmts[0], Stmt::Return(..)) {
+                        } else {
                             log_abort!("inline: [x] It's not fn-local");
                             return;
                         }
                     }
-                }
-
-                if !usage.reassigned_with_assignment && !usage.reassigned_with_var_decl {
-                    match &**init {
-                        Expr::Fn(..) | Expr::Arrow(..) => {
-                            self.typeofs.insert(i.to_id(), js_word!("function"));
-                        }
-                        Expr::Array(..) | Expr::Object(..) => {
-                            self.typeofs.insert(i.to_id(), js_word!("object"));
-                        }
-                        _ => {}
-                    }
-                }
-
-                if !usage.mutated {
-                    self.mode.store(i.to_id(), &*init);
-                }
-
-                // No use => dropped
-                if usage.ref_count == 0 {
-                    if init.may_have_side_effects(&self.expr_ctx) {
-                        // TODO: Inline partially
+                    _ => {
+                        log_abort!("inline: [x] It's not fn-local");
                         return;
                     }
-
-                    // TODO: Remove
-                    return;
                 }
+            }
 
-                let is_inline_enabled = self.options.reduce_vars
-                    || self.options.collapse_vars
-                    || self.options.inline != 0;
+            if !usage.reassigned() {
+                match init {
+                    Expr::Fn(..) | Expr::Arrow(..) => {
+                        self.typeofs.insert(ident.to_id(), js_word!("function"));
+                    }
+                    Expr::Array(..) | Expr::Object(..) => {
+                        self.typeofs.insert(ident.to_id(), js_word!("object"));
+                    }
+                    _ => {}
+                }
+            }
 
-                // Mutation of properties are ok
-                if is_inline_enabled
-                    && usage.declared_count == 1
-                    && (!usage.mutated
-                        || (usage.assign_count == 0
-                            && !usage.reassigned()
-                            && !usage.has_property_mutation))
-                    && match &**init {
-                        Expr::Ident(Ident {
-                            sym: js_word!("eval"),
-                            ..
-                        }) => false,
+            if !usage.mutated {
+                self.mode.store(ident.to_id(), &*init);
+            }
 
-                        Expr::Lit(lit) => match lit {
-                            Lit::Str(s) => usage.ref_count == 1 || s.value.len() <= 3,
-                            Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
-                            Lit::Regex(_) => self.options.unsafe_regexp,
-                            _ => false,
-                        },
-                        Expr::Unary(UnaryExpr {
-                            op: op!("!"), arg, ..
-                        }) => arg.is_lit(),
-                        Expr::This(..) => usage.is_fn_local,
-                        Expr::Arrow(arr) => {
-                            !(usage.used_as_arg && usage.ref_count > 1)
-                                && is_arrow_simple_enough_for_copy(arr)
-                        }
+            let is_inline_enabled =
+                self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
+
+            // Mutation of properties are ok
+            if is_inline_enabled
+                && usage.declared_count == 1
+                && (!usage.mutated
+                    || (usage.assign_count == 0
+                        && !usage.reassigned()
+                        && !usage.has_property_mutation))
+                && match init {
+                    Expr::Ident(Ident {
+                        sym: js_word!("eval"),
+                        ..
+                    }) => false,
+
+                    Expr::Lit(lit) => match lit {
+                        Lit::Str(s) => ref_count == 1 || s.value.len() <= 3,
+                        Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
+                        Lit::Regex(_) => self.options.unsafe_regexp,
                         _ => false,
+                    },
+                    Expr::Unary(UnaryExpr {
+                        op: op!("!"), arg, ..
+                    }) => arg.is_lit(),
+                    Expr::This(..) => usage.is_fn_local,
+                    Expr::Arrow(arr) => {
+                        !(usage.used_as_arg && ref_count > 1)
+                            && is_arrow_simple_enough_for_copy(arr)
                     }
-                {
-                    self.mode.store(i.to_id(), &*init);
-
-                    if self.options.inline != 0
-                        && !should_preserve
-                        && match &**init {
-                            Expr::Arrow(..) => self.options.unused,
-                            _ => true,
-                        }
-                    {
-                        self.changed = true;
-
-                        report_change!(
-                            "inline: Decided to inline '{}{:?}' because it's simple",
-                            i.id.sym,
-                            i.id.span.ctxt
-                        );
-
-                        if self.ctx.var_kind == Some(VarDeclKind::Const) {
-                            var.span = var.span.apply_mark(self.marks.non_top_level);
-                        }
-
-                        self.vars.lits.insert(i.to_id(), init.take());
-
-                        var.name.take();
-                    } else if self.options.inline != 0 || self.options.reduce_vars {
-                        trace_op!(
-                            "inline: Decided to copy '{}{:?}' because it's simple",
-                            i.id.sym,
-                            i.id.span.ctxt
-                        );
-
-                        self.mode.store(i.to_id(), &*init);
-
-                        self.vars.lits.insert(i.to_id(), init.clone());
-                    }
-                    return;
+                    _ => false,
                 }
+            {
+                self.mode.store(ident.to_id(), &*init);
 
-                // Single use => inlined
-                if is_inline_enabled
+                if self.options.inline != 0
                     && !should_preserve
-                    && !usage.reassigned()
-                    && (!usage.mutated || usage.is_mutated_only_by_one_call())
-                    && usage.ref_count == 1
+                    && match init {
+                        Expr::Arrow(..) => self.options.unused,
+                        _ => true,
+                    }
                 {
-                    match &**init {
-                        Expr::Fn(FnExpr {
-                            function: Function { is_async: true, .. },
-                            ..
-                        })
-                        | Expr::Fn(FnExpr {
-                            function:
-                                Function {
-                                    is_generator: true, ..
-                                },
-                            ..
-                        })
-                        | Expr::Arrow(ArrowExpr { is_async: true, .. })
-                        | Expr::Arrow(ArrowExpr {
-                            is_generator: true, ..
-                        }) => return,
-                        _ => {}
+                    self.changed = true;
+
+                    report_change!(
+                        "inline: Decided to inline '{}{:?}' because it's simple",
+                        ident.sym,
+                        ident.span.ctxt
+                    );
+
+                    // if self.ctx.var_kind == Some(VarDeclKind::Const) {
+                    //     var.span = var.span.apply_mark(self.marks.non_top_level);
+                    // }
+
+                    self.vars.lits.insert(ident.to_id(), init.take().into());
+
+                    ident.take();
+                } else if self.options.inline != 0 || self.options.reduce_vars {
+                    trace_op!(
+                        "inline: Decided to copy '{}{:?}' because it's simple",
+                        ident.sym,
+                        ident.span.ctxt
+                    );
+
+                    self.mode.store(ident.to_id(), &*init);
+
+                    self.vars.lits.insert(ident.to_id(), init.clone().into());
+                }
+                return;
+            }
+
+            // Single use => inlined
+            if is_inline_enabled
+                && !should_preserve
+                && !usage.reassigned()
+                && (!usage.mutated || usage.is_mutated_only_by_one_call())
+                && ref_count == 1
+            {
+                match init {
+                    Expr::Fn(FnExpr {
+                        function: Function { is_async: true, .. },
+                        ..
+                    })
+                    | Expr::Fn(FnExpr {
+                        function:
+                            Function {
+                                is_generator: true, ..
+                            },
+                        ..
+                    })
+                    | Expr::Arrow(ArrowExpr { is_async: true, .. })
+                    | Expr::Arrow(ArrowExpr {
+                        is_generator: true, ..
+                    }) => return,
+
+                    Expr::Lit(Lit::Regex(..)) => {
+                        if !usage.is_fn_local || usage.executed_multiple_time {
+                            return;
+                        }
                     }
 
-                    match &**init {
-                        Expr::Lit(Lit::Regex(..)) => {
-                            if !usage.is_fn_local || usage.executed_multiple_time {
+                    Expr::This(..) => {
+                        // Don't inline this if it passes function boundaries.
+                        if !usage.is_fn_local {
+                            return;
+                        }
+                    }
+
+                    Expr::Lit(..) => {}
+
+                    Expr::Fn(f) => {
+                        let excluded: Vec<Id> = find_pat_ids(&f.function.params);
+
+                        for id in idents_used_by(&f.function.params) {
+                            if excluded.contains(&id) {
+                                continue;
+                            }
+                            if let Some(v_usage) = self.data.vars.get(&id) {
+                                if v_usage.reassigned() {
+                                    return;
+                                }
+                            } else {
                                 return;
                             }
                         }
+                    }
+                    Expr::Arrow(f) => {
+                        let excluded: Vec<Id> = find_pat_ids(&f.params);
 
-                        Expr::This(..) => {
-                            // Don't inline this if it passes function boundaries.
-                            if !usage.is_fn_local {
+                        for id in idents_used_by(&f.params) {
+                            if excluded.contains(&id) {
+                                continue;
+                            }
+                            if let Some(v_usage) = self.data.vars.get(&id) {
+                                if v_usage.reassigned() {
+                                    return;
+                                }
+                            } else {
                                 return;
                             }
                         }
-
-                        _ => {}
                     }
 
-                    match &**init {
-                        Expr::Lit(..) => {}
-
-                        Expr::Fn(f) => {
-                            let excluded: Vec<Id> = find_pat_ids(&f.function.params);
-
-                            for id in idents_used_by(&f.function.params) {
-                                if excluded.contains(&id) {
-                                    continue;
-                                }
-                                if let Some(v_usage) = self.data.vars.get(&id) {
-                                    if v_usage.reassigned() {
-                                        return;
-                                    }
-                                } else {
-                                    return;
-                                }
-                            }
-                        }
-                        Expr::Arrow(f) => {
-                            let excluded: Vec<Id> = find_pat_ids(&f.params);
-
-                            for id in idents_used_by(&f.params) {
-                                if excluded.contains(&id) {
-                                    continue;
-                                }
-                                if let Some(v_usage) = self.data.vars.get(&id) {
-                                    if v_usage.reassigned() {
-                                        return;
-                                    }
-                                } else {
-                                    return;
-                                }
-                            }
-                        }
-
-                        Expr::Object(..) => {
-                            for id in idents_used_by_ignoring_nested(&**init) {
-                                if let Some(v_usage) = self.data.vars.get(&id) {
-                                    if v_usage.reassigned() {
-                                        return;
-                                    }
-                                }
-                            }
-                        }
-
-                        Expr::Ident(id) => {
-                            if let Some(v_usage) = self.data.vars.get(&id.to_id()) {
+                    Expr::Object(..) if self.options.pristine_globals => {
+                        for id in idents_used_by_ignoring_nested(init) {
+                            if let Some(v_usage) = self.data.vars.get(&id) {
                                 if v_usage.reassigned() {
                                     return;
                                 }
                             }
                         }
-
-                        _ => {
-                            for id in idents_used_by(&**init) {
-                                if let Some(v_usage) = self.data.vars.get(&id) {
-                                    if v_usage.reassigned() || v_usage.has_property_mutation {
-                                        return;
-                                    }
-                                }
-                            }
-                        }
                     }
 
-                    if !usage.used_as_callee {
-                        if let Expr::Fn(..) | Expr::Arrow(..) = &**init {
-                            return;
-                        }
-                    }
-
-                    if usage.used_as_arg && !usage.is_fn_local {
-                        if let Expr::Fn(..) | Expr::Arrow(..) = &**init {
-                            return;
-                        }
-                    }
-
-                    if usage.executed_multiple_time {
-                        match &**init {
-                            Expr::Lit(..) => {}
-                            Expr::Fn(f) => {
-                                // Similar to `_loop` generation of the
-                                // block_scoping pass.
-                                // If the function captures the environment, we
-                                // can't inline it.
-                                let params: Vec<Id> = find_pat_ids(&f.function.params);
-
-                                if !params.is_empty() {
-                                    let captured = idents_captured_by(&f.function.body);
-
-                                    for param in params {
-                                        if captured.contains(&param) {
-                                            return;
-                                        }
-                                    }
-                                }
-                            }
-                            _ => {
+                    Expr::Ident(id) => {
+                        if let Some(v_usage) = self.data.vars.get(&id.to_id()) {
+                            if v_usage.reassigned() {
                                 return;
                             }
                         }
                     }
 
-                    if init.may_have_side_effects(&self.expr_ctx) {
+                    _ => {
+                        for id in idents_used_by(init) {
+                            if let Some(v_usage) = self.data.vars.get(&id) {
+                                if v_usage.reassigned() || v_usage.has_property_mutation {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if !usage.used_as_callee {
+                    if let Expr::Fn(..) | Expr::Arrow(..) = init {
                         return;
                     }
-
-                    report_change!(
-                        "inline: Decided to inline var '{}' because it's used only once",
-                        i.id
-                    );
-                    self.changed = true;
-                    self.vars.vars_for_inlining.insert(i.to_id(), init.take());
                 }
+
+                if usage.used_as_arg && !usage.is_fn_local {
+                    if let Expr::Fn(..) | Expr::Arrow(..) = init {
+                        return;
+                    }
+                }
+
+                if usage.executed_multiple_time {
+                    match init {
+                        Expr::Lit(..) => {}
+                        Expr::Fn(f) => {
+                            // Similar to `_loop` generation of the
+                            // block_scoping pass.
+                            // If the function captures the environment, we
+                            // can't inline it.
+                            let params: Vec<Id> = find_pat_ids(&f.function.params);
+
+                            if !params.is_empty() {
+                                let captured = idents_captured_by(&f.function.body);
+
+                                for param in params {
+                                    if captured.contains(&param) {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        _ => {
+                            return;
+                        }
+                    }
+                }
+
+                if init.may_have_side_effects(&self.expr_ctx) {
+                    return;
+                }
+
+                report_change!(
+                    "inline: Decided to inline var '{}' because it's used only once",
+                    ident
+                );
+                self.changed = true;
+                self.vars
+                    .vars_for_inlining
+                    .insert(ident.to_id(), init.take().into());
             }
         }
     }

@@ -1,14 +1,14 @@
-var f = 0;
+var a = 0;
 function n(n) {
-    function a(n) {
-        function a(n) {
+    function f(n) {
+        function f(n) {
             if ((false <= NaN) & (this >> 1 >= 0)) {
-                f++;
+                a++;
             }
         }
-        var i = a(NaN, f++);
+        var o = f(NaN, a++);
     }
-    var n = a(-3, -1);
+    var n = f(-3, -1);
 }
 n(false);
-console.log(f);
+console.log(a);

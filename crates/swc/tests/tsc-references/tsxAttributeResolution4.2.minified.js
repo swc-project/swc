@@ -1,7 +1,11 @@
 //// [file.tsx]
-//! 
-//!   x Expected '>', got '{'
-//!     ,----
-//!  12 | <test1 {... {x: (n) => 0} } />;
-//!     :        ^
-//!     `----
+import _extends from "@swc/helpers/src/_extends.mjs";
+_extends({}, {
+    x: function(n) {
+        return 0;
+    }
+}), _extends({}, {
+    x: function(n) {
+        return n.len;
+    }
+});

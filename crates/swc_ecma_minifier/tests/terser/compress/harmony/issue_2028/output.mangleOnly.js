@@ -1,6 +1,6 @@
 var l = {};
-(function(l) {
-    l.X = function() {
+(function (l) {
+    l.X = function () {
         return o;
     };
     class o {

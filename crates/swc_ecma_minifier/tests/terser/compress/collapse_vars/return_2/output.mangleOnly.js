@@ -4,9 +4,9 @@ function r(r, t) {
     if (r) return r;
     n(u);
 }
-r(false, function() {
+r(false, function () {
     return 1;
 });
-r(true, function() {
+r(true, function () {
     return 2;
 });

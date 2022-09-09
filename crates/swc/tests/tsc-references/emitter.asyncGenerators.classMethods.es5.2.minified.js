@@ -28,7 +28,6 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
     }
     return C2.prototype.f = function() {
         return _wrap_async_generator(function() {
-            var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -36,7 +35,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
                             4
                         ];
                     case 1:
-                        return x = _state.sent(), [
+                        return _state.sent(), [
                             2
                         ];
                 }
@@ -55,7 +54,6 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
     }
     return C3.prototype.f = function() {
         return _wrap_async_generator(function() {
-            var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -64,7 +62,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
                             1
                         ];
                     case 1:
-                        return x = _state.sent(), [
+                        return _state.sent(), [
                             2
                         ];
                 }
@@ -87,7 +85,6 @@ import _ts_values from "@swc/helpers/src/_ts_values.mjs";
     }
     return C4.prototype.f = function() {
         return _wrap_async_generator(function() {
-            var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -98,7 +95,7 @@ import _ts_values from "@swc/helpers/src/_ts_values.mjs";
                             ]), _await_async_generator))
                         ];
                     case 1:
-                        return x = _state.sent(), [
+                        return _state.sent(), [
                             2
                         ];
                 }
@@ -121,7 +118,6 @@ import _ts_values from "@swc/helpers/src/_ts_values.mjs";
     }
     return C5.prototype.f = function() {
         return _wrap_async_generator(function() {
-            var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -144,7 +140,7 @@ import _ts_values from "@swc/helpers/src/_ts_values.mjs";
                             })()), _await_async_generator))
                         ];
                     case 1:
-                        return x = _state.sent(), [
+                        return _state.sent(), [
                             2
                         ];
                 }
@@ -164,7 +160,6 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
     }
     return C6.prototype.f = function() {
         return _wrap_async_generator(function() {
-            var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -173,7 +168,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
                             _await_async_generator(1)
                         ];
                     case 1:
-                        return x = _state.sent(), [
+                        return _state.sent(), [
                             2
                         ];
                 }

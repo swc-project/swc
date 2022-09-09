@@ -1,14 +1,9 @@
 //// [file.tsx]
-//! 
-//!   x Expression expected
-//!     ,----
-//!  11 | <Obj1 />; // Error, return type is not an object type
-//!     :       ^
-//!     `----
-//! 
-//!   x Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-//!   | for template literal, (, or an identifier
-//!     ,----
-//!  11 | <Obj1 />; // Error, return type is not an object type
-//!     :        ^
-//!     `----
+var Obj1;
+/*#__PURE__*/ React.createElement(Obj1, null); // Error, return type is not an object type
+var Obj2;
+/*#__PURE__*/ React.createElement(Obj2, null); // Error, return type is not an object type
+var Obj3;
+/*#__PURE__*/ React.createElement(Obj3, {
+    x: 42
+}); // OK
