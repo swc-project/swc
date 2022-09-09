@@ -338,7 +338,6 @@ struct Generator {
     /// Index to `blocks`
     with_block_stack: Option<Vec<Ptr<CodeBlock>>>,
 
-    temp_vars: Vec<VarDeclarator>,
     hoisted_vars: Vec<VarDeclarator>,
     hoisted_fns: Vec<FnDecl>,
 }
@@ -370,7 +369,6 @@ impl Default for Generator {
             exception_block_stack: Default::default(),
             current_exception_block: Default::default(),
             with_block_stack: Default::default(),
-            temp_vars: Default::default(),
             hoisted_vars: Default::default(),
             hoisted_fns: Default::default(),
         }
@@ -3392,7 +3390,7 @@ impl Generator {
     fn create_temp_variable(&mut self) -> Ident {
         let i = private_ident!("_");
 
-        self.temp_vars.push(VarDeclarator {
+        self.hoisted_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: i.clone().into(),
             init: None,

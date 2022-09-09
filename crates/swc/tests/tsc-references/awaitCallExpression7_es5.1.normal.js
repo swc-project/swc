@@ -6,7 +6,7 @@ function func() {
 }
 function _func() {
     _func = _async_to_generator(function() {
-        var b, _tmp;
+        var b, _, _tmp;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
