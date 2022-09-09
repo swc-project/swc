@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -59,6 +62,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Setup node
         uses: actions/setup-node@v3

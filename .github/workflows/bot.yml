@@ -21,6 +21,9 @@ jobs:
           repository: "swc-project/swc"
           ref: "main"
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -49,6 +52,9 @@ jobs:
           repository: "swc-project/swc"
           ref: "main"
           fetch-depth: 0
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - uses: actions/setup-node@v3
         with:
