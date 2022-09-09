@@ -152,7 +152,7 @@ where
                 cost > 1024,
             );
         } else {
-            scope.rename_single_thread(
+            scope.rename_in_normal_mode(
                 &self.renamer,
                 &mut map,
                 &Default::default(),
