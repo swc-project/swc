@@ -13,6 +13,12 @@
 
 - **(es/minifier)** Inline lazily initialized variables (#5737) ([ee26337](https://github.com/swc-project/swc/commit/ee26337a251ecb1fa4f369e6de614d3dc931ab5c))
 
+### Refactor
+
+
+
+- **(es/renamer)** Rename `PARALLEL` to `MANGLE` (#5790) ([21fbcb9](https://github.com/swc-project/swc/commit/21fbcb9621d88310ac297504235bd607d64b701a))
+
 ### Testing
 
 
