@@ -19,6 +19,9 @@
 
 - **(es/renamer)** Rename `PARALLEL` to `MANGLE` (#5790) ([21fbcb9](https://github.com/swc-project/swc/commit/21fbcb9621d88310ac297504235bd607d64b701a))
 
+
+- **(swc_core)** Enable bytechecked flag (#5792) ([6f19f89](https://github.com/swc-project/swc/commit/6f19f8902f772ecc282d231dfd12c7b8d4c180fc))
+
 ### Testing
 
 
