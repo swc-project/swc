@@ -13,6 +13,9 @@
 
 - **(es)** Enable tests for fixed issues (#5784) ([f11461d](https://github.com/swc-project/swc/commit/f11461d3f546799113cc7bda4ac52c10e62bbaa0))
 
+
+- **(es)** Add more execution tests (#5788) ([097245a](https://github.com/swc-project/swc/commit/097245a1960ee94585aaf8f10ce39947642da03c))
+
 ## [1.2.249] - 2022-09-08
 
 ### Bug Fixes
