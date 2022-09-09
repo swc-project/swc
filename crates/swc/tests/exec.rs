@@ -1,6 +1,6 @@
 use std::{
     env,
-    fs::{self, create_dir_all, rename},
+    fs::{self, create_dir_all, rename, File},
     path::{Component, Path, PathBuf},
     process::Command,
     sync::Arc,
@@ -59,6 +59,8 @@ fn init_helpers() -> Arc<PathBuf> {
         let yarn = find_executable("yarn").expect("failed to find yarn");
         let npm = find_executable("npm").expect("failed to find yarn");
         {
+            File::create(helper_dir.join("yarn.lock")).expect("failed to create yarn.lock");
+
             let mut cmd = if cfg!(target_os = "windows") {
                 let mut c = Command::new("cmd");
                 c.arg("/C").arg(&yarn);
