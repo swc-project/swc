@@ -25,9 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Enable Corepack
-        run: corepack enable
-
       # We explicitly do this to cache properly.
       - name: Install Rust
         uses: actions-rs/toolchain@v1

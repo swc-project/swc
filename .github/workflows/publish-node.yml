@@ -248,9 +248,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Enable Corepack
-        run: corepack enable
-
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
@@ -365,8 +362,6 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v3
-      - name: Enable Corepack
-        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -406,8 +401,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Enable Corepack
-        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -447,8 +440,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Enable Corepack
-        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -489,8 +480,6 @@ jobs:
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - uses: actions/checkout@v3
-      - name: Enable Corepack
-        run: corepack enable
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -527,8 +516,6 @@ jobs:
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - uses: actions/checkout@v3
-      - name: Enable Corepack
-        run: corepack enable
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -571,8 +558,6 @@ jobs:
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - uses: actions/checkout@v3
-      - name: Enable Corepack
-        run: corepack enable
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -614,9 +599,6 @@ jobs:
       - build-freebsd
     steps:
       - uses: actions/checkout@v3
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Setup node
         uses: actions/setup-node@v3
