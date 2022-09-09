@@ -9,9 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Enable Corepack
-        run: corepack enable
-
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
