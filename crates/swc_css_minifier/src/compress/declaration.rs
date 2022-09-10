@@ -184,8 +184,8 @@ impl VisitMut for CompressDeclaration {
                                 }),
                             ),
                             None,
-                        ) if outside_value.to_ascii_lowercase() == "block"
-                            && inside_value.to_ascii_lowercase() == "flow-root" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("block")
+                            && inside_value.to_ascii_lowercase() == js_word!("flow-root") =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -201,8 +201,8 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             None,
-                        ) if outside_value.to_ascii_lowercase() == "inline"
-                            && inside_value.to_ascii_lowercase() == "flow-root" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("inline")
+                            && inside_value.to_ascii_lowercase() == js_word!("flow-root") =>
                         {
                             declaration.value = vec![ComponentValue::Ident(Ident {
                                 span: *span,
@@ -221,8 +221,8 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             Some(list_item),
-                        ) if outside_value.to_ascii_lowercase() == "block"
-                            && inside_value.to_ascii_lowercase() == "flow" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("block")
+                            && inside_value.to_ascii_lowercase() == js_word!("flow") =>
                         {
                             declaration.value = vec![list_item.clone()];
                         }
@@ -234,7 +234,7 @@ impl VisitMut for CompressDeclaration {
                             })),
                             None,
                             Some(list_item),
-                        ) if outside_value.to_ascii_lowercase() == "block" => {
+                        ) if outside_value.to_ascii_lowercase() == js_word!("block") => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `flow list-item` -> `list-item`
@@ -245,7 +245,7 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             Some(list_item),
-                        ) if inside_value.to_ascii_lowercase() == "flow" => {
+                        ) if inside_value.to_ascii_lowercase() == js_word!("flow") => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `inline flow list-item` -> `inline list-item`
@@ -261,8 +261,8 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             Some(list_item),
-                        ) if outside_value.to_ascii_lowercase() == "inline"
-                            && inside_value.to_ascii_lowercase() == "flow" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("inline")
+                            && inside_value.to_ascii_lowercase() == js_word!("flow") =>
                         {
                             declaration.value = vec![outside.clone(), list_item.clone()];
                         }
