@@ -3231,6 +3231,7 @@ dependencies = [
 name = "swc_css_minifier"
 version = "0.86.0"
 dependencies = [
+ "criterion",
  "serde",
  "swc_atoms",
  "swc_common",
