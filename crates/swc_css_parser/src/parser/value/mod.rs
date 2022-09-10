@@ -683,8 +683,8 @@ where
 
                 match cur!(self) {
                     Token::Ident { value, .. }
-                        if value.to_ascii_lowercase() == "from"
-                            && function_name != "device-cmyk" =>
+                        if value.to_ascii_lowercase() == js_word!("from")
+                            && function_name != js_word!("device-cmyk") =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
 
@@ -694,7 +694,7 @@ where
                             Token::Function { value, .. }
                                 if matches!(
                                     value.to_ascii_lowercase(),
-                                    "var" | "env" | "constant"
+                                    js_word!("var") | js_word!("env") | js_word!("constant")
                                 ) =>
                             {
                                 ComponentValue::Function(self.parse()?)
@@ -710,7 +710,7 @@ where
                 }
 
                 match function_name {
-                    "hwb" => {
+                    js_word!("hwb") => {
                         let hue_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") | tok!("dimension") => {
@@ -744,7 +744,7 @@ where
 
                         values.push(hue_or_none);
                     }
-                    "lab" | "lch" | "oklab" | "oklch" => {
+                    js_word!("lab") | js_word!("lch") | js_word!("oklab") | js_word!("oklch") => {
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
