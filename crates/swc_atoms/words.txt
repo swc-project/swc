@@ -699,3 +699,8 @@ skewy
 rotate3d
 rotatex
 rotatey
+rotatez
+display
+block
+inline
+run-in
