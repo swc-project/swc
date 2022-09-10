@@ -88,7 +88,7 @@ impl VisitMut for CompressAngle {
             return;
         }
 
-        let from = match get_angle_type(&angle.unit.value.to_lowercase()) {
+        let from = match get_angle_type(&angle.unit.value.to_ascii_lowercase()) {
             Some(angel_type) => angel_type,
             None => return,
         };
