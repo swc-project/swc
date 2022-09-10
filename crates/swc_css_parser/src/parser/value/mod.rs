@@ -3326,7 +3326,7 @@ fn is_named_color(name: &JsWord) -> bool {
     )
 }
 
-fn is_length_unit(unit: &str) -> bool {
+fn is_length_unit(unit: &JsWord) -> bool {
     matches!(
         unit.to_ascii_lowercase(),
         "em" | "rem"  |
@@ -3347,22 +3347,22 @@ fn is_length_unit(unit: &str) -> bool {
     )
 }
 
-fn is_angle_unit(unit: &str) -> bool {
+fn is_angle_unit(unit: &JsWord) -> bool {
     matches!(unit.to_ascii_lowercase(), "deg" | "grad" | "rad" | "turn")
 }
 
-fn is_time_unit(unit: &str) -> bool {
+fn is_time_unit(unit: &JsWord) -> bool {
     matches!(unit.to_ascii_lowercase(), "s" | "ms")
 }
 
-fn is_frequency_unit(unit: &str) -> bool {
+fn is_frequency_unit(unit: &JsWord) -> bool {
     matches!(unit.to_ascii_lowercase(), "hz" | "khz")
 }
 
-fn is_resolution_unit(unit: &str) -> bool {
+fn is_resolution_unit(unit: &JsWord) -> bool {
     matches!(unit.to_ascii_lowercase(), "dpi" | "dpcm" | "dppx" | "x")
 }
 
-fn is_flex_unit(unit: &str) -> bool {
+fn is_flex_unit(unit: &JsWord) -> bool {
     matches!(unit.to_ascii_lowercase(), "fr")
 }
