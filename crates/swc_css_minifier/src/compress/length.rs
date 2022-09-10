@@ -1,3 +1,4 @@
+use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -12,21 +13,21 @@ struct CompressLength {
 }
 
 impl CompressLength {
-    fn convert(&mut self, value: f64, from_unit: &str, to_unit: &str) -> f64 {
+    fn convert(&mut self, value: f64, from_unit: JsWord, to_unit: JsWord) -> f64 {
         match to_unit {
-            "cm" => match from_unit {
-                "cm" => value,
-                "mm" => value / 10.0,
-                "q" => value / 40.0,
-                "in" => 2.54 * value,
-                "pc" => 2.54 / 6.0 * value,
-                "pt" => 2.54 / 72.0 * value,
-                "px" => 2.54 / 96.0 * value,
+            js_word!("cm") => match from_unit {
+                js_word!("cm") => value,
+                js_word!("mm") => value / 10.0,
+                js_word!("q") => value / 40.0,
+                js_word!("in") => 2.54 * value,
+                js_word!("pc") => 2.54 / 6.0 * value,
+                js_word!("pt") => 2.54 / 72.0 * value,
+                js_word!("px") => 2.54 / 96.0 * value,
                 _ => {
                     unreachable!()
                 }
             },
-            "mm" => match from_unit {
+            js_word!("mm") => match from_unit {
                 "cm" => 10.0 * value,
                 "mm" => value,
                 "q" => value / 4.0,
@@ -150,7 +151,7 @@ impl VisitMut for CompressLength {
         let value = length.value.value;
 
         match from {
-            "cm" => {
+            js_word!("cm") => {
                 if value % 2.54 == 0.0 {
                     let new_value = self.convert(value, from, "in");
 
@@ -179,7 +180,7 @@ impl VisitMut for CompressLength {
                     };
                 }
             }
-            "mm" => {
+            js_word!("mm") => {
                 if value % 25.4 == 0.0 {
                     let new_value = self.convert(value, from, "in");
 

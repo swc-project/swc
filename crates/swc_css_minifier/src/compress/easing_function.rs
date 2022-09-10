@@ -83,14 +83,14 @@ impl VisitMut for CompressEasingFunction {
                             value: ident_value, ..
                         }),
                     ) if *number_value == 1.0 => match ident_value.to_ascii_lowercase() {
-                        "start" | "jump-start" => {
+                        js_word!("start") | js_word!("jump-start") => {
                             *component_value = ComponentValue::Ident(Ident {
                                 span: *span,
                                 value: "step-start".into(),
                                 raw: None,
                             })
                         }
-                        "end" | "jump-end" => {
+                        js_word!("end") | js_word!("jump-end") => {
                             *component_value = ComponentValue::Ident(Ident {
                                 span: *span,
                                 value: "step-end".into(),
