@@ -16,6 +16,9 @@ pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     fn reset(&mut self, state: &Self::State);
 
     fn take_errors(&mut self) -> Vec<Error>;
+
+    /// Returns `last_pos`
+    fn skip_ws(&mut self) -> Option<BytePos>;
 }
 
 #[derive(Debug)]
@@ -120,14 +123,39 @@ where
     }
 
     pub(super) fn skip_ws(&mut self) {
-        loop {
-            match self.cur.as_ref().map(|v| &v.token) {
-                Some(tok!(" ")) => {
-                    self.bump_inner();
+        if let Some(TokenAndSpan {
+            token: tok!(" "),
+            span,
+        }) = &self.cur
+        {
+            self.last_pos = span.hi;
+
+            self.cur = None;
+
+            {
+                // Drop peeked
+                if let Some(next) = self.peeked.take() {
+                    self.cur = Some(next);
                 }
 
-                Some(..) | None => return,
+                match &self.cur {
+                    Some(TokenAndSpan {
+                        token: tok!(" "),
+                        span,
+                    }) => {
+                        self.last_pos = span.hi;
+
+                        self.cur = None;
+                    }
+                    Some(..) => return,
+                    None => {}
+                }
             }
+
+            if let Some(last_pos) = self.input.skip_ws() {
+                self.last_pos = last_pos;
+            }
+            self.cur = self.input.next();
         }
     }
 
@@ -198,6 +226,21 @@ impl<'a> ParserInput for TokensInput<'a> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         vec![]
+    }
+
+    fn skip_ws(&mut self) -> Option<BytePos> {
+        let mut last_pos = None;
+
+        while let Ok(TokenAndSpan {
+            token: tok!(" "),
+            span,
+        }) = self.cur()
+        {
+            last_pos = Some(span.hi);
+            self.idx += 1;
+        }
+
+        last_pos
     }
 }
 
