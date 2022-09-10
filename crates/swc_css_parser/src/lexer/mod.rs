@@ -170,23 +170,15 @@ where
             }
         }
 
-        let mut last_pos = start;
         loop {
             self.read_comments();
-            let c = self.next();
 
-            match c {
-                Some(c) if is_whitespace(c) => {
-                    last_pos = self.input.cur_pos();
-                    self.consume();
-                }
-                _ => {
-                    break;
-                }
+            if self.input.uncons_while(is_whitespace).is_empty() {
+                break;
             }
         }
 
-        Some(last_pos)
+        Some(self.input.last_pos())
     }
 }
 
