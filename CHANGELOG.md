@@ -13,8 +13,17 @@
 
 - **(es/minifier)** Inline lazily initialized variables (#5737) ([ee26337](https://github.com/swc-project/swc/commit/ee26337a251ecb1fa4f369e6de614d3dc931ab5c))
 
+### Performance
+
+
+
+- **(css/minifier)** Setup benchmark (#5800) ([88e59ff](https://github.com/swc-project/swc/commit/88e59ffcda6b0f00fabe80515c80cf4e0563f2bf))
+
 ### Refactor
 
+
+
+- **(es/plugin)** Fix lints (#5801) ([2bbc9bd](https://github.com/swc-project/swc/commit/2bbc9bd73b6a1437b4a31d865c3eb83e44fa88c3))
 
 
 - **(es/renamer)** Rename `PARALLEL` to `MANGLE` (#5790) ([21fbcb9](https://github.com/swc-project/swc/commit/21fbcb9621d88310ac297504235bd607d64b701a))

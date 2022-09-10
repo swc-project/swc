@@ -2353,6 +2353,7 @@ __metadata:
     axios: ^0.21.1
     babel-plugin-transform-node-env-inline: ^0.4.3
     benchmark: ^2.1.4
+    bootstrap: ^5.2.1
     class-validator: ^0.13.1
     core-js: ^2.6.11
     core-js-compat: ^3.21.1
@@ -2989,6 +2990,15 @@ __metadata:
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
   checksum: ccd267956c58d2315f5d3ea6757cf09863c5fc703e50fbeb13a7dc849b812ef76e3cf9ca8f35a0c48498776a7478d7b4a0418e1e2b8cb9cb9731f2922aaad7f8
+  languageName: node
+  linkType: hard
+
+"bootstrap@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "bootstrap@npm:5.2.1"
+  peerDependencies:
+    "@popperjs/core": ^2.11.6
+  checksum: f7d733ae5d27177d813adb2ac2158f08069a558d8f664b3db8857aba0ab07423d83b4276dba6123dde52309e707bb06ec13e040fb905eaa293c53453110bb802
   languageName: node
   linkType: hard
 
