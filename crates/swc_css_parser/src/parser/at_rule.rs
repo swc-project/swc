@@ -23,7 +23,7 @@ where
                 unreachable!()
             }
         };
-        let lowercased_name = &*at_keyword_name.0.to_lowercase();
+        let lowercased_name = &*at_keyword_name.0.to_ascii_lowercase();
         let at_rule_name = if at_keyword_name.0.starts_with("--") {
             AtRuleName::DashedIdent(DashedIdent {
                 span: Span::new(
@@ -1072,7 +1072,7 @@ where
 
                 Ok(SupportsFeature::Declaration(declaration))
             }
-            Token::Function { value, .. } if &*value.to_lowercase() == "selector" => {
+            Token::Function { value, .. } if &*value.to_ascii_lowercase() == "selector" => {
                 // TODO improve me
                 let ctx = Ctx {
                     block_contents_grammar: BlockContentsGrammar::DeclarationValue,

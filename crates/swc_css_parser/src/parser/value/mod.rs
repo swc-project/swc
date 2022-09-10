@@ -326,7 +326,7 @@ where
                 let mut is_legacy_syntax = true;
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if &*value.to_lowercase() == "from" => {
+                    Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "from" => {
                         is_legacy_syntax = false;
 
                         values.push(ComponentValue::Ident(self.parse()?));
@@ -664,7 +664,8 @@ where
 
                 match cur!(self) {
                     Token::Ident { value, .. }
-                        if &*value.to_lowercase() == "from" && function_name != "device-cmyk" =>
+                        if &*value.to_ascii_lowercase() == "from"
+                            && function_name != "device-cmyk" =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
 
@@ -1011,7 +1012,7 @@ where
                 self.input.skip_ws();
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if &*value.to_lowercase() == "from" => {
+                    Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "from" => {
                         values.push(self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::Ident(parser.parse()?))
                         })?);
