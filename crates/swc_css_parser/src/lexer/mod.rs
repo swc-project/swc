@@ -159,15 +159,15 @@ where
     }
 
     fn skip_ws(&mut self) {
-        loop {
-            match self.cur.as_ref().map(|v| &v.token) {
-                Some(tok!(" ")) => {
-                    self.bump_inner()?;
-                }
-
-                Some(..) | None => return Ok(()),
+        if let Some(c) = self.cur {
+            if is_whitespace(c) {
+                self.cur.take();
             }
         }
+
+        self.input.uncons_while(is_whitespace);
+
+        self.cur_pos = self.input.cur_pos();
     }
 }
 
