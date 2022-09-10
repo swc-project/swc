@@ -85,6 +85,7 @@ fn identity(entry: PathBuf) {
         "tsc/jsxEsprimaFbTestSuite.tsx",
         "tsc/jsxInvalidEsprimaTestSuite.tsx",
         "tsc/jsxParsingError2.tsx",
+        "tsc/jsxParsingError3.tsx",
         "tsc/logicalNotOperatorInvalidOperations.ts",
         "tsc/parseIncompleteBinaryExpression1.ts",
         "tsc/parser512325.ts",
