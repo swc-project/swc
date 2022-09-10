@@ -20,6 +20,9 @@
 
 
 
+- **(css/codegen)** Skip useless operations if not required (#5802) ([b96eb1e](https://github.com/swc-project/swc/commit/b96eb1ead8eedfeb8c3f392bf89ca5c037f1efcb))
+
+
 - **(css/minifier)** Setup benchmark (#5800) ([88e59ff](https://github.com/swc-project/swc/commit/88e59ffcda6b0f00fabe80515c80cf4e0563f2bf))
 
 
