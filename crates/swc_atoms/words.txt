@@ -705,7 +705,6 @@ block
 inline
 run-in
 flow
-flow-rrot
 table
 flex
 grid
@@ -713,3 +712,11 @@ ruby
 list-item
 padding
 margin
+flow-root
+border-width
+inset
+scroll-margin
+scroll-padding
+padding-inline
+margin-block
+margin-inline
