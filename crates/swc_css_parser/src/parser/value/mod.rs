@@ -3348,21 +3348,27 @@ fn is_length_unit(unit: &JsWord) -> bool {
 }
 
 fn is_angle_unit(unit: &JsWord) -> bool {
-    matches!(unit.to_ascii_lowercase(), "deg" | "grad" | "rad" | "turn")
+    matches!(
+        unit.to_ascii_lowercase(),
+        js_word!("deg") | js_word!("grad") | js_word!("rad") | js_word!("turn")
+    )
 }
 
 fn is_time_unit(unit: &JsWord) -> bool {
-    matches!(unit.to_ascii_lowercase(), "s" | "ms")
+    matches!(unit.to_ascii_lowercase(), js_word!("s") | js_word!("ms"))
 }
 
 fn is_frequency_unit(unit: &JsWord) -> bool {
-    matches!(unit.to_ascii_lowercase(), "hz" | "khz")
+    matches!(unit.to_ascii_lowercase(), js_word!("hz") | js_word!("khz"))
 }
 
 fn is_resolution_unit(unit: &JsWord) -> bool {
-    matches!(unit.to_ascii_lowercase(), "dpi" | "dpcm" | "dppx" | "x")
+    matches!(
+        unit.to_ascii_lowercase(),
+        js_word!("dpi") | js_word!("dpcm") | js_word!("dppx") | js_word!("x")
+    )
 }
 
 fn is_flex_unit(unit: &JsWord) -> bool {
-    matches!(unit.to_ascii_lowercase(), "fr")
+    matches!(unit.to_ascii_lowercase(), js_word!("fr"))
 }
