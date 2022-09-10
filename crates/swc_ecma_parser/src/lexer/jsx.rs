@@ -45,7 +45,18 @@ impl<'a, I: Input> Lexer<'a, I> {
                     })
                     .map(Some);
                 }
-
+                '>' => self.error(
+                    cur_pos,
+                    SyntaxError::DidYouMean {
+                        candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                    },
+                )?,
+                '}' => self.error(
+                    cur_pos,
+                    SyntaxError::DidYouMean {
+                        candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
+                    },
+                )?,
                 '&' => {
                     out.push_str(self.input.slice(chunk_start, cur_pos));
 

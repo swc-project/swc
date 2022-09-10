@@ -1,0 +1,6 @@
+
+  x Unexpected token. Did you mean `{'>'}` or `&gt;`?
+   ,-[$DIR/tests/jsx/errors/13/input.js:1:1]
+ 1 | <LeftRight left=<a /> right=<b>monkeys /> gorillas</b> />
+   :                                         ^
+   `----

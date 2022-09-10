@@ -115,6 +115,9 @@ pub enum SyntaxError {
         got: String,
         expected: &'static str,
     },
+    DidYouMean {
+        candidate_list: Vec<&'static str>,
+    },
     ReservedWordInImport,
     AssignProperty,
     Expected(&'static Token, String),
@@ -684,6 +687,18 @@ impl SyntaxError {
             )
             .into(),
             SyntaxError::SetterParamRequired => "Setter should have exactly one parameter".into(),
+            SyntaxError::DidYouMean {
+                candidate_list: token_list,
+            } => {
+                let did_you_mean = if token_list.len() <= 2 {
+                    token_list.join(" or ").to_string()
+                } else {
+                    token_list[0..token_list.len() - 1].join(" , ").to_string()
+                        + &format!("or {}", token_list[token_list.len() - 1])
+                };
+                // Unexpected token. Did you mean `{'>'}` or `&gt;`?ts(1382)
+                format!("Unexpected token. Did you mean {}?", did_you_mean).into()
+            }
         }
     }
 }

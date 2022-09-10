@@ -25,7 +25,7 @@
     "eslint.enable": false,
     "cSpell.allowCompoundWords": true,
     "cSpell.caseSensitive": true,
-    "rust-analyzer.checkOnSave.command": "clippy",
+    // "rust-analyzer.checkOnSave.command": "clippy",
     "rust-analyzer.checkOnSave.features": [
         // We use this to make IDE faster
         "rust-analyzer"
