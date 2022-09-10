@@ -140,11 +140,13 @@ impl VisitMut for CompressDeclaration {
                                 inside = Some(inside_node);
                             }
                             list_item_node @ ComponentValue::Ident(Ident { value, .. })
-                                if value.to_ascii_lowercase() == "list-item" =>
+                                if value.to_ascii_lowercase() == js_word!("list-item") =>
                             {
                                 if let Some(ComponentValue::Ident(Ident { value, .. })) = inside {
-                                    if !matches!(&*value.to_ascii_lowercase(), "flow" | "flow-root")
-                                    {
+                                    if !matches!(
+                                        value.to_ascii_lowercase(),
+                                        js_word!("flow") | js_word!("flow-root")
+                                    ) {
                                         continue;
                                     }
                                 }
@@ -166,7 +168,7 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             None,
-                        ) if inside_value.to_ascii_lowercase() == "flow" => {
+                        ) if inside_value.to_ascii_lowercase() == js_word!("flow") => {
                             declaration.value = vec![outside.clone()];
                         }
                         // `block flow-root` -> `flow-root`

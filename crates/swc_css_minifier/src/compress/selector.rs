@@ -185,7 +185,10 @@ impl VisitMut for CompressSelector {
         match &subclass_selector {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. }) => {
                 match name.value.to_ascii_lowercase() {
-                    "before" | "after" | "first-letter" | "first-line" => {
+                    js_word!("before")
+                    | js_word!("after")
+                    | js_word!("first-letter")
+                    | js_word!("first-line") => {
                         *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
                             span: *span,
                             name: name.clone(),
@@ -200,7 +203,9 @@ impl VisitMut for CompressSelector {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value.to_ascii_lowercase() == "nth-child" && children.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("nth-child")
+                && children.len() == 1 =>
+            {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
