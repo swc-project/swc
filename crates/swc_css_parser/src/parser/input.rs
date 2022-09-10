@@ -44,34 +44,33 @@ where
         }
     }
 
-    pub fn last_pos(&mut self) -> PResult<BytePos> {
-        self.cur()?;
+    pub fn last_pos(&mut self) -> BytePos {
+        self.cur();
 
         Ok(self.last_pos)
     }
 
-    pub fn cur_span(&mut self) -> PResult<Span> {
+    pub fn cur_span(&mut self) -> Span {
         if self.cur.is_none() {
             self.bump_inner();
         }
 
-        Ok(self
-            .cur
+        self.cur
             .as_ref()
             .map(|cur| cur.span)
-            .unwrap_or_else(|| Span::new(self.last_pos, self.last_pos, Default::default())))
+            .unwrap_or_else(|| Span::new(self.last_pos, self.last_pos, Default::default()))
     }
 
-    pub fn cur(&mut self) -> PResult<Option<&Token>> {
+    pub fn cur(&mut self) -> Option<&Token> {
         if self.cur.is_none() {
             self.bump_inner();
         }
 
-        Ok(self.cur.as_ref().map(|v| &v.token))
+        self.cur.as_ref().map(|v| &v.token)
     }
 
     pub(super) fn peek(&mut self) -> PResult<Option<&Token>> {
-        self.cur()?;
+        self.cur();
 
         if self.peeked.is_none() {
             self.peeked = self.input.next();
