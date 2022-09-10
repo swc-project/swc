@@ -126,6 +126,13 @@ where
 
     #[inline(always)]
     pub(super) fn skip_ws(&mut self) -> PResult<()> {
+        if let Some(TokenAndSpan {
+            token: tok!(" "), ..
+        }) = &self.cur
+        {
+            self.cur = None;
+        }
+
         self.input.skip_ws();
         Ok(())
     }
