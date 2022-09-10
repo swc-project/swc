@@ -691,9 +691,9 @@ impl SyntaxError {
                 candidate_list: token_list,
             } => {
                 let did_you_mean = if token_list.len() <= 2 {
-                    token_list.join(" or ").to_string()
+                    token_list.join(" or ")
                 } else {
-                    token_list[0..token_list.len() - 1].join(" , ").to_string()
+                    token_list[0..token_list.len() - 1].join(" , ")
                         + &format!("or {}", token_list[token_list.len() - 1])
                 };
                 format!("Unexpected token. Did you mean {}?", did_you_mean).into()
