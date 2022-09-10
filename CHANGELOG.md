@@ -10,6 +10,9 @@
 
 - **(es/compat)** Fix `generator` (#5796) ([aa8672e](https://github.com/swc-project/swc/commit/aa8672e73918e06ab2f7e7430ce35027ecc65cb3))
 
+
+- **(node-swc)** Fix the type definition of `jsc.paths` (#5811) ([9d16293](https://github.com/swc-project/swc/commit/9d1629369b6bae5fc1d61f64c6b5fb75dea0eddf))
+
 ### Features
 
 
@@ -33,6 +36,9 @@
 
 
 - **(css/parser)** Remove needless branching (#5809) ([91ed13e](https://github.com/swc-project/swc/commit/91ed13e098bc53551332902e43f4d539829fb00f))
+
+
+- **(css/parser)** Skip whiltespace from lexer (#5810) ([72a8b60](https://github.com/swc-project/swc/commit/72a8b608d649307c33eb9166d175fdce32750230))
 
 
 - **(es/codegen)** Skip useless operations if not required (#5803) ([49942ca](https://github.com/swc-project/swc/commit/49942ca773d6fe6f44efa92625e274d01f9cdce0))
