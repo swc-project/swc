@@ -1,3 +1,5 @@
+#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
+
 use std::{
     env, fs,
     path::{Path, PathBuf},
