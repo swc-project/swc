@@ -135,9 +135,7 @@ where
                 }
 
                 if self.cur.is_none() {
-                    let token_and_span = self.input.next();
-
-                    self.cur = token_and_span;
+                    self.cur = self.input.next();
                 }
             }
         }
