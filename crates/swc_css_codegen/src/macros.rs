@@ -92,3 +92,21 @@ macro_rules! hi_span_offset {
         }
     }};
 }
+
+///
+/// - `srcmap!(true)` for start (span.lo)
+/// - `srcmap!(false)` for end (span.hi)
+macro_rules! srcmap {
+    ($emitter:expr, $n:expr, true) => {{
+        let lo = $n.span_lo();
+        if !lo.is_dummy() {
+            $emitter.wr.add_srcmap(lo)?;
+        }
+    }};
+    ($emitter:expr, $n:expr, false) => {
+        let hi = $n.span_hi();
+        if !hi.is_dummy() {
+            $emitter.wr.add_srcmap(hi)?;
+        }
+    };
+}

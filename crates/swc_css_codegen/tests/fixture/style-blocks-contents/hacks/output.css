@@ -1,4 +1,4 @@
-.selector:not(*:root) {}
+/* Android */ .selector:not(*:root) {}
 @media screen and (min-width: 0\0) {}
 .selector:not(*:root) {}
 @supports (-webkit-appearance: none) {}

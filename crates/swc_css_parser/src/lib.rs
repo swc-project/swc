@@ -5,7 +5,7 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(clippy::wrong_self_convention)]
 
-use swc_common::{input::StringInput, BytePos, SourceFile};
+use swc_common::{comments::Comments, input::StringInput, BytePos, SourceFile};
 use swc_css_ast::Tokens;
 
 use crate::{
@@ -44,16 +44,18 @@ pub fn parse_str<'a, T>(
     start_pos: BytePos,
     end_pos: BytePos,
     config: ParserConfig,
+    comments: Option<&'a dyn Comments>,
     errors: &mut Vec<Error>,
 ) -> PResult<T>
 where
-    Parser<Lexer<StringInput<'a>>>: Parse<T>,
+    Parser<Lexer<'a, StringInput<'a>>>: Parse<T>,
 {
-    let lexer = Lexer::new(StringInput::new(src, start_pos, end_pos), config);
+    let lexer = Lexer::new(StringInput::new(src, start_pos, end_pos), config, comments);
     let mut parser = Parser::new(lexer, config);
-
     let res = parser.parse();
+
     errors.extend(parser.take_errors());
+
     res
 }
 
@@ -64,16 +66,18 @@ where
 pub fn parse_file<'a, T>(
     fm: &'a SourceFile,
     config: ParserConfig,
+    comments: Option<&'a dyn Comments>,
     errors: &mut Vec<Error>,
 ) -> PResult<T>
 where
-    Parser<Lexer<StringInput<'a>>>: Parse<T>,
+    Parser<Lexer<'a, StringInput<'a>>>: Parse<T>,
 {
-    let lexer = Lexer::new(StringInput::from(fm), config);
+    let lexer = Lexer::new(StringInput::from(fm), config, comments);
     let mut parser = Parser::new(lexer, config);
-
     let res = parser.parse();
+
     errors.extend(parser.take_errors());
+
     res
 }
 
@@ -91,8 +95,9 @@ where
 {
     let lexer = TokensInput::new(tokens);
     let mut parser = Parser::new(lexer, config);
-
     let res = parser.parse();
+
     errors.extend(parser.take_errors());
+
     res
 }

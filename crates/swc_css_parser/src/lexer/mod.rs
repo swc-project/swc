@@ -1,28 +1,36 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, mem::take, rc::Rc};
 
-use swc_atoms::{js_word, JsWord};
-use swc_common::{input::Input, BytePos, Span};
+use swc_atoms::{js_word, AtomGenerator, JsWord};
+use swc_common::{
+    comments::{Comment, CommentKind, Comments},
+    input::Input,
+    BytePos, Span,
+};
 use swc_css_ast::{NumberType, Token, TokenAndSpan};
 
+use self::comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBuffer};
 use crate::{
     error::{Error, ErrorKind},
     parser::{input::ParserInput, ParserConfig},
 };
 
+mod comments_buffer;
+
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
-#[derive(Debug)]
-pub struct Lexer<I>
-where
-    I: Input,
-{
+pub struct Lexer<'a, I: Input> {
     input: I,
     cur: Option<char>,
     cur_pos: BytePos,
     start_pos: BytePos,
     /// Used to override last_pos
     last_pos: Option<BytePos>,
+    prev_hi: BytePos,
     config: ParserConfig,
+    comments: Option<&'a dyn Comments>,
+    /// [Some] if comment comment parsing is enabled. Otherwise [None]
+    comments_buffer: Option<CommentsBuffer>,
+    atoms: Rc<RefCell<AtomGenerator>>,
     buf: Rc<RefCell<String>>,
     raw_buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
@@ -30,20 +38,21 @@ where
     errors: Vec<Error>,
 }
 
-impl<I> Lexer<I>
-where
-    I: Input,
-{
-    pub fn new(input: I, config: ParserConfig) -> Self {
+impl<'a, I: Input> Lexer<'a, I> {
+    pub fn new(input: I, config: ParserConfig, comments: Option<&'a dyn Comments>) -> Self {
         let start_pos = input.last_pos();
 
         Lexer {
             input,
             cur: None,
             cur_pos: start_pos,
+            prev_hi: start_pos,
             start_pos,
             last_pos: None,
             config,
+            comments,
+            comments_buffer: comments.is_some().then(CommentsBuffer::new),
+            atoms: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
             raw_buf: Rc::new(RefCell::new(String::with_capacity(256))),
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
@@ -107,17 +116,64 @@ where
     }
 }
 
-impl<I: Input> Iterator for Lexer<I> {
+impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
+        if self.input.cur().is_none() {
+            if let Some(comments) = self.comments.as_mut() {
+                let comments_buffer = self.comments_buffer.as_mut().unwrap();
+
+                // move the pending to the leading or trailing
+                for comment in comments_buffer.take_pending_leading() {
+                    if self.prev_hi == self.start_pos {
+                        comments_buffer.push(BufferedComment {
+                            kind: BufferedCommentKind::Leading,
+                            pos: self.prev_hi,
+                            comment,
+                        });
+                    } else {
+                        comments_buffer.push(BufferedComment {
+                            kind: BufferedCommentKind::Trailing,
+                            pos: self.prev_hi,
+                            comment,
+                        });
+                    }
+                }
+
+                // now fill the user's passed in comments
+                for comment in comments_buffer.take_comments() {
+                    match comment.kind {
+                        BufferedCommentKind::Leading => {
+                            comments.add_leading(comment.pos, comment.comment);
+                        }
+                        BufferedCommentKind::Trailing => {
+                            comments.add_trailing(comment.pos, comment.comment);
+                        }
+                    }
+                }
+            }
+        }
+
         let token = self.consume_token();
 
         match token {
             Ok(token) => {
                 let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-                let span = Span::new(self.start_pos, end, Default::default());
 
+                if let Some(comments) = self.comments_buffer.as_mut() {
+                    for comment in comments.take_pending_leading() {
+                        comments.push(BufferedComment {
+                            kind: BufferedCommentKind::Leading,
+                            pos: self.start_pos,
+                            comment,
+                        });
+                    }
+                }
+
+                self.prev_hi = end;
+
+                let span = Span::new(self.start_pos, end, Default::default());
                 let token_and_span = TokenAndSpan { span, token };
 
                 return Some(token_and_span);
@@ -134,10 +190,7 @@ pub struct LexerState {
     pos: BytePos,
 }
 
-impl<I> ParserInput for Lexer<I>
-where
-    I: Input,
-{
+impl<I: Input> ParserInput for Lexer<'_, I> {
     type State = LexerState;
 
     fn start_pos(&mut self) -> swc_common::BytePos {
@@ -159,10 +212,7 @@ where
     }
 }
 
-impl<I> Lexer<I>
-where
-    I: Input,
-{
+impl<I: Input> Lexer<'_, I> {
     #[inline(always)]
     fn cur(&mut self) -> Option<char> {
         self.cur
@@ -473,8 +523,12 @@ where
         // NOTE: We allow to parse line comments under the option.
         if self.next() == Some('/') && self.next_next() == Some('*') {
             while self.next() == Some('/') && self.next_next() == Some('*') {
-                self.consume(); // '*'
+                let start = self.input.cur_pos();
+
                 self.consume(); // '/'
+                self.consume(); // '*'
+
+                let slice_start = self.input.cur_pos();
 
                 loop {
                     self.consume();
@@ -492,10 +546,23 @@ where
                             self.errors
                                 .push(Error::new(span, ErrorKind::UnterminatedBlockComment));
 
-                            return Ok(());
+                            break;
                         }
                         _ => {}
                     }
+                }
+
+                if let Some(comments) = self.comments_buffer.as_mut() {
+                    let end = self.input.cur_pos();
+                    let src = self.input.slice(slice_start, end);
+                    let s = &src[..src.len() - 2];
+                    let comment = Comment {
+                        kind: CommentKind::Block,
+                        span: Span::new(start, end, Default::default()),
+                        text: self.atoms.borrow_mut().intern(s),
+                    };
+
+                    comments.push_pending_leading(comment);
                 }
             }
         } else if self.config.allow_wrong_line_comments
@@ -503,8 +570,12 @@ where
             && self.next_next() == Some('/')
         {
             while self.next() == Some('/') && self.next_next() == Some('/') {
+                let start = self.input.cur_pos();
+
                 self.consume(); // '/'
                 self.consume(); // '/'
+
+                let slice_start = self.input.cur_pos();
 
                 loop {
                     self.consume();
@@ -514,10 +585,23 @@ where
                             break;
                         }
                         None => {
-                            return Ok(());
+                            break;
                         }
                         _ => {}
                     }
+                }
+
+                if let Some(comments) = self.comments_buffer.as_mut() {
+                    let end = self.input.cur_pos();
+                    let src = self.input.slice(slice_start, end);
+                    let s = &src[..src.len() - 2];
+                    let comment = Comment {
+                        kind: CommentKind::Line,
+                        span: Span::new(start, end, Default::default()),
+                        text: self.atoms.borrow_mut().intern(s),
+                    };
+
+                    comments.push_pending_leading(comment);
                 }
             }
         }
