@@ -3240,6 +3240,7 @@ dependencies = [
  "swc_css_parser",
  "swc_css_utils",
  "swc_css_visit",
+ "swc_node_base",
  "testing",
 ]
 
