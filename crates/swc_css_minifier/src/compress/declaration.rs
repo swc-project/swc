@@ -281,10 +281,10 @@ impl VisitMut for CompressDeclaration {
                                 }),
                             ),
                             None,
-                        ) if outside_value.to_ascii_lowercase() == "block"
+                        ) if outside_value.to_ascii_lowercase() == js_word!("block")
                             && matches!(
                                 inside_value.to_ascii_lowercase(),
-                                "flex" | "grid" | "table"
+                                js_word!("flex") | js_word!("grid") | js_word!("table")
                             ) =>
                         {
                             declaration.value = vec![inside.clone()];
@@ -302,8 +302,8 @@ impl VisitMut for CompressDeclaration {
                                 }),
                             ),
                             None,
-                        ) if outside_value.to_ascii_lowercase() == "inline"
-                            && inside_value.to_ascii_lowercase() == "ruby" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("inline")
+                            && inside_value.to_ascii_lowercase() == js_word!("ruby") =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -312,16 +312,16 @@ impl VisitMut for CompressDeclaration {
                 }
                 // TODO handle `auto`
                 // TODO compress numbers too
-                "padding"
-                | "margin"
-                | "border-width"
-                | "inset"
-                | "scroll-margin"
-                | "scroll-padding"
-                | "mask-border-outset"
-                | "border-image-width"
-                | "border-image-outset"
-                | "border-image-slice"
+                js_word!("padding")
+                | js_word!("margin")
+                | js_word!("border-width")
+                | js_word!("inset")
+                | js_word!("scroll-margin")
+                | js_word!("scroll-padding")
+                | js_word!("mask-border-outset")
+                | js_word!("border-image-width")
+                | js_word!("border-image-outset")
+                | js_word!("border-image-slice")
                     if declaration.value.len() > 1 =>
                 {
                     let top = declaration.value.get(0);
@@ -356,27 +356,27 @@ impl VisitMut for CompressDeclaration {
                         }
                     }
                 }
-                "padding-inline"
-                | "padding-block"
-                | "margin-inline"
-                | "margin-block"
-                | "margin-inline"
-                | "inset-inline"
-                | "inset-block"
-                | "border-inline-width"
-                | "border-block-width"
-                | "scroll-padding-inline"
-                | "scroll-padding-block"
-                | "scroll-margin-inline"
-                | "scroll-margin-block"
-                | "border-top-left-radius"
-                | "border-top-right-radius"
-                | "border-bottom-right-radius"
-                | "border-bottom-left-radius"
-                | "border-start-start-radius"
-                | "border-start-end-radius"
-                | "border-end-start-radius"
-                | "border-end-end-radius"
+                js_word!("padding-inline")
+                | js_word!("padding-block")
+                | js_word!("margin-inline")
+                | js_word!("margin-block")
+                | js_word!("margin-inline")
+                | js_word!("inset-inline")
+                | js_word!("inset-block")
+                | js_word!("border-inline-width")
+                | js_word!("border-block-width")
+                | js_word!("scroll-padding-inline")
+                | js_word!("scroll-padding-block")
+                | js_word!("scroll-margin-inline")
+                | js_word!("scroll-margin-block")
+                | js_word!("border-top-left-radius")
+                | js_word!("border-top-right-radius")
+                | js_word!("border-bottom-right-radius")
+                | js_word!("border-bottom-left-radius")
+                | js_word!("border-start-start-radius")
+                | js_word!("border-start-end-radius")
+                | js_word!("border-end-start-radius")
+                | js_word!("border-end-end-radius")
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);
