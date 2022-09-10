@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -131,7 +132,9 @@ impl VisitMut for CompressSelector {
                 });
             }
             // `even` => `2n`
-            AnPlusB::Ident(Ident { value, span, .. }) if value.to_ascii_lowercase() == "even" => {
+            AnPlusB::Ident(Ident { value, span, .. })
+                if value.to_ascii_lowercase() == js_word!("even") =>
+            {
                 *an_plus_b = AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: Some(2),

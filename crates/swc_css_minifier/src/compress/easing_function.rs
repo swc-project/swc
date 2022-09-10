@@ -82,7 +82,7 @@ impl VisitMut for CompressEasingFunction {
                         ComponentValue::Ident(Ident {
                             value: ident_value, ..
                         }),
-                    ) if *number_value == 1.0 => match &*ident_value.to_lowercase() {
+                    ) if *number_value == 1.0 => match ident_value.to_ascii_lowercase() {
                         "start" | "jump-start" => {
                             *component_value = ComponentValue::Ident(Ident {
                                 span: *span,
@@ -104,7 +104,7 @@ impl VisitMut for CompressEasingFunction {
                         ComponentValue::Ident(Ident {
                             value: ident_value, ..
                         }),
-                    ) if ident_value.to_lowercase() == "jump-start" => {
+                    ) if ident_value.to_ascii_lowercase() == js_word!("jump-start") => {
                         function_value[2] = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "start".into(),
@@ -116,8 +116,8 @@ impl VisitMut for CompressEasingFunction {
                         ComponentValue::Ident(Ident {
                             value: ident_value, ..
                         }),
-                    ) => match &*ident_value.to_lowercase() {
-                        "end" | "jump-end" => {
+                    ) => match ident_value.to_ascii_lowercase() {
+                        js_word!("end") | js_word!("jump-end") => {
                             *function_value = vec![ComponentValue::Number(number.clone())];
                         }
                         _ => {}
