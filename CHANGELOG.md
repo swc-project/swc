@@ -10,6 +10,9 @@
 
 - **(es/compat)** Fix `generator` (#5796) ([aa8672e](https://github.com/swc-project/swc/commit/aa8672e73918e06ab2f7e7430ce35027ecc65cb3))
 
+
+- **(node-swc)** Fix the type definition of `jsc.paths` (#5811) ([9d16293](https://github.com/swc-project/swc/commit/9d1629369b6bae5fc1d61f64c6b5fb75dea0eddf))
+
 ### Features
 
 
