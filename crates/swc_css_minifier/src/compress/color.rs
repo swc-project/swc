@@ -401,7 +401,7 @@ impl VisitMut for CompressColor {
                     *color = make_color!(*span, 0.0_f64, 0.0_f64, 0.0_f64, 0.0_f64);
                 }
                 name => {
-                    if let Some(value) = NAMED_COLORS.get(name) {
+                    if let Some(value) = NAMED_COLORS.get(&name) {
                         *color = make_color!(
                             *span,
                             value.rgb[0] as f64,

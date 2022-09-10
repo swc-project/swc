@@ -111,7 +111,7 @@ impl VisitMut for CompressDeclaration {
 
         if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
             match value.to_ascii_lowercase() {
-                "display" if declaration.value.len() > 1 => {
+                js_word!("display") if declaration.value.len() > 1 => {
                     let mut outside = None;
                     let mut inside = None;
                     let mut list_item = None;
@@ -388,7 +388,7 @@ impl VisitMut for CompressDeclaration {
                         declaration.value.remove(1);
                     }
                 }
-                "border-style" if declaration.value.len() > 1 => {
+                js_word!("border-style") if declaration.value.len() > 1 => {
                     let top = declaration.value.get(0);
                     let right = declaration
                         .value
@@ -459,7 +459,9 @@ impl VisitMut for CompressDeclaration {
                         })
                         .collect();
                 }
-                "background-repeat" | "mask-repeat" | "-webkit-mask-repeat"
+                js_word!("background-repeat")
+                | js_word!("mask-repeat")
+                | js_word!("-webkit-mask-repeat")
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);
@@ -481,39 +483,39 @@ impl VisitMut for CompressDeclaration {
                             first_value.to_ascii_lowercase(),
                             second_value.to_ascii_lowercase(),
                         ) {
-                            ("repeat", "no-repeat") => {
+                            (js_word!("repeat"), js_word!("no-repeat")) => {
                                 declaration.value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
                                     value: "repeat-x".into(),
                                     raw: None,
                                 })];
                             }
-                            ("no-repeat", "repeat") => {
+                            (js_word!("no-repeat"), js_word!("repeat")) => {
                                 declaration.value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
                                     value: "repeat-y".into(),
                                     raw: None,
                                 })];
                             }
-                            ("repeat", "repeat")
-                            | ("space", "space")
-                            | ("round", "round")
-                            | ("no-repeat", "no-repeat") => {
+                            (js_word!("repeat"), js_word!("repeat"))
+                            | (js_word!("space"), js_word!("space"))
+                            | (js_word!("round"), js_word!("round"))
+                            | (js_word!("no-repeat"), js_word!("no-repeat")) => {
                                 declaration.value.remove(1);
                             }
                             _ => {}
                         }
                     }
                 }
-                "border-image-repeat"
-                | "mask-border-repeat"
-                | "-webkit-mask-box-image-repeat"
-                | "overscroll-behavior"
-                | "scroll-snap-align"
-                | "overflow"
-                | "place-self"
-                | "place-items"
-                | "place-content"
+                js_word!("border-image-repeat")
+                | js_word!("mask-border-repeat")
+                | js_word!("-webkit-mask-box-image-repeat")
+                | js_word!("overscroll-behavior")
+                | js_word!("scroll-snap-align")
+                | js_word!("overflow")
+                | js_word!("place-self")
+                | js_word!("place-items")
+                | js_word!("place-content")
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);

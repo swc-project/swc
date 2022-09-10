@@ -323,7 +323,12 @@ impl VisitMut for CompressSelector {
             Ident { value, .. }
                 if matches!(
                     value.to_ascii_lowercase(),
-                    "not" | "is" | "where" | "matches" | "-moz-any" | "-webkit-any"
+                    js_word!("not")
+                        | js_word!("is")
+                        | js_word!("where")
+                        | js_word!("matches")
+                        | js_word!("-moz-any")
+                        | js_word!("-webkit-any")
                 ) =>
             {
                 let old_in_logic_combinator = self.in_logic_combinator;
