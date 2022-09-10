@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -120,7 +121,7 @@ impl VisitMut for CompressDeclaration {
                             outside_node @ ComponentValue::Ident(Ident { value, .. })
                                 if matches!(
                                     value.to_ascii_lowercase(),
-                                    "block" | "inline" | "run-in"
+                                    js_word!("block") | js_word!("inline") | js_word!("run-in")
                                 ) =>
                             {
                                 outside = Some(outside_node);
@@ -128,7 +129,12 @@ impl VisitMut for CompressDeclaration {
                             inside_node @ ComponentValue::Ident(Ident { value, .. })
                                 if matches!(
                                     value.to_ascii_lowercase(),
-                                    "flow" | "flow-root" | "table" | "flex" | "grid" | "ruby"
+                                    js_word!("flow")
+                                        | js_word!("flow-root")
+                                        | js_word!("table")
+                                        | js_word!("flex")
+                                        | js_word!("grid")
+                                        | js_word!("ruby")
                                 ) =>
                             {
                                 inside = Some(inside_node);

@@ -401,7 +401,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == "rotatez" && function_value.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("rotatez")
+                && function_value.len() == 1 =>
+            {
                 *name = Ident {
                     span: name.span,
                     value: "rotate".into(),
@@ -413,7 +415,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == "skew" && function_value.len() == 3 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("skew")
+                && function_value.len() == 3 =>
+            {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),

@@ -685,3 +685,4 @@ deg
 grad
 rad
 turn
+rotate
