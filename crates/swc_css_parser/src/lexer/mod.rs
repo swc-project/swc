@@ -162,14 +162,14 @@ where
         if let Some(c) = self.cur {
             if is_whitespace(c) {
                 self.cur.take();
+
+                self.input.uncons_while(is_whitespace);
+
+                return self.input.last_pos();
             }
-
-            self.input.uncons_while(is_whitespace);
-
-            self.cur_pos = self.input.cur_pos();
         }
 
-        self.cur_pos
+        self.last_pos.unwrap_or(self.cur_pos)
     }
 }
 
