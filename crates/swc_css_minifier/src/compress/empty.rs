@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -51,7 +51,7 @@ impl VisitMut for CompressEmpty {
     }
 }
 
-fn need_keep_by_name(name: &str) -> bool {
+fn need_keep_by_name(name: &JsWord) -> bool {
     matches!(
         name.to_ascii_lowercase(),
         js_word!("counter-style")
