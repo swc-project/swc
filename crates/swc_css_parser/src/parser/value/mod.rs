@@ -687,7 +687,7 @@ where
                 match cur!(self) {
                     Token::Ident { value, .. }
                         if value.to_ascii_lowercase() == js_word!("from")
-                            && function_name != js_word!("device-cmyk") =>
+                            && *function_name != js_word!("device-cmyk") =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
 
@@ -981,7 +981,7 @@ where
 
                 self.input.skip_ws()?;
 
-                if function_name == js_word!("device-cmyk") {
+                if *function_name == js_word!("device-cmyk") {
                     let cmyk_component = self.try_parse_variable_function(|parser| {
                         Ok(ComponentValue::CmykComponent(parser.parse()?))
                     })?;
