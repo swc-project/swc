@@ -50,7 +50,7 @@
    :            ^^^^^^^
    `----
 
-  x Ident { value: Atom('initial' type=inline), raw: Atom('initial' type=inline) }
+  x Ident { value: Atom('initial' type=static), raw: Atom('initial' type=static) }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
    :            ^^^^^^^
@@ -116,7 +116,7 @@
    :            ^^^^^^^
    `----
 
-  x Ident { value: Atom('inherit' type=inline), raw: Atom('inherit' type=inline) }
+  x Ident { value: Atom('inherit' type=static), raw: Atom('inherit' type=static) }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
  2 | @keyframes inherit {}
    :            ^^^^^^^
@@ -182,7 +182,7 @@
    :            ^^^^^
    `----
 
-  x Ident { value: Atom('unset' type=inline), raw: Atom('unset' type=inline) }
+  x Ident { value: Atom('unset' type=static), raw: Atom('unset' type=static) }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:3:1]
  3 | @keyframes unset {}
    :            ^^^^^
@@ -248,7 +248,7 @@
    :            ^^^^
    `----
 
-  x Ident { value: Atom('none' type=inline), raw: Atom('none' type=inline) }
+  x Ident { value: Atom('none' type=static), raw: Atom('none' type=static) }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:4:1]
  4 | @keyframes none {}
    :            ^^^^
