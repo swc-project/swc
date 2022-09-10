@@ -67,7 +67,7 @@ macro_rules! can_ignore_ws {
 
 macro_rules! cur {
     ($parser:expr) => {
-        match $parser.input.cur()? {
+        match $parser.input.cur() {
             Some(v) => v,
             None => {
                 let last_pos = $parser.input.last_pos();
@@ -93,7 +93,7 @@ macro_rules! bump {
 
 macro_rules! is_case_insensitive_ident {
     ($parser:expr, $tt:tt) => {{
-        match $parser.input.cur()? {
+        match $parser.input.cur() {
             Some(swc_css_ast::Token::Ident { value, .. })
                 if &*value.to_ascii_lowercase() == $tt =>
             {
@@ -106,7 +106,7 @@ macro_rules! is_case_insensitive_ident {
 
 macro_rules! is_one_of_case_insensitive_ident {
     ($parser:expr, $($tt:tt),+) => {
-        match $parser.input.cur()? {
+        match $parser.input.cur() {
             Some(swc_css_ast::Token::Ident { value, .. }) => {
                 let lowercased = &*value.to_ascii_lowercase();
 
@@ -123,7 +123,7 @@ macro_rules! is_one_of_case_insensitive_ident {
 
 macro_rules! is {
     ($parser:expr, EOF) => {{
-        let is_eof = $parser.input.cur()?.is_none();
+        let is_eof = $parser.input.cur().is_none();
 
         if is_eof {
             for error in $parser.input.take_errors() {
@@ -137,7 +137,7 @@ macro_rules! is {
     }};
 
     ($parser:expr, $tt:tt) => {{
-        match $parser.input.cur()? {
+        match $parser.input.cur() {
             Some(tok_pat!($tt)) => true,
             _ => false,
         }
