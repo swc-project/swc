@@ -919,26 +919,26 @@ where
                                 children.push(child);
                             }
                         }
-                        "current" | "past" | "future" => {
+                        js_word!("current") | js_word!("past") | js_word!("future") => {
                             let compound_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::CompoundSelectorList(
                                 compound_selector_list,
                             ));
                         }
-                        "not" | "matches" => {
+                        js_word!("not") | js_word!("matches") => {
                             let selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
                         }
-                        "is" | "where" => {
+                        js_word!("is") | js_word!("where") => {
                             let forgiving_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::ForgivingSelectorList(
                                 forgiving_selector_list,
                             ));
                         }
-                        "has" => {
+                        js_word!("has") => {
                             let forgiving_relative_selector_list = self.parse()?;
 
                             children.push(
@@ -947,8 +947,12 @@ where
                                 ),
                             );
                         }
-                        "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
-                        | "nth-col" | "nth-last-col" => {
+                        js_word!("nth-child")
+                        | js_word!("nth-last-child")
+                        | js_word!("nth-of-type")
+                        | js_word!("nth-last-of-type")
+                        | js_word!("nth-col")
+                        | js_word!("nth-last-col") => {
                             let an_plus_b = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::AnPlusB(an_plus_b));
@@ -970,7 +974,7 @@ where
                                 self.input.skip_ws()?;
                             }
                         }
-                        "host" | "host-context" => {
+                        js_word!("host") | js_word!("host-context") => {
                             self.input.skip_ws()?;
 
                             let compound_selector = self.parse()?;
