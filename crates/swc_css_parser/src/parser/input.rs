@@ -129,7 +129,8 @@ where
     pub(super) fn skip_ws(&mut self) -> PResult<()> {
         if let Some(TokenAndSpan {
             token: tok!(" "), ..
-        }) = &self.cur
+        })
+        | None = &self.cur
         {
             self.cur = None;
 
