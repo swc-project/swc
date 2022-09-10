@@ -686,3 +686,16 @@ grad
 rad
 turn
 rotate
+initial
+inherit
+unset
+revert
+cm
+mm
+px
+skew
+skewx
+skewy
+rotate3d
+rotatex
+rotatey
