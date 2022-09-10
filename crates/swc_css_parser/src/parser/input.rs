@@ -16,6 +16,8 @@ pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     fn reset(&mut self, state: &Self::State);
 
     fn take_errors(&mut self) -> Vec<Error>;
+
+    fn skip_ws(&mut self) -> BytePos;
 }
 
 #[derive(Debug)]
@@ -129,31 +131,27 @@ where
 
             self.cur = None;
 
-            if let Some(next) = self.peeked.take() {
-                self.cur = Some(next);
-            }
-
-            if self.cur.is_none() {
-                self.cur = self.input.next();
-            }
-        } else {
-            return;
-        }
-
-        loop {
-            if let Some(TokenAndSpan {
-                token: tok!(" "),
-                span,
-            }) = &self.cur
             {
-                self.last_pos = span.hi;
+                // Drop peeked
+                if let Some(next) = self.peeked.take() {
+                    self.cur = Some(next);
+                }
 
-                // We don't need to check for peeked, because we are in a loop.
+                if let Some(TokenAndSpan {
+                    token: tok!(" "),
+                    span,
+                }) = &self.cur
+                {
+                    self.last_pos = span.hi;
 
-                self.cur = self.input.next();
-            } else {
-                return;
+                    self.cur = None;
+                } else {
+                    return;
+                }
             }
+
+            self.last_pos == self.input.skip_ws();
+            self.cur = self.input.next();
         }
     }
 
