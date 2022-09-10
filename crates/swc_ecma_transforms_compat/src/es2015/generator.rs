@@ -338,7 +338,6 @@ struct Generator {
     /// Index to `blocks`
     with_block_stack: Option<Vec<Ptr<CodeBlock>>>,
 
-    temp_vars: Vec<VarDeclarator>,
     hoisted_vars: Vec<VarDeclarator>,
     hoisted_fns: Vec<FnDecl>,
 }
@@ -370,7 +369,6 @@ impl Default for Generator {
             exception_block_stack: Default::default(),
             current_exception_block: Default::default(),
             with_block_stack: Default::default(),
-            temp_vars: Default::default(),
             hoisted_vars: Default::default(),
             hoisted_fns: Default::default(),
         }
@@ -751,10 +749,11 @@ impl VisitMut for Generator {
             //  .mark resumeLabel
             //      _b.apply(_a, _c.concat([%sent%, 2]));
 
-            let (mut target, this_arg) =
-                self.create_call_binding(node.callee.take().expect_expr(), true);
+            node.callee.visit_mut_with(self);
 
-            target.visit_mut_with(self);
+            let (target, this_arg) =
+                self.create_call_binding(node.callee.take().expect_expr(), false);
+
             let callee = self.cache_expression(target);
 
             let mut args = node.args.take().into_iter().map(Some).collect::<Vec<_>>();
@@ -787,13 +786,11 @@ impl VisitMut for Generator {
             //  .mark resumeLabel
             //      new (_b.apply(_a, _c.concat([%sent%, 2])));
 
-            let (mut target, this_arg) = self.create_call_binding(
-                Box::new(node.callee.take().make_member(quote_ident!("bind"))),
-                true,
-            );
+            node.callee.visit_mut_with(self);
 
-            target.visit_mut_with(self);
-            let callee = self.cache_expression(target);
+            let (target, this_arg) = self.create_call_binding(node.callee.take(), true);
+
+            let callee = self.cache_expression(Box::new(target.make_member(quote_ident!("bind"))));
 
             let mut arg = if let Some(args) = node.args.take() {
                 let mut args = args.into_iter().map(Some).collect::<Vec<_>>();
@@ -809,16 +806,16 @@ impl VisitMut for Generator {
                 None
             };
 
-            let apply = callee.make_member(Ident::new(js_word!("apply"), node.span));
+            let apply = Expr::Ident(callee).apply(
+                node.span,
+                this_arg,
+                arg.take().map(|v| v.as_arg()).into_iter().collect(),
+            );
 
             *node = NewExpr {
                 span: node.span,
                 callee: Box::new(apply),
-                args: Some(
-                    once(this_arg.as_arg())
-                        .chain(arg.take().map(|v| v.as_arg()).into_iter())
-                        .collect(),
-                ),
+                args: None,
                 type_args: None,
             };
             return;
@@ -3392,7 +3389,7 @@ impl Generator {
     fn create_temp_variable(&mut self) -> Ident {
         let i = private_ident!("_");
 
-        self.temp_vars.push(VarDeclarator {
+        self.hoisted_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: i.clone().into(),
             init: None,
@@ -3404,16 +3401,43 @@ impl Generator {
 
     /// Returns `(target, this_arg)`
     fn create_call_binding(
-        &self,
+        &mut self,
         expr: Box<Expr>,
-        _cache_identifier: bool,
+        is_new_call: bool,
     ) -> (Box<Expr>, Box<Expr>) {
-        let callee = expr;
+        let mut callee = expr;
 
-        match &*callee {
-            Expr::SuperProp(..) => (callee, Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
+        match &mut *callee {
+            Expr::Ident(..) => (
+                callee.clone(),
+                if is_new_call {
+                    callee
+                } else {
+                    undefined(DUMMY_SP)
+                },
+            ),
 
-            _ => (callee, undefined(DUMMY_SP)),
+            Expr::Member(MemberExpr { obj, .. }) if !is_new_call => {
+                if obj.is_ident() {
+                    let this_arg = obj.clone();
+                    return (callee, this_arg);
+                }
+
+                let this_arg = self.create_temp_variable();
+                *obj = Box::new(obj.take().make_assign_to(op!("="), this_arg.clone().into()));
+
+                (callee, Box::new(Expr::Ident(this_arg)))
+            }
+
+            _ => {
+                if !is_new_call {
+                    (callee, undefined(DUMMY_SP))
+                } else {
+                    let this_arg = self.create_temp_variable();
+                    let target = callee.make_assign_to(op!("="), this_arg.clone().into());
+                    (Box::new(target), Box::new(Expr::Ident(this_arg)))
+                }
+            }
         }
     }
 }
