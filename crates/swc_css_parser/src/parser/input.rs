@@ -134,6 +134,8 @@ where
         }
 
         self.input.skip_ws();
+
+        self.bump_inner()?;
         Ok(())
     }
 
