@@ -1444,7 +1444,11 @@ where
         match bump!(self) {
             Token::Ident { value, raw } => {
                 match value.to_ascii_lowercase() {
-                    "initial" | "inherit" | "unset" | "revert" | "default" => {
+                    js_word!("initial")
+                    | js_word!("inherit")
+                    | js_word!("unset")
+                    | js_word!("revert")
+                    | js_word!("default") => {
                         return Err(Error::new(span, ErrorKind::InvalidCustomIdent(raw)));
                     }
                     _ => {}
