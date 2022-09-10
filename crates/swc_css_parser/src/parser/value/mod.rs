@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -677,7 +677,7 @@ where
                         let color = match cur!(self) {
                             Token::Function { value, .. }
                                 if matches!(
-                                    &*value.to_ascii_lowercase(),
+                                    value.to_ascii_lowercase(),
                                     "var" | "env" | "constant"
                                 ) =>
                             {
@@ -1043,7 +1043,7 @@ where
 
                             Ok(ComponentValue::DashedIdent(parser.parse()?))
                         } else {
-                            match &*value.to_ascii_lowercase() {
+                            match value.to_ascii_lowercase() {
                                 "xyz" | "xyz-d50" | "xyz-d65" => is_xyz = true,
                                 _ => {
                                     // There are predefined-rgb-params , but
@@ -1110,7 +1110,7 @@ where
                             Token::Function { value, .. }
                                 if is_math_function(value)
                                     || matches!(
-                                        &*value.to_ascii_lowercase(),
+                                        value.to_ascii_lowercase(),
                                         "var" | "env" | "constant"
                                     ) =>
                             {
@@ -1248,7 +1248,7 @@ where
 
                 self.input.skip_ws()?;
             }
-            "selector" if self.ctx.in_supports_at_rule => {
+            js_word!("selector") if self.ctx.in_supports_at_rule => {
                 self.input.skip_ws()?;
 
                 let selector = ComponentValue::ComplexSelector(self.parse()?);
@@ -1257,7 +1257,7 @@ where
 
                 self.input.skip_ws()?;
             }
-            "layer" if self.ctx.in_import_at_rule => {
+            js_word!("layer") if self.ctx.in_import_at_rule => {
                 self.input.skip_ws()?;
 
                 let layer_name = self.parse_as::<LayerName>()?;
@@ -1291,7 +1291,7 @@ where
     {
         match cur!(self) {
             Token::Function { value, .. }
-                if matches!(&*value.to_ascii_lowercase(), "var" | "env" | "constant") =>
+                if matches!(value.to_ascii_lowercase(), "var" | "env" | "constant") =>
             {
                 Ok(ComponentValue::Function(self.parse()?))
             }
@@ -1422,7 +1422,7 @@ where
 
         match bump!(self) {
             Token::Ident { value, raw } => {
-                match &*value.to_ascii_lowercase() {
+                match value.to_ascii_lowercase() {
                     "initial" | "inherit" | "unset" | "revert" | "default" => {
                         return Err(Error::new(span, ErrorKind::InvalidCustomIdent(raw)));
                     }
@@ -2237,8 +2237,8 @@ where
                 value: function_name,
                 raw: raw_function_name,
             } => {
-                if &*function_name.to_ascii_lowercase() != "url"
-                    && &*function_name.to_ascii_lowercase() != "src"
+                if function_name.to_ascii_lowercase() != "url"
+                    && function_name.to_ascii_lowercase() != "src"
                 {
                     return Err(Error::new(
                         span,
@@ -2401,7 +2401,7 @@ where
 
         // should start with `u` or `U`
         match cur!(self) {
-            Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "u" => {
+            Token::Ident { value, .. } if value.to_ascii_lowercase() == "u" => {
                 let ident = match bump!(self) {
                     Token::Ident { value, .. } => value,
                     _ => {
@@ -2950,7 +2950,7 @@ where
             tok!("dimension") => Ok(CalcValue::Dimension(self.parse()?)),
             tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
             Token::Ident { value, .. } => {
-                match &*value.to_ascii_lowercase() {
+                match value.to_ascii_lowercase() {
                     "e" | "pi" | "infinity" | "-infinity" | "nan" => {}
                     _ => {
                         let span = self.input.cur_span()?;
@@ -3039,7 +3039,7 @@ where
 
 fn is_math_function(name: &str) -> bool {
     matches!(
-        &*name.to_ascii_lowercase(),
+        name.to_ascii_lowercase(),
         "calc"
             | "sin"
             | "cos"
@@ -3066,7 +3066,7 @@ fn is_math_function(name: &str) -> bool {
 
 fn is_absolute_color_base_function(name: &str) -> bool {
     matches!(
-        &*name.to_ascii_lowercase(),
+        name.to_ascii_lowercase(),
         "rgb"
             | "rgba"
             | "hsl"
@@ -3084,7 +3084,7 @@ fn is_absolute_color_base_function(name: &str) -> bool {
 
 fn is_system_color(name: &str) -> bool {
     matches!(
-        &*name.to_ascii_lowercase(),
+        name.to_ascii_lowercase(),
         "canvas"
             | "canvastext"
             | "linktext"
@@ -3174,7 +3174,7 @@ fn is_system_color(name: &str) -> bool {
 
 fn is_named_color(name: &str) -> bool {
     matches!(
-        &*name.to_ascii_lowercase(),
+        name.to_ascii_lowercase(),
         "aliceblue"
             | "antiquewhite"
             | "aqua"
@@ -3328,7 +3328,7 @@ fn is_named_color(name: &str) -> bool {
 
 fn is_length_unit(unit: &str) -> bool {
     matches!(
-        &*unit.to_ascii_lowercase(),
+        unit.to_ascii_lowercase(),
         "em" | "rem"  |
         "ex" | "rex" |
         "cap" | "rcap" |
@@ -3348,21 +3348,21 @@ fn is_length_unit(unit: &str) -> bool {
 }
 
 fn is_angle_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "deg" | "grad" | "rad" | "turn")
+    matches!(unit.to_ascii_lowercase(), "deg" | "grad" | "rad" | "turn")
 }
 
 fn is_time_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "s" | "ms")
+    matches!(unit.to_ascii_lowercase(), "s" | "ms")
 }
 
 fn is_frequency_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "hz" | "khz")
+    matches!(unit.to_ascii_lowercase(), "hz" | "khz")
 }
 
 fn is_resolution_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "dpi" | "dpcm" | "dppx" | "x")
+    matches!(unit.to_ascii_lowercase(), "dpi" | "dpcm" | "dppx" | "x")
 }
 
 fn is_flex_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "fr")
+    matches!(unit.to_ascii_lowercase(), "fr")
 }

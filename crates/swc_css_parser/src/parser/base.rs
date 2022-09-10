@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -547,7 +548,7 @@ where
                         return Ok(ComponentValue::Url(self.parse()?));
                     }
 
-                    Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
+                    Token::Function { value, .. } => match value.to_ascii_lowercase() {
                         "url" | "src" => {
                             return Ok(ComponentValue::Url(self.parse()?));
                         }
@@ -577,7 +578,7 @@ where
                     Token::Ident { value, .. } => {
                         if value.starts_with("--") {
                             return Ok(ComponentValue::DashedIdent(self.parse()?));
-                        } else if &*value.to_ascii_lowercase() == "u"
+                        } else if value.to_ascii_lowercase() == "u"
                             && peeked_is_one_of!(self, "+", "number", "dimension")
                         {
                             return Ok(ComponentValue::UnicodeRange(self.parse()?));
@@ -853,7 +854,7 @@ where
 
         let ident: Ident = self.parse()?;
 
-        if &*ident.value.to_ascii_lowercase() != "important" {
+        if ident.value.to_ascii_lowercase() != js_word!("important") {
             return Err(Error::new(span, ErrorKind::Expected("important")));
         }
 

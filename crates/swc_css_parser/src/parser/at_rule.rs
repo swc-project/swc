@@ -430,7 +430,9 @@ where
                     parser.input.skip_ws()?;
 
                     let layer_name = match cur!(parser) {
-                        Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
+                        Token::Ident { value, .. }
+                            if value.to_ascii_lowercase() == js_word!("layer") =>
+                        {
                             let name = ImportPreludeLayerName::Ident(parser.parse()?);
 
                             parser.input.skip_ws()?;
@@ -438,7 +440,7 @@ where
                             Some(name)
                         }
                         Token::Function { value, .. }
-                            if *value.to_ascii_lowercase() == *"layer" =>
+                            if value.to_ascii_lowercase() == js_word!("layer") =>
                         {
                             let ctx = Ctx {
                                 in_import_at_rule: true,
@@ -459,7 +461,7 @@ where
 
                     let supports = match cur!(parser) {
                         Token::Function { value, .. }
-                            if *value.to_ascii_lowercase() == *"supports" =>
+                            if value.to_ascii_lowercase() == js_word!("supports") =>
                         {
                             bump!(parser);
 
@@ -759,7 +761,7 @@ where
             tok!("ident") => {
                 let custom_ident: CustomIdent = self.parse()?;
 
-                if &*custom_ident.value.to_ascii_lowercase() == "none" {
+                if custom_ident.value.to_ascii_lowercase() == js_word!("none") {
                     return Err(Error::new(
                         custom_ident.span,
                         ErrorKind::InvalidCustomIdent(custom_ident.value),
@@ -854,7 +856,9 @@ where
                 let ident: Ident = self.parse()?;
                 let normalized_ident_value = ident.value.to_ascii_lowercase();
 
-                if &*normalized_ident_value != "from" && &*normalized_ident_value != "to" {
+                if normalized_ident_value != js_word!("from")
+                    && normalized_ident_value != js_word!("to")
+                {
                     return Err(Error::new(
                         ident.span,
                         ErrorKind::Expected("'from' or 'to' idents"),
@@ -1144,8 +1148,8 @@ where
                 value: function_name,
                 ..
             } => {
-                if &*function_name.to_ascii_lowercase() == "url"
-                    || &*function_name.to_ascii_lowercase() == "src"
+                if function_name.to_ascii_lowercase() == js_word!("url")
+                    || function_name.to_ascii_lowercase() == js_word!("src")
                 {
                     Ok(DocumentPreludeMatchingFunction::Url(self.parse()?))
                 } else {
@@ -1842,8 +1846,8 @@ where
         let value = match cur!(self) {
             Token::Ident { value, .. }
                 if matches!(
-                    &*value.to_ascii_lowercase(),
-                    "left" | "right" | "first" | "blank"
+                    value.to_ascii_lowercase(),
+                    js_word!("left") | js_word!("right") | js_word!("first") | js_word!("blank")
                 ) =>
             {
                 self.parse()?

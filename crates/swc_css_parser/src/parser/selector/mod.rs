@@ -855,7 +855,7 @@ where
                 || -> PResult<Vec<PseudoClassSelectorChildren>> {
                     let mut children = vec![];
 
-                    match &*names.0.to_ascii_lowercase() {
+                    match names.0.to_ascii_lowercase() {
                         "-moz-any" | "-webkit-any" => {
                             let compound_selector_list = self.parse()?;
 
@@ -1059,7 +1059,7 @@ where
                 || -> PResult<Vec<PseudoElementSelectorChildren>> {
                     let mut children = vec![];
 
-                    match &*names.0.to_ascii_lowercase() {
+                    match names.0.to_ascii_lowercase() {
                         "cue" | "cue-region" => {
                             self.input.skip_ws()?;
 
@@ -1156,8 +1156,8 @@ where
         match cur!(self) {
             //  odd | even
             Token::Ident { value, .. }
-            if &(*value).to_ascii_lowercase() == "odd"
-                || &(*value).to_ascii_lowercase() == "even" =>
+            if value.to_ascii_lowercase() == "odd"
+                || value.to_ascii_lowercase() == "even" =>
                 {
                     Ok(AnPlusB::Ident(self.parse()?))
                 }
