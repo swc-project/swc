@@ -131,7 +131,7 @@ impl VisitMut for CompressSelector {
                 });
             }
             // `even` => `2n`
-            AnPlusB::Ident(Ident { value, span, .. }) if &*value.to_lowercase() == "even" => {
+            AnPlusB::Ident(Ident { value, span, .. }) if value.to_ascii_lowercase() == "even" => {
                 *an_plus_b = AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: Some(2),
@@ -181,7 +181,7 @@ impl VisitMut for CompressSelector {
 
         match &subclass_selector {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. }) => {
-                match &*name.value.to_lowercase() {
+                match name.value.to_ascii_lowercase() {
                     "before" | "after" | "first-letter" | "first-line" => {
                         *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
                             span: *span,
@@ -197,7 +197,7 @@ impl VisitMut for CompressSelector {
                 children: Some(children),
                 span,
                 ..
-            }) if &*name.value.to_lowercase() == "nth-child" && children.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == "nth-child" && children.len() == 1 => {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -224,7 +224,7 @@ impl VisitMut for CompressSelector {
                 children: Some(children),
                 span,
                 ..
-            }) if &*name.value.to_lowercase() == "nth-last-child" && children.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == "nth-last-child" && children.len() == 1 => {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -251,7 +251,7 @@ impl VisitMut for CompressSelector {
                 children: Some(children),
                 span,
                 ..
-            }) if &*name.value.to_lowercase() == "nth-of-type" && children.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == "nth-of-type" && children.len() == 1 => {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -278,7 +278,7 @@ impl VisitMut for CompressSelector {
                 children: Some(children),
                 span,
                 ..
-            }) if &*name.value.to_lowercase() == "nth-last-of-type" && children.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == "nth-last-of-type" && children.len() == 1 => {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -308,7 +308,7 @@ impl VisitMut for CompressSelector {
         match &pseudo_class_selector.name {
             Ident { value, .. }
                 if matches!(
-                    &*value.to_lowercase(),
+                    value.to_ascii_lowercase(),
                     "not" | "is" | "where" | "matches" | "-moz-any" | "-webkit-any"
                 ) =>
             {

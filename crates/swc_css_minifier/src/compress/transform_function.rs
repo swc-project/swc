@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -18,7 +19,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "translate" && function_value.len() == 3 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("translate")
+                && function_value.len() == 3 =>
+            {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
@@ -50,7 +53,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "translate3d" && function_value.len() == 5 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("translate3d")
+                && function_value.len() == 5 =>
+            {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -81,7 +86,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "scale" && function_value.len() == 3 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("scale")
+                && function_value.len() == 3 =>
+            {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(
