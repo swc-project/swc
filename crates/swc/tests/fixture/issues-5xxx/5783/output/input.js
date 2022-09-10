@@ -1,6 +1,5 @@
 function x1(y) {
-    return a && // leading of &&
-    c;
+    return a && c;
 }
 ;
 function x2(y) {
@@ -19,7 +18,7 @@ function x4(y) {
 }
 ;
 function x5(y) {
-    return a && /* leading of && */ c;
+    return a && c;
 }
 ;
 function x2(y) {
