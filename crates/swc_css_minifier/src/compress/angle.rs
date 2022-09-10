@@ -1,5 +1,6 @@
 use core::f64::consts::PI;
 
+use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -130,12 +131,12 @@ pub(crate) fn to_deg(value: f64, from: AngleType) -> f64 {
     }
 }
 
-pub(crate) fn get_angle_type(unit: &str) -> Option<AngleType> {
+pub(crate) fn get_angle_type(unit: &JsWord) -> Option<AngleType> {
     match unit {
-        "deg" => Some(AngleType::Deg),
-        "grad" => Some(AngleType::Grad),
-        "rad" => Some(AngleType::Rad),
-        "turn" => Some(AngleType::Turn),
+        js_word!("deg") => Some(AngleType::Deg),
+        js_word!("grad") => Some(AngleType::Grad),
+        js_word!("rad") => Some(AngleType::Rad),
+        js_word!("turn") => Some(AngleType::Turn),
         _ => None,
     }
 }

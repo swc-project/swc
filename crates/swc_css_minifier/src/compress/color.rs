@@ -282,7 +282,7 @@ impl CompressColor {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(Ident { value, .. }))
-                if &*value.to_lowercase() == "none" =>
+                if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
             }

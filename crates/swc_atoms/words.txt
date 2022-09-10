@@ -675,3 +675,7 @@ void
 while
 with
 yield
+opacity
+fill-opacity
+stroke-opacity
+shape-image-threshold
