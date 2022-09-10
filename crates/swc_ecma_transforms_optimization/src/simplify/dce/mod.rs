@@ -233,13 +233,13 @@ enum ScopeKind {
 }
 
 impl Analyzer<'_> {
-    fn with_ast_path<F>(&mut self, ids: Vec<Id>, op: F)
+    fn with_ast_path<F>(&mut self, id: Id, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
     {
         let prev_len = self.scope.ast_path.len();
 
-        self.scope.ast_path.extend(ids);
+        self.scope.ast_path.push(id);
 
         op(self);
 
@@ -360,7 +360,7 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        self.with_ast_path(n.ident.to_id(), |v| {
             let old = v.cur_class_id.take();
             v.cur_class_id = Some(n.ident.to_id());
             n.visit_children_with(v);
@@ -464,7 +464,7 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.with_ast_path(vec![n.ident.to_id()], |v| {
+        self.with_ast_path(n.ident.to_id(), |v| {
             let old = v.cur_fn_id.take();
             v.cur_fn_id = Some(n.ident.to_id());
             n.visit_children_with(v);
