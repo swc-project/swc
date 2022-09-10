@@ -282,7 +282,7 @@ where
 
                     Ok(None)
                 }
-                "property" => {
+                js_word!("property") => {
                     parser.input.skip_ws()?;
 
                     let prelude = AtRulePrelude::PropertyPrelude(parser.parse()?);
@@ -297,7 +297,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "namespace" => {
+                js_word!("namespace") => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -342,7 +342,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "color-profile" => {
+                js_word!("color-profile") => {
                     parser.input.skip_ws()?;
 
                     let name = match cur!(parser) {
@@ -372,7 +372,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "nest" => {
+                js_word!("nest") => {
                     parser.input.skip_ws()?;
 
                     let prelude = AtRulePrelude::NestPrelude(parser.parse()?);
@@ -387,7 +387,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "media" => {
+                js_word!("media") => {
                     parser.input.skip_ws()?;
 
                     let media = if !is!(parser, "{") {
@@ -402,7 +402,7 @@ where
 
                     Ok(media)
                 }
-                "supports" => {
+                js_word!("supports") => {
                     parser.input.skip_ws()?;
 
                     let prelude = AtRulePrelude::SupportsPrelude(parser.parse()?);
@@ -411,7 +411,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "import" => {
+                js_word!("import") => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -505,8 +505,11 @@ where
 
                     Ok(Some(prelude))
                 }
-                "keyframes" | "-webkit-keyframes" | "-moz-keyframes" | "-o-keyframes"
-                | "-ms-keyframes" => {
+                js_word!("keyframes")
+                | js_word!("-webkit-keyframes")
+                | js_word!("-moz-keyframes")
+                | js_word!("-o-keyframes")
+                | js_word!("-ms-keyframes") => {
                     parser.input.skip_ws()?;
 
                     let prelude = AtRulePrelude::KeyframesPrelude(parser.parse()?);
