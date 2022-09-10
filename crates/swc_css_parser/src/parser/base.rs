@@ -549,11 +549,22 @@ where
                     }
 
                     Token::Function { value, .. } => match value.to_ascii_lowercase() {
-                        "url" | "src" => {
+                        js_word!("url") | js_word!("src") => {
                             return Ok(ComponentValue::Url(self.parse()?));
                         }
-                        "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab"
-                        | "oklch" | "color" | "device-cmyk" | "color-mix" | "color-contrast" => {
+                        js_word!("rgb")
+                        | js_word!("rgba")
+                        | js_word!("hsl")
+                        | js_word!("hsla")
+                        | js_word!("hwb")
+                        | js_word!("lab")
+                        | js_word!("lch")
+                        | js_word!("oklab")
+                        | js_word!("oklch")
+                        | js_word!("color")
+                        | js_word!("device-cmyk")
+                        | js_word!("color-mix")
+                        | js_word!("color-contrast") => {
                             return Ok(ComponentValue::Color(self.parse()?));
                         }
                         _ => {
