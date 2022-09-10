@@ -776,7 +776,7 @@ where
 
                         values.push(percentage_or_none);
                     }
-                    "device-cmyk" => {
+                    js_word!("device-cmyk") => {
                         let cmyk_component = self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::CmykComponent(parser.parse()?))
                         })?;
@@ -791,7 +791,7 @@ where
                 self.input.skip_ws()?;
 
                 match function_name {
-                    "hwb" => {
+                    js_word!("hwb") => {
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -823,7 +823,7 @@ where
 
                         values.push(percentage_or_none);
                     }
-                    "lab" | "lch" | "oklab" | "oklch" => {
+                    js_word!("lab") | js_word!("lch") | js_word!("oklab") | "oklch" => {
                         let number_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") => Ok(ComponentValue::Number(parser.parse()?)),
@@ -868,7 +868,7 @@ where
                 self.input.skip_ws()?;
 
                 match function_name {
-                    "hwb" => {
+                    js_word!("hwb") => {
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -900,7 +900,7 @@ where
 
                         values.push(percentage_or_none);
                     }
-                    "lab" | "oklab" => {
+                    js_word!("lab") | js_word!("oklab") => {
                         let number_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") => Ok(ComponentValue::Number(parser.parse()?)),
@@ -930,7 +930,7 @@ where
 
                         values.push(number_or_none);
                     }
-                    "lch" | "oklch" => {
+                    js_word!("lch") | js_word!("oklch") => {
                         let hue_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") | tok!("dimension") => {
@@ -964,7 +964,7 @@ where
 
                         values.push(hue_or_none);
                     }
-                    "device-cmyk" => {
+                    js_word!("device-cmyk") => {
                         let cmyk_component = self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::CmykComponent(parser.parse()?))
                         })?;
@@ -978,7 +978,7 @@ where
 
                 self.input.skip_ws()?;
 
-                if function_name == "device-cmyk" {
+                if function_name == js_word!("device-cmyk") {
                     let cmyk_component = self.try_parse_variable_function(|parser| {
                         Ok(ComponentValue::CmykComponent(parser.parse()?))
                     })?;
@@ -1001,7 +1001,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(ComponentValue::Function(parser.parse()?))
                             }
-                            tok!("ident") if !matches!(function_name, "device-cmyk") => {
+                            tok!("ident") if !matches!(function_name, js_word!("device-cmyk")) => {
                                 let ident: Ident = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
@@ -1027,7 +1027,7 @@ where
                     self.input.skip_ws()?;
                 }
             }
-            "color" => {
+            js_word!("color") => {
                 self.input.skip_ws()?;
 
                 match cur!(self) {
@@ -1060,7 +1060,9 @@ where
                             Ok(ComponentValue::DashedIdent(parser.parse()?))
                         } else {
                             match value.to_ascii_lowercase() {
-                                "xyz" | "xyz-d50" | "xyz-d65" => is_xyz = true,
+                                js_word!("xyz") | js_word!("xyz-d50") | js_word!("xyz-d65") => {
+                                    is_xyz = true
+                                }
                                 _ => {
                                     // There are predefined-rgb-params , but
                                     // For unknown, we don't return an error to
