@@ -1,14 +1,44 @@
 //// [jsxParsingError3.tsx]
 //// [file.tsx]
 //// [Error1.tsx]
-var x1 = /*#__PURE__*/ React.createElement("div", null, "}");
+//! 
+//!   x Unexpected token `div`. Expected jsx identifier
+//!    ,----
+//!  1 | let x1 = <div>}</div>;
+//!    :           ^^^
+//!    `----
 //// [Error2.tsx]
-var x2 = /*#__PURE__*/ React.createElement("div", null, ">");
+//! 
+//!   x Unexpected token `div`. Expected jsx identifier
+//!    ,----
+//!  1 | let x2 = <div>></div>;
+//!    :           ^^^
+//!    `----
 //// [Error3.tsx]
-var x3 = /*#__PURE__*/ React.createElement("div", null, "foo", "}");
+//! 
+//!   x Unexpected token `div`. Expected jsx identifier
+//!    ,----
+//!  1 | let x3 = <div>{"foo"}}</div>;
+//!    :           ^^^
+//!    `----
 //// [Error4.tsx]
-var x4 = /*#__PURE__*/ React.createElement("div", null, "foo", ">");
+//! 
+//!   x Unexpected token `div`. Expected jsx identifier
+//!    ,----
+//!  1 | let x4 = <div>{"foo"}></div>;
+//!    :           ^^^
+//!    `----
 //// [Error5.tsx]
-var x5 = /*#__PURE__*/ React.createElement("div", null, "}", "foo");
+//! 
+//!   x Unexpected token `div`. Expected jsx identifier
+//!    ,----
+//!  1 | let x5 = <div>}{"foo"}</div>;
+//!    :           ^^^
+//!    `----
 //// [Error6.tsx]
-var x6 = /*#__PURE__*/ React.createElement("div", null, ">", "foo");
+//! 
+//!   x Unexpected token `div`. Expected jsx identifier
+//!    ,----
+//!  1 | let x6 = <div>>{"foo"}</div>;
+//!    :           ^^^
+//!    `----
