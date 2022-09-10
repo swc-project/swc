@@ -3355,8 +3355,8 @@ fn is_length_unit(unit: &JsWord) -> bool {
         "vh" | "svh" | "lvh" | "dvh" |
         "vi" | "svi" | "lvi" | "dvi" |
         "vb" | "svb" | "lvb" | "dvb" |
-        "vmin" | "svmin" | "lvmin" | "dvmin" |
-        "vmax" | "svmax" | "lvmax" | "dvmax" |
+        js_word!("vmin") | js_word!("svmin") | js_word!("lvmin") | js_word!("dvmin") |
+        js_word!("vmax") | js_word!("svmax") | js_word!("lvmax") | js_word!("dvmax") |
         // Absolute lengths
         js_word!("cm") |js_word!( "mm") | js_word!("q" )|js_word!( "in") |js_word!( "pc") |js_word!( "pt") |js_word!( "px") | js_word!("mozmm")
     )
