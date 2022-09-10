@@ -2,6 +2,7 @@
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
+use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -142,8 +143,8 @@ pub struct NamedColor {
     pub rgb: Vec<u8>,
 }
 
-pub static NAMED_COLORS: Lazy<AHashMap<String, NamedColor>> = Lazy::new(|| {
-    let named_colors: AHashMap<String, NamedColor> =
+pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
+    let named_colors: AHashMap<JsWord, NamedColor> =
         serde_json::from_str(include_str!("./named-colors.json"))
             .expect("failed to parse named-colors.json for html entities");
 
