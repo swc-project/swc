@@ -3343,7 +3343,7 @@ fn is_length_unit(unit: &JsWord) -> bool {
         "vmin" | "svmin" | "lvmin" | "dvmin" |
         "vmax" | "svmax" | "lvmax" | "dvmax" |
         // Absolute lengths
-        "cm" | "mm" | "q" | "in" | "pc" | "pt" | "px" | "mozmm"
+        js_word!("cm") |js_word!( "mm") | js_word!("q" )|js_word!( "in") |js_word!( "pc") |js_word!( "pt") |js_word!( "px") | js_word!("mozmm")
     )
 }
 

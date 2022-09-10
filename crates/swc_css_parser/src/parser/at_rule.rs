@@ -567,33 +567,34 @@ where
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
-                "font-feature-values" => Ctx {
+                js_word!("font-feature-values") => Ctx {
                     in_font_feature_values_at_rule: true,
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
-                "page" => Ctx {
+                js_word!("page") => Ctx {
                     in_page_at_rule: true,
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
-                "layer" => Ctx {
+                js_word!("layer") => Ctx {
                     block_contents_grammar: BlockContentsGrammar::Stylesheet,
                     ..parser.ctx
                 },
-                "media" | "supports" | "document" | "-moz-document" => {
-                    match parser.ctx.block_contents_grammar {
-                        BlockContentsGrammar::StyleBlock => Ctx {
-                            block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                            ..parser.ctx
-                        },
-                        _ => Ctx {
-                            block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                            ..parser.ctx
-                        },
-                    }
-                }
-                "nest" => Ctx {
+                js_word!("media")
+                | js_word!("supports")
+                | js_word!("document")
+                | js_word!("-moz-document") => match parser.ctx.block_contents_grammar {
+                    BlockContentsGrammar::StyleBlock => Ctx {
+                        block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                        ..parser.ctx
+                    },
+                    _ => Ctx {
+                        block_contents_grammar: BlockContentsGrammar::Stylesheet,
+                        ..parser.ctx
+                    },
+                },
+                js_word!("nest") => Ctx {
                     block_contents_grammar: BlockContentsGrammar::StyleBlock,
                     ..parser.ctx
                 },
@@ -603,8 +604,11 @@ where
                 },
             };
             let block = match lowercased_name {
-                "keyframes" | "-moz-keyframes" | "-o-keyframes" | "-webkit-keyframes"
-                | "-ms-keyframes" => {
+                js_word!("keyframes")
+                | js_word!("-moz-keyframes")
+                | js_word!("-o-keyframes")
+                | js_word!("-webkit-keyframes")
+                | js_word!("-ms-keyframes") => {
                     let span_block = parser.input.cur_span()?;
                     let mut block = SimpleBlock {
                         span: Default::default(),
