@@ -3344,17 +3344,17 @@ fn is_named_color(name: &JsWord) -> bool {
 fn is_length_unit(unit: &JsWord) -> bool {
     matches!(
         unit.to_ascii_lowercase(),
-        "em" | "rem"  |
-        "ex" | "rex" |
-        "cap" | "rcap" |
-        "ch" | "rch" |
-        "ic" | "ric" |
-        "lh" | "rlh" |
+        js_word!("em") | js_word!("rem")  |
+        js_word!("ex") | js_word!("rex") |
+        js_word!("cap") | js_word!("rcap") |
+        js_word!("ch") | js_word!("rch") |
+        js_word!("ic") | js_word!("ric") |
+        js_word!("lh") | js_word!("rlh") |
         //  Viewport-percentage Lengths
-        "vw" | "svw" | "lvw" | "dvw" |
-        "vh" | "svh" | "lvh" | "dvh" |
-        "vi" | "svi" | "lvi" | "dvi" |
-        "vb" | "svb" | "lvb" | "dvb" |
+        js_word!("vw") | js_word!("svw") | js_word!("lvw") | js_word!("dvw") |
+        js_word!("vh") | js_word!("svh") | js_word!("lvh") | js_word!("dvh") |
+        js_word!("vi") | js_word!("svi") | js_word!("lvi") | js_word!("dvi") |
+        js_word!("vb") | js_word!("svb") | js_word!("lvb") | js_word!("dvb") |
         js_word!("vmin") | js_word!("svmin") | js_word!("lvmin") | js_word!("dvmin") |
         js_word!("vmax") | js_word!("svmax") | js_word!("lvmax") | js_word!("dvmax") |
         // Absolute lengths
