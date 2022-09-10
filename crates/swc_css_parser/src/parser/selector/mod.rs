@@ -72,7 +72,7 @@ where
                         let mut children = vec![];
 
                         while !is_one_of!(parser, EOF, ",", ")") {
-                            if let Some(token_and_span) = parser.input.bump()? {
+                            if let Some(token_and_span) = parser.input.bump() {
                                 children.push(ComponentValue::PreservedToken(token_and_span));
                             }
                         }
@@ -230,7 +230,7 @@ where
                         let mut children = vec![];
 
                         while !is_one_of!(parser, EOF, ",", ")") {
-                            if let Some(token_and_span) = parser.input.bump()? {
+                            if let Some(token_and_span) = parser.input.bump() {
                                 children.push(ComponentValue::PreservedToken(token_and_span));
                             }
                         }
@@ -1199,7 +1199,7 @@ where
 
                 // '+' n
                 if let  Token::Delim { value: '+' } = cur!(self){
-                    let peeked = self.input.peek()?;
+                    let peeked = self.input.peek();
 
                     if let Some(Token::Ident { .. }) = peeked {
                         bump!(self);

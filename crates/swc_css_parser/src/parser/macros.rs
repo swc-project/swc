@@ -87,7 +87,7 @@ macro_rules! cur {
 
 macro_rules! bump {
     ($parser:expr) => {
-        $parser.input.bump()?.unwrap().token
+        $parser.input.bump().unwrap().token
     };
 }
 
@@ -154,7 +154,7 @@ macro_rules! is_one_of {
 
 macro_rules! peeked_is {
     ($parser:expr, $tt:tt) => {{
-        match $parser.input.peek()? {
+        match $parser.input.peek() {
             Some(tok_pat!($tt)) => true,
             _ => false,
         }

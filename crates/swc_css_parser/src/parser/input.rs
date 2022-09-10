@@ -69,18 +69,18 @@ where
         self.cur.as_ref().map(|v| &v.token)
     }
 
-    pub(super) fn peek(&mut self) -> PResult<Option<&Token>> {
+    pub(super) fn peek(&mut self) -> Option<&Token> {
         self.cur();
 
         if self.peeked.is_none() {
             self.peeked = self.input.next();
         }
 
-        Ok(self.peeked.as_ref().map(|v| &v.token))
+        self.peeked.as_ref().map(|v| &v.token)
     }
 
     #[track_caller]
-    pub fn bump(&mut self) -> PResult<Option<TokenAndSpan>> {
+    pub fn bump(&mut self) -> Option<TokenAndSpan> {
         debug_assert!(
             self.cur.is_some(),
             "bump() is called without checking current token"
@@ -94,7 +94,7 @@ where
 
         self.bump_inner();
 
-        Ok(token)
+        token
     }
 
     fn bump_inner(&mut self) {

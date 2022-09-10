@@ -643,7 +643,7 @@ where
                 // <semicolon-token>
                 // Return the at-rule.
                 tok!(";") => {
-                    self.input.bump()?;
+                    self.input.bump();
 
                     at_rule.span = span!(self, at_rule_span.lo);
 

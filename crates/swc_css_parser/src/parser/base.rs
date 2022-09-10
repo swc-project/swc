@@ -84,12 +84,12 @@ where
                             let mut tokens = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                let token = self.input.bump()?;
+                                let token = self.input.bump();
 
                                 tokens.extend(token);
 
                                 if is!(self, ";") {
-                                    let token = self.input.bump()?;
+                                    let token = self.input.bump();
 
                                     tokens.extend(token);
 
@@ -171,7 +171,7 @@ where
                                     return Err(Error::new(span, ErrorKind::UnexpectedChar(';')));
                                 }
 
-                                if let Some(token_and_span) = self.input.bump()? {
+                                if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
                             }
@@ -240,12 +240,12 @@ where
                             let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                if let Some(token_and_span) = self.input.bump()? {
+                                if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
 
                                 if is!(self, ";") {
-                                    if let Some(token_and_span) = self.input.bump()? {
+                                    if let Some(token_and_span) = self.input.bump() {
                                         children
                                             .push(ComponentValue::PreservedToken(token_and_span));
                                     }
@@ -279,12 +279,12 @@ where
                             let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                if let Some(token_and_span) = self.input.bump()? {
+                                if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
 
                                 if is!(self, ";") {
-                                    if let Some(token_and_span) = self.input.bump()? {
+                                    if let Some(token_and_span) = self.input.bump() {
                                         children
                                             .push(ComponentValue::PreservedToken(token_and_span));
                                     }
@@ -326,12 +326,12 @@ where
 
                     // TODO fix me
                     while !is_one_of!(self, EOF, "}") {
-                        if let Some(token_and_span) = self.input.bump()? {
+                        if let Some(token_and_span) = self.input.bump() {
                             children.push(ComponentValue::PreservedToken(token_and_span));
                         }
 
                         if is!(self, ";") {
-                            if let Some(token_and_span) = self.input.bump()? {
+                            if let Some(token_and_span) = self.input.bump() {
                                 children.push(ComponentValue::PreservedToken(token_and_span));
                             }
 
@@ -517,7 +517,7 @@ where
                     tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
                     // Otherwise, return the current input token.
                     _ => {
-                        let token = self.input.bump()?;
+                        let token = self.input.bump();
 
                         match token {
                             Some(t) => Ok(ComponentValue::PreservedToken(t)),
@@ -659,12 +659,12 @@ where
                             let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                if let Some(token_and_span) = self.input.bump()? {
+                                if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
 
                                 if is!(self, ";") {
-                                    if let Some(token_and_span) = self.input.bump()? {
+                                    if let Some(token_and_span) = self.input.bump() {
                                         children
                                             .push(ComponentValue::PreservedToken(token_and_span));
                                     }
@@ -702,12 +702,12 @@ where
                     let mut children = vec![];
 
                     while !is_one_of!(self, EOF, "}") {
-                        if let Some(token_and_span) = self.input.bump()? {
+                        if let Some(token_and_span) = self.input.bump() {
                             children.push(ComponentValue::PreservedToken(token_and_span));
                         }
 
                         if is!(self, ";") {
-                            if let Some(token_and_span) = self.input.bump()? {
+                            if let Some(token_and_span) = self.input.bump() {
                                 children.push(ComponentValue::PreservedToken(token_and_span));
                             }
 

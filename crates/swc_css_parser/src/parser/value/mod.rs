@@ -79,7 +79,7 @@ where
                 _ => {}
             }
 
-            let token = self.input.bump()?;
+            let token = self.input.bump();
 
             match token {
                 Some(token) => value.push(ComponentValue::PreservedToken(token)),
@@ -141,7 +141,7 @@ where
                 _ => {}
             }
 
-            let token = self.input.bump()?;
+            let token = self.input.bump();
 
             match token {
                 Some(token) => tokens.push(token),
