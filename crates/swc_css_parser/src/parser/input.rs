@@ -207,15 +207,13 @@ impl<'a> ParserInput for TokensInput<'a> {
     }
 
     fn skip_ws(&mut self) {
-        loop {
-            match self.cur.as_ref().map(|v| &v.token) {
-                Some(tok!(" ")) => {
-                    self.bump_inner()?;
-                }
-
-                Some(..) | None => return Ok(()),
+        self.take_while(|cur| {
+            if let tok!(" ") = &cur.token {
+                true
+            } else {
+                false
             }
-        }
+        });
     }
 }
 
