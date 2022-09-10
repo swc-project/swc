@@ -157,6 +157,32 @@ where
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)
     }
+
+    fn skip_ws(&mut self) -> Option<BytePos> {
+        let start = self.input.cur_pos();
+
+        if let Some(c) = self.next() {
+            if !is_whitespace(c) {
+                self.input.reset_to(start);
+                return None;
+            }
+        }
+
+        loop {
+            let c = self.next();
+
+            match c {
+                Some(c) if is_whitespace(c) => {
+                    self.consume();
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        Some(self.cur_pos)
+    }
 }
 
 impl<I> Lexer<I>
