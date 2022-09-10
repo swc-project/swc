@@ -111,7 +111,7 @@ struct Data {
 
 impl Data {
     fn node(&mut self, id: &Id) -> usize {
-        self.graph_ix.get_full(id).map(|v| v.0).unwrap_or_else(|| {
+        self.graph_ix.get_index_of(id).unwrap_or_else(|| {
             let ix = self.graph_ix.len();
             self.graph_ix.insert_full(id.clone());
             ix
