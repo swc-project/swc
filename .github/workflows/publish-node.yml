@@ -53,7 +53,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: >-
               set -e &&
-              RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
+              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
               rm -rf bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
               cp bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               yarn build --target x86_64-unknown-linux-gnu &&
@@ -65,10 +65,10 @@ jobs:
             build: >-
               set -e &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
-              RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
+              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
               rm -rf target/release/.cargo-lock &&
               cp bindings/target/release/swc . && chmod +x ./swc &&
-              RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build &&
+              RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static -Z' yarn build &&
               llvm-strip -x swc.linux-x64-musl.node
           - host: macos-latest
             target: aarch64-apple-darwin
@@ -89,7 +89,7 @@ jobs:
             build: >-
               set -e &&
               rustup target add aarch64-unknown-linux-gnu &&
-              RUSTFLAGS='-Z new-llvm-pass-manager=no' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
+              RUSTFLAGS='' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
               cp ./bindings/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
               yarn build --target aarch64-unknown-linux-gnu &&
@@ -149,10 +149,10 @@ jobs:
             build: >-
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
               rm -rf target/release/.cargo-lock &&
               cp bindings/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
-              env RUSTFLAGS='-C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build --target=aarch64-unknown-linux-musl &&
+              env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl &&
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node
           - host: windows-latest
             target: aarch64-pc-windows-msvc
