@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -15,8 +16,13 @@ impl VisitMut for CompressKeyframes {
         match &at_rule.prelude {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
                 if !matches!(
-                    &*string.value.to_lowercase(),
-                    "initial" | "inherit" | "unset" | "revert" | "default" | "none"
+                    string.value.to_ascii_lowercase(),
+                    js_word!("initial")
+                        | js_word!("inherit")
+                        | js_word!("unset")
+                        | js_word!("revert")
+                        | js_word!("default")
+                        | js_word!("none")
                 ) =>
             {
                 at_rule.prelude = Some(AtRulePrelude::KeyframesPrelude(
@@ -35,7 +41,7 @@ impl VisitMut for CompressKeyframes {
         keyframe_selector.visit_mut_children_with(self);
 
         match keyframe_selector {
-            KeyframeSelector::Ident(i) if &*i.value.to_lowercase() == "from" => {
+            KeyframeSelector::Ident(i) if i.value.to_ascii_lowercase() == js_word!("from") => {
                 *keyframe_selector = KeyframeSelector::Percentage(Percentage {
                     span: i.span,
                     value: Number {

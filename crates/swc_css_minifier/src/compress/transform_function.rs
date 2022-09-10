@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -18,7 +19,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "translate" && function_value.len() == 3 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("translate")
+                && function_value.len() == 3 =>
+            {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
@@ -50,7 +53,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "translate3d" && function_value.len() == 5 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("translate3d")
+                && function_value.len() == 5 =>
+            {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -81,7 +86,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "scale" && function_value.len() == 3 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("scale")
+                && function_value.len() == 3 =>
+            {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(
@@ -132,7 +139,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "scale3d" && function_value.len() == 5 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("scale3d")
+                && function_value.len() == 5 =>
+            {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -199,7 +208,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "matrix3d" && function_value.len() == 31 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("matrix3d")
+                && function_value.len() == 31 =>
+            {
                 match (
                     function_value.get(0),
                     function_value.get(1),
@@ -312,7 +323,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "rotate3d" && function_value.len() == 7 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("rotate3d")
+                && function_value.len() == 7 =>
+            {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -392,7 +405,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "rotatez" && function_value.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("rotatez")
+                && function_value.len() == 1 =>
+            {
                 *name = Ident {
                     span: name.span,
                     value: "rotate".into(),
@@ -404,7 +419,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if &*name.value.to_lowercase() == "skew" && function_value.len() == 3 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("skew")
+                && function_value.len() == 3 =>
+            {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),

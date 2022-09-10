@@ -47,7 +47,7 @@
    :            ^^^^^^^
    `----
 
-  x Ident { value: Atom('inherit' type=inline), raw: Atom('inherit' type=inline) }
+  x Ident { value: Atom('inherit' type=static), raw: Atom('inherit' type=static) }
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:1]
  1 | @keyframes inherit {}
    :            ^^^^^^^

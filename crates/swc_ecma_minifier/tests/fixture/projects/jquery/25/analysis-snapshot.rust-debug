@@ -978,7 +978,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('table' type=inline),
+                Atom('table' type=static),
                 #2,
             ),
             VarUsageInfo {

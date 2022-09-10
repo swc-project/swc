@@ -50,7 +50,7 @@
    :   ^^^^^^^^^^
    `----
 
-  x Function { value: Atom('nth-child' type=dynamic), raw: Atom('nth-child' type=dynamic) }
+  x Function { value: Atom('nth-child' type=static), raw: Atom('nth-child' type=static) }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
  1 | : nth-child(2) {
    :   ^^^^^^^^^^

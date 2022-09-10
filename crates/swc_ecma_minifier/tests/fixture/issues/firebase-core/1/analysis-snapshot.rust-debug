@@ -60178,7 +60178,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('pc' type=inline),
+                Atom('pc' type=static),
                 #127,
             ),
             VarUsageInfo {
@@ -61002,7 +61002,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('q' type=inline),
+                Atom('q' type=static),
                 #127,
             ),
             VarUsageInfo {
@@ -62960,7 +62960,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('s' type=inline),
+                Atom('s' type=static),
                 #436,
             ),
             VarUsageInfo {

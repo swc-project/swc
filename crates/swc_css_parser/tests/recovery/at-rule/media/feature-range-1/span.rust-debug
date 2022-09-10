@@ -119,7 +119,7 @@
    :                   ^^^^^
    `----
 
-  x Dimension { value: 600.0, raw_value: Atom('600' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+  x Dimension { value: 600.0, raw_value: Atom('600' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
  1 | @media (height << 600px) {}
    :                   ^^^^^

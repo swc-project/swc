@@ -473,7 +473,7 @@
    :         ^^^^
    `----
 
-  x Dimension { value: 75.0, raw_value: Atom('75' type=inline), unit: Atom('ms' type=inline), raw_unit: Atom('ms' type=inline), type_flag: Integer }
+  x Dimension { value: 75.0, raw_value: Atom('75' type=inline), unit: Atom('ms' type=static), raw_unit: Atom('ms' type=static), type_flag: Integer }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:5]
  9 | --time: 75ms;
    :         ^^^^

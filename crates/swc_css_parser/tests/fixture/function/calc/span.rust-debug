@@ -578,7 +578,7 @@
    :                     ^^^^
    `----
 
-  x Dimension { value: 30.0, raw_value: Atom('30' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+  x Dimension { value: 30.0, raw_value: Atom('30' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
    :                     ^^^^

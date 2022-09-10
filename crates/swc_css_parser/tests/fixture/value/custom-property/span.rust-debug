@@ -3479,7 +3479,7 @@
     :        ^^^^
     `----
 
-  x Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+  x Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:9]
  53 | width: 16px;
     :        ^^^^
@@ -3552,7 +3552,7 @@
     :         ^^^^
     `----
 
-  x Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+  x Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:54:9]
  54 | height: 16px;
     :         ^^^^
