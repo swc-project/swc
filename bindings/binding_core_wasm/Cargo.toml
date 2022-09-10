@@ -1,33 +1,33 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "wasm module for swc"
-edition = "2021"
-license = "Apache-2.0"
-name = "binding_core_wasm"
-publish = false
-repository = "https://github.com/swc-project/swc.git"
-version = "1.2.249"
+edition     = "2021"
+license     = "Apache-2.0"
+name        = "binding_core_wasm"
+publish     = false
+repository  = "https://github.com/swc-project/swc.git"
+version     = "1.3.0"
 
 [lib]
-bench = false
+bench      = false
 crate-type = ["cdylib"]
 
 [features]
 default = ["swc_v1"]
-swc_v1 = []
-swc_v2 = []
+swc_v1  = []
+swc_v2  = []
 # This feature exists to allow cargo operations
 plugin = ["swc_core/plugin_transform_host_js"]
 
 [dependencies]
-swc_core = {version = "0.20.18", features = [
+swc_core = { version = "0.22.9", features = [
   "common_perf",
   "binding_macro_wasm",
-]}
-wasm-bindgen = {version = "0.2.82", features = [
+] }
+wasm-bindgen = { version = "0.2.82", features = [
   "serde-serialize",
   "enable-interning",
-]}
+] }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false
