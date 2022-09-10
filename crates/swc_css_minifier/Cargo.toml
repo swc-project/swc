@@ -21,6 +21,12 @@ swc_css_utils = { version = "0.108.0", path = "../swc_css_utils/" }
 swc_css_visit = { version = "0.110.0", path = "../swc_css_visit" }
 
 [dev-dependencies]
+criterion       = "0.3"
 swc_css_codegen = { version = "0.121.0", path = "../swc_css_codegen" }
 swc_css_parser  = { version = "0.120.0", path = "../swc_css_parser" }
+swc_node_base   = { version = "0.5.0", path = "../swc_node_base" }
 testing         = { version = "0.30.0", path = "../testing" }
+
+[[bench]]
+harness = false
+name    = "full"
