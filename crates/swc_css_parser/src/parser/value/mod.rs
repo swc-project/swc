@@ -3040,27 +3040,27 @@ where
 fn is_math_function(name: &JsWord) -> bool {
     matches!(
         name.to_ascii_lowercase(),
-        "calc"
-            | "sin"
-            | "cos"
-            | "tan"
-            | "asin"
-            | "acos"
-            | "atan"
-            | "sqrt"
-            | "exp"
-            | "abs"
-            | "sign"
-            | "min"
-            | "max"
-            | "hypot"
-            | "clamp"
-            | "round"
-            | "mod"
-            | "rem"
-            | "atan2"
-            | "pow"
-            | "log"
+        js_word!("calc")
+            | js_word!("sin")
+            | js_word!("cos")
+            | js_word!("tan")
+            | js_word!("asin")
+            | js_word!("acos")
+            | js_word!("atan")
+            | js_word!("sqrt")
+            | js_word!("exp")
+            | js_word!("abs")
+            | js_word!("sign")
+            | js_word!("min")
+            | js_word!("max")
+            | js_word!("hypot")
+            | js_word!("clamp")
+            | js_word!("round")
+            | js_word!("mod")
+            | js_word!("rem")
+            | js_word!("atan2")
+            | js_word!("pow")
+            | js_word!("log")
     )
 }
 
