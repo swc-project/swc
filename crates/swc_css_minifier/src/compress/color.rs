@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::NAMED_COLORS;
@@ -301,7 +302,7 @@ impl CompressColor {
                         unit: Ident { value: unit, .. },
                         ..
                     }) => {
-                        let angel_type = match get_angle_type(&unit.to_lowercase()) {
+                        let angel_type = match get_angle_type(&unit.to_ascii_lowercase()) {
                             Some(angel_type) => angel_type,
                             _ => return None,
                         };
@@ -319,7 +320,7 @@ impl CompressColor {
                 Some(value)
             }
             Some(ComponentValue::Ident(Ident { value, .. }))
-                if &*value.to_lowercase() == "none" =>
+                if &*value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
             }
@@ -342,7 +343,7 @@ impl CompressColor {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(Ident { value, .. }))
-                if &*value.to_lowercase() == "none" =>
+                if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
             }
@@ -377,7 +378,7 @@ impl CompressColor {
                 Some((2.55 * *value).round())
             }
             Some(ComponentValue::Ident(Ident { value, .. }))
-                if &*value.to_lowercase() == "none" =>
+                if &*value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
             }
@@ -395,8 +396,8 @@ impl VisitMut for CompressColor {
                 value,
                 span,
                 ..
-            })) => match &*value.to_lowercase() {
-                "transparent" => {
+            })) => match value.to_ascii_lowercase() {
+                js_word!("transparent") => {
                     *color = make_color!(*span, 0.0_f64, 0.0_f64, 0.0_f64, 0.0_f64);
                 }
                 name => {

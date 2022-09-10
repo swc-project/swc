@@ -679,3 +679,8 @@ opacity
 fill-opacity
 stroke-opacity
 shape-image-threshold
+transparent
+none
+deg
+grad
+rad
