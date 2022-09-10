@@ -386,7 +386,6 @@ impl State {
     pub fn can_have_trailing_comment(&self) -> bool {
         match self.token_type {
             Some(TokenType::Keyword(..)) => false,
-            Some(TokenType::BinOp(..)) => false,
             Some(TokenType::Semi) | Some(TokenType::LBrace) => true,
             Some(TokenType::Other {
                 can_have_trailing_comment,
