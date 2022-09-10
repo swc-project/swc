@@ -1,3 +1,4 @@
+use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -152,7 +153,7 @@ where
         Ok(tokens)
     }
 
-    pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<ComponentValue>> {
+    pub fn parse_function_values(&mut self, function_name: JsWord) -> PResult<Vec<ComponentValue>> {
         let mut values = vec![];
 
         match function_name {
@@ -326,7 +327,9 @@ where
                 let mut is_legacy_syntax = true;
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if value.to_ascii_lowercase() == "from" => {
+                    Token::Ident { value, .. }
+                        if value.to_ascii_lowercase() == js_word!("from") =>
+                    {
                         is_legacy_syntax = false;
 
                         values.push(ComponentValue::Ident(self.parse()?));
@@ -2310,7 +2313,7 @@ where
                 unreachable!()
             }
         };
-        let function_name = &*ident.0.to_ascii_lowercase();
+        let function_name = ident.0.to_ascii_lowercase();
         let name = Ident {
             span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
             value: ident.0,

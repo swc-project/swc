@@ -149,7 +149,7 @@ where
 
                     Ok(None)
                 }
-                "layer" => {
+                js_word!("layer") => {
                     parser.input.skip_ws()?;
 
                     let prelude = if is!(parser, Ident) {
