@@ -664,7 +664,7 @@ export interface JscConfig {
   baseUrl?: string
 
   paths?: {
-    [from: string]: [string]
+    [from: string]: string[]
   }
 
   minify?: JsMinifyOptions;
