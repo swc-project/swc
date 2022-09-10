@@ -4,14 +4,8 @@ use std::{fs::read_to_string, path::Path};
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, Mark, SourceMap};
-use swc_ecma_codegen::text_writer::JsWriter;
-use swc_ecma_minifier::{
-    optimize,
-    option::{CompressOptions, ExtraOptions, MangleOptions, MinifyOptions},
-};
-use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms_base::{fixer::fixer, resolver};
-use swc_ecma_visit::FoldWith;
+use swc_css_ast::Stylesheet;
+use swc_css_parser::{parse_file, parser::ParserConfig};
 
 pub fn bench_files(c: &mut Criterion) {
     let mut group = c.benchmark_group("es/minify/libraries");
@@ -41,6 +35,9 @@ fn run(src: &str) {
     testing::run_test2(false, |cm, handler| {
         HANDLER.set(&handler, || {
             let fm = cm.new_source_file(FileName::Anon, src.into());
+
+            let mut errors = vec![];
+            let ss: Stylesheet = parse_file(&fm, ParserConfig {}, &mut errors).unwrap();
 
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
