@@ -18,7 +18,7 @@ impl CompressLength {
             js_word!("cm") => match from_unit {
                 js_word!("cm") => value,
                 js_word!("mm") => value / 10.0,
-                js_word!(js_word!("q")) => value / 40.0,
+                js_word!("q") => value / 40.0,
                 js_word!("in") => 2.54 * value,
                 js_word!("pc") => 2.54 / 6.0 * value,
                 js_word!("pt") => 2.54 / 72.0 * value,
