@@ -7,6 +7,12 @@
 
 - **(es/parser)** Improve jsx lexer (#5805) ([97729e5](https://github.com/swc-project/swc/commit/97729e5d2bc74841ac2907902ddbd413d5645f9a))
 
+### Build
+
+
+
+- **(bindings)** Use new llvm pass manager (#5816) ([bb427c4](https://github.com/swc-project/swc/commit/bb427c4267d005f77e3aca4bd6c8c65b2c508ee8))
+
 ## [1.3.0] - 2022-09-10
 
 ### Bug Fixes
