@@ -109,6 +109,7 @@
         "axios": "^0.21.1",
         "babel-plugin-transform-node-env-inline": "^0.4.3",
         "benchmark": "^2.1.4",
+        "bootstrap": "^5.2.1",
         "class-validator": "^0.13.1",
         "core-js": "^2.6.11",
         "core-js-compat": "^3.21.1",
