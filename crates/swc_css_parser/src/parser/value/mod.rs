@@ -361,7 +361,7 @@ where
                     _ => {}
                 }
 
-                match function_name {
+                match *function_name {
                     js_word!("rgb") | js_word!("rgba") => {
                         let percentage_or_number_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -452,7 +452,7 @@ where
                     is_legacy_syntax = false;
                 }
 
-                match function_name {
+                match *function_name {
                     js_word!("rgb") | js_word!("rgba") => {
                         let percentage_or_number =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -540,7 +540,7 @@ where
                     }
                 }
 
-                match function_name {
+                match *function_name {
                     js_word!("rgb") | js_word!("rgba") => {
                         let percentage_or_number =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -712,7 +712,7 @@ where
                     _ => {}
                 }
 
-                match function_name {
+                match *function_name {
                     js_word!("hwb") => {
                         let hue_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -793,7 +793,7 @@ where
 
                 self.input.skip_ws()?;
 
-                match function_name {
+                match *function_name {
                     js_word!("hwb") => {
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -870,7 +870,7 @@ where
 
                 self.input.skip_ws()?;
 
-                match function_name {
+                match *function_name {
                     js_word!("hwb") => {
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -1004,7 +1004,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(ComponentValue::Function(parser.parse()?))
                             }
-                            tok!("ident") if !matches!(function_name, js_word!("device-cmyk")) => {
+                            tok!("ident") if !matches!(*function_name, js_word!("device-cmyk")) => {
                                 let ident: Ident = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
@@ -1243,7 +1243,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(ComponentValue::Function(parser.parse()?))
                             }
-                            tok!("ident") if !matches!(function_name, js_word!("device-cmyk")) => {
+                            tok!("ident") if !matches!(*function_name, js_word!("device-cmyk")) => {
                                 let ident: Ident = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
