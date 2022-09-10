@@ -516,7 +516,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('unset' type=inline),
+                Atom('unset' type=static),
                 #2,
             ),
             VarUsageInfo {

@@ -1,5 +1,6 @@
 use core::f64::consts::PI;
 
+use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -30,15 +31,15 @@ impl VisitMut for CompressAngle {
         match &function.name {
             Ident { value, .. }
                 if matches!(
-                    &*value.to_lowercase(),
-                    "rotate"
-                        | "skew"
-                        | "skewx"
-                        | "skewy"
-                        | "rotate3d"
-                        | "rotatex"
-                        | "rotatey"
-                        | "rotatez"
+                    value.to_ascii_lowercase(),
+                    js_word!("rotate")
+                        | js_word!("skew")
+                        | js_word!("skewx")
+                        | js_word!("skewy")
+                        | js_word!("rotate3d")
+                        | js_word!("rotatex")
+                        | js_word!("rotatey")
+                        | js_word!("rotatez")
                 ) =>
             {
                 let old_in_block = self.in_transform_function;
@@ -87,7 +88,7 @@ impl VisitMut for CompressAngle {
             return;
         }
 
-        let from = match get_angle_type(&angle.unit.value.to_lowercase()) {
+        let from = match get_angle_type(&angle.unit.value.to_ascii_lowercase()) {
             Some(angel_type) => angel_type,
             None => return,
         };
@@ -130,12 +131,12 @@ pub(crate) fn to_deg(value: f64, from: AngleType) -> f64 {
     }
 }
 
-pub(crate) fn get_angle_type(unit: &str) -> Option<AngleType> {
-    match unit {
-        "deg" => Some(AngleType::Deg),
-        "grad" => Some(AngleType::Grad),
-        "rad" => Some(AngleType::Rad),
-        "turn" => Some(AngleType::Turn),
+pub(crate) fn get_angle_type(unit: &JsWord) -> Option<AngleType> {
+    match *unit {
+        js_word!("deg") => Some(AngleType::Deg),
+        js_word!("grad") => Some(AngleType::Grad),
+        js_word!("rad") => Some(AngleType::Rad),
+        js_word!("turn") => Some(AngleType::Turn),
         _ => None,
     }
 }

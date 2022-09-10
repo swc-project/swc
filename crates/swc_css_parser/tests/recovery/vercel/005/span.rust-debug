@@ -172,7 +172,7 @@
    :                ^^^
    `----
 
-  x Dimension { value: 7.0, raw_value: Atom('7' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+  x Dimension { value: 7.0, raw_value: Atom('7' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
    ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
  4 | border-radius: 7px;
    :                ^^^

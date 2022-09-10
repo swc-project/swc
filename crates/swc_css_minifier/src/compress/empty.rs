@@ -1,3 +1,4 @@
+use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -50,9 +51,12 @@ impl VisitMut for CompressEmpty {
     }
 }
 
-fn need_keep_by_name(name: &str) -> bool {
+fn need_keep_by_name(name: &JsWord) -> bool {
     matches!(
-        &*name.to_lowercase(),
-        "counter-style" | "color-profile" | "font-palette-values" | "layer"
+        name.to_ascii_lowercase(),
+        js_word!("counter-style")
+            | js_word!("color-profile")
+            | js_word!("font-palette-values")
+            | js_word!("layer")
     )
 }

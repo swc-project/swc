@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -18,7 +19,9 @@ impl VisitMut for CompressEasingFunction {
                 name,
                 value: function_value,
                 span,
-            }) if &*name.value.to_lowercase() == "cubic-bezier" && function_value.len() == 7 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("cubic-bezier")
+                && function_value.len() == 7 =>
+            {
                 if let (
                     ComponentValue::Number(Number { value: first, .. }),
                     ComponentValue::Number(Number { value: second, .. }),
@@ -67,7 +70,9 @@ impl VisitMut for CompressEasingFunction {
                 name,
                 value: function_value,
                 span,
-            }) if &*name.value.to_lowercase() == "steps" && function_value.len() == 3 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("steps")
+                && function_value.len() == 3 =>
+            {
                 match (&function_value[0], &function_value[2]) {
                     (
                         ComponentValue::Number(Number {
@@ -77,15 +82,15 @@ impl VisitMut for CompressEasingFunction {
                         ComponentValue::Ident(Ident {
                             value: ident_value, ..
                         }),
-                    ) if *number_value == 1.0 => match &*ident_value.to_lowercase() {
-                        "start" | "jump-start" => {
+                    ) if *number_value == 1.0 => match ident_value.to_ascii_lowercase() {
+                        js_word!("start") | js_word!("jump-start") => {
                             *component_value = ComponentValue::Ident(Ident {
                                 span: *span,
                                 value: "step-start".into(),
                                 raw: None,
                             })
                         }
-                        "end" | "jump-end" => {
+                        js_word!("end") | js_word!("jump-end") => {
                             *component_value = ComponentValue::Ident(Ident {
                                 span: *span,
                                 value: "step-end".into(),
@@ -99,7 +104,7 @@ impl VisitMut for CompressEasingFunction {
                         ComponentValue::Ident(Ident {
                             value: ident_value, ..
                         }),
-                    ) if ident_value.to_lowercase() == "jump-start" => {
+                    ) if ident_value.to_ascii_lowercase() == js_word!("jump-start") => {
                         function_value[2] = ComponentValue::Ident(Ident {
                             span: *span,
                             value: "start".into(),
@@ -111,8 +116,8 @@ impl VisitMut for CompressEasingFunction {
                         ComponentValue::Ident(Ident {
                             value: ident_value, ..
                         }),
-                    ) => match &*ident_value.to_lowercase() {
-                        "end" | "jump-end" => {
+                    ) => match ident_value.to_ascii_lowercase() {
+                        js_word!("end") | js_word!("jump-end") => {
                             *function_value = vec![ComponentValue::Number(number.clone())];
                         }
                         _ => {}

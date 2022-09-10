@@ -26,6 +26,12 @@
 - **(css/minifier)** Setup benchmark (#5800) ([88e59ff](https://github.com/swc-project/swc/commit/88e59ffcda6b0f00fabe80515c80cf4e0563f2bf))
 
 
+- **(css/minifier)** Use `JsWord` instead of `&str` (#5806) ([7391cc9](https://github.com/swc-project/swc/commit/7391cc99b1ccfa19b56b67b4c582e9266ec9dab6))
+
+
+- **(css/parser)** Use ascii operations (#5808) ([96cc888](https://github.com/swc-project/swc/commit/96cc888ef21299f6bcfdd21d576879857c3062a5))
+
+
 - **(es/codegen)** Skip useless operations if not required (#5803) ([49942ca](https://github.com/swc-project/swc/commit/49942ca773d6fe6f44efa92625e274d01f9cdce0))
 
 ### Refactor
