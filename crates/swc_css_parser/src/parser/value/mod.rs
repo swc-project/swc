@@ -3210,7 +3210,7 @@ fn is_system_color(name: &JsWord) -> bool {
 }
 
 fn is_named_color(name: &JsWord) -> bool {
-    matches!(
+    matches_js_word!(
         name.to_ascii_lowercase(),
         "aliceblue"
             | "antiquewhite"
