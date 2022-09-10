@@ -3037,7 +3037,7 @@ where
     }
 }
 
-fn is_math_function(name: &str) -> bool {
+fn is_math_function(name: &JsWord) -> bool {
     matches!(
         name.to_ascii_lowercase(),
         "calc"
@@ -3064,7 +3064,7 @@ fn is_math_function(name: &str) -> bool {
     )
 }
 
-fn is_absolute_color_base_function(name: &str) -> bool {
+fn is_absolute_color_base_function(name: &JsWord) -> bool {
     matches!(
         name.to_ascii_lowercase(),
         "rgb"
@@ -3082,7 +3082,7 @@ fn is_absolute_color_base_function(name: &str) -> bool {
     )
 }
 
-fn is_system_color(name: &str) -> bool {
+fn is_system_color(name: &JsWord) -> bool {
     matches!(
         name.to_ascii_lowercase(),
         "canvas"
@@ -3172,7 +3172,7 @@ fn is_system_color(name: &str) -> bool {
     )
 }
 
-fn is_named_color(name: &str) -> bool {
+fn is_named_color(name: &JsWord) -> bool {
     matches!(
         name.to_ascii_lowercase(),
         "aliceblue"
