@@ -13,6 +13,12 @@
 
 - **(es/minifier)** Inline lazily initialized variables (#5737) ([ee26337](https://github.com/swc-project/swc/commit/ee26337a251ecb1fa4f369e6de614d3dc931ab5c))
 
+### Performance
+
+
+
+- **(css/minifier)** Setup benchmark (#5800) ([88e59ff](https://github.com/swc-project/swc/commit/88e59ffcda6b0f00fabe80515c80cf4e0563f2bf))
+
 ### Refactor
 
 
