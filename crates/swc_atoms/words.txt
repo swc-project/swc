@@ -704,3 +704,12 @@ display
 block
 inline
 run-in
+flow
+flow-rrot
+table
+flex
+grid
+ruby
+list-item
+padding
+margin
