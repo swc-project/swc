@@ -421,7 +421,9 @@ impl VisitMut for CompressDeclaration {
                         }
                     }
                 }
-                "border-spacing" | "border-image-repeat" if declaration.value.len() == 2 => {
+                js_word!("border-spacing") | js_word!("border-image-repeat")
+                    if declaration.value.len() == 2 =>
+                {
                     let first = declaration.value.get(0);
                     let second = declaration.value.get(1);
 
@@ -429,14 +431,14 @@ impl VisitMut for CompressDeclaration {
                         declaration.value.remove(1);
                     }
                 }
-                "font-weight" => {
+                js_word!("font-weight") => {
                     declaration.value = declaration
                         .value
                         .take()
                         .into_iter()
                         .map(|node| match node {
                             ComponentValue::Ident(Ident { value, span, .. })
-                                if value.to_ascii_lowercase() == "normal" =>
+                                if value.to_ascii_lowercase() == js_word!("normal") =>
                             {
                                 ComponentValue::Number(Number {
                                     span,
@@ -445,7 +447,7 @@ impl VisitMut for CompressDeclaration {
                                 })
                             }
                             ComponentValue::Ident(Ident { value, span, .. })
-                                if value.to_ascii_lowercase() == "bold" =>
+                                if value.to_ascii_lowercase() == js_word!("bold") =>
                             {
                                 ComponentValue::Number(Number {
                                     span,

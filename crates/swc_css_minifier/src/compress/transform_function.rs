@@ -139,7 +139,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == "scale3d" && function_value.len() == 5 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("scale3d")
+                && function_value.len() == 5 =>
+            {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -206,7 +208,9 @@ impl VisitMut for CompressTransformFunction {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == "matrix3d" && function_value.len() == 31 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("matrix3d")
+                && function_value.len() == 31 =>
+            {
                 match (
                     function_value.get(0),
                     function_value.get(1),

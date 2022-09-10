@@ -41,7 +41,7 @@ impl VisitMut for CompressKeyframes {
         keyframe_selector.visit_mut_children_with(self);
 
         match keyframe_selector {
-            KeyframeSelector::Ident(i) if i.value.to_ascii_lowercase() == "from" => {
+            KeyframeSelector::Ident(i) if i.value.to_ascii_lowercase() == js_word!("from") => {
                 *keyframe_selector = KeyframeSelector::Percentage(Percentage {
                     span: i.span,
                     value: Number {
