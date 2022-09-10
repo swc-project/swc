@@ -132,7 +132,7 @@ pub(crate) fn to_deg(value: f64, from: AngleType) -> f64 {
 }
 
 pub(crate) fn get_angle_type(unit: &JsWord) -> Option<AngleType> {
-    match unit {
+    match *unit {
         js_word!("deg") => Some(AngleType::Deg),
         js_word!("grad") => Some(AngleType::Grad),
         js_word!("rad") => Some(AngleType::Rad),
