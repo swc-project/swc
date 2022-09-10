@@ -120,6 +120,24 @@ where
     }
 
     pub(super) fn skip_ws(&mut self) {
+        if let Some(TokenAndSpan {
+            token: tok!(" "),
+            span,
+        }) = &self.cur
+        {
+            self.last_pos = span.hi;
+
+            self.cur = None;
+
+            if let Some(next) = self.peeked.take() {
+                self.cur = Some(next);
+            }
+
+            if self.cur.is_none() {
+                self.cur = self.input.next();
+            }
+        }
+
         loop {
             if let Some(TokenAndSpan {
                 token: tok!(" "),
@@ -128,15 +146,9 @@ where
             {
                 self.last_pos = span.hi;
 
-                self.cur = None;
+                // We don't need to check for peeked, because we are in a loop.
 
-                if let Some(next) = self.peeked.take() {
-                    self.cur = Some(next);
-                }
-
-                if self.cur.is_none() {
-                    self.cur = self.input.next();
-                }
+                self.cur = self.input.next();
             }
         }
     }
