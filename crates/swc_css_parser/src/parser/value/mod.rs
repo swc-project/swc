@@ -178,7 +178,7 @@ where
 
                 self.input.skip_ws()?;
             }
-            "min" | "max" | "hypot" => {
+            js_word!("min") | js_word!("max") | js_word!("hypot") => {
                 self.input.skip_ws()?;
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -242,7 +242,7 @@ where
 
                 self.input.skip_ws()?;
             }
-            "round" => {
+            js_word!("round") => {
                 self.input.skip_ws()?;
 
                 if is!(self, "ident") {
@@ -286,7 +286,7 @@ where
 
                 self.input.skip_ws()?;
             }
-            "mod" | "rem" | "atan2" | "pow" => {
+            js_word!("mod") | js_word!("rem") | js_word!("atan2") | js_word!("pow") => {
                 self.input.skip_ws()?;
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -311,7 +311,7 @@ where
 
                 self.input.skip_ws()?;
             }
-            "log" => {
+            js_word!("log") => {
                 self.input.skip_ws()?;
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -332,7 +332,7 @@ where
                     self.input.skip_ws()?;
                 }
             }
-            "rgb" | "rgba" | "hsl" | "hsla" => {
+            js_word!("rgb") | js_word!("rgba") | js_word!("hsl") | js_word!("hsla") => {
                 self.input.skip_ws()?;
 
                 let mut is_legacy_syntax = true;
@@ -359,7 +359,7 @@ where
                 }
 
                 match function_name {
-                    "rgb" | "rgba" => {
+                    js_word!("rgb") | js_word!("rgba") => {
                         let percentage_or_number_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -394,7 +394,7 @@ where
 
                         values.push(percentage_or_number_or_none);
                     }
-                    "hsl" | "hsla" => {
+                    js_word!("hsl") | js_word!("hsla") => {
                         let hue_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") | tok!("dimension") => {
