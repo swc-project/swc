@@ -696,7 +696,6 @@ impl SyntaxError {
                     token_list[0..token_list.len() - 1].join(" , ").to_string()
                         + &format!("or {}", token_list[token_list.len() - 1])
                 };
-                // Unexpected token. Did you mean `{'>'}` or `&gt;`?ts(1382)
                 format!("Unexpected token. Did you mean {}?", did_you_mean).into()
             }
         }
