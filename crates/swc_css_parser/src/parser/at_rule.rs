@@ -54,7 +54,10 @@ where
         };
         let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<AtRulePrelude>> {
             match lowercased_name {
-                "viewport" | "-ms-viewport" | "-o-viewport" | "font-face" => {
+                js_word!("viewport")
+                | js_word!("-ms-viewport")
+                | js_word!("-o-viewport")
+                | js_word!("font-face") => {
                     parser.input.skip_ws()?;
 
                     if !is!(parser, "{") {
@@ -65,7 +68,7 @@ where
 
                     Ok(None)
                 }
-                "charset" => {
+                js_word!("charset") => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -88,7 +91,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "counter-style" => {
+                js_word!("counter-style") => {
                     parser.input.skip_ws()?;
 
                     let prelude = AtRulePrelude::CounterStylePrelude(parser.parse()?);
@@ -103,7 +106,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "font-palette-values" => {
+                js_word!("font-palette-values") => {
                     parser.input.skip_ws()?;
 
                     let prelude = AtRulePrelude::FontPaletteValuesPrelude(parser.parse()?);
@@ -118,7 +121,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "font-feature-values" => {
+                js_word!("font-feature-values") => {
                     parser.input.skip_ws()?;
 
                     let prelude = AtRulePrelude::FontFeatureValuesPrelude(parser.parse()?);
@@ -133,8 +136,13 @@ where
 
                     Ok(Some(prelude))
                 }
-                "stylistic" | "historical-forms" | "styleset" | "character-variant" | "swash"
-                | "ornaments" | "annotation"
+                js_word!("stylistic")
+                | js_word!("historical-forms")
+                | js_word!("styleset")
+                | js_word!("character-variant")
+                | js_word!("swash")
+                | js_word!("ornaments")
+                | js_word!("annotation")
                     if parser.ctx.in_font_feature_values_at_rule =>
                 {
                     parser.input.skip_ws()?;
