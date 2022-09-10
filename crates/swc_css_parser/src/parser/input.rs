@@ -126,16 +126,21 @@ where
 
     #[inline(always)]
     pub(super) fn skip_ws(&mut self) -> PResult<()> {
+        if let Some(cur) = &self.cur {
+            self.last_pos = cur.span.hi;
+        }
+
         if let Some(TokenAndSpan {
             token: tok!(" "), ..
         }) = &self.cur
         {
             self.cur = None;
+
+            self.input.skip_ws();
+
+            self.bump_inner()?;
         }
 
-        self.input.skip_ws();
-
-        self.bump_inner()?;
         Ok(())
     }
 
@@ -209,13 +214,11 @@ impl<'a> ParserInput for TokensInput<'a> {
     }
 
     fn skip_ws(&mut self) {
-        loop {
-            if let Ok(TokenAndSpan {
-                token: tok!(" "), ..
-            }) = self.cur()
-            {
-                self.idx += 1;
-            }
+        while let Ok(TokenAndSpan {
+            token: tok!(" "), ..
+        }) = self.cur()
+        {
+            self.idx += 1;
         }
     }
 }

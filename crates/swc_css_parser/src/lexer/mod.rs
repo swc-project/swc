@@ -163,11 +163,11 @@ where
             if is_whitespace(c) {
                 self.cur.take();
             }
+
+            self.input.uncons_while(is_whitespace);
+
+            self.cur_pos = self.input.cur_pos();
         }
-
-        self.input.uncons_while(is_whitespace);
-
-        self.cur_pos = self.input.cur_pos();
     }
 }
 
