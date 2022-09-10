@@ -56,7 +56,9 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
     fn raw_write(&mut self, data: &str) -> Result {
         self.wr.write_all(data.as_bytes())?;
-        self.line_pos += data.chars().count();
+        if self.srcmap.is_some() {
+            self.line_pos += data.chars().count();
+        }
         Ok(())
     }
 
@@ -174,11 +176,13 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
 
             self.write(None, s)?;
 
-            let line_start_of_s = compute_line_starts(s);
-            if line_start_of_s.len() > 1 {
-                self.line_count = self.line_count + line_start_of_s.len() - 1;
-                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
-                self.line_pos = s[last_line_byte_index..].chars().count();
+            if self.srcmap.is_some() {
+                let line_start_of_s = compute_line_starts(s);
+                if line_start_of_s.len() > 1 {
+                    self.line_count = self.line_count + line_start_of_s.len() - 1;
+                    let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                    self.line_pos = s[last_line_byte_index..].chars().count();
+                }
             }
 
             if !span.is_dummy() {
@@ -191,7 +195,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
 
     fn write_comment(&mut self, s: &str) -> Result {
         self.write(None, s)?;
-        {
+        if self.srcmap.is_some() {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
@@ -210,11 +214,13 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
 
             self.write(None, s)?;
 
-            let line_start_of_s = compute_line_starts(s);
-            if line_start_of_s.len() > 1 {
-                self.line_count = self.line_count + line_start_of_s.len() - 1;
-                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
-                self.line_pos = s[last_line_byte_index..].chars().count();
+            if self.srcmap.is_some() {
+                let line_start_of_s = compute_line_starts(s);
+                if line_start_of_s.len() > 1 {
+                    self.line_count = self.line_count + line_start_of_s.len() - 1;
+                    let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
+                    self.line_pos = s[last_line_byte_index..].chars().count();
+                }
             }
 
             if !span.is_dummy() {

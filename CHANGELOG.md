@@ -7,6 +7,9 @@
 
 - **(es)** Use `paren_remover` pass (#5753) ([9c998d4](https://github.com/swc-project/swc/commit/9c998d4406fe641198092074d3ee3a859fc7b97e))
 
+
+- **(es/compat)** Fix `generator` (#5796) ([aa8672e](https://github.com/swc-project/swc/commit/aa8672e73918e06ab2f7e7430ce35027ecc65cb3))
+
 ### Features
 
 
@@ -17,7 +20,13 @@
 
 
 
+- **(css/codegen)** Skip useless operations if not required (#5802) ([b96eb1e](https://github.com/swc-project/swc/commit/b96eb1ead8eedfeb8c3f392bf89ca5c037f1efcb))
+
+
 - **(css/minifier)** Setup benchmark (#5800) ([88e59ff](https://github.com/swc-project/swc/commit/88e59ffcda6b0f00fabe80515c80cf4e0563f2bf))
+
+
+- **(es/codegen)** Skip useless operations if not required (#5803) ([49942ca](https://github.com/swc-project/swc/commit/49942ca773d6fe6f44efa92625e274d01f9cdce0))
 
 ### Refactor
 

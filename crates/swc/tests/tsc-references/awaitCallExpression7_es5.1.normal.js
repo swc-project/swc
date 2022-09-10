@@ -6,7 +6,7 @@ function func() {
 }
 function _func() {
     _func = _async_to_generator(function() {
-        var b, _tmp;
+        var b, _, _tmp;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -20,7 +20,7 @@ function _func() {
                         p
                     ];
                 case 1:
-                    b = _.apply(void 0, _tmp.concat(_state.sent(), a));
+                    b = _.apply(o, _tmp.concat(_state.sent(), a));
                     after();
                     return [
                         2
