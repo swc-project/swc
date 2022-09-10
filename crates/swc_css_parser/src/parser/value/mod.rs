@@ -153,10 +153,13 @@ where
         Ok(tokens)
     }
 
-    pub fn parse_function_values(&mut self, function_name: JsWord) -> PResult<Vec<ComponentValue>> {
+    pub fn parse_function_values(
+        &mut self,
+        function_name: &JsWord,
+    ) -> PResult<Vec<ComponentValue>> {
         let mut values = vec![];
 
-        match function_name {
+        match *function_name {
             js_word!("calc")
             | js_word!("-moz-calc")
             | js_word!("-webkit-calc")
@@ -2387,7 +2390,7 @@ where
                     }
                     _ => {
                         let state = self.input.state();
-                        let values = self.parse_function_values(function_name);
+                        let values = self.parse_function_values(&function_name);
 
                         match values {
                             Ok(values) => {
