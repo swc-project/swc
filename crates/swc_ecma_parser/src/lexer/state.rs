@@ -316,13 +316,18 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
         let span = self.span(start);
         if let Some(ref token) = token {
-            if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
+            match token {
+                BinOp(_) => {}
+                _ => {
+                    if let Some(comments) = self.comments_buffer.as_mut() {
+                        for comment in comments.take_pending_leading() {
+                            comments.push(BufferedComment {
+                                kind: BufferedCommentKind::Leading,
+                                pos: start,
+                                comment,
+                            });
+                        }
+                    }
                 }
             }
             self.state.update(start, token);
@@ -374,6 +379,7 @@ impl State {
     pub fn can_have_trailing_comment(&self) -> bool {
         match self.token_type {
             Some(TokenType::Keyword(..)) => false,
+            Some(TokenType::BinOp(..)) => false,
             Some(TokenType::Semi) | Some(TokenType::LBrace) => true,
             Some(TokenType::Other {
                 can_have_trailing_comment,

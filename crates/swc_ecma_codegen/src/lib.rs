@@ -1133,6 +1133,7 @@ where
 
     #[emitter]
     fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
+        //dbg!(&node);
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         srcmap!(node, true);

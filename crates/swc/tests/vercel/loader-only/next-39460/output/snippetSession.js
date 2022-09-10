@@ -476,7 +476,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
             } else {
                 return undoEdits.filter(function(edit) {
                     return !!edit.identifier;
-                }) // only use our undo edits
+                })// only use our undo edits
                 .map(function(edit) {
                     return Selection.fromPositions(edit.range.getEndPosition());
                 });
@@ -523,7 +523,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
             } else {
                 return undoEdits.filter(function(edit) {
                     return !!edit.identifier;
-                }) // only use our undo edits
+                })// only use our undo edits
                 .map(function(edit) {
                     return Selection.fromPositions(edit.range.getEndPosition());
                 });

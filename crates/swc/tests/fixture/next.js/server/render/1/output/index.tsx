@@ -478,7 +478,8 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         props.pageProps = Object.assign({}, props.pageProps, data1.props);
         renderOpts.pageData = props;
     }
-    if (!isSSG && !getServerSideProps && process.env.NODE_ENV !== "production" && Object.keys(props?.pageProps || {}).includes("url")) {
+    if (!isSSG && // we only show this warning for legacy pages
+    !getServerSideProps && process.env.NODE_ENV !== "production" && Object.keys(props?.pageProps || {}).includes("url")) {
         console.warn(`The prop \`url\` is a reserved prop in Next.js for legacy reasons and will be overridden on page ${pathname}\n` + `See more info here: https://nextjs.org/docs/messages/reserved-page-prop`);
     }
     // Avoid rendering page un-necessarily for getServerSideProps data request
@@ -613,21 +614,35 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     const htmlProps = {
         __NEXT_DATA__: {
             props,
+            // The result of getInitialProps
             page: pathname,
+            // The rendered page
             query,
+            // querystring parsed / passed by the user
             buildId,
+            // buildId is used to facilitate caching of page bundles, we send it to the client so that pageloader knows where to load bundles
             assetPrefix: assetPrefix === "" ? undefined : assetPrefix,
+            // send assetPrefix to the client side when configured, otherwise don't sent in the resulting HTML
             runtimeConfig,
+            // runtimeConfig if provided, otherwise don't sent in the resulting HTML
             nextExport: nextExport === true ? true : undefined,
+            // If this is a page exported by `next export`
             autoExport: isAutoExport === true ? true : undefined,
+            // If this is an auto exported page
             isFallback,
             dynamicIds: dynamicImportsIds.size === 0 ? undefined : Array.from(dynamicImportsIds),
             err: renderOpts.err ? serializeError(dev, renderOpts.err) : undefined,
+            // Error if one happened, otherwise don't sent in the resulting HTML
             gsp: !!getStaticProps ? true : undefined,
+            // whether the page is getStaticProps
             gssp: !!getServerSideProps ? true : undefined,
+            // whether the page is getServerSideProps
             customServer,
+            // whether the user is using a custom server
             gip: hasPageGetInitialProps ? true : undefined,
+            // whether the page has getInitialProps
             appGip: !defaultAppGetInitialProps ? true : undefined,
+            // whether the _app has getInitialProps
             locale,
             locales,
             defaultLocale,
