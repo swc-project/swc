@@ -230,17 +230,14 @@ impl<'a> ParserInput for TokensInput<'a> {
 
     fn skip_ws(&mut self) -> Option<BytePos> {
         let mut last_pos = None;
-        loop {
-            if let Ok(TokenAndSpan {
-                token: tok!(" "),
-                span,
-            }) = self.cur()
-            {
-                last_pos = Some(span.hi);
-                self.idx += 1;
-            } else {
-                break;
-            }
+
+        while let Ok(TokenAndSpan {
+            token: tok!(" "),
+            span,
+        }) = self.cur()
+        {
+            last_pos = Some(span.hi);
+            self.idx += 1;
         }
 
         last_pos
