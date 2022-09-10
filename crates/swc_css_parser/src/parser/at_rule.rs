@@ -533,37 +533,37 @@ where
         };
         let parse_simple_block = |parser: &mut Parser<I>| -> PResult<SimpleBlock> {
             let ctx = match lowercased_name {
-                "viewport"
-                | "-o-viewport"
-                | "-ms-viewport"
-                | "font-face"
-                | "font-palette-values"
-                | "stylistic"
-                | "historical-forms"
-                | "styleset"
-                | "character-variant"
-                | "swash"
-                | "ornaments"
-                | "annotation"
-                | "property"
-                | "color-profile"
-                | "counter-style"
-                | "top-left-corner"
-                | "top-left"
-                | "top-center"
-                | "top-right"
-                | "top-right-corner"
-                | "bottom-left-corner"
-                | "bottom-left"
-                | "bottom-center"
-                | "bottom-right"
-                | "bottom-right-corner"
-                | "left-top"
-                | "left-middle"
-                | "left-bottom"
-                | "right-top"
-                | "right-middle"
-                | "right-bottom" => Ctx {
+                js_word!("viewport")
+                | js_word!("-o-viewport")
+                | js_word!("-ms-viewport")
+                | js_word!("font-face")
+                | js_word!("font-palette-values")
+                | js_word!("stylistic")
+                | js_word!("historical-forms")
+                | js_word!("styleset")
+                | js_word!("character-variant")
+                | js_word!("swash")
+                | js_word!("ornaments")
+                | js_word!("annotation")
+                | js_word!("property")
+                | js_word!("color-profile")
+                | js_word!("counter-style")
+                | js_word!("top-left-corner")
+                | js_word!("top-left")
+                | js_word!("top-center")
+                | js_word!("top-right")
+                | js_word!("top-right-corner")
+                | js_word!("bottom-left-corner")
+                | js_word!("bottom-left")
+                | js_word!("bottom-center")
+                | js_word!("bottom-right")
+                | js_word!("bottom-right-corner")
+                | js_word!("left-top")
+                | js_word!("left-middle")
+                | js_word!("left-bottom")
+                | js_word!("right-top")
+                | js_word!("right-middle")
+                | js_word!("right-bottom") => Ctx {
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
