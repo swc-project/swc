@@ -1031,7 +1031,9 @@ where
                 self.input.skip_ws()?;
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if value.to_ascii_lowercase() == "from" => {
+                    Token::Ident { value, .. }
+                        if value.to_ascii_lowercase() == js_word!("from") =>
+                    {
                         values.push(self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::Ident(parser.parse()?))
                         })?);
@@ -3208,7 +3210,7 @@ fn is_system_color(name: &JsWord) -> bool {
 }
 
 fn is_named_color(name: &JsWord) -> bool {
-    matches_js_word!(
+    matches!(
         name.to_ascii_lowercase(),
         "aliceblue"
             | "antiquewhite"

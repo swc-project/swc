@@ -589,7 +589,7 @@ where
                     Token::Ident { value, .. } => {
                         if value.starts_with("--") {
                             return Ok(ComponentValue::DashedIdent(self.parse()?));
-                        } else if value.to_ascii_lowercase() == "u"
+                        } else if value.to_ascii_lowercase() == js_word!("u")
                             && peeked_is_one_of!(self, "+", "number", "dimension")
                         {
                             return Ok(ComponentValue::UnicodeRange(self.parse()?));
