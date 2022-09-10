@@ -122,12 +122,11 @@ where
     pub(super) fn skip_ws(&mut self) {
         loop {
             if let Some(TokenAndSpan {
-                token: tok!(" "), ..
+                token: tok!(" "),
+                span,
             }) = &self.cur
             {
-                if let Some(cur) = &self.cur {
-                    self.last_pos = cur.span.hi;
-                }
+                self.last_pos = span.hi;
 
                 self.cur = None;
 
