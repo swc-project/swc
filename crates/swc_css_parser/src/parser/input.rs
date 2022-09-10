@@ -47,7 +47,7 @@ where
     pub fn last_pos(&mut self) -> BytePos {
         self.cur();
 
-        Ok(self.last_pos)
+        self.last_pos
     }
 
     pub fn cur_span(&mut self) -> Span {

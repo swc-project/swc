@@ -68,7 +68,7 @@ where
                     Err(_) => {
                         parser.input.reset(&state);
 
-                        let span = parser.input.cur_span()?;
+                        let span = parser.input.cur_span();
                         let mut children = vec![];
 
                         while !is_one_of!(parser, EOF, ",", ")") {
@@ -226,7 +226,7 @@ where
                     Err(_) => {
                         parser.input.reset(&state);
 
-                        let span = parser.input.cur_span()?;
+                        let span = parser.input.cur_span();
                         let mut children = vec![];
 
                         while !is_one_of!(parser, EOF, ",", ")") {
@@ -289,7 +289,7 @@ where
         let mut children = vec![child];
 
         loop {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             self.input.skip_ws();
 
@@ -338,7 +338,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Combinator> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if eat!(self, ">") {
             return Ok(Combinator {
@@ -404,7 +404,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CompoundSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let start_pos = span.lo;
 
         let mut nesting_selector = None;
@@ -480,7 +480,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<TypeSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let prefix = if (is!(self, Ident) && peeked_is!(self, "|"))
             || (is!(self, "*") && peeked_is!(self, "|"))
             || is!(self, "|")
@@ -522,7 +522,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<NsPrefix> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let mut prefix = None;
 
         if is!(self, Ident) {
@@ -554,7 +554,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Option<WqName>> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let state = self.input.state();
 
         if is!(self, Ident) && peeked_is!(self, "|")
@@ -602,7 +602,7 @@ where
             tok!("[") => Ok(SubclassSelector::Attribute(self.parse()?)),
             tok!(":") => Ok(SubclassSelector::PseudoClass(self.parse()?)),
             _ => {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 return Err(Error::new(
                     span,
@@ -618,7 +618,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<IdSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let text = match bump!(self) {
             Token::Hash {
                 is_id, value, raw, ..
@@ -653,7 +653,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ClassSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         expect!(self, ".");
 
@@ -671,7 +671,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AttributeSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         expect!(self, "[");
 
@@ -684,7 +684,7 @@ where
         let name = if let Ok(Some(wq_name)) = self.parse() {
             wq_name
         } else {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             return Err(Error::new(
                 span!(self, span.lo),
@@ -727,7 +727,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AttributeSelectorMatcher> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         match cur!(self) {
             tok!("~") => {
@@ -805,7 +805,7 @@ where
                 Ok(AttributeSelectorValue::Str(string))
             }
             _ => {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue));
             }
@@ -818,7 +818,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AttributeSelectorModifier> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         match cur!(self) {
             tok!("ident") => {
@@ -839,12 +839,12 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<PseudoClassSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         expect!(self, ":");
 
         if is!(self, Function) {
-            let fn_span = self.input.cur_span()?;
+            let fn_span = self.input.cur_span();
             let name = bump!(self);
             let names = match name {
                 Token::Function { value, raw } => (value, raw),
@@ -1027,7 +1027,7 @@ where
                 children: None,
             })
         } else {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             Err(Error::new(
                 span,
@@ -1042,13 +1042,13 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<PseudoElementSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         expect!(self, ":");
         expect!(self, ":");
 
         if is!(self, Function) {
-            let fn_span = self.input.cur_span()?;
+            let fn_span = self.input.cur_span();
             let name = bump!(self);
             let names = match name {
                 Token::Function { value, raw } => (value, raw),
@@ -1137,7 +1137,7 @@ where
                 children: None,
             })
         } else {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             Err(Error::new(span, ErrorKind::InvalidSelector))
         }
@@ -1151,7 +1151,7 @@ where
     fn parse(&mut self) -> PResult<AnPlusB> {
         self.input.skip_ws();
 
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         match cur!(self) {
             //  odd | even

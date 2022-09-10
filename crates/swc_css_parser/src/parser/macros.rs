@@ -1,6 +1,6 @@
 macro_rules! span {
     ($parser:expr, $start:expr) => {{
-        let last_pos = $parser.input.last_pos()?;
+        let last_pos = $parser.input.last_pos();
         swc_common::Span::new($start, last_pos, Default::default())
     }};
 }
@@ -70,7 +70,7 @@ macro_rules! cur {
         match $parser.input.cur()? {
             Some(v) => v,
             None => {
-                let last_pos = $parser.input.last_pos()?;
+                let last_pos = $parser.input.last_pos();
                 let span = swc_common::Span::new(last_pos, last_pos, Default::default());
 
                 for error in $parser.input.take_errors() {
@@ -187,7 +187,7 @@ macro_rules! expect {
         }
 
         if !eat!($parser, $tt) {
-            let span = $parser.input.cur_span()?;
+            let span = $parser.input.cur_span();
             return Err(crate::error::Error::new(
                 span,
                 crate::error::ErrorKind::ExpectedButGot(stringify!($tt)),
