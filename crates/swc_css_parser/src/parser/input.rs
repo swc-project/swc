@@ -44,44 +44,43 @@ where
         }
     }
 
-    pub fn last_pos(&mut self) -> PResult<BytePos> {
-        self.cur()?;
+    pub fn last_pos(&mut self) -> BytePos {
+        self.cur();
 
-        Ok(self.last_pos)
+        self.last_pos
     }
 
-    pub fn cur_span(&mut self) -> PResult<Span> {
+    pub fn cur_span(&mut self) -> Span {
         if self.cur.is_none() {
-            self.bump_inner()?;
+            self.bump_inner();
         }
 
-        Ok(self
-            .cur
+        self.cur
             .as_ref()
             .map(|cur| cur.span)
-            .unwrap_or_else(|| Span::new(self.last_pos, self.last_pos, Default::default())))
+            .unwrap_or_else(|| Span::new(self.last_pos, self.last_pos, Default::default()))
     }
 
-    pub fn cur(&mut self) -> PResult<Option<&Token>> {
+    pub fn cur(&mut self) -> Option<&Token> {
         if self.cur.is_none() {
-            self.bump_inner()?;
+            self.bump_inner();
         }
 
-        Ok(self.cur.as_ref().map(|v| &v.token))
+        self.cur.as_ref().map(|v| &v.token)
     }
 
-    pub(super) fn peek(&mut self) -> PResult<Option<&Token>> {
-        self.cur()?;
+    pub(super) fn peek(&mut self) -> Option<&Token> {
+        self.cur();
 
         if self.peeked.is_none() {
             self.peeked = self.input.next();
         }
 
-        Ok(self.peeked.as_ref().map(|v| &v.token))
+        self.peeked.as_ref().map(|v| &v.token)
     }
 
     #[track_caller]
-    pub fn bump(&mut self) -> PResult<Option<TokenAndSpan>> {
+    pub fn bump(&mut self) -> Option<TokenAndSpan> {
         debug_assert!(
             self.cur.is_some(),
             "bump() is called without checking current token"
@@ -93,12 +92,12 @@ where
 
         let token = self.cur.take();
 
-        self.bump_inner()?;
+        self.bump_inner();
 
-        Ok(token)
+        token
     }
 
-    fn bump_inner(&mut self) -> PResult<()> {
+    fn bump_inner(&mut self) {
         if let Some(cur) = &self.cur {
             self.last_pos = cur.span.hi;
         }
@@ -114,22 +113,20 @@ where
 
             self.cur = token_and_span;
         }
-
-        Ok(())
     }
 
     pub fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.input.take_errors())
     }
 
-    pub(super) fn skip_ws(&mut self) -> PResult<()> {
+    pub(super) fn skip_ws(&mut self) {
         loop {
             match self.cur.as_ref().map(|v| &v.token) {
                 Some(tok!(" ")) => {
-                    self.bump_inner()?;
+                    self.bump_inner();
                 }
 
-                Some(..) | None => return Ok(()),
+                Some(..) | None => return,
             }
         }
     }
