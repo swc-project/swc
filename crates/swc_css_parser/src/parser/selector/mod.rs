@@ -13,19 +13,19 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SelectorList> {
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let child: ComplexSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
             }
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             let child = self.parse()?;
 
@@ -61,7 +61,7 @@ where
             |parser: &mut Parser<I>| -> PResult<ForgivingComplexSelector> {
                 let state = parser.input.state();
 
-                parser.input.skip_ws()?;
+                parser.input.skip_ws();
 
                 match parser.parse() {
                     Ok(child) => Ok(ForgivingComplexSelector::ComplexSelector(child)),
@@ -91,7 +91,7 @@ where
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
@@ -127,19 +127,19 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CompoundSelectorList> {
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let child: CompoundSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
             }
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             let child = self.parse()?;
 
@@ -171,19 +171,19 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<RelativeSelectorList> {
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let child: RelativeSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
             }
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             let child = self.parse()?;
 
@@ -219,7 +219,7 @@ where
             |parser: &mut Parser<I>| -> PResult<ForgivingRelativeSelector> {
                 let state = parser.input.state();
 
-                parser.input.skip_ws()?;
+                parser.input.skip_ws();
 
                 match parser.parse() {
                     Ok(child) => Ok(ForgivingRelativeSelector::RelativeSelector(child)),
@@ -249,7 +249,7 @@ where
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
@@ -291,7 +291,7 @@ where
         loop {
             let span = self.input.cur_span()?;
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             // TODO should be refactor after grammar parsing
             if is_one_of!(self, EOF, ",", "{", ")") {
@@ -303,7 +303,7 @@ where
             if combinator.value == CombinatorValue::Descendant {
                 combinator.span = span;
             } else {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
 
             children.push(ComplexSelectorChildren::Combinator(combinator));
@@ -381,7 +381,7 @@ where
         if is_one_of!(self, ">", "+", "~", "|") {
             combinator = Some(self.parse()?);
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
         }
 
         let selector: ComplexSelector = self.parse()?;
@@ -675,7 +675,7 @@ where
 
         expect!(self, "[");
 
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let mut matcher = None;
         let mut value = None;
@@ -692,22 +692,22 @@ where
             ));
         };
 
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         if !is!(self, "]") {
             matcher = Some(self.parse()?);
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             value = Some(self.parse()?);
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if is!(self, Ident) {
                 modifier = Some(self.parse()?);
             }
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
         }
 
         expect!(self, "]");
@@ -864,16 +864,16 @@ where
                             ));
                         }
                         "dir" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let ident = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::Ident(ident));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         "lang" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let child = match cur!(self) {
                                 tok!("ident") => PseudoClassSelectorChildren::Ident(self.parse()?),
@@ -889,14 +889,14 @@ where
                             children.push(child);
 
                             loop {
-                                self.input.skip_ws()?;
+                                self.input.skip_ws();
 
                                 if is!(self, ",") {
                                     children.push(PseudoClassSelectorChildren::Delimiter(
                                         self.parse()?,
                                     ));
 
-                                    self.input.skip_ws()?;
+                                    self.input.skip_ws();
                                 } else {
                                     break;
                                 }
@@ -953,25 +953,25 @@ where
 
                             children.push(PseudoClassSelectorChildren::AnPlusB(an_plus_b));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             if is!(self, "ident") {
                                 let of = self.parse()?;
 
                                 children.push(PseudoClassSelectorChildren::Ident(of));
 
-                                self.input.skip_ws()?;
+                                self.input.skip_ws();
 
                                 let selector_list = self.parse()?;
 
                                 children
                                     .push(PseudoClassSelectorChildren::SelectorList(selector_list));
 
-                                self.input.skip_ws()?;
+                                self.input.skip_ws();
                             }
                         }
                         "host" | "host-context" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
 
@@ -979,7 +979,7 @@ where
                                 compound_selector,
                             ));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         _ => {
                             return Err(Error::new(span, ErrorKind::Ignore));
@@ -1061,7 +1061,7 @@ where
 
                     match &*names.0.to_ascii_lowercase() {
                         "cue" | "cue-region" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
 
@@ -1069,19 +1069,19 @@ where
                                 compound_selector,
                             ));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         "part" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let ident = self.parse()?;
 
                             children.push(PseudoElementSelectorChildren::Ident(ident));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         "slotted" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
 
@@ -1089,7 +1089,7 @@ where
                                 compound_selector,
                             ));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         _ => {
                             return Err(Error::new(span, ErrorKind::Ignore));
@@ -1149,7 +1149,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AnPlusB> {
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let span = self.input.cur_span()?;
 
@@ -1262,7 +1262,7 @@ where
                     }
                 };
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let mut b = None;
                 let mut b_raw = None;
@@ -1314,7 +1314,7 @@ where
                             }
                         };
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         let number = match bump!(self) {
                             Token::Number { value, raw, .. } => (value, raw),

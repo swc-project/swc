@@ -52,7 +52,7 @@ where
 
     pub fn cur_span(&mut self) -> PResult<Span> {
         if self.cur.is_none() {
-            self.bump_inner()?;
+            self.bump_inner();
         }
 
         Ok(self

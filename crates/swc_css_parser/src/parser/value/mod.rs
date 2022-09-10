@@ -158,28 +158,28 @@ where
         match function_name {
             "calc" | "-moz-calc" | "-webkit-calc" | "sin" | "cos" | "tan" | "asin" | "acos"
             | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "min" | "max" | "hypot" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
                 loop {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     if is!(self, ",") {
                         values.push(ComponentValue::Delimiter(self.parse()?));
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     } else {
                         break;
                     }
@@ -190,18 +190,18 @@ where
                 }
             }
             "clamp" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
                     let span = self.input.cur_span()?;
 
@@ -212,12 +212,12 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
                     let span = self.input.cur_span()?;
 
@@ -228,10 +228,10 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "round" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, "ident") {
                     // TODO improve me
@@ -239,12 +239,12 @@ where
 
                     values.push(rounding_strategy);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     if is!(self, ",") {
                         values.push(ComponentValue::Delimiter(self.parse()?));
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     } else {
                         let span = self.input.cur_span()?;
 
@@ -256,12 +256,12 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
                     let span = self.input.cur_span()?;
 
@@ -272,21 +272,21 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "mod" | "rem" | "atan2" | "pow" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
                     let span = self.input.cur_span()?;
 
@@ -297,31 +297,31 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "log" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                     values.push(calc_sum);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
             }
             "rgb" | "rgba" | "hsl" | "hsla" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let mut is_legacy_syntax = true;
 
@@ -331,7 +331,7 @@ where
 
                         values.push(ComponentValue::Ident(self.parse()?));
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         let color = self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::Color(parser.parse()?))
@@ -339,7 +339,7 @@ where
 
                         values.push(color);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     }
                     _ => {}
                 }
@@ -417,7 +417,7 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     if !is_legacy_syntax {
@@ -430,7 +430,7 @@ where
 
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
                     is_legacy_syntax = false;
                 }
@@ -506,14 +506,14 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is_legacy_syntax {
                     match cur!(self) {
                         tok!(",") => {
                             values.push(ComponentValue::Delimiter(self.parse()?));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         _ => {
                             let span = self.input.cur_span()?;
@@ -594,12 +594,12 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") && is_legacy_syntax {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -619,11 +619,11 @@ where
 
                     values.push(alpha_value);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else if is!(self, "/") && !is_legacy_syntax {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -656,11 +656,11 @@ where
 
                     values.push(alpha_value);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
             }
             "hwb" | "lab" | "lch" | "oklab" | "oklch" | "device-cmyk" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 match cur!(self) {
                     Token::Ident { value, .. }
@@ -668,7 +668,7 @@ where
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         let color = match cur!(self) {
                             Token::Function { value, .. }
@@ -684,7 +684,7 @@ where
 
                         values.push(color);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     }
                     _ => {}
                 }
@@ -768,7 +768,7 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 match function_name {
                     "hwb" => {
@@ -845,7 +845,7 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 match function_name {
                     "hwb" => {
@@ -956,7 +956,7 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if function_name == "device-cmyk" {
                     let cmyk_component = self.try_parse_variable_function(|parser| {
@@ -965,13 +965,13 @@ where
 
                     values.push(cmyk_component);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
 
                 if is!(self, "/") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -1004,11 +1004,11 @@ where
 
                     values.push(alpha_value);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
             }
             "color" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 match cur!(self) {
                     Token::Ident { value, .. } if &*value.to_lowercase() == "from" => {
@@ -1016,7 +1016,7 @@ where
                             Ok(ComponentValue::Ident(parser.parse()?))
                         })?);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         let color = self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::Color(parser.parse()?))
@@ -1024,7 +1024,7 @@ where
 
                         values.push(color);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     }
                     _ => {}
                 }
@@ -1060,7 +1060,7 @@ where
 
                 values.push(ident);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let number_or_percentage_or_none =
                     self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -1094,7 +1094,7 @@ where
 
                 values.push(number_or_percentage_or_none);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is_custom_params {
                     loop {
@@ -1131,7 +1131,7 @@ where
 
                         values.push(number_or_percentage_or_none);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     }
                 } else {
                     let number_or_percentage_or_none =
@@ -1166,7 +1166,7 @@ where
 
                     values.push(number_or_percentage_or_none);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let number_or_percentage_or_none =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -1200,13 +1200,13 @@ where
 
                     values.push(number_or_percentage_or_none);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
 
                 if is!(self, "/") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -1239,31 +1239,31 @@ where
 
                     values.push(alpha_value);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "selector" if self.ctx.in_supports_at_rule => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let selector = ComponentValue::ComplexSelector(self.parse()?);
 
                 values.push(selector);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "layer" if self.ctx.in_import_at_rule => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let layer_name = self.parse_as::<LayerName>()?;
 
                 values.push(ComponentValue::LayerName(layer_name));
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             _ => loop {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ")") {
                     break;
@@ -2248,14 +2248,14 @@ where
                     raw: Some(raw_function_name),
                 };
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let value = match cur!(self) {
                     tok!("string") => Some(UrlValue::Str(self.parse()?)),
                     _ => None,
                 };
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let mut modifiers = vec![];
 
@@ -2278,7 +2278,7 @@ where
                         }
                     }
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
 
                 expect!(self, ")");
@@ -2768,7 +2768,7 @@ where
         expressions.push(calc_product);
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             match cur!(self) {
                 tok!("+") | tok!("-") => {
@@ -2776,7 +2776,7 @@ where
 
                     expressions.push(operator);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let calc_product = CalcProductOrOperator::Product(self.parse()?);
 
@@ -2835,7 +2835,7 @@ where
         expressions.push(calc_value);
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             match cur!(self) {
                 tok!("*") | tok!("/") => {
@@ -2843,7 +2843,7 @@ where
 
                     expressions.push(operator);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let calc_value = CalcValueOrOperator::Value(self.parse()?);
 
@@ -2967,11 +2967,11 @@ where
 
                 expect!(self, "(");
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let mut calc_sum_in_parens: CalcSum = self.parse()?;
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 expect!(self, ")");
 
@@ -3007,7 +3007,7 @@ where
                 let mut value = vec![self.parse()?];
 
                 loop {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     if !is!(self, "ident") {
                         break;

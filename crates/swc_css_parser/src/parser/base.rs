@@ -46,7 +46,7 @@ where
                 // <whitespace-token>
                 // Do nothing.
                 tok!(" ") => {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
                 // <CDO-token>
                 // <CDC-token>
@@ -209,7 +209,7 @@ where
                 // <whitespace-token>
                 // Do nothing.
                 tok!(" ") => {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
                 // <semicolon-token>
                 // Do nothing.
@@ -392,7 +392,7 @@ where
 
         // TODO refactor me
         if self.ctx.block_contents_grammar != BlockContentsGrammar::NoGrammar {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
         }
 
         // Repeatedly consume the next input token and process it as follows:
@@ -467,7 +467,7 @@ where
                         let parsed = self.parse();
                         let value = match parsed {
                             Ok(value) => {
-                                self.input.skip_ws()?;
+                                self.input.skip_ws();
 
                                 value
                             }
@@ -530,7 +530,7 @@ where
             }
             _ => {
                 // TODO refactor me
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let span = self.input.cur_span()?;
 
@@ -628,7 +628,7 @@ where
                 // <whitespace-token>
                 // Do nothing.
                 tok!(" ") => {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
                 // <semicolon-token>
                 // Do nothing.
@@ -752,7 +752,7 @@ where
 
         // 1. While the next input token is a <whitespace-token>, consume the next input
         // token.
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         // 2. If the next input token is anything other than a <colon-token>, this is a
         // parse error. Return nothing. Otherwise, consume the next input token.
@@ -760,7 +760,7 @@ where
 
         // 3. While the next input token is a <whitespace-token>, consume the next input
         // token.
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let mut end = self.input.cur_span()?.hi;
         let mut value = vec![];
@@ -775,7 +775,7 @@ where
                 false => {
                     loop {
                         // TODO fix me
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         // TODO fix me
                         if is_one_of!(self, EOF, "!", ";", "}", ")") {
@@ -814,7 +814,7 @@ where
         // <delim-token> with the value "!" followed by an <ident-token> with a value
         // that is an ASCII case-insensitive match for "important", remove them from the
         // declaration’s value and set the declaration’s important flag to true.
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let important = if is!(self, "!") {
             let important_flag = self.parse()?;
@@ -828,7 +828,7 @@ where
 
         // 6. While the last token in the declaration’s value is a <whitespace-token>,
         // remove that token.
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         // 7. Return the declaration.
         Ok(Declaration {
@@ -849,7 +849,7 @@ where
 
         expect!(self, "!");
 
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let ident: Ident = self.parse()?;
 

@@ -183,7 +183,7 @@ macro_rules! eat {
 macro_rules! expect {
     ($parser:expr, $tt:tt) => {
         if can_ignore_ws!($tt) {
-            $parser.input.skip_ws()?
+            $parser.input.skip_ws()
         }
 
         if !eat!($parser, $tt) {
