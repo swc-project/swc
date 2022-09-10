@@ -47,13 +47,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
                 '>' => self.error(
                     cur_pos,
-                    SyntaxError::DidYouMean {
+                    SyntaxError::UnexpectedTokenWithSuggestions {
                         candidate_list: vec!["`{'>'}`", "`&gt;`"],
                     },
                 )?,
                 '}' => self.error(
                     cur_pos,
-                    SyntaxError::DidYouMean {
+                    SyntaxError::UnexpectedTokenWithSuggestions {
                         candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
                     },
                 )?,

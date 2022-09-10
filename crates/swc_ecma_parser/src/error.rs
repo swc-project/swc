@@ -115,7 +115,7 @@ pub enum SyntaxError {
         got: String,
         expected: &'static str,
     },
-    DidYouMean {
+    UnexpectedTokenWithSuggestions {
         candidate_list: Vec<&'static str>,
     },
     ReservedWordInImport,
@@ -687,7 +687,7 @@ impl SyntaxError {
             )
             .into(),
             SyntaxError::SetterParamRequired => "Setter should have exactly one parameter".into(),
-            SyntaxError::DidYouMean {
+            SyntaxError::UnexpectedTokenWithSuggestions {
                 candidate_list: token_list,
             } => {
                 let did_you_mean = if token_list.len() <= 2 {
