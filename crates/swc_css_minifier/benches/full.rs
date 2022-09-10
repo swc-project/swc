@@ -13,7 +13,7 @@ use swc_css_minifier::minify;
 use swc_css_parser::{parse_file, parser::ParserConfig};
 
 pub fn bench_files(c: &mut Criterion) {
-    let mut group = c.benchmark_group("es/minify/libraries");
+    let mut group = c.benchmark_group("css/minify/libraries");
     group.sample_size(10);
 
     let mut bench_file = |name: &str, path: &Path| {
