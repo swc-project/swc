@@ -18,7 +18,7 @@ impl CompressLength {
             js_word!("cm") => match from_unit {
                 js_word!("cm") => value,
                 js_word!("mm") => value / 10.0,
-                js_word!("q") => value / 40.0,
+                js_word!(js_word!("q")) => value / 40.0,
                 js_word!("in") => 2.54 * value,
                 js_word!("pc") => 2.54 / 6.0 * value,
                 js_word!("pt") => 2.54 / 72.0 * value,
@@ -28,24 +28,24 @@ impl CompressLength {
                 }
             },
             js_word!("mm") => match from_unit {
-                "cm" => 10.0 * value,
-                "mm" => value,
-                "q" => value / 4.0,
-                "in" => 25.4 * value,
-                "pc" => 25.4 / 6.0 * value,
-                "pt" => 25.4 / 72.0 * value,
+                js_word!("cm") => 10.0 * value,
+                js_word!("mm") => value,
+                js_word!("q") => value / 4.0,
+                js_word!("in") => 25.4 * value,
+                js_word!("pc") => 25.4 / 6.0 * value,
+                js_word!("pt") => 25.4 / 72.0 * value,
                 "px" => 25.4 / 96.0 * value,
                 _ => {
                     unreachable!()
                 }
             },
-            "q" => match from_unit {
+            js_word!("q") => match from_unit {
                 "cm" => 40.0 * value,
                 "mm" => 4.0 * value,
-                "q" => value,
+                js_word!("q") => value,
                 "in" => 101.6 * value,
-                "pc" => 101.6 / 6.0 * value,
-                "pt" => 101.6 / 72.0 * value,
+                js_word!("pc") => 101.6 / 6.0 * value,
+                js_word!("pt") => 101.6 / 72.0 * value,
                 "px" => 101.6 / 96.0 * value,
                 _ => {
                     unreachable!()
@@ -54,34 +54,34 @@ impl CompressLength {
             "in" => match from_unit {
                 "cm" => value / 2.54,
                 "mm" => value / 25.4,
-                "q" => value / 101.6,
+                js_word!("q") => value / 101.6,
                 "in" => value,
-                "pc" => value / 6.0,
-                "pt" => value / 72.0,
+                js_word!("pc") => value / 6.0,
+                js_word!("pt") => value / 72.0,
                 "px" => value / 96.0,
                 _ => {
                     unreachable!()
                 }
             },
-            "pc" => match from_unit {
+            js_word!("pc") => match from_unit {
                 "cm" => 6.0 / 2.54 * value,
                 "mm" => 6.0 / 25.4 * value,
-                "q" => 6.0 / 101.6 * value,
+                js_word!("q") => 6.0 / 101.6 * value,
                 "in" => 6.0 * value,
-                "pc" => value,
-                "pt" => 6.0 / 72.0 * value,
+                js_word!("pc") => value,
+                js_word!("pt") => 6.0 / 72.0 * value,
                 "px" => 6.0 / 96.0 * value,
                 _ => {
                     unreachable!()
                 }
             },
-            "pt" => match from_unit {
+            js_word!("pt") => match from_unit {
                 "cm" => 72.0 / 2.54 * value,
                 "mm" => 72.0 / 25.4 * value,
-                "q" => 72.0 / 101.6 * value,
+                js_word!("q") => 72.0 / 101.6 * value,
                 "in" => 72.0 * value,
-                "pc" => 12.0 * value,
-                "pt" => value,
+                js_word!("pc") => 12.0 * value,
+                js_word!("pt") => value,
                 "px" => 0.75 * value,
                 _ => {
                     unreachable!()
@@ -90,10 +90,10 @@ impl CompressLength {
             "px" => match from_unit {
                 "cm" => 96.0 / 2.54 * value,
                 "mm" => 96.0 / 25.4 * value,
-                "q" => 96.0 / 101.6 * value,
+                js_word!("q") => 96.0 / 101.6 * value,
                 "in" => 96.0 * value,
-                "pc" => 16.0 * value,
-                "pt" => 96.0 / 72.0 * value,
+                js_word!("pc") => 16.0 * value,
+                js_word!("pt") => 96.0 / 72.0 * value,
                 "px" => value,
                 _ => {
                     unreachable!()
@@ -209,7 +209,7 @@ impl VisitMut for CompressLength {
                     };
                 }
             }
-            "q" => {
+            js_word!("q") => {
                 if value > 80.0 && value % 40.0 == 0.0 {
                     let new_value = self.convert(value, from, "cm");
 
@@ -238,7 +238,7 @@ impl VisitMut for CompressLength {
                     };
                 }
             }
-            "pc" => {
+            js_word!("pc") => {
                 if value % 6.0 == 0.0 {
                     let new_value = self.convert(value, from, "in");
 
@@ -254,7 +254,7 @@ impl VisitMut for CompressLength {
                     };
                 }
             }
-            "pt" => {
+            js_word!("pt") => {
                 if value % 72.0 == 0.0 {
                     let new_value = self.convert(value, from, "in");
 
