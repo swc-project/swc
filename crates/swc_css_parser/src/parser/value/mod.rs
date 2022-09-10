@@ -157,8 +157,19 @@ where
         let mut values = vec![];
 
         match function_name {
-            "calc" | "-moz-calc" | "-webkit-calc" | "sin" | "cos" | "tan" | "asin" | "acos"
-            | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
+            js_word!("calc")
+            | js_word!("-moz-calc")
+            | js_word!("-webkit-calc")
+            | js_word!("sin")
+            | js_word!("cos")
+            | js_word!("tan")
+            | js_word!("asin")
+            | js_word!("acos")
+            | js_word!("atan")
+            | js_word!("sqrt")
+            | js_word!("exp")
+            | js_word!("abs")
+            | js_word!("sign") => {
                 self.input.skip_ws()?;
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -190,7 +201,7 @@ where
                     values.push(calc_sum);
                 }
             }
-            "clamp" => {
+            js_word!("clamp") => {
                 self.input.skip_ws()?;
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);

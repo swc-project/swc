@@ -1064,7 +1064,7 @@ where
                     let mut children = vec![];
 
                     match names.0.to_ascii_lowercase() {
-                        "cue" | "cue-region" => {
+                        js_word!("cue") | js_word!("cue-region") => {
                             self.input.skip_ws()?;
 
                             let compound_selector = self.parse()?;
@@ -1075,7 +1075,7 @@ where
 
                             self.input.skip_ws()?;
                         }
-                        "part" => {
+                        js_word!("part") => {
                             self.input.skip_ws()?;
 
                             let ident = self.parse()?;
@@ -1084,7 +1084,7 @@ where
 
                             self.input.skip_ws()?;
                         }
-                        "slotted" => {
+                        js_word!("slotted") => {
                             self.input.skip_ws()?;
 
                             let compound_selector = self.parse()?;
