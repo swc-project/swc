@@ -2,14 +2,14 @@
 [build]
 
 rustdocflags = ["--cfg", "docsrs"]
-rustflags = ["-Z", "new-llvm-pass-manager=no"]
+rustflags    = ["-Z", "share-generics=yes"]
 
 [target.aarch64-apple-darwin]
-rustflags = ["-Z", "new-llvm-pass-manager=no"]
+rustflags = ["-Z", "share-generics=yes"]
 
 [target.aarch64-unknown-linux-gnu]
-linker = "aarch64-linux-gnu-gcc"
-rustflags = ["-Z", "new-llvm-pass-manager=no"]
+linker    = "aarch64-linux-gnu-gcc"
+rustflags = ["-Z", "share-generics=yes"]
 
 [target.aarch64-unknown-linux-musl]
 linker = "aarch64-linux-musl-gcc"
@@ -23,18 +23,18 @@ rustflags = [
 ]
 
 [target.armv7-unknown-linux-gnueabihf]
-linker = "arm-linux-gnueabihf-gcc"
-rustflags = ["-Z", "new-llvm-pass-manager=no"]
+linker    = "arm-linux-gnueabihf-gcc"
+rustflags = ["-Z", "share-generics=yes"]
 
 [target.aarch64-linux-android]
-rustflags = ["-Z", "new-llvm-pass-manager=no"]
+rustflags = ["-Z", "share-generics=yes"]
 
 [target.x86_64-pc-windows-msvc]
 linker = "rust-lld"
 
 [target.aarch64-pc-windows-msvc]
-linker = "rust-lld"
-rustflags = ["-Z", "new-llvm-pass-manager=no"]
+linker    = "rust-lld"
+rustflags = ["-Z", "share-generics=yes"]
 
 [target.wasm32-unknown-unknown]
-rustflags = ["-Z", "new-llvm-pass-manager=no"]
+rustflags = ["-Z", "share-generics=yes"]
