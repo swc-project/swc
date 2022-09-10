@@ -13,10 +13,10 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Stylesheet> {
-        let start = self.input.cur_span()?;
+        let start = self.input.cur_span();
         let rules = self.parse_rule_list(RuleContext { is_top_level: true })?;
 
-        let last = self.input.last_pos()?;
+        let last = self.input.last_pos();
 
         Ok(Stylesheet {
             span: Span::new(start.lo, last, Default::default()),
@@ -46,7 +46,7 @@ where
                 // <whitespace-token>
                 // Do nothing.
                 tok!(" ") => {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
                 // <CDO-token>
                 // <CDC-token>
@@ -80,16 +80,16 @@ where
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            let span = self.input.cur_span()?;
+                            let span = self.input.cur_span();
                             let mut tokens = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                let token = self.input.bump()?;
+                                let token = self.input.bump();
 
                                 tokens.extend(token);
 
                                 if is!(self, ";") {
-                                    let token = self.input.bump()?;
+                                    let token = self.input.bump();
 
                                     tokens.extend(token);
 
@@ -114,7 +114,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
         let mut prelude = QualifiedRulePrelude::ListOfComponentValues(ListOfComponentValues {
@@ -128,7 +128,7 @@ where
             // This is a parse error. Return nothing.
             // But we return for error recovery blocks
             if is!(self, EOF) {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 return Err(Error::new(span, ErrorKind::Eof));
             }
@@ -161,17 +161,17 @@ where
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            let span = self.input.cur_span()?;
+                            let span = self.input.cur_span();
                             let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "{") {
                                 if is!(self, ";") {
-                                    let span = self.input.cur_span()?;
+                                    let span = self.input.cur_span();
 
                                     return Err(Error::new(span, ErrorKind::UnexpectedChar(';')));
                                 }
 
-                                if let Some(token_and_span) = self.input.bump()? {
+                                if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
                             }
@@ -209,7 +209,7 @@ where
                 // <whitespace-token>
                 // Do nothing.
                 tok!(" ") => {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
                 // <semicolon-token>
                 // Do nothing.
@@ -236,16 +236,16 @@ where
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            let span = self.input.cur_span()?;
+                            let span = self.input.cur_span();
                             let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                if let Some(token_and_span) = self.input.bump()? {
+                                if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
 
                                 if is!(self, ";") {
-                                    if let Some(token_and_span) = self.input.bump()? {
+                                    if let Some(token_and_span) = self.input.bump() {
                                         children
                                             .push(ComponentValue::PreservedToken(token_and_span));
                                     }
@@ -275,16 +275,16 @@ where
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            let span = self.input.cur_span()?;
+                            let span = self.input.cur_span();
                             let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                if let Some(token_and_span) = self.input.bump()? {
+                                if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
 
                                 if is!(self, ";") {
-                                    if let Some(token_and_span) = self.input.bump()? {
+                                    if let Some(token_and_span) = self.input.bump() {
                                         children
                                             .push(ComponentValue::PreservedToken(token_and_span));
                                     }
@@ -313,7 +313,7 @@ where
                 // input token is anything other than a <semicolon-token> or <EOF-token>, consume a
                 // component value and throw away the returned value.
                 _ => {
-                    let span = self.input.cur_span()?;
+                    let span = self.input.cur_span();
 
                     self.errors.push(Error::new(
                         span,
@@ -326,12 +326,12 @@ where
 
                     // TODO fix me
                     while !is_one_of!(self, EOF, "}") {
-                        if let Some(token_and_span) = self.input.bump()? {
+                        if let Some(token_and_span) = self.input.bump() {
                             children.push(ComponentValue::PreservedToken(token_and_span));
                         }
 
                         if is!(self, ";") {
-                            if let Some(token_and_span) = self.input.bump()? {
+                            if let Some(token_and_span) = self.input.bump() {
                                 children.push(ComponentValue::PreservedToken(token_and_span));
                             }
 
@@ -358,7 +358,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SimpleBlock> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let name = match cur!(self) {
             tok!("{") => {
                 bump!(self);
@@ -392,7 +392,7 @@ where
 
         // TODO refactor me
         if self.ctx.block_contents_grammar != BlockContentsGrammar::NoGrammar {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
         }
 
         // Repeatedly consume the next input token and process it as follows:
@@ -400,7 +400,7 @@ where
             // <EOF-token>
             // This is a parse error. Return the block.
             if is!(self, EOF) {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 self.errors.push(Error::new(span, ErrorKind::Eof));
 
@@ -467,7 +467,7 @@ where
                         let parsed = self.parse();
                         let value = match parsed {
                             Ok(value) => {
-                                self.input.skip_ws()?;
+                                self.input.skip_ws();
 
                                 value
                             }
@@ -517,7 +517,7 @@ where
                     tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
                     // Otherwise, return the current input token.
                     _ => {
-                        let token = self.input.bump()?;
+                        let token = self.input.bump();
 
                         match token {
                             Some(t) => Ok(ComponentValue::PreservedToken(t)),
@@ -530,9 +530,9 @@ where
             }
             _ => {
                 // TODO refactor me
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 match cur!(self) {
                     tok!(",") | tok!("/") | tok!(";") => {
@@ -628,7 +628,7 @@ where
                 // <whitespace-token>
                 // Do nothing.
                 tok!(" ") => {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
                 // <semicolon-token>
                 // Do nothing.
@@ -649,7 +649,7 @@ where
                 // it to the list of declarations.
                 tok!("ident") => {
                     let state = self.input.state();
-                    let span = self.input.cur_span()?;
+                    let span = self.input.cur_span();
                     let prop = match self.parse() {
                         Ok(v) => DeclarationOrAtRule::Declaration(v),
                         Err(err) => {
@@ -659,12 +659,12 @@ where
                             let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                if let Some(token_and_span) = self.input.bump()? {
+                                if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
 
                                 if is!(self, ";") {
-                                    if let Some(token_and_span) = self.input.bump()? {
+                                    if let Some(token_and_span) = self.input.bump() {
                                         children
                                             .push(ComponentValue::PreservedToken(token_and_span));
                                     }
@@ -690,7 +690,7 @@ where
                 // We don't throw away the return value because of the recovery mode and return list
                 // of components values in this case
                 _ => {
-                    let span = self.input.cur_span()?;
+                    let span = self.input.cur_span();
 
                     self.errors.push(Error::new(
                         span,
@@ -702,12 +702,12 @@ where
                     let mut children = vec![];
 
                     while !is_one_of!(self, EOF, "}") {
-                        if let Some(token_and_span) = self.input.bump()? {
+                        if let Some(token_and_span) = self.input.bump() {
                             children.push(ComponentValue::PreservedToken(token_and_span));
                         }
 
                         if is!(self, ";") {
-                            if let Some(token_and_span) = self.input.bump()? {
+                            if let Some(token_and_span) = self.input.bump() {
                                 children.push(ComponentValue::PreservedToken(token_and_span));
                             }
 
@@ -732,7 +732,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Declaration> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         // Consume the next input token. Create a new declaration with its name set
         // to the value of the current input token and its value initially set to an
@@ -752,7 +752,7 @@ where
 
         // 1. While the next input token is a <whitespace-token>, consume the next input
         // token.
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         // 2. If the next input token is anything other than a <colon-token>, this is a
         // parse error. Return nothing. Otherwise, consume the next input token.
@@ -760,9 +760,9 @@ where
 
         // 3. While the next input token is a <whitespace-token>, consume the next input
         // token.
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
-        let mut end = self.input.cur_span()?.hi;
+        let mut end = self.input.cur_span().hi;
         let mut value = vec![];
 
         // 4. As long as the next input token is anything other than an <EOF-token>,
@@ -775,7 +775,7 @@ where
                 false => {
                     loop {
                         // TODO fix me
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         // TODO fix me
                         if is_one_of!(self, EOF, "!", ";", "}", ")") {
@@ -804,7 +804,7 @@ where
                         };
 
                         value.push(value_or_token);
-                        end = self.input.last_pos()?;
+                        end = self.input.last_pos();
                     }
                 }
             }
@@ -814,12 +814,12 @@ where
         // <delim-token> with the value "!" followed by an <ident-token> with a value
         // that is an ASCII case-insensitive match for "important", remove them from the
         // declaration’s value and set the declaration’s important flag to true.
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let important = if is!(self, "!") {
             let important_flag = self.parse()?;
 
-            end = self.input.last_pos()?;
+            end = self.input.last_pos();
 
             Some(important_flag)
         } else {
@@ -828,7 +828,7 @@ where
 
         // 6. While the last token in the declaration’s value is a <whitespace-token>,
         // remove that token.
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         // 7. Return the declaration.
         Ok(Declaration {
@@ -845,11 +845,11 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ImportantFlag> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         expect!(self, "!");
 
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let ident: Ident = self.parse()?;
 

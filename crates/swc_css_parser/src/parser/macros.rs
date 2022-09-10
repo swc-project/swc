@@ -1,6 +1,6 @@
 macro_rules! span {
     ($parser:expr, $start:expr) => {{
-        let last_pos = $parser.input.last_pos()?;
+        let last_pos = $parser.input.last_pos();
         swc_common::Span::new($start, last_pos, Default::default())
     }};
 }
@@ -67,10 +67,10 @@ macro_rules! can_ignore_ws {
 
 macro_rules! cur {
     ($parser:expr) => {
-        match $parser.input.cur()? {
+        match $parser.input.cur() {
             Some(v) => v,
             None => {
-                let last_pos = $parser.input.last_pos()?;
+                let last_pos = $parser.input.last_pos();
                 let span = swc_common::Span::new(last_pos, last_pos, Default::default());
 
                 for error in $parser.input.take_errors() {
@@ -87,13 +87,13 @@ macro_rules! cur {
 
 macro_rules! bump {
     ($parser:expr) => {
-        $parser.input.bump()?.unwrap().token
+        $parser.input.bump().unwrap().token
     };
 }
 
 macro_rules! is_case_insensitive_ident {
     ($parser:expr, $tt:tt) => {{
-        match $parser.input.cur()? {
+        match $parser.input.cur() {
             Some(swc_css_ast::Token::Ident { value, .. })
                 if &*value.to_ascii_lowercase() == $tt =>
             {
@@ -106,7 +106,7 @@ macro_rules! is_case_insensitive_ident {
 
 macro_rules! is_one_of_case_insensitive_ident {
     ($parser:expr, $($tt:tt),+) => {
-        match $parser.input.cur()? {
+        match $parser.input.cur() {
             Some(swc_css_ast::Token::Ident { value, .. }) => {
                 let lowercased = &*value.to_ascii_lowercase();
 
@@ -123,7 +123,7 @@ macro_rules! is_one_of_case_insensitive_ident {
 
 macro_rules! is {
     ($parser:expr, EOF) => {{
-        let is_eof = $parser.input.cur()?.is_none();
+        let is_eof = $parser.input.cur().is_none();
 
         if is_eof {
             for error in $parser.input.take_errors() {
@@ -137,7 +137,7 @@ macro_rules! is {
     }};
 
     ($parser:expr, $tt:tt) => {{
-        match $parser.input.cur()? {
+        match $parser.input.cur() {
             Some(tok_pat!($tt)) => true,
             _ => false,
         }
@@ -154,7 +154,7 @@ macro_rules! is_one_of {
 
 macro_rules! peeked_is {
     ($parser:expr, $tt:tt) => {{
-        match $parser.input.peek()? {
+        match $parser.input.peek() {
             Some(tok_pat!($tt)) => true,
             _ => false,
         }
@@ -183,11 +183,11 @@ macro_rules! eat {
 macro_rules! expect {
     ($parser:expr, $tt:tt) => {
         if can_ignore_ws!($tt) {
-            $parser.input.skip_ws()?
+            $parser.input.skip_ws()
         }
 
         if !eat!($parser, $tt) {
-            let span = $parser.input.cur_span()?;
+            let span = $parser.input.cur_span();
             return Err(crate::error::Error::new(
                 span,
                 crate::error::ErrorKind::ExpectedButGot(stringify!($tt)),
