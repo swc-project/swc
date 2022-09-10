@@ -450,7 +450,7 @@ where
                 }
 
                 match function_name {
-                    "rgb" | "rgba" => {
+                    js_word!("rgb") | js_word!("rgba") => {
                         let percentage_or_number =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -483,7 +483,7 @@ where
 
                         values.push(percentage_or_number);
                     }
-                    "hsl" | "hsla" => {
+                    js_word!("hsl") | js_word!("hsla") => {
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -538,7 +538,7 @@ where
                 }
 
                 match function_name {
-                    "rgb" | "rgba" => {
+                    js_word!("rgb") | js_word!("rgba") => {
                         let percentage_or_number =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -571,7 +571,7 @@ where
 
                         values.push(percentage_or_number);
                     }
-                    "hsl" | "hsla" => {
+                    js_word!("hsl") | js_word!("hsla") => {
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -673,7 +673,12 @@ where
                     self.input.skip_ws()?;
                 }
             }
-            "hwb" | "lab" | "lch" | "oklab" | "oklch" | "device-cmyk" => {
+            js_word!("hwb")
+            | js_word!("lab")
+            | js_word!("lch")
+            | js_word!("oklab")
+            | js_word!("oklch")
+            | js_word!("device-cmyk") => {
                 self.input.skip_ws()?;
 
                 match cur!(self) {
