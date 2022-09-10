@@ -272,9 +272,9 @@ impl VisitMut for CompressDeclaration {
                                 }),
                             ),
                             None,
-                        ) if &*outside_value.to_lowercase() == "block"
+                        ) if outside_value.to_ascii_lowercase() == "block"
                             && matches!(
-                                &*inside_value.to_lowercase(),
+                                inside_value.to_ascii_lowercase(),
                                 "flex" | "grid" | "table"
                             ) =>
                         {
@@ -293,8 +293,8 @@ impl VisitMut for CompressDeclaration {
                                 }),
                             ),
                             None,
-                        ) if &*outside_value.to_lowercase() == "inline"
-                            && inside_value.to_lowercase() == "ruby" =>
+                        ) if outside_value.to_ascii_lowercase() == "inline"
+                            && inside_value.to_ascii_lowercase() == "ruby" =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -427,7 +427,7 @@ impl VisitMut for CompressDeclaration {
                         .into_iter()
                         .map(|node| match node {
                             ComponentValue::Ident(Ident { value, span, .. })
-                                if value.to_lowercase() == "normal" =>
+                                if value.to_ascii_lowercase() == "normal" =>
                             {
                                 ComponentValue::Number(Number {
                                     span,
@@ -436,7 +436,7 @@ impl VisitMut for CompressDeclaration {
                                 })
                             }
                             ComponentValue::Ident(Ident { value, span, .. })
-                                if value.to_lowercase() == "bold" =>
+                                if value.to_ascii_lowercase() == "bold" =>
                             {
                                 ComponentValue::Number(Number {
                                     span,
@@ -466,7 +466,10 @@ impl VisitMut for CompressDeclaration {
                         })),
                     ) = (first, second)
                     {
-                        match (&*first_value.to_lowercase(), &*second_value.to_lowercase()) {
+                        match (
+                            first_value.to_ascii_lowercase(),
+                            second_value.to_ascii_lowercase(),
+                        ) {
                             ("repeat", "no-repeat") => {
                                 declaration.value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
