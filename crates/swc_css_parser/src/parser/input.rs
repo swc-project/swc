@@ -121,28 +121,25 @@ where
 
     pub(super) fn skip_ws(&mut self) {
         loop {
-            match self.cur.as_ref().map(|v| &v.token) {
-                Some(tok!(" ")) => {
-                    {
-                        if let Some(cur) = &self.cur {
-                            self.last_pos = cur.span.hi;
-                        }
-
-                        self.cur = None;
-
-                        if let Some(next) = self.peeked.take() {
-                            self.cur = Some(next);
-                        }
-
-                        if self.cur.is_none() {
-                            let token_and_span = self.input.next();
-
-                            self.cur = token_and_span;
-                        }
-                    };
+            if let Some(TokenAndSpan {
+                token: tok!(" "), ..
+            }) = &self.cur
+            {
+                if let Some(cur) = &self.cur {
+                    self.last_pos = cur.span.hi;
                 }
 
-                Some(..) | None => return,
+                self.cur = None;
+
+                if let Some(next) = self.peeked.take() {
+                    self.cur = Some(next);
+                }
+
+                if self.cur.is_none() {
+                    let token_and_span = self.input.next();
+
+                    self.cur = token_and_span;
+                }
             }
         }
     }
