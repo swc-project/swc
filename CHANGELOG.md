@@ -19,6 +19,9 @@
 
 - **(css/minifier)** Setup benchmark (#5800) ([88e59ff](https://github.com/swc-project/swc/commit/88e59ffcda6b0f00fabe80515c80cf4e0563f2bf))
 
+
+- **(es/codegen)** Skip useless operations if not required (#5803) ([49942ca](https://github.com/swc-project/swc/commit/49942ca773d6fe6f44efa92625e274d01f9cdce0))
+
 ### Refactor
 
 
