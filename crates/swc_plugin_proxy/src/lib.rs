@@ -1,3 +1,5 @@
+#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
+
 mod comments;
 mod memory_interop;
 mod metadata;

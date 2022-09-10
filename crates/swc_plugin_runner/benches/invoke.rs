@@ -1,3 +1,5 @@
+#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
+
 extern crate swc_node_base;
 
 use std::{
