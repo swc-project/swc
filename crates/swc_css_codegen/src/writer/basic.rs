@@ -113,7 +113,9 @@ where
 
     fn raw_write(&mut self, data: &str) -> Result {
         self.w.write_str(data)?;
-        self.col += data.chars().count();
+        if self.srcmap.is_some() {
+            self.col += data.chars().count();
+        }
 
         Ok(())
     }
@@ -216,11 +218,15 @@ where
             let line_start_of_s = compute_line_starts(s);
 
             if line_start_of_s.len() > 1 {
-                self.line = self.line + line_start_of_s.len() - 1;
+                if self.srcmap.is_some() {
+                    self.line = self.line + line_start_of_s.len() - 1;
+                }
 
                 let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
 
-                self.col = s[last_line_byte_index..].chars().count();
+                if self.srcmap.is_some() {
+                    self.col = s[last_line_byte_index..].chars().count();
+                }
             }
 
             if !span.is_dummy() {
