@@ -45,18 +45,24 @@ impl<'a, I: Input> Lexer<'a, I> {
                     })
                     .map(Some);
                 }
-                '>' => self.error(
-                    cur_pos,
-                    SyntaxError::UnexpectedTokenWithSuggestions {
-                        candidate_list: vec!["`{'>'}`", "`&gt;`"],
-                    },
-                )?,
-                '}' => self.error(
-                    cur_pos,
-                    SyntaxError::UnexpectedTokenWithSuggestions {
-                        candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
-                    },
-                )?,
+                '>' => {
+                    self.emit_error(
+                        cur_pos,
+                        SyntaxError::UnexpectedTokenWithSuggestions {
+                            candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                        },
+                    );
+                    self.input.bump()
+                }
+                '}' => {
+                    self.emit_error(
+                        cur_pos,
+                        SyntaxError::UnexpectedTokenWithSuggestions {
+                            candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
+                        },
+                    );
+                    self.input.bump()
+                }
                 '&' => {
                     out.push_str(self.input.slice(chunk_start, cur_pos));
 
