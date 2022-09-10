@@ -823,7 +823,7 @@ where
 
                         values.push(percentage_or_none);
                     }
-                    js_word!("lab") | js_word!("lch") | js_word!("oklab") | "oklch" => {
+                    js_word!("lab") | js_word!("lch") | js_word!("oklab") | js_word!("oklch") => {
                         let number_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") => Ok(ComponentValue::Number(parser.parse()?)),
@@ -853,7 +853,7 @@ where
 
                         values.push(number_or_none);
                     }
-                    "device-cmyk" => {
+                    js_word!("device-cmyk") => {
                         let cmyk_component = self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::CmykComponent(parser.parse()?))
                         })?;
@@ -1238,7 +1238,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(ComponentValue::Function(parser.parse()?))
                             }
-                            tok!("ident") if !matches!(function_name, "device-cmyk") => {
+                            tok!("ident") if !matches!(function_name, js_word!("device-cmyk")) => {
                                 let ident: Ident = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
@@ -1309,7 +1309,10 @@ where
     {
         match cur!(self) {
             Token::Function { value, .. }
-                if matches!(value.to_ascii_lowercase(), "var" | "env" | "constant") =>
+                if matches!(
+                    value.to_ascii_lowercase(),
+                    js_word!("var") | js_word!("env") | js_word!("constant")
+                ) =>
             {
                 Ok(ComponentValue::Function(self.parse()?))
             }
