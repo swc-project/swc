@@ -136,6 +136,8 @@ where
             if self.cur.is_none() {
                 self.cur = self.input.next();
             }
+        } else {
+            return;
         }
 
         loop {
@@ -149,6 +151,8 @@ where
                 // We don't need to check for peeked, because we are in a loop.
 
                 self.cur = self.input.next();
+            } else {
+                return;
             }
         }
     }
