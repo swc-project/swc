@@ -17,7 +17,7 @@ function _func() {
                         p
                     ];
                 case 1:
-                    b = _.apply(void 0, [
+                    b = _.apply(o, [
                         _state.sent(),
                         a,
                         a

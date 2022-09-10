@@ -20,7 +20,7 @@ function _func() {
                         p
                     ];
                 case 1:
-                    b = _.apply(void 0, _tmp.concat(_state.sent(), a));
+                    b = _.apply(o, _tmp.concat(_state.sent(), a));
                     after();
                     return [
                         2
