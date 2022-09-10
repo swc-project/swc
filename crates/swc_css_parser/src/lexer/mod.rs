@@ -158,7 +158,7 @@ where
         take(&mut self.errors)
     }
 
-    fn skip_ws(&mut self) {
+    fn skip_ws(&mut self) -> BytePos {
         if let Some(c) = self.cur {
             if is_whitespace(c) {
                 self.cur.take();
@@ -168,6 +168,8 @@ where
 
             self.cur_pos = self.input.cur_pos();
         }
+
+        self.cur_pos
     }
 }
 

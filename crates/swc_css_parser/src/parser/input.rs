@@ -220,13 +220,15 @@ impl<'a> ParserInput for TokensInput<'a> {
         vec![]
     }
 
-    fn skip_ws(&mut self) {
+    fn skip_ws(&mut self) -> BytePos {
         while let Ok(TokenAndSpan {
             token: tok!(" "), ..
         }) = self.cur()
         {
             self.idx += 1;
         }
+
+        self.tokens.tokens[self.idx - 1].span.hi
     }
 }
 
