@@ -237,7 +237,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         // // comment for bar
         // bar
         //
-        let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
+        let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_line_comment();
         let mut end = self.cur_pos();
 
         while let Some(c) = self.cur() {
