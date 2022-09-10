@@ -239,6 +239,10 @@ impl Analyzer<'_> {
     {
         let prev_len = self.scope.ast_path.len();
 
+        if let Some(last) = self.scope.last_ast_path() {
+            self.data.add_dep_edge(last, id.clone(), false);
+        }
+
         self.scope.ast_path.push(id);
 
         op(self);
@@ -316,16 +320,9 @@ impl Analyzer<'_> {
             let idx = self.data.node(&id);
             self.data.entries.insert(idx);
         } else {
-            let mut scope = Some(&self.scope);
+            let last = self.scope.last_ast_path().unwrap();
 
-            while let Some(s) = scope {
-                for component in &s.ast_path {
-                    self.data
-                        .add_dep_edge(component.clone(), id.clone(), assign)
-                }
-
-                scope = s.parent;
-            }
+            self.data.add_dep_edge(last, id.clone(), assign)
         }
 
         if assign {
@@ -1038,5 +1035,13 @@ impl Scope<'_> {
             Some(p) => p.is_ast_path_empty(),
             None => true,
         }
+    }
+
+    fn last_ast_path(&self) -> Option<Id> {
+        if let Some(v) = self.ast_path.last() {
+            return Some(v.clone());
+        }
+
+        self.parent?.last_ast_path()
     }
 }
