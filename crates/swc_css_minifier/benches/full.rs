@@ -1,8 +1,6 @@
-//! Ported from https://github.com/privatenumber/minification-benchmarks
-
 extern crate swc_node_base;
 
-use std::fs::read_to_string;
+use std::{fs::read_to_string, path::Path};
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, Mark, SourceMap};
@@ -19,8 +17,8 @@ pub fn bench_files(c: &mut Criterion) {
     let mut group = c.benchmark_group("es/minify/libraries");
     group.sample_size(10);
 
-    let mut bench_file = |name: &str| {
-        let src = read_to_string(&format!("benches/full/{}.js", name)).unwrap();
+    let mut bench_file = |name: &str, path: &Path| {
+        let src = read_to_string(path).unwrap();
 
         group.bench_function(name, |b| {
             b.iter(|| {
@@ -30,18 +28,10 @@ pub fn bench_files(c: &mut Criterion) {
         });
     };
 
-    bench_file("antd");
-    bench_file("d3");
-    bench_file("echarts");
-    bench_file("jquery");
-    bench_file("lodash");
-    bench_file("moment");
-    bench_file("react");
-    bench_file("terser");
-    bench_file("three");
-    bench_file("typescript");
-    bench_file("victory");
-    bench_file("vue");
+    bench_file(
+        "bootstrap",
+        Path::new("../../node_modules/bootstrap/dist/css/bootstrap.css"),
+    );
 }
 
 criterion_group!(files, bench_files);
