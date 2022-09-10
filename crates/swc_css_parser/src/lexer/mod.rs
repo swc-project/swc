@@ -159,13 +159,10 @@ where
     }
 
     fn skip_ws(&mut self) -> Option<BytePos> {
-        let start = self.input.cur_pos();
-
         self.read_comments();
 
-        if let Some(c) = self.next() {
+        if let Some(c) = self.input.cur() {
             if !is_whitespace(c) {
-                self.input.reset_to(start);
                 return None;
             }
         }
