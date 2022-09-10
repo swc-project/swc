@@ -3082,18 +3082,18 @@ fn is_math_function(name: &JsWord) -> bool {
 fn is_absolute_color_base_function(name: &JsWord) -> bool {
     matches!(
         name.to_ascii_lowercase(),
-        "rgb"
-            | "rgba"
-            | "hsl"
-            | "hsla"
-            | "hwb"
-            | "lab"
-            | "lch"
-            | "oklab"
-            | "oklch"
-            | "color"
-            | "color-mix"
-            | "color-contrast"
+        js_word!("rgb")
+            | js_word!("rgba")
+            | js_word!("hsl")
+            | js_word!("hsla")
+            | js_word!("hwb")
+            | js_word!("lab")
+            | js_word!("lch")
+            | js_word!("oklab")
+            | js_word!("oklch")
+            | js_word!("color")
+            | js_word!("color-mix")
+            | js_word!("color-contrast")
     )
 }
 
