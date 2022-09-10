@@ -1038,10 +1038,16 @@ impl Scope<'_> {
     }
 
     fn last_ast_path(&self) -> Option<Id> {
-        if let Some(v) = self.ast_path.last() {
-            return Some(v.clone());
+        let mut s = Some(self);
+
+        while let Some(scope) = s {
+            if let Some(v) = self.ast_path.last() {
+                return Some(v.clone());
+            }
+
+            s = scope.parent;
         }
 
-        self.parent?.last_ast_path()
+        None
     }
 }
