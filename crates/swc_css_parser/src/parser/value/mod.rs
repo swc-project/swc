@@ -1111,7 +1111,7 @@ where
                                 if is_math_function(value)
                                     || matches!(
                                         value.to_ascii_lowercase(),
-                                        "var" | "env" | "constant"
+                                        js_word!("var") | js_word!("env") | js_word!("constant")
                                     ) =>
                             {
                                 ComponentValue::Function(self.parse()?)
@@ -2951,7 +2951,11 @@ where
             tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
             Token::Ident { value, .. } => {
                 match value.to_ascii_lowercase() {
-                    "e" | "pi" | "infinity" | "-infinity" | "nan" => {}
+                    js_word!("e")
+                    | js_word!("pi")
+                    | js_word!("infinity")
+                    | js_word!("-infinity")
+                    | js_word!("nan") => {}
                     _ => {
                         let span = self.input.cur_span()?;
 

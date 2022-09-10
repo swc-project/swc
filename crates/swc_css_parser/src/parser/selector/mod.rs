@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
@@ -856,14 +856,14 @@ where
                     let mut children = vec![];
 
                     match names.0.to_ascii_lowercase() {
-                        "-moz-any" | "-webkit-any" => {
+                        js_word!("-moz-any") | js_word!("-webkit-any") => {
                             let compound_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::CompoundSelectorList(
                                 compound_selector_list,
                             ));
                         }
-                        "dir" => {
+                        js_word!("dir") => {
                             self.input.skip_ws()?;
 
                             let ident = self.parse()?;
@@ -872,7 +872,7 @@ where
 
                             self.input.skip_ws()?;
                         }
-                        "lang" => {
+                        js_word!("lang") => {
                             self.input.skip_ws()?;
 
                             let child = match cur!(self) {
