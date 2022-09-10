@@ -146,7 +146,7 @@ impl VisitMut for CompressLength {
     fn visit_mut_length(&mut self, length: &mut Length) {
         length.visit_mut_children_with(self);
 
-        let from = &*length.unit.value.to_lowercase();
+        let from = length.unit.value.to_ascii_lowercase();
         let value = length.value.value;
 
         match from {
