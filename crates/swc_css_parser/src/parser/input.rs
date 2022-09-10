@@ -16,6 +16,8 @@ pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     fn reset(&mut self, state: &Self::State);
 
     fn take_errors(&mut self) -> Vec<Error>;
+
+    fn skip_ws(&mut self);
 }
 
 #[derive(Debug)]
@@ -122,16 +124,10 @@ where
         take(&mut self.input.take_errors())
     }
 
+    #[inline(always)]
     pub(super) fn skip_ws(&mut self) -> PResult<()> {
-        loop {
-            match self.cur.as_ref().map(|v| &v.token) {
-                Some(tok!(" ")) => {
-                    self.bump_inner()?;
-                }
-
-                Some(..) | None => return Ok(()),
-            }
-        }
+        self.input.skip_ws();
+        Ok(())
     }
 
     pub(super) fn state(&mut self) -> WrappedState<I::State> {
@@ -201,6 +197,18 @@ impl<'a> ParserInput for TokensInput<'a> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         vec![]
+    }
+
+    fn skip_ws(&mut self) {
+        loop {
+            match self.cur.as_ref().map(|v| &v.token) {
+                Some(tok!(" ")) => {
+                    self.bump_inner()?;
+                }
+
+                Some(..) | None => return Ok(()),
+            }
+        }
     }
 }
 

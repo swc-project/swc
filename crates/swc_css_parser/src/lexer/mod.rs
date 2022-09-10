@@ -157,6 +157,18 @@ where
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)
     }
+
+    fn skip_ws(&mut self) {
+        loop {
+            match self.cur.as_ref().map(|v| &v.token) {
+                Some(tok!(" ")) => {
+                    self.bump_inner()?;
+                }
+
+                Some(..) | None => return Ok(()),
+            }
+        }
+    }
 }
 
 impl<I> Lexer<I>
