@@ -213,7 +213,7 @@ where
 
                     Ok(prelude)
                 }
-                "document" | "-moz-document" => {
+                js_word!("document") | js_word!("-moz-document") => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -247,7 +247,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "page" => {
+                js_word!("page") => {
                     parser.input.skip_ws()?;
 
                     let prelude = if !is!(parser, "{") {
@@ -260,22 +260,22 @@ where
 
                     Ok(prelude)
                 }
-                "top-left-corner"
-                | "top-left"
-                | "top-center"
-                | "top-right"
-                | "top-right-corner"
-                | "bottom-left-corner"
-                | "bottom-left"
-                | "bottom-center"
-                | "bottom-right"
-                | "bottom-right-corner"
-                | "left-top"
-                | "left-middle"
-                | "left-bottom"
-                | "right-top"
-                | "right-middle"
-                | "right-bottom"
+                js_word!("top-left-corner")
+                | js_word!("top-left")
+                | js_word!("top-center")
+                | js_word!("top-right")
+                | js_word!("top-right-corner")
+                | js_word!("bottom-left-corner")
+                | js_word!("bottom-left")
+                | js_word!("bottom-center")
+                | js_word!("bottom-right")
+                | js_word!("bottom-right-corner")
+                | js_word!("left-top")
+                | js_word!("left-middle")
+                | js_word!("left-bottom")
+                | js_word!("right-top")
+                | js_word!("right-middle")
+                | js_word!("right-bottom")
                     if parser.ctx.in_page_at_rule =>
                 {
                     parser.input.skip_ws()?;
