@@ -415,7 +415,7 @@ impl VisitMut for CompressColor {
             Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
                 span, value, ..
             })) => {
-                if let Some(value) = self.get_named_color_by_hex(&value.to_lowercase()) {
+                if let Some(value) = self.get_named_color_by_hex(&value.to_ascii_lowercase()) {
                     *color = Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(
                         Ident {
                             span: *span,

@@ -31,15 +31,15 @@ impl VisitMut for CompressAngle {
         match &function.name {
             Ident { value, .. }
                 if matches!(
-                    &*value.to_lowercase(),
-                    "rotate"
-                        | "skew"
-                        | "skewx"
-                        | "skewy"
-                        | "rotate3d"
-                        | "rotatex"
-                        | "rotatey"
-                        | "rotatez"
+                    value.to_ascii_lowercase(),
+                    js_word!("rotate")
+                        | js_word!("skew")
+                        | js_word!("skewx")
+                        | js_word!("skewy")
+                        | js_word!("rotate3d")
+                        | js_word!("rotatex")
+                        | js_word!("rotatey")
+                        | js_word!("rotatez")
                 ) =>
             {
                 let old_in_block = self.in_transform_function;

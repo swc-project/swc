@@ -26,7 +26,7 @@ impl CompressDeclaration {
                     ..
                 }))),
             ) if value_1.value == value_2.value
-                && unit_1.value.to_lowercase() == unit_2.value.to_lowercase() =>
+                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
             {
                 true
             }
