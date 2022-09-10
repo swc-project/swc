@@ -2264,8 +2264,8 @@ where
                 value: function_name,
                 raw: raw_function_name,
             } => {
-                if function_name.to_ascii_lowercase() != "url"
-                    && function_name.to_ascii_lowercase() != "src"
+                if function_name.to_ascii_lowercase() != js_word!("url")
+                    && function_name.to_ascii_lowercase() != js_word!("src")
                 {
                     return Err(Error::new(
                         span,
@@ -2428,7 +2428,7 @@ where
 
         // should start with `u` or `U`
         match cur!(self) {
-            Token::Ident { value, .. } if value.to_ascii_lowercase() == "u" => {
+            Token::Ident { value, .. } if value.to_ascii_lowercase() == js_word!("u") => {
                 let ident = match bump!(self) {
                     Token::Ident { value, .. } => value,
                     _ => {

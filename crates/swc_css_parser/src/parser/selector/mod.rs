@@ -1160,8 +1160,8 @@ where
         match cur!(self) {
             //  odd | even
             Token::Ident { value, .. }
-            if value.to_ascii_lowercase() == "odd"
-                || value.to_ascii_lowercase() == "even" =>
+            if value.to_ascii_lowercase() == js_word!("odd")
+                || value.to_ascii_lowercase() == js_word!("even") =>
                 {
                     Ok(AnPlusB::Ident(self.parse()?))
                 }
