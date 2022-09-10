@@ -66,7 +66,7 @@ impl CompressDeclaration {
                     ..
                 }))),
             ) if value_1.value == value_2.value
-                && unit_1.value.to_lowercase() == unit_2.value.to_lowercase() =>
+                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
             {
                 true
             }
@@ -100,7 +100,7 @@ impl CompressDeclaration {
         matches!((node_1, node_2), (
                  Some(ComponentValue::Ident(Ident { value: value_1, .. })),
                 Some(ComponentValue::Ident(Ident { value: value_2, .. })),
-            ) if value_1.to_lowercase() == value_2.to_lowercase())
+            ) if value_1.to_ascii_lowercase() == value_2.to_ascii_lowercase())
     }
 }
 
@@ -109,7 +109,7 @@ impl VisitMut for CompressDeclaration {
         declaration.visit_mut_children_with(self);
 
         if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
-            match &*value.to_lowercase() {
+            match value.to_ascii_lowercase() {
                 "display" if declaration.value.len() > 1 => {
                     let mut outside = None;
                     let mut inside = None;
@@ -119,7 +119,7 @@ impl VisitMut for CompressDeclaration {
                         match value {
                             outside_node @ ComponentValue::Ident(Ident { value, .. })
                                 if matches!(
-                                    &*value.to_lowercase(),
+                                    value.to_ascii_lowercase(),
                                     "block" | "inline" | "run-in"
                                 ) =>
                             {
@@ -127,17 +127,18 @@ impl VisitMut for CompressDeclaration {
                             }
                             inside_node @ ComponentValue::Ident(Ident { value, .. })
                                 if matches!(
-                                    &*value.to_lowercase(),
+                                    value.to_ascii_lowercase(),
                                     "flow" | "flow-root" | "table" | "flex" | "grid" | "ruby"
                                 ) =>
                             {
                                 inside = Some(inside_node);
                             }
                             list_item_node @ ComponentValue::Ident(Ident { value, .. })
-                                if &*value.to_lowercase() == "list-item" =>
+                                if value.to_ascii_lowercase() == "list-item" =>
                             {
                                 if let Some(ComponentValue::Ident(Ident { value, .. })) = inside {
-                                    if !matches!(&*value.to_lowercase(), "flow" | "flow-root") {
+                                    if !matches!(&*value.to_ascii_lowercase(), "flow" | "flow-root")
+                                    {
                                         continue;
                                     }
                                 }
@@ -159,7 +160,7 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             None,
-                        ) if &*inside_value.to_lowercase() == "flow" => {
+                        ) if inside_value.to_ascii_lowercase() == "flow" => {
                             declaration.value = vec![outside.clone()];
                         }
                         // `block flow-root` -> `flow-root`
@@ -175,8 +176,8 @@ impl VisitMut for CompressDeclaration {
                                 }),
                             ),
                             None,
-                        ) if &*outside_value.to_lowercase() == "block"
-                            && &*inside_value.to_lowercase() == "flow-root" =>
+                        ) if outside_value.to_ascii_lowercase() == "block"
+                            && inside_value.to_ascii_lowercase() == "flow-root" =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -192,8 +193,8 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             None,
-                        ) if &*outside_value.to_lowercase() == "inline"
-                            && &*inside_value.to_lowercase() == "flow-root" =>
+                        ) if outside_value.to_ascii_lowercase() == "inline"
+                            && inside_value.to_ascii_lowercase() == "flow-root" =>
                         {
                             declaration.value = vec![ComponentValue::Ident(Ident {
                                 span: *span,
@@ -212,8 +213,8 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             Some(list_item),
-                        ) if &*outside_value.to_lowercase() == "block"
-                            && &*inside_value.to_lowercase() == "flow" =>
+                        ) if outside_value.to_ascii_lowercase() == "block"
+                            && inside_value.to_ascii_lowercase() == "flow" =>
                         {
                             declaration.value = vec![list_item.clone()];
                         }
@@ -225,7 +226,7 @@ impl VisitMut for CompressDeclaration {
                             })),
                             None,
                             Some(list_item),
-                        ) if &*outside_value.to_lowercase() == "block" => {
+                        ) if outside_value.to_ascii_lowercase() == "block" => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `flow list-item` -> `list-item`
@@ -236,7 +237,7 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             Some(list_item),
-                        ) if &*inside_value.to_lowercase() == "flow" => {
+                        ) if inside_value.to_ascii_lowercase() == "flow" => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `inline flow list-item` -> `inline list-item`
@@ -252,8 +253,8 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             Some(list_item),
-                        ) if &*outside_value.to_lowercase() == "inline"
-                            && &*inside_value.to_lowercase() == "flow" =>
+                        ) if outside_value.to_ascii_lowercase() == "inline"
+                            && inside_value.to_ascii_lowercase() == "flow" =>
                         {
                             declaration.value = vec![outside.clone(), list_item.clone()];
                         }
