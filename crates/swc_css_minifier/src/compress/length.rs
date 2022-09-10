@@ -34,67 +34,67 @@ impl CompressLength {
                 js_word!("in") => 25.4 * value,
                 js_word!("pc") => 25.4 / 6.0 * value,
                 js_word!("pt") => 25.4 / 72.0 * value,
-                "px" => 25.4 / 96.0 * value,
+                js_word!("px") => 25.4 / 96.0 * value,
                 _ => {
                     unreachable!()
                 }
             },
             js_word!("q") => match from_unit {
-                "cm" => 40.0 * value,
-                "mm" => 4.0 * value,
+                js_word!("cm") => 40.0 * value,
+                js_word!("mm") => 4.0 * value,
                 js_word!("q") => value,
-                "in" => 101.6 * value,
+                js_word!("in") => 101.6 * value,
                 js_word!("pc") => 101.6 / 6.0 * value,
                 js_word!("pt") => 101.6 / 72.0 * value,
-                "px" => 101.6 / 96.0 * value,
+                js_word!("px") => 101.6 / 96.0 * value,
                 _ => {
                     unreachable!()
                 }
             },
-            "in" => match from_unit {
-                "cm" => value / 2.54,
-                "mm" => value / 25.4,
+            js_word!("in") => match from_unit {
+                js_word!("cm") => value / 2.54,
+                js_word!("mm") => value / 25.4,
                 js_word!("q") => value / 101.6,
-                "in" => value,
+                js_word!("in") => value,
                 js_word!("pc") => value / 6.0,
                 js_word!("pt") => value / 72.0,
-                "px" => value / 96.0,
+                js_word!("px") => value / 96.0,
                 _ => {
                     unreachable!()
                 }
             },
             js_word!("pc") => match from_unit {
-                "cm" => 6.0 / 2.54 * value,
-                "mm" => 6.0 / 25.4 * value,
+                js_word!("cm") => 6.0 / 2.54 * value,
+                js_word!("mm") => 6.0 / 25.4 * value,
                 js_word!("q") => 6.0 / 101.6 * value,
-                "in" => 6.0 * value,
+                js_word!("in") => 6.0 * value,
                 js_word!("pc") => value,
                 js_word!("pt") => 6.0 / 72.0 * value,
-                "px" => 6.0 / 96.0 * value,
+                js_word!("px") => 6.0 / 96.0 * value,
                 _ => {
                     unreachable!()
                 }
             },
             js_word!("pt") => match from_unit {
-                "cm" => 72.0 / 2.54 * value,
-                "mm" => 72.0 / 25.4 * value,
+                js_word!("cm") => 72.0 / 2.54 * value,
+                js_word!("mm") => 72.0 / 25.4 * value,
                 js_word!("q") => 72.0 / 101.6 * value,
-                "in" => 72.0 * value,
+                js_word!("in") => 72.0 * value,
                 js_word!("pc") => 12.0 * value,
                 js_word!("pt") => value,
-                "px" => 0.75 * value,
+                js_word!("px") => 0.75 * value,
                 _ => {
                     unreachable!()
                 }
             },
-            "px" => match from_unit {
-                "cm" => 96.0 / 2.54 * value,
-                "mm" => 96.0 / 25.4 * value,
+            js_word!("px") => match from_unit {
+                js_word!("cm") => 96.0 / 2.54 * value,
+                js_word!("mm") => 96.0 / 25.4 * value,
                 js_word!("q") => 96.0 / 101.6 * value,
-                "in" => 96.0 * value,
+                js_word!("in") => 96.0 * value,
                 js_word!("pc") => 16.0 * value,
                 js_word!("pt") => 96.0 / 72.0 * value,
-                "px" => value,
+                js_word!("px") => value,
                 _ => {
                     unreachable!()
                 }
