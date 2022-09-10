@@ -17,7 +17,8 @@ pub trait ParserInput: Iterator<Item = TokenAndSpan> {
 
     fn take_errors(&mut self) -> Vec<Error>;
 
-    fn skip_ws(&mut self);
+    /// Returns `last_pos`
+    fn skip_ws(&mut self) -> BytePos;
 }
 
 #[derive(Debug)]
@@ -126,19 +127,25 @@ where
 
     #[inline(always)]
     pub(super) fn skip_ws(&mut self) -> PResult<()> {
-        if let Some(cur) = &self.cur {
-            self.last_pos = cur.span.hi;
-        }
-
         if let Some(TokenAndSpan {
             token: tok!(" "), ..
         }) = &self.cur
         {
             self.cur = None;
 
-            self.input.skip_ws();
+            match self.peeked {
+                Some(TokenAndSpan {
+                    token: tok!(" "), ..
+                })
+                | None => {
+                    self.peeked = None;
 
-            self.bump_inner()?;
+                    self.last_pos = self.input.skip_ws();
+
+                    self.bump_inner()?;
+                }
+                _ => {}
+            }
         }
 
         Ok(())
