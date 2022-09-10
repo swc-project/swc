@@ -64,7 +64,7 @@ where
 
     pub fn cur(&mut self) -> PResult<Option<&Token>> {
         if self.cur.is_none() {
-            self.bump_inner()?;
+            self.bump_inner();
         }
 
         Ok(self.cur.as_ref().map(|v| &v.token))
@@ -93,12 +93,12 @@ where
 
         let token = self.cur.take();
 
-        self.bump_inner()?;
+        self.bump_inner();
 
         Ok(token)
     }
 
-    fn bump_inner(&mut self) -> PResult<()> {
+    fn bump_inner(&mut self) {
         if let Some(cur) = &self.cur {
             self.last_pos = cur.span.hi;
         }
@@ -114,22 +114,20 @@ where
 
             self.cur = token_and_span;
         }
-
-        Ok(())
     }
 
     pub fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.input.take_errors())
     }
 
-    pub(super) fn skip_ws(&mut self) -> PResult<()> {
+    pub(super) fn skip_ws(&mut self) {
         loop {
             match self.cur.as_ref().map(|v| &v.token) {
                 Some(tok!(" ")) => {
-                    self.bump_inner()?;
+                    self.bump_inner();
                 }
 
-                Some(..) | None => return Ok(()),
+                Some(..) | None => return,
             }
         }
     }

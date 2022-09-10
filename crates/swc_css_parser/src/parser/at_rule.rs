@@ -54,7 +54,7 @@ where
         let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<AtRulePrelude>> {
             match lowercased_name {
                 "viewport" | "-ms-viewport" | "-o-viewport" | "font-face" => {
-                    parser.input.skip_ws()?;
+                    parser.input.skip_ws();
 
                     if !is!(parser, "{") {
                         let span = parser.input.cur_span()?;
@@ -65,7 +65,7 @@ where
                     Ok(None)
                 }
                 "charset" => {
-                    parser.input.skip_ws()?;
+                    parser.input.skip_ws();
 
                     let span = parser.input.cur_span()?;
                     let charset = match cur!(parser) {
@@ -77,7 +77,7 @@ where
 
                     let prelude = AtRulePrelude::CharsetPrelude(charset);
 
-                    parser.input.skip_ws()?;
+                    parser.input.skip_ws();
 
                     if !is!(parser, ";") {
                         let span = parser.input.cur_span()?;
@@ -88,11 +88,11 @@ where
                     Ok(Some(prelude))
                 }
                 "counter-style" => {
-                    parser.input.skip_ws()?;
+                    parser.input.skip_ws();
 
                     let prelude = AtRulePrelude::CounterStylePrelude(parser.parse()?);
 
-                    parser.input.skip_ws()?;
+                    parser.input.skip_ws();
 
                     if !is!(parser, "{") {
                         let span = parser.input.cur_span()?;
