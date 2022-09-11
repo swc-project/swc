@@ -5,6 +5,9 @@
 
 
 
+- **(css/minifier)** Compress alpha (#5825) ([b531410](https://github.com/swc-project/swc/commit/b531410ea90f38da7e491862097cf7a2dea51fe9))
+
+
 - **(es/parser)** Keep comments of the RHS of a binary expression (#5812) ([8adbe16](https://github.com/swc-project/swc/commit/8adbe1675e6e86b0d1eb2f67ecdba3eb4ed5ee96))
 
 ### Features

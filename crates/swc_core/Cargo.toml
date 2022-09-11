@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.23.0"
+version       = "0.23.1"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -306,7 +306,7 @@ swc_cached                       = { optional = true, version = "0.3.8", path = 
 swc_common                       = { optional = true, version = "0.28.1", path = "../swc_common" }
 swc_css_ast                      = { optional = true, version = "0.112.0", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "0.122.0", path = "../swc_css_codegen" }
-swc_css_minifier                 = { optional = true, version = "0.87.0", path = "../swc_css_minifier" }
+swc_css_minifier                 = { optional = true, version = "0.87.1", path = "../swc_css_minifier" }
 swc_css_parser                   = { optional = true, version = "0.121.0", path = "../swc_css_parser" }
 swc_css_prefixer                 = { optional = true, version = "0.123.0", path = "../swc_css_prefixer" }
 swc_css_utils                    = { optional = true, version = "0.109.0", path = "../swc_css_utils/" }
