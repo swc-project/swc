@@ -250,7 +250,7 @@ pub struct TryStmt {
     pub block: BlockStmt,
 
     #[serde(default)]
-    pub handler: Option<CatchClause>,
+    pub handler: Option<Box<CatchClause>>,
 
     #[serde(default)]
     pub finalizer: Option<BlockStmt>,
