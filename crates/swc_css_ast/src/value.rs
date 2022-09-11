@@ -366,7 +366,7 @@ pub enum BinOp {
 pub struct Url {
     pub span: Span,
     pub name: Ident,
-    pub value: Option<UrlValue>,
+    pub value: Option<Box<UrlValue>>,
     pub modifiers: Option<Vec<UrlModifier>>,
 }
 

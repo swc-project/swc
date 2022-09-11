@@ -18,13 +18,13 @@ pub struct Stylesheet {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Rule {
     #[tag("QualifiedRule")]
-    QualifiedRule(QualifiedRule),
+    QualifiedRule(Box<QualifiedRule>),
 
     #[tag("Tokens")]
     Invalid(Tokens),
 
     #[tag("AtRule")]
-    AtRule(AtRule),
+    AtRule(Box<AtRule>),
 }
 
 #[ast_node("QualifiedRule")]
@@ -50,11 +50,11 @@ pub enum StyleBlock {
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(ListOfComponentValues),
     #[tag("AtRule")]
-    AtRule(AtRule),
+    AtRule(Box<AtRule>),
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
     #[tag("QualifiedRule")]
-    QualifiedRule(QualifiedRule),
+    QualifiedRule(Box<QualifiedRule>),
 }
 
 #[ast_node("SimpleBlock")]
@@ -149,9 +149,9 @@ pub enum ComponentValue {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum DeclarationOrAtRule {
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
     #[tag("AtRule")]
-    AtRule(AtRule),
+    AtRule(Box<AtRule>),
     // For recovery mode
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(ListOfComponentValues),

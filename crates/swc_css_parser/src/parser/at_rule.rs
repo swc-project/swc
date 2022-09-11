@@ -51,7 +51,7 @@ where
             prelude: None,
             block: None,
         };
-        let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<AtRulePrelude>> {
+        let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<Box<AtRulePrelude>>> {
             match lowercased_name {
                 "viewport" | "-ms-viewport" | "-o-viewport" | "font-face" => {
                     parser.input.skip_ws();
@@ -85,7 +85,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("';' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "counter-style" => {
                     parser.input.skip_ws();
@@ -100,7 +100,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "font-palette-values" => {
                     parser.input.skip_ws();
@@ -115,7 +115,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "font-feature-values" => {
                     parser.input.skip_ws();
@@ -130,7 +130,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "stylistic" | "historical-forms" | "styleset" | "character-variant" | "swash"
                 | "ornaments" | "annotation"
@@ -202,7 +202,7 @@ where
                         }
                     }
 
-                    Ok(prelude)
+                    Ok(prelude.map(Box::new))
                 }
                 "document" | "-moz-document" => {
                     parser.input.skip_ws();
@@ -236,7 +236,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "page" => {
                     parser.input.skip_ws();
@@ -249,7 +249,7 @@ where
 
                     parser.input.skip_ws();
 
-                    Ok(prelude)
+                    Ok(prelude.map(Box::new))
                 }
                 "top-left-corner"
                 | "top-left"
@@ -286,7 +286,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "namespace" => {
                     parser.input.skip_ws();
@@ -322,7 +322,7 @@ where
                     let prelude = AtRulePrelude::NamespacePrelude(NamespacePrelude {
                         span: span!(parser, span.lo),
                         prefix,
-                        uri,
+                        uri: Box::new(uri),
                     });
 
                     if !is!(parser, ";") {
@@ -331,7 +331,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("';' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "color-profile" => {
                     parser.input.skip_ws();
@@ -351,7 +351,7 @@ where
                         }
                     };
 
-                    let prelude = AtRulePrelude::ColorProfilePrelude(name);
+                    let prelude = Box::new(AtRulePrelude::ColorProfilePrelude(name));
 
                     parser.input.skip_ws();
 
@@ -366,7 +366,7 @@ where
                 "nest" => {
                     parser.input.skip_ws();
 
-                    let prelude = AtRulePrelude::NestPrelude(parser.parse()?);
+                    let prelude = Box::new(AtRulePrelude::NestPrelude(parser.parse()?));
 
                     parser.input.skip_ws();
 
@@ -384,7 +384,7 @@ where
                     let media = if !is!(parser, "{") {
                         let media_query_list = parser.parse()?;
 
-                        Some(AtRulePrelude::MediaPrelude(media_query_list))
+                        Some(Box::new(AtRulePrelude::MediaPrelude(media_query_list)))
                     } else {
                         None
                     };
@@ -396,7 +396,7 @@ where
                 "supports" => {
                     parser.input.skip_ws();
 
-                    let prelude = AtRulePrelude::SupportsPrelude(parser.parse()?);
+                    let prelude = Box::new(AtRulePrelude::SupportsPrelude(parser.parse()?));
 
                     parser.input.skip_ws();
 
@@ -406,7 +406,7 @@ where
                     parser.input.skip_ws();
 
                     let span = parser.input.cur_span();
-                    let href = match cur!(parser) {
+                    let href = Box::new(match cur!(parser) {
                         tok!("string") => ImportPreludeHref::Str(parser.parse()?),
                         tok!("url") => ImportPreludeHref::Url(parser.parse()?),
                         tok!("function") => ImportPreludeHref::Url(parser.parse()?),
@@ -416,7 +416,7 @@ where
                                 ErrorKind::Expected("string, url or function token"),
                             ))
                         }
-                    };
+                    });
 
                     parser.input.skip_ws();
 
@@ -426,7 +426,7 @@ where
 
                             parser.input.skip_ws();
 
-                            Some(name)
+                            Some(Box::new(name))
                         }
                         Token::Function { value, .. }
                             if *value.to_ascii_lowercase() == *"layer" =>
@@ -443,7 +443,7 @@ where
 
                             parser.input.skip_ws();
 
-                            Some(name)
+                            Some(Box::new(name))
                         }
                         _ => None,
                     };
@@ -465,7 +465,7 @@ where
 
                             expect!(parser, ")");
 
-                            Some(supports)
+                            Some(Box::new(supports))
                         }
                         _ => None,
                     };
@@ -478,13 +478,13 @@ where
 
                     parser.input.skip_ws();
 
-                    let prelude = AtRulePrelude::ImportPrelude(ImportPrelude {
+                    let prelude = Box::new(AtRulePrelude::ImportPrelude(ImportPrelude {
                         span: span!(parser, span.lo),
                         href,
                         layer_name,
                         supports,
                         media,
-                    });
+                    }));
 
                     if !is!(parser, ";") {
                         let span = parser.input.cur_span();
@@ -498,7 +498,7 @@ where
                 | "-ms-keyframes" => {
                     parser.input.skip_ws();
 
-                    let prelude = AtRulePrelude::KeyframesPrelude(parser.parse()?);
+                    let prelude = Box::new(AtRulePrelude::KeyframesPrelude(parser.parse()?));
 
                     parser.input.skip_ws();
 
@@ -697,19 +697,20 @@ where
 
                             let span = self.input.cur_span();
 
-                            let mut list_of_component_value = match at_rule.prelude {
+                            let mut list_of_component_value = match at_rule.prelude.as_deref_mut() {
                                 Some(AtRulePrelude::ListOfComponentValues(
                                     ref mut list_of_component_value,
                                 )) => list_of_component_value,
                                 _ => {
-                                    at_rule.prelude = Some(AtRulePrelude::ListOfComponentValues(
-                                        ListOfComponentValues {
-                                            span: span!(self, span.lo),
-                                            children: vec![],
-                                        },
-                                    ));
+                                    at_rule.prelude =
+                                        Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                                            ListOfComponentValues {
+                                                span: span!(self, span.lo),
+                                                children: vec![],
+                                            },
+                                        )));
 
-                                    match at_rule.prelude {
+                                    match at_rule.prelude.as_deref_mut() {
                                         Some(AtRulePrelude::ListOfComponentValues(
                                             ref mut list_of_component_value,
                                         )) => list_of_component_value,
@@ -1239,7 +1240,7 @@ where
                 modifier: None,
                 media_type: None,
                 keyword: None,
-                condition: Some(MediaConditionType::All(condition)),
+                condition: Some(Box::new(MediaConditionType::All(condition))),
             })
         } else {
             let media_type = Some(self.parse()?);
@@ -1254,11 +1255,11 @@ where
 
                 self.input.skip_ws();
 
-                condition_without_or = Some(MediaConditionType::WithoutOr(self.parse()?));
+                condition_without_or = Some(Box::new(MediaConditionType::WithoutOr(self.parse()?)));
             }
 
             let end_pos = if let Some(MediaConditionType::WithoutOr(condition_without_or)) =
-                &condition_without_or
+                condition_without_or.as_deref()
             {
                 condition_without_or.span.hi
             } else if let Some(MediaType::Ident(ident)) = &media_type {
@@ -1603,9 +1604,9 @@ where
                 if eat!(self, ")") {
                     return Ok(MediaFeature::Range(MediaFeatureRange {
                         span: span!(self, span.lo),
-                        left,
+                        left: Box::new(left),
                         comparison: left_comparison,
-                        right: center,
+                        right: Box::new(center),
                     }));
                 }
 
@@ -1674,7 +1675,7 @@ where
 
                 Ok(MediaFeature::RangeInterval(MediaFeatureRangeInterval {
                     span: span!(self, span.lo),
-                    left,
+                    left: Box::new(left),
                     left_comparison,
                     name,
                     right_comparison,

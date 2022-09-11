@@ -89,7 +89,7 @@ pub struct CompoundSelector {
     pub span: Span,
     /// "&"
     pub nesting_selector: Option<NestingSelector>,
-    pub type_selector: Option<TypeSelector>,
+    pub type_selector: Option<Box<TypeSelector>>,
     pub subclass_selectors: Vec<SubclassSelector>,
 }
 
@@ -184,7 +184,7 @@ pub enum SubclassSelector {
     Class(ClassSelector),
 
     #[tag("AttributeSelector")]
-    Attribute(AttributeSelector),
+    Attribute(Box<AttributeSelector>),
 
     #[tag("PseudoClassSelector")]
     PseudoClass(PseudoClassSelector),

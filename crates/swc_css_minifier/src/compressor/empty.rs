@@ -6,8 +6,8 @@ use super::Compressor;
 impl Compressor {
     pub(super) fn compresss_empty_stylesheet(&self, stylesheet: &mut Stylesheet) {
         stylesheet.rules.retain(|rule| match rule {
-            Rule::QualifiedRule(QualifiedRule { block, .. }) if block.value.is_empty() => false,
-            Rule::AtRule(AtRule {
+            Rule::QualifiedRule(box QualifiedRule { block, .. }) if block.value.is_empty() => false,
+            Rule::AtRule(box AtRule {
                 name: AtRuleName::Ident(Ident { value, .. }),
                 block: Some(block),
                 ..
@@ -18,17 +18,19 @@ impl Compressor {
 
     pub(super) fn compresss_empty_simple_block(&self, simple_block: &mut SimpleBlock) {
         simple_block.value.retain(|rule| match rule {
-            ComponentValue::Rule(Rule::QualifiedRule(QualifiedRule { block, .. }))
-            | ComponentValue::Rule(Rule::AtRule(AtRule {
+            ComponentValue::Rule(Rule::QualifiedRule(box QualifiedRule { block, .. }))
+            | ComponentValue::Rule(Rule::AtRule(box AtRule {
                 block: Some(block), ..
             }))
-            | ComponentValue::StyleBlock(StyleBlock::QualifiedRule(QualifiedRule {
-                block, ..
+            | ComponentValue::StyleBlock(StyleBlock::QualifiedRule(box QualifiedRule {
+                block,
+                ..
             }))
-            | ComponentValue::StyleBlock(StyleBlock::AtRule(AtRule {
-                block: Some(block), ..
+            | ComponentValue::StyleBlock(StyleBlock::AtRule(box AtRule {
+                block: Some(block),
+                ..
             }))
-            | ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::AtRule(AtRule {
+            | ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::AtRule(box AtRule {
                 block: Some(block),
                 ..
             }))

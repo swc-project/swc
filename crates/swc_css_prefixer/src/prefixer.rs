@@ -252,11 +252,11 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
                     value: "url".into(),
                     raw: None,
                 },
-                value: Some(UrlValue::Str(Str {
+                value: Some(Box::new(UrlValue::Str(Str {
                     span: DUMMY_SP,
                     value: value.as_ref().into(),
                     raw: None,
-                })),
+                }))),
                 modifiers: Some(vec![]),
             })
         }
@@ -484,7 +484,7 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
             value: resolution_value,
             unit: resolution_unit,
             ..
-        })) = &n.value
+        })) = &*n.value
         {
             let MediaFeatureName::Ident(Ident {
                 value: feature_name_value,
@@ -505,11 +505,11 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                     _ => resolution_value.value,
                 };
 
-                n.value = MediaFeatureValue::Number(Number {
+                n.value = Box::new(MediaFeatureValue::Number(Number {
                     span: resolution_value.span,
                     value: left,
                     raw: None,
-                });
+                }));
             }
         }
     }
@@ -548,18 +548,19 @@ struct Prefixer {
     simple_block: Option<SimpleBlock>,
     rule_prefix: Option<Prefix>,
     added_top_rules: Vec<(Prefix, Rule)>,
-    added_at_rules: Vec<(Prefix, AtRule)>,
-    added_qualified_rules: Vec<(Prefix, QualifiedRule)>,
-    added_declarations: Vec<Declaration>,
+    added_at_rules: Vec<(Prefix, Box<AtRule>)>,
+    added_qualified_rules: Vec<(Prefix, Box<QualifiedRule>)>,
+    added_declarations: Vec<Box<Declaration>>,
 }
 
 impl Prefixer {
     fn add_at_rule(&mut self, prefix: Prefix, at_rule: &AtRule) {
         if self.simple_block.is_none() {
             self.added_top_rules
-                .push((prefix, Rule::AtRule(at_rule.clone())));
+                .push((prefix, Rule::AtRule(Box::new(at_rule.clone()))));
         } else {
-            self.added_at_rules.push((prefix, at_rule.clone()));
+            self.added_at_rules
+                .push((prefix, Box::new(at_rule.clone())));
         }
     }
 }
@@ -699,7 +700,7 @@ impl VisitMut for Prefixer {
 
         if !self.added_declarations.is_empty() {
             if let Some(ImportPreludeSupportsType::Declaration(declaration)) =
-                import_prelude.supports.take()
+                import_prelude.supports.take().map(|v| *v)
             {
                 let span = declaration.span;
                 let mut conditions = Vec::with_capacity(1 + self.added_declarations.len());
@@ -712,15 +713,18 @@ impl VisitMut for Prefixer {
                     let supports_condition_type = SupportsConditionType::Or(SupportsOr {
                         span: DUMMY_SP,
                         keyword: None,
-                        condition: SupportsInParens::Feature(SupportsFeature::Declaration(n)),
+                        condition: Box::new(SupportsInParens::Feature(
+                            SupportsFeature::Declaration(n),
+                        )),
                     });
 
                     conditions.push(supports_condition_type);
                 }
 
-                import_prelude.supports = Some(ImportPreludeSupportsType::SupportsCondition(
-                    SupportsCondition { span, conditions },
-                ));
+                import_prelude.supports =
+                    Some(Box::new(ImportPreludeSupportsType::SupportsCondition(
+                        SupportsCondition { span, conditions },
+                    )));
             }
         }
     }
@@ -751,7 +755,9 @@ impl VisitMut for Prefixer {
                         let supports_condition_type = SupportsConditionType::Or(SupportsOr {
                             span: DUMMY_SP,
                             keyword: None,
-                            condition: SupportsInParens::Feature(SupportsFeature::Declaration(n)),
+                            condition: Box::new(SupportsInParens::Feature(
+                                SupportsFeature::Declaration(n),
+                            )),
                         });
 
                         let need_skip =
@@ -897,11 +903,11 @@ impl VisitMut for Prefixer {
             }
 
             if !n.prelude.eq_ignore_span(&new_webkit_prelude) {
-                let qualified_rule = QualifiedRule {
+                let qualified_rule = Box::new(QualifiedRule {
                     span: DUMMY_SP,
                     prelude: new_webkit_prelude,
                     block: original_simple_block.clone(),
-                };
+                });
 
                 if self.simple_block.is_none() {
                     self.added_top_rules
@@ -966,11 +972,11 @@ impl VisitMut for Prefixer {
                 );
 
                 if new_moz_prelude_with_previous != new_moz_prelude {
-                    let qualified_rule = QualifiedRule {
+                    let qualified_rule = Box::new(QualifiedRule {
                         span: DUMMY_SP,
                         prelude: new_moz_prelude_with_previous,
                         block: original_simple_block.clone(),
-                    };
+                    });
 
                     if self.simple_block.is_none() {
                         self.added_top_rules
@@ -999,10 +1005,10 @@ impl VisitMut for Prefixer {
 
                 if self.simple_block.is_none() {
                     self.added_top_rules
-                        .push((Prefix::Moz, Rule::QualifiedRule(qualified_rule)));
+                        .push((Prefix::Moz, Rule::QualifiedRule(Box::new(qualified_rule))));
                 } else {
                     self.added_qualified_rules
-                        .push((Prefix::Moz, qualified_rule));
+                        .push((Prefix::Moz, Box::new(qualified_rule)));
                 }
             }
         }
@@ -1052,11 +1058,11 @@ impl VisitMut for Prefixer {
                 );
 
                 if new_ms_prelude_with_previous != new_ms_prelude {
-                    let qualified_rule = QualifiedRule {
+                    let qualified_rule = Box::new(QualifiedRule {
                         span: DUMMY_SP,
                         prelude: new_ms_prelude_with_previous,
                         block: original_simple_block.clone(),
-                    };
+                    });
 
                     if self.simple_block.is_none() {
                         self.added_top_rules
@@ -1077,11 +1083,11 @@ impl VisitMut for Prefixer {
             }
 
             if !n.prelude.eq_ignore_span(&new_ms_prelude) {
-                let qualified_rule = QualifiedRule {
+                let qualified_rule = Box::new(QualifiedRule {
                     span: DUMMY_SP,
                     prelude: new_ms_prelude,
                     block: original_simple_block,
-                };
+                });
 
                 if self.simple_block.is_none() {
                     self.added_top_rules
@@ -1424,12 +1430,12 @@ impl VisitMut for Prefixer {
                             let value: Option<Box<dyn Fn() -> Vec<ComponentValue>>> = $value;
 
                             if let Some(value) = value {
-                                self.added_declarations.push(Declaration {
+                                self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name,
                                     value: value(),
                                     important: n.important.clone(),
-                                });
+                                }));
                             } else {
                                 let new_value = match $prefix {
                                     Prefix::Webkit => webkit_value.clone(),
@@ -1438,12 +1444,12 @@ impl VisitMut for Prefixer {
                                     Prefix::Ms => ms_value.clone(),
                                 };
 
-                                self.added_declarations.push(Declaration {
+                                self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name,
                                     value: new_value,
                                     important: n.important.clone(),
-                                });
+                                }));
                             }
                         }
                     }
@@ -1661,12 +1667,12 @@ impl VisitMut for Prefixer {
                     }
 
                     if n.value != old_spec_webkit_value {
-                        self.added_declarations.push(Declaration {
+                        self.added_declarations.push(Box::new(Declaration {
                             span: n.span,
                             name: n.name.clone(),
                             value: old_spec_webkit_value,
                             important: n.important.clone(),
-                        });
+                        }));
                     }
 
                     if should_prefix("-webkit-flex:display", self.env, false) {
@@ -2541,12 +2547,12 @@ impl VisitMut for Prefixer {
 
             "writing-mode" if n.value.len() == 1 => {
                 let direction = match declarations.iter().rev().find(|declaration| {
-                    matches!(declaration, Declaration {
+                    matches!(&****declaration, Declaration {
                               name: DeclarationName::Ident(Ident { value, .. }),
                                 ..
                             } if value.as_ref().eq_ignore_ascii_case("direction"))
                 }) {
-                    Some(Declaration { value, .. }) => match value.get(0) {
+                    Some(box Declaration { value, .. }) => match value.get(0) {
                         Some(ComponentValue::Ident(Ident { value, .. }))
                             if value.as_ref().eq_ignore_ascii_case("rtl") =>
                         {
@@ -3039,39 +3045,39 @@ impl VisitMut for Prefixer {
         }
 
         if n.value != webkit_value {
-            self.added_declarations.push(Declaration {
+            self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
                 value: webkit_value,
                 important: n.important.clone(),
-            });
+            }));
         }
 
         if n.value != moz_value {
-            self.added_declarations.push(Declaration {
+            self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
                 value: moz_value,
                 important: n.important.clone(),
-            });
+            }));
         }
 
         if n.value != o_value {
-            self.added_declarations.push(Declaration {
+            self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
                 value: o_value,
                 important: n.important.clone(),
-            });
+            }));
         }
 
         if n.value != ms_value {
-            self.added_declarations.push(Declaration {
+            self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
                 value: ms_value,
                 important: n.important.clone(),
-            });
+            }));
         }
     }
 }

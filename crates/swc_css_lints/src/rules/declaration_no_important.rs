@@ -26,7 +26,7 @@ struct DeclarationNoImportant {
 
 impl Visit for DeclarationNoImportant {
     fn visit_at_rule(&mut self, keyframes_rule: &AtRule) {
-        if let Some(AtRulePrelude::KeyframesPrelude(_)) = keyframes_rule.prelude {
+        if let Some(AtRulePrelude::KeyframesPrelude(_)) = keyframes_rule.prelude.as_deref() {
             self.keyframe_rules.push(keyframes_rule.span);
 
             keyframes_rule.visit_children_with(self);
