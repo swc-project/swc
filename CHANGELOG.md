@@ -20,6 +20,9 @@
 
 
 
+- **(css/minifier)** Merge passes (#5820) ([f523502](https://github.com/swc-project/swc/commit/f523502f4cf03b238bd7b859930f344169302907))
+
+
 - **(es/minifier)** Optimize usage of `IndexSet` (#5814) ([704ea3d](https://github.com/swc-project/swc/commit/704ea3d48d8c98b7a3f7400621ef93d041c27860))
 
 
