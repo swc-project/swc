@@ -126,9 +126,9 @@ pub enum KeyframeSelector {
 pub struct ImportPrelude {
     pub span: Span,
     pub href: Box<ImportPreludeHref>,
-    pub layer_name: Option<ImportPreludeLayerName>,
+    pub layer_name: Option<Box<ImportPreludeLayerName>>,
     pub supports: Option<Box<ImportPreludeSupportsType>>,
-    pub media: Option<MediaQueryList>,
+    pub media: Option<Box<MediaQueryList>>,
 }
 
 #[ast_node]
