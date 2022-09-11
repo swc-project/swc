@@ -212,7 +212,7 @@ impl SimplifyExpr {
 
                     if elems.len() > idx as _ && idx >= 0 {
                         let after_has_side_effect =
-                            elems.iter().skip(idx as _).any(|elem| match elem {
+                            elems.iter().skip((idx + 1) as _).any(|elem| match elem {
                                 Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
                                 None => false,
                             });
