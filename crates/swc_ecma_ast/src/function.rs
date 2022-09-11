@@ -32,10 +32,10 @@ pub struct Function {
     pub is_async: bool,
 
     #[serde(default, rename = "typeParameters")]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[serde(default)]
-    pub return_type: Option<TsTypeAnn>,
+    pub return_type: Option<Box<TsTypeAnn>>,
 }
 
 impl Take for Function {
