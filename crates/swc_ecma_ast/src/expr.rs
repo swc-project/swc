@@ -511,7 +511,7 @@ impl From<Function> for FnExpr {
     fn from(function: Function) -> Self {
         Self {
             ident: None,
-            function,
+            function: function.into(),
         }
     }
 }
@@ -540,7 +540,10 @@ impl Take for ClassExpr {
 
 impl From<Class> for ClassExpr {
     fn from(class: Class) -> Self {
-        Self { ident: None, class }
+        Self {
+            ident: None,
+            class: class.into(),
+        }
     }
 }
 
