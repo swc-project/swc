@@ -76,7 +76,8 @@ base_node = [
 # refer binding_core_wasm for example: it has plugin_transform_host feature, but
 # it has to be a feature to be enabled by compile time flag to avoid cargo's feature collision,
 # while it also need to access 'common' exports by default for cargo check / or clippy.
-common = ["__common"]
+common           = ["__common"]
+common_sourcemap = ["__common", "swc_common/sourcemap"]
 # TODO: internally concurrent / perf refers to the same feature (`parking_lot`)
 # - can we consolidate them?
 common_concurrent = ["__common", "swc_common/concurrent"]
