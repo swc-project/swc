@@ -357,7 +357,7 @@ pub enum MediaFeatureValue {
 pub struct MediaFeaturePlain {
     pub span: Span,
     pub name: MediaFeatureName,
-    pub value: MediaFeatureValue,
+    pub value: Box<MediaFeatureValue>,
 }
 
 #[ast_node("MediaFeatureBoolean")]
@@ -401,22 +401,22 @@ pub enum MediaFeatureRangeComparison {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaFeatureRange {
     pub span: Span,
-    pub left: MediaFeatureValue,
+    pub left: Box<MediaFeatureValue>,
     pub comparison: MediaFeatureRangeComparison,
-    pub right: MediaFeatureValue,
+    pub right: Box<MediaFeatureValue>,
 }
 
 #[ast_node("MediaFeatureRangeInterval")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaFeatureRangeInterval {
     pub span: Span,
-    pub left: MediaFeatureValue,
+    pub left: Box<MediaFeatureValue>,
     #[serde(rename = "leftComparison")]
     pub left_comparison: MediaFeatureRangeComparison,
     pub name: MediaFeatureName,
     #[serde(rename = "rightComparison")]
     pub right_comparison: MediaFeatureRangeComparison,
-    pub right: MediaFeatureValue,
+    pub right: Box<MediaFeatureValue>,
 }
 
 #[ast_node("SupportsCondition")]
