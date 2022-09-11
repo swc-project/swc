@@ -210,15 +210,13 @@ impl SimplifyExpr {
                         _ => unreachable!(),
                     };
 
-                    let has_side_effect =
-                        elems.iter().skip((idx + 1) as _).any(|elem| match elem {
+                    let after_has_side_effect =
+                        elems.iter().skip(idx as _).any(|elem| match elem {
                             Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
                             None => false,
                         });
 
-                    if has_side_effect {
-                        return;
-                    }
+                    if !(elems.len() > idx as _ && idx >= 0) && after_has_side_effect {}
 
                     self.changed = true;
 
