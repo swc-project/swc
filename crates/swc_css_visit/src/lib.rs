@@ -738,7 +738,7 @@ define!({
     pub struct MediaFeaturePlain {
         pub span: Span,
         pub name: MediaFeatureName,
-        pub value: MediaFeatureValue,
+        pub value: Box<MediaFeatureValue>,
     }
 
     pub struct MediaFeatureBoolean {
@@ -748,18 +748,18 @@ define!({
 
     pub struct MediaFeatureRange {
         pub span: Span,
-        pub left: MediaFeatureValue,
+        pub left: Box<MediaFeatureValue>,
         pub comparison: MediaFeatureRangeComparison,
-        pub right: MediaFeatureValue,
+        pub right: Box<MediaFeatureValue>,
     }
 
     pub struct MediaFeatureRangeInterval {
         pub span: Span,
-        pub left: MediaFeatureValue,
+        pub left: Box<MediaFeatureValue>,
         pub left_comparison: MediaFeatureRangeComparison,
         pub name: MediaFeatureName,
         pub right_comparison: MediaFeatureRangeComparison,
-        pub right: MediaFeatureValue,
+        pub right: Box<MediaFeatureValue>,
     }
 
     pub struct PageSelectorList {
@@ -798,19 +798,19 @@ define!({
     pub struct SupportsNot {
         pub span: Span,
         pub keyword: Option<Ident>,
-        pub condition: SupportsInParens,
+        pub condition: Box<SupportsInParens>,
     }
 
     pub struct SupportsAnd {
         pub span: Span,
         pub keyword: Option<Ident>,
-        pub condition: SupportsInParens,
+        pub condition: Box<SupportsInParens>,
     }
 
     pub struct SupportsOr {
         pub span: Span,
         pub keyword: Option<Ident>,
-        pub condition: SupportsInParens,
+        pub condition: Box<SupportsInParens>,
     }
 
     pub enum SupportsInParens {
