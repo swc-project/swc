@@ -7,6 +7,7 @@ use super::{
     angle::{get_angle_type, to_deg},
     Compressor,
 };
+use crate::compressor::alpha_value::compress_alpha_value;
 
 fn get_short_hex(v: u32) -> u32 {
     ((v & 0x0ff00000) >> 12) | ((v & 0x00000ff0) >> 4)
@@ -145,6 +146,14 @@ macro_rules! make_color {
                     raw: None,
                 }))
             } else {
+                let mut alpha_value = AlphaValue::Number(Number {
+                    span: DUMMY_SP,
+                    value: $a,
+                    raw: None,
+                });
+
+                compress_alpha_value(&mut alpha_value);
+
                 Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
                     span: $span,
                     name: Ident {
@@ -180,11 +189,7 @@ macro_rules! make_color {
                             span: DUMMY_SP,
                             value: DelimiterValue::Comma,
                         }),
-                        ComponentValue::AlphaValue(AlphaValue::Number(Number {
-                            span: DUMMY_SP,
-                            value: $a,
-                            raw: None,
-                        })),
+                        ComponentValue::AlphaValue(alpha_value),
                     ],
                 }))
             }
