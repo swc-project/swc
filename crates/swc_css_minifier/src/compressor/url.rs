@@ -45,7 +45,7 @@ impl Compressor {
 
             url.value = Some(UrlValue::Raw(UrlValueRaw {
                 span: *span,
-                value: escaped.clone().into(),
+                value: escaped.into(),
                 before: None,
                 raw: None,
                 after: None,

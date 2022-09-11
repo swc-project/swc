@@ -4,6 +4,7 @@ use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::ctx::Ctx;
 
+mod alpha_value;
 mod angle;
 mod color;
 mod ctx;
@@ -15,6 +16,7 @@ mod keyframes;
 mod length;
 mod selector;
 mod time;
+mod transform_function;
 mod unicode_range;
 mod url;
 
@@ -30,6 +32,8 @@ struct Compressor {
 impl VisitMut for Compressor {
     fn visit_mut_alpha_value(&mut self, n: &mut AlphaValue) {
         n.visit_mut_children_with(self);
+
+        self.compress_alpha_value(n);
     }
 
     fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
@@ -63,7 +67,24 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
-        n.visit_mut_children_with(self);
+        if let DeclarationName::Ident(Ident { value, .. }) = &n.name {
+            match value.to_ascii_lowercase() {
+                js_word!("opacity")
+                | js_word!("fill-opacity")
+                | js_word!("stroke-opacity")
+                | js_word!("shape-image-threshold") => {
+                    n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
+                        preserve_alpha_value: false,
+                        ..self.ctx
+                    }));
+                }
+                _ => {
+                    n.visit_mut_children_with(self);
+                }
+            }
+        } else {
+            n.visit_mut_children_with(self);
+        }
 
         self.compress_declaration(n);
     }
@@ -102,9 +123,13 @@ impl VisitMut for Compressor {
     fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
         n.visit_mut_children_with(self);
 
+        self.compress_alpha_value_in_component_value(n);
+
         self.compress_component_value_for_length(n);
 
         self.compress_easing_function(n);
+
+        self.compress_transform_function(n);
 
         self.compress_angle_in_component_value(n);
     }
