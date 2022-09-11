@@ -1,3 +1,5 @@
+use std::mem::take;
+
 use swc_atoms::js_word;
 use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
@@ -308,17 +310,30 @@ fn dedup<T>(v: &mut Vec<T>)
 where
     T: EqIgnoreSpan,
 {
-    let mut already_seen: Vec<T> = vec![];
+    let mut remove_list = vec![];
 
-    v.retain(|children| {
-        for already_seen_complex_selector in &already_seen {
-            if already_seen_complex_selector.eq_ignore_span(children) {
-                return false;
+    for (i, i1) in v.iter().enumerate() {
+        for (j, j1) in v.iter().enumerate() {
+            if i < j && i1.eq_ignore_span(j1) {
+                remove_list.push(j);
             }
         }
+    }
+    if remove_list.is_empty() {
+        return;
+    }
 
-        already_seen.push(children.clone());
+    let new = take(v)
+        .into_iter()
+        .enumerate()
+        .filter_map(|(idx, value)| {
+            if remove_list.contains(&idx) {
+                None
+            } else {
+                Some(value)
+            }
+        })
+        .collect::<Vec<_>>();
 
-        true
-    });
+    *v = new;
 }
