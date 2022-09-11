@@ -149,4 +149,37 @@ impl VisitMut for Compressor {
 
         self.compress_relative_selector_list(n);
     }
+
+    fn visit_mut_forgiving_relative_selector_list(
+        &mut self,
+        n: &mut ForgivingRelativeSelectorList,
+    ) {
+        n.visit_mut_children_with(self);
+
+        self.compress_forgiving_relative_selector_list(n);
+    }
+
+    fn visit_mut_an_plus_b(&mut self, n: &mut AnPlusB) {
+        n.visit_mut_children_with(self);
+
+        self.compress_an_plus_b(n);
+    }
+
+    fn visit_mut_subclass_selector(&mut self, n: &mut SubclassSelector) {
+        n.visit_mut_children_with(self);
+
+        self.compress_subclass_selector(n);
+    }
+
+    fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
+        n.visit_mut_children_with(self);
+
+        self.compress_compound_selector(n);
+    }
+
+    fn visit_mut_attribute_selector(&mut self, n: &mut AttributeSelector) {
+        n.visit_mut_children_with(self);
+
+        self.compress_attribute_selector(n);
+    }
 }
