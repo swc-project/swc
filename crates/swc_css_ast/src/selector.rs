@@ -89,7 +89,7 @@ pub struct CompoundSelector {
     pub span: Span,
     /// "&"
     pub nesting_selector: Option<NestingSelector>,
-    pub type_selector: Option<TypeSelector>,
+    pub type_selector: Option<Box<TypeSelector>>,
     pub subclass_selectors: Vec<SubclassSelector>,
 }
 
@@ -213,7 +213,7 @@ pub struct ClassSelector {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct AttributeSelector {
     pub span: Span,
-    pub name: WqName,
+    pub name: Box<WqName>,
     pub matcher: Option<AttributeSelectorMatcher>,
     pub value: Option<AttributeSelectorValue>,
     pub modifier: Option<AttributeSelectorModifier>,
