@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -11,6 +12,7 @@ mod empty;
 mod frequency;
 mod keyframes;
 mod length;
+mod selector;
 mod time;
 mod unicode_range;
 mod url;
@@ -104,5 +106,29 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_length(n);
+    }
+
+    fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
+        match &n.name {
+            Ident { value, .. }
+                if matches!(
+                    value.to_ascii_lowercase(),
+                    js_word!("not")
+                        | js_word!("is")
+                        | js_word!("where")
+                        | js_word!("matches")
+                        | js_word!("-moz-any")
+                        | js_word!("-webkit-any")
+                ) =>
+            {
+                n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
+                    in_logic_combinator_selector: true,
+                    ..self.ctx
+                }));
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
     }
 }

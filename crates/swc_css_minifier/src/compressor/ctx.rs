@@ -5,6 +5,8 @@ use super::Compressor;
 #[derive(Default, Clone, Copy)]
 pub(super) struct Ctx {
     pub in_math_function: bool,
+
+    pub in_logic_combinator_selector: bool,
 }
 
 impl Compressor {
