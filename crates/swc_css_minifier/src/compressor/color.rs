@@ -3,8 +3,10 @@ use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::NAMED_COLORS;
 
-use super::Compressor;
-use crate::compress::angle::{get_angle_type, to_deg};
+use super::{
+    angle::{get_angle_type, to_deg},
+    Compressor,
+};
 
 fn get_short_hex(v: u32) -> u32 {
     ((v & 0x0ff00000) >> 12) | ((v & 0x00000ff0) >> 4)

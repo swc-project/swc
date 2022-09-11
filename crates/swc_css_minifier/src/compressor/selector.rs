@@ -1,24 +1,11 @@
 use swc_atoms::js_word;
 use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
-use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub fn compress_selector() -> impl VisitMut {
-    CompressSelector {
-        in_logic_combinator: false,
-    }
-}
+use super::Compressor;
 
-struct CompressSelector {
-    in_logic_combinator: bool,
-}
-
-impl CompressSelector {}
-
-impl VisitMut for CompressSelector {
-    fn visit_mut_selector_list(&mut self, selector_list: &mut SelectorList) {
-        selector_list.visit_mut_children_with(self);
-
+impl Compressor {
+    pub(super) fn comrpess_selector_list(&mut self, selector_list: &mut SelectorList) {
         let mut already_seen: Vec<ComplexSelector> = vec![];
 
         selector_list.children.retain(|children| {
@@ -34,12 +21,10 @@ impl VisitMut for CompressSelector {
         });
     }
 
-    fn visit_mut_forgiving_selector_list(
+    pub(super) fn compress_forgiving_selector_list(
         &mut self,
         forgiving_selector_list: &mut ForgivingSelectorList,
     ) {
-        forgiving_selector_list.visit_mut_children_with(self);
-
         let mut already_seen: Vec<ForgivingComplexSelector> = vec![];
 
         forgiving_selector_list.children.retain(|children| {
@@ -55,12 +40,10 @@ impl VisitMut for CompressSelector {
         });
     }
 
-    fn visit_mut_relative_selector_list(
+    pub(super) fn compress_relative_selector_list(
         &mut self,
         relative_selector_list: &mut RelativeSelectorList,
     ) {
-        relative_selector_list.visit_mut_children_with(self);
-
         let mut already_seen: Vec<RelativeSelector> = vec![];
 
         relative_selector_list.children.retain(|children| {
@@ -76,12 +59,10 @@ impl VisitMut for CompressSelector {
         });
     }
 
-    fn visit_mut_forgiving_relative_selector_list(
+    pub(super) fn compress_forgiving_relative_selector_list(
         &mut self,
         forgiving_relative_selector_list: &mut ForgivingRelativeSelectorList,
     ) {
-        forgiving_relative_selector_list.visit_mut_children_with(self);
-
         let mut already_seen: Vec<ForgivingRelativeSelector> = vec![];
 
         forgiving_relative_selector_list
@@ -99,9 +80,7 @@ impl VisitMut for CompressSelector {
             });
     }
 
-    fn visit_mut_an_plus_b(&mut self, an_plus_b: &mut AnPlusB) {
-        an_plus_b.visit_mut_children_with(self);
-
+    pub(super) fn compress_an_plus_b(&mut self, an_plus_b: &mut AnPlusB) {
         match &an_plus_b {
             // `2n+1`, `2n-1`, `2n-3`, etc => `odd`
             AnPlusB::AnPlusBNotation(AnPlusBNotation {
@@ -179,9 +158,7 @@ impl VisitMut for CompressSelector {
         }
     }
 
-    fn visit_mut_subclass_selector(&mut self, subclass_selector: &mut SubclassSelector) {
-        subclass_selector.visit_mut_children_with(self);
-
+    pub(super) fn compress_subclass_selector(&mut self, subclass_selector: &mut SubclassSelector) {
         match &subclass_selector {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. }) => {
                 match name.value.to_ascii_lowercase() {
@@ -318,37 +295,8 @@ impl VisitMut for CompressSelector {
         }
     }
 
-    fn visit_mut_pseudo_class_selector(&mut self, pseudo_class_selector: &mut PseudoClassSelector) {
-        match &pseudo_class_selector.name {
-            Ident { value, .. }
-                if matches!(
-                    value.to_ascii_lowercase(),
-                    js_word!("not")
-                        | js_word!("is")
-                        | js_word!("where")
-                        | js_word!("matches")
-                        | js_word!("-moz-any")
-                        | js_word!("-webkit-any")
-                ) =>
-            {
-                let old_in_logic_combinator = self.in_logic_combinator;
-
-                self.in_logic_combinator = true;
-
-                pseudo_class_selector.visit_mut_children_with(self);
-
-                self.in_logic_combinator = old_in_logic_combinator;
-            }
-            _ => {
-                pseudo_class_selector.visit_mut_children_with(self);
-            }
-        }
-    }
-
-    fn visit_mut_compound_selector(&mut self, compound_selector: &mut CompoundSelector) {
-        compound_selector.visit_mut_children_with(self);
-
-        if self.in_logic_combinator {
+    pub(super) fn compress_compound_selector(&mut self, compound_selector: &mut CompoundSelector) {
+        if self.ctx.in_logic_combinator_selector {
             return;
         }
 
@@ -359,9 +307,10 @@ impl VisitMut for CompressSelector {
         }
     }
 
-    fn visit_mut_attribute_selector(&mut self, attribute_selector: &mut AttributeSelector) {
-        attribute_selector.visit_mut_children_with(self);
-
+    pub(super) fn compress_attribute_selector(
+        &mut self,
+        attribute_selector: &mut AttributeSelector,
+    ) {
         if let Some(AttributeSelectorValue::Str(Str { value, span, .. })) =
             &attribute_selector.value
         {
