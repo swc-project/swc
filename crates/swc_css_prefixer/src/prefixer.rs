@@ -1083,11 +1083,11 @@ impl VisitMut for Prefixer {
             }
 
             if !n.prelude.eq_ignore_span(&new_ms_prelude) {
-                let qualified_rule = QualifiedRule {
+                let qualified_rule = Box::new(QualifiedRule {
                     span: DUMMY_SP,
                     prelude: new_ms_prelude,
                     block: original_simple_block,
-                };
+                });
 
                 if self.simple_block.is_none() {
                     self.added_top_rules
@@ -1667,12 +1667,12 @@ impl VisitMut for Prefixer {
                     }
 
                     if n.value != old_spec_webkit_value {
-                        self.added_declarations.push(Declaration {
+                        self.added_declarations.push(Box::new(Declaration {
                             span: n.span,
                             name: n.name.clone(),
                             value: old_spec_webkit_value,
                             important: n.important.clone(),
-                        });
+                        }));
                     }
 
                     if should_prefix("-webkit-flex:display", self.env, false) {
@@ -3045,39 +3045,39 @@ impl VisitMut for Prefixer {
         }
 
         if n.value != webkit_value {
-            self.added_declarations.push(Declaration {
+            self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
                 value: webkit_value,
                 important: n.important.clone(),
-            });
+            }));
         }
 
         if n.value != moz_value {
-            self.added_declarations.push(Declaration {
+            self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
                 value: moz_value,
                 important: n.important.clone(),
-            });
+            }));
         }
 
         if n.value != o_value {
-            self.added_declarations.push(Declaration {
+            self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
                 value: o_value,
                 important: n.important.clone(),
-            });
+            }));
         }
 
         if n.value != ms_value {
-            self.added_declarations.push(Declaration {
+            self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
                 value: ms_value,
                 important: n.important.clone(),
-            });
+            }));
         }
     }
 }
