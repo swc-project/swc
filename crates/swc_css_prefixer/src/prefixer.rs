@@ -2552,7 +2552,7 @@ impl VisitMut for Prefixer {
                                 ..
                             } if value.as_ref().eq_ignore_ascii_case("direction"))
                 }) {
-                    Some(Declaration { value, .. }) => match value.get(0) {
+                    Some(box Declaration { value, .. }) => match value.get(0) {
                         Some(ComponentValue::Ident(Ident { value, .. }))
                             if value.as_ref().eq_ignore_ascii_case("rtl") =>
                         {
