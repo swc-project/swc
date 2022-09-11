@@ -12,7 +12,7 @@ use crate::{
 pub struct AtRule {
     pub span: Span,
     pub name: AtRuleName,
-    pub prelude: Option<AtRulePrelude>,
+    pub prelude: Option<Box<AtRulePrelude>>,
     pub block: Option<SimpleBlock>,
 }
 
