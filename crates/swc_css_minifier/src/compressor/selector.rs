@@ -40,7 +40,7 @@ impl Compressor {
         });
     }
 
-    fn compress_relative_selector_list(
+    pub(super) fn compress_relative_selector_list(
         &mut self,
         relative_selector_list: &mut RelativeSelectorList,
     ) {
