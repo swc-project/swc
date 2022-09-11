@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 #![allow(clippy::match_like_matches_macro)]
+#![allow(clippy::needless_update)]
 
 use swc_css_ast::*;
 use swc_css_visit::VisitMutWith;
