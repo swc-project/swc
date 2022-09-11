@@ -3,7 +3,7 @@ function f(CONFIG) {
 }
 function g() {
     var CONFIG = {
-        VALUE: 1,
+        VALUE: 1
     };
     return CONFIG.VALUE;
 }

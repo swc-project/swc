@@ -7,11 +7,14 @@ use swc_common::{
     Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::{Ident, Lit, *};
-use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
+use swc_ecma_transforms_base::{
+    ext::ExprRefExt,
+    pass::RepeatedJsPass,
+    perf::{cpu_count, Parallel, ParallelExt},
+};
 use swc_ecma_utils::{
-    alias_ident_for, is_literal, prepend_stmt, prop_name_eq, to_int32, undefined, BoolType,
-    ExprCtx, ExprExt, NullType, NumberType, ObjectType, StringType, SymbolType, UndefinedType,
-    Value,
+    is_literal, prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
+    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -48,11 +51,23 @@ pub fn expr_simplifier(
         },
         config,
         changed: false,
-        vars: Default::default(),
         is_arg_of_update: false,
         is_modifying: false,
         in_callee: false,
     })
+}
+
+impl Parallel for SimplifyExpr {
+    fn create(&self) -> Self {
+        Self {
+            expr_ctx: self.expr_ctx.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.changed |= other.changed;
+    }
 }
 
 #[derive(Debug)]
@@ -61,8 +76,6 @@ struct SimplifyExpr {
     config: Config,
 
     changed: bool,
-    /// Uninitialized variables.
-    vars: Vec<VarDeclarator>,
     is_arg_of_update: bool,
     is_modifying: bool,
     in_callee: bool,
@@ -192,13 +205,26 @@ impl SimplifyExpr {
                         raw: None,
                     }));
                 } else if matches!(op, KnownOp::Index(..)) {
-                    self.changed = true;
-
                     let idx = match op {
                         KnownOp::Index(i) => i,
                         _ => unreachable!(),
                     };
-                    let len = elems.len();
+
+                    if elems.len() > idx as _ && idx >= 0 {
+                        let after_has_side_effect =
+                            elems.iter().skip((idx + 1) as _).any(|elem| match elem {
+                                Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
+                                None => false,
+                            });
+
+                        if after_has_side_effect {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+
+                    self.changed = true;
 
                     let (before, e, after) = if elems.len() > idx as _ && idx >= 0 {
                         let before = elems.drain(..(idx as usize)).collect();
@@ -224,35 +250,7 @@ impl SimplifyExpr {
                             .extract_side_effects_to(&mut exprs, *elem.expr);
                     }
 
-                    let after_does_not_have_side_effect = after.iter().all(|elem| match elem {
-                        Some(elem) => !elem.expr.may_have_side_effects(&self.expr_ctx),
-                        None => true,
-                    });
-
-                    let val = if (!v.may_have_side_effects(&self.expr_ctx)
-                        && after_does_not_have_side_effect)
-                        || ((idx as usize) == len - 1)
-                        || v.is_lit()
-                    {
-                        v
-                    } else {
-                        let var_name = alias_ident_for(&v, "_v");
-                        self.vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: var_name.clone().into(),
-                            init: None,
-                            definite: false,
-                        });
-
-                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                            span: v.span(),
-                            left: PatOrExpr::Pat(var_name.clone().into()),
-                            op: op!("="),
-                            right: v,
-                        })));
-
-                        Box::new(Expr::Ident(var_name))
-                    };
+                    let val = v;
 
                     for elem in after.into_iter().flatten() {
                         self.expr_ctx
@@ -1418,7 +1416,6 @@ impl VisitMut for SimplifyExpr {
             expr_ctx: self.expr_ctx.clone(),
             config: self.config,
             changed: Default::default(),
-            vars: Default::default(),
             is_arg_of_update: Default::default(),
             is_modifying: Default::default(),
             in_callee: Default::default(),
@@ -1426,18 +1423,6 @@ impl VisitMut for SimplifyExpr {
 
         n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
-
-        if !child.vars.is_empty() {
-            prepend_stmt(
-                n,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: child.vars,
-                }))),
-            );
-        }
     }
 
     /// Currently noop
@@ -1572,7 +1557,6 @@ impl VisitMut for SimplifyExpr {
             expr_ctx: self.expr_ctx.clone(),
             config: self.config,
             changed: Default::default(),
-            vars: Default::default(),
             is_arg_of_update: Default::default(),
             is_modifying: Default::default(),
             in_callee: Default::default(),
@@ -1580,18 +1564,6 @@ impl VisitMut for SimplifyExpr {
 
         n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
-
-        if !child.vars.is_empty() {
-            prepend_stmt(
-                n,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: child.vars,
-                })),
-            );
-        }
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
@@ -1610,6 +1582,30 @@ impl VisitMut for SimplifyExpr {
 
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        });
     }
 }
 

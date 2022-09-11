@@ -1,13 +1,52 @@
 var nothing = [];
 console.log(10);
 console.log(20);
-console.log(void 0);
-console.log([...nothing, 10, 20][0]);
-console.log([...nothing, 10, 20][1]);
-console.log([...nothing, 10, 20][2]);
-console.log([10, ...nothing, 20][0]);
-console.log([10, ...nothing, 20][1]);
-console.log([10, ...nothing, 20][2]);
-console.log([10, 20, ...nothing][0]);
-console.log([10, 20, ...nothing][1]);
-console.log([10, 20, ...nothing][2]);
+console.log([
+    10,
+    20
+][2]);
+console.log([
+    ...nothing,
+    10,
+    20
+][0]);
+console.log([
+    ...nothing,
+    10,
+    20
+][1]);
+console.log([
+    ...nothing,
+    10,
+    20
+][2]);
+console.log([
+    10,
+    ...nothing,
+    20
+][0]);
+console.log([
+    10,
+    ...nothing,
+    20
+][1]);
+console.log([
+    10,
+    ...nothing,
+    20
+][2]);
+console.log([
+    10,
+    20,
+    ...nothing
+][0]);
+console.log([
+    10,
+    20,
+    ...nothing
+][1]);
+console.log([
+    10,
+    20,
+    ...nothing
+][2]);

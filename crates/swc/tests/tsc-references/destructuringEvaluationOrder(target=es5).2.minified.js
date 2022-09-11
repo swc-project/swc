@@ -6,7 +6,7 @@ import _throw from "@swc/helpers/src/_throw.mjs";
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 var trace = [], order = function(n) {
     return trace.push(n);
-}, tmp = void 0;
+}, tmp = [][0];
 (void 0 === tmp ? order(0) : tmp)[order(1)];
 var tmp1 = {};
 (void 0 === tmp1 ? order(0) : tmp1)[order(1)];
