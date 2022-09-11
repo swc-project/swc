@@ -37,7 +37,8 @@ function foo7(x) {
 }
 function foo8(x) {
     var b;
-    return typeof x === "string" ? x === "hello" : (b = x) && (typeof x === "boolean" ? x // boolean
+    return typeof x === "string" ? x === "hello" : (b = x) && //  number | boolean
+    (typeof x === "boolean" ? x // boolean
      : x == 10); // boolean
 }
 function foo9(x) {

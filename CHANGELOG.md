@@ -1,11 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/parser)** Keep comments of the RHS of a binary expression (#5812) ([8adbe16](https://github.com/swc-project/swc/commit/8adbe1675e6e86b0d1eb2f67ecdba3eb4ed5ee96))
+
 ### Features
 
 
 
 - **(es/parser)** Improve jsx lexer (#5805) ([97729e5](https://github.com/swc-project/swc/commit/97729e5d2bc74841ac2907902ddbd413d5645f9a))
+
+
+- **(swc_core)** Export `swc_common/sourcemap` (#5818) ([2819be5](https://github.com/swc-project/swc/commit/2819be5aac9d341bfb57335b5c9f96c267f9883d))
 
 ### Performance
 
