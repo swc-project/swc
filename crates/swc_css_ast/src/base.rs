@@ -24,7 +24,7 @@ pub enum Rule {
     Invalid(Tokens),
 
     #[tag("AtRule")]
-    AtRule(AtRule),
+    AtRule(Box<AtRule>),
 }
 
 #[ast_node("QualifiedRule")]
@@ -50,7 +50,7 @@ pub enum StyleBlock {
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(ListOfComponentValues),
     #[tag("AtRule")]
-    AtRule(AtRule),
+    AtRule(Box<AtRule>),
     #[tag("Declaration")]
     Declaration(Box<Declaration>),
     #[tag("QualifiedRule")]
@@ -151,7 +151,7 @@ pub enum DeclarationOrAtRule {
     #[tag("Declaration")]
     Declaration(Box<Declaration>),
     #[tag("AtRule")]
-    AtRule(AtRule),
+    AtRule(Box<AtRule>),
     // For recovery mode
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(ListOfComponentValues),
