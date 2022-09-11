@@ -29,7 +29,7 @@ impl VisitMut for CompressAtRule {
                 }
             }
 
-            let new_value = match value {
+            let new_value = match &mut **value {
                 UrlValue::Str(Str { value, .. }) => value,
                 UrlValue::Raw(UrlValueRaw { value, .. }) => value,
             };
@@ -149,8 +149,8 @@ impl VisitMut for CompressAtRule {
 
         if !self.stylesheet_has_non_ascii_characters {
             match stylesheet.rules.get(0) {
-                Some(Rule::AtRule(AtRule {
-                    prelude: Some(AtRulePrelude::CharsetPrelude(Str { value, .. })),
+                Some(Rule::AtRule(box AtRule {
+                    prelude: Some(box AtRulePrelude::CharsetPrelude(Str { value, .. })),
                     ..
                 })) if value.as_ref().eq_ignore_ascii_case("utf-8") => {
                     stylesheet.rules.remove(0);

@@ -1,3 +1,4 @@
+#![feature(box_patterns)]
 #![deny(clippy::all)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::needless_update)]
