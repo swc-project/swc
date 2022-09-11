@@ -1415,7 +1415,6 @@ impl VisitMut for SimplifyExpr {
             expr_ctx: self.expr_ctx.clone(),
             config: self.config,
             changed: Default::default(),
-            vars: Default::default(),
             is_arg_of_update: Default::default(),
             is_modifying: Default::default(),
             in_callee: Default::default(),
