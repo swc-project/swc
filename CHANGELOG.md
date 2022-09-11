@@ -20,6 +20,9 @@
 
 
 
+- **(css)** Optimize memory layout of ast types (#5823) ([4f119b2](https://github.com/swc-project/swc/commit/4f119b26935aeb06fb16a116c4f96783f6edfdae))
+
+
 - **(css/minifier)** Merge passes (#5820) ([f523502](https://github.com/swc-project/swc/commit/f523502f4cf03b238bd7b859930f344169302907))
 
 
