@@ -2,8 +2,8 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::NAMED_COLORS;
-use swc_css_visit::{VisitMut, VisitMutWith};
 
+use super::Compressor;
 use crate::compress::angle::{get_angle_type, to_deg};
 
 fn get_short_hex(v: u32) -> u32 {
@@ -213,13 +213,7 @@ macro_rules! make_color {
     }};
 }
 
-pub fn compress_color() -> impl VisitMut {
-    CompressColor {}
-}
-
-struct CompressColor {}
-
-impl CompressColor {
+impl Compressor {
     fn get_named_color_by_hex(&self, hex: &str) -> Option<&'static str> {
         let name = match hex {
             "000080" => "navy",
@@ -387,10 +381,8 @@ impl CompressColor {
     }
 }
 
-impl VisitMut for CompressColor {
-    fn visit_mut_color(&mut self, color: &mut Color) {
-        color.visit_mut_children_with(self);
-
+impl Compressor {
+    pub(super) fn compress_color(&self, color: &mut Color) {
         match color {
             Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(Ident {
                 value,

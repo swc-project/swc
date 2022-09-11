@@ -1,6 +1,7 @@
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
+mod color;
 mod declaration;
 mod empty;
 mod time;
@@ -49,5 +50,11 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_declaration(n);
+    }
+
+    fn visit_mut_color(&mut self, n: &mut Color) {
+        n.visit_mut_children_with(self);
+
+        self.compress_color(n);
     }
 }
