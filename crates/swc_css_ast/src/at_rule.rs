@@ -447,7 +447,7 @@ pub enum SupportsConditionType {
 pub struct SupportsNot {
     pub span: Span,
     pub keyword: Option<Ident>,
-    pub condition: SupportsInParens,
+    pub condition: Box<SupportsInParens>,
 }
 
 impl EqIgnoreSpan for SupportsNot {
@@ -461,7 +461,7 @@ impl EqIgnoreSpan for SupportsNot {
 pub struct SupportsAnd {
     pub span: Span,
     pub keyword: Option<Ident>,
-    pub condition: SupportsInParens,
+    pub condition: Box<SupportsInParens>,
 }
 
 impl EqIgnoreSpan for SupportsAnd {
@@ -475,7 +475,7 @@ impl EqIgnoreSpan for SupportsAnd {
 pub struct SupportsOr {
     pub span: Span,
     pub keyword: Option<Ident>,
-    pub condition: SupportsInParens,
+    pub condition: Box<SupportsInParens>,
 }
 
 impl EqIgnoreSpan for SupportsOr {
