@@ -12,6 +12,7 @@ use self::{
         frequency::compress_frequency, keyframes::compress_keyframes, length::compress_length,
         selector::compress_selector, transform_function::compress_transform_function,
     },
+    compressor::compressor,
     options::MinifyOptions,
 };
 
@@ -20,6 +21,7 @@ mod compressor;
 pub mod options;
 
 pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
+    stylesheet.visit_mut_with(&mut compressor());
     stylesheet.visit_mut_with(&mut compress_empty());
     stylesheet.visit_mut_with(&mut compress_color());
     stylesheet.visit_mut_with(&mut compress_alpha_value());

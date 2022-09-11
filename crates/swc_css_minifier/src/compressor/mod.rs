@@ -5,6 +5,11 @@ mod time;
 mod unicode_range;
 mod url;
 
+pub fn compressor() -> impl VisitMut {
+    Compressor::default()
+}
+
+#[derive(Default)]
 struct Compressor {}
 
 impl VisitMut for Compressor {
