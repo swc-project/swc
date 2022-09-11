@@ -1,6 +1,7 @@
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
+mod declaration;
 mod empty;
 mod time;
 mod unicode_range;
@@ -42,5 +43,11 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_url(n);
+    }
+
+    fn visit_mut_declaration(&mut self, n: &mut Declaration) {
+        n.visit_mut_children_with(self);
+
+        self.compress_declaration(n);
     }
 }

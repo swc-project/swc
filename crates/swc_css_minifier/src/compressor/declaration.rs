@@ -1,114 +1,11 @@
 use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_css_ast::*;
-use swc_css_visit::{VisitMut, VisitMutWith};
-pub fn compress_declaration() -> impl VisitMut {
-    CompressDeclaration {}
-}
 
-struct CompressDeclaration {}
+use super::Compressor;
 
-impl CompressDeclaration {
-    fn is_same_length_nodes(
-        &self,
-        node_1: Option<&ComponentValue>,
-        node_2: Option<&ComponentValue>,
-    ) -> bool {
-        match (node_1, node_2) {
-            (
-                Some(ComponentValue::Dimension(Dimension::Length(Length {
-                    value: value_1,
-                    unit: unit_1,
-                    ..
-                }))),
-                Some(ComponentValue::Dimension(Dimension::Length(Length {
-                    value: value_2,
-                    unit: unit_2,
-                    ..
-                }))),
-            ) if value_1.value == value_2.value
-                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
-            {
-                true
-            }
-            (
-                Some(ComponentValue::Integer(Integer { value: 0, .. })),
-                Some(ComponentValue::Integer(Integer { value: 0, .. })),
-            ) => true,
-            (
-                Some(ComponentValue::Number(Number {
-                    value: first_number,
-                    ..
-                })),
-                Some(ComponentValue::Number(Number {
-                    value: second_number,
-                    ..
-                })),
-            ) if first_number == second_number => true,
-            _ => false,
-        }
-    }
-
-    fn is_same_length_percentage_nodes(
-        &self,
-        node_1: Option<&ComponentValue>,
-        node_2: Option<&ComponentValue>,
-    ) -> bool {
-        match (node_1, node_2) {
-            (
-                Some(ComponentValue::Dimension(Dimension::Length(Length {
-                    value: value_1,
-                    unit: unit_1,
-                    ..
-                }))),
-                Some(ComponentValue::Dimension(Dimension::Length(Length {
-                    value: value_2,
-                    unit: unit_2,
-                    ..
-                }))),
-            ) if value_1.value == value_2.value
-                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
-            {
-                true
-            }
-            (
-                Some(ComponentValue::Percentage(Percentage { value: value_1, .. })),
-                Some(ComponentValue::Percentage(Percentage { value: value_2, .. })),
-            ) if value_1.value == value_2.value => true,
-            (
-                Some(ComponentValue::Integer(Integer { value: 0, .. })),
-                Some(ComponentValue::Integer(Integer { value: 0, .. })),
-            ) => true,
-            (
-                Some(ComponentValue::Number(Number {
-                    value: first_number,
-                    ..
-                })),
-                Some(ComponentValue::Number(Number {
-                    value: second_number,
-                    ..
-                })),
-            ) if first_number == second_number => true,
-            _ => false,
-        }
-    }
-
-    fn is_same_ident(
-        &self,
-        node_1: Option<&ComponentValue>,
-        node_2: Option<&ComponentValue>,
-    ) -> bool {
-        matches!((node_1, node_2), (
-                 Some(ComponentValue::Ident(Ident { value: value_1, .. })),
-                Some(ComponentValue::Ident(Ident { value: value_2, .. })),
-            ) if value_1.to_ascii_lowercase() == value_2.to_ascii_lowercase())
-    }
-}
-
-impl VisitMut for CompressDeclaration {
-    fn visit_mut_declaration(&mut self, declaration: &mut Declaration) {
-        declaration.visit_mut_children_with(self);
-
+impl Compressor {
+    pub(super) fn compress_declaration(&self, declaration: &mut Declaration) {
         if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
             match value.to_ascii_lowercase() {
                 js_word!("display") if declaration.value.len() > 1 => {
@@ -528,5 +425,100 @@ impl VisitMut for CompressDeclaration {
                 _ => {}
             }
         }
+    }
+
+    fn is_same_length_nodes(
+        &self,
+        node_1: Option<&ComponentValue>,
+        node_2: Option<&ComponentValue>,
+    ) -> bool {
+        match (node_1, node_2) {
+            (
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_1,
+                    unit: unit_1,
+                    ..
+                }))),
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_2,
+                    unit: unit_2,
+                    ..
+                }))),
+            ) if value_1.value == value_2.value
+                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
+            {
+                true
+            }
+            (
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+            ) => true,
+            (
+                Some(ComponentValue::Number(Number {
+                    value: first_number,
+                    ..
+                })),
+                Some(ComponentValue::Number(Number {
+                    value: second_number,
+                    ..
+                })),
+            ) if first_number == second_number => true,
+            _ => false,
+        }
+    }
+
+    fn is_same_length_percentage_nodes(
+        &self,
+        node_1: Option<&ComponentValue>,
+        node_2: Option<&ComponentValue>,
+    ) -> bool {
+        match (node_1, node_2) {
+            (
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_1,
+                    unit: unit_1,
+                    ..
+                }))),
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_2,
+                    unit: unit_2,
+                    ..
+                }))),
+            ) if value_1.value == value_2.value
+                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
+            {
+                true
+            }
+            (
+                Some(ComponentValue::Percentage(Percentage { value: value_1, .. })),
+                Some(ComponentValue::Percentage(Percentage { value: value_2, .. })),
+            ) if value_1.value == value_2.value => true,
+            (
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+            ) => true,
+            (
+                Some(ComponentValue::Number(Number {
+                    value: first_number,
+                    ..
+                })),
+                Some(ComponentValue::Number(Number {
+                    value: second_number,
+                    ..
+                })),
+            ) if first_number == second_number => true,
+            _ => false,
+        }
+    }
+
+    fn is_same_ident(
+        &self,
+        node_1: Option<&ComponentValue>,
+        node_2: Option<&ComponentValue>,
+    ) -> bool {
+        matches!((node_1, node_2), (
+                 Some(ComponentValue::Ident(Ident { value: value_1, .. })),
+                Some(ComponentValue::Ident(Ident { value: value_2, .. })),
+            ) if value_1.to_ascii_lowercase() == value_2.to_ascii_lowercase())
     }
 }

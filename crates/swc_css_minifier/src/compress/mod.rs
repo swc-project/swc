@@ -2,7 +2,6 @@ pub mod alpha_value;
 pub mod angle;
 pub mod at_rule;
 pub mod color;
-pub mod declaration;
 pub mod easing_function;
 pub mod frequency;
 pub mod keyframes;

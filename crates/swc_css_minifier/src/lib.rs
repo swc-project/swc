@@ -7,10 +7,9 @@ use swc_css_visit::VisitMutWith;
 use self::{
     compress::{
         alpha_value::compress_alpha_value, angle::compress_angle, at_rule::compress_at_rule,
-        color::compress_color, declaration::compress_declaration,
-        easing_function::compress_easing_function, frequency::compress_frequency,
-        keyframes::compress_keyframes, length::compress_length, selector::compress_selector,
-        transform_function::compress_transform_function,
+        color::compress_color, easing_function::compress_easing_function,
+        frequency::compress_frequency, keyframes::compress_keyframes, length::compress_length,
+        selector::compress_selector, transform_function::compress_transform_function,
     },
     compressor::compressor,
     options::MinifyOptions,
@@ -29,7 +28,6 @@ pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
     stylesheet.visit_mut_with(&mut compress_frequency());
     stylesheet.visit_mut_with(&mut compress_easing_function());
     stylesheet.visit_mut_with(&mut compress_transform_function());
-    stylesheet.visit_mut_with(&mut compress_declaration());
     stylesheet.visit_mut_with(&mut compress_selector());
     stylesheet.visit_mut_with(&mut compress_keyframes());
     stylesheet.visit_mut_with(&mut compress_at_rule());
