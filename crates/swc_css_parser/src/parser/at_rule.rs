@@ -202,7 +202,7 @@ where
                         }
                     }
 
-                    Ok(prelude)
+                    Ok(Box::new(prelude))
                 }
                 "document" | "-moz-document" => {
                     parser.input.skip_ws();
@@ -236,7 +236,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "page" => {
                     parser.input.skip_ws();
@@ -249,7 +249,7 @@ where
 
                     parser.input.skip_ws();
 
-                    Ok(prelude)
+                    Ok(Box::new(prelude))
                 }
                 "top-left-corner"
                 | "top-left"
