@@ -1,18 +1,11 @@
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub fn compress_keyframes() -> impl VisitMut {
-    CompressKeyframes {}
-}
+use super::Compressor;
 
-struct CompressKeyframes {}
-
-impl VisitMut for CompressKeyframes {
-    fn visit_mut_at_rule(&mut self, at_rule: &mut AtRule) {
-        at_rule.visit_mut_children_with(self);
-
+impl Compressor {
+    pub(super) fn compress_keyframes_at_rule(&mut self, at_rule: &mut AtRule) {
         match &at_rule.prelude {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
                 if !matches!(
@@ -37,9 +30,7 @@ impl VisitMut for CompressKeyframes {
         }
     }
 
-    fn visit_mut_keyframe_selector(&mut self, keyframe_selector: &mut KeyframeSelector) {
-        keyframe_selector.visit_mut_children_with(self);
-
+    pub(super) fn compress_keyframe_selector(&mut self, keyframe_selector: &mut KeyframeSelector) {
         match keyframe_selector {
             KeyframeSelector::Ident(i) if i.value.to_ascii_lowercase() == js_word!("from") => {
                 *keyframe_selector = KeyframeSelector::Percentage(Percentage {

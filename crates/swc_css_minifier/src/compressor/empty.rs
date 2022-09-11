@@ -1,17 +1,10 @@
 use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
-use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub fn compress_empty() -> impl VisitMut {
-    CompressEmpty {}
-}
+use super::Compressor;
 
-struct CompressEmpty {}
-
-impl VisitMut for CompressEmpty {
-    fn visit_mut_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
-        stylesheet.visit_mut_children_with(self);
-
+impl Compressor {
+    pub(super) fn compresss_empty_stylesheet(&self, stylesheet: &mut Stylesheet) {
         stylesheet.rules.retain(|rule| match rule {
             Rule::QualifiedRule(QualifiedRule { block, .. }) if block.value.is_empty() => false,
             Rule::AtRule(AtRule {
@@ -23,9 +16,7 @@ impl VisitMut for CompressEmpty {
         });
     }
 
-    fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
-        simple_block.visit_mut_children_with(self);
-
+    pub(super) fn compresss_empty_simple_block(&self, simple_block: &mut SimpleBlock) {
         simple_block.value.retain(|rule| match rule {
             ComponentValue::Rule(Rule::QualifiedRule(QualifiedRule { block, .. }))
             | ComponentValue::Rule(Rule::AtRule(AtRule {

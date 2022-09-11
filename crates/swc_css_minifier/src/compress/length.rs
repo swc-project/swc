@@ -13,7 +13,7 @@ struct CompressLength {
 }
 
 impl CompressLength {
-    fn convert(&mut self, value: f64, from_unit: JsWord, to_unit: JsWord) -> f64 {
+    fn convert_length(&mut self, value: f64, from_unit: JsWord, to_unit: JsWord) -> f64 {
         match to_unit {
             js_word!("cm") => match from_unit {
                 js_word!("cm") => value,
@@ -153,7 +153,7 @@ impl VisitMut for CompressLength {
         match from {
             js_word!("cm") => {
                 if value % 2.54 == 0.0 {
-                    let new_value = self.convert(value, from, js_word!("in"));
+                    let new_value = self.convert_length(value, from, js_word!("in"));
 
                     length.value = Number {
                         span: length.value.span,
@@ -166,7 +166,7 @@ impl VisitMut for CompressLength {
                         raw: None,
                     };
                 } else if value <= 0.1 {
-                    let new_value = self.convert(value, from, js_word!("mm"));
+                    let new_value = self.convert_length(value, from, js_word!("mm"));
 
                     length.value = Number {
                         span: length.value.span,
@@ -182,7 +182,7 @@ impl VisitMut for CompressLength {
             }
             js_word!("mm") => {
                 if value % 25.4 == 0.0 {
-                    let new_value = self.convert(value, from, js_word!("in"));
+                    let new_value = self.convert_length(value, from, js_word!("in"));
 
                     length.value = Number {
                         span: length.value.span,
@@ -195,7 +195,7 @@ impl VisitMut for CompressLength {
                         raw: None,
                     };
                 } else if value % 10.0 == 0.0 {
-                    let new_value = self.convert(value, from, js_word!("cm"));
+                    let new_value = self.convert_length(value, from, js_word!("cm"));
 
                     length.value = Number {
                         span: length.value.span,
@@ -211,7 +211,7 @@ impl VisitMut for CompressLength {
             }
             js_word!("q") => {
                 if value > 80.0 && value % 40.0 == 0.0 {
-                    let new_value = self.convert(value, from, js_word!("cm"));
+                    let new_value = self.convert_length(value, from, js_word!("cm"));
 
                     length.value = Number {
                         span: length.value.span,
@@ -224,7 +224,7 @@ impl VisitMut for CompressLength {
                         raw: None,
                     };
                 } else if value % 101.6 == 0.0 {
-                    let new_value = self.convert(value, from, js_word!("in"));
+                    let new_value = self.convert_length(value, from, js_word!("in"));
 
                     length.value = Number {
                         span: length.value.span,
@@ -240,7 +240,7 @@ impl VisitMut for CompressLength {
             }
             js_word!("pc") => {
                 if value % 6.0 == 0.0 {
-                    let new_value = self.convert(value, from, js_word!("in"));
+                    let new_value = self.convert_length(value, from, js_word!("in"));
 
                     length.value = Number {
                         span: length.value.span,
@@ -256,7 +256,7 @@ impl VisitMut for CompressLength {
             }
             js_word!("pt") => {
                 if value % 72.0 == 0.0 {
-                    let new_value = self.convert(value, from, js_word!("in"));
+                    let new_value = self.convert_length(value, from, js_word!("in"));
 
                     length.value = Number {
                         span: length.value.span,
@@ -269,7 +269,7 @@ impl VisitMut for CompressLength {
                         raw: None,
                     };
                 } else if value % 12.0 == 0.0 {
-                    let new_value = self.convert(value, from, js_word!("pc"));
+                    let new_value = self.convert_length(value, from, js_word!("pc"));
 
                     length.value = Number {
                         span: length.value.span,
@@ -282,7 +282,7 @@ impl VisitMut for CompressLength {
                         raw: None,
                     };
                 } else if value % 0.75 == 0.0 {
-                    let new_value = self.convert(value, from, js_word!("px"));
+                    let new_value = self.convert_length(value, from, js_word!("px"));
 
                     length.value = Number {
                         span: length.value.span,
