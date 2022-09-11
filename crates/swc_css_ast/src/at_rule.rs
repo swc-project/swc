@@ -50,9 +50,9 @@ pub enum AtRulePrelude {
     #[tag("KeyframesName")]
     KeyframesPrelude(KeyframesName),
     #[tag("ImportPrelude")]
-    ImportPrelude(Box<ImportPrelude>),
+    ImportPrelude(ImportPrelude),
     #[tag("NamespacePrelude")]
-    NamespacePrelude(Box<NamespacePrelude>),
+    NamespacePrelude(NamespacePrelude),
     #[tag("MediaQueryList")]
     MediaPrelude(MediaQueryList),
     #[tag("SupportsCondition")]
@@ -125,9 +125,9 @@ pub enum KeyframeSelector {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ImportPrelude {
     pub span: Span,
-    pub href: ImportPreludeHref,
+    pub href: Box<ImportPreludeHref>,
     pub layer_name: Option<ImportPreludeLayerName>,
-    pub supports: Option<ImportPreludeSupportsType>,
+    pub supports: Option<Box<ImportPreludeSupportsType>>,
     pub media: Option<MediaQueryList>,
 }
 
@@ -163,7 +163,7 @@ pub enum ImportPreludeSupportsType {
 pub struct NamespacePrelude {
     pub span: Span,
     pub prefix: Option<Ident>,
-    pub uri: NamespacePreludeUri,
+    pub uri: Box<NamespacePreludeUri>,
 }
 
 #[ast_node]
