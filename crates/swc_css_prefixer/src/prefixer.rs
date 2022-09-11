@@ -548,8 +548,8 @@ struct Prefixer {
     simple_block: Option<SimpleBlock>,
     rule_prefix: Option<Prefix>,
     added_top_rules: Vec<(Prefix, Rule)>,
-    added_at_rules: Vec<(Prefix, AtRule)>,
-    added_qualified_rules: Vec<(Prefix, QualifiedRule)>,
+    added_at_rules: Vec<(Prefix, Box<AtRule>)>,
+    added_qualified_rules: Vec<(Prefix, Box<QualifiedRule>)>,
     added_declarations: Vec<Declaration>,
 }
 
@@ -2546,7 +2546,7 @@ impl VisitMut for Prefixer {
                                 ..
                             } if value.as_ref().eq_ignore_ascii_case("direction"))
                 }) {
-                    Some(Declaration { value, .. }) => match value.get(0).as_deref() {
+                    Some(Declaration { value, .. }) => match value.get(0) {
                         Some(ComponentValue::Ident(Ident { value, .. }))
                             if value.as_ref().eq_ignore_ascii_case("rtl") =>
                         {
