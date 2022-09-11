@@ -52,7 +52,7 @@ pub enum StyleBlock {
     #[tag("AtRule")]
     AtRule(AtRule),
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
     #[tag("QualifiedRule")]
     QualifiedRule(QualifiedRule),
 }
@@ -149,7 +149,7 @@ pub enum ComponentValue {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum DeclarationOrAtRule {
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
     #[tag("AtRule")]
     AtRule(AtRule),
     // For recovery mode

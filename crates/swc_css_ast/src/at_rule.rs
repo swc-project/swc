@@ -155,7 +155,7 @@ pub enum ImportPreludeSupportsType {
     #[tag("SupportsCondition")]
     SupportsCondition(SupportsCondition),
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
 }
 
 #[ast_node("NamespacePrelude")]
@@ -501,7 +501,7 @@ pub enum SupportsInParens {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum SupportsFeature {
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
     #[tag("Function")]
     Function(Function),
 }
