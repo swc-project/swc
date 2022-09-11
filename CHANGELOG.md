@@ -22,6 +22,9 @@
 
 - **(es/minifier)** Optimize usage of `IndexSet` (#5814) ([704ea3d](https://github.com/swc-project/swc/commit/704ea3d48d8c98b7a3f7400621ef93d041c27860))
 
+
+- **(es/minifier)** Make expression simplifier stateless and parallel (#5819) ([cfe575e](https://github.com/swc-project/swc/commit/cfe575e35a47c8a0d0550df9fc8dd0db932b6c41))
+
 ### Build
 
 
