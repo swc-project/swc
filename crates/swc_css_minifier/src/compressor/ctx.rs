@@ -7,6 +7,10 @@ pub(super) struct Ctx {
     pub in_math_function: bool,
 
     pub in_logic_combinator_selector: bool,
+
+    pub in_transform_function: bool,
+
+    pub in_keyframe_block: bool,
 }
 
 impl Compressor {

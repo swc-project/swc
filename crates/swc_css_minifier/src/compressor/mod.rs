@@ -4,6 +4,7 @@ use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::ctx::Ctx;
 
+mod angle;
 mod color;
 mod ctx;
 mod declaration;
@@ -27,6 +28,10 @@ struct Compressor {
 }
 
 impl VisitMut for Compressor {
+    fn visit_mut_alpha_value(&mut self, n: &mut AlphaValue) {
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
         n.visit_mut_children_with(self);
 
@@ -100,6 +105,8 @@ impl VisitMut for Compressor {
         self.compress_component_value_for_length(n);
 
         self.compress_easing_function(n);
+
+        self.compress_angle_in_component_value(n);
     }
 
     fn visit_mut_length(&mut self, n: &mut Length) {
@@ -181,5 +188,44 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_attribute_selector(n);
+    }
+
+    fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
+        n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
+            in_keyframe_block: true,
+            ..self.ctx
+        }));
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        match &n.name {
+            Ident { value, .. }
+                if matches!(
+                    value.to_ascii_lowercase(),
+                    js_word!("rotate")
+                        | js_word!("skew")
+                        | js_word!("skewx")
+                        | js_word!("skewy")
+                        | js_word!("rotate3d")
+                        | js_word!("rotatex")
+                        | js_word!("rotatey")
+                        | js_word!("rotatez")
+                ) =>
+            {
+                n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
+                    in_transform_function: true,
+                    ..self.ctx
+                }));
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_angle(&mut self, n: &mut Angle) {
+        n.visit_mut_children_with(self);
+
+        self.compress_angle(n);
     }
 }
