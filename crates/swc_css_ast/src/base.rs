@@ -18,7 +18,7 @@ pub struct Stylesheet {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Rule {
     #[tag("QualifiedRule")]
-    QualifiedRule(QualifiedRule),
+    QualifiedRule(Box<QualifiedRule>),
 
     #[tag("Tokens")]
     Invalid(Tokens),
@@ -54,7 +54,7 @@ pub enum StyleBlock {
     #[tag("Declaration")]
     Declaration(Box<Declaration>),
     #[tag("QualifiedRule")]
-    QualifiedRule(QualifiedRule),
+    QualifiedRule(Box<QualifiedRule>),
 }
 
 #[ast_node("SimpleBlock")]
