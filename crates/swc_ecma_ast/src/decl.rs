@@ -52,7 +52,7 @@ pub struct FnDecl {
 
     #[serde(flatten)]
     #[span]
-    pub function: Function,
+    pub function: Box<Function>,
 }
 
 impl Take for FnDecl {
@@ -77,7 +77,7 @@ pub struct ClassDecl {
 
     #[serde(flatten)]
     #[span]
-    pub class: Class,
+    pub class: Box<Class>,
 }
 
 #[ast_node("VariableDeclaration")]

@@ -495,7 +495,7 @@ pub struct FnExpr {
 
     #[serde(flatten)]
     #[span]
-    pub function: Function,
+    pub function: Box<Function>,
 }
 
 impl Take for FnExpr {
@@ -526,7 +526,7 @@ pub struct ClassExpr {
 
     #[serde(flatten)]
     #[span]
-    pub class: Class,
+    pub class: Box<Class>,
 }
 
 impl Take for ClassExpr {
