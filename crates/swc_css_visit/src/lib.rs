@@ -258,7 +258,7 @@ define!({
     pub struct Url {
         pub span: Span,
         pub name: Ident,
-        pub value: Option<UrlValue>,
+        pub value: Option<Box<UrlValue>>,
         pub modifiers: Option<Vec<UrlModifier>>,
     }
 
@@ -392,7 +392,7 @@ define!({
     pub struct CompoundSelector {
         pub span: Span,
         pub nesting_selector: Option<NestingSelector>,
-        pub type_selector: Option<TypeSelector>,
+        pub type_selector: Option<Box<TypeSelector>>,
         pub subclass_selectors: Vec<SubclassSelector>,
     }
 
@@ -530,10 +530,10 @@ define!({
 
     pub struct ImportPrelude {
         pub span: Span,
-        pub href: ImportPreludeHref,
-        pub layer_name: Option<ImportPreludeLayerName>,
-        pub supports: Option<ImportPreludeSupportsType>,
-        pub media: Option<MediaQueryList>,
+        pub href: Box<ImportPreludeHref>,
+        pub layer_name: Option<Box<ImportPreludeLayerName>>,
+        pub supports: Option<Box<ImportPreludeSupportsType>>,
+        pub media: Option<Box<MediaQueryList>>,
     }
 
     pub enum ImportPreludeHref {
@@ -565,7 +565,7 @@ define!({
     pub struct AtRule {
         pub span: Span,
         pub name: AtRuleName,
-        pub prelude: Option<AtRulePrelude>,
+        pub prelude: Option<Box<AtRulePrelude>>,
         pub block: Option<SimpleBlock>,
     }
 
@@ -659,7 +659,7 @@ define!({
         pub modifier: Option<Ident>,
         pub media_type: Option<MediaType>,
         pub keyword: Option<Ident>,
-        pub condition: Option<MediaConditionType>,
+        pub condition: Option<Box<MediaConditionType>>,
     }
 
     pub enum MediaType {
