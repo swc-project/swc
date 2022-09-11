@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -48,8 +49,11 @@ impl VisitMut for CompressAlphaValue {
         declaration.visit_mut_children_with(self);
 
         if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
-            match &*value.to_lowercase() {
-                "opacity" | "fill-opacity" | "stroke-opacity" | "shape-image-threshold" => {
+            match value.to_ascii_lowercase() {
+                js_word!("opacity")
+                | js_word!("fill-opacity")
+                | js_word!("stroke-opacity")
+                | js_word!("shape-image-threshold") => {
                     let old_preserve = self.preserve;
 
                     self.preserve = false;

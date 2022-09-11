@@ -157,6 +157,26 @@ where
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)
     }
+
+    fn skip_ws(&mut self) -> Option<BytePos> {
+        self.read_comments();
+
+        if let Some(c) = self.input.cur() {
+            if !is_whitespace(c) {
+                return None;
+            }
+        }
+
+        loop {
+            self.read_comments();
+
+            if self.input.uncons_while(is_whitespace).is_empty() {
+                break;
+            }
+        }
+
+        Some(self.input.last_pos())
+    }
 }
 
 impl<I> Lexer<I>
@@ -207,7 +227,7 @@ where
     }
 
     fn consume_token(&mut self) -> LexResult<Token> {
-        self.read_comments()?;
+        self.read_comments();
         self.start_pos = self.input.cur_pos();
         self.consume();
 
@@ -465,7 +485,7 @@ where
     // Consume comments.
     // This section describes how to consume comments from a stream of code points.
     // It returns nothing.
-    fn read_comments(&mut self) -> LexResult<()> {
+    fn read_comments(&mut self) {
         // If the next two input code point are U+002F SOLIDUS (/) followed by a U+002A
         // ASTERISK (*), consume them and all following code points up to and including
         // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
@@ -492,7 +512,7 @@ where
                             self.errors
                                 .push(Error::new(span, ErrorKind::UnterminatedBlockComment));
 
-                            return Ok(());
+                            return;
                         }
                         _ => {}
                     }
@@ -513,16 +533,12 @@ where
                         Some(c) if is_newline(c) => {
                             break;
                         }
-                        None => {
-                            return Ok(());
-                        }
+                        None => return,
                         _ => {}
                     }
                 }
             }
         }
-
-        Ok(())
     }
 
     // This section describes how to consume a numeric token from a stream of code

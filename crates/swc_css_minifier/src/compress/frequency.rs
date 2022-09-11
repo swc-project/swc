@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -11,8 +12,10 @@ impl VisitMut for CompressFrequency {
     fn visit_mut_frequency(&mut self, frequency: &mut Frequency) {
         frequency.visit_mut_children_with(self);
 
-        match &*frequency.unit.value.to_lowercase() {
-            "hz" if frequency.value.value > 0.0 && frequency.value.value % 1000.0 == 0.0 => {
+        match frequency.unit.value.to_ascii_lowercase() {
+            js_word!("hz")
+                if frequency.value.value > 0.0 && frequency.value.value % 1000.0 == 0.0 =>
+            {
                 let new_value = frequency.value.value / 1000.0;
 
                 frequency.value = Number {
@@ -26,7 +29,7 @@ impl VisitMut for CompressFrequency {
                     raw: None,
                 };
             }
-            "khz"
+            js_word!("khz")
                 if frequency.value.value == 0.0
                     || (frequency.value.value > 0.0 && frequency.value.value < 0.1) =>
             {

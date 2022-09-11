@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -131,7 +132,9 @@ impl VisitMut for CompressSelector {
                 });
             }
             // `even` => `2n`
-            AnPlusB::Ident(Ident { value, span, .. }) if &*value.to_lowercase() == "even" => {
+            AnPlusB::Ident(Ident { value, span, .. })
+                if value.to_ascii_lowercase() == js_word!("even") =>
+            {
                 *an_plus_b = AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: Some(2),
@@ -181,8 +184,11 @@ impl VisitMut for CompressSelector {
 
         match &subclass_selector {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. }) => {
-                match &*name.value.to_lowercase() {
-                    "before" | "after" | "first-letter" | "first-line" => {
+                match name.value.to_ascii_lowercase() {
+                    js_word!("before")
+                    | js_word!("after")
+                    | js_word!("first-letter")
+                    | js_word!("first-line") => {
                         *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
                             span: *span,
                             name: name.clone(),
@@ -197,7 +203,9 @@ impl VisitMut for CompressSelector {
                 children: Some(children),
                 span,
                 ..
-            }) if &*name.value.to_lowercase() == "nth-child" && children.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("nth-child")
+                && children.len() == 1 =>
+            {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -210,7 +218,7 @@ impl VisitMut for CompressSelector {
                             span: *span,
                             name: Ident {
                                 span: DUMMY_SP,
-                                value: "first-child".into(),
+                                value: js_word!("first-child"),
                                 raw: None,
                             },
                             children: None,
@@ -224,7 +232,9 @@ impl VisitMut for CompressSelector {
                 children: Some(children),
                 span,
                 ..
-            }) if &*name.value.to_lowercase() == "nth-last-child" && children.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("nth-last-child")
+                && children.len() == 1 =>
+            {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -251,7 +261,9 @@ impl VisitMut for CompressSelector {
                 children: Some(children),
                 span,
                 ..
-            }) if &*name.value.to_lowercase() == "nth-of-type" && children.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("nth-of-type")
+                && children.len() == 1 =>
+            {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -264,7 +276,7 @@ impl VisitMut for CompressSelector {
                             span: *span,
                             name: Ident {
                                 span: DUMMY_SP,
-                                value: "first-of-type".into(),
+                                value: js_word!("first-of-type"),
                                 raw: None,
                             },
                             children: None,
@@ -278,7 +290,9 @@ impl VisitMut for CompressSelector {
                 children: Some(children),
                 span,
                 ..
-            }) if &*name.value.to_lowercase() == "nth-last-of-type" && children.len() == 1 => {
+            }) if name.value.to_ascii_lowercase() == js_word!("nth-last-of-type")
+                && children.len() == 1 =>
+            {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -291,7 +305,7 @@ impl VisitMut for CompressSelector {
                             span: *span,
                             name: Ident {
                                 span: DUMMY_SP,
-                                value: "last-of-type".into(),
+                                value: js_word!("last-of-type"),
                                 raw: None,
                             },
                             children: None,
@@ -308,8 +322,13 @@ impl VisitMut for CompressSelector {
         match &pseudo_class_selector.name {
             Ident { value, .. }
                 if matches!(
-                    &*value.to_lowercase(),
-                    "not" | "is" | "where" | "matches" | "-moz-any" | "-webkit-any"
+                    value.to_ascii_lowercase(),
+                    js_word!("not")
+                        | js_word!("is")
+                        | js_word!("where")
+                        | js_word!("matches")
+                        | js_word!("-moz-any")
+                        | js_word!("-webkit-any")
                 ) =>
             {
                 let old_in_logic_combinator = self.in_logic_combinator;

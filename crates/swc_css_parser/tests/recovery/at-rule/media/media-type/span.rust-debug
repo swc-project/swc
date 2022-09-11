@@ -80,7 +80,7 @@
    :             ^^^^^
    `----
 
-  x Ident { value: Atom('layer' type=inline), raw: Atom('layer' type=inline) }
+  x Ident { value: Atom('layer' type=static), raw: Atom('layer' type=static) }
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
  1 | @media only layer {
    :             ^^^^^

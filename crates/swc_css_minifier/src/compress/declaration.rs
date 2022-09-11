@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -26,7 +27,7 @@ impl CompressDeclaration {
                     ..
                 }))),
             ) if value_1.value == value_2.value
-                && unit_1.value.to_lowercase() == unit_2.value.to_lowercase() =>
+                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
             {
                 true
             }
@@ -66,7 +67,7 @@ impl CompressDeclaration {
                     ..
                 }))),
             ) if value_1.value == value_2.value
-                && unit_1.value.to_lowercase() == unit_2.value.to_lowercase() =>
+                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
             {
                 true
             }
@@ -100,7 +101,7 @@ impl CompressDeclaration {
         matches!((node_1, node_2), (
                  Some(ComponentValue::Ident(Ident { value: value_1, .. })),
                 Some(ComponentValue::Ident(Ident { value: value_2, .. })),
-            ) if value_1.to_lowercase() == value_2.to_lowercase())
+            ) if value_1.to_ascii_lowercase() == value_2.to_ascii_lowercase())
     }
 }
 
@@ -109,8 +110,8 @@ impl VisitMut for CompressDeclaration {
         declaration.visit_mut_children_with(self);
 
         if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
-            match &*value.to_lowercase() {
-                "display" if declaration.value.len() > 1 => {
+            match value.to_ascii_lowercase() {
+                js_word!("display") if declaration.value.len() > 1 => {
                     let mut outside = None;
                     let mut inside = None;
                     let mut list_item = None;
@@ -119,25 +120,33 @@ impl VisitMut for CompressDeclaration {
                         match value {
                             outside_node @ ComponentValue::Ident(Ident { value, .. })
                                 if matches!(
-                                    &*value.to_lowercase(),
-                                    "block" | "inline" | "run-in"
+                                    value.to_ascii_lowercase(),
+                                    js_word!("block") | js_word!("inline") | js_word!("run-in")
                                 ) =>
                             {
                                 outside = Some(outside_node);
                             }
                             inside_node @ ComponentValue::Ident(Ident { value, .. })
                                 if matches!(
-                                    &*value.to_lowercase(),
-                                    "flow" | "flow-root" | "table" | "flex" | "grid" | "ruby"
+                                    value.to_ascii_lowercase(),
+                                    js_word!("flow")
+                                        | js_word!("flow-root")
+                                        | js_word!("table")
+                                        | js_word!("flex")
+                                        | js_word!("grid")
+                                        | js_word!("ruby")
                                 ) =>
                             {
                                 inside = Some(inside_node);
                             }
                             list_item_node @ ComponentValue::Ident(Ident { value, .. })
-                                if &*value.to_lowercase() == "list-item" =>
+                                if value.to_ascii_lowercase() == js_word!("list-item") =>
                             {
                                 if let Some(ComponentValue::Ident(Ident { value, .. })) = inside {
-                                    if !matches!(&*value.to_lowercase(), "flow" | "flow-root") {
+                                    if !matches!(
+                                        value.to_ascii_lowercase(),
+                                        js_word!("flow") | js_word!("flow-root")
+                                    ) {
                                         continue;
                                     }
                                 }
@@ -159,7 +168,7 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             None,
-                        ) if &*inside_value.to_lowercase() == "flow" => {
+                        ) if inside_value.to_ascii_lowercase() == js_word!("flow") => {
                             declaration.value = vec![outside.clone()];
                         }
                         // `block flow-root` -> `flow-root`
@@ -175,8 +184,8 @@ impl VisitMut for CompressDeclaration {
                                 }),
                             ),
                             None,
-                        ) if &*outside_value.to_lowercase() == "block"
-                            && &*inside_value.to_lowercase() == "flow-root" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("block")
+                            && inside_value.to_ascii_lowercase() == js_word!("flow-root") =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -192,8 +201,8 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             None,
-                        ) if &*outside_value.to_lowercase() == "inline"
-                            && &*inside_value.to_lowercase() == "flow-root" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("inline")
+                            && inside_value.to_ascii_lowercase() == js_word!("flow-root") =>
                         {
                             declaration.value = vec![ComponentValue::Ident(Ident {
                                 span: *span,
@@ -212,8 +221,8 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             Some(list_item),
-                        ) if &*outside_value.to_lowercase() == "block"
-                            && &*inside_value.to_lowercase() == "flow" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("block")
+                            && inside_value.to_ascii_lowercase() == js_word!("flow") =>
                         {
                             declaration.value = vec![list_item.clone()];
                         }
@@ -225,7 +234,7 @@ impl VisitMut for CompressDeclaration {
                             })),
                             None,
                             Some(list_item),
-                        ) if &*outside_value.to_lowercase() == "block" => {
+                        ) if outside_value.to_ascii_lowercase() == js_word!("block") => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `flow list-item` -> `list-item`
@@ -236,7 +245,7 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             Some(list_item),
-                        ) if &*inside_value.to_lowercase() == "flow" => {
+                        ) if inside_value.to_ascii_lowercase() == js_word!("flow") => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `inline flow list-item` -> `inline list-item`
@@ -252,8 +261,8 @@ impl VisitMut for CompressDeclaration {
                                 ..
                             })),
                             Some(list_item),
-                        ) if &*outside_value.to_lowercase() == "inline"
-                            && &*inside_value.to_lowercase() == "flow" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("inline")
+                            && inside_value.to_ascii_lowercase() == js_word!("flow") =>
                         {
                             declaration.value = vec![outside.clone(), list_item.clone()];
                         }
@@ -272,10 +281,10 @@ impl VisitMut for CompressDeclaration {
                                 }),
                             ),
                             None,
-                        ) if &*outside_value.to_lowercase() == "block"
+                        ) if outside_value.to_ascii_lowercase() == js_word!("block")
                             && matches!(
-                                &*inside_value.to_lowercase(),
-                                "flex" | "grid" | "table"
+                                inside_value.to_ascii_lowercase(),
+                                js_word!("flex") | js_word!("grid") | js_word!("table")
                             ) =>
                         {
                             declaration.value = vec![inside.clone()];
@@ -293,8 +302,8 @@ impl VisitMut for CompressDeclaration {
                                 }),
                             ),
                             None,
-                        ) if &*outside_value.to_lowercase() == "inline"
-                            && inside_value.to_lowercase() == "ruby" =>
+                        ) if outside_value.to_ascii_lowercase() == js_word!("inline")
+                            && inside_value.to_ascii_lowercase() == js_word!("ruby") =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -303,16 +312,16 @@ impl VisitMut for CompressDeclaration {
                 }
                 // TODO handle `auto`
                 // TODO compress numbers too
-                "padding"
-                | "margin"
-                | "border-width"
-                | "inset"
-                | "scroll-margin"
-                | "scroll-padding"
-                | "mask-border-outset"
-                | "border-image-width"
-                | "border-image-outset"
-                | "border-image-slice"
+                js_word!("padding")
+                | js_word!("margin")
+                | js_word!("border-width")
+                | js_word!("inset")
+                | js_word!("scroll-margin")
+                | js_word!("scroll-padding")
+                | js_word!("mask-border-outset")
+                | js_word!("border-image-width")
+                | js_word!("border-image-outset")
+                | js_word!("border-image-slice")
                     if declaration.value.len() > 1 =>
                 {
                     let top = declaration.value.get(0);
@@ -347,27 +356,27 @@ impl VisitMut for CompressDeclaration {
                         }
                     }
                 }
-                "padding-inline"
-                | "padding-block"
-                | "margin-inline"
-                | "margin-block"
-                | "margin-inline"
-                | "inset-inline"
-                | "inset-block"
-                | "border-inline-width"
-                | "border-block-width"
-                | "scroll-padding-inline"
-                | "scroll-padding-block"
-                | "scroll-margin-inline"
-                | "scroll-margin-block"
-                | "border-top-left-radius"
-                | "border-top-right-radius"
-                | "border-bottom-right-radius"
-                | "border-bottom-left-radius"
-                | "border-start-start-radius"
-                | "border-start-end-radius"
-                | "border-end-start-radius"
-                | "border-end-end-radius"
+                js_word!("padding-inline")
+                | js_word!("padding-block")
+                | js_word!("margin-inline")
+                | js_word!("margin-block")
+                | js_word!("margin-inline")
+                | js_word!("inset-inline")
+                | js_word!("inset-block")
+                | js_word!("border-inline-width")
+                | js_word!("border-block-width")
+                | js_word!("scroll-padding-inline")
+                | js_word!("scroll-padding-block")
+                | js_word!("scroll-margin-inline")
+                | js_word!("scroll-margin-block")
+                | js_word!("border-top-left-radius")
+                | js_word!("border-top-right-radius")
+                | js_word!("border-bottom-right-radius")
+                | js_word!("border-bottom-left-radius")
+                | js_word!("border-start-start-radius")
+                | js_word!("border-start-end-radius")
+                | js_word!("border-end-start-radius")
+                | js_word!("border-end-end-radius")
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);
@@ -379,7 +388,7 @@ impl VisitMut for CompressDeclaration {
                         declaration.value.remove(1);
                     }
                 }
-                "border-style" if declaration.value.len() > 1 => {
+                js_word!("border-style") if declaration.value.len() > 1 => {
                     let top = declaration.value.get(0);
                     let right = declaration
                         .value
@@ -412,7 +421,9 @@ impl VisitMut for CompressDeclaration {
                         }
                     }
                 }
-                "border-spacing" | "border-image-repeat" if declaration.value.len() == 2 => {
+                js_word!("border-spacing") | js_word!("border-image-repeat")
+                    if declaration.value.len() == 2 =>
+                {
                     let first = declaration.value.get(0);
                     let second = declaration.value.get(1);
 
@@ -420,14 +431,14 @@ impl VisitMut for CompressDeclaration {
                         declaration.value.remove(1);
                     }
                 }
-                "font-weight" => {
+                js_word!("font-weight") => {
                     declaration.value = declaration
                         .value
                         .take()
                         .into_iter()
                         .map(|node| match node {
                             ComponentValue::Ident(Ident { value, span, .. })
-                                if value.to_lowercase() == "normal" =>
+                                if value.to_ascii_lowercase() == js_word!("normal") =>
                             {
                                 ComponentValue::Number(Number {
                                     span,
@@ -436,7 +447,7 @@ impl VisitMut for CompressDeclaration {
                                 })
                             }
                             ComponentValue::Ident(Ident { value, span, .. })
-                                if value.to_lowercase() == "bold" =>
+                                if value.to_ascii_lowercase() == js_word!("bold") =>
                             {
                                 ComponentValue::Number(Number {
                                     span,
@@ -448,7 +459,9 @@ impl VisitMut for CompressDeclaration {
                         })
                         .collect();
                 }
-                "background-repeat" | "mask-repeat" | "-webkit-mask-repeat"
+                js_word!("background-repeat")
+                | js_word!("mask-repeat")
+                | js_word!("-webkit-mask-repeat")
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);
@@ -466,40 +479,43 @@ impl VisitMut for CompressDeclaration {
                         })),
                     ) = (first, second)
                     {
-                        match (&*first_value.to_lowercase(), &*second_value.to_lowercase()) {
-                            ("repeat", "no-repeat") => {
+                        match (
+                            first_value.to_ascii_lowercase(),
+                            second_value.to_ascii_lowercase(),
+                        ) {
+                            (js_word!("repeat"), js_word!("no-repeat")) => {
                                 declaration.value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
                                     value: "repeat-x".into(),
                                     raw: None,
                                 })];
                             }
-                            ("no-repeat", "repeat") => {
+                            (js_word!("no-repeat"), js_word!("repeat")) => {
                                 declaration.value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
                                     value: "repeat-y".into(),
                                     raw: None,
                                 })];
                             }
-                            ("repeat", "repeat")
-                            | ("space", "space")
-                            | ("round", "round")
-                            | ("no-repeat", "no-repeat") => {
+                            (js_word!("repeat"), js_word!("repeat"))
+                            | (js_word!("space"), js_word!("space"))
+                            | (js_word!("round"), js_word!("round"))
+                            | (js_word!("no-repeat"), js_word!("no-repeat")) => {
                                 declaration.value.remove(1);
                             }
                             _ => {}
                         }
                     }
                 }
-                "border-image-repeat"
-                | "mask-border-repeat"
-                | "-webkit-mask-box-image-repeat"
-                | "overscroll-behavior"
-                | "scroll-snap-align"
-                | "overflow"
-                | "place-self"
-                | "place-items"
-                | "place-content"
+                js_word!("border-image-repeat")
+                | js_word!("mask-border-repeat")
+                | js_word!("-webkit-mask-box-image-repeat")
+                | js_word!("overscroll-behavior")
+                | js_word!("scroll-snap-align")
+                | js_word!("overflow")
+                | js_word!("place-self")
+                | js_word!("place-items")
+                | js_word!("place-content")
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);

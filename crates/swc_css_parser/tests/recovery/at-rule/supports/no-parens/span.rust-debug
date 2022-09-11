@@ -47,7 +47,7 @@
    :           ^^^^^^^
    `----
 
-  x Ident { value: Atom('display' type=inline), raw: Atom('display' type=inline) }
+  x Ident { value: Atom('display' type=static), raw: Atom('display' type=static) }
    ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
  1 | @supports display: flex {}
    :           ^^^^^^^
@@ -83,7 +83,7 @@
    :                    ^^^^
    `----
 
-  x Ident { value: Atom('flex' type=inline), raw: Atom('flex' type=inline) }
+  x Ident { value: Atom('flex' type=static), raw: Atom('flex' type=static) }
    ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
  1 | @supports display: flex {}
    :                    ^^^^

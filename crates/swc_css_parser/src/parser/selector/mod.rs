@@ -13,19 +13,19 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SelectorList> {
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let child: ComplexSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
             }
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             let child = self.parse()?;
 
@@ -61,18 +61,18 @@ where
             |parser: &mut Parser<I>| -> PResult<ForgivingComplexSelector> {
                 let state = parser.input.state();
 
-                parser.input.skip_ws()?;
+                parser.input.skip_ws();
 
                 match parser.parse() {
                     Ok(child) => Ok(ForgivingComplexSelector::ComplexSelector(child)),
                     Err(_) => {
                         parser.input.reset(&state);
 
-                        let span = parser.input.cur_span()?;
+                        let span = parser.input.cur_span();
                         let mut children = vec![];
 
                         while !is_one_of!(parser, EOF, ",", ")") {
-                            if let Some(token_and_span) = parser.input.bump()? {
+                            if let Some(token_and_span) = parser.input.bump() {
                                 children.push(ComponentValue::PreservedToken(token_and_span));
                             }
                         }
@@ -91,7 +91,7 @@ where
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
@@ -127,19 +127,19 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CompoundSelectorList> {
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let child: CompoundSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
             }
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             let child = self.parse()?;
 
@@ -171,19 +171,19 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<RelativeSelectorList> {
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let child: RelativeSelector = self.parse()?;
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
             }
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             let child = self.parse()?;
 
@@ -219,18 +219,18 @@ where
             |parser: &mut Parser<I>| -> PResult<ForgivingRelativeSelector> {
                 let state = parser.input.state();
 
-                parser.input.skip_ws()?;
+                parser.input.skip_ws();
 
                 match parser.parse() {
                     Ok(child) => Ok(ForgivingRelativeSelector::RelativeSelector(child)),
                     Err(_) => {
                         parser.input.reset(&state);
 
-                        let span = parser.input.cur_span()?;
+                        let span = parser.input.cur_span();
                         let mut children = vec![];
 
                         while !is_one_of!(parser, EOF, ",", ")") {
-                            if let Some(token_and_span) = parser.input.bump()? {
+                            if let Some(token_and_span) = parser.input.bump() {
                                 children.push(ComponentValue::PreservedToken(token_and_span));
                             }
                         }
@@ -249,7 +249,7 @@ where
         let mut children = vec![child];
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if !eat!(self, ",") {
                 break;
@@ -289,9 +289,9 @@ where
         let mut children = vec![child];
 
         loop {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             // TODO should be refactor after grammar parsing
             if is_one_of!(self, EOF, ",", "{", ")") {
@@ -303,7 +303,7 @@ where
             if combinator.value == CombinatorValue::Descendant {
                 combinator.span = span;
             } else {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
 
             children.push(ComplexSelectorChildren::Combinator(combinator));
@@ -338,7 +338,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Combinator> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if eat!(self, ">") {
             return Ok(Combinator {
@@ -381,7 +381,7 @@ where
         if is_one_of!(self, ">", "+", "~", "|") {
             combinator = Some(self.parse()?);
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
         }
 
         let selector: ComplexSelector = self.parse()?;
@@ -404,7 +404,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CompoundSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let start_pos = span.lo;
 
         let mut nesting_selector = None;
@@ -480,7 +480,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<TypeSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let prefix = if (is!(self, Ident) && peeked_is!(self, "|"))
             || (is!(self, "*") && peeked_is!(self, "|"))
             || is!(self, "|")
@@ -522,7 +522,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<NsPrefix> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let mut prefix = None;
 
         if is!(self, Ident) {
@@ -554,7 +554,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Option<WqName>> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let state = self.input.state();
 
         if is!(self, Ident) && peeked_is!(self, "|")
@@ -602,7 +602,7 @@ where
             tok!("[") => Ok(SubclassSelector::Attribute(self.parse()?)),
             tok!(":") => Ok(SubclassSelector::PseudoClass(self.parse()?)),
             _ => {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 return Err(Error::new(
                     span,
@@ -618,7 +618,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<IdSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let text = match bump!(self) {
             Token::Hash {
                 is_id, value, raw, ..
@@ -653,7 +653,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ClassSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         expect!(self, ".");
 
@@ -671,11 +671,11 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AttributeSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         expect!(self, "[");
 
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         let mut matcher = None;
         let mut value = None;
@@ -684,7 +684,7 @@ where
         let name = if let Ok(Some(wq_name)) = self.parse() {
             wq_name
         } else {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             return Err(Error::new(
                 span!(self, span.lo),
@@ -692,22 +692,22 @@ where
             ));
         };
 
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
         if !is!(self, "]") {
             matcher = Some(self.parse()?);
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             value = Some(self.parse()?);
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             if is!(self, Ident) {
                 modifier = Some(self.parse()?);
             }
 
-            self.input.skip_ws()?;
+            self.input.skip_ws();
         }
 
         expect!(self, "]");
@@ -727,7 +727,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AttributeSelectorMatcher> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         match cur!(self) {
             tok!("~") => {
@@ -805,7 +805,7 @@ where
                 Ok(AttributeSelectorValue::Str(string))
             }
             _ => {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue));
             }
@@ -818,7 +818,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AttributeSelectorModifier> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         match cur!(self) {
             tok!("ident") => {
@@ -839,12 +839,12 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<PseudoClassSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         expect!(self, ":");
 
         if is!(self, Function) {
-            let fn_span = self.input.cur_span()?;
+            let fn_span = self.input.cur_span();
             let name = bump!(self);
             let names = match name {
                 Token::Function { value, raw } => (value, raw),
@@ -864,16 +864,16 @@ where
                             ));
                         }
                         "dir" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let ident = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::Ident(ident));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         "lang" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let child = match cur!(self) {
                                 tok!("ident") => PseudoClassSelectorChildren::Ident(self.parse()?),
@@ -889,14 +889,14 @@ where
                             children.push(child);
 
                             loop {
-                                self.input.skip_ws()?;
+                                self.input.skip_ws();
 
                                 if is!(self, ",") {
                                     children.push(PseudoClassSelectorChildren::Delimiter(
                                         self.parse()?,
                                     ));
 
-                                    self.input.skip_ws()?;
+                                    self.input.skip_ws();
                                 } else {
                                     break;
                                 }
@@ -953,25 +953,25 @@ where
 
                             children.push(PseudoClassSelectorChildren::AnPlusB(an_plus_b));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             if is!(self, "ident") {
                                 let of = self.parse()?;
 
                                 children.push(PseudoClassSelectorChildren::Ident(of));
 
-                                self.input.skip_ws()?;
+                                self.input.skip_ws();
 
                                 let selector_list = self.parse()?;
 
                                 children
                                     .push(PseudoClassSelectorChildren::SelectorList(selector_list));
 
-                                self.input.skip_ws()?;
+                                self.input.skip_ws();
                             }
                         }
                         "host" | "host-context" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
 
@@ -979,7 +979,7 @@ where
                                 compound_selector,
                             ));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         _ => {
                             return Err(Error::new(span, ErrorKind::Ignore));
@@ -1027,7 +1027,7 @@ where
                 children: None,
             })
         } else {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             Err(Error::new(
                 span,
@@ -1042,13 +1042,13 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<PseudoElementSelector> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         expect!(self, ":");
         expect!(self, ":");
 
         if is!(self, Function) {
-            let fn_span = self.input.cur_span()?;
+            let fn_span = self.input.cur_span();
             let name = bump!(self);
             let names = match name {
                 Token::Function { value, raw } => (value, raw),
@@ -1061,7 +1061,7 @@ where
 
                     match &*names.0.to_ascii_lowercase() {
                         "cue" | "cue-region" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
 
@@ -1069,19 +1069,19 @@ where
                                 compound_selector,
                             ));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         "part" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let ident = self.parse()?;
 
                             children.push(PseudoElementSelectorChildren::Ident(ident));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         "slotted" => {
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
 
@@ -1089,7 +1089,7 @@ where
                                 compound_selector,
                             ));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         _ => {
                             return Err(Error::new(span, ErrorKind::Ignore));
@@ -1137,7 +1137,7 @@ where
                 children: None,
             })
         } else {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             Err(Error::new(span, ErrorKind::InvalidSelector))
         }
@@ -1149,9 +1149,9 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AnPlusB> {
-        self.input.skip_ws()?;
+        self.input.skip_ws();
 
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         match cur!(self) {
             //  odd | even
@@ -1199,7 +1199,7 @@ where
 
                 // '+' n
                 if let  Token::Delim { value: '+' } = cur!(self){
-                    let peeked = self.input.peek()?;
+                    let peeked = self.input.peek();
 
                     if let Some(Token::Ident { .. }) = peeked {
                         bump!(self);
@@ -1262,7 +1262,7 @@ where
                     }
                 };
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let mut b = None;
                 let mut b_raw = None;
@@ -1314,7 +1314,7 @@ where
                             }
                         };
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         let number = match bump!(self) {
                             Token::Number { value, raw, .. } => (value, raw),

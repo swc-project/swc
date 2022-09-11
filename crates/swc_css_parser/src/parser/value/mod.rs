@@ -79,7 +79,7 @@ where
                 _ => {}
             }
 
-            let token = self.input.bump()?;
+            let token = self.input.bump();
 
             match token {
                 Some(token) => value.push(ComponentValue::PreservedToken(token)),
@@ -141,7 +141,7 @@ where
                 _ => {}
             }
 
-            let token = self.input.bump()?;
+            let token = self.input.bump();
 
             match token {
                 Some(token) => tokens.push(token),
@@ -158,28 +158,28 @@ where
         match function_name {
             "calc" | "-moz-calc" | "-webkit-calc" | "sin" | "cos" | "tan" | "asin" | "acos"
             | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "min" | "max" | "hypot" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
                 loop {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     if is!(self, ",") {
                         values.push(ComponentValue::Delimiter(self.parse()?));
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     } else {
                         break;
                     }
@@ -190,20 +190,20 @@ where
                 }
             }
             "clamp" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
-                    let span = self.input.cur_span()?;
+                    let span = self.input.cur_span();
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
@@ -212,14 +212,14 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
-                    let span = self.input.cur_span()?;
+                    let span = self.input.cur_span();
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
@@ -228,10 +228,10 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "round" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, "ident") {
                     // TODO improve me
@@ -239,14 +239,14 @@ where
 
                     values.push(rounding_strategy);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     if is!(self, ",") {
                         values.push(ComponentValue::Delimiter(self.parse()?));
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     } else {
-                        let span = self.input.cur_span()?;
+                        let span = self.input.cur_span();
 
                         return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                     }
@@ -256,14 +256,14 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
-                    let span = self.input.cur_span()?;
+                    let span = self.input.cur_span();
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
@@ -272,23 +272,23 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "mod" | "rem" | "atan2" | "pow" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
-                    let span = self.input.cur_span()?;
+                    let span = self.input.cur_span();
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
@@ -297,41 +297,41 @@ where
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "log" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                     values.push(calc_sum);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
             }
             "rgb" | "rgba" | "hsl" | "hsla" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let mut is_legacy_syntax = true;
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if &*value.to_lowercase() == "from" => {
+                    Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "from" => {
                         is_legacy_syntax = false;
 
                         values.push(ComponentValue::Ident(self.parse()?));
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         let color = self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::Color(parser.parse()?))
@@ -339,7 +339,7 @@ where
 
                         values.push(color);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     }
                     _ => {}
                 }
@@ -370,7 +370,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "percentage, number, function (math functions) or ident \
                                          (with 'none' value) token",
@@ -402,7 +402,7 @@ where
                                     Ok(ComponentValue::Function(parser.parse()?))
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "number, dimension, function (math functions) or ident \
                                          (with 'none' value) token",
@@ -417,11 +417,11 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") {
                     if !is_legacy_syntax {
-                        let span = self.input.cur_span()?;
+                        let span = self.input.cur_span();
 
                         return Err(Error::new(span, ErrorKind::Expected("comma token")));
                     }
@@ -430,7 +430,7 @@ where
 
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else {
                     is_legacy_syntax = false;
                 }
@@ -459,7 +459,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "percentage, number, function (math functions) or ident \
                                          (with 'none' value) token",
@@ -491,7 +491,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "percentage, function (math functions) or ident (with \
                                          'none' value) token",
@@ -506,17 +506,17 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is_legacy_syntax {
                     match cur!(self) {
                         tok!(",") => {
                             values.push(ComponentValue::Delimiter(self.parse()?));
 
-                            self.input.skip_ws()?;
+                            self.input.skip_ws();
                         }
                         _ => {
-                            let span = self.input.cur_span()?;
+                            let span = self.input.cur_span();
 
                             return Err(Error::new(span, ErrorKind::Expected("comma token")));
                         }
@@ -547,7 +547,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "percentage, number, function (math functions) or ident \
                                          (with 'none' value) token",
@@ -579,7 +579,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "percentage, function (math functions) or ident (with \
                                          'none' value) token",
@@ -594,12 +594,12 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ",") && is_legacy_syntax {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -610,7 +610,7 @@ where
                                 Ok(ComponentValue::Function(parser.parse()?))
                             }
                             _ => Err(Error::new(
-                                parser.input.cur_span()?,
+                                parser.input.cur_span(),
                                 ErrorKind::Expected(
                                     "percentage, function (math functions) or number token",
                                 ),
@@ -619,11 +619,11 @@ where
 
                     values.push(alpha_value);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 } else if is!(self, "/") && !is_legacy_syntax {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -646,7 +646,7 @@ where
                                 }
                             }
                             _ => Err(Error::new(
-                                parser.input.cur_span()?,
+                                parser.input.cur_span(),
                                 ErrorKind::Expected(
                                     "percentage, number, function (math functions) or ident (with \
                                      'none' value) token",
@@ -656,19 +656,20 @@ where
 
                     values.push(alpha_value);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
             }
             "hwb" | "lab" | "lch" | "oklab" | "oklch" | "device-cmyk" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 match cur!(self) {
                     Token::Ident { value, .. }
-                        if &*value.to_lowercase() == "from" && function_name != "device-cmyk" =>
+                        if &*value.to_ascii_lowercase() == "from"
+                            && function_name != "device-cmyk" =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         let color = match cur!(self) {
                             Token::Function { value, .. }
@@ -684,7 +685,7 @@ where
 
                         values.push(color);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     }
                     _ => {}
                 }
@@ -713,7 +714,7 @@ where
                                 }
                                 _ => {
                                     return Err(Error::new(
-                                        parser.input.cur_span()?,
+                                        parser.input.cur_span(),
                                         ErrorKind::Expected(
                                             "number, dimension, function (math functions) or \
                                              ident (with 'none' value) token",
@@ -746,7 +747,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "percentage, function (math functions) or ident (with \
                                          'none' value) token",
@@ -768,7 +769,7 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 match function_name {
                     "hwb" => {
@@ -793,7 +794,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "percentage, functions (math functions) or ident (with \
                                          'none' value) token",
@@ -823,7 +824,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "number, functions (math functions) or ident (with 'none' \
                                          value) token",
@@ -845,7 +846,7 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 match function_name {
                     "hwb" => {
@@ -870,7 +871,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "percentage, functions (math functions) or ident (with \
                                          'none' value) token",
@@ -900,7 +901,7 @@ where
                                     }
                                 }
                                 _ => Err(Error::new(
-                                    parser.input.cur_span()?,
+                                    parser.input.cur_span(),
                                     ErrorKind::Expected(
                                         "number, function (math functions) or ident (with 'none' \
                                          value) token",
@@ -933,7 +934,7 @@ where
                                 }
                                 _ => {
                                     return Err(Error::new(
-                                        parser.input.cur_span()?,
+                                        parser.input.cur_span(),
                                         ErrorKind::Expected(
                                             "number, dimension, functions (math functions) or \
                                              ident (with 'none' value) token",
@@ -956,7 +957,7 @@ where
                     }
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if function_name == "device-cmyk" {
                     let cmyk_component = self.try_parse_variable_function(|parser| {
@@ -965,13 +966,13 @@ where
 
                     values.push(cmyk_component);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
 
                 if is!(self, "/") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -994,7 +995,7 @@ where
                                 }
                             }
                             _ => Err(Error::new(
-                                parser.input.cur_span()?,
+                                parser.input.cur_span(),
                                 ErrorKind::Expected(
                                     "percentage, number, functions (math functions) or ident \
                                      (with 'none' value) token",
@@ -1004,19 +1005,19 @@ where
 
                     values.push(alpha_value);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
             }
             "color" => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if &*value.to_lowercase() == "from" => {
+                    Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "from" => {
                         values.push(self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::Ident(parser.parse()?))
                         })?);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
 
                         let color = self.try_parse_variable_function(|parser| {
                             Ok(ComponentValue::Color(parser.parse()?))
@@ -1024,7 +1025,7 @@ where
 
                         values.push(color);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     }
                     _ => {}
                 }
@@ -1053,14 +1054,14 @@ where
                         }
                     }
                     _ => Err(Error::new(
-                        parser.input.cur_span()?,
+                        parser.input.cur_span(),
                         ErrorKind::Expected("ident token"),
                     )),
                 })?;
 
                 values.push(ident);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let number_or_percentage_or_none =
                     self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -1084,7 +1085,7 @@ where
                             }
                         }
                         _ => Err(Error::new(
-                            parser.input.cur_span()?,
+                            parser.input.cur_span(),
                             ErrorKind::Expected(
                                 "percentage, function (math functions) or ident (with 'none' \
                                  value) token",
@@ -1094,7 +1095,7 @@ where
 
                 values.push(number_or_percentage_or_none);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is_custom_params {
                     loop {
@@ -1131,7 +1132,7 @@ where
 
                         values.push(number_or_percentage_or_none);
 
-                        self.input.skip_ws()?;
+                        self.input.skip_ws();
                     }
                 } else {
                     let number_or_percentage_or_none =
@@ -1156,7 +1157,7 @@ where
                                 }
                             }
                             _ => Err(Error::new(
-                                parser.input.cur_span()?,
+                                parser.input.cur_span(),
                                 ErrorKind::Expected(
                                     "percentage, function (math functions) or ident (with 'none' \
                                      value) token",
@@ -1166,7 +1167,7 @@ where
 
                     values.push(number_or_percentage_or_none);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let number_or_percentage_or_none =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -1190,7 +1191,7 @@ where
                                 Ok(ComponentValue::Function(parser.parse()?))
                             }
                             _ => Err(Error::new(
-                                parser.input.cur_span()?,
+                                parser.input.cur_span(),
                                 ErrorKind::Expected(
                                     "percentage, function (math functions) or ident (with 'none' \
                                      value) token",
@@ -1200,13 +1201,13 @@ where
 
                     values.push(number_or_percentage_or_none);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
 
                 if is!(self, "/") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
@@ -1229,7 +1230,7 @@ where
                                 }
                             }
                             _ => Err(Error::new(
-                                parser.input.cur_span()?,
+                                parser.input.cur_span(),
                                 ErrorKind::Expected(
                                     "percentage, number, function (math functions) or ident (with \
                                      'none' value) token",
@@ -1239,31 +1240,31 @@ where
 
                     values.push(alpha_value);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "selector" if self.ctx.in_supports_at_rule => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let selector = ComponentValue::ComplexSelector(self.parse()?);
 
                 values.push(selector);
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             "layer" if self.ctx.in_import_at_rule => {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let layer_name = self.parse_as::<LayerName>()?;
 
                 values.push(ComponentValue::LayerName(layer_name));
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
             }
             _ => loop {
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 if is!(self, ")") {
                     break;
@@ -1301,7 +1302,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Delimiter> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is_one_of!(self, ",", "/", ";") {
             return Err(Error::new(
@@ -1347,7 +1348,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Integer> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Number) {
             return Err(Error::new(span, ErrorKind::ExpectedNumber));
@@ -1384,7 +1385,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Number> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Number) {
             return Err(Error::new(span, ErrorKind::ExpectedNumber));
@@ -1410,7 +1411,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CustomIdent> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Ident) {
             return Err(Error::new(span, ErrorKind::Expected("Ident")));
@@ -1443,7 +1444,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<DashedIdent> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Ident) {
             return Err(Error::new(span, ErrorKind::Expected("Ident")));
@@ -1476,7 +1477,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CustomPropertyName> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Ident) {
             return Err(Error::new(span, ErrorKind::Expected("Ident")));
@@ -1514,7 +1515,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Ident> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Ident) {
             return Err(Error::new(span, ErrorKind::Expected("Ident")));
@@ -1538,7 +1539,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Dimension> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
@@ -1574,7 +1575,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Length> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
@@ -1626,7 +1627,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Angle> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
@@ -1683,7 +1684,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Time> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
@@ -1737,7 +1738,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Frequency> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
@@ -1791,7 +1792,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Resolution> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
@@ -1848,7 +1849,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Flex> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
@@ -1902,7 +1903,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<UnknownDimension> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
@@ -1952,7 +1953,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Color> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         match cur!(self) {
             // currentcolor | <system-color>
@@ -1988,13 +1989,13 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AbsoluteColorBase> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         match cur!(self) {
             tok!("#") => Ok(AbsoluteColorBase::HexColor(self.parse()?)),
             Token::Ident { value, .. } => {
                 if !(is_named_color(value) || value.as_ref().eq_ignore_ascii_case("transparent")) {
-                    let span = self.input.cur_span()?;
+                    let span = self.input.cur_span();
 
                     return Err(Error::new(
                         span,
@@ -2025,7 +2026,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<HexColor> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, "#") {
             return Err(Error::new(span, ErrorKind::Expected("hash token")));
@@ -2050,7 +2051,7 @@ where
 {
     fn parse(&mut self) -> PResult<AlphaValue> {
         if !is_one_of!(self, "percentage", "number") {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             return Err(Error::new(
                 span,
@@ -2074,7 +2075,7 @@ where
 {
     fn parse(&mut self) -> PResult<Hue> {
         if !is_one_of!(self, "number", "dimension") {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             return Err(Error::new(
                 span,
@@ -2098,7 +2099,7 @@ where
 {
     fn parse(&mut self) -> PResult<CmykComponent> {
         if !is_one_of!(self, "number", "percentage", "function") {
-            let span = self.input.cur_span()?;
+            let span = self.input.cur_span();
 
             return Err(Error::new(
                 span,
@@ -2111,7 +2112,7 @@ where
             tok!("percentage") => Ok(CmykComponent::Percentage(self.parse()?)),
             Token::Function { value, .. } => {
                 if !is_math_function(value) {
-                    let span = self.input.cur_span()?;
+                    let span = self.input.cur_span();
 
                     return Err(Error::new(span, ErrorKind::Expected("math function token")));
                 }
@@ -2130,7 +2131,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Percentage> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, Percentage) {
             return Err(Error::new(span, ErrorKind::Expected("percentage token")));
@@ -2158,7 +2159,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Str> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is!(self, "string") {
             return Err(Error::new(span, ErrorKind::Expected("string token")));
@@ -2182,7 +2183,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Url> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         if !is_one_of!(self, Url, Function) {
             return Err(Error::new(
@@ -2248,14 +2249,14 @@ where
                     raw: Some(raw_function_name),
                 };
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let value = match cur!(self) {
                     tok!("string") => Some(UrlValue::Str(self.parse()?)),
                     _ => None,
                 };
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let mut modifiers = vec![];
 
@@ -2272,13 +2273,13 @@ where
                             modifiers.push(UrlModifier::Function(self.parse()?));
                         }
                         _ => {
-                            let span = self.input.cur_span()?;
+                            let span = self.input.cur_span();
 
                             return Err(Error::new(span, ErrorKind::Expected("ident or function")));
                         }
                     }
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
                 }
 
                 expect!(self, ")");
@@ -2302,7 +2303,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Function> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let ident = match bump!(self) {
             Token::Function { value, raw } => (value, raw),
             _ => {
@@ -2392,7 +2393,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<UnicodeRange> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
         let mut unicode_range = String::new();
 
         // should start with `u` or `U`
@@ -2755,7 +2756,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CalcSum> {
-        let start = self.input.cur_span()?.lo;
+        let start = self.input.cur_span().lo;
         let mut expressions = vec![];
         let calc_product = CalcProductOrOperator::Product(self.parse()?);
         let mut end = match calc_product {
@@ -2768,7 +2769,7 @@ where
         expressions.push(calc_product);
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             match cur!(self) {
                 tok!("+") | tok!("-") => {
@@ -2776,7 +2777,7 @@ where
 
                     expressions.push(operator);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let calc_product = CalcProductOrOperator::Product(self.parse()?);
 
@@ -2807,7 +2808,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CalcProduct> {
-        let start = self.input.cur_span()?.lo;
+        let start = self.input.cur_span().lo;
         let mut expressions = vec![];
         let calc_value = CalcValueOrOperator::Value(self.parse()?);
         let mut end = match calc_value {
@@ -2835,7 +2836,7 @@ where
         expressions.push(calc_value);
 
         loop {
-            self.input.skip_ws()?;
+            self.input.skip_ws();
 
             match cur!(self) {
                 tok!("*") | tok!("/") => {
@@ -2843,7 +2844,7 @@ where
 
                     expressions.push(operator);
 
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     let calc_value = CalcValueOrOperator::Value(self.parse()?);
 
@@ -2889,7 +2890,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CalcOperator> {
-        let span = self.input.cur_span()?;
+        let span = self.input.cur_span();
 
         match cur!(self) {
             tok!("+") => {
@@ -2925,7 +2926,7 @@ where
                 })
             }
             _ => {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 return Err(Error::new(
                     span,
@@ -2949,7 +2950,7 @@ where
                 match &*value.to_ascii_lowercase() {
                     "e" | "pi" | "infinity" | "-infinity" | "nan" => {}
                     _ => {
-                        let span = self.input.cur_span()?;
+                        let span = self.input.cur_span();
 
                         return Err(Error::new(
                             span,
@@ -2963,15 +2964,15 @@ where
                 Ok(CalcValue::Constant(self.parse()?))
             }
             tok!("(") => {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 expect!(self, "(");
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 let mut calc_sum_in_parens: CalcSum = self.parse()?;
 
-                self.input.skip_ws()?;
+                self.input.skip_ws();
 
                 expect!(self, ")");
 
@@ -2981,7 +2982,7 @@ where
             }
             tok!("function") => Ok(CalcValue::Function(self.parse()?)),
             _ => {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 return Err(Error::new(
                     span,
@@ -3002,12 +3003,12 @@ where
         match cur!(self) {
             tok!("string") => Ok(FamilyName::Str(self.parse()?)),
             tok!("ident") => {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 let mut value = vec![self.parse()?];
 
                 loop {
-                    self.input.skip_ws()?;
+                    self.input.skip_ws();
 
                     if !is!(self, "ident") {
                         break;
@@ -3022,7 +3023,7 @@ where
                 }))
             }
             _ => {
-                let span = self.input.cur_span()?;
+                let span = self.input.cur_span();
 
                 return Err(Error::new(
                     span,

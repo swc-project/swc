@@ -1,5 +1,3 @@
-const validJSX = <in T>() => {}</in>;
-
 type Covariant<out T> = {
     x: T;
 }

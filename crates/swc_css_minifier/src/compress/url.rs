@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -11,7 +12,7 @@ impl VisitMut for CompressUrl {
     fn visit_mut_url(&mut self, url: &mut Url) {
         url.visit_mut_children_with(self);
 
-        if &*url.name.value.to_lowercase() != "url" {
+        if url.name.value.to_ascii_lowercase() != js_word!("url") {
             return;
         }
 
