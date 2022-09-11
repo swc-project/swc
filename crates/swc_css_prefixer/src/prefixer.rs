@@ -972,11 +972,11 @@ impl VisitMut for Prefixer {
                 );
 
                 if new_moz_prelude_with_previous != new_moz_prelude {
-                    let qualified_rule = QualifiedRule {
+                    let qualified_rule = Box::new(QualifiedRule {
                         span: DUMMY_SP,
                         prelude: new_moz_prelude_with_previous,
                         block: original_simple_block.clone(),
-                    };
+                    });
 
                     if self.simple_block.is_none() {
                         self.added_top_rules
@@ -1058,11 +1058,11 @@ impl VisitMut for Prefixer {
                 );
 
                 if new_ms_prelude_with_previous != new_ms_prelude {
-                    let qualified_rule = QualifiedRule {
+                    let qualified_rule = Box::new(QualifiedRule {
                         span: DUMMY_SP,
                         prelude: new_ms_prelude_with_previous,
                         block: original_simple_block.clone(),
-                    };
+                    });
 
                     if self.simple_block.is_none() {
                         self.added_top_rules
@@ -1430,12 +1430,12 @@ impl VisitMut for Prefixer {
                             let value: Option<Box<dyn Fn() -> Vec<ComponentValue>>> = $value;
 
                             if let Some(value) = value {
-                                self.added_declarations.push(Declaration {
+                                self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name,
                                     value: value(),
                                     important: n.important.clone(),
-                                });
+                                }));
                             } else {
                                 let new_value = match $prefix {
                                     Prefix::Webkit => webkit_value.clone(),
@@ -1444,12 +1444,12 @@ impl VisitMut for Prefixer {
                                     Prefix::Ms => ms_value.clone(),
                                 };
 
-                                self.added_declarations.push(Declaration {
+                                self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name,
                                     value: new_value,
                                     important: n.important.clone(),
-                                });
+                                }));
                             }
                         }
                     }
