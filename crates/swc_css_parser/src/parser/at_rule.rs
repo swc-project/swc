@@ -1255,11 +1255,11 @@ where
 
                 self.input.skip_ws();
 
-                condition_without_or = Some(MediaConditionType::WithoutOr(self.parse()?));
+                condition_without_or = Some(Box::new(MediaConditionType::WithoutOr(self.parse()?)));
             }
 
             let end_pos = if let Some(MediaConditionType::WithoutOr(condition_without_or)) =
-                &condition_without_or
+                condition_without_or.as_deref()
             {
                 condition_without_or.span.hi
             } else if let Some(MediaType::Ident(ident)) = &media_type {
@@ -1604,9 +1604,9 @@ where
                 if eat!(self, ")") {
                     return Ok(MediaFeature::Range(MediaFeatureRange {
                         span: span!(self, span.lo),
-                        left,
+                        left: Box::new(left),
                         comparison: left_comparison,
-                        right: center,
+                        right: Box::new(center),
                     }));
                 }
 
@@ -1675,7 +1675,7 @@ where
 
                 Ok(MediaFeature::RangeInterval(MediaFeatureRangeInterval {
                     span: span!(self, span.lo),
-                    left,
+                    left: Box::new(left),
                     left_comparison,
                     name,
                     right_comparison,

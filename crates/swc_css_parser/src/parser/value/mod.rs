@@ -2252,7 +2252,7 @@ where
                 self.input.skip_ws();
 
                 let value = match cur!(self) {
-                    tok!("string") => Some(UrlValue::Str(self.parse()?)),
+                    tok!("string") => Some(Box::new(UrlValue::Str(self.parse()?))),
                     _ => None,
                 };
 
