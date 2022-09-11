@@ -184,3 +184,6 @@ a:has(> a, > a) {color:red}
 .foo {&* {color: red}}
 .beta {&:hover {order: 1}}
 .alpha > .beta {& + & {order: 2}}
+a {& *.bar {color: red}}
+a {&*.bar {color: red}}
+.class {&*.bar {color: red}}

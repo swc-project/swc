@@ -252,7 +252,7 @@ impl Compressor {
             return;
         }
 
-        if compound_selector.subclass_selectors.len() != 0 {
+        if !compound_selector.subclass_selectors.is_empty() {
             if let Some(TypeSelector::Universal(UniversalSelector { prefix: None, .. })) =
                 compound_selector.type_selector.as_deref()
             {
