@@ -83,4 +83,23 @@ impl VisitMut for Compressor {
 
         self.compress_keyframe_selector(n);
     }
+
+    fn visit_mut_calc_sum(&mut self, n: &mut CalcSum) {
+        n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
+            in_math_function: true,
+            ..self.ctx
+        }));
+    }
+
+    fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
+        n.visit_mut_children_with(self);
+
+        self.compress_component_value_for_length(n);
+    }
+
+    fn visit_mut_length(&mut self, n: &mut Length) {
+        n.visit_mut_children_with(self);
+
+        self.compress_length(n);
+    }
 }
