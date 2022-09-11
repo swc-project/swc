@@ -371,6 +371,13 @@ impl State {
             .unwrap_or(false)
     }
 
+    pub fn can_have_trailing_line_comment(&self) -> bool {
+        match self.token_type {
+            Some(TokenType::BinOp(..)) => false,
+            _ => true,
+        }
+    }
+
     pub fn can_have_trailing_comment(&self) -> bool {
         match self.token_type {
             Some(TokenType::Keyword(..)) => false,

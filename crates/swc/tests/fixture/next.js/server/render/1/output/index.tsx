@@ -478,7 +478,8 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         props.pageProps = Object.assign({}, props.pageProps, data1.props);
         renderOpts.pageData = props;
     }
-    if (!isSSG && !getServerSideProps && process.env.NODE_ENV !== "production" && Object.keys(props?.pageProps || {}).includes("url")) {
+    if (!isSSG && // we only show this warning for legacy pages
+    !getServerSideProps && process.env.NODE_ENV !== "production" && Object.keys(props?.pageProps || {}).includes("url")) {
         console.warn(`The prop \`url\` is a reserved prop in Next.js for legacy reasons and will be overridden on page ${pathname}\n` + `See more info here: https://nextjs.org/docs/messages/reserved-page-prop`);
     }
     // Avoid rendering page un-necessarily for getServerSideProps data request
