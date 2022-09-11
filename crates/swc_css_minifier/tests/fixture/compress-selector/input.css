@@ -175,3 +175,12 @@ a:is(a > b, form > label, a > b) {color:red}
 
 a:has(> a) {color:red}
 a:has(> a, > a) {color:red}
+
+.row-cols-3>*{-ms-flex:0 0 33.333333%;flex:0 0 33.333333%}
+
+*,:before,:after{box-sizing:border-box;border:1px solid#dee2e6}
+
+.foo {& * {color: red}}
+.foo {&* {color: red}}
+.beta {&:hover {order: 1}}
+.alpha > .beta {& + & {order: 2}}
