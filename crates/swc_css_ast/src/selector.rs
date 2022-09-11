@@ -184,7 +184,7 @@ pub enum SubclassSelector {
     Class(ClassSelector),
 
     #[tag("AttributeSelector")]
-    Attribute(AttributeSelector),
+    Attribute(Box<AttributeSelector>),
 
     #[tag("PseudoClassSelector")]
     PseudoClass(PseudoClassSelector),
@@ -213,7 +213,7 @@ pub struct ClassSelector {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct AttributeSelector {
     pub span: Span,
-    pub name: Box<WqName>,
+    pub name: WqName,
     pub matcher: Option<AttributeSelectorMatcher>,
     pub value: Option<AttributeSelectorValue>,
     pub modifier: Option<AttributeSelectorModifier>,
