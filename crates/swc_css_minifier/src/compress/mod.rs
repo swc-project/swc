@@ -4,7 +4,6 @@ pub mod at_rule;
 pub mod color;
 pub mod declaration;
 pub mod easing_function;
-pub mod empty;
 pub mod frequency;
 pub mod keyframes;
 pub mod length;
