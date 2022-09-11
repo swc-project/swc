@@ -697,19 +697,20 @@ where
 
                             let span = self.input.cur_span();
 
-                            let mut list_of_component_value = match at_rule.prelude {
+                            let mut list_of_component_value = match at_rule.prelude.as_deref_mut() {
                                 Some(AtRulePrelude::ListOfComponentValues(
                                     ref mut list_of_component_value,
                                 )) => list_of_component_value,
                                 _ => {
-                                    at_rule.prelude = Some(AtRulePrelude::ListOfComponentValues(
-                                        ListOfComponentValues {
-                                            span: span!(self, span.lo),
-                                            children: vec![],
-                                        },
-                                    ));
+                                    at_rule.prelude =
+                                        Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                                            ListOfComponentValues {
+                                                span: span!(self, span.lo),
+                                                children: vec![],
+                                            },
+                                        )));
 
-                                    match at_rule.prelude {
+                                    match at_rule.prelude.as_deref_mut() {
                                         Some(AtRulePrelude::ListOfComponentValues(
                                             ref mut list_of_component_value,
                                         )) => list_of_component_value,
@@ -1239,7 +1240,7 @@ where
                 modifier: None,
                 media_type: None,
                 keyword: None,
-                condition: Some(MediaConditionType::All(condition)),
+                condition: Some(Box::new(MediaConditionType::All(condition))),
             })
         } else {
             let media_type = Some(self.parse()?);
