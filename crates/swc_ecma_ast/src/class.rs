@@ -36,10 +36,10 @@ pub struct Class {
     pub is_abstract: bool,
 
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[serde(default)]
-    pub super_type_params: Option<TsTypeParamInstantiation>,
+    pub super_type_params: Option<Box<TsTypeParamInstantiation>>,
 
     /// Typescript extension.
     #[serde(default)]
