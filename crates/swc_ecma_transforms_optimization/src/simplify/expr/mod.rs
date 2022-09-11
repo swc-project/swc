@@ -9,8 +9,8 @@ use swc_common::{
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
 use swc_ecma_utils::{
-    alias_ident_for, is_literal, prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt,
-    NullType, NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
+    is_literal, prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
+    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -188,13 +188,21 @@ impl SimplifyExpr {
                         raw: None,
                     }));
                 } else if matches!(op, KnownOp::Index(..)) {
-                    self.changed = true;
-
                     let idx = match op {
                         KnownOp::Index(i) => i,
                         _ => unreachable!(),
                     };
-                    let len = elems.len();
+
+                    let does_not_have_side_effect = elems.iter().all(|elem| match elem {
+                        Some(elem) => !elem.expr.may_have_side_effects(&self.expr_ctx),
+                        None => true,
+                    });
+
+                    if !does_not_have_side_effect {
+                        return;
+                    }
+
+                    self.changed = true;
 
                     let (before, e, after) = if elems.len() > idx as _ && idx >= 0 {
                         let before = elems.drain(..(idx as usize)).collect();
@@ -220,35 +228,7 @@ impl SimplifyExpr {
                             .extract_side_effects_to(&mut exprs, *elem.expr);
                     }
 
-                    let after_does_not_have_side_effect = after.iter().all(|elem| match elem {
-                        Some(elem) => !elem.expr.may_have_side_effects(&self.expr_ctx),
-                        None => true,
-                    });
-
-                    let val = if (!v.may_have_side_effects(&self.expr_ctx)
-                        && after_does_not_have_side_effect)
-                        || ((idx as usize) == len - 1)
-                        || v.is_lit()
-                    {
-                        v
-                    } else {
-                        let var_name = alias_ident_for(&v, "_v");
-                        // self.vars.push(VarDeclarator {
-                        //     span: DUMMY_SP,
-                        //     name: var_name.clone().into(),
-                        //     init: None,
-                        //     definite: false,
-                        // });
-
-                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                            span: v.span(),
-                            left: PatOrExpr::Pat(var_name.clone().into()),
-                            op: op!("="),
-                            right: v,
-                        })));
-
-                        Box::new(Expr::Ident(var_name))
-                    };
+                    let val = v;
 
                     for elem in after.into_iter().flatten() {
                         self.expr_ctx
