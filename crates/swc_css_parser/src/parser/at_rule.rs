@@ -406,7 +406,7 @@ where
                     parser.input.skip_ws();
 
                     let span = parser.input.cur_span();
-                    let href = match cur!(parser) {
+                    let href = Box::new(match cur!(parser) {
                         tok!("string") => ImportPreludeHref::Str(parser.parse()?),
                         tok!("url") => ImportPreludeHref::Url(parser.parse()?),
                         tok!("function") => ImportPreludeHref::Url(parser.parse()?),
@@ -416,7 +416,7 @@ where
                                 ErrorKind::Expected("string, url or function token"),
                             ))
                         }
-                    };
+                    });
 
                     parser.input.skip_ws();
 
@@ -426,7 +426,7 @@ where
 
                             parser.input.skip_ws();
 
-                            Some(name)
+                            Some(Box::new(name))
                         }
                         Token::Function { value, .. }
                             if *value.to_ascii_lowercase() == *"layer" =>
@@ -443,7 +443,7 @@ where
 
                             parser.input.skip_ws();
 
-                            Some(name)
+                            Some(Box::new(name))
                         }
                         _ => None,
                     };
@@ -465,7 +465,7 @@ where
 
                             expect!(parser, ")");
 
-                            Some(supports)
+                            Some(Box::new(supports))
                         }
                         _ => None,
                     };
