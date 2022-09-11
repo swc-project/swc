@@ -319,6 +319,7 @@ where
             }
         }
     }
+    // Fast path. We don't face real duplciate in most cases.
     if remove_list.is_empty() {
         return;
     }
