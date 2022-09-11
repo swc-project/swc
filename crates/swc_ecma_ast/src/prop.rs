@@ -76,7 +76,7 @@ pub struct GetterProp {
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
-    pub param: Pat,
+    pub param: Box<Pat>,
     #[serde(default)]
     pub body: Option<BlockStmt>,
 }
@@ -88,7 +88,7 @@ pub struct MethodProp {
 
     #[serde(flatten)]
     #[span]
-    pub function: Function,
+    pub function: Box<Function>,
 }
 
 #[ast_node]
