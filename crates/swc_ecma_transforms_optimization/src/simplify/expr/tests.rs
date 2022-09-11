@@ -23,7 +23,6 @@ fn fold(src: &str, expected: &str) {
                     },
                     config: super::Config {},
                     changed: false,
-                    vars: Default::default(),
                     is_arg_of_update: false,
                     is_modifying: false,
                     in_callee: false,

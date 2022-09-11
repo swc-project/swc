@@ -1422,18 +1422,6 @@ impl VisitMut for SimplifyExpr {
 
         n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
-
-        if !child.vars.is_empty() {
-            prepend_stmt(
-                n,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: child.vars,
-                }))),
-            );
-        }
     }
 
     /// Currently noop
@@ -1568,7 +1556,6 @@ impl VisitMut for SimplifyExpr {
             expr_ctx: self.expr_ctx.clone(),
             config: self.config,
             changed: Default::default(),
-            vars: Default::default(),
             is_arg_of_update: Default::default(),
             is_modifying: Default::default(),
             in_callee: Default::default(),
@@ -1576,18 +1563,6 @@ impl VisitMut for SimplifyExpr {
 
         n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
-
-        if !child.vars.is_empty() {
-            prepend_stmt(
-                n,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: child.vars,
-                })),
-            );
-        }
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
