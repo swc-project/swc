@@ -141,7 +141,7 @@ macro_rules! make_color {
 
                 Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
                     span: $span,
-                    value: value.clone().into(),
+                    value: value.into(),
                     raw: None,
                 }))
             } else {
@@ -207,7 +207,7 @@ macro_rules! make_color {
 
                 Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
                     span: $span,
-                    value: value.clone().into(),
+                    value: value.into(),
                     raw: None,
                 }))
             }
