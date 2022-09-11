@@ -4,7 +4,6 @@ use swc_css_visit::{VisitMut, VisitMutWith};
 mod declaration;
 mod empty;
 mod time;
-mod transform_function;
 mod unicode_range;
 mod url;
 
@@ -50,11 +49,5 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_declaration(n);
-    }
-
-    fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
-        n.visit_mut_children_with(self);
-
-        self.compress_transform_function(n);
     }
 }

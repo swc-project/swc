@@ -1,10 +1,19 @@
 use swc_atoms::js_word;
 use swc_css_ast::*;
+use swc_css_visit::{VisitMut, VisitMutWith};
 
-use super::Compressor;
+pub fn compress_transform_function() -> impl VisitMut {
+    CompressTransformFunction {}
+}
 
-impl Compressor {
-    pub(super) fn compress_transform_function(&self, component_value: &mut ComponentValue) {
+struct CompressTransformFunction {}
+
+impl CompressTransformFunction {}
+
+impl VisitMut for CompressTransformFunction {
+    fn visit_mut_component_value(&mut self, component_value: &mut ComponentValue) {
+        component_value.visit_mut_children_with(self);
+
         match component_value {
             ComponentValue::Function(Function {
                 name,

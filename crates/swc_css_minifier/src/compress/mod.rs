@@ -7,3 +7,4 @@ pub mod frequency;
 pub mod keyframes;
 pub mod length;
 pub mod selector;
+pub mod transform_function;
