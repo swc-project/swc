@@ -7,7 +7,11 @@ use swc_common::{
     Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::{Ident, Lit, *};
-use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
+use swc_ecma_transforms_base::{
+    ext::ExprRefExt,
+    pass::RepeatedJsPass,
+    perf::{cpu_count, Parallel, ParallelExt},
+};
 use swc_ecma_utils::{
     is_literal, prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
     NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
@@ -51,6 +55,19 @@ pub fn expr_simplifier(
         is_modifying: false,
         in_callee: false,
     })
+}
+
+impl Parallel for SimplifyExpr {
+    fn create(&self) -> Self {
+        Self {
+            expr_ctx: self.expr_ctx.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.changed |= other.changed;
+    }
 }
 
 #[derive(Debug)]
@@ -1560,6 +1577,30 @@ impl VisitMut for SimplifyExpr {
 
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_children_with(v);
+        });
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_children_with(v);
+        });
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_children_with(v);
+        });
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_children_with(v);
+        });
     }
 }
 
