@@ -554,7 +554,7 @@ define!({
     pub struct NamespacePrelude {
         pub span: Span,
         pub prefix: Option<Ident>,
-        pub uri: NamespacePreludeUri,
+        pub uri: Box<NamespacePreludeUri>,
     }
 
     pub enum NamespacePreludeUri {
