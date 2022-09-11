@@ -9,6 +9,7 @@ mod declaration;
 mod empty;
 mod frequency;
 mod keyframes;
+mod length;
 mod time;
 mod unicode_range;
 mod url;

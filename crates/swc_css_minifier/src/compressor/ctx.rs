@@ -3,7 +3,9 @@ use std::ops::{Deref, DerefMut};
 use super::Compressor;
 
 #[derive(Default, Clone, Copy)]
-pub(super) struct Ctx {}
+pub(super) struct Ctx {
+    pub in_math_function: bool,
+}
 
 impl Compressor {
     /// RAII guard to change context temporarically

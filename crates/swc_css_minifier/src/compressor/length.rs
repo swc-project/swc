@@ -2,17 +2,9 @@ use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub fn compress_length() -> impl VisitMut {
-    CompressLength {
-        in_math_function: false,
-    }
-}
+use super::Compressor;
 
-struct CompressLength {
-    in_math_function: bool,
-}
-
-impl CompressLength {
+impl Compressor {
     fn convert_length(&mut self, value: f64, from_unit: JsWord, to_unit: JsWord) -> f64 {
         match to_unit {
             js_word!("cm") => match from_unit {
