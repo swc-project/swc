@@ -130,14 +130,14 @@ define!({
 
     pub enum StyleBlock {
         ListOfComponentValues(ListOfComponentValues),
-        AtRule(AtRule),
-        Declaration(Declaration),
+        AtRule(Box<AtRule>),
+        Declaration(Box<Declaration>),
         QualifiedRule(QualifiedRule),
     }
 
     pub enum DeclarationOrAtRule {
-        Declaration(Declaration),
-        AtRule(AtRule),
+        Declaration(Box<Declaration>),
+        AtRule(Box<AtRule>),
         ListOfComponentValues(ListOfComponentValues),
     }
 
@@ -524,7 +524,7 @@ define!({
 
     pub enum Rule {
         QualifiedRule(QualifiedRule),
-        AtRule(AtRule),
+        AtRule(Box<AtRule>),
         Invalid(Tokens),
     }
 
@@ -548,7 +548,7 @@ define!({
 
     pub enum ImportPreludeSupportsType {
         SupportsCondition(SupportsCondition),
-        Declaration(Declaration),
+        Declaration(Box<Declaration>),
     }
 
     pub struct NamespacePrelude {
@@ -820,7 +820,7 @@ define!({
     }
 
     pub enum SupportsFeature {
-        Declaration(Declaration),
+        Declaration(Box<Declaration>),
         Function(Function),
     }
 
