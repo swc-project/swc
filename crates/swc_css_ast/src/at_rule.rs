@@ -309,7 +309,7 @@ pub enum MediaInParens {
     MediaCondition(MediaCondition),
 
     #[tag("MediaFeature")]
-    Feature(MediaFeature),
+    Feature(Box<MediaFeature>),
     // TODO <general-enclosed>
 }
 
