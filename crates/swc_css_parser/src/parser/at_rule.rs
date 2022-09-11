@@ -202,7 +202,7 @@ where
                         }
                     }
 
-                    Ok(Box::new(prelude))
+                    Ok(prelude.map(Box::new))
                 }
                 "document" | "-moz-document" => {
                     parser.input.skip_ws();
@@ -249,7 +249,7 @@ where
 
                     parser.input.skip_ws();
 
-                    Ok(Box::new(prelude))
+                    Ok(prelude.map(Box::new))
                 }
                 "top-left-corner"
                 | "top-left"
@@ -286,7 +286,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "namespace" => {
                     parser.input.skip_ws();
@@ -331,7 +331,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("';' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "color-profile" => {
                     parser.input.skip_ws();
