@@ -10,8 +10,7 @@ use self::{
         color::compress_color, declaration::compress_declaration,
         easing_function::compress_easing_function, empty::compress_empty,
         frequency::compress_frequency, keyframes::compress_keyframes, length::compress_length,
-        selector::compress_selector, time::compress_time,
-        transform_function::compress_transform_function,
+        selector::compress_selector, transform_function::compress_transform_function,
     },
     options::MinifyOptions,
 };
@@ -26,7 +25,6 @@ pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
     stylesheet.visit_mut_with(&mut compress_alpha_value());
     stylesheet.visit_mut_with(&mut compress_length());
     stylesheet.visit_mut_with(&mut compress_angle());
-    stylesheet.visit_mut_with(&mut compress_time());
     stylesheet.visit_mut_with(&mut compress_frequency());
     stylesheet.visit_mut_with(&mut compress_easing_function());
     stylesheet.visit_mut_with(&mut compress_transform_function());

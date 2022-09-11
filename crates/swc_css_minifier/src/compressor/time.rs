@@ -1,17 +1,10 @@
 use swc_atoms::js_word;
 use swc_css_ast::*;
-use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub fn compress_time() -> impl VisitMut {
-    CompressTime {}
-}
+use super::Compressor;
 
-struct CompressTime {}
-
-impl VisitMut for CompressTime {
-    fn visit_mut_time(&mut self, time: &mut Time) {
-        time.visit_mut_children_with(self);
-
+impl Compressor {
+    pub(super) fn compress_time(&self, time: &mut Time) {
         match time.unit.value.to_ascii_lowercase() {
             js_word!("ms") if time.value.value == 0.0 || time.value.value >= 100.0 => {
                 let new_value = time.value.value / 1000.0;
