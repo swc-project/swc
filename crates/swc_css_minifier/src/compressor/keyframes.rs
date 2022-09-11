@@ -6,7 +6,7 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_keyframes_at_rule(&mut self, at_rule: &mut AtRule) {
-        match &at_rule.prelude {
+        match at_rule.prelude.as_deref() {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
                 if !matches!(
                     string.value.to_ascii_lowercase(),
@@ -18,13 +18,13 @@ impl Compressor {
                         | js_word!("none")
                 ) =>
             {
-                at_rule.prelude = Some(AtRulePrelude::KeyframesPrelude(
+                at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
                     KeyframesName::CustomIdent(CustomIdent {
                         span: string.span,
                         value: string.value.to_string().into(),
                         raw: None,
                     }),
-                ));
+                )));
             }
             _ => {}
         }

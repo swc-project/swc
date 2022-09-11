@@ -2541,12 +2541,12 @@ impl VisitMut for Prefixer {
 
             "writing-mode" if n.value.len() == 1 => {
                 let direction = match declarations.iter().rev().find(|declaration| {
-                    matches!(declaration, Declaration {
+                    matches!(&****declaration, Declaration {
                               name: DeclarationName::Ident(Ident { value, .. }),
                                 ..
                             } if value.as_ref().eq_ignore_ascii_case("direction"))
                 }) {
-                    Some(Declaration { value, .. }) => match value.get(0) {
+                    Some(Declaration { value, .. }) => match value.get(0).as_deref() {
                         Some(ComponentValue::Ident(Ident { value, .. }))
                             if value.as_ref().eq_ignore_ascii_case("rtl") =>
                         {
