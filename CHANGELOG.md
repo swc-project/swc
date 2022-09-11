@@ -23,6 +23,9 @@
 - **(css/minifier)** Merge passes (#5820) ([f523502](https://github.com/swc-project/swc/commit/f523502f4cf03b238bd7b859930f344169302907))
 
 
+- **(css/minifier)** Merge more passes into the compressor (#5821) ([4fa5a27](https://github.com/swc-project/swc/commit/4fa5a2778b3fd8627f52f3040041bdcb9b86467c))
+
+
 - **(es/minifier)** Optimize usage of `IndexSet` (#5814) ([704ea3d](https://github.com/swc-project/swc/commit/704ea3d48d8c98b7a3f7400621ef93d041c27860))
 
 
