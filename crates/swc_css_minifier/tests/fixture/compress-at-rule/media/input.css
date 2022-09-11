@@ -37,3 +37,13 @@
 @media (((foo: bar))) {
     body { line-height: 1.4; }
 }
+
+@media (((min-width: 30em))) and (((orientation: landscape))) { .test { color: red } }
+
+@media screen and (((min-width: 30em))) and (((orientation: landscape))) { .test { color: red } }
+
+@media screen and (((min-width: 30em) and (max-width: 300px))) and (((orientation: landscape))) { .test { color: red } }
+
+@media (((min-height: 680px))), screen and (((orientation: portrait))) { .test { color: red } }
+
+@media (((not (color)))) or (hover) { .test { color: red } }
