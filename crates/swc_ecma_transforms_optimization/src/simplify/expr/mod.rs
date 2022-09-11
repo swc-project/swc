@@ -9,9 +9,8 @@ use swc_common::{
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
 use swc_ecma_utils::{
-    alias_ident_for, is_literal, prepend_stmt, prop_name_eq, to_int32, undefined, BoolType,
-    ExprCtx, ExprExt, NullType, NumberType, ObjectType, StringType, SymbolType, UndefinedType,
-    Value,
+    alias_ident_for, is_literal, prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt,
+    NullType, NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -234,12 +233,12 @@ impl SimplifyExpr {
                         v
                     } else {
                         let var_name = alias_ident_for(&v, "_v");
-                        self.vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: var_name.clone().into(),
-                            init: None,
-                            definite: false,
-                        });
+                        // self.vars.push(VarDeclarator {
+                        //     span: DUMMY_SP,
+                        //     name: var_name.clone().into(),
+                        //     init: None,
+                        //     definite: false,
+                        // });
 
                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span: v.span(),
