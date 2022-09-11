@@ -103,7 +103,7 @@ where
         }
 
         if n.block.is_some() {
-            match &n.prelude {
+            match n.prelude.as_deref() {
                 Some(AtRulePrelude::ListOfComponentValues(_)) | None => {}
                 _ => {
                     formatting_space!(self);
@@ -180,7 +180,7 @@ where
                 emit!(self, n)
             }
             AtRulePrelude::ImportPrelude(n) => {
-                match n.href {
+                match &*n.href {
                     ImportPreludeHref::Url(_) => {
                         space!(self);
                     }
@@ -197,7 +197,7 @@ where
                     Some(media_query)
                         if media_query.modifier.is_none() && media_query.media_type.is_none() =>
                     {
-                        match &media_query.condition {
+                        match media_query.condition.as_deref() {
                             Some(MediaConditionType::All(media_condition)) => !matches!(
                                 media_condition.conditions.get(0),
                                 Some(MediaConditionAllType::MediaInParens(_))
@@ -280,7 +280,7 @@ where
             emit!(self, layer_name);
 
             if self.config.minify && (n.supports.is_some() || n.media.is_some()) {
-                if let ImportPreludeLayerName::Ident(_) = layer_name {
+                if let ImportPreludeLayerName::Ident(_) = &**layer_name {
                     space!(self);
                 }
             }
@@ -697,7 +697,7 @@ where
     #[emitter]
     fn emit_namespace_prelude(&mut self, n: &NamespacePrelude) -> Result {
         let has_prefix = n.prefix.is_some();
-        let is_uri_url = match n.uri {
+        let is_uri_url = match &*n.uri {
             NamespacePreludeUri::Url(_) => true,
             NamespacePreludeUri::Str(_) => false,
         };

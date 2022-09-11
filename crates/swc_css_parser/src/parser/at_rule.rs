@@ -322,7 +322,7 @@ where
                     let prelude = AtRulePrelude::NamespacePrelude(NamespacePrelude {
                         span: span!(parser, span.lo),
                         prefix,
-                        uri,
+                        uri: Box::new(uri),
                     });
 
                     if !is!(parser, ";") {
