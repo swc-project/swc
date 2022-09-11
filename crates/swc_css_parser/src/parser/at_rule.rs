@@ -351,7 +351,7 @@ where
                         }
                     };
 
-                    let prelude = AtRulePrelude::ColorProfilePrelude(name);
+                    let prelude = Box::new(AtRulePrelude::ColorProfilePrelude(name));
 
                     parser.input.skip_ws();
 
@@ -366,7 +366,7 @@ where
                 "nest" => {
                     parser.input.skip_ws();
 
-                    let prelude = AtRulePrelude::NestPrelude(parser.parse()?);
+                    let prelude = Box::new(AtRulePrelude::NestPrelude(parser.parse()?));
 
                     parser.input.skip_ws();
 
@@ -384,7 +384,7 @@ where
                     let media = if !is!(parser, "{") {
                         let media_query_list = parser.parse()?;
 
-                        Some(AtRulePrelude::MediaPrelude(media_query_list))
+                        Some(Box::new(AtRulePrelude::MediaPrelude(media_query_list)))
                     } else {
                         None
                     };
@@ -396,7 +396,7 @@ where
                 "supports" => {
                     parser.input.skip_ws();
 
-                    let prelude = AtRulePrelude::SupportsPrelude(parser.parse()?);
+                    let prelude = Box::new(AtRulePrelude::SupportsPrelude(parser.parse()?));
 
                     parser.input.skip_ws();
 
@@ -478,13 +478,13 @@ where
 
                     parser.input.skip_ws();
 
-                    let prelude = AtRulePrelude::ImportPrelude(ImportPrelude {
+                    let prelude = Box::new(AtRulePrelude::ImportPrelude(ImportPrelude {
                         span: span!(parser, span.lo),
                         href,
                         layer_name,
                         supports,
                         media,
-                    });
+                    }));
 
                     if !is!(parser, ";") {
                         let span = parser.input.cur_span();
@@ -498,7 +498,7 @@ where
                 | "-ms-keyframes" => {
                     parser.input.skip_ws();
 
-                    let prelude = AtRulePrelude::KeyframesPrelude(parser.parse()?);
+                    let prelude = Box::new(AtRulePrelude::KeyframesPrelude(parser.parse()?));
 
                     parser.input.skip_ws();
 
