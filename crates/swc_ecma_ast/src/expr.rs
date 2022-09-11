@@ -962,7 +962,7 @@ pub struct TaggedTpl {
     pub tag: Box<Expr>,
 
     #[serde(default, rename = "typeParameters")]
-    pub type_params: Option<TsTypeParamInstantiation>,
+    pub type_params: Option<Box<TsTypeParamInstantiation>>,
 
     #[serde(rename = "template")]
     pub tpl: Tpl,
