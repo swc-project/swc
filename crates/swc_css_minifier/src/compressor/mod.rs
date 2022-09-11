@@ -16,6 +16,7 @@ mod keyframes;
 mod length;
 mod selector;
 mod time;
+mod transform_function;
 mod unicode_range;
 mod url;
 
@@ -122,13 +123,15 @@ impl VisitMut for Compressor {
     fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
         n.visit_mut_children_with(self);
 
+        self.compress_alpha_value_in_component_value(n);
+
         self.compress_component_value_for_length(n);
 
         self.compress_easing_function(n);
 
-        self.compress_angle_in_component_value(n);
+        self.compress_transform_function(n);
 
-        self.compress_alpha_value_in_component_value(n);
+        self.compress_angle_in_component_value(n);
     }
 
     fn visit_mut_length(&mut self, n: &mut Length) {
