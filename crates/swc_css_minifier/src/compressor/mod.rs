@@ -1,7 +1,10 @@
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
+use self::ctx::Ctx;
+
 mod color;
+mod ctx;
 mod declaration;
 mod empty;
 mod frequency;
@@ -15,7 +18,9 @@ pub fn compressor() -> impl VisitMut {
 }
 
 #[derive(Default)]
-struct Compressor {}
+struct Compressor {
+    ctx: Ctx,
+}
 
 impl VisitMut for Compressor {
     fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
