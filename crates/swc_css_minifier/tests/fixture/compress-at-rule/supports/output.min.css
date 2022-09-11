@@ -1,1 +1,1 @@
-@supports(display:flex){a{color:red}}@supports(display:grid)and (display:flex){a{color:red}}@supports(display:grid)or (display:flex){a{color:red}}
+@supports(display:flex){a{color:red}}@supports(display:grid)and (display:flex){a{color:red}}@supports(display:grid)or (display:flex){a{color:red}}@supports(display:flex){a{color:red}}

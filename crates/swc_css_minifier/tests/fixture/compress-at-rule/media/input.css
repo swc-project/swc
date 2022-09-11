@@ -26,6 +26,14 @@
     }
 }
 
+@media (((height > 600px))) {
+    body { line-height: 1.4; }
+}
+
 @media (((400px <= width <= 700px))) {
+    body { line-height: 1.4; }
+}
+
+@media (((foo: bar))) {
     body { line-height: 1.4; }
 }

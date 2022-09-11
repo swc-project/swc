@@ -107,6 +107,32 @@ impl VisitMut for Compressor {
         self.compress_keyframes_at_rule(n);
     }
 
+    fn visit_mut_media_condition(&mut self, n: &mut MediaCondition) {
+        n.visit_mut_children_with(self);
+
+        match n.conditions.get(0) {
+            Some(MediaConditionAllType::MediaInParens(MediaInParens::MediaCondition(
+                media_condition,
+            ))) if n.conditions.len() == 1 => {
+                *n = media_condition.clone();
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_supports_condition(&mut self, n: &mut SupportsCondition) {
+        n.visit_mut_children_with(self);
+
+        match n.conditions.get(0) {
+            Some(SupportsConditionType::SupportsInParens(SupportsInParens::SupportsCondition(
+                supports_condition,
+            ))) if n.conditions.len() == 1 => {
+                *n = supports_condition.clone();
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_keyframe_selector(&mut self, n: &mut KeyframeSelector) {
         n.visit_mut_children_with(self);
 
