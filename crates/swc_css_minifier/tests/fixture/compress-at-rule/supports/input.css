@@ -15,3 +15,9 @@
         color: red;
     }
 }
+
+@supports (((display: flex))) {
+    a {
+        color: red;
+    }
+}

@@ -19,3 +19,13 @@
 @media (400px <= width <= 700px), (400px <= width <= 700px) {
     body { line-height: 1.4; }
 }
+
+@media screen and (((min-width: 900px))) {
+    article {
+        padding: 1rem 3rem;
+    }
+}
+
+@media (((400px <= width <= 700px))) {
+    body { line-height: 1.4; }
+}
