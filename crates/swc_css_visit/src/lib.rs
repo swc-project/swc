@@ -132,7 +132,7 @@ define!({
         ListOfComponentValues(ListOfComponentValues),
         AtRule(Box<AtRule>),
         Declaration(Box<Declaration>),
-        QualifiedRule(QualifiedRule),
+        QualifiedRule(Box<QualifiedRule>),
     }
 
     pub enum DeclarationOrAtRule {
@@ -434,7 +434,7 @@ define!({
     pub enum SubclassSelector {
         Id(IdSelector),
         Class(ClassSelector),
-        Attribute(AttributeSelector),
+        Attribute(Box<AttributeSelector>),
         PseudoClass(PseudoClassSelector),
         PseudoElement(PseudoElementSelector),
     }
@@ -523,7 +523,7 @@ define!({
     }
 
     pub enum Rule {
-        QualifiedRule(QualifiedRule),
+        QualifiedRule(Box<QualifiedRule>),
         AtRule(Box<AtRule>),
         Invalid(Tokens),
     }
@@ -714,7 +714,7 @@ define!({
 
     pub enum MediaInParens {
         MediaCondition(MediaCondition),
-        Feature(MediaFeature),
+        Feature(Box<MediaFeature>),
     }
 
     pub enum MediaFeature {
