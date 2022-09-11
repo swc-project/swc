@@ -5,6 +5,7 @@ mod color;
 mod declaration;
 mod empty;
 mod frequency;
+mod keyframes;
 mod time;
 mod unicode_range;
 mod url;
@@ -63,5 +64,17 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_frequency(n);
+    }
+
+    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
+        n.visit_mut_children_with(self);
+
+        self.compress_keyframes_at_rule(n);
+    }
+
+    fn visit_mut_keyframe_selector(&mut self, n: &mut KeyframeSelector) {
+        n.visit_mut_children_with(self);
+
+        self.compress_keyframe_selector(n);
     }
 }
