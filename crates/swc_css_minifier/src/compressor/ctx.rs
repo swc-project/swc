@@ -2,7 +2,7 @@ use std::ops::{Deref, DerefMut};
 
 use super::Compressor;
 
-#[derive(Default, Clone, Copy)]
+#[derive(Clone, Copy)]
 pub(super) struct Ctx {
     pub in_math_function: bool,
 
@@ -11,6 +11,19 @@ pub(super) struct Ctx {
     pub in_transform_function: bool,
 
     pub in_keyframe_block: bool,
+
+    pub preserve_alpha_value: bool,
+}
+impl Default for Ctx {
+    fn default() -> Self {
+        Self {
+            preserve_alpha_value: true,
+            in_math_function: false,
+            in_logic_combinator_selector: false,
+            in_transform_function: false,
+            in_keyframe_block: false,
+        }
+    }
 }
 
 impl Compressor {
