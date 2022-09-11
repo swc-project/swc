@@ -6,6 +6,7 @@ use self::ctx::Ctx;
 mod color;
 mod ctx;
 mod declaration;
+mod easing_function;
 mod empty;
 mod frequency;
 mod keyframes;
@@ -95,6 +96,8 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_component_value_for_length(n);
+
+        self.compress_easing_function(n);
     }
 
     fn visit_mut_length(&mut self, n: &mut Length) {
