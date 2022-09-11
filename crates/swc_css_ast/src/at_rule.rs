@@ -50,9 +50,9 @@ pub enum AtRulePrelude {
     #[tag("KeyframesName")]
     KeyframesPrelude(KeyframesName),
     #[tag("ImportPrelude")]
-    ImportPrelude(ImportPrelude),
+    ImportPrelude(Box<ImportPrelude>),
     #[tag("NamespacePrelude")]
-    NamespacePrelude(NamespacePrelude),
+    NamespacePrelude(Box<NamespacePrelude>),
     #[tag("MediaQueryList")]
     MediaPrelude(MediaQueryList),
     #[tag("SupportsCondition")]
