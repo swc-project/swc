@@ -755,7 +755,9 @@ impl VisitMut for Prefixer {
                         let supports_condition_type = SupportsConditionType::Or(SupportsOr {
                             span: DUMMY_SP,
                             keyword: None,
-                            condition: SupportsInParens::Feature(SupportsFeature::Declaration(n)),
+                            condition: Box::new(SupportsInParens::Feature(
+                                SupportsFeature::Declaration(n),
+                            )),
                         });
 
                         let need_skip =
@@ -901,11 +903,11 @@ impl VisitMut for Prefixer {
             }
 
             if !n.prelude.eq_ignore_span(&new_webkit_prelude) {
-                let qualified_rule = QualifiedRule {
+                let qualified_rule = Box::new(QualifiedRule {
                     span: DUMMY_SP,
                     prelude: new_webkit_prelude,
                     block: original_simple_block.clone(),
-                };
+                });
 
                 if self.simple_block.is_none() {
                     self.added_top_rules
@@ -1003,10 +1005,10 @@ impl VisitMut for Prefixer {
 
                 if self.simple_block.is_none() {
                     self.added_top_rules
-                        .push((Prefix::Moz, Rule::QualifiedRule(qualified_rule)));
+                        .push((Prefix::Moz, Rule::QualifiedRule(Box::new(qualified_rule))));
                 } else {
                     self.added_qualified_rules
-                        .push((Prefix::Moz, qualified_rule));
+                        .push((Prefix::Moz, Box::new(qualified_rule)));
                 }
             }
         }

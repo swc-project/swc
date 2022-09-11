@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![feature(box_patterns)]
 
 use std::cmp::Ordering;
 
@@ -1776,7 +1777,7 @@ impl Minifier<'_> {
                 let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
 
                 // Because CSS is grammar free, protect for fails
-                if let Some(swc_css_ast::Rule::QualifiedRule(swc_css_ast::QualifiedRule {
+                if let Some(swc_css_ast::Rule::QualifiedRule(box swc_css_ast::QualifiedRule {
                     block,
                     ..
                 })) = rules.get(0)
