@@ -45,3 +45,33 @@
         color: red;
     }
 }
+
+@supports ((display: flex) or (display: grid)) or (display: table) or (display: inline-grid) {
+    div {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+}
+
+@supports (display: flex) or ((display: grid) or (display: table)) or (display: inline-grid) {
+    div {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+}
+
+@supports (display: flex) or (display: grid) or ((display: table) or (display: inline-grid)) {
+    div {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+}
