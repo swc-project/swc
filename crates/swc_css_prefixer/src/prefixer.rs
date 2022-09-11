@@ -252,11 +252,11 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
                     value: "url".into(),
                     raw: None,
                 },
-                value: Some(UrlValue::Str(Str {
+                value: Some(Box::new(UrlValue::Str(Str {
                     span: DUMMY_SP,
                     value: value.as_ref().into(),
                     raw: None,
-                })),
+                }))),
                 modifiers: Some(vec![]),
             })
         }
@@ -484,7 +484,7 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
             value: resolution_value,
             unit: resolution_unit,
             ..
-        })) = &n.value
+        })) = &*n.value
         {
             let MediaFeatureName::Ident(Ident {
                 value: feature_name_value,
@@ -505,11 +505,11 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                     _ => resolution_value.value,
                 };
 
-                n.value = MediaFeatureValue::Number(Number {
+                n.value = Box::new(MediaFeatureValue::Number(Number {
                     span: resolution_value.span,
                     value: left,
                     raw: None,
-                });
+                }));
             }
         }
     }

@@ -45,8 +45,8 @@ impl Visit for NoInvalidPositionAtImportRule {
             if seen
                 && matches!(
                     rule,
-                    Rule::AtRule(AtRule {
-                        prelude: Some(AtRulePrelude::ImportPrelude(_)),
+                    Rule::AtRule(box AtRule {
+                        prelude: Some(box AtRulePrelude::ImportPrelude(_)),
                         ..
                     })
                 )
@@ -57,17 +57,17 @@ impl Visit for NoInvalidPositionAtImportRule {
             // TODO improve me https://www.w3.org/TR/css-cascade-5/#layer-empty - @import and @namespace rules must be consecutive
             match rule {
                 Rule::AtRule(
-                    AtRule {
-                        prelude: Some(AtRulePrelude::CharsetPrelude(_)),
+                    box AtRule {
+                        prelude: Some(box AtRulePrelude::CharsetPrelude(_)),
                         ..
                     }
-                    | AtRule {
-                        prelude: Some(AtRulePrelude::ImportPrelude(_)),
+                    | box AtRule {
+                        prelude: Some(box AtRulePrelude::ImportPrelude(_)),
                         ..
                     },
                 ) => seen,
-                Rule::AtRule(AtRule {
-                    prelude: Some(AtRulePrelude::LayerPrelude(_)),
+                Rule::AtRule(box AtRule {
+                    prelude: Some(box AtRulePrelude::LayerPrelude(_)),
                     block,
                     ..
                 }) => match block {
@@ -75,7 +75,7 @@ impl Visit for NoInvalidPositionAtImportRule {
                     None => seen,
                     _ => true,
                 },
-                Rule::AtRule(AtRule { name, .. }) => {
+                Rule::AtRule(box AtRule { name, .. }) => {
                     let name = match name {
                         AtRuleName::DashedIdent(dashed_ident) => &dashed_ident.value,
                         AtRuleName::Ident(ident) => &ident.value,
