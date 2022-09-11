@@ -187,7 +187,7 @@ macro_rules! method {
 
             pub key: $KEY,
 
-            pub function: Function,
+            pub function: Box<Function>,
 
             pub kind: MethodKind,
 
