@@ -6,78 +6,28 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn comrpess_selector_list(&mut self, selector_list: &mut SelectorList) {
-        let mut already_seen: Vec<ComplexSelector> = vec![];
-
-        selector_list.children.retain(|children| {
-            for already_seen_complex_selector in &already_seen {
-                if already_seen_complex_selector.eq_ignore_span(children) {
-                    return false;
-                }
-            }
-
-            already_seen.push(children.clone());
-
-            true
-        });
+        dedup(&mut selector_list.children);
     }
 
     pub(super) fn compress_forgiving_selector_list(
         &mut self,
         forgiving_selector_list: &mut ForgivingSelectorList,
     ) {
-        let mut already_seen: Vec<ForgivingComplexSelector> = vec![];
-
-        forgiving_selector_list.children.retain(|children| {
-            for already_seen_complex_selector in &already_seen {
-                if already_seen_complex_selector.eq_ignore_span(children) {
-                    return false;
-                }
-            }
-
-            already_seen.push(children.clone());
-
-            true
-        });
+        dedup(&mut forgiving_selector_list.children);
     }
 
     pub(super) fn compress_relative_selector_list(
         &mut self,
         relative_selector_list: &mut RelativeSelectorList,
     ) {
-        let mut already_seen: Vec<RelativeSelector> = vec![];
-
-        relative_selector_list.children.retain(|children| {
-            for already_seen_complex_selector in &already_seen {
-                if already_seen_complex_selector.eq_ignore_span(children) {
-                    return false;
-                }
-            }
-
-            already_seen.push(children.clone());
-
-            true
-        });
+        dedup(&mut relative_selector_list.children);
     }
 
     pub(super) fn compress_forgiving_relative_selector_list(
         &mut self,
         forgiving_relative_selector_list: &mut ForgivingRelativeSelectorList,
     ) {
-        let mut already_seen: Vec<ForgivingRelativeSelector> = vec![];
-
-        forgiving_relative_selector_list
-            .children
-            .retain(|children| {
-                for already_seen_complex_selector in &already_seen {
-                    if already_seen_complex_selector.eq_ignore_span(children) {
-                        return false;
-                    }
-                }
-
-                already_seen.push(children.clone());
-
-                true
-            });
+        dedup(&mut forgiving_relative_selector_list.children);
     }
 
     pub(super) fn compress_an_plus_b(&mut self, an_plus_b: &mut AnPlusB) {
@@ -352,4 +302,23 @@ impl Compressor {
             }));
         }
     }
+}
+
+fn dedup<T>(v: &mut Vec<T>)
+where
+    T: EqIgnoreSpan,
+{
+    let mut already_seen: Vec<T> = vec![];
+
+    v.retain(|children| {
+        for already_seen_complex_selector in &already_seen {
+            if already_seen_complex_selector.eq_ignore_span(children) {
+                return false;
+            }
+        }
+
+        already_seen.push(children.clone());
+
+        true
+    });
 }
