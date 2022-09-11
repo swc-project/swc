@@ -189,7 +189,7 @@ pub struct MediaQuery {
     pub modifier: Option<Ident>,
     pub media_type: Option<MediaType>,
     pub keyword: Option<Ident>,
-    pub condition: Option<MediaConditionType>,
+    pub condition: Option<Box<MediaConditionType>>,
 }
 
 impl EqIgnoreSpan for MediaQuery {
