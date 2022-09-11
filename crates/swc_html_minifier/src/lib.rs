@@ -1,4 +1,6 @@
 #![deny(clippy::all)]
+#![feature(box_patterns)]
+#![feature(box_syntax)]
 
 use std::cmp::Ordering;
 
@@ -1694,7 +1696,7 @@ impl Minifier<'_> {
                         swc_css_ast::Stylesheet {
                             span: Default::default(),
                             rules: vec![swc_css_ast::Rule::QualifiedRule(
-                                swc_css_ast::QualifiedRule {
+                                box swc_css_ast::QualifiedRule {
                                     span: Default::default(),
                                     prelude: swc_css_ast::QualifiedRulePrelude::SelectorList(
                                         swc_css_ast::SelectorList {
@@ -1722,14 +1724,14 @@ impl Minifier<'_> {
                 ) {
                     Ok(media_query_list) => swc_css_ast::Stylesheet {
                         span: Default::default(),
-                        rules: vec![swc_css_ast::Rule::AtRule(swc_css_ast::AtRule {
+                        rules: vec![swc_css_ast::Rule::AtRule(box swc_css_ast::AtRule {
                             span: Default::default(),
                             name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
                                 span: Default::default(),
                                 value: "media".into(),
                                 raw: None,
                             }),
-                            prelude: Some(swc_css_ast::AtRulePrelude::MediaPrelude(
+                            prelude: Some(box swc_css_ast::AtRulePrelude::MediaPrelude(
                                 media_query_list,
                             )),
                             block: Some(swc_css_ast::SimpleBlock {
@@ -1776,7 +1778,7 @@ impl Minifier<'_> {
                 let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
 
                 // Because CSS is grammar free, protect for fails
-                if let Some(swc_css_ast::Rule::QualifiedRule(swc_css_ast::QualifiedRule {
+                if let Some(swc_css_ast::Rule::QualifiedRule(box swc_css_ast::QualifiedRule {
                     block,
                     ..
                 })) = rules.get(0)
@@ -1792,8 +1794,9 @@ impl Minifier<'_> {
                 let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
 
                 // Because CSS is grammar free, protect for fails
-                if let Some(swc_css_ast::Rule::AtRule(swc_css_ast::AtRule { prelude, .. })) =
-                    rules.get(0)
+                if let Some(swc_css_ast::Rule::AtRule(box swc_css_ast::AtRule {
+                    prelude, ..
+                })) = rules.get(0)
                 {
                     swc_css_codegen::Emit::emit(&mut gen, &prelude).unwrap();
 

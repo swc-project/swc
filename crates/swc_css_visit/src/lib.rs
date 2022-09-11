@@ -130,14 +130,14 @@ define!({
 
     pub enum StyleBlock {
         ListOfComponentValues(ListOfComponentValues),
-        AtRule(AtRule),
-        Declaration(Declaration),
-        QualifiedRule(QualifiedRule),
+        AtRule(Box<AtRule>),
+        Declaration(Box<Declaration>),
+        QualifiedRule(Box<QualifiedRule>),
     }
 
     pub enum DeclarationOrAtRule {
-        Declaration(Declaration),
-        AtRule(AtRule),
+        Declaration(Box<Declaration>),
+        AtRule(Box<AtRule>),
         ListOfComponentValues(ListOfComponentValues),
     }
 
@@ -258,7 +258,7 @@ define!({
     pub struct Url {
         pub span: Span,
         pub name: Ident,
-        pub value: Option<UrlValue>,
+        pub value: Option<Box<UrlValue>>,
         pub modifiers: Option<Vec<UrlModifier>>,
     }
 
@@ -392,7 +392,7 @@ define!({
     pub struct CompoundSelector {
         pub span: Span,
         pub nesting_selector: Option<NestingSelector>,
-        pub type_selector: Option<TypeSelector>,
+        pub type_selector: Option<Box<TypeSelector>>,
         pub subclass_selectors: Vec<SubclassSelector>,
     }
 
@@ -434,7 +434,7 @@ define!({
     pub enum SubclassSelector {
         Id(IdSelector),
         Class(ClassSelector),
-        Attribute(AttributeSelector),
+        Attribute(Box<AttributeSelector>),
         PseudoClass(PseudoClassSelector),
         PseudoElement(PseudoElementSelector),
     }
@@ -523,17 +523,17 @@ define!({
     }
 
     pub enum Rule {
-        QualifiedRule(QualifiedRule),
-        AtRule(AtRule),
+        QualifiedRule(Box<QualifiedRule>),
+        AtRule(Box<AtRule>),
         Invalid(Tokens),
     }
 
     pub struct ImportPrelude {
         pub span: Span,
-        pub href: ImportPreludeHref,
-        pub layer_name: Option<ImportPreludeLayerName>,
-        pub supports: Option<ImportPreludeSupportsType>,
-        pub media: Option<MediaQueryList>,
+        pub href: Box<ImportPreludeHref>,
+        pub layer_name: Option<Box<ImportPreludeLayerName>>,
+        pub supports: Option<Box<ImportPreludeSupportsType>>,
+        pub media: Option<Box<MediaQueryList>>,
     }
 
     pub enum ImportPreludeHref {
@@ -548,13 +548,13 @@ define!({
 
     pub enum ImportPreludeSupportsType {
         SupportsCondition(SupportsCondition),
-        Declaration(Declaration),
+        Declaration(Box<Declaration>),
     }
 
     pub struct NamespacePrelude {
         pub span: Span,
         pub prefix: Option<Ident>,
-        pub uri: NamespacePreludeUri,
+        pub uri: Box<NamespacePreludeUri>,
     }
 
     pub enum NamespacePreludeUri {
@@ -565,7 +565,7 @@ define!({
     pub struct AtRule {
         pub span: Span,
         pub name: AtRuleName,
-        pub prelude: Option<AtRulePrelude>,
+        pub prelude: Option<Box<AtRulePrelude>>,
         pub block: Option<SimpleBlock>,
     }
 
@@ -659,7 +659,7 @@ define!({
         pub modifier: Option<Ident>,
         pub media_type: Option<MediaType>,
         pub keyword: Option<Ident>,
-        pub condition: Option<MediaConditionType>,
+        pub condition: Option<Box<MediaConditionType>>,
     }
 
     pub enum MediaType {
@@ -714,7 +714,7 @@ define!({
 
     pub enum MediaInParens {
         MediaCondition(MediaCondition),
-        Feature(MediaFeature),
+        Feature(Box<MediaFeature>),
     }
 
     pub enum MediaFeature {
@@ -738,7 +738,7 @@ define!({
     pub struct MediaFeaturePlain {
         pub span: Span,
         pub name: MediaFeatureName,
-        pub value: MediaFeatureValue,
+        pub value: Box<MediaFeatureValue>,
     }
 
     pub struct MediaFeatureBoolean {
@@ -748,18 +748,18 @@ define!({
 
     pub struct MediaFeatureRange {
         pub span: Span,
-        pub left: MediaFeatureValue,
+        pub left: Box<MediaFeatureValue>,
         pub comparison: MediaFeatureRangeComparison,
-        pub right: MediaFeatureValue,
+        pub right: Box<MediaFeatureValue>,
     }
 
     pub struct MediaFeatureRangeInterval {
         pub span: Span,
-        pub left: MediaFeatureValue,
+        pub left: Box<MediaFeatureValue>,
         pub left_comparison: MediaFeatureRangeComparison,
         pub name: MediaFeatureName,
         pub right_comparison: MediaFeatureRangeComparison,
-        pub right: MediaFeatureValue,
+        pub right: Box<MediaFeatureValue>,
     }
 
     pub struct PageSelectorList {
@@ -798,19 +798,19 @@ define!({
     pub struct SupportsNot {
         pub span: Span,
         pub keyword: Option<Ident>,
-        pub condition: SupportsInParens,
+        pub condition: Box<SupportsInParens>,
     }
 
     pub struct SupportsAnd {
         pub span: Span,
         pub keyword: Option<Ident>,
-        pub condition: SupportsInParens,
+        pub condition: Box<SupportsInParens>,
     }
 
     pub struct SupportsOr {
         pub span: Span,
         pub keyword: Option<Ident>,
-        pub condition: SupportsInParens,
+        pub condition: Box<SupportsInParens>,
     }
 
     pub enum SupportsInParens {
@@ -820,7 +820,7 @@ define!({
     }
 
     pub enum SupportsFeature {
-        Declaration(Declaration),
+        Declaration(Box<Declaration>),
         Function(Function),
     }
 

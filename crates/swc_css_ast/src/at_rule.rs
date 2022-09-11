@@ -12,7 +12,7 @@ use crate::{
 pub struct AtRule {
     pub span: Span,
     pub name: AtRuleName,
-    pub prelude: Option<AtRulePrelude>,
+    pub prelude: Option<Box<AtRulePrelude>>,
     pub block: Option<SimpleBlock>,
 }
 
@@ -125,10 +125,10 @@ pub enum KeyframeSelector {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ImportPrelude {
     pub span: Span,
-    pub href: ImportPreludeHref,
-    pub layer_name: Option<ImportPreludeLayerName>,
-    pub supports: Option<ImportPreludeSupportsType>,
-    pub media: Option<MediaQueryList>,
+    pub href: Box<ImportPreludeHref>,
+    pub layer_name: Option<Box<ImportPreludeLayerName>>,
+    pub supports: Option<Box<ImportPreludeSupportsType>>,
+    pub media: Option<Box<MediaQueryList>>,
 }
 
 #[ast_node]
@@ -155,7 +155,7 @@ pub enum ImportPreludeSupportsType {
     #[tag("SupportsCondition")]
     SupportsCondition(SupportsCondition),
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
 }
 
 #[ast_node("NamespacePrelude")]
@@ -163,7 +163,7 @@ pub enum ImportPreludeSupportsType {
 pub struct NamespacePrelude {
     pub span: Span,
     pub prefix: Option<Ident>,
-    pub uri: NamespacePreludeUri,
+    pub uri: Box<NamespacePreludeUri>,
 }
 
 #[ast_node]
@@ -189,7 +189,7 @@ pub struct MediaQuery {
     pub modifier: Option<Ident>,
     pub media_type: Option<MediaType>,
     pub keyword: Option<Ident>,
-    pub condition: Option<MediaConditionType>,
+    pub condition: Option<Box<MediaConditionType>>,
 }
 
 impl EqIgnoreSpan for MediaQuery {
@@ -309,7 +309,7 @@ pub enum MediaInParens {
     MediaCondition(MediaCondition),
 
     #[tag("MediaFeature")]
-    Feature(MediaFeature),
+    Feature(Box<MediaFeature>),
     // TODO <general-enclosed>
 }
 
@@ -357,7 +357,7 @@ pub enum MediaFeatureValue {
 pub struct MediaFeaturePlain {
     pub span: Span,
     pub name: MediaFeatureName,
-    pub value: MediaFeatureValue,
+    pub value: Box<MediaFeatureValue>,
 }
 
 #[ast_node("MediaFeatureBoolean")]
@@ -401,22 +401,22 @@ pub enum MediaFeatureRangeComparison {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaFeatureRange {
     pub span: Span,
-    pub left: MediaFeatureValue,
+    pub left: Box<MediaFeatureValue>,
     pub comparison: MediaFeatureRangeComparison,
-    pub right: MediaFeatureValue,
+    pub right: Box<MediaFeatureValue>,
 }
 
 #[ast_node("MediaFeatureRangeInterval")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaFeatureRangeInterval {
     pub span: Span,
-    pub left: MediaFeatureValue,
+    pub left: Box<MediaFeatureValue>,
     #[serde(rename = "leftComparison")]
     pub left_comparison: MediaFeatureRangeComparison,
     pub name: MediaFeatureName,
     #[serde(rename = "rightComparison")]
     pub right_comparison: MediaFeatureRangeComparison,
-    pub right: MediaFeatureValue,
+    pub right: Box<MediaFeatureValue>,
 }
 
 #[ast_node("SupportsCondition")]
@@ -447,7 +447,7 @@ pub enum SupportsConditionType {
 pub struct SupportsNot {
     pub span: Span,
     pub keyword: Option<Ident>,
-    pub condition: SupportsInParens,
+    pub condition: Box<SupportsInParens>,
 }
 
 impl EqIgnoreSpan for SupportsNot {
@@ -461,7 +461,7 @@ impl EqIgnoreSpan for SupportsNot {
 pub struct SupportsAnd {
     pub span: Span,
     pub keyword: Option<Ident>,
-    pub condition: SupportsInParens,
+    pub condition: Box<SupportsInParens>,
 }
 
 impl EqIgnoreSpan for SupportsAnd {
@@ -475,7 +475,7 @@ impl EqIgnoreSpan for SupportsAnd {
 pub struct SupportsOr {
     pub span: Span,
     pub keyword: Option<Ident>,
-    pub condition: SupportsInParens,
+    pub condition: Box<SupportsInParens>,
 }
 
 impl EqIgnoreSpan for SupportsOr {
@@ -501,7 +501,7 @@ pub enum SupportsInParens {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum SupportsFeature {
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
     #[tag("Function")]
     Function(Function),
 }

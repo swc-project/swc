@@ -34,7 +34,7 @@ struct NoDuplicateAtImportRules {
 
 impl Visit for NoDuplicateAtImportRules {
     fn visit_at_rule(&mut self, at_rule: &AtRule) {
-        if let Some(AtRulePrelude::ImportPrelude(_)) = at_rule.prelude {
+        if let Some(AtRulePrelude::ImportPrelude(_)) = at_rule.prelude.as_deref() {
             self.import_at_rules = Some(at_rule.clone());
 
             at_rule.visit_children_with(self);
@@ -44,11 +44,11 @@ impl Visit for NoDuplicateAtImportRules {
     }
 
     fn visit_import_prelude(&mut self, import_prelude: &ImportPrelude) {
-        let href = match &import_prelude.href {
+        let href = match &*import_prelude.href {
             ImportPreludeHref::Str(Str { value, .. }) => value,
             ImportPreludeHref::Url(Url {
                 value: Some(value), ..
-            }) => match value {
+            }) => match &**value {
                 UrlValue::Raw(UrlValueRaw { value, .. }) => value,
                 UrlValue::Str(Str { value, .. }) => value,
             },

@@ -15,7 +15,7 @@ impl Compressor {
             }
         }
 
-        if let Some(UrlValue::Str(Str { value, span, .. })) = &url.value {
+        if let Some(UrlValue::Str(Str { value, span, .. })) = url.value.as_deref() {
             let mut escaped = String::new();
             let mut has_escaped = false;
 
@@ -43,13 +43,13 @@ impl Compressor {
                 }
             }
 
-            url.value = Some(UrlValue::Raw(UrlValueRaw {
+            url.value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
                 span: *span,
                 value: escaped.into(),
                 before: None,
                 raw: None,
                 after: None,
-            }));
+            })));
         }
     }
 }

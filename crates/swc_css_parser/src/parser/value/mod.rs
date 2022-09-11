@@ -2211,7 +2211,7 @@ where
                     value: name,
                     raw: Some(raw_name),
                 };
-                let value = Some(UrlValue::Raw(UrlValueRaw {
+                let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
                     span: swc_common::Span::new(
                         span.lo + BytePos(name_length + 1),
                         span.hi - BytePos(1),
@@ -2221,7 +2221,7 @@ where
                     before: Some(before),
                     raw: Some(raw_value),
                     after: Some(after),
-                }));
+                })));
 
                 Ok(Url {
                     span: span!(self, span.lo),
@@ -2252,7 +2252,7 @@ where
                 self.input.skip_ws();
 
                 let value = match cur!(self) {
-                    tok!("string") => Some(UrlValue::Str(self.parse()?)),
+                    tok!("string") => Some(Box::new(UrlValue::Str(self.parse()?))),
                     _ => None,
                 };
 

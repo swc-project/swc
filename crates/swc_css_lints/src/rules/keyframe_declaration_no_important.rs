@@ -23,7 +23,7 @@ struct KeyframeDeclarationNoImportant {
 
 impl Visit for KeyframeDeclarationNoImportant {
     fn visit_at_rule(&mut self, at_rule: &AtRule) {
-        if let Some(AtRulePrelude::KeyframesPrelude(_)) = at_rule.prelude {
+        if let Some(AtRulePrelude::KeyframesPrelude(_)) = at_rule.prelude.as_deref() {
             let old_value_in_keyframes_at_rule = self.in_keyframes_at_rule;
 
             self.in_keyframes_at_rule = true;
