@@ -18,6 +18,7 @@ use self::{
 };
 
 mod compress;
+mod compressor;
 pub mod options;
 
 pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
