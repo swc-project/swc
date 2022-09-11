@@ -14,9 +14,9 @@ mod empty;
 mod frequency;
 mod keyframes;
 mod length;
-mod media_in_parens;
+mod media;
 mod selector;
-mod supports_in_parens;
+mod supports;
 mod time;
 mod transform_function;
 mod unicode_range;
@@ -109,10 +109,28 @@ impl VisitMut for Compressor {
         self.compress_keyframes_at_rule(n);
     }
 
+    fn visit_mut_media_condition(&mut self, n: &mut MediaCondition) {
+        n.visit_mut_children_with(self);
+
+        self.compress_media_condition(n);
+    }
+
+    fn visit_mut_media_condition_without_or(&mut self, n: &mut MediaConditionWithoutOr) {
+        n.visit_mut_children_with(self);
+
+        self.compress_media_condition_without_or(n);
+    }
+
     fn visit_mut_media_in_parens(&mut self, n: &mut MediaInParens) {
         n.visit_mut_children_with(self);
 
         self.compress_media_in_parens(n);
+    }
+
+    fn visit_mut_supports_condition(&mut self, n: &mut SupportsCondition) {
+        n.visit_mut_children_with(self);
+
+        self.compress_supports_condition(n);
     }
 
     fn visit_mut_supports_in_parens(&mut self, n: &mut SupportsInParens) {

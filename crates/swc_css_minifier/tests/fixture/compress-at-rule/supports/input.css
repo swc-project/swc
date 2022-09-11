@@ -48,30 +48,163 @@
 
 @supports ((display: flex) or (display: grid)) or (display: table) or (display: inline-grid) {
     div {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: flex;
+        color: red;
     }
 }
 
 @supports (display: flex) or ((display: grid) or (display: table)) or (display: inline-grid) {
     div {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: flex;
+        color: red;
     }
 }
 
 @supports (display: flex) or (display: grid) or ((display: table) or (display: inline-grid)) {
     div {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: flex;
+        color: red;
+    }
+}
+
+@supports ((display: flex) and (display: grid)) and (display: table) and (display: inline-grid) {
+    div {
+        color: red;
+    }
+}
+
+@supports (display: flex) and ((display: grid) and (display: table)) and (display: inline-grid) {
+    div {
+        color: red;
+    }
+}
+
+@supports (display: flex) and (display: grid) and ((display: table) and (display: inline-grid)) {
+    div {
+        color: red;
+    }
+}
+
+@supports ((display: flex) and (display: grid)) or (display: table) or (display: inline-grid) {
+    div {
+        color: red;
+    }
+}
+
+@supports ((display: flex) or (display: grid)) and (display: table) and (display: inline-grid) {
+    div {
+        color: red;
+    }
+}
+
+@supports (display: flex) and ((display: grid) or (display: table)) and (display: inline-grid) {
+    div {
+        color: red;
+    }
+}
+
+@supports (display: flex) or ((display: grid) and (display: table)) or (display: inline-grid) {
+    div {
+        color: red;
+    }
+}
+
+@supports (display: flex) and (display: grid) and ((display: table) or (display: inline-grid)) {
+    div {
+        color: red;
+    }
+}
+
+@supports (display: flex) or (display: grid) or ((display: table) and (display: inline-grid)) {
+    div {
+        color: red;
+    }
+}
+
+@supports (display: flex !important) {
+    div {
+        color: red;
+    }
+}
+
+@supports ((display: grid) and (display: table)) or ((display: flex) and (display: inline)) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) or (display: table)) and ((display: flex) or (display: inline)) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) and (display: table)) and ((display: flex) and (display: inline)) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) or (display: table)) or ((display: flex) or (display: inline)) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) or (display: table)) or ((display: flex) and (display: inline)) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) and (display: table)) and ((display: flex) or (display: inline)) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) and (display: table)) or ((display: flex) or (display: inline)) {
+    a {
+        color: red;
+    }
+}
+
+@supports (((((display: grid) and (display: table))))) or (((((display: flex) or (display: inline))))) {
+    a {
+        color: red;
+    }
+}
+
+
+@supports ((display: grid) or (display: table)) and ((display: flex) and (display: inline)) {
+    a {
+        color: red;
+    }
+}
+
+@supports (((((display: grid) or (display: table))))) and (((((display: flex) and (display: inline))))) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) and ((display: table) and (display: flex))) and (display: inline-table) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) or ((display: table) or (display: flex))) or (display: inline-table) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) or ((display: table) and (display: flex))) or (display: inline-table) {
+    a {
+        color: red;
+    }
+}
+
+@supports ((display: grid) and ((display: table) or (display: flex))) and (display: inline-table) {
+    a {
+        color: red;
     }
 }

@@ -47,3 +47,25 @@
 @media (((min-height: 680px))), screen and (((orientation: portrait))) { .test { color: red } }
 
 @media (((not (color)))) or (hover) { .test { color: red } }
+
+@media only screen and ((min-width: 320px) and (max-width: 1480px)) {  body {background: red;}  }
+
+@media ((min-width: 320px) and (max-width: 1480px)) {  body { background: red; }  }
+
+@media ((min-width: 320px) or (max-width: 1480px)) {  body {background: red;}  }
+
+@media ((min-width: 320px) and (max-width: 1480px)) and (orientation: landscape) {  body {background: red;}  }
+
+@media (min-width: 320px) and ((max-width: 1480px) and (orientation: landscape)) {  body {background: red;}  }
+
+@media ((min-width: 320px) or (max-width: 1480px)) or (orientation: landscape) {  body {background: red;}  }
+
+@media (min-width: 320px) or ((max-width: 1480px) or (orientation: landscape)) {  body {background: red;}  }
+
+@media screen and ((min-width: 320px) and (max-width: 1480px)) and (orientation: landscape) {  body {background: red;}  }
+
+@media screen and (min-width: 320px) and ((max-width: 1480px) and (orientation: landscape)) {  body {background: red;}  }
+
+@media not (((resolution: -300dpi))) {  body { background: green; }  }
+
+@media (grid) and (max-width: 15em) { body { background: green; } }
