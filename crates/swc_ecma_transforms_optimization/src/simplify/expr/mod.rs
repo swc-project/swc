@@ -48,7 +48,6 @@ pub fn expr_simplifier(
         },
         config,
         changed: false,
-        vars: Default::default(),
         is_arg_of_update: false,
         is_modifying: false,
         in_callee: false,
@@ -61,8 +60,6 @@ struct SimplifyExpr {
     config: Config,
 
     changed: bool,
-    /// Uninitialized variables.
-    vars: Vec<VarDeclarator>,
     is_arg_of_update: bool,
     is_modifying: bool,
     in_callee: bool,
