@@ -66,7 +66,7 @@ pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
     pub body: Option<BlockStmt>,
 }
