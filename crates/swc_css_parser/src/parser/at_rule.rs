@@ -51,7 +51,7 @@ where
             prelude: None,
             block: None,
         };
-        let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<AtRulePrelude>> {
+        let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<Box<AtRulePrelude>>> {
             match lowercased_name {
                 "viewport" | "-ms-viewport" | "-o-viewport" | "font-face" => {
                     parser.input.skip_ws();
@@ -85,7 +85,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("';' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "counter-style" => {
                     parser.input.skip_ws();
@@ -100,7 +100,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "font-palette-values" => {
                     parser.input.skip_ws();
@@ -115,7 +115,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "font-feature-values" => {
                     parser.input.skip_ws();
@@ -130,7 +130,7 @@ where
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
-                    Ok(Some(prelude))
+                    Ok(Some(Box::new(prelude)))
                 }
                 "stylistic" | "historical-forms" | "styleset" | "character-variant" | "swash"
                 | "ornaments" | "annotation"
