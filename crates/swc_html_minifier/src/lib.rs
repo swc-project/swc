@@ -350,10 +350,15 @@ struct Minifier<'a> {
     attribute_name_counter: Option<AHashMap<JsWord, usize>>,
 }
 
-fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
+fn get_white_space(namespace: Namespace, tag_name: &JsWord) -> WhiteSpace {
     match namespace {
-        Namespace::HTML => match tag_name {
-            "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => WhiteSpace::Pre,
+        Namespace::HTML => match *tag_name {
+            js_word!("textarea")
+            | js_word!("code")
+            | js_word!("pre")
+            | js_word!("listing")
+            | js_word!("plaintext")
+            | js_word!("xmp") => WhiteSpace::Pre,
             _ => WhiteSpace::Normal,
         },
         _ => WhiteSpace::Normal,
@@ -655,75 +660,180 @@ impl Minifier<'_> {
         }
     }
 
-    fn get_display(&self, namespace: Namespace, tag_name: &str) -> Display {
+    fn get_display(&self, namespace: Namespace, tag_name: &JsWord) -> Display {
         match namespace {
-            Namespace::HTML => {
-                match tag_name {
-                    "area" | "base" | "basefont" | "datalist" | "head" | "link" | "meta"
-                    | "noembed" | "noframes" | "param" | "rp" | "script" | "style" | "template"
-                    | "title" => Display::None,
+            Namespace::HTML => match *tag_name {
+                js_word!("area")
+                | js_word!("base")
+                | js_word!("basefont")
+                | js_word!("datalist")
+                | js_word!("head")
+                | js_word!("link")
+                | js_word!("meta")
+                | js_word!("noembed")
+                | js_word!("noframes")
+                | js_word!("param")
+                | js_word!("rp")
+                | js_word!("script")
+                | js_word!("style")
+                | js_word!("template")
+                | js_word!("title") => Display::None,
 
-                    "a" | "abbr" | "acronym" | "b" | "bdi" | "bdo" | "cite" | "data" | "big"
-                    | "del" | "dfn" | "em" | "i" | "ins" | "kbd" | "mark" | "q" | "nobr"
-                    | "rtc" | "s" | "samp" | "small" | "span" | "strike" | "strong" | "sub"
-                    | "sup" | "time" | "tt" | "u" | "var" | "wbr" | "object" | "audio" | "code"
-                    | "label" | "br" | "img" | "video" | "noscript" | "picture" | "source"
-                    | "track" | "map" | "applet" | "bgsound" | "blink" | "canvas" | "command"
-                    | "content" | "embed" | "frame" | "iframe" | "image" | "isindex" | "keygen"
-                    | "output" | "rbc" | "shadow" | "spacer" => Display::Inline,
+                js_word!("a")
+                | js_word!("abbr")
+                | js_word!("acronym")
+                | js_word!("b")
+                | js_word!("bdi")
+                | js_word!("bdo")
+                | js_word!("cite")
+                | js_word!("data")
+                | js_word!("big")
+                | js_word!("del")
+                | js_word!("dfn")
+                | js_word!("em")
+                | js_word!("i")
+                | js_word!("ins")
+                | js_word!("kbd")
+                | js_word!("mark")
+                | js_word!("q")
+                | js_word!("nobr")
+                | js_word!("rtc")
+                | js_word!("s")
+                | js_word!("samp")
+                | js_word!("small")
+                | js_word!("span")
+                | js_word!("strike")
+                | js_word!("strong")
+                | js_word!("sub")
+                | js_word!("sup")
+                | js_word!("time")
+                | js_word!("tt")
+                | js_word!("u")
+                | js_word!("var")
+                | js_word!("wbr")
+                | js_word!("object")
+                | js_word!("audio")
+                | js_word!("code")
+                | js_word!("label")
+                | js_word!("br")
+                | js_word!("img")
+                | js_word!("video")
+                | js_word!("noscript")
+                | js_word!("picture")
+                | js_word!("source")
+                | js_word!("track")
+                | js_word!("map")
+                | js_word!("applet")
+                | js_word!("bgsound")
+                | js_word!("blink")
+                | js_word!("canvas")
+                | js_word!("command")
+                | js_word!("content")
+                | js_word!("embed")
+                | js_word!("frame")
+                | js_word!("iframe")
+                | js_word!("image")
+                | js_word!("isindex")
+                | js_word!("keygen")
+                | js_word!("output")
+                | js_word!("rbc")
+                | js_word!("shadow")
+                | js_word!("spacer") => Display::Inline,
 
-                    "html" | "body" | "address" | "blockquote" | "center" | "div" | "figure"
-                    | "figcaption" | "footer" | "form" | "header" | "hr" | "legend" | "listing"
-                    | "main" | "p" | "plaintext" | "pre" | "xmp" | "details" | "summary"
-                    | "optgroup" | "option" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
-                    | "fieldset" | "ul" | "ol" | "menu" | "dir" | "dl" | "dt" | "dd"
-                    | "section" | "nav" | "hgroup" | "aside" | "article" | "dialog" | "element"
-                    | "font" | "frameset" => Display::Block,
+                js_word!("html")
+                | js_word!("body")
+                | js_word!("address")
+                | js_word!("blockquote")
+                | js_word!("center")
+                | js_word!("div")
+                | js_word!("figure")
+                | js_word!("figcaption")
+                | js_word!("footer")
+                | js_word!("form")
+                | js_word!("header")
+                | js_word!("hr")
+                | js_word!("legend")
+                | js_word!("listing")
+                | js_word!("main")
+                | js_word!("p")
+                | js_word!("plaintext")
+                | js_word!("pre")
+                | js_word!("xmp")
+                | js_word!("details")
+                | js_word!("summary")
+                | js_word!("optgroup")
+                | js_word!("option")
+                | js_word!("h1")
+                | js_word!("h2")
+                | js_word!("h3")
+                | js_word!("h4")
+                | js_word!("h5")
+                | js_word!("h6")
+                | js_word!("fieldset")
+                | js_word!("ul")
+                | js_word!("ol")
+                | js_word!("menu")
+                | js_word!("dir")
+                | js_word!("dl")
+                | js_word!("dt")
+                | js_word!("dd")
+                | js_word!("section")
+                | js_word!("nav")
+                | js_word!("hgroup")
+                | js_word!("aside")
+                | js_word!("article")
+                | js_word!("dialog")
+                | js_word!("element")
+                | js_word!("font")
+                | js_word!("frameset") => Display::Block,
 
-                    "li" => Display::ListItem,
+                js_word!("li") => Display::ListItem,
 
-                    "button" | "meter" | "progress" | "select" | "textarea" | "input"
-                    | "marquee" => Display::InlineBlock,
+                js_word!("button")
+                | js_word!("meter")
+                | js_word!("progress")
+                | js_word!("select")
+                | js_word!("textarea")
+                | js_word!("input")
+                | js_word!("marquee") => Display::InlineBlock,
 
-                    "ruby" => Display::Ruby,
+                js_word!("ruby") => Display::Ruby,
 
-                    "rb" => Display::RubyBase,
+                js_word!("rb") => Display::RubyBase,
 
-                    "rt" => Display::RubyText,
+                js_word!("rt") => Display::RubyText,
 
-                    "table" => Display::Table,
+                js_word!("table") => Display::Table,
 
-                    "caption" => Display::TableCaption,
+                js_word!("caption") => Display::TableCaption,
 
-                    "colgroup" => Display::TableColumnGroup,
+                js_word!("colgroup") => Display::TableColumnGroup,
 
-                    "col" => Display::TableColumn,
+                js_word!("col") => Display::TableColumn,
 
-                    "thead" => Display::TableHeaderGroup,
+                js_word!("thead") => Display::TableHeaderGroup,
 
-                    "tbody" => Display::TableRowGroup,
+                js_word!("tbody") => Display::TableRowGroup,
 
-                    "tfoot" => Display::TableFooterGroup,
+                js_word!("tfoot") => Display::TableFooterGroup,
 
-                    "tr" => Display::TableRow,
+                js_word!("tr") => Display::TableRow,
 
-                    "td" | "th" => Display::TableCell,
+                js_word!("td") | js_word!("th") => Display::TableCell,
 
-                    "slot" => Display::Contents,
+                js_word!("slot") => Display::Contents,
 
-                    _ => Display::Inline,
-                }
-            }
-            Namespace::SVG => match tag_name {
-                "text" | "foreignObject" => Display::Block,
-
+                _ => Display::Inline,
+            },
+            Namespace::SVG => match *tag_name {
+                js_word!("text") | js_word!("foreignObject") => Display::Block,
                 _ => Display::Inline,
             },
             _ => Display::Inline,
         }
     }
 
-    fn is_element_displayed(&self, namespace: Namespace, tag_name: &str) -> bool {
+    fn is_element_displayed(&self, namespace: Namespace, tag_name: &JsWord) -> bool {
         match namespace {
             Namespace::HTML => {
                 // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#metadata_content
@@ -732,11 +842,17 @@ impl Minifier<'_> {
                 // `noscript` - can be displayed if JavaScript disabled
                 // `script` - can insert markup using `document.write`
                 !matches!(
-                    tag_name,
-                    "base" | "command" | "link" | "meta" | "style" | "title" | "template"
+                    *tag_name,
+                    js_word!("base")
+                        | js_word!("command")
+                        | js_word!("link")
+                        | js_word!("meta")
+                        | js_word!("style")
+                        | js_word!("title")
+                        | js_word!("template")
                 )
             }
-            Namespace::SVG => !matches!(tag_name, "style"),
+            Namespace::SVG => !matches!(*tag_name, js_word!("style")),
             _ => true,
         }
     }
@@ -913,7 +1029,7 @@ impl Minifier<'_> {
     fn get_whitespace_minification_for_tag(
         &self,
         namespace: Namespace,
-        tag_name: &str,
+        tag_name: &JsWord,
     ) -> WhitespaceMinificationMode {
         let default_collapse = match self.options.collapse_whitespaces {
             CollapseWhitespaces::All
@@ -932,8 +1048,8 @@ impl Minifier<'_> {
         };
 
         match namespace {
-            Namespace::HTML => match tag_name {
-                "script" | "style" => WhitespaceMinificationMode {
+            Namespace::HTML => match *tag_name {
+                js_word!("script") | js_word!("style") => WhitespaceMinificationMode {
                     collapse: false,
                     trim: !matches!(
                         self.options.collapse_whitespaces,
@@ -954,31 +1070,32 @@ impl Minifier<'_> {
                     }
                 }
             },
-            Namespace::SVG => match tag_name {
-                "script" | "style" => WhitespaceMinificationMode {
+            Namespace::SVG => match *tag_name {
+                js_word!("script") | js_word!("style") => WhitespaceMinificationMode {
                     collapse: false,
                     trim: true,
                 },
                 // https://svgwg.org/svg2-draft/render.html#Definitions
                 _ if matches!(
-                    tag_name,
-                    "a" | "circle"
-                        | "ellipse"
-                        | "foreignobject"
-                        | "g"
-                        | "image"
-                        | "line"
-                        | "path"
-                        | "polygon"
-                        | "polyline"
-                        | "rect"
-                        | "svg"
-                        | "switch"
-                        | "symbol"
-                        | "text"
-                        | "textpath"
-                        | "tspan"
-                        | "use"
+                    *tag_name,
+                    js_word!("a")
+                        | js_word!("circle")
+                        | js_word!("ellipse")
+                        | js_word!("foreignObject")
+                        | js_word!("g")
+                        | js_word!("image")
+                        | js_word!("line")
+                        | js_word!("path")
+                        | js_word!("polygon")
+                        | js_word!("polyline")
+                        | js_word!("rect")
+                        | js_word!("svg")
+                        | js_word!("switch")
+                        | js_word!("symbol")
+                        | js_word!("text")
+                        | js_word!("textPath")
+                        | js_word!("tspan")
+                        | js_word!("use")
                 ) =>
                 {
                     WhitespaceMinificationMode {
@@ -1107,6 +1224,37 @@ impl Minifier<'_> {
                         let mut is_smart_right_trim = false;
 
                         if matches!(
+        let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
+            match child {
+                Child::Comment(comment) if self.options.remove_comments => {
+                    self.is_preserved_comment(&comment.data)
+                }
+                Child::Element(element)
+                    if self.options.remove_empty_metedata_elements
+                        && (!self.is_element_displayed(element.namespace, &element.tag_name)
+                            || (matches!(element.namespace, Namespace::HTML | Namespace::SVG)
+                                && element.tag_name == js_word!("script"))
+                            || (element.namespace == Namespace::HTML
+                                && element.tag_name == js_word!("noscript")))
+                        && element.attributes.is_empty()
+                        && self.empty_children(&element.children)
+                        && element.content.is_none() =>
+                {
+                    false
+                }
+                Child::Text(text) if text.data.is_empty() => false,
+                Child::Text(text)
+                    if self.need_collapse_whitespace()
+                        && namespace == Namespace::HTML
+                        && matches!(*tag_name, js_word!("html") | js_word!("head"))
+                        && text.data.chars().all(is_whitespace) =>
+                {
+                    false
+                }
+                Child::Text(text)
+                    if !self.descendant_of_pre
+                        && get_white_space(namespace, tag_name) == WhiteSpace::Normal
+                        && matches!(
                             self.options.collapse_whitespaces,
                             CollapseWhitespaces::Smart
                                 | CollapseWhitespaces::OnlyMetadata
@@ -1321,12 +1469,92 @@ impl Minifier<'_> {
                                     if is_template {
                                         false
                                     } else {
+                                if (namespace == Namespace::HTML
+                                    && *tag_name == js_word!("template"))
+                                    || self.is_custom_element(tag_name)
+                                {
+                                    false
+                                } else {
+                                    let parent_display = self.get_display(namespace, tag_name);
+
+                                    match parent_display {
+                                        Display::Inline => {
+                                            if let Some(Child::Text(Text { data, .. })) =
+                                                &self.latest_element
+                                            {
+                                                data.ends_with(is_whitespace)
+                                            } else {
+                                                false
+                                            }
+                                        }
+                                        _ => true,
+                                    }
+                                }
+                            }
+                        };
+
+                        let next = children.get(index + 1);
+                        let next_display = match next {
+                            Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) => Some(self.get_display(*namespace, tag_name)),
+                            Some(Child::Comment(_)) => match need_remove_metadata_whitespaces {
+                                true => None,
+                                _ => Some(Display::None),
+                            },
+                            _ => None,
+                        };
+
+                        let allow_to_trim_right = match next_display {
+                            // Block-level containers:
+                            //
+                            // `Display::Block`    - `display: block flow`
+                            // `Display::ListItem` - `display: block flow list-item`
+                            // `Display::Table`    - `display: block table`
+                            //
+                            // + internal table display (only whitespace characters allowed there)
+                            Some(
+                                Display::Block
+                                | Display::ListItem
+                                | Display::Table
+                                | Display::TableColumnGroup
+                                | Display::TableCaption
+                                | Display::TableColumn
+                                | Display::TableRow
+                                | Display::TableCell
+                                | Display::TableHeaderGroup
+                                | Display::TableRowGroup
+                                | Display::TableFooterGroup,
+                            ) => true,
+                            // These elements are not displayed
+                            Some(Display::None) => {
+                                match &self.get_next_displayed_node(children, index + 1) {
+                                    Some(Child::Text(text)) => text.data.starts_with(is_whitespace),
+                                    Some(Child::Element(element)) => {
+                                        let deep = self
+                                            .get_first_displayed_text_node(&element.children, 0);
+
+                                        if let Some(deep) = deep {
+                                            !deep.data.starts_with(is_whitespace)
+                                        } else {
+                                            false
+                                        }
+                                    }
+                                    _ => {
                                         let parent_display = self.get_display(namespace, tag_name);
 
                                         !matches!(parent_display, Display::Inline)
                                     }
                                 }
                             };
+                            }
+                            Some(_) => false,
+                            None => {
+                                // Template can be used in any place, so let's keep whitespaces
+                                let is_template = namespace == Namespace::HTML
+                                    && *tag_name == js_word!("template");
 
                             if matches!(
                                 self.options.collapse_whitespaces,
@@ -1963,7 +2191,7 @@ impl VisitMut for Minifier<'_> {
 
         // Remove all leading and trailing whitespaces for the `body` element
         if n.namespace == Namespace::HTML
-            && &*n.tag_name == "body"
+            && n.tag_name == js_word!("body")
             && self.need_collapse_whitespace()
         {
             self.remove_leading_and_trailing_whitespaces(&mut n.children, true, true);
@@ -1995,8 +2223,9 @@ impl VisitMut for Minifier<'_> {
             if self.options.remove_empty_attributes {
                 let value = attribute.value.as_ref().unwrap();
 
-                if (matches!(&*attribute.name, "id") && value.is_empty())
-                    || (matches!(&*attribute.name, "class" | "style") && value.is_empty())
+                if (matches!(attribute.name, js_word!("id")) && value.is_empty())
+                    || (matches!(attribute.name, js_word!("class") | js_word!("style"))
+                        && value.is_empty())
                     || self.is_event_handler_attribute(&attribute.name) && value.is_empty()
                 {
                     return false;
@@ -2118,7 +2347,7 @@ impl VisitMut for Minifier<'_> {
                     value = value.chars().skip(11).collect();
                 }
             } else if current_element.namespace == Namespace::HTML
-                && &*current_element.tag_name == "iframe"
+                && current_element.tag_name == js_word!("iframe")
                 && &n.name == "srcdoc"
             {
                 value = match self
@@ -2129,8 +2358,8 @@ impl VisitMut for Minifier<'_> {
                 };
             } else if matches!(current_element.namespace, Namespace::HTML | Namespace::SVG)
                 && matches!(
-                    &*current_element.tag_name,
-                    "style" | "link" | "script" | "input"
+                    current_element.tag_name,
+                    js_word!("style") | js_word!("link") | js_word!("script") | js_word!("input")
                 )
                 && &n.name == "type"
             {
@@ -2151,13 +2380,13 @@ impl VisitMut for Minifier<'_> {
                 Some(minified) => minified,
                 _ => value,
             };
-        } else if self.need_minify_css() && &*n.name == "media" && !value.is_empty() {
+        } else if self.need_minify_css() && n.name == js_word!("media") && !value.is_empty() {
             if let Some(minified) =
                 self.minify_css(value.clone(), CssMinificationMode::MediaQueryList)
             {
                 value = minified;
             }
-        } else if self.need_minify_css() && &*n.name == "style" && !value.is_empty() {
+        } else if self.need_minify_css() && n.name == js_word!("style") && !value.is_empty() {
             if let Some(minified) =
                 self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
             {
