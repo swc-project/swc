@@ -81,7 +81,7 @@ impl<I: Tokens> Parser<I> {
         class_start: BytePos,
         decorators: Vec<Decorator>,
         is_ident_required: bool,
-    ) -> PResult<(Option<Ident>, Class)> {
+    ) -> PResult<(Option<Ident>, Box<Class>)> {
         self.strict_mode().parse_with(|p| {
             expect!(p, "class");
 
@@ -171,7 +171,7 @@ impl<I: Tokens> Parser<I> {
 
             Ok((
                 ident,
-                Class {
+                Box::new(Class {
                     span: Span::new(class_start, end, Default::default()),
                     decorators,
                     is_abstract: false,
@@ -180,7 +180,7 @@ impl<I: Tokens> Parser<I> {
                     super_type_params,
                     body,
                     implements,
-                },
+                }),
             ))
         })
     }
@@ -1447,9 +1447,13 @@ trait OutputType: Sized {
         false
     }
 
-    fn finish_fn(span: Span, ident: Option<Ident>, f: Function) -> Result<Self, SyntaxError>;
+    fn finish_fn(span: Span, ident: Option<Ident>, f: Box<Function>) -> Result<Self, SyntaxError>;
 
-    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Result<Self, SyntaxError>;
+    fn finish_class(
+        span: Span,
+        ident: Option<Ident>,
+        class: Box<Class>,
+    ) -> Result<Self, SyntaxError>;
 }
 
 impl OutputType for Box<Expr> {
@@ -1462,12 +1466,16 @@ impl OutputType for Box<Expr> {
     fn finish_fn(
         _span: Span,
         ident: Option<Ident>,
-        function: Function,
+        function: Box<Function>,
     ) -> Result<Self, SyntaxError> {
         Ok(Box::new(Expr::Fn(FnExpr { ident, function })))
     }
 
-    fn finish_class(_span: Span, ident: Option<Ident>, class: Class) -> Result<Self, SyntaxError> {
+    fn finish_class(
+        _span: Span,
+        ident: Option<Ident>,
+        class: Box<Class>,
+    ) -> Result<Self, SyntaxError> {
         Ok(Box::new(Expr::Class(ClassExpr { ident, class })))
     }
 }
@@ -1478,7 +1486,7 @@ impl OutputType for ExportDefaultDecl {
     fn finish_fn(
         span: Span,
         ident: Option<Ident>,
-        function: Function,
+        function: Box<Function>,
     ) -> Result<Self, SyntaxError> {
         Ok(ExportDefaultDecl {
             span,
@@ -1486,7 +1494,11 @@ impl OutputType for ExportDefaultDecl {
         })
     }
 
-    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Result<Self, SyntaxError> {
+    fn finish_class(
+        span: Span,
+        ident: Option<Ident>,
+        class: Box<Class>,
+    ) -> Result<Self, SyntaxError> {
         Ok(ExportDefaultDecl {
             span,
             decl: DefaultDecl::Class(ClassExpr { ident, class }),
@@ -1500,7 +1512,7 @@ impl OutputType for Decl {
     fn finish_fn(
         _span: Span,
         ident: Option<Ident>,
-        function: Function,
+        function: Box<Function>,
     ) -> Result<Self, SyntaxError> {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
@@ -1511,7 +1523,7 @@ impl OutputType for Decl {
         }))
     }
 
-    fn finish_class(_: Span, ident: Option<Ident>, class: Class) -> Result<Self, SyntaxError> {
+    fn finish_class(_: Span, ident: Option<Ident>, class: Box<Class>) -> Result<Self, SyntaxError> {
         let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
 
         Ok(Decl::Class(ClassDecl {
