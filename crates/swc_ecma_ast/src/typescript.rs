@@ -862,7 +862,7 @@ pub struct TsTypeAliasDecl {
     pub declare: bool,
     pub id: Ident,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
