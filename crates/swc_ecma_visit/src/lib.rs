@@ -1810,7 +1810,7 @@ define!({
     pub struct TsInstantiation {
         pub span: Span,
         pub expr: Box<Expr>,
-        pub type_args: TsTypeParamInstantiation,
+        pub type_args: Box<TsTypeParamInstantiation>,
     }
 
     pub struct ReservedUnused {
