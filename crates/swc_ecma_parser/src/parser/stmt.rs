@@ -660,7 +660,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         assert_and_bump!(self, "try");
 
-        let block = self.parse_block(false)?;
+        let block = self.parse_block(false).map(Box::new)?;
 
         let catch_start = cur_pos!(self);
         let handler = self.parse_catch_clause()?;
@@ -682,7 +682,7 @@ impl<'a, I: Tokens> Parser<I> {
         }))
     }
 
-    fn parse_catch_clause(&mut self) -> PResult<Option<CatchClause>> {
+    fn parse_catch_clause(&mut self) -> PResult<Option<Box<CatchClause>>> {
         let start = cur_pos!(self);
 
         Ok(if eat!(self, "catch") {
@@ -694,13 +694,14 @@ impl<'a, I: Tokens> Parser<I> {
                     param,
                     body,
                 })
+                .map(Box::new)
                 .map(Some)?
         } else {
             None
         })
     }
 
-    fn parse_finally_block(&mut self) -> PResult<Option<BlockStmt>> {
+    fn parse_finally_block(&mut self) -> PResult<Option<Box<BlockStmt>>> {
         Ok(if eat!(self, "finally") {
             self.parse_block(false).map(Some)?
         } else {
