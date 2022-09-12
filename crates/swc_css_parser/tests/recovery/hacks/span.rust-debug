@@ -15721,7 +15721,7 @@
      :    ^
      `----
 
-  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:250:1]
  250 | a{*b:c}
      :    ^
