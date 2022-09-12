@@ -583,7 +583,7 @@ pub struct TsTupleElement {
     pub span: Span,
     /// `Ident` or `RestPat { arg: Ident }`
     pub label: Option<Pat>,
-    pub ty: TsType,
+    pub ty: Box<TsType>,
 }
 
 #[ast_node("TsOptionalType")]
