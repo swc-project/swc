@@ -77,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('template' type=dynamic),
+                            value: Atom('template' type=static),
                         },
                     },
                 ),

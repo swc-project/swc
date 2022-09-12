@@ -139,7 +139,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=inline),
+                    value: Atom('param' type=static),
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -177,7 +177,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('*' type=inline),
+                            value: Atom('*' type=static),
                         },
                     },
                 ),
@@ -353,7 +353,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=inline),
+                    value: Atom('param' type=static),
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -516,7 +516,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=inline),
+                    value: Atom('param' type=static),
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -679,7 +679,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=inline),
+                    value: Atom('param' type=static),
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -742,7 +742,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=inline),
+                    value: Atom('param' type=static),
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -805,7 +805,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=inline),
+                    value: Atom('param' type=static),
                 },
                 tag: Parameter(
                     ParameterTag {

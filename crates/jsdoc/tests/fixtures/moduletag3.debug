@@ -102,7 +102,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('desc' type=inline),
+                    value: Atom('desc' type=static),
                 },
                 tag: Description(
                     DescriptionTag {
@@ -314,7 +314,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=inline),
+                    value: Atom('param' type=static),
                 },
                 tag: Parameter(
                     ParameterTag {
