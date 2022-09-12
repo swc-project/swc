@@ -231,12 +231,12 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
         create_dir_all(&src_path)?;
         fs::write(
             &src_path.join("lib.rs"),
-            r##"use swc_core::{
+            r##"use swc_core::ecma::{
     ast::Program,
-    plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
-    testing_transform::test,
+    transforms::testing::test
     visit::{as_folder, FoldWith, VisitMut},
 };
+use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 
 pub struct TransformVisitor;
 
