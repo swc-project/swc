@@ -20,13 +20,13 @@ use std::{
     hash::Hash,
     ops::Deref,
     rc::Rc,
-    sync::Arc,
 };
 
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
 use rustc_hash::FxHashSet;
 use serde::Serializer;
+use triomphe::Arc;
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
@@ -103,6 +103,16 @@ macro_rules! impl_from {
     };
 }
 
+macro_rules! impl_from_deref {
+    ($T:ty) => {
+        impl From<$T> for Atom {
+            fn from(s: $T) -> Self {
+                Atom::new(&*s)
+            }
+        }
+    };
+}
+
 impl PartialEq<str> for Atom {
     fn eq(&self, other: &str) -> bool {
         &*self.0 == other
@@ -111,16 +121,16 @@ impl PartialEq<str> for Atom {
 
 impl_eq!(&'_ str);
 impl_eq!(Box<str>);
-impl_eq!(Arc<str>);
+impl_eq!(std::sync::Arc<str>);
 impl_eq!(Rc<str>);
 impl_eq!(Cow<'_, str>);
 impl_eq!(String);
 impl_eq!(JsWord);
 
 impl_from!(&'_ str);
-impl_from!(Box<str>);
+impl_from_deref!(Box<str>);
 impl_from!(Arc<str>);
-impl_from!(Cow<'_, str>);
+impl_from_deref!(Cow<'_, str>);
 impl_from!(String);
 
 impl From<JsWord> for Atom {
