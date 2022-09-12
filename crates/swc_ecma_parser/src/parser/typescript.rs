@@ -815,7 +815,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseModuleOrNamespaceDeclaration`
-    fn parse_ts_module_or_ns_decl(&mut self, start: BytePos) -> PResult<TsModuleDecl> {
+    fn parse_ts_module_or_ns_decl(&mut self, start: BytePos) -> PResult<Box<TsModuleDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -847,7 +847,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseAmbientExternalModuleDeclaration`
-    fn parse_ts_ambient_external_module_decl(&mut self, start: BytePos) -> PResult<TsModuleDecl> {
+    fn parse_ts_ambient_external_module_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<Box<TsModuleDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let (global, id) = if is!(self, "global") {
@@ -2440,6 +2443,7 @@ impl<I: Tokens> Parser<I> {
                         },
                         ..decl
                     })
+                    .map(Box::new)
                     .map(From::from)
                     .map(Some);
             }
@@ -2454,6 +2458,7 @@ impl<I: Tokens> Parser<I> {
                         },
                         ..decl
                     })
+                    .map(Box::new)
                     .map(From::from)
                     .map(Some);
             }
