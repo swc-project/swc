@@ -501,8 +501,8 @@ define!({
         pub body: Vec<ClassMember>,
         pub super_class: Option<Box<Expr>>,
         pub is_abstract: bool,
-        pub type_params: Option<TsTypeParamDecl>,
-        pub super_type_params: Option<TsTypeParamInstantiation>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
+        pub super_type_params: Option<Box<TsTypeParamInstantiation>>,
         pub implements: Vec<TsExprWithTypeArgs>,
     }
 
@@ -742,13 +742,13 @@ define!({
         pub span: Span,
         pub callee: Callee,
         pub args: Vec<ExprOrSpread>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct NewExpr {
         pub span: Span,
         pub callee: Box<Expr>,
         pub args: Option<Vec<ExprOrSpread>>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct SeqExpr {
         pub span: Span,
@@ -760,7 +760,7 @@ define!({
         pub body: BlockStmtOrExpr,
         pub is_async: bool,
         pub is_generator: bool,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
         pub return_type: Option<TsTypeAnn>,
     }
     pub struct YieldExpr {
@@ -788,7 +788,7 @@ define!({
     pub struct TaggedTpl {
         pub span: Span,
         pub tag: Box<Expr>,
-        pub type_params: Option<TsTypeParamInstantiation>,
+        pub type_params: Option<Box<TsTypeParamInstantiation>>,
         pub tpl: Tpl,
     }
     pub struct TplElement {
@@ -837,7 +837,7 @@ define!({
         pub span: Span,
         pub callee: Box<Expr>,
         pub args: Vec<ExprOrSpread>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct Function {
         pub params: Vec<Param>,
@@ -846,7 +846,7 @@ define!({
         pub body: Option<BlockStmt>,
         pub is_generator: bool,
         pub is_async: bool,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
         pub return_type: Option<TsTypeAnn>,
     }
     pub struct Param {
@@ -912,7 +912,7 @@ define!({
         pub span: Span,
         pub attrs: Vec<JSXAttrOrSpread>,
         pub self_closing: bool,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub enum JSXAttrOrSpread {
         JSXAttr(JSXAttr),
@@ -1442,13 +1442,13 @@ define!({
         pub span: Span,
         pub params: Vec<TsFnParam>,
         pub type_ann: Option<TsTypeAnn>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
     }
     pub struct TsConstructSignatureDecl {
         pub span: Span,
         pub params: Vec<TsFnParam>,
         pub type_ann: Option<TsTypeAnn>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
     }
     pub struct TsPropertySignature {
         pub span: Span,
@@ -1459,7 +1459,7 @@ define!({
         pub init: Option<Box<Expr>>,
         pub params: Vec<TsFnParam>,
         pub type_ann: Option<TsTypeAnn>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
     }
 
     pub struct TsGetterSignature {
@@ -1487,7 +1487,7 @@ define!({
         pub optional: bool,
         pub params: Vec<TsFnParam>,
         pub type_ann: Option<TsTypeAnn>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
     }
     pub struct TsIndexSignature {
         pub params: Vec<TsFnParam>,
@@ -1553,20 +1553,20 @@ define!({
     pub struct TsFnType {
         pub span: Span,
         pub params: Vec<TsFnParam>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
         pub type_ann: TsTypeAnn,
     }
     pub struct TsConstructorType {
         pub span: Span,
         pub params: Vec<TsFnParam>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
         pub type_ann: TsTypeAnn,
         pub is_abstract: bool,
     }
     pub struct TsTypeRef {
         pub span: Span,
         pub type_name: TsEntityName,
-        pub type_params: Option<TsTypeParamInstantiation>,
+        pub type_params: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct TsTypePredicate {
         pub span: Span,
@@ -1581,7 +1581,7 @@ define!({
     pub struct TsTypeQuery {
         pub span: Span,
         pub expr_name: TsTypeQueryExpr,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub enum TsTypeQueryExpr {
         TsEntityName(TsEntityName),
@@ -1591,7 +1591,7 @@ define!({
         pub span: Span,
         pub arg: Str,
         pub qualifier: Option<TsEntityName>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct TsTypeLit {
         pub span: Span,
@@ -1697,7 +1697,7 @@ define!({
         pub span: Span,
         pub id: Ident,
         pub declare: bool,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
         pub extends: Vec<TsExprWithTypeArgs>,
         pub body: TsInterfaceBody,
     }
@@ -1708,13 +1708,13 @@ define!({
     pub struct TsExprWithTypeArgs {
         pub span: Span,
         pub expr: Box<Expr>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct TsTypeAliasDecl {
         pub span: Span,
         pub declare: bool,
         pub id: Ident,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
         pub type_ann: Box<TsType>,
     }
     pub struct TsEnumDecl {
