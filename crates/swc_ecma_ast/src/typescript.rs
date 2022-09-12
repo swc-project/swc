@@ -187,7 +187,7 @@ pub struct TsPropertySignature {
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<TsTypeAnn>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
 #[ast_node("TsGetterSignature")]
@@ -228,7 +228,7 @@ pub struct TsMethodSignature {
     #[serde(default)]
     pub type_ann: Option<TsTypeAnn>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
 #[ast_node("TsIndexSignature")]
