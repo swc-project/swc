@@ -837,13 +837,13 @@ impl<I: Tokens> Parser<I> {
             self.parse_ts_module_block().map(From::from)?
         };
 
-        Ok(TsModuleDecl {
+        Ok(Box::new(TsModuleDecl {
             span: span!(self, start),
             declare: false,
             id: TsModuleName::Ident(id),
             body: Some(body),
             global: false,
-        })
+        }))
     }
 
     /// `tsParseAmbientExternalModuleDeclaration`
@@ -873,13 +873,13 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        Ok(TsModuleDecl {
+        Ok(Box::new(TsModuleDecl {
             span: span!(self, start),
             declare: false,
             id,
             global,
             body,
-        })
+        }))
     }
 
     pub fn parse_type(&mut self) -> PResult<Box<TsType>> {
@@ -2441,7 +2441,7 @@ impl<I: Tokens> Parser<I> {
                             lo: declare_start,
                             ..decl.span
                         },
-                        ..decl
+                        ..*decl
                     })
                     .map(Box::new)
                     .map(From::from)
@@ -2456,7 +2456,7 @@ impl<I: Tokens> Parser<I> {
                             lo: declare_start,
                             ..decl.span
                         },
-                        ..decl
+                        ..*decl
                     })
                     .map(Box::new)
                     .map(From::from)
