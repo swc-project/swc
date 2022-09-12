@@ -779,7 +779,7 @@ pub struct CallExpr {
     pub args: Vec<ExprOrSpread>,
 
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
@@ -806,7 +806,7 @@ pub struct NewExpr {
     pub args: Option<Vec<ExprOrSpread>>,
 
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
@@ -1378,7 +1378,7 @@ pub struct OptCall {
     pub args: Vec<ExprOrSpread>,
 
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
