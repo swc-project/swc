@@ -467,7 +467,7 @@ pub struct TsFnType {
     pub params: Vec<TsFnParam>,
 
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
     pub type_ann: TsTypeAnn,
 }
@@ -479,7 +479,7 @@ pub struct TsConstructorType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
     pub type_ann: TsTypeAnn,
     pub is_abstract: bool,
