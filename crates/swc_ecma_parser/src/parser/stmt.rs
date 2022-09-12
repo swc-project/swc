@@ -746,7 +746,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<VarDecl> {
+    pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<Box<VarDecl>> {
         let start = cur_pos!(self);
         let kind = match bump!(self) {
             tok!("const") => VarDeclKind::Const,

@@ -1033,7 +1033,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseInterfaceDeclaration`
-    pub(super) fn parse_ts_interface_decl(&mut self, start: BytePos) -> PResult<TsInterfaceDecl> {
+    pub(super) fn parse_ts_interface_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<Box<TsInterfaceDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
