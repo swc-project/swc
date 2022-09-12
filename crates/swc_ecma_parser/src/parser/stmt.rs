@@ -781,12 +781,12 @@ impl<'a, I: Tokens> Parser<I> {
                     let span = Span::new(pos, pos, Default::default());
                     self.emit_err(span, SyntaxError::TS1123);
 
-                    return Ok(VarDecl {
+                    return Ok(Box::new(VarDecl {
                         span: span!(self, start),
                         kind,
                         declare: false,
                         decls: vec![],
-                    });
+                    }));
                 }
                 Err(..) => {}
                 _ => {}
@@ -837,12 +837,12 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        Ok(VarDecl {
+        Ok(Box::new(VarDecl {
             span: span!(self, start),
             declare: false,
             kind,
             decls,
-        })
+        }))
     }
 
     fn parse_var_declarator(
@@ -1198,7 +1198,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            return self.parse_for_each_head(VarDeclOrPat::Pat(pat));
+            return self.parse_for_each_head(VarDeclOrPat::Pat(Box::new(pat)));
         }
 
         expect_exact!(self, ';');
