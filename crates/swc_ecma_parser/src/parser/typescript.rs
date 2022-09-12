@@ -2762,12 +2762,8 @@ impl<I: Tokens> Parser<I> {
 
         let cloned = self.input.token_context().clone();
 
-        #[cfg(debug_assertions)]
         self.input
             .set_token_context(TokenContexts(vec![cloned.0[0]]));
-        #[cfg(not(debug_assertions))]
-        self.input
-            .set_token_context(TokenContexts(smallvec::smallvec![cloned.0[0]]));
         let res = op(self);
         self.input.set_token_context(cloned);
 
