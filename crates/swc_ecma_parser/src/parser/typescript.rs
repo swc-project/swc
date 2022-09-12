@@ -1677,7 +1677,7 @@ impl<I: Tokens> Parser<I> {
         let mut seen_optional_element = false;
 
         for elem in elems.iter() {
-            match elem.ty {
+            match *elem.ty {
                 TsType::TsRestType(..) => {}
                 TsType::TsOptionalType(..) => {
                     seen_optional_element = true;
@@ -1747,10 +1747,10 @@ impl<I: Tokens> Parser<I> {
             return Ok(TsTupleElement {
                 span: span!(self, start),
                 label,
-                ty: TsType::TsRestType(TsRestType {
+                ty: Box::new(TsType::TsRestType(TsRestType {
                     span: span!(self, start),
                     type_ann,
-                }),
+                })),
             });
         }
 
@@ -1761,17 +1761,17 @@ impl<I: Tokens> Parser<I> {
             return Ok(TsTupleElement {
                 span: span!(self, start),
                 label,
-                ty: TsType::TsOptionalType(TsOptionalType {
+                ty: Box::new(TsType::TsOptionalType(TsOptionalType {
                     span: span!(self, start),
                     type_ann,
-                }),
+                })),
             });
         }
 
         Ok(TsTupleElement {
             span: span!(self, start),
             label,
-            ty: *ty,
+            ty,
         })
     }
 
