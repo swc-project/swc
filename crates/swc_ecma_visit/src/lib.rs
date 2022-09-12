@@ -548,7 +548,7 @@ define!({
     pub struct ClassMethod {
         pub span: Span,
         pub key: PropName,
-        pub function: Function,
+        pub function: Box<Function>,
         pub kind: MethodKind,
         pub is_static: bool,
         pub accessibility: Option<Accessibility>,
@@ -559,7 +559,7 @@ define!({
     pub struct PrivateMethod {
         pub span: Span,
         pub key: PrivateName,
-        pub function: Function,
+        pub function: Box<Function>,
         pub kind: MethodKind,
         pub is_static: bool,
         pub accessibility: Option<Accessibility>,
@@ -591,21 +591,21 @@ define!({
     pub enum Decl {
         Class(ClassDecl),
         Fn(FnDecl),
-        Var(VarDecl),
-        TsInterface(TsInterfaceDecl),
-        TsTypeAlias(TsTypeAliasDecl),
-        TsEnum(TsEnumDecl),
-        TsModule(TsModuleDecl),
+        Var(Box<VarDecl>),
+        TsInterface(Box<TsInterfaceDecl>),
+        TsTypeAlias(Box<TsTypeAliasDecl>),
+        TsEnum(Box<TsEnumDecl>),
+        TsModule(Box<TsModuleDecl>),
     }
     pub struct FnDecl {
         pub ident: Ident,
         pub declare: bool,
-        pub function: Function,
+        pub function: Box<Function>,
     }
     pub struct ClassDecl {
         pub ident: Ident,
         pub declare: bool,
-        pub class: Class,
+        pub class: Box<Class>,
     }
     pub struct VarDecl {
         pub span: Span,
@@ -701,11 +701,11 @@ define!({
     }
     pub struct FnExpr {
         pub ident: Option<Ident>,
-        pub function: Function,
+        pub function: Box<Function>,
     }
     pub struct ClassExpr {
         pub ident: Option<Ident>,
-        pub class: Class,
+        pub class: Box<Class>,
     }
     pub struct AssignExpr {
         pub span: Span,
@@ -1071,7 +1071,7 @@ define!({
     pub enum DefaultDecl {
         Class(ClassExpr),
         Fn(FnExpr),
-        TsInterfaceDecl(TsInterfaceDecl),
+        TsInterfaceDecl(Box<TsInterfaceDecl>),
     }
     pub enum ImportSpecifier {
         Named(ImportNamedSpecifier),
@@ -1250,7 +1250,7 @@ define!({
     }
     pub struct MethodProp {
         pub key: PropName,
-        pub function: Function,
+        pub function: Box<Function>,
     }
     pub enum PropName {
         Ident(Ident),
@@ -1382,11 +1382,11 @@ define!({
         pub body: BlockStmt,
     }
     pub enum VarDeclOrPat {
-        VarDecl(VarDecl),
+        VarDecl(Box<VarDecl>),
         Pat(Pat),
     }
     pub enum VarDeclOrExpr {
-        VarDecl(VarDecl),
+        VarDecl(Box<VarDecl>),
         Expr(Box<Expr>),
     }
     pub struct TsTypeAnn {
