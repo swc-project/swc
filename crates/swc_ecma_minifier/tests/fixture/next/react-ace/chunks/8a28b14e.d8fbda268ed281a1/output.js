@@ -9074,12 +9074,12 @@
                 }
                 function moveDeltasByOne(redoStack, d) {
                     var d1;
-                    d = (d1 = d, {
+                    d1 = d, d = {
                         start: clonePos(d1.start),
                         end: clonePos(d1.end),
                         action: d1.action,
                         lines: d1.lines.slice()
-                    });
+                    };
                     for(var j = redoStack.length; j--;){
                         for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
                             var xformed = xform(deltaSet[i], d);

@@ -7163,7 +7163,7 @@
                             } else q.e = e, q.r = +more;
                             return q;
                         };
-                    }(), parseNumeric = (basePrefix = /^(-?)0([xbo])(?=\w[\w.]*$)/i, dotAfter = /^([^.]+)\.$/, dotBefore = /^\.([^.]+)$/, isInfinityOrNaN = /^-?(Infinity|NaN)$/, whitespaceOrPlus = /^\s*\+(?=[\w.])|^\s+|\s+$/g, function(x, str, isNum, b) {
+                    }(), basePrefix = /^(-?)0([xbo])(?=\w[\w.]*$)/i, dotAfter = /^([^.]+)\.$/, dotBefore = /^\.([^.]+)$/, isInfinityOrNaN = /^-?(Infinity|NaN)$/, whitespaceOrPlus = /^\s*\+(?=[\w.])|^\s+|\s+$/g, parseNumeric = function(x, str, isNum, b) {
                         var base, s = isNum ? str : str.replace(whitespaceOrPlus, '');
                         if (isInfinityOrNaN.test(s)) x.s = isNaN(s) ? null : s < 0 ? -1 : 1;
                         else {
@@ -7174,7 +7174,7 @@
                             x.s = null;
                         }
                         x.c = x.e = null;
-                    }), P.absoluteValue = P.abs = function() {
+                    }, P.absoluteValue = P.abs = function() {
                         var x = new BigNumber(this);
                         return x.s < 0 && (x.s = 1), x;
                     }, P.comparedTo = function(y, b) {
@@ -7197,7 +7197,7 @@
                             if (m.c ? !m.c[0] : !m.s) return new BigNumber(NaN);
                             (isModExp = !nIsNeg && x.isInteger() && m.isInteger()) && (x = x.mod(m));
                         } else {
-                            if (n.e > 9 && (x.e > 0 || x.e < -1 || (0 == x.e ? x.c[0] > 1 || nIsBig && x.c[1] >= 24e7 : x.c[0] < 8e13 || nIsBig && x.c[0] <= 9999975e7))) return k = (x.s < 0 && isOdd(n), -0), x.e > -1 && (k = 1 / k), new BigNumber(nIsNeg ? 1 / k : k);
+                            if (n.e > 9 && (x.e > 0 || x.e < -1 || (0 == x.e ? x.c[0] > 1 || nIsBig && x.c[1] >= 24e7 : x.c[0] < 8e13 || nIsBig && x.c[0] <= 9999975e7))) return x.s < 0 && isOdd(n), k = -0, x.e > -1 && (k = 1 / k), new BigNumber(nIsNeg ? 1 / k : k);
                             POW_PRECISION && (k = mathceil(POW_PRECISION / LOG_BASE + 2));
                         }
                         for(nIsBig ? (half = new BigNumber(0.5), nIsNeg && (n.s = 1), nIsOdd = isOdd(n)) : nIsOdd = (i = Math.abs(+valueOf(n))) % 2, y = new BigNumber(ONE);;){

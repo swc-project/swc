@@ -607,7 +607,6 @@ sequences/for_sequences/input.js
 sequences/func_def_1/input.js
 sequences/hoist_decl/input.js
 sequences/issue_1758/input.js
-sequences/lift_sequences_2/input.js
 sequences/side_effects_cascade_3/input.js
 switch/if_switch_typeof/input.js
 template_string/regex_2/input.js

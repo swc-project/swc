@@ -1309,9 +1309,9 @@
                     d = !0;
                 }
                 let b1;
-                d || (c = (b1 = "", xa(c, function(c, d) {
+                d || (b1 = "", xa(c, function(c, d) {
                     b1 += d, b1 += ":", b1 += c, b1 += "\r\n";
-                }), b1), "string" == typeof a ? null != c && encodeURIComponent(String(c)) : R(a, b, c));
+                }), c = b1, "string" == typeof a ? null != c && encodeURIComponent(String(c)) : R(a, b, c));
             }
             function Hd(a, b, c) {
                 return c && c.internalChannelParams && c.internalChannelParams[a] || b;
@@ -1459,7 +1459,7 @@
                 if ("" != d1.i) b && Pc(d1, b + "." + d1.i), Qc(d1, d1.m);
                 else {
                     const e1 = l.location;
-                    d1 = (a2 = e1.protocol, b1 = b ? b + "." + e1.hostname : e1.hostname, c1 = +e1.port, d = c, e = new U(null, void 0), a2 && Oc(e, a2), b1 && Pc(e, b1), c1 && Qc(e, c1), d && (e.l = d), e);
+                    a2 = e1.protocol, b1 = b ? b + "." + e1.hostname : e1.hostname, c1 = +e1.port, d = c, e = new U(null, void 0), a2 && Oc(e, a2), b1 && Pc(e, b1), c1 && Qc(e, c1), d && (e.l = d), d1 = e;
                 }
                 return a.aa && xa(a.aa, function(e, f) {
                     R(d1, f, e);

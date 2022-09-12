@@ -1126,6 +1126,8 @@ where
                 }
             }
 
+            Expr::Ident(id) if id.span.ctxt != self.expr_ctx.unresolved_ctxt => return None,
+
             _ => {}
         }
 
@@ -1670,14 +1672,14 @@ where
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: PatOrExpr::Pat(pat),
+                left,
                 right,
                 ..
             }) => {
-                if let Pat::Ident(i) = &mut **pat {
+                if let Some(i) = left.as_ident_mut() {
                     let old = i.to_id();
 
-                    self.store_var_for_inlining(&mut i.id, right, false, false);
+                    self.store_var_for_inlining(i, right, false, false);
 
                     if right.is_invalid() {
                         if let Some(lit) = self
@@ -1690,6 +1692,8 @@ where
                         }
                     }
                 }
+
+                self.lift_seqs_of_assign(e)
             }
 
             _ => {}
@@ -2249,8 +2253,6 @@ where
         self.shift_assignment(n);
 
         self.merge_sequences_in_seq_expr(n);
-
-        self.lift_seqs_of_assign(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
