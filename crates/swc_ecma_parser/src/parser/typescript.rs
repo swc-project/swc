@@ -437,7 +437,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ts_type_params(
         &mut self,
         allow_modifier: bool,
-    ) -> PResult<TsTypeParamDecl> {
+    ) -> PResult<Box<TsTypeParamDecl>> {
         self.in_type().parse_with(|p| {
             p.ts_in_no_context(|p| {
                 let start = cur_pos!(p);
@@ -455,10 +455,10 @@ impl<I: Tokens> Parser<I> {
                     true,
                 )?;
 
-                Ok(TsTypeParamDecl {
+                Ok(Box::new(TsTypeParamDecl {
                     span: span!(p, start),
                     params,
-                })
+                }))
             })
         })
     }
@@ -1974,7 +1974,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn try_parse_ts_type_params(
         &mut self,
         allow_modifier: bool,
-    ) -> PResult<Option<TsTypeParamDecl>> {
+    ) -> PResult<Option<Box<TsTypeParamDecl>>> {
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }
@@ -2649,7 +2649,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeArguments`
-    pub fn parse_ts_type_args(&mut self) -> PResult<TsTypeParamInstantiation> {
+    pub fn parse_ts_type_args(&mut self) -> PResult<Box<TsTypeParamInstantiation>> {
         trace_cur!(self, parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
 
