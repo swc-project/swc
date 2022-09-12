@@ -378,12 +378,18 @@ where
         if !export_obj_prop_list.is_empty() && !is_export_assign {
             export_obj_prop_list.sort_by_key(|prop| prop.span());
 
-            if is_node {
-                export_stmts.extend(self.emit_lexer_exports_init(&export_obj_prop_list));
-            }
-
-            let features = self.available_features;
+            let mut features = self.available_features;
             let exports = self.exports();
+
+            if is_node {
+                if export_obj_prop_list.len() > 1 {
+                    export_stmts.extend(self.emit_lexer_exports_init(&export_obj_prop_list));
+                } else {
+                    // `cjs-module-lexer` does not support `get: ()=> foo`
+                    // see https://github.com/nodejs/cjs-module-lexer/pull/74
+                    features -= FeatureFlag::ArrowFunctions;
+                }
+            }
 
             export_stmts.extend(emit_export_stmts(features, exports, export_obj_prop_list));
         }
