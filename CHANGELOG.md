@@ -5,6 +5,9 @@
 
 
 
+- **(cli)** Update the plugin template (#5824) ([969ecde](https://github.com/swc-project/swc/commit/969ecdee3d63b2f4b9ffc7f854d25ceb5bff32f4))
+
+
 - **(css/minifier)** Compress alpha (#5825) ([b531410](https://github.com/swc-project/swc/commit/b531410ea90f38da7e491862097cf7a2dea51fe9))
 
 
