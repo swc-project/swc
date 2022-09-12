@@ -247,13 +247,13 @@ pub struct ThrowStmt {
 pub struct TryStmt {
     pub span: Span,
 
-    pub block: BlockStmt,
+    pub block: Box<BlockStmt>,
 
     #[serde(default)]
     pub handler: Option<Box<CatchClause>>,
 
     #[serde(default)]
-    pub finalizer: Option<BlockStmt>,
+    pub finalizer: Option<Box<BlockStmt>>,
 }
 
 #[ast_node("WhileStatement")]
@@ -375,7 +375,7 @@ pub struct CatchClause {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum VarDeclOrPat {
     #[tag("VariableDeclaration")]
-    VarDecl(VarDecl),
+    VarDecl(Box<VarDecl>),
 
     #[tag("*")]
     Pat(Box<Pat>),
@@ -393,7 +393,7 @@ impl Take for VarDeclOrPat {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum VarDeclOrExpr {
     #[tag("VariableDeclaration")]
-    VarDecl(VarDecl),
+    VarDecl(Box<VarDecl>),
 
     #[tag("*")]
     Expr(Box<Expr>),
