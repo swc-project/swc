@@ -807,7 +807,10 @@ impl<I: Tokens> Parser<I> {
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
         {
-            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+            Some(
+                self.parse_ts_type_or_type_predicate_ann(&tok!(':'))
+                    .map(Box::new)?,
+            )
         } else {
             None
         };
@@ -986,7 +989,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_tagged_tpl(
         &mut self,
         tag: Box<Expr>,
-        type_params: Option<TsTypeParamInstantiation>,
+        type_params: Option<Box<TsTypeParamInstantiation>>,
     ) -> PResult<TaggedTpl> {
         let tagged_tpl_start = tag.span_lo();
         trace_cur!(self, parse_tagged_tpl);
