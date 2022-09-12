@@ -157,7 +157,7 @@ pub struct TsCallSignatureDecl {
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<TsTypeAnn>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
 #[ast_node("TsConstructSignatureDeclaration")]
@@ -169,7 +169,7 @@ pub struct TsConstructSignatureDecl {
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<TsTypeAnn>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
 #[ast_node("TsPropertySignature")]
