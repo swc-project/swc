@@ -521,7 +521,7 @@ define!({
         pub span: Span,
         pub key: PropName,
         pub value: Option<Box<Expr>>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
         pub accessibility: Option<Accessibility>,
