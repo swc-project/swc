@@ -2671,10 +2671,10 @@ impl<I: Tokens> Parser<I> {
         // `<C<number> />`, so set exprAllowed = false
         self.input.set_expr_allowed(false);
         expect!(self, '>');
-        Ok(TsTypeParamInstantiation {
+        Ok(Box::new(TsTypeParamInstantiation {
             span: span!(self, start),
             params,
-        })
+        }))
     }
 
     /// `tsParseIntersectionTypeOrHigher`

@@ -1075,7 +1075,7 @@ impl<I: Tokens> Parser<I> {
         decorators: Vec<Decorator>,
         is_fn_expr: bool,
         is_ident_required: bool,
-    ) -> PResult<(Option<Ident>, Function)> {
+    ) -> PResult<(Option<Ident>, Box<Function>)> {
         let start = start_of_async.unwrap_or_else(|| cur_pos!(self));
         assert_and_bump!(self, "function");
         let is_async = start_of_async.is_some();
@@ -1250,7 +1250,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            Ok(Function {
+            Ok(Box::new(Function {
                 span: span!(p, start),
                 decorators,
                 type_params,
@@ -1259,7 +1259,7 @@ impl<I: Tokens> Parser<I> {
                 is_async,
                 is_generator,
                 return_type,
-            })
+            }))
         })
     }
 
