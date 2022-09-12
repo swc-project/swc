@@ -1085,14 +1085,14 @@ impl<I: Tokens> Parser<I> {
             span: span!(self, body_start),
             body,
         };
-        Ok(TsInterfaceDecl {
+        Ok(Box::new(TsInterfaceDecl {
             span: span!(self, start),
             declare: false,
             id,
             type_params,
             extends,
             body,
-        })
+        }))
     }
 
     /// `tsParseTypeAliasDeclaration`
@@ -1118,7 +1118,7 @@ impl<I: Tokens> Parser<I> {
         start: BytePos,
         is_export: bool,
         is_type_only: bool,
-    ) -> PResult<TsImportEqualsDecl> {
+    ) -> PResult<Box<TsImportEqualsDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
