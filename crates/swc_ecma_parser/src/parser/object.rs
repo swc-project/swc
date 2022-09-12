@@ -73,7 +73,7 @@ impl<I: Tokens> Parser<I> {
                 Token::BigInt { .. } => match bump!(p) {
                     Token::BigInt { value, raw } => PropName::BigInt(BigInt {
                         span: span!(p, start),
-                        value,
+                        value: *value,
                         raw: Some(raw),
                     }),
                     _ => unreachable!(),

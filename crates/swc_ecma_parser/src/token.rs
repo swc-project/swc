@@ -126,7 +126,7 @@ pub enum Token {
 
     #[kind(starts_expr)]
     BigInt {
-        value: BigIntValue,
+        value: Box<BigIntValue>,
         raw: Atom,
     },
 

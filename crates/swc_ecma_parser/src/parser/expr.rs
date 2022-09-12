@@ -1919,7 +1919,7 @@ impl<I: Tokens> Parser<I> {
             Token::BigInt { .. } => match bump!(self) {
                 Token::BigInt { value, raw } => Lit::BigInt(BigInt {
                     span: span!(self, start),
-                    value,
+                    value: *value,
                     raw: Some(raw),
                 }),
                 _ => unreachable!(),
