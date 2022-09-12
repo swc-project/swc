@@ -492,7 +492,7 @@ pub struct TsTypeRef {
     pub span: Span,
     pub type_name: TsEntityName,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamInstantiation>,
+    pub type_params: Option<Box<TsTypeParamInstantiation>>,
 }
 
 #[ast_node("TsTypePredicate")]
