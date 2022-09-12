@@ -117,7 +117,7 @@ pub struct JSXOpeningElement {
     /// Note: This field's name is different from one from babel because it is
     /// misleading
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
 impl Take for JSXOpeningElement {
