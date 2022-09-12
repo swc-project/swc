@@ -2344,13 +2344,13 @@ impl<I: Tokens> Parser<I> {
                         .map(TsNamespaceBody::from)
                         .map(Some)?;
                     Ok(Some(
-                        TsModuleDecl {
+                        Box::new(TsModuleDecl {
                             span: span!(self, start),
                             global,
                             declare: false,
                             id,
                             body,
-                        }
+                        })
                         .into(),
                     ))
                 } else {
