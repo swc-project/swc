@@ -23,7 +23,7 @@ pub enum Decl {
     #[is(name = "fn_decl")]
     Fn(FnDecl),
     #[tag("VariableDeclaration")]
-    Var(VarDecl),
+    Var(Box<VarDecl>),
     #[tag("TsInterfaceDeclaration")]
     TsInterface(Box<TsInterfaceDecl>),
     #[tag("TsTypeAliasDeclaration")]

@@ -78,7 +78,7 @@ pub struct ImportDecl {
     pub specifiers: Vec<ImportSpecifier>,
 
     #[serde(rename = "source")]
-    pub src: Str,
+    pub src: Box<Str>,
 
     #[serde(default, rename = "typeOnly")]
     pub type_only: bool,
@@ -107,7 +107,7 @@ pub struct ExportAll {
     pub span: Span,
 
     #[serde(rename = "source")]
-    pub src: Str,
+    pub src: Box<Str>,
 
     #[serde(default)]
     pub asserts: Option<Box<ObjectLit>>,
@@ -134,7 +134,7 @@ pub struct NamedExport {
     pub specifiers: Vec<ExportSpecifier>,
 
     #[serde(rename = "source")]
-    pub src: Option<Str>,
+    pub src: Option<Box<Str>>,
 
     #[serde(rename = "typeOnly")]
     pub type_only: bool,
