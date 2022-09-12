@@ -526,7 +526,7 @@ pub struct TsTypeQuery {
     pub span: Span,
     pub expr_name: TsTypeQueryExpr,
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
 #[ast_node]
