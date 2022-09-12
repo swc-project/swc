@@ -1087,5 +1087,5 @@ pub struct TsInstantiation {
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,
     #[serde(rename = "typeArguments")]
-    pub type_args: TsTypeParamInstantiation,
+    pub type_args: Box<TsTypeParamInstantiation>,
 }
