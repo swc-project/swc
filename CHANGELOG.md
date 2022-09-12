@@ -25,6 +25,9 @@
 
 - **(swc_core)** Export `swc_common/sourcemap` (#5818) ([2819be5](https://github.com/swc-project/swc/commit/2819be5aac9d341bfb57335b5c9f96c267f9883d))
 
+
+- **(swc_core)** Export testing utilities (#5839) ([856d741](https://github.com/swc-project/swc/commit/856d741ec77f46eb04be8489a3a18340269dbe4d))
+
 ### Performance
 
 
