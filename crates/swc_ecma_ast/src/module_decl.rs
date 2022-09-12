@@ -33,7 +33,7 @@ pub enum ModuleDecl {
     ExportAll(ExportAll),
 
     #[tag("TsImportEqualsDeclaration")]
-    TsImportEquals(TsImportEqualsDecl),
+    TsImportEquals(Box<TsImportEqualsDecl>),
 
     #[tag("TsExportAssignment")]
     TsExportAssignment(TsExportAssignment),
@@ -84,7 +84,7 @@ pub struct ImportDecl {
     pub type_only: bool,
 
     #[serde(default)]
-    pub asserts: Option<ObjectLit>,
+    pub asserts: Option<Box<ObjectLit>>,
 }
 
 impl Take for ImportDecl {
@@ -110,7 +110,7 @@ pub struct ExportAll {
     pub src: Str,
 
     #[serde(default)]
-    pub asserts: Option<ObjectLit>,
+    pub asserts: Option<Box<ObjectLit>>,
 }
 
 impl Take for ExportAll {
@@ -140,7 +140,7 @@ pub struct NamedExport {
     pub type_only: bool,
 
     #[serde(default)]
-    pub asserts: Option<ObjectLit>,
+    pub asserts: Option<Box<ObjectLit>>,
 }
 
 impl Take for NamedExport {
