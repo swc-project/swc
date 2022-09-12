@@ -150,6 +150,9 @@ css_utils      = ["__css", "swc_css_utils"]
 css_visit      = ["__css", "swc_css_visit"]
 css_visit_path = ["__css", "swc_css_visit/path"]
 
+# Utilities for testing.
+testing = ["dep:testing"]
+
 # Enable trace macro support.
 # TODO: Once all top-level package (node, wasm, cli..) imports swc_core,
 # we may encapsulate `tracing` package into swc_core.
@@ -333,11 +336,9 @@ swc_plugin                       = { optional = true, version = "0.90.0", path =
 swc_plugin_macro                 = { optional = true, version = "0.9.8", path = "../swc_plugin_macro" }
 swc_plugin_proxy                 = { optional = true, version = "0.19.3", path = "../swc_plugin_proxy" }
 swc_trace_macro                  = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
+testing                          = { optional = true, version = "0.30.2", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
 swc_plugin_runner = { optional = true, version = "0.74.6", path = "../swc_plugin_runner", default-features = false }
-
-[dev-dependencies]
-testing = { version = "0.30.2", path = "../testing" }
 
 [build-dependencies]
 vergen = { version = "7.3.2", default-features = false, features = ["cargo"] }
