@@ -2394,13 +2394,13 @@ impl<I: Tokens> Parser<I> {
                     .map(|decl| match decl {
                         Decl::Fn(f) => Decl::Fn(FnDecl {
                             declare: true,
-                            function: Function {
+                            function: Box::new(Function {
                                 span: Span {
                                     lo: declare_start,
                                     ..f.function.span
                                 },
-                                ..f.function
-                            },
+                                ..*f.function
+                            }),
                             ..f
                         }),
                         _ => decl,
@@ -2414,13 +2414,13 @@ impl<I: Tokens> Parser<I> {
                     .map(|decl| match decl {
                         Decl::Class(c) => Decl::Class(ClassDecl {
                             declare: true,
-                            class: Class {
+                            class: Box::new(Class {
                                 span: Span {
                                     lo: declare_start,
                                     ..c.class.span
                                 },
-                                ..c.class
-                            },
+                                ..*c.class
+                            }),
                             ..c
                         }),
                         _ => decl,
