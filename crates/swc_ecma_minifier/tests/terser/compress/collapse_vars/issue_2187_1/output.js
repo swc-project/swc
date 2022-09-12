@@ -1,8 +1,7 @@
 var a = 1;
 !function(foo) {
     foo();
-    var a = 2;
-    console.log(a);
+    console.log(2);
 }(function() {
     console.log(a);
 });

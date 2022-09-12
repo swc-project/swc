@@ -4,8 +4,7 @@ function charat(value, index) {
     return 0 | value.charCodeAt(index);
 }
 export function prefix(value, length) {
-    var value1;
-    switch((((length << 2 ^ charat(value1 = value, 0)) << 2 ^ charat(value1, 1)) << 2 ^ charat(value1, 2)) << 2 ^ charat(value1, 3)){
+    switch((((length << 2 ^ charat(value, 0)) << 2 ^ charat(value, 1)) << 2 ^ charat(value, 2)) << 2 ^ charat(value, 3)){
         case 5103:
             return WEBKIT + "print-" + value + value;
         case 5737:

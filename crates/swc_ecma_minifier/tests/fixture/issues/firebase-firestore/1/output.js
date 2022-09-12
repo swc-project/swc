@@ -532,7 +532,6 @@
                 return "nullValue" in t ? 0 : "booleanValue" in t ? 1 : "integerValue" in t || "doubleValue" in t ? 2 : "timestampValue" in t ? 3 : "stringValue" in t ? 5 : "bytesValue" in t ? 6 : "referenceValue" in t ? 7 : "geoPointValue" in t ? 8 : "arrayValue" in t ? 9 : "mapValue" in t ? Tt(t) ? 4 : 10 : L();
             }
             function Vt(t, e) {
-                var t1, e1, t2, e2;
                 const n = vt(t);
                 if (n !== vt(e)) return !1;
                 switch(n){
@@ -551,11 +550,11 @@
                     case 5:
                         return t.stringValue === e.stringValue;
                     case 6:
-                        return t1 = t, e1 = e, pt(t1.bytesValue).isEqual(pt(e1.bytesValue));
+                        return pt(t.bytesValue).isEqual(pt(e.bytesValue));
                     case 7:
                         return t.referenceValue === e.referenceValue;
                     case 8:
-                        return t2 = t, e2 = e, yt(t2.geoPointValue.latitude) === yt(e2.geoPointValue.latitude) && yt(t2.geoPointValue.longitude) === yt(e2.geoPointValue.longitude);
+                        return yt(t.geoPointValue.latitude) === yt(e.geoPointValue.latitude) && yt(t.geoPointValue.longitude) === yt(e.geoPointValue.longitude);
                     case 2:
                         return function(t, e) {
                             if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
@@ -841,13 +840,7 @@
                 const e = t;
                 if (null === e.A) {
                     let t1 = e.path.canonicalString();
-                    null !== e.collectionGroup && (t1 += "|cg:" + e.collectionGroup), t1 += "|f:", t1 += e.filters.map((t)=>{
-                        var t1;
-                        return (t1 = t).field.canonicalString() + t1.op.toString() + xt(t1.value);
-                    }).join(","), t1 += "|ob:", t1 += e.orderBy.map((t)=>{
-                        var t1;
-                        return (t1 = t).field.canonicalString() + t1.dir;
-                    }).join(","), At(e.limit) || (t1 += "|l:", t1 += e.limit), e.startAt && (t1 += "|lb:", t1 += ce(e.startAt)), e.endAt && (t1 += "|ub:", t1 += ce(e.endAt)), e.A = t1;
+                    null !== e.collectionGroup && (t1 += "|cg:" + e.collectionGroup), t1 += "|f:", t1 += e.filters.map((t)=>t.field.canonicalString() + t.op.toString() + xt(t.value)).join(","), t1 += "|ob:", t1 += e.orderBy.map((t)=>t.field.canonicalString() + t.dir).join(","), At(e.limit) || (t1 += "|l:", t1 += e.limit), e.startAt && (t1 += "|lb:", t1 += ce(e.startAt)), e.endAt && (t1 += "|ub:", t1 += ce(e.endAt)), e.A = t1;
                 }
                 return e.A;
             }
@@ -1064,16 +1057,9 @@
             function be(t) {
                 var t1;
                 let e;
-                return `Query(target=${e = (t1 = Ee(t)).path.canonicalString(), null !== t1.collectionGroup && (e += " collectionGroup=" + t1.collectionGroup), t1.filters.length > 0 && (e += `, filters: [${t1.filters.map((t)=>{
-                    var e;
-                    return `${(e = t).field.canonicalString()} ${e.op} ${xt(e.value)}`;
-                }).join(", ")}]`), At(t1.limit) || (e += ", limit: " + t1.limit), t1.orderBy.length > 0 && (e += `, orderBy: [${t1.orderBy.map((t)=>{
-                    var t1;
-                    return t1 = t, `${t1.field.canonicalString()} (${t1.dir})`;
-                }).join(", ")}]`), t1.startAt && (e += ", startAt: " + ce(t1.startAt)), t1.endAt && (e += ", endAt: " + ce(t1.endAt)), `Target(${e})`}; limitType=${t.limitType})`;
+                return `Query(target=${e = (t1 = Ee(t)).path.canonicalString(), null !== t1.collectionGroup && (e += " collectionGroup=" + t1.collectionGroup), t1.filters.length > 0 && (e += `, filters: [${t1.filters.map((t)=>`${t.field.canonicalString()} ${t.op} ${xt(t.value)}`).join(", ")}]`), At(t1.limit) || (e += ", limit: " + t1.limit), t1.orderBy.length > 0 && (e += `, orderBy: [${t1.orderBy.map((t)=>`${t.field.canonicalString()} (${t.dir})`).join(", ")}]`), t1.startAt && (e += ", startAt: " + ce(t1.startAt)), t1.endAt && (e += ", endAt: " + ce(t1.endAt)), `Target(${e})`}; limitType=${t.limitType})`;
             }
             function Pe(t, e) {
-                var t1, e1;
                 return e.isFoundDocument() && function(t, e) {
                     const n = e.key.path;
                     return null !== t.collectionGroup ? e.key.hasCollectionId(t.collectionGroup) && t.path.isPrefixOf(n) : Pt.isDocumentKey(t.path) ? t.path.isEqual(n) : t.path.isImmediateParentOf(n);
@@ -1083,7 +1069,7 @@
                 }(t, e) && function(t, e) {
                     for (const n of t.filters)if (!n.matches(e)) return !1;
                     return !0;
-                }(t, e) && (t1 = t, e1 = e, !(t1.startAt && !he(t1.startAt, Te(t1), e1) || t1.endAt && he(t1.endAt, Te(t1), e1)));
+                }(t, e) && !(t.startAt && !he(t.startAt, Te(t), e) || t.endAt && he(t.endAt, Te(t), e));
             }
             function ve(t) {
                 return (e, n)=>{
@@ -1134,11 +1120,10 @@
                         mapValue: n
                     };
                 }(n, e) : t instanceof Fe ? Me(t, e) : t instanceof Le ? Be(t, e) : function(t, e) {
-                    var t1, e1, n, t2;
-                    const n1 = (t1 = t, e1 = e, t1 instanceof Ue ? $t(n = e1) || (t2 = n) && "doubleValue" in t2 ? e1 : {
+                    const n = t instanceof Ue ? $t(e) || e && "doubleValue" in e ? e : {
                         integerValue: 0
-                    } : null), s = qe(n1) + qe(t.C);
-                    return $t(n1) && $t(t.C) ? {
+                    } : null, s = qe(n) + qe(t.C);
+                    return $t(n) && $t(t.C) ? {
                         integerValue: "" + s
                     } : function(t, e) {
                         if (t.D) {
@@ -1220,7 +1205,6 @@
                 }(0, e, n);
             }
             function Ye(t, e, n) {
-                var t1, e1;
                 t instanceof en ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return;
                     const s = t.value.clone(), i = on(t.fieldTransforms, n, e);
@@ -1229,13 +1213,13 @@
                     if (!ze(t.precondition, e)) return;
                     const s = on(t.fieldTransforms, n, e), i = e.data;
                     i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(tn(e), i).setHasLocalMutations();
-                }(t, e, n) : (t1 = t, e1 = e, ze(t1.precondition, e1) && e1.convertToNoDocument(rt.min()));
+                }(t, e, n) : ze(t.precondition, e) && e.convertToNoDocument(rt.min());
             }
             function Ze(t, e) {
                 var t1, e1;
                 return t.type === e.type && !!t.key.isEqual(e.key) && !!t.precondition.isEqual(e.precondition) && (t1 = t.fieldTransforms, e1 = e.fieldTransforms, !!(void 0 === t1 && void 0 === e1 || !(!t1 || !e1) && nt(t1, e1, (t, e)=>{
-                    var t1, e1, t2, e2;
-                    return t1 = t, e1 = e, t1.field.isEqual(e1.field) && (t2 = t1.transform, e2 = e1.transform, t2 instanceof Fe && e2 instanceof Fe || t2 instanceof Le && e2 instanceof Le ? nt(t2.elements, e2.elements, Vt) : t2 instanceof Ue && e2 instanceof Ue ? Vt(t2.C, e2.C) : t2 instanceof Oe && e2 instanceof Oe);
+                    var t1, e1;
+                    return t.field.isEqual(e.field) && (t1 = t.transform, e1 = e.transform, t1 instanceof Fe && e1 instanceof Fe || t1 instanceof Le && e1 instanceof Le ? nt(t1.elements, e1.elements, Vt) : t1 instanceof Ue && e1 instanceof Ue ? Vt(t1.C, e1.C) : t1 instanceof Oe && e1 instanceof Oe);
                 }))) && (0 === t.type ? t.value.isEqual(e.value) : 1 !== t.type || t.data.isEqual(e.data) && t.fieldMask.isEqual(e.fieldMask));
             }
             function tn(t) {
@@ -1915,12 +1899,12 @@
             }
             function Hn(t, e) {
                 var t1;
-                return (t1 = t.databaseId, new ht([
+                return t1 = t.databaseId, new ht([
                     "projects",
                     t1.projectId,
                     "databases",
                     t1.database, 
-                ])).child("documents").child(e).canonicalString();
+                ]).child("documents").child(e).canonicalString();
             }
             function Yn(t) {
                 return new ht([
@@ -2194,8 +2178,8 @@
                 }
                 applyToLocalDocumentSet(t) {
                     this.mutations.forEach((e)=>{
-                        const n = t.get(e.key), s = n;
-                        this.applyToLocalView(s), n.isValidDocument() || s.convertToNoDocument(rt.min());
+                        const n = t.get(e.key);
+                        this.applyToLocalView(n), n.isValidDocument() || n.convertToNoDocument(rt.min());
                     });
                 }
                 keys() {
@@ -2385,8 +2369,7 @@
                     return this.In.getAllMutationBatchesAffectingDocumentKeys(t, e).next((t)=>this.bn(e, t));
                 }
                 getDocumentsMatchingQuery(t, e, n) {
-                    var t1;
-                    return (t1 = e, Pt.isDocumentKey(t1.path) && null === t1.collectionGroup && 0 === t1.filters.length) ? this.Vn(t, e.path) : null !== e.collectionGroup ? this.Sn(t, e, n) : this.Dn(t, e, n);
+                    return Pt.isDocumentKey(e.path) && null === e.collectionGroup && 0 === e.filters.length ? this.Vn(t, e.path) : null !== e.collectionGroup ? this.Sn(t, e, n) : this.Dn(t, e, n);
                 }
                 Vn(t, e) {
                     return this.An(t, new Pt(e)).next((t)=>{
@@ -2398,8 +2381,8 @@
                     const s = e.collectionGroup;
                     let i = En;
                     return this.Ht.getCollectionParents(t, s).next((r)=>js.forEach(r, (r)=>{
-                            var t1, e1;
-                            const o = (t1 = e, e1 = r.child(s), new fe(e1, null, t1.explicitOrderBy.slice(), t1.filters.slice(), t1.limit, t1.limitType, t1.startAt, t1.endAt));
+                            var e1;
+                            const o = (e1 = r.child(s), new fe(e1, null, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt));
                             return this.Dn(t, o, n).next((t)=>{
                                 t.forEach((t, e)=>{
                                     i = i.insert(t, e);
@@ -2449,8 +2432,7 @@
                     this.On = t;
                 }
                 getDocumentsMatchingQuery(t, e, n, s) {
-                    var t1;
-                    return 0 === (t1 = e).filters.length && null === t1.limit && null == t1.startAt && null == t1.endAt && (0 === t1.explicitOrderBy.length || 1 === t1.explicitOrderBy.length && t1.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t, e) : this.On.Pn(t, s).next((i)=>{
+                    return 0 === e.filters.length && null === e.limit && null == e.startAt && null == e.endAt && (0 === e.explicitOrderBy.length || 1 === e.explicitOrderBy.length && e.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t, e) : this.On.Pn(t, s).next((i)=>{
                         const r = this.Mn(e, i);
                         return (_e(e) || me(e)) && this.Ln(e.limitType, r, s, n) ? this.Fn(t, e) : (x() <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__.in.DEBUG && $("QueryEngine", "Re-using previous result from %s to execute query: %s", n.toString(), be(e)), this.On.getDocumentsMatchingQuery(t, e, n).next((t)=>(r.forEach((e)=>{
                                 t = t.insert(e.key, e);
@@ -2500,8 +2482,7 @@
                 return n.In = s, n.Qn = i, n.Bn.$n(n.Qn), r;
             }
             function fr(t) {
-                const e = t;
-                return e.persistence.runTransaction("Get last remote snapshot version", "readonly", (t)=>e.ze.getLastRemoteSnapshotVersion(t));
+                return t.persistence.runTransaction("Get last remote snapshot version", "readonly", (t1)=>t.ze.getLastRemoteSnapshotVersion(t1));
             }
             async function gr(t, e, n) {
                 const s = t, i = s.Un.get(e);
@@ -2514,16 +2495,15 @@
                 s.Un = s.Un.remove(e), s.qn.delete(i.target);
             }
             function yr(t, e, n) {
-                const s = t;
                 let i = rt.min(), r = Pn();
-                return s.persistence.runTransaction("Execute query", "readonly", (t)=>(function(t, e, n) {
-                        const s = t, i = s.qn.get(n);
-                        return void 0 !== i ? js.resolve(s.Un.get(i)) : s.ze.getTargetData(e, n);
-                    })(s, t, Ee(e)).next((e)=>{
-                        if (e) return i = e.lastLimboFreeSnapshotVersion, s.ze.getMatchingKeysForTargetId(t, e.targetId).next((t)=>{
+                return t.persistence.runTransaction("Execute query", "readonly", (t1)=>(function(t, e, n) {
+                        const i = t.qn.get(n);
+                        return void 0 !== i ? js.resolve(t.Un.get(i)) : t.ze.getTargetData(e, n);
+                    })(t, t1, Ee(e)).next((e)=>{
+                        if (e) return i = e.lastLimboFreeSnapshotVersion, t.ze.getMatchingKeysForTargetId(t1, e.targetId).next((t)=>{
                             r = t;
                         });
-                    }).next(()=>s.Bn.getDocumentsMatchingQuery(t, e, n ? i : rt.min(), n ? r : Pn())).next((t)=>({
+                    }).next(()=>t.Bn.getDocumentsMatchingQuery(t1, e, n ? i : rt.min(), n ? r : Pn())).next((t)=>({
                             documents: t,
                             Gn: r
                         })));
@@ -2536,22 +2516,20 @@
                     return js.resolve(this.Yn.get(e));
                 }
                 saveBundleMetadata(t, e) {
-                    var n;
                     return this.Yn.set(e.id, {
-                        id: (n = e).id,
-                        version: n.version,
-                        createTime: jn(n.createTime)
+                        id: e.id,
+                        version: e.version,
+                        createTime: jn(e.createTime)
                     }), js.resolve();
                 }
                 getNamedQuery(t, e) {
                     return js.resolve(this.Xn.get(e));
                 }
                 saveNamedQuery(t, e) {
-                    var t1;
                     return this.Xn.set(e.name, {
-                        name: (t1 = e).name,
+                        name: e.name,
                         query: function(t) {
-                            var t1, e;
+                            var e;
                             const e1 = function(t) {
                                 var t1, t2, e, n, s, i, o, c;
                                 let e1 = function(t) {
@@ -2567,7 +2545,6 @@
                                 }
                                 let r = [];
                                 n1.where && (r = function hs(t) {
-                                    var t1;
                                     return t ? void 0 !== t.unaryFilter ? [
                                         function(t) {
                                             switch(t.unaryFilter.op){
@@ -2596,7 +2573,7 @@
                                             }
                                         }(t)
                                     ] : void 0 !== t.fieldFilter ? [
-                                        (t1 = t, Jt.create(ms(t1.fieldFilter.field), function(t) {
+                                        Jt.create(ms(t.fieldFilter.field), function(t) {
                                             switch(t){
                                                 case "EQUAL":
                                                     return "==";
@@ -2621,13 +2598,11 @@
                                                 default:
                                                     return L();
                                             }
-                                        }(t1.fieldFilter.op), t1.fieldFilter.value))
+                                        }(t.fieldFilter.op), t.fieldFilter.value)
                                     ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
                                 }(n1.where));
                                 let o1 = [];
-                                n1.orderBy && (o1 = n1.orderBy.map((t)=>{
-                                    var t1;
-                                    return t1 = t, new ae(ms(t1.field), function(t) {
+                                n1.orderBy && (o1 = n1.orderBy.map((t)=>new ae(ms(t.field), function(t) {
                                         switch(t){
                                             case "ASCENDING":
                                                 return "asc";
@@ -2636,8 +2611,7 @@
                                             default:
                                                 return;
                                         }
-                                    }(t1.direction));
-                                }));
+                                    }(t.direction))));
                                 let c1 = null, e2;
                                 n1.limit && (c1 = At(e2 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e2);
                                 let a = null;
@@ -2648,9 +2622,9 @@
                                 parent: t.parent,
                                 structuredQuery: t.structuredQuery
                             });
-                            return "LAST" === t.limitType ? (t1 = e1, e = e1.limit, new fe(t1.path, t1.collectionGroup, t1.explicitOrderBy.slice(), t1.filters.slice(), e, "L", t1.startAt, t1.endAt)) : e1;
-                        }(t1.bundledQuery),
-                        readTime: jn(t1.readTime)
+                            return "LAST" === t.limitType ? (e = e1.limit, new fe(e1.path, e1.collectionGroup, e1.explicitOrderBy.slice(), e1.filters.slice(), e, "L", e1.startAt, e1.endAt)) : e1;
+                        }(e.bundledQuery),
+                        readTime: jn(e.readTime)
                     }), js.resolve();
                 }
             }
@@ -3278,7 +3252,7 @@
                         if (!u) {
                             const n = t.data[0];
                             n || L();
-                            const s = n, i = s.error || (null === (e = s[0]) || void 0 === e ? void 0 : e.error);
+                            const i = n.error || (null === (e = n[0]) || void 0 === e ? void 0 : e.error);
                             if (i) {
                                 $("Connection", "WebChannel received error:", i);
                                 const t1 = i.status;
@@ -3413,9 +3387,9 @@
                     const e = function(t, e) {
                         let n;
                         if ("targetChange" in e) {
-                            var t1, t2, e1;
+                            var t1, e1;
                             e.targetChange;
-                            const s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t1 ? 1 : "REMOVE" === t1 ? 2 : "CURRENT" === t1 ? 3 : "RESET" === t1 ? 4 : L(), i = e.targetChange.targetIds || [], r = (t2 = t, e1 = e.targetChange.resumeToken, t2.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (void 0 === e1 || e1 instanceof Uint8Array || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause, c = o && function(t) {
+                            const s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t1 ? 1 : "REMOVE" === t1 ? 2 : "CURRENT" === t1 ? 3 : "RESET" === t1 ? 4 : L(), i = e.targetChange.targetIds || [], r = (e1 = e.targetChange.resumeToken, t.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (void 0 === e1 || e1 instanceof Uint8Array || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause, c = o && function(t) {
                                 const e = void 0 === t.code ? K.UNKNOWN : dn(t.code);
                                 return new j(e, t.message || "");
                             }(o);
@@ -3446,9 +3420,9 @@
                             if (!("filter" in e)) return L();
                             {
                                 e.filter;
-                                const t3 = e.filter;
-                                t3.targetId;
-                                const s4 = t3.count || 0, i4 = new un(s4), r4 = t3.targetId;
+                                const t2 = e.filter;
+                                t2.targetId;
+                                const s4 = t2.count || 0, i4 = new un(s4), r4 = t2.targetId;
                                 n = new Nn(r4, i4);
                             }
                         }
@@ -3463,7 +3437,7 @@
                 br(t) {
                     const e = {};
                     e.database = Yn(this.N), e.addTarget = function(t, e) {
-                        var t1, e1, t2, e2;
+                        var e1, e2;
                         let n;
                         const s = e.target;
                         return (n = Ht(s) ? {
@@ -3474,7 +3448,7 @@
                             }
                         } : {
                             query: function(t, e) {
-                                var t1, e1;
+                                var e1;
                                 const n = {
                                     structuredQuery: {}
                                 }, s = e.path;
@@ -3535,21 +3509,18 @@
                                 }(e.filters);
                                 i && (n.structuredQuery.where = i);
                                 const r = function(t) {
-                                    if (0 !== t.length) return t.map((t)=>{
-                                        var t1;
-                                        return {
-                                            field: _s((t1 = t).field),
-                                            direction: Mn[t1.dir]
-                                        };
-                                    });
+                                    if (0 !== t.length) return t.map((t)=>({
+                                            field: _s(t.field),
+                                            direction: Mn[t.dir]
+                                        }));
                                 }(e.orderBy);
                                 r && (n.structuredQuery.orderBy = r);
-                                const o = (t1 = t, e1 = e.limit, t1.D || At(e1) ? e1 : {
+                                const o = (e1 = e.limit, t.D || At(e1) ? e1 : {
                                     value: e1
                                 });
                                 return null !== o && (n.structuredQuery.limit = o), e.startAt && (n.structuredQuery.startAt = ls(e.startAt)), e.endAt && (n.structuredQuery.endAt = ls(e.endAt)), n;
                             }(t, s)
-                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = (t1 = t, e1 = e.resumeToken, t1.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (n.readTime = (t2 = t, e2 = e.snapshotVersion.toTimestamp(), t2.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
+                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = (e1 = e.resumeToken, t.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (n.readTime = (e2 = e.snapshotVersion.toTimestamp(), t.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
                             seconds: "" + e2.seconds,
                             nanos: e2.nanoseconds
                         })), n;
@@ -3629,8 +3600,7 @@
                     this.localStore = t, this.datastore = e, this.asyncQueue = n, this.remoteSyncer = {}, this.jr = [], this.Qr = new Map(), this.Wr = new Set(), this.Gr = [], this.zr = i, this.zr.Ti((t)=>{
                         n.enqueueAndForget(async ()=>{
                             wo(this) && ($("RemoteStore", "Restarting streams for network reachability change."), await async function(t) {
-                                const e = t;
-                                e.Wr.add(4), await oo(e), e.Hr.set("Unknown"), e.Wr.delete(4), await ro(e);
+                                t.Wr.add(4), await oo(t), t.Hr.set("Unknown"), t.Wr.delete(4), await ro(t);
                             }(this));
                         });
                     }), this.Hr = new so(n, s);
@@ -3643,12 +3613,11 @@
                 for (const e of t.Gr)await e(!1);
             }
             function co(t, e) {
-                const n = t;
-                n.Qr.has(e.targetId) || (n.Qr.set(e.targetId, e), fo(n) ? lo(n) : Co(n).hr() && uo(n, e));
+                t.Qr.has(e.targetId) || (t.Qr.set(e.targetId, e), fo(t) ? lo(t) : Co(t).hr() && uo(t, e));
             }
             function ao(t, e) {
-                const n = t, s = Co(n);
-                n.Qr.delete(e), s.hr() && ho(n, e), 0 === n.Qr.size && (s.hr() ? s.wr() : wo(n) && n.Hr.set("Unknown"));
+                const s = Co(t);
+                t.Qr.delete(e), s.hr() && ho(t, e), 0 === t.Qr.size && (s.hr() ? s.wr() : wo(t) && t.Hr.set("Unknown"));
             }
             function uo(t, e) {
                 t.Jr.Y(e.targetId), Co(t).br(e);
@@ -3716,18 +3685,15 @@
                 });
             }
             async function Do(t, e) {
-                const n = t;
-                e ? (n.Wr.delete(2), await ro(n)) : e || (n.Wr.add(2), await oo(n), n.Hr.set("Unknown"));
+                e ? (t.Wr.delete(2), await ro(t)) : e || (t.Wr.add(2), await oo(t), t.Hr.set("Unknown"));
             }
             function Co(t) {
-                return t.Yr || (t.Yr = function(t, e, n) {
-                    const s = t;
-                    return s.$r(), new to(e, s.sr, s.credentials, s.N, n);
-                }(t.datastore, t.asyncQueue, {
+                var t1, e, n;
+                return t.Yr || (t.Yr = (t1 = t.datastore, e = t.asyncQueue, n = {
                     Si: mo.bind(null, t),
                     Ci: go.bind(null, t),
                     Rr: yo.bind(null, t)
-                }), t.Gr.push(async (e)=>{
+                }, t1.$r(), new to(e, t1.sr, t1.credentials, t1.N, n)), t.Gr.push(async (e)=>{
                     e ? (t.Yr.dr(), fo(t) ? lo(t) : t.Hr.set("Unknown")) : (await t.Yr.stop(), _o(t));
                 })), t.Yr;
             }
@@ -3884,42 +3850,41 @@
                 }
             }
             async function Bo(t, e) {
-                const n = t, s = e.query;
-                let i = !1, r = n.queries.get(s);
+                const s = e.query;
+                let i = !1, r = t.queries.get(s);
                 if (r || (i = !0, r = new Mo()), i) try {
-                    r.no = await n.onListen(s);
+                    r.no = await t.onListen(s);
                 } catch (t1) {
-                    const n1 = ko(t1, `Initialization of query '${be(e.query)}' failed`);
-                    return void e.onError(n1);
+                    const n = ko(t1, `Initialization of query '${be(e.query)}' failed`);
+                    return void e.onError(n);
                 }
-                n.queries.set(s, r), r.listeners.push(e), e.io(n.onlineState), r.no && e.ro(r.no) && jo(n);
+                t.queries.set(s, r), r.listeners.push(e), e.io(t.onlineState), r.no && e.ro(r.no) && jo(t);
             }
             async function Uo(t, e) {
-                const n = t, s = e.query;
+                const s = e.query;
                 let i = !1;
-                const r = n.queries.get(s);
+                const r = t.queries.get(s);
                 if (r) {
                     const t1 = r.listeners.indexOf(e);
                     t1 >= 0 && (r.listeners.splice(t1, 1), i = 0 === r.listeners.length);
                 }
-                if (i) return n.queries.delete(s), n.onUnlisten(s);
+                if (i) return t.queries.delete(s), t.onUnlisten(s);
             }
             function qo(t, e) {
-                const n = t;
                 let s = !1;
                 for (const t1 of e){
-                    const e1 = t1.query, i = n.queries.get(e1);
+                    const e1 = t1.query, i = t.queries.get(e1);
                     if (i) {
                         for (const e2 of i.listeners)e2.ro(t1) && (s = !0);
                         i.no = t1;
                     }
                 }
-                s && jo(n);
+                s && jo(t);
             }
             function Ko(t, e, n) {
-                const s = t, i = s.queries.get(e);
+                const i = t.queries.get(e);
                 if (i) for (const t1 of i.listeners)t1.onError(n);
-                s.queries.delete(e);
+                t.queries.delete(e);
             }
             function jo(t) {
                 t.so.forEach((t)=>{
@@ -4135,20 +4100,19 @@
                 ]), a.snapshot;
             }
             async function ic(t, e) {
-                const n = t, s = n.Oo.get(e), i = n.Fo.get(s.targetId);
-                if (i.length > 1) return n.Fo.set(s.targetId, i.filter((t)=>!Ae(t, e))), void n.Oo.delete(e);
-                n.isPrimaryClient ? (n.sharedClientState.removeLocalQueryTarget(s.targetId), n.sharedClientState.isActiveQueryTarget(s.targetId) || await gr(n.localStore, s.targetId, !1).then(()=>{
-                    n.sharedClientState.clearQueryState(s.targetId), ao(n.remoteStore, s.targetId), wc(n, s.targetId);
-                }).catch(Fi)) : (wc(n, s.targetId), await gr(n.localStore, s.targetId, !0));
+                const s = t.Oo.get(e), i = t.Fo.get(s.targetId);
+                if (i.length > 1) return t.Fo.set(s.targetId, i.filter((t)=>!Ae(t, e))), void t.Oo.delete(e);
+                t.isPrimaryClient ? (t.sharedClientState.removeLocalQueryTarget(s.targetId), t.sharedClientState.isActiveQueryTarget(s.targetId) || await gr(t.localStore, s.targetId, !1).then(()=>{
+                    t.sharedClientState.clearQueryState(s.targetId), ao(t.remoteStore, s.targetId), wc(t, s.targetId);
+                }).catch(Fi)) : (wc(t, s.targetId), await gr(t.localStore, s.targetId, !0));
             }
             async function oc(t, e) {
-                const n = t;
                 try {
                     const t1 = await function(t, e) {
                         const n = t, s = e.snapshotVersion;
                         let i = n.Un;
                         return n.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
-                            var e1, n1, s1, i1;
+                            var n1, i1;
                             const r = n.jn.newChangeBuffer({
                                 trackRemovals: !0
                             });
@@ -4160,33 +4124,32 @@
                                 o.push(n.ze.removeMatchingKeys(t, e.removedDocuments, r).next(()=>n.ze.addMatchingKeys(t, e.addedDocuments, r)));
                                 const a = e.resumeToken;
                                 if (a.approximateByteSize() > 0) {
-                                    var t1, e1, n1;
                                     const u = c.withResumeToken(a, s).withSequenceNumber(t.currentSequenceNumber);
-                                    i = i.insert(r, u), t1 = c, e1 = u, n1 = e, e1.resumeToken.approximateByteSize() > 0 || L(), (0 === t1.resumeToken.approximateByteSize() || e1.snapshotVersion.toMicroseconds() - t1.snapshotVersion.toMicroseconds() >= 3e8 || n1.addedDocuments.size + n1.modifiedDocuments.size + n1.removedDocuments.size > 0) && o.push(n.ze.updateTargetData(t, u));
+                                    i = i.insert(r, u), u.resumeToken.approximateByteSize() > 0 || L(), (0 === c.resumeToken.approximateByteSize() || u.snapshotVersion.toMicroseconds() - c.snapshotVersion.toMicroseconds() >= 3e8 || e.addedDocuments.size + e.modifiedDocuments.size + e.removedDocuments.size > 0) && o.push(n.ze.updateTargetData(t, u));
                                 }
                             });
                             let c = pn, r1;
                             if (e.documentUpdates.forEach((s, i)=>{
                                 e.resolvedLimboDocuments.has(s) && o.push(n.persistence.referenceDelegate.updateLimboDocument(t, s));
-                            }), o.push((e1 = r, n1 = e.documentUpdates, s1 = s, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), e1.getEntries(t, r1).next((t)=>{
-                                let r = pn;
+                            }), o.push((n1 = e.documentUpdates, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), r.getEntries(t, r1).next((t)=>{
+                                let r1 = pn;
                                 return n1.forEach((n, o)=>{
-                                    const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s1;
-                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (e1.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (e1.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
-                                }), r;
+                                    const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s;
+                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (r.removeEntry(n, a), r1 = r1.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (r.addEntry(o, a), r1 = r1.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
+                                }), r1;
                             })).next((t)=>{
                                 c = t;
                             })), !s.isEqual(rt.min())) {
-                                const e2 = n.ze.getLastRemoteSnapshotVersion(t).next((e)=>n.ze.setTargetsMetadata(t, t.currentSequenceNumber, s));
-                                o.push(e2);
+                                const e1 = n.ze.getLastRemoteSnapshotVersion(t).next((e)=>n.ze.setTargetsMetadata(t, t.currentSequenceNumber, s));
+                                o.push(e1);
                             }
                             return js.waitFor(o).next(()=>r.apply(t)).next(()=>n.Qn.vn(t, c)).next(()=>c);
                         }).then((t)=>(n.Un = i, t));
-                    }(n.localStore, e);
-                    e.targetChanges.forEach((t, e)=>{
-                        const s = n.Bo.get(e);
-                        s && (t.addedDocuments.size + t.modifiedDocuments.size + t.removedDocuments.size <= 1 || L(), t.addedDocuments.size > 0 ? s.ko = !0 : t.modifiedDocuments.size > 0 ? s.ko || L() : t.removedDocuments.size > 0 && (s.ko || L(), s.ko = !1));
-                    }), await pc(n, t1, e);
+                    }(t.localStore, e);
+                    e.targetChanges.forEach((t1, e)=>{
+                        const s = t.Bo.get(e);
+                        s && (t1.addedDocuments.size + t1.modifiedDocuments.size + t1.removedDocuments.size <= 1 || L(), t1.addedDocuments.size > 0 ? s.ko = !0 : t1.modifiedDocuments.size > 0 ? s.ko || L() : t1.removedDocuments.size > 0 && (s.ko || L(), s.ko = !1));
+                    }), await pc(t, t1, e);
                 } catch (t2) {
                     await Fi(t2);
                 }
@@ -4246,16 +4209,16 @@
                 }
             }
             async function pc(t, e, n) {
-                const s = t, i = [], r = [], o = [];
-                s.Oo.isEmpty() || (s.Oo.forEach((t, c)=>{
-                    o.push(s.Wo(c, e, n).then((t)=>{
-                        if (t) {
-                            s.isPrimaryClient && s.sharedClientState.updateQueryState(c.targetId, t.fromCache ? "not-current" : "current"), i.push(t);
-                            const e = or.kn(c.targetId, t);
+                const i = [], r = [], o = [];
+                t.Oo.isEmpty() || (t.Oo.forEach((t1, c)=>{
+                    o.push(t.Wo(c, e, n).then((t1)=>{
+                        if (t1) {
+                            t.isPrimaryClient && t.sharedClientState.updateQueryState(c.targetId, t1.fromCache ? "not-current" : "current"), i.push(t1);
+                            const e = or.kn(c.targetId, t1);
                             r.push(e);
                         }
                     }));
-                }), await Promise.all(o), s.$o.Rr(i), await async function(t, e) {
+                }), await Promise.all(o), t.$o.Rr(i), await async function(t, e) {
                     const n = t;
                     try {
                         await n.persistence.runTransaction("notifyLocalViewChanges", "readwrite", (t)=>js.forEach(e, (e)=>js.forEach(e.Nn, (s)=>n.persistence.referenceDelegate.addReference(t, e.targetId, s)).next(()=>js.forEach(e.xn, (s)=>n.persistence.referenceDelegate.removeReference(t, e.targetId, s)))));
@@ -4270,7 +4233,7 @@
                             n.Un = n.Un.insert(e1, i);
                         }
                     }
-                }(s.localStore, r));
+                }(t.localStore, r));
             }
             async function Tc(t, e) {
                 var t1, e1;
@@ -4286,14 +4249,14 @@
                 }
             }
             function Ec(t, e) {
-                const n = t, s = n.Bo.get(e);
+                const s = t.Bo.get(e);
                 if (s && s.ko) return Pn().add(s.key);
                 {
                     let t1 = Pn();
-                    const s1 = n.Fo.get(e);
+                    const s1 = t.Fo.get(e);
                     if (!s1) return t1;
                     for (const e1 of s1){
-                        const s2 = n.Oo.get(e1);
+                        const s2 = t.Oo.get(e1);
                         t1 = t1.unionWith(s2.view.Ro);
                     }
                     return t1;
@@ -4347,8 +4310,7 @@
                 }
                 terminate() {
                     return async function(t) {
-                        const e = t;
-                        $("RemoteStore", "RemoteStore shutting down."), e.Wr.add(5), await oo(e), e.zr.shutdown(), e.Hr.set("Unknown");
+                        $("RemoteStore", "RemoteStore shutting down."), t.Wr.add(5), await oo(t), t.zr.shutdown(), t.Hr.set("Unknown");
                     }(this.remoteStore);
                 }
             }
@@ -4421,10 +4383,9 @@
                 $("FirestoreClient", "Initializing OnlineComponentProvider");
                 const s = await t.getConfiguration();
                 await e.initialize(n, s), t.setCredentialChangeListener((t)=>(async function(t, e) {
-                        const n = t;
-                        n.asyncQueue.verifyOperationInProgress(), $("RemoteStore", "RemoteStore received new credentials");
-                        const s = wo(n);
-                        n.Wr.add(3), await oo(n), s && n.Hr.set("Unknown"), await n.remoteSyncer.handleCredentialChange(e), n.Wr.delete(3), await ro(n);
+                        t.asyncQueue.verifyOperationInProgress(), $("RemoteStore", "RemoteStore received new credentials");
+                        const s = wo(t);
+                        t.Wr.add(3), await oo(t), s && t.Hr.set("Unknown"), await t.remoteSyncer.handleCredentialChange(e), t.Wr.delete(3), await ro(t);
                     })(e.remoteStore, t)), t.onlineComponents = e;
             }
             async function Wc(t) {
@@ -4663,10 +4624,9 @@
                 }
                 Pc(t) {
                     const e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
-                            var t1;
                             this.Tc = t, this.Ec = !1;
                             let e;
-                            const e1 = (e = (t1 = t).message || "", t1.stack && (e = t1.stack.includes(t1.message) ? t1.stack : t1.message + "\n" + t1.stack), e);
+                            const e1 = (e = t.message || "", t.stack && (e = t.stack.includes(t.message) ? t.stack : t.message + "\n" + t.stack), e);
                             throw O("INTERNAL UNHANDLED ERROR: ", e1), t;
                         }).then((t)=>(this.Ec = !1, t))));
                     return this._c = e, e;
@@ -4712,9 +4672,9 @@
                 }
             }
             function Ma(t) {
-                var e, t1, e1, n, s;
-                const n1 = t._freezeSettings(), s1 = (t1 = t._databaseId, e1 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, s = n1, new ua(t1, e1, n, s.host, s.ssl, s.experimentalForceLongPolling, s.experimentalAutoDetectLongPolling, s.useFetchStreams));
-                t._firestoreClient = new Kc(t._credentials, t._queue, s1);
+                var e, t1, e1, n;
+                const n1 = t._freezeSettings(), s = (t1 = t._databaseId, e1 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, new ua(t1, e1, n, n1.host, n1.ssl, n1.experimentalForceLongPolling, n1.experimentalAutoDetectLongPolling, n1.useFetchStreams));
+                t._firestoreClient = new Kc(t._credentials, t._queue, s);
             }
             class Ja {
                 constructor(...t){
@@ -5004,9 +4964,8 @@
                 }
             }
             function lh(t) {
-                var t1;
                 t = ga(t, Aa);
-                const e = ga(t.firestore, ka), n = ((t1 = e)._firestoreClient || Ma(t1), t1._firestoreClient.verifyNotTerminated(), t1._firestoreClient), s = new ah(e);
+                const e = ga(t.firestore, ka), n = (e._firestoreClient || Ma(e), e._firestoreClient.verifyNotTerminated(), e._firestoreClient), s = new ah(e);
                 return function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
                 }(t._query), (function(t, e, n = {}) {

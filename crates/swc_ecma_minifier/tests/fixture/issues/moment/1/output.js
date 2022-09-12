@@ -271,7 +271,7 @@
         var month = config._locale.monthsParse(input, token, config._strict);
         null != month ? array[1] = month : getParsingFlags(config).invalidMonth = input;
     });
-    var defaultLocaleMonths = "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), defaultLocaleMonthsShort = "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"), MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/, defaultMonthsShortRegex = matchWord, defaultMonthsRegex = matchWord;
+    var defaultLocaleMonths = "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), defaultLocaleMonthsShort = "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"), MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
     function handleStrictParse(monthName, format, strict) {
         var i, ii, mom, llc = monthName.toLocaleLowerCase();
         if (!this._monthsParse) for(i = 0, this._monthsParse = [], this._longMonthsParse = [], this._shortMonthsParse = []; i < 12; ++i)mom = createUTC([
@@ -411,7 +411,7 @@
     ], function(input, week, config, token) {
         week[token] = toInt(input);
     });
-    var defaultLocaleWeekdays = "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), defaultLocaleWeekdaysShort = "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), defaultLocaleWeekdaysMin = "Su_Mo_Tu_We_Th_Fr_Sa".split("_"), defaultWeekdaysRegex = matchWord, defaultWeekdaysShortRegex = matchWord, defaultWeekdaysMinRegex = matchWord;
+    var defaultLocaleWeekdays = "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), defaultLocaleWeekdaysShort = "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), defaultLocaleWeekdaysMin = "Su_Mo_Tu_We_Th_Fr_Sa".split("_");
     function handleStrictParse$1(weekdayName, format, strict) {
         var i, ii, mom, llc = weekdayName.toLocaleLowerCase();
         if (!this._weekdaysParse) for(i = 0, this._weekdaysParse = [], this._shortWeekdaysParse = [], this._minWeekdaysParse = []; i < 7; ++i)mom = createUTC([
@@ -1172,9 +1172,9 @@
     proto.add = add, proto.calendar = function(time, formats) {
         if (1 === arguments.length) {
             if (arguments[0]) {
-                var input, input1, arrayTest, dataTypeTest;
-                (input = arguments[0], isMoment(input) || isDate(input) || isString(input) || isNumber(input) || (arrayTest = isArray(input1 = input), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input1.filter(function(item) {
-                    return !isNumber(item) && isString(input1);
+                var input, arrayTest, dataTypeTest;
+                (input = arguments[0], isMoment(input) || isDate(input) || isString(input) || isNumber(input) || (arrayTest = isArray(input), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input.filter(function(item) {
+                    return !isNumber(item) && isString(input);
                 }).length), arrayTest && dataTypeTest) || function(input) {
                     var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
                         "years",
@@ -1478,7 +1478,7 @@
     }, proto.isoWeekday = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
         if (null == input) return this.day() || 7;
-        var input1, locale, weekday = (input1 = input, locale = this.localeData(), "string" == typeof input1 ? locale.weekdaysParse(input1) % 7 || 7 : isNaN(input1) ? null : input1);
+        var locale, weekday = (locale = this.localeData(), "string" == typeof input ? locale.weekdaysParse(input) % 7 || 7 : isNaN(input) ? null : input);
         return this.day(this.day() % 7 ? weekday : weekday - 7);
     }, proto.dayOfYear = function(input) {
         var dayOfYear = Math.round((this.clone().startOf("day") - this.clone().startOf("year")) / 864e5) + 1;
@@ -1615,9 +1615,9 @@
             i
         ]), strict && !this._longMonthsParse[i] && (this._longMonthsParse[i] = RegExp("^" + this.months(mom, "").replace(".", "") + "$", "i"), this._shortMonthsParse[i] = RegExp("^" + this.monthsShort(mom, "").replace(".", "") + "$", "i")), strict || this._monthsParse[i] || (regex = "^" + this.months(mom, "") + "|^" + this.monthsShort(mom, ""), this._monthsParse[i] = RegExp(regex.replace(".", ""), "i")), strict && "MMMM" === format && this._longMonthsParse[i].test(monthName) || strict && "MMM" === format && this._shortMonthsParse[i].test(monthName) || !strict && this._monthsParse[i].test(monthName)) return i;
     }, proto$1.monthsRegex = function(isStrict) {
-        return this._monthsParseExact ? (hasOwnProp(this, "_monthsRegex") || computeMonthsParse.call(this), isStrict) ? this._monthsStrictRegex : this._monthsRegex : (hasOwnProp(this, "_monthsRegex") || (this._monthsRegex = defaultMonthsRegex), this._monthsStrictRegex && isStrict ? this._monthsStrictRegex : this._monthsRegex);
+        return this._monthsParseExact ? (hasOwnProp(this, "_monthsRegex") || computeMonthsParse.call(this), isStrict) ? this._monthsStrictRegex : this._monthsRegex : (hasOwnProp(this, "_monthsRegex") || (this._monthsRegex = matchWord), this._monthsStrictRegex && isStrict ? this._monthsStrictRegex : this._monthsRegex);
     }, proto$1.monthsShortRegex = function(isStrict) {
-        return this._monthsParseExact ? (hasOwnProp(this, "_monthsRegex") || computeMonthsParse.call(this), isStrict) ? this._monthsShortStrictRegex : this._monthsShortRegex : (hasOwnProp(this, "_monthsShortRegex") || (this._monthsShortRegex = defaultMonthsShortRegex), this._monthsShortStrictRegex && isStrict ? this._monthsShortStrictRegex : this._monthsShortRegex);
+        return this._monthsParseExact ? (hasOwnProp(this, "_monthsRegex") || computeMonthsParse.call(this), isStrict) ? this._monthsShortStrictRegex : this._monthsShortRegex : (hasOwnProp(this, "_monthsShortRegex") || (this._monthsShortRegex = matchWord), this._monthsShortStrictRegex && isStrict ? this._monthsShortStrictRegex : this._monthsShortRegex);
     }, proto$1.week = function(mom) {
         return weekOfYear(mom, this._week.dow, this._week.doy).week;
     }, proto$1.firstDayOfYear = function() {
@@ -1639,11 +1639,11 @@
             1
         ]).day(i), strict && !this._fullWeekdaysParse[i] && (this._fullWeekdaysParse[i] = RegExp("^" + this.weekdays(mom, "").replace(".", "\\.?") + "$", "i"), this._shortWeekdaysParse[i] = RegExp("^" + this.weekdaysShort(mom, "").replace(".", "\\.?") + "$", "i"), this._minWeekdaysParse[i] = RegExp("^" + this.weekdaysMin(mom, "").replace(".", "\\.?") + "$", "i")), this._weekdaysParse[i] || (regex = "^" + this.weekdays(mom, "") + "|^" + this.weekdaysShort(mom, "") + "|^" + this.weekdaysMin(mom, ""), this._weekdaysParse[i] = RegExp(regex.replace(".", ""), "i")), strict && "dddd" === format && this._fullWeekdaysParse[i].test(weekdayName) || strict && "ddd" === format && this._shortWeekdaysParse[i].test(weekdayName) || strict && "dd" === format && this._minWeekdaysParse[i].test(weekdayName) || !strict && this._weekdaysParse[i].test(weekdayName)) return i;
     }, proto$1.weekdaysRegex = function(isStrict) {
-        return this._weekdaysParseExact ? (hasOwnProp(this, "_weekdaysRegex") || computeWeekdaysParse.call(this), isStrict) ? this._weekdaysStrictRegex : this._weekdaysRegex : (hasOwnProp(this, "_weekdaysRegex") || (this._weekdaysRegex = defaultWeekdaysRegex), this._weekdaysStrictRegex && isStrict ? this._weekdaysStrictRegex : this._weekdaysRegex);
+        return this._weekdaysParseExact ? (hasOwnProp(this, "_weekdaysRegex") || computeWeekdaysParse.call(this), isStrict) ? this._weekdaysStrictRegex : this._weekdaysRegex : (hasOwnProp(this, "_weekdaysRegex") || (this._weekdaysRegex = matchWord), this._weekdaysStrictRegex && isStrict ? this._weekdaysStrictRegex : this._weekdaysRegex);
     }, proto$1.weekdaysShortRegex = function(isStrict) {
-        return this._weekdaysParseExact ? (hasOwnProp(this, "_weekdaysRegex") || computeWeekdaysParse.call(this), isStrict) ? this._weekdaysShortStrictRegex : this._weekdaysShortRegex : (hasOwnProp(this, "_weekdaysShortRegex") || (this._weekdaysShortRegex = defaultWeekdaysShortRegex), this._weekdaysShortStrictRegex && isStrict ? this._weekdaysShortStrictRegex : this._weekdaysShortRegex);
+        return this._weekdaysParseExact ? (hasOwnProp(this, "_weekdaysRegex") || computeWeekdaysParse.call(this), isStrict) ? this._weekdaysShortStrictRegex : this._weekdaysShortRegex : (hasOwnProp(this, "_weekdaysShortRegex") || (this._weekdaysShortRegex = matchWord), this._weekdaysShortStrictRegex && isStrict ? this._weekdaysShortStrictRegex : this._weekdaysShortRegex);
     }, proto$1.weekdaysMinRegex = function(isStrict) {
-        return this._weekdaysParseExact ? (hasOwnProp(this, "_weekdaysRegex") || computeWeekdaysParse.call(this), isStrict) ? this._weekdaysMinStrictRegex : this._weekdaysMinRegex : (hasOwnProp(this, "_weekdaysMinRegex") || (this._weekdaysMinRegex = defaultWeekdaysMinRegex), this._weekdaysMinStrictRegex && isStrict ? this._weekdaysMinStrictRegex : this._weekdaysMinRegex);
+        return this._weekdaysParseExact ? (hasOwnProp(this, "_weekdaysRegex") || computeWeekdaysParse.call(this), isStrict) ? this._weekdaysMinStrictRegex : this._weekdaysMinRegex : (hasOwnProp(this, "_weekdaysMinRegex") || (this._weekdaysMinRegex = matchWord), this._weekdaysMinStrictRegex && isStrict ? this._weekdaysMinStrictRegex : this._weekdaysMinRegex);
     }, proto$1.isPM = function(input) {
         return "p" === (input + "").toLowerCase().charAt(0);
     }, proto$1.meridiem = function(hours, minutes, isLower) {
