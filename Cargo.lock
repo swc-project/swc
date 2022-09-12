@@ -4002,6 +4002,7 @@ dependencies = [
 name = "swc_html_minifier"
 version = "0.70.6"
 dependencies = [
+ "criterion",
  "once_cell",
  "serde",
  "serde_json",
@@ -4023,6 +4024,7 @@ dependencies = [
  "swc_html_parser",
  "swc_html_utils",
  "swc_html_visit",
+ "swc_node_base",
  "testing",
 ]
 

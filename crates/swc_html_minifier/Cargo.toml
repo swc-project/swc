@@ -39,4 +39,10 @@ swc_html_utils           = { version = "0.13.2", path = "../swc_html_utils" }
 swc_html_visit           = { version = "0.25.2", path = "../swc_html_visit" }
 
 [dev-dependencies]
-testing = { version = "0.30.2", path = "../testing" }
+criterion     = "0.3"
+swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
+testing       = { version = "0.30.2", path = "../testing" }
+
+[[bench]]
+harness = false
+name    = "full"
