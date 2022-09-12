@@ -549,7 +549,7 @@ pub struct TsImportType {
     pub arg: Str,
     pub qualifier: Option<TsEntityName>,
     #[serde(rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
 #[ast_node("TsTypeLiteral")]
@@ -851,7 +851,7 @@ pub struct TsExprWithTypeArgs {
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
 #[ast_node("TsTypeAliasDeclaration")]
