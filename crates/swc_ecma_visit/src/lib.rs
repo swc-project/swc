@@ -761,7 +761,7 @@ define!({
         pub is_async: bool,
         pub is_generator: bool,
         pub type_params: Option<Box<TsTypeParamDecl>>,
-        pub return_type: Option<TsTypeAnn>,
+        pub return_type: Option<Box<TsTypeAnn>>,
     }
     pub struct YieldExpr {
         pub span: Span,
@@ -847,7 +847,7 @@ define!({
         pub is_generator: bool,
         pub is_async: bool,
         pub type_params: Option<Box<TsTypeParamDecl>>,
-        pub return_type: Option<TsTypeAnn>,
+        pub return_type: Option<Box<TsTypeAnn>>,
     }
     pub struct Param {
         pub span: Span,
@@ -1610,7 +1610,7 @@ define!({
     pub struct TsTupleElement {
         pub span: Span,
         pub label: Option<Pat>,
-        pub ty: TsType,
+        pub ty: Box<TsType>,
     }
 
     pub struct TsOptionalType {
