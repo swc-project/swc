@@ -1033,7 +1033,7 @@ define!({
         ExportDefaultDecl(ExportDefaultDecl),
         ExportDefaultExpr(ExportDefaultExpr),
         ExportAll(ExportAll),
-        TsImportEquals(TsImportEqualsDecl),
+        TsImportEquals(Box<TsImportEqualsDecl>),
         TsExportAssignment(TsExportAssignment),
         TsNamespaceExport(TsNamespaceExportDecl),
     }
@@ -1383,7 +1383,7 @@ define!({
     }
     pub enum VarDeclOrPat {
         VarDecl(Box<VarDecl>),
-        Pat(Pat),
+        Pat(Box<Pat>),
     }
     pub enum VarDeclOrExpr {
         VarDecl(Box<VarDecl>),
