@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-0 && (exports.Cachier = exports.default = void 0);
+0 && (module.exports = {
+    default: _,
+    Cachier: _
+});
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,

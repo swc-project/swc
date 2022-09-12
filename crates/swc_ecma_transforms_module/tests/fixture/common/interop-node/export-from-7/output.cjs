@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-0 && (exports.foo = void 0);
+0 && (exports.foo = 0);
 Object.defineProperty(exports, "foo", {
     enumerable: true,
     get: ()=>_foo.default

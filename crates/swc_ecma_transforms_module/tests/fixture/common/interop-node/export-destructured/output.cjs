@@ -2,7 +2,14 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-0 && (exports.f4 = exports.f3 = exports.f2 = exports.f1 = exports.y = exports.x = void 0);
+0 && (module.exports = {
+    x: _,
+    y: _,
+    f1: _,
+    f2: _,
+    f3: _,
+    f4: _
+});
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
