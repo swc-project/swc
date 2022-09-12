@@ -73,6 +73,8 @@ pub struct BigInt {
         with(EncodeBigInt)
     )]
     pub value: BigIntValue,
+    #[cfg_attr(feature = "rkyv", with(EncodeBigInt))]
+    pub value: Box<BigIntValue>,
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
@@ -152,7 +154,7 @@ impl From<BigIntValue> for BigInt {
     fn from(value: BigIntValue) -> Self {
         BigInt {
             span: DUMMY_SP,
-            value,
+            value: Box::new(value),
             raw: None,
         }
     }
