@@ -2310,19 +2310,19 @@ impl<I: Tokens> Parser<I> {
                         | Decl::Fn(FnDecl {
                             ref mut declare, ..
                         })
-                        | Decl::Var(VarDecl {
+                        | Decl::Var(box VarDecl {
                             ref mut declare, ..
                         })
-                        | Decl::TsInterface(TsInterfaceDecl {
+                        | Decl::TsInterface(box TsInterfaceDecl {
                             ref mut declare, ..
                         })
-                        | Decl::TsTypeAlias(TsTypeAliasDecl {
+                        | Decl::TsTypeAlias(box TsTypeAliasDecl {
                             ref mut declare, ..
                         })
-                        | Decl::TsEnum(TsEnumDecl {
+                        | Decl::TsEnum(box TsEnumDecl {
                             ref mut declare, ..
                         })
-                        | Decl::TsModule(TsModuleDecl {
+                        | Decl::TsModule(box TsModuleDecl {
                             ref mut declare, ..
                         }) => *declare = true,
                     }

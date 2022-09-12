@@ -1032,7 +1032,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let f = p.parse_fn_decl(vec![])?;
                 if let Decl::Fn(FnDecl {
                     function:
-                        Function {
+                        box Function {
                             span,
                             is_generator,
                             is_async,
