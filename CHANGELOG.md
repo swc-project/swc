@@ -29,6 +29,9 @@
 
 
 
+- **(atoms)** Reduce size of `Atom` (#5831) ([2400427](https://github.com/swc-project/swc/commit/24004270d949f0e8fb87151b1fce342fe39360ef))
+
+
 - **(css)** Optimize memory layout of ast types (#5823) ([4f119b2](https://github.com/swc-project/swc/commit/4f119b26935aeb06fb16a116c4f96783f6edfdae))
 
 
