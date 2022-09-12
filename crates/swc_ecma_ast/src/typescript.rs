@@ -830,7 +830,7 @@ pub struct TsInterfaceDecl {
     pub id: Ident,
     pub declare: bool,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
     pub extends: Vec<TsExprWithTypeArgs>,
     pub body: TsInterfaceBody,
 }
