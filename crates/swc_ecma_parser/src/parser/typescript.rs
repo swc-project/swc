@@ -1126,14 +1126,14 @@ impl<I: Tokens> Parser<I> {
 
         let module_ref = self.parse_ts_module_ref()?;
         expect!(self, ';');
-        Ok(TsImportEqualsDecl {
+        Ok(Box::new(TsImportEqualsDecl {
             span: span!(self, start),
             declare: false,
             id,
             is_export,
             is_type_only,
             module_ref,
-        })
+        }))
     }
 
     /// `tsIsExternalModuleReference`
