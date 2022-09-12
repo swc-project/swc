@@ -228,7 +228,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<TsTypeParamInstantiation>)> {
+    fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<Box<TsTypeParamInstantiation>>)> {
         let super_class = self.parse_lhs_expr()?;
         match *super_class {
             Expr::TsInstantiation(TsInstantiation {
@@ -1165,7 +1165,7 @@ impl<I: Tokens> Parser<I> {
         parse_args: F,
         is_async: bool,
         is_generator: bool,
-    ) -> PResult<Function>
+    ) -> PResult<Box<Function>>
     where
         F: FnOnce(&mut Self) -> PResult<Vec<Param>>,
     {
@@ -1221,6 +1221,7 @@ impl<I: Tokens> Parser<I> {
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(p, ':') {
                 p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
+                    .map(Box::new)
                     .map(Some)?
             } else {
                 None
