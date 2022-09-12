@@ -378,7 +378,7 @@ pub enum VarDeclOrPat {
     VarDecl(VarDecl),
 
     #[tag("*")]
-    Pat(Pat),
+    Pat(Box<Pat>),
 }
 
 impl Take for VarDeclOrPat {
