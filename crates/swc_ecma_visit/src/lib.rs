@@ -1337,9 +1337,9 @@ define!({
     }
     pub struct TryStmt {
         pub span: Span,
-        pub block: BlockStmt,
-        pub handler: Option<CatchClause>,
-        pub finalizer: Option<BlockStmt>,
+        pub block: Box<BlockStmt>,
+        pub handler: Option<Box<CatchClause>>,
+        pub finalizer: Option<Box<BlockStmt>>,
     }
     pub struct WhileStmt {
         pub span: Span,
