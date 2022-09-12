@@ -1103,13 +1103,13 @@ impl<I: Tokens> Parser<I> {
         let type_params = self.try_parse_ts_type_params(true)?;
         let type_ann = self.expect_then_parse_ts_type(&tok!('='), "=")?;
         expect!(self, ';');
-        Ok(TsTypeAliasDecl {
+        Ok(Box::new(TsTypeAliasDecl {
             declare: false,
             span: span!(self, start),
             id,
             type_params,
             type_ann,
-        })
+        }))
     }
 
     /// `tsParseImportEqualsDeclaration`
@@ -2113,7 +2113,7 @@ impl<I: Tokens> Parser<I> {
 
                         TsLit::BigInt(BigInt {
                             span,
-                            value: -*value,
+                            value: Box::new(-*value),
                             raw: Some(new_raw.into()),
                         })
                     }
