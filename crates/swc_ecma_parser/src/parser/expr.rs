@@ -794,7 +794,7 @@ impl<I: Tokens> Parser<I> {
                     is_generator: false,
                     params,
                     body,
-                    return_type: Some(return_type),
+                    return_type: Some(Box::new(return_type)),
                     type_params: None,
                 }))))
             }) {
