@@ -774,7 +774,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         is_const: bool,
-    ) -> PResult<TsEnumDecl> {
+    ) -> PResult<Box<TsEnumDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -783,13 +783,13 @@ impl<I: Tokens> Parser<I> {
             .parse_ts_delimited_list(ParsingContext::EnumMembers, |p| p.parse_ts_enum_member())?;
         expect!(self, '}');
 
-        Ok(TsEnumDecl {
+        Ok(Box::new(TsEnumDecl {
             span: span!(self, start),
             declare: false,
             is_const,
             id,
             members,
-        })
+        }))
     }
 
     /// `tsParseModuleBlock`

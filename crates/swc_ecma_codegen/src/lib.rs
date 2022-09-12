@@ -669,10 +669,10 @@ where
         self.emit_leading_comments_of_span(v.span, false)?;
 
         if self.cfg.minify {
-            let value = if v.value >= 10000000000000000_i64.into() {
+            let value = if *v.value >= 10000000000000000_i64.into() {
                 format!("0x{}", v.value.to_str_radix(16))
-            } else if v.value <= (-10000000000000000_i64).into() {
-                format!("-0x{}", (-v.value.clone()).to_str_radix(16))
+            } else if *v.value <= (-10000000000000000_i64).into() {
+                format!("-0x{}", (-*v.value.clone()).to_str_radix(16))
             } else {
                 v.value.to_string()
             };
