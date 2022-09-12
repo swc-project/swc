@@ -28,9 +28,7 @@ impl Compressor {
                                 new_conditions
                                     .push(MediaConditionAllType::MediaInParens(media_in_parens));
 
-                                for new_item in iter {
-                                    new_conditions.push(new_item);
-                                }
+                                new_conditions.extend(iter);
                             }
                         }
                         MediaConditionAllType::Or(media_or) => match media_or.condition {
@@ -51,9 +49,7 @@ impl Compressor {
                                         condition: media_in_parens,
                                     }));
 
-                                    for new_item in iter {
-                                        new_conditions.push(new_item);
-                                    }
+                                    new_conditions.extend(iter);
                                 }
                             }
                             _ => {
@@ -88,9 +84,7 @@ impl Compressor {
                                 new_conditions
                                     .push(MediaConditionAllType::MediaInParens(media_in_parens));
 
-                                for new_item in iter {
-                                    new_conditions.push(new_item);
-                                }
+                                new_conditions.extend(iter);
                             }
                         }
                         MediaConditionAllType::And(media_and) => match media_and.condition {
@@ -111,9 +105,7 @@ impl Compressor {
                                         condition: media_in_parens,
                                     }));
 
-                                    for new_item in iter {
-                                        new_conditions.push(new_item);
-                                    }
+                                    new_conditions.extend(iter);
                                 }
                             }
                             _ => {

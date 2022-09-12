@@ -30,9 +30,7 @@ impl Compressor {
                                     supports_in_parens,
                                 ));
 
-                                for new_item in iter {
-                                    new_conditions.push(new_item);
-                                }
+                                new_conditions.extend(iter);
                             }
                         }
                         SupportsConditionType::Or(supports_or) => match *supports_or.condition {
@@ -54,9 +52,7 @@ impl Compressor {
                                         condition: Box::new(supports_in_parens),
                                     }));
 
-                                    for new_item in iter {
-                                        new_conditions.push(new_item);
-                                    }
+                                    new_conditions.extend(iter);
                                 }
                             }
                             _ => {
@@ -93,9 +89,7 @@ impl Compressor {
                                     supports_in_parens,
                                 ));
 
-                                for new_item in iter {
-                                    new_conditions.push(new_item);
-                                }
+                                new_conditions.extend(iter);
                             }
                         }
                         SupportsConditionType::And(supports_and) => match *supports_and.condition {
@@ -117,9 +111,7 @@ impl Compressor {
                                         condition: Box::new(supports_in_parens),
                                     }));
 
-                                    for new_item in iter {
-                                        new_conditions.push(new_item);
-                                    }
+                                    new_conditions.extend(iter);
                                 }
                             }
                             _ => {
