@@ -25,13 +25,13 @@ pub enum Decl {
     #[tag("VariableDeclaration")]
     Var(VarDecl),
     #[tag("TsInterfaceDeclaration")]
-    TsInterface(TsInterfaceDecl),
+    TsInterface(Box<TsInterfaceDecl>),
     #[tag("TsTypeAliasDeclaration")]
-    TsTypeAlias(TsTypeAliasDecl),
+    TsTypeAlias(Box<TsTypeAliasDecl>),
     #[tag("TsEnumDeclaration")]
-    TsEnum(TsEnumDecl),
+    TsEnum(Box<TsEnumDecl>),
     #[tag("TsModuleDeclaration")]
-    TsModule(TsModuleDecl),
+    TsModule(Box<TsModuleDecl>),
 }
 
 impl Take for Decl {

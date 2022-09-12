@@ -176,7 +176,7 @@ pub enum DefaultDecl {
     Fn(FnExpr),
 
     #[tag("TsInterfaceDeclaration")]
-    TsInterfaceDecl(TsInterfaceDecl),
+    TsInterfaceDecl(Box<TsInterfaceDecl>),
 }
 
 #[ast_node]
