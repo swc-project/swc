@@ -1096,7 +1096,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeAliasDeclaration`
-    fn parse_ts_type_alias_decl(&mut self, start: BytePos) -> PResult<TsTypeAliasDecl> {
+    fn parse_ts_type_alias_decl(&mut self, start: BytePos) -> PResult<Box<TsTypeAliasDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -2113,7 +2113,7 @@ impl<I: Tokens> Parser<I> {
 
                         TsLit::BigInt(BigInt {
                             span,
-                            value: -value,
+                            value: -*value,
                             raw: Some(new_raw.into()),
                         })
                     }
@@ -2616,7 +2616,7 @@ impl<I: Tokens> Parser<I> {
                     .map(|p| p.pat)
                     .collect();
                 expect!(p, ')');
-                let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
+                let return_type = p.try_parse_ts_type_or_type_predicate_ann()?.map(Box::new);
                 expect!(p, "=>");
 
                 Ok(Some((type_params, params, return_type)))
