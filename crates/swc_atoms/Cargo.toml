@@ -29,6 +29,7 @@ rkyv-latest  = { package = "rkyv-test", version = "=0.7.38-test.2", optional = t
 rustc-hash   = "1.1.0"
 serde        = "1"
 string_cache = "0.8.4"
+triomphe     = "0.1.8"
 
 [build-dependencies]
 string_cache_codegen = "0.5.2"
