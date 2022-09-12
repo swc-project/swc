@@ -155,7 +155,7 @@ pub struct TsCallSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
@@ -167,7 +167,7 @@ pub struct TsConstructSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
@@ -185,7 +185,7 @@ pub struct TsPropertySignature {
     pub init: Option<Box<Expr>>,
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
@@ -200,7 +200,7 @@ pub struct TsGetterSignature {
     pub computed: bool,
     pub optional: bool,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
 #[ast_node("TsSetterSignature")]
@@ -226,7 +226,7 @@ pub struct TsMethodSignature {
     pub optional: bool,
     pub params: Vec<TsFnParam>,
     #[serde(default)]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
@@ -237,7 +237,7 @@ pub struct TsMethodSignature {
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 
     pub readonly: bool,
     #[serde(rename = "static")]
@@ -503,7 +503,7 @@ pub struct TsTypePredicate {
     pub asserts: bool,
     pub param_name: TsThisTypeOrIdent,
     #[serde(rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
 #[ast_node]

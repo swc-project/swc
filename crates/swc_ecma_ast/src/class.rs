@@ -106,7 +106,7 @@ pub struct ClassProp {
     pub value: Option<Box<Expr>>,
 
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[serde(default)]
     pub is_static: bool,
@@ -151,7 +151,7 @@ pub struct PrivateProp {
     pub value: Option<Box<Expr>>,
 
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[serde(default)]
     pub is_static: bool,

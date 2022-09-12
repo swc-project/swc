@@ -90,7 +90,7 @@ pub struct ArrayPat {
     pub optional: bool,
 
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
 #[ast_node("ObjectPattern")]
@@ -107,7 +107,7 @@ pub struct ObjectPat {
     pub optional: bool,
 
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
 #[ast_node("AssignmentPattern")]
@@ -121,7 +121,7 @@ pub struct AssignPat {
     pub right: Box<Expr>,
 
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
 /// EsTree `RestElement`
@@ -138,7 +138,7 @@ pub struct RestPat {
     pub arg: Box<Pat>,
 
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
 #[ast_node]
