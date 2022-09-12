@@ -1,8 +1,6 @@
 use std::mem::take;
 
 use enum_kind::Kind;
-#[cfg(not(debug_assertions))]
-use smallvec::SmallVec;
 use swc_common::BytePos;
 use tracing::trace;
 
@@ -342,10 +340,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
 impl State {
     pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
-        #[cfg(debug_assertions)]
         let context = TokenContexts(vec![TokenContext::BraceStmt]);
-        #[cfg(not(debug_assertions))]
-        let context = TokenContexts(SmallVec::from_slice(&[TokenContext::BraceStmt]));
 
         State {
             is_expr_allowed: true,
@@ -614,12 +609,7 @@ impl State {
 }
 
 #[derive(Clone, Default)]
-#[cfg(debug_assertions)]
 pub struct TokenContexts(pub(crate) Vec<TokenContext>);
-
-#[derive(Clone, Default)]
-#[cfg(not(debug_assertions))]
-pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 32]>);
 
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according
