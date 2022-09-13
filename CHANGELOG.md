@@ -58,6 +58,9 @@
 
 - **(es/parser)** Optimize memory layout (#5833) ([10484ed](https://github.com/swc-project/swc/commit/10484edbf768dcf96a99960a53cfb5968750b0c2))
 
+
+- **(html/minifier)** Improve performance (#5840) ([b691fec](https://github.com/swc-project/swc/commit/b691fec7b7949c4fff016e53b32b7f001403773a))
+
 ### Build
 
 
