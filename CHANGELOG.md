@@ -79,6 +79,12 @@
 
 - **(html/minifier)** Improve performance (#5838) ([ccd618c](https://github.com/swc-project/swc/commit/ccd618ce54cc21dbdeecd766f91816b395629678))
 
+### Testing
+
+
+
+- **(es/transforms)** Enable tests for fixed issues (#5845) ([0284c1b](https://github.com/swc-project/swc/commit/0284c1bf40de7d199733ee8f93c189d9658fe6b0))
+
 ### Build
 
 
