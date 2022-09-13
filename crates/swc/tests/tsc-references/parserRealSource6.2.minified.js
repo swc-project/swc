@@ -15,10 +15,9 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         if (ast.nodeType == NodeType.Script && context.pos > limChar && (limChar = context.pos), minChar <= context.pos && limChar >= context.pos) {
             switch(ast.nodeType){
                 case NodeType.Script:
-                    var script = ast;
                     context.scopeGetter = function() {
-                        return null === script.bod ? null : script.bod.enclosingScope;
-                    }, context.scopeStartAST = script;
+                        return null === ast.bod ? null : ast.bod.enclosingScope;
+                    }, context.scopeStartAST = ast;
                     break;
                 case NodeType.ClassDeclaration:
                     context.scopeGetter = function() {
@@ -26,12 +25,11 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
                     }, context.scopeStartAST = ast, context.enclosingClassDecl = ast;
                     break;
                 case NodeType.ObjectLit:
-                    var objectLit = ast;
-                    objectLit.targetType && (context.scopeGetter = function() {
-                        return objectLit.targetType.containedScope;
+                    ast.targetType && (context.scopeGetter = function() {
+                        return ast.targetType.containedScope;
                     }, context.objectLiteralScopeGetter = function() {
-                        return objectLit.targetType.memberScope;
-                    }, context.enclosingObjectLit = objectLit);
+                        return ast.targetType.memberScope;
+                    }, context.enclosingObjectLit = ast);
                     break;
                 case NodeType.ModuleDeclaration:
                     context.deepestModuleDecl = ast, context.scopeGetter = function() {
@@ -44,9 +42,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
                     }, context.scopeStartAST = ast;
                     break;
                 case NodeType.FuncDecl:
-                    var funcDecl = ast;
                     context.skipNextFuncDeclForClass ? context.skipNextFuncDeclForClass = !1 : (context.scopeGetter = function() {
-                        return funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) && ast.type && ast.type.enclosingType ? ast.type.enclosingType.constructorScope : funcDecl.scopeType ? funcDecl.scopeType.containedScope : funcDecl.type ? funcDecl.type.containedScope : null;
+                        return ast.isConstructor && hasFlag(ast.fncFlags, FncFlags.ClassMethod) && ast.type && ast.type.enclosingType ? ast.type.enclosingType.constructorScope : ast.scopeType ? ast.scopeType.containedScope : ast.type ? ast.type.containedScope : null;
                     }, context.scopeStartAST = ast);
             }
             walker.options.goChildren = !0;

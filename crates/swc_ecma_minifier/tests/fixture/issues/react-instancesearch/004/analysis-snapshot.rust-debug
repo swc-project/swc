@@ -1240,7 +1240,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('content' type=inline),
+                Atom('content' type=static),
                 #66,
             ),
             VarUsageInfo {
@@ -2982,7 +2982,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #11,
             ),
             VarUsageInfo {
@@ -4240,7 +4240,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('metadata' type=dynamic),
+                Atom('metadata' type=static),
                 #60,
             ),
             VarUsageInfo {
@@ -4280,7 +4280,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('metadata' type=dynamic),
+                Atom('metadata' type=static),
                 #64,
             ),
             VarUsageInfo {
@@ -4864,7 +4864,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('param' type=inline),
+                Atom('param' type=static),
                 #13,
             ),
             VarUsageInfo {
@@ -4902,7 +4902,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('param' type=inline),
+                Atom('param' type=static),
                 #39,
             ),
             VarUsageInfo {
@@ -4940,7 +4940,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('param' type=inline),
+                Atom('param' type=static),
                 #40,
             ),
             VarUsageInfo {
@@ -4978,7 +4978,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('param' type=inline),
+                Atom('param' type=static),
                 #42,
             ),
             VarUsageInfo {
@@ -5016,7 +5016,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('param' type=inline),
+                Atom('param' type=static),
                 #65,
             ),
             VarUsageInfo {

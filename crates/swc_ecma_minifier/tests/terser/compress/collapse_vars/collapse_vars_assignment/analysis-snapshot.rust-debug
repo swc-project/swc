@@ -2,7 +2,7 @@ TestSnapshot {
     vars: [
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #4,
             ),
             VarUsageInfo {
@@ -42,7 +42,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #5,
             ),
             VarUsageInfo {
@@ -82,7 +82,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #6,
             ),
             VarUsageInfo {
@@ -122,7 +122,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #7,
             ),
             VarUsageInfo {
@@ -162,7 +162,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #8,
             ),
             VarUsageInfo {
@@ -202,7 +202,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #9,
             ),
             VarUsageInfo {
@@ -242,7 +242,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #10,
             ),
             VarUsageInfo {
@@ -282,7 +282,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #5,
             ),
             VarUsageInfo {
@@ -322,7 +322,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #6,
             ),
             VarUsageInfo {
@@ -362,7 +362,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #7,
             ),
             VarUsageInfo {
@@ -402,7 +402,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #8,
             ),
             VarUsageInfo {
@@ -442,7 +442,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #9,
             ),
             VarUsageInfo {
@@ -482,7 +482,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #10,
             ),
             VarUsageInfo {
@@ -1092,7 +1092,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #3,
             ),
             VarUsageInfo {

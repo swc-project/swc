@@ -3987,7 +3987,7 @@
                 if (null !== c) for(var d = 0; d < c.length; d++){
                     var e = c[d];
                     try {
-                        var f = a, g = b, h = g;
+                        var g = b, h = g;
                         a: for(; null !== h;){
                             switch(h.tag){
                                 case 5:
@@ -4001,7 +4001,7 @@
                             h = h.return;
                         }
                         if (null === V) throw Error(p(160));
-                        Xj(f, g, e), V = null, Vj = !1;
+                        Xj(a, g, e), V = null, Vj = !1;
                         var k = e.alternate;
                         null !== k && (k.return = null), e.return = null;
                     } catch (l) {

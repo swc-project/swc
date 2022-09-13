@@ -329,4 +329,8 @@ impl VarDataLike for VarUsageInfo {
     fn mark_as_pure_fn(&mut self) {
         self.pure_fn = true;
     }
+
+    fn mark_used_above_decl(&mut self) {
+        self.used_above_decl = true;
+    }
 }

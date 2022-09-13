@@ -1,0 +1,6 @@
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_trivia_3/input.tsx:2:1]
+ 2 | <<<<<<< HEAD
+   : ^^^^^^^
+   `----

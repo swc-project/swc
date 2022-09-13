@@ -707,7 +707,7 @@
                             };
                             var text = textNode.nodeValue, textPos = function(frag, text, from, to) {
                                 for(var i = 0, pos = 0; i < frag.childCount && pos <= to;){
-                                    var child = frag.child(i++), childStart = pos;
+                                    var child = frag.child(i++);
                                     if (pos += child.nodeSize, child.isText) {
                                         for(var str = child.text; i < frag.childCount;){
                                             var next = frag.child(i++);
@@ -715,8 +715,8 @@
                                             str += next.text;
                                         }
                                         if (pos >= from) {
-                                            var found = str.lastIndexOf(text, to - childStart);
-                                            if (found >= 0 && found + text.length + childStart >= from) return childStart + found;
+                                            var found = str.lastIndexOf(text, to - pos);
+                                            if (found >= 0 && found + text.length + pos >= from) return pos + found;
                                         }
                                     }
                                 }
@@ -922,8 +922,8 @@
             }
             function replaceNodes(nodes, from, to, view, replacement) {
                 for(var result = [], i = 0, off = 0; i < nodes.length; i++){
-                    var child = nodes[i], start = off, end = off += child.size;
-                    start >= to || end <= from ? result.push(child) : (start < from && result.push(child.slice(0, from - start, view)), replacement && (result.push(replacement), replacement = null), end > to && result.push(child.slice(to - start, child.size, view)));
+                    var child = nodes[i], end = off += child.size;
+                    off >= to || end <= from ? result.push(child) : (off < from && result.push(child.slice(0, from - off, view)), replacement && (result.push(replacement), replacement = null), end > to && result.push(child.slice(to - off, child.size, view)));
                 }
                 return result;
             }
@@ -1616,10 +1616,10 @@
             editHandlers.keydown = function(view, event) {
                 if (view.shiftKey = 16 == event.keyCode || event.shiftKey, !inOrNearComposition(view, event)) {
                     if (229 != event.keyCode && view.domObserver.forceFlush(), view.lastKeyCode = event.keyCode, view.lastKeyCodeTime = Date.now(), !result.ios || 13 != event.keyCode || event.ctrlKey || event.altKey || event.metaKey) {
-                        var view1, event1, event2, result1, code, mods;
+                        var result1, code, mods;
                         view.someProp("handleKeyDown", function(f) {
                             return f(view, event);
-                        }) || (view1 = view, code = (event1 = event).keyCode, mods = (result1 = "", (event2 = event1).ctrlKey && (result1 += "c"), event2.metaKey && (result1 += "m"), event2.altKey && (result1 += "a"), event2.shiftKey && (result1 += "s"), result1), 8 == code || result.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view1, -1) || skipIgnoredNodesLeft(view1) : 46 == code || result.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view1, 1) || skipIgnoredNodesRight(view1) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 39 == code ? selectHorizontally(view1, 1, mods) || skipIgnoredNodesRight(view1) : 38 == code ? selectVertically(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 40 == code ? function(view) {
+                        }) || (code = event.keyCode, mods = (result1 = "", event.ctrlKey && (result1 += "c"), event.metaKey && (result1 += "m"), event.altKey && (result1 += "a"), event.shiftKey && (result1 += "s"), result1), 8 == code || result.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view, -1) || skipIgnoredNodesLeft(view) : 46 == code || result.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view, 1) || skipIgnoredNodesRight(view) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view, -1, mods) || skipIgnoredNodesLeft(view) : 39 == code ? selectHorizontally(view, 1, mods) || skipIgnoredNodesRight(view) : 38 == code ? selectVertically(view, -1, mods) || skipIgnoredNodesLeft(view) : 40 == code ? function(view) {
                             if (result.safari && !(view.state.selection.$head.parentOffset > 0)) {
                                 var ref = view.root.getSelection(), focusNode = ref.focusNode, focusOffset = ref.focusOffset;
                                 if (focusNode && 1 == focusNode.nodeType && 0 == focusOffset && focusNode.firstChild && "false" == focusNode.firstChild.contentEditable) {
@@ -1629,7 +1629,7 @@
                                     }, 20);
                                 }
                             }
-                        }(view1) || selectVertically(view1, 1, mods) || skipIgnoredNodesRight(view1) : mods == (result.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view, "key");
+                        }(view) || selectVertically(view, 1, mods) || skipIgnoredNodesRight(view) : mods == (result.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view, "key");
                     } else {
                         var now = Date.now();
                         view.lastIOSEnter = now, view.lastIOSEnterFallbackTimeout = setTimeout(function() {
@@ -1661,8 +1661,8 @@
             var selectNodeModifier = result.mac ? "metaKey" : "ctrlKey";
             handlers.mousedown = function(view, event) {
                 view.shiftKey = event.shiftKey;
-                var event1, click, dx, dy, flushed = endComposition(view), now = Date.now(), type = "singleClick";
-                now - view.lastClick.time < 500 && (event1 = event, (dx = (click = view.lastClick).x - event1.clientX) * dx + (dy = click.y - event1.clientY) * dy < 100) && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
+                var click, dx, dy, flushed = endComposition(view), now = Date.now(), type = "singleClick";
+                now - view.lastClick.time < 500 && (dx = (click = view.lastClick).x - event.clientX) * dx + (dy = click.y - event.clientY) * dy < 100 && !event[selectNodeModifier] && ("singleClick" == view.lastClick.type ? type = "doubleClick" : "doubleClick" == view.lastClick.type && (type = "tripleClick")), view.lastClick = {
                     time: now,
                     x: event.clientX,
                     y: event.clientY,
@@ -1701,9 +1701,9 @@
                 }), this.view.mouseDown = null;
             }, MouseDown.prototype.up = function(event) {
                 if (this.done(), this.view.dom.contains(3 == event.target.nodeType ? event.target.parentNode : event.target)) {
-                    var view, pos, inside, event1, selectNode, pos1 = this.pos;
-                    (this.view.state.doc != this.startDoc && (pos1 = this.view.posAtCoords(eventCoords(event))), this.allowDefault || !pos1) ? setSelectionOrigin(this.view, "pointer") : (view = this.view, pos = pos1.pos, inside = pos1.inside, event1 = event, selectNode = this.selectNode, runHandlerOnContext(view, "handleClickOn", pos, inside, event1) || view.someProp("handleClick", function(f) {
-                        return f(view, pos, event1);
+                    var view, pos, inside, selectNode, pos1 = this.pos;
+                    (this.view.state.doc != this.startDoc && (pos1 = this.view.posAtCoords(eventCoords(event))), this.allowDefault || !pos1) ? setSelectionOrigin(this.view, "pointer") : (view = this.view, pos = pos1.pos, inside = pos1.inside, selectNode = this.selectNode, runHandlerOnContext(view, "handleClickOn", pos, inside, event) || view.someProp("handleClick", function(f) {
+                        return f(view, pos, event);
                     }) || (selectNode ? function(view, inside) {
                         if (-1 == inside) return !1;
                         var selectedNode, selectAt, sel = view.state.selection;
@@ -1775,7 +1775,7 @@
                     return f(view, e, slice || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice.empty);
                 })) return !0;
                 if (!slice) return !1;
-                var slice1, singleNode = 0 == (slice1 = slice).openStart && 0 == slice1.openEnd && 1 == slice1.content.childCount ? slice1.content.firstChild : null, tr = singleNode ? view.state.tr.replaceSelectionWith(singleNode, view.shiftKey) : view.state.tr.replaceSelection(slice);
+                var singleNode = 0 == slice.openStart && 0 == slice.openEnd && 1 == slice.content.childCount ? slice.content.firstChild : null, tr = singleNode ? view.state.tr.replaceSelectionWith(singleNode, view.shiftKey) : view.state.tr.replaceSelection(slice);
                 return view.dispatch(tr.scrollIntoView().setMeta("paste", !0).setMeta("uiEvent", "paste")), !0;
             }
             handlers.copy = editHandlers.cut = function(view, e) {
@@ -2440,7 +2440,7 @@
             }, EditorView.prototype.updateState = function(state) {
                 this.updateStateInner(state, this.state.plugins != state.plugins);
             }, EditorView.prototype.updateStateInner = function(state, reconfigured) {
-                var ref, refDOM, refTop, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
+                var refDOM, refTop, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
                 if (state.storedMarks && this.composing && (clearComposition(this), updateSel = !0), this.state = state, reconfigured) {
                     var nodeViews = buildNodeViews(this);
                     (function(a, b) {
@@ -2488,7 +2488,7 @@
                     this.someProp("handleScrollToSelection", function(f) {
                         return f(this$1);
                     }) || (state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection ? scrollRectIntoView(this, this.docView.domAfterPos(state.selection.from).getBoundingClientRect(), startDOM) : scrollRectIntoView(this, this.coordsAtPos(state.selection.head, 1), startDOM));
-                } else oldScrollPos && (refDOM = (ref = oldScrollPos).refDOM, refTop = ref.refTop, restoreScrollStack(ref.stack, 0 == (newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0) ? 0 : newRefTop - refTop));
+                } else oldScrollPos && (refDOM = oldScrollPos.refDOM, refTop = oldScrollPos.refTop, restoreScrollStack(oldScrollPos.stack, 0 == (newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0) ? 0 : newRefTop - refTop));
             }, EditorView.prototype.destroyPluginViews = function() {
                 for(var view; view = this.pluginViews.pop();)view.destroy && view.destroy();
             }, EditorView.prototype.updatePluginViews = function(prevState) {
@@ -2658,9 +2658,9 @@
                 if (null == pos) throw RangeError("DOM position not inside the editor");
                 return pos;
             }, EditorView.prototype.endOfTextblock = function(dir, state) {
-                var state1, dir1, view, state2, dir2, sel, $pos;
-                return state1 = state || this.state, dir1 = dir, cachedState == state1 && cachedDir == dir1 ? cachedResult : (cachedState = state1, cachedDir = dir1, cachedResult = "up" == dir1 || "down" == dir1 ? (view = this, state2 = state1, dir2 = dir1, sel = state2.selection, $pos = "up" == dir2 ? sel.$from : sel.$to, withFlushedState(view, state2, function() {
-                    for(var dom = view.docView.domFromPos($pos.pos, "up" == dir2 ? -1 : 1).node;;){
+                var view, state1, sel, $pos;
+                return view = this, cachedState == (state1 = state || this.state) && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
+                    for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
                         var nearest = view.docView.nearestDesc(dom, !0);
                         if (!nearest) break;
                         if (nearest.node.isBlock) {
@@ -2678,7 +2678,7 @@
                         }
                         for(var i = 0; i < boxes.length; i++){
                             var box = boxes[i];
-                            if (box.bottom > box.top + 1 && ("up" == dir2 ? coords.top - box.top > (box.bottom - coords.top) * 2 : box.bottom - coords.bottom > (coords.bottom - box.top) * 2)) return !1;
+                            if (box.bottom > box.top + 1 && ("up" == dir ? coords.top - box.top > (box.bottom - coords.top) * 2 : box.bottom - coords.bottom > (coords.bottom - box.top) * 2)) return !1;
                         }
                     }
                     return !0;
@@ -2692,15 +2692,14 @@
                         var result = !($head.depth ? view.docView.domAfterPos($head.before()) : view.dom).contains(1 == sel.focusNode.nodeType ? sel.focusNode : sel.focusNode.parentNode) || oldNode == sel.focusNode && oldOff == sel.focusOffset;
                         return sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result;
                     }) : "left" == dir || "backward" == dir ? !offset : atEnd;
-                }(this, state1, dir1));
+                }(view, state1, dir));
             }, EditorView.prototype.destroy = function() {
                 this.docView && (function(view) {
                     for(var type in view.domObserver.stop(), view.eventHandlers)view.dom.removeEventListener(type, view.eventHandlers[type]);
                     clearTimeout(view.composingTimeout), clearTimeout(view.lastIOSEnterFallbackTimeout);
                 }(this), this.destroyPluginViews(), this.mounted ? (this.docView.update(this.state.doc, [], viewDecorations(this), this), this.dom.textContent = "") : this.dom.parentNode && this.dom.parentNode.removeChild(this.dom), this.docView.destroy(), this.docView = null);
             }, EditorView.prototype.dispatchEvent = function(event) {
-                var event1;
-                runCustomHandler(this, event1 = event) || !handlers[event1.type] || !this.editable && event1.type in editHandlers || handlers[event1.type](this, event1);
+                runCustomHandler(this, event) || !handlers[event.type] || !this.editable && event.type in editHandlers || handlers[event.type](this, event);
             }, EditorView.prototype.dispatch = function(tr) {
                 var dispatchTransaction = this._props.dispatchTransaction;
                 dispatchTransaction ? dispatchTransaction.call(this, tr) : this.updateState(this.state.apply(tr));

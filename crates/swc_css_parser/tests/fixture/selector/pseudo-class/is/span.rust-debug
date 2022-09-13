@@ -3926,7 +3926,7 @@
     :     ^
     `----
 
-  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:25:1]
  25 | :is(a >< b, a > b, d > c) {}
     :     ^
@@ -3986,7 +3986,7 @@
     :          ^
     `----
 
-  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:25:1]
  25 | :is(a >< b, a > b, d > c) {}
     :          ^
@@ -4220,7 +4220,7 @@
     :        ^
     `----
 
-  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
  26 | :is(   a >< b, a > b, d > c) {}
     :        ^
@@ -4280,7 +4280,7 @@
     :             ^
     `----
 
-  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
  26 | :is(   a >< b, a > b, d > c) {}
     :             ^
@@ -4658,7 +4658,7 @@
     :                   ^
     `----
 
-  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:27:1]
  27 | :is(a > b, d > c, a >< b) {}
     :                   ^
@@ -4718,7 +4718,7 @@
     :                        ^
     `----
 
-  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:27:1]
  27 | :is(a > b, d > c, a >< b) {}
     :                        ^
@@ -4952,7 +4952,7 @@
     :                   ^
     `----
 
-  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:28:1]
  28 | :is(a > b, d > c, a >< b   ) {}
     :                   ^
@@ -5012,7 +5012,7 @@
     :                        ^
     `----
 
-  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:28:1]
  28 | :is(a > b, d > c, a >< b   ) {}
     :                        ^
@@ -5186,7 +5186,7 @@
     :              ^
     `----
 
-  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:1]
  29 | :is(a > b,   a >< b   ,  d > c) {}
     :              ^
@@ -5246,7 +5246,7 @@
     :                   ^
     `----
 
-  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:1]
  29 | :is(a > b,   a >< b   ,  d > c) {}
     :                   ^

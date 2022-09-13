@@ -2115,7 +2115,7 @@
     :           ^^^
     `----
 
-  x Ident { value: Atom('img' type=inline), raw: Atom('img' type=inline) }
+  x Ident { value: Atom('img' type=static), raw: Atom('img' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:13:1]
  13 | a:has(<>  img, > img) {}
     :           ^^^
@@ -2313,7 +2313,7 @@
     :              ^^^
     `----
 
-  x Ident { value: Atom('img' type=inline), raw: Atom('img' type=inline) }
+  x Ident { value: Atom('img' type=static), raw: Atom('img' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
  14 | a:has(   <>  img, > img) {}
     :              ^^^
@@ -2559,7 +2559,7 @@
     :                  ^^^
     `----
 
-  x Ident { value: Atom('img' type=inline), raw: Atom('img' type=inline) }
+  x Ident { value: Atom('img' type=static), raw: Atom('img' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:15:1]
  15 | a:has(> img, <>  img) {}
     :                  ^^^
@@ -2757,7 +2757,7 @@
     :                  ^^^
     `----
 
-  x Ident { value: Atom('img' type=inline), raw: Atom('img' type=inline) }
+  x Ident { value: Atom('img' type=static), raw: Atom('img' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:16:1]
  16 | a:has(> img, <>  img   ) {}
     :                  ^^^
@@ -2967,7 +2967,7 @@
     :                     ^^^
     `----
 
-  x Ident { value: Atom('img' type=inline), raw: Atom('img' type=inline) }
+  x Ident { value: Atom('img' type=static), raw: Atom('img' type=static) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:18:1]
  18 | a:has(> img,    <>  img   , > img) {}
     :                     ^^^

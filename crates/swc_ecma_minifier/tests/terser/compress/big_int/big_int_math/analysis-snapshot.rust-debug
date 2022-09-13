@@ -2,7 +2,7 @@ TestSnapshot {
     vars: [
         (
             (
-                Atom('div' type=inline),
+                Atom('div' type=static),
                 #1,
             ),
             VarUsageInfo {
@@ -162,7 +162,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('sub' type=inline),
+                Atom('sub' type=static),
                 #1,
             ),
             VarUsageInfo {

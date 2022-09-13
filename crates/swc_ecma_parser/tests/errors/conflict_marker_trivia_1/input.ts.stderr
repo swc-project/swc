@@ -1,0 +1,18 @@
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_trivia_1/input.ts:2:1]
+ 2 | <<<<<<< HEAD
+   : ^^^^^^^
+   `----
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_trivia_1/input.ts:4:1]
+ 4 | =======
+   : ^^^^^^^
+   `----
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_trivia_1/input.ts:6:1]
+ 6 | >>>>>>> Branch-a
+   : ^^^^^^^
+   `----

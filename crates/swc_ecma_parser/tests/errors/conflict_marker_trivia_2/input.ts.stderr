@@ -1,0 +1,26 @@
+
+  x Unexpected token `public`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp,
+  | ` for template literal, (, or an identifier
+    ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:9:1]
+  9 | ,-> >>>>>>> A
+ 10 | |   
+ 11 | `->   public bar() { }
+    `----
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:3:1]
+ 3 | <<<<<<< B
+   : ^^^^^^^
+   `----
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:6:1]
+ 6 | =======
+   : ^^^^^^^
+   `----
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:9:1]
+ 9 | >>>>>>> A
+   : ^^^^^^^
+   `----

@@ -128,7 +128,7 @@
    :               ^
    `----
 
-  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
    :               ^

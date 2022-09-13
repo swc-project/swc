@@ -120,7 +120,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('canvas' type=inline),
+                Atom('canvas' type=static),
                 #2,
             ),
             VarUsageInfo {
@@ -160,7 +160,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('svg' type=inline),
+                Atom('svg' type=static),
                 #2,
             ),
             VarUsageInfo {
