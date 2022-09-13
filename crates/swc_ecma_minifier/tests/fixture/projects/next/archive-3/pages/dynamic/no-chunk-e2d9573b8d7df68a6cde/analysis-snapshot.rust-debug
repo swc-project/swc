@@ -6368,7 +6368,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #7,
             ),
             VarUsageInfo {
@@ -6408,7 +6408,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #26,
             ),
             VarUsageInfo {
@@ -6448,7 +6448,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #38,
             ),
             VarUsageInfo {
@@ -6488,7 +6488,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #41,
             ),
             VarUsageInfo {
@@ -6528,7 +6528,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #50,
             ),
             VarUsageInfo {
@@ -9114,7 +9114,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('p' type=inline),
+                Atom('p' type=static),
                 #15,
             ),
             VarUsageInfo {
@@ -9152,7 +9152,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('p' type=inline),
+                Atom('p' type=static),
                 #16,
             ),
             VarUsageInfo {
@@ -10234,7 +10234,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #26,
             ),
             VarUsageInfo {
@@ -10274,7 +10274,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #38,
             ),
             VarUsageInfo {
@@ -10472,7 +10472,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('sub' type=inline),
+                Atom('sub' type=static),
                 #57,
             ),
             VarUsageInfo {

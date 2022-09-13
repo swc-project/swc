@@ -431,7 +431,7 @@
    :           ^^^^
    `----
 
-  x Dimension { value: 12.0, raw_value: Atom('12' type=inline), unit: Atom('em' type=inline), raw_unit: Atom('em' type=inline), type_flag: Integer }
+  x Dimension { value: 12.0, raw_value: Atom('12' type=inline), unit: Atom('em' type=static), raw_unit: Atom('em' type=static), type_flag: Integer }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:5]
  8 | --length: 12em;
    :           ^^^^
@@ -887,7 +887,7 @@
     :                     ^^^^^^
     `----
 
-  x AtKeyword { value: Atom('media' type=inline), raw: Atom('media' type=inline) }
+  x AtKeyword { value: Atom('media' type=static), raw: Atom('media' type=static) }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:5]
  16 | --at-keyword-known: @media;
     :                     ^^^^^^
@@ -1007,7 +1007,7 @@
     :                           ^^^^^^
     `----
 
-  x AtKeyword { value: Atom('media' type=inline), raw: Atom('media' type=inline) }
+  x AtKeyword { value: Atom('media' type=static), raw: Atom('media' type=static) }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
  18 | --at-keyword-known-block: @media {};
     :                           ^^^^^^

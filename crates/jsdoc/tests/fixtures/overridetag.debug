@@ -244,7 +244,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=inline),
+                    value: Atom('param' type=static),
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -533,7 +533,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=inline),
+                    value: Atom('param' type=static),
                 },
                 tag: Parameter(
                     ParameterTag {

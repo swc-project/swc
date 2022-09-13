@@ -40,7 +40,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('data' type=inline),
+                Atom('data' type=static),
                 #2,
             ),
             VarUsageInfo {

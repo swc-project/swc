@@ -98,7 +98,7 @@
    :           ^^^^
    `----
 
-  x Ident { value: Atom('span' type=inline), raw: Atom('span' type=inline) }
+  x Ident { value: Atom('span' type=static), raw: Atom('span' type=static) }
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :           ^^^^

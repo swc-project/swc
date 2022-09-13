@@ -82,7 +82,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('code' type=inline),
+                Atom('code' type=static),
                 #3,
             ),
             VarUsageInfo {
