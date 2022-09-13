@@ -1,0 +1,12 @@
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_diff_3_trivia_1/input.ts:4:1]
+ 4 | ||||||| merged common ancestors
+   : ^^^^^^^
+   `----
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_diff_3_trivia_1/input.ts:2:1]
+ 2 | <<<<<<< HEAD
+   : ^^^^^^^
+   `----

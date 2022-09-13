@@ -29,14 +29,29 @@ where
         .load_file(file_name)
         .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-    let mut p = Parser::new(
-        ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
-            jsx: true,
+    let is_ts = file_name
+        .extension()
+        .map(|ext| ext == "ts" || ext == "tsx")
+        .unwrap_or_default();
+
+    let is_jsx = file_name
+        .extension()
+        .map(|ext| ext == "jsx" || ext == "tsx")
+        .unwrap_or_default();
+
+    let syntax = if is_ts {
+        ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
+            tsx: is_jsx,
             ..Default::default()
-        }),
-        (&*fm).into(),
-        None,
-    );
+        })
+    } else {
+        ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+            jsx: is_jsx,
+            ..Default::default()
+        })
+    };
+
+    let mut p = Parser::new(syntax, (&*fm).into(), None);
 
     let res = f(&mut p).map_err(|e| e.into_diagnostic(handler).emit());
 
@@ -49,6 +64,8 @@ where
 
 #[cfg(feature = "verify")]
 #[testing::fixture("tests/errors/**/*.js")]
+#[testing::fixture("tests/errors/**/*.ts")]
+#[testing::fixture("tests/errors/**/*.tsx")]
 fn error(entry: PathBuf) {
     let input = read_to_string(&entry).unwrap();
 
