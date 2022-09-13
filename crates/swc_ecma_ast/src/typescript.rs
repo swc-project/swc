@@ -469,7 +469,7 @@ pub struct TsFnType {
     #[serde(default)]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
-    pub type_ann: TsTypeAnn,
+    pub type_ann: Box<TsTypeAnn>,
 }
 
 #[ast_node("TsConstructorType")]
@@ -481,7 +481,7 @@ pub struct TsConstructorType {
     #[serde(default)]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
-    pub type_ann: TsTypeAnn,
+    pub type_ann: Box<TsTypeAnn>,
     pub is_abstract: bool,
 }
 
