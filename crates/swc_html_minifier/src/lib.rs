@@ -1190,9 +1190,9 @@ impl Minifier<'_> {
                                 || (matches!(
                                     element.namespace,
                                     Namespace::HTML | Namespace::SVG
-                                ) && &*element.tag_name == "script")
+                                ) && element.tag_name == js_word!("script"))
                                 || (element.namespace == Namespace::HTML
-                                    && &*element.tag_name == "noscript"))
+                                    && element.tag_name == js_word!("noscript")))
                             && element.attributes.is_empty()
                             && self.empty_children(&element.children)
                             && element.content.is_none() =>
@@ -1203,7 +1203,7 @@ impl Minifier<'_> {
                     Child::Text(text)
                         if self.need_collapse_whitespace()
                             && namespace == Namespace::HTML
-                            && matches!(&**tag_name, "html" | "head")
+                            && matches!(*tag_name, js_word!("html") | js_word!("head"))
                             && text.data.chars().all(is_whitespace) =>
                     {
                         false
@@ -1224,37 +1224,6 @@ impl Minifier<'_> {
                         let mut is_smart_right_trim = false;
 
                         if matches!(
-        let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
-            match child {
-                Child::Comment(comment) if self.options.remove_comments => {
-                    self.is_preserved_comment(&comment.data)
-                }
-                Child::Element(element)
-                    if self.options.remove_empty_metedata_elements
-                        && (!self.is_element_displayed(element.namespace, &element.tag_name)
-                            || (matches!(element.namespace, Namespace::HTML | Namespace::SVG)
-                                && element.tag_name == js_word!("script"))
-                            || (element.namespace == Namespace::HTML
-                                && element.tag_name == js_word!("noscript")))
-                        && element.attributes.is_empty()
-                        && self.empty_children(&element.children)
-                        && element.content.is_none() =>
-                {
-                    false
-                }
-                Child::Text(text) if text.data.is_empty() => false,
-                Child::Text(text)
-                    if self.need_collapse_whitespace()
-                        && namespace == Namespace::HTML
-                        && matches!(*tag_name, js_word!("html") | js_word!("head"))
-                        && text.data.chars().all(is_whitespace) =>
-                {
-                    false
-                }
-                Child::Text(text)
-                    if !self.descendant_of_pre
-                        && get_white_space(namespace, tag_name) == WhiteSpace::Normal
-                        && matches!(
                             self.options.collapse_whitespaces,
                             CollapseWhitespaces::Smart
                                 | CollapseWhitespaces::OnlyMetadata
@@ -1375,7 +1344,8 @@ impl Minifier<'_> {
                                     // attribute. This includes text nodes.
                                     // Also they can be used for custom logic
 
-                                    if (namespace == Namespace::HTML && tag_name == "template")
+                                    if (namespace == Namespace::HTML
+                                        && *tag_name == js_word!("template"))
                                         || self.is_custom_element(tag_name)
                                     {
                                         false
@@ -1463,98 +1433,18 @@ impl Minifier<'_> {
                                 Some(_) => false,
                                 None => {
                                     // Template can be used in any place, so let's keep whitespaces
-                                    let is_template =
-                                        namespace == Namespace::HTML && tag_name == "template";
+                                    let is_template = namespace == Namespace::HTML
+                                        && *tag_name == js_word!("template");
 
                                     if is_template {
                                         false
                                     } else {
-                                if (namespace == Namespace::HTML
-                                    && *tag_name == js_word!("template"))
-                                    || self.is_custom_element(tag_name)
-                                {
-                                    false
-                                } else {
-                                    let parent_display = self.get_display(namespace, tag_name);
-
-                                    match parent_display {
-                                        Display::Inline => {
-                                            if let Some(Child::Text(Text { data, .. })) =
-                                                &self.latest_element
-                                            {
-                                                data.ends_with(is_whitespace)
-                                            } else {
-                                                false
-                                            }
-                                        }
-                                        _ => true,
-                                    }
-                                }
-                            }
-                        };
-
-                        let next = children.get(index + 1);
-                        let next_display = match next {
-                            Some(Child::Element(Element {
-                                namespace,
-                                tag_name,
-                                ..
-                            })) => Some(self.get_display(*namespace, tag_name)),
-                            Some(Child::Comment(_)) => match need_remove_metadata_whitespaces {
-                                true => None,
-                                _ => Some(Display::None),
-                            },
-                            _ => None,
-                        };
-
-                        let allow_to_trim_right = match next_display {
-                            // Block-level containers:
-                            //
-                            // `Display::Block`    - `display: block flow`
-                            // `Display::ListItem` - `display: block flow list-item`
-                            // `Display::Table`    - `display: block table`
-                            //
-                            // + internal table display (only whitespace characters allowed there)
-                            Some(
-                                Display::Block
-                                | Display::ListItem
-                                | Display::Table
-                                | Display::TableColumnGroup
-                                | Display::TableCaption
-                                | Display::TableColumn
-                                | Display::TableRow
-                                | Display::TableCell
-                                | Display::TableHeaderGroup
-                                | Display::TableRowGroup
-                                | Display::TableFooterGroup,
-                            ) => true,
-                            // These elements are not displayed
-                            Some(Display::None) => {
-                                match &self.get_next_displayed_node(children, index + 1) {
-                                    Some(Child::Text(text)) => text.data.starts_with(is_whitespace),
-                                    Some(Child::Element(element)) => {
-                                        let deep = self
-                                            .get_first_displayed_text_node(&element.children, 0);
-
-                                        if let Some(deep) = deep {
-                                            !deep.data.starts_with(is_whitespace)
-                                        } else {
-                                            false
-                                        }
-                                    }
-                                    _ => {
                                         let parent_display = self.get_display(namespace, tag_name);
 
                                         !matches!(parent_display, Display::Inline)
                                     }
                                 }
                             };
-                            }
-                            Some(_) => false,
-                            None => {
-                                // Template can be used in any place, so let's keep whitespaces
-                                let is_template = namespace == Namespace::HTML
-                                    && *tag_name == js_word!("template");
 
                             if matches!(
                                 self.options.collapse_whitespaces,
