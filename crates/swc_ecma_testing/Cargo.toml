@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_testing"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.17.7"
+version       = "0.17.8"
 
 [lib]
 bench = false
@@ -15,8 +15,8 @@ bench = false
 anyhow           = "1"
 hex              = "0.4"
 sha-1            = "0.10"
-swc_atoms        = { version = "0.4.13", path = "../swc_atoms" }
-swc_common       = { version = "0.28.2", path = "../swc_common" }
-swc_ecma_ast     = { version = "0.91.2", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.124.7", path = "../swc_ecma_codegen" }
-testing          = { version = "0.30.2", path = "../testing" }
+swc_atoms        = { version = "0.4.14", path = "../swc_atoms" }
+swc_common       = { version = "0.28.3", path = "../swc_common" }
+swc_ecma_ast     = { version = "0.91.3", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.124.8", path = "../swc_ecma_codegen" }
+testing          = { version = "0.30.3", path = "../testing" }

@@ -7,25 +7,25 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_css_minifier"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.87.4"
+version       = "0.87.5"
 
 [lib]
 bench = false
 
 [dependencies]
 serde         = "1.0.118"
-swc_atoms     = { version = "0.4.13", path = "../swc_atoms" }
-swc_common    = { version = "0.28.2", path = "../swc_common" }
-swc_css_ast   = { version = "0.112.1", path = "../swc_css_ast" }
-swc_css_utils = { version = "0.109.1", path = "../swc_css_utils/" }
-swc_css_visit = { version = "0.111.1", path = "../swc_css_visit" }
+swc_atoms     = { version = "0.4.14", path = "../swc_atoms" }
+swc_common    = { version = "0.28.3", path = "../swc_common" }
+swc_css_ast   = { version = "0.112.2", path = "../swc_css_ast" }
+swc_css_utils = { version = "0.109.2", path = "../swc_css_utils/" }
+swc_css_visit = { version = "0.111.2", path = "../swc_css_visit" }
 
 [dev-dependencies]
 criterion       = "0.3"
-swc_css_codegen = { version = "0.122.1", path = "../swc_css_codegen" }
-swc_css_parser  = { version = "0.121.1", path = "../swc_css_parser" }
+swc_css_codegen = { version = "0.122.2", path = "../swc_css_codegen" }
+swc_css_parser  = { version = "0.121.2", path = "../swc_css_parser" }
 swc_node_base   = { version = "0.5.0", path = "../swc_node_base" }
-testing         = { version = "0.30.2", path = "../testing" }
+testing         = { version = "0.30.3", path = "../testing" }
 
 [[bench]]
 harness = false

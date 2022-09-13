@@ -67,6 +67,9 @@
 
 - **(html/minifier)** Improve performance (#5840) ([b691fec](https://github.com/swc-project/swc/commit/b691fec7b7949c4fff016e53b32b7f001403773a))
 
+
+- **(html/minifier)** Improve performance (#5838) ([ccd618c](https://github.com/swc-project/swc/commit/ccd618ce54cc21dbdeecd766f91816b395629678))
+
 ### Build
 
 
