@@ -14,6 +14,9 @@
 - **(css/minifier)** Fix minification of universal selectors (#5826) ([1803874](https://github.com/swc-project/swc/commit/1803874f1484ab2a3c7b23b5e027e72f99740fba))
 
 
+- **(es/modules)** Improve compatibility with `cjs-module-lexer` (#5835) ([bf75981](https://github.com/swc-project/swc/commit/bf759819e4ad577e89c2605e80e80c928017029d))
+
+
 - **(es/parser)** Keep comments of the RHS of a binary expression (#5812) ([8adbe16](https://github.com/swc-project/swc/commit/8adbe1675e6e86b0d1eb2f67ecdba3eb4ed5ee96))
 
 
@@ -63,6 +66,9 @@
 
 
 - **(es/minifier)** Make the expression simplifier more parallel (#5841) ([b6cf975](https://github.com/swc-project/swc/commit/b6cf9750ecda6d4a7b1f1c9c7c26a801dc40c213))
+
+
+- **(es/minifier)** Reduce type sizes (#5843) ([fe3072b](https://github.com/swc-project/swc/commit/fe3072b12a32cbae3b4f9e904add8ad2ab6cc7f3))
 
 
 - **(es/parser)** Optimize memory layout (#5833) ([10484ed](https://github.com/swc-project/swc/commit/10484edbf768dcf96a99960a53cfb5968750b0c2))

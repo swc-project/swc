@@ -75,15 +75,12 @@ impl Evaluator {
             let marks = self.marks;
             let data = self.data.clone();
             //
-            swc_common::GLOBALS.with(|globals| {
-                self.module.visit_mut_with(&mut compressor(
-                    globals,
-                    &Default::default(),
-                    marks,
-                    &serde_json::from_str("{ \"hoist_props\": true }").unwrap(),
-                    &data,
-                ));
-            });
+            self.module.visit_mut_with(&mut compressor(
+                &Default::default(),
+                marks,
+                &serde_json::from_str("{ \"hoist_props\": true }").unwrap(),
+                &data,
+            ));
         }
     }
 
