@@ -23,6 +23,9 @@
 
 
 
+- **(es/minifier)** Extend inlining of identifiers to multi-usage (#5832) ([8567a38](https://github.com/swc-project/swc/commit/8567a38c4a9363c41d0cab1c8adec02ee2e9b202))
+
+
 - **(es/parser)** Improve jsx lexer (#5805) ([97729e5](https://github.com/swc-project/swc/commit/97729e5d2bc74841ac2907902ddbd413d5645f9a))
 
 
