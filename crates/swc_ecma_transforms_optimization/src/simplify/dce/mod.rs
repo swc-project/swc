@@ -200,9 +200,9 @@ impl Data {
 #[derive(Debug, Default)]
 struct VarInfo {
     /// This does not include self-references in a function.
-    pub usage: usize,
+    pub usage: u32,
     /// This does not include self-references in a function.
-    pub assign: usize,
+    pub assign: u32,
 }
 
 struct Analyzer<'a> {
