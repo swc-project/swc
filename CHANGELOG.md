@@ -62,6 +62,9 @@
 - **(es/minifier)** Make expression simplifier stateless and parallel (#5819) ([cfe575e](https://github.com/swc-project/swc/commit/cfe575e35a47c8a0d0550df9fc8dd0db932b6c41))
 
 
+- **(es/minifier)** Make the expression simplifier more parallel (#5841) ([b6cf975](https://github.com/swc-project/swc/commit/b6cf9750ecda6d4a7b1f1c9c7c26a801dc40c213))
+
+
 - **(es/parser)** Optimize memory layout (#5833) ([10484ed](https://github.com/swc-project/swc/commit/10484edbf768dcf96a99960a53cfb5968750b0c2))
 
 
