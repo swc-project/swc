@@ -893,7 +893,7 @@ impl Minifier<'_> {
 
     fn get_next_displayed_node<'a>(
         &self,
-        children: &'a Vec<Child>,
+        children: &'a [Child],
         index: usize,
     ) -> Option<&'a Child> {
         let next = children.get(index);
@@ -1060,131 +1060,246 @@ impl Minifier<'_> {
 
         let mode = self.get_whitespace_minification_for_tag(namespace, tag_name);
 
-        let child_will_be_retained = |child: &mut Child, children: &Vec<Child>, index: usize| {
-            match child {
-                Child::Comment(comment) if self.options.remove_comments => {
-                    self.is_preserved_comment(&comment.data)
-                }
-                Child::Element(element)
-                    if self.options.remove_empty_metedata_elements
-                        && (!self.is_element_displayed(element.namespace, &element.tag_name)
-                            || (matches!(element.namespace, Namespace::HTML | Namespace::SVG)
-                                && &*element.tag_name == "script")
-                            || (element.namespace == Namespace::HTML
-                                && &*element.tag_name == "noscript"))
-                        && element.attributes.is_empty()
-                        && self.empty_children(&element.children)
-                        && element.content.is_none() =>
-                {
-                    false
-                }
-                Child::Text(text) if text.data.is_empty() => false,
-                Child::Text(text)
-                    if self.need_collapse_whitespace()
-                        && namespace == Namespace::HTML
-                        && matches!(&**tag_name, "html" | "head")
-                        && text.data.chars().all(is_whitespace) =>
-                {
-                    false
-                }
-                Child::Text(text)
-                    if !self.descendant_of_pre
-                        && get_white_space(namespace, tag_name) == WhiteSpace::Normal
-                        && matches!(
+        let child_will_be_retained =
+            |child: &mut Child, prev_children: &Vec<Child>, next_children: &[Child]| {
+                match child {
+                    Child::Comment(comment) if self.options.remove_comments => {
+                        self.is_preserved_comment(&comment.data)
+                    }
+                    Child::Element(element)
+                        if self.options.remove_empty_metedata_elements
+                            && (!self
+                                .is_element_displayed(element.namespace, &element.tag_name)
+                                || (matches!(
+                                    element.namespace,
+                                    Namespace::HTML | Namespace::SVG
+                                ) && &*element.tag_name == "script")
+                                || (element.namespace == Namespace::HTML
+                                    && &*element.tag_name == "noscript"))
+                            && element.attributes.is_empty()
+                            && self.empty_children(&element.children)
+                            && element.content.is_none() =>
+                    {
+                        false
+                    }
+                    Child::Text(text) if text.data.is_empty() => false,
+                    Child::Text(text)
+                        if self.need_collapse_whitespace()
+                            && namespace == Namespace::HTML
+                            && matches!(&**tag_name, "html" | "head")
+                            && text.data.chars().all(is_whitespace) =>
+                    {
+                        false
+                    }
+                    Child::Text(text)
+                        if !self.descendant_of_pre
+                            && get_white_space(namespace, tag_name) == WhiteSpace::Normal
+                            && matches!(
+                                self.options.collapse_whitespaces,
+                                CollapseWhitespaces::All
+                                    | CollapseWhitespaces::Smart
+                                    | CollapseWhitespaces::OnlyMetadata
+                                    | CollapseWhitespaces::Conservative
+                                    | CollapseWhitespaces::AdvancedConservative
+                            ) =>
+                    {
+                        let mut is_smart_left_trim = false;
+                        let mut is_smart_right_trim = false;
+
+                        if matches!(
                             self.options.collapse_whitespaces,
-                            CollapseWhitespaces::All
-                                | CollapseWhitespaces::Smart
+                            CollapseWhitespaces::Smart
                                 | CollapseWhitespaces::OnlyMetadata
-                                | CollapseWhitespaces::Conservative
                                 | CollapseWhitespaces::AdvancedConservative
-                        ) =>
-                {
-                    let mut is_smart_left_trim = false;
-                    let mut is_smart_right_trim = false;
+                        ) {
+                            let need_remove_metadata_whitespaces = matches!(
+                                self.options.collapse_whitespaces,
+                                CollapseWhitespaces::OnlyMetadata
+                                    | CollapseWhitespaces::AdvancedConservative
+                            );
 
-                    if matches!(
-                        self.options.collapse_whitespaces,
-                        CollapseWhitespaces::Smart
-                            | CollapseWhitespaces::OnlyMetadata
-                            | CollapseWhitespaces::AdvancedConservative
-                    ) {
-                        let need_remove_metadata_whitespaces = matches!(
-                            self.options.collapse_whitespaces,
-                            CollapseWhitespaces::OnlyMetadata
-                                | CollapseWhitespaces::AdvancedConservative
-                        );
+                            let prev = prev_children.last();
+                            let prev_display = match prev {
+                                Some(Child::Element(Element {
+                                    namespace,
+                                    tag_name,
+                                    ..
+                                })) => Some(self.get_display(*namespace, tag_name)),
+                                Some(Child::Comment(_)) => match need_remove_metadata_whitespaces {
+                                    true => None,
+                                    _ => Some(Display::None),
+                                },
+                                _ => None,
+                            };
 
-                        let prev = if index >= 1 {
-                            children.get(index - 1)
-                        } else {
-                            None
-                        };
-                        let prev_display = match prev {
-                            Some(Child::Element(Element {
-                                namespace,
-                                tag_name,
-                                ..
-                            })) => Some(self.get_display(*namespace, tag_name)),
-                            Some(Child::Comment(_)) => match need_remove_metadata_whitespaces {
-                                true => None,
-                                _ => Some(Display::None),
-                            },
-                            _ => None,
-                        };
+                            let allow_to_trim_left = match prev_display {
+                                // Block-level containers:
+                                //
+                                // `Display::Block`    - `display: block flow`
+                                // `Display::ListItem` - `display: block flow list-item`
+                                // `Display::Table`    - `display: block table`
+                                //
+                                // + internal table display (only whitespace characters allowed
+                                // there)
+                                Some(
+                                    Display::Block
+                                    | Display::ListItem
+                                    | Display::Table
+                                    | Display::TableColumnGroup
+                                    | Display::TableCaption
+                                    | Display::TableColumn
+                                    | Display::TableRow
+                                    | Display::TableCell
+                                    | Display::TableHeaderGroup
+                                    | Display::TableRowGroup
+                                    | Display::TableFooterGroup,
+                                ) => true,
+                                // Elements are not displayed
+                                // And
+                                // Inline box
+                                Some(Display::None) | Some(Display::Inline) => {
+                                    // A custom element can contain any elements, we cannot predict
+                                    // the behavior of spaces
+                                    let is_custom_element =
+                                        if let Some(Child::Element(element)) = &prev {
+                                            self.is_custom_element(&element.tag_name)
+                                        } else {
+                                            false
+                                        };
 
-                        let allow_to_trim_left = match prev_display {
-                            // Block-level containers:
-                            //
-                            // `Display::Block`    - `display: block flow`
-                            // `Display::ListItem` - `display: block flow list-item`
-                            // `Display::Table`    - `display: block table`
-                            //
-                            // + internal table display (only whitespace characters allowed there)
-                            Some(
-                                Display::Block
-                                | Display::ListItem
-                                | Display::Table
-                                | Display::TableColumnGroup
-                                | Display::TableCaption
-                                | Display::TableColumn
-                                | Display::TableRow
-                                | Display::TableCell
-                                | Display::TableHeaderGroup
-                                | Display::TableRowGroup
-                                | Display::TableFooterGroup,
-                            ) => true,
-                            // Elements are not displayed
-                            // And
-                            // Inline box
-                            Some(Display::None) | Some(Display::Inline) => {
-                                // A custom element can contain any elements, we cannot predict the
-                                // behavior of spaces
-                                let is_custom_element = if let Some(Child::Element(element)) = &prev
-                                {
-                                    self.is_custom_element(&element.tag_name)
-                                } else {
-                                    false
-                                };
+                                    if is_custom_element {
+                                        false
+                                    } else {
+                                        match &self.get_prev_displayed_node(
+                                            prev_children,
+                                            prev_children.len() - 1,
+                                        ) {
+                                            Some(Child::Text(text)) => {
+                                                text.data.ends_with(is_whitespace)
+                                            }
+                                            Some(Child::Element(element)) => {
+                                                let deep = if !element.children.is_empty() {
+                                                    self.get_last_displayed_text_node(
+                                                        &element.children,
+                                                        element.children.len() - 1,
+                                                    )
+                                                } else {
+                                                    None
+                                                };
 
-                                if is_custom_element {
-                                    false
-                                } else {
-                                    match &self.get_prev_displayed_node(children, index - 1) {
+                                                if let Some(deep) = deep {
+                                                    deep.data.ends_with(is_whitespace)
+                                                } else {
+                                                    false
+                                                }
+                                            }
+                                            _ => {
+                                                let parent_display =
+                                                    self.get_display(namespace, tag_name);
+
+                                                match parent_display {
+                                                    Display::Inline => {
+                                                        if let Some(Child::Text(Text {
+                                                            data,
+                                                            ..
+                                                        })) = &self.latest_element
+                                                        {
+                                                            data.ends_with(is_whitespace)
+                                                        } else {
+                                                            false
+                                                        }
+                                                    }
+                                                    _ => true,
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                // Inline level containers and etc
+                                Some(_) => false,
+                                None => {
+                                    // Template can be used in any place, so let's keep whitespaces
+                                    //
+                                    // For custom elements - an unnamed `<slot>` will be filled with
+                                    // all of the custom
+                                    // element's top-level child
+                                    // nodes that do not have the slot
+                                    // attribute. This includes text nodes.
+                                    // Also they can be used for custom logic
+
+                                    if (namespace == Namespace::HTML && tag_name == "template")
+                                        || self.is_custom_element(tag_name)
+                                    {
+                                        false
+                                    } else {
+                                        let parent_display = self.get_display(namespace, tag_name);
+
+                                        match parent_display {
+                                            Display::Inline => {
+                                                if let Some(Child::Text(Text { data, .. })) =
+                                                    &self.latest_element
+                                                {
+                                                    data.ends_with(is_whitespace)
+                                                } else {
+                                                    false
+                                                }
+                                            }
+                                            _ => true,
+                                        }
+                                    }
+                                }
+                            };
+
+                            let next = next_children.first();
+                            let next_display = match next {
+                                Some(Child::Element(Element {
+                                    namespace,
+                                    tag_name,
+                                    ..
+                                })) => Some(self.get_display(*namespace, tag_name)),
+                                Some(Child::Comment(_)) => match need_remove_metadata_whitespaces {
+                                    true => None,
+                                    _ => Some(Display::None),
+                                },
+                                _ => None,
+                            };
+
+                            let allow_to_trim_right = match next_display {
+                                // Block-level containers:
+                                //
+                                // `Display::Block`    - `display: block flow`
+                                // `Display::ListItem` - `display: block flow list-item`
+                                // `Display::Table`    - `display: block table`
+                                //
+                                // + internal table display (only whitespace characters allowed
+                                // there)
+                                Some(
+                                    Display::Block
+                                    | Display::ListItem
+                                    | Display::Table
+                                    | Display::TableColumnGroup
+                                    | Display::TableCaption
+                                    | Display::TableColumn
+                                    | Display::TableRow
+                                    | Display::TableCell
+                                    | Display::TableHeaderGroup
+                                    | Display::TableRowGroup
+                                    | Display::TableFooterGroup,
+                                ) => true,
+                                // These elements are not displayed
+                                Some(Display::None) => {
+                                    match &self.get_next_displayed_node(next_children, 0) {
                                         Some(Child::Text(text)) => {
-                                            text.data.ends_with(is_whitespace)
+                                            text.data.starts_with(is_whitespace)
                                         }
                                         Some(Child::Element(element)) => {
-                                            let deep = if !element.children.is_empty() {
-                                                self.get_last_displayed_text_node(
-                                                    &element.children,
-                                                    element.children.len() - 1,
-                                                )
-                                            } else {
-                                                None
-                                            };
+                                            let deep = self.get_first_displayed_text_node(
+                                                &element.children,
+                                                0,
+                                            );
 
                                             if let Some(deep) = deep {
-                                                deep.data.ends_with(is_whitespace)
+                                                !deep.data.starts_with(is_whitespace)
                                             } else {
                                                 false
                                             }
@@ -1193,215 +1308,86 @@ impl Minifier<'_> {
                                             let parent_display =
                                                 self.get_display(namespace, tag_name);
 
-                                            match parent_display {
-                                                Display::Inline => {
-                                                    if let Some(Child::Text(Text {
-                                                        data, ..
-                                                    })) = &self.latest_element
-                                                    {
-                                                        data.ends_with(is_whitespace)
-                                                    } else {
-                                                        false
-                                                    }
-                                                }
-                                                _ => true,
-                                            }
+                                            !matches!(parent_display, Display::Inline)
                                         }
                                     }
                                 }
-                            }
-                            // Inline level containers and etc
-                            Some(_) => false,
-                            None => {
-                                // Template can be used in any place, so let's keep whitespaces
-                                //
-                                // For custom elements - an unnamed `<slot>` will be filled with all
-                                // of the custom element's top-level
-                                // child nodes that do not have the slot
-                                // attribute. This includes text nodes.
-                                // Also they can be used for custom logic
+                                Some(_) => false,
+                                None => {
+                                    // Template can be used in any place, so let's keep whitespaces
+                                    let is_template =
+                                        namespace == Namespace::HTML && tag_name == "template";
 
-                                if (namespace == Namespace::HTML && tag_name == "template")
-                                    || self.is_custom_element(tag_name)
-                                {
-                                    false
-                                } else {
-                                    let parent_display = self.get_display(namespace, tag_name);
-
-                                    match parent_display {
-                                        Display::Inline => {
-                                            if let Some(Child::Text(Text { data, .. })) =
-                                                &self.latest_element
-                                            {
-                                                data.ends_with(is_whitespace)
-                                            } else {
-                                                false
-                                            }
-                                        }
-                                        _ => true,
-                                    }
-                                }
-                            }
-                        };
-
-                        let next = children.get(index + 1);
-                        let next_display = match next {
-                            Some(Child::Element(Element {
-                                namespace,
-                                tag_name,
-                                ..
-                            })) => Some(self.get_display(*namespace, tag_name)),
-                            Some(Child::Comment(_)) => match need_remove_metadata_whitespaces {
-                                true => None,
-                                _ => Some(Display::None),
-                            },
-                            _ => None,
-                        };
-
-                        let allow_to_trim_right = match next_display {
-                            // Block-level containers:
-                            //
-                            // `Display::Block`    - `display: block flow`
-                            // `Display::ListItem` - `display: block flow list-item`
-                            // `Display::Table`    - `display: block table`
-                            //
-                            // + internal table display (only whitespace characters allowed there)
-                            Some(
-                                Display::Block
-                                | Display::ListItem
-                                | Display::Table
-                                | Display::TableColumnGroup
-                                | Display::TableCaption
-                                | Display::TableColumn
-                                | Display::TableRow
-                                | Display::TableCell
-                                | Display::TableHeaderGroup
-                                | Display::TableRowGroup
-                                | Display::TableFooterGroup,
-                            ) => true,
-                            // These elements are not displayed
-                            Some(Display::None) => {
-                                match &self.get_next_displayed_node(children, index + 1) {
-                                    Some(Child::Text(text)) => text.data.starts_with(is_whitespace),
-                                    Some(Child::Element(element)) => {
-                                        let deep = self
-                                            .get_first_displayed_text_node(&element.children, 0);
-
-                                        if let Some(deep) = deep {
-                                            !deep.data.starts_with(is_whitespace)
-                                        } else {
-                                            false
-                                        }
-                                    }
-                                    _ => {
+                                    if is_template {
+                                        false
+                                    } else {
                                         let parent_display = self.get_display(namespace, tag_name);
 
                                         !matches!(parent_display, Display::Inline)
                                     }
                                 }
-                            }
-                            Some(_) => false,
-                            None => {
-                                // Template can be used in any place, so let's keep whitespaces
-                                let is_template =
-                                    namespace == Namespace::HTML && tag_name == "template";
+                            };
 
-                                if is_template {
-                                    false
-                                } else {
-                                    let parent_display = self.get_display(namespace, tag_name);
-
-                                    !matches!(parent_display, Display::Inline)
-                                }
+                            if matches!(
+                                self.options.collapse_whitespaces,
+                                CollapseWhitespaces::Smart
+                            ) || (need_remove_metadata_whitespaces
+                                && (prev_display == Some(Display::None)
+                                    && next_display == Some(Display::None)))
+                            {
+                                is_smart_left_trim = allow_to_trim_left;
+                                is_smart_right_trim = allow_to_trim_right;
                             }
+                        }
+
+                        let mut value = if (mode.trim) || is_smart_left_trim {
+                            text.data.trim_start_matches(is_whitespace)
+                        } else {
+                            &*text.data
                         };
 
-                        if matches!(
-                            self.options.collapse_whitespaces,
-                            CollapseWhitespaces::Smart
-                        ) || (need_remove_metadata_whitespaces
-                            && (prev_display == Some(Display::None)
-                                && next_display == Some(Display::None)))
-                        {
-                            is_smart_left_trim = allow_to_trim_left;
-                            is_smart_right_trim = allow_to_trim_right;
+                        value = if (mode.trim) || is_smart_right_trim {
+                            value.trim_end_matches(is_whitespace)
+                        } else {
+                            value
+                        };
+
+                        if value.is_empty() {
+                            false
+                        } else if mode.collapse {
+                            text.data = self.collapse_whitespace(value).into();
+
+                            true
+                        } else {
+                            text.data = value.into();
+
+                            true
                         }
                     }
-
-                    let mut value = if (mode.trim) || is_smart_left_trim {
-                        text.data.trim_start_matches(is_whitespace)
-                    } else {
-                        &*text.data
-                    };
-
-                    value = if (mode.trim) || is_smart_right_trim {
-                        value.trim_end_matches(is_whitespace)
-                    } else {
-                        value
-                    };
-
-                    if value.is_empty() {
-                        false
-                    } else if mode.collapse {
-                        text.data = self.collapse_whitespace(value).into();
-
-                        true
-                    } else {
-                        text.data = value.into();
-
-                        true
-                    }
+                    _ => true,
                 }
-                _ => true,
-            }
-        };
+            };
 
         let mut new_children = Vec::with_capacity(children.len());
 
         for (index, child) in children.iter().enumerate() {
             let mut child = child.clone();
 
-            // Merge adjacent text nodes
-            let merged = match &mut child {
-                Child::Text(text) => {
-                    if let Some(Child::Text(prev_text)) = new_children.last_mut() {
-                        let mut new_data =
-                            String::with_capacity(prev_text.data.len() + text.data.len());
+            if let Child::Text(text) = &mut child {
+                if let Some(Child::Text(prev_text)) = new_children.last_mut() {
+                    let mut new_data =
+                        String::with_capacity(prev_text.data.len() + text.data.len());
 
-                        new_data.push_str(&prev_text.data);
-                        new_data.push_str(&text.data);
+                    new_data.push_str(&prev_text.data);
+                    new_data.push_str(&text.data);
 
-                        text.data = new_data.into();
+                    text.data = new_data.into();
 
-                        new_children.pop();
-
-                        true
-                    } else {
-                        false
-                    }
+                    new_children.pop();
                 }
-                _ => false,
             };
 
-            let mut merged_children = new_children.clone();
-
-            let (merged_children, offset) = if merged {
-                merged_children.push(child.clone());
-
-                let offset = merged_children.len() - 1;
-
-                merged_children.extend_from_slice(&children[index + 1..]);
-
-                (merged_children, offset)
-            } else {
-                let offset = merged_children.len();
-
-                merged_children.extend_from_slice(&children[index..]);
-
-                (merged_children, offset)
-            };
-
-            let result = child_will_be_retained(&mut child, &merged_children, offset);
+            let result = child_will_be_retained(&mut child, &new_children, &children[index + 1..]);
 
             if result {
                 new_children.push(child);
