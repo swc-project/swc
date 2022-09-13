@@ -1562,7 +1562,9 @@ impl VisitMut for SimplifyExpr {
             in_callee: Default::default(),
         };
 
-        n.visit_mut_children_with(&mut child);
+        child.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        });
         self.changed |= child.changed;
     }
 
