@@ -41,7 +41,6 @@ collapse_vars/collapse_vars_if/input.js
 collapse_vars/collapse_vars_lvalues/input.js
 collapse_vars/collapse_vars_object/input.js
 collapse_vars/collapse_vars_repeated/input.js
-collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/collapse_vars_short_circuited_conditions/input.js
 collapse_vars/collapse_vars_side_effects_1/input.js
@@ -66,7 +65,6 @@ collapse_vars/issue_2436_1/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
 collapse_vars/issue_2436_13/input.js
-collapse_vars/issue_2436_14/input.js
 collapse_vars/issue_2436_4/input.js
 collapse_vars/issue_2436_6/input.js
 collapse_vars/issue_2436_7/input.js
@@ -218,7 +216,6 @@ functions/issue_2084/input.js
 functions/issue_2107/input.js
 functions/issue_2114_1/input.js
 functions/issue_2114_2/input.js
-functions/issue_2428/input.js
 functions/issue_2476/input.js
 functions/issue_2531_1/input.js
 functions/issue_2601_1/input.js
