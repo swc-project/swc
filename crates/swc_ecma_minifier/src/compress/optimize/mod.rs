@@ -89,7 +89,6 @@ where
         vars: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
-        _simple_array_values: Default::default(),
         typeofs: Default::default(),
         data,
         ctx: Default::default(),
@@ -215,7 +214,6 @@ struct Optimizer<'a, M> {
     vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
-    _simple_array_values: AHashMap<(Id, usize), Box<Expr>>,
     typeofs: AHashMap<Id, JsWord>,
     /// This information is created by analyzing identifier usages.
     ///
