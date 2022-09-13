@@ -72,7 +72,7 @@ pub enum Stmt {
     /// A try statement. If handler is null then finalizer must be a BlockStmt.
     #[tag("TryStatement")]
     #[is(name = "try_stmt")]
-    Try(TryStmt),
+    Try(Box<TryStmt>),
 
     #[tag("WhileStatement")]
     #[is(name = "while_stmt")]
@@ -247,13 +247,13 @@ pub struct ThrowStmt {
 pub struct TryStmt {
     pub span: Span,
 
-    pub block: Box<BlockStmt>,
+    pub block: BlockStmt,
 
     #[serde(default)]
-    pub handler: Option<Box<CatchClause>>,
+    pub handler: Option<CatchClause>,
 
     #[serde(default)]
-    pub finalizer: Option<Box<BlockStmt>>,
+    pub finalizer: Option<BlockStmt>,
 }
 
 #[ast_node("WhileStatement")]
