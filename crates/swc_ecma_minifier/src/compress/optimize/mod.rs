@@ -240,7 +240,7 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: AHashMap<Id, Box<Expr>>,
+    lits: FxHashMap<Id, Box<Expr>>,
 
     /// Used for copying functions.
     ///
