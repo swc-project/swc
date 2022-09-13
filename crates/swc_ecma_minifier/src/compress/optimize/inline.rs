@@ -668,6 +668,12 @@ where
                 self.changed = true;
                 report_change!("inline: Replacing a variable `{}` with cheap expression", i);
 
+                if let Expr::Ident(i) = &*value {
+                    if let Some(usage) = self.data.vars.get_mut(&i.to_id()) {
+                        usage.ref_count += 1;
+                    }
+                }
+
                 *e = *value;
                 return;
             }

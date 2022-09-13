@@ -5096,7 +5096,7 @@
     function insertNonHydratedInstance(returnFiber, fiber) {
         switch(fiber.flags = -1025 & fiber.flags | 2, returnFiber.tag){
             case 3:
-                var parentContainer = returnFiber.stateNode.containerInfo;
+                var text, parentContainer = returnFiber.stateNode.containerInfo;
                 switch(fiber.tag){
                     case 5:
                         var type = fiber.type;
@@ -5135,7 +5135,7 @@
                 if (null !== instance) return fiber.stateNode = instance, !0;
                 return !1;
             case 6:
-                var textInstance = "" === fiber.pendingProps || 3 !== nextInstance.nodeType ? null : nextInstance;
+                var text, textInstance = "" === fiber.pendingProps || 3 !== nextInstance.nodeType ? null : nextInstance;
                 if (null !== textInstance) return fiber.stateNode = textInstance, !0;
                 return !1;
             default:
@@ -7576,9 +7576,10 @@
                 }
                 return;
             case 5:
-                var type, _instance2 = finishedWork.stateNode;
+                var _instance2 = finishedWork.stateNode;
                 if (null === current && 4 & finishedWork.flags) {
-                    shouldAutoFocusHostComponent(finishedWork.type, finishedWork.memoizedProps) && _instance2.focus();
+                    var props, type = finishedWork.type;
+                    shouldAutoFocusHostComponent(type, finishedWork.memoizedProps) && _instance2.focus();
                 }
                 return;
             case 6:

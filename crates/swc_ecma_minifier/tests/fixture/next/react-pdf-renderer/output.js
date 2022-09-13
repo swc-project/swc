@@ -5344,12 +5344,12 @@
             t.__esModule = !0, t.default = void 0;
             var i = n(r(4450)), o = n(r(7621)), a = n(r(9629)), u = function(e, t, r) {
                 if (0 === r.string.length) return r;
-                var n, u = r.string.slice(e, t), l = (0, o.default)(e, t, r.runs).map(function(r, o) {
-                    var u = r, l = 0 === o, s = !l && o === n.length - 1;
-                    return l && (u = (0, i.default)(e - r.start, t - r.start, r)), s && (u = (0, i.default)(0, t - r.start, r)), (0, a.default)(e, u);
+                var n = r.string.slice(e, t), u = (0, o.default)(e, t, r.runs), l = u.map(function(r, n) {
+                    var o = r, l = 0 === n, s = !l && n === u.length - 1;
+                    return l && (o = (0, i.default)(e - r.start, t - r.start, r)), s && (o = (0, i.default)(0, t - r.start, r)), (0, a.default)(e, o);
                 });
                 return Object.assign({}, r, {
-                    string: u,
+                    string: n,
                     runs: l
                 });
             };

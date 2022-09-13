@@ -1126,8 +1126,11 @@ where
                 }
             }
 
-            Expr::Ident(id) if id.span.ctxt != self.expr_ctx.unresolved_ctxt => return None,
-
+            Expr::Ident(id) if id.span.ctxt != self.expr_ctx.unresolved_ctxt => {
+                report_change!("ignore_return_value: Dropping a declared ident {}", id);
+                self.changed = true;
+                return None;
+            }
             _ => {}
         }
 

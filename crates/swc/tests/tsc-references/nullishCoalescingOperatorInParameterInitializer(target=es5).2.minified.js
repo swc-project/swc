@@ -1,5 +1,5 @@
 //// [nullishCoalescingOperatorInParameterInitializer.ts]
-var ref, a = function() {};
+var a = function() {};
 !function() {
-    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : ref = a();
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : a();
 }();
