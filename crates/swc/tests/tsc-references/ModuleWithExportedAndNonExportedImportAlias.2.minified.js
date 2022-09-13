@@ -8,7 +8,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     };
     B.Line = Line;
 }(B || (B = {})), function(Geometry) {
-    Geometry.Points = A;
+    var Points = A;
+    Geometry.Points = Points;
     var Lines = B, Origin = Geometry.Origin = {
         x: 0,
         y: 0

@@ -838,13 +838,7 @@
                     };
                     this.resetSelection = resetSelection, isFocused && host.onFocus();
                     var onSelect = function(e) {
-                        if (!inComposition) {
-                            if (copied) copied = !1;
-                            else {
-                                var text1;
-                                0 === (text1 = text).selectionStart && text1.selectionEnd >= lastValue.length && text1.value === lastValue && lastValue && text1.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection();
-                            }
-                        }
+                        !inComposition && (copied ? copied = !1 : 0 === text.selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection());
                     }, inputHandler = null;
                     this.setInputHandler = function(cb) {
                         inputHandler = cb;
@@ -956,30 +950,30 @@
                         };
                         move(e), "mousedown" == e.type && (host.renderer.$isMousePressed = !0, clearTimeout(closeTimeout), useragent.isWin && event.capture(host.container, move, onContextMenuClose));
                     }, this.onContextMenuClose = onContextMenuClose;
-                    var host1, text1, typingResetTimeout, typing, detectArrowKeys, onContextMenu = function(e) {
+                    var typingResetTimeout, typing, detectArrowKeys, onContextMenu = function(e) {
                         host.textInput.onContextMenu(e), onContextMenuClose();
                     };
                     event.addListener(text, "mouseup", onContextMenu, host), event.addListener(text, "mousedown", function(e) {
                         e.preventDefault(), onContextMenuClose();
-                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && (host1 = host, text1 = text, typingResetTimeout = null, typing = !1, text1.addEventListener("keydown", function(e) {
+                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && (typingResetTimeout = null, typing = !1, text.addEventListener("keydown", function(e) {
                         typingResetTimeout && clearTimeout(typingResetTimeout), typing = !0;
-                    }, !0), text1.addEventListener("keyup", function(e) {
+                    }, !0), text.addEventListener("keyup", function(e) {
                         typingResetTimeout = setTimeout(function() {
                             typing = !1;
                         }, 100);
                     }, !0), detectArrowKeys = function(e) {
-                        if (document.activeElement === text1 && !typing && !inComposition && !host1.$mouseHandler.isMousePressed && !copied) {
-                            var selectionStart = text1.selectionStart, selectionEnd = text1.selectionEnd, key = null, modifier = 0;
+                        if (document.activeElement === text && !typing && !inComposition && !host.$mouseHandler.isMousePressed && !copied) {
+                            var selectionStart = text.selectionStart, selectionEnd = text.selectionEnd, key = null, modifier = 0;
                             if (0 == selectionStart ? key = KEYS.up : 1 == selectionStart ? key = KEYS.home : selectionEnd > lastSelectionEnd && "\n" == lastValue[selectionEnd] ? key = KEYS.end : selectionStart < lastSelectionStart && " " == lastValue[selectionStart - 1] ? (key = KEYS.left, modifier = MODS.option) : selectionStart < lastSelectionStart || selectionStart == lastSelectionStart && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd ? key = KEYS.left : selectionEnd > lastSelectionEnd && lastValue.slice(0, selectionEnd).split("\n").length > 2 ? key = KEYS.down : selectionEnd > lastSelectionEnd && " " == lastValue[selectionEnd - 1] ? (key = KEYS.right, modifier = MODS.option) : (selectionEnd > lastSelectionEnd || selectionEnd == lastSelectionEnd && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd) && (key = KEYS.right), selectionStart !== selectionEnd && (modifier |= MODS.shift), key) {
-                                if (!host1.onCommandKey({}, modifier, key) && host1.commands) {
+                                if (!host.onCommandKey({}, modifier, key) && host.commands) {
                                     key = KEYS.keyCodeToString(key);
-                                    var command = host1.commands.findKeyCommand(modifier, key);
-                                    command && host1.execCommand(command);
+                                    var command = host.commands.findKeyCommand(modifier, key);
+                                    command && host.execCommand(command);
                                 }
                                 lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd, resetSelection("");
                             }
                         }
-                    }, document.addEventListener("selectionchange", detectArrowKeys), host1.on("destroy", function() {
+                    }, document.addEventListener("selectionchange", detectArrowKeys), host.on("destroy", function() {
                         document.removeEventListener("selectionchange", detectArrowKeys);
                     }));
                 };
@@ -1264,11 +1258,11 @@
                     }, this), editor.on("mousedown", this.onMouseDown.bind(mouseHandler));
                     var dragSelectionMarker, x, y, timerId, range, dragCursor, mouseTarget = editor.container, counter = 0;
                     function onDragInterval() {
-                        var cursor, prevCursor, now, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement, cursor1, prevCursor1, now1, vMovement1, hMovement, prevCursor2 = dragCursor;
-                        cursor1 = dragCursor = editor.renderer.screenToTextCoordinates(x, y), prevCursor1 = prevCursor2, now1 = Date.now(), vMovement1 = !prevCursor1 || cursor1.row != prevCursor1.row, hMovement = !prevCursor1 || cursor1.column != prevCursor1.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor1), cursorMovedTime = now1, cursorPointOnCaretMoved = {
+                        var cursor, now, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement, cursor1, now1, vMovement1, hMovement, prevCursor = dragCursor;
+                        cursor1 = dragCursor = editor.renderer.screenToTextCoordinates(x, y), now1 = Date.now(), vMovement1 = !prevCursor || cursor1.row != prevCursor.row, hMovement = !prevCursor || cursor1.column != prevCursor.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor1), cursorMovedTime = now1, cursorPointOnCaretMoved = {
                             x: x,
                             y: y
-                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor = dragCursor, prevCursor = prevCursor2, now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, nearestXOffset = Math.min((offsets = {
+                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor = dragCursor, now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, nearestXOffset = Math.min((offsets = {
                             x: {
                                 left: x - (editorRect = editor.renderer.scroller.getBoundingClientRect()).left,
                                 right: editorRect.right - x
@@ -3384,13 +3378,13 @@
                         if (1 == text.length && quotes[text]) {
                             if (this.lineCommentStart && -1 != this.lineCommentStart.indexOf(text)) return;
                             initContext(editor);
-                            var quote = text, selection = editor.getSelectionRange(), selected = session.doc.getTextRange(selection);
-                            if ("" !== selected && (1 != selected.length || !quotes[selected]) && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, quote, quote);
+                            var selection = editor.getSelectionRange(), selected = session.doc.getTextRange(selection);
+                            if ("" !== selected && (1 != selected.length || !quotes[selected]) && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, text, text);
                             if (!selected) {
                                 var pair, cursor = editor.getCursorPosition(), line = session.doc.getLine(cursor.row), leftChar = line.substring(cursor.column - 1, cursor.column), rightChar = line.substring(cursor.column, cursor.column + 1), token = session.getTokenAt(cursor.row, cursor.column), rightToken = session.getTokenAt(cursor.row, cursor.column + 1);
                                 if ("\\" == leftChar && token && /escape/.test(token.type)) return null;
                                 var stringBefore = token && /string|escape/.test(token.type), stringAfter = !rightToken || /string|escape/.test(rightToken.type);
-                                if (rightChar == quote) (pair = stringBefore !== stringAfter) && /string\.end/.test(rightToken.type) && (pair = !1);
+                                if (rightChar == text) (pair = stringBefore !== stringAfter) && /string\.end/.test(rightToken.type) && (pair = !1);
                                 else {
                                     if (stringBefore && !stringAfter || stringBefore && stringAfter) return null;
                                     var wordRe = session.$mode.tokenRe;
@@ -3400,11 +3394,11 @@
                                     var isWordAfter = wordRe.test(leftChar);
                                     if (isWordBefore || isWordAfter || rightChar && !/[\s;,.})\]\\]/.test(rightChar)) return null;
                                     var charBefore = line[cursor.column - 2];
-                                    if (leftChar == quote && (charBefore == quote || wordRe.test(charBefore))) return null;
+                                    if (leftChar == text && (charBefore == text || wordRe.test(charBefore))) return null;
                                     pair = !0;
                                 }
                                 return {
-                                    text: pair ? quote + quote : "",
+                                    text: pair ? text + text : "",
                                     selection: [
                                         1,
                                         1
@@ -4529,10 +4523,10 @@
                         return this.document;
                     }, this.$insertRight = !1, this.onChange = function(delta) {
                         if ((delta.start.row != delta.end.row || delta.start.row == this.row) && !(delta.start.row > this.row)) {
-                            var delta1, point, moveIfEqual, deltaIsInsert, deltaRowShift, deltaColShift, deltaStart, deltaEnd, point1 = (delta1 = delta, point = {
+                            var point, moveIfEqual, deltaIsInsert, deltaRowShift, deltaColShift, deltaStart, deltaEnd, point1 = (point = {
                                 row: this.row,
                                 column: this.column
-                            }, moveIfEqual = this.$insertRight, deltaRowShift = ((deltaIsInsert = "insert" == delta1.action) ? 1 : -1) * (delta1.end.row - delta1.start.row), deltaColShift = (deltaIsInsert ? 1 : -1) * (delta1.end.column - delta1.start.column), deltaStart = delta1.start, deltaEnd = deltaIsInsert ? deltaStart : delta1.end, $pointsInOrder(point, deltaStart, moveIfEqual) ? {
+                            }, moveIfEqual = this.$insertRight, deltaRowShift = ((deltaIsInsert = "insert" == delta.action) ? 1 : -1) * (delta.end.row - delta.start.row), deltaColShift = (deltaIsInsert ? 1 : -1) * (delta.end.column - delta.start.column), deltaStart = delta.start, deltaEnd = deltaIsInsert ? deltaStart : delta.end, $pointsInOrder(point, deltaStart, moveIfEqual) ? {
                                 row: point.row,
                                 column: point.column
                             } : $pointsInOrder(deltaEnd, point, !moveIfEqual) ? {
@@ -5134,8 +5128,8 @@
                             return fold.setFoldLine(this.foldLine), fold;
                         }
                     }, this.restoreRange = function(range) {
-                        var range1, anchor;
-                        return range1 = range, anchor = this.start, void (restorePoint(range1.start, anchor), restorePoint(range1.end, anchor));
+                        var anchor;
+                        return anchor = this.start, void (restorePoint(range.start, anchor), restorePoint(range.end, anchor));
                     };
                 }).call(Fold.prototype);
             }), ace.define("ace/edit_session/folding", [
@@ -9904,7 +9898,7 @@
                         clientPos && (clientPos = mul(1 / this.$getZoom(this.el), clientPos)), this.els || this.$initTransformMeasureNodes();
                         var a = p(this.els[0]), b = p(this.els[1]), c = p(this.els[2]), d = p(this.els[3]), h = solve(sub(d, b), sub(d, c), sub(add(b, c), add(d, a))), m1 = mul(1 + h[0], sub(b, a)), m2 = mul(1 + h[1], sub(c, a));
                         if (elPos) {
-                            var x = elPos, k = h[0] * x[0] / 200 + h[1] * x[1] / 200 + 1, ut = add(mul(x[0], m1), mul(x[1], m2));
+                            var k = h[0] * elPos[0] / 200 + h[1] * elPos[1] / 200 + 1, ut = add(mul(elPos[0], m1), mul(elPos[1], m2));
                             return add(mul(1 / k / 200, ut), a);
                         }
                         var u = sub(clientPos, a), f = solve(sub(m1, mul(h[0], u)), sub(m2, mul(h[1], u)), u);
@@ -10761,8 +10755,8 @@ margin: 0 10px;\
                         var pos = this.$cursorLayer.getPixelPosition(cursor), h = this.$size.scrollerHeight - this.lineHeight, offset = pos.top - h * (alignment || 0);
                         return this.session.setScrollTop(offset), offset;
                     }, this.STEPS = 8, this.$calcSteps = function(fromValue, toValue) {
-                        var t, x_min, i = 0, l = this.STEPS, steps = [];
-                        for(i = 0; i < l; ++i)steps.push((t = i / this.STEPS, x_min = fromValue, (toValue - fromValue) * (Math.pow(t - 1, 3) + 1) + x_min));
+                        var i = 0, l = this.STEPS, steps = [];
+                        for(i = 0; i < l; ++i)steps.push((toValue - fromValue) * (Math.pow(i / this.STEPS - 1, 3) + 1) + fromValue);
                         return steps;
                     }, this.scrollToLine = function(line, center, animate, callback) {
                         var offset = this.$cursorLayer.getPixelPosition({
@@ -11245,10 +11239,9 @@ margin: 0 10px;\
                         }
                     }, this.onUpdate = function(delta) {
                         if (this.$updating) return this.updateAnchors(delta);
-                        var range = delta;
-                        if (range.start.row === range.end.row && range.start.row === this.pos.row) {
+                        if (delta.start.row === delta.end.row && delta.start.row === this.pos.row) {
                             this.$updating = !0;
-                            var lengthDiff = "insert" === delta.action ? range.end.column - range.start.column : range.start.column - range.end.column, inMainRange = range.start.column >= this.pos.column && range.start.column <= this.pos.column + this.length + 1, distanceFromStart = range.start.column - this.pos.column;
+                            var lengthDiff = "insert" === delta.action ? delta.end.column - delta.start.column : delta.start.column - delta.end.column, inMainRange = delta.start.column >= this.pos.column && delta.start.column <= this.pos.column + this.length + 1, distanceFromStart = delta.start.column - this.pos.column;
                             if (this.updateAnchors(delta), inMainRange && (this.length += lengthDiff), inMainRange && !this.session.$fromUndo) {
                                 if ("insert" === delta.action) for(var i = this.others.length - 1; i >= 0; i--){
                                     var otherPos = this.others[i], newPos = {
@@ -11349,10 +11342,10 @@ margin: 0 10px;\
                                 ]), initialRange && (editor.removeSelectionMarker(initialRange), selection.toSingleRange(initialRange));
                                 for(var i = 0; i < rectSel.length; i++)selection.addRange(rectSel[i]);
                                 editor.inVirtualSelectionMode = !1, editor.$mouseHandler.$clickSelection = null;
-                            }, onSelectionInterval = blockSelect;
+                            };
                             event.capture(editor.container, onMouseSelection, onMouseSelectionEnd);
                             var timerId = setInterval(function() {
-                                onSelectionInterval();
+                                blockSelect();
                             }, 20);
                             return e.preventDefault();
                         }
@@ -11793,7 +11786,7 @@ margin: 0 10px;\
                     }, this.selectMore = function(dir, skip, stopAtFirst) {
                         var session = this.session, range = session.multiSelect.toOrientedRange();
                         if (!range.isEmpty() || ((range = session.getWordRange(range.start.row, range.start.column)).cursor = -1 == dir ? range.start : range.end, this.multiSelect.addRange(range), !stopAtFirst)) {
-                            var needle, dir1, newRange = (needle = session.getTextRange(range), dir1 = dir, search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir1, search.find(session));
+                            var needle = session.getTextRange(range), newRange = (search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir, search.find(session));
                             newRange && (newRange.cursor = -1 == dir ? newRange.start : newRange.end, this.session.unfold(newRange), this.multiSelect.addRange(newRange), this.renderer.scrollCursorIntoView(null, 0.5)), skip && this.multiSelect.substractPoint(range.cursor);
                         }
                     }, this.alignCursors = function() {

@@ -711,11 +711,11 @@
                     return isLikelyFn((0, byte_helpers.Ki)(bytes));
                 };
             });
-            var isLikely = _isLikely, detectContainerForBytes = function(bytes) {
+            var detectContainerForBytes = function(bytes) {
                 bytes = (0, byte_helpers.Ki)(bytes);
                 for(var i = 0; i < isLikelyTypes.length; i++){
                     var type = isLikelyTypes[i];
-                    if (isLikely[type](bytes)) return type;
+                    if (_isLikely[type](bytes)) return type;
                 }
                 return "";
             }, isLikelyFmp4MediaSegment = function(bytes) {
@@ -733,7 +733,7 @@
             });
             var global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), Buffer = __webpack_require__(816).Buffer;
             function decodeB64ToUint8Array(b64Text) {
-                for(var s, decodedString = (s = b64Text, global_window__WEBPACK_IMPORTED_MODULE_0___default().atob ? global_window__WEBPACK_IMPORTED_MODULE_0___default().atob(s) : Buffer.from(s, "base64").toString("binary")), array = new Uint8Array(decodedString.length), i = 0; i < decodedString.length; i++)array[i] = decodedString.charCodeAt(i);
+                for(var decodedString = global_window__WEBPACK_IMPORTED_MODULE_0___default().atob ? global_window__WEBPACK_IMPORTED_MODULE_0___default().atob(b64Text) : Buffer.from(b64Text, "base64").toString("binary"), array = new Uint8Array(decodedString.length), i = 0; i < decodedString.length; i++)array[i] = decodedString.charCodeAt(i);
                 return array;
             }
         },
@@ -1060,8 +1060,7 @@
                 return current.hasOwnProperty(element) || (current[element] = !0), current;
             }
             function toOrderedSet(input) {
-                var input1;
-                return input ? Object.keys(((input1 = input) ? input1.split(/[\t\n\f\r ]+/).filter(notEmptyString) : []).reduce(orderedSetReducer, {})) : [];
+                return input ? Object.keys((input ? input.split(/[\t\n\f\r ]+/).filter(notEmptyString) : []).reduce(orderedSetReducer, {})) : [];
             }
             function copy(src, dest) {
                 for(var p in src)dest[p] = src[p];
@@ -1104,8 +1103,8 @@
             function _addNamedNode(el, list, newAttr, oldAttr) {
                 if (oldAttr ? list[_findNodeIndex(list, oldAttr)] = newAttr : list[list.length++] = newAttr, el) {
                     newAttr.ownerElement = el;
-                    var doc, el1, newAttr1, doc1 = el.ownerDocument;
-                    doc1 && (oldAttr && _onRemoveAttribute(doc1, el, oldAttr), doc = doc1, el1 = el, newAttr1 = newAttr, doc && doc._inc++, newAttr1.namespaceURI === NAMESPACE.XMLNS && (el1._nsMap[newAttr1.prefix ? newAttr1.localName : ""] = newAttr1.value));
+                    var el1, newAttr1, doc = el.ownerDocument;
+                    doc && (oldAttr && _onRemoveAttribute(doc, el, oldAttr), el1 = el, newAttr1 = newAttr, doc && doc._inc++, newAttr1.namespaceURI === NAMESPACE.XMLNS && (el1._nsMap[newAttr1.prefix ? newAttr1.localName : ""] = newAttr1.value));
                 }
             }
             function _removeNamedNode(el, list, attr) {
@@ -1493,10 +1492,10 @@
                                 if (nodeClassNames) {
                                     var matches = classNames === nodeClassNames;
                                     if (!matches) {
-                                        var list, nodeClassNamesSet = toOrderedSet(nodeClassNames);
-                                        matches = classNamesSet.every((list = nodeClassNamesSet, function(element) {
-                                            return list && -1 !== list.indexOf(element);
-                                        }));
+                                        var nodeClassNamesSet = toOrderedSet(nodeClassNames);
+                                        matches = classNamesSet.every(function(element) {
+                                            return nodeClassNamesSet && -1 !== nodeClassNamesSet.indexOf(element);
+                                        });
                                     }
                                     matches && ls.push(node);
                                 }
@@ -3059,15 +3058,15 @@
                     };
                 }
             }, parseByDuration = function(attributes) {
-                var attributes1, type = attributes.type, duration = attributes.duration, _attributes$timescale4 = attributes.timescale, periodDuration = attributes.periodDuration, sourceDuration = attributes.sourceDuration, _segmentRange$type = segmentRange[type](attributes), segments = range(_segmentRange$type.start, _segmentRange$type.end).map((attributes1 = attributes, function(number, index) {
-                    var duration = attributes1.duration, _attributes$timescale3 = attributes1.timescale, periodIndex = attributes1.periodIndex, _attributes$startNumb = attributes1.startNumber;
+                var type = attributes.type, duration = attributes.duration, _attributes$timescale4 = attributes.timescale, periodDuration = attributes.periodDuration, sourceDuration = attributes.sourceDuration, _segmentRange$type = segmentRange[type](attributes), segments = range(_segmentRange$type.start, _segmentRange$type.end).map(function(number, index) {
+                    var duration = attributes.duration, _attributes$timescale3 = attributes.timescale, periodIndex = attributes.periodIndex, _attributes$startNumb = attributes.startNumber;
                     return {
                         number: (void 0 === _attributes$startNumb ? 1 : _attributes$startNumb) + number,
                         duration: duration / (void 0 === _attributes$timescale3 ? 1 : _attributes$timescale3),
                         timeline: periodIndex,
                         time: index * duration
                     };
-                }));
+                });
                 if ("static" === type) {
                     var index = segments.length - 1;
                     segments[index].duration = ("number" == typeof periodDuration ? periodDuration : sourceDuration) - duration / (void 0 === _attributes$timescale4 ? 1 : _attributes$timescale4) * index;
@@ -3219,7 +3218,7 @@
                 return "text/vtt" === attributes.mimeType || "text" === attributes.contentType;
             }, toM3u8 = function(dashPlaylists, locations, sidxMapping) {
                 if (void 0 === sidxMapping && (sidxMapping = {}), !dashPlaylists.length) return {};
-                var playlists, sidxMapping1, _mediaGroups, _dashPlaylists$0$attr = dashPlaylists[0].attributes, duration = _dashPlaylists$0$attr.sourceDuration, type = _dashPlaylists$0$attr.type, suggestedPresentationDelay = _dashPlaylists$0$attr.suggestedPresentationDelay, minimumUpdatePeriod = _dashPlaylists$0$attr.minimumUpdatePeriod, videoPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(videoOnly)).map(formatVideoPlaylist), audioPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(audioOnly)), vttPlaylists = dashPlaylists.filter(vttOnly), captions = dashPlaylists.map(function(playlist) {
+                var sidxMapping1, _mediaGroups, _dashPlaylists$0$attr = dashPlaylists[0].attributes, duration = _dashPlaylists$0$attr.sourceDuration, type = _dashPlaylists$0$attr.type, suggestedPresentationDelay = _dashPlaylists$0$attr.suggestedPresentationDelay, minimumUpdatePeriod = _dashPlaylists$0$attr.minimumUpdatePeriod, videoPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(videoOnly)).map(formatVideoPlaylist), audioPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(audioOnly)), vttPlaylists = dashPlaylists.filter(vttOnly), captions = dashPlaylists.map(function(playlist) {
                     return playlist.attributes.captionServices;
                 }).filter(Boolean), manifest = {
                     allowCache: !0,
@@ -3236,7 +3235,7 @@
                 };
                 minimumUpdatePeriod >= 0 && (manifest.minimumUpdatePeriod = 1000 * minimumUpdatePeriod), locations && (manifest.locations = locations), "dynamic" === type && (manifest.suggestedPresentationDelay = suggestedPresentationDelay);
                 var isAudioOnly = 0 === manifest.playlists.length;
-                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (playlists = vttPlaylists, void 0 === (sidxMapping1 = sidxMapping) && (sidxMapping1 = {}), playlists.reduce(function(a, playlist) {
+                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (void 0 === (sidxMapping1 = sidxMapping) && (sidxMapping1 = {}), vttPlaylists.reduce(function(a, playlist) {
                     var label = playlist.attributes.lang || "text";
                     return a[label] || (a[label] = {
                         language: label,
@@ -3277,15 +3276,14 @@
                 }
                 return segments;
             }, identifierPattern = /\$([A-z]*)(?:(%0)([0-9]+)d)?\$/g, constructTemplateUrl = function(url, values) {
-                var values1;
-                return url.replace(identifierPattern, (values1 = values, function(match, identifier, format, width) {
+                return url.replace(identifierPattern, function(match, identifier, format, width) {
                     if ("$$" === match) return "$";
-                    if (void 0 === values1[identifier]) return match;
-                    var value = "" + values1[identifier];
+                    if (void 0 === values[identifier]) return match;
+                    var value = "" + values[identifier];
                     return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
-                }));
+                });
             }, segmentsFromTemplate = function(attributes, segmentTimeline) {
-                var attributes1, segmentTimeline1, templateValues = {
+                var templateValues = {
                     RepresentationID: attributes.id,
                     Bandwidth: attributes.bandwidth || 0
                 }, _attributes$initializ = attributes.initialization, initialization = void 0 === _attributes$initializ ? {
@@ -3296,12 +3294,12 @@
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
                 });
-                return (attributes1 = attributes, segmentTimeline1 = segmentTimeline, attributes1.duration || segmentTimeline1 ? attributes1.duration ? parseByDuration(attributes1) : parseByTimeline(attributes1, segmentTimeline1) : [
+                return (attributes.duration || segmentTimeline ? attributes.duration ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline) : [
                     {
-                        number: attributes1.startNumber || 1,
-                        duration: attributes1.sourceDuration,
+                        number: attributes.startNumber || 1,
+                        duration: attributes.sourceDuration,
                         time: 0,
-                        timeline: attributes1.periodIndex
+                        timeline: attributes.periodIndex
                     }, 
                 ]).map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
@@ -3476,7 +3474,7 @@
                     void 0 === _options$manifestUri ? "" : _options$manifestUri
                 ], findChildren(mpd, "BaseURL"));
                 mpdAttributes.type = mpdAttributes.type || "static", mpdAttributes.sourceDuration = mpdAttributes.mediaPresentationDuration || 0, mpdAttributes.NOW = NOW, mpdAttributes.clientOffset = void 0 === _options$clientOffset ? 0 : _options$clientOffset, locations.length && (mpdAttributes.locations = locations.map(getContent));
-                var mpdAttributes1, mpdBaseUrls1, periods = [];
+                var periods = [];
                 return periodNodes.forEach(function(node, index) {
                     var attributes = parseAttributes(node), priorPeriod = periods[index - 1];
                     attributes.start = getPeriodStart({
@@ -3489,17 +3487,17 @@
                     });
                 }), {
                     locations: mpdAttributes.locations,
-                    representationInfo: flatten(periods.map((mpdAttributes1 = mpdAttributes, mpdBaseUrls1 = mpdBaseUrls, function(period, index) {
-                        var periodBaseUrls = buildBaseUrls(mpdBaseUrls1, findChildren(period.node, "BaseURL")), parsedPeriodId = parseInt(period.attributes.id, 10), periodIndex = global_window__WEBPACK_IMPORTED_MODULE_1___default().isNaN(parsedPeriodId) ? index : parsedPeriodId, periodAttributes = merge(mpdAttributes1, {
+                    representationInfo: flatten(periods.map(function(period, index) {
+                        var periodBaseUrls = buildBaseUrls(mpdBaseUrls, findChildren(period.node, "BaseURL")), parsedPeriodId = parseInt(period.attributes.id, 10), periodIndex = global_window__WEBPACK_IMPORTED_MODULE_1___default().isNaN(parsedPeriodId) ? index : parsedPeriodId, periodAttributes = merge(mpdAttributes, {
                             periodIndex: periodIndex,
                             periodStart: period.attributes.start
                         });
                         "number" == typeof period.attributes.duration && (periodAttributes.periodDuration = period.attributes.duration);
-                        var periodAttributes1, periodBaseUrls1, periodSegmentInfo, adaptationSets = findChildren(period.node, "AdaptationSet"), periodSegmentInfo1 = getSegmentInformation(period.node);
-                        return flatten(adaptationSets.map((periodAttributes1 = periodAttributes, periodBaseUrls1 = periodBaseUrls, periodSegmentInfo = periodSegmentInfo1, function(adaptationSet) {
-                            var service, adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls1, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
+                        var adaptationSets = findChildren(period.node, "AdaptationSet"), periodSegmentInfo = getSegmentInformation(period.node);
+                        return flatten(adaptationSets.map(function(adaptationSet) {
+                            var service, adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
                                 role: parseAttributes(role)
-                            }, attrs = merge(periodAttributes1, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(accessibility)).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                            }, attrs = merge(periodAttributes, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(accessibility)).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
                                 if (language = value, /^CC\d=/.test(value)) {
                                     var channel, language, _value$split = value.split("=");
                                     channel = _value$split[0], language = _value$split[1];
@@ -3549,9 +3547,9 @@
                             Object.keys(contentProtection).length && (attrs = merge(attrs, {
                                 contentProtection: contentProtection
                             }));
-                            var adaptationSetAttributes1, adaptationSetBaseUrls1, adaptationSetSegmentInfo, segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo1 = merge(periodSegmentInfo, segmentInfo);
-                            return flatten(representations.map((adaptationSetAttributes1 = attrs, adaptationSetBaseUrls1 = adaptationSetBaseUrls, adaptationSetSegmentInfo = adaptationSetSegmentInfo1, function(representation) {
-                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls1, repBaseUrlElements), attributes = merge(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
+                            var adaptationSetAttributes1, segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo = merge(periodSegmentInfo, segmentInfo);
+                            return flatten(representations.map((adaptationSetAttributes1 = attrs, function(representation) {
+                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements), attributes = merge(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
                                 return repBaseUrls.map(function(baseUrl) {
                                     return {
                                         segmentInfo: merge(adaptationSetSegmentInfo, representationSegmentInfo),
@@ -3561,8 +3559,8 @@
                                     };
                                 });
                             })));
-                        })));
-                    })))
+                        }));
+                    }))
                 };
             }, stringToMpdXml = function(manifestString) {
                 if ("" === manifestString) throw Error(errors.DASH_EMPTY_MANIFEST);
@@ -3670,7 +3668,7 @@
             });
             var jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), Home_module = __webpack_require__(214), Home_module_default = __webpack_require__.n(Home_module), video_es = __webpack_require__(5215);
             __webpack_require__(3512);
-            var components_VideoJS = function(props) {
+            var VideoJS = function(props) {
                 var videoRef = react.useRef(null), playerRef = react.useRef(null), options = props.options, onReady = props.onReady;
                 return react.useEffect(function() {
                     if (!playerRef.current) {
@@ -3710,7 +3708,7 @@
                     className: Home_module_default().container,
                     children: (0, jsx_runtime.jsx)("main", {
                         className: Home_module_default().main,
-                        children: (0, jsx_runtime.jsx)(components_VideoJS, {
+                        children: (0, jsx_runtime.jsx)(VideoJS, {
                             options: {
                                 autoplay: !0,
                                 controls: !0,
@@ -4935,7 +4933,7 @@
                             return _vertical;
                         },
                         set: function(value) {
-                            var value1, setting = "string" == typeof (value1 = value) && !!directionSetting[value1.toLowerCase()] && value1.toLowerCase();
+                            var setting = "string" == typeof value && !!directionSetting[value.toLowerCase()] && value.toLowerCase();
                             if (!1 === setting) throw SyntaxError("Vertical: an invalid or illegal direction string was specified.");
                             _vertical = setting, this.hasBeenReset = !0;
                         }
@@ -5093,7 +5091,7 @@
                             return _scroll;
                         },
                         set: function(value) {
-                            var value1, setting = "string" == typeof (value1 = value) && !!scrollSetting[value1.toLowerCase()] && value1.toLowerCase();
+                            var setting = "string" == typeof value && !!scrollSetting[value.toLowerCase()] && value.toLowerCase();
                             !1 === setting ? console.warn("Scroll: an invalid or illegal string was specified.") : _scroll = setting;
                         }
                     }
@@ -5106,9 +5104,9 @@
                 var lens = getLens(b64), validLen = lens[0], placeHoldersLen = lens[1];
                 return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
             }, exports.toByteArray = function(b64) {
-                var tmp, i, placeHoldersLen, lens = getLens(b64), validLen = lens[0], placeHoldersLen1 = lens[1], arr = new Arr((placeHoldersLen = placeHoldersLen1, (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen)), curByte = 0, len = placeHoldersLen1 > 0 ? validLen - 4 : validLen;
+                var tmp, i, lens = getLens(b64), validLen = lens[0], placeHoldersLen = lens[1], arr = new Arr((validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen), curByte = 0, len = placeHoldersLen > 0 ? validLen - 4 : validLen;
                 for(i = 0; i < len; i += 4)tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)], arr[curByte++] = tmp >> 16 & 0xff, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp;
-                return 2 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
+                return 2 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(encodeChunk(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
                 return 1 === extraBytes ? parts.push(lookup[(tmp = uint8[len - 1]) >> 2] + lookup[tmp << 4 & 0x3f] + "==") : 2 === extraBytes && parts.push(lookup[(tmp = (uint8[len - 2] << 8) + uint8[len - 1]) >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "="), parts.join("");
@@ -5296,8 +5294,8 @@
                 var strLen = string.length;
                 length > strLen / 2 && (length = strLen / 2);
                 for(var i = 0; i < length; ++i){
-                    var obj, parsed = parseInt(string.substr(2 * i, 2), 16);
-                    if ((obj = parsed) != obj) break;
+                    var parsed = parseInt(string.substr(2 * i, 2), 16);
+                    if (parsed != parsed) break;
                     buf[offset + i] = parsed;
                 }
                 return i;
@@ -5415,8 +5413,7 @@
             }), Buffer.poolSize = 8192, Buffer.from = function(value, encodingOrOffset, length) {
                 return from(value, encodingOrOffset, length);
             }, Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype), Object.setPrototypeOf(Buffer, Uint8Array), Buffer.alloc = function(size, fill, encoding) {
-                var size1, fill1, encoding1;
-                return size1 = size, fill1 = fill, encoding1 = encoding, (assertSize(size1), size1 <= 0) ? createBuffer(size1) : void 0 !== fill1 ? "string" == typeof encoding1 ? createBuffer(size1).fill(fill1, encoding1) : createBuffer(size1).fill(fill1) : createBuffer(size1);
+                return (assertSize(size), size <= 0) ? createBuffer(size) : void 0 !== fill ? "string" == typeof encoding ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill) : createBuffer(size);
             }, Buffer.allocUnsafe = function(size) {
                 return allocUnsafe(size);
             }, Buffer.allocUnsafeSlow = function(size) {

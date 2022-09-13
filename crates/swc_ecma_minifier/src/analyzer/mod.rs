@@ -62,7 +62,7 @@ where
         marks,
         scope: Default::default(),
         ctx: Default::default(),
-        used_recursively: HashSet::new(),
+        used_recursively: AHashMap::default(),
     };
     n.visit_with(&mut v);
     let top_scope = v.scope;
@@ -112,7 +112,7 @@ pub(crate) struct VarUsageInfo {
     pub accessed_props: AHashMap<JsWord, usize>,
 
     pub exported: bool,
-    /// True if used **above** the declaration. (Not eval order).
+    /// True if used **above** the declaration or in init. (Not eval order).
     pub used_above_decl: bool,
     /// `true` if it's declared by function parameters or variables declared in
     /// a closest function and used only within it and not used by child
@@ -167,6 +167,12 @@ pub(crate) struct ScopeData {
     pub has_with_stmt: bool,
     pub has_eval_call: bool,
     pub used_arguments: bool,
+}
+
+#[derive(Debug, Clone)]
+enum RecursiveUsage {
+    FnOrClass,
+    Var { can_ignore: bool },
 }
 
 /// Analyzed info of a whole program we are working on.
@@ -282,7 +288,7 @@ where
     marks: Option<Marks>,
     scope: S::ScopeData,
     ctx: Ctx,
-    used_recursively: HashSet<Id>,
+    used_recursively: AHashMap<Id, RecursiveUsage>,
 }
 
 impl<S> UsageAnalyzer<S>
@@ -347,8 +353,14 @@ where
             self.scope.mark_used_arguments();
         }
 
-        if !is_assign && self.used_recursively.contains(&i.to_id()) {
-            return;
+        if !is_assign {
+            if let Some(recr) = self.used_recursively.get(&i.to_id()) {
+                if let RecursiveUsage::Var { can_ignore: false } = recr {
+                    self.data.report_usage(self.ctx, i, is_assign);
+                    self.data.var_or_default(i.to_id()).mark_used_above_decl()
+                }
+                return;
+            }
         }
 
         self.data.report_usage(self.ctx, i, is_assign)
@@ -732,7 +744,8 @@ where
         }
 
         let id = n.ident.to_id();
-        self.used_recursively.insert(id.clone());
+        self.used_recursively
+            .insert(id.clone(), RecursiveUsage::FnOrClass);
         n.visit_children_with(self);
         self.used_recursively.remove(&id);
 
@@ -1198,13 +1211,12 @@ where
                         Expr::Call(call) if call.span.has_mark(marks.pure) => true,
                         _ => false,
                     };
-                    if can_ignore {
-                        let id = id.to_id();
-                        self.used_recursively.insert(id.clone());
-                        e.init.visit_with(&mut *self.with_ctx(ctx));
-                        self.used_recursively.remove(&id);
-                        return;
-                    }
+                    let id = id.to_id();
+                    self.used_recursively
+                        .insert(id.clone(), RecursiveUsage::Var { can_ignore });
+                    e.init.visit_with(&mut *self.with_ctx(ctx));
+                    self.used_recursively.remove(&id);
+                    return;
                 }
             }
 
