@@ -6,20 +6,62 @@ use swc_css_ast::*;
 use super::Compressor;
 
 impl Compressor {
+    fn is_first_media_in_parens(&self, media_condition: &MediaCondition) -> bool {
+        if let Some(MediaConditionAllType::MediaInParens(_)) = media_condition.conditions.first() {
+            true
+        } else {
+            false
+        }
+    }
+
+    fn is_first_or_media_type(&self, media_condition: &MediaCondition) -> bool {
+        matches!(
+            media_condition.conditions.get(1),
+            Some(MediaConditionAllType::Or(_))
+        )
+    }
+
+    fn is_first_and_media_type(&self, media_condition: &MediaCondition) -> bool {
+        matches!(
+            media_condition.conditions.get(1),
+            Some(MediaConditionAllType::And(_))
+        )
+    }
+
     pub(super) fn compress_media_condition(&mut self, n: &mut MediaCondition) {
         match n.conditions.get(1) {
             Some(MediaConditionAllType::Or(_)) => {
+                let need_compress = n.conditions.iter().any(|item| match item {
+                    MediaConditionAllType::MediaInParens(MediaInParens::MediaCondition(
+                        media_condition,
+                    )) if self.is_first_or_media_type(media_condition)
+                        && self.is_first_media_in_parens(media_condition) =>
+                    {
+                        true
+                    }
+                    MediaConditionAllType::Or(media_or) => match &media_or.condition {
+                        MediaInParens::MediaCondition(media_condition)
+                            if self.is_first_or_media_type(media_condition)
+                                && self.is_first_media_in_parens(media_condition) =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    },
+                    _ => false,
+                });
+
+                if !need_compress {
+                    return;
+                }
+
                 let mut new_conditions = Vec::with_capacity(n.conditions.len());
 
                 for item in take(&mut n.conditions) {
                     match item {
                         MediaConditionAllType::MediaInParens(MediaInParens::MediaCondition(
                             media_condition,
-                        )) if matches!(
-                            media_condition.conditions.get(1),
-                            Some(MediaConditionAllType::Or(_))
-                        ) =>
-                        {
+                        )) if self.is_first_or_media_type(&media_condition) => {
                             let mut iter = media_condition.conditions.into_iter();
 
                             if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
@@ -33,10 +75,7 @@ impl Compressor {
                         }
                         MediaConditionAllType::Or(media_or) => match media_or.condition {
                             MediaInParens::MediaCondition(media_condition)
-                                if matches!(
-                                    media_condition.conditions.get(1),
-                                    Some(MediaConditionAllType::Or(_))
-                                ) =>
+                                if self.is_first_or_media_type(&media_condition) =>
                             {
                                 let mut iter = media_condition.conditions.into_iter();
 
@@ -65,17 +104,37 @@ impl Compressor {
                 n.conditions = new_conditions;
             }
             Some(MediaConditionAllType::And(_)) => {
+                let need_compress = n.conditions.iter().any(|item| match item {
+                    MediaConditionAllType::MediaInParens(MediaInParens::MediaCondition(
+                        media_condition,
+                    )) if self.is_first_and_media_type(media_condition)
+                        && self.is_first_media_in_parens(media_condition) =>
+                    {
+                        true
+                    }
+                    MediaConditionAllType::And(media_and) => match &media_and.condition {
+                        MediaInParens::MediaCondition(media_condition)
+                            if self.is_first_and_media_type(media_condition)
+                                && self.is_first_media_in_parens(media_condition) =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    },
+                    _ => false,
+                });
+
+                if !need_compress {
+                    return;
+                }
+
                 let mut new_conditions = Vec::with_capacity(n.conditions.len());
 
                 for item in take(&mut n.conditions) {
                     match item {
                         MediaConditionAllType::MediaInParens(MediaInParens::MediaCondition(
                             media_condition,
-                        )) if matches!(
-                            media_condition.conditions.get(1),
-                            Some(MediaConditionAllType::And(_))
-                        ) =>
-                        {
+                        )) if self.is_first_and_media_type(&media_condition) => {
                             let mut iter = media_condition.conditions.into_iter();
 
                             if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
@@ -89,10 +148,7 @@ impl Compressor {
                         }
                         MediaConditionAllType::And(media_and) => match media_and.condition {
                             MediaInParens::MediaCondition(media_condition)
-                                if matches!(
-                                    media_condition.conditions.get(1),
-                                    Some(MediaConditionAllType::And(_))
-                                ) =>
+                                if self.is_first_and_media_type(&media_condition) =>
                             {
                                 let mut iter = media_condition.conditions.into_iter();
 
@@ -126,17 +182,37 @@ impl Compressor {
 
     pub(super) fn compress_media_condition_without_or(&mut self, n: &mut MediaConditionWithoutOr) {
         if let Some(MediaConditionWithoutOrType::And(_)) = n.conditions.get(1) {
+            let need_compress = n.conditions.iter().any(|item| match item {
+                MediaConditionWithoutOrType::MediaInParens(MediaInParens::MediaCondition(
+                    media_condition,
+                )) if self.is_first_and_media_type(media_condition)
+                    && self.is_first_media_in_parens(media_condition) =>
+                {
+                    true
+                }
+                MediaConditionWithoutOrType::And(media_and) => match &media_and.condition {
+                    MediaInParens::MediaCondition(media_condition)
+                        if self.is_first_and_media_type(media_condition)
+                            && self.is_first_media_in_parens(media_condition) =>
+                    {
+                        true
+                    }
+                    _ => false,
+                },
+                _ => false,
+            });
+
+            if !need_compress {
+                return;
+            }
+
             let mut new_conditions = Vec::with_capacity(n.conditions.len());
 
             for item in take(&mut n.conditions) {
                 match item {
                     MediaConditionWithoutOrType::MediaInParens(MediaInParens::MediaCondition(
                         media_condition,
-                    )) if matches!(
-                        media_condition.conditions.get(1),
-                        Some(MediaConditionAllType::And(_))
-                    ) =>
-                    {
+                    )) if self.is_first_and_media_type(&media_condition) => {
                         let mut iter = media_condition.conditions.into_iter();
 
                         if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
@@ -171,10 +247,7 @@ impl Compressor {
                     }
                     MediaConditionWithoutOrType::And(media_and) => match media_and.condition {
                         MediaInParens::MediaCondition(media_condition)
-                            if matches!(
-                                media_condition.conditions.get(1),
-                                Some(MediaConditionAllType::And(_))
-                            ) =>
+                            if self.is_first_and_media_type(&media_condition) =>
                         {
                             let mut iter = media_condition.conditions.into_iter();
 
