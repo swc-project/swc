@@ -221,7 +221,7 @@ pub mod cached {
 #[cfg(feature = "testing")]
 #[cfg_attr(docsrs, doc(cfg(feature = "testing")))]
 pub mod testing {
-    pub use swc_testing::*;
+    pub use testing::*;
 }
 
 #[cfg(feature = "allocator_node")]
