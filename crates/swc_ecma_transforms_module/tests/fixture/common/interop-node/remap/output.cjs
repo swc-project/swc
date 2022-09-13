@@ -2,7 +2,13 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
+0 && (module.exports = {
+    test: _,
+    a: _,
+    c: _,
+    e: _,
+    f: _
+});
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
