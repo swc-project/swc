@@ -16,6 +16,9 @@
 
 - **(es/parser)** Keep comments of the RHS of a binary expression (#5812) ([8adbe16](https://github.com/swc-project/swc/commit/8adbe1675e6e86b0d1eb2f67ecdba3eb4ed5ee96))
 
+
+- **(es/parser)** Handle more `TS1185` (#5834) ([10637b0](https://github.com/swc-project/swc/commit/10637b006fb5c66b9bf7b9fef417ee04924f2845))
+
 ### Features
 
 
