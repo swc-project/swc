@@ -211,10 +211,10 @@ struct Optimizer<'a, M> {
     vars: Vars,
 
     /// Used for `hoist_props`.
-    vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
+    vars_for_prop_hoisting: Box<FxHashMap<Id, Box<Expr>>>,
     /// Used for `hoist_props`.
-    simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
-    typeofs: AHashMap<Id, JsWord>,
+    simple_props: Box<FxHashMap<(Id, JsWord), Box<Expr>>>,
+    typeofs: Box<AHashMap<Id, JsWord>>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one
@@ -232,7 +232,7 @@ struct Optimizer<'a, M> {
     #[allow(unused)]
     debug_infinite_loop: bool,
 
-    functions: FxHashMap<Id, FnMetadata>,
+    functions: Box<FxHashMap<Id, FnMetadata>>,
 }
 
 #[derive(Default)]
