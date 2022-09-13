@@ -43,7 +43,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('desc' type=inline),
+                    value: Atom('desc' type=static),
                 },
                 tag: Description(
                     DescriptionTag {

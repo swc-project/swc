@@ -80,7 +80,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('dir' type=inline),
+                Atom('dir' type=static),
                 #2,
             ),
             VarUsageInfo {
@@ -194,7 +194,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('path' type=inline),
+                Atom('path' type=static),
                 #2,
             ),
             VarUsageInfo {

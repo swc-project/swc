@@ -615,7 +615,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('map' type=inline),
+                                    value: Atom('map' type=static),
                                 },
                             ],
                         },

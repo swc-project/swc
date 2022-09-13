@@ -3170,7 +3170,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('template' type=dynamic),
+                Atom('template' type=static),
                 #3,
             ),
             VarUsageInfo {
@@ -3208,7 +3208,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('template' type=dynamic),
+                Atom('template' type=static),
                 #28,
             ),
             VarUsageInfo {
@@ -3246,7 +3246,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('template' type=dynamic),
+                Atom('template' type=static),
                 #29,
             ),
             VarUsageInfo {
@@ -3324,7 +3324,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('title' type=inline),
+                Atom('title' type=static),
                 #3,
             ),
             VarUsageInfo {
@@ -3362,7 +3362,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('title' type=inline),
+                Atom('title' type=static),
                 #14,
             ),
             VarUsageInfo {
@@ -3402,7 +3402,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('title' type=inline),
+                Atom('title' type=static),
                 #28,
             ),
             VarUsageInfo {

@@ -1204,7 +1204,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #12,
             ),
             VarUsageInfo {
@@ -1244,7 +1244,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #17,
             ),
             VarUsageInfo {
@@ -1284,7 +1284,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #30,
             ),
             VarUsageInfo {

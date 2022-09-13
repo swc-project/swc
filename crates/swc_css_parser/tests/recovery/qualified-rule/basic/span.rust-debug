@@ -96,7 +96,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:3:1]
  3 | a {
    : ^
