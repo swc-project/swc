@@ -89,7 +89,6 @@ where
         vars: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
-        _simple_array_values: Default::default(),
         typeofs: Default::default(),
         data,
         ctx: Default::default(),
@@ -212,11 +211,10 @@ struct Optimizer<'a, M> {
     vars: Vars,
 
     /// Used for `hoist_props`.
-    vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
+    vars_for_prop_hoisting: Box<FxHashMap<Id, Box<Expr>>>,
     /// Used for `hoist_props`.
-    simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
-    _simple_array_values: AHashMap<(Id, usize), Box<Expr>>,
-    typeofs: AHashMap<Id, JsWord>,
+    simple_props: Box<FxHashMap<(Id, JsWord), Box<Expr>>>,
+    typeofs: Box<AHashMap<Id, JsWord>>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one
@@ -234,7 +232,7 @@ struct Optimizer<'a, M> {
     #[allow(unused)]
     debug_infinite_loop: bool,
 
-    functions: FxHashMap<Id, FnMetadata>,
+    functions: Box<FxHashMap<Id, FnMetadata>>,
 }
 
 #[derive(Default)]
@@ -242,7 +240,7 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: AHashMap<Id, Box<Expr>>,
+    lits: FxHashMap<Id, Box<Expr>>,
 
     /// Used for copying functions.
     ///
@@ -2666,6 +2664,10 @@ where
                 && (!self.options.top_level() && self.options.top_retain.is_empty())
                 && self.ctx.in_top_level();
             self.store_var_for_inlining(&mut id.id, init, should_preserve, false);
+
+            if init.is_invalid() {
+                var.init = None
+            }
         };
 
         self.store_var_for_prop_hoisting(var);

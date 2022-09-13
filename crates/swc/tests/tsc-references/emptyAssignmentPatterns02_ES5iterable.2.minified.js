@@ -1,4 +1,4 @@
 //// [emptyAssignmentPatterns02_ES5iterable.ts]
-var a, ref, ref1;
+var a, ref;
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-(ref = a).x, ref.y, ref.z, _sliced_to_array(((ref1 = _sliced_to_array(a, 3))[0], ref1[1], ref1[2], ref1), 0);
+a.x, a.y, a.z, _sliced_to_array(((ref = _sliced_to_array(a, 3))[0], ref[1], ref[2], ref), 0);

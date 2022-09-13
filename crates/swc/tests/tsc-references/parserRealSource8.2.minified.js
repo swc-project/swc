@@ -78,17 +78,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         return ast && (ast.nodeType == NodeType.List ? ast.enclosingScope = context.scopeChain.scope : ast.nodeType == NodeType.ModuleDeclaration ? preAssignModuleScopes(ast, context) : ast.nodeType == NodeType.ClassDeclaration ? preAssignClassScopes(ast, context) : ast.nodeType == NodeType.InterfaceDeclaration ? preAssignInterfaceScopes(ast, context) : ast.nodeType == NodeType.With ? preAssignWithScopes(ast, context) : ast.nodeType == NodeType.FuncDecl ? preAssignFuncDeclScopes(ast, context) : ast.nodeType == NodeType.Catch ? preAssignCatchScopes(ast, context) : ast.nodeType == NodeType.TypeRef && (go = !1)), walker.options.goChildren = go, ast;
     }, postAssignScopes = function(ast, parent, walker) {
         var context = walker.state, go = !0;
-        if (ast) {
-            if (ast.nodeType == NodeType.ModuleDeclaration) popAssignScope(context), context.modDeclChain.pop(), context.modDeclChain.length >= 1 && (context.typeFlow.checker.currentModDecl = context.modDeclChain[context.modDeclChain.length - 1]);
-            else if (ast.nodeType == NodeType.ClassDeclaration) popAssignScope(context);
-            else if (ast.nodeType == NodeType.InterfaceDeclaration) popAssignScope(context);
-            else if (ast.nodeType == NodeType.With) popAssignScope(context);
-            else if (ast.nodeType == NodeType.FuncDecl) {
-                var funcDecl = ast;
-                (!funcDecl.isConstructor || hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod)) && !funcDecl.isOverload && popAssignScope(context);
-            } else ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1;
-        }
-        return walker.options.goChildren = go, ast;
+        return ast && (ast.nodeType == NodeType.ModuleDeclaration ? (popAssignScope(context), context.modDeclChain.pop(), context.modDeclChain.length >= 1 && (context.typeFlow.checker.currentModDecl = context.modDeclChain[context.modDeclChain.length - 1])) : ast.nodeType == NodeType.ClassDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.InterfaceDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.With ? popAssignScope(context) : ast.nodeType == NodeType.FuncDecl ? (!ast.isConstructor || hasFlag(ast.fncFlags, FncFlags.ClassMethod)) && !ast.isOverload && popAssignScope(context) : ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1), walker.options.goChildren = go, ast;
     }, AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
         "use strict";
         _class_call_check(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;

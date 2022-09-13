@@ -2737,19 +2737,19 @@
         }), fxNow = jQuery.now();
     }
     function Animation(elem, properties, options) {
-        var animation, result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
+        var result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
             delete tick.elem;
         }), tick = function() {
             if (stopped) return !1;
-            for(var currentTime = fxNow || createFxNow(), remaining = Math.max(0, animation1.startTime + animation1.duration - currentTime), percent = 1 - (remaining / animation1.duration || 0), index = 0, length = animation1.tweens.length; index < length; index++)animation1.tweens[index].run(percent);
+            for(var currentTime = fxNow || createFxNow(), remaining = Math.max(0, animation.startTime + animation.duration - currentTime), percent = 1 - (remaining / animation.duration || 0), index = 0, length = animation.tweens.length; index < length; index++)animation.tweens[index].run(percent);
             return (deferred.notifyWith(elem, [
-                animation1,
+                animation,
                 percent,
                 remaining
             ]), percent < 1 && length) ? remaining : (deferred.resolveWith(elem, [
-                animation1
+                animation
             ]), !1);
-        }, animation1 = deferred.promise({
+        }, animation = deferred.promise({
             elem: elem,
             props: jQuery.extend({}, properties),
             opts: jQuery.extend(!0, {
@@ -2761,34 +2761,34 @@
             duration: options.duration,
             tweens: [],
             createTween: function(prop, end) {
-                var tween = jQuery.Tween(elem, animation1.opts, prop, end, animation1.opts.specialEasing[prop] || animation1.opts.easing);
-                return animation1.tweens.push(tween), tween;
+                var tween = jQuery.Tween(elem, animation.opts, prop, end, animation.opts.specialEasing[prop] || animation.opts.easing);
+                return animation.tweens.push(tween), tween;
             },
             stop: function(gotoEnd) {
-                var index = 0, length = gotoEnd ? animation1.tweens.length : 0;
+                var index = 0, length = gotoEnd ? animation.tweens.length : 0;
                 if (stopped) return this;
-                for(stopped = !0; index < length; index++)animation1.tweens[index].run(1);
+                for(stopped = !0; index < length; index++)animation.tweens[index].run(1);
                 return gotoEnd ? deferred.resolveWith(elem, [
-                    animation1,
+                    animation,
                     gotoEnd
                 ]) : deferred.rejectWith(elem, [
-                    animation1,
+                    animation,
                     gotoEnd
                 ]), this;
             }
-        }), props = animation1.props;
+        }), props = animation.props;
         for(function(props, specialEasing) {
             var value, name1, index, easing, hooks;
             for(index in props)if (easing = specialEasing[name1 = jQuery.camelCase(index)], value = props[index], jQuery.isArray(value) && (easing = value[1], value = props[index] = value[0]), index !== name1 && (props[name1] = value, delete props[index]), (hooks = jQuery.cssHooks[name1]) && ("expand" in hooks)) for(index in value = hooks.expand(value), delete props[name1], value)(index in props) || (props[index] = value[index], specialEasing[index] = easing);
             else specialEasing[name1] = easing;
-        }(props, animation1.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation1, elem, props, animation1.opts)) return result;
-        return animation = animation1, jQuery.each(props, function(prop, value) {
+        }(props, animation.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation, elem, props, animation.opts)) return result;
+        return jQuery.each(props, function(prop, value) {
             for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
-        }), jQuery.isFunction(animation1.opts.start) && animation1.opts.start.call(elem, animation1), jQuery.fx.timer(jQuery.extend(tick, {
+        }), jQuery.isFunction(animation.opts.start) && animation.opts.start.call(elem, animation), jQuery.fx.timer(jQuery.extend(tick, {
             elem: elem,
-            anim: animation1,
-            queue: animation1.opts.queue
-        })), animation1.progress(animation1.opts.progress).done(animation1.opts.done, animation1.opts.complete).fail(animation1.opts.fail).always(animation1.opts.always);
+            anim: animation,
+            queue: animation.opts.queue
+        })), animation.progress(animation.opts.progress).done(animation.opts.done, animation.opts.complete).fail(animation.opts.fail).always(animation.opts.always);
     }
     function Tween(elem, options, prop, end, easing) {
         return new Tween.prototype.init(elem, options, prop, end, easing);

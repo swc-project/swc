@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_plugin_runner"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.74.6"
+version       = "0.74.8"
 
 [lib]
 bench = false
@@ -42,11 +42,11 @@ once_cell = "1.10.0"
 parking_lot = "0.12.0"
 serde = { version = "1.0.126", features = ["derive"] }
 serde_json = "1.0.64"
-swc_common = { version = "0.28.2", path = "../swc_common", features = [
+swc_common = { version = "0.28.3", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "0.91.2", path = "../swc_ecma_ast" }
-swc_plugin_proxy = { version = "0.19.3", path = "../swc_plugin_proxy" }
+swc_ecma_ast = { version = "0.91.3", path = "../swc_ecma_ast" }
+swc_plugin_proxy = { version = "0.19.4", path = "../swc_plugin_proxy" }
 
 tracing = "0.1.32"
 wasmer = { version = "2.3.0", default-features = false }
@@ -57,12 +57,12 @@ wasmer-cache = { version = "2.3.0", optional = true }
 
 [dev-dependencies]
 criterion       = "0.3"
-swc_atoms       = { version = "0.4.13", path = '../swc_atoms' }
-swc_ecma_loader = { version = "0.40.2", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.119.5", path = "../swc_ecma_parser" }
-swc_ecma_visit  = { version = "0.77.2", path = "../swc_ecma_visit" }
+swc_atoms       = { version = "0.4.14", path = '../swc_atoms' }
+swc_ecma_loader = { version = "0.40.3", path = "../swc_ecma_loader" }
+swc_ecma_parser = { version = "0.119.7", path = "../swc_ecma_parser" }
+swc_ecma_visit  = { version = "0.77.3", path = "../swc_ecma_visit" }
 swc_node_base   = { path = "../swc_node_base" }
-testing         = { version = "0.30.2", path = "../testing" }
+testing         = { version = "0.30.3", path = "../testing" }
 # This allows we can run non-wasm32 target build command while some pkg select features for wasmer/js omits its transitive deps
 wasmer      = "2.3.0"
 wasmer-wasi = "2.3.0"

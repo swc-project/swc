@@ -70,4 +70,6 @@ pub(crate) trait VarDataLike: Sized {
     fn mark_initialized_with_safe_value(&mut self);
 
     fn mark_as_pure_fn(&mut self);
+
+    fn mark_used_above_decl(&mut self);
 }

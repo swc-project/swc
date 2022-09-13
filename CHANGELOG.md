@@ -16,14 +16,26 @@
 
 - **(es/parser)** Keep comments of the RHS of a binary expression (#5812) ([8adbe16](https://github.com/swc-project/swc/commit/8adbe1675e6e86b0d1eb2f67ecdba3eb4ed5ee96))
 
+
+- **(es/parser)** Handle more `TS1185` (#5834) ([10637b0](https://github.com/swc-project/swc/commit/10637b006fb5c66b9bf7b9fef417ee04924f2845))
+
 ### Features
 
+
+
+- **(css/minifier)** Compress `@media` and `@supports` (#5828) ([211b0a9](https://github.com/swc-project/swc/commit/211b0a93fd994084e20dca47aad42d2e9e66e63f))
+
+
+- **(es/minifier)** Extend inlining of identifiers to multi-usage (#5832) ([8567a38](https://github.com/swc-project/swc/commit/8567a38c4a9363c41d0cab1c8adec02ee2e9b202))
 
 
 - **(es/parser)** Improve jsx lexer (#5805) ([97729e5](https://github.com/swc-project/swc/commit/97729e5d2bc74841ac2907902ddbd413d5645f9a))
 
 
 - **(swc_core)** Export `swc_common/sourcemap` (#5818) ([2819be5](https://github.com/swc-project/swc/commit/2819be5aac9d341bfb57335b5c9f96c267f9883d))
+
+
+- **(swc_core)** Export testing utilities (#5839) ([856d741](https://github.com/swc-project/swc/commit/856d741ec77f46eb04be8489a3a18340269dbe4d))
 
 ### Performance
 
@@ -50,7 +62,19 @@
 - **(es/minifier)** Make expression simplifier stateless and parallel (#5819) ([cfe575e](https://github.com/swc-project/swc/commit/cfe575e35a47c8a0d0550df9fc8dd0db932b6c41))
 
 
+- **(es/minifier)** Make the expression simplifier more parallel (#5841) ([b6cf975](https://github.com/swc-project/swc/commit/b6cf9750ecda6d4a7b1f1c9c7c26a801dc40c213))
+
+
+- **(es/minifier)** Reduce type sizes (#5843) ([fe3072b](https://github.com/swc-project/swc/commit/fe3072b12a32cbae3b4f9e904add8ad2ab6cc7f3))
+
+
 - **(es/parser)** Optimize memory layout (#5833) ([10484ed](https://github.com/swc-project/swc/commit/10484edbf768dcf96a99960a53cfb5968750b0c2))
+
+
+- **(html/minifier)** Improve performance (#5840) ([b691fec](https://github.com/swc-project/swc/commit/b691fec7b7949c4fff016e53b32b7f001403773a))
+
+
+- **(html/minifier)** Improve performance (#5838) ([ccd618c](https://github.com/swc-project/swc/commit/ccd618ce54cc21dbdeecd766f91816b395629678))
 
 ### Build
 

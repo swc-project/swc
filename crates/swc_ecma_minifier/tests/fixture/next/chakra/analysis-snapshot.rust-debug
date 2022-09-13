@@ -11962,7 +11962,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #48,
             ),
             VarUsageInfo {
@@ -12000,7 +12000,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #58,
             ),
             VarUsageInfo {
@@ -12038,7 +12038,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #59,
             ),
             VarUsageInfo {
@@ -12076,7 +12076,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #64,
             ),
             VarUsageInfo {
@@ -13820,7 +13820,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #51,
             ),
             VarUsageInfo {
@@ -13858,7 +13858,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #52,
             ),
             VarUsageInfo {
@@ -13896,7 +13896,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #54,
             ),
             VarUsageInfo {
@@ -13936,7 +13936,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #55,
             ),
             VarUsageInfo {
@@ -13974,7 +13974,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #56,
             ),
             VarUsageInfo {
@@ -14014,7 +14014,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #57,
             ),
             VarUsageInfo {
@@ -14052,7 +14052,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #58,
             ),
             VarUsageInfo {
@@ -14090,7 +14090,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #59,
             ),
             VarUsageInfo {
@@ -14128,7 +14128,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #80,
             ),
             VarUsageInfo {
@@ -14168,7 +14168,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #108,
             ),
             VarUsageInfo {
@@ -28214,7 +28214,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('data' type=inline),
+                Atom('data' type=static),
                 #329,
             ),
             VarUsageInfo {
@@ -29766,7 +29766,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('dir' type=inline),
+                Atom('dir' type=static),
                 #292,
             ),
             VarUsageInfo {
@@ -29804,7 +29804,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('dir' type=inline),
+                Atom('dir' type=static),
                 #324,
             ),
             VarUsageInfo {
@@ -29842,7 +29842,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('dir' type=inline),
+                Atom('dir' type=static),
                 #332,
             ),
             VarUsageInfo {
@@ -32470,7 +32470,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #51,
             ),
             VarUsageInfo {
@@ -32508,7 +32508,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #52,
             ),
             VarUsageInfo {
@@ -32546,7 +32546,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #54,
             ),
             VarUsageInfo {
@@ -32586,7 +32586,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #55,
             ),
             VarUsageInfo {
@@ -32624,7 +32624,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #56,
             ),
             VarUsageInfo {
@@ -32664,7 +32664,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #57,
             ),
             VarUsageInfo {
@@ -32702,7 +32702,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #58,
             ),
             VarUsageInfo {
@@ -32740,7 +32740,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #59,
             ),
             VarUsageInfo {
@@ -32778,7 +32778,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('g' type=inline),
+                Atom('g' type=static),
                 #80,
             ),
             VarUsageInfo {
@@ -35750,7 +35750,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #4,
             ),
             VarUsageInfo {
@@ -35790,7 +35790,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #9,
             ),
             VarUsageInfo {
@@ -35830,7 +35830,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #10,
             ),
             VarUsageInfo {
@@ -35870,7 +35870,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #43,
             ),
             VarUsageInfo {
@@ -35910,7 +35910,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #56,
             ),
             VarUsageInfo {
@@ -35950,7 +35950,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #101,
             ),
             VarUsageInfo {
@@ -35990,7 +35990,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #108,
             ),
             VarUsageInfo {
@@ -36030,7 +36030,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #139,
             ),
             VarUsageInfo {
@@ -36070,7 +36070,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #140,
             ),
             VarUsageInfo {
@@ -36110,7 +36110,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #145,
             ),
             VarUsageInfo {
@@ -36150,7 +36150,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #147,
             ),
             VarUsageInfo {
@@ -36190,7 +36190,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #275,
             ),
             VarUsageInfo {
@@ -36230,7 +36230,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #276,
             ),
             VarUsageInfo {
@@ -36270,7 +36270,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #278,
             ),
             VarUsageInfo {
@@ -36310,7 +36310,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #279,
             ),
             VarUsageInfo {
@@ -36350,7 +36350,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #287,
             ),
             VarUsageInfo {
@@ -36390,7 +36390,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #288,
             ),
             VarUsageInfo {
@@ -36430,7 +36430,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #291,
             ),
             VarUsageInfo {
@@ -36470,7 +36470,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #342,
             ),
             VarUsageInfo {
@@ -36590,7 +36590,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #36,
             ),
             VarUsageInfo {
@@ -36628,7 +36628,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #293,
             ),
             VarUsageInfo {
@@ -36666,7 +36666,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #295,
             ),
             VarUsageInfo {
@@ -36704,7 +36704,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #304,
             ),
             VarUsageInfo {
@@ -36742,7 +36742,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #307,
             ),
             VarUsageInfo {
@@ -36782,7 +36782,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #309,
             ),
             VarUsageInfo {
@@ -36820,7 +36820,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #315,
             ),
             VarUsageInfo {
@@ -36858,7 +36858,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #318,
             ),
             VarUsageInfo {
@@ -36896,7 +36896,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #319,
             ),
             VarUsageInfo {
@@ -36936,7 +36936,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #321,
             ),
             VarUsageInfo {
@@ -36976,7 +36976,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #327,
             ),
             VarUsageInfo {
@@ -37014,7 +37014,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #328,
             ),
             VarUsageInfo {
@@ -37054,7 +37054,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #333,
             ),
             VarUsageInfo {
@@ -39848,7 +39848,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('label' type=inline),
+                Atom('label' type=static),
                 #277,
             ),
             VarUsageInfo {
@@ -45324,7 +45324,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('p' type=inline),
+                Atom('p' type=static),
                 #53,
             ),
             VarUsageInfo {
@@ -45362,7 +45362,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('p' type=inline),
+                Atom('p' type=static),
                 #54,
             ),
             VarUsageInfo {
@@ -45402,7 +45402,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('p' type=inline),
+                Atom('p' type=static),
                 #56,
             ),
             VarUsageInfo {
@@ -45442,7 +45442,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('p' type=inline),
+                Atom('p' type=static),
                 #95,
             ),
             VarUsageInfo {
@@ -45560,7 +45560,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('param' type=inline),
+                Atom('param' type=static),
                 #362,
             ),
             VarUsageInfo {
@@ -57732,7 +57732,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #4,
             ),
             VarUsageInfo {
@@ -57772,7 +57772,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #9,
             ),
             VarUsageInfo {
@@ -57812,7 +57812,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #10,
             ),
             VarUsageInfo {
@@ -57850,7 +57850,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #43,
             ),
             VarUsageInfo {
@@ -57890,7 +57890,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #145,
             ),
             VarUsageInfo {
@@ -57930,7 +57930,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #275,
             ),
             VarUsageInfo {
@@ -57970,7 +57970,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #276,
             ),
             VarUsageInfo {
@@ -58008,7 +58008,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #278,
             ),
             VarUsageInfo {
@@ -58048,7 +58048,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #279,
             ),
             VarUsageInfo {
@@ -58086,7 +58086,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #287,
             ),
             VarUsageInfo {
@@ -58124,7 +58124,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #288,
             ),
             VarUsageInfo {
@@ -58164,7 +58164,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #291,
             ),
             VarUsageInfo {
@@ -58204,7 +58204,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #342,
             ),
             VarUsageInfo {
@@ -58242,7 +58242,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('source' type=inline),
+                Atom('source' type=static),
                 #348,
             ),
             VarUsageInfo {
@@ -62198,7 +62198,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('title' type=inline),
+                Atom('title' type=static),
                 #321,
             ),
             VarUsageInfo {

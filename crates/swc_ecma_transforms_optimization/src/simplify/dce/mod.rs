@@ -102,20 +102,23 @@ struct Data {
     used_names: AHashMap<Id, VarInfo>,
 
     /// Variable usage graph
-    graph: FastDiGraphMap<usize, VarInfo>,
+    ///
+    /// We use `u32` because [FastDiGraphMap] stores types as `(N, 1 bit)` so if
+    /// we use u32 it fits into the cache line of cpu.
+    graph: FastDiGraphMap<u32, VarInfo>,
     /// Entrypoints.
-    entries: FxHashSet<usize>,
+    entries: FxHashSet<u32>,
 
     graph_ix: IndexSet<Id, ahash::RandomState>,
 }
 
 impl Data {
-    fn node(&mut self, id: &Id) -> usize {
+    fn node(&mut self, id: &Id) -> u32 {
         self.graph_ix.get_index_of(id).unwrap_or_else(|| {
             let ix = self.graph_ix.len();
             self.graph_ix.insert_full(id.clone());
             ix
-        })
+        }) as _
     }
 
     /// Add an edge to dependency graph
@@ -175,7 +178,7 @@ impl Data {
                         continue;
                     }
 
-                    let id = self.graph_ix.get_index(j);
+                    let id = self.graph_ix.get_index(j as _);
                     let id = match id {
                         Some(id) => id,
                         None => continue,
@@ -195,9 +198,9 @@ impl Data {
 #[derive(Debug, Default)]
 struct VarInfo {
     /// This does not include self-references in a function.
-    pub usage: usize,
+    pub usage: u32,
     /// This does not include self-references in a function.
-    pub assign: usize,
+    pub assign: u32,
 }
 
 struct Analyzer<'a> {

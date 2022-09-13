@@ -2,7 +2,7 @@ TestSnapshot {
     vars: [
         (
             (
-                Atom('a' type=inline),
+                Atom('a' type=static),
                 #2,
             ),
             VarUsageInfo {
@@ -82,7 +82,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('body' type=inline),
+                Atom('body' type=static),
                 #4,
             ),
             VarUsageInfo {
@@ -200,7 +200,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('div' type=inline),
+                Atom('div' type=static),
                 #2,
             ),
             VarUsageInfo {
@@ -436,7 +436,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('i' type=inline),
+                Atom('i' type=static),
                 #2,
             ),
             VarUsageInfo {
@@ -476,7 +476,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('input' type=inline),
+                Atom('input' type=static),
                 #2,
             ),
             VarUsageInfo {
@@ -712,7 +712,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('select' type=inline),
+                Atom('select' type=static),
                 #2,
             ),
             VarUsageInfo {

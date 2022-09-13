@@ -98,7 +98,7 @@ impl Repeated for SimplifyExpr {
 }
 
 impl SimplifyExpr {
-    fn fold_member_expr(&mut self, expr: &mut Expr) {
+    fn optimize_member_expr(&mut self, expr: &mut Expr) {
         let MemberExpr { obj, prop, .. } = match expr {
             Expr::Member(member) => member,
             _ => return,
@@ -327,7 +327,7 @@ impl SimplifyExpr {
         }
     }
 
-    fn fold_bin(&mut self, expr: &mut Expr) {
+    fn optimize_bin_expr(&mut self, expr: &mut Expr) {
         let BinExpr {
             left,
             op,
@@ -741,7 +741,7 @@ impl SimplifyExpr {
         }));
     }
 
-    fn fold_unary(&mut self, expr: &mut Expr) {
+    fn optimize_unary_expr(&mut self, expr: &mut Expr) {
         let UnaryExpr { op, arg, span } = match expr {
             Expr::Unary(unary) => unary,
             _ => return,
@@ -1296,16 +1296,16 @@ impl VisitMut for SimplifyExpr {
 
         match expr {
             Expr::Unary(_) => {
-                self.fold_unary(expr);
+                self.optimize_unary_expr(expr);
                 debug_assert_valid(expr);
             }
             Expr::Bin(_) => {
-                self.fold_bin(expr);
+                self.optimize_bin_expr(expr);
 
                 debug_assert_valid(expr);
             }
             Expr::Member(_) => {
-                self.fold_member_expr(expr);
+                self.optimize_member_expr(expr);
 
                 debug_assert_valid(expr);
             }
@@ -1421,7 +1421,9 @@ impl VisitMut for SimplifyExpr {
             in_callee: Default::default(),
         };
 
-        n.visit_mut_children_with(&mut child);
+        child.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        });
         self.changed |= child.changed;
     }
 
@@ -1562,7 +1564,9 @@ impl VisitMut for SimplifyExpr {
             in_callee: Default::default(),
         };
 
-        n.visit_mut_children_with(&mut child);
+        child.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        });
         self.changed |= child.changed;
     }
 
