@@ -1279,7 +1279,7 @@ define!({
         If(IfStmt),
         Switch(SwitchStmt),
         Throw(ThrowStmt),
-        Try(TryStmt),
+        Try(Box<TryStmt>),
         While(WhileStmt),
         DoWhile(DoWhileStmt),
         For(ForStmt),
@@ -1337,9 +1337,9 @@ define!({
     }
     pub struct TryStmt {
         pub span: Span,
-        pub block: Box<BlockStmt>,
-        pub handler: Option<Box<CatchClause>>,
-        pub finalizer: Option<Box<BlockStmt>>,
+        pub block: BlockStmt,
+        pub handler: Option<CatchClause>,
+        pub finalizer: Option<BlockStmt>,
     }
     pub struct WhileStmt {
         pub span: Span,
@@ -1554,13 +1554,13 @@ define!({
         pub span: Span,
         pub params: Vec<TsFnParam>,
         pub type_params: Option<Box<TsTypeParamDecl>>,
-        pub type_ann: TsTypeAnn,
+        pub type_ann: Box<TsTypeAnn>,
     }
     pub struct TsConstructorType {
         pub span: Span,
         pub params: Vec<TsFnParam>,
         pub type_params: Option<Box<TsTypeParamDecl>>,
-        pub type_ann: TsTypeAnn,
+        pub type_ann: Box<TsTypeAnn>,
         pub is_abstract: bool,
     }
     pub struct TsTypeRef {
