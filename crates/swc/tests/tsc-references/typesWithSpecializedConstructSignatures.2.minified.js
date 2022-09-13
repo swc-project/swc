@@ -14,7 +14,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     "use strict";
     _class_call_check(this, Base);
 });
-var i, a, C = function C(x) {
+var a, C = function C(x) {
     return _class_call_check(this, C), x;
 };
-new C("a"), a = i = a, new C("hi"), new i("bye"), new a("hm");
+new C("a"), new C("hi"), new a("bye"), new a("hm");

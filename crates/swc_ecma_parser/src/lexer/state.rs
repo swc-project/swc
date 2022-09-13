@@ -1,16 +1,20 @@
 use std::mem::take;
 
 use enum_kind::Kind;
-#[cfg(not(debug_assertions))]
-use smallvec::SmallVec;
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
 use tracing::trace;
 
 use super::{
     comments_buffer::{BufferedComment, BufferedCommentKind},
     Context, Input, Lexer,
 };
-use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, EsVersion, Syntax};
+use crate::{
+    error::{Error, SyntaxError},
+    input::Tokens,
+    lexer::util::CharExt,
+    token::*,
+    EsVersion, Syntax,
+};
 
 /// State of lexer.
 ///
@@ -283,7 +287,20 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     }
 
                     if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
+                        let had_line_break_before_last = self.had_line_break_before_last();
+                        let cur_pos = self.input.cur_pos();
+
                         self.input.bump();
+
+                        if had_line_break_before_last && self.is_str("<<<<<< ") {
+                            let span = Span::new(cur_pos, cur_pos + BytePos(7), Default::default());
+
+                            self.emit_error_span(span, SyntaxError::TS1185);
+                            self.skip_line_comment(6);
+                            self.skip_space(true)?;
+                            return self.read_token();
+                        }
+
                         return Ok(Some(Token::JSXTagStart));
                     }
                 }
@@ -342,10 +359,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
 impl State {
     pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
-        #[cfg(debug_assertions)]
         let context = TokenContexts(vec![TokenContext::BraceStmt]);
-        #[cfg(not(debug_assertions))]
-        let context = TokenContexts(SmallVec::from_slice(&[TokenContext::BraceStmt]));
 
         State {
             is_expr_allowed: true,
@@ -614,12 +628,7 @@ impl State {
 }
 
 #[derive(Clone, Default)]
-#[cfg(debug_assertions)]
 pub struct TokenContexts(pub(crate) Vec<TokenContext>);
-
-#[derive(Clone, Default)]
-#[cfg(not(debug_assertions))]
-pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 32]>);
 
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according

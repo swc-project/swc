@@ -33,7 +33,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
+    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
         debug_assert!(self.cur().is_some());
 
         if starts_with_dot {
@@ -63,7 +63,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 raw.push('n');
 
                 return Ok(Either::Right((
-                    s.into_value(),
+                    Box::new(s.into_value()),
                     self.atoms.borrow_mut().intern(raw),
                 )));
             }
@@ -227,7 +227,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<Either<(f64, Atom), (BigIntValue, Atom)>> {
+    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -261,7 +261,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 buf.push('n');
 
                 return Ok(Either::Right((
-                    s.into_value(),
+                    Box::new(s.into_value()),
                     l.atoms.borrow_mut().intern(&**buf),
                 )));
             }
@@ -712,9 +712,11 @@ mod tests {
                 |l| l.read_number(false).unwrap().right().unwrap()
             ),
             (
-                "10000000000000000000000000000000000000000000000000000"
-                    .parse::<BigIntValue>()
-                    .unwrap(),
+                Box::new(
+                    "10000000000000000000000000000000000000000000000000000"
+                        .parse::<BigIntValue>()
+                        .unwrap()
+                ),
                 Atom::from("10000000000000000000000000000000000000000000000000000n")
             ),
         );

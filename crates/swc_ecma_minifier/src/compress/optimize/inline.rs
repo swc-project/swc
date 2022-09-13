@@ -98,7 +98,7 @@ where
 
             if !usage.is_fn_local {
                 match init {
-                    Expr::Lit(..) => {}
+                    Expr::Lit(..) | Expr::Ident(..) => {}
 
                     Expr::Unary(UnaryExpr {
                         op: op!("!"), arg, ..
@@ -156,6 +156,13 @@ where
                         ..
                     }) => false,
 
+                    Expr::Ident(id) => self
+                        .data
+                        .vars
+                        .get(&id.to_id())
+                        .filter(|a| !a.reassigned() && a.declared)
+                        .is_some(),
+
                     Expr::Lit(lit) => match lit {
                         Lit::Str(s) => ref_count == 1 || s.value.len() <= 3,
                         Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
@@ -208,7 +215,6 @@ where
 
                     self.vars.lits.insert(ident.to_id(), init.clone().into());
                 }
-                return;
             }
 
             // Single use => inlined
@@ -295,7 +301,7 @@ where
 
                     Expr::Ident(id) => {
                         if let Some(v_usage) = self.data.vars.get(&id.to_id()) {
-                            if v_usage.reassigned() {
+                            if v_usage.reassigned() || !v_usage.declared {
                                 return;
                             }
                         }
