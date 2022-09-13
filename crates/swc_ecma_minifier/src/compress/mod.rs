@@ -12,7 +12,8 @@ use pretty_assertions::assert_eq;
 #[cfg(feature = "concurrent")]
 use rayon::prelude::*;
 use swc_common::{
-    pass::{CompilerPass, Repeated},
+    chain,
+    pass::{CompilerPass, Optional, Repeated},
     Globals,
 };
 use swc_ecma_ast::*;
@@ -65,7 +66,16 @@ where
         mode,
     };
 
-    as_folder(compressor)
+    chain!(
+        as_folder(compressor),
+        Optional {
+            enabled: options.evaluate || options.side_effects,
+            visitor: as_folder(expr_simplifier(
+                marks.unresolved_mark,
+                ExprSimplifierConfig {}
+            ))
+        }
+    )
 }
 
 struct Compressor<'a, M>
