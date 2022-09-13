@@ -215,6 +215,15 @@ pub mod cached {
     pub use swc_cached::*;
 }
 
+// This reexports generic testing utilities only.
+// For the feature-specific (i.e ecma_transform_testing), need to enable
+// Corresponding features instead.
+#[cfg(feature = "testing")]
+#[cfg_attr(docsrs, doc(cfg(feature = "testing")))]
+pub mod testing {
+    pub use swc_testing::*;
+}
+
 #[cfg(feature = "allocator_node")]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
 extern crate swc_node_base;

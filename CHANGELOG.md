@@ -16,6 +16,9 @@
 
 - **(es/parser)** Keep comments of the RHS of a binary expression (#5812) ([8adbe16](https://github.com/swc-project/swc/commit/8adbe1675e6e86b0d1eb2f67ecdba3eb4ed5ee96))
 
+
+- **(es/parser)** Handle more `TS1185` (#5834) ([10637b0](https://github.com/swc-project/swc/commit/10637b006fb5c66b9bf7b9fef417ee04924f2845))
+
 ### Features
 
 
@@ -24,6 +27,9 @@
 
 
 - **(swc_core)** Export `swc_common/sourcemap` (#5818) ([2819be5](https://github.com/swc-project/swc/commit/2819be5aac9d341bfb57335b5c9f96c267f9883d))
+
+
+- **(swc_core)** Export testing utilities (#5839) ([856d741](https://github.com/swc-project/swc/commit/856d741ec77f46eb04be8489a3a18340269dbe4d))
 
 ### Performance
 
