@@ -61,7 +61,9 @@ impl Compressor {
                     match item {
                         MediaConditionAllType::MediaInParens(MediaInParens::MediaCondition(
                             media_condition,
-                        )) if self.is_first_or_media_type(&media_condition) => {
+                        )) if self.is_first_or_media_type(&media_condition)
+                            && self.is_first_media_in_parens(&media_condition) =>
+                        {
                             let mut iter = media_condition.conditions.into_iter();
 
                             if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
@@ -75,7 +77,8 @@ impl Compressor {
                         }
                         MediaConditionAllType::Or(media_or) => match media_or.condition {
                             MediaInParens::MediaCondition(media_condition)
-                                if self.is_first_or_media_type(&media_condition) =>
+                                if self.is_first_or_media_type(&media_condition)
+                                    && self.is_first_media_in_parens(&media_condition) =>
                             {
                                 let mut iter = media_condition.conditions.into_iter();
 
@@ -134,7 +137,9 @@ impl Compressor {
                     match item {
                         MediaConditionAllType::MediaInParens(MediaInParens::MediaCondition(
                             media_condition,
-                        )) if self.is_first_and_media_type(&media_condition) => {
+                        )) if self.is_first_and_media_type(&media_condition)
+                            && self.is_first_media_in_parens(&media_condition) =>
+                        {
                             let mut iter = media_condition.conditions.into_iter();
 
                             if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
@@ -148,7 +153,8 @@ impl Compressor {
                         }
                         MediaConditionAllType::And(media_and) => match media_and.condition {
                             MediaInParens::MediaCondition(media_condition)
-                                if self.is_first_and_media_type(&media_condition) =>
+                                if self.is_first_and_media_type(&media_condition)
+                                    && self.is_first_media_in_parens(&media_condition) =>
                             {
                                 let mut iter = media_condition.conditions.into_iter();
 
@@ -212,7 +218,9 @@ impl Compressor {
                 match item {
                     MediaConditionWithoutOrType::MediaInParens(MediaInParens::MediaCondition(
                         media_condition,
-                    )) if self.is_first_and_media_type(&media_condition) => {
+                    )) if self.is_first_and_media_type(&media_condition)
+                        && self.is_first_media_in_parens(&media_condition) =>
+                    {
                         let mut iter = media_condition.conditions.into_iter();
 
                         if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
@@ -247,7 +255,8 @@ impl Compressor {
                     }
                     MediaConditionWithoutOrType::And(media_and) => match media_and.condition {
                         MediaInParens::MediaCondition(media_condition)
-                            if self.is_first_and_media_type(&media_condition) =>
+                            if self.is_first_and_media_type(&media_condition)
+                                && self.is_first_media_in_parens(&media_condition) =>
                         {
                             let mut iter = media_condition.conditions.into_iter();
 

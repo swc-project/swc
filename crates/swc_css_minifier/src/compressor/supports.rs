@@ -63,7 +63,9 @@ impl Compressor {
                     match item {
                         SupportsConditionType::SupportsInParens(
                             SupportsInParens::SupportsCondition(supports_condition),
-                        ) if self.is_first_or_supports_type(&supports_condition) => {
+                        ) if self.is_first_or_supports_type(&supports_condition)
+                            && self.is_first_supports_in_parens(&supports_condition) =>
+                        {
                             let mut iter = supports_condition.conditions.into_iter();
 
                             if let Some(SupportsConditionType::SupportsInParens(
@@ -79,7 +81,8 @@ impl Compressor {
                         }
                         SupportsConditionType::Or(supports_or) => match *supports_or.condition {
                             SupportsInParens::SupportsCondition(supports_condition)
-                                if self.is_first_or_supports_type(&supports_condition) =>
+                                if self.is_first_or_supports_type(&supports_condition)
+                                    && self.is_first_supports_in_parens(&supports_condition) =>
                             {
                                 let mut iter = supports_condition.conditions.into_iter();
 
@@ -139,7 +142,9 @@ impl Compressor {
                     match item {
                         SupportsConditionType::SupportsInParens(
                             SupportsInParens::SupportsCondition(supports_condition),
-                        ) if self.is_first_and_supports_type(&supports_condition) => {
+                        ) if self.is_first_and_supports_type(&supports_condition)
+                            && self.is_first_supports_in_parens(&supports_condition) =>
+                        {
                             let mut iter = supports_condition.conditions.into_iter();
 
                             if let Some(SupportsConditionType::SupportsInParens(
@@ -155,7 +160,8 @@ impl Compressor {
                         }
                         SupportsConditionType::And(supports_and) => match *supports_and.condition {
                             SupportsInParens::SupportsCondition(supports_condition)
-                                if self.is_first_and_supports_type(&supports_condition) =>
+                                if self.is_first_and_supports_type(&supports_condition)
+                                    && self.is_first_supports_in_parens(&supports_condition) =>
                             {
                                 let mut iter = supports_condition.conditions.into_iter();
 
