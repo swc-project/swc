@@ -794,7 +794,7 @@ impl<I: Tokens> Parser<I> {
                     is_generator: false,
                     params,
                     body,
-                    return_type: Some(Box::new(return_type)),
+                    return_type: Some(return_type),
                     type_params: None,
                 }))))
             }) {
@@ -807,10 +807,7 @@ impl<I: Tokens> Parser<I> {
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
         {
-            Some(
-                self.parse_ts_type_or_type_predicate_ann(&tok!(':'))
-                    .map(Box::new)?,
-            )
+            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
         } else {
             None
         };

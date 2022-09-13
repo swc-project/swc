@@ -467,7 +467,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ts_type_or_type_predicate_ann(
         &mut self,
         return_token: &'static Token,
-    ) -> PResult<TsTypeAnn> {
+    ) -> PResult<Box<TsTypeAnn>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
@@ -516,10 +516,10 @@ impl<I: Tokens> Parser<I> {
                 type_ann,
             }));
 
-            Ok(TsTypeAnn {
+            Ok(Box::new(TsTypeAnn {
                 span: span!(p, return_token_start),
                 type_ann: node,
-            })
+            }))
         })
     }
 
@@ -1940,7 +1940,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsTryParseTypeOrTypePredicateAnnotation`
     ///
     /// Used for parsing return types.
-    fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<Option<TsTypeAnn>> {
+    fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }
@@ -2621,7 +2621,7 @@ impl<I: Tokens> Parser<I> {
                     .map(|p| p.pat)
                     .collect();
                 expect!(p, ')');
-                let return_type = p.try_parse_ts_type_or_type_predicate_ann()?.map(Box::new);
+                let return_type = p.try_parse_ts_type_or_type_predicate_ann()?;
                 expect!(p, "=>");
 
                 Ok(Some((type_params, params, return_type)))

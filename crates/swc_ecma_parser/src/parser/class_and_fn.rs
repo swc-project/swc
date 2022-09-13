@@ -1221,7 +1221,6 @@ impl<I: Tokens> Parser<I> {
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(p, ':') {
                 p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
-                    .map(Box::new)
                     .map(Some)?
             } else {
                 None

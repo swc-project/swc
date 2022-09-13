@@ -731,10 +731,10 @@ impl<'a, I: Tokens> Parser<I> {
                     | Pat::Rest(RestPat { type_ann, .. })
                     | Pat::Object(ObjectPat { type_ann, .. })
                     | Pat::Assign(AssignPat { type_ann, .. }) => {
-                        *type_ann = Some(TsTypeAnn {
+                        *type_ann = Some(Box::new(TsTypeAnn {
                             span: span!(self, type_ann_start),
                             type_ann: ty,
-                        });
+                        }));
                     }
                     Pat::Invalid(_) => {}
                     Pat::Expr(_) => {}
