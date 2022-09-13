@@ -21,12 +21,10 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_fast_graph::digraph::FastDiGraphMap;
 use tracing::{debug, span, Level};
 
-use self::digraph::FastDiGraphMap;
 use crate::debug_assert_valid;
-
-mod digraph;
 
 /// Note: This becomes parallel if `concurrent` feature is enabled.
 pub fn dce(
