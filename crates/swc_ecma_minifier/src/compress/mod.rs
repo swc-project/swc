@@ -9,18 +9,14 @@ use std::{
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
-#[cfg(feature = "concurrent")]
-use rayon::prelude::*;
 use swc_common::{
     chain,
     pass::{CompilerPass, Optional, Repeated},
-    Globals,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{
     dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
 };
-use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 use tracing::{debug, error};
@@ -32,11 +28,9 @@ use crate::{
     compress::hoist_decls::decl_hoister,
     debug::{dump, AssertValid},
     marks::Marks,
-    maybe_par,
     mode::Mode,
     option::CompressOptions,
     util::{now, unit::CompileUnit},
-    DISABLE_BUGGY_PASSES, MAX_PAR_DEPTH,
 };
 
 mod hoist_decls;
@@ -45,7 +39,6 @@ mod pure;
 mod util;
 
 pub(crate) fn compressor<'a, M>(
-    globals: &'a Globals,
     module_info: &'a ModuleInfo,
     marks: Marks,
     options: &'a CompressOptions,
@@ -55,13 +48,11 @@ where
     M: Mode,
 {
     let compressor = Compressor {
-        globals,
         marks,
         options,
         module_info,
         changed: false,
         pass: 1,
-        left_parallel_depth: 0,
         dump_for_infinite_loop: Default::default(),
         mode,
     };
@@ -82,14 +73,11 @@ struct Compressor<'a, M>
 where
     M: Mode,
 {
-    globals: &'a Globals,
     marks: Marks,
     options: &'a CompressOptions,
     module_info: &'a ModuleInfo,
     changed: bool,
     pass: usize,
-    /// `0` means we should not create more threads.
-    left_parallel_depth: u8,
 
     dump_for_infinite_loop: Vec<String>,
 
@@ -109,108 +97,6 @@ impl<M> Compressor<'_, M>
 where
     M: Mode,
 {
-    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike,
-        Vec<T>: VisitMutWith<Self> + for<'aa> VisitMutWith<hoist_decls::Hoister<'aa>>,
-    {
-        // Skip if `use asm` exists.
-        if maybe_par!(
-            stmts.iter().any(|stmt| match stmt.as_stmt() {
-                Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                    // TODO improve check, directives can contain escaped characters
-                    Expr::Lit(Lit::Str(Str { value, .. })) => &**value == "use asm",
-                    _ => false,
-                },
-                _ => false,
-            }),
-            *crate::LIGHT_TASK_PARALLELS
-        ) {
-            return;
-        }
-
-        stmts.visit_mut_children_with(self);
-
-        // TODO: drop unused
-    }
-
-    /// Optimize a bundle in a parallel.
-    fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
-    where
-        N: Send + Sync + for<'aa> VisitMutWith<Compressor<'aa, M>>,
-    {
-        trace_op!("visit_par(left_depth = {})", self.left_parallel_depth);
-
-        if self.left_parallel_depth == 0 || cfg!(target_arch = "wasm32") {
-            for node in nodes {
-                let mut v = Compressor {
-                    globals: self.globals,
-                    marks: self.marks,
-                    options: self.options,
-                    module_info: self.module_info,
-                    changed: false,
-                    pass: self.pass,
-                    left_parallel_depth: 0,
-                    dump_for_infinite_loop: Default::default(),
-                    mode: self.mode,
-                };
-                node.visit_mut_with(&mut v);
-
-                self.changed |= v.changed;
-            }
-        } else {
-            #[cfg(feature = "concurrent")]
-            let results = nodes
-                .par_iter_mut()
-                .map(|node| {
-                    swc_common::GLOBALS.set(self.globals, || {
-                        let mut v = Compressor {
-                            globals: self.globals,
-                            marks: self.marks,
-                            options: self.options,
-                            module_info: self.module_info,
-                            changed: false,
-                            pass: self.pass,
-                            left_parallel_depth: self.left_parallel_depth - 1,
-                            dump_for_infinite_loop: Default::default(),
-                            mode: self.mode,
-                        };
-                        node.visit_mut_with(&mut v);
-
-                        v.changed
-                    })
-                })
-                .collect::<Vec<_>>();
-
-            #[cfg(not(feature = "concurrent"))]
-            let results = nodes
-                .iter_mut()
-                .map(|node| {
-                    swc_common::GLOBALS.set(self.globals, || {
-                        let mut v = Compressor {
-                            globals: self.globals,
-                            marks: self.marks,
-                            options: self.options,
-                            module_info: self.module_info,
-                            changed: false,
-                            pass: self.pass,
-                            left_parallel_depth: self.left_parallel_depth - 1,
-                            mode: self.mode,
-                            dump_for_infinite_loop: Default::default(),
-                        };
-                        node.visit_mut_with(&mut v);
-
-                        v.changed
-                    })
-                })
-                .collect::<Vec<_>>();
-
-            for changed in results {
-                self.changed |= changed;
-            }
-        }
-    }
-
     fn optimize_unit_repeatedly<N>(&mut self, n: &mut N)
     where
         N: CompileUnit
@@ -494,62 +380,8 @@ where
 {
     noop_visit_mut_type!();
 
-    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        if !DISABLE_BUGGY_PASSES && n.function.span.has_mark(self.marks.standalone) {
-            self.optimize_unit_repeatedly(n);
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_module(&mut self, n: &mut Module) {
-        let is_bundle_mode =
-            !DISABLE_BUGGY_PASSES && n.span.has_mark(self.marks.bundle_of_standalone);
-
-        // Disable
-        if is_bundle_mode {
-            self.left_parallel_depth = MAX_PAR_DEPTH - 1;
-        } else {
-            self.optimize_unit_repeatedly(n);
-            return;
-        }
-
-        n.visit_mut_children_with(self);
-
         self.optimize_unit_repeatedly(n);
-    }
-
-    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        self.handle_stmt_likes(stmts);
-
-        stmts.retain(|stmt| match stmt {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::Var(VarDecl { decls, .. }),
-                ..
-            }))
-            | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl { decls, .. })))
-                if decls.is_empty() =>
-            {
-                false
-            }
-            _ => true,
-        });
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, nodes: &mut Vec<PropOrSpread>) {
-        self.visit_par(nodes);
-    }
-
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        self.handle_stmt_likes(stmts);
-
-        stmts.retain(|stmt| match stmt {
-            Stmt::Empty(..) => false,
-            Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => false,
-            _ => true,
-        });
     }
 }
 
