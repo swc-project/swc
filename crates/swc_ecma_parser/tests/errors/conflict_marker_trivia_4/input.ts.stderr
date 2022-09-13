@@ -1,0 +1,12 @@
+
+  x Unexpected eof
+   ,-[$DIR/tests/errors/conflict_marker_trivia_4/input.ts:1:1]
+ 1 | const x = <div>
+   :                ^
+   `----
+
+  x Merge conflict marker encountered.
+   ,-[$DIR/tests/errors/conflict_marker_trivia_4/input.ts:2:1]
+ 2 | <<<<<<< HEAD
+   : ^^^^^^^
+   `----
