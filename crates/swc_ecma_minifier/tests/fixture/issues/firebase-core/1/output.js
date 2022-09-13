@@ -64,11 +64,10 @@
                     this.service = service, this.serviceName = serviceName, this.errors = errors;
                 }
                 create(code, ...data) {
-                    var template, data1;
-                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template1 = this.errors[code], message = template1 ? (template = template1, data1 = customData, template.replace(PATTERN, (_, key)=>{
-                        const value = data1[key];
+                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? template.replace(PATTERN, (_, key)=>{
+                        const value = customData[key];
                         return null != value ? String(value) : `<${key}?>`;
-                    })) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
+                    }) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
                     return error;
                 }
             }
@@ -779,12 +778,10 @@
                                             xb && (d.sa = xb, R(d.F, d.D, xb));
                                         }
                                     }
-                                    c.G = 3, c.j && c.j.xa(), c.$ && (c.O = Date.now() - a.F, c.h.info("Handshake RTT: " + c.O + "ms")), d = c;
-                                    var h = a;
-                                    if (d.oa = Ec(d, d.H ? d.la : null, d.W), h.J) {
-                                        Fc(d.i, h);
-                                        var n = h, u = d.K;
-                                        u && n.setTimeout(u), n.B && (pc(n), lc(n)), d.g = h;
+                                    if (c.G = 3, c.j && c.j.xa(), c.$ && (c.O = Date.now() - a.F, c.h.info("Handshake RTT: " + c.O + "ms")), (d = c).oa = Ec(d, d.H ? d.la : null, d.W), a.J) {
+                                        Fc(d.i, a);
+                                        var u = d.K;
+                                        u && a.setTimeout(u), a.B && (pc(a), lc(a)), d.g = a;
                                     } else Gc(d);
                                     0 < c.l.length && Hc(c);
                                 } else "stop" != m2[0] && "close" != m2[0] || Q(c, 7);
@@ -1720,7 +1717,7 @@
                 }();
             }
             exports.default = function(_param) {
-                var sizerSvg, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, rest = function(source, excluded) {
+                var sizerSvg, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = function(source, excluded) {
                         if (null == source) return {};
@@ -1751,7 +1748,7 @@
                     "placeholder",
                     "blurDataURL", 
                 ]), layout = sizes ? "responsive" : "intrinsic";
-                "layout" in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
+                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
                 var src1, staticSrc = "";
                 if ("object" == typeof (src1 = src) && (isStaticRequire(src1) || void 0 !== src1.src)) {
                     var staticImageData = isStaticRequire(src) ? src.default : src;
@@ -1867,7 +1864,7 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: "data:image/svg+xml;base64,".concat(_toBase64.toBase64(sizerSvg))
-                }) : null) : null, _react.default.createElement("img", Object.assign({}, rest, imgAttributes, {
+                }) : null) : null, _react.default.createElement("img", Object.assign({}, all, imgAttributes, {
                     decoding: "async",
                     "data-nimg": layout,
                     className: className,
@@ -1887,7 +1884,7 @@
                         }(img, srcString, layout, placeholder, onLoadingComplete);
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
-                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({
+                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
                     src: src,
                     unoptimized: unoptimized,
                     layout: layout,
@@ -1922,13 +1919,13 @@
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }(i);
                 return target;
@@ -2102,8 +2099,8 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var element, callback, ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (element = el, callback = function(isVisible) {
+                    var callback, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
                         return isVisible && setVisible(isVisible);
                     }, id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
@@ -2121,8 +2118,8 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
-                        elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
+                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
+                        elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
                     isDisabled,

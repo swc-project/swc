@@ -2666,6 +2666,10 @@ where
                 && (!self.options.top_level() && self.options.top_retain.is_empty())
                 && self.ctx.in_top_level();
             self.store_var_for_inlining(&mut id.id, init, should_preserve, false);
+
+            if init.is_invalid() {
+                var.init = None
+            }
         };
 
         self.store_var_for_prop_hoisting(var);

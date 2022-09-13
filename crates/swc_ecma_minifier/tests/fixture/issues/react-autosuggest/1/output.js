@@ -93,8 +93,8 @@ var ItemsList = function(_Component) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(ItemsList, _Component);
-    var Derived, Constructor, protoProps, staticProps, _super = (Derived = ItemsList, function() {
-        var call, result, Super = _getPrototypeOf(Derived);
+    var protoProps, staticProps, _super = function() {
+        var call, result, Super = _getPrototypeOf(ItemsList);
         if (function() {
             if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
@@ -108,7 +108,7 @@ var ItemsList = function(_Component) {
             result = Reflect.construct(Super, arguments, NewTarget);
         } else result = Super.apply(this, arguments);
         return (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(this);
-    });
+    };
     function ItemsList() {
         var _this;
         !function(instance, Constructor) {
@@ -121,7 +121,7 @@ var ItemsList = function(_Component) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }), _this;
     }
-    return Constructor = ItemsList, protoProps = [
+    return protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -165,7 +165,7 @@ var ItemsList = function(_Component) {
                 }));
             }
         }, 
-    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ItemsList;
+    ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
 }(_react.Component);
 exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
     items: _propTypes.default.array.isRequired,
