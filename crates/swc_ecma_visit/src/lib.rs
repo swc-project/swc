@@ -536,7 +536,7 @@ define!({
         pub span: Span,
         pub key: PrivateName,
         pub value: Option<Box<Expr>>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
         pub accessibility: Option<Accessibility>,
@@ -861,7 +861,7 @@ define!({
 
     pub struct BindingIdent {
         pub id: Ident,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
 
     pub struct Ident {
@@ -981,7 +981,7 @@ define!({
     }
     pub struct BigInt {
         pub span: Span,
-        pub value: BigIntValue,
+        pub value: Box<BigIntValue>,
         pub raw: Option<Atom>,
     }
     pub struct Str {
@@ -1186,25 +1186,25 @@ define!({
         pub span: Span,
         pub elems: Vec<Option<Pat>>,
         pub optional: bool,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub struct ObjectPat {
         pub span: Span,
         pub props: Vec<ObjectPatProp>,
         pub optional: bool,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub struct AssignPat {
         pub span: Span,
         pub left: Box<Pat>,
         pub right: Box<Expr>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub struct RestPat {
         pub span: Span,
         pub dot3_token: Span,
         pub arg: Box<Pat>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub enum ObjectPatProp {
         KeyValue(KeyValuePatProp),
@@ -1239,7 +1239,7 @@ define!({
     pub struct GetterProp {
         pub span: Span,
         pub key: PropName,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub body: Option<BlockStmt>,
     }
     pub struct SetterProp {
@@ -1441,13 +1441,13 @@ define!({
     pub struct TsCallSignatureDecl {
         pub span: Span,
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub type_params: Option<Box<TsTypeParamDecl>>,
     }
     pub struct TsConstructSignatureDecl {
         pub span: Span,
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub type_params: Option<Box<TsTypeParamDecl>>,
     }
     pub struct TsPropertySignature {
@@ -1458,7 +1458,7 @@ define!({
         pub optional: bool,
         pub init: Option<Box<Expr>>,
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub type_params: Option<Box<TsTypeParamDecl>>,
     }
 
@@ -1468,7 +1468,7 @@ define!({
         pub key: Box<Expr>,
         pub computed: bool,
         pub optional: bool,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
 
     pub struct TsSetterSignature {
@@ -1486,12 +1486,12 @@ define!({
         pub computed: bool,
         pub optional: bool,
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub type_params: Option<Box<TsTypeParamDecl>>,
     }
     pub struct TsIndexSignature {
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub readonly: bool,
         pub is_static: bool,
         pub span: Span,
@@ -1572,7 +1572,7 @@ define!({
         pub span: Span,
         pub asserts: bool,
         pub param_name: TsThisTypeOrIdent,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub enum TsThisTypeOrIdent {
         TsThisType(TsThisType),
