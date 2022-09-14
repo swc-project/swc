@@ -1044,7 +1044,7 @@ impl Minifier<'_> {
 
     fn get_next_displayed_node<'a>(
         &self,
-        children: &'a [Child],
+        children: &'a Vec<Child>,
         index: usize,
     ) -> Option<&'a Child> {
         let next = children.get(index);
@@ -1213,7 +1213,7 @@ impl Minifier<'_> {
         let mode = self.get_whitespace_minification_for_tag(namespace, tag_name);
 
         let child_will_be_retained =
-            |child: &mut Child, prev_children: &Vec<Child>, next_children: &[Child]| {
+            |child: &mut Child, prev_children: &Vec<Child>, next_children: &Vec<Child>| {
                 match child {
                     Child::Comment(comment) if self.options.remove_comments => {
                         self.is_preserved_comment(&comment.data)
@@ -1523,7 +1523,7 @@ impl Minifier<'_> {
 
         let mut new_children = Vec::with_capacity(children.len());
 
-        for index in 0..children.len() {
+        for _ in 0..children.len() {
             let mut child = children.remove(0);
 
             if let Child::Text(text) = &mut child {
@@ -1540,7 +1540,7 @@ impl Minifier<'_> {
                 }
             };
 
-            let result = child_will_be_retained(&mut child, &new_children, &children);
+            let result = child_will_be_retained(&mut child, &new_children, children);
 
             if result {
                 new_children.push(child);
