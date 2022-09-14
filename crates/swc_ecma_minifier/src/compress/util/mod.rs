@@ -617,7 +617,7 @@ pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
         })) => false,
 
         Stmt::Decl(
-            Decl::Var(VarDecl {
+            Decl::Var(box VarDecl {
                 kind: VarDeclKind::Var,
                 ..
             })
@@ -680,7 +680,7 @@ impl UnreachableHandler {
         if v.vars.is_empty() {
             *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
         } else {
-            *s = Stmt::Decl(Decl::Var(VarDecl {
+            *s = Stmt::Decl(Decl::Var(box VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: false,

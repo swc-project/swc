@@ -185,7 +185,7 @@ impl Pure<'_> {
             let if_need_work = stmts.iter().any(|stmt| {
                 match stmt.as_stmt() {
                     Some(Stmt::Decl(Decl::Var(
-                        v @ VarDecl {
+                        v @ box VarDecl {
                             kind: VarDeclKind::Var,
                             ..
                         },
@@ -250,7 +250,7 @@ impl Pure<'_> {
         if !prepender.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                T::from_stmt(Stmt::Decl(Decl::Var(box VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: Default::default(),

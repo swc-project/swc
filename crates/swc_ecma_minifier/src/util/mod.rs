@@ -256,7 +256,7 @@ where
 {
     let var = match t.as_stmt() {
         Some(Stmt::Decl(Decl::Var(
-            v @ VarDecl {
+            v @ box VarDecl {
                 kind: VarDeclKind::Var,
                 ..
             },
