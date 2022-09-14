@@ -6,5 +6,5 @@ export default function Foo() {
             await doSomething();
         }
     });
-};
+}
 Foo.displayName = "Foo";

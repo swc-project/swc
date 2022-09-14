@@ -14,4 +14,4 @@ export default function createWidgetsManager(onWidgetsUpdate) {
         update: scheduleUpdate,
         getWidgets: ()=>widgets
     };
-};
+}

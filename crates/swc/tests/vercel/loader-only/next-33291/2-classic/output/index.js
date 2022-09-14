@@ -240,4 +240,4 @@ export default function Home() {
         },
         __self: this
     })))));
-};
+}

@@ -1,5 +1,5 @@
 //// [a.js]
-export default function MyClass() {};
+export default function MyClass() {}
 MyClass.bar = class {
 }, MyClass.bar;
 //// [b.js]

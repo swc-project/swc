@@ -337,4 +337,4 @@ export default function createInstantSearchManager(param) {
         clearCache: clearCache,
         skipSearch: skipSearch
     };
-};
+}

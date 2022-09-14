@@ -13,5 +13,5 @@ export default function(module__1, exports__1) {
         }
         t__3.vr = vr__3;
     });
-};
+}
 ;

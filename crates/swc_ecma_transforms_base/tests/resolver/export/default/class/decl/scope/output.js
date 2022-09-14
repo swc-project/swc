@@ -3,5 +3,5 @@ export default class Test__1 {
         let Test__2 = 2;
         console.log(Test__2);
     }
-};
+}
 Test__1 = 2;

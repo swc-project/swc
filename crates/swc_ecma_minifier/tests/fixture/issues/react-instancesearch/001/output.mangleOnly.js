@@ -26,4 +26,4 @@ export default function e(e) {
             return r;
         }
     };
-};
+}

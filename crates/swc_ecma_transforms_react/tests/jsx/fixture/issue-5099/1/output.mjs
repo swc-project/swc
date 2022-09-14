@@ -16,4 +16,4 @@ export default function Greet(props) {
             __html: props.data.markup.content
         }
     }));
-};
+}

@@ -418,7 +418,7 @@ export default function m(n) {
         clearCache: P,
         skipSearch: b
     };
-};
+}
 function g(t) {
     if (!t) {
         return [];

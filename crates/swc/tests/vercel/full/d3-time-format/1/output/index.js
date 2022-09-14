@@ -223,7 +223,7 @@ export default function v(e) {
             }, t;
         }
     };
-};
+}
 var y = {
     "-": "",
     _: " ",

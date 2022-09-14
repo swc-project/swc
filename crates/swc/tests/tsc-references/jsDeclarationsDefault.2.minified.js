@@ -3,7 +3,7 @@ export default 12;
 //// [index2.js]
 export default function foo() {
     return foo;
-};
+}
 export var x = foo;
 export { foo as bar };
 //// [index3.js]
@@ -33,4 +33,4 @@ export default Bar;
 //// [index5.js]
 export default 12;
 //// [index6.js]
-export default function func() {};
+export default function func() {}
