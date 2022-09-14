@@ -626,7 +626,7 @@ impl VisitMut for Generator {
                 }
             }
 
-            Expr::Object(node) => {
+            Expr::Object(node) if contains_yield(&node.props) => {
                 // [source]
                 //      o = {
                 //          a: 1,
