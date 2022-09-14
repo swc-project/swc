@@ -1,8 +1,8 @@
 function processNode(
-    node: DataNode,
-    index?: number,
-    parent?: { node: DataNode; pos: string; level: number },
-    pathNodes?: DataNode[],
+    node,
+    index,
+    parent,
+    pathNodes
 ) {
     const children = node ? node[mergeChildrenPropName] : dataNodes;
     const pos = node ? getPosition(parent.pos, index) : '0';
@@ -10,7 +10,7 @@ function processNode(
 
     // Process node if is not root
     if (node) {
-        const key: Key = syntheticGetKey(node, pos);
+        const key = syntheticGetKey(node, pos);
         const data = {
             node,
             index,
