@@ -67,7 +67,8 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: 1.60
+          toolchain: stable
+          override: true
 
       - uses: actions/setup-node@v3
         with:
