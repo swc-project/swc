@@ -15,7 +15,9 @@ version = "0.25.3"
 bench = false
 
 [features]
-rkyv-impl = ["rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+__rkyv              = []
+rkyv-bytecheck-impl = []
+rkyv-impl = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
 
 [dependencies]
 bytecheck   = { version = "0.6.9", optional = true }
