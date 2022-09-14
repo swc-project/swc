@@ -53,7 +53,7 @@ impl<T> FunctionWrapper<T> {
         let name_ident = self.binding_ident.take();
         let ref_ident = private_ident!("_ref");
 
-        let ref_decl: Decl = VarDecl {
+        let ref_decl: Decl = Box::new(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Var,
             decls: vec![VarDeclarator {
@@ -63,7 +63,7 @@ impl<T> FunctionWrapper<T> {
                 definite: false,
             }],
             declare: false,
-        }
+        })
         .into();
 
         let return_fn_stmt = {
@@ -81,7 +81,7 @@ impl<T> FunctionWrapper<T> {
             stmts: vec![ref_decl.into(), return_fn_stmt],
         };
 
-        let function = Function {
+        let function = Box::new(Function {
             span: DUMMY_SP,
             body: Some(block_stmt),
             params: Default::default(),
@@ -90,7 +90,7 @@ impl<T> FunctionWrapper<T> {
             decorators: Default::default(),
             return_type: Default::default(),
             type_params: Default::default(),
-        };
+        });
 
         FnExpr {
             ident: None,
