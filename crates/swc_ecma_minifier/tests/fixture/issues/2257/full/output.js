@@ -9486,7 +9486,7 @@
                     var part = fromParts[i];
                     "." === part ? spliceOne(fromParts, i) : ".." === part ? (spliceOne(fromParts, i), up++) : up && (spliceOne(fromParts, i), up--);
                 }
-                if (!mustEndAbs) for(; up--;)fromParts.unshift("..");
+                if (!mustEndAbs) for(; up--; up)fromParts.unshift("..");
                 !mustEndAbs || "" === fromParts[0] || fromParts[0] && isAbsolute(fromParts[0]) || fromParts.unshift("");
                 var result = fromParts.join("/");
                 return hasTrailingSlash && "/" !== result.substr(-1) && (result += "/"), result;
