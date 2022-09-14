@@ -22,6 +22,9 @@
 
 - **(es/parser)** Handle more `TS1185` (#5834) ([10637b0](https://github.com/swc-project/swc/commit/10637b006fb5c66b9bf7b9fef417ee04924f2845))
 
+
+- **(swc_core)** Fix reexport of `testing` (#5848) ([c0da2e9](https://github.com/swc-project/swc/commit/c0da2e998ada947563de83ba19feed789f1a1aea))
+
 ### Features
 
 
