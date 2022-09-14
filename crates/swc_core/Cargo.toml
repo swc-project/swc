@@ -245,11 +245,10 @@ __plugin_transform_host = [
 __plugin_transform_host_bytecheck = [
   "__common",
   "swc_atoms/rkyv-bytecheck-impl",
-
-  # "swc_ecma_ast/rkyv-impl",
-  # "swc_common/plugin-rt",
-  # "swc_plugin_proxy/plugin-rt",
-  # "swc/plugin",
+  "swc_common/plugin-bytecheck-rt",
+  "swc_ecma_ast/rkyv-bytecheck-impl",
+  "swc_plugin_proxy/plugin-bytecheck-rt",
+  "swc/plugin-bytecheck",
 ]
 
 # Internal flags to control plugin environment
