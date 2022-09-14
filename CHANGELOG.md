@@ -55,6 +55,12 @@
 
 - **(swc_core)** Export testing utilities (#5839) ([856d741](https://github.com/swc-project/swc/commit/856d741ec77f46eb04be8489a3a18340269dbe4d))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** FIx publish action (#5857) ([c2f25c9](https://github.com/swc-project/swc/commit/c2f25c9998776366a5df8da77d94b0a85e4869fe))
+
 ### Performance
 
 
