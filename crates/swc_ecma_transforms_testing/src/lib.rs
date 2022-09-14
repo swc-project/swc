@@ -733,7 +733,7 @@ fn test_fixture_inner<P>(
         println!("----- {} -----", Color::Green.paint("Actual"));
 
         let actual =
-            tester.apply_transform(tr, "input.js", syntax, &read_to_string(&input).unwrap())?;
+            tester.apply_transform(tr, "input.js", syntax, &read_to_string(input).unwrap())?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {

@@ -88,7 +88,7 @@ fn do_test(entry: &Path, minify: bool) {
         .expect("to_str() failed")
         .to_string();
 
-    let input = read_to_string(&entry).unwrap();
+    let input = read_to_string(entry).unwrap();
 
     let ignore = IGNORED_PASS_TESTS.contains(&&*file_name);
 

@@ -579,7 +579,7 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
             _ => return f.to_string(),
         };
 
-        let rel = pathdiff::diff_paths(&target, base_path);
+        let rel = pathdiff::diff_paths(target, base_path);
         match rel {
             Some(v) => {
                 let s = v.to_string_lossy().to_string();

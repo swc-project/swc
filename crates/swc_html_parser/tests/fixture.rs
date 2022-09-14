@@ -991,8 +991,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             .expect("failed to get relative filename")
             .to_str()
             .unwrap()
-            .replace('/', "_")
-            .replace('.', "_");
+            .replace(['/', '.'], "_");
         let tests_base = tests_base.unwrap();
 
         let dir = tests_base

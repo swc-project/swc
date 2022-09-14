@@ -486,7 +486,7 @@ where
                                 namespace,
                                 tag_name,
                                 ..
-                            }) if is_html_tag_name(*namespace, &**tag_name)
+                            }) if is_html_tag_name(*namespace, tag_name)
                                 && !matches!(
                                     &**tag_name,
                                     "a" | "audio"

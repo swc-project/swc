@@ -248,8 +248,8 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         e.into_diagnostic(handler).emit();
                     }
 
-                    let output = String::from_utf8_lossy(&*wr.0.read().unwrap()).to_string();
-                    let expected = String::from_utf8_lossy(&*wr2.0.read().unwrap()).to_string();
+                    let output = String::from_utf8_lossy(&wr.0.read().unwrap()).to_string();
+                    let expected = String::from_utf8_lossy(&wr2.0.read().unwrap()).to_string();
                     if output == expected {
                         return Ok(());
                     }
