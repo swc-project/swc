@@ -1370,7 +1370,7 @@ mod tests {
     fn catch_rest_pat() {
         assert_eq_ignore_span!(
             stmt("try {} catch({ ...a34 }) {}"),
-            Stmt::Try(TryStmt {
+            Stmt::Try(Box::new(TryStmt {
                 span,
                 block: BlockStmt {
                     span,
@@ -1396,7 +1396,7 @@ mod tests {
                     }
                 }),
                 finalizer: None
-            })
+            }))
         );
     }
 
@@ -1418,7 +1418,7 @@ mod tests {
             Stmt::ForOf(ForOfStmt {
                 span,
                 await_token: Some(span),
-                left: VarDeclOrPat::VarDecl(VarDecl {
+                left: VarDeclOrPat::VarDecl(Box::new(VarDecl {
                     span,
                     kind: VarDeclKind::Const,
                     decls: vec![VarDeclarator {
@@ -1428,7 +1428,7 @@ mod tests {
                         definite: false,
                     }],
                     declare: false,
-                }),
+                })),
                 right: Box::new(Expr::Ident(Ident::new("b".into(), span))),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),

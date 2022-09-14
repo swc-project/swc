@@ -1673,7 +1673,7 @@ mod tests {
                 span,
                 expr: Box::new(Expr::Class(ClassExpr {
                     ident: None,
-                    class: Class {
+                    class: Box::new(Class {
                         decorators: vec![],
                         span,
                         body: vec![],
@@ -1682,7 +1682,7 @@ mod tests {
                         is_abstract: false,
                         super_type_params: None,
                         type_params: None,
-                    },
+                    }),
                 })),
             }))
         );

@@ -123,12 +123,12 @@ impl FnEnvHoister {
         if decls.is_empty() {
             None
         } else {
-            Some(Stmt::Decl(Decl::Var(VarDecl {
+            Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: false,
                 decls,
-            })))
+            }))))
         }
     }
 

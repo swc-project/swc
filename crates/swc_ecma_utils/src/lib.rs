@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
+#![feature(box_patterns)]
 
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
@@ -1249,7 +1250,7 @@ pub trait ExprExt {
 
             Expr::Fn(FnExpr {
                 function:
-                    Function {
+                    box Function {
                         params,
                         body: Some(BlockStmt { stmts, .. }),
                         ..
