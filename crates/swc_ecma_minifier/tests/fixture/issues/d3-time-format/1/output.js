@@ -225,7 +225,7 @@ export default function formatLocale(locale) {
             }, p;
         }
     };
-};
+}
 var pads = {
     "-": "",
     _: " ",

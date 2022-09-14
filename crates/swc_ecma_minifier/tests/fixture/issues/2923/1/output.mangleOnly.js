@@ -3,4 +3,4 @@ export default function t(t) {
         return "test";
     };
     return t`${e()}`;
-};
+}

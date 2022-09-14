@@ -19,7 +19,7 @@ export default function t(t) {
     e ^= e >>> 13;
     e = (e & 0xffff) * 0x5bd1e995 + (((e >>> 16) * 0xe995) << 16);
     return ((e ^ (e >>> 15)) >>> 0).toString(36);
-};
+}
 function e(t) {
     return t != null && typeof t !== "boolean";
 }

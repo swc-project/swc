@@ -6,4 +6,4 @@ export default function({ name__3 , input: inp__3  }) {
     return {
         input: inp__3
     };
-};
+}

@@ -374,7 +374,7 @@ export default function p({ indexName: s , initialState: a = {} , searchClient: 
         clearCache: I,
         skipSearch: F
     };
-};
+}
 function h(e) {
     if (!e) {
         return [];

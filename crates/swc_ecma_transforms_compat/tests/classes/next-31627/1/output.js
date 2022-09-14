@@ -5,7 +5,7 @@ export default function Home() {
         new MyClass();
     }, []);
     return {};
-};
+}
 let MyClass = function MyClass() {
     "use strict";
     _classCallCheck(this, MyClass);

@@ -10,7 +10,7 @@ function C(t) {
 }
 export default function m(t, i, h, e) {
     return arguments.length === 1 ? C(t) : new Cubehelix(t, i, h, e == null ? 1 : e);
-};
+}
 export function Cubehelix(t, i, h, e) {
     this.h = +t;
     this.s = +i;

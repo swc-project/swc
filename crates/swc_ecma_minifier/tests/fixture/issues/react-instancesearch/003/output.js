@@ -295,4 +295,4 @@ export default function createInstantSearchManager({ indexName , initialState ={
             skip = !0;
         }
     };
-};
+}

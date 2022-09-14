@@ -1,6 +1,6 @@
 export default class A {
     foo() {}
-};
+}
 __decorate([
     dec
 ], A.prototype, "foo", null);

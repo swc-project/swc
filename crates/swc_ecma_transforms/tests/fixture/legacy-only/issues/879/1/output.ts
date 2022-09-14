@@ -3,7 +3,7 @@ export default class X {
         this.prop = "";
     }
     prop: string;
-};
+}
 __decorate([
     networked
 ], X.prototype, "prop", void 0);
