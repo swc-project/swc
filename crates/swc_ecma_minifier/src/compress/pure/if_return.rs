@@ -71,7 +71,7 @@ impl Pure<'_> {
         if stmts[pos_of_if..].iter().any(|s| {
             matches!(
                 s,
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::Decl(Decl::Var(box VarDecl {
                     kind: VarDeclKind::Const | VarDeclKind::Let,
                     ..
                 }))
