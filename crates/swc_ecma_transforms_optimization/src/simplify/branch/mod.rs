@@ -1450,14 +1450,6 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
         | Expr::Lit(Lit::Null(..))
         | Expr::Lit(Lit::Regex(..)) => None,
 
-        Expr::Ident(..) => {
-            if e.may_have_side_effects(ctx) {
-                return Some(e);
-            }
-
-            None
-        }
-
         Expr::Lit(Lit::Str(ref v)) if drop_str_lit || v.value.is_empty() => None,
 
         Expr::Paren(ParenExpr { expr, .. }) => ignore_result(*expr, true, ctx),
