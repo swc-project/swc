@@ -117,7 +117,7 @@ impl<T> FunctionWrapper<T> {
         );
 
         let ref_stmt: Stmt = Stmt::Decl(
-            VarDecl {
+            Box::new(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 decls: vec![VarDeclarator {
@@ -127,7 +127,7 @@ impl<T> FunctionWrapper<T> {
                     definite: false,
                 }],
                 declare: false,
-            }
+            })
             .into(),
         );
 
@@ -154,7 +154,7 @@ impl<T> FunctionWrapper<T> {
             stmts: vec![ref_stmt, fn_decl_stmt, return_stmt],
         };
 
-        let function = Function {
+        let function = Box::new(Function {
             span: DUMMY_SP,
             body: Some(block_stmt),
             params: Default::default(),
@@ -163,7 +163,7 @@ impl<T> FunctionWrapper<T> {
             decorators: Default::default(),
             return_type: Default::default(),
             type_params: Default::default(),
-        };
+        });
 
         FnExpr {
             ident: None,

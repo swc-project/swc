@@ -349,7 +349,7 @@ pub trait FunctionFactory: Into<Function> {
     fn into_fn_expr(self, ident: Option<Ident>) -> FnExpr {
         FnExpr {
             ident,
-            function: self.into(),
+            function: Box::new(self.into()),
         }
     }
 
@@ -358,7 +358,7 @@ pub trait FunctionFactory: Into<Function> {
         FnDecl {
             ident,
             declare: false,
-            function: self.into(),
+            function: Box::new(self.into()),
         }
     }
 
@@ -366,7 +366,7 @@ pub trait FunctionFactory: Into<Function> {
     fn into_method_prop(self, key: PropName) -> MethodProp {
         MethodProp {
             key,
-            function: self.into(),
+            function: Box::new(self.into()),
         }
     }
 }

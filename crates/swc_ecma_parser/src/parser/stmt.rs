@@ -1486,7 +1486,7 @@ mod tests {
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
                 ident: Ident::new("Foo".into(), span),
-                class: Class {
+                class: Box::new(Class {
                     span,
                     decorators: vec![
                         Decorator {
@@ -1504,7 +1504,7 @@ mod tests {
                     is_abstract: false,
                     super_type_params: None,
                     type_params: None,
-                },
+                }),
                 declare: false,
             }))
         );
