@@ -694,7 +694,6 @@ impl<'a, I: Tokens> Parser<I> {
                     param,
                     body,
                 })
-                .map(Box::new)
                 .map(Some)?
         } else {
             None
@@ -703,7 +702,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     fn parse_finally_block(&mut self) -> PResult<Option<BlockStmt>> {
         Ok(if eat!(self, "finally") {
-            self.parse_block(false).map(Box::new).map(Some)?
+            self.parse_block(false).map(Box::new)?
         } else {
             None
         })
