@@ -67,7 +67,9 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: 1.60
+          # MSRV is current stable for ES crates and nightly for other languages
+          # toolchain: stable
+          # override: true
 
       - uses: actions/setup-node@v3
         with:
@@ -462,6 +464,9 @@ jobs:
         with:
           profile: minimal
           target: wasm32-wasi
+          # MSRV is current stable for ES crates and nightly for other languages
+          # toolchain: stable
+          # override: true
 
       - uses: denoland/setup-deno@v1
         if: matrix.settings.crate == 'swc_bundler'
