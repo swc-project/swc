@@ -1952,7 +1952,7 @@ export default function waitUntil(callback, options = {}) {
         match parse_for_head("let [, , t] = simple_array; t < 10; t++") {
             ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
-                VarDeclOrExpr::VarDecl(VarDecl {
+                VarDeclOrExpr::VarDecl(box VarDecl {
                     span,
                     declare: false,
                     kind: VarDeclKind::Let,
@@ -1984,7 +1984,7 @@ export default function waitUntil(callback, options = {}) {
         match parse_for_head("let {num} = obj; num < 11; num++") {
             ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
-                VarDeclOrExpr::VarDecl(VarDecl {
+                VarDeclOrExpr::VarDecl(box VarDecl {
                     span,
                     declare: false,
                     kind: VarDeclKind::Let,
@@ -2180,7 +2180,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: Class {
+                class: box Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2217,7 +2217,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: Class {
+                class: box Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2268,7 +2268,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: Class {
+                class: box Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2308,7 +2308,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: Class {
+                class: box Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,

@@ -2839,20 +2839,21 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let first = ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(TsTypeAliasDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    id: Ident::new("test".into(), DUMMY_SP),
-                    type_params: None,
-                    type_ann: Box::new(TsType::TsLitType(TsLitType {
+                let first =
+                    ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
                         span: DUMMY_SP,
-                        lit: TsLit::Number(Number {
+                        declare: false,
+                        id: Ident::new("test".into(), DUMMY_SP),
+                        type_params: None,
+                        type_ann: Box::new(TsType::TsLitType(TsLitType {
                             span: DUMMY_SP,
-                            value: -1.0,
-                            raw: Some("-1".into()),
-                        }),
-                    })),
-                })));
+                            lit: TsLit::Number(Number {
+                                span: DUMMY_SP,
+                                value: -1.0,
+                                raw: Some("-1".into()),
+                            }),
+                        })),
+                    }))));
                 vec![first]
             },
         };
@@ -2872,7 +2873,7 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(box VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Const,
                     declare: false,
