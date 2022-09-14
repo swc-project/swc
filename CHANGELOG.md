@@ -1,6 +1,17 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Move assign with seq init into seq (#5847) ([63fb0c4](https://github.com/swc-project/swc/commit/63fb0c4ad34698d4d3f0c49ff5a78f6e446e64f9))
+
+### Miscellaneous Tasks
+- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))
+
+## [1.3.1] - 2022-09-14
+
 ### Bug Fixes
 
 
