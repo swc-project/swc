@@ -20,6 +20,9 @@
 - **(es/minifier)** Don't replace parameters of IIFE if it's recursive (#5852) ([a5f7b69](https://github.com/swc-project/swc/commit/a5f7b6946fcf020b4669ac301b944ba5c0adbbba))
 
 
+- **(es/minifier)** Preserve more side effects (#5853) ([32f1806](https://github.com/swc-project/swc/commit/32f18068ad90ba2bfc7cf34b82245f9db2473077))
+
+
 - **(es/modules)** Improve compatibility with `cjs-module-lexer` (#5835) ([bf75981](https://github.com/swc-project/swc/commit/bf759819e4ad577e89c2605e80e80c928017029d))
 
 
