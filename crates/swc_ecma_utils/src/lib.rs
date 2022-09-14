@@ -2304,6 +2304,10 @@ impl ExprCtx {
             Expr::Cond(_) => to.push(Box::new(expr)),
 
             Expr::Unary(UnaryExpr { arg, .. }) => self.extract_side_effects_to(to, *arg),
+
+            Expr::Bin(BinExpr { op, .. }) if op.may_short_circuit() => {
+                to.push(Box::new(expr));
+            }
             Expr::Bin(BinExpr { left, right, .. }) => {
                 self.extract_side_effects_to(to, *left);
                 self.extract_side_effects_to(to, *right);
