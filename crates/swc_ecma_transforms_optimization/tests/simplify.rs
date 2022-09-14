@@ -431,7 +431,7 @@ fn test_object_literal() {
 fn test_array_literal() {
     test("([])", "");
     test("([1])", "");
-    test("([a])", "");
+    test("([a])", "a");
     test("([foo()])", "foo()");
 }
 
