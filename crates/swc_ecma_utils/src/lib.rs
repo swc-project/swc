@@ -2270,7 +2270,9 @@ impl ExprCtx {
             | Expr::PrivateName(..) => {}
 
             Expr::Ident(..) => {
-                to.push(Box::new(expr));
+                if expr.may_have_side_effects(self) {
+                    to.push(Box::new(expr));
+                }
             }
 
             // In most case, we can do nothing for this.
