@@ -3,7 +3,7 @@ async function* foo() {
     const input = ["hello", "swc"];
 
     for (i of input) {
-        result.push({ x });
+        result.push({ x: i });
         result.push({ y: await i });
         result.push({
             a: 1,

@@ -34,7 +34,7 @@ function _foo() {
                     ];
                     i = _step.value;
                     result.push({
-                        x: x
+                        x: i
                     });
                     _ = result.push;
                     _tmp = {};
@@ -106,7 +106,7 @@ function main() {
 }
 function _main() {
     _main = _async_to_generator(function() {
-        var state, x1;
+        var state, x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -115,14 +115,14 @@ function _main() {
                         iter.next()
                     ];
                 case 1:
-                    x1 = _state.sent();
+                    x = _state.sent();
                     _state.label = 2;
                 case 2:
-                    if (!!x1.done) return [
+                    if (!!x.done) return [
                         3,
                         5
                     ];
-                    state = "[".concat(x1.value, "]");
+                    state = "[".concat(x.value, "]");
                     _state.label = 3;
                 case 3:
                     return [
@@ -130,7 +130,7 @@ function _main() {
                         iter.next(state)
                     ];
                 case 4:
-                    x1 = _state.sent();
+                    x = _state.sent();
                     return [
                         3,
                         2
