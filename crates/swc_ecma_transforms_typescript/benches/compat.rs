@@ -36,7 +36,7 @@ where
         b.iter(|| {
             let module = module.clone();
 
-            let _ = helpers::HELPERS.set(&Default::default(), || {
+            helpers::HELPERS.set(&Default::default(), || {
                 let mut tr = tr();
 
                 black_box(module.fold_with(&mut tr));
@@ -79,7 +79,7 @@ fn common_typescript(b: &mut Bencher) {
         b.iter(|| {
             let module = module.clone();
 
-            let _ = helpers::HELPERS.set(&Default::default(), || {
+            helpers::HELPERS.set(&Default::default(), || {
                 black_box(module.fold_with(&mut strip(top_level_mark)));
             });
         });

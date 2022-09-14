@@ -692,7 +692,7 @@ where
                     super_is_callable_constructor: self.config.super_is_callable_constructor,
                 });
 
-                insert_this |= (mode == None && !is_always_initialized)
+                insert_this |= (mode.is_none() && !is_always_initialized)
                     || mode == Some(SuperFoldingMode::Assign);
 
                 if insert_this {

@@ -345,7 +345,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             (None, false, false)
         };
-        if accessibility == None && !is_override && !readonly {
+        if accessibility.is_none() && !is_override && !readonly {
             let pat = self.parse_formal_param_pat()?;
             Ok(ParamOrTsParamProp::Param(Param {
                 span: span!(self, param_start),

@@ -150,7 +150,7 @@ fn run_spec(file: &Path, output_json: &Path) {
         // github actions.
         let input = {
             let mut buf = String::new();
-            File::open(&file).unwrap().read_to_string(&mut buf).unwrap();
+            File::open(file).unwrap().read_to_string(&mut buf).unwrap();
             buf
         };
 
@@ -170,7 +170,7 @@ fn run_spec(file: &Path, output_json: &Path) {
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
 
         if StdErr::from(json.clone())
-            .compare_to_file(&output_json)
+            .compare_to_file(output_json)
             .is_err()
         {
             panic!()

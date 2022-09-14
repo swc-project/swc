@@ -130,7 +130,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
         }
 
         NormalizedOutput::from(actual_str)
-            .compare_to_file(&output_json_path)
+            .compare_to_file(output_json_path)
             .unwrap();
 
         Ok(())

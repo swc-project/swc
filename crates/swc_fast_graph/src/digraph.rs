@@ -181,7 +181,7 @@ where
 
     /// Add node `n` to the graph.
     pub fn add_node(&mut self, n: N) -> N {
-        self.nodes.entry(n).or_insert(Vec::new());
+        self.nodes.entry(n).or_default();
         n
     }
 

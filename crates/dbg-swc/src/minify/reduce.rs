@@ -57,14 +57,14 @@ impl ReduceCommand {
         let m = parse_js(fm)?;
         let code = print_js(cm, &m.module, false)?;
 
-        fs::write(&src_path, code.as_bytes()).context("failed to strip comments")?;
+        fs::write(src_path, code.as_bytes()).context("failed to strip comments")?;
 
         //
         let dir = TempDir::new("dbg-swc").context("failed to create a temp directory")?;
 
         let input = dir.path().join("input.js");
 
-        fs::copy(&src_path, &input).context("failed to copy")?;
+        fs::copy(src_path, &input).context("failed to copy")?;
 
         let mut c = Command::new("creduce");
 
@@ -90,7 +90,7 @@ impl ReduceCommand {
 
         if let Some(1) = status.code() {
             if self.remove {
-                fs::remove_file(&src_path).context("failed to remove")?;
+                fs::remove_file(src_path).context("failed to remove")?;
             }
         } else {
             dbg!(&status, status.code());

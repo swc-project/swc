@@ -1273,7 +1273,7 @@ where
                     // '+'? n <signed-integer>
                     // -n <signed-integer>
                     // <n-dimension> <signed-integer>
-                    tok!("number") if dash_after_n == None => {
+                    tok!("number") if dash_after_n.is_none() => {
                         let number = match bump!(self) {
                             Token::Number { value, raw, .. } => (value, raw),
                             _ => {
@@ -1356,7 +1356,7 @@ where
                     }
                     // '+'? n
                     // -n
-                    _ if dash_after_n == None => {}
+                    _ if dash_after_n.is_none() => {}
                     _ => {
                         return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
                     }
