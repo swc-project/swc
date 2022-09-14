@@ -40,7 +40,7 @@ Also, SWC tries to ensure that
 
 for rust users.
 
-MSRV is the current stable release.
+MSRV of crates named `swc_ecma_*` is the current stable, and nightly for others.
 
 ---
 
