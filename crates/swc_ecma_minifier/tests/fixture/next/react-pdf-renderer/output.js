@@ -15134,7 +15134,7 @@
                 var c = function(e, t, r, n) {
                     var i = e.deviceSizes, o = e.allSizes;
                     if (n && ("fill" === r || "responsive" === r || "raw" === r)) {
-                        for(var u = /(^|\s)(1?\d?\d)vw/g, l = []; s = u.exec(n); s)l.push(parseInt(s[2]));
+                        for(var u = /(^|\s)(1?\d?\d)vw/g, l = []; s = u.exec(n);)l.push(parseInt(s[2]));
                         if (l.length) {
                             var s, c, f = 0.01 * (c = Math).min.apply(c, a(l));
                             return {
