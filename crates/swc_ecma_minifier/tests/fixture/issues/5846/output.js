@@ -1,4 +1,4 @@
-function processNode(node, index, parent, pathNodes) {
+!function processNode(node, index, parent, pathNodes) {
     const children = node ? node[mergeChildrenPropName] : dataNodes, pos = node ? getPosition(parent.pos, index) : '0', connectNodes = node ? [
         ...pathNodes,
         node
@@ -22,5 +22,4 @@ function processNode(node, index, parent, pathNodes) {
             level: parent ? parent.level + 1 : -1
         }, connectNodes);
     });
-}
-processNode(null);
+}(null);
