@@ -413,7 +413,7 @@ where
                                 .collect::<Vec<_>>();
 
                             if !vars.is_empty() {
-                                self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                self.prepend_stmts.push(Stmt::Decl(Decl::Var(box VarDecl {
                                     span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                                     kind: VarDeclKind::Var,
                                     declare: Default::default(),
@@ -601,7 +601,7 @@ where
         }
 
         if !body.stmts.iter().all(|stmt| match stmt {
-            Stmt::Decl(Decl::Var(VarDecl {
+            Stmt::Decl(Decl::Var(box VarDecl {
                 kind: VarDeclKind::Var | VarDeclKind::Let,
                 decls,
                 ..
@@ -767,7 +767,7 @@ where
         if !vars.is_empty() {
             trace_op!("iife: Creating variables: {:?}", vars);
 
-            self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+            self.prepend_stmts.push(Stmt::Decl(Decl::Var(box VarDecl {
                 span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                 kind: VarDeclKind::Var,
                 declare: Default::default(),

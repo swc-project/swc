@@ -636,7 +636,7 @@ where
 
             Expr::Class(cls) => {
                 let exprs: Vec<Box<Expr>> =
-                    extract_class_side_effect(&self.expr_ctx, cls.class.take())
+                    extract_class_side_effect(&self.expr_ctx, box cls.class.take())
                         .into_iter()
                         .filter_map(|mut e| self.ignore_return_value(&mut e))
                         .map(Box::new)
@@ -1169,7 +1169,7 @@ where
             let orig = take(stmts);
             let mut new = Vec::with_capacity(orig.len());
 
-            let mut var_decl: Option<VarDecl> = None;
+            let mut var_decl: Option<_> = None;
 
             for stmt in orig {
                 match stmt {
@@ -1181,7 +1181,7 @@ where
                                 var_decl = Some(upper);
                             }
                             d => {
-                                new.extend(d.map(Decl::Var).map(Stmt::Decl));
+                                new.extend(d.map(Box::new).map(Decl::Var).map(Stmt::Decl));
                                 var_decl = Some(below);
                             }
                         }
@@ -1189,13 +1189,13 @@ where
                     _ => {
                         // If it's not a var decl,
 
-                        new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
+                        new.extend(var_decl.take().map(Box::new).map(Decl::Var).map(Stmt::Decl));
                         new.push(stmt);
                     }
                 }
             }
 
-            new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
+            new.extend(var_decl.take().map(Box::new).map(Decl::Var).map(Stmt::Decl));
 
             dump_change_detail!(
                 "[Change] merged: {}",

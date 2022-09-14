@@ -106,7 +106,7 @@ where
 
                     Expr::Fn(FnExpr {
                         function:
-                            Function {
+                            box Function {
                                 body: Some(body), ..
                             },
                         ..
@@ -226,12 +226,12 @@ where
             {
                 match init {
                     Expr::Fn(FnExpr {
-                        function: Function { is_async: true, .. },
+                        function: box Function { is_async: true, .. },
                         ..
                     })
                     | Expr::Fn(FnExpr {
                         function:
-                            Function {
+                            box Function {
                                 is_generator: true, ..
                             },
                         ..
