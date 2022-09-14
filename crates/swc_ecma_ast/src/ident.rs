@@ -1,7 +1,5 @@
 use std::fmt::Display;
 
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 use scoped_tls::scoped_thread_local;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
@@ -16,11 +14,11 @@ use crate::typescript::TsTypeAnn;
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    feature = "rkyv",
     archive(bound(
         serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
@@ -30,10 +28,10 @@ use crate::typescript::TsTypeAnn;
 pub struct BindingIdent {
     #[span]
     #[serde(flatten)]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub id: Ident,
     #[serde(default, rename = "typeAnnotation")]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub type_ann: Option<TsTypeAnn>,
 }
 
@@ -115,10 +113,7 @@ bridge_from!(BindingIdent, Ident, Id);
 pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
-    #[cfg_attr(
-        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-        with(swc_atoms::EncodeJsWord)
-    )]
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub sym: JsWord,
 
     /// TypeScript only. Used in case of an optional parameter.
