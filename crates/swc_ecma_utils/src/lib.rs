@@ -2267,8 +2267,11 @@ impl ExprCtx {
             | Expr::This(..)
             | Expr::Fn(..)
             | Expr::Arrow(..)
-            | Expr::Ident(..)
             | Expr::PrivateName(..) => {}
+
+            Expr::Ident(..) => {
+                to.push(Box::new(expr));
+            }
 
             // In most case, we can do nothing for this.
             Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => {
