@@ -7,4 +7,4 @@ export function f2() {
 }
 export default function f3() {
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
-};
+}

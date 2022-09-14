@@ -306,7 +306,7 @@ export default function h(e) {
             return e;
         }
     };
-};
+}
 var v = {
     "-": "",
     _: " ",

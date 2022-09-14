@@ -3,7 +3,7 @@ import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 export default function StaticPage(param) {
     var data = param.data;
     return /*#__PURE__*/ React.createElement("div", null, data.foo);
-};
+}
 export function getStaticProps() {
     return _getStaticProps.apply(this, arguments);
 }

@@ -27,4 +27,4 @@ export default function Parent() {
         new Test("name").print("test");
     }, []);
     return /*#__PURE__*/ _jsx(_Fragment, {});
-};
+}

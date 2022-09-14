@@ -232,7 +232,6 @@ where
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
-        formatting_semi!();
 
         srcmap!(n, false);
     }

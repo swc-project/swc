@@ -5,7 +5,7 @@ export class Reflect {
 export var Baz;
 Baz || (Baz = {});
 export default class {
-};
+}
 //// [locals.ts]
 super.w(), (()=>{
     var { Reflect  } = {

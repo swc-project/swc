@@ -256,4 +256,4 @@ export default function Home() {
         lineNumber: 12,
         columnNumber: 9
     }, this);
-};
+}

@@ -3,4 +3,4 @@ export default function foo() {
     return /*#__PURE__*/ _jsx("div", {
         children: "Hello"
     });
-};
+}

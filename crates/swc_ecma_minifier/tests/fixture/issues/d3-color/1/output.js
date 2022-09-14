@@ -9,7 +9,7 @@ export default function cubehelix(h, s, l, opacity) {
         var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * rad2deg - 120 : NaN;
         return new Cubehelix(h < 0 ? h + 360 : h, s, l, o.opacity);
     }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
-};
+}
 export function Cubehelix(h, s, l, opacity) {
     this.h = +h, this.s = +s, this.l = +l, this.opacity = +opacity;
 }

@@ -4,4 +4,4 @@ export default function o() {
     console.a.b.c(console, arguments);
     console.any();
     console.warn();
-};
+}

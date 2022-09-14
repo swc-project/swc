@@ -345,4 +345,4 @@ export default function S(u) {
         clearCache: F,
         skipSearch: y
     };
-};
+}

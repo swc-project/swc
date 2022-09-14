@@ -5,7 +5,7 @@ export class Reflect {
 export var Baz;
 (function(Baz) {})(Baz || (Baz = {}));
 export default class {
-};
+}
 //// [locals.ts]
 class C extends B {
     static _ = [
