@@ -51,14 +51,14 @@ where
                 (
                     Err(Stmt::Decl(
                         Decl::Fn(..)
-                        | Decl::Var(VarDecl {
+                        | Decl::Var(box VarDecl {
                             kind: VarDeclKind::Var,
                             ..
                         }),
                     )),
                     Err(Stmt::Decl(
                         Decl::Fn(..)
-                        | Decl::Var(VarDecl {
+                        | Decl::Var(box VarDecl {
                             kind: VarDeclKind::Var,
                             ..
                         }),
@@ -97,13 +97,13 @@ where
                     decl: Decl::Fn(..),
                     ..
                 }))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(box VarDecl {
                     kind: VarDeclKind::Var,
                     ..
                 })))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl:
-                        Decl::Var(VarDecl {
+                        Decl::Var(box VarDecl {
                             kind: VarDeclKind::Var,
                             ..
                         }),

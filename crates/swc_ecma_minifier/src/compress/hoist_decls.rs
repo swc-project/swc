@@ -118,7 +118,7 @@ impl Hoister<'_> {
                         }
 
                         Stmt::Decl(Decl::Var(
-                            var @ VarDecl {
+                            var @ box VarDecl {
                                 kind: VarDeclKind::Var,
                                 ..
                             },
@@ -178,7 +178,7 @@ impl Hoister<'_> {
                             })))
                         }
 
-                        Stmt::Decl(Decl::Var(VarDecl {
+                        Stmt::Decl(Decl::Var(box VarDecl {
                             kind: VarDeclKind::Var,
                             decls,
                             ..
@@ -225,7 +225,7 @@ impl Hoister<'_> {
                         Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
                         _ => {
                             if let Stmt::Throw(..) = stmt {
-                                fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(box VarDecl {
                                     span: DUMMY_SP,
                                     kind: VarDeclKind::Var,
                                     declare: false,
@@ -241,7 +241,7 @@ impl Hoister<'_> {
             }
         }
 
-        fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+        fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(box VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Var,
             declare: false,
