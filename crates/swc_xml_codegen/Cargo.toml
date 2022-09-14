@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_xml_codegen"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.3.4"
+version = "0.3.5"
 
 [lib]
 bench = false
@@ -20,14 +20,14 @@ auto_impl              = "0.5.0"
 bitflags               = "1.3.2"
 rustc-hash             = "1.1.0"
 swc_atoms              = { version = "0.4.14", path = "../swc_atoms" }
-swc_common             = { version = "0.28.4", path = "../swc_common" }
-swc_xml_ast            = { version = "0.3.4", path = "../swc_xml_ast" }
+swc_common             = { version = "0.28.5", path = "../swc_common" }
+swc_xml_ast            = { version = "0.3.5", path = "../swc_xml_ast" }
 swc_xml_codegen_macros = { version = "0.1.0", path = "../swc_xml_codegen_macros" }
 
 [dev-dependencies]
-swc_common = { version = "0.28.4", path = "../swc_common", features = [
+swc_common = { version = "0.28.5", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_xml_parser = { version = "0.3.4", path = "../swc_xml_parser" }
-swc_xml_visit = { version = "0.3.4", path = "../swc_xml_visit" }
-testing = { version = "0.30.4", path = "../testing" }
+swc_xml_parser = { version = "0.3.5", path = "../swc_xml_parser" }
+swc_xml_visit = { version = "0.3.5", path = "../swc_xml_visit" }
+testing = { version = "0.30.5", path = "../testing" }

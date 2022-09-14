@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_minifier"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.154.19"
+version       = "0.154.20"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -46,16 +46,16 @@ serde                            = { version = "1.0.118", features = ["derive"] 
 serde_json                       = "1.0.61"
 swc_atoms                        = { version = "0.4.14", path = "../swc_atoms" }
 swc_cached                       = { version = "0.3.10", path = "../swc_cached" }
-swc_common                       = { version = "0.28.4", path = "../swc_common" }
+swc_common                       = { version = "0.28.5", path = "../swc_common" }
 swc_config                       = { version = "0.1.0", path = "../swc_config" }
-swc_ecma_ast                     = { version = "0.91.4", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { version = "0.124.10", path = "../swc_ecma_codegen" }
-swc_ecma_parser                  = { version = "0.119.8", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base         = { version = "0.108.12", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.162.17", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils                   = { version = "0.102.9", path = "../swc_ecma_utils" }
-swc_ecma_visit                   = { version = "0.77.4", path = "../swc_ecma_visit" }
-swc_timer                        = { version = "0.16.4", path = "../swc_timer" }
+swc_ecma_ast                     = { version = "0.91.5", path = "../swc_ecma_ast" }
+swc_ecma_codegen                 = { version = "0.124.11", path = "../swc_ecma_codegen" }
+swc_ecma_parser                  = { version = "0.119.9", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base         = { version = "0.108.13", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "0.162.18", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_utils                   = { version = "0.102.10", path = "../swc_ecma_utils" }
+swc_ecma_visit                   = { version = "0.77.5", path = "../swc_ecma_visit" }
+swc_timer                        = { version = "0.16.5", path = "../swc_timer" }
 tracing                          = "0.1.32"
 
 [dev-dependencies]
@@ -63,9 +63,9 @@ ansi_term         = "0.12.1"
 anyhow            = "1"
 criterion         = "0.3.5"
 pretty_assertions = "1.1"
-swc_ecma_testing  = { version = "0.17.10", path = "../swc_ecma_testing" }
+swc_ecma_testing  = { version = "0.17.11", path = "../swc_ecma_testing" }
 swc_node_base     = { version = "0.5.0", path = "../swc_node_base" }
-testing           = { version = "0.30.4", path = "../testing" }
+testing           = { version = "0.30.5", path = "../testing" }
 walkdir           = "2"
 
 [[bench]]
