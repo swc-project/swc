@@ -497,7 +497,7 @@ function serializeQueryParameters(parameters) {
         clearCache: clearCache,
         skipSearch: skipSearch
     };
-};
+}
 function hydrateMetadata(resultsState) {
     if (!resultsState) {
         return [];

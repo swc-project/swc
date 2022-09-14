@@ -5,4 +5,4 @@ import a from "@swr/use-team";
 export default function m() {
     var m = e().query.project, u = o(m).data;
     return a().teamSlug, useProjectBranches(null == u ? void 0 : u.id).data, r(t, {});
-};
+}

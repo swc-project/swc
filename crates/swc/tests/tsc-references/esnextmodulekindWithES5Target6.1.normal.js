@@ -9,4 +9,4 @@ export function f2() {
 }
 export default function f3() {
     var d = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0;
-};
+}

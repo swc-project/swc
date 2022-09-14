@@ -1,1 +1,1 @@
-export default function a(){};false;
+export default function a(){}false;

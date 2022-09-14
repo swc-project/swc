@@ -4,4 +4,4 @@ export default function _setPrototypeOf(o, p) {
         return o;
     };
     return _setPrototypeOf(o, p);
-};
+}

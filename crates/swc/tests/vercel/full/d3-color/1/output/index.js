@@ -10,7 +10,7 @@ export default function c(i, h, e, n) {
         var h = i.r / 255, e = i.g / 255, n = i.b / 255, o = (l * n + -1.7884503806 * h - 3.5172982438 * e) / (l + -1.7884503806 - 3.5172982438), a = n - o, c = -((1.97294 * (e - o) - -0.29227 * a) / 0.90649), p = Math.sqrt(c * c + a * a) / (1.97294 * o * (1 - o)), f = p ? Math.atan2(c, a) * u - 120 : NaN;
         return new Cubehelix(f < 0 ? f + 360 : f, p, o, i.opacity);
     }(i) : new Cubehelix(i, h, e, null == n ? 1 : n);
-};
+}
 export function Cubehelix(t, i, h, e) {
     this.h = +t, this.s = +i, this.l = +h, this.opacity = +e;
 }

@@ -3,7 +3,7 @@ export default 12;
 //// [index2.js]
 export default function foo() {
     return foo;
-};
+}
 export var x = foo;
 export { foo as bar };
 //// [index3.js]
@@ -42,7 +42,7 @@ export default 12; /**
  */ 
 //// [index6.js]
 // merge type alias and function (OK)
-export default function func() {};
+export default function func() {}
  /**
  * @typedef {string | number} default
  */ 

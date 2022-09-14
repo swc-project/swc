@@ -24,7 +24,7 @@ export default function Home() {
             })
         ]
     });
-};
+}
 var MyClass = function MyClass() {
     "use strict";
     _class_call_check(this, MyClass);
