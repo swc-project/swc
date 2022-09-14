@@ -1048,13 +1048,13 @@ define!({
     pub struct ImportDecl {
         pub span: Span,
         pub specifiers: Vec<ImportSpecifier>,
-        pub src: Str,
+        pub src: Box<Str>,
         pub type_only: bool,
         pub asserts: Option<Box<ObjectLit>>,
     }
     pub struct ExportAll {
         pub span: Span,
-        pub src: Str,
+        pub src: Box<Str>,
         pub asserts: Option<Box<ObjectLit>>,
     }
     pub struct NamedExport {
@@ -1245,7 +1245,7 @@ define!({
     pub struct SetterProp {
         pub span: Span,
         pub key: PropName,
-        pub param: Pat,
+        pub param: Box<Pat>,
         pub body: Option<BlockStmt>,
     }
     pub struct MethodProp {
