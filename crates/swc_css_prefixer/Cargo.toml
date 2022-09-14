@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license       = "Apache-2.0"
 name          = "swc_css_prefixer"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.123.3"
+version       = "0.123.4"
 
 [lib]
 bench = false
@@ -18,12 +18,12 @@ preset_env_base = { version = "0.3.0", path = "../preset_env_base" }
 serde           = { version = "1.0.118", features = ["derive"] }
 serde_json      = "1.0.61"
 swc_atoms       = { version = "0.4.14", path = "../swc_atoms" }
-swc_common      = { version = "0.28.4", path = "../swc_common" }
-swc_css_ast     = { version = "0.112.3", path = "../swc_css_ast" }
-swc_css_utils   = { version = "0.109.3", path = "../swc_css_utils/" }
-swc_css_visit   = { version = "0.111.3", path = "../swc_css_visit" }
+swc_common      = { version = "0.28.5", path = "../swc_common" }
+swc_css_ast     = { version = "0.112.4", path = "../swc_css_ast" }
+swc_css_utils   = { version = "0.109.4", path = "../swc_css_utils/" }
+swc_css_visit   = { version = "0.111.4", path = "../swc_css_visit" }
 
 [dev-dependencies]
-swc_css_codegen = { version = "0.122.3", path = "../swc_css_codegen" }
-swc_css_parser  = { version = "0.121.3", path = "../swc_css_parser" }
-testing         = { version = "0.30.4", path = "../testing" }
+swc_css_codegen = { version = "0.122.4", path = "../swc_css_codegen" }
+swc_css_parser  = { version = "0.121.4", path = "../swc_css_parser" }
+testing         = { version = "0.30.5", path = "../testing" }

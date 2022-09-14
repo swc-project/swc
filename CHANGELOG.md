@@ -14,6 +14,9 @@
 - **(css/minifier)** Fix minification of universal selectors (#5826) ([1803874](https://github.com/swc-project/swc/commit/1803874f1484ab2a3c7b23b5e027e72f99740fba))
 
 
+- **(es/ast)** Revert #5798 (#5798) (#5855) ([4cde553](https://github.com/swc-project/swc/commit/4cde5538119ccafee8e4d324c4fa4ffdf1ca4f12))
+
+
 - **(es/codegen)** Remove redundant `;` after export default decl (#5851) ([2b24642](https://github.com/swc-project/swc/commit/2b2464271aa938968986287fa03e2ef06dcd3fd7))
 
 
