@@ -218,7 +218,7 @@ impl<T> FunctionWrapper<T> {
         let ref_decl = FnDecl {
             declare: false,
             ident: ref_ident,
-            function: Function {
+            function: Box::new(Function {
                 span: DUMMY_SP,
                 is_async: false,
                 is_generator: false,
@@ -227,7 +227,7 @@ impl<T> FunctionWrapper<T> {
                 decorators: Default::default(),
                 type_params: Default::default(),
                 return_type: Default::default(),
-            },
+            }),
         };
 
         (fn_expr, ref_decl)
@@ -251,19 +251,19 @@ impl<T> FunctionWrapper<T> {
 
         FnExpr {
             ident: name_ident,
-            function: Function {
-                span: DUMMY_SP,
-                is_async: false,
-                is_generator: false,
+            function: Box::new(Function {
                 params: self.params.take(),
+                decorators: Default::default(),
+                span: DUMMY_SP,
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![apply],
                 }),
-                decorators: Default::default(),
+                is_generator: false,
+                is_async: false,
                 type_params: Default::default(),
                 return_type: Default::default(),
-            },
+            }),
         }
     }
 }
@@ -306,7 +306,7 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
             },
         });
 
-        let function = Function {
+        let function = Box::new(Function {
             span,
             params: params.into_iter().map(Into::into).collect(),
             decorators: Default::default(),
@@ -315,7 +315,7 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
             return_type: None,
             is_generator,
             is_async,
-        };
+        });
 
         let fn_expr = FnExpr {
             ident: None,
