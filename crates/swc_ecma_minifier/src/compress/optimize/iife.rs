@@ -175,6 +175,16 @@ where
             }
         }
 
+        if let Expr::Fn(FnExpr {
+            ident: Some(ident),
+            function,
+        }) = callee
+        {
+            if IdentUsageFinder::find(&ident.to_id(), &*function) {
+                return;
+            }
+        }
+
         fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
             match callee {
                 Expr::Arrow(e) => match &mut e.body {
