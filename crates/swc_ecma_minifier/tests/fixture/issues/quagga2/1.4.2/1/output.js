@@ -2632,8 +2632,8 @@
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self1, tryLocsList) {
-                    var innerFn1, self2, context, state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context1 = new Context(tryLocsList || []);
-                    return generator._invoke = (innerFn1 = innerFn, self2 = self1, context = context1, state = GenStateSuspendedStart, function(method, arg) {
+                    var context, state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context1 = new Context(tryLocsList || []);
+                    return generator._invoke = (context = context1, state = GenStateSuspendedStart, function(method, arg) {
                         if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
@@ -2654,7 +2654,7 @@
                                 context.dispatchException(context.arg);
                             } else "return" === context.method && context.abrupt("return", context.arg);
                             state = GenStateExecuting;
-                            var record = tryCatch(innerFn1, self2, context);
+                            var record = tryCatch(innerFn, self1, context);
                             if ("normal" === record.type) {
                                 if (state = context.done ? GenStateCompleted : "suspendedYield", record.arg === ContinueSentinel) continue;
                                 return {
@@ -3264,7 +3264,7 @@
                     for(i = 0, canvas.width = line.length, ctx.fillColor = "black"; i < line.length; i++)1 === line[i] && ctx.fillRect(i, 0, 1, 100);
                 }
             };
-            var BarcodeDirection1, bresenham = Bresenham, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
+            var BarcodeDirection1, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
             (BarcodeDirection1 = BarcodeDirection || (BarcodeDirection = {}))[BarcodeDirection1.Forward = 1] = "Forward", BarcodeDirection1[BarcodeDirection1.Reverse = -1] = "Reverse";
             var barcode_reader = function() {
                 function BarcodeReader(config, supplements) {
@@ -3358,7 +3358,7 @@
                 ]), BarcodeReader;
             }(), code_128_reader = function(_BarcodeReader) {
                 inherits_default()(Code128Reader, _BarcodeReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = Code128Reader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -3367,7 +3367,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(Code128Reader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -4271,7 +4271,7 @@
                                 0,
                                 0,
                                 0
-                            ], offset = start, isWhite = !this._row[offset], counterPos = 0, i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
+                            ], isWhite = !this._row[start], counterPos = 0, i = start; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     correction && this._correct(counter, correction);
@@ -4604,7 +4604,7 @@
                 26
             ], ean_reader = function(_BarcodeReader) {
                 inherits_default()(EANReader, _BarcodeReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = EANReader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -4613,7 +4613,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(EANReader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -4665,14 +4665,14 @@
                                 0,
                                 0,
                                 0
-                            ], offset = start, bestMatch = {
+                            ], bestMatch = {
                                 error: Number.MAX_VALUE,
                                 code: -1,
                                 start: start,
                                 end: start
-                            }, isWhite = !this._row[offset], counterPos = 0;
+                            }, isWhite = !this._row[start], counterPos = 0;
                             coderange || (coderange = CODE_PATTERN.length);
-                            for(var i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
+                            for(var i = start; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     for(var code = 0; code < coderange; code++){
@@ -4853,7 +4853,7 @@
                 0x02a, 
             ]), code_39_reader = function(_BarcodeReader) {
                 inherits_default()(Code39Reader, _BarcodeReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = Code39Reader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -4862,7 +4862,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(Code39Reader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -4983,7 +4983,7 @@
                 AZ09: /[A-Z0-9]{17}/
             }, code_39_vin_reader = function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = Code39VINReader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -4992,7 +4992,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(Code39VINReader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -5073,7 +5073,7 @@
                 0x00e
             ], codabar_reader = function(_BarcodeReader) {
                 inherits_default()(NewCodabarReader, _BarcodeReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = NewCodabarReader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -5082,7 +5082,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(NewCodabarReader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -5261,7 +5261,7 @@
                 ]), NewCodabarReader;
             }(barcode_reader), upc_reader = function(_EANReader) {
                 inherits_default()(UPCReader, _EANReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = UPCReader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -5270,7 +5270,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(UPCReader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -5296,7 +5296,7 @@
                 ]), UPCReader;
             }(ean_reader), ean_8_reader = function(_EANReader) {
                 inherits_default()(EAN8Reader, _EANReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = EAN8Reader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -5305,7 +5305,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(EAN8Reader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -5340,7 +5340,7 @@
                 ]), EAN8Reader;
             }(ean_reader), ean_2_reader = function(_EANReader) {
                 inherits_default()(EAN2Reader, _EANReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = EAN2Reader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -5349,7 +5349,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(EAN2Reader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -5401,7 +5401,7 @@
                 5, 
             ], ean_5_reader = function(_EANReader) {
                 inherits_default()(EAN5Reader, _EANReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = EAN5Reader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -5410,7 +5410,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(EAN5Reader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -5469,7 +5469,7 @@
             }
             var upc_e_reader = function(_EANReader) {
                 inherits_default()(UPCEReader, _EANReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = UPCEReader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -5478,7 +5478,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(UPCEReader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -5609,7 +5609,7 @@
                 ]), UPCEReader;
             }(ean_reader), i2of5_reader = function(_BarcodeReader) {
                 inherits_default()(I2of5Reader, _BarcodeReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = I2of5Reader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -5618,7 +5618,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(I2of5Reader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -5953,7 +5953,7 @@
                 return sum + val;
             }, 0), _2of5_reader = function(_BarcodeReader) {
                 inherits_default()(TwoOfFiveReader, _BarcodeReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = TwoOfFiveReader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -5962,7 +5962,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(TwoOfFiveReader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -6149,7 +6149,7 @@
                 0x15e, 
             ]), code_93_reader = function(_BarcodeReader) {
                 inherits_default()(Code93Reader, _BarcodeReader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = Code93Reader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -6158,7 +6158,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(Code93Reader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -6322,7 +6322,7 @@
                 AZ09: /[A-Z0-9]/
             }, code_32_reader = function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = Code32Reader, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -6331,7 +6331,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(Code32Reader);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -6426,21 +6426,21 @@
                         }).join(", ")));
                     }
                     function tryDecode(line) {
-                        var i, result = null, barcodeLine = bresenham.getBarcodeLine(inputImageWrapper, line[0], line[1]);
+                        var i, result = null, barcodeLine = Bresenham.getBarcodeLine(inputImageWrapper, line[0], line[1]);
                         for(config.debug.showFrequency && (image_debug.a.drawPath(line, {
                             x: "x",
                             y: "y"
                         }, _canvas.ctx.overlay, {
                             color: "red",
                             lineWidth: 3
-                        }), bresenham.debug.printFrequency(barcodeLine.line, _canvas.dom.frequency)), bresenham.toBinaryLine(barcodeLine), config.debug.showPattern && bresenham.debug.printPattern(barcodeLine.line, _canvas.dom.pattern), i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodePattern(barcodeLine.line);
+                        }), Bresenham.debug.printFrequency(barcodeLine.line, _canvas.dom.frequency)), Bresenham.toBinaryLine(barcodeLine), config.debug.showPattern && Bresenham.debug.printPattern(barcodeLine.line, _canvas.dom.pattern), i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodePattern(barcodeLine.line);
                         return null === result ? null : {
                             codeResult: result,
                             barcodeLine: barcodeLine
                         };
                     }
                     function _decodeFromBoundingBox(box) {
-                        var line, result, box1, line1, ctx = _canvas.ctx.overlay;
+                        var line, result, line1, ctx = _canvas.ctx.overlay;
                         config.debug.drawBoundingBox && ctx && image_debug.a.drawPath(box, {
                             x: 0,
                             y: 1
@@ -6450,12 +6450,12 @@
                         });
                         var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line = [
                             {
-                                x: ((box1 = box)[1][0] - box1[0][0]) / 2 + box1[0][0],
-                                y: (box1[1][1] - box1[0][1]) / 2 + box1[0][1]
+                                x: (box[1][0] - box[0][0]) / 2 + box[0][0],
+                                y: (box[1][1] - box[0][1]) / 2 + box[0][1]
                             },
                             {
-                                x: (box1[3][0] - box1[2][0]) / 2 + box1[2][0],
-                                y: (box1[3][1] - box1[2][1]) / 2 + box1[2][1]
+                                x: (box[3][0] - box[2][0]) / 2 + box[2][0],
+                                y: (box[3][1] - box[2][1]) / 2 + box[2][1]
                             }, 
                         ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle = Math.atan2(line[1].y - line[0].y, line[1].x - line[0].x);
                         return null === (line = function(line, angle, ext) {
@@ -6594,7 +6594,7 @@
                 };
             }(), asyncToGenerator = __webpack_require__(20), asyncToGenerator_default = __webpack_require__.n(asyncToGenerator), regenerator = __webpack_require__(12), regenerator_default = __webpack_require__.n(regenerator), pick = __webpack_require__(85), pick_default = __webpack_require__.n(pick), wrapNativeSuper = __webpack_require__(86), Exception_Exception = function(_Error) {
                 inherits_default()(Exception, _Error);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = Exception, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -6603,7 +6603,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = getPrototypeOf_default()(Derived);
+                    var result, Super = getPrototypeOf_default()(Exception);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = getPrototypeOf_default()(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -6666,7 +6666,7 @@
                 }))).apply(this, arguments);
             }
             function pickConstraints() {
-                var videoConstraints, normalized, videoConstraints1 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (videoConstraints = videoConstraints1, normalized = pick_default()(videoConstraints, [
+                var normalized, videoConstraints = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (normalized = pick_default()(videoConstraints, [
                     "width",
                     "height",
                     "facingMode",
@@ -6740,12 +6740,12 @@
                     var _config$capacity, canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), results = [], capacity = null !== (_config$capacity = config.capacity) && void 0 !== _config$capacity ? _config$capacity : 20, capture = !0 === config.capture;
                     return {
                         addResult: function(data, imageSize, codeResult) {
-                            var codeResult1, codeResult2, list, filter, result = {};
-                            codeResult1 = codeResult, capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && list.some(function(item) {
+                            var list, filter, result = {};
+                            capacity && codeResult && !((list = config.blacklist) && list.some(function(item) {
                                 return Object.keys(item).every(function(key) {
-                                    return item[key] === codeResult2[key];
+                                    return item[key] === codeResult[key];
                                 });
-                            }))) && ("function" != typeof (filter = config.filter) || filter(codeResult1)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
+                            })) && ("function" != typeof (filter = config.filter) || filter(codeResult)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
                         },
                         getResults: function() {
                             return results;
@@ -6882,13 +6882,13 @@
                         break;
                     }
                     0 === notloadedImgs.length && (console.log("Images loaded"), !1 === sequence ? (function(src) {
-                        var url, tags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags;
-                        return /^blob:/i.test(src) ? (url = src, new Promise(function(resolve, reject) {
+                        var tags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags;
+                        return /^blob:/i.test(src) ? new Promise(function(resolve, reject) {
                             var http = new XMLHttpRequest();
-                            http.open("GET", url, !0), http.responseType = "blob", http.onreadystatechange = function() {
+                            http.open("GET", src, !0), http.responseType = "blob", http.onreadystatechange = function() {
                                 http.readyState === XMLHttpRequest.DONE && (200 === http.status || 0 === http.status) && resolve(this.response);
                             }, http.onerror = reject, http.send();
-                        })).then(readToBuffer).then(function(buffer) {
+                        }).then(readToBuffer).then(function(buffer) {
                             return function(file) {
                                 var selectedTags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags, dataView = new DataView(file), length = file.byteLength, exifTags = selectedTags.reduce(function(result, selectedTag) {
                                     var exifTag = Object.keys(ExifTags).filter(function(tag) {
@@ -6913,7 +6913,7 @@
                     }) : callback(htmlImagesArray));
                 }; i < htmlImagesSrcArray.length; i++)img = new Image(), htmlImagesArray.addImage(img), addOnloadHandler(img, htmlImagesArray), img.src = htmlImagesSrcArray[i];
             };
-            var image_loader = ImageLoader, inputStreamFactory = {
+            var inputStreamFactory = {
                 createVideoStream: function(video) {
                     var _calculatedWidth, _calculatedHeight, _config = null, _eventNames = [
                         "canrecord",
@@ -7046,7 +7046,7 @@
                         },
                         setInputStream: function(stream) {
                             var _config7;
-                            _config = stream, !1 === stream.sequence ? (baseUrl = stream.src, size = 1) : (baseUrl = stream.src, size = stream.length), loaded = !1, image_loader.load(baseUrl, function(imgs) {
+                            _config = stream, !1 === stream.sequence ? (baseUrl = stream.src, size = 1) : (baseUrl = stream.src, size = stream.length), loaded = !1, ImageLoader.load(baseUrl, function(imgs) {
                                 var _config5, _config6;
                                 if (imgArray = imgs, imgs[0].tags && imgs[0].tags.orientation) switch(imgs[0].tags.orientation){
                                     case 6:
@@ -7107,7 +7107,28 @@
                     };
                     return inputStream;
                 }
-            }, input_stream_browser = inputStreamFactory, cv_utils = __webpack_require__(8), TO_RADIANS = Math.PI / 180, FrameGrabber = {};
+            }, cv_utils = __webpack_require__(8), TO_RADIANS = Math.PI / 180, FrameGrabber = {};
+            function qworker_ownKeys(object, enumerableOnly) {
+                var keys = Object.keys(object);
+                if (Object.getOwnPropertySymbols) {
+                    var symbols = Object.getOwnPropertySymbols(object);
+                    enumerableOnly && (symbols = symbols.filter(function(sym) {
+                        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+                    })), keys.push.apply(keys, symbols);
+                }
+                return keys;
+            }
+            function qworker_objectSpread(target) {
+                for(var i = 1; i < arguments.length; i++){
+                    var source = null != arguments[i] ? arguments[i] : {};
+                    i % 2 ? qworker_ownKeys(Object(source), !0).forEach(function(key) {
+                        defineProperty_default()(target, key, source[key]);
+                    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : qworker_ownKeys(Object(source)).forEach(function(key) {
+                        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+                    });
+                }
+                return target;
+            }
             FrameGrabber.create = function(inputStream, canvas) {
                 var _canvas, _that = {}, _streamConfig = inputStream.getConfig(), _videoSize = Object(cv_utils.h)(inputStream.getRealWidth(), inputStream.getRealHeight()), _canvasSize = inputStream.getCanvasSize(), _size = Object(cv_utils.h)(inputStream.getWidth(), inputStream.getHeight()), topRight = inputStream.getTopRight(), _sx = topRight.x, _sy = topRight.y, _ctx = null, _data = null;
                 return (_canvas = canvas || document.createElement("canvas")).width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext("2d"), _data = new Uint8Array(_size.x * _size.y), console.log("FrameGrabber", JSON.stringify({
@@ -7136,28 +7157,6 @@
                     return _size;
                 }, _that;
             };
-            var frame_grabber_browser = FrameGrabber;
-            function qworker_ownKeys(object, enumerableOnly) {
-                var keys = Object.keys(object);
-                if (Object.getOwnPropertySymbols) {
-                    var symbols = Object.getOwnPropertySymbols(object);
-                    enumerableOnly && (symbols = symbols.filter(function(sym) {
-                        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-                    })), keys.push.apply(keys, symbols);
-                }
-                return keys;
-            }
-            function qworker_objectSpread(target) {
-                for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {};
-                    i % 2 ? qworker_ownKeys(Object(source), !0).forEach(function(key) {
-                        defineProperty_default()(target, key, source[key]);
-                    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : qworker_ownKeys(Object(source)).forEach(function(key) {
-                        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-                    });
-                }
-                return target;
-            }
             var workerPool = [];
             function workerInterface(factory) {
                 if (factory) {
@@ -7198,7 +7197,7 @@
                 };
             }
             function initWorker(config, inputStream, cb) {
-                var blob, factorySource, config1, blobURL = ("undefined" != typeof __factorySource__ && (factorySource = __factorySource__), blob = new Blob([
+                var blob, factorySource, blobURL = ("undefined" != typeof __factorySource__ && (factorySource = __factorySource__), blob = new Blob([
                     "(" + workerInterface.toString() + ")(" + factorySource + ");", 
                 ], {
                     type: "text/javascript"
@@ -7216,8 +7215,8 @@
                         y: inputStream.getHeight()
                     },
                     imageData: workerThread.imageData,
-                    config: qworker_objectSpread(qworker_objectSpread({}, config1 = config), {}, {
-                        inputStream: qworker_objectSpread(qworker_objectSpread({}, config1.inputStream), {}, {
+                    config: qworker_objectSpread(qworker_objectSpread({}, config), {}, {
+                        inputStream: qworker_objectSpread(qworker_objectSpread({}, config.inputStream), {}, {
                             target: null
                         })
                     })
@@ -7247,7 +7246,7 @@
                     var _this = this;
                     classCallCheck_default()(this, Quagga), defineProperty_default()(this, "context", new QuaggaContext_QuaggaContext()), defineProperty_default()(this, "canRecord", function(callback) {
                         var _this$context$config;
-                        _this.context.config && (barcode_locator.a.checkImageConstraints(_this.context.inputStream, null === (_this$context$config = _this.context.config) || void 0 === _this$context$config ? void 0 : _this$context$config.locator), _this.initCanvas(), _this.context.framegrabber = frame_grabber_browser.create(_this.context.inputStream, _this.context.canvasContainer.dom.image), void 0 === _this.context.config.numOfWorkers && (_this.context.config.numOfWorkers = 0), adjustWorkerPool(_this.context.config.numOfWorkers, _this.context.config, _this.context.inputStream, function() {
+                        _this.context.config && (barcode_locator.a.checkImageConstraints(_this.context.inputStream, null === (_this$context$config = _this.context.config) || void 0 === _this$context$config ? void 0 : _this$context$config.locator), _this.initCanvas(), _this.context.framegrabber = FrameGrabber.create(_this.context.inputStream, _this.context.canvasContainer.dom.image), void 0 === _this.context.config.numOfWorkers && (_this.context.config.numOfWorkers = 0), adjustWorkerPool(_this.context.config.numOfWorkers, _this.context.config, _this.context.inputStream, function() {
                             var _this$context$config2;
                             (null === (_this$context$config2 = _this.context.config) || void 0 === _this$context$config2 ? void 0 : _this$context$config2.numOfWorkers) === 0 && _this.initializeData(), _this.ready(callback);
                         }));
@@ -7270,7 +7269,7 @@
                         key: "initBuffers",
                         value: function(imageWrapper) {
                             if (this.context.config) {
-                                var inputStream, imageWrapper1, locator, inputImageWrapper, boxSize, _initBuffers2 = (inputStream = this.context.inputStream, imageWrapper1 = imageWrapper, locator = this.context.config.locator, inputImageWrapper = imageWrapper1 || new image_wrapper.a({
+                                var inputStream, locator, inputImageWrapper, boxSize, _initBuffers2 = (inputStream = this.context.inputStream, locator = this.context.config.locator, inputImageWrapper = imageWrapper || new image_wrapper.a({
                                     x: inputStream.getWidth(),
                                     y: inputStream.getHeight(),
                                     type: "XYSize"
@@ -7387,7 +7386,7 @@
                                                 inputStream: null
                                             };
                                     }
-                                }(inputType, this.getViewPort(), input_stream_browser), video = _setupInputStream.video, inputStream = _setupInputStream.inputStream;
+                                }(inputType, this.getViewPort(), inputStreamFactory), video = _setupInputStream.video, inputStream = _setupInputStream.inputStream;
                                 "LiveStream" === inputType && video && camera_access.request(video, constraints).then(function() {
                                     return inputStream.trigger("canrecord");
                                 }).catch(function(err) {
@@ -7413,10 +7412,10 @@
                     {
                         key: "transformResult",
                         value: function(result) {
-                            var line, xOffset, yOffset, _this2 = this, topRight = this.context.inputStream.getTopRight(), xOffset1 = topRight.x, yOffset1 = topRight.y;
-                            if ((0 !== xOffset1 || 0 !== yOffset1) && (result.barcodes && result.barcodes.forEach(function(barcode) {
+                            var line, _this2 = this, topRight = this.context.inputStream.getTopRight(), xOffset = topRight.x, yOffset = topRight.y;
+                            if ((0 !== xOffset || 0 !== yOffset) && (result.barcodes && result.barcodes.forEach(function(barcode) {
                                 return _this2.transformResult(barcode);
-                            }), result.line && 2 === result.line.length && (line = result.line, xOffset = xOffset1, yOffset = yOffset1, line[0].x += xOffset, line[0].y += yOffset, line[1].x += xOffset, line[1].y += yOffset), result.box && moveBox(result.box, xOffset1, yOffset1), result.boxes && result.boxes.length > 0)) for(var i = 0; i < result.boxes.length; i++)moveBox(result.boxes[i], xOffset1, yOffset1);
+                            }), result.line && 2 === result.line.length && (line = result.line, line[0].x += xOffset, line[0].y += yOffset, line[1].x += xOffset, line[1].y += yOffset), result.box && moveBox(result.box, xOffset, yOffset), result.boxes && result.boxes.length > 0)) for(var i = 0; i < result.boxes.length; i++)moveBox(result.boxes[i], xOffset, yOffset);
                         }
                     },
                     {
@@ -7502,11 +7501,10 @@
                     {
                         key: "setReaders",
                         value: function(readers) {
-                            var readers1;
-                            this.context.decoder && this.context.decoder.setReaders(readers), readers1 = readers, workerPool.forEach(function(workerThread) {
+                            this.context.decoder && this.context.decoder.setReaders(readers), workerPool.forEach(function(workerThread) {
                                 return workerThread.worker.postMessage({
                                     cmd: "setReaders",
-                                    readers: readers1
+                                    readers: readers
                                 });
                             });
                         }
@@ -7514,12 +7512,11 @@
                     {
                         key: "registerReader",
                         value: function(name, reader) {
-                            var name1, reader1;
-                            barcode_decoder.registerReader(name, reader), this.context.decoder && this.context.decoder.registerReader(name, reader), name1 = name, reader1 = reader, workerPool.forEach(function(workerThread) {
+                            barcode_decoder.registerReader(name, reader), this.context.decoder && this.context.decoder.registerReader(name, reader), workerPool.forEach(function(workerThread) {
                                 return workerThread.worker.postMessage({
                                     cmd: "registerReader",
-                                    name: name1,
-                                    reader: reader1
+                                    name: name,
+                                    reader: reader
                                 });
                             });
                         }

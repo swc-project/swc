@@ -6,7 +6,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, undefined, ExprFactory, FunctionFactory, IsDirective,
+    member_expr, private_ident, quote_ident, ExprFactory, FunctionFactory, IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -254,10 +254,17 @@ where
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let import_interop = self.config.import_interop();
+        let is_node = import_interop.is_node();
 
         let mut stmts = Vec::with_capacity(link.len());
 
         let mut export_obj_prop_list = export.into_iter().map(Into::into).collect();
+
+        let lexer_reexport = if is_node {
+            self.emit_lexer_ts_reexport(&link)
+        } else {
+            None
+        };
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
@@ -277,7 +284,7 @@ where
                 let is_swc_default_helper =
                     !link_flag.has_named() && src.starts_with("@swc/helpers/");
 
-                let is_node_default = !link_flag.has_named() && import_interop.is_node();
+                let is_node_default = !link_flag.has_named() && is_node;
 
                 if import_interop.is_none() || is_swc_default_helper {
                     link_flag -= LinkFlag::NAMESPACE;
@@ -371,15 +378,23 @@ where
         if !export_obj_prop_list.is_empty() && !is_export_assign {
             export_obj_prop_list.sort_by_key(|prop| prop.span());
 
-            if import_interop.is_node() {
-                export_stmts = self.emit_lexer_exports_init(&export_obj_prop_list);
-            }
-
-            let features = self.available_features;
+            let mut features = self.available_features;
             let exports = self.exports();
+
+            if is_node {
+                if export_obj_prop_list.len() > 1 {
+                    export_stmts.extend(self.emit_lexer_exports_init(&export_obj_prop_list));
+                } else {
+                    // `cjs-module-lexer` does not support `get: ()=> foo`
+                    // see https://github.com/nodejs/cjs-module-lexer/pull/74
+                    features -= FeatureFlag::ArrowFunctions;
+                }
+            }
 
             export_stmts.extend(emit_export_stmts(features, exports, export_obj_prop_list));
         }
+
+        export_stmts.extend(lexer_reexport);
 
         export_stmts.into_iter().chain(stmts)
     }
@@ -445,29 +460,104 @@ where
 
     /// emit [cjs-module-lexer](https://github.com/nodejs/cjs-module-lexer) friendly exports list
     /// ```javascript
-    /// exports.foo = exports.bar = void 0;
+    /// 0 && (exports.foo = 0);
+    /// 0 && (module.exports = { foo: _, bar: _ });
     /// ```
-    fn emit_lexer_exports_init(&mut self, export_id_list: &[ObjPropKeyIdent]) -> Vec<Stmt> {
-        export_id_list
-            .chunks(100)
-            .map(|group| {
-                let mut expr = *undefined(DUMMY_SP);
+    fn emit_lexer_exports_init(&mut self, export_id_list: &[ObjPropKeyIdent]) -> Option<Stmt> {
+        match export_id_list.len() {
+            0 => None,
+            1 => {
+                let expr: Expr = 0.into();
 
-                for key_value in group {
-                    let prop = prop_name(key_value.key(), DUMMY_SP).into();
+                let key_value = &export_id_list[0];
+                let prop = prop_name(key_value.key(), DUMMY_SP).into();
+                let export_binding = MemberExpr {
+                    obj: Box::new(self.exports().into()),
+                    span: key_value.span(),
+                    prop,
+                };
+                let expr = expr.make_assign_to(op!("="), export_binding.as_pat_or_expr());
+                let expr = BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("&&"),
+                    left: 0.into(),
+                    right: Box::new(expr),
+                };
 
-                    let export_binding = MemberExpr {
-                        obj: Box::new(self.exports().into()),
-                        span: key_value.span(),
-                        prop,
-                    };
+                Some(expr.into_stmt())
+            }
+            _ => {
+                let props = export_id_list
+                    .iter()
+                    .map(|key_value| prop_name(key_value.key(), DUMMY_SP))
+                    .map(|key| KeyValueProp {
+                        key: key.into(),
+                        // `cjs-module-lexer` only support identifier as value
+                        value: quote_ident!("_").into(),
+                    })
+                    .map(Prop::KeyValue)
+                    .map(Box::new)
+                    .map(PropOrSpread::Prop)
+                    .collect();
 
-                    expr = expr.make_assign_to(op!("="), export_binding.as_pat_or_expr());
+                let module_exports_assign = ObjectLit {
+                    span: DUMMY_SP,
+                    props,
                 }
+                .make_assign_to(
+                    op!("="),
+                    member_expr!(DUMMY_SP.apply_mark(self.unresolved_mark), module.exports).into(),
+                );
 
-                expr.into_stmt()
-            })
-            .collect()
+                let expr = BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("&&"),
+                    left: 0.into(),
+                    right: Box::new(module_exports_assign),
+                };
+
+                Some(expr.into_stmt())
+            }
+        }
+    }
+
+    /// emit [cjs-module-lexer](https://github.com/nodejs/cjs-module-lexer) friendly exports list
+    /// ```javascript
+    /// 0 && (__export(require("foo")));
+    /// ```
+    fn emit_lexer_ts_reexport(&self, link: &Link) -> Option<Stmt> {
+        let mut seq_list = vec![];
+        link.iter().for_each(|(src, LinkItem(_, _, link_flag))| {
+            if link_flag.export_star() {
+                let import_expr =
+                    self.resolver
+                        .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
+
+                let export = Expr::Ident(quote_ident!("__export"))
+                    .as_call(DUMMY_SP, vec![import_expr.as_arg()]);
+
+                seq_list.push(Box::new(export));
+            }
+        });
+
+        if seq_list.is_empty() {
+            None
+        } else {
+            let seq_expr = SeqExpr {
+                span: DUMMY_SP,
+                exprs: seq_list,
+            }
+            .into();
+
+            let expr = BinExpr {
+                span: DUMMY_SP,
+                op: op!("&&"),
+                left: 0.into(),
+                right: seq_expr,
+            };
+
+            Some(expr.into_stmt())
+        }
     }
 
     fn pure_span(&self) -> Span {

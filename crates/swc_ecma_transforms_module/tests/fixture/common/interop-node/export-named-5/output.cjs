@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = exports.bar = void 0;
+0 && (module.exports = {
+    bar: _,
+    default: _
+});
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,

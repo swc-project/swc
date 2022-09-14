@@ -503,8 +503,8 @@
     }
     function clipPos(doc, pos) {
         if (pos.line < doc.first) return Pos(doc.first, 0);
-        var pos1, linelen, ch, last = doc.first + doc.size - 1;
-        return pos.line > last ? Pos(last, getLine(doc, last).text.length) : (pos1 = pos, linelen = getLine(doc, pos.line).text.length, null == (ch = pos1.ch) || ch > linelen ? Pos(pos1.line, linelen) : ch < 0 ? Pos(pos1.line, 0) : pos1);
+        var linelen, ch, last = doc.first + doc.size - 1;
+        return pos.line > last ? Pos(last, getLine(doc, last).text.length) : (linelen = getLine(doc, pos.line).text.length, null == (ch = pos.ch) || ch > linelen ? Pos(pos.line, linelen) : ch < 0 ? Pos(pos.line, 0) : pos);
     }
     function clipPosArray(doc, array) {
         for(var out = [], i = 0; i < array.length; i++)out[i] = clipPos(doc, array[i]);
@@ -1962,8 +1962,8 @@
         });
     }
     function endOperation_R1(op) {
-        var cm, display, cm1 = op.cm, display1 = cm1.display;
-        !(display = (cm = cm1).display).scrollbarsClipped && display.scroller.offsetWidth && (display.nativeBarWidth = display.scroller.offsetWidth - display.scroller.clientWidth, display.heightForcer.style.height = scrollGap(cm) + "px", display.sizer.style.marginBottom = -display.nativeBarWidth + "px", display.sizer.style.borderRightWidth = scrollGap(cm) + "px", display.scrollbarsClipped = !0), op.updateMaxLine && findMaxLine(cm1), op.mustUpdate = op.viewChanged || op.forceUpdate || null != op.scrollTop || op.scrollToPos && (op.scrollToPos.from.line < display1.viewFrom || op.scrollToPos.to.line >= display1.viewTo) || display1.maxLineChanged && cm1.options.lineWrapping, op.update = op.mustUpdate && new DisplayUpdate(cm1, op.mustUpdate && {
+        var display, cm = op.cm, display1 = cm.display;
+        !(display = cm.display).scrollbarsClipped && display.scroller.offsetWidth && (display.nativeBarWidth = display.scroller.offsetWidth - display.scroller.clientWidth, display.heightForcer.style.height = scrollGap(cm) + "px", display.sizer.style.marginBottom = -display.nativeBarWidth + "px", display.sizer.style.borderRightWidth = scrollGap(cm) + "px", display.scrollbarsClipped = !0), op.updateMaxLine && findMaxLine(cm), op.mustUpdate = op.viewChanged || op.forceUpdate || null != op.scrollTop || op.scrollToPos && (op.scrollToPos.from.line < display1.viewFrom || op.scrollToPos.to.line >= display1.viewTo) || display1.maxLineChanged && cm.options.lineWrapping, op.update = op.mustUpdate && new DisplayUpdate(cm, op.mustUpdate && {
             top: op.scrollTop,
             ensure: op.scrollToPos
         }, op.forceUpdate);
@@ -2088,8 +2088,8 @@
         maybeUpdateLineNumberWidth(cm) && (resetView(cm), update.dims = getDimensions(cm));
         var end = doc.first + doc.size, from = Math.max(update.visible.from - cm.options.viewportMargin, doc.first), to = Math.min(end, update.visible.to + cm.options.viewportMargin);
         display.viewFrom < from && from - display.viewFrom < 20 && (from = Math.max(doc.first, display.viewFrom)), display.viewTo > to && display.viewTo - to < 20 && (to = Math.min(end, display.viewTo)), sawCollapsedSpans && (from = visualLineNo(cm.doc, from), to = visualLineEndNo(cm.doc, to));
-        var cm1, from1, to1, display1, different = from != display.viewFrom || to != display.viewTo || display.lastWrapHeight != update.wrapperHeight || display.lastWrapWidth != update.wrapperWidth;
-        cm1 = cm, from1 = from, to1 = to, 0 == (display1 = cm1.display).view.length || from1 >= display1.viewTo || to1 <= display1.viewFrom ? (display1.view = buildViewArray(cm1, from1, to1), display1.viewFrom = from1) : (display1.viewFrom > from1 ? display1.view = buildViewArray(cm1, from1, display1.viewFrom).concat(display1.view) : display1.viewFrom < from1 && (display1.view = display1.view.slice(findViewIndex(cm1, from1))), display1.viewFrom = from1, display1.viewTo < to1 ? display1.view = display1.view.concat(buildViewArray(cm1, display1.viewTo, to1)) : display1.viewTo > to1 && (display1.view = display1.view.slice(0, findViewIndex(cm1, to1)))), display1.viewTo = to1, display.viewOffset = heightAtLine(getLine(cm.doc, display.viewFrom)), cm.display.mover.style.top = display.viewOffset + "px";
+        var from1, to1, display1, different = from != display.viewFrom || to != display.viewTo || display.lastWrapHeight != update.wrapperHeight || display.lastWrapWidth != update.wrapperWidth;
+        from1 = from, to1 = to, 0 == (display1 = cm.display).view.length || from1 >= display1.viewTo || to1 <= display1.viewFrom ? (display1.view = buildViewArray(cm, from1, to1), display1.viewFrom = from1) : (display1.viewFrom > from1 ? display1.view = buildViewArray(cm, from1, display1.viewFrom).concat(display1.view) : display1.viewFrom < from1 && (display1.view = display1.view.slice(findViewIndex(cm, from1))), display1.viewFrom = from1, display1.viewTo < to1 ? display1.view = display1.view.concat(buildViewArray(cm, display1.viewTo, to1)) : display1.viewTo > to1 && (display1.view = display1.view.slice(0, findViewIndex(cm, to1)))), display1.viewTo = to1, display.viewOffset = heightAtLine(getLine(cm.doc, display.viewFrom)), cm.display.mover.style.top = display.viewOffset + "px";
         var toUpdate = countDirtyView(cm);
         if (!different && 0 == toUpdate && !update.force && display.renderedView == display.view && (null == display.updateLineNumbers || display.updateLineNumbers >= display.viewTo)) return !1;
         var selSnapshot = function(cm) {
@@ -2365,8 +2365,8 @@
             return markedSpans ? markedSpans[n] : null;
         }
         function update(line, text, spans) {
-            var line1, estimateHeight1, estHeight;
-            line1 = line, estimateHeight1 = estimateHeight, line1.text = text, line1.stateAfter && (line1.stateAfter = null), line1.styles && (line1.styles = null), null != line1.order && (line1.order = null), detachMarkedSpans(line1), attachMarkedSpans(line1, spans), (estHeight = estimateHeight1 ? estimateHeight1(line1) : 1) != line1.height && updateLineHeight(line1, estHeight), signalLater(line, "change", line, change);
+            var line1, estHeight;
+            (line1 = line).text = text, line1.stateAfter && (line1.stateAfter = null), line1.styles && (line1.styles = null), null != line1.order && (line1.order = null), detachMarkedSpans(line1), attachMarkedSpans(line1, spans), (estHeight = estimateHeight ? estimateHeight(line1) : 1) != line1.height && updateLineHeight(line1, estHeight), signalLater(line, "change", line, change);
         }
         function linesFor(start, end) {
             for(var result = [], i = start; i < end; ++i)result.push(new Line(text[i], spansFor(i), estimateHeight));
@@ -2395,7 +2395,7 @@
         !function propagate(doc, skip, sharedHist) {
             if (doc.linked) for(var i = 0; i < doc.linked.length; ++i){
                 var rel = doc.linked[i];
-                if (null != rel.doc) {
+                if (rel.doc != skip) {
                     var shared = sharedHist && rel.sharedHist;
                     (!sharedHistOnly || shared) && (f(rel.doc, shared), propagate(rel.doc, doc, shared));
                 }
@@ -2429,8 +2429,8 @@
     function addChangeToHistory(doc, change, selAfter, opId) {
         var last, hist = doc.history;
         hist.undone.length = 0;
-        var cur, hist1, time = +new Date();
-        if ((hist.lastOp == opId || hist.lastOrigin == change.origin && change.origin && ("+" == change.origin.charAt(0) && hist.lastModTime > time - (doc.cm ? doc.cm.options.historyEventDelay : 500) || "*" == change.origin.charAt(0))) && (cur = (hist1 = hist, hist.lastOp == opId ? (clearSelectionEvents(hist1.done), lst(hist1.done)) : hist1.done.length && !lst(hist1.done).ranges ? lst(hist1.done) : hist1.done.length > 1 && !hist1.done[hist1.done.length - 2].ranges ? (hist1.done.pop(), lst(hist1.done)) : void 0))) last = lst(cur.changes), 0 == cmp(change.from, change.to) && 0 == cmp(change.from, last.to) ? last.to = changeEnd(change) : cur.changes.push(historyChangeFromChange(doc, change));
+        var cur, time = +new Date();
+        if ((hist.lastOp == opId || hist.lastOrigin == change.origin && change.origin && ("+" == change.origin.charAt(0) && hist.lastModTime > time - (doc.cm ? doc.cm.options.historyEventDelay : 500) || "*" == change.origin.charAt(0))) && (cur = hist.lastOp == opId ? (clearSelectionEvents(hist.done), lst(hist.done)) : hist.done.length && !lst(hist.done).ranges ? lst(hist.done) : hist.done.length > 1 && !hist.done[hist.done.length - 2].ranges ? (hist.done.pop(), lst(hist.done)) : void 0)) last = lst(cur.changes), 0 == cmp(change.from, change.to) && 0 == cmp(change.from, last.to) ? last.to = changeEnd(change) : cur.changes.push(historyChangeFromChange(doc, change));
         else {
             var before = lst(hist.done);
             for(before && before.ranges || pushSelectionToHistory(doc.sel, hist.done), cur = {
@@ -2529,20 +2529,20 @@
         last && last.ranges ? (done[done.length - 1] = sel, setSelectionNoUndo(doc, sel, options)) : setSelection(doc, sel, options);
     }
     function setSelection(doc, sel, options) {
-        var doc1, sel1, opId, options1, doc2, origin, prev, sel2, ch, hist, origin1;
-        setSelectionNoUndo(doc, sel, options), doc1 = doc, sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : NaN, options1 = options, hist = doc1.history, origin1 = options1 && options1.origin, opId == hist.lastSelOp || origin1 && hist.lastSelOrigin == origin1 && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin1 || (doc2 = doc1, origin = origin1, prev = lst(hist.done), sel2 = sel1, "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel2.ranges.length && prev.somethingSelected() == sel2.somethingSelected() && new Date() - doc2.history.lastSelTime <= (doc2.cm ? doc2.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date(), hist.lastSelOrigin = origin1, hist.lastSelOp = opId, options1 && !1 !== options1.clearRedo && clearSelectionEvents(hist.undone);
+        var sel1, opId, prev, ch, hist, origin;
+        setSelectionNoUndo(doc, sel, options), sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : NaN, hist = doc.history, origin = options && options.origin, opId == hist.lastSelOp || origin && hist.lastSelOrigin == origin && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin || (prev = lst(hist.done), "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel1.ranges.length && prev.somethingSelected() == sel1.somethingSelected() && new Date() - doc.history.lastSelTime <= (doc.cm ? doc.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date(), hist.lastSelOrigin = origin, hist.lastSelOp = opId, options && !1 !== options.clearRedo && clearSelectionEvents(hist.undone);
     }
     function setSelectionNoUndo(doc, sel, options) {
         if (hasHandler(doc, "beforeSelectionChange") || doc.cm && hasHandler(doc.cm, "beforeSelectionChange")) {
-            var doc1, sel1, options1, obj;
-            sel = (doc1 = doc, sel1 = sel, options1 = options, obj = {
-                ranges: sel1.ranges,
+            var sel1, obj;
+            sel = (obj = {
+                ranges: (sel1 = sel).ranges,
                 update: function(ranges) {
                     this.ranges = [];
-                    for(var i = 0; i < ranges.length; i++)this.ranges[i] = new Range(clipPos(doc1, ranges[i].anchor), clipPos(doc1, ranges[i].head));
+                    for(var i = 0; i < ranges.length; i++)this.ranges[i] = new Range(clipPos(doc, ranges[i].anchor), clipPos(doc, ranges[i].head));
                 },
-                origin: options1 && options1.origin
-            }, (signal(doc1, "beforeSelectionChange", doc1, obj), doc1.cm && signal(doc1.cm, "beforeSelectionChange", doc1.cm, obj), obj.ranges != sel1.ranges) ? normalizeSelection(doc1.cm, obj.ranges, obj.ranges.length - 1) : sel1);
+                origin: options && options.origin
+            }, (signal(doc, "beforeSelectionChange", doc, obj), doc.cm && signal(doc.cm, "beforeSelectionChange", doc.cm, obj), obj.ranges != sel1.ranges) ? normalizeSelection(doc.cm, obj.ranges, obj.ranges.length - 1) : sel1);
         }
         var bias = options && options.bias || (0 > cmp(sel.primary().head, doc.sel.primary().head) ? -1 : 1);
         setSelectionInner(doc, skipAtomicInSelection(doc, sel, bias, !0)), !(options && !1 === options.scroll) && doc.cm && "nocursor" != doc.cm.getOption("readOnly") && ensureCursorVisible(doc.cm);
@@ -2969,11 +2969,11 @@
     };
     function markText(doc, from, to, options, type) {
         if (options && options.shared) {
-            var doc1, from1, to1, options1, type1, markers, primary, widget;
-            return doc1 = doc, from1 = from, to1 = to, options1 = options, type1 = type, (options1 = copyObj(options1)).shared = !1, primary = (markers = [
-                markText(doc1, from1, to1, options1, type1)
-            ])[0], widget = options1.widgetNode, linkedDocs(doc1, function(doc) {
-                widget && (options1.widgetNode = widget.cloneNode(!0)), markers.push(markText(doc, clipPos(doc, from1), clipPos(doc, to1), options1, type1));
+            var options1, markers, primary, widget;
+            return (options1 = copyObj(options1 = options)).shared = !1, primary = (markers = [
+                markText(doc, from, to, options1, type)
+            ])[0], widget = options1.widgetNode, linkedDocs(doc, function(doc) {
+                widget && (options1.widgetNode = widget.cloneNode(!0)), markers.push(markText(doc, clipPos(doc, from), clipPos(doc, to), options1, type));
                 for(var i = 0; i < doc.linked.length; ++i)if (doc.linked[i].isParent) return;
                 primary = lst(markers);
             }), new SharedTextMarker(markers, primary);
@@ -3348,15 +3348,15 @@
             });
         }),
         addLineWidget: docMethodOp(function(handle, node, options) {
-            var doc, handle1, widget, cm;
-            return doc = this, handle1 = handle, widget = new LineWidget(doc, node, options), (cm = doc.cm) && widget.noHScroll && (cm.display.alignWidgets = !0), changeLine(doc, handle1, "widget", function(line) {
+            var doc, widget, cm;
+            return doc = this, widget = new LineWidget(doc, node, options), (cm = doc.cm) && widget.noHScroll && (cm.display.alignWidgets = !0), changeLine(doc, handle, "widget", function(line) {
                 var widgets = line.widgets || (line.widgets = []);
                 if (null == widget.insertAt ? widgets.push(widget) : widgets.splice(Math.min(widgets.length, Math.max(0, widget.insertAt)), 0, widget), widget.line = line, cm && !lineIsHidden(doc, line)) {
                     var aboveVisible = heightAtLine(line) < doc.scrollTop;
                     updateLineHeight(line, line.height + widgetHeight(widget)), aboveVisible && addToScrollTop(cm, widget.height), cm.curOp.forceUpdate = !0;
                 }
                 return !0;
-            }), cm && signalLater(cm, "lineWidgetAdded", cm, widget, "number" == typeof handle1 ? handle1 : lineNo(handle1)), widget;
+            }), cm && signalLater(cm, "lineWidgetAdded", cm, widget, "number" == typeof handle ? handle : lineNo(handle)), widget;
         }),
         removeLineWidget: function(widget) {
             widget.clear();
@@ -3898,11 +3898,11 @@
         },
         goLineEnd: function(cm) {
             return cm.extendSelectionsBy(function(range) {
-                var cm1, lineN, line, visual;
-                return cm1 = cm, lineN = range.head.line, (visual = function(line) {
+                var lineN, line, visual;
+                return lineN = range.head.line, (visual = function(line) {
                     for(var merged; merged = collapsedSpanAtEnd(line);)line = merged.find(1, !0).line;
                     return line;
-                }(line = getLine(cm1.doc, lineN))) != line && (lineN = lineNo(visual)), endOfLine(!0, cm1, line, lineN, -1);
+                }(line = getLine(cm.doc, lineN))) != line && (lineN = lineNo(visual)), endOfLine(!0, cm, line, lineN, -1);
             }, {
                 origin: "+move",
                 bias: -1
@@ -4144,17 +4144,17 @@
                 return;
             }
             if (!clickInGutter(this, e)) {
-                var pos2, button, now, cm2, button1, pos3, repeat1, event2, name, pos4 = posFromMouse(this, e), button2 = e_button(e), repeat2 = pos4 ? (pos2 = pos4, button = button2, now = +new Date(), lastDoubleClick && lastDoubleClick.compare(now, pos2, button) ? (lastClick = lastDoubleClick = null, "triple") : lastClick && lastClick.compare(now, pos2, button) ? (lastDoubleClick = new PastClick(now, pos2, button), lastClick = null, "double") : (lastClick = new PastClick(now, pos2, button), lastDoubleClick = null, "single")) : "single";
-                window.focus(), 1 == button2 && this.state.selectingText && this.state.selectingText(e), !(pos4 && (cm2 = this, button1 = button2, pos3 = pos4, repeat1 = repeat2, event2 = e, name = "Click", "double" == repeat1 ? name = "Double" + name : "triple" == repeat1 && (name = "Triple" + name), dispatchKey(cm2, addModifierNames(name = (1 == button1 ? "Left" : 2 == button1 ? "Middle" : "Right") + name, event2), event2, function(bound) {
+                var now, cm2, name, pos2 = posFromMouse(this, e), button = e_button(e), repeat1 = pos2 ? (now = +new Date(), lastDoubleClick && lastDoubleClick.compare(now, pos2, button) ? (lastClick = lastDoubleClick = null, "triple") : lastClick && lastClick.compare(now, pos2, button) ? (lastDoubleClick = new PastClick(now, pos2, button), lastClick = null, "double") : (lastClick = new PastClick(now, pos2, button), lastDoubleClick = null, "single")) : "single";
+                window.focus(), 1 == button && this.state.selectingText && this.state.selectingText(e), !(pos2 && (cm2 = this, name = "Click", "double" == repeat1 ? name = "Double" + name : "triple" == repeat1 && (name = "Triple" + name), dispatchKey(cm2, addModifierNames(name = (1 == button ? "Left" : 2 == button ? "Middle" : "Right") + name, e), e, function(bound) {
                     if ("string" == typeof bound && (bound = commands[bound]), !bound) return !1;
                     var done = !1;
                     try {
-                        cm2.isReadOnly() && (cm2.state.suppressEdits = !0), done = bound(cm2, pos3) != Pass;
+                        cm2.isReadOnly() && (cm2.state.suppressEdits = !0), done = bound(cm2, pos2) != Pass;
                     } finally{
                         cm2.state.suppressEdits = !1;
                     }
                     return done;
-                }))) && (1 == button2 ? pos4 ? (cm = this, pos = pos4, repeat = repeat2, event = e, ie ? setTimeout(bind(ensureFocus, cm), 0) : cm.curOp.focus = activeElt(), behavior = function(cm, repeat, event) {
+                }))) && (1 == button ? pos2 ? (cm = this, pos = pos2, repeat = repeat1, event = e, ie ? setTimeout(bind(ensureFocus, cm), 0) : cm.curOp.focus = activeElt(), behavior = function(cm, repeat, event) {
                     var option = cm.getOption("configureMouse"), value = option ? option(cm, repeat, event) : {};
                     if (null == value.unit) {
                         var rect = chromeOS ? event.shiftKey && event.metaKey : event.altKey;
@@ -4252,9 +4252,9 @@
                         }(e) : done(e);
                     }), up = operation(cm, done);
                     cm.state.selectingText = up, on(display.wrapper.ownerDocument, "mousemove", move), on(display.wrapper.ownerDocument, "mouseup", up);
-                }(cm, event, pos, behavior)) : e_target(e) == display1.scroller && e_preventDefault(e) : 2 == button2 ? (pos4 && extendSelection(this.doc, pos4), setTimeout(function() {
+                }(cm, event, pos, behavior)) : e_target(e) == display1.scroller && e_preventDefault(e) : 2 == button ? (pos2 && extendSelection(this.doc, pos2), setTimeout(function() {
                     return display1.input.focus();
-                }, 20)) : 3 == button2 && (captureRightClick ? this.display.input.onContextMenu(e) : delayBlurEvent(this)));
+                }, 20)) : 3 == button && (captureRightClick ? this.display.input.onContextMenu(e) : delayBlurEvent(this)));
             }
         }
     }
@@ -4289,8 +4289,7 @@
         return gutterEvent(cm, e, "gutterClick", !0);
     }
     function onContextMenu(cm, e) {
-        var cm1;
-        !(eventInWidget(cm.display, e) || hasHandler(cm1 = cm, "gutterContextMenu") && gutterEvent(cm1, e, "gutterContextMenu", !1) || signalDOMEvent(cm, e, "contextmenu")) && (captureRightClick || cm.display.input.onContextMenu(e));
+        !(eventInWidget(cm.display, e) || hasHandler(cm, "gutterContextMenu") && gutterEvent(cm, e, "gutterContextMenu", !1) || signalDOMEvent(cm, e, "contextmenu")) && (captureRightClick || cm.display.input.onContextMenu(e));
     }
     function themeChanged(cm) {
         cm.display.wrapper.className = cm.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") + cm.options.theme.replace(/(^|\s)\s*/g, " cm-s-"), clearCaches(cm);

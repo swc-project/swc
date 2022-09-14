@@ -432,7 +432,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('param' type=inline),
+                Atom('param' type=static),
                 #5,
             ),
             VarUsageInfo {

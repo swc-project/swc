@@ -112,7 +112,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
         )
         .expect_module();
 
-        {
+        if output_path.exists() {
             // Compare AST, and mark test as a success if ast is identical.
 
             let mut actual = m.clone();

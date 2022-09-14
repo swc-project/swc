@@ -614,7 +614,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('filter' type=inline),
+                Atom('filter' type=static),
                 #13,
             ),
             VarUsageInfo {
@@ -652,7 +652,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('filter' type=inline),
+                Atom('filter' type=static),
                 #15,
             ),
             VarUsageInfo {
@@ -690,7 +690,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('filter' type=inline),
+                Atom('filter' type=static),
                 #17,
             ),
             VarUsageInfo {
@@ -1034,7 +1034,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('link' type=inline),
+                Atom('link' type=static),
                 #15,
             ),
             VarUsageInfo {
@@ -1072,7 +1072,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('link' type=inline),
+                Atom('link' type=static),
                 #16,
             ),
             VarUsageInfo {
@@ -1300,7 +1300,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('script' type=inline),
+                Atom('script' type=static),
                 #13,
             ),
             VarUsageInfo {
@@ -1338,7 +1338,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('script' type=inline),
+                Atom('script' type=static),
                 #14,
             ),
             VarUsageInfo {
@@ -1492,7 +1492,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('style' type=inline),
+                Atom('style' type=static),
                 #17,
             ),
             VarUsageInfo {
@@ -1530,7 +1530,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('style' type=inline),
+                Atom('style' type=static),
                 #18,
             ),
             VarUsageInfo {

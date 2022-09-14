@@ -80,7 +80,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('head' type=inline),
+                Atom('head' type=static),
                 #4,
             ),
             VarUsageInfo {

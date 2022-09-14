@@ -129,7 +129,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('summary' type=inline),
+                    value: Atom('summary' type=static),
                 },
                 tag: Summary(
                     SummaryTag {

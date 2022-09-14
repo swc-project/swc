@@ -28,8 +28,8 @@ var ts;
                             if (ts.isAssignmentOperator(node.operatorToken.kind) && ts.isIdentifier(node.left) && !ts.isGeneratedIdentifier(node.left) && !ts.isLocalName(node.left) && !ts.isDeclarationNameOfEnumOrNamespace(node.left)) {
                                 var exportedNames = getExports(node.left);
                                 if (exportedNames) {
-                                    for(var expression = node, _i = 0, exportedNames_3 = exportedNames; _i < exportedNames_3.length; _i++){
-                                        var exportName = exportedNames_3[_i];
+                                    for(var expression = node, _i = 0; _i < exportedNames.length; _i++){
+                                        var exportName = exportedNames[_i];
                                         noSubstitution[ts.getNodeId(expression)] = !0, expression = createExportExpression(exportName, expression, node);
                                     }
                                     return expression;
@@ -224,8 +224,8 @@ var ts;
                                 return ts.singleOrMany(statements);
                             }
                             if (!node.exportClause) return ts.setOriginalNode(ts.setTextRange(factory.createExpressionStatement(emitHelpers().createExportStarHelper(moduleKind !== ts.ModuleKind.AMD ? createRequireCall(node) : generatedName)), node), node);
-                            var node1, innerExpr, statements = [];
-                            return statements.push(ts.setOriginalNode(ts.setTextRange(factory.createExpressionStatement(createExportExpression(factory.cloneNode(node.exportClause.name), (node1 = node, innerExpr = moduleKind !== ts.ModuleKind.AMD ? createRequireCall(node) : ts.isExportNamespaceAsDefaultDeclaration(node) ? generatedName : factory.createIdentifier(ts.idText(node.exportClause.name)), !ts.getESModuleInterop(compilerOptions) || 67108864 & ts.getEmitFlags(node1) ? innerExpr : ts.getExportNeedsImportStarHelper(node1) ? emitHelpers().createImportStarHelper(innerExpr) : innerExpr))), node), node)), ts.singleOrMany(statements);
+                            var innerExpr, statements = [];
+                            return statements.push(ts.setOriginalNode(ts.setTextRange(factory.createExpressionStatement(createExportExpression(factory.cloneNode(node.exportClause.name), (innerExpr = moduleKind !== ts.ModuleKind.AMD ? createRequireCall(node) : ts.isExportNamespaceAsDefaultDeclaration(node) ? generatedName : factory.createIdentifier(ts.idText(node.exportClause.name)), !ts.getESModuleInterop(compilerOptions) || 67108864 & ts.getEmitFlags(node) ? innerExpr : ts.getExportNeedsImportStarHelper(node) ? emitHelpers().createImportStarHelper(innerExpr) : innerExpr))), node), node)), ts.singleOrMany(statements);
                         }
                     }(node);
                 case 270:
@@ -290,24 +290,23 @@ var ts;
                         return node;
                     }(node);
                 case 351:
-                    var node1, id, statements;
-                    return node1 = node, (statements = deferredExports[id = ts.getOriginalNodeId(node1)]) ? (delete deferredExports[id], ts.append(statements, node1)) : node1;
+                    var id, statements;
+                    return (statements = deferredExports[id = ts.getOriginalNodeId(node)]) ? (delete deferredExports[id], ts.append(statements, node)) : node;
                 default:
                     return visitor(node);
             }
         }
         function visitorWorker(node, valueIsDiscarded) {
-            var node1, node2, node3, node4, node5;
             if (!(71307264 & node.transformFlags)) return node;
             switch(node.kind){
                 case 241:
-                    return node1 = node, factory.updateForStatement(node1, ts.visitNode(node1.initializer, discardedValueVisitor, ts.isForInitializer), ts.visitNode(node1.condition, visitor, ts.isExpression), ts.visitNode(node1.incrementor, discardedValueVisitor, ts.isExpression), ts.visitIterationBody(node1.statement, visitor, context));
+                    return factory.updateForStatement(node, ts.visitNode(node.initializer, discardedValueVisitor, ts.isForInitializer), ts.visitNode(node.condition, visitor, ts.isExpression), ts.visitNode(node.incrementor, discardedValueVisitor, ts.isExpression), ts.visitIterationBody(node.statement, visitor, context));
                 case 237:
-                    return node2 = node, factory.updateExpressionStatement(node2, ts.visitNode(node2.expression, discardedValueVisitor, ts.isExpression));
+                    return factory.updateExpressionStatement(node, ts.visitNode(node.expression, discardedValueVisitor, ts.isExpression));
                 case 211:
-                    return node3 = node, factory.updateParenthesizedExpression(node3, ts.visitNode(node3.expression, valueIsDiscarded ? discardedValueVisitor : visitor, ts.isExpression));
+                    return factory.updateParenthesizedExpression(node, ts.visitNode(node.expression, valueIsDiscarded ? discardedValueVisitor : visitor, ts.isExpression));
                 case 348:
-                    return node4 = node, factory.updatePartiallyEmittedExpression(node4, ts.visitNode(node4.expression, valueIsDiscarded ? discardedValueVisitor : visitor, ts.isExpression));
+                    return factory.updatePartiallyEmittedExpression(node, ts.visitNode(node.expression, valueIsDiscarded ? discardedValueVisitor : visitor, ts.isExpression));
                 case 207:
                     if (ts.isImportCall(node) && void 0 === currentSourceFile.impliedNodeFormat) return function(node) {
                         var externalModuleName = ts.getExternalModuleNameLiteral(factory, node, currentSourceFile, host, resolver, compilerOptions), firstArgument = ts.visitNode(ts.firstOrUndefined(node.arguments), visitor), argument = !externalModuleName || firstArgument && ts.isStringLiteral(firstArgument) && firstArgument.text === externalModuleName.text ? firstArgument : externalModuleName, containsLexicalThis = !!(8192 & node.transformFlags);
@@ -359,7 +358,7 @@ var ts;
                         }
                         else if (ts.isIdentifier(node)) return ts.length(getExports(node)) > (ts.isExportName(node) ? 1 : 0);
                         return !1;
-                    }((node5 = node).left) ? ts.visitEachChild(node5, visitor, context) : ts.flattenDestructuringAssignment(node5, visitor, context, 0, !valueIsDiscarded, createAllExportExpressions);
+                    }(node.left) ? ts.visitEachChild(node, visitor, context) : ts.flattenDestructuringAssignment(node, visitor, context, 0, !valueIsDiscarded, createAllExportExpressions);
                     break;
                 case 218:
                 case 219:
@@ -369,8 +368,8 @@ var ts;
                             if (exportedNames) {
                                 var temp = void 0, expression = ts.visitNode(node.operand, visitor, ts.isExpression);
                                 ts.isPrefixUnaryExpression(node) ? expression = factory.updatePrefixUnaryExpression(node, expression) : (expression = factory.updatePostfixUnaryExpression(node, expression), valueIsDiscarded || (temp = factory.createTempVariable(hoistVariableDeclaration), expression = factory.createAssignment(temp, expression), ts.setTextRange(expression, node)), expression = factory.createComma(expression, factory.cloneNode(node.operand)), ts.setTextRange(expression, node));
-                                for(var _i = 0, exportedNames_1 = exportedNames; _i < exportedNames_1.length; _i++){
-                                    var exportName = exportedNames_1[_i];
+                                for(var _i = 0; _i < exportedNames.length; _i++){
+                                    var exportName = exportedNames[_i];
                                     noSubstitution[ts.getNodeId(expression)] = !0, expression = createExportExpression(exportName, expression), ts.setTextRange(expression, node);
                                 }
                                 return temp && (noSubstitution[ts.getNodeId(expression)] = !0, expression = factory.createComma(expression, temp), ts.setTextRange(expression, node)), expression;
@@ -428,8 +427,8 @@ var ts;
         function createAllExportExpressions(name, value, location) {
             var exportedNames = getExports(name);
             if (exportedNames) {
-                for(var expression = ts.isExportName(name) ? value : factory.createAssignment(name, value), _i = 0, exportedNames_2 = exportedNames; _i < exportedNames_2.length; _i++){
-                    var exportName = exportedNames_2[_i];
+                for(var expression = ts.isExportName(name) ? value : factory.createAssignment(name, value), _i = 0; _i < exportedNames.length; _i++){
+                    var exportName = exportedNames[_i];
                     ts.setEmitFlags(expression, 4), expression = createExportExpression(exportName, expression, location);
                 }
                 return expression;
@@ -479,8 +478,8 @@ var ts;
         }
         function appendExportsOfDeclaration(statements, decl, liveBinding) {
             var name = factory.getDeclarationName(decl), exportSpecifiers = currentModuleInfo.exportSpecifiers.get(ts.idText(name));
-            if (exportSpecifiers) for(var _i = 0, exportSpecifiers_1 = exportSpecifiers; _i < exportSpecifiers_1.length; _i++){
-                var exportSpecifier = exportSpecifiers_1[_i];
+            if (exportSpecifiers) for(var _i = 0; _i < exportSpecifiers.length; _i++){
+                var exportSpecifier = exportSpecifiers[_i];
                 statements = appendExportStatement(statements, exportSpecifier.name, name, exportSpecifier.name, void 0, liveBinding);
             }
             return statements;

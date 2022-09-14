@@ -108,7 +108,7 @@
                             var r = getLens(e), t = r[0], f = r[1];
                             return (t + f) * 3 / 4 - f;
                         }, r.toByteArray = function(e) {
-                            var r, h, t, t1 = getLens(e), i = t1[0], o = t1[1], u = new n((t = o, (i + t) * 3 / 4 - t)), a = 0, s = o > 0 ? i - 4 : i;
+                            var r, h, t = getLens(e), i = t[0], o = t[1], u = new n((i + o) * 3 / 4 - o), a = 0, s = o > 0 ? i - 4 : i;
                             for(h = 0; h < s; h += 4)r = f[e.charCodeAt(h)] << 18 | f[e.charCodeAt(h + 1)] << 12 | f[e.charCodeAt(h + 2)] << 6 | f[e.charCodeAt(h + 3)], u[a++] = r >> 16 & 255, u[a++] = r >> 8 & 255, u[a++] = 255 & r;
                             return 2 === o && (r = f[e.charCodeAt(h)] << 2 | f[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f[e.charCodeAt(h)] << 10 | f[e.charCodeAt(h + 1)] << 4 | f[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
                         }, r.fromByteArray = function(e) {
@@ -298,8 +298,8 @@
                             var i = r.length;
                             f > i / 2 && (f = i / 2);
                             for(var o = 0; o < f; ++o){
-                                var e1, u = parseInt(r.substr(2 * o, 2), 16);
-                                if ((e1 = u) != e1) break;
+                                var u = parseInt(r.substr(2 * o, 2), 16);
+                                if (u != u) break;
                                 e[t + o] = u;
                             }
                             return o;
@@ -417,8 +417,7 @@
                         }), Buffer.poolSize = 8192, Buffer.from = function(e, r, t) {
                             return from(e, r, t);
                         }, Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype), Object.setPrototypeOf(Buffer, Uint8Array), Buffer.alloc = function(e, r, t) {
-                            var e1, r1, t1;
-                            return e1 = e, r1 = r, t1 = t, (assertSize(e1), e1 <= 0) ? createBuffer(e1) : void 0 !== r1 ? "string" == typeof t1 ? createBuffer(e1).fill(r1, t1) : createBuffer(e1).fill(r1) : createBuffer(e1);
+                            return (assertSize(e), e <= 0) ? createBuffer(e) : void 0 !== r ? "string" == typeof t ? createBuffer(e).fill(r, t) : createBuffer(e).fill(r) : createBuffer(e);
                         }, Buffer.allocUnsafe = function(e) {
                             return allocUnsafe(e);
                         }, Buffer.allocUnsafeSlow = function(e) {
@@ -920,7 +919,7 @@
                     },
                     91: function(r, t, e) {
                         "use strict";
-                        var o, n = SyntaxError, a = TypeError, getEvalledConstructor = function(r) {
+                        var o, n = SyntaxError, i = Function, a = TypeError, getEvalledConstructor = function(r) {
                             try {
                                 return Function('"use strict"; return (' + r + ").constructor;")();
                             } catch (r1) {}
@@ -969,7 +968,7 @@
                             "%Float32Array%": "undefined" == typeof Float32Array ? o : Float32Array,
                             "%Float64Array%": "undefined" == typeof Float64Array ? o : Float64Array,
                             "%FinalizationRegistry%": "undefined" == typeof FinalizationRegistry ? o : FinalizationRegistry,
-                            "%Function%": Function,
+                            "%Function%": i,
                             "%GeneratorFunction%": getEvalledConstructor("function* () {}"),
                             "%Int8Array%": "undefined" == typeof Int8Array ? o : Int8Array,
                             "%Int16Array%": "undefined" == typeof Int16Array ? o : Int16Array,
@@ -1978,7 +1977,7 @@
                         }
                         function formatValue(r, e, o) {
                             if (r.customInspect && e && isFunction(e.inspect) && e.inspect !== t.inspect && !(e.constructor && e.constructor.prototype === e)) {
-                                var r1, t1, e1, o1, l, n = e.inspect(o, r);
+                                var t1, e1, o1, l, n = e.inspect(o, r);
                                 return isString(n) || (n = formatValue(r, n, o)), n;
                             }
                             var i = function(r, t) {
@@ -1990,7 +1989,7 @@
                                 return isNumber(t) ? r.stylize("" + t, "number") : isBoolean(t) ? r.stylize("" + t, "boolean") : isNull(t) ? r.stylize("null", "null") : void 0;
                             }(r, e);
                             if (i) return i;
-                            var r2, t2, a = Object.keys(e), y = (r2 = a, t2 = {}, r2.forEach(function(r, e) {
+                            var r1, t2, a = Object.keys(e), y = (r1 = a, t2 = {}, r1.forEach(function(r, e) {
                                 t2[r] = !0;
                             }), t2);
                             if (r.showHidden && (a = Object.getOwnPropertyNames(e)), isError(e) && (a.indexOf("message") >= 0 || a.indexOf("description") >= 0)) return formatError(e);
@@ -2017,9 +2016,9 @@
                                 }), i;
                             }(r, e, o, y, a) : a.map(function(t) {
                                 return formatProperty(r, e, o, y, t, u);
-                            }), r.seen.pop(), r1 = l, t1 = f, e1 = s, o1 = 0, r1.reduce(function(r, t) {
+                            }), r.seen.pop(), t1 = f, e1 = s, o1 = 0, l.reduce(function(r, t) {
                                 return o1++, t.indexOf("\n") >= 0 && o1++, r + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                            }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + r1.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + r1.join(", ") + " " + e1[1]) : s[0] + f + s[1];
+                            }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + l.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + l.join(", ") + " " + e1[1]) : s[0] + f + s[1];
                         }
                         function formatError(r) {
                             return "[" + Error.prototype.toString.call(r) + "]";
@@ -2278,7 +2277,7 @@
                     },
                     227: function(r, t, e) {
                         "use strict";
-                        var o, n = SyntaxError, a = TypeError, getEvalledConstructor = function(r) {
+                        var o, n = SyntaxError, i = Function, a = TypeError, getEvalledConstructor = function(r) {
                             try {
                                 return Function('"use strict"; return (' + r + ").constructor;")();
                             } catch (r1) {}
@@ -2327,7 +2326,7 @@
                             "%Float32Array%": "undefined" == typeof Float32Array ? o : Float32Array,
                             "%Float64Array%": "undefined" == typeof Float64Array ? o : Float64Array,
                             "%FinalizationRegistry%": "undefined" == typeof FinalizationRegistry ? o : FinalizationRegistry,
-                            "%Function%": Function,
+                            "%Function%": i,
                             "%GeneratorFunction%": getEvalledConstructor("function* () {}"),
                             "%Int8Array%": "undefined" == typeof Int8Array ? o : Int8Array,
                             "%Int16Array%": "undefined" == typeof Int16Array ? o : Int16Array,

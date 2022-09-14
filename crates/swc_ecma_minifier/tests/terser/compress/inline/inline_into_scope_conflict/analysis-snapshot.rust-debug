@@ -2,7 +2,7 @@ TestSnapshot {
     vars: [
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #1,
             ),
             VarUsageInfo {
@@ -42,7 +42,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('b' type=inline),
+                Atom('b' type=static),
                 #4,
             ),
             VarUsageInfo {
@@ -158,7 +158,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('id' type=inline),
+                Atom('id' type=static),
                 #2,
             ),
             VarUsageInfo {
@@ -257,7 +257,7 @@ TestSnapshot {
                 has_property_mutation: false,
                 accessed_props: {},
                 exported: false,
-                used_above_decl: false,
+                used_above_decl: true,
                 is_fn_local: true,
                 used_by_nested_fn: true,
                 executed_multiple_time: false,

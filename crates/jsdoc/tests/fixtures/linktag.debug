@@ -118,7 +118,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('link' type=inline),
+                    value: Atom('link' type=static),
                 },
                 tag: Unknown(
                     UnknownTag {

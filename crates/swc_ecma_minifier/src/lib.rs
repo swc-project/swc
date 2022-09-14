@@ -13,7 +13,6 @@
 //! `SWC_RUN` to `1`, the minifier will validate the code using node before each
 //! step.
 #![deny(clippy::all)]
-#![deny(unused)]
 #![allow(clippy::blocks_in_if_conditions)]
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
@@ -24,7 +23,7 @@
 #![allow(clippy::match_like_matches_macro)]
 
 use once_cell::sync::Lazy;
-use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
+use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helpers::{Helpers, HELPERS};
 use swc_ecma_visit::VisitMutWith;
@@ -63,7 +62,6 @@ pub mod timing;
 mod util;
 
 const DISABLE_BUGGY_PASSES: bool = true;
-const MAX_PAR_DEPTH: u8 = 3;
 
 pub(crate) static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
 pub(crate) static HEAVY_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 8);
@@ -188,15 +186,7 @@ pub fn optimize(
             {
                 let _timer = timer!("compress ast");
 
-                GLOBALS.with(|globals| {
-                    m.visit_mut_with(&mut compressor(
-                        globals,
-                        &module_info,
-                        marks,
-                        options,
-                        &Minification,
-                    ))
-                });
+                m.visit_mut_with(&mut compressor(&module_info, marks, options, &Minification))
             }
 
             // Again, we don't need to validate ast

@@ -64,7 +64,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
    : ^
@@ -100,7 +100,7 @@
    :    ^
    `----
 
-  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
    :    ^

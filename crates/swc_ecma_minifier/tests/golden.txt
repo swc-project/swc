@@ -139,6 +139,7 @@ collapse_vars/collapse_vars_issue_721/input.js
 collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_properties/input.js
 collapse_vars/collapse_vars_regexp/input.js
+collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/collapse_vars_seq/input.js
 collapse_vars/collapse_vars_throw/input.js
 collapse_vars/collapse_vars_try/input.js
@@ -187,6 +188,7 @@ collapse_vars/issue_2425_1/input.js
 collapse_vars/issue_2425_2/input.js
 collapse_vars/issue_2425_3/input.js
 collapse_vars/issue_2436_12/input.js
+collapse_vars/issue_2436_14/input.js
 collapse_vars/issue_2436_2/input.js
 collapse_vars/issue_2436_3/input.js
 collapse_vars/issue_2436_5/input.js
@@ -565,6 +567,7 @@ functions/issue_1841_1/input.js
 functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2101/input.js
+functions/issue_2428/input.js
 functions/issue_2531_2/input.js
 functions/issue_2531_3/input.js
 functions/issue_2630_3/input.js
@@ -596,6 +599,7 @@ harmony/array_literal_with_spread_1/input.js
 harmony/array_literal_with_spread_2a/input.js
 harmony/array_literal_with_spread_3a/input.js
 harmony/array_literal_with_spread_3b/input.js
+harmony/array_literal_with_spread_4a/input.js
 harmony/arrow_function_parens/input.js
 harmony/arrow_function_parens_2/input.js
 harmony/class_expression_statement/input.js

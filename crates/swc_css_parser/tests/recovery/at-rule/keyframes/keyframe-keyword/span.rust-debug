@@ -68,7 +68,7 @@
    : ^^^^
    `----
 
-  x Ident { value: Atom('form' type=inline), raw: Atom('form' type=inline) }
+  x Ident { value: Atom('form' type=static), raw: Atom('form' type=static) }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
  2 | form {}
    : ^^^^
