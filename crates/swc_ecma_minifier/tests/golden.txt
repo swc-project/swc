@@ -295,7 +295,6 @@ dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
 dead_code/dead_code_const_declaration/input.js
-dead_code/dead_code_constant_boolean_should_warn_more/input.js
 dead_code/dead_code_constant_boolean_should_warn_more_strict/input.js
 dead_code/global_timeout_and_interval_symbols/input.js
 dead_code/issue_2233_1/input.js
@@ -1339,7 +1338,6 @@ sequences/func_def_5/input.js
 sequences/hoist_defun/input.js
 sequences/iife/input.js
 sequences/issue_1685/input.js
-sequences/issue_2062/input.js
 sequences/issue_2313/input.js
 sequences/issue_27/input.js
 sequences/lift_sequences_1/input.js
