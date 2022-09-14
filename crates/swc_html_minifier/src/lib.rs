@@ -252,6 +252,7 @@ static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
     ("linearGradient", "gradientTransform"),
     ("radialGradient", "gradientTransform"),
     ("font-face", "panose-1"),
+    ("a", "rel"),
 ];
 
 static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
@@ -366,8 +367,8 @@ fn get_white_space(namespace: Namespace, tag_name: &JsWord) -> WhiteSpace {
 }
 
 impl Minifier<'_> {
-    fn is_event_handler_attribute(&self, name: &str) -> bool {
-        EVENT_HANDLER_ATTRIBUTES.contains(&name)
+    fn is_event_handler_attribute(&self, name: &JsWord) -> bool {
+        EVENT_HANDLER_ATTRIBUTES.contains(&&**name)
     }
 
     fn is_boolean_attribute(&self, element: &Element, name: &str) -> bool {
@@ -390,8 +391,8 @@ impl Minifier<'_> {
         false
     }
 
-    fn is_trimable_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
-        if ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&attribute_name) {
+    fn is_trimable_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
+        if ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&&**attribute_name) {
             return true;
         }
 
@@ -403,34 +404,46 @@ impl Minifier<'_> {
         }
     }
 
-    fn is_comma_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+    fn is_comma_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
         match element.namespace {
-            Namespace::HTML => match attribute_name {
-                "content"
-                    if &*element.tag_name == "meta"
+            Namespace::HTML => match *attribute_name {
+                js_word!("content")
+                    if element.tag_name == js_word!("meta")
                         && (self.element_has_attribute_with_value(
                             element,
-                            "name",
-                            &["viewport", "keywords"],
+                            &js_word!("name"),
+                            &[js_word!("viewport"), js_word!("keywords")],
                         )) =>
                 {
                     true
                 }
-                "imagesrcset"
-                    if &*element.tag_name == "link"
-                        && self.element_has_attribute_with_value(element, "rel", &["preload"]) =>
+                js_word!("imagesrcset")
+                    if element.tag_name == js_word!("link")
+                        && self.element_has_attribute_with_value(
+                            element,
+                            &js_word!("rel"),
+                            &[js_word!("preload")],
+                        ) =>
                 {
                     true
                 }
-                "imagesizes"
-                    if &*element.tag_name == "link"
-                        && self.element_has_attribute_with_value(element, "rel", &["preload"]) =>
+                js_word!("imagesizes")
+                    if element.tag_name == js_word!("link")
+                        && self.element_has_attribute_with_value(
+                            element,
+                            &js_word!("rel"),
+                            &[js_word!("preload")],
+                        ) =>
                 {
                     true
                 }
-                "accept"
-                    if &*element.tag_name == "input"
-                        && self.element_has_attribute_with_value(element, "type", &["file"]) =>
+                js_word!("accept")
+                    if element.tag_name == js_word!("input")
+                        && self.element_has_attribute_with_value(
+                            element,
+                            &js_word!("type"),
+                            &[js_word!("file")],
+                        ) =>
                 {
                     true
                 }
@@ -443,8 +456,8 @@ impl Minifier<'_> {
         }
     }
 
-    fn is_space_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
-        if SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&attribute_name) {
+    fn is_space_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
+        if SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&&**attribute_name) {
             return true;
         }
 
@@ -453,10 +466,11 @@ impl Minifier<'_> {
                 SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
             }
             Namespace::SVG => {
-                match attribute_name {
-                    "transform" | "stroke-dasharray" | "clip-path" | "requiredFeatures" => {
-                        return true
-                    }
+                match *attribute_name {
+                    js_word!("transform")
+                    | js_word!("stroke-dasharray")
+                    | js_word!("clip-path")
+                    | js_word!("requiredFeatures") => return true,
                     _ => {}
                 }
 
@@ -475,39 +489,49 @@ impl Minifier<'_> {
         }
     }
 
-    fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &str) -> bool {
+    fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &JsWord) -> bool {
         if matches!(
-            attribute_name,
-            "class" | "part" | "itemprop" | "itemref" | "itemtype"
+            *attribute_name,
+            js_word!("class")
+                | js_word!("part")
+                | js_word!("itemprop")
+                | js_word!("itemref")
+                | js_word!("itemtype")
         ) {
             return true;
         }
 
         match element.namespace {
-            Namespace::HTML => match &*element.tag_name {
-                "link" if attribute_name == "blocking" => true,
-                "script" if attribute_name == "blocking" => true,
-                "style" if attribute_name == "blocking" => true,
-                "output" if attribute_name == "for" => true,
-                "td" if attribute_name == "headers" => true,
-                "th" if attribute_name == "headers" => true,
-                "form" if attribute_name == "rel" => true,
-                "a" if attribute_name == "rel" => true,
-                "area" if attribute_name == "rel" => true,
-                "link" if attribute_name == "rel" => true,
-                "iframe" if attribute_name == "sandbox" => true,
-                "link"
+            Namespace::HTML => match element.tag_name {
+                js_word!("link") if *attribute_name == js_word!("blocking") => true,
+                js_word!("script") if *attribute_name == js_word!("blocking") => true,
+                js_word!("style") if *attribute_name == js_word!("blocking") => true,
+                js_word!("output") if *attribute_name == js_word!("for") => true,
+                js_word!("td") if *attribute_name == js_word!("headers") => true,
+                js_word!("th") if *attribute_name == js_word!("headers") => true,
+                js_word!("form") if *attribute_name == js_word!("rel") => true,
+                js_word!("a") if *attribute_name == js_word!("rel") => true,
+                js_word!("area") if *attribute_name == js_word!("rel") => true,
+                js_word!("link") if *attribute_name == js_word!("rel") => true,
+                js_word!("iframe") if *attribute_name == js_word!("sandbox") => true,
+                js_word!("link")
                     if self.element_has_attribute_with_value(
                         element,
-                        "rel",
-                        &["icon", "apple-touch-icon", "apple-touch-icon-precomposed"],
-                    ) && attribute_name == "sizes" =>
+                        &js_word!("rel"),
+                        &[
+                            js_word!("icon"),
+                            js_word!("apple-touch-icon"),
+                            js_word!("apple-touch-icon-precomposed"),
+                        ],
+                    ) && *attribute_name == js_word!("sizes") =>
                 {
                     true
                 }
                 _ => false,
             },
-            Namespace::SVG => matches!(&*element.tag_name, "a" if attribute_name == "rel"),
+            Namespace::SVG => {
+                matches!(element.tag_name, js_word!("a") if *attribute_name == js_word!("rel"))
+            }
             _ => false,
         }
     }
@@ -515,21 +539,20 @@ impl Minifier<'_> {
     fn element_has_attribute_with_value(
         &self,
         element: &Element,
-        attribute_name: &str,
-        attribute_value: &[&str],
+        attribute_name: &JsWord,
+        attribute_value: &[JsWord],
     ) -> bool {
         element.attributes.iter().any(|attribute| {
             &*attribute.name == attribute_name
                 && attribute.value.is_some()
-                && attribute_value
-                    .contains(&&*attribute.value.as_ref().unwrap().to_ascii_lowercase())
+                && attribute_value.contains(&attribute.value.as_ref().unwrap().to_ascii_lowercase())
         })
     }
 
     fn is_default_attribute_value(
         &self,
         namespace: Namespace,
-        tag_name: &str,
+        tag_name: &JsWord,
         attribute: &Attribute,
     ) -> bool {
         let attribute_value = attribute.value.as_ref().unwrap();
@@ -537,9 +560,9 @@ impl Minifier<'_> {
         match namespace {
             Namespace::HTML | Namespace::SVG => {
                 // Legacy attributes, not in spec
-                if tag_name == "script" {
-                    match &*attribute.name {
-                        "type" => {
+                if *tag_name == js_word!("script") {
+                    match attribute.name {
+                        js_word!("type") => {
                             let value = if let Some(next) = attribute_value.split(';').next() {
                                 next
                             } else {
@@ -566,7 +589,8 @@ impl Minifier<'_> {
                                 _ => {}
                             }
                         }
-                        "language" => match &*attribute_value.trim().to_ascii_lowercase() {
+                        js_word!("language") => match &*attribute_value.trim().to_ascii_lowercase()
+                        {
                             "javascript" | "javascript1.2" | "javascript1.3" | "javascript1.4"
                             | "javascript1.5" | "javascript1.6" | "javascript1.7" => return true,
                             _ => {}
@@ -595,7 +619,7 @@ impl Minifier<'_> {
                 };
                 let normalized_value = attribute_value.trim();
 
-                let attributes = match default_attributes.get(tag_name) {
+                let attributes = match default_attributes.get(&**tag_name) {
                     Some(element) => element,
                     None => return false,
                 };
@@ -617,13 +641,18 @@ impl Minifier<'_> {
                     (
                         namespace,
                         tag_name,
-                        &*attribute.name,
+                        &attribute.name,
                         attribute_value.to_ascii_lowercase().trim()
                     ),
-                    |(Namespace::MATHML, "math", "xmlns", "http://www.w3.org/1998/math/mathml")| (
+                    |(
                         Namespace::MATHML,
-                        "math",
-                        "xlink",
+                        &js_word!("math"),
+                        &js_word!("xmlns"),
+                        "http://www.w3.org/1998/math/mathml",
+                    )| (
+                        Namespace::MATHML,
+                        &js_word!("math"),
+                        &js_word!("xlink"),
                         "http://www.w3.org/1999/xlink"
                     )
                 )
@@ -651,11 +680,17 @@ impl Minifier<'_> {
         !matches!(self.options.collapse_whitespaces, CollapseWhitespaces::None)
     }
 
-    fn is_custom_element(&self, tag_name: &str) -> bool {
+    fn is_custom_element(&self, tag_name: &JsWord) -> bool {
         // https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name
-        match tag_name {
-            "annotation-xml" | "color-profile" | "font-face" | "font-face-src"
-            | "font-face-uri" | "font-face-format" | "font-face-name" | "missing-glyph" => false,
+        match *tag_name {
+            js_word!("annotation-xml")
+            | js_word!("color-profile")
+            | js_word!("font-face")
+            | js_word!("font-face-src")
+            | js_word!("font-face-uri")
+            | js_word!("font-face-format")
+            | js_word!("font-face-name")
+            | js_word!("missing-glyph") => false,
             _ => matches!(tag_name.chars().next(), Some('a'..='z')) && tag_name.contains('-'),
         }
     }
@@ -1167,7 +1202,7 @@ impl Minifier<'_> {
         true
     }
 
-    fn minify_children(&mut self, children: &Vec<Child>) -> Vec<Child> {
+    fn minify_children(&mut self, children: &mut Vec<Child>) -> Vec<Child> {
         let (namespace, tag_name) = match &self.current_element {
             Some(element) => (element.namespace, &element.tag_name),
             _ => {
@@ -1488,8 +1523,8 @@ impl Minifier<'_> {
 
         let mut new_children = Vec::with_capacity(children.len());
 
-        for (index, child) in children.iter().enumerate() {
-            let mut child = child.clone();
+        for index in 0..children.len() {
+            let mut child = children.remove(0);
 
             if let Child::Text(text) = &mut child {
                 if let Some(Child::Text(prev_text)) = new_children.last_mut() {
@@ -1505,7 +1540,7 @@ impl Minifier<'_> {
                 }
             };
 
-            let result = child_will_be_retained(&mut child, &new_children, &children[index + 1..]);
+            let result = child_will_be_retained(&mut child, &new_children, &children);
 
             if result {
                 new_children.push(child);
@@ -1515,13 +1550,17 @@ impl Minifier<'_> {
         new_children
     }
 
-    fn get_attribute_value(&self, attributes: &Vec<Attribute>, name: &str) -> Option<JsWord> {
+    fn get_attribute_value<'a>(
+        &self,
+        attributes: &'a Vec<Attribute>,
+        name: JsWord,
+    ) -> Option<&'a JsWord> {
         let mut type_attribute_value = None;
 
         for attribute in attributes {
-            if &*attribute.name == name {
+            if attribute.name == name {
                 if let Some(value) = &attribute.value {
-                    type_attribute_value = Some(value.clone());
+                    type_attribute_value = Some(value);
                 }
 
                 break;
@@ -1832,7 +1871,7 @@ impl Minifier<'_> {
                             span: Default::default(),
                             name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
                                 span: Default::default(),
-                                value: "media".into(),
+                                value: js_word!("media"),
                                 raw: None,
                             }),
                             prelude: Some(box swc_css_ast::AtRulePrelude::MediaPrelude(
@@ -1845,7 +1884,7 @@ impl Minifier<'_> {
                                 // it
                                 value: vec![swc_css_ast::ComponentValue::Str(swc_css_ast::Str {
                                     span: Default::default(),
-                                    value: "placeholder".into(),
+                                    value: js_word!("placeholder"),
                                     raw: None,
                                 })],
                             }),
@@ -1930,7 +1969,7 @@ impl Minifier<'_> {
                 // `template` element, because it can be used in any place in source code
                 context_element = Some(Element {
                     span: Default::default(),
-                    tag_name: "template".into(),
+                    tag_name: js_word!("template"),
                     namespace: Namespace::HTML,
                     attributes: vec![],
                     children: vec![],
@@ -2020,7 +2059,7 @@ impl VisitMut for Minifier<'_> {
     }
 
     fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
-        n.children = self.minify_children(&n.children);
+        n.children = self.minify_children(&mut n.children);
 
         n.visit_mut_children_with(self);
     }
@@ -2032,7 +2071,7 @@ impl VisitMut for Minifier<'_> {
             return;
         }
 
-        n.name = Some("html".into());
+        n.name = Some(js_word!("html"));
         n.system_id = None;
         n.public_id = None;
     }
@@ -2075,7 +2114,7 @@ impl VisitMut for Minifier<'_> {
             self.descendant_of_pre = get_white_space(n.namespace, &n.tag_name) == WhiteSpace::Pre;
         }
 
-        n.children = self.minify_children(&n.children);
+        n.children = self.minify_children(&mut n.children);
 
         n.visit_mut_children_with(self);
 
@@ -2142,191 +2181,219 @@ impl VisitMut for Minifier<'_> {
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
         n.visit_mut_children_with(self);
 
-        if n.value.is_none() {
-            return;
-        }
-
-        let mut value = match &n.value {
-            Some(value) => value.to_string(),
-            _ => {
-                unreachable!();
-            }
-        };
-
-        if value.is_empty() {
-            return;
-        }
-
-        let current_element = self.current_element.as_ref().unwrap();
-
-        if self.options.collapse_boolean_attributes
-            && current_element.namespace == Namespace::HTML
-            && self.is_boolean_attribute(current_element, &n.name)
-        {
-            n.value = None;
-
-            return;
-        } else if self.options.normalize_attributes {
-            if self.is_space_separated_attribute(current_element, &n.name) {
-                value = value.split_whitespace().collect::<Vec<_>>().join(" ");
-            } else if self.is_comma_separated_attribute(current_element, &n.name) {
-                value = value
-                    .split(',')
-                    .map(|value| {
-                        if matches!(&*n.name, "sizes" | "imagesizes") {
-                            let trimmed = value.trim();
-
-                            match self.minify_sizes(trimmed) {
-                                Some(minified) => minified,
-                                _ => trimmed.to_string(),
-                            }
-                        } else if matches!(&*n.name, "points") {
-                            self.collapse_whitespace(value.trim())
-                        } else {
-                            value.trim().to_string()
-                        }
-                    })
-                    .collect::<Vec<_>>()
-                    .join(",");
-            } else if self.is_trimable_separated_attribute(current_element, &n.name) {
-                value = value.trim().to_string();
-            } else if self.is_semicolon_separated_attribute(current_element, &n.name) {
-                value = value
-                    .split(';')
-                    .map(|value| self.collapse_whitespace(value.trim()))
-                    .collect::<Vec<_>>()
-                    .join(";");
-            } else if current_element.namespace == Namespace::HTML
-                && &n.name == "contenteditable"
-                && value == "true"
-            {
-                n.value = Some(js_word!(""));
-
+        if let Some(value) = &n.value {
+            if value.is_empty() {
                 return;
-            } else if &n.name == "content"
-                && self.element_has_attribute_with_value(
-                    current_element,
-                    "http-equiv",
-                    &["content-security-policy"],
-                )
-            {
-                let values = value.trim().split(';');
+            }
 
-                let mut new_values = vec![];
+            let current_element = self.current_element.as_ref().unwrap();
 
-                for value in values {
-                    new_values.push(
+            match (
+                current_element.namespace,
+                &current_element.tag_name,
+                &n.name,
+            ) {
+                (Namespace::HTML, &js_word!("iframe"), &js_word!("srcdoc")) => {
+                    if let Some(minified) = self.minify_html(
+                        value.to_string(),
+                        HtmlMinificationMode::DocumentIframeSrcdoc,
+                    ) {
+                        n.value = Some(minified.into());
+                    };
+                }
+                (
+                    Namespace::HTML | Namespace::SVG,
+                    &js_word!("style")
+                    | &js_word!("link")
+                    | &js_word!("script")
+                    | &js_word!("input"),
+                    &js_word!("type"),
+                ) if self.options.normalize_attributes => {
+                    n.value = Some(value.trim().to_ascii_lowercase().into());
+                }
+                _ if self.options.collapse_boolean_attributes
+                    && current_element.namespace == Namespace::HTML
+                    && self.is_boolean_attribute(current_element, &n.name) =>
+                {
+                    n.value = None;
+                }
+                _ if self.is_event_handler_attribute(&n.name) => {
+                    let mut value = value.to_string();
+
+                    if self.options.normalize_attributes {
+                        value = value.trim().into();
+
+                        if value.trim().to_lowercase().starts_with("javascript:") {
+                            value = value.chars().skip(11).collect();
+                        }
+                    }
+
+                    if self.need_minify_js() {
+                        if let Some(minified) = self.minify_js(value, false, true) {
+                            n.value = Some(minified.into());
+                        };
+                    } else {
+                        n.value = Some(value.into());
+                    }
+                }
+                _ if self.options.normalize_attributes
+                    && current_element.namespace == Namespace::HTML
+                    && n.name == js_word!("contenteditable")
+                    && n.value == Some(js_word!("true")) =>
+                {
+                    n.value = Some(js_word!(""));
+                }
+                _ if self.options.normalize_attributes
+                    && self.is_semicolon_separated_attribute(current_element, &n.name) =>
+                {
+                    n.value = Some(
                         value
-                            .trim()
-                            .split(' ')
-                            .filter(|s| !s.is_empty())
+                            .split(';')
+                            .map(|value| self.collapse_whitespace(value.trim()))
                             .collect::<Vec<_>>()
-                            .join(" "),
+                            .join(";")
+                            .into(),
                     );
                 }
-
-                value = new_values.join(";");
-
-                if value.ends_with(';') {
-                    value.pop();
-                }
-            } else if self.is_event_handler_attribute(&n.name) {
-                value = value.trim().into();
-
-                if value.trim().to_lowercase().starts_with("javascript:") {
-                    value = value.chars().skip(11).collect();
-                }
-            } else if current_element.namespace == Namespace::HTML
-                && current_element.tag_name == js_word!("iframe")
-                && &n.name == "srcdoc"
-            {
-                value = match self
-                    .minify_html(value.clone(), HtmlMinificationMode::DocumentIframeSrcdoc)
+                _ if self.options.normalize_attributes
+                    && n.name == js_word!("content")
+                    && self.element_has_attribute_with_value(
+                        current_element,
+                        &js_word!("http-equiv"),
+                        &[js_word!("content-security-policy")],
+                    ) =>
                 {
-                    Some(minified) => minified,
-                    _ => value,
-                };
-            } else if matches!(current_element.namespace, Namespace::HTML | Namespace::SVG)
-                && matches!(
-                    current_element.tag_name,
-                    js_word!("style") | js_word!("link") | js_word!("script") | js_word!("input")
-                )
-                && &n.name == "type"
-            {
-                value = value.trim().to_ascii_lowercase();
-            }
-        }
+                    let mut new_values = vec![];
 
-        if self.options.sort_space_separated_attribute_values
-            && self.is_attribute_value_unordered_set(current_element, &n.name)
-        {
-            let mut values = value.split_whitespace().collect::<Vec<_>>();
+                    for value in value.trim().split(';') {
+                        new_values.push(
+                            value
+                                .trim()
+                                .split(' ')
+                                .filter(|s| !s.is_empty())
+                                .collect::<Vec<_>>()
+                                .join(" "),
+                        );
+                    }
 
-            values.sort_unstable();
+                    let mut value = new_values.join(";");
 
-            value = values.join(" ");
-        } else if self.is_event_handler_attribute(&n.name) {
-            value = match self.minify_js(value.clone(), false, true) {
-                Some(minified) => minified,
-                _ => value,
-            };
-        } else if self.need_minify_css() && n.name == js_word!("media") && !value.is_empty() {
-            if let Some(minified) =
-                self.minify_css(value.clone(), CssMinificationMode::MediaQueryList)
-            {
-                value = minified;
-            }
-        } else if self.need_minify_css() && n.name == js_word!("style") && !value.is_empty() {
-            if let Some(minified) =
-                self.minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
-            {
-                value = minified;
-            }
-        }
+                    if value.ends_with(';') {
+                        value.pop();
+                    }
 
-        if self.options.minify_additional_attributes.is_some() {
-            let minifier_type = self.is_additional_minifier_attribute(&n.name);
-
-            match minifier_type {
-                Some(MinifierType::JsScript) if self.need_minify_js() => {
-                    value = match self.minify_js(value.clone(), false, true) {
-                        Some(minified) => minified,
-                        _ => value,
-                    };
+                    n.value = Some(value.into());
                 }
-                Some(MinifierType::JsModule) if self.need_minify_js() => {
-                    value = match self.minify_js(value.clone(), true, true) {
-                        Some(minified) => minified,
-                        _ => value,
-                    };
+                _ if self.options.sort_space_separated_attribute_values
+                    && self.is_attribute_value_unordered_set(current_element, &n.name) =>
+                {
+                    let mut values = value.split_whitespace().collect::<Vec<_>>();
+
+                    values.sort_unstable();
+
+                    n.value = Some(values.join(" ").into());
                 }
-                Some(MinifierType::Json) if self.need_minify_json() => {
-                    value = match self.minify_json(value.clone()) {
-                        Some(minified) => minified,
-                        _ => value,
-                    };
+                _ if self.options.normalize_attributes
+                    && self.is_space_separated_attribute(current_element, &n.name) =>
+                {
+                    n.value = Some(
+                        value
+                            .split_whitespace()
+                            .collect::<Vec<_>>()
+                            .join(" ")
+                            .into(),
+                    );
                 }
-                Some(MinifierType::Css) if self.need_minify_css() => {
-                    value = match self
-                        .minify_css(value.clone(), CssMinificationMode::ListOfDeclarations)
-                    {
-                        Some(minified) => minified,
-                        _ => value,
-                    };
+                _ if self.is_comma_separated_attribute(current_element, &n.name) => {
+                    let mut value = value.to_string();
+
+                    if self.options.normalize_attributes {
+                        value = value
+                            .split(',')
+                            .map(|value| {
+                                if matches!(n.name, js_word!("sizes") | js_word!("imagesizes")) {
+                                    let trimmed = value.trim();
+
+                                    match self.minify_sizes(trimmed) {
+                                        Some(minified) => minified,
+                                        _ => trimmed.to_string(),
+                                    }
+                                } else if matches!(n.name, js_word!("points")) {
+                                    self.collapse_whitespace(value.trim())
+                                } else {
+                                    value.trim().to_string()
+                                }
+                            })
+                            .collect::<Vec<_>>()
+                            .join(",");
+                    }
+
+                    if self.need_minify_css() && n.name == js_word!("media") && !value.is_empty() {
+                        if let Some(minified) =
+                            self.minify_css(value, CssMinificationMode::MediaQueryList)
+                        {
+                            n.value = Some(minified.into());
+                        }
+                    } else {
+                        n.value = Some(value.into());
+                    }
                 }
-                Some(MinifierType::Html) => {
-                    value = match self
-                        .minify_html(value.clone(), HtmlMinificationMode::DocumentIframeSrcdoc)
-                    {
-                        Some(minified) => minified,
-                        _ => value,
-                    };
+                _ if self.is_trimable_separated_attribute(current_element, &n.name) => {
+                    let mut value = value.to_string();
+
+                    if self.options.normalize_attributes {
+                        value = value.trim().to_string();
+                    }
+
+                    if self.need_minify_css() && n.name == js_word!("style") && !value.is_empty() {
+                        if let Some(minified) =
+                            self.minify_css(value, CssMinificationMode::ListOfDeclarations)
+                        {
+                            n.value = Some(minified.into());
+                        }
+                    } else {
+                        n.value = Some(value.into());
+                    }
+                }
+                _ if self.options.minify_additional_attributes.is_some() => {
+                    match self.is_additional_minifier_attribute(&n.name) {
+                        Some(MinifierType::JsScript) if self.need_minify_js() => {
+                            if let Some(minified) = self.minify_js(value.to_string(), false, true) {
+                                n.value = Some(minified.into());
+                            }
+                        }
+                        Some(MinifierType::JsModule) if self.need_minify_js() => {
+                            if let Some(minified) = self.minify_js(value.to_string(), true, true) {
+                                n.value = Some(minified.into());
+                            }
+                        }
+                        Some(MinifierType::Json) if self.need_minify_json() => {
+                            if let Some(minified) = self.minify_json(value.to_string()) {
+                                n.value = Some(minified.into());
+                            }
+                        }
+                        Some(MinifierType::Css) if self.need_minify_css() => {
+                            if let Some(minified) = self.minify_css(
+                                value.to_string(),
+                                CssMinificationMode::ListOfDeclarations,
+                            ) {
+                                n.value = Some(minified.into());
+                            }
+                        }
+                        Some(MinifierType::Html) => {
+                            if let Some(minified) = self.minify_html(
+                                value.to_string(),
+                                HtmlMinificationMode::DocumentIframeSrcdoc,
+                            ) {
+                                n.value = Some(minified.into());
+                            };
+                        }
+                        _ => {}
+                    }
                 }
                 _ => {}
             }
         }
-
-        n.value = Some(value.into());
     }
 
     fn visit_mut_text(&mut self, n: &mut Text) {
@@ -2339,8 +2406,8 @@ impl VisitMut for Minifier<'_> {
         let mut text_type = None;
 
         if let Some(current_element) = &self.current_element {
-            match &*current_element.tag_name {
-                "script"
+            match current_element.tag_name {
+                js_word!("script")
                     if (self.need_minify_json() || self.need_minify_js())
                         && matches!(
                             current_element.namespace,
@@ -2349,23 +2416,23 @@ impl VisitMut for Minifier<'_> {
                         && !current_element
                             .attributes
                             .iter()
-                            .any(|attribute| matches!(&*attribute.name, "src")) =>
+                            .any(|attribute| matches!(attribute.name, js_word!("src"))) =>
                 {
-                    let type_attribute_value = self
-                        .get_attribute_value(&current_element.attributes, "type")
-                        .map(|v| v.trim().to_ascii_lowercase());
+                    let type_attribute_value: Option<JsWord> = self
+                        .get_attribute_value(&current_element.attributes, js_word!("type"))
+                        .map(|v| v.to_ascii_lowercase().trim().into());
 
-                    match type_attribute_value.as_deref() {
-                        Some("module") if self.need_minify_js() => {
+                    match type_attribute_value {
+                        Some(js_word!("module")) if self.need_minify_js() => {
                             text_type = Some(MinifierType::JsModule);
                         }
                         Some(
-                            "text/javascript"
-                            | "text/ecmascript"
-                            | "text/jscript"
-                            | "application/javascript"
-                            | "application/x-javascript"
-                            | "application/ecmascript",
+                            js_word!("text/javascript")
+                            | js_word!("text/ecmascript")
+                            | js_word!("text/jscript")
+                            | js_word!("application/javascript")
+                            | js_word!("application/x-javascript")
+                            | js_word!("application/ecmascript"),
                         )
                         | None
                             if self.need_minify_js() =>
@@ -2373,10 +2440,10 @@ impl VisitMut for Minifier<'_> {
                             text_type = Some(MinifierType::JsScript);
                         }
                         Some(
-                            "application/json"
-                            | "application/ld+json"
-                            | "importmap"
-                            | "speculationrules",
+                            js_word!("application/json")
+                            | js_word!("application/ld+json")
+                            | js_word!("importmap")
+                            | js_word!("speculationrules"),
                         ) if self.need_minify_json() => {
                             text_type = Some(MinifierType::Json);
                         }
@@ -2384,7 +2451,7 @@ impl VisitMut for Minifier<'_> {
                             if self.options.minify_additional_scripts_content.is_some() =>
                         {
                             if let Some(minifier_type) =
-                                self.is_additional_scripts_content(script_type)
+                                self.is_additional_scripts_content(&script_type)
                             {
                                 text_type = Some(minifier_type);
                             }
@@ -2392,7 +2459,7 @@ impl VisitMut for Minifier<'_> {
                         _ => {}
                     }
                 }
-                "style"
+                js_word!("style")
                     if self.need_minify_css()
                         && matches!(
                             current_element.namespace,
@@ -2402,7 +2469,7 @@ impl VisitMut for Minifier<'_> {
                     let mut type_attribute_value = None;
 
                     for attribute in &current_element.attributes {
-                        if &*attribute.name == "type" && attribute.value.is_some() {
+                        if attribute.name == js_word!("type") && attribute.value.is_some() {
                             type_attribute_value = Some(
                                 attribute
                                     .value
@@ -2422,7 +2489,7 @@ impl VisitMut for Minifier<'_> {
                         text_type = Some(MinifierType::Css)
                     }
                 }
-                "title" if current_element.namespace == Namespace::HTML => {
+                js_word!("title") if current_element.namespace == Namespace::HTML => {
                     n.data = self.collapse_whitespace(&n.data).trim().into();
                 }
                 _ => {}
