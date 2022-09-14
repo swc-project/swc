@@ -626,11 +626,11 @@
                             b: parseIntFromHex(match[3] + match[3]),
                             format: named ? "name" : "hex"
                         };
-                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (rgb = (r = color2.r, g = color2.g, b = color2.b, {
+                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (r = color2.r, g = color2.g, b = color2.b, rgb = {
                         r: 255 * bound01(r, 255),
                         g: 255 * bound01(g, 255),
                         b: 255 * bound01(b, 255)
-                    }), ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), rgb = (h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r1 = [
+                    }, ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r1 = [
                         v,
                         q,
                         p,
@@ -644,7 +644,7 @@
                         q,
                         p,
                         p
-                    ][mod], {
+                    ][mod], rgb = {
                         r: 255 * r1,
                         g: 255 * g1,
                         b: 255 * [
@@ -655,7 +655,7 @@
                             v,
                             q
                         ][mod]
-                    }), ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
+                    }, ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
                         if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
                         else {
                             var r, g, b, q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;

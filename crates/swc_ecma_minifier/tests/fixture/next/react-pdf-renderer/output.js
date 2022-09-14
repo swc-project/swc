@@ -1978,10 +1978,10 @@
                 var t, r, n, i, o, a = (null === (i = e.props) || void 0 === i ? void 0 : i.size) || "A4", u = parseFloat((null === (o = e.props) || void 0 === o ? void 0 : o.dpi) || 72), l = typeof a, s = a;
                 return "string" === l ? s = e7(e6[a.toUpperCase()]) : Array.isArray(a) ? s = e7(a) : "number" === l && (s = e7([
                     a
-                ])), s = (t = s, r = u / 72, {
+                ])), t = s, r = u / 72, s = {
                     width: t.width ? t.width * r : t.width,
                     height: t.height ? t.height * r : t.height
-                }), "landscape" === e8(e) ? {
+                }, "landscape" === e8(e) ? {
                     width: (n = s).height,
                     height: n.width
                 } : s;
@@ -21126,13 +21126,13 @@
                                     t.ended = !0, t.sync ? C(e) : (t.needReadable = !1, t.emittedReadable || (t.emittedReadable = !0, P(e)));
                                 }
                             }(e, d);
-                            else if (i || (c = (o = t, u.isBuffer(o) || o instanceof l || "string" == typeof o || void 0 === o || d.objectMode || (a = new m("chunk", [
+                            else if (i || (o = t, u.isBuffer(o) || o instanceof l || "string" == typeof o || void 0 === o || d.objectMode || (a = new m("chunk", [
                                 "string",
                                 "Buffer",
                                 "Uint8Array"
-                            ], o)), a)), c) _(e, c);
+                            ], o)), c = a), c) _(e, c);
                             else if (d.objectMode || t && t.length > 0) {
-                                if ("string" == typeof t || d.objectMode || Object.getPrototypeOf(t) === u.prototype || (t = (s = t, u.from(s))), n) d.endEmitted ? _(e, new E()) : T(e, d, t, !0);
+                                if ("string" == typeof t || d.objectMode || Object.getPrototypeOf(t) === u.prototype || (s = t, t = u.from(s)), n) d.endEmitted ? _(e, new E()) : T(e, d, t, !0);
                                 else if (d.ended) _(e, new D());
                                 else {
                                     if (d.destroyed) return !1;
@@ -21524,7 +21524,7 @@
                             _(this, new b());
                         }, A.prototype.write = function(e, t, r) {
                             var i, o, a, u, l, s, d, p = this._writableState, h = !1, g = !p.objectMode && (d = e, c.isBuffer(d) || d instanceof f);
-                            return g && !c.isBuffer(e) && (e = (i = e, c.from(i))), ("function" == typeof t && (r = t, t = null), g ? t = "buffer" : t || (t = p.defaultEncoding), "function" != typeof r && (r = x), p.ending) ? (o = r, _(this, a = new w()), n.nextTick(o, a)) : (g || (u = e, l = r, null === u ? s = new D() : "string" == typeof u || p.objectMode || (s = new y("chunk", [
+                            return g && !c.isBuffer(e) && (i = e, e = c.from(i)), ("function" == typeof t && (r = t, t = null), g ? t = "buffer" : t || (t = p.defaultEncoding), "function" != typeof r && (r = x), p.ending) ? (o = r, _(this, a = new w()), n.nextTick(o, a)) : (g || (u = e, l = r, null === u ? s = new D() : "string" == typeof u || p.objectMode || (s = new y("chunk", [
                                 "string",
                                 "Buffer"
                             ], u)), !s || (_(this, s), n.nextTick(l, s), 0))) && (p.pendingcb++, h = function(e, t, r, n, i, o) {
@@ -21891,13 +21891,13 @@
                         function i() {}
                         e.exports = function e(t, r, o) {
                             if ("function" == typeof r) return e(t, null, r);
-                            r || (r = {}), o = (a = o || i, u = !1, function() {
+                            r || (r = {}), a = o || i, u = !1, o = function() {
                                 if (!u) {
                                     u = !0;
                                     for(var e = arguments.length, t = Array(e), r = 0; r < e; r++)t[r] = arguments[r];
                                     a.apply(this, t);
                                 }
-                            });
+                            };
                             var a, u, l = r.readable || !1 !== r.readable && t.readable, s = r.writable || !1 !== r.writable && t.writable, c = function() {
                                 t.writable || d();
                             }, f = t._writableState && t._writableState.finished, d = function() {
@@ -21972,14 +21972,14 @@
                             }
                             function f() {
                                 var e;
-                                return (f = (e = function*() {
+                                return e = function*() {
                                     try {
                                         var e = yield u.next(), t = e.value;
                                         e.done ? l.push(null) : l.push((yield t)) ? c() : s = !1;
                                     } catch (r) {
                                         l.destroy(r);
                                     }
-                                }, function() {
+                                }, (f = function() {
                                     var t = this, r = arguments;
                                     return new Promise(function(i, o) {
                                         var a = e.apply(t, r);
@@ -21991,7 +21991,7 @@
                                         }
                                         u(void 0);
                                     });
-                                })).apply(this, arguments);
+                                }).apply(this, arguments);
                             }
                             return l._read = function() {
                                 s || (s = !0, c());
@@ -22016,11 +22016,11 @@
                             if (Array.isArray(i[0]) && (i = i[0]), i.length < 2) throw new o("streams");
                             var p = i.map(function(t, o) {
                                 var u, s, c, f, h, y, g = o < i.length - 1;
-                                return u = o > 0, s = (c = s = function(t) {
+                                return u = o > 0, c = s = function(t) {
                                     e || (e = t), t && p.forEach(l), g || (p.forEach(l), d(e));
-                                }, f = !1, function() {
+                                }, f = !1, s = function() {
                                     f || (f = !0, c.apply(void 0, arguments));
-                                }), h = !1, t.on("close", function() {
+                                }, h = !1, t.on("close", function() {
                                     h = !0;
                                 }), void 0 === n && (n = r(494)), n(t, {
                                     readable: g,
@@ -27996,10 +27996,10 @@
                                     for(r = t; r.parent;)r = r.parent;
                                     return r._startOffset || 0;
                             }
-                        }).call(this), this.options.relativeTo && (u += this.relativeToGetter(t)), a = o + u, null == this.type) ? a : (l = null, n = (s = this, function() {
+                        }).call(this), this.options.relativeTo && (u += this.relativeToGetter(t)), a = o + u, null == this.type) ? a : (l = null, s = this, n = function() {
                             var r;
                             return null != l || (r = e.pos, e.pos = a, l = s.type.decode(e, t), e.pos = r), l;
-                        }), this.options.lazy) ? new i.PropertyDescriptor({
+                        }, this.options.lazy) ? new i.PropertyDescriptor({
                             get: n
                         }) : n();
                     }, e.prototype.size = function(e, t) {

@@ -78,12 +78,12 @@
                     } else node = {}, _this3.options.attrkey in obj && (node[_this3.options.attrkey] = obj[_this3.options.attrkey], delete obj[_this3.options.attrkey]), !_this3.options.charsAsChildren && _this3.options.charkey in obj && (node[_this3.options.charkey] = obj[_this3.options.charkey], delete obj[_this3.options.charkey]), Object.getOwnPropertyNames(obj).length > 0 && (node[_this3.options.childkey] = obj), obj = node;
                 }
                 return stack.length > 0 ? _this3.assignOrPush(s, nodeName, obj) : (_this3.options.explicitRoot && (old = obj, (obj = {})[nodeName] = old), _this3.resultObject = obj, _this3.saxParser.ended = !0, _this3.emit("end", _this3.resultObject));
-            }), ontext = (_this4 = this, function(text) {
+            }), _this4 = this, ontext = function(text) {
                 var charChild, s;
                 if (s = stack[stack.length - 1]) return s[charkey] += text, _this4.options.explicitChildren && _this4.options.preserveChildrenOrder && _this4.options.charsAsChildren && (_this4.options.includeWhiteChars || "" !== text.replace(/\\n/g, "").trim()) && (s[_this4.options.childkey] = s[_this4.options.childkey] || [], (charChild = {
                     "#name": "__text__"
                 })[charkey] = text, _this4.options.normalize && (charChild[charkey] = charChild[charkey].replace(/\s{2,}/g, " ").trim()), s[_this4.options.childkey].push(charChild)), s;
-            }), this.saxParser.ontext = ontext, this.saxParser.oncdata = function(text) {
+            }, this.saxParser.ontext = ontext, this.saxParser.oncdata = function(text) {
                 var s;
                 if (s = ontext(text)) return s.cdata = !0;
             };

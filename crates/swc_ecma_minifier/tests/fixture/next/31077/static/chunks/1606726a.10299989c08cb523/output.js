@@ -1616,10 +1616,10 @@
             editHandlers.keydown = function(view, event) {
                 if (view.shiftKey = 16 == event.keyCode || event.shiftKey, !inOrNearComposition(view, event)) {
                     if (229 != event.keyCode && view.domObserver.forceFlush(), view.lastKeyCode = event.keyCode, view.lastKeyCodeTime = Date.now(), !result.ios || 13 != event.keyCode || event.ctrlKey || event.altKey || event.metaKey) {
-                        var result1, code, mods;
+                        var result1, code;
                         view.someProp("handleKeyDown", function(f) {
                             return f(view, event);
-                        }) || (code = event.keyCode, mods = (result1 = "", event.ctrlKey && (result1 += "c"), event.metaKey && (result1 += "m"), event.altKey && (result1 += "a"), event.shiftKey && (result1 += "s"), result1), 8 == code || result.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view, -1) || skipIgnoredNodesLeft(view) : 46 == code || result.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view, 1) || skipIgnoredNodesRight(view) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view, -1, mods) || skipIgnoredNodesLeft(view) : 39 == code ? selectHorizontally(view, 1, mods) || skipIgnoredNodesRight(view) : 38 == code ? selectVertically(view, -1, mods) || skipIgnoredNodesLeft(view) : 40 == code ? function(view) {
+                        }) || (code = event.keyCode, result1 = "", event.ctrlKey && (result1 += "c"), event.metaKey && (result1 += "m"), event.altKey && (result1 += "a"), event.shiftKey && (result1 += "s"), 8 == code || result.mac && 72 == code && "c" == result1 ? stopNativeHorizontalDelete(view, -1) || skipIgnoredNodesLeft(view) : 46 == code || result.mac && 68 == code && "c" == result1 ? stopNativeHorizontalDelete(view, 1) || skipIgnoredNodesRight(view) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view, -1, result1) || skipIgnoredNodesLeft(view) : 39 == code ? selectHorizontally(view, 1, result1) || skipIgnoredNodesRight(view) : 38 == code ? selectVertically(view, -1, result1) || skipIgnoredNodesLeft(view) : 40 == code ? function(view) {
                             if (result.safari && !(view.state.selection.$head.parentOffset > 0)) {
                                 var ref = view.root.getSelection(), focusNode = ref.focusNode, focusOffset = ref.focusOffset;
                                 if (focusNode && 1 == focusNode.nodeType && 0 == focusOffset && focusNode.firstChild && "false" == focusNode.firstChild.contentEditable) {
@@ -1629,7 +1629,7 @@
                                     }, 20);
                                 }
                             }
-                        }(view) || selectVertically(view, 1, mods) || skipIgnoredNodesRight(view) : mods == (result.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view, "key");
+                        }(view) || selectVertically(view, 1, result1) || skipIgnoredNodesRight(view) : result1 == (result.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view, "key");
                     } else {
                         var now = Date.now();
                         view.lastIOSEnter = now, view.lastIOSEnterFallbackTimeout = setTimeout(function() {
@@ -2570,7 +2570,7 @@
                         }(view.dom, coords, box))) return null;
                     }
                     if (result.safari) for(var p = elt; node && p; p = parentNode(p))p.draggable && (node = offset = null);
-                    if (elt = (dom = elt, coords1 = coords, (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords1.left < dom.getBoundingClientRect().left ? parent : dom), node) {
+                    if (dom = elt, coords1 = coords, elt = (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords1.left < dom.getBoundingClientRect().left ? parent : dom, node) {
                         if (result.gecko && 1 == node.nodeType && (offset = Math.min(offset, node.childNodes.length)) < node.childNodes.length) {
                             var dom, coords1, parent, box$1, next = node.childNodes[offset];
                             "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords.left && box$1.bottom > coords.top && offset++;

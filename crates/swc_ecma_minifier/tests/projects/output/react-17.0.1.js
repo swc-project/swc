@@ -290,7 +290,7 @@
                     null != childKey && (escapedChildKey = escapeUserProvidedKey(childKey) + "/"), mapIntoArray(mappedChild, array, escapedChildKey, "", function(c) {
                         return c;
                     });
-                } else null != mappedChild && (isValidElement(mappedChild) && (mappedChild = (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey, ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props))), array.push(mappedChild));
+                } else null != mappedChild && (isValidElement(mappedChild) && (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey, mappedChild = ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props)), array.push(mappedChild));
                 return 1;
             }
             var subtreeCount = 0, nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";

@@ -430,63 +430,40 @@ where
     /// Lift sequence expressions in an assign expression.
     ///
     /// - `(a = (f, 4)) => (f, a = 4)`
-    pub(super) fn lift_seqs_of_assign(&mut self, e: &mut SeqExpr) {
+    pub(super) fn lift_seqs_of_assign(&mut self, e: &mut Expr) {
         if !self.options.sequences() {
             return;
         }
 
+        if let Expr::Assign(AssignExpr {
+            op: op!("="),
+            left,
+            right,
+            span,
+        }) = e
         {
-            let can_work = e.exprs.iter().any(|e| {
-                if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = &**e {
-                    if let Expr::Seq(right) = &*assign.right {
-                        if right.exprs.len() >= 2
-                            && right.exprs[..right.exprs.len() - 1]
-                                .iter()
-                                .all(|e| !e.may_have_side_effects(&self.expr_ctx))
-                        {
-                            return true;
-                        }
-                    }
+            if let (Some(id), Expr::Seq(seq)) = (left.as_ident(), &mut **right) {
+                if id.span.ctxt == self.expr_ctx.unresolved_ctxt {
+                    return;
+                }
+                // Do we really need this?
+                if seq.exprs.is_empty() || seq.exprs.len() <= 1 {
+                    return;
+                }
+                report_change!("sequences: Lifting Assign");
+                self.changed = true;
+                if let Some(last) = seq.exprs.last_mut() {
+                    **last = Expr::Assign(AssignExpr {
+                        span: *span,
+                        op: op!("="),
+                        left: left.take(),
+                        right: last.take(),
+                    })
                 }
 
-                false
-            });
-
-            if !can_work {
-                return;
+                *e = *right.take()
             }
-            report_change!("sequences: Lifting");
-            self.changed = true;
         }
-
-        let mut new_exprs = Vec::with_capacity(e.exprs.len() * 12 / 10);
-
-        for expr in e.exprs.take() {
-            if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = *expr {
-                match *assign.right {
-                    Expr::Seq(mut right)
-                        if right.exprs[..right.exprs.len() - 1]
-                            .iter()
-                            .all(|e| !e.may_have_side_effects(&self.expr_ctx)) =>
-                    {
-                        new_exprs.extend(right.exprs.drain(..right.exprs.len() - 1));
-                        new_exprs.push(Box::new(Expr::Assign(AssignExpr {
-                            right: right.exprs.pop().unwrap(),
-                            ..assign
-                        })));
-                        continue;
-                    }
-                    _ => {
-                        new_exprs.push(Box::new(Expr::Assign(assign)));
-                        continue;
-                    }
-                }
-            }
-
-            new_exprs.push(expr);
-        }
-
-        e.exprs = new_exprs;
     }
 
     #[allow(unused)]

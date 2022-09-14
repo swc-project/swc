@@ -4222,7 +4222,7 @@
                                                     k = (f = f.replace(fa, "$1 $2")) + "{" + k + "}", k = 1 === w || 2 === w && L("@" + k, 3) ? "@-webkit-" + k + "@" + k : "@" + k;
                                                     break;
                                                 default:
-                                                    k = f + k, 112 === h && (k = (p += k, ""));
+                                                    k = f + k, 112 === h && (p += k, k = "");
                                             }
                                             else k = "";
                                         } else k = M(c, X(c, f, I), k, h, a + 1);

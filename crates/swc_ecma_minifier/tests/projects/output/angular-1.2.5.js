@@ -580,7 +580,7 @@
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
             var element1, events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", handle = (events = events1, (eventHandler = function(event, type) {
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -596,7 +596,7 @@
                 }, forEach(events[type || event.type], function(fn) {
                     fn.call(element, event);
                 }), msie <= 8 ? (event.preventDefault = null, event.stopPropagation = null, event.isDefaultPrevented = null) : (delete event.preventDefault, delete event.stopPropagation, delete event.isDefaultPrevented);
-            }).elem = element, eventHandler)), forEach(type.split(" "), function(type) {
+            }).elem = element, handle = eventHandler)), forEach(type.split(" "), function(type) {
                 var eventFns = events1[type];
                 if (!eventFns) {
                     if ("mouseenter" == type || "mouseleave" == type) {
@@ -839,9 +839,9 @@
                 var document1 = $window.document;
                 function scroll() {
                     var list, result, elm, hash = $location.hash();
-                    hash ? (elm = document1.getElementById(hash)) ? elm.scrollIntoView() : (elm = (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
+                    hash ? (elm = document1.getElementById(hash)) ? elm.scrollIntoView() : (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
                         result || "a" !== lowercase(element.nodeName) || (result = element);
-                    }), result)) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
+                    }), elm = result) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
                 }
                 return autoScrollingEnabled && $rootScope.$watch(function() {
                     return $location.hash();
@@ -1859,7 +1859,7 @@
         parseAbsoluteUrl(appBase, this, appBase), this.$$parse = function(url) {
             var path, url1, base, firstPathSegmentMatch, windowsFilePathExp, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
             if (!isString(withoutHashUrl)) throw $locationMinErr("ihshprfx", 'Invalid url "{0}", missing hash prefix "{1}".', url, hashPrefix);
-            parseAppUrl(withoutHashUrl, this, appBase), this.$$path = (path = this.$$path, url1 = withoutHashUrl, windowsFilePathExp = /^\/?.*?:(\/.*)/, (0 === url1.indexOf(appBase) && (url1 = url1.replace(appBase, "")), windowsFilePathExp.exec(url1)) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path), this.$$compose();
+            parseAppUrl(withoutHashUrl, this, appBase), this.$$path = (path = this.$$path, windowsFilePathExp = /^\/?.*?:(\/.*)/, (0 === (url1 = withoutHashUrl).indexOf(appBase) && (url1 = url1.replace(appBase, "")), windowsFilePathExp.exec(url1)) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path), this.$$compose();
         }, this.$$compose = function() {
             var search = toKeyValue(this.$$search), hash = this.$$hash ? "#" + encodeUriSegment(this.$$hash) : "";
             this.$$url = encodePath(this.$$path) + (search ? "?" + search : "") + hash, this.$$absUrl = appBase + (this.$$url ? hashPrefix + this.$$url : "");
@@ -3354,7 +3354,7 @@
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
             if (!isArray(array) || !sortPredicate) return array;
-            sortPredicate = (obj = sortPredicate = isArray(sortPredicate) ? sortPredicate : [
+            obj = sortPredicate = isArray(sortPredicate) ? sortPredicate : [
                 sortPredicate
             ], iterator = function(predicate) {
                 var descending = !1, get = predicate || identity;
@@ -3364,7 +3364,7 @@
                 }, descending);
             }, results = [], forEach(obj, function(value, index, list) {
                 results.push(iterator.call(void 0, value, index, list));
-            }), results);
+            }), sortPredicate = results;
             for(var obj, iterator, results, arrayCopy = [], i = 0; i < array.length; i++)arrayCopy.push(array[i]);
             return arrayCopy.sort(reverseComparator(function(o1, o2) {
                 for(var i = 0; i < sortPredicate.length; i++){

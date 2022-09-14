@@ -38,7 +38,7 @@
                 }) : obj[key] = value, obj;
             }
             __webpack_require__(6774);
-            var fn, _ref, initBranch = (_ref = (fn = _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+            var fn, _ref, initBranch = (fn = _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
                 return _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_ctx) {
                     for(;;)switch(_ctx.prev = _ctx.next){
                         case 0:
@@ -67,7 +67,7 @@
                             return _ctx.stop();
                     }
                 }, _callee);
-            }), function() {
+            }), _ref = function() {
                 var self1 = this, args = arguments;
                 return new Promise(function(resolve, reject) {
                     var gen = fn.apply(self1, args);
@@ -79,7 +79,7 @@
                     }
                     _next(void 0);
                 });
-            }), function() {
+            }, function() {
                 return _ref.apply(this, arguments);
             });
             __webpack_exports__.default = function(param) {
