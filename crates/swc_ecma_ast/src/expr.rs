@@ -1,7 +1,5 @@
 #![allow(clippy::vec_box)]
 use is_macro::Is;
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 use serde::{
     self,
     de::{self, MapAccess, Visitor},
@@ -546,11 +544,11 @@ impl From<Class> for ClassExpr {
 
 #[derive(Spanned, Clone, Debug, PartialEq, Serialize)]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    feature = "rkyv",
     archive(bound(
         serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
@@ -908,7 +906,7 @@ pub struct MetaPropExpr {
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub enum MetaPropKind {
@@ -1088,11 +1086,11 @@ impl Take for Import {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    feature = "rkyv",
     archive(bound(
         serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
@@ -1101,11 +1099,11 @@ impl Take for Import {
 )]
 pub struct ExprOrSpread {
     #[serde(default)]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub spread: Option<Span>,
 
     #[serde(rename = "expression")]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub expr: Box<Expr>,
 }
 

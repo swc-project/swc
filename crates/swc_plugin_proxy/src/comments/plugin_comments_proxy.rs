@@ -1,12 +1,12 @@
-#[cfg(feature = "__plugin_mode")]
+#[cfg(feature = "plugin-mode")]
 use swc_common::{
     comments::{Comment, Comments},
     BytePos,
 };
-#[cfg(feature = "__plugin_mode")]
+#[cfg(feature = "plugin-mode")]
 use swc_trace_macro::swc_trace;
 
-#[cfg(feature = "__plugin_mode")]
+#[cfg(feature = "plugin-mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 use crate::memory_interop::read_returned_result_from_host;
 
@@ -36,11 +36,11 @@ extern "C" {
 /// This _does not_ derives serialization / deserialization for the
 /// Serialized::de/serialize interface. Instead, swc_plugin_macro injects an
 /// instance in plugin's runtime directly.
-#[cfg(feature = "__plugin_mode")]
+#[cfg(feature = "plugin-mode")]
 #[derive(Debug, Copy, Clone)]
 pub struct PluginCommentsProxy;
 
-#[cfg(feature = "__plugin_mode")]
+#[cfg(feature = "plugin-mode")]
 #[swc_trace]
 impl PluginCommentsProxy {
     /// Copy guest memory's struct into host via CommentHostEnvironment's
@@ -73,7 +73,7 @@ impl PluginCommentsProxy {
     }
 }
 
-#[cfg(feature = "__plugin_mode")]
+#[cfg(feature = "plugin-mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[swc_trace]
 impl Comments for PluginCommentsProxy {
