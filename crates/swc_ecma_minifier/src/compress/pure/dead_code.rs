@@ -259,7 +259,7 @@ impl Pure<'_> {
 
             if !decls.is_empty() {
                 new_stmts.push(
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    Stmt::Decl(Decl::Var(box VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls,
@@ -528,7 +528,7 @@ impl Pure<'_> {
                                         .collect();
                                 }
                                 if !var_ids.is_empty() {
-                                    new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                    new.push(T::from_stmt(Stmt::Decl(Decl::Var(box VarDecl {
                                         span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
                                         declare: Default::default(),
@@ -549,7 +549,7 @@ impl Pure<'_> {
                                     })
                                     .collect();
                                 if !var_ids.is_empty() {
-                                    new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                    new.push(T::from_stmt(Stmt::Decl(Decl::Var(box VarDecl {
                                         span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
                                         declare: Default::default(),

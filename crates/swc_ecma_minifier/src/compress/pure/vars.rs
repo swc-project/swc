@@ -38,7 +38,7 @@ impl Pure<'_> {
                             Stmt::For(ForStmt { init: None, .. }) => l.kind == VarDeclKind::Var,
                             Stmt::For(ForStmt {
                                 init:
-                                    Some(VarDeclOrExpr::VarDecl(VarDecl {
+                                    Some(VarDeclOrExpr::VarDecl(box VarDecl {
                                         kind: VarDeclKind::Var,
                                         ..
                                     })),
@@ -57,7 +57,7 @@ impl Pure<'_> {
         report_change!("join_vars: Joining variables");
         self.changed = true;
 
-        let mut cur: Option<VarDecl> = None;
+        let mut cur: Option<Box<VarDecl>> = None;
 
         let mut new: Vec<T> = Vec::with_capacity(stmts.len() * 2 + 1);
         stmts.take().into_iter().for_each(|stmt| {
@@ -81,7 +81,7 @@ impl Pure<'_> {
                         },
                         Stmt::For(mut stmt) => match &mut stmt.init {
                             Some(VarDeclOrExpr::VarDecl(
-                                var @ VarDecl {
+                                var @ box VarDecl {
                                     kind: VarDeclKind::Var,
                                     ..
                                 },

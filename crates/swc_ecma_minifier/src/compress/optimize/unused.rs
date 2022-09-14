@@ -66,7 +66,7 @@ where
                 }
                 // I don't know why, but terser preserves this
                 Expr::Fn(FnExpr {
-                    function: Function { is_async: true, .. },
+                    function: box Function { is_async: true, .. },
                     ..
                 }) => {}
                 _ => {
@@ -498,7 +498,7 @@ where
                     );
                     // This will remove the declaration.
                     let class = decl.take().class().unwrap();
-                    let mut side_effects = extract_class_side_effect(&self.expr_ctx, class.class);
+                    let mut side_effects = extract_class_side_effect(&self.expr_ctx, *class.class);
 
                     if !side_effects.is_empty() {
                         self.prepend_stmts.push(Stmt::Expr(ExprStmt {

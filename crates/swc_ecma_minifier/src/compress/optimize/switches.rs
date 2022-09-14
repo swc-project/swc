@@ -127,7 +127,7 @@ where
             let mut stmts = Vec::new();
 
             if !var_ids.is_empty() {
-                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                stmts.push(Stmt::Decl(Decl::Var(box VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
@@ -157,7 +157,7 @@ where
                 *s = Stmt::Block(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![
-                        Stmt::Decl(Decl::Var(VarDecl {
+                        Stmt::Decl(Decl::Var(box VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             declare: Default::default(),

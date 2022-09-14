@@ -636,7 +636,7 @@ where
 
             Expr::Class(cls) => {
                 let exprs: Vec<Box<Expr>> =
-                    extract_class_side_effect(&self.expr_ctx, box cls.class.take())
+                    extract_class_side_effect(&self.expr_ctx, *cls.class.take())
                         .into_iter()
                         .filter_map(|mut e| self.ignore_return_value(&mut e))
                         .map(Box::new)
@@ -1169,7 +1169,7 @@ where
             let orig = take(stmts);
             let mut new = Vec::with_capacity(orig.len());
 
-            let mut var_decl: Option<_> = None;
+            let mut var_decl: Option<Box<VarDecl>> = None;
 
             for stmt in orig {
                 match stmt {
@@ -1181,7 +1181,7 @@ where
                                 var_decl = Some(upper);
                             }
                             d => {
-                                new.extend(d.map(Box::new).map(Decl::Var).map(Stmt::Decl));
+                                new.extend(d.map(Decl::Var).map(Stmt::Decl));
                                 var_decl = Some(below);
                             }
                         }
@@ -1189,13 +1189,13 @@ where
                     _ => {
                         // If it's not a var decl,
 
-                        new.extend(var_decl.take().map(Box::new).map(Decl::Var).map(Stmt::Decl));
+                        new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
                         new.push(stmt);
                     }
                 }
             }
 
-            new.extend(var_decl.take().map(Box::new).map(Decl::Var).map(Stmt::Decl));
+            new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
 
             dump_change_detail!(
                 "[Change] merged: {}",
@@ -1249,7 +1249,7 @@ where
                     && bs.stmts.iter().all(|stmt| {
                         matches!(
                             stmt,
-                            Stmt::Decl(Decl::Var(VarDecl {
+                            Stmt::Decl(Decl::Var(box VarDecl {
                                 kind: VarDeclKind::Var,
                                 ..
                             }))
@@ -1856,7 +1856,7 @@ where
 
         self.functions
             .entry(f.ident.to_id())
-            .or_insert_with(|| FnMetadata::from(&f.function));
+            .or_insert_with(|| FnMetadata::from(&*f.function));
 
         if !self.options.keep_fargs && self.options.unused {
             self.drop_unused_params(&mut f.function.params);
@@ -1876,7 +1876,7 @@ where
         if let Some(ident) = &e.ident {
             self.functions
                 .entry(ident.to_id())
-                .or_insert_with(|| FnMetadata::from(&e.function));
+                .or_insert_with(|| FnMetadata::from(&*e.function));
         }
 
         if !self.options.keep_fnames {
@@ -2290,7 +2290,7 @@ where
         if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
             match s {
                 // We use var decl with no declarator to indicate we dropped an decl.
-                Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
+                Stmt::Decl(Decl::Var(box VarDecl { decls, .. })) if decls.is_empty() => {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
@@ -2412,7 +2412,7 @@ where
 
         match s {
             // We use var decl with no declarator to indicate we dropped an decl.
-            Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
+            Stmt::Decl(Decl::Var(box VarDecl { decls, .. })) if decls.is_empty() => {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }

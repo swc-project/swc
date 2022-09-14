@@ -135,7 +135,7 @@ impl Pure<'_> {
             {
                 *p = Prop::Method(MethodProp {
                     key: kv.key.take(),
-                    function: Function {
+                    function: box Function {
                         params: m
                             .params
                             .take()

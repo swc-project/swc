@@ -107,7 +107,7 @@ where
                                 | Stmt::ForOf(..) => true,
 
                                 Stmt::Decl(Decl::Var(
-                                    v @ VarDecl {
+                                    v @ box VarDecl {
                                         kind: VarDeclKind::Var,
                                         ..
                                     },
@@ -128,7 +128,7 @@ where
             if stmts.len() == 2 {
                 match stmts[1].as_stmt() {
                     Some(Stmt::Decl(Decl::Var(
-                        v @ VarDecl {
+                        v @ box VarDecl {
                             kind: VarDeclKind::Var,
                             ..
                         },
@@ -296,7 +296,7 @@ where
                         }
 
                         Stmt::Decl(Decl::Var(
-                            var @ VarDecl {
+                            var @ box VarDecl {
                                 kind: VarDeclKind::Var,
                                 ..
                             },
@@ -553,7 +553,7 @@ where
         Some(match s {
             Stmt::Expr(e) => vec![Mergable::Expr(&mut e.expr)],
             Stmt::Decl(Decl::Var(
-                v @ VarDecl {
+                v @ box VarDecl {
                     kind: VarDeclKind::Var | VarDeclKind::Let,
                     ..
                 },
