@@ -733,7 +733,7 @@ impl VisitMut for TreeShaker {
                 if let Expr::Fn(FnExpr {
                     ident: None,
                     function:
-                        Function {
+                        box Function {
                             is_async: false,
                             is_generator: false,
                             params,

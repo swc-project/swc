@@ -1076,7 +1076,7 @@ impl VisitMut for Remover {
 
                     let decl = s.body.extract_var_ids_as_var();
                     let body = if let Some(var) = decl {
-                        Stmt::Decl(Decl::Var(var))
+                        Stmt::Decl(Decl::Var(box var))
                     } else {
                         Stmt::Empty(EmptyStmt { span: s.span })
                     };
@@ -1159,7 +1159,7 @@ impl VisitMut for Remover {
                     }
                 }
 
-                Stmt::Decl(Decl::Var(v)) => {
+                Stmt::Decl(Decl::Var(box v)) => {
                     let decls = v.decls.move_flat_map(|v| {
                         if !is_literal(&v.init) {
                             return Some(v);
