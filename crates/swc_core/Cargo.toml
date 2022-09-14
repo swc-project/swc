@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.23.13"
+version       = "0.23.14"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
