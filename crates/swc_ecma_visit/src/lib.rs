@@ -495,6 +495,8 @@ macro_rules! noop_visit_mut_type {
 }
 
 define!({
+    use BigIntValue;
+
     pub struct Class {
         pub span: Span,
         pub decorators: Vec<Decorator>,
