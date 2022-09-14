@@ -1,7 +1,7 @@
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 var handleSubmit = useMutation(/*#__PURE__*/ _async_to_generator(function() {
-    var res, _tmp, param, errors;
+    var res, param, errors;
     return _ts_generator(this, function(_state) {
         switch(_state.label){
             case 0:
@@ -11,10 +11,11 @@ var handleSubmit = useMutation(/*#__PURE__*/ _async_to_generator(function() {
                     ,
                     3
                 ]);
-                _tmp = {};
                 return [
                     4,
-                    gate.register((_tmp.username = phoneNumber, _tmp))
+                    gate.register({
+                        username: phoneNumber
+                    })
                 ];
             case 1:
                 res = _state.sent();

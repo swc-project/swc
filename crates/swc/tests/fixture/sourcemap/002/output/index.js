@@ -9,16 +9,16 @@ export function getStaticProps() {
 }
 function _getStaticProps() {
     _getStaticProps = _async_to_generator(function() {
-        var _tmp;
         return _ts_generator(this, function(_state) {
-            _tmp = {};
             return [
                 2,
-                (_tmp.props = {
-                    data: {
-                        foo: "bar"
+                {
+                    props: {
+                        data: {
+                            foo: "bar"
+                        }
                     }
-                }, _tmp)
+                }
             ];
         });
     });

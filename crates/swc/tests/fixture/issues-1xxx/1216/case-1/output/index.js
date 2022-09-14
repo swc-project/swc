@@ -19,7 +19,7 @@ function _request() {
     return _request.apply(this, arguments);
 }
 _async_to_generator(function() {
-    var obj, _tmp, _tmp1;
+    var obj, _tmp;
     return _ts_generator(this, function(_state) {
         switch(_state.label){
             case 0:
@@ -42,8 +42,9 @@ _async_to_generator(function() {
                 _state.label = 3;
             case 3:
                 obj = _tmp;
-                _tmp1 = {};
-                console.log((_tmp1.obj = obj, _tmp1));
+                console.log({
+                    obj: obj
+                });
                 return [
                     2
                 ];

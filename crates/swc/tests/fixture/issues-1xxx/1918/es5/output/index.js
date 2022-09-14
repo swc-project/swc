@@ -7,7 +7,7 @@ var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").defau
 var _defineProperty = require("@swc/helpers/lib/_define_property.js").default;
 var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
 _asyncToGenerator(function() {
-    var counter, resolve, promise, iterable, _tmp, res, _i, _iter, v, oldresolve, _tmp1, _tmp2;
+    var counter, resolve, promise, iterable, res, _i, _iter, v, oldresolve;
     return _tsGenerator(this, function(_state) {
         switch(_state.label){
             case 0:
@@ -15,8 +15,7 @@ _asyncToGenerator(function() {
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                _tmp = {};
-                iterable = _defineProperty(_tmp, Symbol.asyncIterator, function() {
+                iterable = _defineProperty({}, Symbol.asyncIterator, function() {
                     return {
                         next: function next() {
                             return promise;
@@ -138,8 +137,10 @@ _asyncToGenerator(function() {
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                _tmp1 = {};
-                oldresolve((_tmp1.value = v, _tmp1.done = false, _tmp1));
+                oldresolve({
+                    value: v,
+                    done: false
+                });
                 _state.label = 3;
             case 3:
                 _i++;
@@ -148,8 +149,10 @@ _asyncToGenerator(function() {
                     1
                 ];
             case 4:
-                _tmp2 = {};
-                resolve((_tmp2.value = undefined, _tmp2.done = true, _tmp2));
+                resolve({
+                    value: undefined,
+                    done: true
+                });
                 return [
                     4,
                     res
