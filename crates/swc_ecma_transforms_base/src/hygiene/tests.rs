@@ -414,7 +414,7 @@ fn mark_root() {
                 tester.parse_stmt("actual1.js", "var foo = 'bar';")?,
                 Stmt::Decl(Decl::Fn(FnDecl {
                     ident: quote_ident!("Foo"),
-                    function: Function {
+                    function: box Function {
                         span: DUMMY_SP,
                         is_async: false,
                         is_generator: false,
@@ -501,7 +501,7 @@ fn fn_args() {
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
-                function: Function {
+                function: box Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
@@ -542,7 +542,7 @@ fn block_in_fn() {
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
-                function: Function {
+                function: box Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
@@ -595,7 +595,7 @@ fn flat_in_fn() {
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
-                function: Function {
+                function: box Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
@@ -637,7 +637,7 @@ fn params_in_fn() {
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
-                function: Function {
+                function: box Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,

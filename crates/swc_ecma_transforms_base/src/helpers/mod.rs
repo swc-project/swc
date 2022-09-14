@@ -84,7 +84,7 @@ macro_rules! add_import_to {
             $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                 span: DUMMY_SP,
                 specifiers: vec![s],
-                src,
+                src: box src,
                 asserts: Default::default(),
                 type_only: Default::default(),
             })))

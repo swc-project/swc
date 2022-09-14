@@ -48,7 +48,7 @@ impl Operator<'_> {
 
         let class_expr = ClassExpr {
             ident: Some(orig_name),
-            class: class.take(),
+            class: box class.take(),
         };
 
         Some(class_expr)
