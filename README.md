@@ -38,7 +38,9 @@ Also, SWC tries to ensure that
 
 > If you select the latest version of each crates, it will work
 
-for rust users. Without such guarantee, using SWC would be too hard as SWC is a large, modular project and typically you have to use many modules.
+for rust users.
+
+MSRV of crates named `swc_ecma_*` is the current stable, and nightly for others.
 
 ---
 
