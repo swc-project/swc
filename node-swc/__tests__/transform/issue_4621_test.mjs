@@ -21,19 +21,19 @@ it("should allow using tsx", async () => {
             target: "es5",
             parser: {
                 syntax: "typescript",
-                tsx: true
+                tsx: true,
             },
         },
     });
     expect(code).toMatchInlineSnapshot(`
-"import { jsx as _jsx } from \\"react/jsx-runtime\\";
-export default function foo() {
-    return /*#__PURE__*/ _jsx(\\"div\\", {
-        children: \\"Hello\\"
-    });
-};
-"
-`);
+        "import { jsx as _jsx } from \\"react/jsx-runtime\\";
+        export default function foo() {
+            return /*#__PURE__*/ _jsx(\\"div\\", {
+                children: \\"Hello\\"
+            });
+        }
+        "
+    `);
 });
 
 it("should respect .swcrc without parser option", async () => {
@@ -58,7 +58,7 @@ it("should respect .swcrc without parser option", async () => {
             return /*#__PURE__*/ _jsx(\\"div\\", {
                 children: \\"Hello\\"
             });
-        };
+        }
         "
     `);
 });

@@ -68,7 +68,7 @@ jobs:
               RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
               rm -rf target/release/.cargo-lock &&
               cp bindings/target/release/swc . && chmod +x ./swc &&
-              RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static -Z' yarn build &&
+              RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build &&
               llvm-strip -x swc.linux-x64-musl.node
           - host: macos-latest
             target: aarch64-apple-darwin
