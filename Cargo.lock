@@ -3314,7 +3314,6 @@ dependencies = [
  "is-macro",
  "num-bigint",
  "rkyv",
- "rkyv-test",
  "scoped-tls",
  "serde",
  "serde_json",
