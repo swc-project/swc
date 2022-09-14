@@ -10,6 +10,9 @@
 ### Miscellaneous Tasks
 - **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))
 
+### Refactor
+- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
+
 ## [1.3.1] - 2022-09-14
 
 ### Bug Fixes
