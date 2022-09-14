@@ -91,6 +91,12 @@
 
 - **(html/minifier)** Improve performance (#5838) ([ccd618c](https://github.com/swc-project/swc/commit/ccd618ce54cc21dbdeecd766f91816b395629678))
 
+### Refactor
+
+
+
+- **(es/ast)** Apply rkyv-bytecheck flag (#5798) ([37f42df](https://github.com/swc-project/swc/commit/37f42df877b63479c3c6ed0f2d7fb24791da6589))
+
 ### Testing
 
 

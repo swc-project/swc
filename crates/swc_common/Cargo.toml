@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_common"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.28.3"
+version       = "0.28.4"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -52,7 +52,7 @@ rkyv-bytecheck-impl = ["__rkyv", "rkyv-latest", "swc_atoms/rkyv-bytecheck-impl"]
 ahash             = "0.7.4"
 anyhow            = { version = "1.0.45", optional = true }
 arbitrary         = { version = "1", optional = true, features = ["derive"] }
-ast_node          = { version = "0.8.1", path = "../ast_node" }
+ast_node          = { version = "0.8.4", path = "../ast_node" }
 atty              = { version = "0.2", optional = true }
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
 bytecheck         = { version = "0.6.9", optional = true }
