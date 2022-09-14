@@ -1565,7 +1565,7 @@ impl VisitMut for Hoister<'_, '_> {
                     }
                 }
 
-                Decl::TsModule(TsModuleDecl {
+                Decl::TsModule(box TsModuleDecl {
                     global: false,
                     id: TsModuleName::Ident(id),
                     ..
@@ -1707,11 +1707,11 @@ impl VisitMut for Hoister<'_, '_> {
 
     fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
         match n {
-            VarDeclOrExpr::VarDecl(VarDecl {
+            VarDeclOrExpr::VarDecl(box VarDecl {
                 kind: VarDeclKind::Let,
                 ..
             })
-            | VarDeclOrExpr::VarDecl(VarDecl {
+            | VarDeclOrExpr::VarDecl(box VarDecl {
                 kind: VarDeclKind::Const,
                 ..
             }) => {}
@@ -1723,11 +1723,11 @@ impl VisitMut for Hoister<'_, '_> {
 
     fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
         match n {
-            VarDeclOrPat::VarDecl(VarDecl {
+            VarDeclOrPat::VarDecl(box VarDecl {
                 kind: VarDeclKind::Let,
                 ..
             })
-            | VarDeclOrPat::VarDecl(VarDecl {
+            | VarDeclOrPat::VarDecl(box VarDecl {
                 kind: VarDeclKind::Const,
                 ..
             }) => {}
@@ -1771,7 +1771,7 @@ impl VisitMut for Hoister<'_, '_> {
         for item in items {
             match item {
                 ModuleItem::Stmt(Stmt::Decl(
-                    Decl::Var(VarDecl {
+                    Decl::Var(box VarDecl {
                         kind: VarDeclKind::Var,
                         ..
                     })
@@ -1779,7 +1779,7 @@ impl VisitMut for Hoister<'_, '_> {
                 ))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl:
-                        Decl::Var(VarDecl {
+                        Decl::Var(box VarDecl {
                             kind: VarDeclKind::Var,
                             ..
                         })
@@ -1805,7 +1805,7 @@ impl VisitMut for Hoister<'_, '_> {
 
         for item in stmts {
             match item {
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::Decl(Decl::Var(box VarDecl {
                     kind: VarDeclKind::Var,
                     ..
                 }))

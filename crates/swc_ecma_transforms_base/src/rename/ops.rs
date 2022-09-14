@@ -120,7 +120,7 @@ impl<'a> VisitMut for Operator<'a> {
                         init: Some(Box::new(Expr::Class(expr))),
                         definite: false,
                     };
-                    *decl = Decl::Var(VarDecl {
+                    *decl = Decl::Var(box VarDecl {
                         span,
                         kind: VarDeclKind::Let,
                         declare: false,
@@ -324,16 +324,16 @@ impl<'a> VisitMut for Operator<'a> {
                 if renamed.is_empty() {
                     *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                         span,
-                        decl: Decl::Var(VarDecl {
+                        decl: Decl::Var(box VarDecl {
                             decls,
-                            ..var.take()
+                            ..*var.take()
                         }),
                     }));
                     return;
                 }
-                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(box VarDecl {
                     decls,
-                    ..var.take()
+                    ..*var.take()
                 })));
                 self.extra
                     .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
