@@ -1,2 +1,2 @@
 //// [parserRegularExpressionDivideAmbiguity1.ts]
-a.foo();
+notregexp, a.foo();

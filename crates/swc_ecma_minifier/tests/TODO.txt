@@ -1,6 +1,7 @@
 asm/asm_mixed/input.js
 collapse_vars/collapse_vars_do_while/input.js
 collapse_vars/collapse_vars_misc1/input.js
+dead_code/dead_code_constant_boolean_should_warn_more/input.js
 drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
 drop_unused/unused_circular_references_1/input.js
@@ -18,3 +19,4 @@ pure_funcs/unary/input.js
 pure_getters/issue_2265_3/input.js
 reduce_vars/multi_def_3/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
+sequences/issue_2062/input.js
