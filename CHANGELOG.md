@@ -14,6 +14,9 @@
 - **(css/minifier)** Fix minification of universal selectors (#5826) ([1803874](https://github.com/swc-project/swc/commit/1803874f1484ab2a3c7b23b5e027e72f99740fba))
 
 
+- **(es/minifier)** Don't replace parameters of IIFE if it's recursive (#5852) ([a5f7b69](https://github.com/swc-project/swc/commit/a5f7b6946fcf020b4669ac301b944ba5c0adbbba))
+
+
 - **(es/modules)** Improve compatibility with `cjs-module-lexer` (#5835) ([bf75981](https://github.com/swc-project/swc/commit/bf759819e4ad577e89c2605e80e80c928017029d))
 
 
