@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::boxed_local)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
 #![feature(box_patterns)]
