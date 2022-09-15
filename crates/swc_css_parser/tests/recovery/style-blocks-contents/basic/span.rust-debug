@@ -301,7 +301,7 @@
    : ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
  6 | color: green;
    : ^^^^^
@@ -654,7 +654,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | color: red
     : ^^^^^

@@ -15361,7 +15361,7 @@
      :  ^^^^^
      `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:244:5]
  244 | *color : black;
      :  ^^^^^
