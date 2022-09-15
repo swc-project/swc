@@ -13,7 +13,7 @@ var Outer__1 = function(_Hello__2) {
                     value: function() {
                         return "hello";
                     }
-                }, 
+                }
             ]);
             return Inner__5;
         }();
