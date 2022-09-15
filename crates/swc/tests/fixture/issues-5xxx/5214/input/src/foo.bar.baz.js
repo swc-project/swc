@@ -1,3 +1,1 @@
-div{
-    color: red;
-}
+console.log('exists')
