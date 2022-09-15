@@ -71,7 +71,6 @@ pub enum Token {
     #[kind(starts_expr)]
     BackQuote,
     Template {
-        raw: Atom,
         cooked: LexResult<Atom>,
     },
     /// ':'
