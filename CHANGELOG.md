@@ -7,6 +7,9 @@
 
 - **(es/compat)** Fix handling of objects in generator (#5861) ([006c7fb](https://github.com/swc-project/swc/commit/006c7fb56e0b8d4955f848c6af8c83bcd87515ab))
 
+
+- **(es/minifier)** Remove `fake_block` while calculating next scope (#5869) ([991a34e](https://github.com/swc-project/swc/commit/991a34e0c2b50f81dfdf44ae892ebc118a808c58))
+
 ### Features
 
 
