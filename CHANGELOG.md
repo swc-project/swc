@@ -7,6 +7,9 @@
 
 - **(es/compat)** Fix handling of objects in generator (#5861) ([006c7fb](https://github.com/swc-project/swc/commit/006c7fb56e0b8d4955f848c6af8c83bcd87515ab))
 
+
+- **(es/minifier)** Remove `fake_block` while calculating next scope (#5869) ([991a34e](https://github.com/swc-project/swc/commit/991a34e0c2b50f81dfdf44ae892ebc118a808c58))
+
 ### Features
 
 
@@ -23,7 +26,10 @@
 - **(html)** Reduce memory usage (#5867) ([7f62fa6](https://github.com/swc-project/swc/commit/7f62fa62277621bc0787eca1e5e0df9dd575b5cd))
 
 ### Refactor
-- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
+
+
+
+- **(es/ast)** Apply rkyv-bytecheck flag (#5866) ([092b728](https://github.com/swc-project/swc/commit/092b7281d0929a77ddfa3d09018445b94b0dc1cf))- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
 
 ## [1.3.1] - 2022-09-14
 

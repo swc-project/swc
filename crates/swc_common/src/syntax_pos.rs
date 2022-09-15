@@ -546,21 +546,7 @@ impl Span {
             "Cannot check if a span contains a `ROOT` mark"
         );
 
-        let mut ctxt = self.ctxt;
-
-        loop {
-            if ctxt == SyntaxContext::empty() {
-                return false;
-            }
-
-            let m = ctxt.remove_mark();
-            if m == mark {
-                return true;
-            }
-            if m == Mark::root() {
-                return false;
-            }
-        }
+        self.ctxt.has_mark(mark)
     }
 
     /// Dummy span, both position are extremely large numbers so they would be

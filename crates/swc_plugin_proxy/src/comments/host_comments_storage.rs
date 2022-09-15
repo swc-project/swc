@@ -10,12 +10,12 @@
 ///
 /// Should never attempt to use this other than plugin_runner.
 // TODO: This storage does not support mutable yet
-#[cfg(feature = "plugin-rt")]
+#[cfg(feature = "__plugin_rt")]
 pub struct HostCommentsStorage {
     pub inner: Option<swc_common::comments::SingleThreadedComments>,
 }
 
-#[cfg(feature = "plugin-rt")]
+#[cfg(feature = "__plugin_rt")]
 better_scoped_tls::scoped_tls!(
   pub static COMMENTS: HostCommentsStorage
 );

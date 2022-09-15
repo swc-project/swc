@@ -2924,7 +2924,9 @@ impl Take for SynthesizedStmts {
 impl Drop for SynthesizedStmts {
     fn drop(&mut self) {
         if !self.0.is_empty() {
-            panic!("We should not drop synthesized stmts");
+            if !std::thread::panicking() {
+                panic!("We should not drop synthesized stmts");
+            }
         }
     }
 }

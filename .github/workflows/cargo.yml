@@ -197,7 +197,7 @@ jobs:
             os: ubuntu-latest
             runner: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features __rkyv --exclude-features rkyv-bytecheck-impl
           - crate: swc_ecma_codegen
             os: ubuntu-latest
             runner: ubuntu-latest
