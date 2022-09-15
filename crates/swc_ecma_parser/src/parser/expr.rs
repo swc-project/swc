@@ -327,9 +327,11 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 // Regexp
-                Token::Regex(..) => match bump!(self) {
-                    Token::Regex(exp, flags) => {
+                Token::Regex { .. } => match bump!(self) {
+                    Token::Regex { separator } => {
                         let span = span!(self, start);
+                        let exp = self.input.text(span.lo..separator);
+                        let flags = self.input.text(separator..span.hi);
 
                         let mut flags_count = flags.chars().fold(
                             AHashMap::<char, usize>::default(),

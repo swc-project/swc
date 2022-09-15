@@ -1127,32 +1127,28 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let (mut escaped, mut in_class) = (false, false);
         // let content_start = self.cur_pos();
-        let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.cur() {
-                // This is ported from babel.
-                // Seems like regexp literal cannot contain linebreak.
-                if c.is_line_terminator() {
-                    l.error(start, SyntaxError::UnterminatedRegExp)?;
-                }
-
-                if escaped {
-                    escaped = false;
-                } else {
-                    match c {
-                        '[' => in_class = true,
-                        ']' if in_class => in_class = false,
-                        // Terminates content part of regex literal
-                        '/' if !in_class => break,
-                        _ => {}
-                    }
-                    escaped = c == '\\';
-                }
-                l.bump();
-                buf.push(c);
+        while let Some(c) = self.cur() {
+            // This is ported from babel.
+            // Seems like regexp literal cannot contain linebreak.
+            if c.is_line_terminator() {
+                self.error(start, SyntaxError::UnterminatedRegExp)?;
             }
 
-            Ok(Atom::new(&**buf))
-        })?;
+            if escaped {
+                escaped = false;
+            } else {
+                match c {
+                    '[' => in_class = true,
+                    ']' if in_class => in_class = false,
+                    // Terminates content part of regex literal
+                    '/' if !in_class => break,
+                    _ => {}
+                }
+                escaped = c == '\\';
+            }
+            self.bump();
+        }
+
         // let content_span = Span::new(content_start, self.cur_pos(),
         // Default::default());
 
@@ -1171,10 +1167,9 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
         // let flags_start = self.cur_pos();
-        let flags = {
-            let atoms = self.atoms.clone();
+        {
             match self.cur() {
-                Some(c) if c.is_ident_start() => self.read_word_as_str_with(|s| {}).map(Some),
+                Some(c) if c.is_ident_start() => self.read_word_as_str_with(|_| {}).map(Some),
                 _ => Ok(None),
             }
         }?
