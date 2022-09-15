@@ -1025,12 +1025,12 @@ where
 
                                     if !vars.is_empty() {
                                         new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
-                                            VarDecl {
+                                            Box::new(VarDecl {
                                                 span: DUMMY_SP,
                                                 kind: VarDeclKind::Const,
                                                 declare: Default::default(),
                                                 decls: vars,
-                                            },
+                                            }),
                                         ))));
                                     }
                                     continue;
@@ -1403,7 +1403,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 Ok(key_value_props) => {
                     prepend_stmt(
                         &mut n.body,
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             span: n.span,
                             kind: VarDeclKind::Const,
                             declare: false,
@@ -1420,7 +1420,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                                 }))),
                                 definite: false,
                             }],
-                        }))),
+                        })))),
                     );
                 }
                 Err(err) => self.err = Some(err),

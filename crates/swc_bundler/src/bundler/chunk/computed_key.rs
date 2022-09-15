@@ -120,7 +120,7 @@ where
         });
 
         let module_fn = Expr::Fn(FnExpr {
-            function: Function {
+            function: Box::new(Function {
                 params: Default::default(),
                 decorators: Default::default(),
                 span: DUMMY_SP,
@@ -132,7 +132,7 @@ where
                 is_async,
                 type_params: Default::default(),
                 return_type: Default::default(),
-            },
+            }),
             ident: None,
         });
 
@@ -162,7 +162,10 @@ where
             }],
         };
 
-        module.append(id, ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))));
+        module.append(
+            id,
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(var_decl)))),
+        );
 
         // print_hygiene(
         //     "wrap",

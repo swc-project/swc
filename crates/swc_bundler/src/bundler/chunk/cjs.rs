@@ -296,7 +296,7 @@ where
                     }
                     ImportSpecifier::Namespace(ns) => {
                         self.replaced = true;
-                        *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             span: i.span,
                             kind: VarDeclKind::Var,
                             declare: false,
@@ -314,14 +314,14 @@ where
                                 )),
                                 definite: false,
                             }],
-                        })));
+                        }))));
                         return;
                     }
                 }
             }
 
             self.replaced = true;
-            *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+            *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: i.span,
                 kind: VarDeclKind::Var,
                 declare: false,
@@ -341,7 +341,7 @@ where
                     }))),
                     definite: false,
                 }],
-            })));
+            }))));
         }
     }
 }

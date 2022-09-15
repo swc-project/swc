@@ -204,7 +204,11 @@ where
                     .and_then(|src| self.ctxt_for(src));
                 let mut need_wrapping = false;
 
-                let v = self.info.items.entry(named.src.clone()).or_default();
+                let v = self
+                    .info
+                    .items
+                    .entry(named.src.clone().map(|v| *v))
+                    .or_default();
                 for s in &mut named.specifiers {
                     match s {
                         ExportSpecifier::Namespace(n) => {
@@ -286,7 +290,7 @@ where
                     all.span.ctxt = export_ctxt;
                 }
 
-                self.info.items.entry(Some(all.src.clone())).or_default();
+                self.info.items.entry(Some(*all.src.clone())).or_default();
             }
             _ => {}
         }
