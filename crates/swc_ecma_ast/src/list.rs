@@ -127,7 +127,6 @@ add_bitflags!(
         ArrayLiteralExpressionElements: PreserveLines
             | CommaDelimited
             | SpaceBetweenSiblings
-            | AllowTrailingComma
             | Indented
             | SquareBrackets,
         CommaListElements: CommaDelimited | SpaceBetweenSiblings | SingleLine,
