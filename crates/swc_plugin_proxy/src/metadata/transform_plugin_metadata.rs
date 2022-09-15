@@ -1,9 +1,9 @@
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 use swc_common::Mark;
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 use swc_trace_macro::swc_trace;
 
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 use crate::{
     memory_interop::read_returned_result_from_host, PluginCommentsProxy, PluginSourceMapProxy,
@@ -15,7 +15,7 @@ use crate::{
 /// An arbitary metadata for given Program to run transform in plugin.
 /// These are not directly attached to Program's AST structures
 /// but required for certain transforms.
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 #[derive(Debug)]
 pub struct TransformPluginProgramMetadata {
     /// Proxy to the comments for the Program passed into plugin.
@@ -38,7 +38,7 @@ extern "C" {
     fn __get_raw_experiemtal_transform_context(allocated_ret_ptr: i32) -> i32;
 }
 
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "__plugin_mode")]
 #[swc_trace]
 impl TransformPluginProgramMetadata {
     /// Returns current plugin's configuration as a JSON string.

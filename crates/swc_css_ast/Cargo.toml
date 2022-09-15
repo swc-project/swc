@@ -12,8 +12,10 @@ version       = "0.112.4"
 bench = false
 
 [features]
-default   = []
-rkyv-impl = ["rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+__rkyv              = []
+default             = []
+rkyv-bytecheck-impl = []
+rkyv-impl           = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
 
 
 [dependencies]
