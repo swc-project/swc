@@ -1,4 +1,4 @@
-use std::{cell::RefCell, mem, mem::take, rc::Rc};
+use std::{cell::RefCell, mem, mem::take, ops::Range, rc::Rc};
 
 use lexer::TokenContexts;
 use swc_common::{BytePos, Span};
@@ -44,6 +44,8 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn add_module_mode_error(&self, error: Error);
 
     fn take_errors(&mut self) -> Vec<Error>;
+
+    fn text(&self, range: Range<BytePos>) -> &str;
 }
 
 #[derive(Clone)]
@@ -428,6 +430,10 @@ impl<I: Tokens> Buffer<I> {
             .unwrap_or(self.prev_span);
 
         Span::new(data.lo, data.hi, data.ctxt)
+    }
+
+    pub fn text(&self, span: Range<BytePos>) -> &str {
+        self.iter.text(span)
     }
 
     /// Returns last byte position of previous token.

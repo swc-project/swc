@@ -1024,19 +1024,22 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let (raw, cooked) = match *cur!(self, true)? {
-            Token::Template { .. } => match bump!(self) {
-                Token::Template { cooked, .. } => match cooked {
-                    Ok(cooked) => (raw, Some(cooked)),
-                    Err(err) => {
-                        if is_tagged_tpl {
-                            (raw, None)
-                        } else {
-                            return Err(err);
+            Token::Template { .. } => {
+                let span = self.input.cur_span();
+                match bump!(self) {
+                    Token::Template { cooked, .. } => match cooked {
+                        Ok(cooked) => (self.input.text(span.lo..span.hi).into(), Some(cooked)),
+                        Err(err) => {
+                            if is_tagged_tpl {
+                                (self.input.text(span.lo..span.hi).into(), None)
+                            } else {
+                                return Err(err);
+                            }
                         }
-                    }
-                },
-                _ => unreachable!(),
-            },
+                    },
+                    _ => unreachable!(),
+                }
+            }
             _ => unexpected!(self, "template token"),
         };
 
