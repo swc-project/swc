@@ -765,7 +765,7 @@ impl Swcify for DeclareExportAllDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportAll {
             span: ctx.span(&self.base),
-            src: self.source.swcify(ctx),
+            src: box self.source.swcify(ctx),
             asserts: Default::default(),
         }
     }

@@ -303,12 +303,12 @@ where
                                 init: Some(export.expr),
                                 definite: false,
                             };
-                            Some(Stmt::Decl(Decl::Var(VarDecl {
+                            Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Const,
                                 declare: false,
                                 decls: vec![var],
-                            })))
+                            }))))
                         }
 
                         ModuleDecl::ExportAll(_) => None,
@@ -337,7 +337,7 @@ where
 
         let invoked_fn_expr = FnExpr {
             ident: None,
-            function: f,
+            function: Box::new(f),
         };
 
         let iife = Box::new(Expr::Call(CallExpr {
@@ -402,14 +402,14 @@ where
             let v = base.relative(v);
             let value = v.as_str();
             return ImportDecl {
-                src: Str {
+                src: Box::new(Str {
                     value: if value.starts_with('.') {
                         value.into()
                     } else {
                         format!("./{}", value).into()
                     },
                     ..import.src
-                },
+                }),
                 ..import
             };
         }
