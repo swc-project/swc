@@ -37,6 +37,12 @@
 
 - **(es/ast)** Apply rkyv-bytecheck flag (#5866) ([092b728](https://github.com/swc-project/swc/commit/092b7281d0929a77ddfa3d09018445b94b0dc1cf))- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
 
+### Testing
+
+
+
+- **(es/modules)** Add tests for `jsc.paths` (#5876) ([0d492bf](https://github.com/swc-project/swc/commit/0d492bfce1681dbbdbe8701f6e928002cc6ce6cd))
+
 ### Build
 
 
