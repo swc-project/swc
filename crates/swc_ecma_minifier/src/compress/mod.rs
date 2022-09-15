@@ -385,8 +385,6 @@ where
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        self.handle_stmt_likes(stmts);
-
         stmts.retain(|stmt| match stmt {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -402,13 +400,7 @@ where
         });
     }
 
-    fn visit_mut_prop_or_spreads(&mut self, nodes: &mut Vec<PropOrSpread>) {
-        self.visit_par(nodes);
-    }
-
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        self.handle_stmt_likes(stmts);
-
         stmts.retain(|stmt| match stmt {
             Stmt::Empty(..) => false,
             Stmt::Decl(Decl::Var(box VarDecl { decls, .. })) if decls.is_empty() => false,
