@@ -498,6 +498,13 @@ jobs:
         run: |
           jest --version && mocha --version
 
+      - name: Cache rust artifacts
+        uses: Swatinem/rust-cache@v2
+        if: matrix.settings.crate == 'swc'
+        with:
+          shared-key: cargo-test-${{ matrix.settings.crate }}
+          cache-on-failure: true
+
       - name: Configure execution cache
         shell: bash
         run: |
