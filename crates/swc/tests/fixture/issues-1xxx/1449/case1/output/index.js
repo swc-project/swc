@@ -6,10 +6,9 @@ function foo() {
 }
 function _foo() {
     _foo = _async_to_generator(function() {
-        var tmp, ref, ref, _tmp;
+        var tmp, ref, ref;
         return _ts_generator(this, function(_state) {
-            _tmp = {};
-            tmp = baz.bar, ref = tmp === void 0 ? _tmp : tmp, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined"));
+            tmp = baz.bar, ref = tmp === void 0 ? {} : tmp, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined"));
             return [
                 2
             ];

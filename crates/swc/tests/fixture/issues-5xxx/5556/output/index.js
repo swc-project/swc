@@ -10,14 +10,15 @@ x = function x() {
                 disable: app.config.env === "local"
             },
             task: function task(ctx) {
-                var res, _tmp;
+                var res;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
-                            _tmp = {};
                             return [
                                 4,
-                                ctx.curl("http://www.api.com/cache", (_tmp.contentType = "json", _tmp))
+                                ctx.curl("http://www.api.com/cache", {
+                                    contentType: "json"
+                                })
                             ];
                         case 1:
                             res = _state.sent();

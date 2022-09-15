@@ -5,10 +5,9 @@ function fn() {
 }
 function _fn() {
     _fn = _async_to_generator(function() {
-        var key, _tmp;
+        var key;
         return _ts_generator(this, function(_state) {
-            _tmp = {};
-            for(var key in _tmp);
+            for(var key in {});
             return [
                 2
             ];

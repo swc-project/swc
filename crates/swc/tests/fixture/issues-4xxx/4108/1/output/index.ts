@@ -63,15 +63,14 @@ export function sendTransactionsWithManualRetry(connection, wallet, instructions
 }
 function _sendTransactionsWithManualRetry() {
     _sendTransactionsWithManualRetry = _async_to_generator(function(connection, wallet, instructions, signers) {
-        var stopPoint, tries, lastInstructionsLength, toRemoveSigners, _tmp, ids, filteredSigners, id, txs, e;
+        var stopPoint, tries, lastInstructionsLength, toRemoveSigners, ids, filteredSigners, id, txs, e;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     stopPoint = 0;
                     tries = 0;
                     lastInstructionsLength = null;
-                    _tmp = {};
-                    toRemoveSigners = _tmp;
+                    toRemoveSigners = {};
                     instructions = instructions.filter(function(instr, i) {
                         if (instr.length > 0) {
                             return true;
@@ -160,7 +159,7 @@ function _sendTransactionsWithManualRetry() {
 }
 export var sendTransactions = function() {
     var _ref = _async_to_generator(function(connection, wallet, instructionSet, signersSet) {
-        var _loop, _loop1, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, _ret, result, _tmp, _tmp1;
+        var _loop, _loop1, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, _ret, result, _tmp;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -189,12 +188,14 @@ export var sendTransactions = function() {
                         }
                         unsignedTxns.push(transaction);
                     }, _loop1 = function(i1) {
-                        var signedTxnPromise, _tmp, e, _tmp1, _tmp2;
+                        var signedTxnPromise, e, _tmp, _tmp1;
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
                                 case 0:
-                                    _tmp = {};
-                                    signedTxnPromise = sendSignedTransaction((_tmp.connection = connection, _tmp.signedTransaction = signedTxns[i1], _tmp));
+                                    signedTxnPromise = sendSignedTransaction({
+                                        connection: connection,
+                                        signedTransaction: signedTxns[i1]
+                                    });
                                     if (!(sequenceType !== SequenceType.Parallel)) return [
                                         3,
                                         7
@@ -230,8 +231,8 @@ export var sendTransactions = function() {
                                         3,
                                         5
                                     ];
-                                    _tmp1 = {};
-                                    _tmp2 = {
+                                    _tmp = {};
+                                    _tmp1 = {
                                         number: i1
                                     };
                                     return [
@@ -241,7 +242,7 @@ export var sendTransactions = function() {
                                 case 4:
                                     return [
                                         2,
-                                        (_tmp1.v = (_tmp2.txs = _state.sent(), _tmp2), _tmp1)
+                                        (_tmp.v = (_tmp1.txs = _state.sent(), _tmp1), _tmp)
                                     ];
                                 case 5:
                                     return [
@@ -336,13 +337,15 @@ export var sendTransactions = function() {
                     ];
                 case 8:
                     result = _state.sent();
-                    _tmp = {};
                     return [
                         2,
-                        (_tmp.number = signedTxns.length, _tmp.txs = result, _tmp)
+                        {
+                            number: signedTxns.length,
+                            txs: result
+                        }
                     ];
                 case 9:
-                    _tmp1 = {
+                    _tmp = {
                         number: signedTxns.length
                     };
                     return [
@@ -352,7 +355,7 @@ export var sendTransactions = function() {
                 case 10:
                     return [
                         2,
-                        (_tmp1.txs = _state.sent(), _tmp1)
+                        (_tmp.txs = _state.sent(), _tmp)
                     ];
             }
         });
@@ -363,7 +366,7 @@ export var sendTransactions = function() {
 }();
 export var sendTransaction = function() {
     var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
-        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, _tmp1, txid, slot, confirmation, errors, _tmp2;
+        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -429,8 +432,10 @@ export var sendTransaction = function() {
                     _state.label = 5;
                 case 5:
                     rawTransaction = transaction.serialize();
-                    _tmp1 = {};
-                    options = (_tmp1.skipPreflight = true, _tmp1.commitment = commitment, _tmp1);
+                    options = {
+                        skipPreflight: true,
+                        commitment: commitment
+                    };
                     return [
                         4,
                         connection.sendRawTransaction(rawTransaction, options)
@@ -463,10 +468,12 @@ export var sendTransaction = function() {
                     console.log(errors);
                     throw new Error("Raw transaction ".concat(txid, " failed"));
                 case 9:
-                    _tmp2 = {};
                     return [
                         2,
-                        (_tmp2.txid = txid, _tmp2.slot = slot, _tmp2)
+                        {
+                            txid: txid,
+                            slot: slot
+                        }
                     ];
             }
         });
@@ -477,7 +484,7 @@ export var sendTransaction = function() {
 }();
 export var sendTransactionWithRetry = function() {
     var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
-        var commitment, includesFeePayer, block, beforeSend, transaction, _tmp, _transaction, _transaction1, _transaction2, ref, txid, slot, _tmp1, _tmp2;
+        var commitment, includesFeePayer, block, beforeSend, transaction, _tmp, _transaction, _transaction1, _transaction2, ref, txid, slot;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -535,17 +542,21 @@ export var sendTransactionWithRetry = function() {
                     if (beforeSend) {
                         beforeSend();
                     }
-                    _tmp1 = {};
                     return [
                         4,
-                        sendSignedTransaction((_tmp1.connection = connection, _tmp1.signedTransaction = transaction, _tmp1))
+                        sendSignedTransaction({
+                            connection: connection,
+                            signedTransaction: transaction
+                        })
                     ];
                 case 5:
                     ref = _state.sent(), txid = ref.txid, slot = ref.slot;
-                    _tmp2 = {};
                     return [
                         2,
-                        (_tmp2.txid = txid, _tmp2.slot = slot, _tmp2)
+                        {
+                            txid: txid,
+                            slot: slot
+                        }
                     ];
             }
         });
@@ -563,7 +574,7 @@ export function sendSignedTransaction(_) {
 }
 function _sendSignedTransaction() {
     _sendSignedTransaction = _async_to_generator(function(param) {
-        var signedTransaction, connection, _timeout, timeout, rawTransaction, startTime, slot, txid, _tmp, done, confirmation, err, simulateResult, e, i, line, _tmp1;
+        var signedTransaction, connection, _timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, err, simulateResult, e, i, line;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -571,17 +582,17 @@ function _sendSignedTransaction() {
                     rawTransaction = signedTransaction.serialize();
                     startTime = getUnixTs();
                     slot = 0;
-                    _tmp = {};
                     return [
                         4,
-                        connection.sendRawTransaction(rawTransaction, (_tmp.skipPreflight = true, _tmp))
+                        connection.sendRawTransaction(rawTransaction, {
+                            skipPreflight: true
+                        })
                     ];
                 case 1:
                     txid = _state.sent();
                     console.log("Started awaiting confirmation for", txid);
                     done = false;
                     _async_to_generator(function() {
-                        var _tmp;
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
                                 case 0:
@@ -589,8 +600,9 @@ function _sendSignedTransaction() {
                                         3,
                                         2
                                     ];
-                                    _tmp = {};
-                                    connection.sendRawTransaction(rawTransaction, (_tmp.skipPreflight = true, _tmp));
+                                    connection.sendRawTransaction(rawTransaction, {
+                                        skipPreflight: true
+                                    });
                                     return [
                                         4,
                                         sleep(500)
@@ -686,10 +698,12 @@ function _sendSignedTransaction() {
                     ];
                 case 10:
                     console.log("Latency", txid, getUnixTs() - startTime);
-                    _tmp1 = {};
                     return [
                         2,
-                        (_tmp1.txid = txid, _tmp1.slot = slot, _tmp1)
+                        {
+                            txid: txid,
+                            slot: slot
+                        }
                     ];
             }
         });
@@ -701,7 +715,7 @@ function simulateTransaction(connection, transaction, commitment) {
 }
 function _simulateTransaction() {
     _simulateTransaction = _async_to_generator(function(connection, transaction, commitment) {
-        var signData, wireTransaction, encodedTransaction, config, _tmp, args, res;
+        var signData, wireTransaction, encodedTransaction, config, args, res;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -716,8 +730,10 @@ function _simulateTransaction() {
                     signData = transaction.serializeMessage();
                     wireTransaction = transaction._serialize(signData);
                     encodedTransaction = wireTransaction.toString("base64");
-                    _tmp = {};
-                    config = (_tmp.encoding = "base64", _tmp.commitment = commitment, _tmp);
+                    config = {
+                        encoding: "base64",
+                        commitment: commitment
+                    };
                     args = [
                         encodedTransaction,
                         config
@@ -745,15 +761,18 @@ function awaitTransactionSignatureConfirmation(txid, timeout, connection) {
 }
 function _awaitTransactionSignatureConfirmation() {
     _awaitTransactionSignatureConfirmation = _async_to_generator(function(txid, timeout, connection) {
-        var commitment, queryStatus, done, status, _tmp, subId;
+        var commitment, queryStatus, done, status, subId;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     commitment = _arguments.length > 3 && _arguments[3] !== void 0 ? _arguments[3] : "recent", queryStatus = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : false;
                     done = false;
-                    _tmp = {};
-                    status = (_tmp.slot = 0, _tmp.confirmations = 0, _tmp.err = null, _tmp);
+                    status = {
+                        slot: 0,
+                        confirmations: 0,
+                        err: null
+                    };
                     subId = 0;
                     return [
                         4,

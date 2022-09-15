@@ -10,7 +10,7 @@ var Router = /*#__PURE__*/ function() {
     _proto.change = function change(method, url, as, options, forcedScroll) {
         var _this = this;
         return _async_to_generator(function() {
-            var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, ref, detectedDomain, asNoBasePath, _shallow, shallow, routeProps, _tmp, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref1, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, _tmp1, missingParams, ref2, ref3, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, ref4, newUrl, newAs, notFoundRoute, _, _tmp2, isValidShallowRoute, _scroll, shouldScroll, resetScroll, _tmp3, err1;
+            var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, ref, detectedDomain, asNoBasePath, _shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref1, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, ref2, ref3, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, ref4, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _scroll, shouldScroll, resetScroll, err1;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -84,8 +84,9 @@ var Router = /*#__PURE__*/ function() {
                             performance.mark("routeChange");
                         }
                         _shallow = options.shallow, shallow = _shallow === void 0 ? false : _shallow;
-                        _tmp = {};
-                        routeProps = (_tmp.shallow = shallow, _tmp);
+                        routeProps = {
+                            shallow: shallow
+                        };
                         if (_this._inFlightRoute) {
                             _this.abortComponentLoad(_this._inFlightRoute, routeProps);
                         }
@@ -195,14 +196,13 @@ var Router = /*#__PURE__*/ function() {
                             ];
                         }
                         resolvedAs = delLocale(delBasePath(resolvedAs), _this.locale);
-                        _tmp1 = {};
                         if (isDynamicRoute(route)) {
                             parsedAs1 = parseRelativeUrl(resolvedAs);
                             asPathname = parsedAs1.pathname;
                             routeRegex = getRouteRegex(route);
                             routeMatch = getRouteMatcher(routeRegex)(asPathname);
                             shouldInterpolate = route === asPathname;
-                            interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : _tmp1;
+                            interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : {};
                             if (!routeMatch || shouldInterpolate && !interpolatedAs.result) {
                                 missingParams = Object.keys(routeRegex.groups).filter(function(param) {
                                     return !query[param];
@@ -295,10 +295,11 @@ var Router = /*#__PURE__*/ function() {
                             11
                         ];
                     case 11:
-                        _tmp2 = {};
                         return [
                             4,
-                            _this.getRouteInfo(notFoundRoute, notFoundRoute, query, as, resolvedAs, (_tmp2.shallow = false, _tmp2))
+                            _this.getRouteInfo(notFoundRoute, notFoundRoute, query, as, resolvedAs, {
+                                shallow: false
+                            })
                         ];
                     case 12:
                         routeInfo = _state.sent();
@@ -313,8 +314,10 @@ var Router = /*#__PURE__*/ function() {
                         }
                         isValidShallowRoute = options.shallow && _this.route === route;
                         shouldScroll = (_scroll = options.scroll) !== null && _scroll !== void 0 ? _scroll : !isValidShallowRoute;
-                        _tmp3 = {};
-                        resetScroll = shouldScroll ? (_tmp3.x = 0, _tmp3.y = 0, _tmp3) : null;
+                        resetScroll = shouldScroll ? {
+                            x: 0,
+                            y: 0
+                        } : null;
                         return [
                             4,
                             _this.set(route, pathname, query, cleanedAs, routeInfo, forcedScroll !== null && forcedScroll !== void 0 ? forcedScroll : resetScroll).catch(function(e) {

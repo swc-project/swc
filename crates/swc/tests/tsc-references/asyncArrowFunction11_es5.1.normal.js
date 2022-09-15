@@ -9,7 +9,7 @@ var A = function A() {
     _class_call_check(this, A);
     var _this = this;
     this.b = /*#__PURE__*/ _async_to_generator(function() {
-        var _len, args, _key, obj, _tmp;
+        var _len, args, _key, obj;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -23,8 +23,7 @@ var A = function A() {
                     ];
                 case 1:
                     _state.sent();
-                    _tmp = {};
-                    obj = _define_property(_tmp, "a", function() {
+                    obj = _define_property({}, "a", function() {
                         return _this;
                     }); // computed property name after `await` triggers case
                     return [
