@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Remove `fake_block` while calculating next scope (#5869) ([991a34e](https://github.com/swc-project/swc/commit/991a34e0c2b50f81dfdf44ae892ebc118a808c58))
 
+
+- **(es/minifier)** Fix handling of `.toFixed` call without an argument (#5868) ([90d311c](https://github.com/swc-project/swc/commit/90d311c042952c8b0d6381791c9f504fc54551ae))
+
 ### Features
 
 
