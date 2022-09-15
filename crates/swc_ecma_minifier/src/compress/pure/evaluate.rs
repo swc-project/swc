@@ -282,7 +282,12 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toFixed" {
-            if let Some(precision) = eval_as_number(&self.expr_ctx, &args[0].expr) {
+            if let Some(precision) = eval_as_number(
+                &self.expr_ctx,
+                // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
+                // 3. Assert: If fractionDigits is undefined, then f is 0.
+                args.first().map_or(&Expr::Lit(0.into()), |arg| &arg.expr),
+            ) {
                 let precision = precision.floor() as usize;
                 let value = num_to_fixed(num.value, precision + 1);
 
