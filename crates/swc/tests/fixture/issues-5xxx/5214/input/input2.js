@@ -1,4 +1,4 @@
-import styles from 'foo.bar.baz.js'
+import styles from '~/foo.bar.baz.js'
 
 
 console.log(styles)
