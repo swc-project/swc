@@ -140,6 +140,8 @@ where
                                 || dot_count == 1
                             {
                                 p.set_extension(orig_ext);
+                            } else {
+                                p.set_extension("");
                             }
                         }
                     }
