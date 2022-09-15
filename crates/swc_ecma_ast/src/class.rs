@@ -1,4 +1,6 @@
 use is_macro::Is;
+#[cfg(feature = "rkyv-bytecheck-impl")]
+use rkyv_latest as rkyv;
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
@@ -245,7 +247,7 @@ pub struct Decorator {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
-    feature = "rkyv",
+    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub enum MethodKind {

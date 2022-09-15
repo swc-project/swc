@@ -23,7 +23,10 @@
 - **(html)** Reduce memory usage (#5867) ([7f62fa6](https://github.com/swc-project/swc/commit/7f62fa62277621bc0787eca1e5e0df9dd575b5cd))
 
 ### Refactor
-- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
+
+
+
+- **(es/ast)** Apply rkyv-bytecheck flag (#5866) ([092b728](https://github.com/swc-project/swc/commit/092b7281d0929a77ddfa3d09018445b94b0dc1cf))- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
 
 ## [1.3.1] - 2022-09-14
 
