@@ -325,6 +325,33 @@ impl SyntaxContext {
         SyntaxContext(0)
     }
 
+    /// Returns `true` if `self` is marked with `mark`.
+    ///
+    /// Panics if `mark` is not a valid mark.
+    pub fn has_mark(self, mark: Mark) -> bool {
+        debug_assert_ne!(
+            mark,
+            Mark::root(),
+            "Cannot check if a span contains a `ROOT` mark"
+        );
+
+        let mut ctxt = self;
+
+        loop {
+            if ctxt == SyntaxContext::empty() {
+                return false;
+            }
+
+            let m = ctxt.remove_mark();
+            if m == mark {
+                return true;
+            }
+            if m == Mark::root() {
+                return false;
+            }
+        }
+    }
+
     #[inline]
     pub fn as_u32(self) -> u32 {
         self.0
