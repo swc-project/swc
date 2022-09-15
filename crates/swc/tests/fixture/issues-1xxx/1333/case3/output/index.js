@@ -18,7 +18,7 @@ const headers = [
     "x-ratelimit-remaining",
     "x-ratelimit-reset-after",
     "x-ratelimit-reset",
-    "via", 
+    "via"
 ];
 var /**
      * Used for sequential requests.

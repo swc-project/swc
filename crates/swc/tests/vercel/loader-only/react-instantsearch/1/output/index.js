@@ -319,7 +319,7 @@ function serializeQueryParameters(parameters) {
                                 params: request.params
                             };
                         }));
-                    }, []), 
+                    }, [])
                 ]
             }, {
                 results: results.reduce(function(acc, result) {
@@ -362,7 +362,7 @@ function serializeQueryParameters(parameters) {
                             indexName: request.index,
                             params: request.params
                         };
-                    }), 
+                    })
                 ]
             }, {
                 results: results.rawResults

@@ -76,7 +76,7 @@ export function selectRooms(building) {
                         roomPrettyName,
                         "".concat(areaTotal, " SF"),
                         roomFloorMat,
-                        FLOOR_MAPPING[levelId], 
+                        FLOOR_MAPPING[levelId]
                     ];
                 };
                 for(var _iterator1 = sortedRooms[Symbol.iterator](), _step2; !(_iteratorNormalCompletion1 = (_step2 = _iterator1.next()).done); _iteratorNormalCompletion1 = true)_loop();
