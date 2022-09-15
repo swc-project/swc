@@ -52,10 +52,9 @@ enum TokenType {
     JSXTagStart,
     JSXTagEnd,
     Arrow,
-    Other {
-        before_expr: bool,
-        can_have_trailing_comment: bool,
-    },
+    // This is *encoded* (DoD) to reduce type size.
+    OtherBeforeExpr { can_have_trailing_comment: bool },
+    OtherNotBeforeExpr { can_have_trailing_comment: bool },
 }
 impl TokenType {
     #[inline]
@@ -76,7 +75,8 @@ impl TokenType {
 
             TokenType::BinOp(b) => b.before_expr(),
             TokenType::Keyword(k) => k.before_expr(),
-            TokenType::Other { before_expr, .. } => before_expr,
+            TokenType::OtherBeforeExpr { .. } => true,
+            TokenType::OtherNotBeforeExpr { .. } => false,
         }
     }
 }
@@ -99,9 +99,8 @@ impl<'a> From<&'a Token> for TokenType {
             Token::Arrow => TokenType::Arrow,
 
             Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
-            _ => TokenType::Other {
-                before_expr: t.before_expr(),
-                can_have_trailing_comment: matches!(
+            _ => {
+                let can_have_trailing_comment = matches!(
                     *t,
                     Token::Num { .. }
                         | Token::Str { .. }
@@ -111,8 +110,18 @@ impl<'a> From<&'a Token> for TokenType {
                         | Token::BigInt { .. }
                         | Token::JSXText { .. }
                         | Token::RBrace
-                ),
-            },
+                );
+
+                if t.before_expr() {
+                    TokenType::OtherBeforeExpr {
+                        can_have_trailing_comment,
+                    }
+                } else {
+                    TokenType::OtherNotBeforeExpr {
+                        can_have_trailing_comment,
+                    }
+                }
+            }
         }
     }
 }
@@ -396,10 +405,16 @@ impl State {
         match self.token_type {
             Some(TokenType::Keyword(..)) => false,
             Some(TokenType::Semi) | Some(TokenType::LBrace) => true,
-            Some(TokenType::Other {
-                can_have_trailing_comment,
-                ..
-            }) => can_have_trailing_comment,
+            Some(
+                TokenType::OtherBeforeExpr {
+                    can_have_trailing_comment,
+                    ..
+                }
+                | TokenType::OtherNotBeforeExpr {
+                    can_have_trailing_comment,
+                    ..
+                },
+            ) => can_have_trailing_comment,
             _ => false,
         }
     }
@@ -693,10 +708,7 @@ impl TokenContexts {
         }
 
         if had_line_break {
-            if let Some(TokenType::Other {
-                before_expr: false, ..
-            }) = prev
-            {
+            if let Some(TokenType::OtherNotBeforeExpr { .. }) = prev {
                 return true;
             }
         }
