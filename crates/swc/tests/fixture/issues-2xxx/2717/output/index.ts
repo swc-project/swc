@@ -5,7 +5,7 @@ export var selectThemeObject = function(e) {
     return e.theme;
 };
 export function saveTheme(t) {
-    var s, o, n, a;
+    var s, o, n;
     return e(this, function(e) {
         switch(e.label){
             case 0:
@@ -14,7 +14,11 @@ export function saveTheme(t) {
                     r(selectThemeObject)
                 ];
             case 1:
-                return o = e.sent(), n = {}, window.localStorage.setItem("theme", JSON.stringify((n.theme = o.theme, n.mode = o.mode, n.palette = o.palette, n))), s === c && (a = window.document.querySelector("body")) && (a.classList.add("light" === o.mode ? "light" : "dark"), a.classList.remove("light" === o.mode ? "dark" : "light")), [
+                return o = e.sent(), window.localStorage.setItem("theme", JSON.stringify({
+                    theme: o.theme,
+                    mode: o.mode,
+                    palette: o.palette
+                })), s === c && (n = window.document.querySelector("body")) && (n.classList.add("light" === o.mode ? "light" : "dark"), n.classList.remove("light" === o.mode ? "dark" : "light")), [
                     2
                 ];
         }

@@ -1,6 +1,6 @@
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 function foo() {
-    var val, _tmp, _tmp1;
+    var val, _tmp;
     return _ts_generator(this, function(_state) {
         switch(_state.label){
             case 0:
@@ -23,8 +23,9 @@ function foo() {
                 _state.label = 3;
             case 3:
                 val = _tmp;
-                _tmp1 = {};
-                console.log((_tmp1.val = val, _tmp1));
+                console.log({
+                    val: val
+                });
                 return [
                     2
                 ];
