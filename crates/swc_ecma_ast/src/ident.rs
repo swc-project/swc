@@ -34,8 +34,6 @@ pub struct BindingIdent {
     pub id: Ident,
     #[serde(default, rename = "typeAnnotation")]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
-    pub type_ann: Option<TsTypeAnn>,
-    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
