@@ -502,7 +502,7 @@ jobs:
         uses: Swatinem/rust-cache@v2
         if: matrix.settings.crate == 'swc'
         with:
-          shared-key: cargo-test-${{ settings.crate }}
+          shared-key: cargo-test-${{ matrix.settings.crate }}
           cache-on-failure: true
 
       - name: Configure execution cache
