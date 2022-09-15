@@ -37,6 +37,12 @@
 
 - **(es/ast)** Apply rkyv-bytecheck flag (#5866) ([092b728](https://github.com/swc-project/swc/commit/092b7281d0929a77ddfa3d09018445b94b0dc1cf))- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
 
+### Build
+
+
+
+- **(bindings)** Remove cargo patch (#5874) ([355bb41](https://github.com/swc-project/swc/commit/355bb41a1f0c9920c16d620f3b8099e910cedbad))
+
 ## [1.3.1] - 2022-09-14
 
 ### Bug Fixes
