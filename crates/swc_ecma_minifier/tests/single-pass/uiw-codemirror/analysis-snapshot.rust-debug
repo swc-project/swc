@@ -1132,7 +1132,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('part' type=inline),
+                Atom('part' type=static),
                 #18,
             ),
             VarUsageInfo {
@@ -1714,7 +1714,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('textLength' type=dynamic),
+                Atom('textLength' type=static),
                 #4,
             ),
             VarUsageInfo {

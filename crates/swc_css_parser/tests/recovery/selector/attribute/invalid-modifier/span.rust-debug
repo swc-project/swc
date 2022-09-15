@@ -35,7 +35,7 @@
    :  ^^^^
    `----
 
-  x Ident { value: Atom('href' type=inline), raw: Atom('href' type=inline) }
+  x Ident { value: Atom('href' type=static), raw: Atom('href' type=static) }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :  ^^^^

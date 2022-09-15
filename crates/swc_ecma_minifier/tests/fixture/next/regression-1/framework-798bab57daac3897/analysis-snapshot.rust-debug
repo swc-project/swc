@@ -87894,7 +87894,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('mi' type=inline),
+                Atom('mi' type=static),
                 #2,
             ),
             VarUsageInfo {

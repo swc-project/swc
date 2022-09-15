@@ -77,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('color' type=inline),
+                            value: Atom('color' type=static),
                         },
                     },
                 ),
