@@ -1025,7 +1025,7 @@ impl<I: Tokens> Parser<I> {
 
         let (raw, cooked) = match *cur!(self, true)? {
             Token::Template { .. } => match bump!(self) {
-                Token::Template { raw, cooked, .. } => match cooked {
+                Token::Template { cooked, .. } => match cooked {
                     Ok(cooked) => (raw, Some(cooked)),
                     Err(err) => {
                         if is_tagged_tpl {

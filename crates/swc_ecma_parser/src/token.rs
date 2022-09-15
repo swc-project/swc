@@ -603,7 +603,7 @@ impl Debug for Token {
             Semi => write!(f, ";")?,
             Comma => write!(f, ",")?,
             BackQuote => write!(f, "`")?,
-            Template { raw, .. } => write!(f, "template token ({})", raw)?,
+            Template { cooked, .. } => write!(f, "template token ({:?})", cooked)?,
             Colon => write!(f, ":")?,
             ColonColon => write!(f, "::")?,
             BinOp(op) => write!(f, "{}", BinaryOp::from(*op).as_str())?,
