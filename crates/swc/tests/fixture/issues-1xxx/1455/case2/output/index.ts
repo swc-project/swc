@@ -9,16 +9,17 @@ var obj = {
     },
     byPlatform: function() {
         var _ref = _async_to_generator(function(platform) {
-            var result, _tmp;
+            var result;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
-                        _tmp = {};
                         return [
                             4,
-                            this.find((_tmp.platform = {
-                                $eq: platform
-                            }, _tmp))
+                            this.find({
+                                platform: {
+                                    $eq: platform
+                                }
+                            })
                         ];
                     case 1:
                         result = _state.sent();

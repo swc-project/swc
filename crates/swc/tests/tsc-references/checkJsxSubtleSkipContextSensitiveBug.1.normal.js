@@ -25,12 +25,12 @@ function load() {
 }
 function _load() {
     _load = _async_to_generator(function() {
-        var _tmp;
         return _ts_generator(this, function(_state) {
-            _tmp = {};
             return [
                 2,
-                (_tmp.success = true, _tmp)
+                {
+                    success: true
+                }
             ];
         });
     });

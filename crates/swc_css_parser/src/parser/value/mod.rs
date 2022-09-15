@@ -2651,7 +2651,7 @@ where
         if has_question_mark {
             // 1. If there are any code points left in text, this is an invalid <urange>,
             // and this algorithm must exit.
-            if next != None {
+            if next.is_some() {
                 return Err(Error::new(
                     span,
                     ErrorKind::Expected("no characters after '?' in unicode range"),
@@ -2681,7 +2681,7 @@ where
 
         // 4. If there are no code points left in text, The end value is the same as the
         // start value. Exit this algorithm.
-        if next == None {
+        if next.is_none() {
             return Ok(UnicodeRange {
                 span: span!(self, span.lo),
                 prefix,
@@ -2735,7 +2735,7 @@ where
             ));
         }
 
-        if chars.next() != None {
+        if chars.next().is_some() {
             return Err(Error::new(
                 span,
                 ErrorKind::Expected("no characters after end in unicode range"),

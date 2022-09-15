@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix handling of objects in generator (#5861) ([006c7fb](https://github.com/swc-project/swc/commit/006c7fb56e0b8d4955f848c6af8c83bcd87515ab))
+
 ### Features
 
 
@@ -9,6 +15,15 @@
 
 ### Miscellaneous Tasks
 - **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))
+
+### Performance
+
+
+
+- **(html)** Reduce memory usage (#5867) ([7f62fa6](https://github.com/swc-project/swc/commit/7f62fa62277621bc0787eca1e5e0df9dd575b5cd))
+
+### Refactor
+- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
 
 ## [1.3.1] - 2022-09-14
 

@@ -144,8 +144,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
             RE.replace_all(
                 path_for_name
                     .to_string_lossy()
-                    .replace('\\', "__")
-                    .replace('/', "__")
+                    .replace(['\\', '/'], "__")
                     .as_str(),
                 "_",
             )

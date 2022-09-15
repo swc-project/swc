@@ -224,7 +224,7 @@ fn identity(entry: PathBuf) {
             emitter.emit_module(&module).unwrap();
         }
 
-        let js_content = String::from_utf8_lossy(&*wr.0.read().unwrap()).to_string();
+        let js_content = String::from_utf8_lossy(&wr.0.read().unwrap()).to_string();
 
         println!("---------------- JS ----------------\n\n{}", js_content);
 

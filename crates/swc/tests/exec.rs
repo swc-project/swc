@@ -336,7 +336,7 @@ fn unignore(path: &Path) {
 
     create_dir_all(new_path.parent().unwrap()).expect("failed to create parent dir");
 
-    rename(&path, &new_path).expect("failed to rename");
+    rename(path, &new_path).expect("failed to rename");
 }
 
 fn test_file_with_opts(
