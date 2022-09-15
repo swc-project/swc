@@ -1,6 +1,7 @@
 use std::{mem::take, ops::Range};
 
 use enum_kind::Kind;
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use tracing::trace;
 
@@ -184,8 +185,11 @@ impl<I: Input> Tokens for Lexer<'_, I> {
     }
 
     #[inline]
-    fn text(&self, range: Range<BytePos>) -> &str {
-        self.input.slice(range.start, range.end)
+    fn text(&mut self, range: Range<BytePos>) -> Atom {
+        let pos = self.input.cur_pos();
+        let s = self.input.slice(range.start, range.end).into();
+        self.input.reset_to(pos);
+        s
     }
 }
 

@@ -7,7 +7,7 @@ use swc_atoms::{Atom, JsWord};
 use swc_common::{collections::AHashMap, comments::Comments, input::Input, BytePos, Span};
 use swc_ecma_ast::*;
 
-pub use self::input::{Capturing, Tokens, TokensInput};
+pub use self::input::Tokens;
 use self::{input::Buffer, util::ParseObject};
 use crate::{
     error::SyntaxError,

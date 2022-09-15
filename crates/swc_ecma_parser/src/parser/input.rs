@@ -1,5 +1,6 @@
 use std::ops::Range;
 
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 
 use super::Parser;
@@ -44,7 +45,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
 
     fn take_errors(&mut self) -> Vec<Error>;
 
-    fn text(&self, range: Range<BytePos>) -> &str;
+    fn text(&mut self, range: Range<BytePos>) -> Atom;
 }
 
 // #[derive(Clone)]
