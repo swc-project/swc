@@ -84,6 +84,120 @@ jobs:
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
+
+  build-tests:
+    name: Build test - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-large
+          - macos-latest
+    steps:
+      - name: Handle line endings
+        shell: bash
+        if: runner.os == 'Windows'
+        run: |
+          git config --system core.autocrlf false
+          git config --system core.eol lf
+
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          target: wasm32-wasi
+
+      - name: Install nextest
+        uses: taiki-e/install-action@nextest
+
+      - uses: Swatinem/rust-cache@v2
+        id: cache
+        with:
+          shared-key: "cargo-test-${{ matrix.os }}"
+          cache-on-failure: true
+
+      - uses: actions/setup-node@v3
+        if: ${{ !steps.cache.outputs.cache-hit }}
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Build and archive tests
+        run: cargo nextest archive --archive-file nextest-archive.tar.zst
+      - name: Upload archive to workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: nextest-archive
+          path: nextest-archive.tar.zst
+
+  run-tests:
+    name: Test - ${{ matrix.os }} - ${{ matrix.partition }}
+    runs-on: ${{ matrix.os }}
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    needs:
+      - build-tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-large
+          - macos-latest
+        partition: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    steps:
+      - name: Handle line endings
+        shell: bash
+        if: runner.os == 'Windows'
+        run: |
+          git config --system core.autocrlf false
+          git config --system core.eol lf
+
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      # Source map format
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          target: wasm32-wasi
+          # MSRV is current stable for ES crates and nightly for other languages
+          # toolchain: stable
+          # override: true
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Install nextest
+        uses: taiki-e/install-action@nextest
+
+      - name: Download archive
+        uses: actions/download-artifact@v3
+        with:
+          name: nextest-archive
+
+      - name: Run tests
+        run: |
+          cargo nextest run --archive-file nextest-archive.tar.zst \
+            --partition count:${{ matrix.partition }}/16
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
     runs-on: ${{ matrix.settings.runner }}
