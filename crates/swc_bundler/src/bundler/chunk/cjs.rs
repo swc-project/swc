@@ -111,7 +111,7 @@ fn wrap_module(
     // ... body of foo
     let module_fn = Expr::Fn(FnExpr {
         ident: None,
-        function: Function {
+        function: Box::new(Function {
             params: vec![
                 // module
                 Param {
@@ -149,7 +149,7 @@ fn wrap_module(
             is_async: false,
             type_params: None,
             return_type: None,
-        },
+        }),
     });
 
     // var load = __swcpack_require__.bind(void 0, moduleDecl)

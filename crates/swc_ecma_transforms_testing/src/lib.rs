@@ -243,12 +243,12 @@ impl VisitMut for RegeneratorHandler {
                 init: Some(init),
                 definite: Default::default(),
             };
-            *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+            *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: import.span,
                 kind: VarDeclKind::Var,
                 declare: false,
                 decls: vec![decl],
-            })))
+            }))))
         }
     }
 }
