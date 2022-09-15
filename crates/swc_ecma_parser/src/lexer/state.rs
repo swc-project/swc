@@ -759,6 +759,8 @@ pub enum TokenContext {
     #[kind(is_expr, preserve_space)]
     Tpl {
         /// Start of a template literal.
+        ///
+        /// TODO(kdy1): Move this to a separate struct.
         start: BytePos,
     },
     #[kind(is_expr)]
