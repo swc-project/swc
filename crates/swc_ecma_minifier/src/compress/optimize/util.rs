@@ -34,11 +34,17 @@ where
     }
 
     /// RAII guard to change context temporarically
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b, M> {
-        #[cfg(debug_assertions)]
-        {
-            let scope_ctxt = ctx.scope;
-            if self.ctx.scope != scope_ctxt {
+    pub(super) fn with_ctx(&mut self, mut ctx: Ctx) -> WithCtx<'_, 'b, M> {
+        let mut scope_ctxt = ctx.scope;
+
+        if self.ctx.scope != scope_ctxt {
+            if scope_ctxt.clone().remove_mark() == self.marks.fake_block {
+                scope_ctxt.remove_mark();
+            }
+            ctx.scope = scope_ctxt;
+
+            #[cfg(debug_assertions)]
+            {
                 self.data.scopes.get(&scope_ctxt).unwrap_or_else(|| {
                     panic!("scope not found: {:?}; {:#?}", scope_ctxt, self.data.scopes)
                 });
