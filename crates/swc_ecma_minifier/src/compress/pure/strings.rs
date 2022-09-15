@@ -200,6 +200,7 @@ impl Pure<'_> {
                     || (!c.contains("\\n") && !c.contains("\\r")))
                     && !c.contains("\\0")
                     && !c.contains("\\x")
+                    && !c.contains("\\u")
                 {
                     let value = c
                         .replace("\\`", "`")
