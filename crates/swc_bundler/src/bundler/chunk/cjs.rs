@@ -154,7 +154,7 @@ fn wrap_module(
 
     // var load = __swcpack_require__.bind(void 0, moduleDecl)
 
-    Stmt::Decl(Decl::Var(VarDecl {
+    Stmt::Decl(Decl::Var(Box::new(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Var,
         declare: false,
@@ -174,7 +174,7 @@ fn wrap_module(
             }))),
             definite: false,
         }],
-    }))
+    })))
 }
 
 struct RequireReplacer<'a, 'b, L, R>

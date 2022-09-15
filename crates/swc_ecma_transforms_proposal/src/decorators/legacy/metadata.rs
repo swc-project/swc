@@ -112,7 +112,7 @@ impl VisitMut for Metadata<'_> {
                         .map(|v| match v {
                             ParamOrTsParamProp::TsParamProp(p) => {
                                 let ann = match &p.param {
-                                    TsParamPropParam::Ident(i) => i.type_ann.as_ref(),
+                                    TsParamPropParam::Ident(i) => i.type_ann.as_deref(),
                                     TsParamPropParam::Assign(a) => get_type_ann_of_pat(&a.left),
                                 };
                                 Some(serialize_type(self.class_name, ann).as_arg())

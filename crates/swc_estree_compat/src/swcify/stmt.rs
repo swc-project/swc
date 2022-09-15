@@ -614,7 +614,7 @@ impl Swcify for ImportDeclaration {
         ImportDecl {
             span: ctx.span(&self.base),
             specifiers: self.specifiers.swcify(ctx),
-            src: self.source.swcify(ctx),
+            src: box self.source.swcify(ctx),
             type_only: false,
             asserts: self
                 .assertions
@@ -627,7 +627,7 @@ impl Swcify for ImportDeclaration {
                         .map(PropOrSpread::Prop)
                         .collect()
                 })
-                .map(|props| ObjectLit {
+                .map(|props| box ObjectLit {
                     span: DUMMY_SP,
                     props,
                 }),
