@@ -87,7 +87,7 @@
    : ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
    ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
  2 | color: !!;
    : ^^^^^

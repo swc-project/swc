@@ -267,7 +267,7 @@
    : ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
    ,-[$DIR/tests/line-comment/css-in-js/6/input.css:4:5]
  4 | color: red;
    : ^^^^^

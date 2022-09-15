@@ -9366,7 +9366,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('placeholder' type=dynamic),
+                Atom('placeholder' type=static),
                 #6,
             ),
             VarUsageInfo {
@@ -9406,7 +9406,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('placeholder' type=dynamic),
+                Atom('placeholder' type=static),
                 #22,
             ),
             VarUsageInfo {
@@ -9444,7 +9444,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('placeholder' type=dynamic),
+                Atom('placeholder' type=static),
                 #24,
             ),
             VarUsageInfo {
@@ -10998,7 +10998,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('sizes' type=inline),
+                Atom('sizes' type=static),
                 #6,
             ),
             VarUsageInfo {
@@ -11038,7 +11038,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('sizes' type=inline),
+                Atom('sizes' type=static),
                 #14,
             ),
             VarUsageInfo {
@@ -11076,7 +11076,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('sizes' type=inline),
+                Atom('sizes' type=static),
                 #18,
             ),
             VarUsageInfo {
@@ -11156,7 +11156,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #6,
             ),
             VarUsageInfo {
@@ -11196,7 +11196,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #11,
             ),
             VarUsageInfo {
@@ -11234,7 +11234,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #12,
             ),
             VarUsageInfo {
@@ -11272,7 +11272,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #13,
             ),
             VarUsageInfo {
@@ -11310,7 +11310,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #18,
             ),
             VarUsageInfo {
@@ -11350,7 +11350,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #22,
             ),
             VarUsageInfo {
@@ -11388,7 +11388,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #28,
             ),
             VarUsageInfo {
@@ -11426,7 +11426,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #29,
             ),
             VarUsageInfo {
@@ -11466,7 +11466,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #30,
             ),
             VarUsageInfo {
@@ -11506,7 +11506,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #31,
             ),
             VarUsageInfo {
@@ -11546,7 +11546,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #32,
             ),
             VarUsageInfo {
@@ -11586,7 +11586,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('src' type=inline),
+                Atom('src' type=static),
                 #33,
             ),
             VarUsageInfo {
