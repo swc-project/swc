@@ -39,7 +39,9 @@ where
         {
             let scope_ctxt = ctx.scope;
             if self.ctx.scope != scope_ctxt {
-                self.data.scopes.get(&scope_ctxt).expect("scope not found");
+                self.data.scopes.get(&scope_ctxt).unwrap_or_else(|| {
+                    panic!("scope not found: {:?}; {:?}", scope_ctxt, self.data.scopes)
+                });
             }
         }
 
