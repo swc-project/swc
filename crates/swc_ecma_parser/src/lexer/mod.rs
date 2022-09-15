@@ -1166,22 +1166,22 @@ impl<'a, I: Input> Lexer<'a, I> {
         // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
         // sequence." TODO: check for escape
 
+        let separator = self.input.cur_pos();
+
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
         // let flags_start = self.cur_pos();
         let flags = {
             let atoms = self.atoms.clone();
             match self.cur() {
-                Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|s| atoms.borrow_mut().intern(s))
-                    .map(Some),
+                Some(c) if c.is_ident_start() => self.read_word_as_str_with(|s| {}).map(Some),
                 _ => Ok(None),
             }
         }?
         .map(|(value, _)| value)
         .unwrap_or_default();
 
-        Ok(Regex(content, flags))
+        Ok(Regex { separator })
     }
 
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {

@@ -9,7 +9,7 @@ use std::{
 use enum_kind::Kind;
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{js_word, Atom, JsWord};
-use swc_common::{Span, Spanned};
+use swc_common::{BytePos, Span, Spanned};
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
@@ -114,7 +114,10 @@ pub enum Token {
 
     /// Regexp literal.
     #[kind(starts_expr)]
-    Regex(Atom, Atom),
+    Regex {
+        /// The position of `/`
+        separator: BytePos,
+    },
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
@@ -614,7 +617,7 @@ impl Debug for Token {
             MinusMinus => write!(f, "--")?,
             Tilde => write!(f, "~")?,
             Str { value, raw } => write!(f, "string literal ({}, {})", value, raw)?,
-            Regex(exp, flags) => write!(f, "regexp literal ({}, {})", exp, flags)?,
+            Regex { .. } => write!(f, "regexp literal")?,
             Num { value, raw, .. } => write!(f, "numeric literal ({}, {})", value, raw)?,
             BigInt { value, raw } => write!(f, "bigint literal ({}, {})", value, raw)?,
             JSXName { name } => write!(f, "jsx name ({})", name)?,
