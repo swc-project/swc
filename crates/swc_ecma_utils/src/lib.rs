@@ -2395,8 +2395,22 @@ impl ExprCtx {
                 });
             }
 
-            Expr::TaggedTpl { .. } => unimplemented!("add_effects for tagged template literal"),
-            Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
+            Expr::TaggedTpl(TaggedTpl {
+                tag,
+                tpl: Tpl { exprs, .. },
+                ..
+            }) => {
+                self.extract_side_effects_to(to, *tag);
+
+                exprs
+                    .into_iter()
+                    .for_each(|e| self.extract_side_effects_to(to, *e));
+            }
+            Expr::Tpl(Tpl { exprs, .. }) => {
+                exprs
+                    .into_iter()
+                    .for_each(|e| self.extract_side_effects_to(to, *e));
+            }
             Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
 
             Expr::JSXMember(..)

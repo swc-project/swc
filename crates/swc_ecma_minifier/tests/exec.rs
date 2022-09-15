@@ -10029,3 +10029,12 @@ fn issue_5645() {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn issue_5799() {
+    let src = r###"
+    console.log(`\u2014`)
+    "###;
+
+    run_default_exec_test(src);
+}

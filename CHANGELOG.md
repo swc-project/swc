@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Fix handling of `.toFixed` call without an argument (#5868) ([90d311c](https://github.com/swc-project/swc/commit/90d311c042952c8b0d6381791c9f504fc54551ae))
 
+
+- **(es/minifier)** Fix unicode handling (#5875) ([c3fa96b](https://github.com/swc-project/swc/commit/c3fa96b21b1545be62fdfd359ca5762a1bd4a473))
+
 ### Features
 
 
