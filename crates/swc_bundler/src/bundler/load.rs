@@ -302,7 +302,7 @@ where
                         ImportDecl {
                             span: src.span,
                             specifiers: vec![],
-                            src,
+                            src: Box::new(src),
                             type_only: false,
                             asserts: None,
                         },

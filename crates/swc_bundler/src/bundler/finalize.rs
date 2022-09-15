@@ -408,7 +408,7 @@ where
                     } else {
                         format!("./{}", value).into()
                     },
-                    ..import.src
+                    ..*import.src
                 }),
                 ..import
             };
