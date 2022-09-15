@@ -16,6 +16,12 @@
 ### Miscellaneous Tasks
 - **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))
 
+### Performance
+
+
+
+- **(html)** Reduce memory usage (#5867) ([7f62fa6](https://github.com/swc-project/swc/commit/7f62fa62277621bc0787eca1e5e0df9dd575b5cd))
+
 ### Refactor
 - **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
 

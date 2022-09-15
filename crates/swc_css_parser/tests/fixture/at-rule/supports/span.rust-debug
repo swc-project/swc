@@ -6713,7 +6713,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:88:13]
  88 | color: black;
     : ^^^^^
@@ -6850,7 +6850,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:91:13]
  91 | color: white
     : ^^^^^
@@ -8636,7 +8636,7 @@
      : ^^^^^
      `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:125:13]
  125 | color: black;
      : ^^^^^
@@ -8773,7 +8773,7 @@
      : ^^^^^
      `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:128:13]
  128 | color: white
      : ^^^^^

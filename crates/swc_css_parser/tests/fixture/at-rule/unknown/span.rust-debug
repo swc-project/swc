@@ -4852,7 +4852,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:49:5]
  49 | color: red;
     : ^^^^^

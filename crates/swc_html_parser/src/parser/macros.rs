@@ -14,7 +14,7 @@ macro_rules! bump {
 macro_rules! get_tag_name {
     ($node:expr) => {{
         match &$node.data {
-            crate::parser::Data::Element { tag_name, .. } => tag_name.as_ref(),
+            crate::parser::Data::Element { tag_name, .. } => tag_name,
             _ => {
                 unreachable!();
             }

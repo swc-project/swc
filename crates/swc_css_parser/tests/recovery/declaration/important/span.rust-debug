@@ -81,7 +81,7 @@
    : ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
    ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
  2 | color: white !!important;
    : ^^^^^

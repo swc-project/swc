@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('name' type=inline),
+                    value: Atom('name' type=static),
                 },
                 tag: Name(
                     NameTag {
