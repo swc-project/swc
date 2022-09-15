@@ -1198,7 +1198,6 @@ impl<'a, I: Input> Lexer<'a, I> {
         let start = self.cur_pos();
 
         let mut cooked = Ok(String::new());
-        let mut raw = String::new();
 
         while let Some(c) = self.cur() {
             if c == '`' || (c == '$' && self.peek() == Some('{')) {
@@ -1216,16 +1215,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                 // TODO: Handle error
                 return Ok(Template {
                     cooked: cooked.map(Atom::from),
-                    raw: Atom::new(raw),
                 });
             }
 
             if c == '\\' {
-                raw.push('\\');
-
-                let mut wrapped = Raw(Some(raw));
-
-                match self.read_escaped_char(&mut wrapped, true) {
+                match self.read_escaped_char(&mut Raw(None), true) {
                     Ok(Some(chars)) => {
                         if let Ok(ref mut cooked) = cooked {
                             for c in chars {
@@ -1238,13 +1232,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                         cooked = Err(error);
                     }
                 }
-
-                raw = wrapped.0.unwrap();
             } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
 
                 let c = if c == '\r' && self.peek() == Some('\n') {
-                    raw.push('\r');
                     self.bump(); // '\r'
                     '\n'
                 } else {
@@ -1262,16 +1253,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                 if let Ok(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
-
-                raw.push(c);
             } else {
                 self.bump();
 
                 if let Ok(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
-
-                raw.push(c);
             }
         }
 
