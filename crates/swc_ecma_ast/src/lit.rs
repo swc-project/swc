@@ -72,8 +72,6 @@ pub struct BigInt {
         any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
         with(EncodeBigInt)
     )]
-    pub value: BigIntValue,
-    #[cfg_attr(feature = "rkyv", with(EncodeBigInt))]
     pub value: Box<BigIntValue>,
 
     /// Use `None` value only for transformations to avoid recalculate
