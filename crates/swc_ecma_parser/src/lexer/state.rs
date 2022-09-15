@@ -1,4 +1,4 @@
-use std::mem::take;
+use std::{mem::take, ops::Range};
 
 use enum_kind::Kind;
 use swc_common::{BytePos, Span};
@@ -181,6 +181,11 @@ impl<I: Input> Tokens for Lexer<'_, I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
+    }
+
+    #[inline]
+    fn text(&self, range: Range<BytePos>) -> &str {
+        self.input.slice(range.start, range.end)
     }
 }
 
