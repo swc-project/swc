@@ -433,7 +433,7 @@ impl<I: Tokens> Buffer<I> {
         Span::new(data.lo, data.hi, data.ctxt)
     }
 
-    pub fn text(&self, span: Range<BytePos>) -> &str {
+    pub fn text(&mut self, span: Range<BytePos>) -> Atom {
         self.iter.text(span)
     }
 

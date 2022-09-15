@@ -1028,10 +1028,10 @@ impl<I: Tokens> Parser<I> {
                 let span = self.input.cur_span();
                 match bump!(self) {
                     Token::Template { cooked, .. } => match cooked {
-                        Ok(cooked) => (self.input.text(span.lo..span.hi).into(), Some(cooked)),
+                        Ok(cooked) => (self.input.text(span.lo..span.hi), Some(cooked)),
                         Err(err) => {
                             if is_tagged_tpl {
-                                (self.input.text(span.lo..span.hi).into(), None)
+                                (self.input.text(span.lo..span.hi), None)
                             } else {
                                 return Err(err);
                             }
