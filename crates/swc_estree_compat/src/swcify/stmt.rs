@@ -207,7 +207,7 @@ impl Swcify for ForStmtInit {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ForStmtInit::VarDecl(v) => VarDeclOrExpr::VarDecl(v.swcify(ctx)),
+            ForStmtInit::VarDecl(v) => VarDeclOrExpr::VarDecl(v.swcify(ctx).into()),
             ForStmtInit::Expr(v) => VarDeclOrExpr::Expr(v.swcify(ctx)),
         }
     }
@@ -220,7 +220,7 @@ impl Swcify for FunctionDeclaration {
         FnDecl {
             ident: self.id.swcify(ctx).map(|v| v.id).unwrap(),
             declare: false,
-            function: swc_ecma_ast::Function {
+            function: box swc_ecma_ast::Function {
                 params: self.params.swcify(ctx),
                 decorators: Default::default(),
                 span: ctx.span(&self.base),
@@ -412,7 +412,7 @@ impl Swcify for ClassDeclaration {
         ClassDecl {
             ident: self.id.swcify(ctx).id,
             declare: self.declare.unwrap_or_default(),
-            class: swc_ecma_ast::Class {
+            class: box swc_ecma_ast::Class {
                 span: ctx.span(&self.base),
                 decorators: self.decorators.swcify(ctx).unwrap_or_default(),
                 body: self.body.swcify(ctx),
@@ -432,7 +432,7 @@ impl Swcify for ExportAllDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportAll {
             span: ctx.span(&self.base),
-            src: self.source.swcify(ctx),
+            src: box self.source.swcify(ctx),
             asserts: self
                 .assertions
                 .swcify(ctx)
@@ -444,7 +444,7 @@ impl Swcify for ExportAllDeclaration {
                         .map(PropOrSpread::Prop)
                         .collect()
                 })
-                .map(|props| ObjectLit {
+                .map(|props| box ObjectLit {
                     span: DUMMY_SP,
                     props,
                 }),
@@ -533,7 +533,7 @@ impl Swcify for ExportNamedDeclaration {
                         .map(PropOrSpread::Prop)
                         .collect()
                 })
-                .map(|props| ObjectLit {
+                .map(|props| box ObjectLit {
                     span: DUMMY_SP,
                     props,
                 }),
