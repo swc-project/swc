@@ -62,7 +62,7 @@ impl Swcify for Statement {
             Statement::Switch(v) => v.swcify(ctx).into(),
             Statement::Throw(v) => v.swcify(ctx).into(),
             Statement::Try(v) => v.swcify(ctx).into(),
-            Statement::VarDecl(v) => Decl::Var(v.swcify(ctx)).into(),
+            Statement::VarDecl(v) => v.swcify(ctx),
             Statement::While(v) => v.swcify(ctx).into(),
             Statement::With(v) => v.swcify(ctx).into(),
             Statement::ClassDecl(v) => Decl::Class(v.swcify(ctx)).into(),
@@ -520,7 +520,7 @@ impl Swcify for ExportNamedDeclaration {
         NamedExport {
             span: ctx.span(&self.base),
             specifiers: self.specifiers.swcify(ctx),
-            src: self.source.swcify(ctx),
+            src: self.source.swcify(ctx).map(Box::new),
             type_only: false,
             asserts: self
                 .assertions

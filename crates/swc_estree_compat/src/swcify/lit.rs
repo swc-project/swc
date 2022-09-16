@@ -141,6 +141,7 @@ impl Swcify for BigIntLiteral {
             value: self
                 .value
                 .parse()
+                .map(Box::new)
                 .expect("failed to parse the value of BigIntLiteral"),
             // TODO improve me
             raw: None,
