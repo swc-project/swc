@@ -553,71 +553,64 @@ impl Decorators {
             class.decorators,
             iter::once({
                 // function(_initialize) {}
-                FnExpr {
-                    ident: None,
-                    function: Function {
-                        span: DUMMY_SP,
+                Function {
+                    span: DUMMY_SP,
 
-                        params: iter::once(Pat::Ident(initialize.into()))
-                            .chain(super_class_ident.map(Pat::from))
-                            .map(|pat| Param {
-                                span: DUMMY_SP,
-                                decorators: vec![],
-                                pat,
-                            })
-                            .collect(),
-
-                        decorators: Default::default(),
-                        is_async: false,
-                        is_generator: false,
-
-                        body: Some(BlockStmt {
+                    params: iter::once(Pat::Ident(initialize.into()))
+                        .chain(super_class_ident.map(Pat::from))
+                        .map(|pat| Param {
                             span: DUMMY_SP,
-                            stmts: if !self.is_in_strict {
-                                // 'use strict';
-                                Some(Lit::Str(quote_str!("use strict")).into_stmt())
-                            } else {
-                                None
-                            }
-                            .into_iter()
-                            .chain(iter::once(Stmt::Decl(Decl::Class(ClassDecl {
-                                ident: ident.clone(),
-                                class: Class {
-                                    decorators: Default::default(),
-                                    body: vec![constructor],
-                                    ..class
-                                },
-                                declare: false,
-                            }))))
-                            .chain(iter::once(Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(Box::new(Expr::Object(ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: vec![
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("F")),
-                                                value: Box::new(Expr::Ident(ident)),
-                                            },
-                                        ))),
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("d")),
-                                                value: Box::new(Expr::Array(ArrayLit {
-                                                    span: DUMMY_SP,
-                                                    elems: descriptors,
-                                                })),
-                                            },
-                                        ))),
-                                    ],
-                                }))),
-                            })))
-                            .collect(),
-                        }),
+                            decorators: vec![],
+                            pat,
+                        })
+                        .collect(),
 
-                        return_type: Default::default(),
-                        type_params: Default::default(),
-                    },
+                    decorators: Default::default(),
+                    is_async: false,
+                    is_generator: false,
+
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: if !self.is_in_strict {
+                            // 'use strict';
+                            Some(Lit::Str(quote_str!("use strict")).into_stmt())
+                        } else {
+                            None
+                        }
+                        .into_iter()
+                        .chain(iter::once(Stmt::Decl(Decl::Class(ClassDecl {
+                            ident: ident.clone(),
+                            class: Class {
+                                decorators: Default::default(),
+                                body: vec![constructor],
+                                ..class
+                            },
+                            declare: false,
+                        }))))
+                        .chain(iter::once(Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(Box::new(Expr::Object(ObjectLit {
+                                span: DUMMY_SP,
+                                props: vec![
+                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("F")),
+                                        value: Box::new(Expr::Ident(ident)),
+                                    }))),
+                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("d")),
+                                        value: Box::new(Expr::Array(ArrayLit {
+                                            span: DUMMY_SP,
+                                            elems: descriptors,
+                                        })),
+                                    }))),
+                                ],
+                            }))),
+                        })))
+                        .collect(),
+                    }),
+
+                    return_type: Default::default(),
+                    type_params: Default::default(),
                 }
                 .as_arg()
             })
