@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 #![allow(dead_code)]
 #![recursion_limit = "256"]
+#![feature(box_patterns)]
 
 use std::path::PathBuf;
 
@@ -418,7 +419,8 @@ impl Fold for Polyfills {
                             span: DUMMY_SP,
                             raw: None,
                             value: src,
-                        },
+                        }
+                        .into(),
                         type_only: false,
                         asserts: None,
                     }))
@@ -435,7 +437,8 @@ impl Fold for Polyfills {
                             span: DUMMY_SP,
                             raw: None,
                             value: src,
-                        },
+                        }
+                        .into(),
                         type_only: false,
                         asserts: None,
                     }))
@@ -447,7 +450,7 @@ impl Fold for Polyfills {
             !matches!(
                 item,
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                    src: Str {
+                    src: box Str {
                         span: DUMMY_SP,
                         value: js_word!(""),
                         ..

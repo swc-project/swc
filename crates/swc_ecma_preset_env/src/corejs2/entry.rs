@@ -75,8 +75,9 @@ impl Fold for Entry {
                 src: Str {
                     span: DUMMY_SP,
                     value: js_word!(""),
-                    ..i.src
-                },
+                    ..*i.src
+                }
+                .into(),
                 ..i
             }
         } else {

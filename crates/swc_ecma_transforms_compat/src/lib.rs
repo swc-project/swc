@@ -1,6 +1,7 @@
 //! New-generation javascript to old-javascript compiler.
 #![deny(clippy::all)]
 #![allow(clippy::vec_box)]
+#![allow(clippy::boxed_local)]
 #![allow(clippy::match_like_matches_macro)]
 #![feature(box_patterns)]
 
