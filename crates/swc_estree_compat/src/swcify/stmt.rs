@@ -182,8 +182,8 @@ impl Swcify for ForStmtLeft {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ForStmtLeft::VarDecl(v) => VarDeclOrPat::VarDecl(v.swcify(ctx)),
-            ForStmtLeft::LVal(v) => VarDeclOrPat::Pat(v.swcify(ctx)),
+            ForStmtLeft::VarDecl(v) => VarDeclOrPat::VarDecl(v.swcify(ctx).into()),
+            ForStmtLeft::LVal(v) => VarDeclOrPat::Pat(v.swcify(ctx).into()),
         }
     }
 }
