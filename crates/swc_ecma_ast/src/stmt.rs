@@ -402,6 +402,9 @@ pub enum VarDeclOrExpr {
     Expr(Box<Expr>),
 }
 
+bridge_from!(VarDeclOrExpr, Box<VarDecl>, VarDecl);
+bridge_from!(VarDeclOrExpr, Box<Expr>, Expr);
+
 impl Take for VarDeclOrExpr {
     fn dummy() -> Self {
         VarDeclOrExpr::Expr(Take::dummy())
