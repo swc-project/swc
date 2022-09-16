@@ -34,6 +34,10 @@ pub enum Decl {
     TsModule(Box<TsModuleDecl>),
 }
 
+bridge_decl_from!(Box<VarDecl>, VarDecl);
+bridge_stmt_from!(Decl, ClassDecl);
+bridge_stmt_from!(Decl, FnDecl);
+
 impl Take for Decl {
     fn dummy() -> Self {
         Decl::Var(Take::dummy())
