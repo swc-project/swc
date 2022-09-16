@@ -178,13 +178,14 @@ macro_rules! take_vars {
             if !self.vars.is_empty() {
                 prepend_stmt(
                     &mut f.body.as_mut().unwrap().stmts,
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: self.vars.take(),
 
                         declare: false,
-                    })),
+                    }
+                    .into(),
                 )
             }
 

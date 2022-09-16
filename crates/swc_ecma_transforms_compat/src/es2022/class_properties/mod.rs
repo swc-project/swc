@@ -933,8 +933,9 @@ impl<C: Comments> ClassProperties<C> {
                 declare: false,
                 class: Class {
                     body: members,
-                    ..class
-                },
+                    ..*class
+                }
+                .into(),
             },
             ClassExtra {
                 vars,

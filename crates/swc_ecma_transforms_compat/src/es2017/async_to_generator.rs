@@ -297,6 +297,7 @@ impl<C: Comments> VisitMut for Actual<C> {
             return_type: Default::default(),
             type_params: Default::default(),
         }
+        .into()
     }
 
     fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
@@ -580,12 +581,15 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 init: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
                 definite: false,
             };
-            for_loop_body.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Let,
-                declare: false,
-                decls: vec![value_var],
-            })));
+            for_loop_body.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![value_var],
+                }
+                .into(),
+            );
         }
 
         match s.left {
