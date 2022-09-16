@@ -174,12 +174,15 @@ impl ForOf {
 
             let stmt = Stmt::For(ForStmt {
                 span,
-                init: Some(VarDeclOrExpr::VarDecl(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    declare: false,
-                    decls,
-                })),
+                init: Some(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Let,
+                        declare: false,
+                        decls,
+                    }
+                    .into(),
+                ),
                 test,
                 update,
                 body: Box::new(Stmt::Block(body)),
