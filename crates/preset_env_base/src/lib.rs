@@ -4,7 +4,7 @@
 //! something usable.
 
 use anyhow::Error;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use st_map::StaticMap;
 
 use self::version::Version;
@@ -13,7 +13,7 @@ pub mod query;
 pub mod version;
 
 /// A map without allocation.
-#[derive(Debug, Default, Deserialize, Clone, Copy, StaticMap)]
+#[derive(Debug, Default, Deserialize, Clone, Copy, Serialize, StaticMap, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct BrowserData<T: Default> {
     #[serde(default)]
