@@ -512,7 +512,7 @@ fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
             | ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { span, .. })
             | ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { span, .. })
             | ModuleDecl::ExportAll(ExportAll { span, .. })
-            | ModuleDecl::TsImportEquals(TsImportEqualsDecl { span, .. })
+            | ModuleDecl::TsImportEquals(box TsImportEqualsDecl { span, .. })
             | ModuleDecl::TsExportAssignment(TsExportAssignment { span, .. })
             | ModuleDecl::TsNamespaceExport(TsNamespaceExportDecl { span, .. }) => {
                 span.ctxt = ctxt;
@@ -530,7 +530,7 @@ fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
             | Stmt::If(IfStmt { span, .. })
             | Stmt::Switch(SwitchStmt { span, .. })
             | Stmt::Throw(ThrowStmt { span, .. })
-            | Stmt::Try(TryStmt { span, .. })
+            | Stmt::Try(box TryStmt { span, .. })
             | Stmt::While(WhileStmt { span, .. })
             | Stmt::DoWhile(DoWhileStmt { span, .. })
             | Stmt::For(ForStmt { span, .. })
@@ -541,18 +541,18 @@ fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
             }
             Stmt::Decl(decl) => match decl {
                 Decl::Class(ClassDecl {
-                    class: Class { span, .. },
+                    class: box Class { span, .. },
                     ..
                 })
                 | Decl::Fn(FnDecl {
-                    function: Function { span, .. },
+                    function: box Function { span, .. },
                     ..
                 })
-                | Decl::Var(VarDecl { span, .. })
-                | Decl::TsInterface(TsInterfaceDecl { span, .. })
-                | Decl::TsTypeAlias(TsTypeAliasDecl { span, .. })
-                | Decl::TsEnum(TsEnumDecl { span, .. })
-                | Decl::TsModule(TsModuleDecl { span, .. }) => {
+                | Decl::Var(box VarDecl { span, .. })
+                | Decl::TsInterface(box TsInterfaceDecl { span, .. })
+                | Decl::TsTypeAlias(box TsTypeAliasDecl { span, .. })
+                | Decl::TsEnum(box TsEnumDecl { span, .. })
+                | Decl::TsModule(box TsModuleDecl { span, .. }) => {
                     span.ctxt = ctxt;
                 }
             },
