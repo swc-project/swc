@@ -22,12 +22,12 @@ impl<T> FunctionWrapper<T> {
     /// `get_params` clone only the parameters that count in function length.
     fn get_params<'a, ParamsIter, Item>(params_iter: ParamsIter) -> Vec<Param>
     where
-        &'a Param: From<Item>,
+        Item: Into<&'a Param>,
         ParamsIter: IntoIterator<Item = Item>,
     {
         params_iter
             .into_iter()
-            .map(From::from)
+            .map(Into::into)
             .map_while(|param| match param.pat {
                 Pat::Ident(..) => Some(param.clone()),
                 Pat::Array(..) | Pat::Object(..) => Some(Param {
@@ -308,7 +308,7 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
 
         let function = Box::new(Function {
             span,
-            params: params.into_iter().map(From::from).collect(),
+            params: params.into_iter().map(Into::into).collect(),
             decorators: Default::default(),
             body,
             type_params: None,
