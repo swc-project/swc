@@ -367,7 +367,7 @@ impl<C: Comments> Actual<C> {
 
             Expr::Fn(
                 fn_expr @ FnExpr {
-                    function: Function { is_async: true, .. },
+                    function: box Function { is_async: true, .. },
                     ..
                 },
             ) => {
