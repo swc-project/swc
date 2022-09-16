@@ -35,6 +35,10 @@ pub enum Decl {
 }
 
 bridge_decl_from!(Box<VarDecl>, VarDecl);
+bridge_decl_from!(Box<TsInterfaceDecl>, TsInterfaceDecl);
+bridge_decl_from!(Box<TsTypeAliasDecl>, TsTypeAliasDecl);
+bridge_decl_from!(Box<TsEnumDecl>, TsEnumDecl);
+bridge_decl_from!(Box<TsModuleDecl>, TsModuleDecl);
 bridge_stmt_from!(Decl, ClassDecl);
 bridge_stmt_from!(Decl, FnDecl);
 
