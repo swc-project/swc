@@ -75,13 +75,13 @@ macro_rules! impl_visit_mut_fn {
                 &mut vec![Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: f.param.take(),
+                    pat: *f.param.take(),
                 }],
                 &mut f.body.take().unwrap(),
             );
             debug_assert!(params.len() == 1);
 
-            f.param = params.pop().unwrap().pat;
+            f.param = Box::new(params.pop().unwrap().pat);
             f.body = Some(body);
         }
 

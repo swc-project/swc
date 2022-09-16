@@ -67,12 +67,15 @@ impl TscDecorator {
             s.visit_mut_with(self);
 
             if !self.vars.is_empty() {
-                new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: self.vars.take(),
-                }))));
+                new.push(T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: self.vars.take(),
+                    }
+                    .into(),
+                ));
             }
 
             new.push(s);
@@ -445,12 +448,13 @@ impl VisitMut for TscDecorator {
                                 definite: Default::default(),
                             };
 
-                            let let_decl = Decl::Var(VarDecl {
+                            let let_decl = VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Let,
                                 declare: Default::default(),
                                 decls: vec![d],
-                            });
+                            }
+                            .into();
                             *module_item =
                                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                                     span: export_decl_span,
@@ -495,12 +499,13 @@ impl VisitMut for TscDecorator {
                             }))),
                             definite: Default::default(),
                         };
-                        *module_item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        *module_item = VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Let,
                             declare: Default::default(),
                             decls: vec![d],
-                        })));
+                        }
+                        .into();
                         self.exports
                             .push(ExportSpecifier::Named(ExportNamedSpecifier {
                                 span: DUMMY_SP,
