@@ -97,7 +97,7 @@ impl Babelify for ExportDecl {
 }
 
 fn convert_import_asserts(
-    asserts: Option<ObjectLit>,
+    asserts: Option<Box<ObjectLit>>,
     ctx: &Context,
 ) -> Option<Vec<ImportAttribute>> {
     asserts.map(|obj| {

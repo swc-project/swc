@@ -200,7 +200,7 @@ impl VisitMut for Metadata<'_> {
 
         let dec = self.create_metadata_design_decorator(
             "design:type",
-            serialize_type(self.class_name, p.type_ann.as_ref()).as_arg(),
+            serialize_type(self.class_name, p.type_ann.as_deref()).as_arg(),
         );
         p.decorators.push(dec);
     }
