@@ -483,21 +483,27 @@ impl ObjectRest {
             // Add variable declaration
             // e.g. var ref
             if !folder.mutable_vars.is_empty() {
-                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: folder.mutable_vars,
-                    declare: false,
-                }))));
+                buf.push(T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: folder.mutable_vars,
+                        declare: false,
+                    }
+                    .into(),
+                ));
             }
 
             if !folder.vars.is_empty() {
-                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: folder.vars,
-                    declare: false,
-                }))));
+                buf.push(T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: folder.vars,
+                        declare: false,
+                    }
+                    .into(),
+                ));
             }
 
             buf.push(stmt);
