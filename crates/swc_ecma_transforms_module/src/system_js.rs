@@ -273,23 +273,26 @@ impl SystemJs {
             let export_obj = quote_ident!("exportObj");
             let key_ident = quote_ident!("key");
             let target = quote_ident!(local_name_for_src(&meta.src));
-            meta.setter_fn_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![VarDeclarator {
+            meta.setter_fn_stmts.push(
+                VarDecl {
                     span: DUMMY_SP,
-                    name: export_obj.clone().into(),
-                    init: Some(Box::new(Expr::Object(ObjectLit {
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        props: vec![],
-                    }))),
-                    definite: false,
-                }],
-            })));
+                        name: export_obj.clone().into(),
+                        init: Some(Box::new(Expr::Object(ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![],
+                        }))),
+                        definite: false,
+                    }],
+                }
+                .into(),
+            );
             meta.setter_fn_stmts.push(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
-                left: VarDeclOrPat::VarDecl(VarDecl {
+                left: VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
@@ -299,7 +302,8 @@ impl SystemJs {
                         init: None,
                         definite: false,
                     }],
-                }),
+                }
+                .into(),
                 right: Box::new(Expr::Ident(target.clone())),
 
                 body: Box::new(Stmt::Block(BlockStmt {

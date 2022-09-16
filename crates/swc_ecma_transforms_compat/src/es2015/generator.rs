@@ -2059,7 +2059,7 @@ impl Generator {
             self.end_exception_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::Try(node));
+            self.emit_stmt(node.into());
         }
     }
 
