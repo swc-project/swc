@@ -9,7 +9,7 @@ use swc_common::{
     BytePos, DUMMY_SP,
 };
 
-type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, ahash::RandomState>>;
+pub type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, ahash::RandomState>>;
 
 /// Multi-threaded implementation of [Comments]
 #[derive(Clone, Default)]
