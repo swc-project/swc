@@ -1126,19 +1126,22 @@ where
             props.retain(|_, v| {
                 if let Some(method) = v.method.take() {
                     if res.is_empty() {
-                        res.push(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
+                        res.push(
+                            VarDecl {
                                 span: DUMMY_SP,
-                                name: proto.clone().into(),
-                                init: Some(Box::new(
-                                    class_name.clone().make_member(quote_ident!("prototype")),
-                                )),
-                                definite: false,
-                            }],
-                        })))
+                                kind: VarDeclKind::Var,
+                                declare: false,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: proto.clone().into(),
+                                    init: Some(Box::new(
+                                        class_name.clone().make_member(quote_ident!("prototype")),
+                                    )),
+                                    definite: false,
+                                }],
+                            }
+                            .into(),
+                        );
                     }
                     let span = method.span();
                     let prop = *v.key_prop.clone();
