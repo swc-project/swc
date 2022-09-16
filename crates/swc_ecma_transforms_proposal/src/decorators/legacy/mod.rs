@@ -389,12 +389,12 @@ impl VisitMut for TscDecorator {
                         }))),
                         definite: Default::default(),
                     };
-                    *n = Decl::Var(VarDecl {
+                    *n = Decl::Var(Box::new(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Let,
                         declare: Default::default(),
                         decls: vec![d],
-                    });
+                    }));
                 }
             }
             _ => {

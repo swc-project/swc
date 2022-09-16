@@ -157,7 +157,7 @@ impl VisitMut for ComputedProps {
                                     type_ann,
                                 }) => (
                                     key,
-                                    Function {
+                                    Box::new(Function {
                                         span,
                                         body,
                                         is_async: false,
@@ -166,7 +166,7 @@ impl VisitMut for ComputedProps {
                                         decorators: Default::default(),
                                         type_params: Default::default(),
                                         return_type: type_ann,
-                                    },
+                                    }),
                                 ),
                                 Prop::Setter(SetterProp {
                                     span,
@@ -175,7 +175,7 @@ impl VisitMut for ComputedProps {
                                     key,
                                 }) => (
                                     key,
-                                    Function {
+                                    Box::new(Function {
                                         span,
                                         body,
                                         is_async: false,
@@ -184,7 +184,7 @@ impl VisitMut for ComputedProps {
                                         decorators: Default::default(),
                                         type_params: Default::default(),
                                         return_type: Default::default(),
-                                    },
+                                    }),
                                 ),
                                 _ => unreachable!(),
                             };
