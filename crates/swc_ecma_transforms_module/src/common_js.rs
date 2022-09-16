@@ -671,6 +671,7 @@ pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDe
             is_async: false,
             type_params: None,
             return_type: None,
-        },
+        }
+        .into(),
     }
 }
