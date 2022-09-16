@@ -100,17 +100,17 @@ macro_rules! impl_for_for_stmt {
                     .into();
                     (left, stmt)
                 }
-                VarDeclOrPat::Pat(pat) => match &**pat {
+                VarDeclOrPat::Pat(pat) => match *pat {
                     Pat::Ident(..) => {
                         return;
                     }
                     _ => {
                         let left_ident = make_ref_ident_for_for_stmt();
-                        let left = VarDeclOrPat::from(left_ident.clone().into());
+                        let left = VarDeclOrPat::Pat(left_ident.clone().into());
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(pat.take()),
+                            left: PatOrExpr::Pat(Box::new(pat.take())),
                             op: op!("="),
                             right: Box::new(left_ident.into()),
                         }
