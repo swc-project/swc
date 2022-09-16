@@ -266,7 +266,7 @@ impl VisitMut for ModuleDeclStrip {
             value: src_key,
             span: src_span,
             ..
-        } = n.take().src;
+        } = *n.take().src;
 
         self.link
             .entry(src_key)

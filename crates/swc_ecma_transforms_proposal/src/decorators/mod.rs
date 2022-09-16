@@ -584,7 +584,7 @@ impl Decorators {
                             class: Class {
                                 decorators: Default::default(),
                                 body: vec![constructor],
-                                ..class
+                                ..*class
                             }
                             .into(),
                             declare: false,

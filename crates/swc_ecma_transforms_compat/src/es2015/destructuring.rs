@@ -110,7 +110,7 @@ macro_rules! impl_for_for_stmt {
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(pat.take())),
+                            left: PatOrExpr::Pat(pat.take()),
                             op: op!("="),
                             right: Box::new(left_ident.into()),
                         }
