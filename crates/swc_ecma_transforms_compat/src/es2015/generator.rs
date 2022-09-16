@@ -59,7 +59,7 @@ impl VisitMut for Wrapper {
             stmts.visit_mut_with(&mut InvalidToLit {
                 map: v.label_exprs.as_deref(),
             });
-            let inner_fn = Function {
+            let inner_fn = Box::new(Function {
                 span: DUMMY_SP,
                 params: vec![Param {
                     span: DUMMY_SP,
@@ -75,7 +75,7 @@ impl VisitMut for Wrapper {
                 is_async: false,
                 type_params: Default::default(),
                 return_type: Default::default(),
-            };
+            });
             let generator_object = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(ts, ts_generator, "__generator"),
@@ -91,21 +91,27 @@ impl VisitMut for Wrapper {
             }));
             let mut stmts = vec![];
             if !v.hoisted_vars.is_empty() {
-                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: v.hoisted_vars.take(),
-                })))
+                stmts.push(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: v.hoisted_vars.take(),
+                    }
+                    .into(),
+                )
             }
             let vars = hoister.to_decl();
             if !vars.is_empty() {
-                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: vars,
-                })))
+                stmts.push(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: vars,
+                    }
+                    .into(),
+                )
             }
             stmts.extend(v.hoisted_fns.into_iter().map(Decl::Fn).map(Stmt::Decl));
 
@@ -1463,7 +1469,7 @@ impl Generator {
         self.emit_stmt(Stmt::Expr(node));
     }
 
-    fn transform_and_emit_var_decl_list(&mut self, mut node: VarDecl) {
+    fn transform_and_emit_var_decl_list(&mut self, mut node: Box<VarDecl>) {
         for variable in &node.decls {
             self.hoist_variable_declaration(variable.name.as_ident().unwrap());
         }
