@@ -390,21 +390,27 @@ impl Params {
         let mut iter: ArrayVec<_, 3> = Default::default();
 
         if !decls.is_empty() {
-            iter.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Let,
-                decls,
-                declare: false,
-            })))
+            iter.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    decls,
+                    declare: false,
+                }
+                .into(),
+            )
         }
         iter.extend(unpack_rest);
         if !decls_after_unpack.is_empty() {
-            iter.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Let,
-                decls: decls_after_unpack,
-                declare: false,
-            })));
+            iter.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    decls: decls_after_unpack,
+                    declare: false,
+                }
+                .into(),
+            );
         }
         if (is_setter || self.c.ignore_function_length) && !loose_stmt.is_empty() {
             loose_stmt.extend(iter);
@@ -577,19 +583,17 @@ impl VisitMut for Params {
                 self.visit_mut_fn_like(&mut params, &mut body, false);
 
                 if need_arrow_to_function {
-                    let func = Expr::Fn(FnExpr {
-                        ident: None,
-                        function: Function {
-                            params,
-                            decorators: Default::default(),
-                            span: f.span,
-                            body: Some(body),
-                            is_generator: f.is_generator,
-                            is_async: f.is_async,
-                            type_params: Default::default(),
-                            return_type: Default::default(),
-                        },
-                    });
+                    let func: Expr = Function {
+                        params,
+                        decorators: Default::default(),
+                        span: f.span,
+                        body: Some(body),
+                        is_generator: f.is_generator,
+                        is_async: f.is_async,
+                        type_params: Default::default(),
+                        return_type: Default::default(),
+                    }
+                    .into();
                     *e = match (self.in_prop, local_vars) {
                         (true, Some(var_decl)) => Expr::Arrow(ArrowExpr {
                             span: f.span,
