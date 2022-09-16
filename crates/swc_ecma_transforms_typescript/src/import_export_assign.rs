@@ -54,7 +54,7 @@ impl VisitMut for ImportExportAssign {
                         is_type_only: false,
                     }
                     .into()],
-                    src: quote_str!("module"),
+                    src: Box::new(quote_str!("module")),
                     type_only: false,
                     asserts: None,
                 })
@@ -85,7 +85,7 @@ impl VisitMut for ImportExportAssign {
 
         for item in n.drain(..) {
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(TsImportEqualsDecl {
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(box TsImportEqualsDecl {
                     span,
                     declare: false,
                     is_export,

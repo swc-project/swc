@@ -402,22 +402,22 @@ where
                 }
             }
 
-            Decl::TsEnum(TsEnumDecl { ref id, .. }) => {
+            Decl::TsEnum(box TsEnumDecl { ref id, .. }) => {
                 // Currently swc cannot remove constant enums
                 self.store(id.sym.clone(), id.span.ctxt, true);
                 self.store(id.sym.clone(), id.span.ctxt, false);
             }
 
-            Decl::TsInterface(TsInterfaceDecl { ref id, .. })
-            | Decl::TsModule(TsModuleDecl {
+            Decl::TsInterface(box TsInterfaceDecl { ref id, .. })
+            | Decl::TsModule(box TsModuleDecl {
                 id: TsModuleName::Ident(ref id),
                 ..
             })
-            | Decl::TsTypeAlias(TsTypeAliasDecl { ref id, .. }) => {
+            | Decl::TsTypeAlias(box TsTypeAliasDecl { ref id, .. }) => {
                 self.store(id.sym.clone(), id.span.ctxt, false)
             }
 
-            Decl::TsModule(TsModuleDecl {
+            Decl::TsModule(box TsModuleDecl {
                 id:
                     TsModuleName::Str(Str {
                         ref value, span, ..
@@ -502,7 +502,12 @@ where
     }
 
     /// Returns `(var_decl, init)`.
-    fn handle_enum(&mut self, e: TsEnumDecl, module_name: Option<&Ident>) -> (Option<Decl>, Stmt) {
+    #[allow(clippy::boxed_local)]
+    fn handle_enum(
+        &mut self,
+        e: Box<TsEnumDecl>,
+        module_name: Option<&Ident>,
+    ) -> (Option<Decl>, Stmt) {
         /// Called only for enums.
         ///
         /// If both of the default value and the initialization is None, this
@@ -660,7 +665,7 @@ where
         // })(Foo || (Foo = {}));
 
         let var = self.create_uninit_var(e.span, e.id.to_id()).map(|var| {
-            Decl::Var(VarDecl {
+            VarDecl {
                 span: DUMMY_SP,
                 kind: if e.id.span.ctxt != self.top_level_ctxt {
                     VarDeclKind::Let
@@ -669,7 +674,8 @@ where
                 },
                 declare: false,
                 decls: vec![var],
-            })
+            }
+            .into()
         });
 
         let id = e.id.clone();
@@ -747,84 +753,81 @@ where
 
         let init = CallExpr {
             span: DUMMY_SP,
-            callee: FnExpr {
-                ident: None,
-                function: Function {
+            callee: Function {
+                span: DUMMY_SP,
+                decorators: Default::default(),
+                is_async: false,
+                is_generator: false,
+                type_params: Default::default(),
+                params: vec![Param {
+                    span: id.span,
+                    decorators: vec![],
+                    pat: id.clone().into(),
+                }],
+                body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    decorators: Default::default(),
-                    is_async: false,
-                    is_generator: false,
-                    type_params: Default::default(),
-                    params: vec![Param {
-                        span: id.span,
-                        decorators: vec![],
-                        pat: id.clone().into(),
-                    }],
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: members
-                            .into_iter()
-                            .map(|(m, val)| {
-                                let no_init_required = matches!(val, Expr::Lit(Lit::Str(..)));
-                                let rhs_should_be_name = match &val {
-                                    Expr::Lit(Lit::Str(s)) => m.id.as_ref() == &s.value,
-                                    _ => true,
-                                };
+                    stmts: members
+                        .into_iter()
+                        .map(|(m, val)| {
+                            let no_init_required = matches!(val, Expr::Lit(Lit::Str(..)));
+                            let rhs_should_be_name = match &val {
+                                Expr::Lit(Lit::Str(s)) => m.id.as_ref() == &s.value,
+                                _ => true,
+                            };
 
-                                let value = match m.id {
-                                    TsEnumMemberId::Str(s) => s,
-                                    TsEnumMemberId::Ident(i) => Str {
-                                        span: i.span,
-                                        raw: None,
-                                        value: i.sym,
-                                    },
-                                };
-                                let prop = if no_init_required {
-                                    Box::new(Expr::Lit(Lit::Str(value.clone())))
-                                } else {
-                                    Box::new(Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: Box::new(Expr::Ident(id.clone())),
-                                            prop: MemberProp::Computed(ComputedPropName {
-                                                span: DUMMY_SP,
-                                                expr: Box::new(Expr::Lit(Lit::Str(value.clone()))),
-                                            }),
-                                        }))),
-                                        op: op!("="),
-                                        right: Box::new(val.clone()),
-                                    }))
-                                };
-
-                                // Foo[Foo["a"] = 0] = "a";
-                                AssignExpr {
+                            let value = match m.id {
+                                TsEnumMemberId::Str(s) => s,
+                                TsEnumMemberId::Ident(i) => Str {
+                                    span: i.span,
+                                    raw: None,
+                                    value: i.sym,
+                                },
+                            };
+                            let prop = if no_init_required {
+                                Box::new(Expr::Lit(Lit::Str(value.clone())))
+                            } else {
+                                Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                        obj: Box::new(Expr::Ident(id.clone())),
                                         span: DUMMY_SP,
-
-                                        // Foo["a"] = 0
+                                        obj: Box::new(Expr::Ident(id.clone())),
                                         prop: MemberProp::Computed(ComputedPropName {
                                             span: DUMMY_SP,
-                                            expr: prop,
+                                            expr: Box::new(Expr::Lit(Lit::Str(value.clone()))),
                                         }),
                                     }))),
                                     op: op!("="),
-                                    right: if rhs_should_be_name {
-                                        Box::new(Expr::Lit(Lit::Str(value)))
-                                    } else if m.init.is_some() {
-                                        Box::new(val)
-                                    } else {
-                                        Box::new(Expr::Lit(Lit::Str(value)))
-                                    },
-                                }
-                                .into_stmt()
-                            })
-                            .collect(),
-                    }),
-                    return_type: Default::default(),
-                },
+                                    right: Box::new(val.clone()),
+                                }))
+                            };
+
+                            // Foo[Foo["a"] = 0] = "a";
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                    obj: Box::new(Expr::Ident(id.clone())),
+                                    span: DUMMY_SP,
+
+                                    // Foo["a"] = 0
+                                    prop: MemberProp::Computed(ComputedPropName {
+                                        span: DUMMY_SP,
+                                        expr: prop,
+                                    }),
+                                }))),
+                                op: op!("="),
+                                right: if rhs_should_be_name {
+                                    Box::new(Expr::Lit(Lit::Str(value)))
+                                } else if m.init.is_some() {
+                                    Box::new(val)
+                                } else {
+                                    Box::new(Expr::Lit(Lit::Str(value)))
+                                },
+                            }
+                            .into_stmt()
+                        })
+                        .collect(),
+                }),
+                return_type: Default::default(),
             }
             .as_callee(),
             args: vec![self.get_namespace_or_enum_init_arg(e.span, &id, module_name)],
@@ -2165,7 +2168,7 @@ where
 
                 // Strip out ts-only extensions
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                    function: Function { body: None, .. },
+                    function: box Function { body: None, .. },
                     ..
                 })))
                 | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
@@ -2534,7 +2537,7 @@ where
 
                 // Strip out ts-only extensions
                 Stmt::Decl(Decl::Fn(FnDecl {
-                    function: Function { body: None, .. },
+                    function: box Function { body: None, .. },
                     ..
                 }))
                 | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
@@ -2542,12 +2545,15 @@ where
                 Stmt::Decl(Decl::Class(mut class)) => {
                     class.visit_mut_with(self);
                     if !self.keys.is_empty() {
-                        stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            declare: false,
-                            decls: self.keys.take(),
-                            kind: VarDeclKind::Let,
-                        })))
+                        stmts.push(
+                            VarDecl {
+                                span: DUMMY_SP,
+                                declare: false,
+                                decls: self.keys.take(),
+                                kind: VarDeclKind::Let,
+                            }
+                            .into(),
+                        )
                     }
 
                     stmts.push(Stmt::Decl(Decl::Class(class)));
@@ -2563,12 +2569,13 @@ where
         if !self.keys.is_empty() {
             prepend_stmt(
                 &mut stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     declare: false,
                     decls: self.keys.take(),
                     kind: VarDeclKind::Let,
-                })),
+                }
+                .into(),
             )
         }
 
