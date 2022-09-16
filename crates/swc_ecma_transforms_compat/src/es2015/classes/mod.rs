@@ -507,19 +507,16 @@ where
 
         let call = CallExpr {
             span,
-            callee: Expr::Fn(FnExpr {
-                ident: None,
-                function: Function {
-                    span,
-                    is_async: false,
-                    is_generator: false,
-                    params,
-                    body: Some(body),
-                    decorators: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                },
-            })
+            callee: Function {
+                span,
+                is_async: false,
+                is_generator: false,
+                params,
+                body: Some(body),
+                decorators: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+            }
             .as_callee(),
             args,
             type_args: Default::default(),
@@ -598,22 +595,25 @@ where
             class_name_sym.span.ctxt = class_name.span.ctxt;
 
             if !self.config.super_is_callable_constructor {
-                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: vec![VarDeclarator {
+                stmts.push(
+                    VarDecl {
                         span: DUMMY_SP,
-                        name: var.clone().into(),
-                        init: Some(Box::new(Expr::Call(CallExpr {
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            callee: helper!(create_super, "createSuper"),
-                            args: vec![class_name_sym.as_arg()],
-                            type_args: Default::default(),
-                        }))),
-                        definite: Default::default(),
-                    }],
-                })));
+                            name: var.clone().into(),
+                            init: Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: helper!(create_super, "createSuper"),
+                                args: vec![class_name_sym.as_arg()],
+                                type_args: Default::default(),
+                            }))),
+                            definite: Default::default(),
+                        }],
+                    }
+                    .into(),
+                );
                 var
             } else {
                 super_class.clone()
@@ -708,12 +708,13 @@ where
                 if !vars.is_empty() {
                     prepend_stmt(
                         &mut body,
-                        Stmt::Decl(Decl::Var(VarDecl {
+                        VarDecl {
                             span: DUMMY_SP,
                             declare: false,
                             kind: VarDeclKind::Var,
                             decls: vars,
-                        })),
+                        }
+                        .into(),
                     );
                 }
 
