@@ -374,11 +374,7 @@ pub enum PropOrSpread {
     Prop(Box<Prop>),
 }
 
-impl From<Prop> for PropOrSpread {
-    fn from(p: Prop) -> Self {
-        Self::Prop(Box::new(p))
-    }
-}
+bridge_from!(PropOrSpread, Box<Prop>, Prop);
 
 impl Take for PropOrSpread {
     fn dummy() -> Self {
@@ -507,14 +503,17 @@ impl Take for FnExpr {
     }
 }
 
-impl From<Function> for FnExpr {
-    fn from(function: Function) -> Self {
+impl From<Box<Function>> for FnExpr {
+    fn from(function: Box<Function>) -> Self {
         Self {
             ident: None,
-            function: function.into(),
+            function,
         }
     }
 }
+
+bridge_from!(FnExpr, Box<Function>, Function);
+bridge_expr_from!(FnExpr, Box<Function>);
 
 /// Class expression.
 #[ast_node("ClassExpression")]
@@ -538,14 +537,14 @@ impl Take for ClassExpr {
     }
 }
 
-impl From<Class> for ClassExpr {
-    fn from(class: Class) -> Self {
-        Self {
-            ident: None,
-            class: class.into(),
-        }
+impl From<Box<Class>> for ClassExpr {
+    fn from(class: Box<Class>) -> Self {
+        Self { ident: None, class }
     }
 }
+
+bridge_from!(ClassExpr, Box<Class>, Class);
+bridge_expr_from!(ClassExpr, Box<Class>);
 
 #[derive(Spanned, Clone, Debug, PartialEq, Serialize)]
 #[cfg_attr(
@@ -1136,14 +1135,13 @@ impl Spanned for ExprOrSpread {
     }
 }
 
-impl From<Expr> for ExprOrSpread {
-    fn from(e: Expr) -> Self {
-        Self {
-            spread: None,
-            expr: Box::new(e),
-        }
+impl From<Box<Expr>> for ExprOrSpread {
+    fn from(expr: Box<Expr>) -> Self {
+        Self { expr, spread: None }
     }
 }
+
+bridge_from!(ExprOrSpread, Box<Expr>, Expr);
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -1435,6 +1433,8 @@ impl From<OptCall> for CallExpr {
         }
     }
 }
+
+bridge_expr_from!(CallExpr, OptCall);
 
 test_de!(
     jsx_element,
