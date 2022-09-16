@@ -63,7 +63,7 @@ C._ = [
     (()=>{
         (function Reflect() {}); // no collision
         _get(_get_prototype_of(C), "w", C).call(C);
-    })(), 
+    })()
 ];
 var __ = {
     writable: true,

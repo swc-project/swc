@@ -38,7 +38,7 @@ C._ = [
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C), 
+    void _get(_get_prototype_of(C), "w", C).call(C)
 ], (()=>{
     var { Reflect  } = {
         Reflect: null

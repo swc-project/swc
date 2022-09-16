@@ -32,7 +32,7 @@ var a3 = [
 var a4 = [
     function() {
         return 1;
-    }, 
+    }
 ];
 var a5 = _to_consumable_array(a0).concat([
     , 
@@ -101,7 +101,7 @@ var temp3 = [
 var temp4 = [];
 var d0 = [
     1,
-    true, 
+    true
 ].concat(_to_consumable_array(temp)); // has type (string|number|boolean)[]
 var d1 = _to_consumable_array(temp); // has type string[]
 var d2 = _to_consumable_array(temp1);
