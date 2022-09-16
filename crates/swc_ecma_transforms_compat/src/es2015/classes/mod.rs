@@ -851,7 +851,7 @@ where
         if let Some(mark) = folder.this_alias_mark {
             prepend_stmt(
                 &mut body,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     declare: false,
                     kind: VarDeclKind::Var,
@@ -861,19 +861,21 @@ where
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
-                })),
+                }
+                .into(),
             );
         }
 
         if !vars.is_empty() {
             prepend_stmt(
                 &mut body,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: vars,
-                })),
+                }
+                .into(),
             );
         }
 
@@ -1050,7 +1052,7 @@ where
             if let Some(mark) = folder.this_alias_mark {
                 prepend_stmt(
                     &mut m.function.body.as_mut().unwrap().stmts,
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         declare: false,
                         kind: VarDeclKind::Var,
@@ -1060,19 +1062,21 @@ where
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
-                    })),
+                    }
+                    .into(),
                 );
             }
 
             if !vars.is_empty() {
                 prepend_stmt(
                     &mut m.function.body.as_mut().unwrap().stmts,
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         declare: false,
                         decls: vars,
-                    })),
+                    }
+                    .into(),
                 );
             }
 

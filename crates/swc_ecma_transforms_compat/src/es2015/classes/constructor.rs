@@ -121,7 +121,7 @@ impl Visit for SuperCallFinder {
     }
 }
 
-pub(super) fn constructor_fn(c: Constructor) -> Function {
+pub(super) fn constructor_fn(c: Constructor) -> Box<Function> {
     Function {
         span: DUMMY_SP,
         decorators: Default::default(),
@@ -140,6 +140,7 @@ pub(super) fn constructor_fn(c: Constructor) -> Function {
         type_params: Default::default(),
         return_type: Default::default(),
     }
+    .into()
 }
 
 /// # In
