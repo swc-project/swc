@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.23.26"
+version       = "0.23.27"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -314,8 +314,8 @@ wasmer      = { optional = true, version = "2.3.0", default-features = false }
 wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
-binding_macros                   = { optional = true, version = "0.14.28", path = "../binding_macros" }
-swc                              = { optional = true, version = "0.226.28", path = "../swc" }
+binding_macros                   = { optional = true, version = "0.14.29", path = "../binding_macros" }
+swc                              = { optional = true, version = "0.226.29", path = "../swc" }
 swc_atoms                        = { optional = true, version = "0.4.14", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.187.26", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "0.3.10", path = "../swc_cached" }
@@ -343,15 +343,15 @@ swc_ecma_transforms_typescript   = { optional = true, version = "0.154.19", path
 swc_ecma_utils                   = { optional = true, version = "0.102.13", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "0.77.7", path = "../swc_ecma_visit" }
 swc_node_base                    = { optional = true, version = "0.5.5", path = "../swc_node_base" }
-swc_node_bundler                 = { optional = true, version = "0.12.28", path = "../swc_node_bundler" }
+swc_node_bundler                 = { optional = true, version = "0.12.29", path = "../swc_node_bundler" }
 swc_nodejs_common                = { optional = true, version = "0.0.1", path = "../swc_nodejs_common" }
 swc_plugin                       = { optional = true, version = "0.90.0", path = "../swc_plugin" }
 swc_plugin_macro                 = { optional = true, version = "0.9.8", path = "../swc_plugin_macro" }
-swc_plugin_proxy                 = { optional = true, version = "0.19.8", path = "../swc_plugin_proxy" }
+swc_plugin_proxy                 = { optional = true, version = "0.19.9", path = "../swc_plugin_proxy" }
 swc_trace_macro                  = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 testing                          = { optional = true, version = "0.30.7", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_plugin_runner = { optional = true, version = "0.74.12", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = { optional = true, version = "0.74.13", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
 vergen = { version = "7.3.2", default-features = false, features = ["cargo"] }

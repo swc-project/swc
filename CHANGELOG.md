@@ -25,6 +25,9 @@
 
 - **(preset-env/base)** Implement more traits for `BrowserData` and `Version` (#5879) ([73c48a8](https://github.com/swc-project/swc/commit/73c48a8e6eb3d002ca0c575d253f32ae1aa6e5ea))
 
+
+- **(swc_core)** Enable `bytecheck` for plugin (#5878) ([1ba151f](https://github.com/swc-project/swc/commit/1ba151fe9540a8595f9ac9f286917fdec9db5264))
+
 ### Miscellaneous Tasks
 
 
