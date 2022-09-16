@@ -180,12 +180,13 @@ impl VisitMut for Operators {
         if !self.vars.is_empty() {
             prepend_stmt(
                 &mut n.body,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self.vars.take(),
-                }))),
+                }
+                .into(),
             )
         }
     }
@@ -196,12 +197,13 @@ impl VisitMut for Operators {
         if !self.vars.is_empty() {
             prepend_stmt(
                 &mut n.body,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self.vars.take(),
-                })),
+                }
+                .into(),
             )
         }
     }
