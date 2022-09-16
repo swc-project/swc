@@ -383,6 +383,9 @@ pub enum VarDeclOrPat {
     Pat(Box<Pat>),
 }
 
+bridge_from!(VarDeclOrPat, Box<VarDecl>, VarDecl);
+bridge_from!(VarDeclOrPat, Box<Pat>, Pat);
+
 impl Take for VarDeclOrPat {
     fn dummy() -> Self {
         VarDeclOrPat::Pat(Take::dummy())
