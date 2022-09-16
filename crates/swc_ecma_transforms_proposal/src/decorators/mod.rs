@@ -407,7 +407,7 @@ impl Decorators {
                                         ident: fn_name.map(IdentExt::private),
                                         function: Function {
                                             decorators: vec![],
-                                            ..method.function
+                                            ..*method.function
                                         }
                                         .into(),
                                     }

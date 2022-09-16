@@ -121,7 +121,7 @@ macro_rules! impl_for_for_stmt {
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: PatOrExpr::Pat(Box::new(pat)),
+                                        left: PatOrExpr::Pat(pat),
                                         right: Box::new(Expr::Ident(var_ident.clone())),
                                     }
                                     .into(),
@@ -139,7 +139,7 @@ macro_rules! impl_for_for_stmt {
                                 index,
                                 VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: pat,
+                                    name: *pat,
                                     init: Some(Box::new(Expr::Ident(var_ident.clone()))),
                                     definite: false,
                                 },

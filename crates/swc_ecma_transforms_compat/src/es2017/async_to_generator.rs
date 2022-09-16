@@ -617,7 +617,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     expr: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(p)),
+                        left: PatOrExpr::Pat(p),
                         right: Box::new(Expr::Ident(value)),
                     })),
                 }));

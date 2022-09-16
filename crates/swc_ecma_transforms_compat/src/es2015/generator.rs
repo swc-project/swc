@@ -1445,7 +1445,7 @@ impl Generator {
             Stmt::Switch(s) => self.transform_and_emit_switch_stmt(s),
             Stmt::Labeled(s) => self.transform_and_emit_labeled_stmt(s),
             Stmt::Throw(s) => self.transform_and_emit_throw_stmt(s),
-            Stmt::Try(s) => self.transform_and_emit_try_stmt(s),
+            Stmt::Try(s) => self.transform_and_emit_try_stmt(*s),
             _ => {
                 node.visit_mut_with(self);
 
@@ -1778,7 +1778,7 @@ impl Generator {
                 }
                 VarDeclOrPat::Pat(mut initializer) => {
                     initializer.visit_mut_with(self);
-                    initializer
+                    *initializer
                 }
             };
             self.emit_assignment(

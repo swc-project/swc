@@ -530,7 +530,7 @@ where
         &mut self,
         class_name: Option<Ident>,
         super_class_ident: Option<Ident>,
-        class: Class,
+        class: Box<Class>,
     ) -> Vec<Stmt> {
         let class_name = class_name.unwrap_or_else(|| quote_ident!("_class"));
         let mut stmts = vec![];
