@@ -1273,7 +1273,7 @@ impl Generator {
                             KeyValueProp {
                                 key: quote_ident!("set").into(),
                                 value: Function {
-                                    params: vec![s.param.into()],
+                                    params: vec![(*s.param).into()],
                                     decorators: Default::default(),
                                     span: s.span,
                                     body: s.body,

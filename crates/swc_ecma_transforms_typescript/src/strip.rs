@@ -839,6 +839,7 @@ where
     }
 
     /// Returns `(var_decl, init)`.
+    #[allow(clippy::boxed_local)]
     fn handle_ts_module(
         &mut self,
         module: Box<TsModuleDecl>,
@@ -1968,14 +1969,14 @@ where
                 is_abstract: true, ..
             })
             | ClassMember::Method(ClassMethod {
-                function: Function { body: None, .. },
+                function: box Function { body: None, .. },
                 ..
             }) => false,
             ClassMember::PrivateMethod(PrivateMethod {
                 is_abstract: true, ..
             })
             | ClassMember::PrivateMethod(PrivateMethod {
-                function: Function { body: None, .. },
+                function: box Function { body: None, .. },
                 ..
             }) => false,
             ClassMember::ClassProp(ClassProp { declare: true, .. }) => false,
@@ -2094,12 +2095,12 @@ where
         if !self.uninitialized_vars.is_empty() {
             prepend_stmt(
                 &mut module.body,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: take(&mut self.uninitialized_vars),
                     declare: false,
-                }))
+                }
                 .into(),
             );
         }
