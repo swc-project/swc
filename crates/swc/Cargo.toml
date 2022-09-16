@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.226.27"
+version       = "0.226.28"
 
 [lib]
 bench = false
@@ -74,7 +74,7 @@ swc_ecma_loader = { version = "0.40.7", path = "../swc_ecma_loader", features = 
 ] }
 swc_ecma_minifier = { version = "0.154.26", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "0.119.11", path = "../swc_ecma_parser" }
-swc_ecma_preset_env = { version = "0.169.22", path = "../swc_ecma_preset_env" }
+swc_ecma_preset_env = { version = "0.169.23", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "0.193.22", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
