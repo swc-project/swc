@@ -92,7 +92,7 @@ impl VisitMut for ObjectSuper {
                             if let Some(BlockStmt { span: _, stmts }) = &mut function.body {
                                 prepend_stmt(
                                     stmts,
-                                    Stmt::Decl(Decl::Var(VarDecl {
+                                    VarDecl {
                                         span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
                                         declare: false,
@@ -106,7 +106,8 @@ impl VisitMut for ObjectSuper {
                                                 definite: false,
                                             })
                                             .collect(),
-                                    })),
+                                    }
+                                    .into(),
                                 );
                             }
                         }
