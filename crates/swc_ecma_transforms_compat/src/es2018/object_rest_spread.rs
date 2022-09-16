@@ -102,7 +102,7 @@ macro_rules! impl_for_for_stmt {
                             init: None,
                             definite: false,
                         }],
-                        ..var_decl.take()
+                        ..*var_decl.take()
                     }
                     .into()
                 }
@@ -112,7 +112,7 @@ macro_rules! impl_for_for_stmt {
                     let pat = pat.take();
 
                     // initialize (or destructure)
-                    match &**pat {
+                    match &*pat {
                         Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                         Pat::Object(ObjectPat { .. }) => {
                             stmt = Some(Stmt::Expr(ExprStmt {
