@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![feature(box_patterns)]
 
 use swc_common::{chain, comments::Comments, sync::Lrc, Mark, SourceMap};
 use swc_ecma_visit::{Fold, VisitMut};

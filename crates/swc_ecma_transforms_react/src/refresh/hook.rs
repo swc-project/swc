@@ -284,7 +284,7 @@ impl<'a> VisitMut for HookRegister<'a> {
                 match init.as_mut() {
                     Expr::Fn(FnExpr {
                         function:
-                            Function {
+                            box Function {
                                 body: Some(body), ..
                             },
                         ..
@@ -314,7 +314,7 @@ impl<'a> VisitMut for HookRegister<'a> {
         // only when expr has ident
         if let DefaultDecl::Fn(FnExpr {
             ident: Some(ident),
-            function: Function {
+            function: box Function {
                 body: Some(body), ..
             },
         }) = d

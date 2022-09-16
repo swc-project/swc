@@ -100,7 +100,7 @@ macro_rules! impl_for_for_stmt {
                     .into();
                     (left, stmt)
                 }
-                VarDeclOrPat::Pat(pat) => match *pat {
+                VarDeclOrPat::Pat(pat) => match **pat {
                     Pat::Ident(..) => {
                         return;
                     }
