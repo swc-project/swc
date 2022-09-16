@@ -250,7 +250,7 @@ impl Swcify for CallExpression {
                 .into_iter()
                 .map(|v| v.expect("failed to swcify arguments"))
                 .collect(),
-            type_args: self.type_parameters.swcify(ctx),
+            type_args: self.type_parameters.swcify(ctx).map(Box::new),
         }
     }
 }
