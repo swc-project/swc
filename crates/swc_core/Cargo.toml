@@ -228,6 +228,20 @@ __plugin_transform = [
   "once_cell",
 ]
 
+__plugin_transform_bytecheck = [
+  # Dependent features
+  "ecma_visit",
+  "__common",
+  "ecma_ast",
+  "swc_ecma_ast/rkyv-bytecheck-impl",
+  "swc_atoms/rkyv-bytecheck-impl",
+  "swc_common/plugin-bytecheck-mode",
+  "swc_plugin_proxy/plugin-bytecheck-mode",
+  "swc_plugin_macro",
+  "swc_plugin",
+  "once_cell",
+]
+
 # Internal flags for any transform plugin host feature
 __plugin_transform_host = [
   # Dependent features
