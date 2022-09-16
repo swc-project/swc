@@ -81,12 +81,12 @@ impl ClassExtra {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     declare: false,
-                }))
+                })
                 .into(),
             )
         }
@@ -94,12 +94,12 @@ impl ClassExtra {
         if !self.lets.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     declare: false,
-                }))
+                })
                 .into(),
             )
         }

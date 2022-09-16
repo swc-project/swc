@@ -145,7 +145,7 @@ impl ForOf {
                     );
                     prepend_stmt(
                         &mut body.stmts,
-                        Stmt::Decl(Decl::Var(VarDecl {
+                        VarDecl {
                             span: DUMMY_SP,
                             kind: var.kind,
                             declare: false,
@@ -155,7 +155,8 @@ impl ForOf {
                                 init: Some(Box::new(Expr::Ident(arr).computed_member(i))),
                                 definite: false,
                             }],
-                        })),
+                        }
+                        .into(),
                     )
                 }
 
@@ -163,9 +164,9 @@ impl ForOf {
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(pat)),
+                        left: pat.into(),
                         op: op!("="),
-                        right: Box::new(Expr::Ident(arr).computed_member(i)),
+                        right: arr.computed_member(i).into(),
                     }
                     .into_stmt(),
                 ),

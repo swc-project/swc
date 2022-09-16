@@ -296,15 +296,15 @@ impl Swcify for FunctionExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         FnExpr {
             ident: self.id.swcify(ctx).map(|v| v.id),
-            function: Function {
+            function: box Function {
                 params: self.params.swcify(ctx),
                 decorators: Default::default(),
                 span: ctx.span(&self.base),
                 body: Some(self.body.swcify(ctx)),
                 is_generator: self.generator.unwrap_or(false),
                 is_async: self.is_async.unwrap_or(false),
-                type_params: self.type_parameters.swcify(ctx).flatten(),
-                return_type: self.return_type.swcify(ctx).flatten(),
+                type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
+                return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
             },
         }
     }
@@ -320,7 +320,7 @@ impl Swcify for Identifier {
                 sym: self.name,
                 optional: self.optional.unwrap_or(false),
             },
-            type_ann: self.type_annotation.swcify(ctx).flatten(),
+            type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
         }
     }
 }
