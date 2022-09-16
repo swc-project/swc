@@ -139,6 +139,8 @@ impl Take for Stmt {
     }
 }
 
+bridge_stmt_from!(Box<TryStmt>, TryStmt);
+
 #[ast_node("ExpressionStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
