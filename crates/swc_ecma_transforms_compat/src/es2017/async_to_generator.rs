@@ -167,7 +167,8 @@ impl<C: Comments> VisitMut for Actual<C> {
             decorators: Default::default(),
             type_params: Default::default(),
             return_type: Default::default(),
-        };
+        }
+        .into();
     }
 
     fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
@@ -257,13 +258,13 @@ impl<C: Comments> VisitMut for Actual<C> {
         };
         prop.function.span = prop_method_body_span;
 
-        let fn_ref = make_fn_ref(FnExpr {
-            ident: None,
-            function: Function {
+        let fn_ref = make_fn_ref(
+            Function {
                 params: vec![],
-                ..prop.function.take()
-            },
-        });
+                ..*prop.function.take()
+            }
+            .into(),
+        );
 
         let fn_ref = if is_this_used {
             fn_ref.apply(
