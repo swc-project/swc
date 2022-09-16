@@ -256,7 +256,7 @@ impl BlockScoping {
 
                 let mut stmts = vec![
                     // var _ret = _loop(i);
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         declare: false,
@@ -266,7 +266,8 @@ impl BlockScoping {
                             init: Some(Box::new(call.take())),
                             definite: false,
                         }],
-                    })),
+                    }
+                    .into(),
                 ];
 
                 if flow_helper.has_return {
@@ -536,12 +537,15 @@ impl BlockScoping {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: take(&mut self.vars),
-                }))),
+                T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: take(&mut self.vars),
+                    }
+                    .into(),
+                ),
             );
         }
     }

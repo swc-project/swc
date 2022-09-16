@@ -176,7 +176,7 @@ where
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
                                         ExportDecl {
                                             span,
-                                            decl: Decl::Var(decl),
+                                            decl: decl.into(),
                                         },
                                     )) {
                                         Ok(t) => t,
@@ -230,7 +230,9 @@ where
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {
         if let Decl::Class(decl) = n {
-            *n = Decl::Var(self.fold_class_as_var_decl(decl.ident.take(), decl.class.take()))
+            *n = self
+                .fold_class_as_var_decl(decl.ident.take(), decl.class.take())
+                .into()
         };
 
         n.visit_mut_children_with(self);
@@ -406,7 +408,7 @@ where
     ///   };
     /// }()
     /// ```
-    fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
+    fn fold_class(&mut self, class_name: Option<Ident>, class: Box<Class>) -> Expr {
         let span = class.span;
 
         // Ident of the super class *inside* function.
