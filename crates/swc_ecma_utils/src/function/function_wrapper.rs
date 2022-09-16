@@ -22,7 +22,7 @@ impl<T> FunctionWrapper<T> {
     /// `get_params` clone only the parameters that count in function length.
     fn get_params<'a, ParamsIter, Item>(params_iter: ParamsIter) -> Vec<Param>
     where
-        Item: Into<&'a Param>,
+        &'a Param: From<Item>,
         ParamsIter: IntoIterator<Item = Item>,
     {
         params_iter
