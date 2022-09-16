@@ -1,4 +1,10 @@
-#![cfg_attr(any(not(feature = "plugin"), target_arch = "wasm32"), allow(unused))]
+#![cfg_attr(
+    any(
+        not(any(feature = "plugin", feature = "plugin-bytecheck")),
+        target_arch = "wasm32"
+    ),
+    allow(unused)
+)]
 use std::{
     collections::{HashMap, HashSet},
     env, fmt,
@@ -511,7 +517,10 @@ impl Options {
         // Embedded runtime plugin target, based on assumption we have
         // 1. filesystem access for the cache
         // 2. embedded runtime can compiles & execute wasm
-        #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
+        #[cfg(all(
+            any(feature = "plugin", feature = "plugin-bytecheck"),
+            not(target_arch = "wasm32")
+        ))]
         let plugins = {
             let plugin_resolver = CachingResolver::new(
                 40,
@@ -550,7 +559,10 @@ impl Options {
         // 1. no filesystem access, loading binary / cache management should be
         // performed externally
         // 2. native runtime compiles & execute wasm (i.e v8 on node, chrome)
-        #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
+        #[cfg(all(
+            any(feature = "plugin", feature = "plugin-bytecheck"),
+            target_arch = "wasm32"
+        ))]
         let plugins = {
             let transform_filename = match base {
                 FileName::Real(path) => path.as_os_str().to_str().map(String::from),
@@ -577,7 +589,7 @@ impl Options {
             )
         };
 
-        #[cfg(not(feature = "plugin"))]
+        #[cfg(not(any(feature = "plugin", feature = "plugin-bytecheck")))]
         let plugins = crate::plugin::plugins();
 
         let pass = chain!(
