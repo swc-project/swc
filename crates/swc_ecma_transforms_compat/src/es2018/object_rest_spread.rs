@@ -95,7 +95,7 @@ macro_rules! impl_for_for_stmt {
                         .into(),
                     ));
 
-                    VarDeclOrPat::VarDecl(VarDecl {
+                    VarDecl {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: ref_ident.into(),
@@ -103,7 +103,8 @@ macro_rules! impl_for_for_stmt {
                             definite: false,
                         }],
                         ..var_decl.take()
-                    })
+                    }
+                    .into()
                 }
                 VarDeclOrPat::Pat(pat) => {
                     let var_ident = private_ident!("_ref");
@@ -111,7 +112,7 @@ macro_rules! impl_for_for_stmt {
                     let pat = pat.take();
 
                     // initialize (or destructure)
-                    match pat {
+                    match &**pat {
                         Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                         Pat::Object(ObjectPat { .. }) => {
                             stmt = Some(Stmt::Expr(ExprStmt {
@@ -147,7 +148,7 @@ macro_rules! impl_for_for_stmt {
                     }
 
                     // `var _ref` in `for (var _ref in foo)`
-                    VarDeclOrPat::VarDecl(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
@@ -157,7 +158,8 @@ macro_rules! impl_for_for_stmt {
                             definite: false,
                         }],
                         declare: false,
-                    })
+                    }
+                    .into()
                 }
             };
             for_stmt.left = left;

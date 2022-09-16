@@ -408,7 +408,8 @@ impl Decorators {
                                         function: Function {
                                             decorators: vec![],
                                             ..method.function
-                                        },
+                                        }
+                                        .into(),
                                     }
                                     .into(),
                                 ),
@@ -584,7 +585,8 @@ impl Decorators {
                                 decorators: Default::default(),
                                 body: vec![constructor],
                                 ..class
-                            },
+                            }
+                            .into(),
                             declare: false,
                         }))))
                         .chain(iter::once(Stmt::Return(ReturnStmt {
