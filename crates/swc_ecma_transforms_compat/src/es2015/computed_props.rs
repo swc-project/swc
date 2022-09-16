@@ -361,12 +361,15 @@ impl ComputedProps {
             // Add variable declaration
             // e.g. var ref
             if !folder.vars.is_empty() {
-                stmts_updated.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: folder.vars,
-                    declare: false,
-                }))));
+                stmts_updated.push(T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: folder.vars,
+                        declare: false,
+                    }
+                    .into(),
+                ));
             }
 
             stmts_updated.push(stmt);

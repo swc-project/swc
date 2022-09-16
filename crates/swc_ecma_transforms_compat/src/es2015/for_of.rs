@@ -216,7 +216,7 @@ impl ForOf {
             match left {
                 VarDeclOrPat::VarDecl(mut var) => {
                     assert_eq!(var.decls.len(), 1);
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span: var.span,
                         kind: var.kind,
                         decls: vec![VarDeclarator {
@@ -224,11 +224,12 @@ impl ForOf {
                             ..var.decls.pop().unwrap()
                         }],
                         declare: false,
-                    }))
+                    }
+                    .into()
                 }
                 VarDeclOrPat::Pat(pat) => AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(Box::new(pat)),
+                    left: PatOrExpr::Pat(pat),
                     op: op!("="),
                     right: step_value,
                 }
@@ -267,32 +268,35 @@ impl ForOf {
 
         let for_stmt = ForStmt {
             span,
-            init: Some(VarDeclOrExpr::VarDecl(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![
-                    VarDeclarator {
-                        span: DUMMY_SP,
-                        name: iterator.clone().into(),
-                        init: Some(Box::new(Expr::Call(CallExpr {
+            init: Some(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vec![
+                        VarDeclarator {
                             span: DUMMY_SP,
-                            callee: right
-                                .computed_member(*member_expr!(DUMMY_SP, Symbol.iterator))
-                                .as_callee(),
-                            args: vec![],
-                            type_args: Default::default(),
-                        }))),
-                        definite: false,
-                    },
-                    VarDeclarator {
-                        span: DUMMY_SP,
-                        name: step.clone().into(),
-                        init: None,
-                        definite: false,
-                    },
-                ],
-            })),
+                            name: iterator.clone().into(),
+                            init: Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: right
+                                    .computed_member(*member_expr!(DUMMY_SP, Symbol.iterator))
+                                    .as_callee(),
+                                args: vec![],
+                                type_args: Default::default(),
+                            }))),
+                            definite: false,
+                        },
+                        VarDeclarator {
+                            span: DUMMY_SP,
+                            name: step.clone().into(),
+                            init: None,
+                            definite: false,
+                        },
+                    ],
+                }
+                .into(),
+            ),
             // !(_iteratorNormalCompletion = (_step = _iterator.next()).done)
             test: Some(Box::new(Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
@@ -341,7 +345,7 @@ impl ForOf {
             None => for_stmt,
         };
 
-        Stmt::Try(TryStmt {
+        TryStmt {
             span: DUMMY_SP,
             block: BlockStmt {
                 span: DUMMY_SP,
@@ -383,7 +387,8 @@ impl ForOf {
                     error_ident,
                 )],
             }),
-        })
+        }
+        .into()
     }
 }
 
