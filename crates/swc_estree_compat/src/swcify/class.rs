@@ -105,8 +105,8 @@ impl Swcify for swc_estree_ast::ClassPrivateMethod {
                 body: Some(self.body.swcify(ctx)),
                 is_generator: self.generator.unwrap_or_default(),
                 is_async: self.is_async.unwrap_or_default(),
-                type_params: self.type_parameters.swcify(ctx).flatten(),
-                return_type: self.return_type.swcify(ctx).flatten(),
+                type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
+                return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
             }
             .into(),
             kind: match self.kind.unwrap_or(ClassMethodKind::Method) {
