@@ -352,7 +352,7 @@
                             break;
                         case "@keyframes":
                             return serialize([
-                                copy(replace(element.value, "@", "@" + WEBKIT), element, ""), 
+                                copy(replace(element.value, "@", "@" + WEBKIT), element, "")
                             ], callback);
                         case Enum_RULESET:
                             if (element.length) {
@@ -363,13 +363,13 @@
                                         case ":read-only":
                                         case ":read-write":
                                             return serialize([
-                                                copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, ""), 
+                                                copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
                                             ], callback);
                                         case "::placeholder":
                                             return serialize([
                                                 copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
                                                 copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
-                                                copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, ""), 
+                                                copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
                                             ], callback);
                                     }
                                     return "";
@@ -543,7 +543,7 @@
                         currentSheet.insert(rule);
                     }, function(element) {
                         !element.root && (element = element.return) && callback(element);
-                    }), 
+                    })
                 ], serializer = (collection = [
                     compat,
                     removeLabel
@@ -1007,5 +1007,5 @@
             "use strict";
             module.exports = __webpack_require__(9921);
         }
-    }, 
+    }
 ]);

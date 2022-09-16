@@ -88,7 +88,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
                                 results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
                                             indexName: request.index,
                                             params: request.params
-                                        }))), []), 
+                                        }))), [])
                             ]
                         }, {
                             results: results.reduce((acc, result)=>acc.concat(result.rawResults), [])
@@ -118,7 +118,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
                             results.rawResults.map((request)=>({
                                     indexName: request.index,
                                     params: request.params
-                                })), 
+                                }))
                         ]
                     }, {
                         results: results.rawResults

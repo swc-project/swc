@@ -8,7 +8,7 @@
                 "/spread",
                 function() {
                     return __webpack_require__(1767);
-                }, 
+                }
             ]);
         },
         2726: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -82,5 +82,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 2809);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);

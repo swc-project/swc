@@ -55,7 +55,7 @@ var YUI = function() {
                         "yui-later",
                         "loader-base",
                         "loader-rollup",
-                        "loader-yui3", 
+                        "loader-yui3"
                     ],
                     loaderExtras: [
                         "loader-rollup",
@@ -474,7 +474,7 @@ var YUI = function() {
         "propertyIsEnumerable",
         "toString",
         "toLocaleString",
-        "valueOf", 
+        "valueOf"
     ], hasEnumBug = O._hasEnumBug = !({
         valueOf: 0
     }).propertyIsEnumerable("valueOf"), hasProtoEnumBug = O._hasProtoEnumBug = (function() {}).propertyIsEnumerable("prototype"), owns = O.owns = function(obj, key) {
@@ -569,7 +569,7 @@ var YUI = function() {
             "anim-easing",
             "anim-node-plugin",
             "anim-scroll",
-            "anim-xy", 
+            "anim-xy"
         ],
         "anim-shape-transform": [
             "anim-shape"
@@ -584,7 +584,7 @@ var YUI = function() {
             "model-sync-rest",
             "router",
             "view",
-            "view-node-map", 
+            "view-node-map"
         ],
         attribute: [
             "attribute-base",
@@ -597,7 +597,7 @@ var YUI = function() {
             "autocomplete-base",
             "autocomplete-sources",
             "autocomplete-list",
-            "autocomplete-plugin", 
+            "autocomplete-plugin"
         ],
         axes: [
             "axis-numeric",
@@ -609,7 +609,7 @@ var YUI = function() {
             "axis-numeric-base",
             "axis-category-base",
             "axis-time-base",
-            "axis-stacked-base", 
+            "axis-stacked-base"
         ],
         base: [
             "base-base",
@@ -629,7 +629,7 @@ var YUI = function() {
             "arraylist",
             "arraylist-add",
             "arraylist-filter",
-            "array-invoke", 
+            "array-invoke"
         ],
         color: [
             "color-base",
@@ -644,7 +644,7 @@ var YUI = function() {
             "dataschema-json",
             "dataschema-xml",
             "dataschema-array",
-            "dataschema-text", 
+            "dataschema-text"
         ],
         datasource: [
             "datasource-local",
@@ -656,7 +656,7 @@ var YUI = function() {
             "datasource-xmlschema",
             "datasource-arrayschema",
             "datasource-textschema",
-            "datasource-polling", 
+            "datasource-polling"
         ],
         datatable: [
             "datatable-core",
@@ -668,7 +668,7 @@ var YUI = function() {
             "datatable-message",
             "datatable-mutable",
             "datatable-sort",
-            "datatable-datasource", 
+            "datatable-datasource"
         ],
         datatype: [
             "datatype-date",
@@ -678,7 +678,7 @@ var YUI = function() {
         "datatype-date": [
             "datatype-date-parse",
             "datatype-date-format",
-            "datatype-date-math", 
+            "datatype-date-math"
         ],
         "datatype-number": [
             "datatype-number-parse",
@@ -697,14 +697,14 @@ var YUI = function() {
             "dd-constrain",
             "dd-drop",
             "dd-scroll",
-            "dd-delegate", 
+            "dd-delegate"
         ],
         dom: [
             "dom-base",
             "dom-screen",
             "dom-style",
             "selector-native",
-            "selector", 
+            "selector"
         ],
         editor: [
             "frame",
@@ -715,7 +715,7 @@ var YUI = function() {
             "editor-br",
             "editor-bidi",
             "editor-tab",
-            "createlink-base", 
+            "createlink-base"
         ],
         event: [
             "event-base",
@@ -732,7 +732,7 @@ var YUI = function() {
             "event-move",
             "event-flick",
             "event-valuechange",
-            "event-tap", 
+            "event-tap"
         ],
         "event-custom": [
             "event-custom-base",
@@ -753,7 +753,7 @@ var YUI = function() {
             "history-base",
             "history-hash",
             "history-hash-ie",
-            "history-html5", 
+            "history-html5"
         ],
         io: [
             "io-base",
@@ -776,7 +776,7 @@ var YUI = function() {
             "node-event-delegate",
             "node-pluginhost",
             "node-screen",
-            "node-style", 
+            "node-style"
         ],
         pluginhost: [
             "pluginhost-base",
@@ -790,7 +790,7 @@ var YUI = function() {
             "recordset-base",
             "recordset-sort",
             "recordset-filter",
-            "recordset-indexer", 
+            "recordset-indexer"
         ],
         resize: [
             "resize-base",
@@ -801,7 +801,7 @@ var YUI = function() {
             "slider-base",
             "slider-value-range",
             "clickable-rail",
-            "range-slider", 
+            "range-slider"
         ],
         template: [
             "template-base",
@@ -815,7 +815,7 @@ var YUI = function() {
             "widget-base",
             "widget-htmlparser",
             "widget-skin",
-            "widget-uievents", 
+            "widget-uievents"
         ]
     };
 }, "3.12.0", {
@@ -828,7 +828,7 @@ var YUI = function() {
         "yui-later",
         "loader-base",
         "loader-rollup",
-        "loader-yui3", 
+        "loader-yui3"
     ]
 }), YUI.add("get", function(Y, NAME) {
     var CUSTOM_ATTRS, Get, Transaction, Lang = Y.Lang;
@@ -1288,7 +1288,7 @@ var YUI = function() {
                 "cssgrids",
                 "cssbase",
                 "cssreset-context",
-                "cssfonts-context", 
+                "cssfonts-context"
             ]
         },
         groups: {},
@@ -1819,7 +1819,7 @@ var YUI = function() {
                 "anim-easing",
                 "anim-node-plugin",
                 "anim-scroll",
-                "anim-xy", 
+                "anim-xy"
             ]
         },
         "anim-base": {
@@ -1884,7 +1884,7 @@ var YUI = function() {
                 "model-sync-rest",
                 "router",
                 "view",
-                "view-node-map", 
+                "view-node-map"
             ]
         },
         "app-base": {
@@ -1922,7 +1922,7 @@ var YUI = function() {
                 "app-transitions",
                 "app-transitions-css",
                 "parallel",
-                "transition", 
+                "transition"
             ]
         },
         "array-extras": {
@@ -1970,7 +1970,7 @@ var YUI = function() {
             requires: [
                 "attribute-core",
                 "attribute-observable",
-                "attribute-extras", 
+                "attribute-extras"
             ]
         },
         "attribute-complex": {
@@ -2003,7 +2003,7 @@ var YUI = function() {
                 "autocomplete-base",
                 "autocomplete-sources",
                 "autocomplete-list",
-                "autocomplete-plugin", 
+                "autocomplete-plugin"
             ]
         },
         "autocomplete-base": {
@@ -2015,7 +2015,7 @@ var YUI = function() {
                 "base-build",
                 "escape",
                 "event-valuechange",
-                "node-base", 
+                "node-base"
             ]
         },
         "autocomplete-filters": {
@@ -2061,7 +2061,7 @@ var YUI = function() {
                 "shim-plugin",
                 "widget",
                 "widget-position",
-                "widget-position-align", 
+                "widget-position-align"
             ],
             skinnable: !0
         },
@@ -2108,7 +2108,7 @@ var YUI = function() {
                 "axis-numeric-base",
                 "axis-category-base",
                 "axis-time-base",
-                "axis-stacked-base", 
+                "axis-stacked-base"
             ]
         },
         axis: {
@@ -2118,7 +2118,7 @@ var YUI = function() {
                 "widget-position",
                 "widget-stack",
                 "graphics",
-                "axis-base", 
+                "axis-base"
             ]
         },
         "axis-base": {
@@ -2127,7 +2127,7 @@ var YUI = function() {
                 "datatype-number",
                 "datatype-date",
                 "base",
-                "event-custom", 
+                "event-custom"
             ]
         },
         "axis-category": {
@@ -2286,7 +2286,7 @@ var YUI = function() {
                 "zh-Hans-CN",
                 "zh-Hant",
                 "zh-Hant-HK",
-                "zh-HANT-TW", 
+                "zh-HANT-TW"
             ],
             requires: [
                 "widget",
@@ -2335,7 +2335,7 @@ var YUI = function() {
                 "series-bar-stacked",
                 "series-areaspline-stacked",
                 "series-combo-stacked",
-                "series-combospline-stacked", 
+                "series-combospline-stacked"
             ]
         },
         "charts-legend": {
@@ -2359,7 +2359,7 @@ var YUI = function() {
                 "arraylist",
                 "arraylist-add",
                 "arraylist-filter",
-                "array-invoke", 
+                "array-invoke"
             ]
         },
         color: {
@@ -2432,7 +2432,7 @@ var YUI = function() {
                 "cssgrids",
                 "cssreset-context",
                 "cssfonts-context",
-                "cssgrids-context", 
+                "cssgrids-context"
             ],
             type: "css"
         },
@@ -2443,7 +2443,7 @@ var YUI = function() {
                 "cssgrids",
                 "cssreset-context",
                 "cssfonts-context",
-                "cssgrids-context", 
+                "cssgrids-context"
             ],
             type: "css"
         },
@@ -2505,7 +2505,7 @@ var YUI = function() {
                 "dataschema-json",
                 "dataschema-xml",
                 "dataschema-array",
-                "dataschema-text", 
+                "dataschema-text"
             ]
         },
         "dataschema-array": {
@@ -2545,7 +2545,7 @@ var YUI = function() {
                 "datasource-xmlschema",
                 "datasource-arrayschema",
                 "datasource-textschema",
-                "datasource-polling", 
+                "datasource-polling"
             ]
         },
         "datasource-arrayschema": {
@@ -2608,7 +2608,7 @@ var YUI = function() {
                 "datasource-local",
                 "plugin",
                 "datatype-xml",
-                "dataschema-xml", 
+                "dataschema-xml"
             ]
         },
         datatable: {
@@ -2622,7 +2622,7 @@ var YUI = function() {
                 "datatable-message",
                 "datatable-mutable",
                 "datatable-sort",
-                "datatable-datasource", 
+                "datatable-datasource"
             ]
         },
         "datatable-base": {
@@ -2632,7 +2632,7 @@ var YUI = function() {
                 "datatable-head",
                 "datatable-body",
                 "base-build",
-                "widget", 
+                "widget"
             ],
             skinnable: !0
         },
@@ -2673,7 +2673,7 @@ var YUI = function() {
                 "datatable-body",
                 "datatype-number-format",
                 "datatype-date-format",
-                "escape", 
+                "escape"
             ]
         },
         "datatable-head": {
@@ -2710,7 +2710,7 @@ var YUI = function() {
                 "view",
                 "paginator-core",
                 "datatable-foot",
-                "datatable-paginator-templates", 
+                "datatable-paginator-templates"
             ],
             skinnable: !0
         },
@@ -2745,7 +2745,7 @@ var YUI = function() {
                 "datatable-head",
                 "datatable-body",
                 "view",
-                "classnamemanager", 
+                "classnamemanager"
             ]
         },
         datatype: {
@@ -2759,7 +2759,7 @@ var YUI = function() {
             use: [
                 "datatype-date-parse",
                 "datatype-date-format",
-                "datatype-date-math", 
+                "datatype-date-math"
             ]
         },
         "datatype-date-format": {
@@ -2844,7 +2844,7 @@ var YUI = function() {
                 "zh-Hans-CN",
                 "zh-Hant",
                 "zh-Hant-HK",
-                "zh-Hant-TW", 
+                "zh-Hant-TW"
             ]
         },
         "datatype-date-math": {
@@ -2879,7 +2879,7 @@ var YUI = function() {
                 "dd-constrain",
                 "dd-drop",
                 "dd-scroll",
-                "dd-delegate", 
+                "dd-delegate"
             ]
         },
         "dd-constrain": {
@@ -2973,7 +2973,7 @@ var YUI = function() {
                 "event-move",
                 "event-key",
                 "transition",
-                "intl", 
+                "intl"
             ],
             skinnable: !0
         },
@@ -2983,7 +2983,7 @@ var YUI = function() {
                 "dom-screen",
                 "dom-style",
                 "selector-native",
-                "selector", 
+                "selector"
             ]
         },
         "dom-base": {
@@ -3050,7 +3050,7 @@ var YUI = function() {
                 "editor-br",
                 "editor-bidi",
                 "editor-tab",
-                "createlink-base", 
+                "createlink-base"
             ]
         },
         "editor-base": {
@@ -3132,7 +3132,7 @@ var YUI = function() {
                 "event-move",
                 "event-flick",
                 "event-valuechange",
-                "event-tap", 
+                "event-tap"
             ]
         },
         "event-base": {
@@ -3324,7 +3324,7 @@ var YUI = function() {
                 "event-custom",
                 "pluginhost",
                 "matrix",
-                "classnamemanager", 
+                "classnamemanager"
             ]
         },
         "graphics-canvas": {
@@ -3431,7 +3431,7 @@ var YUI = function() {
                 "array-extras",
                 "classnamemanager",
                 "escape",
-                "text-wordbreak", 
+                "text-wordbreak"
             ]
         },
         history: {
@@ -3439,7 +3439,7 @@ var YUI = function() {
                 "history-base",
                 "history-hash",
                 "history-hash-ie",
-                "history-html5", 
+                "history-html5"
             ]
         },
         "history-base": {
@@ -3661,7 +3661,7 @@ var YUI = function() {
                 "base-build",
                 "escape",
                 "json-parse",
-                "model", 
+                "model"
             ]
         },
         "model-sync-rest": {
@@ -3677,7 +3677,7 @@ var YUI = function() {
                 "node-event-delegate",
                 "node-pluginhost",
                 "node-screen",
-                "node-style", 
+                "node-style"
             ]
         },
         "node-base": {
@@ -3733,7 +3733,7 @@ var YUI = function() {
                 "plugin",
                 "node-event-simulate",
                 "event-key",
-                "event-focus", 
+                "event-focus"
             ]
         },
         "node-load": {
@@ -3770,7 +3770,7 @@ var YUI = function() {
                 "event-resize",
                 "node-pluginhost",
                 "plugin",
-                "selector", 
+                "selector"
             ]
         },
         "node-style": {
@@ -3791,7 +3791,7 @@ var YUI = function() {
                 "widget-position",
                 "widget-position-align",
                 "widget-stack",
-                "widget-position-constrain", 
+                "widget-position-constrain"
             ],
             skinnable: !0
         },
@@ -3820,7 +3820,7 @@ var YUI = function() {
                 "widget-position-align",
                 "widget-position-constrain",
                 "widget-stack",
-                "widget-stdmod", 
+                "widget-stdmod"
             ],
             skinnable: !0
         },
@@ -3926,7 +3926,7 @@ var YUI = function() {
                 "recordset-base",
                 "recordset-sort",
                 "recordset-filter",
-                "recordset-indexer", 
+                "recordset-indexer"
             ]
         },
         "recordset-base": {
@@ -3970,7 +3970,7 @@ var YUI = function() {
                 "oop",
                 "dd-drag",
                 "dd-delegate",
-                "dd-drop", 
+                "dd-drop"
             ],
             skinnable: !0
         },
@@ -4016,7 +4016,7 @@ var YUI = function() {
                 "widget",
                 "event-gestures",
                 "event-mousewheel",
-                "transition", 
+                "transition"
             ],
             skinnable: !0
         },
@@ -4149,7 +4149,7 @@ var YUI = function() {
                 "series-cartesian",
                 "series-line-util",
                 "series-plot-util",
-                "series-fill-util", 
+                "series-fill-util"
             ]
         },
         "series-combo-stacked": {
@@ -4248,7 +4248,7 @@ var YUI = function() {
                 "slider-base",
                 "slider-value-range",
                 "clickable-rail",
-                "range-slider", 
+                "range-slider"
             ]
         },
         "slider-base": {
@@ -4310,7 +4310,7 @@ var YUI = function() {
                 "widget-child",
                 "tabview-base",
                 "node-pluginhost",
-                "node-focusmanager", 
+                "node-focusmanager"
             ],
             skinnable: !0
         },
@@ -4456,7 +4456,7 @@ var YUI = function() {
                 "node",
                 "event-custom",
                 "file-flash",
-                "uploader-queue", 
+                "uploader-queue"
             ]
         },
         "uploader-html5": {
@@ -4464,7 +4464,7 @@ var YUI = function() {
                 "widget",
                 "node-event-simulate",
                 "file-html5",
-                "uploader-queue", 
+                "uploader-queue"
             ]
         },
         "uploader-queue": {
@@ -4488,7 +4488,7 @@ var YUI = function() {
                 "widget-base",
                 "widget-htmlparser",
                 "widget-skin",
-                "widget-uievents", 
+                "widget-uievents"
             ]
         },
         "widget-anim": {
@@ -4514,7 +4514,7 @@ var YUI = function() {
                 "classnamemanager",
                 "event-focus",
                 "node-base",
-                "node-style", 
+                "node-style"
             ],
             skinnable: !0
         },
@@ -4674,6 +4674,6 @@ var YUI = function() {
         "yui-later",
         "loader-base",
         "loader-rollup",
-        "loader-yui3", 
+        "loader-yui3"
     ]
 });

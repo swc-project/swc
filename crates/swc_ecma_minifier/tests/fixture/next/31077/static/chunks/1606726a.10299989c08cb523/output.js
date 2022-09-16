@@ -35,7 +35,7 @@
                 var chrome = !ie && /Chrome\/(\d+)/.exec(navigator.userAgent);
                 result.chrome = !!chrome, result.chrome_version = chrome && +chrome[1], result.safari = !ie && /Apple Computer/.test(navigator.vendor), result.ios = result.safari && (/Mobile\/\w+/.test(navigator.userAgent) || navigator.maxTouchPoints > 2), result.mac = result.ios || /Mac/.test(navigator.platform), result.android = /Android \d/.test(navigator.userAgent), result.webkit = "webkitFontSmoothing" in document.documentElement.style, result.webkit_version = result.webkit && +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [
                     0,
-                    0, 
+                    0
                 ])[1];
             }
             var domIndex = function(node) {
@@ -2148,7 +2148,7 @@
                     var result = f(view.state);
                     result && result != empty && found.push(result);
                 }), view.cursorWrapper && found.push(DecorationSet.create(view.state.doc, [
-                    view.cursorWrapper.deco, 
+                    view.cursorWrapper.deco
                 ])), DecorationGroup.from(found);
             }
             DecorationGroup.prototype.map = function(mapping, doc) {
@@ -2705,5 +2705,5 @@
                 dispatchTransaction ? dispatchTransaction.call(this, tr) : this.updateState(this.state.apply(tr));
             }, Object.defineProperties(EditorView.prototype, prototypeAccessors$2);
         }
-    }, 
+    }
 ]);

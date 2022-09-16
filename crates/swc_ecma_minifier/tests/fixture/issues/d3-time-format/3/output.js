@@ -283,7 +283,7 @@
                         year,
                         1,
                         31536000000
-                    ], 
+                    ]
                 ];
                 function tickInterval(start, stop, count) {
                     const target = Math.abs(stop - start) / count, i = (0, bisector.Z)(([, , step])=>step).right(tickIntervals, target);
@@ -791,7 +791,7 @@
                     "Wednesday",
                     "Thursday",
                     "Friday",
-                    "Saturday", 
+                    "Saturday"
                 ],
                 shortDays: [
                     "Sun",
@@ -814,7 +814,7 @@
                     "September",
                     "October",
                     "November",
-                    "December", 
+                    "December"
                 ],
                 shortMonths: [
                     "Jan",
@@ -828,9 +828,9 @@
                     "Sep",
                     "Oct",
                     "Nov",
-                    "Dec", 
+                    "Dec"
                 ]
             })).format, locale.parse, locale.utcFormat, locale.utcParse, __webpack_require__(73516), __webpack_require__(42287);
         }
-    }, 
+    }
 ]);

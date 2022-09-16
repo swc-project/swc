@@ -307,7 +307,7 @@
                         var src = param.src;
                         throw Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
                     }
-                ], 
+                ]
             ]);
             function isStaticRequire(src) {
                 return void 0 !== src.default;
@@ -427,7 +427,7 @@
                         layout,
                         placeholder,
                         onLoadingCompleteRef,
-                        setBlurComplete, 
+                        setBlurComplete
                     ]),
                     onLoad: function(event) {
                         handleLoading(event.currentTarget, srcString, layout, placeholder, onLoadingCompleteRef, setBlurComplete), onLoad && onLoad(event);

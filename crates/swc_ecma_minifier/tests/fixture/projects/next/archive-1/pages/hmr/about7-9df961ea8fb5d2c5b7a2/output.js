@@ -21,7 +21,7 @@
                 "/hmr/about7",
                 function() {
                     return __webpack_require__(4208);
-                }, 
+                }
             ]);
         }
     },
@@ -33,5 +33,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 9037);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);

@@ -283,7 +283,7 @@
                                 _this2._callbacks.delete(callback);
                             };
                         }
-                    }, 
+                    }
                 ]), LoadableSubscription;
             }();
             function Loadable(opts1) {
@@ -481,7 +481,7 @@
                                 ]
                             }) : null;
                         }
-                    }, 
+                    }
                 ]), Welcome;
             }(__webpack_require__(2735).Component);
         },
@@ -498,7 +498,7 @@
                         ];
                     },
                     modules: [
-                        "dynamic/no-chunk.js -> ../../components/welcome", 
+                        "dynamic/no-chunk.js -> ../../components/welcome"
                     ]
                 }
             });
@@ -510,7 +510,7 @@
                         }),
                         (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(Welcome2, {
                             name: "dynamic"
-                        }), 
+                        })
                     ]
                 });
             };
@@ -520,7 +520,7 @@
                 "/dynamic/no-chunk",
                 function() {
                     return __webpack_require__(8837);
-                }, 
+                }
             ]);
         },
         4652: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -535,5 +535,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 5279);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);

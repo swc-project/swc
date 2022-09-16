@@ -663,7 +663,7 @@
             "YYYY",
             /\d{4}/,
             !1
-        ], 
+        ]
     ], isoTimes = [
         [
             "HH:mm:ss.SSSS",
@@ -700,7 +700,7 @@
         [
             "HH",
             /\d\d/
-        ], 
+        ]
     ], aspNetJsonRegex = /^\/?Date\((-?\d+)/i, rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/, obsOffsets = {
         UT: 0,
         GMT: 0,
@@ -756,7 +756,7 @@
                 defaultLocaleMonthsShort.indexOf(monthStr),
                 parseInt(dayStr, 10),
                 parseInt(hourStr, 10),
-                parseInt(minuteStr, 10), 
+                parseInt(minuteStr, 10)
             ], secondStr && result.push(parseInt(secondStr, 10)), parsedArray = result, weekdayStr = match[1], parsedInput = parsedArray, config1 = config, weekdayStr && defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay() && (getParsingFlags(config1).weekdayMismatch = !0, config1._isValid = !1, 1)) return;
             config._a = parsedArray, config._tzm = function(obsOffset, militaryOffset, numOffset) {
                 if (obsOffset) return obsOffsets[obsOffset];
@@ -775,11 +775,11 @@
             for(config2 = config, nowValue = new Date(hooks.now()), currentDate = config2._useUTC ? [
                 nowValue.getUTCFullYear(),
                 nowValue.getUTCMonth(),
-                nowValue.getUTCDate(), 
+                nowValue.getUTCDate()
             ] : [
                 nowValue.getFullYear(),
                 nowValue.getMonth(),
-                nowValue.getDate(), 
+                nowValue.getDate()
             ], config._w && null == config._a[2] && null == config._a[1] && (null != (w = (config1 = config)._w).GG || null != w.W || null != w.E ? (dow = 1, doy = 4, weekYear = defaults(w.GG, config1._a[0], weekOfYear(createLocal(), 1, 4).year), week = defaults(w.W, 1), ((weekday = defaults(w.E, 1)) < 1 || weekday > 7) && (weekdayOverflow = !0)) : (dow = config1._locale._week.dow, doy = config1._locale._week.doy, curWeek = weekOfYear(createLocal(), dow, doy), weekYear = defaults(w.gg, config1._a[0], curWeek.year), week = defaults(w.w, curWeek.week), null != w.d ? ((weekday = w.d) < 0 || weekday > 6) && (weekdayOverflow = !0) : null != w.e ? (weekday = w.e + dow, (w.e < 0 || w.e > 6) && (weekdayOverflow = !0)) : weekday = dow), week < 1 || week > weeksInYear(weekYear, dow, doy) ? getParsingFlags(config1)._overflowWeeks = !0 : null != weekdayOverflow ? getParsingFlags(config1)._overflowWeekday = !0 : (temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), config1._a[0] = temp.year, config1._dayOfYear = temp.dayOfYear)), null != config._dayOfYear && (yearToUse = defaults(config._a[0], currentDate[0]), (config._dayOfYear > daysInYear(yearToUse) || 0 === config._dayOfYear) && (getParsingFlags(config)._overflowDayOfYear = !0), date = createUTCDate(yearToUse, 0, config._dayOfYear), config._a[1] = date.getUTCMonth(), config._a[2] = date.getUTCDate()), i = 0; i < 3 && null == config._a[i]; ++i)config._a[i] = input[i] = currentDate[i];
             for(; i < 7; i++)config._a[i] = input[i] = null == config._a[i] ? 2 === i ? 1 : 0 : config._a[i];
             24 === config._a[3] && 0 === config._a[4] && 0 === config._a[5] && 0 === config._a[6] && (config._nextDay = !0, config._a[3] = 0), config._d = (config._useUTC ? createUTCDate : createDate).apply(null, input), expectedWeekday = config._useUTC ? config._d.getUTCDay() : config._d.getDay(), null != config._tzm && config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm), config._nextDay && (config._a[3] = 24), config._w && void 0 !== config._w.d && config._w.d !== expectedWeekday && (getParsingFlags(config).weekdayMismatch = !0);
@@ -830,7 +830,7 @@
                     i.hour,
                     i.minute,
                     i.second,
-                    i.millisecond, 
+                    i.millisecond
                 ], function(obj) {
                     return obj && parseInt(obj, 10);
                 }), configFromArray(config);
@@ -871,7 +871,7 @@
         "hour",
         "minute",
         "second",
-        "millisecond", 
+        "millisecond"
     ];
     function Duration(duration) {
         var normalizedInput = normalizeObjectUnits(duration), years = normalizedInput.year || 0, quarters = normalizedInput.quarter || 0, months = normalizedInput.month || 0, weeks = normalizedInput.week || normalizedInput.isoWeek || 0, days = normalizedInput.day || 0, hours = normalizedInput.hour || 0, minutes = normalizedInput.minute || 0, seconds = normalizedInput.second || 0, milliseconds = normalizedInput.millisecond || 0;
@@ -1200,7 +1200,7 @@
                         "s",
                         "milliseconds",
                         "millisecond",
-                        "ms", 
+                        "ms"
                     ];
                     for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
                     return objectTest && propertyTest;
@@ -1211,7 +1211,7 @@
                         "lastDay",
                         "nextWeek",
                         "lastWeek",
-                        "sameElse", 
+                        "sameElse"
                     ];
                     for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
                     return objectTest && propertyTest;
@@ -1385,7 +1385,7 @@
             this.hour(),
             this.minute(),
             this.second(),
-            this.millisecond(), 
+            this.millisecond()
         ];
     }, proto.toObject = function() {
         return {
@@ -1665,7 +1665,7 @@
                 name: "Before Christ",
                 narrow: "BC",
                 abbr: "BC"
-            }, 
+            }
         ],
         dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
         ordinal: function(number) {

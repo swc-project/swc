@@ -105,7 +105,7 @@ export default function createInstantSearchManager(param) {
         var error = param.error, currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
         helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1), currentState.resultsFacetValues;
         var partialState = swcHelpers.objectWithoutProperties(currentState, [
-            "resultsFacetValues", 
+            "resultsFacetValues"
         ]);
         store.setState(swcHelpers.objectSpread({}, partialState, {
             isSearchStalled: nextIsSearchStalled,
@@ -115,7 +115,7 @@ export default function createInstantSearchManager(param) {
     }, handleNewSearch = function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(function() {
             var _ref = store.getState(), partialState = (_ref.resultsFacetValues, swcHelpers.objectWithoutProperties(_ref, [
-                "resultsFacetValues", 
+                "resultsFacetValues"
             ]));
             store.setState(swcHelpers.objectSpread({}, partialState, {
                 isSearchStalled: !0
@@ -133,7 +133,7 @@ export default function createInstantSearchManager(param) {
                                 params: request.params
                             };
                         }));
-                    }, []), 
+                    }, [])
                 ]
             }, {
                 results: results.reduce(function(acc, result) {
@@ -167,7 +167,7 @@ export default function createInstantSearchManager(param) {
                             indexName: request.index,
                             params: request.params
                         };
-                    }), 
+                    })
                 ]
             }, {
                 results: results.rawResults

@@ -433,7 +433,7 @@
         "shuffle",
         "lastIndexOf",
         "isEmpty",
-        "chain", 
+        "chain"
     ], function(method) {
         Collection.prototype[method] = function() {
             var args = slice.call(arguments);
@@ -461,7 +461,7 @@
         "attributes",
         "className",
         "tagName",
-        "events", 
+        "events"
     ];
     _.extend(View.prototype, Events, {
         tagName: "div",

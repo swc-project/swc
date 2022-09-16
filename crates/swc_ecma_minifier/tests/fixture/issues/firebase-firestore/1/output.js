@@ -895,7 +895,7 @@
                         ">",
                         ">=",
                         "!=",
-                        "not-in", 
+                        "not-in"
                     ].indexOf(this.op) >= 0;
                 }
             }
@@ -1903,7 +1903,7 @@
                     "projects",
                     t1.projectId,
                     "databases",
-                    t1.database, 
+                    t1.database
                 ]).child("documents").child(e).canonicalString();
             }
             function Yn(t) {
@@ -1911,7 +1911,7 @@
                     "projects",
                     t.databaseId.projectId,
                     "databases",
-                    t.databaseId.database, 
+                    t.databaseId.database
                 ]).canonicalString();
             }
             function Xn(t) {
@@ -2014,7 +2014,7 @@
             }
             Ns.store = "remoteDocuments", Ns.readTimeIndex = "readTimeIndex", Ns.readTimeIndexPath = "readTime", Ns.collectionReadTimeIndex = "collectionReadTimeIndex", Ns.collectionReadTimeIndexPath = [
                 "parentPath",
-                "readTime", 
+                "readTime"
             ];
             class xs {
                 constructor(t){
@@ -3014,7 +3014,7 @@
                     return js.or([
                         ()=>js.resolve(this.Ds.containsKey(e)),
                         ()=>this.persistence.getTargetCache().containsKey(t, e),
-                        ()=>this.persistence.Ss(t, e), 
+                        ()=>this.persistence.Ss(t, e)
                     ]);
                 }
             }
@@ -3205,7 +3205,7 @@
                         "google.firestore.v1.Firestore",
                         "/",
                         t,
-                        "/channel", 
+                        "/channel"
                     ], s = (0, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.UE)(), i = (0, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.FJ)(), r = {
                         httpSessionIdParam: "gsessionid",
                         initMessageHeaders: {},
@@ -3456,11 +3456,11 @@
                                     {
                                         collectionId: e.collectionGroup,
                                         allDescendants: !0
-                                    }, 
+                                    }
                                 ]) : (n.parent = Hn(t, s.popLast()), n.structuredQuery.from = [
                                     {
                                         collectionId: s.lastSegment()
-                                    }, 
+                                    }
                                 ]);
                                 const i = function(t) {
                                     if (0 === t.length) return;
@@ -4993,5 +4993,5 @@
                 }, "PUBLIC")), (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__.KN)(S, "3.3.0", void 0), (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__.KN)(S, "3.3.0", "esm2017");
             }();
         }
-    }, 
+    }
 ]);

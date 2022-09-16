@@ -85,7 +85,7 @@
         "innerHTML",
         "suppressContentEditableWarning",
         "suppressHydrationWarning",
-        "style", 
+        "style"
     ].forEach(function(name) {
         properties[name] = new PropertyInfoRecord(name, 0, !1, name, null, !1, !1);
     }), [
@@ -104,7 +104,7 @@
         [
             "httpEquiv",
             "http-equiv"
-        ], 
+        ]
     ].forEach(function(_ref) {
         var name = _ref[0], attributeName = _ref[1];
         properties[name] = new PropertyInfoRecord(name, 1, !1, attributeName, null, !1, !1);
@@ -119,7 +119,7 @@
         "autoReverse",
         "externalResourcesRequired",
         "focusable",
-        "preserveAlpha", 
+        "preserveAlpha"
     ].forEach(function(name) {
         properties[name] = new PropertyInfoRecord(name, 2, !1, name, null, !1, !1);
     }), [
@@ -145,7 +145,7 @@
         "reversed",
         "scoped",
         "seamless",
-        "itemScope", 
+        "itemScope"
     ].forEach(function(name) {
         properties[name] = new PropertyInfoRecord(name, 3, !1, name.toLowerCase(), null, !1, !1);
     }), [
@@ -843,7 +843,7 @@
             "animationIterationCount",
             "animationName",
             "animationPlayState",
-            "animationTimingFunction", 
+            "animationTimingFunction"
         ],
         background: [
             "backgroundAttachment",
@@ -854,7 +854,7 @@
             "backgroundPositionX",
             "backgroundPositionY",
             "backgroundRepeat",
-            "backgroundSize", 
+            "backgroundSize"
         ],
         backgroundPosition: [
             "backgroundPositionX",
@@ -877,45 +877,45 @@
             "borderRightWidth",
             "borderTopColor",
             "borderTopStyle",
-            "borderTopWidth", 
+            "borderTopWidth"
         ],
         borderBlockEnd: [
             "borderBlockEndColor",
             "borderBlockEndStyle",
-            "borderBlockEndWidth", 
+            "borderBlockEndWidth"
         ],
         borderBlockStart: [
             "borderBlockStartColor",
             "borderBlockStartStyle",
-            "borderBlockStartWidth", 
+            "borderBlockStartWidth"
         ],
         borderBottom: [
             "borderBottomColor",
             "borderBottomStyle",
-            "borderBottomWidth", 
+            "borderBottomWidth"
         ],
         borderColor: [
             "borderBottomColor",
             "borderLeftColor",
             "borderRightColor",
-            "borderTopColor", 
+            "borderTopColor"
         ],
         borderImage: [
             "borderImageOutset",
             "borderImageRepeat",
             "borderImageSlice",
             "borderImageSource",
-            "borderImageWidth", 
+            "borderImageWidth"
         ],
         borderInlineEnd: [
             "borderInlineEndColor",
             "borderInlineEndStyle",
-            "borderInlineEndWidth", 
+            "borderInlineEndWidth"
         ],
         borderInlineStart: [
             "borderInlineStartColor",
             "borderInlineStartStyle",
-            "borderInlineStartWidth", 
+            "borderInlineStartWidth"
         ],
         borderLeft: [
             "borderLeftColor",
@@ -926,7 +926,7 @@
             "borderBottomLeftRadius",
             "borderBottomRightRadius",
             "borderTopLeftRadius",
-            "borderTopRightRadius", 
+            "borderTopRightRadius"
         ],
         borderRight: [
             "borderRightColor",
@@ -937,7 +937,7 @@
             "borderBottomStyle",
             "borderLeftStyle",
             "borderRightStyle",
-            "borderTopStyle", 
+            "borderTopStyle"
         ],
         borderTop: [
             "borderTopColor",
@@ -948,7 +948,7 @@
             "borderBottomWidth",
             "borderLeftWidth",
             "borderRightWidth",
-            "borderTopWidth", 
+            "borderTopWidth"
         ],
         columnRule: [
             "columnRuleColor",
@@ -985,7 +985,7 @@
             "fontVariantNumeric",
             "fontVariantPosition",
             "fontWeight",
-            "lineHeight", 
+            "lineHeight"
         ],
         fontVariant: [
             "fontVariantAlternates",
@@ -993,7 +993,7 @@
             "fontVariantEastAsian",
             "fontVariantLigatures",
             "fontVariantNumeric",
-            "fontVariantPosition", 
+            "fontVariantPosition"
         ],
         gap: [
             "columnGap",
@@ -1005,13 +1005,13 @@
             "gridAutoRows",
             "gridTemplateAreas",
             "gridTemplateColumns",
-            "gridTemplateRows", 
+            "gridTemplateRows"
         ],
         gridArea: [
             "gridColumnEnd",
             "gridColumnStart",
             "gridRowEnd",
-            "gridRowStart", 
+            "gridRowStart"
         ],
         gridColumn: [
             "gridColumnEnd",
@@ -1034,7 +1034,7 @@
         gridTemplate: [
             "gridTemplateAreas",
             "gridTemplateColumns",
-            "gridTemplateRows", 
+            "gridTemplateRows"
         ],
         listStyle: [
             "listStyleImage",
@@ -1061,7 +1061,7 @@
             "maskPositionX",
             "maskPositionY",
             "maskRepeat",
-            "maskSize", 
+            "maskSize"
         ],
         maskPosition: [
             "maskPositionX",
@@ -1097,7 +1097,7 @@
         textDecoration: [
             "textDecorationColor",
             "textDecorationLine",
-            "textDecorationStyle", 
+            "textDecorationStyle"
         ],
         textEmphasis: [
             "textEmphasisColor",
@@ -1107,7 +1107,7 @@
             "transitionDelay",
             "transitionDuration",
             "transitionProperty",
-            "transitionTimingFunction", 
+            "transitionTimingFunction"
         ],
         wordWrap: [
             "overflowWrap"
@@ -2109,7 +2109,7 @@
         "change",
         "contextmenu",
         "reset",
-        "submit", 
+        "submit"
     ];
     function isReplayableDiscreteEvent(eventType) {
         return discreteReplayableEvents.indexOf(eventType) > -1;
@@ -3058,7 +3058,7 @@
         TRANSITION_END,
         "transitionEnd",
         "waiting",
-        "waiting", 
+        "waiting"
     ], 2), function(eventTypes, priority) {
         for(var i = 0; i < eventTypes.length; i++)eventPriorities.set(eventTypes[i], 0);
     }([
@@ -3067,7 +3067,7 @@
         "textInput",
         "compositionstart",
         "compositionend",
-        "compositionupdate", 
+        "compositionupdate"
     ], 0), registerDirectEvent("onMouseEnter", [
         "mouseout",
         "mouseover"
@@ -3088,7 +3088,7 @@
         "input",
         "keydown",
         "keyup",
-        "selectionchange", 
+        "selectionchange"
     ]), registerTwoPhaseEvent("onSelect", [
         "focusout",
         "contextmenu",
@@ -3098,33 +3098,33 @@
         "keyup",
         "mousedown",
         "mouseup",
-        "selectionchange", 
+        "selectionchange"
     ]), registerTwoPhaseEvent("onBeforeInput", [
         "compositionend",
         "keypress",
         "textInput",
-        "paste", 
+        "paste"
     ]), registerTwoPhaseEvent("onCompositionEnd", [
         "compositionend",
         "focusout",
         "keydown",
         "keypress",
         "keyup",
-        "mousedown", 
+        "mousedown"
     ]), registerTwoPhaseEvent("onCompositionStart", [
         "compositionstart",
         "focusout",
         "keydown",
         "keypress",
         "keyup",
-        "mousedown", 
+        "mousedown"
     ]), registerTwoPhaseEvent("onCompositionUpdate", [
         "compositionupdate",
         "focusout",
         "keydown",
         "keypress",
         "keyup",
-        "mousedown", 
+        "mousedown"
     ]);
     var mediaEventTypes = [
         "abort",
@@ -3149,7 +3149,7 @@
         "suspend",
         "timeupdate",
         "volumechange",
-        "waiting", 
+        "waiting"
     ], nonDelegatedEvents = new Set([
         "cancel",
         "close",
@@ -3723,7 +3723,7 @@
         "track",
         "ul",
         "wbr",
-        "xmp", 
+        "xmp"
     ], inScopeTags = [
         "applet",
         "caption",
@@ -3736,7 +3736,7 @@
         "template",
         "foreignObject",
         "desc",
-        "title", 
+        "title"
     ], buttonScopeTags = inScopeTags.concat([
         "button"
     ]), impliedEndTags = [
@@ -3747,7 +3747,7 @@
         "optgroup",
         "p",
         "rp",
-        "rt", 
+        "rt"
     ], emptyAncestorInfo = {
         current: null,
         formTag: null,
@@ -9374,7 +9374,7 @@
             enqueueStateRestore,
             restoreStateIfNeeded,
             flushPassiveEffects,
-            IsThisRendererActing, 
+            IsThisRendererActing
         ]
     }, exports1.createPortal = createPortal$1, exports1.findDOMNode = function(componentOrElement) {
         var owner = ReactCurrentOwner$3.current;

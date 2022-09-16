@@ -509,7 +509,7 @@
         var render, matcher = RegExp([
             ((settings = _.defaults({}, settings, _.templateSettings)).escape || noMatch).source,
             (settings.interpolate || noMatch).source,
-            (settings.evaluate || noMatch).source, 
+            (settings.evaluate || noMatch).source
         ].join("|") + "|$", "g"), index = 0, source = "__p+='";
         text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
             return source += text.slice(index, offset).replace(escaper, function(match) {

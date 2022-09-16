@@ -16,7 +16,7 @@ async function prerender(vnode) {
         ...head.scripts.map((props)=>({
                 type: "script",
                 props
-            })), 
+            }))
     ]);
     return {
         ...res,

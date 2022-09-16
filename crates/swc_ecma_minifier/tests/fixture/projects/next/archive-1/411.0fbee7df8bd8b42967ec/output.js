@@ -16,12 +16,12 @@
                         (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__.default, {
                             id: "3028949577",
                             children: [
-                                "div.jsx-3028949577{font-size:100px;}", 
+                                "div.jsx-3028949577{font-size:100px;}"
                             ]
-                        }), 
+                        })
                     ]
                 });
             };
         }
-    }, 
+    }
 ]);

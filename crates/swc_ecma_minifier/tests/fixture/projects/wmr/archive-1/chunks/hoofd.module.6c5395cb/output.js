@@ -91,7 +91,7 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
         options.rel,
         options.crossorigin,
         options.type,
-        options.hreflang, 
+        options.hreflang
     ]), y(function() {
         return hasMounted.current = !0, document.querySelectorAll('link[rel="' + options.rel + '"]').forEach(function(x) {
             var found = !0;
