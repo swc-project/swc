@@ -130,7 +130,7 @@ var ItemsList = function(_Component) {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
                 return (0, _compareObjects.default)(nextProps, this.props, [
-                    "itemProps", 
+                    "itemProps"
                 ]);
             }
         },
@@ -168,14 +168,14 @@ var ItemsList = function(_Component) {
                     }));
                 }));
             }
-        }, 
+        }
     ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
 }(_react.Component);
 exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
     items: _propTypes.default.array.isRequired,
     itemProps: _propTypes.default.oneOfType([
         _propTypes.default.object,
-        _propTypes.default.func, 
+        _propTypes.default.func
     ]),
     renderItem: _propTypes.default.func.isRequired,
     renderItemData: _propTypes.default.object.isRequired,

@@ -128,7 +128,7 @@ mod tests {
         assert_min("[]", "[]");
         assert_min("[foo]", "[foo]");
         assert_min("[foo,bar]", "[foo,bar]");
-        assert_min("[foo,bar,baz]", "[foo,bar,baz]");
+        assert_min("[foo,bar,baz,]", "[foo,bar,baz]");
     }
 
     #[test]
@@ -140,7 +140,6 @@ mod tests {
     fn sparse_array_expression() {
         assert_min("[]", "[]");
         assert_min("[,]", "[,]");
-        assert_min("[1,]", "[1,]");
         assert_min("[,1]", "[,1]");
         assert_min("[,,];", "[,,]");
         assert_min("[1,,];", "[1,,]");

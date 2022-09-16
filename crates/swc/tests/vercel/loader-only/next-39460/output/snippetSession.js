@@ -832,7 +832,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
                     new CommentBasedVariableResolver(model, selection),
                     new TimeBasedVariableResolver,
                     new WorkspaceBasedVariableResolver(workspaceService),
-                    new RandomBasedVariableResolver, 
+                    new RandomBasedVariableResolver
                 ]));
                 var offset = model.getOffsetAt(start) + delta;
                 delta += snippet.toString().length - model.getValueLengthInRange(snippetSelection);

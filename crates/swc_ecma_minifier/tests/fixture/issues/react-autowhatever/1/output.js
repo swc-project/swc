@@ -96,7 +96,7 @@ var ItemsList = function(Component) {
                     })
                 }));
             }
-        }, 
+        }
     ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
 }(Component);
 ItemsList.propTypes = {

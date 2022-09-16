@@ -1789,7 +1789,7 @@ function blue(str) {
 }
 new RegExp([
     "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
-    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))", 
+    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))"
 ].join("|"), "g");
 async function exists(filePath) {
     try {
@@ -2565,7 +2565,7 @@ async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs 
                 globToRegExp(joinGlobs([
                     walkInfo.path,
                     globSegment
-                ], globOptions), globOptions), 
+                ], globOptions), globOptions)
             ],
             skip: excludePatterns
         });
@@ -2651,7 +2651,7 @@ function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =t
                 globToRegExp(joinGlobs([
                     walkInfo.path,
                     globSegment
-                ], globOptions), globOptions), 
+                ], globOptions), globOptions)
             ],
             skip: excludePatterns
         });
@@ -5416,7 +5416,7 @@ function findUserSource(dir, startCtxArg) {
     ];
     const defaultSources = [
         "main.ts",
-        "dnit.ts", 
+        "dnit.ts"
     ];
     const importmaps = [
         "import_map.json",
@@ -5499,15 +5499,15 @@ async function launch(logger) {
             "--allow-write",
             "--allow-run",
             "--allow-env",
-            "--allow-net", 
+            "--allow-net"
         ];
         const flags = [
             "--quiet",
-            "--unstable", 
+            "--unstable"
         ];
         const importmap = userSource.importmap ? [
             "--importmap",
-            userSource.importmap, 
+            userSource.importmap
         ] : [];
         const proc = Deno.run({
             cmd: [

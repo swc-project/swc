@@ -24,7 +24,7 @@ module.exports = function() {
                 value: function() {
                     this.bb = new ClassB.MyA();
                 }
-            }, 
+            }
         ]), staticProps && _defineProperties(ClassB, staticProps), ClassB;
     }();
     return "MyA" in (obj = ClassB) ? Object.defineProperty(obj, "MyA", {

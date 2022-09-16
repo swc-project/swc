@@ -22770,7 +22770,7 @@ export function foo(global, env, buffer) {
         jD,
         jD,
         jD,
-        jD, 
+        jD
     ];
     var mb = [
         kD
@@ -22903,7 +22903,7 @@ export function foo(global, env, buffer) {
         lD,
         lD,
         lD,
-        lD, 
+        lD
     ];
     var ob = [
         mD,
@@ -22937,7 +22937,7 @@ export function foo(global, env, buffer) {
         mD,
         mD,
         mD,
-        mD, 
+        mD
     ];
     var pb = [
         nD,
@@ -22971,7 +22971,7 @@ export function foo(global, env, buffer) {
         nD,
         nD,
         nD,
-        nD, 
+        nD
     ];
     var qb = [
         oD,

@@ -13,6 +13,6 @@ var navigation = function(path) {
             get current () {
                 return this.href === path;
             }
-        }, 
+        }
     ];
 };

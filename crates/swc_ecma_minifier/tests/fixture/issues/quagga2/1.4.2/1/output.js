@@ -196,7 +196,7 @@
                         for(i = 0; i < points.length; i++)sum += points[i].rad;
                         center.rad = sum / points.length, center.vec = vec2.clone([
                             Math.cos(center.rad),
-                            Math.sin(center.rad), 
+                            Math.sin(center.rad)
                         ]);
                     }
                     return _add(point), updateCenter(), {
@@ -532,7 +532,7 @@
                             for(y = 0; y < height; y++)for(x = 0, ysq = y * y; x < width; x++)(val = data[y * width + x]) > 0 && (label = labelSum[val - 1], label.m00 += 1, label.m01 += y, label.m10 += x, label.m11 += x * y, label.m02 += ysq, label.m20 += x * x);
                             for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, tmp = 0.5 * Math.atan(tmp = (label.m02 / label.m00 - y_ * y_ - (label.m20 / label.m00 - x_ * x_)) / (2 * mu11)) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
                                 Math.cos(tmp),
-                                Math.sin(tmp), 
+                                Math.sin(tmp)
                             ]), result.push(label));
                             return result;
                         }
@@ -586,7 +586,7 @@
                             }
                             ctx.putImageData(frame, from.x, from.y);
                         }
-                    }, 
+                    }
                 ]), ImageWrapper;
             }();
             __webpack_exports__.a = ImageWrapper;
@@ -703,7 +703,7 @@
                     [
                         -1,
                         1
-                    ], 
+                    ]
                 ],
                 create: function(imageWrapper, labelWrapper) {
                     var pos, imageData = imageWrapper.data, labelData = labelWrapper.data, searchDirections = this.searchDirections, width = imageWrapper.size.x;
@@ -777,7 +777,7 @@
                         Math.cos(overAvg),
                         Math.sin(overAvg),
                         -Math.sin(overAvg),
-                        Math.cos(overAvg), 
+                        Math.cos(overAvg)
                     ]), i = 0; i < patches.length; i++){
                         for(j = 0, patch = patches[i]; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(patch.box[j], patch.box[j], transMat);
                         _config.debug.boxFromPatches.showTransformed && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(patch.box, {
@@ -805,7 +805,7 @@
                         [
                             minx,
                             maxy
-                        ], 
+                        ]
                     ], _config.debug.boxFromPatches.showTransformedBox && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
                         x: 0,
                         y: 1
@@ -857,12 +857,12 @@
                                     ]),
                                     gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
                                         x + _subImageWrapper.size.x,
-                                        y + _subImageWrapper.size.y, 
+                                        y + _subImageWrapper.size.y
                                     ]),
                                     gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
                                         x,
                                         y + _subImageWrapper.size.y
-                                    ]), 
+                                    ])
                                 ],
                                 moments: matchingMoments,
                                 rad: avg,
@@ -2756,7 +2756,7 @@
                     this.tryEntries = [
                         {
                             tryLoc: "root"
-                        }, 
+                        }
                     ], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
                 }
                 function values(iterable) {
@@ -3343,7 +3343,7 @@
                             }
                             return counters;
                         }
-                    }, 
+                    }
                 ], [
                     {
                         key: "Exception",
@@ -3354,7 +3354,7 @@
                                 PatternNotFoundException: "Pattern could not be found!"
                             };
                         }
-                    }, 
+                    }
                 ]), BarcodeReader;
             }(), code_128_reader = function(_BarcodeReader) {
                 inherits_default()(Code128Reader, _BarcodeReader);
@@ -4237,7 +4237,7 @@
                             1,
                             1,
                             2
-                        ], 
+                        ]
                     ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.64), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.3), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_128"), defineProperty_default()(assertThisInitialized_default()(_this), "MODULE_INDICES", {
                         bar: [
                             0,
@@ -4432,7 +4432,7 @@
                             for(var length = indices.length, sumNormalized = 0, sumExpected = 0; length--;)sumExpected += expected[indices[length]], sumNormalized += normalized[indices[length]];
                             return sumExpected / sumNormalized;
                         }
-                    }, 
+                    }
                 ]), Code128Reader;
             }(barcode_reader);
             function ownKeys(object, enumerableOnly) {
@@ -4590,7 +4590,7 @@
                     1,
                     1,
                     3
-                ], 
+                ]
             ], CODE_FREQUENCY = [
                 0,
                 11,
@@ -4802,7 +4802,7 @@
                                 format: this.FORMAT
                             });
                         }
-                    }, 
+                    }
                 ]), EANReader;
             }(barcode_reader), toConsumableArray = __webpack_require__(33), toConsumableArray_default = __webpack_require__.n(toConsumableArray), ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%").map(function(_char) {
                 return _char.charCodeAt(0);
@@ -4850,7 +4850,7 @@
                 0x0a8,
                 0x0a2,
                 0x08a,
-                0x02a, 
+                0x02a
             ]), code_39_reader = function(_BarcodeReader) {
                 inherits_default()(Code39Reader, _BarcodeReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
@@ -4890,7 +4890,7 @@
                                 0,
                                 0,
                                 0,
-                                0, 
+                                0
                             ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
@@ -4957,7 +4957,7 @@
                                 0,
                                 0,
                                 0,
-                                0, 
+                                0
                             ]), result = [];
                             if (!(start = this._findStart())) return null;
                             var nextStart = this._nextSet(this._row, start.end);
@@ -4976,7 +4976,7 @@
                                 format: this.FORMAT
                             } : null;
                         }
-                    }, 
+                    }
                 ]), Code39Reader;
             }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns = {
                 IOQ: /[IOQ]/g,
@@ -5022,7 +5022,7 @@
                             var code = result.code;
                             return code ? (code = code.replace(patterns.IOQ, "")).match(patterns.AZ09) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
                         }
-                    }, 
+                    }
                 ]), Code39VINReader;
             }(code_39_reader), codabar_reader_ALPHABET = [
                 48,
@@ -5044,7 +5044,7 @@
                 65,
                 66,
                 67,
-                68, 
+                68
             ], codabar_reader_CHARACTER_ENCODINGS = [
                 0x003,
                 0x006,
@@ -5065,7 +5065,7 @@
                 0x01a,
                 0x029,
                 0x00b,
-                0x00e, 
+                0x00e
             ], START_END = [
                 0x01a,
                 0x029,
@@ -5257,7 +5257,7 @@
                                 format: this.FORMAT
                             };
                         }
-                    }, 
+                    }
                 ]), NewCodabarReader;
             }(barcode_reader), upc_reader = function(_EANReader) {
                 inherits_default()(UPCReader, _EANReader);
@@ -5292,7 +5292,7 @@
                             var result = ean_reader.prototype.decode.call(this);
                             return result && result.code && 13 === result.code.length && "0" === result.code.charAt(0) ? (result.code = result.code.substring(1), result) : null;
                         }
-                    }, 
+                    }
                 ]), UPCReader;
             }(ean_reader), ean_8_reader = function(_EANReader) {
                 inherits_default()(EAN8Reader, _EANReader);
@@ -5336,7 +5336,7 @@
                             }
                             return code;
                         }
-                    }, 
+                    }
                 ]), EAN8Reader;
             }(ean_reader), ean_2_reader = function(_EANReader) {
                 inherits_default()(EAN2Reader, _EANReader);
@@ -5386,7 +5386,7 @@
                                 start: startInfo.start
                             };
                         }
-                    }, 
+                    }
                 ]), EAN2Reader;
             }(ean_reader), CHECK_DIGIT_ENCODINGS = [
                 24,
@@ -5398,7 +5398,7 @@
                 3,
                 10,
                 9,
-                5, 
+                5
             ], ean_5_reader = function(_EANReader) {
                 inherits_default()(EAN5Reader, _EANReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
@@ -5454,7 +5454,7 @@
                                 start: startInfo.start
                             };
                         }
-                    }, 
+                    }
                 ]), EAN5Reader;
             }(ean_reader);
             function upc_e_reader_ownKeys(object, enumerableOnly) {
@@ -5515,14 +5515,14 @@
                             21,
                             22,
                             26
-                        ], 
+                        ]
                     ]), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
                         1 / 6 * 7,
                         1 / 6 * 7,
                         1 / 6 * 7,
                         1 / 6 * 7,
                         1 / 6 * 7,
-                        1 / 6 * 7, 
+                        1 / 6 * 7
                     ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "upc_e"), _this;
                 }
                 return createClass_default()(UPCEReader, [
@@ -5605,7 +5605,7 @@
                             var trailingWhitespaceEnd = endInfo.end + (endInfo.end - endInfo.start) / 2;
                             return trailingWhitespaceEnd < this._row.length && this._matchRange(endInfo.end, trailingWhitespaceEnd, 0) ? endInfo : null;
                         }
-                    }, 
+                    }
                 ]), UPCEReader;
             }(ean_reader), i2of5_reader = function(_BarcodeReader) {
                 inherits_default()(I2of5Reader, _BarcodeReader);
@@ -5711,7 +5711,7 @@
                             1,
                             3,
                             1
-                        ], 
+                        ]
                     ]), defineProperty_default()(assertThisInitialized_default()(_this), "MAX_CORRECTION_FACTOR", 5), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "i2of5"), opts.normalizeBarSpaceWidth && (_this.SINGLE_CODE_ERROR = 0.38, _this.AVG_CODE_ERROR = 0.09), _this.config = opts, possibleConstructorReturn_default()(_this, assertThisInitialized_default()(_this));
                 }
                 return createClass_default()(I2of5Reader, [
@@ -5830,7 +5830,7 @@
                                     0,
                                     0,
                                     0
-                                ], 
+                                ]
                             ], codes = null; pos < counterLength;){
                                 for(var i = 0; i < 5; i++)counterPair[0][i] = counters[pos] * this.barSpaceRatio[0], counterPair[1][i] = counters[pos + 1] * this.barSpaceRatio[1], pos += 2;
                                 if (!(codes = this._decodePair(counterPair))) return null;
@@ -5863,7 +5863,7 @@
                                 format: this.FORMAT
                             }) : null;
                         }
-                    }, 
+                    }
                 ]), I2of5Reader;
             }(barcode_reader), _2of5_reader_START_PATTERN = [
                 3,
@@ -5871,84 +5871,84 @@
                 3,
                 1,
                 1,
-                1, 
+                1
             ], STOP_PATTERN = [
                 3,
                 1,
                 1,
                 1,
-                3, 
+                3
             ], _2of5_reader_CODE_PATTERN = [
                 [
                     1,
                     1,
                     3,
                     3,
-                    1, 
+                    1
                 ],
                 [
                     3,
                     1,
                     1,
                     1,
-                    3, 
+                    3
                 ],
                 [
                     1,
                     3,
                     1,
                     1,
-                    3, 
+                    3
                 ],
                 [
                     3,
                     3,
                     1,
                     1,
-                    1, 
+                    1
                 ],
                 [
                     1,
                     1,
                     3,
                     1,
-                    3, 
+                    3
                 ],
                 [
                     3,
                     1,
                     3,
                     1,
-                    1, 
+                    1
                 ],
                 [
                     1,
                     3,
                     3,
                     1,
-                    1, 
+                    1
                 ],
                 [
                     1,
                     1,
                     1,
                     3,
-                    3, 
+                    3
                 ],
                 [
                     3,
                     1,
                     1,
                     3,
-                    1, 
+                    1
                 ],
                 [
                     1,
                     3,
                     1,
                     3,
-                    1, 
-                ], 
+                    1
+                ]
             ], START_PATTERN_LENGTH = _2of5_reader_START_PATTERN.reduce(function(sum, val) {
                 return sum + val;
             }, 0), _2of5_reader = function(_BarcodeReader) {
@@ -6094,7 +6094,7 @@
                                 format: this.FORMAT
                             });
                         }
-                    }, 
+                    }
                 ]), TwoOfFiveReader;
             }(barcode_reader), code_93_reader_ALPHABET = new Uint16Array(toConsumableArray_default()("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*").map(function(_char) {
                 return _char.charCodeAt(0);
@@ -6146,7 +6146,7 @@
                 0x1da,
                 0x1d6,
                 0x132,
-                0x15e, 
+                0x15e
             ]), code_93_reader = function(_BarcodeReader) {
                 inherits_default()(Code93Reader, _BarcodeReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
@@ -6204,7 +6204,7 @@
                                 0,
                                 0,
                                 0,
-                                0, 
+                                0
                             ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
@@ -6298,7 +6298,7 @@
                                 0,
                                 0,
                                 0,
-                                0, 
+                                0
                             ]), result = [], nextStart = this._nextSet(this._row, start.end);
                             do {
                                 counters = this._toCounters(nextStart, counters);
@@ -6315,7 +6315,7 @@
                                 format: this.FORMAT
                             } : null;
                         }
-                    }, 
+                    }
                 ]), Code93Reader;
             }(barcode_reader), code_32_reader_patterns = {
                 AEIO: /[AEIO]/g,
@@ -6372,7 +6372,7 @@
                             var code32 = this._decodeCode32(code);
                             return code32 ? (result.code = code32, result) : null;
                         }
-                    }, 
+                    }
                 ]), Code32Reader;
             }(code_39_reader), READERS = {
                 code_128_reader: code_128_reader,
@@ -6456,7 +6456,7 @@
                             {
                                 x: (box[3][0] - box[2][0]) / 2 + box[2][0],
                                 y: (box[3][1] - box[2][1]) / 2 + box[2][1]
-                            }, 
+                            }
                         ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle = Math.atan2(line[1].y - line[0].y, line[1].x - line[0].x);
                         return null === (line = function(line, angle, ext) {
                             function extendLine(amount) {
@@ -6504,7 +6504,7 @@
                                 {
                                     node: _canvas.dom.pattern,
                                     prop: config.debug.showPattern
-                                }, 
+                                }
                             ];
                             for(i = 0; i < vis.length; i++)!0 === vis[i].prop ? vis[i].node.style.display = "block" : vis[i].node.style.display = "none";
                         }
@@ -6671,7 +6671,7 @@
                     "height",
                     "facingMode",
                     "aspectRatio",
-                    "deviceId", 
+                    "deviceId"
                 ]), void 0 !== videoConstraints.minAspectRatio && videoConstraints.minAspectRatio > 0 && (normalized.aspectRatio = videoConstraints.minAspectRatio, console.log("WARNING: Constraint 'minAspectRatio' is deprecated; Use 'aspectRatio' instead")), void 0 !== videoConstraints.facing && (normalized.facingMode = videoConstraints.facing, console.log("WARNING: Constraint 'facing' is deprecated. Use 'facingMode' instead'")), normalized);
                 return video && video.deviceId && video.facingMode && delete video.facingMode, Promise.resolve({
                     audio: !1,
@@ -7198,7 +7198,7 @@
             }
             function initWorker(config, inputStream, cb) {
                 var blob, factorySource, blobURL = ("undefined" != typeof __factorySource__ && (factorySource = __factorySource__), blob = new Blob([
-                    "(" + workerInterface.toString() + ")(" + factorySource + ");", 
+                    "(" + workerInterface.toString() + ")(" + factorySource + ");"
                 ], {
                     type: "text/javascript"
                 }), window.URL.createObjectURL(blob)), workerThread = {
@@ -7284,12 +7284,12 @@
                                     ]),
                                     Object(gl_vec2.clone)([
                                         inputImageWrapper.size.x,
-                                        inputImageWrapper.size.y, 
+                                        inputImageWrapper.size.y
                                     ]),
                                     Object(gl_vec2.clone)([
                                         inputImageWrapper.size.x,
                                         0
-                                    ]), 
+                                    ])
                                 ], barcode_locator.a.init(inputImageWrapper, locator), {
                                     inputImageWrapper: inputImageWrapper,
                                     boxSize: boxSize
@@ -7404,8 +7404,8 @@
                                     Object(gl_vec2.clone)(this.context.boxSize[0]),
                                     Object(gl_vec2.clone)(this.context.boxSize[1]),
                                     Object(gl_vec2.clone)(this.context.boxSize[2]),
-                                    Object(gl_vec2.clone)(this.context.boxSize[3]), 
-                                ], 
+                                    Object(gl_vec2.clone)(this.context.boxSize[3])
+                                ]
                             ];
                         }
                     },
@@ -7520,7 +7520,7 @@
                                 });
                             });
                         }
-                    }, 
+                    }
                 ]), Quagga;
             }(), instance = new quagga_Quagga(), quagga_context = instance.context, QuaggaJSStaticInterface = {
                 init: function(config, cb, imageWrapper) {

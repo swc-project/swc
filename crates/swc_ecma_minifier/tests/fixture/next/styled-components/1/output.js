@@ -31,7 +31,7 @@
                         "24px",
                         "32px",
                         "40px",
-                        "48px", 
+                        "48px"
                     ],
                     fontWeights: {
                         light: 300,
@@ -69,7 +69,7 @@
                         "80px",
                         "96px",
                         "112px",
-                        "128px", 
+                        "128px"
                     ],
                     colorSchemes: {
                         light: {
@@ -3709,7 +3709,7 @@
                 "/_app",
                 function() {
                     return __webpack_require__(2078);
-                }, 
+                }
             ]);
         },
         2078: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -4727,7 +4727,7 @@
                             var t = d;
                             return d = [], t;
                         }
-                    }, 
+                    }
                 ])), m.hash = u.length ? u.reduce(function(e, t) {
                     return t.name || j(15), te(e, t.name);
                 }, 5381).toString() : "", m;
@@ -5063,7 +5063,7 @@
                 "svg",
                 "text",
                 "textPath",
-                "tspan", 
+                "tspan"
             ].forEach(function(e) {
                 He[e] = He(e);
             });
@@ -5091,7 +5091,7 @@
                         return "<style " + [
                             n && 'nonce="' + n + '"',
                             A + '="true"',
-                            'data-styled-version="5.3.5"', 
+                            'data-styled-version="5.3.5"'
                         ].filter(Boolean).join(" ") + ">" + t + "</style>";
                     }, this.getStyleTags = function() {
                         return e.sealed ? j(2) : e._emitSheetCSS();
@@ -5103,7 +5103,7 @@
                         return o && (n.nonce = o), [
                             react.createElement("style", v({}, n, {
                                 key: "sc-0-0"
-                            })), 
+                            }))
                         ];
                     }, this.seal = function() {
                         e.sealed = !0;
@@ -5816,7 +5816,7 @@
                 "top",
                 "bottom",
                 "left",
-                "right", 
+                "right"
             ].reduce(function(acc, curr) {
                 var _extends2;
                 return _extends({}, acc, ((_extends2 = {})[curr] = positiveOrNegative, _extends2));
@@ -6294,7 +6294,7 @@
                     getButtonStyles(theme),
                     getSizeStyles(size, variant, !1),
                     getVariantStyles(variant, theme),
-                    sxProp, 
+                    sxProp
                 ]);
                 return react.createElement(StyledButton, ButtonBase_extends({
                     as: Component,
@@ -6356,7 +6356,7 @@
                 ";border-radius:20px;",
                 ";",
                 ";&:empty{display:none;}",
-                ";", 
+                ";"
             ], constants_get("fontSizes.0"), constants_get("fontWeights.bold"), constants_get("lineHeights.condensedUltra"), colorStyles, bgStyles, sx);
             function ButtonCounter_extends() {
                 return (ButtonCounter_extends = Object.assign || function(target) {
@@ -6432,7 +6432,7 @@
                 }
                 return react.memo(l);
             }([
-                '*{box-sizing:border-box;}body{margin:0;}table{border-collapse:collapse;}[role="button"]:focus:not(:focus-visible):not(.focus-visible),[role="tabpanel"][tabindex="0"]:focus:not(:focus-visible):not(.focus-visible),button:focus:not(:focus-visible):not(.focus-visible),summary:focus:not(:focus-visible):not(.focus-visible),a:focus:not(:focus-visible):not(.focus-visible){outline:none;box-shadow:none;}[tabindex="0"]:focus:not(:focus-visible):not(.focus-visible),details-dialog:focus:not(:focus-visible):not(.focus-visible){outline:none;}', 
+                '*{box-sizing:border-box;}body{margin:0;}table{border-collapse:collapse;}[role="button"]:focus:not(:focus-visible):not(.focus-visible),[role="tabpanel"][tabindex="0"]:focus:not(:focus-visible):not(.focus-visible),button:focus:not(:focus-visible):not(.focus-visible),summary:focus:not(:focus-visible):not(.focus-visible),a:focus:not(:focus-visible):not(.focus-visible){outline:none;box-shadow:none;}[tabindex="0"]:focus:not(:focus-visible):not(.focus-visible),details-dialog:focus:not(:focus-visible):not(.focus-visible){outline:none;}'
             ]), Base = He.div.withConfig({
                 displayName: "BaseStyles__Base",
                 componentId: "sc-nfjs56-0"
@@ -6644,5 +6644,5 @@
         ], function() {
             return __webpack_exec__(1118), __webpack_exec__(880);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);

@@ -117,7 +117,7 @@ export var preTransforms = Object.freeze([
         -1,
         1,
         0
-    ]), 
+    ])
 ]);
 /**
  * @en Mathematical 4x4 matrix.
@@ -149,7 +149,7 @@ export var preTransforms = Object.freeze([
                     0,
                     0,
                     0,
-                    1, 
+                    1
                 ]);
             } else {
                 var v = m00.array;
@@ -1061,7 +1061,7 @@ export var preTransforms = Object.freeze([
                 this._array[15] = 1;
                 return this;
             }
-        }, 
+        }
     ], [
         {
             key: "clone",
@@ -2513,7 +2513,7 @@ export var preTransforms = Object.freeze([
                 // defines a 'close enough' relationship between u and v that scales for magnitude
                 return Math.abs(a.m00 - b.m00) <= epsilon * Math.max(1, Math.abs(a.m00), Math.abs(b.m00)) && Math.abs(a.m01 - b.m01) <= epsilon * Math.max(1, Math.abs(a.m01), Math.abs(b.m01)) && Math.abs(a.m02 - b.m02) <= epsilon * Math.max(1, Math.abs(a.m02), Math.abs(b.m02)) && Math.abs(a.m03 - b.m03) <= epsilon * Math.max(1, Math.abs(a.m03), Math.abs(b.m03)) && Math.abs(a.m04 - b.m04) <= epsilon * Math.max(1, Math.abs(a.m04), Math.abs(b.m04)) && Math.abs(a.m05 - b.m05) <= epsilon * Math.max(1, Math.abs(a.m05), Math.abs(b.m05)) && Math.abs(a.m06 - b.m06) <= epsilon * Math.max(1, Math.abs(a.m06), Math.abs(b.m06)) && Math.abs(a.m07 - b.m07) <= epsilon * Math.max(1, Math.abs(a.m07), Math.abs(b.m07)) && Math.abs(a.m08 - b.m08) <= epsilon * Math.max(1, Math.abs(a.m08), Math.abs(b.m08)) && Math.abs(a.m09 - b.m09) <= epsilon * Math.max(1, Math.abs(a.m09), Math.abs(b.m09)) && Math.abs(a.m10 - b.m10) <= epsilon * Math.max(1, Math.abs(a.m10), Math.abs(b.m10)) && Math.abs(a.m11 - b.m11) <= epsilon * Math.max(1, Math.abs(a.m11), Math.abs(b.m11)) && Math.abs(a.m12 - b.m12) <= epsilon * Math.max(1, Math.abs(a.m12), Math.abs(b.m12)) && Math.abs(a.m13 - b.m13) <= epsilon * Math.max(1, Math.abs(a.m13), Math.abs(b.m13)) && Math.abs(a.m14 - b.m14) <= epsilon * Math.max(1, Math.abs(a.m14), Math.abs(b.m14)) && Math.abs(a.m15 - b.m15) <= epsilon * Math.max(1, Math.abs(a.m15), Math.abs(b.m15));
             }
-        }, 
+        }
     ]);
     return Mat4;
 }(MathBase);
@@ -2536,7 +2536,7 @@ enumerableProps(Mat4.prototype, [
     "m12",
     "m13",
     "m14",
-    "m15", 
+    "m15"
 ]);
 CCClass.fastDefine("cc.Mat4", Mat4, {
     m00: 1,

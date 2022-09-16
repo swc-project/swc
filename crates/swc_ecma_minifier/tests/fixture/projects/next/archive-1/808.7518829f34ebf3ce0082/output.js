@@ -24,10 +24,10 @@
                 return (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                     children: [
                         "Nested 1",
-                        (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(Nested2, {}), 
+                        (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(Nested2, {})
                     ]
                 });
             };
         }
-    }, 
+    }
 ]);

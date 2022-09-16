@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Drop the last comma in an array literal (#5877) ([7d6d04b](https://github.com/swc-project/swc/commit/7d6d04b4215c5c1ec368a8ccdabdda187cfa647e))
+
+
 - **(es/compat)** Fix handling of objects in generator (#5861) ([006c7fb](https://github.com/swc-project/swc/commit/006c7fb56e0b8d4955f848c6af8c83bcd87515ab))
 
 
@@ -16,17 +19,29 @@
 
 - **(es/minifier)** Fix unicode handling (#5875) ([c3fa96b](https://github.com/swc-project/swc/commit/c3fa96b21b1545be62fdfd359ca5762a1bd4a473))
 
+
+- **(html/parser)** Reflect the fix for a bug in spec (#5779) ([57e9f9c](https://github.com/swc-project/swc/commit/57e9f9c88ed4c8f29a26e500fd1f00cb1befab9f))
+
 ### Features
 
 
 
 - **(es/minifier)** Move assign with seq init into seq (#5847) ([63fb0c4](https://github.com/swc-project/swc/commit/63fb0c4ad34698d4d3f0c49ff5a78f6e446e64f9))
 
+
+- **(es/plugin)** Enable plugin for bytecheck flags (#5885) ([2d4d04d](https://github.com/swc-project/swc/commit/2d4d04d06beec5c88e8515c95298a0bf5d961d8c))
+
+
+- **(preset-env/base)** Implement more traits for `BrowserData` and `Version` (#5879) ([73c48a8](https://github.com/swc-project/swc/commit/73c48a8e6eb3d002ca0c575d253f32ae1aa6e5ea))
+
+
+- **(swc_core)** Enable `bytecheck` for plugin (#5878) ([1ba151f](https://github.com/swc-project/swc/commit/1ba151fe9540a8595f9ac9f286917fdec9db5264))
+
 ### Miscellaneous Tasks
 
 
 
-- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))
+- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))- **general**: Fix publish script ([720b3e0](https://github.com/swc-project/swc/commit/720b3e05c1e5fa9ab5bdae5f6d1268d6f6bce885))
 
 ### Performance
 

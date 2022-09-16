@@ -89,7 +89,7 @@ function checkRedirectValues(redirect, req, method) {
         errors.push(`\`permanent\` must be \`true\` or \`false\``);
     } else if (hasStatusCode && !allowedStatusCodes.has(statusCode)) {
         errors.push(`\`statusCode\` must undefined or one of ${[
-            ...allowedStatusCodes, 
+            ...allowedStatusCodes
         ].join(", ")}`);
     }
     const destinationType = typeof destination;
@@ -151,7 +151,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     for (const methodName of [
         "getStaticProps",
         "getServerSideProps",
-        "getStaticPaths", 
+        "getStaticPaths"
     ]){
         if (Component[methodName]) {
             throw new Error(`page ${pathname} ${methodName} ${GSSP_COMPONENT_MEMBER_ERROR}`);
@@ -518,7 +518,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                     ...filteredBuildManifest.pages,
                     [page]: [
                         ...filteredBuildManifest.pages[page],
-                        ...filteredBuildManifest.lowPriorityFiles.filter((f)=>f.includes("_buildManifest")), 
+                        ...filteredBuildManifest.lowPriorityFiles.filter((f)=>f.includes("_buildManifest"))
                     ]
                 },
                 lowPriorityFiles: filteredBuildManifest.lowPriorityFiles.filter((f)=>!f.includes("_buildManifest"))
@@ -703,8 +703,8 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         piperFromArray(prefix),
         documentResult.bodyResult,
         piperFromArray([
-            documentHTML.substring(renderTargetIdx + BODY_RENDER_TARGET.length), 
-        ]), 
+            documentHTML.substring(renderTargetIdx + BODY_RENDER_TARGET.length)
+        ])
     ];
     const postProcessors = (generateStaticHTML ? [
         inAmpMode ? async (html)=>{
@@ -738,7 +738,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         } : null,
         inAmpMode || hybridAmp ? async (html)=>{
             return html.replace(/&amp;amp=1/g, "&amp=1");
-        } : null, 
+        } : null
     ] : []).filter(Boolean);
     if (generateStaticHTML || postProcessors.length > 0) {
         let html = await piperToString(chainPipers(pipers));

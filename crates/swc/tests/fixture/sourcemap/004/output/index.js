@@ -26,7 +26,7 @@
                 "/static",
                 function() {
                     return u(2943);
-                }, 
+                }
             ]);
         }
     },
@@ -38,5 +38,5 @@
         ], function() {
             return n(n.s = 7139);
         }), _N_E = n.O();
-    }, 
+    }
 ]);

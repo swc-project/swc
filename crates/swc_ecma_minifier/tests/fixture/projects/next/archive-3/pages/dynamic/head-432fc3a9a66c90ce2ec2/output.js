@@ -204,7 +204,7 @@
                                 _this2._callbacks.delete(callback);
                             };
                         }
-                    }, 
+                    }
                 ]), LoadableSubscription;
             }();
             function Loadable(opts1) {
@@ -365,7 +365,7 @@
                                                     }
                                                 })
                                             }),
-                                            "test", 
+                                            "test"
                                         ]
                                     });
                                 });
@@ -386,7 +386,7 @@
                 "/dynamic/head",
                 function() {
                     return __webpack_require__(1804);
-                }, 
+                }
             ]);
         },
         4652: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -404,5 +404,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 2250);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);

@@ -59,6 +59,6 @@ var r = findGroupMember("B", [
         members: [
             "B"
         ]
-    }, 
+    }
 ]);
 console.log(r);

@@ -89,11 +89,11 @@
     var deprecatedAPIs = {
         isMounted: [
             "isMounted",
-            "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks.", 
+            "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks."
         ],
         replaceState: [
             "replaceState",
-            "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236).", 
+            "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
         ]
     }, defineDeprecationWarning = function(methodName, info) {
         Object.defineProperty(Component.prototype, methodName, {

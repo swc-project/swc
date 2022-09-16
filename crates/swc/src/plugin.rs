@@ -1,13 +1,19 @@
 //! This module always exists because cfg attributes are not stabilized in
 //! expressions at the moment.
 
-#![cfg_attr(any(not(feature = "plugin"), target_arch = "wasm32"), allow(unused))]
+#![cfg_attr(
+    any(
+        not(any(feature = "plugin", feature = "plugin-bytecheck")),
+        target_arch = "wasm32"
+    ),
+    allow(unused)
+)]
 
 use serde::{Deserialize, Serialize};
-#[cfg(feature = "plugin")]
+#[cfg(any(feature = "plugin", feature = "plugin-bytecheck"))]
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
-#[cfg(not(feature = "plugin"))]
+#[cfg(not(any(feature = "plugin", feature = "plugin-bytecheck")))]
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
@@ -21,7 +27,7 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct PluginConfig(String, serde_json::Value);
 
-#[cfg(feature = "plugin")]
+#[cfg(any(feature = "plugin", feature = "plugin-bytecheck"))]
 pub fn plugins(
     configured_plugins: Option<Vec<PluginConfig>>,
     metadata_context: std::sync::Arc<swc_common::plugin::metadata::TransformPluginMetadataContext>,
@@ -42,7 +48,7 @@ pub fn plugins(
     }
 }
 
-#[cfg(not(feature = "plugin"))]
+#[cfg(not(any(feature = "plugin", feature = "plugin-bytecheck")))]
 pub fn plugins() -> impl Fold {
     noop()
 }
@@ -57,7 +63,7 @@ struct RustPlugins {
 }
 
 impl RustPlugins {
-    #[cfg(feature = "plugin")]
+    #[cfg(any(feature = "plugin", feature = "plugin-bytecheck"))]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
         if self.plugins.is_none() || self.plugins.as_ref().unwrap().is_empty() {
@@ -73,7 +79,10 @@ impl RustPlugins {
     }
 
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
-    #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
+    #[cfg(all(
+        any(feature = "plugin", feature = "plugin-bytecheck"),
+        not(target_arch = "wasm32")
+    ))]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
 
@@ -158,7 +167,10 @@ impl RustPlugins {
         )
     }
 
-    #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
+    #[cfg(all(
+        any(feature = "plugin", feature = "plugin-bytecheck"),
+        target_arch = "wasm32"
+    ))]
     #[tracing::instrument(level = "info", skip_all)]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
@@ -210,14 +222,14 @@ impl RustPlugins {
 impl Fold for RustPlugins {
     noop_fold_type!();
 
-    #[cfg(feature = "plugin")]
+    #[cfg(any(feature = "plugin", feature = "plugin-bytecheck"))]
     fn fold_module(&mut self, n: Module) -> Module {
         self.apply(Program::Module(n))
             .expect("failed to invoke plugin")
             .expect_module()
     }
 
-    #[cfg(feature = "plugin")]
+    #[cfg(any(feature = "plugin", feature = "plugin-bytecheck"))]
     fn fold_script(&mut self, n: Script) -> Script {
         self.apply(Program::Script(n))
             .expect("failed to invoke plugin")

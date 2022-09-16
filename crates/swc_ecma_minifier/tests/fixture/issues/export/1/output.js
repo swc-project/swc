@@ -103,7 +103,7 @@ export var AWS_REGION = [
     {
         value: "sa-east-1",
         text: "South America (S\xe3o Paulo)"
-    }, 
+    }
 ];
 export var NotificationChannelTypes = (_defineProperty(_obj4 = {}, NotificationServiceType.HTTP, "HTTP"), _defineProperty(_obj4, NotificationServiceType.AGIT, "Agit"), _defineProperty(_obj4, NotificationServiceType.SLACK, "Slack"), _defineProperty(_obj4, NotificationServiceType.KAKAOWORK, "Kakaowork"), _obj4);
 export var AlertActionGroup = (_defineProperty(_obj5 = {}, ActionTypeGroup.APPROVAL, "New Request"), _defineProperty(_obj5, ActionTypeGroup.DATABASE_AUTHENTICATION, "DB Connection Attempt"), _defineProperty(_obj5, ActionTypeGroup.EXCEL_EXPORT, "Data Export"), _defineProperty(_obj5, ActionTypeGroup.SQL_EXECUTION_PREVENTED, "Prevented SQL Execution"), _defineProperty(_obj5, ActionTypeGroup.SENSITIVE_DATA, "Sensitive Data Access"), _defineProperty(_obj5, ActionTypeGroup.SQL_EXECUTION, "SQL Execution"), _obj5);

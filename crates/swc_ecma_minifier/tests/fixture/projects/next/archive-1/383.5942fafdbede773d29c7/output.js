@@ -60,10 +60,10 @@
                         (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                             children: "Nested 2"
                         }),
-                        (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BrowserLoaded, {}), 
+                        (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BrowserLoaded, {})
                     ]
                 });
             };
         }
-    }, 
+    }
 ]);

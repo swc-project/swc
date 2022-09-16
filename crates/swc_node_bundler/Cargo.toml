@@ -7,7 +7,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_node_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.12.27"
+version       = "0.12.31"
 
 [lib]
 bench = false
@@ -26,24 +26,24 @@ regex = "1"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 string_enum = { version = "0.3", path = "../string_enum" }
-swc = { version = "0.226.27", path = "../swc" }
-swc_atoms = { version = "0.4.14", path = "../swc_atoms" }
-swc_bundler = { version = "0.187.26", path = "../swc_bundler", features = [
+swc = { version = "0.226.31", path = "../swc" }
+swc_atoms = { version = "0.4.15", path = "../swc_atoms" }
+swc_bundler = { version = "0.187.27", path = "../swc_bundler", features = [
   "concurrent",
 ] }
-swc_common = { version = "0.28.7", path = "../swc_common", features = [
+swc_common = { version = "0.28.8", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "0.91.7", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.124.13", path = "../swc_ecma_codegen" }
-swc_ecma_loader = { version = "0.40.7", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.119.11", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "0.193.22", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "0.102.13", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.77.7", path = "../swc_ecma_visit" }
+swc_ecma_ast = { version = "0.91.8", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.124.14", path = "../swc_ecma_codegen" }
+swc_ecma_loader = { version = "0.40.8", path = "../swc_ecma_loader" }
+swc_ecma_parser = { version = "0.119.12", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "0.193.23", path = "../swc_ecma_transforms" }
+swc_ecma_utils = { version = "0.102.14", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.77.8", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.5", path = "../swc_node_base" }
 tracing = "0.1.32"
 
 [dev-dependencies]
 pretty_assertions = "1.1"
-testing           = { version = "0.30.7", path = "../testing" }
+testing           = { version = "0.30.8", path = "../testing" }

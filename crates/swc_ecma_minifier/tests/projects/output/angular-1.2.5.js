@@ -263,7 +263,7 @@
                 "$provide",
                 function($provide) {
                     $provide.value("$rootElement", element);
-                }, 
+                }
             ]), modules.unshift("ng");
             var injector = createInjector(modules);
             return injector.invoke([
@@ -276,7 +276,7 @@
                     scope.$apply(function() {
                         element.data("$injector", injector), compile(element)(scope);
                     });
-                }, 
+                }
             ]), injector;
         }, NG_DEFER_BOOTSTRAP = /^NG_DEFER_BOOTSTRAP!/;
         if (window1 && !NG_DEFER_BOOTSTRAP.test(window1.name)) return doBootstrap();
@@ -493,7 +493,7 @@
         scope: function(element) {
             return jqLite(element).data("$scope") || jqLiteInheritedData(element.parentNode || element, [
                 "$isolateScope",
-                "$scope", 
+                "$scope"
             ]);
         },
         isolateScope: function(element) {
@@ -692,7 +692,7 @@
                 {
                     preventDefault: noop,
                     stopPropagation: noop
-                }, 
+                }
             ];
             forEach(eventFns, function(fn) {
                 fn.apply(element, event.concat(eventData));
@@ -734,7 +734,7 @@
                         "$injector",
                         function($injector) {
                             return $injector.instantiate(constructor);
-                        }, 
+                        }
                     ]);
                 }),
                 value: supportObject(function(name, val) {
@@ -848,7 +848,7 @@
                 }, function() {
                     $rootScope.$evalAsync(scroll);
                 }), scroll;
-            }, 
+            }
         ];
     }
     var $animateMinErr = minErr("$animate"), $AnimateProvider = [
@@ -883,9 +883,9 @@
                         },
                         enabled: noop
                     };
-                }, 
+                }
             ];
-        }, 
+        }
     ];
     function Browser(window1, document1, $log, $sniffer) {
         var self = this, rawDocument = document1[0], location = window1.location, history = window1.history, setTimeout1 = window1.setTimeout, clearTimeout = window1.clearTimeout, pendingDeferIds = {};
@@ -959,7 +959,7 @@
             "$document",
             function($window, $log, $sniffer, $document) {
                 return new Browser($window, $document, $log, $sniffer);
-            }, 
+            }
         ];
     }
     function $CacheFactoryProvider() {
@@ -1018,7 +1018,7 @@
             "$cacheFactory",
             function($cacheFactory) {
                 return $cacheFactory("templates");
-            }, 
+            }
         ];
     }
     var $compileMinErr = minErr("$compile");
@@ -1040,7 +1040,7 @@
                             $exceptionHandler(e);
                         }
                     }), directives;
-                }, 
+                }
             ])), hasDirectives[name].push(directiveFactory)) : forEach(name, reverseParams(registerDirective)), this;
         }, this.aHrefSanitizationWhitelist = function(regexp) {
             return isDefined(regexp) ? ($$sanitizeUriProvider.aHrefSanitizationWhitelist(regexp), this) : $$sanitizeUriProvider.aHrefSanitizationWhitelist();
@@ -1403,7 +1403,7 @@
                         return fn.apply(null, arguments);
                     }, fn, annotation);
                 }
-            }, 
+            }
         ];
     }
     $CompileProvider.$inject = [
@@ -1438,7 +1438,7 @@
                     }
                     return instance;
                 };
-            }, 
+            }
         ];
     }
     function $DocumentProvider() {
@@ -1446,7 +1446,7 @@
             "$window",
             function(window1) {
                 return jqLite(window1.document);
-            }, 
+            }
         ];
     }
     function $ExceptionHandlerProvider() {
@@ -1456,7 +1456,7 @@
                 return function(exception, cause) {
                     $log.error.apply($log, arguments);
                 };
-            }, 
+            }
         ];
     }
     function parseHeaders(headers) {
@@ -1486,12 +1486,12 @@
             transformResponse: [
                 function(data) {
                     return isString(data) && (data = data.replace(PROTECTION_PREFIX, ""), JSON_START.test(data) && JSON_END.test(data) && (data = fromJson(data))), data;
-                }, 
+                }
             ],
             transformRequest: [
                 function(d) {
                     return isObject(d) && "[object File]" !== toString.call(d) ? toJson(d) : d;
-                }, 
+                }
             ],
             headers: {
                 common: {
@@ -1638,7 +1638,7 @@
                         };
                     });
                 }("post", "put"), $http.defaults = defaults, $http;
-            }, 
+            }
         ];
     }
     var XHR = window1.XMLHttpRequest || function() {
@@ -1697,7 +1697,7 @@
                         timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, callback(status = 1223 == (status = "file" == protocol && 0 === status ? response ? 200 : 404 : status) ? 204 : status, response, headersString), $browser.$$completeOutstandingRequest(noop);
                     }
                 };
-            }, 
+            }
         ];
     }
     var $interpolateMinErr = minErr("$interpolate");
@@ -1731,7 +1731,7 @@
                 }, $interpolate.endSymbol = function() {
                     return endSymbol;
                 }, $interpolate;
-            }, 
+            }
         ];
     }
     function $IntervalProvider() {
@@ -1750,7 +1750,7 @@
                 return interval.cancel = function(promise) {
                     return !!promise && promise.$$intervalId in intervals && (intervals[promise.$$intervalId].reject("canceled"), clearInterval(promise.$$intervalId), delete intervals[promise.$$intervalId], !0);
                 }, interval;
-            }, 
+            }
         ];
     }
     function $LocaleProvider() {
@@ -1782,7 +1782,7 @@
                             negSuf: ")",
                             gSize: 3,
                             lgSize: 3
-                        }, 
+                        }
                     ],
                     CURRENCY_SYM: "$"
                 },
@@ -1926,7 +1926,7 @@
                 function afterLocationChange(oldUrl) {
                     $rootScope.$broadcast("$locationChangeSuccess", $location.absUrl(), oldUrl);
                 }
-            }, 
+            }
         ];
     }
     function $LogProvider() {
@@ -1958,7 +1958,7 @@
                         logFn(arg1, null == arg2 ? "" : arg2);
                     };
                 }
-            }, 
+            }
         ];
     }
     LocationHashbangInHtml5Url.prototype = LocationHashbangUrl.prototype = LocationHtml5Url.prototype = {
@@ -2543,7 +2543,7 @@
                             return noop;
                     }
                 };
-            }, 
+            }
         ];
     }
     function $QProvider() {
@@ -2598,7 +2598,7 @@
                                     return pending ? pending.push([
                                         wrappedCallback,
                                         wrappedErrback,
-                                        wrappedProgressback, 
+                                        wrappedProgressback
                                     ]) : value.then(wrappedCallback, wrappedErrback, wrappedProgressback), result.promise;
                                 },
                                 catch: function(callback) {
@@ -2706,7 +2706,7 @@
                 }(function(callback) {
                     $rootScope.$evalAsync(callback);
                 }, $exceptionHandler);
-            }, 
+            }
         ];
     }
     function $RootScopeProvider() {
@@ -2917,7 +2917,7 @@
                     return assertArgFn(fn, name), fn;
                 }
                 function initWatchVal() {}
-            }, 
+            }
         ];
     }
     function $$SanitizeUriProvider() {
@@ -3022,7 +3022,7 @@
                         return maybeTrusted instanceof trustedValueHolderBase ? maybeTrusted.$$unwrapTrustedValue() : maybeTrusted;
                     }
                 };
-            }, 
+            }
         ];
     }
     function $SceProvider() {
@@ -3057,7 +3057,7 @@
                         return trustAs(enumValue, value);
                     };
                 }), sce;
-            }, 
+            }
         ];
     }
     function $SnifferProvider() {
@@ -3091,7 +3091,7 @@
                     msie: msie,
                     msieDocumentMode: documentMode
                 };
-            }, 
+            }
         ];
     }
     function $TimeoutProvider() {
@@ -3118,7 +3118,7 @@
                 return timeout.cancel = function(promise) {
                     return !!promise && promise.$$timeoutId in deferreds && (deferreds[promise.$$timeoutId].reject("canceled"), delete deferreds[promise.$$timeoutId], $browser.defer.cancel(promise.$$timeoutId));
                 }, timeout;
-            }, 
+            }
         ];
     }
     var urlParsingNode = document1.createElement("a"), originUrl = urlResolve(window1.location.href, !0);
@@ -3157,7 +3157,7 @@
                 return function(name) {
                     return $injector.get(name + suffix);
                 };
-            }, 
+            }
         ], register("currency", currencyFilter), register("date", dateFilter), register("filter", filterFilter), register("json", jsonFilter), register("limitTo", limitToFilter), register("lowercase", lowercaseFilter), register("number", numberFilter), register("orderBy", orderByFilter), register("uppercase", uppercaseFilter);
     }
     function filterFilter() {
@@ -3500,7 +3500,7 @@
                         };
                     }
                 };
-            }, 
+            }
         ];
     }, formDirective = formDirectiveFactory(), ngFormDirective = formDirectiveFactory(!0), URL_REGEXP = /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/, EMAIL_REGEXP = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/, NUMBER_REGEXP = /^\s*(\-|\+)?(\d+|(\d*(\.\d*)))\s*$/, inputType = {
         text: textInputType,
@@ -3645,7 +3645,7 @@
                     ctrl && (inputType[lowercase(attr.type)] || inputType.text)(scope, element, attr, ctrl, $sniffer, $browser);
                 }
             };
-        }, 
+        }
     ], VALID_CLASS = "ng-valid", INVALID_CLASS = "ng-invalid", PRISTINE_CLASS = "ng-pristine", DIRTY_CLASS = "ng-dirty", NgModelController = [
         "$scope",
         "$exceptionHandler",
@@ -3688,7 +3688,7 @@
                 }
                 return value;
             });
-        }, 
+        }
     ], ngModelDirective = function() {
         return {
             require: [
@@ -3771,7 +3771,7 @@
                     element.text(value);
                 });
             };
-        }, 
+        }
     ], ngBindHtmlDirective = [
         "$sce",
         "$parse",
@@ -3785,7 +3785,7 @@
                     element.html($sce.getTrustedHtml(parsed(scope)) || "");
                 });
             };
-        }, 
+        }
     ];
     function classDirective(name, selector) {
         return name = "ngClass" + name, function() {
@@ -3834,7 +3834,7 @@
                 controller: "@",
                 priority: 500
             };
-        }, 
+        }
     ], ngEventDirectives = {};
     forEach("click dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave keydown keyup keypress submit focus blur copy cut paste".split(" "), function(name) {
         var directiveName = directiveNormalize("ng-" + name);
@@ -3855,7 +3855,7 @@
                         };
                     }
                 };
-            }, 
+            }
         ];
     });
     var ngIfDirective = [
@@ -3878,7 +3878,7 @@
                     });
                 }
             };
-        }, 
+        }
     ], ngIncludeDirective = [
         "$http",
         "$templateCache",
@@ -3920,7 +3920,7 @@
                     };
                 }
             };
-        }, 
+        }
     ], ngIncludeFillContentDirective = [
         "$compile",
         function($compile) {
@@ -3932,7 +3932,7 @@
                     $element.html(ctrl.template), $compile($element.contents())(scope);
                 }
             };
-        }, 
+        }
     ], ngInitDirective = ngDirective({
         priority: 450,
         compile: function() {
@@ -3966,7 +3966,7 @@
                     });
                 }
             };
-        }, 
+        }
     ], ngRepeatDirective = [
         "$parse",
         "$animate",
@@ -4029,7 +4029,7 @@
             function getBlockEnd(block) {
                 return block.clone[block.clone.length - 1];
             }
-        }, 
+        }
     ], ngShowDirective = [
         "$animate",
         function($animate) {
@@ -4038,7 +4038,7 @@
                     $animate[toBoolean(value) ? "removeClass" : "addClass"](element, "ng-hide");
                 });
             };
-        }, 
+        }
     ], ngHideDirective = [
         "$animate",
         function($animate) {
@@ -4047,7 +4047,7 @@
                     $animate[toBoolean(value) ? "addClass" : "removeClass"](element, "ng-hide");
                 });
             };
-        }, 
+        }
     ], ngStyleDirective = ngDirective(function(scope, element, attr) {
         scope.$watch(attr.ngStyle, function(newStyles, oldStyles) {
             oldStyles && newStyles !== oldStyles && forEach(oldStyles, function(val, style) {
@@ -4064,7 +4064,7 @@
                     "$scope",
                     function() {
                         this.cases = {};
-                    }, 
+                    }
                 ],
                 link: function(scope, element, attr, ngSwitchController) {
                     var selectedTranscludes, selectedElements, watchExpr = attr.ngSwitch || attr.on, selectedScopes = [];
@@ -4080,7 +4080,7 @@
                     });
                 }
             };
-        }, 
+        }
     ], ngSwitchWhenDirective = ngDirective({
         transclude: "element",
         priority: 800,
@@ -4110,7 +4110,7 @@
             function($element, $transclude) {
                 if (!$transclude) throw minErr("ngTransclude")("orphan", "Illegal use of ngTransclude directive in the template! No parent directive that requires a transclusion found. Element: {0}", startingTag($element));
                 this.$transclude = $transclude;
-            }, 
+            }
         ],
         link: function($scope, $element, $attrs, controller) {
             controller.$transclude(function(clone) {
@@ -4130,7 +4130,7 @@
                     }
                 }
             };
-        }, 
+        }
     ], ngOptionsMinErr = minErr("ngOptions"), ngOptionsDirective = valueFn({
         terminal: !0
     }), selectDirective = [
@@ -4166,7 +4166,7 @@
                         }, $scope.$on("$destroy", function() {
                             self.renderUnknownOption = noop;
                         });
-                    }, 
+                    }
                 ],
                 link: function(scope, element, attr, ctrls) {
                     if (ctrls[1]) {
@@ -4292,7 +4292,7 @@
                     }
                 }
             };
-        }, 
+        }
     ], optionDirective = [
         "$interpolate",
         function($interpolate) {
@@ -4318,7 +4318,7 @@
                     };
                 }
             };
-        }, 
+        }
     ], styleDirective = valueFn({
         restrict: "E",
         terminal: !0
@@ -4398,7 +4398,7 @@
                                 return invokeQueue[insertMethod || "push"]([
                                     provider,
                                     method,
-                                    arguments, 
+                                    arguments
                                 ]), moduleInstance;
                             };
                         }
@@ -4483,7 +4483,7 @@
                     $timeout: $TimeoutProvider,
                     $window: $WindowProvider
                 });
-            }, 
+            }
         ]);
     }(angular1), jqLite(document1).ready(function() {
         !function(element, bootstrap) {
