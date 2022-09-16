@@ -416,9 +416,9 @@ where
                 // mod = _introp(mod);
                 // var mod1 = _introp(mod);
                 if need_new_var {
-                    let stmt: Stmt = Stmt::Decl(Decl::Var(
-                        import_expr.into_var_decl(self.const_var_kind, new_var_ident.into()),
-                    ));
+                    let stmt: Stmt = import_expr
+                        .into_var_decl(self.const_var_kind, new_var_ident.into())
+                        .into();
 
                     stmts.push(stmt)
                 } else if need_interop {
