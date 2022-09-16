@@ -2,7 +2,7 @@
 
 use std::{cmp, cmp::Ordering, fmt, str::FromStr};
 
-use serde::{de, de::Visitor, Deserialize, Deserializer};
+use serde::{de, de::Visitor, Deserialize, Deserializer, Serialize};
 use tracing::warn;
 
 use crate::Versions;
@@ -11,7 +11,7 @@ use crate::Versions;
 ///
 /// This is similar to semver, but this assumes a production build. (No tag like
 /// `alpha`)
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize)]
 pub struct Version {
     /// `a` in `a.b.c`
     pub major: u32,

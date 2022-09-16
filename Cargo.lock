@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.14.27"
+version = "0.14.29"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2082,7 +2082,7 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 
 [[package]]
 name = "preset_env_base"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2923,7 +2923,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.226.27"
+version = "0.226.29"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3111,7 +3111,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.23.25"
+version = "0.23.27"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3264,7 +3264,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.123.6"
+version = "0.123.7"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -3492,7 +3492,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.169.22"
+version = "0.169.23"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3853,7 +3853,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.200.26"
+version = "0.200.27"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3901,7 +3901,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.148.27"
+version = "0.148.29"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4086,7 +4086,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.12.27"
+version = "0.12.29"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4154,7 +4154,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.19.8"
+version = "0.19.9"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -4167,7 +4167,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.74.12"
+version = "0.74.13"
 dependencies = [
  "anyhow",
  "criterion",
