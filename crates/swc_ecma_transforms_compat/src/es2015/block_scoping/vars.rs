@@ -331,7 +331,7 @@ impl VisitMut for BlockScopedVars {
         n.right.visit_mut_with(self);
 
         match n.left {
-            VarDeclOrPat::VarDecl(VarDecl {
+            VarDeclOrPat::VarDecl(box VarDecl {
                 kind: VarDeclKind::Let | VarDeclKind::Const,
                 ..
             }) => {
@@ -349,7 +349,7 @@ impl VisitMut for BlockScopedVars {
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
         match n.init {
-            Some(VarDeclOrExpr::VarDecl(VarDecl {
+            Some(VarDeclOrExpr::VarDecl(box VarDecl {
                 kind: VarDeclKind::Let | VarDeclKind::Const,
                 ..
             })) => {

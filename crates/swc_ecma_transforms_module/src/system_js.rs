@@ -393,6 +393,7 @@ impl SystemJs {
         }
     }
 
+    #[allow(clippy::boxed_local)]
     fn hoist_var_decl(&mut self, var_decl: Box<VarDecl>) -> Option<Expr> {
         let mut exprs = vec![];
         for var_declarator in var_decl.decls {

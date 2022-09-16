@@ -503,8 +503,8 @@ fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
                 .as_deref()
                 .or_else(|| get_type_ann_of_pat(&p.left));
         }
-        Pat::Invalid(_) => return None,
-        Pat::Expr(_) => return None,
+        Pat::Invalid(_) => None,
+        Pat::Expr(_) => None,
     }
 }
 

@@ -245,7 +245,7 @@ impl<'a> VisitMut for HookRegister<'a> {
 
         match e {
             Expr::Fn(FnExpr {
-                function: Function {
+                function: box Function {
                     body: Some(body), ..
                 },
                 ..
