@@ -135,7 +135,7 @@ where
 
                                 let mut decl = self.fold_class_as_var_decl(ident.clone(), class);
                                 decl.visit_mut_children_with(self);
-                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(decl))));
+                                buf.push(T::from_stmt(decl.into()));
 
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportNamed(
@@ -361,7 +361,7 @@ where
         }
     }
 
-    fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
+    fn fold_class_as_var_decl(&mut self, ident: Ident, class: Box<Class>) -> VarDecl {
         let span = class.span;
         let mut rhs = self.fold_class(Some(ident.clone()), class);
 
