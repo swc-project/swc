@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Drop the last comma in an array literal (#5877) ([7d6d04b](https://github.com/swc-project/swc/commit/7d6d04b4215c5c1ec368a8ccdabdda187cfa647e))
+
+
 - **(es/compat)** Fix handling of objects in generator (#5861) ([006c7fb](https://github.com/swc-project/swc/commit/006c7fb56e0b8d4955f848c6af8c83bcd87515ab))
 
 
@@ -35,7 +38,7 @@
 
 
 
-- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))
+- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))- **general**: Fix publish script ([720b3e0](https://github.com/swc-project/swc/commit/720b3e05c1e5fa9ab5bdae5f6d1268d6f6bce885))
 
 ### Performance
 
