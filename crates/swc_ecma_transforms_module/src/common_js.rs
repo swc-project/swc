@@ -647,7 +647,7 @@ fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Exp
 pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDecl {
     let data = private_ident!("data");
     let data_decl = expr.into_var_decl(var_kind, data.clone().into());
-    let data_stmt = Stmt::Decl(Decl::Var(data_decl));
+    let data_stmt = data_decl.into();
     let overwrite_stmt = data
         .clone()
         .into_lazy_fn(Default::default())

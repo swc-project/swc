@@ -30,7 +30,7 @@ impl VisitMut for ObjectSuper {
         if !self.extra_vars.is_empty() {
             prepend_stmt(
                 n,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
@@ -45,7 +45,8 @@ impl VisitMut for ObjectSuper {
                             definite: false,
                         })
                         .collect(),
-                }))),
+                }
+                .into(),
             );
         }
     }
@@ -55,7 +56,7 @@ impl VisitMut for ObjectSuper {
         if !self.extra_vars.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
@@ -70,7 +71,8 @@ impl VisitMut for ObjectSuper {
                             definite: false,
                         })
                         .collect(),
-                })),
+                }
+                .into(),
             );
         }
     }

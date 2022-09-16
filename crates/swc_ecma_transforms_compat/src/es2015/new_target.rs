@@ -196,12 +196,13 @@ impl VisitMut for NewTarget {
         if let Some(var) = self.var.take() {
             prepend_stmt(
                 stmts,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: vec![var],
-                }))),
+                }
+                .into(),
             )
         }
     }
@@ -213,12 +214,13 @@ impl VisitMut for NewTarget {
             if let Some(var) = self.var.take() {
                 prepend_stmt(
                     stmts,
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         declare: false,
                         decls: vec![var],
-                    })),
+                    }
+                    .into(),
                 )
             }
         }

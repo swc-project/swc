@@ -671,12 +671,15 @@ impl ObjectRest {
                 stmts: if self.vars.is_empty() {
                     None
                 } else {
-                    Some(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: mem::take(&mut self.vars),
-                        declare: false,
-                    })))
+                    Some(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: mem::take(&mut self.vars),
+                            declare: false,
+                        }
+                        .into(),
+                    )
                 }
                 .into_iter()
                 .chain(body.stmts.take())

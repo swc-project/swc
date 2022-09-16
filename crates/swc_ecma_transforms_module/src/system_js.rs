@@ -1062,7 +1062,7 @@ impl Fold for SystemJs {
         function_stmts.append(&mut before_body_stmts);
         function_stmts.push(return_stmt.into());
 
-        let function = Function {
+        let function = Box::new(Function {
             params: vec![
                 Param {
                     span: DUMMY_SP,
@@ -1085,7 +1085,7 @@ impl Fold for SystemJs {
             is_async: false,
             type_params: Default::default(),
             return_type: Default::default(),
-        };
+        });
 
         Module {
             body: vec![CallExpr {
