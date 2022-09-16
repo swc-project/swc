@@ -112,7 +112,7 @@ impl Fold for Decorators {
 
                 let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
-                Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     declare: false,
@@ -122,7 +122,8 @@ impl Fold for Decorators {
                         definite: false,
                         init: Some(decorate_call),
                     }],
-                })
+                }
+                .into()
             }
             _ => decl,
         }
@@ -186,17 +187,20 @@ impl Fold for Decorators {
                     let ident = $ident;
                     let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
-                    buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Let,
-                        declare: false,
-                        decls: vec![VarDeclarator {
+                    buf.push(
+                        VarDecl {
                             span: DUMMY_SP,
-                            name: ident.clone().into(),
-                            init: Some(decorate_call),
-                            definite: false,
-                        }],
-                    }))));
+                            kind: VarDeclKind::Let,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: ident.clone().into(),
+                                init: Some(decorate_call),
+                                definite: false,
+                            }],
+                        }
+                        .into(),
+                    );
 
                     // export { Foo as default }
                     buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -254,12 +258,13 @@ impl Fold for Decorators {
         if !self.vars.is_empty() {
             prepend_stmt(
                 &mut buf,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: take(&mut self.vars),
-                }))),
+                }
+                .into(),
             )
         }
 
@@ -268,7 +273,7 @@ impl Fold for Decorators {
 }
 
 impl Decorators {
-    fn fold_class_inner(&mut self, ident: Ident, mut class: Class) -> Expr {
+    fn fold_class_inner(&mut self, ident: Ident, mut class: Box<Class>) -> Expr {
         let initialize = private_ident!("_initialize");
         let super_class_ident = class
             .super_class
