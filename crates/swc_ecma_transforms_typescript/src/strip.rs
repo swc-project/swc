@@ -1304,12 +1304,15 @@ where
                             None => {
                                 if let Pat::Ident(name) = &decl.name {
                                     delayed_vars.push(name.id.clone());
-                                    stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: v.kind,
-                                        declare: false,
-                                        decls: vec![decl],
-                                    }))));
+                                    stmts.push(
+                                        VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: v.kind,
+                                            declare: false,
+                                            decls: vec![decl],
+                                        }
+                                        .into(),
+                                    );
                                 }
 
                                 continue;
@@ -1340,12 +1343,12 @@ where
                                     definite: false,
                                 };
 
-                                let stmt: Stmt = Decl::Var(VarDecl {
+                                let stmt: Stmt = VarDecl {
                                     span: DUMMY_SP,
                                     kind: VarDeclKind::Var,
                                     declare: false,
                                     decls: vec![decl],
-                                })
+                                }
                                 .into();
 
                                 stmts.push(stmt.into());
@@ -1754,13 +1757,13 @@ where
 {
     type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
 
-    type_to_none!(visit_mut_opt_ts_type_ann, TsTypeAnn);
+    type_to_none!(visit_mut_opt_ts_type_ann, Box<TsTypeAnn>);
 
-    type_to_none!(visit_mut_opt_ts_type_param_decl, TsTypeParamDecl);
+    type_to_none!(visit_mut_opt_ts_type_param_decl, Box<TsTypeParamDecl>);
 
     type_to_none!(
         visit_mut_opt_ts_type_param_instantiation,
-        TsTypeParamInstantiation
+        Box<TsTypeParamInstantiation>
     );
 
     fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
