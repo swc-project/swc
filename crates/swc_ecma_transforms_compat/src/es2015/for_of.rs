@@ -410,7 +410,7 @@ fn make_finally_block(
     error_flag_ident: Ident,
     error_ident: Ident,
 ) -> Stmt {
-    Stmt::Try(TryStmt {
+    TryStmt {
         span: DUMMY_SP,
         block: BlockStmt {
             span: DUMMY_SP,
@@ -472,7 +472,8 @@ fn make_finally_block(
                 }),
             ],
         }),
-    })
+    }
+    .into()
 }
 
 impl Parallel for ForOf {
@@ -494,12 +495,15 @@ impl ParExplode for ForOf {
         // Add variable declaration
         // e.g. var ref
         if !self.top_level_vars.is_empty() {
-            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: take(&mut self.top_level_vars),
-                declare: false,
-            })));
+            stmts.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: take(&mut self.top_level_vars),
+                    declare: false,
+                }
+                .into(),
+            );
         }
     }
 
@@ -507,12 +511,15 @@ impl ParExplode for ForOf {
         // Add variable declaration
         // e.g. var ref
         if !self.top_level_vars.is_empty() {
-            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: take(&mut self.top_level_vars),
-                declare: false,
-            }))));
+            stmts.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: take(&mut self.top_level_vars),
+                    declare: false,
+                }
+                .into(),
+            );
         }
     }
 }
