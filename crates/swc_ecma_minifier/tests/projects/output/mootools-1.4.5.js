@@ -32,7 +32,7 @@
         "propertyIsEnumerable",
         "toLocaleString",
         "toString",
-        "constructor", 
+        "constructor"
     ]), Function1.prototype.overloadSetter = function(usePlural) {
         var self = this;
         return function(a, b) {
@@ -158,7 +158,7 @@
         "substring",
         "trim",
         "toLowerCase",
-        "toUpperCase", 
+        "toUpperCase"
     ])("Array", Array, [
         "pop",
         "push",
@@ -178,19 +178,19 @@
         "map",
         "some",
         "reduce",
-        "reduceRight", 
+        "reduceRight"
     ])("Number", Number, [
         "toExponential",
         "toFixed",
         "toLocaleString",
-        "toPrecision", 
+        "toPrecision"
     ])("Function", Function1, [
         "apply",
         "call",
         "bind"
     ])("RegExp", RegExp, [
         "exec",
-        "test", 
+        "test"
     ])("Object", Object, [
         "create",
         "defineProperty",
@@ -204,7 +204,7 @@
         "seal",
         "isSealed",
         "freeze",
-        "isFrozen", 
+        "isFrozen"
     ])("Date", Date, [
         "now"
     ]), Object.extend = extend.overloadSetter(), Date.extend("now", function() {
@@ -543,7 +543,7 @@ String.implement({
     "pow",
     "sin",
     "sqrt",
-    "tan", 
+    "tan"
 ]), Function.extend({
     attempt: function() {
         for(var i = 0, l = arguments.length; i < l; i++)try {
@@ -838,7 +838,7 @@ var $try = Function.attempt;
             "unshift",
             "concat",
             "join",
-            "slice", 
+            "slice"
         ].each(function(name) {
             var method = prototype[name];
             Array[name] = function(item) {
@@ -1714,7 +1714,7 @@ var IFrame = new Type("IFrame", function() {
     delete props.onload, props.id = props.name = [
         props.id,
         props.name,
-        iframe ? iframe.id || iframe.name : "IFrame_" + String.uniqueID(), 
+        iframe ? iframe.id || iframe.name : "IFrame_" + String.uniqueID()
     ].pick(), iframe = new Element(iframe || "iframe", props);
     var onLoad = function() {
         onload.call(iframe.contentWindow);
@@ -1960,7 +1960,7 @@ Elements.prototype = {
         "frameBorder",
         "rowSpan",
         "tabIndex",
-        "useMap", 
+        "useMap"
     ], function(property) {
         properties[property.toLowerCase()] = property;
     }), properties.html = "innerHTML", properties.text = null == document.createElement("div").textContent ? "innerText" : "textContent", Object.forEach(properties, function(real, key) {
@@ -1988,7 +1988,7 @@ Elements.prototype = {
         "autofocus",
         "controls",
         "autoplay",
-        "loop", 
+        "loop"
     ], function(bool) {
         var lower = bool.toLowerCase();
         booleans[lower] = bool, propertySetters[lower] = function(node, value) {

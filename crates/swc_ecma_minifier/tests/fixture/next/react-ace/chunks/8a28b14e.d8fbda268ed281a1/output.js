@@ -84,7 +84,7 @@
                     return exports.isMac ? exports.OS.MAC : exports.isLinux ? exports.OS.LINUX : exports.OS.WINDOWS;
                 };
                 var _navigator = "object" == typeof navigator ? navigator : {}, os = (/mac|win|linux/i.exec(_navigator.platform) || [
-                    "other", 
+                    "other"
                 ])[0].toLowerCase(), ua = _navigator.userAgent || "", appName = _navigator.appName || "";
                 exports.isWin = "win" == os, exports.isMac = "mac" == os, exports.isLinux = "linux" == os, exports.isIE = "Microsoft Internet Explorer" == appName || appName.indexOf("MSAppHost") >= 0 ? parseFloat((ua.match(/(?:MSIE |Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]) : parseFloat((ua.match(/(?:Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]), exports.isOldIE = exports.isIE && exports.isIE < 9, exports.isGecko = exports.isMozilla = ua.match(/ Gecko\/\d+/), exports.isOpera = "object" == typeof opera && "[object Opera]" == Object.prototype.toString.call(window.opera), exports.isWebKit = parseFloat(ua.split("WebKit/")[1]) || void 0, exports.isChrome = parseFloat(ua.split(" Chrome/")[1]) || void 0, exports.isEdge = parseFloat(ua.split(" Edge/")[1]) || void 0, exports.isAIR = ua.indexOf("AdobeAIR") >= 0, exports.isAndroid = ua.indexOf("Android") >= 0, exports.isChromeOS = ua.indexOf(" CrOS ") >= 0, exports.isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream, exports.isIOS && (exports.isMac = !0), exports.isMobile = exports.isIOS || exports.isAndroid;
             }), ace.define("ace/lib/dom", [
@@ -386,7 +386,7 @@
                 "exports",
                 "module",
                 "ace/lib/keys",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(require, exports, module) {
                 "use strict";
                 var activeListenerOptions, keys = require("./keys"), useragent = require("./useragent"), pressedKeys = null, ts = 0;
@@ -754,7 +754,7 @@
                 "ace/lib/dom",
                 "ace/lib/lang",
                 "ace/clipboard",
-                "ace/lib/keys", 
+                "ace/lib/keys"
             ], function(require, exports, module) {
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile, TextInput = function(parentNode, host) {
@@ -1000,7 +1000,7 @@
                         "selectByLinesEnd",
                         "dragWait",
                         "dragWaitEnd",
-                        "focusWait", 
+                        "focusWait"
                     ].forEach(function(x) {
                         mouseHandler[x] = this[x];
                     }, this), mouseHandler.selectByLines = this.extendSelectionBy.bind(mouseHandler, "getLineRange"), mouseHandler.selectByWords = this.extendSelectionBy.bind(mouseHandler, "getWordRange");
@@ -1140,7 +1140,7 @@
                 "ace/lib/dom",
                 "ace/lib/oop",
                 "ace/lib/event",
-                "ace/tooltip", 
+                "ace/tooltip"
             ], function(require, exports, module) {
                 "use strict";
                 var dom = require("../lib/dom"), oop = require("../lib/oop"), event = require("../lib/event"), Tooltip = require("../tooltip").Tooltip;
@@ -1201,7 +1201,7 @@
                 "exports",
                 "module",
                 "ace/lib/event",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(require, exports, module) {
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent");
@@ -1241,7 +1241,7 @@
                 "module",
                 "ace/lib/dom",
                 "ace/lib/event",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(require, exports, module) {
                 "use strict";
                 var dom = require("../lib/dom"), event = require("../lib/event"), useragent = require("../lib/useragent");
@@ -1252,7 +1252,7 @@
                         "dragWaitEnd",
                         "startDrag",
                         "dragReadyEnd",
-                        "onMouseDrag", 
+                        "onMouseDrag"
                     ].forEach(function(x) {
                         mouseHandler[x] = this[x];
                     }, this), editor.on("mousedown", this.onMouseDown.bind(mouseHandler));
@@ -1346,7 +1346,7 @@
                             "copy",
                             "copymove",
                             "all",
-                            "uninitialized", 
+                            "uninitialized"
                         ], copyModifierState = useragent.isMac ? e.altKey : e.ctrlKey, effectAllowed = "uninitialized";
                         try {
                             effectAllowed = e.dataTransfer.effectAllowed.toLowerCase();
@@ -1357,7 +1357,7 @@
                             "copymove",
                             "linkmove",
                             "all",
-                            "uninitialized", 
+                            "uninitialized"
                         ].indexOf(effectAllowed) >= 0 ? dropEffect = "move" : copyAllowed.indexOf(effectAllowed) >= 0 && (dropEffect = "copy"), dropEffect;
                     }
                 }
@@ -1406,7 +1406,7 @@
                 "module",
                 "ace/mouse/mouse_event",
                 "ace/lib/event",
-                "ace/lib/dom", 
+                "ace/lib/dom"
             ], function(require, exports, module) {
                 "use strict";
                 var MouseEvent = require("./mouse_event").MouseEvent, event = require("../lib/event"), dom = require("../lib/dom");
@@ -1425,7 +1425,7 @@
                                             class: "ace_mobile-button",
                                             action: "selectall"
                                         },
-                                        "Select All", 
+                                        "Select All"
                                     ],
                                     selected && [
                                         "span",
@@ -1433,7 +1433,7 @@
                                             class: "ace_mobile-button",
                                             action: "copy"
                                         },
-                                        "Copy", 
+                                        "Copy"
                                     ],
                                     selected && [
                                         "span",
@@ -1441,7 +1441,7 @@
                                             class: "ace_mobile-button",
                                             action: "cut"
                                         },
-                                        "Cut", 
+                                        "Cut"
                                     ],
                                     clipboard && [
                                         "span",
@@ -1449,7 +1449,7 @@
                                             class: "ace_mobile-button",
                                             action: "paste"
                                         },
-                                        "Paste", 
+                                        "Paste"
                                     ],
                                     hasUndo && [
                                         "span",
@@ -1457,7 +1457,7 @@
                                             class: "ace_mobile-button",
                                             action: "undo"
                                         },
-                                        "Undo", 
+                                        "Undo"
                                     ],
                                     [
                                         "span",
@@ -1465,7 +1465,7 @@
                                             class: "ace_mobile-button",
                                             action: "find"
                                         },
-                                        "Find", 
+                                        "Find"
                                     ],
                                     [
                                         "span",
@@ -1473,8 +1473,8 @@
                                             class: "ace_mobile-button",
                                             action: "openCommandPallete"
                                         },
-                                        "Pallete", 
-                                    ], 
+                                        "Pallete"
+                                    ]
                                 ] : [
                                     "span"
                                 ]), contextMenu.firstChild);
@@ -1505,8 +1505,8 @@
                                         class: "ace_mobile-button",
                                         action: "more"
                                     },
-                                    "...", 
-                                ], 
+                                    "..."
+                                ]
                             ], editor.container);
                         }
                         var cursor = editor.selection.cursor, pagePos = editor.renderer.textToScreenCoordinates(cursor.row, cursor.column), leftOffset = editor.renderer.textToScreenCoordinates(0, 0).pageX, scrollLeft = editor.renderer.scrollLeft, rect = editor.container.getBoundingClientRect();
@@ -1667,7 +1667,7 @@
                 "exports",
                 "module",
                 "ace/lib/oop",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(require, exports, module) {
                 var oop = require("./oop"), EventEmitter = require("./event_emitter").EventEmitter, optionsProvider = {
                     setOptions: function(optList) {
@@ -1747,7 +1747,7 @@
                 "ace/lib/oop",
                 "ace/lib/net",
                 "ace/lib/dom",
-                "ace/lib/app_config", 
+                "ace/lib/app_config"
             ], function(require, exports, module) {
                 var lang = require("./lib/lang");
                 require("./lib/oop");
@@ -1850,7 +1850,7 @@
                 "ace/mouse/mouse_event",
                 "ace/mouse/dragdrop_handler",
                 "ace/mouse/touch_handler",
-                "ace/config", 
+                "ace/config"
             ], function(require, exports, module) {
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent"), DefaultHandlers = require("./default_handlers").DefaultHandlers, DefaultGutterHandler = require("./default_gutter_handler").GutterHandler, MouseEvent = require("./mouse_event").MouseEvent, DragdropHandler = require("./dragdrop_handler").DragdropHandler, addTouchListeners = require("./touch_handler").addTouchListeners, config = require("../config"), MouseHandler = function(editor) {
@@ -1863,7 +1863,7 @@
                         mouseTarget,
                         editor.renderer.scrollBarV && editor.renderer.scrollBarV.inner,
                         editor.renderer.scrollBarH && editor.renderer.scrollBarH.inner,
-                        editor.textInput && editor.textInput.getElement(), 
+                        editor.textInput && editor.textInput.getElement()
                     ].filter(Boolean), [
                         400,
                         300,
@@ -1978,7 +1978,7 @@
                 "exports",
                 "module",
                 "ace/lib/keys",
-                "ace/lib/event", 
+                "ace/lib/event"
             ], function(require, exports, module) {
                 "use strict";
                 var keyUtil = require("../lib/keys"), event = require("../lib/event"), KeyBinding = function(editor) {
@@ -2083,7 +2083,7 @@
                         4,
                         2,
                         0
-                    ], 
+                    ]
                 ], impTab_RTL = [
                     [
                         2,
@@ -2120,7 +2120,7 @@
                         3,
                         1,
                         1
-                    ], 
+                    ]
                 ], UnicodeTBL00 = [
                     18,
                     18,
@@ -2313,7 +2313,7 @@
                     4,
                     4,
                     4,
-                    4, 
+                    4
                 ], UnicodeTBL20 = [
                     8,
                     8,
@@ -2410,7 +2410,7 @@
                     4,
                     4,
                     4,
-                    8, 
+                    8
                 ];
                 function _invertLevel(lev, levels, _array) {
                     if (!(hiLevel < lev)) {
@@ -2530,7 +2530,7 @@
                 "exports",
                 "module",
                 "ace/lib/bidiutil",
-                "ace/lib/lang", 
+                "ace/lib/lang"
             ], function(require, exports, module) {
                 "use strict";
                 var bidiUtil = require("./lib/bidiutil"), lang = require("./lib/lang"), bidiRE = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac\u202B]/, BidiHandler = function(session) {
@@ -2626,7 +2626,7 @@
                 "ace/lib/oop",
                 "ace/lib/lang",
                 "ace/lib/event_emitter",
-                "ace/range", 
+                "ace/range"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), lang = require("./lib/lang"), EventEmitter = require("./lib/event_emitter").EventEmitter, Range = require("./range").Range, Selection = function(session) {
@@ -3036,7 +3036,7 @@
                             },
                             {
                                 defaultToken: "text"
-                            }, 
+                            }
                         ]
                     };
                 };
@@ -3204,7 +3204,7 @@
                 "ace/lib/oop",
                 "ace/mode/behaviour",
                 "ace/token_iterator",
-                "ace/lib/lang", 
+                "ace/lib/lang"
             ], function(require, exports, module) {
                 "use strict";
                 var context, oop = require("../../lib/oop"), Behaviour = require("../behaviour").Behaviour, TokenIterator = require("../../token_iterator").TokenIterator, lang = require("../../lib/lang"), SAFE_INSERT_IN_TOKENS = [
@@ -3212,14 +3212,14 @@
                     "paren.rparen",
                     "rparen",
                     "paren",
-                    "punctuation.operator", 
+                    "punctuation.operator"
                 ], SAFE_INSERT_BEFORE_TOKENS = [
                     "text",
                     "paren.rparen",
                     "rparen",
                     "paren",
                     "punctuation.operator",
-                    "comment", 
+                    "comment"
                 ], contextCache = {}, defaultQuotes = {
                     '"': '"',
                     "'": "'"
@@ -3245,7 +3245,7 @@
                             0,
                             selection.start.column + 1,
                             rowDiff,
-                            selection.end.column + (rowDiff ? 0 : 1), 
+                            selection.end.column + (rowDiff ? 0 : 1)
                         ]
                     };
                 }, CstyleBehaviour = function(options) {
@@ -3305,7 +3305,7 @@
                                     1,
                                     indent.length,
                                     1,
-                                    indent.length, 
+                                    indent.length
                                 ]
                             };
                         } else CstyleBehaviour.clearMaybeInsertedClosing();
@@ -4290,7 +4290,7 @@
                     3,
                     5,
                     3,
-                    2, 
+                    2
                 ], code = 0, str = [], i = 0; i < wordChars.length; i += 2)str.push(code += wordChars[i]), wordChars[i + 1] && str.push(45, code += wordChars[i + 1]);
                 exports.wordChars = String.fromCharCode.apply(null, str);
             }), ace.define("ace/mode/text", [
@@ -4304,7 +4304,7 @@
                 "ace/unicode",
                 "ace/lib/lang",
                 "ace/token_iterator",
-                "ace/range", 
+                "ace/range"
             ], function(require, exports, module) {
                 "use strict";
                 var config = require("../config"), Tokenizer = require("../tokenizer").Tokenizer, TextHighlightRules = require("./text_highlight_rules").TextHighlightRules, CstyleBehaviour = require("./behaviour/cstyle").CstyleBehaviour, unicode = require("../unicode"), lang = require("../lib/lang"), TokenIterator = require("../token_iterator").TokenIterator, Range = require("../range").Range, Mode = function() {
@@ -4417,7 +4417,7 @@
                             "checkOutdent",
                             "autoOutdent",
                             "transformAction",
-                            "getCompletions", 
+                            "getCompletions"
                         ], i = 0; i < delegations.length; i++)!function(scope) {
                             var functionName = delegations[i], defaultHandler = scope[functionName];
                             scope[delegations[i]] = function() {
@@ -4508,7 +4508,7 @@
                 "exports",
                 "module",
                 "ace/lib/oop",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), EventEmitter = require("./lib/event_emitter").EventEmitter;
@@ -4571,7 +4571,7 @@
                 "ace/apply_delta",
                 "ace/lib/event_emitter",
                 "ace/range",
-                "ace/anchor", 
+                "ace/anchor"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), applyDelta = require("./apply_delta").applyDelta, EventEmitter = require("./lib/event_emitter").EventEmitter, Range = require("./range").Range, Anchor = require("./anchor").Anchor, Document = function(textOrLines) {
@@ -4633,7 +4633,7 @@
                     }, this.getLinesForRange = function(range) {
                         var lines;
                         if (range.start.row === range.end.row) lines = [
-                            this.getLine(range.start.row).substring(range.start.column, range.end.column), 
+                            this.getLine(range.start.row).substring(range.start.column, range.end.column)
                         ];
                         else {
                             (lines = this.getLines(range.start.row, range.end.row))[0] = (lines[0] || "").substring(range.start.column);
@@ -4796,7 +4796,7 @@
                 "exports",
                 "module",
                 "ace/lib/oop",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), EventEmitter = require("./lib/event_emitter").EventEmitter, BackgroundTokenizer = function(tokenizer, editor) {
@@ -4861,7 +4861,7 @@
                 "module",
                 "ace/lib/lang",
                 "ace/lib/oop",
-                "ace/range", 
+                "ace/range"
             ], function(require, exports, module) {
                 "use strict";
                 var lang = require("./lib/lang");
@@ -5089,7 +5089,7 @@
                 "exports",
                 "module",
                 "ace/range_list",
-                "ace/lib/oop", 
+                "ace/lib/oop"
             ], function(require, exports, module) {
                 "use strict";
                 var RangeList = require("../range_list").RangeList, oop = require("../lib/oop"), Fold = exports.Fold = function(range, placeholder) {
@@ -5139,7 +5139,7 @@
                 "ace/range",
                 "ace/edit_session/fold_line",
                 "ace/edit_session/fold",
-                "ace/token_iterator", 
+                "ace/token_iterator"
             ], function(require, exports, module) {
                 "use strict";
                 var Range = require("../range").Range, FoldLine = require("./fold_line").FoldLine, Fold = require("./fold").Fold, TokenIterator = require("../token_iterator").TokenIterator;
@@ -5492,7 +5492,7 @@
                 "exports",
                 "module",
                 "ace/token_iterator",
-                "ace/range", 
+                "ace/range"
             ], function(require, exports, module) {
                 "use strict";
                 var TokenIterator = require("../token_iterator").TokenIterator, Range = require("../range").Range;
@@ -5605,7 +5605,7 @@
                 "ace/background_tokenizer",
                 "ace/search_highlight",
                 "ace/edit_session/folding",
-                "ace/edit_session/bracket_match", 
+                "ace/edit_session/bracket_match"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), lang = require("./lib/lang"), BidiHandler = require("./bidihandler").BidiHandler, config = require("./config"), EventEmitter = require("./lib/event_emitter").EventEmitter, Selection = require("./selection").Selection, TextMode = require("./mode/text").Mode, Range = require("./range").Range, Document = require("./document").Document, BackgroundTokenizer = require("./background_tokenizer").BackgroundTokenizer, SearchHighlight = require("./search_highlight").SearchHighlight, EditSession = function(text, mode) {
@@ -6351,7 +6351,7 @@
                 "module",
                 "ace/lib/lang",
                 "ace/lib/oop",
-                "ace/range", 
+                "ace/range"
             ], function(require, exports, module) {
                 "use strict";
                 var lang = require("./lib/lang"), oop = require("./lib/oop"), Range = require("./range").Range, Search = function() {
@@ -6503,7 +6503,7 @@
                 "exports",
                 "module",
                 "ace/lib/keys",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(require, exports, module) {
                 "use strict";
                 var keyUtil = require("../lib/keys"), useragent = require("../lib/useragent"), KEY_MODS = keyUtil.KEY_MODS;
@@ -6628,7 +6628,7 @@
                 "module",
                 "ace/lib/oop",
                 "ace/keyboard/hash_handler",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("../lib/oop"), MultiHashHandler = require("../keyboard/hash_handler").MultiHashHandler, EventEmitter = require("../lib/event_emitter").EventEmitter, CommandManager = function(platform, commands) {
@@ -6679,7 +6679,7 @@
                 "module",
                 "ace/lib/lang",
                 "ace/config",
-                "ace/range", 
+                "ace/range"
             ], function(require, exports, module) {
                 "use strict";
                 var lang = require("../lib/lang"), config = require("../config"), Range = require("../range").Range;
@@ -7715,7 +7715,7 @@
                             });
                         },
                         readOnly: !0
-                    }, 
+                    }
                 ];
                 for(var i = 1; i < 9; i++)exports.commands.push({
                     name: "foldToLevel" + i,
@@ -7748,7 +7748,7 @@
                 "ace/commands/default_commands",
                 "ace/config",
                 "ace/token_iterator",
-                "ace/clipboard", 
+                "ace/clipboard"
             ], function(require, exports, module) {
                 "use strict";
                 require("./lib/fixoldbrowsers");
@@ -7809,7 +7809,7 @@
                     }, this.$mergeableCommands = [
                         "backspace",
                         "del",
-                        "insertstring", 
+                        "insertstring"
                     ], this.$historyTracker = function(e) {
                         if (this.$mergeUndoDeltas) {
                             var prev = this.prevOp, mergeableCommands = this.$mergeableCommands, shouldMerge = prev.command && e.command.name == prev.command.name;
@@ -7888,9 +7888,9 @@
                                         Array.isArray(ranges) ? 1 == ranges.length && (markerType = "ace_error_bracket") : ranges = [
                                             ranges
                                         ], 2 == ranges.length && (0 == Range.comparePoints(ranges[0].end, ranges[1].start) ? ranges = [
-                                            Range.fromPoints(ranges[0].start, ranges[1].end), 
+                                            Range.fromPoints(ranges[0].start, ranges[1].end)
                                         ] : 0 == Range.comparePoints(ranges[0].start, ranges[1].end) && (ranges = [
-                                            Range.fromPoints(ranges[1].start, ranges[0].end), 
+                                            Range.fromPoints(ranges[1].start, ranges[0].end)
                                         ])), session.$bracketHighlight = {
                                             ranges: ranges,
                                             markerIds: ranges.map(function(range) {
@@ -8405,7 +8405,7 @@
                         [
                             "==",
                             "!="
-                        ], 
+                        ]
                     ], this.toggleWord = function() {
                         var reg, row = this.selection.getCursor().row, column = this.selection.getCursor().column;
                         this.selection.selectWord();
@@ -9155,7 +9155,7 @@
                 "ace/lib/oop",
                 "ace/lib/lang",
                 "ace/lib/event_emitter",
-                "ace/layer/lines", 
+                "ace/layer/lines"
             ], function(require, exports, module) {
                 "use strict";
                 var dom = require("../lib/dom"), oop = require("../lib/oop"), lang = require("../lib/lang"), EventEmitter = require("../lib/event_emitter").EventEmitter, Lines = require("./lines").Lines, Gutter = function(parentEl) {
@@ -9387,7 +9387,7 @@
                 "ace/lib/dom",
                 "ace/lib/lang",
                 "ace/layer/lines",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("../lib/oop"), dom = require("../lib/dom"), lang = require("../lib/lang"), Lines = require("./lines").Lines, EventEmitter = require("../lib/event_emitter").EventEmitter, Text = function(parentEl) {
@@ -9710,7 +9710,7 @@
                 "ace/lib/oop",
                 "ace/lib/dom",
                 "ace/lib/event",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), dom = require("./lib/dom"), event = require("./lib/event"), EventEmitter = require("./lib/event_emitter").EventEmitter, ScrollBar = function(parent) {
@@ -9802,7 +9802,7 @@
                 "ace/lib/lang",
                 "ace/lib/event",
                 "ace/lib/useragent",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(require, exports, module) {
                 var oop = require("../lib/oop"), dom = require("../lib/dom"), lang = require("../lib/lang"), event = require("../lib/event"), useragent = require("../lib/useragent"), EventEmitter = require("../lib/event_emitter").EventEmitter, USE_OBSERVER = "function" == typeof ResizeObserver;
                 (function() {
@@ -9853,7 +9853,7 @@
                                 "div",
                                 {
                                     style: "position: absolute;top:" + t + "px;left:" + l + "px;"
-                                }, 
+                                }
                             ];
                         };
                         this.els = dom.buildDom([
@@ -9867,7 +9867,7 @@
                             var det = l1[1] * l2[0] - l1[0] * l2[1];
                             return [
                                 (-l2[1] * r[0] + l2[0] * r[1]) / det,
-                                (+l1[1] * r[0] - l1[0] * r[1]) / det, 
+                                (+l1[1] * r[0] - l1[0] * r[1]) / det
                             ];
                         }
                         function sub(a, b) {
@@ -9926,7 +9926,7 @@
                 "ace/renderloop",
                 "ace/layer/font_metrics",
                 "ace/lib/event_emitter",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./lib/oop"), dom = require("./lib/dom"), config = require("./config"), GutterLayer = require("./layer/gutter").Gutter, MarkerLayer = require("./layer/marker").Marker, TextLayer = require("./layer/text").Text, CursorLayer = require("./layer/cursor").Cursor, HScrollBar = require("./scrollbar").HScrollBar, VScrollBar = require("./scrollbar").VScrollBar, RenderLoop = require("./renderloop").RenderLoop, FontMetrics = require("./layer/font_metrics").FontMetrics, EventEmitter = require("./lib/event_emitter").EventEmitter, editorCss = '\
@@ -10804,7 +10804,7 @@ margin: 0 10px;\
                             };
                             var canvasPos, p = this.$fontMetrics.transformCoordinates([
                                 x,
-                                y, 
+                                y
                             ]);
                             x = p[1] - this.gutterWidth - this.margin.left, y = p[0];
                         } else canvasPos = this.scroller.getBoundingClientRect();
@@ -10823,7 +10823,7 @@ margin: 0 10px;\
                             };
                             var canvasPos, p = this.$fontMetrics.transformCoordinates([
                                 x,
-                                y, 
+                                y
                             ]);
                             x = p[1] - this.gutterWidth - this.margin.left, y = p[0];
                         } else canvasPos = this.scroller.getBoundingClientRect();
@@ -11044,7 +11044,7 @@ margin: 0 10px;\
                 "ace/lib/oop",
                 "ace/lib/net",
                 "ace/lib/event_emitter",
-                "ace/config", 
+                "ace/config"
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("../lib/oop"), net = require("../lib/net"), EventEmitter = require("../lib/event_emitter").EventEmitter, config = require("../config");
@@ -11201,7 +11201,7 @@ margin: 0 10px;\
                 "module",
                 "ace/range",
                 "ace/lib/event_emitter",
-                "ace/lib/oop", 
+                "ace/lib/oop"
             ], function(require, exports, module) {
                 "use strict";
                 var Range = require("./range").Range, EventEmitter = require("./lib/event_emitter").EventEmitter, oop = require("./lib/oop"), PlaceHolder = function(session, length, pos, others, mainClass, othersClass) {
@@ -11291,7 +11291,7 @@ margin: 0 10px;\
                 "exports",
                 "module",
                 "ace/lib/event",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(require, exports, module) {
                 var event = require("../lib/event"), useragent = require("../lib/useragent");
                 function isSamePoint(p1, p2) {
@@ -11506,7 +11506,7 @@ margin: 0 10px;\
                         },
                         scrollIntoView: "cursor",
                         readOnly: !0
-                    }, 
+                    }
                 ], exports.multiSelectCommands = [
                     {
                         name: "singleSelection",
@@ -11520,7 +11520,7 @@ margin: 0 10px;\
                         isAvailable: function(editor) {
                             return editor && editor.inMultiSelectMode;
                         }
-                    }, 
+                    }
                 ];
                 var HashHandler = require("../keyboard/hash_handler").HashHandler;
                 exports.keyboardHandler = new HashHandler(exports.multiSelectCommands);
@@ -11538,7 +11538,7 @@ margin: 0 10px;\
                 "ace/search",
                 "ace/edit_session",
                 "ace/editor",
-                "ace/config", 
+                "ace/config"
             ], function(require, exports, module) {
                 var RangeList = require("./range_list").RangeList, Range = require("./range").Range, Selection = require("./selection").Selection, onMouseDown = require("./mouse/multi_select_handler").onMouseDown, event = require("./lib/event"), lang = require("./lib/lang"), commands = require("./commands/multi_select_commands");
                 exports.commands = commands.defaultCommands.concat(commands.multiSelectCommands);
@@ -12199,7 +12199,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 "module",
                 "ace/line_widgets",
                 "ace/lib/dom",
-                "ace/range", 
+                "ace/range"
             ], function(require, exports, module) {
                 "use strict";
                 var LineWidgets = require("../line_widgets").LineWidgets, dom = require("../lib/dom"), Range = require("../range").Range;
@@ -12329,7 +12329,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 "ace/mode/folding/fold_mode",
                 "ace/theme/textmate",
                 "ace/ext/error_marker",
-                "ace/config", 
+                "ace/config"
             ], function(require, exports, module) {
                 "use strict";
                 require("./lib/fixoldbrowsers");
@@ -12364,5 +12364,5 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 window.ace.default = window.ace, module && (module.exports = window.ace);
             });
         }
-    }, 
+    }
 ]);

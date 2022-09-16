@@ -124,7 +124,7 @@
                     "onLoadingComplete",
                     "loader",
                     "placeholder",
-                    "blurDataURL", 
+                    "blurDataURL"
                 ]), layout = sizes ? "responsive" : "intrinsic";
                 "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
                 var src1, staticSrc = "";
@@ -330,7 +330,7 @@
                             "f_auto",
                             "c_limit",
                             "w_" + param.width,
-                            "q_" + (param.quality || "auto"), 
+                            "q_" + (param.quality || "auto")
                         ].join(",") + "/";
                         return "".concat(root).concat(paramsString).concat(normalizeSrc(src));
                     }
@@ -348,7 +348,7 @@
                         var src = param.src;
                         throw Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
                     }
-                ], 
+                ]
             ]);
             function isStaticRequire(src) {
                 return void 0 !== src.default;
@@ -362,7 +362,7 @@
                     1200,
                     1920,
                     2048,
-                    3840, 
+                    3840
                 ],
                 imageSizes: [
                     16,
@@ -539,7 +539,7 @@
                 "imgix",
                 "cloudinary",
                 "akamai",
-                "custom", 
+                "custom"
             ], exports.imageConfigDefault = {
                 deviceSizes: [
                     640,
@@ -669,7 +669,7 @@
                 "onStart",
                 "onPauseResume",
                 "onReset",
-                "onUpdate", 
+                "onUpdate"
             ], DEFAULTS = {
                 decimal: ".",
                 delay: null,
@@ -743,7 +743,7 @@
                     props.separator,
                     props.decimals,
                     props.decimal,
-                    props.formattingFn, 
+                    props.formattingFn
                 ]), React.useEffect(function() {
                     return function() {
                         reset();
@@ -762,7 +762,7 @@
                 "redraw",
                 "containerProps",
                 "children",
-                "style", 
+                "style"
             ], CountUp = function(props) {
                 var className = props.className, redraw = props.redraw, containerProps = props.containerProps, children = props.children, style = props.style, useCountUpProps = _objectWithoutProperties(props, _excluded), containerRef = React__default.default.useRef(null), isInitializedRef = React__default.default.useRef(!1), _useCountUp = useCountUp(_objectSpread2(_objectSpread2({}, useCountUpProps), {}, {
                     ref: containerRef,
@@ -807,7 +807,7 @@
                     props.decimals,
                     props.decimal,
                     props.className,
-                    props.formattingFn, 
+                    props.formattingFn
                 ]), React.useEffect(function() {
                     isInitializedRef.current = !0;
                 }, []), "function" == typeof children) ? children({
@@ -825,5 +825,5 @@
             };
             exports.ZP = CountUp;
         }
-    }, 
+    }
 ]);

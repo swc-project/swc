@@ -21,7 +21,7 @@
                 "/hmr/contact",
                 function() {
                     return __webpack_require__(8897);
-                }, 
+                }
             ]);
         }
     },
@@ -33,5 +33,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 2574);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);

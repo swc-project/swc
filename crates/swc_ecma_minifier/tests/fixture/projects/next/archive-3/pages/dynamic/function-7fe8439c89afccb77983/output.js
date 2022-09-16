@@ -172,7 +172,7 @@
                                 _this2._callbacks.delete(callback);
                             };
                         }
-                    }, 
+                    }
                 ]), LoadableSubscription;
             }();
             function Loadable(opts1) {
@@ -320,7 +320,7 @@
             var Hello = (0, __webpack_require__(4652).default)(function() {
                 return Promise.all([
                     __webpack_require__.e(774),
-                    __webpack_require__.e(974), 
+                    __webpack_require__.e(974)
                 ]).then(__webpack_require__.bind(__webpack_require__, 6974));
             }, {
                 loadableGenerated: {
@@ -330,7 +330,7 @@
                         ];
                     },
                     modules: [
-                        "dynamic/function.js -> ../../components/hello1", 
+                        "dynamic/function.js -> ../../components/hello1"
                     ]
                 }
             });
@@ -341,7 +341,7 @@
                 "/dynamic/function",
                 function() {
                     return __webpack_require__(1118);
-                }, 
+                }
             ]);
         },
         4652: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -356,5 +356,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 6994);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);

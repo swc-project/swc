@@ -19,7 +19,7 @@
                 "/about",
                 function() {
                     return __webpack_require__(4426);
-                }, 
+                }
             ]);
         }
     },
@@ -31,5 +31,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 8484);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);

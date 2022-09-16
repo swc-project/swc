@@ -40,7 +40,7 @@
                 [
                     "httpEquiv",
                     "http-equiv"
-                ], 
+                ]
             ].forEach(function(a) {
                 var b = a[0];
                 z[b] = new t(b, 1, !1, a[1], null, !1, !1);
@@ -55,7 +55,7 @@
                 "autoReverse",
                 "externalResourcesRequired",
                 "focusable",
-                "preserveAlpha", 
+                "preserveAlpha"
             ].forEach(function(a) {
                 z[a] = new t(a, 2, !1, a, null, !1, !1);
             }), "allowFullScreen async autoFocus autoPlay controls default defer disabled disablePictureInPicture disableRemotePlayback formNoValidate hidden loop noModule noValidate open playsInline readOnly required reversed scoped seamless itemScope".split(" ").forEach(function(a) {
@@ -1585,7 +1585,7 @@
                 "compositionend",
                 "keypress",
                 "textInput",
-                "paste", 
+                "paste"
             ]), fa("onCompositionEnd", "compositionend focusout keydown keypress keyup mousedown".split(" ")), fa("onCompositionStart", "compositionstart focusout keydown keypress keyup mousedown".split(" ")), fa("onCompositionUpdate", "compositionupdate focusout keydown keypress keyup mousedown".split(" "));
             var kf = "abort canplay canplaythrough durationchange emptied encrypted ended error loadeddata loadedmetadata loadstart pause play playing progress ratechange resize seeked seeking stalled suspend timeupdate volumechange waiting".split(" "), lf = new Set("cancel close invalid load scroll toggle".split(" ").concat(kf));
             function mf(a, b, c) {
@@ -6128,5 +6128,5 @@
         2322: function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(1837);
         }
-    }, 
+    }
 ]);

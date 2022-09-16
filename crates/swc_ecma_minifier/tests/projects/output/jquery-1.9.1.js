@@ -344,7 +344,7 @@
                     "notify",
                     "progress",
                     jQuery.Callbacks("memory")
-                ], 
+                ]
             ], state = "pending", promise = {
                 state: function() {
                     return state;
@@ -1435,7 +1435,7 @@
                             } else if (useCache && (cache = (elem[expando] || (elem[expando] = {}))[type]) && cache[0] === dirruns) diff = cache[1];
                             else for(; (node = ++nodeIndex && node && node[dir] || (diff = nodeIndex = 0) || start.pop()) && (!((ofType ? node.nodeName.toLowerCase() === name1 : 1 === node.nodeType) && ++diff) || (useCache && ((node[expando] || (node[expando] = {}))[type] = [
                                 dirruns,
-                                diff, 
+                                diff
                             ]), node !== elem)););
                             return (diff -= last) === first || diff % first == 0 && diff / first >= 0;
                         }
@@ -1644,7 +1644,7 @@
             }, implicitRelative, !0), matchers = [
                 function(elem, context, xml) {
                     return !leadingRelative && (xml || context !== outermostContext) || ((checkContext = context).nodeType ? matchContext(elem, context, xml) : matchAnyContext(elem, context, xml));
-                }, 
+                }
             ]; i < len; i++)if (matcher = Expr.relative[tokens[i].type]) matchers = [
                 addCombinator(elementMatcher(matchers), matcher)
             ];
@@ -2253,7 +2253,7 @@
                     display: "inline-block"
                 }, curCSS, [
                     elem,
-                    "marginRight", 
+                    "marginRight"
                 ]);
             }
         }), !jQuery.support.pixelPosition && jQuery.fn.position && jQuery.each([
@@ -2385,7 +2385,7 @@
         "ajaxComplete",
         "ajaxError",
         "ajaxSuccess",
-        "ajaxSend", 
+        "ajaxSend"
     ], function(i, type) {
         jQuery.fn[type] = function(fn) {
             return this.on(type, fn);
@@ -2573,7 +2573,7 @@
                 ]), jqXHR.statusCode(statusCode), statusCode = undefined, fireGlobals && globalEventContext.trigger(isSuccess ? "ajaxSuccess" : "ajaxError", [
                     jqXHR,
                     s,
-                    isSuccess ? success : error, 
+                    isSuccess ? success : error
                 ]), completeDeferred.fireWith(callbackContext, [
                     jqXHR,
                     statusText
@@ -2728,7 +2728,7 @@
                     tween.unit = unit, tween.start = start, tween.end = parts[1] ? start + (parts[1] + 1) * end : end;
                 }
                 return tween;
-            }, 
+            }
         ]
     };
     function createFxNow() {

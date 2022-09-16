@@ -18,9 +18,9 @@
                                 (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__.default, {
                                     id: "3646360250",
                                     children: [
-                                        "p.jsx-3646360250{font-size:100px;}", 
+                                        "p.jsx-3646360250{font-size:100px;}"
                                     ]
-                                }), 
+                                })
                             ]
                         })
                     })
@@ -32,7 +32,7 @@
                 "/hmr/style",
                 function() {
                     return __webpack_require__(1501);
-                }, 
+                }
             ]);
         }
     },
@@ -45,5 +45,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 9675);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);

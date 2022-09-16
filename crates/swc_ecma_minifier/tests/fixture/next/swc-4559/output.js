@@ -9,5 +9,5 @@ Only page size below ${MAX_PAGE_SIZE} is available in the MIT version.
 
 You need to upgrade to the DataGridPro component to unlock this feature.`);
         }
-    }, 
+    }
 ]);

@@ -1975,11 +1975,11 @@
             ] : []).concat(currentOpts.collapsedIcon ? [
                 "ui-icon-" + currentOpts.collapsedIcon
             ] : []).join(" ")), hasIcon && anchor.addClass([
-                iconposClass(undefined7 !== opts.iconpos ? opts.iconpos : currentOpts.iconpos), 
+                iconposClass(undefined7 !== opts.iconpos ? opts.iconpos : currentOpts.iconpos)
             ].concat(isCollapsed ? [
-                "ui-icon-" + (undefined7 !== opts.collapsedIcon ? opts.collapsedIcon : currentOpts.collapsedIcon), 
+                "ui-icon-" + (undefined7 !== opts.collapsedIcon ? opts.collapsedIcon : currentOpts.collapsedIcon)
             ] : [
-                "ui-icon-" + (undefined7 !== opts.expandedIcon ? opts.expandedIcon : currentOpts.expandedIcon), 
+                "ui-icon-" + (undefined7 !== opts.expandedIcon ? opts.expandedIcon : currentOpts.expandedIcon)
             ]).join(" "))), undefined7 !== opts.theme && (oldTheme = this._themeClassFromOption("ui-btn-", currentOpts.theme), newTheme = this._themeClassFromOption("ui-btn-", opts.theme), anchor.removeClass(oldTheme).addClass(newTheme)), undefined7 !== opts.contentTheme && (oldTheme = this._themeClassFromOption("ui-body-", currentOpts.contentTheme), newTheme = this._themeClassFromOption("ui-body-", opts.contentTheme), ui.content.removeClass(oldTheme).addClass(newTheme)), undefined7 !== opts.inset && (elem.toggleClass("ui-collapsible-inset", opts.inset), hasCorners = !!(opts.inset && (opts.corners || currentOpts.corners))), undefined7 !== opts.corners && (hasCorners = !!(opts.corners && (opts.inset || currentOpts.inset))), hasCorners !== undefined7 && elem.toggleClass("ui-corner-all", hasCorners), undefined7 !== opts.mini && anchor.toggleClass("ui-mini", opts.mini);
         },
         _setOptions: function(options) {
@@ -2433,7 +2433,7 @@
                     isToggleSwitch ? "ui-slider-switch" : "",
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                     cornerClass,
-                    miniClass, 
+                    miniClass
                 ].join(""), domHandle.className = "ui-slider-handle", domSlider.appendChild(domHandle), handle.attr({
                     role: "slider",
                     "aria-valuemin": min,
@@ -2463,7 +2463,7 @@
                     for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), options = control.find("option"), i = 0, optionsCount = options.length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $.mobile.activeBtnClass : "", (sliderImg = document1.createElement("span")).className = [
                         "ui-slider-label ui-slider-label-",
                         side,
-                        activeClass, 
+                        activeClass
                     ].join(""), sliderImg.setAttribute("role", "img"), sliderImg.appendChild(document1.createTextNode(options[i].innerHTML)), $(sliderImg).prependTo(slider);
                     self._labels = $(".ui-slider-label", slider);
                 }
@@ -2561,7 +2561,7 @@
                     this.isToggleSwitch ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset" : "ui-slider-track ui-shadow-inset",
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                     cornerClass,
-                    miniClass, 
+                    miniClass
                 ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(self.slider))), this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) {
                     if (data = val, tol = 8, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - tol || data.pageX > left + width + tol) return;
                     percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100);
@@ -3524,7 +3524,7 @@
             var classes = existingClasses || [];
             return classes.push("ui-btn"), options.theme && classes.push("ui-btn-" + options.theme), options.icon && (classes = classes.concat([
                 "ui-icon-" + options.icon,
-                "ui-btn-icon-" + options.iconpos, 
+                "ui-btn-icon-" + options.iconpos
             ]), options.iconshadow && classes.push("ui-shadow-icon")), options.inline && classes.push("ui-btn-inline"), options.shadow && classes.push("ui-shadow"), options.corners && classes.push("ui-corner-all"), options.mini && classes.push("ui-mini"), classes;
         }
         function classNameToOptions(classes) {
@@ -4142,7 +4142,7 @@
                 "overlay" !== o.display && (0 === $("body > :mobile-panel").add($.mobile.activePage.find(":mobile-panel")).not(".ui-panel-display-overlay").not(this.element).length && this._wrapper.children().unwrap(), this._open && (this._fixedToolbars().removeClass(o.classes.pageContentPrefix + "-open"), $.support.cssTransform3d && o.animate && this._fixedToolbars().removeClass(o.classes.animate), this._page().parent().removeClass(o.classes.pageContainer), o.theme && this._page().parent().removeClass(o.classes.pageContainer + "-themed " + o.classes.pageContainer + "-" + o.theme))), multiplePanels || this.document.off("panelopen panelclose"), this._open && this._page().jqmRemoveData("panel"), this._panelInner.children().unwrap(), this.element.removeClass([
                     this._getPanelClasses(),
                     o.classes.panelOpen,
-                    o.classes.animate, 
+                    o.classes.animate
                 ].join(" ")).off("swipeleft.panel swiperight.panel").off("panelbeforeopen").off("panelhide").off("keyup.panel").off("updatelayout"), this._modal && this._modal.remove();
             }
         });
@@ -4323,7 +4323,7 @@
                     "collapsibleset",
                     "selectmenu",
                     "controlgroup",
-                    "listview", 
+                    "listview"
                 ];
                 for(idx = recognizedWidgets.length - 1; idx > -1; idx--)widget = recognizedWidgets[idx], $.mobile[widget] && (widget = this.element.data("mobile-" + widget)) && $.isFunction(widget.refresh) && widget.refresh();
             },
@@ -4359,7 +4359,7 @@
                 "collapsibleset",
                 "selectmenu",
                 "controlgroup",
-                "listview", 
+                "listview"
             ], createHandlers = {};
             for(this._super(), $27.extend(this, {
                 _widget: null

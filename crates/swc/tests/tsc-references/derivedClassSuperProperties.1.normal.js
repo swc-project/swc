@@ -728,5 +728,5 @@ var DerivedWithLoops = [
             return _possible_constructor_return(_this);
         }
         return _class;
-    }(Base), 
+    }(Base)
 ];

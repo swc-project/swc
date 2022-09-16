@@ -140,7 +140,7 @@ export default function S(u) {
                                 params: e.params
                             };
                         }));
-                    }, []), 
+                    }, [])
                 ]
             }, {
                 results: n.reduce(function(e, t) {
@@ -174,7 +174,7 @@ export default function S(u) {
                             indexName: e.index,
                             params: e.params
                         };
-                    }), 
+                    })
                 ]
             }, {
                 results: n.rawResults

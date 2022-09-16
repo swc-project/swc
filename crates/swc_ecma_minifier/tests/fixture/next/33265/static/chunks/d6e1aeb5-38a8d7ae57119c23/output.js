@@ -28,7 +28,7 @@
                     "fullscreenEnabled",
                     "fullscreenchange",
                     "fullscreenerror",
-                    "fullscreen", 
+                    "fullscreen"
                 ],
                 [
                     "webkitRequestFullscreen",
@@ -37,7 +37,7 @@
                     "webkitFullscreenEnabled",
                     "webkitfullscreenchange",
                     "webkitfullscreenerror",
-                    "-webkit-full-screen", 
+                    "-webkit-full-screen"
                 ],
                 [
                     "mozRequestFullScreen",
@@ -46,7 +46,7 @@
                     "mozFullScreenEnabled",
                     "mozfullscreenchange",
                     "mozfullscreenerror",
-                    "-moz-full-screen", 
+                    "-moz-full-screen"
                 ],
                 [
                     "msRequestFullscreen",
@@ -55,8 +55,8 @@
                     "msFullscreenEnabled",
                     "MSFullscreenChange",
                     "MSFullscreenError",
-                    "-ms-fullscreen", 
-                ], 
+                    "-ms-fullscreen"
+                ]
             ], specApi = apiMap[0], i = 0; i < apiMap.length; i++)if (apiMap[i][1] in global_document__WEBPACK_IMPORTED_MODULE_1___default()) {
                 browserApi = apiMap[i];
                 break;
@@ -281,7 +281,7 @@
                         "left",
                         "right",
                         "top",
-                        "width", 
+                        "width"
                     ].forEach(function(k) {
                         void 0 !== rect[k] && (result[k] = rect[k]);
                     }), result.height || (result.height = parseFloat(computedStyle(el, "height"))), result.width || (result.width = parseFloat(computedStyle(el, "width"))), result;
@@ -1059,7 +1059,7 @@
                             [
                                 "setIntervalIds_",
                                 "clearInterval"
-                            ], 
+                            ]
                         ].forEach(function(_ref) {
                             var idName = _ref[0], cancelName = _ref[1];
                             _this5[idName].forEach(function(val, key) {
@@ -1132,7 +1132,7 @@
                 "MEDIA_ERR_NETWORK",
                 "MEDIA_ERR_DECODE",
                 "MEDIA_ERR_SRC_NOT_SUPPORTED",
-                "MEDIA_ERR_ENCRYPTED", 
+                "MEDIA_ERR_ENCRYPTED"
             ], MediaError.defaultMessages = {
                 1: "You aborted the media playback",
                 2: "A network error caused the media download to fail part-way.",
@@ -1155,7 +1155,7 @@
                     "id",
                     "inBandMetadataTrackDispatchType",
                     "mode",
-                    "src", 
+                    "src"
                 ].reduce(function(acc, prop, i) {
                     return track[prop] && (acc[prop] = track[prop]), acc;
                 }, {
@@ -1532,7 +1532,7 @@
                     "pathname",
                     "search",
                     "hash",
-                    "host", 
+                    "host"
                 ], a = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("a");
                 a.href = url;
                 for(var details = {}, i = 0; i < props.length; i++)details[props[i]] = a[props[i]];
@@ -2071,7 +2071,7 @@
                 } else src = "string" == typeof src && src.trim() ? [
                     fixSource({
                         src: src
-                    }), 
+                    })
                 ] : isObject(src) && "string" == typeof src.src && src.src && src.src.trim() ? [
                     fixSource(src)
                 ] : [];
@@ -2318,7 +2318,7 @@
                     var isAudio = this.player_.isAudio(), playerType = this.localize(isAudio ? "Audio Player" : "Video Player"), controlText = createEl("span", {
                         className: "vjs-control-text",
                         textContent: this.localize("{1} is loading.", [
-                            playerType, 
+                            playerType
                         ])
                     }), el = _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-loading-spinner",
@@ -2858,7 +2858,7 @@
                             var currentTime = _this3.player_.ended() ? _this3.player_.duration() : _this3.getCurrentTime_(), liveTracker = _this3.player_.liveTracker, duration = _this3.player_.duration();
                             liveTracker && liveTracker.isLive() && (duration = _this3.player_.liveTracker.liveCurrentTime()), _this3.percent_ !== percent && (_this3.el_.setAttribute("aria-valuenow", (100 * percent).toFixed(2)), _this3.percent_ = percent), (_this3.currentTime_ !== currentTime || _this3.duration_ !== duration) && (_this3.el_.setAttribute("aria-valuetext", _this3.localize("progress bar timing: currentTime={1} duration={2}", [
                                 formatTime(currentTime, duration),
-                                formatTime(duration, duration), 
+                                formatTime(duration, duration)
                             ], "{1} of {2}")), _this3.currentTime_ = currentTime, _this3.duration_ = duration), _this3.bar && _this3.bar.update(getBoundingClientRect(_this3.el()), _this3.getProgress());
                         }), percent;
                     }
@@ -3595,7 +3595,7 @@
                         if ([
                             "captions",
                             "descriptions",
-                            "subtitles", 
+                            "subtitles"
                         ].indexOf(track.kind) > -1 && "showing" === track.mode) {
                             allHidden = !1;
                             break;
@@ -4001,7 +4001,7 @@
                     "descriptionsButton",
                     "subsCapsButton",
                     "audioTrackButton",
-                    "fullscreenToggle", 
+                    "fullscreenToggle"
                 ]
             }, "exitPictureInPicture" in global_document__WEBPACK_IMPORTED_MODULE_1___default() && ControlBar.prototype.options_.children.splice(ControlBar.prototype.options_.children.length - 1, 0, "pictureInPictureToggle"), Component$1.registerComponent("ControlBar", ControlBar);
             var ErrorDisplay = function(_ModalDialog) {
@@ -4072,7 +4072,7 @@
                         COLOR_BLUE,
                         COLOR_YELLOW,
                         COLOR_MAGENTA,
-                        COLOR_CYAN, 
+                        COLOR_CYAN
                     ]
                 },
                 backgroundOpacity: {
@@ -4097,7 +4097,7 @@
                         COLOR_BLUE,
                         COLOR_YELLOW,
                         COLOR_MAGENTA,
-                        COLOR_CYAN, 
+                        COLOR_CYAN
                     ]
                 },
                 edgeStyle: {
@@ -4124,7 +4124,7 @@
                         [
                             "dropshadow",
                             "Dropshadow"
-                        ], 
+                        ]
                     ]
                 },
                 fontFamily: {
@@ -4159,7 +4159,7 @@
                         [
                             "small-caps",
                             "Small Caps"
-                        ], 
+                        ]
                     ]
                 },
                 fontPercent: {
@@ -4202,7 +4202,7 @@
                         [
                             "4.00",
                             "400%"
-                        ], 
+                        ]
                     ],
                     default: 2,
                     parser: function(v) {
@@ -4267,14 +4267,14 @@
                         "<" + type + ' id="' + id + '" class="' + ("label" === type ? "vjs-label" : "") + '">',
                         this.localize(config.label),
                         "</" + type + ">",
-                        '<select aria-labelledby="' + selectLabelledbyIds + '">', 
+                        '<select aria-labelledby="' + selectLabelledbyIds + '">'
                     ].concat(config.options.map(function(o) {
                         var optionId = id + "-" + o[1].replace(/\W+/g, "");
                         return [
                             '<option id="' + optionId + '" value="' + o[0] + '" ',
                             'aria-labelledby="' + selectLabelledbyIds + " " + optionId + '">',
                             _this2.localize(o[1]),
-                            "</option>", 
+                            "</option>"
                         ].join("");
                     })).concat("</select>").join("");
                 }, _proto.createElFgColor_ = function() {
@@ -4288,7 +4288,7 @@
                         '<span class="vjs-text-opacity vjs-opacity">',
                         this.createElSelect_("textOpacity", legendId),
                         "</span>",
-                        "</fieldset>", 
+                        "</fieldset>"
                     ].join("");
                 }, _proto.createElBgColor_ = function() {
                     var legendId = "captions-background-" + this.id_;
@@ -4301,7 +4301,7 @@
                         '<span class="vjs-bg-opacity vjs-opacity">',
                         this.createElSelect_("backgroundOpacity", legendId),
                         "</span>",
-                        "</fieldset>", 
+                        "</fieldset>"
                     ].join("");
                 }, _proto.createElWinColor_ = function() {
                     var legendId = "captions-window-" + this.id_;
@@ -4314,7 +4314,7 @@
                         '<span class="vjs-window-opacity vjs-opacity">',
                         this.createElSelect_("windowOpacity", legendId),
                         "</span>",
-                        "</fieldset>", 
+                        "</fieldset>"
                     ].join("");
                 }, _proto.createElColors_ = function() {
                     return createEl("div", {
@@ -4322,7 +4322,7 @@
                         innerHTML: [
                             this.createElFgColor_(),
                             this.createElBgColor_(),
-                            this.createElWinColor_(), 
+                            this.createElWinColor_()
                         ].join("")
                     });
                 }, _proto.createElFont_ = function() {
@@ -4337,7 +4337,7 @@
                             "</fieldset>",
                             '<fieldset class="vjs-font-family vjs-track-setting">',
                             this.createElSelect_("fontFamily", "", "legend"),
-                            "</fieldset>", 
+                            "</fieldset>"
                         ].join("")
                     });
                 }, _proto.createElControls_ = function() {
@@ -4349,14 +4349,14 @@
                             this.localize("Reset"),
                             '<span class="vjs-control-text"> ' + defaultsDescription + "</span>",
                             "</button>",
-                            '<button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>", 
+                            '<button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>"
                         ].join("")
                     });
                 }, _proto.content = function() {
                     return [
                         this.createElColors_(),
                         this.createElFont_(),
-                        this.createElControls_(), 
+                        this.createElControls_()
                     ];
                 }, _proto.label = function() {
                     return this.localize("Caption Settings Dialog");
@@ -4574,7 +4574,7 @@
                         tech.el(),
                         global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLMediaElement.prototype,
                         global_window__WEBPACK_IMPORTED_MODULE_0___default().Element.prototype,
-                        innerHTMLDescriptorPolyfill, 
+                        innerHTMLDescriptorPolyfill
                     ], "innerHTML"), appendWrapper = function(appendFn) {
                         return function() {
                             for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
@@ -4610,7 +4610,7 @@
                         var srcDescriptor = getDescriptor([
                             tech.el(),
                             global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLMediaElement.prototype,
-                            srcDescriptorPolyfill, 
+                            srcDescriptorPolyfill
                         ], "src"), oldSetAttribute = el.setAttribute, oldLoad = el.load;
                         Object.defineProperty(el, "src", mergeOptions$3(srcDescriptor, {
                             set: function(v) {
@@ -4766,7 +4766,7 @@
                         "loop",
                         "muted",
                         "playsinline",
-                        "autoplay", 
+                        "autoplay"
                     ], i = 0; i < settingsAttrs.length; i++){
                         var attr = settingsAttrs[i], value = this.options_[attr];
                         void 0 !== value && (value ? setAttribute(el, attr, attr) : removeAttribute(el, attr), el[attr] = value);
@@ -4978,7 +4978,7 @@
                 "pause",
                 "ratechange",
                 "resize",
-                "volumechange", 
+                "volumechange"
             ], [
                 [
                     "featuresVolumeControl",
@@ -5007,7 +5007,7 @@
                 [
                     "featuresNativeAudioTracks",
                     "supportsNativeAudioTracks"
-                ], 
+                ]
             ].forEach(function(_ref) {
                 var key = _ref[0], fn = _ref[1];
                 defineLazyProperty(Html5.prototype, key, function() {
@@ -5044,7 +5044,7 @@
                 "autoplay",
                 "controls",
                 "loop",
-                "playsinline", 
+                "playsinline"
             ].forEach(function(prop) {
                 Html5.prototype[prop] = function() {
                     return this.el_[prop] || this.el_.hasAttribute(prop);
@@ -5054,7 +5054,7 @@
                 "defaultMuted",
                 "autoplay",
                 "loop",
-                "playsinline", 
+                "playsinline"
             ].forEach(function(prop) {
                 Html5.prototype["set" + toTitleCase$1(prop)] = function(v) {
                     this.el_[prop] = v, v ? this.el_.setAttribute(prop, prop) : this.el_.removeAttribute(prop);
@@ -5078,7 +5078,7 @@
                 "readyState",
                 "videoWidth",
                 "videoHeight",
-                "crossOrigin", 
+                "crossOrigin"
             ].forEach(function(prop) {
                 Html5.prototype[prop] = function() {
                     return this.el_[prop];
@@ -5091,7 +5091,7 @@
                 "playbackRate",
                 "defaultPlaybackRate",
                 "disablePictureInPicture",
-                "crossOrigin", 
+                "crossOrigin"
             ].forEach(function(prop) {
                 Html5.prototype["set" + toTitleCase$1(prop)] = function(v) {
                     this.el_[prop] = v;
@@ -5099,7 +5099,7 @@
             }), [
                 "pause",
                 "load",
-                "play", 
+                "play"
             ].forEach(function(prop) {
                 Html5.prototype[prop] = function() {
                     return this.el_[prop]();
@@ -5131,7 +5131,7 @@
                 "timeupdate",
                 "resize",
                 "volumechange",
-                "texttrackchange", 
+                "texttrackchange"
             ], TECH_EVENTS_QUEUE = {
                 canplay: "CanPlay",
                 canplaythrough: "CanPlayThrough",
@@ -5144,7 +5144,7 @@
                 "medium",
                 "large",
                 "xlarge",
-                "huge", 
+                "huge"
             ], BREAKPOINT_CLASSES = {};
             BREAKPOINT_ORDER.forEach(function(k) {
                 var v = "x" === k.charAt(0) ? "x-" + k.substring(1) : k;
@@ -5777,7 +5777,7 @@
                         "hidden",
                         "radio",
                         "reset",
-                        "submit", 
+                        "submit"
                     ].indexOf(el.type) : -1 !== [
                         "textarea"
                     ].indexOf(tagName)) || ("function" == typeof userActions.hotkeys ? userActions.hotkeys.call(this, event) : this.handleHotkeys(event)));
@@ -6114,7 +6114,7 @@
                             {
                                 src: poster,
                                 type: getMimetype(poster)
-                            }, 
+                            }
                         ]), src && this.src(src), poster && this.poster(poster), Array.isArray(textTracks) && textTracks.forEach(function(tt) {
                             return _this19.addRemoteTextTrack(tt, !1);
                         }), this.ready(ready);
@@ -6136,7 +6136,7 @@
                             {
                                 src: media.poster,
                                 type: getMimetype(media.poster)
-                            }, 
+                            }
                         ]), media;
                     }
                     return mergeOptions$3(this.cache_.media);
@@ -6190,7 +6190,7 @@
                     "controlBar",
                     "errorDisplay",
                     "textTrackSettings",
-                    "resizeManager", 
+                    "resizeManager"
                 ],
                 language: navigator && (navigator.languages && navigator.languages[0] || navigator.userLanguage || navigator.language) || "en",
                 languages: {},
@@ -6208,7 +6208,7 @@
                 "seeking",
                 "seekable",
                 "networkState",
-                "readyState", 
+                "readyState"
             ].forEach(function(fn) {
                 Player.prototype[fn] = function() {
                     return this.techGet_(fn);
@@ -6384,7 +6384,7 @@
                 "getAttributes",
                 "emptyEl",
                 "appendContent",
-                "insertContent", 
+                "insertContent"
             ].forEach(function(k) {
                 videojs[k] = function() {
                     return log$1.warn("videojs." + k + "() is deprecated; use videojs.dom." + k + "() instead"), Dom[k].apply(null, arguments);
@@ -6400,7 +6400,7 @@
                 var i, results = [];
                 if (timeRanges && timeRanges.length) for(i = 0; i < timeRanges.length; i++)predicate(timeRanges.start(i), timeRanges.end(i)) && results.push([
                     timeRanges.start(i),
-                    timeRanges.end(i), 
+                    timeRanges.end(i)
                 ]);
                 return videojs.createTimeRanges(results);
             }, findRange = function(buffered, time) {
@@ -6740,7 +6740,7 @@
                     "serverControl",
                     "renditionReports",
                     "partInf",
-                    "partTargetDuration", 
+                    "partTargetDuration"
                 ].forEach(function(k) {
                     manifest.hasOwnProperty(k) && delete manifest[k];
                 }), manifest.segments && manifest.segments.forEach(function(segment) {
@@ -6802,7 +6802,7 @@
                             id: id,
                             resolvedUri: uri,
                             attributes: {}
-                        }, 
+                        }
                     ]
                 };
                 return master.playlists[id] = master.playlists[0], master.playlists[uri] = master.playlists[0], master;
@@ -6821,7 +6821,7 @@
                             if (p.attributes && p.attributes.AUDIO && p.attributes.AUDIO === groupKey) return;
                         }
                         properties.playlists = [
-                            (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__.Z)({}, properties), 
+                            (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__.Z)({}, properties)
                         ];
                     }
                     properties.playlists.forEach(function(p, i) {
@@ -7137,7 +7137,7 @@
                 return [
                     byterange.length,
                     byterange.offset,
-                    initSegment.resolvedUri, 
+                    initSegment.resolvedUri
                 ].join(",");
             }, segmentKeyId = function(key) {
                 return key.resolvedUri;
@@ -7674,18 +7674,18 @@
                             i.charCodeAt(0),
                             i.charCodeAt(1),
                             i.charCodeAt(2),
-                            i.charCodeAt(3), 
+                            i.charCodeAt(3)
                         ]);
                         MAJOR_BRAND = new Uint8Array([
                             105,
                             115,
                             111,
-                            109, 
+                            109
                         ]), AVC1_BRAND = new Uint8Array([
                             97,
                             118,
                             99,
-                            49, 
+                            49
                         ]), MINOR_VERSION = new Uint8Array([
                             0,
                             0,
@@ -7910,7 +7910,7 @@
                         0x55,
                         0xc4,
                         0x00,
-                        0x00, 
+                        0x00
                     ]);
                     return track.samplerate && (result[12] = track.samplerate >>> 24 & 0xff, result[13] = track.samplerate >>> 16 & 0xff, result[14] = track.samplerate >>> 8 & 0xff, result[15] = 0xff & track.samplerate), box(types.mdhd, result);
                 }, mdia = function(track) {
@@ -8064,7 +8064,7 @@
                         0x00,
                         0x00,
                         0x00,
-                        0x01, 
+                        0x01
                     ]), "video" === track.type ? videoSample(track) : audioSample(track));
                 }, videoSample = function(track) {
                     var i, avc1Box, sps = track.sps || [], pps = track.pps || [], sequenceParameterSets = [], pictureParameterSets = [];
@@ -8176,7 +8176,7 @@
                             0x2d,
                             0xc6,
                             0xc0
-                        ])), 
+                        ]))
                     ], track.sarRatio) {
                         var hSpacing = track.sarRatio[0], vSpacing = track.sarRatio[1];
                         avc1Box.push(box(types.pasp, new Uint8Array([
@@ -8187,7 +8187,7 @@
                             (0xff000000 & vSpacing) >> 24,
                             (0xff0000 & vSpacing) >> 16,
                             (0xff00 & vSpacing) >> 8,
-                            0xff & vSpacing, 
+                            0xff & vSpacing
                         ])));
                     }
                     return box.apply(null, avc1Box);
@@ -8349,7 +8349,7 @@
                         lowerWordBaseMediaDecodeTime >>> 24 & 0xff,
                         lowerWordBaseMediaDecodeTime >>> 16 & 0xff,
                         lowerWordBaseMediaDecodeTime >>> 8 & 0xff,
-                        0xff & lowerWordBaseMediaDecodeTime, 
+                        0xff & lowerWordBaseMediaDecodeTime
                     ])), "audio" === track.type) ? (trackFragmentRun = trun$1(track, 92), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun)) : (sampleDependencyTable = sdtp(track), trackFragmentRun = trun$1(track, sampleDependencyTable.length + 92), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable));
                 }, trak = function(track) {
                     return track.duration = track.duration || 0xffffffff, box(types.trak, tkhd(track), mdia(track));
@@ -8490,7 +8490,7 @@
                     8,
                     17,
                     191,
-                    252, 
+                    252
                 ], zeroFill = function(count) {
                     for(var a = []; count--;)a.push(0);
                     return a;
@@ -8507,7 +8507,7 @@
                                 zeroFill(154),
                                 [
                                     56
-                                ], 
+                                ]
                             ],
                             88200: [
                                 highPrefix,
@@ -8528,7 +8528,7 @@
                                 zeroFill(240),
                                 [
                                     56
-                                ], 
+                                ]
                             ],
                             48000: [
                                 highPrefix,
@@ -8545,7 +8545,7 @@
                                 zeroFill(54),
                                 [
                                     112
-                                ], 
+                                ]
                             ],
                             44100: [
                                 highPrefix,
@@ -8562,7 +8562,7 @@
                                 zeroFill(84),
                                 [
                                     112
-                                ], 
+                                ]
                             ],
                             32000: [
                                 highPrefix,
@@ -8578,7 +8578,7 @@
                                 zeroFill(226),
                                 [
                                     112
-                                ], 
+                                ]
                             ],
                             24000: [
                                 highPrefix,
@@ -8600,7 +8600,7 @@
                                 zeroFill(126),
                                 [
                                     224
-                                ], 
+                                ]
                             ],
                             16000: [
                                 highPrefix,
@@ -8628,7 +8628,7 @@
                                 [
                                     1,
                                     192
-                                ], 
+                                ]
                             ],
                             12000: [
                                 lowPrefix,
@@ -8659,7 +8659,7 @@
                                 zeroFill(259),
                                 [
                                     56
-                                ], 
+                                ]
                             ],
                             11025: [
                                 lowPrefix,
@@ -8696,7 +8696,7 @@
                                 zeroFill(108),
                                 [
                                     112
-                                ], 
+                                ]
                             ],
                             8000: [
                                 lowPrefix,
@@ -8709,7 +8709,7 @@
                                 zeroFill(47),
                                 [
                                     7
-                                ], 
+                                ]
                             ]
                         }).reduce(function(obj, key) {
                             return obj[key] = new Uint8Array(metaTable[key].reduce(function(arr, part) {
@@ -9184,7 +9184,7 @@
                     0x1300,
                     0x1320,
                     0x1400,
-                    0x1420, 
+                    0x1420
                 ], createDisplayBuffer = function() {
                     for(var result = [], i = 15; i--;)result.push("");
                     return result;
@@ -9451,7 +9451,7 @@
                         else void 0 === this.programMapTable ? this.packetsWaitingForPmt.push([
                             packet,
                             offset,
-                            result, 
+                            result
                         ]) : this.processPes_(packet, offset, result);
                     }, this.processPes_ = function(packet, offset, result) {
                         result.pid === this.programMapTable.video ? result.streamType = streamTypes.H264_STREAM_TYPE : result.pid === this.programMapTable.audio ? result.streamType = streamTypes.ADTS_STREAM_TYPE : result.streamType = this.programMapTable["timed-metadata"][result.pid], result.type = "pes", result.data = packet.subarray(offset), this.trigger("data", result);
@@ -9578,7 +9578,7 @@
                     12000,
                     11025,
                     8000,
-                    7350, 
+                    7350
                 ];
                 (_AdtsStream = function(handlePartialSegments) {
                     var buffer, frameNum = 0;
@@ -9870,7 +9870,7 @@
                                 case 255:
                                     sarRatio = [
                                         expGolombDecoder.readUnsignedByte() << 8 | expGolombDecoder.readUnsignedByte(),
-                                        expGolombDecoder.readUnsignedByte() << 8 | expGolombDecoder.readUnsignedByte(), 
+                                        expGolombDecoder.readUnsignedByte() << 8 | expGolombDecoder.readUnsignedByte()
                                     ];
                             }
                             sarRatio && (sarRatio[0], sarRatio[1]);
@@ -9898,7 +9898,7 @@
                     12000,
                     11025,
                     8000,
-                    7350, 
+                    7350
                 ], parseId3TagSize = function(header, byteIndex) {
                     var returnSize = header[byteIndex + 6] << 21 | header[byteIndex + 7] << 14 | header[byteIndex + 8] << 7 | header[byteIndex + 9];
                     return (returnSize = returnSize >= 0 ? returnSize : 0, (16 & header[byteIndex + 5]) >> 4) ? returnSize + 20 : returnSize + 10;
@@ -9992,14 +9992,14 @@
                     "channelcount",
                     "samplerate",
                     "samplingfrequencyindex",
-                    "samplesize", 
+                    "samplesize"
                 ], videoProperties = [
                     "width",
                     "height",
                     "profileIdc",
                     "levelIdc",
                     "profileCompatibility",
-                    "sarRatio", 
+                    "sarRatio"
                 ], isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
                     event.stream = key, this.trigger("log", event);
                 }, addPipelineLogRetriggers = function(transmuxer, pipeline) {
@@ -10516,13 +10516,13 @@
                             "mdia",
                             "minf",
                             "stbl",
-                            "stsd", 
+                            "stsd"
                         ])[0];
                         if (stsd) {
                             var view, tkhdVersion, codecConfig, sampleDescriptions = stsd.subarray(8);
                             track.codec = parseType$1(sampleDescriptions.subarray(4, 8));
                             var codecBox = findBox(sampleDescriptions, [
-                                track.codec, 
+                                track.codec
                             ])[0];
                             codecBox && (/^[asm]vc[1-9]$/i.test(track.codec) ? "avcC" === parseType$1((codecConfig = codecBox.subarray(78)).subarray(4, 8)) && codecConfig.length > 11 ? (track.codec += ".", track.codec += toHexString(codecConfig[9]), track.codec += toHexString(codecConfig[10]), track.codec += toHexString(codecConfig[11])) : track.codec = "avc1.4d400d" : /^mp4[a,v]$/i.test(track.codec) ? "esds" === parseType$1((codecConfig = codecBox.subarray(28)).subarray(4, 8)) && codecConfig.length > 20 && 0 !== codecConfig[19] ? (track.codec += "." + toHexString(codecConfig[19]), track.codec += "." + toHexString(codecConfig[20] >>> 2 & 0x3f).replace(/^0/, "")) : track.codec = "mp4a.40.2" : track.codec = track.codec.toLowerCase());
                         }
@@ -10758,7 +10758,7 @@
                                 type: "audio",
                                 dts: timestamp + 1024 * audioCount * audioTimescale,
                                 pts: timestamp + 1024 * audioCount * audioTimescale
-                            }, 
+                            }
                         ]
                     };
                 }, inspectTs_ = function(bytes) {
@@ -11068,7 +11068,7 @@
                     var isArrayBuffer = options.data instanceof ArrayBuffer;
                     message.byteOffset = isArrayBuffer ? 0 : options.data.byteOffset, message.byteLength = options.data.byteLength;
                     var transfers = [
-                        isArrayBuffer ? options.data : options.data.buffer, 
+                        isArrayBuffer ? options.data : options.data.buffer
                     ];
                     transmuxer.postMessage(message, transfers);
                 } else transmuxer.postMessage(message);
@@ -11123,7 +11123,7 @@
                         view.getUint32(0),
                         view.getUint32(4),
                         view.getUint32(8),
-                        view.getUint32(12), 
+                        view.getUint32(12)
                     ]), i = 0; i < objects.length; i++)objects[i].bytes = bytes;
                     return finishProcessingFn(null, segment);
                 };
@@ -12404,7 +12404,7 @@
                             0,
                             0,
                             0,
-                            segmentInfo.mediaIndex + segmentInfo.playlist.mediaSequence, 
+                            segmentInfo.mediaIndex + segmentInfo.playlist.mediaSequence
                         ]);
                         simpleSegment.key = this.segmentKey(segment.key), simpleSegment.key.iv = iv;
                     }
@@ -13158,7 +13158,7 @@
                             partIndex: null
                         } : null;
                     }
-                }, 
+                }
             ], SyncController = function(_videojs$EventTarget) {
                 function SyncController(options) {
                     var _this;
@@ -13372,7 +13372,7 @@
                             [],
                             [],
                             []
-                        ], 
+                        ]
                     ], encTable = tables[0], decTable = tables[1], sbox = encTable[4], sboxInv = decTable[4], d = [], th = [];
                     for(i = 0; i < 256; i++)th[(d[i] = i << 1 ^ (i >> 7) * 283) ^ i] = i;
                     for(x = xInv = 0; !sbox[x]; x ^= x2 || 1, xInv = th[xInv] || 1)for(i = 0, s = (s = xInv ^ xInv << 1 ^ xInv << 2 ^ xInv << 3 ^ xInv << 4) >> 8 ^ 255 & s ^ 99, sbox[x] = s, sboxInv[s] = x, tDec = 0x1010101 * d[x4 = d[x2 = d[x]]] ^ 0x10001 * x4 ^ 0x101 * x2 ^ 0x1010100 * x, tEnc = 0x101 * d[s] ^ 0x1010100 * s; i < 4; i++)encTable[i][x] = tEnc = tEnc << 24 ^ tEnc >>> 8, decTable[i][s] = tDec = tDec << 24 ^ tDec >>> 8;
@@ -13386,15 +13386,15 @@
                                 aesTables[0][1].slice(),
                                 aesTables[0][2].slice(),
                                 aesTables[0][3].slice(),
-                                aesTables[0][4].slice(), 
+                                aesTables[0][4].slice()
                             ],
                             [
                                 aesTables[1][0].slice(),
                                 aesTables[1][1].slice(),
                                 aesTables[1][2].slice(),
                                 aesTables[1][3].slice(),
-                                aesTables[1][4].slice(), 
-                            ], 
+                                aesTables[1][4].slice()
+                            ]
                         ];
                         var i, j, tmp, sbox = this._tables[0][4], decTable = this._tables[1], keyLen = key.length, rcon = 1;
                         if (4 !== keyLen && 6 !== keyLen && 8 !== keyLen) throw Error("Invalid aes key size");
@@ -13435,7 +13435,7 @@
                             ntoh(encrypted32[i - 4]),
                             ntoh(encrypted32[i - 3]),
                             ntoh(encrypted32[i - 2]),
-                            ntoh(encrypted32[i - 1]), 
+                            ntoh(encrypted32[i - 1])
                         ]), this.asyncStream_.push(this.decryptChunk_(encrypted32.subarray(i, i + step), key, initVector, decrypted));
                         this.asyncStream_.push(function() {
                             done(null, decrypted.subarray(0, decrypted.byteLength - decrypted[decrypted.byteLength - 1]));
@@ -13452,7 +13452,7 @@
                             get: function() {
                                 return 32000;
                             }
-                        }, 
+                        }
                     ]), Decrypter;
                 }(), createTransferableMessage = function(message) {
                     var transferable = {};
@@ -13766,7 +13766,7 @@
                 "mediaRequestsErrored",
                 "mediaTransferDuration",
                 "mediaBytesTransferred",
-                "mediaAppends", 
+                "mediaAppends"
             ], sumLoaderStat = function(stat) {
                 return this.audioSegmentLoader_[stat] + this.mainSegmentLoader_[stat];
             }, shouldSwitchToMedia = function(_ref) {
@@ -14185,7 +14185,7 @@
                         "pause"
                     ]), nextPlaylist.attributes.SUBTITLES !== currentPlaylist.attributes.SUBTITLES && this.delegateLoaders_("subtitle", [
                         "abort",
-                        "pause", 
+                        "pause"
                     ]), this.delegateLoaders_("main", [
                         "abort",
                         "pause"
@@ -14235,8 +14235,8 @@
                                 0 !== mainSeekable.length && (!this.mediaTypes_.AUDIO.activePlaylistLoader || (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null !== (expired = this.syncController_.getExpiredTime(media, this.duration())) && 0 !== (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length)) && (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
                                     [
                                         audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
-                                        audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0), 
-                                    ], 
+                                        audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0)
+                                    ]
                                 ]) : this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart || (this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged")));
                             }
                         }
@@ -14408,7 +14408,7 @@
                 "seeked",
                 "pause",
                 "playing",
-                "error", 
+                "error"
             ], PlaybackWatcher = function() {
                 function PlaybackWatcher(options) {
                     var _this = this;
@@ -14720,7 +14720,7 @@
                     }));
                 }), Promise.race([
                     Promise.all(initializationFinishedPromises),
-                    Promise.race(keySessionCreatedPromises), 
+                    Promise.race(keySessionCreatedPromises)
                 ]);
             }, setupEmeOptions = function(_ref2) {
                 var player = _ref2.player, sourceOptions = emeKeySystems(_ref2.sourceKeySystems, _ref2.media, _ref2.audioMedia);
@@ -14755,7 +14755,7 @@
                     "application/x-mpegurl",
                     "video/x-mpegurl",
                     "video/mpegurl",
-                    "application/mpegurl", 
+                    "application/mpegurl"
                 ].some(function(canItPlay) {
                     return /maybe|probably/i.test(video.canPlayType(canItPlay));
                 });
@@ -14798,7 +14798,7 @@
                         "fullscreenchange",
                         "webkitfullscreenchange",
                         "mozfullscreenchange",
-                        "MSFullscreenChange", 
+                        "MSFullscreenChange"
                     ], function(event) {
                         var fullscreenElement = global_document__WEBPACK_IMPORTED_MODULE_1___default().fullscreenElement || global_document__WEBPACK_IMPORTED_MODULE_1___default().webkitFullscreenElement || global_document__WEBPACK_IMPORTED_MODULE_1___default().mozFullScreenElement || global_document__WEBPACK_IMPORTED_MODULE_1___default().msFullscreenElement;
                         fullscreenElement && fullscreenElement.contains(_this.tech_.el()) ? _this.masterPlaylistController_.fastQualityChange_() : _this.masterPlaylistController_.checkABR_();
@@ -14849,7 +14849,7 @@
                         "experimentalLLHLS",
                         "useNetworkInformationApi",
                         "experimentalExactManifestTimings",
-                        "experimentalLeastPixelDiffSelector", 
+                        "experimentalLeastPixelDiffSelector"
                     ].forEach(function(option) {
                         void 0 !== _this2.source_[option] && (_this2.options_[option] = _this2.source_[option]);
                     }), this.limitRenditionByPlayerDimensions = this.options_.limitRenditionByPlayerDimensions, this.useDevicePixelRatio = this.options_.useDevicePixelRatio;
@@ -15190,5 +15190,5 @@
                 configurable: !0
             }), videojs.use || (videojs.registerComponent("Hls", Vhs), videojs.registerComponent("Vhs", Vhs)), videojs.options.vhs = videojs.options.vhs || {}, videojs.options.hls = videojs.options.hls || {}, videojs.getPlugin && videojs.getPlugin("reloadSourceOnError") || (videojs.registerPlugin || videojs.plugin)("reloadSourceOnError", reloadSourceOnError), __webpack_exports__.Z = videojs;
         }
-    }, 
+    }
 ]);

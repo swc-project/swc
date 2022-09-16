@@ -30,7 +30,7 @@ var a3 = [
     ...a0
 ];
 var a4 = [
-    ()=>1, 
+    ()=>1
 ];
 var a5 = [
     ...a0,
@@ -98,7 +98,7 @@ var temp2 = [
 var d0 = [
     1,
     true,
-    ...temp, 
+    ...temp
 ]; // has type (string|number|boolean)[]
 var d1 = [
     ...temp

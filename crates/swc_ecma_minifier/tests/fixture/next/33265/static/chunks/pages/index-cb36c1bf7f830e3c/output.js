@@ -54,7 +54,7 @@
                 BigInt("0x10000000000"),
                 BigInt("0x1000000000000"),
                 BigInt("0x100000000000000"),
-                BigInt("0x10000000000000000"), 
+                BigInt("0x10000000000000000")
             ];
             a = new Uint16Array([
                 0xffcc
@@ -242,7 +242,7 @@
                 0x48,
                 0x65,
                 0x61,
-                0x64, 
+                0x64
             ]);
             var normalizePath = function(path) {
                 return "string" == typeof path ? (0, byte_helpers.qX)(path) : path;
@@ -315,7 +315,7 @@
                             bytes: bytes
                         };
                     }
-                }, 
+                }
             ];
             var findBox = function findBox(bytes, paths, complete) {
                 void 0 === complete && (complete = !1), paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
@@ -342,7 +342,7 @@
                     0x1a,
                     0x45,
                     0xdf,
-                    0xa3, 
+                    0xa3
                 ]),
                 DocType: (0, byte_helpers.Ki)([
                     0x42,
@@ -352,19 +352,19 @@
                     0x18,
                     0x53,
                     0x80,
-                    0x67, 
+                    0x67
                 ]),
                 SegmentInfo: (0, byte_helpers.Ki)([
                     0x15,
                     0x49,
                     0xa9,
-                    0x66, 
+                    0x66
                 ]),
                 Tracks: (0, byte_helpers.Ki)([
                     0x16,
                     0x54,
                     0xae,
-                    0x6b, 
+                    0x6b
                 ]),
                 Track: (0, byte_helpers.Ki)([
                     0xae
@@ -375,7 +375,7 @@
                 DefaultDuration: (0, byte_helpers.Ki)([
                     0x23,
                     0xe3,
-                    0x83, 
+                    0x83
                 ]),
                 TrackEntry: (0, byte_helpers.Ki)([
                     0xae
@@ -403,7 +403,7 @@
                     0x1f,
                     0x43,
                     0xb6,
-                    0x75, 
+                    0x75
                 ]),
                 Timestamp: (0, byte_helpers.Ki)([
                     0xe7
@@ -411,7 +411,7 @@
                 TimestampScale: (0, byte_helpers.Ki)([
                     0x2a,
                     0xd7,
-                    0xb1, 
+                    0xb1
                 ]),
                 BlockGroup: (0, byte_helpers.Ki)([
                     0xa0
@@ -476,15 +476,15 @@
                 0x00,
                 0x00,
                 0x00,
-                0x01, 
+                0x01
             ]), NAL_TYPE_TWO = (0, byte_helpers.Ki)([
                 0x00,
                 0x00,
-                0x01, 
+                0x01
             ]), EMULATION_PREVENTION = (0, byte_helpers.Ki)([
                 0x00,
                 0x00,
-                0x03, 
+                0x03
             ]), discardEmulationPreventionBytes = function(bytes) {
                 for(var positions = [], i = 1; i < bytes.length - 2;)(0, byte_helpers.G3)(bytes.subarray(i, i + 3), EMULATION_PREVENTION) && (positions.push(i + 2), i++), i++;
                 if (0 === positions.length) return bytes;
@@ -509,7 +509,7 @@
                     0x77,
                     0x65,
                     0x62,
-                    0x6d, 
+                    0x6d
                 ]),
                 matroska: (0, byte_helpers.Ki)([
                     0x6d,
@@ -519,19 +519,19 @@
                     0x6f,
                     0x73,
                     0x6b,
-                    0x61, 
+                    0x61
                 ]),
                 flac: (0, byte_helpers.Ki)([
                     0x66,
                     0x4c,
                     0x61,
-                    0x43, 
+                    0x43
                 ]),
                 ogg: (0, byte_helpers.Ki)([
                     0x4f,
                     0x67,
                     0x67,
-                    0x53, 
+                    0x53
                 ]),
                 ac3: (0, byte_helpers.Ki)([
                     0x0b,
@@ -541,7 +541,7 @@
                     0x52,
                     0x49,
                     0x46,
-                    0x46, 
+                    0x46
                 ]),
                 avi: (0, byte_helpers.Ki)([
                     0x41,
@@ -552,7 +552,7 @@
                     0x57,
                     0x41,
                     0x56,
-                    0x45, 
+                    0x45
                 ]),
                 "3gp": (0, byte_helpers.Ki)([
                     0x66,
@@ -560,19 +560,19 @@
                     0x79,
                     0x70,
                     0x33,
-                    0x67, 
+                    0x67
                 ]),
                 mp4: (0, byte_helpers.Ki)([
                     0x66,
                     0x74,
                     0x79,
-                    0x70, 
+                    0x70
                 ]),
                 fmp4: (0, byte_helpers.Ki)([
                     0x73,
                     0x74,
                     0x79,
-                    0x70, 
+                    0x70
                 ]),
                 mov: (0, byte_helpers.Ki)([
                     0x66,
@@ -580,19 +580,19 @@
                     0x79,
                     0x70,
                     0x71,
-                    0x74, 
+                    0x74
                 ]),
                 moov: (0, byte_helpers.Ki)([
                     0x6d,
                     0x6f,
                     0x6f,
-                    0x76, 
+                    0x76
                 ]),
                 moof: (0, byte_helpers.Ki)([
                     0x6d,
                     0x6f,
                     0x6f,
-                    0x66, 
+                    0x66
                 ])
             }, _isLikely = {
                 aac: function(bytes) {
@@ -624,14 +624,14 @@
                 webm: function(bytes) {
                     var docType = findEbml(bytes, [
                         EBML_TAGS.EBML,
-                        EBML_TAGS.DocType, 
+                        EBML_TAGS.DocType
                     ])[0];
                     return (0, byte_helpers.G3)(docType, CONSTANTS.webm);
                 },
                 mkv: function(bytes) {
                     var docType = findEbml(bytes, [
                         EBML_TAGS.EBML,
-                        EBML_TAGS.DocType, 
+                        EBML_TAGS.DocType
                     ])[0];
                     return (0, byte_helpers.G3)(docType, CONSTANTS.matroska);
                 },
@@ -747,7 +747,7 @@
             var _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(562), ID3 = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__.Ki)([
                 0x49,
                 0x44,
-                0x33, 
+                0x33
             ]), getId3Size = function(bytes, offset) {
                 void 0 === offset && (offset = 0);
                 var flags = (bytes = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__.Ki)(bytes))[offset + 5], returnSize = bytes[offset + 6] << 21 | bytes[offset + 7] << 14 | bytes[offset + 8] << 7 | bytes[offset + 9];
@@ -2590,7 +2590,7 @@
                                 }).attributes = parseAttributes(match[1]), [
                                     "CAN-SKIP-UNTIL",
                                     "PART-HOLD-BACK",
-                                    "HOLD-BACK", 
+                                    "HOLD-BACK"
                                 ].forEach(function(key) {
                                     event.attributes.hasOwnProperty(key) && (event.attributes[key] = parseFloat(event.attributes[key]));
                                 }), [
@@ -2760,7 +2760,7 @@
                                             if (-1 === [
                                                 "SAMPLE-AES",
                                                 "SAMPLE-AES-CTR",
-                                                "SAMPLE-AES-CENC", 
+                                                "SAMPLE-AES-CENC"
                                             ].indexOf(entry.attributes.METHOD)) {
                                                 this.trigger("warn", {
                                                     message: "invalid key method provided for Widevine"
@@ -2931,7 +2931,7 @@
                                         this.manifest.renditionReports = this.manifest.renditionReports || [], this.manifest.renditionReports.push(report);
                                         var index = this.manifest.renditionReports.length - 1, required = [
                                             "LAST-MSN",
-                                            "URI", 
+                                            "URI"
                                         ];
                                         hasParts && required.push("LAST-PART"), this.warnOnMissingAttributes_("#EXT-X-RENDITION-REPORT #" + index, entry.attributes, required);
                                     },
@@ -3154,7 +3154,7 @@
                         resolvedUri: attributes.baseUrl || "",
                         duration: attributes.sourceDuration,
                         number: 0
-                    }, 
+                    }
                 ], attributes.duration = attributes.sourceDuration);
                 var m3u8Attributes = ((_m3u8Attributes = {
                     NAME: attributes.id,
@@ -3300,7 +3300,7 @@
                         duration: attributes.sourceDuration,
                         time: 0,
                         timeline: attributes.periodIndex
-                    }, 
+                    }
                 ]).map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
                     var uri = constructTemplateUrl(attributes.media || "", templateValues), timescale = attributes.timescale || 1, presentationTimeOffset = attributes.presentationTimeOffset || 0, presentationTime = attributes.periodStart + (segment.time - presentationTimeOffset) / timescale;
@@ -3656,7 +3656,7 @@
                 "/",
                 function() {
                     return __webpack_require__(4816);
-                }, 
+                }
             ]);
         },
         4816: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -3718,7 +3718,7 @@
                                     {
                                         src: "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
                                         type: "application/x-mpegurl"
-                                    }, 
+                                    }
                                 ]
                             },
                             onReady: handlePlayerReady
@@ -3889,14 +3889,14 @@
                                 ]), 2 === vals.length && settings.alt("lineAlign", vals[1], [
                                     "start",
                                     "center",
-                                    "end", 
+                                    "end"
                                 ]);
                                 break;
                             case "position":
                                 vals = v.split(","), settings.percent(k, vals[0]), 2 === vals.length && settings.alt("positionAlign", vals[1], [
                                     "start",
                                     "center",
-                                    "end", 
+                                    "end"
                                 ]);
                                 break;
                             case "size":
@@ -3908,7 +3908,7 @@
                                     "center",
                                     "end",
                                     "left",
-                                    "right", 
+                                    "right"
                                 ]);
                         }
                     }, /:/, /\s/), cue.region = settings.get("region", null), cue.vertical = settings.get("vertical", "");
@@ -4467,7 +4467,7 @@
                 [
                     0x10fffd,
                     0x10fffd
-                ], 
+                ]
             ];
             function isStrongRTLChar(charCode) {
                 for(var i = 0; i < strongRTLRanges.length; i++){
@@ -5856,5 +5856,5 @@
         ], function() {
             return __webpack_require__(__webpack_require__.s = 8581);
         }), _N_E = __webpack_require__.O();
-    }, 
+    }
 ]);
