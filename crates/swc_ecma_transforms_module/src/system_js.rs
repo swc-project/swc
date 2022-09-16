@@ -456,7 +456,7 @@ impl SystemJs {
                         .push(Ident::new(to.0, DUMMY_SP.with_ctxt(to.1)));
                 }
 
-                VarDeclOrPat::Pat(var_declarator.name)
+                VarDeclOrPat::Pat(var_declarator.name.into())
             } else {
                 VarDeclOrPat::VarDecl(var_decl)
             }
@@ -835,7 +835,7 @@ impl Fold for SystemJs {
                             Decl::Var(var_decl) => {
                                 let mut decl = VarDecl {
                                     decls: vec![],
-                                    ..var_decl
+                                    ..*var_decl
                                 };
                                 for var_declarator in var_decl.decls {
                                     let mut tos: Vec<Id> = vec![];
@@ -983,25 +983,22 @@ impl Fold for SystemJs {
                 .elems
                 .push(Some(quote_str!(meta.src.clone()).as_arg()));
             setters.elems.push(Some(
-                FnExpr {
-                    ident: None,
-                    function: Function {
-                        params: vec![Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: quote_ident!(local_name_for_src(&meta.src)).into(),
-                        }],
-                        decorators: Default::default(),
+                Function {
+                    params: vec![Param {
                         span: DUMMY_SP,
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: self.build_module_item_export_all(meta),
-                        }),
-                        is_generator: false,
-                        is_async: false,
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    },
+                        decorators: Default::default(),
+                        pat: quote_ident!(local_name_for_src(&meta.src)).into(),
+                    }],
+                    decorators: Default::default(),
+                    span: DUMMY_SP,
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: self.build_module_item_export_all(meta),
+                    }),
+                    is_generator: false,
+                    is_async: false,
+                    type_params: Default::default(),
+                    return_type: Default::default(),
                 }
                 .as_arg(),
             ));
