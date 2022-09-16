@@ -528,7 +528,8 @@ impl Decorators {
 
                                             type_params: Default::default(),
                                             return_type: Default::default(),
-                                        },
+                                        }
+                                        .into(),
                                     }),
                                     _ => Prop::KeyValue(KeyValueProp {
                                         key: PropName::Ident(quote_ident!("value")),
