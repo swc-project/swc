@@ -717,7 +717,7 @@ impl Swcify for TaggedTemplateExpression {
         TaggedTpl {
             span: ctx.span(&self.base),
             tag: self.tag.swcify(ctx),
-            type_params: self.type_parameters.swcify(ctx),
+            type_params: self.type_parameters.swcify(ctx).map(From::from),
             tpl: self.quasi.swcify(ctx),
         }
     }
@@ -817,7 +817,7 @@ impl Swcify for OptionalCallExpression {
                 span: ctx.span(&self.base),
                 callee: self.callee.swcify(ctx),
                 args: self.arguments.swcify(ctx).into_iter().flatten().collect(),
-                type_args: self.type_parameters.swcify(ctx),
+                type_args: self.type_parameters.swcify(ctx).map(From::from),
             }),
         }
     }

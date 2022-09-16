@@ -73,18 +73,18 @@ impl VisitMut for ModuleDeclStrip {
                                 class_expr
                                     .as_class_decl()
                                     .map(|decl| Stmt::Decl(Decl::Class(decl)))
-                                    .map(Into::into),
+                                    .map(From::from),
                             ),
                             DefaultDecl::Fn(fn_expr) => list.extend(
                                 fn_expr
                                     .as_fn_decl()
                                     .map(|decl| Stmt::Decl(Decl::Fn(decl)))
-                                    .map(Into::into),
+                                    .map(From::from),
                             ),
                             DefaultDecl::TsInterfaceDecl(_) => continue,
                         },
                         ModuleDecl::ExportDefaultExpr(..) => {
-                            list.extend(self.export_default.take().map(Into::into))
+                            list.extend(self.export_default.take().map(From::from))
                         }
                         ModuleDecl::ExportAll(..) => continue,
                         ModuleDecl::TsImportEquals(..) => continue,
@@ -112,7 +112,7 @@ impl VisitMut for ModuleDeclStrip {
             .entry(src.value)
             .or_default()
             .mut_dummy_span(src.span)
-            .extend(specifiers.into_iter().map(Into::into));
+            .extend(specifiers.into_iter().map(From::from));
     }
 
     /// ```javascript
@@ -167,7 +167,7 @@ impl VisitMut for ModuleDeclStrip {
                 .entry(src.value)
                 .or_default()
                 .mut_dummy_span(src.span)
-                .extend(specifiers.into_iter().map(Into::into));
+                .extend(specifiers.into_iter().map(From::from));
         } else {
             self.export.extend(specifiers.into_iter().map(|e| match e {
                 ExportSpecifier::Namespace(..) => {

@@ -680,7 +680,7 @@ fn extend_super(
                 ]
                 .into_iter()
                 .map(Box::new)
-                .map(Into::into)
+                .map(From::from)
                 .collect(),
             }))),
             definite: false,
@@ -736,7 +736,7 @@ fn extend_super(
                     ]
                     .into_iter()
                     .map(Box::new)
-                    .map(Into::into)
+                    .map(From::from)
                     .collect(),
                 }))),
                 is_async: false,

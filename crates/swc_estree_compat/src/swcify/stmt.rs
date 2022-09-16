@@ -62,7 +62,7 @@ impl Swcify for Statement {
             Statement::Switch(v) => v.swcify(ctx).into(),
             Statement::Throw(v) => v.swcify(ctx).into(),
             Statement::Try(v) => v.swcify(ctx).into(),
-            Statement::VarDecl(v) => v.swcify(ctx),
+            Statement::VarDecl(v) => v.swcify(ctx).into(),
             Statement::While(v) => v.swcify(ctx).into(),
             Statement::With(v) => v.swcify(ctx).into(),
             Statement::ClassDecl(v) => Decl::Class(v.swcify(ctx)).into(),

@@ -27,7 +27,7 @@ impl<T> FunctionWrapper<T> {
     {
         params_iter
             .into_iter()
-            .map(Into::into)
+            .map(From::from)
             .map_while(|param| match param.pat {
                 Pat::Ident(..) => Some(param.clone()),
                 Pat::Array(..) | Pat::Object(..) => Some(Param {
@@ -308,7 +308,7 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
 
         let function = Box::new(Function {
             span,
-            params: params.into_iter().map(Into::into).collect(),
+            params: params.into_iter().map(From::from).collect(),
             decorators: Default::default(),
             body,
             type_params: None,

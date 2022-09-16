@@ -146,7 +146,7 @@ where
                 export,
                 is_export_assign,
             )
-            .map(Into::into),
+            .map(From::from),
         );
 
         stmts.extend(n.take().into_iter().filter(|item| match item {
@@ -258,7 +258,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export.into_iter().map(Into::into).collect();
+        let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
 
         let lexer_reexport = if is_node {
             self.emit_lexer_ts_reexport(&link)

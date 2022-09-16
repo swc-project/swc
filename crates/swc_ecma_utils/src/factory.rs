@@ -120,7 +120,7 @@ pub trait ExprFactory: Into<Expr> {
         if support_arrow {
             self.into_lazy_arrow(params).into()
         } else {
-            self.into_lazy_fn(params.into_iter().map(Into::into).collect())
+            self.into_lazy_fn(params.into_iter().map(From::from).collect())
                 .into_fn_expr(None)
                 .into()
         }

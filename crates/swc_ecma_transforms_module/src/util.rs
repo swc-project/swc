@@ -322,7 +322,7 @@ pub(crate) fn emit_export_stmts(
             let props = prop_list
                 .into_iter()
                 .map(prop_auto)
-                .map(Into::into)
+                .map(From::from)
                 .collect();
             let obj_lit = ObjectLit {
                 span: DUMMY_SP,

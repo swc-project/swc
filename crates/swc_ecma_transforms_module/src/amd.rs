@@ -169,7 +169,7 @@ where
 
         stmts.extend(
             self.handle_import_export(&mut import_map, link, export, is_export_assign)
-                .map(Into::into),
+                .map(From::from),
         );
 
         stmts.extend(n.take().into_iter().filter_map(|item| match item {
@@ -338,7 +338,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export.into_iter().map(Into::into).collect();
+        let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
