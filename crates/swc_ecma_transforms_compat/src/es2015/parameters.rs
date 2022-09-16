@@ -696,7 +696,7 @@ impl VisitMut for Params {
         let mut params = vec![Param {
             span: DUMMY_SP,
             decorators: Default::default(),
-            pat: f.param.take(),
+            pat: *f.param.take(),
         }];
 
         let mut body = f.body.take().unwrap();
@@ -704,7 +704,7 @@ impl VisitMut for Params {
 
         debug_assert!(params.len() == 1);
 
-        f.param = params.pop().unwrap().pat;
+        f.param = Box::new(params.pop().unwrap().pat);
         f.body = Some(body);
     }
 

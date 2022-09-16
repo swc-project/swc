@@ -202,12 +202,15 @@ impl Spread {
         if !self.vars.is_empty() {
             prepend_stmt(
                 items,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: self.vars.take(),
-                }))),
+                T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: self.vars.take(),
+                    }
+                    .into(),
+                ),
             );
         }
 
