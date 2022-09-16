@@ -847,7 +847,7 @@ impl Fold for SystemJs {
                                     }
                                     decl.decls.push(var_declarator);
                                 }
-                                execute_stmts.push(Stmt::Decl(Decl::Var(decl)));
+                                execute_stmts.push(decl.into());
                             }
                             _ => {}
                         };
@@ -1004,7 +1004,7 @@ impl Fold for SystemJs {
             ));
         }
 
-        let execute = Function {
+        let execute = Box::new(Function {
             params: vec![],
             decorators: Default::default(),
             span: DUMMY_SP,
@@ -1016,7 +1016,7 @@ impl Fold for SystemJs {
             is_async: self.tla,
             type_params: Default::default(),
             return_type: Default::default(),
-        };
+        });
 
         let return_stmt = ReturnStmt {
             span: DUMMY_SP,
@@ -1041,24 +1041,27 @@ impl Fold for SystemJs {
         let mut function_stmts = vec![use_strict()];
 
         if !self.declare_var_idents.is_empty() {
-            function_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: self
-                    .declare_var_idents
-                    .iter()
-                    .map(|i| VarDeclarator {
-                        span: i.span,
-                        name: Pat::Ident(BindingIdent {
-                            id: i.clone(),
-                            type_ann: None,
-                        }),
-                        init: None,
-                        definite: false,
-                    })
-                    .collect(),
-            })));
+            function_stmts.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self
+                        .declare_var_idents
+                        .iter()
+                        .map(|i| VarDeclarator {
+                            span: i.span,
+                            name: Pat::Ident(BindingIdent {
+                                id: i.clone(),
+                                type_ann: None,
+                            }),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                }
+                .into(),
+            );
         }
         function_stmts.append(&mut before_body_stmts);
         function_stmts.push(return_stmt.into());
