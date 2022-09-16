@@ -4518,6 +4518,7 @@ where
                                         | &js_word!("tfoot")
                                         | &js_word!("thead")
                                         | &js_word!("tr")
+                                        | &js_word!("template")
                                 ) =>
                             {
                                 true

@@ -16,6 +16,9 @@
 
 - **(es/minifier)** Fix unicode handling (#5875) ([c3fa96b](https://github.com/swc-project/swc/commit/c3fa96b21b1545be62fdfd359ca5762a1bd4a473))
 
+
+- **(html/parser)** Reflect the fix for a bug in spec (#5779) ([57e9f9c](https://github.com/swc-project/swc/commit/57e9f9c88ed4c8f29a26e500fd1f00cb1befab9f))
+
 ### Features
 
 
