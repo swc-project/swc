@@ -935,26 +935,24 @@ where
         module_name: &Ident,
         private_name: &Ident,
     ) -> Option<(Option<VarDecl>, Stmt)> {
-        let init_fn_expr = FnExpr {
-            ident: None,
-            function: Function {
-                params: vec![Param {
-                    span: DUMMY_SP,
-                    decorators: Default::default(),
-                    pat: private_name.clone().into(),
-                }],
-                decorators: Default::default(),
+        let init_fn_expr = Function {
+            params: vec![Param {
                 span: DUMMY_SP,
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: body_stmts,
-                }),
-                is_generator: false,
-                is_async: false,
-                type_params: Default::default(),
-                return_type: Default::default(),
-            },
-        };
+                decorators: Default::default(),
+                pat: private_name.clone().into(),
+            }],
+            decorators: Default::default(),
+            span: DUMMY_SP,
+            body: Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: body_stmts,
+            }),
+            is_generator: false,
+            is_async: false,
+            type_params: Default::default(),
+            return_type: Default::default(),
+        }
+        .into();
 
         let initializer = Box::new(Expr::Call(CallExpr {
             span: DUMMY_SP,
@@ -2184,7 +2182,7 @@ where
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl:
                         Decl::Fn(FnDecl {
-                            function: Function { body: None, .. },
+                            function: box Function { body: None, .. },
                             ..
                         }),
                     ..
@@ -2192,7 +2190,7 @@ where
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl:
                         DefaultDecl::Fn(FnExpr {
-                            function: Function { body: None, .. },
+                            function: box Function { body: None, .. },
                             ..
                         }),
                     ..
