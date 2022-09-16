@@ -110,24 +110,24 @@ impl ClassExtra {
     fn merge_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>, class: T) {
         if !self.vars.is_empty() {
             stmts.push(
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     declare: false,
-                }))
+                })
                 .into(),
             )
         }
 
         if !self.lets.is_empty() {
             stmts.push(
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     declare: false,
-                }))
+                })
                 .into(),
             )
         }
@@ -425,7 +425,7 @@ impl<C: Comments> ClassProperties<C> {
     fn visit_mut_class_as_decl(
         &mut self,
         class_ident: Ident,
-        mut class: Class,
+        mut class: Box<Class>,
     ) -> (ClassDecl, ClassExtra) {
         // Create one mark per class
         let private = Private {
