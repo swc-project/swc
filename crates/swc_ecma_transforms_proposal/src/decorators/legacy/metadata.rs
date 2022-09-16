@@ -491,7 +491,7 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
     }
 }
 
-fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
+fn get_type_ann_of_pat(p: &Pat) -> Option<&Box<TsTypeAnn>> {
     match p {
         Pat::Ident(p) => &p.type_ann,
         Pat::Array(p) => &p.type_ann,
