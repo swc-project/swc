@@ -4,7 +4,7 @@ set -eu
 git pull || true
 
 yarn changelog
-cargo mono bump -D swc_atoms
+cargo mono bump -i
 # Ensure that Cargo.lock is up-to-date
 cargo metadata --format-version 1 > /dev/null
 
