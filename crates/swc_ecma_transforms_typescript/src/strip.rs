@@ -884,7 +884,7 @@ where
                     var.kind = VarDeclKind::Var;
                 }
             }
-            (var.map(Decl::Var), stmt)
+            (var.map(Decl::from), stmt)
         })
     }
 
@@ -921,7 +921,7 @@ where
             &private_name,
         )?;
         let mut stmts = Vec::new();
-        stmts.extend(var_decl.map(Decl::Var).map(Stmt::Decl));
+        stmts.extend(var_decl.map(Stmt::from));
         stmts.push(init_stmt);
         Some(stmts)
     }
@@ -935,7 +935,7 @@ where
         module_name: &Ident,
         private_name: &Ident,
     ) -> Option<(Option<VarDecl>, Stmt)> {
-        let init_fn_expr = Function {
+        let init_fn_expr: FnExpr = Function {
             params: vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
@@ -1055,7 +1055,7 @@ where
 
                 // Strip out ts-only extensions
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                    function: Function { body: None, .. },
+                    function: box Function { body: None, .. },
                     ..
                 })))
                 | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
@@ -1071,7 +1071,7 @@ where
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl:
                         Decl::Fn(FnDecl {
-                            function: Function { body: None, .. },
+                            function: box Function { body: None, .. },
                             ..
                         }),
                     ..
@@ -1079,7 +1079,7 @@ where
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl:
                         DefaultDecl::Fn(FnExpr {
-                            function: Function { body: None, .. },
+                            function: box Function { body: None, .. },
                             ..
                         }),
                     ..
@@ -1094,15 +1094,15 @@ where
                     ..
                 }))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Var(VarDecl { declare: true, .. }),
+                    decl: Decl::Var(box VarDecl { declare: true, .. }),
                     ..
                 }))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsEnum(TsEnumDecl { declare: true, .. }),
+                    decl: Decl::TsEnum(box TsEnumDecl { declare: true, .. }),
                     ..
                 }))
                 | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. })))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl { declare: true, .. }))) => {
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(box VarDecl { declare: true, .. }))) => {
                     continue
                 }
 
@@ -1116,12 +1116,12 @@ where
                     ..
                 }))
                 | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
-                    TsImportEqualsDecl {
+                    box TsImportEqualsDecl {
                         is_type_only: true,
                         module_ref: TsModuleRef::TsExternalModuleRef(..),
                         ..
                     }
-                    | TsImportEqualsDecl {
+                    | box TsImportEqualsDecl {
                         declare: true,
                         module_ref: TsModuleRef::TsExternalModuleRef(..),
                         ..
@@ -1180,7 +1180,7 @@ where
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
-                    import @ TsImportEqualsDecl {
+                    import @ box TsImportEqualsDecl {
                         module_ref: TsModuleRef::TsEntityName(..),
                         declare: false,
                         ..
@@ -1196,7 +1196,7 @@ where
                     // when `bar.baz` is not defined, even if `foo` goes unused. We can't currently
                     // identify that case so we strip it anyway.
                     if !import.is_type_only && (has_concrete || import.is_export) {
-                        let var = Decl::Var(VarDecl {
+                        let var = VarDecl {
                             span: import.span,
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
@@ -1206,7 +1206,8 @@ where
                                 definite: false,
                             }],
                             declare: false,
-                        });
+                        }
+                        .into();
                         if import.is_export {
                             if let Some(parent_module_name) = parent_module_name {
                                 stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
