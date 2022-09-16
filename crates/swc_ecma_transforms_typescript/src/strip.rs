@@ -841,7 +841,7 @@ where
     /// Returns `(var_decl, init)`.
     fn handle_ts_module(
         &mut self,
-        module: TsModuleDecl,
+        module: Box<TsModuleDecl>,
         parent_module_name: Option<&Ident>,
     ) -> Option<(Option<Decl>, Stmt)> {
         if module.global || module.declare {
@@ -2483,12 +2483,13 @@ where
         if !self.uninitialized_vars.is_empty() {
             prepend_stmt(
                 &mut n.body,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: take(&mut self.uninitialized_vars),
                     declare: false,
-                })),
+                }
+                .into(),
             );
         }
     }
@@ -2500,7 +2501,7 @@ where
             match decl {
                 Decl::TsInterface(..)
                 | Decl::TsTypeAlias(..)
-                | Decl::Var(VarDecl { declare: true, .. })
+                | Decl::Var(box VarDecl { declare: true, .. })
                 | Decl::Class(ClassDecl { declare: true, .. })
                 | Decl::Fn(FnDecl { declare: true, .. }) => {
                     *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
