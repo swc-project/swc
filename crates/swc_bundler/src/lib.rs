@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 #![allow(unstable_name_collisions)]
+#![feature(box_patterns)]
 
 pub use self::{
     bundler::{Bundle, BundleKind, Bundler, Config, ModuleType},

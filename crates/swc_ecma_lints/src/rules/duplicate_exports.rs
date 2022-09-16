@@ -90,7 +90,7 @@ impl Visit for DuplicateExports {
         if matches!(
             d.decl,
             DefaultDecl::Fn(FnExpr {
-                function: Function { body: None, .. },
+                function: box Function { body: None, .. },
                 ..
             }) | DefaultDecl::TsInterfaceDecl(..)
         ) {
@@ -108,7 +108,7 @@ impl Visit for DuplicateExports {
         if matches!(
             &*d.expr,
             Expr::Fn(FnExpr {
-                function: Function { body: None, .. },
+                function: box Function { body: None, .. },
                 ..
             })
         ) {

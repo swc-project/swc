@@ -405,7 +405,7 @@ where
         module_map: &mut ImportMap,
         has_ts_import_equals: &mut bool,
     ) -> ModuleItem {
-        if let ModuleDecl::TsImportEquals(TsImportEqualsDecl {
+        if let ModuleDecl::TsImportEquals(box TsImportEqualsDecl {
             span,
             declare: false,
             is_export,

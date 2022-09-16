@@ -346,7 +346,7 @@ where
                 for (_, stmt) in entry.iter_mut() {
                     let var = match stmt {
                         ModuleItem::Stmt(Stmt::Decl(Decl::Var(
-                            var @ VarDecl {
+                            var @ box VarDecl {
                                 kind: VarDeclKind::Const,
                                 ..
                             },

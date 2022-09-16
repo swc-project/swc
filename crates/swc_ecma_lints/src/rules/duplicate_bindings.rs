@@ -110,7 +110,7 @@ impl DuplicateBindings {
             self.visit_with_stmt_like(s, |s| {
                 if let Stmt::Decl(Decl::Fn(FnDecl {
                     ident,
-                    function: Function { body: Some(_), .. },
+                    function: box Function { body: Some(_), .. },
                     ..
                 })) = s
                 {
@@ -311,7 +311,7 @@ impl Visit for DuplicateBindings {
         self.visit_with_stmt_like(&m.body, |s| {
             if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
                 ident,
-                function: Function { body: Some(_), .. },
+                function: box Function { body: Some(_), .. },
                 ..
             })))
             | ModuleItem::ModuleDecl(
@@ -319,7 +319,7 @@ impl Visit for DuplicateBindings {
                     decl:
                         Decl::Fn(FnDecl {
                             ident,
-                            function: Function { body: Some(_), .. },
+                            function: box Function { body: Some(_), .. },
                             ..
                         }),
                     ..
@@ -328,7 +328,7 @@ impl Visit for DuplicateBindings {
                     decl:
                         DefaultDecl::Fn(FnExpr {
                             ident: Some(ident),
-                            function: Function { body: Some(..), .. },
+                            function: box Function { body: Some(..), .. },
                         }),
                     ..
                 }),
