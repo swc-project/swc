@@ -49,6 +49,9 @@
 
 - **(html)** Reduce memory usage (#5867) ([7f62fa6](https://github.com/swc-project/swc/commit/7f62fa62277621bc0787eca1e5e0df9dd575b5cd))
 
+
+- **(html/parser)** Improve performance (#5884) ([5645e81](https://github.com/swc-project/swc/commit/5645e810df36e7954dc1249634e1a92e34f8172c))
+
 ### Refactor
 
 
