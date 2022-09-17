@@ -1,5 +1,4 @@
 #![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
-
 use std::{
     env, fs,
     path::{Path, PathBuf},
@@ -19,6 +18,7 @@ use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, 
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax, TsConfig};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_plugin_runner::cache::PluginModuleCache;
+use tracing::info;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -92,6 +92,8 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         .into_iter()
         .collect();
 
+        info!("Creating cache");
+
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
             &path,
@@ -106,10 +108,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         )
         .expect("Should load plugin");
 
-        assert!(!plugin_transform_executor
-            .plugin_core_diag
-            .pkg_version
-            .is_empty());
+        info!("Created transform executor");
 
         let program_bytes = plugin_transform_executor
             .transform(&program, Mark::new(), false)
