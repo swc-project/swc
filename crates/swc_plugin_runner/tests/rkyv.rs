@@ -147,7 +147,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
 
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
-        let _res = HANDLER.set(&handler, || {
+        let _res = HANDLER.set(&handler, || -> Result<_, ()> {
             let mut plugin_transform_executor =
                 swc_plugin_runner::create_plugin_transform_executor(
                     &path,
