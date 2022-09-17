@@ -72,7 +72,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let program = parse_file_as_program(
+        let parsed = parse_file_as_program(
             &fm,
             Syntax::Typescript(TsConfig {
                 tsx: input.to_string_lossy().ends_with(".tsx"),
@@ -84,7 +84,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
         let experimental_metadata: AHashMap<String, String> = [
             (
                 "TestExperimental".to_string(),
@@ -120,67 +120,17 @@ fn internal(input: PathBuf) -> Result<(), Error> {
             .deserialize()
             .expect("Should able to deserialize");
 
+        assert_eq!(parsed, program);
+
         Ok(())
     })
     .expect("Should able to run single plugin transform");
-
-    // run single plugin with handler
-    testing::run_test2(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
-
-        let program = parse_file_as_program(
-            &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            EsVersion::latest(),
-            None,
-            &mut vec![],
-        )
-        .unwrap();
-
-        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
-        let experimental_metadata: AHashMap<String, String> = [
-            (
-                "TestExperimental".to_string(),
-                "ExperimentalValue".to_string(),
-            ),
-            ("OtherTest".to_string(), "OtherVal".to_string()),
-        ]
-        .into_iter()
-        .collect();
-
-        let _res = HANDLER.set(&handler, || -> Result<_, ()> {
-            let mut plugin_transform_executor =
-                swc_plugin_runner::create_plugin_transform_executor(
-                    &path,
-                    &PLUGIN_MODULE_CACHE,
-                    &cm,
-                    &Arc::new(TransformPluginMetadataContext::new(
-                        None,
-                        "development".to_string(),
-                        Some(experimental_metadata),
-                    )),
-                    Some(json!({ "pluginConfig": "testValue" })),
-                )
-                .expect("Should load plugin");
-
-            plugin_transform_executor
-                .transform(&program, Mark::new(), false)
-                .expect("Plugin should apply transform");
-
-            Ok(())
-        });
-
-        Ok(())
-    })
-    .expect("Should able to run single plugin transform with handler");
 
     // Run multiple plugins.
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let program = parse_file_as_program(
+        let parsed = parse_file_as_program(
             &fm,
             Syntax::Es(EsConfig {
                 ..Default::default()
@@ -192,7 +142,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         .unwrap();
 
         let mut serialized_program =
-            PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
+            PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         let experimental_metadata: AHashMap<String, String> = [
@@ -243,6 +193,8 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         let program: Program = serialized_program
             .deserialize()
             .expect("Should able to deserialize");
+
+        assert_eq!(parsed, program);
 
         Ok(())
     })
