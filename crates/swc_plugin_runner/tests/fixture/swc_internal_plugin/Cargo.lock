@@ -64,7 +64,7 @@ checksum = "1485d4d2cc45e7b201ee3767015c96faa5904387c9d87c6efdd0fb511f12d305"
 
 [[package]]
 name = "ast_node"
-version = "0.8.3"
+version = "0.8.6"
 dependencies = [
  "darling",
  "pmutil",
@@ -1168,6 +1168,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "stable_deref_trait"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
+
+[[package]]
 name = "static_assertions"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1246,7 +1252,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.10"
+version = "0.4.15"
 dependencies = [
  "once_cell",
  "rkyv",
@@ -1254,11 +1260,12 @@ dependencies = [
  "serde",
  "string_cache",
  "string_cache_codegen",
+ "triomphe",
 ]
 
 [[package]]
 name = "swc_common"
-version = "0.27.15"
+version = "0.28.8"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1288,7 +1295,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.20.20"
+version = "0.23.29"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -1306,7 +1313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.90.19"
+version = "0.91.8"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -1322,7 +1329,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.123.4"
+version = "0.124.14"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -1350,7 +1357,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.118.9"
+version = "0.119.12"
 dependencies = [
  "either",
  "enum_kind",
@@ -1367,7 +1374,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.29.4"
+version = "0.30.12"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -1383,7 +1390,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "0.16.3"
+version = "0.17.14"
 dependencies = [
  "anyhow",
  "hex",
@@ -1397,7 +1404,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.106.7"
+version = "0.108.17"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -1417,7 +1424,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.108.4"
+version = "0.110.17"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -1439,7 +1446,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.101.5"
+version = "0.102.14"
 dependencies = [
  "indexmap",
  "num_cpus",
@@ -1454,7 +1461,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.76.9"
+version = "0.77.8"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -1476,7 +1483,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.11.6"
+version = "0.12.8"
 dependencies = [
  "anyhow",
  "miette",
@@ -1521,7 +1528,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.18.16"
+version = "0.19.10"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -1606,7 +1613,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.29.6"
+version = "0.30.8"
 dependencies = [
  "ansi_term",
  "difference",
@@ -1762,6 +1769,16 @@ dependencies = [
  "tracing",
  "tracing-core",
  "tracing-log",
+]
+
+[[package]]
+name = "triomphe"
+version = "0.1.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f1ee9bd9239c339d714d657fac840c6d2a4f9c45f4f9ec7b0975113458be78db"
+dependencies = [
+ "serde",
+ "stable_deref_trait",
 ]
 
 [[package]]

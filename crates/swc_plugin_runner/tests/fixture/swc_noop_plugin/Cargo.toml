@@ -2,7 +2,7 @@
 
 [package]
 edition = "2021"
-name    = "swc_internal_plugin"
+name    = "swc_noop_plugin"
 publish = false
 version = "0.1.0"
 
@@ -10,8 +10,5 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-serde = "1"
-swc_core = { path = "../../../../swc_core", features = [
-  "plugin_transform",
-  "ecma_quote",
-] }
+serde    = "1"
+swc_core = { path = "../../../../swc_core", features = ["plugin_transform"] }
