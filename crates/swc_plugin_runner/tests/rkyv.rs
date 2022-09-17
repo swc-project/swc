@@ -17,11 +17,12 @@ use swc_common::{
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax, TsConfig};
 use swc_ecma_visit::{Visit, VisitWith};
-use swc_plugin_runner::cache::PluginModuleCache;
+use swc_plugin_runner::cache::{init_plugin_module_cache_once, PluginModuleCache};
 use tracing::info;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
+    init_plugin_module_cache_once(&None);
     {
         let mut cmd = Command::new("cargo");
         cmd.current_dir(dir);
@@ -54,6 +55,8 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.tsx")]
 fn internal(input: PathBuf) -> Result<(), Error> {
+    use swc_plugin_runner::cache::PLUGIN_MODULE_CACHE;
+
     static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
         build_plugin(
             &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
@@ -94,10 +97,9 @@ fn internal(input: PathBuf) -> Result<(), Error> {
 
         info!("Creating cache");
 
-        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
             &path,
-            &cache,
+            &PLUGIN_MODULE_CACHE,
             &cm,
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
@@ -148,13 +150,11 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         .into_iter()
         .collect();
 
-        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
-
         let _res = HANDLER.set(&handler, || -> Result<_, ()> {
             let mut plugin_transform_executor =
                 swc_plugin_runner::create_plugin_transform_executor(
                     &path,
-                    &cache,
+                    &PLUGIN_MODULE_CACHE,
                     &cm,
                     &Arc::new(TransformPluginMetadataContext::new(
                         None,
