@@ -134,7 +134,7 @@ where
 
         let s: String = field.deserialize(deserializer)?;
 
-        Ok(s.parse().unwrap())
+        Ok(Box::new(s.parse().unwrap()))
     }
 }
 
