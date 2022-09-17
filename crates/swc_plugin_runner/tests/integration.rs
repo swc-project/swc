@@ -25,7 +25,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     {
         let mut cmd = Command::new("cargo");
         cmd.current_dir(dir);
-        cmd.args(["build", "--target=wasm32-wasi", "--release"])
+        cmd.args(["build", "--target=wasm32-wasi"])
             .stderr(Stdio::inherit());
         cmd.output()?;
 
