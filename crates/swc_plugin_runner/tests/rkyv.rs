@@ -38,11 +38,11 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         }
     }
 
-    for entry in fs::read_dir(&dir.join("target").join("wasm32-wasi").join("debug"))? {
+    for entry in fs::read_dir(&dir.join("target").join("wasm32-wasi").join("release"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
-        if s.eq_ignore_ascii_case("swc_internal_plugin.wasm") {
+        if s.eq_ignore_ascii_case("swc_noop_plugin.wasm") {
             return Ok(entry.path());
         }
     }
@@ -54,12 +54,16 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.tsx")]
 fn internal(input: PathBuf) -> Result<(), Error> {
-    let path = build_plugin(
-        &PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
-            .join("tests")
-            .join("fixture")
-            .join("swc_noop_plugin"),
-    )?;
+    static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
+        build_plugin(
+            &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+                .join("tests")
+                .join("fixture")
+                .join("swc_noop_plugin"),
+        )
+        .unwrap()
+    });
+    let path = PLUGIN_PATH.clone();
 
     // run single plugin
     testing::run_test(false, |cm, _handler| {
