@@ -67,7 +67,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
 
         let program = parse_file_as_program(
             &fm,
-            Syntax::Ts(TsConfig {
+            Syntax::Typescript(TsConfig {
                 tsx: input.to_string_lossy().ends_with(".tsx"),
                 ..Default::default()
             }),
@@ -114,6 +114,8 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         let program: Program = program_bytes
             .deserialize()
             .expect("Should able to deserialize");
+
+        Ok(())
     })
     .expect("Should able to run single plugin transform");
 
@@ -162,7 +164,9 @@ fn internal(input: PathBuf) -> Result<(), Error> {
 
             plugin_transform_executor
                 .transform(&program, Mark::new(), false)
-                .expect("Plugin should apply transform")
+                .expect("Plugin should apply transform");
+
+            Ok(())
         });
 
         Ok(())
@@ -236,6 +240,8 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         let program: Program = serialized_program
             .deserialize()
             .expect("Should able to deserialize");
+
+        Ok(())
     })
     .expect("Should able to run multiple plugins transform");
 
