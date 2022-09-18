@@ -64,6 +64,9 @@
 
 - **(es/modules)** Add tests for `jsc.paths` (#5876) ([0d492bf](https://github.com/swc-project/swc/commit/0d492bfce1681dbbdbe8701f6e928002cc6ce6cd))
 
+
+- **(es/plugin)** Add a noop plugin (#5892) ([20d071b](https://github.com/swc-project/swc/commit/20d071bdc771e9b863a9f8d38a11485539eda0d0))
+
 ### Build
 
 
