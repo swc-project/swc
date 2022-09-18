@@ -24,6 +24,7 @@ static SOURCE: &str = include_str!("./assets/input.js");
 fn plugin_group(c: &mut Criterion) {
     let plugin_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
         .join("tests")
+        .join("fixture")
         .join("swc_noop_plugin");
 
     {
@@ -32,7 +33,7 @@ fn plugin_group(c: &mut Criterion) {
         cmd.current_dir(&plugin_dir);
         cmd.arg("build")
             .arg("--release")
-            .arg("--target=wasm32-unknown-unknown");
+            .arg("--target=wasm32-wasi");
 
         let status = cmd.status().unwrap();
         assert!(status.success());
@@ -62,7 +63,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         let mut transform_plugin_executor = swc_plugin_runner::create_plugin_transform_executor(
             &plugin_dir
                 .join("target")
-                .join("wasm32-unknown-unknown")
+                .join("wasm32-wasi")
                 .join("release")
                 .join("swc_noop_plugin.wasm"),
             &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
