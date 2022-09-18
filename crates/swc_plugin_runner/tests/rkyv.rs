@@ -17,7 +17,9 @@ use swc_common::{
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax, TsConfig};
 use swc_ecma_visit::{Visit, VisitWith};
-use swc_plugin_runner::cache::{init_plugin_module_cache_once, PluginModuleCache};
+use swc_plugin_runner::cache::{
+    init_plugin_module_cache_once, PluginModuleCache, PLUGIN_MODULE_CACHE,
+};
 use tracing::info;
 
 /// Returns the path to the built plugin
@@ -52,20 +54,20 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
 }
 
 #[cfg(feature = "__rkyv")]
+static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
+    build_plugin(
+        &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+            .join("tests")
+            .join("fixture")
+            .join("swc_noop_plugin"),
+    )
+    .unwrap()
+});
+
+#[cfg(feature = "__rkyv")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.tsx")]
 fn internal(input: PathBuf) -> Result<(), Error> {
-    use swc_plugin_runner::cache::PLUGIN_MODULE_CACHE;
-
-    static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
-        build_plugin(
-            &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
-                .join("tests")
-                .join("fixture")
-                .join("swc_noop_plugin"),
-        )
-        .unwrap()
-    });
     let path = PLUGIN_PATH.clone();
 
     // run single plugin
@@ -125,80 +127,6 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         Ok(())
     })
     .expect("Should able to run single plugin transform");
-
-    // Run multiple plugins.
-    testing::run_test(false, |cm, _handler| {
-        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
-
-        let parsed = parse_file_as_program(
-            &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            EsVersion::latest(),
-            None,
-            &mut vec![],
-        )
-        .unwrap();
-
-        let mut serialized_program =
-            PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
-        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
-
-        let experimental_metadata: AHashMap<String, String> = [
-            (
-                "TestExperimental".to_string(),
-                "ExperimentalValue".to_string(),
-            ),
-            ("OtherTest".to_string(), "OtherVal".to_string()),
-        ]
-        .into_iter()
-        .collect();
-
-        let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
-            &path,
-            &cache,
-            &cm,
-            &Arc::new(TransformPluginMetadataContext::new(
-                None,
-                "development".to_string(),
-                Some(experimental_metadata.clone()),
-            )),
-            Some(json!({ "pluginConfig": "testValue" })),
-        )
-        .expect("Should load plugin");
-
-        serialized_program = plugin_transform_executor
-            .transform(&serialized_program, Mark::new(), false)
-            .expect("Plugin should apply transform");
-
-        // TODO: we'll need to apply 2 different plugins
-        let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
-            &path,
-            &cache,
-            &cm,
-            &Arc::new(TransformPluginMetadataContext::new(
-                None,
-                "development".to_string(),
-                Some(experimental_metadata),
-            )),
-            Some(json!({ "pluginConfig": "testValue" })),
-        )
-        .expect("Should load plugin");
-
-        serialized_program = plugin_transform_executor
-            .transform(&serialized_program, Mark::new(), false)
-            .expect("Plugin should apply transform");
-
-        let program: Program = serialized_program
-            .deserialize()
-            .expect("Should able to deserialize");
-
-        assert_eq!(parsed, program);
-
-        Ok(())
-    })
-    .expect("Should able to run multiple plugins transform");
 
     Ok(())
 }
