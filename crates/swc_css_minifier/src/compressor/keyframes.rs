@@ -1,6 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
+use crate::is_css_wide_keywords;
 
 use super::Compressor;
 
@@ -8,20 +9,12 @@ impl Compressor {
     pub(super) fn compress_keyframes_at_rule(&mut self, at_rule: &mut AtRule) {
         match at_rule.prelude.as_deref() {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
-                if !matches!(
-                    string.value.to_ascii_lowercase(),
-                    js_word!("initial")
-                        | js_word!("inherit")
-                        | js_word!("unset")
-                        | js_word!("revert")
-                        | js_word!("default")
-                        | js_word!("none")
-                ) =>
+                if !is_css_wide_keywords(&*string.value) =>
             {
                 at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
                     KeyframesName::CustomIdent(CustomIdent {
                         span: string.span,
-                        value: string.value.to_string().into(),
+                        value: crate::escape::escape(&*string.value).into(),
                         raw: None,
                     }),
                 )));

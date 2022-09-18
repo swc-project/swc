@@ -97,3 +97,22 @@
         margin-left: 200px;
     }
 }
+
+@keyframes "foo bar" {
+    0% {
+        margin-left: 0px;
+    }
+    100% {
+        margin-left: 200px;
+    }
+}
+
+@keyframes "none" {
+    to {
+        right: 100px;
+    }
+}
+
+.foo {
+    animation-name: "none", "unset", "foo bar";
+}
