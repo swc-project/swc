@@ -432,11 +432,19 @@ impl Compressor {
                             to_be_identify => {
                                 declaration.value.insert(
                                     0,
-                                    ComponentValue::Ident(Ident {
-                                        span: ident.span,
-                                        value: crate::escape::escape(to_be_identify).into(),
-                                        raw: ident.raw.clone(),
-                                    }),
+                                    if let Some(escaped) = crate::escape::try_escape_if_shorter(to_be_identify) {
+                                        ComponentValue::Ident(Ident {
+                                            span: ident.span,
+                                            value: escaped.into(),
+                                            raw: None,
+                                        })
+                                    } else {
+                                        ComponentValue::Str(Str {
+                                            span: ident.span,
+                                            value: to_be_identify.into(),
+                                            raw: None,
+                                        })
+                                    }
                                 );
                             }
                         }
@@ -454,11 +462,19 @@ impl Compressor {
                                 let value = ident.value.to_ascii_lowercase();
                                 match &*value {
                                     it if crate::is_css_wide_keywords(it) => node,
-                                    to_be_identify => ComponentValue::Ident(Ident {
-                                        span: ident.span,
-                                        value: crate::escape::escape(to_be_identify).into(),
-                                        raw: None,
-                                    }),
+                                    to_be_identify => if let Some(escaped) = crate::escape::try_escape_if_shorter(to_be_identify) {
+                                        ComponentValue::Ident(Ident {
+                                            span: ident.span,
+                                            value: escaped.into(),
+                                            raw: None,
+                                        })
+                                    } else {
+                                        ComponentValue::Str(Str {
+                                            span: ident.span,
+                                            value: to_be_identify.into(),
+                                            raw: None,
+                                        })
+                                    },
                                 }
                             }
                             _ => node,

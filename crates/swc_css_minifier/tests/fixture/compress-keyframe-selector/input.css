@@ -116,6 +116,15 @@
     }
 }
 
+@keyframes "foo bar baz" {
+    0% {
+        margin-left: 0px;
+    }
+    100% {
+        margin-left: 200px;
+    }
+}
+
 @keyframes "none" {
     to {
         right: 100px;
@@ -152,4 +161,9 @@
     10% {
         right: 200px;
     }
+}
+
+
+.bar {
+    animation-name: "none", "unset", "foo bar baz";
 }

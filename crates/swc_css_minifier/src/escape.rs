@@ -5,9 +5,22 @@
 use std::str;
 
 /// Escape a string to a valid ident for use in CSS.
+// #[inline]
+// pub fn escape(input: &str) -> String {
+//     escape_ident(input)
+// }
+
+/// Try to escape a ident to a shorter one if possible.
+/// if so return the escaped ident, otherwise return None.
 #[inline]
-pub fn escape(input: &str) -> String {
-    escape_ident(input)
+pub fn try_escape_if_shorter(input: &str) -> Option<String> {
+    let escaped = escape_ident(input);
+    // escaped: without double quotes, so need plus 2 here
+    if escaped.len() < input.len() + 2 {
+        Some(escaped)
+    } else {
+        None
+    }
 }
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L193

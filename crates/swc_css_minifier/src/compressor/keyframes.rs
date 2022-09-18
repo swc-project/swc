@@ -12,11 +12,19 @@ impl Compressor {
                 if !is_css_wide_keywords(&*string.value) =>
             {
                 at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
-                    KeyframesName::CustomIdent(CustomIdent {
-                        span: string.span,
-                        value: crate::escape::escape(&*string.value).into(),
-                        raw: None,
-                    }),
+                    if let Some(escaped) = crate::escape::try_escape_if_shorter(&*string.value) {
+                        KeyframesName::CustomIdent(CustomIdent {
+                            span: string.span,
+                            value: escaped.into(),
+                            raw: None,
+                        })
+                    } else {
+                        KeyframesName::Str(Str {
+                            span: string.span,
+                            value: string.value.clone(),
+                            raw: None,
+                        })
+                    }
                 )));
             }
             _ => {}
