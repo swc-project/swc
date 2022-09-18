@@ -422,7 +422,7 @@ impl Compressor {
                         declaration.value.remove(1);
                     }
                 }
-                js_word!("animation")  if declaration.value.len() > 0 => {
+                js_word!("animation")  if !declaration.value.is_empty() => {
                     let first = declaration.value.remove(0);
                     if let ComponentValue::Str(ident) = &first {
                         match &*ident.value.to_ascii_lowercase() {

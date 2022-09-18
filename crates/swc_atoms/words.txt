@@ -25,6 +25,8 @@ animateMotion
 animatetransform
 animateTransform
 Animation
+animation
+animation-name
 AnimationEffectReadOnly
 AnimationEffectTiming
 AnimationEffectTimingReadOnly
