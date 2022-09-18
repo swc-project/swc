@@ -18,10 +18,13 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
+use swc_plugin_runner::cache::init_plugin_module_cache_once;
 
 static SOURCE: &str = include_str!("./assets/input.js");
 
 fn plugin_group(c: &mut Criterion) {
+    init_plugin_module_cache_once(&None);
+
     let plugin_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
         .join("tests")
         .join("fixture")
