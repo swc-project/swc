@@ -175,7 +175,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         // TODO: we'll need to apply 2 different plugins
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
             &path,
-            &cache,
+            &PLUGIN_MODULE_CACHE,
             &cm,
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
