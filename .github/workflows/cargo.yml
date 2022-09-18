@@ -500,7 +500,7 @@ jobs:
 
       - name: Cache rust artifacts
         uses: Swatinem/rust-cache@v2
-        if: matrix.settings.crate == 'swc'
+        if: matrix.settings.crate == 'swc' || matrix.settings.crate == 'swc_plugin_runner'
         with:
           shared-key: cargo-test-${{ matrix.settings.crate }}
           cache-on-failure: true
@@ -543,7 +543,7 @@ jobs:
       - name: Run cargo test (plugin)
         if: matrix.settings.crate == 'swc_plugin_runner'
         run: |
-          cargo test --color always -p swc_plugin_runner --features plugin_transform_schema_v1 --features rkyv-impl
+          cargo test --color always -p swc_plugin_runner --release --features plugin_transform_schema_v1 --features rkyv-impl
 
       - name: Run cargo test (swc_ecma_minifier)
         if: matrix.settings.crate == 'swc_ecma_minifier'

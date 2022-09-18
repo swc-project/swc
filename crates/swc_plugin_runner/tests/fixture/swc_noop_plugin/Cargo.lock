@@ -1301,7 +1301,6 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_quote_macros",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_testing",
  "swc_ecma_visit",
@@ -1370,22 +1369,6 @@ dependencies = [
  "swc_ecma_ast",
  "tracing",
  "typed-arena",
-]
-
-[[package]]
-name = "swc_ecma_quote_macros"
-version = "0.30.12"
-dependencies = [
- "anyhow",
- "pmutil",
- "proc-macro2",
- "quote",
- "swc_atoms",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_parser",
- "swc_macros_common",
- "syn",
 ]
 
 [[package]]
@@ -1493,14 +1476,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_internal_plugin"
-version = "0.1.0"
-dependencies = [
- "serde",
- "swc_core",
-]
-
-[[package]]
 name = "swc_macros_common"
 version = "0.3.6"
 dependencies = [
@@ -1508,6 +1483,14 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "swc_noop_plugin"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "swc_core",
 ]
 
 [[package]]
