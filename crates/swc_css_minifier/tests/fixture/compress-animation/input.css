@@ -1,0 +1,120 @@
+.foo {
+    animation-name: "none", "unset", "foo bar";
+}
+.foo {
+    animation-name: "none", foo;
+}
+.foo {
+    animation-name: none, none;
+}
+
+/* Test CSS-wide keywords */
+.foo {
+    animation-name: "inherit";
+}
+.foo {
+    animation-name: "initial";
+}
+.foo {
+    animation-name: "unset";
+}
+.foo {
+    animation-name: "revert";
+}
+.foo {
+    animation-name: "revert-layer";
+}
+.foo {
+    animation-name: "default";
+}
+.foo {
+    animation-name: foo, "revert";
+}
+.foo {
+    animation-name: "string", "revert";
+}
+.foo {
+    animation-name: "string", foo, "revert";
+}
+
+/* Test animation shorthand */
+.foo {
+    animation: none;
+}
+
+.foo {
+    animation: "none";
+}
+
+.foo {
+    animation: "None";
+}
+
+.foo {
+    animation: "none", none;
+}
+
+.foo {
+    animation: none, none;
+}
+
+.foo {
+    animation: "none" none;
+}
+
+.foo {
+    animation: none none;
+}
+
+.foo {
+    animation: ease ease 2s;
+}
+
+/* Test animation-name + animation-fill-mode */
+.foo {
+    animation: "none" 2s both;
+}
+
+.foo {
+    animation: both "none" 2s;
+}
+
+.foo {
+    animation: "none" 2s none;
+}
+
+.foo {
+    animation: none "none" 2s;
+}
+
+.foo {
+    animation: none, "none" 2s forwards;
+}
+
+.foo {
+    animation: "unset";
+}
+
+.foo {
+    animation: "string" .5s;
+}
+
+.foo {
+    animation: "unset" .5s;
+}
+
+.foo {
+    animation: none, "unset" .5s;
+}
+
+.foo {
+    animation: "unset" 0s 3s infinite, none;
+}
+
+.foo {
+    animation: 2s ease ease;
+}
+
+.foo {
+    animation: 3s alternate reverse;
+}
