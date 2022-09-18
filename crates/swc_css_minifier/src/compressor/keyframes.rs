@@ -24,7 +24,7 @@ impl Compressor {
                             value: string.value.clone(),
                             raw: None,
                         })
-                    }
+                    },
                 )));
             }
             _ => {}
