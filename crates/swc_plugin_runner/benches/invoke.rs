@@ -23,11 +23,8 @@ static SOURCE: &str = include_str!("./assets/input.js");
 
 fn plugin_group(c: &mut Criterion) {
     let plugin_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
-        .join("..")
-        .join("..")
         .join("tests")
-        .join("rust-plugins")
-        .join("swc_internal_plugin");
+        .join("swc_noop_plugin");
 
     {
         let mut cmd = Command::new("cargo");
@@ -67,7 +64,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 .join("target")
                 .join("wasm32-unknown-unknown")
                 .join("release")
-                .join("swc_internal_plugin.wasm"),
+                .join("swc_noop_plugin.wasm"),
             &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
             &cm,
             &Arc::new(TransformPluginMetadataContext::new(
