@@ -14,9 +14,8 @@ use swc_common::{
     collections::AHashMap, errors::HANDLER, plugin::metadata::TransformPluginMetadataContext,
     sync::Lazy, FileName, Mark,
 };
-use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
+use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax, TsConfig};
-use swc_ecma_visit::{Visit, VisitWith};
 use swc_plugin_runner::cache::{
     init_plugin_module_cache_once, PluginModuleCache, PLUGIN_MODULE_CACHE,
 };
@@ -145,7 +144,6 @@ fn internal(input: PathBuf) -> Result<(), Error> {
 
         let mut serialized_program =
             PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
-        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         let experimental_metadata: AHashMap<String, String> = [
             (
@@ -159,7 +157,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
 
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
             &path,
-            &cache,
+            &PLUGIN_MODULE_CACHE,
             &cm,
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
