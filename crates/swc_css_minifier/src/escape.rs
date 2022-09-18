@@ -11,7 +11,7 @@ pub fn escape(input: &str) -> String {
 }
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L193
-fn escape_ident(mut value: &str) -> String{
+fn escape_ident(mut value: &str) -> String {
     if value.is_empty() {
         return "".to_string();
     }
@@ -68,9 +68,9 @@ fn hex_escape(ascii_byte: u8) -> String {
     static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
     let b3;
     let b4;
-    let bytes = if ascii_byte > 0x0F {
+    let bytes = if ascii_byte > 0x0f {
         let high = (ascii_byte >> 4) as usize;
-        let low = (ascii_byte & 0x0F) as usize;
+        let low = (ascii_byte & 0x0f) as usize;
         b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
         &b4[..]
     } else {

@@ -422,7 +422,7 @@ impl Compressor {
                         declaration.value.remove(1);
                     }
                 }
-                js_word!("animation")  if !declaration.value.is_empty() => {
+                js_word!("animation") if !declaration.value.is_empty() => {
                     let first = declaration.value.remove(0);
                     if let ComponentValue::Str(ident) = &first {
                         match &*ident.value.to_ascii_lowercase() {
@@ -430,11 +430,14 @@ impl Compressor {
                                 declaration.value.insert(0, first);
                             }
                             to_be_identify => {
-                                declaration.value.insert(0, ComponentValue::Ident(Ident {
-                                    span: ident.span,
-                                    value: crate::escape::escape(to_be_identify).into(),
-                                    raw: ident.raw.clone(),
-                                }));
+                                declaration.value.insert(
+                                    0,
+                                    ComponentValue::Ident(Ident {
+                                        span: ident.span,
+                                        value: crate::escape::escape(to_be_identify).into(),
+                                        raw: ident.raw.clone(),
+                                    }),
+                                );
                             }
                         }
                     } else {
@@ -450,10 +453,10 @@ impl Compressor {
                             ComponentValue::Str(ref ident) => {
                                 let value = ident.value.to_ascii_lowercase();
                                 match &*value {
-                                    it if crate::is_css_wide_keywords( it) => node,
+                                    it if crate::is_css_wide_keywords(it) => node,
                                     to_be_identify => ComponentValue::Ident(Ident {
                                         span: ident.span,
-                                        value: crate::escape::escape( to_be_identify).into(),
+                                        value: crate::escape::escape(to_be_identify).into(),
                                         raw: None,
                                     }),
                                 }

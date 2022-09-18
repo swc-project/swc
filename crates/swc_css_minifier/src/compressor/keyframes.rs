@@ -1,9 +1,9 @@
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use crate::is_css_wide_keywords;
 
 use super::Compressor;
+use crate::is_css_wide_keywords;
 
 impl Compressor {
     pub(super) fn compress_keyframes_at_rule(&mut self, at_rule: &mut AtRule) {
