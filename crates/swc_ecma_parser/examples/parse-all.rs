@@ -1,10 +1,10 @@
-#![feature(bench_black_box)]
 #![deny(warnings)]
 
 extern crate swc_node_base;
 
-use std::{env, hint::black_box, path::PathBuf, time::Instant};
+use std::{env, path::PathBuf, time::Instant};
 
+use criterion::black_box;
 use swc_common::{errors::HANDLER, GLOBALS};
 use swc_ecma_parser::parse_file_as_module;
 use walkdir::WalkDir;
