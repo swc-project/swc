@@ -82,6 +82,8 @@ common_sourcemap = ["__common", "swc_common/sourcemap"]
 # - can we consolidate them?
 common_concurrent = ["__common", "swc_common/concurrent"]
 
+common_tty = ["__common", "swc_common/tty-emitter"]
+
 # Enable swc_ecma_visit
 ecma_visit      = ["__visit"]
 ecma_visit_path = ["__visit", "swc_ecma_visit/path"]
