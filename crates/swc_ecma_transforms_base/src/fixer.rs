@@ -484,14 +484,19 @@ impl VisitMut for Fixer<'_> {
                 _ => (),
             }
 
-            if let VarDeclOrPat::Pat(box Pat::Expr(expr)) = &mut s.left {
-                if let Expr::Ident(Ident {
-                    sym: js_word!("async"),
-                    ..
-                }) = &**expr
-                {
-                    self.wrap(&mut *expr);
-                }
+            match &mut s.left {
+                VarDeclOrPat::Pat(e) => match &mut **e {
+                    Pat::Expr(expr) => {
+                        if let Expr::Ident(Ident {
+                            sym: js_word!("async"),
+                            ..
+                        }) = &**expr
+                        {
+                            self.wrap(&mut *expr);
+                        }
+                    }
+                },
+                _ => (),
             }
         }
 
