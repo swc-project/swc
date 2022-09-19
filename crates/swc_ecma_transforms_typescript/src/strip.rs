@@ -2175,11 +2175,7 @@ where
                 }
 
                 // Strip out ts-only extensions
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                    function: box Function { body: None, .. },
-                    ..
-                })))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
                 | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsInterface(..),
@@ -2188,24 +2184,17 @@ where
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsTypeAlias(..),
                     ..
-                }))
+                })) => continue,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl { function: f, .. })))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl:
-                        Decl::Fn(FnDecl {
-                            function: box Function { body: None, .. },
-                            ..
-                        }),
+                    decl: Decl::Fn(FnDecl { function: f, .. }),
                     ..
                 }))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    decl:
-                        DefaultDecl::Fn(FnExpr {
-                            function: box Function { body: None, .. },
-                            ..
-                        }),
+                    decl: DefaultDecl::Fn(FnExpr { function: f, .. }),
                     ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                })) if f.body.is_none() => continue,
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl: DefaultDecl::TsInterfaceDecl(..),
                     ..
                 }))
@@ -2214,18 +2203,18 @@ where
                     decl: Decl::Class(ClassDecl { declare: true, .. }),
                     ..
                 }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Var(box VarDecl { declare: true, .. }),
-                    ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsEnum(box TsEnumDecl { declare: true, .. }),
-                    ..
-                }))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. })))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(box VarDecl { declare: true, .. }))) => {
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. }))) => {
                     continue
                 }
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))) if v.declare => continue,
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(v),
+                    ..
+                })) if v.declare => continue,
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsEnum(v),
+                    ..
+                })) if v.declare => continue,
 
                 ModuleItem::Stmt(Stmt::Decl(Decl::Class(..)))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
