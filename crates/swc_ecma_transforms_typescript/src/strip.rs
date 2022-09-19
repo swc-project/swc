@@ -1180,13 +1180,16 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
-                    import @ box TsImportEqualsDecl {
-                        module_ref: TsModuleRef::TsEntityName(..),
-                        declare: false,
-                        ..
-                    },
-                )) => {
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import))
+                    if matches!(
+                        &*import,
+                        TsImportEqualsDecl {
+                            module_ref: TsModuleRef::TsEntityName(..),
+                            declare: false,
+                            ..
+                        }
+                    ) =>
+                {
                     let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
                     let has_concrete = if let Some(entry) = maybe_entry {
                         entry.has_concrete

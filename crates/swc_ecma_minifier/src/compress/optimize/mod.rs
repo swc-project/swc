@@ -2290,7 +2290,7 @@ where
         if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
             match s {
                 // We use var decl with no declarator to indicate we dropped an decl.
-                Stmt::Decl(Decl::Var(box VarDecl { decls, .. })) if decls.is_empty() => {
+                Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }

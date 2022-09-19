@@ -614,7 +614,7 @@ where
                     }
                 ) =>
             {
-                if decls.iter().any(|decl| match &decl.name {
+                if var.decls.iter().any(|decl| match &decl.name {
                     Pat::Ident(BindingIdent {
                         id:
                             Ident {
