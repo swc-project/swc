@@ -555,12 +555,14 @@ impl VisitMut for Remover {
                         Stmt::Block(BlockStmt { span, stmts })
                     }
                 }
-                Stmt::Try(box TryStmt {
-                    span,
-                    block,
-                    handler,
-                    finalizer,
-                }) => {
+                Stmt::Try(s) => {
+                    let TryStmt {
+                        span,
+                        block,
+                        handler,
+                        finalizer,
+                    } = *s;
+
                     // Only leave the finally block if try block is empty
                     if block.is_empty() {
                         let var = handler.and_then(|h| Stmt::from(h.body).extract_var_ids_as_var());
@@ -617,25 +619,30 @@ impl VisitMut for Remover {
                         let mut done = false;
                         stmts.move_flat_map(|s| {
                             if done {
-                                if let Stmt::Decl(Decl::Var(
-                                    var @ box VarDecl {
-                                        kind: VarDeclKind::Var,
-                                        ..
-                                    },
-                                )) = s
-                                {
-                                    return Some(
-                                        VarDecl {
-                                            span: DUMMY_SP,
-                                            kind: VarDeclKind::Var,
-                                            decls: var.decls.move_map(|decl| VarDeclarator {
-                                                init: None,
-                                                ..decl
-                                            }),
-                                            declare: false,
-                                        }
-                                        .into(),
-                                    );
+                                match &s {
+                                    Stmt::Decl(Decl::Var(var))
+                                        if matches!(
+                                            &**var,
+                                            VarDecl {
+                                                kind: VarDeclKind::Var,
+                                                ..
+                                            }
+                                        ) =>
+                                    {
+                                        return Some(
+                                            VarDecl {
+                                                span: DUMMY_SP,
+                                                kind: VarDeclKind::Var,
+                                                decls: var.decls.move_map(|decl| VarDeclarator {
+                                                    init: None,
+                                                    ..decl
+                                                }),
+                                                declare: false,
+                                            }
+                                            .into(),
+                                        );
+                                    }
+                                    _ => (),
                                 }
 
                                 return None;
@@ -1837,9 +1844,7 @@ fn is_ok_to_inline_block(s: &[Stmt]) -> bool {
 
 fn is_block_scoped_stuff(s: &Stmt) -> bool {
     match s {
-        Stmt::Decl(Decl::Var(box VarDecl { kind, .. }))
-            if *kind == VarDeclKind::Const || *kind == VarDeclKind::Let =>
-        {
+        Stmt::Decl(Decl::Var(v)) if v.kind == VarDeclKind::Const || v.kind == VarDeclKind::Let => {
             true
         }
         Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
