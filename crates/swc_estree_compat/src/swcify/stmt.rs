@@ -220,7 +220,7 @@ impl Swcify for FunctionDeclaration {
         FnDecl {
             ident: self.id.swcify(ctx).map(|v| v.id).unwrap(),
             declare: false,
-            function: box swc_ecma_ast::Function {
+            function: swc_ecma_ast::Function {
                 params: self.params.swcify(ctx),
                 decorators: Default::default(),
                 span: ctx.span(&self.base),
@@ -412,7 +412,7 @@ impl Swcify for ClassDeclaration {
         ClassDecl {
             ident: self.id.swcify(ctx).id,
             declare: self.declare.unwrap_or_default(),
-            class: box swc_ecma_ast::Class {
+            class: swc_ecma_ast::Class {
                 span: ctx.span(&self.base),
                 decorators: self.decorators.swcify(ctx).unwrap_or_default(),
                 body: self.body.swcify(ctx),
@@ -432,7 +432,7 @@ impl Swcify for ExportAllDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportAll {
             span: ctx.span(&self.base),
-            src: box self.source.swcify(ctx),
+            src: self.source.swcify(ctx).into(),
             asserts: self
                 .assertions
                 .swcify(ctx)
@@ -444,9 +444,12 @@ impl Swcify for ExportAllDeclaration {
                         .map(PropOrSpread::Prop)
                         .collect()
                 })
-                .map(|props| box ObjectLit {
-                    span: DUMMY_SP,
-                    props,
+                .map(|props| {
+                    ObjectLit {
+                        span: DUMMY_SP,
+                        props,
+                    }
+                    .into()
                 }),
         }
     }

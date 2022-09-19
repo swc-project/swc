@@ -225,12 +225,15 @@ impl Hoister<'_> {
                         Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
                         _ => {
                             if let Stmt::Throw(..) = stmt {
-                                fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(box VarDecl {
-                                    span: DUMMY_SP,
-                                    kind: VarDeclKind::Var,
-                                    declare: false,
-                                    decls: var_decls.take(),
-                                }))));
+                                fn_decls.push(T::from_stmt(
+                                    VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        declare: false,
+                                        decls: var_decls.take(),
+                                    }
+                                    .into(),
+                                ));
                             }
                             found_non_var_decl = true;
                             new_stmts.push(T::from_stmt(stmt))
@@ -241,12 +244,15 @@ impl Hoister<'_> {
             }
         }
 
-        fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(box VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: false,
-            decls: var_decls,
-        }))));
+        fn_decls.push(T::from_stmt(
+            VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: var_decls,
+            }
+            .into(),
+        ));
         fn_decls.extend(new_stmts);
 
         drop_invalid_stmts(&mut fn_decls);
