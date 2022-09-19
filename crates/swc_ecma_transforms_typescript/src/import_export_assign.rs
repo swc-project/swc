@@ -91,10 +91,10 @@ impl VisitMut for ImportExportAssign {
                         TsImportEqualsDecl {
                             declare: false,
                             is_type_only: false,
-                            module_ref: TsModuleRef::TsExternalModuleRef(TsExternalModuleRef {
-                                expr,
-                                ..
-                            }),
+                            module_ref: TsModuleRef::TsExternalModuleRef(
+                                TsExternalModuleRef { .. }
+                            ),
+                            ..
                         }
                     ) && self.config != TsImportExportAssignConfig::Preserve =>
                 {
