@@ -259,12 +259,12 @@ impl Pure<'_> {
 
             if !decls.is_empty() {
                 new_stmts.push(
-                    Stmt::Decl(Decl::Var(box VarDecl {
+                    Stmt::from(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls,
                         declare: false,
-                    }))
+                    })
                     .into(),
                 );
             }
