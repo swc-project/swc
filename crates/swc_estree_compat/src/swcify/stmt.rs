@@ -229,7 +229,8 @@ impl Swcify for FunctionDeclaration {
                 is_async: self.is_async.unwrap_or_default(),
                 type_params: Default::default(),
                 return_type: Default::default(),
-            },
+            }
+            .into(),
         }
     }
 }
@@ -421,7 +422,8 @@ impl Swcify for ClassDeclaration {
                 type_params: None,
                 super_type_params: None,
                 implements: Default::default(),
-            },
+            }
+            .into(),
         }
     }
 }
