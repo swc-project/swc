@@ -21,7 +21,6 @@
 #![allow(clippy::logic_bug)]
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
-#![feature(box_patterns)]
 
 use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext};

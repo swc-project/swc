@@ -2,7 +2,6 @@
 #![deny(unused)]
 #![allow(clippy::needless_lifetimes)]
 #![allow(clippy::vec_box)]
-#![feature(box_patterns)]
 
 pub use self::{amd::amd, common_js::common_js, system_js::system_js, umd::umd};
 

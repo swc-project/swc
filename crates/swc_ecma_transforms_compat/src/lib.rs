@@ -3,7 +3,6 @@
 #![allow(clippy::vec_box)]
 #![allow(clippy::boxed_local)]
 #![allow(clippy::match_like_matches_macro)]
-#![feature(box_patterns)]
 
 pub use self::{
     bugfixes::bugfixes, es2015::es2015, es2016::es2016, es2017::es2017, es2018::es2018,
