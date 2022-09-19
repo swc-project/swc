@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Remove more pure calls (#5900) ([83c7887](https://github.com/swc-project/swc/commit/83c7887600bcb391203911f3c82b62e16a217120))
+
+## [1.3.2] - 2022-09-19
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Drop the last comma in an array literal (#5877) ([7d6d04b](https://github.com/swc-project/swc/commit/7d6d04b4215c5c1ec368a8ccdabdda187cfa647e))
 
 
