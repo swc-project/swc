@@ -85,12 +85,15 @@ impl Pure<'_> {
                             }
                         },
                         Stmt::For(mut stmt) => match &mut stmt.init {
-                            Some(VarDeclOrExpr::VarDecl(
-                                var @ box VarDecl {
-                                    kind: VarDeclKind::Var,
-                                    ..
-                                },
-                            )) => {
+                            Some(VarDeclOrExpr::VarDecl(var))
+                                if matches!(
+                                    &**var,
+                                    VarDecl {
+                                        kind: VarDeclKind::Var,
+                                        ..
+                                    }
+                                ) =>
+                            {
                                 match &mut cur {
                                     Some(cur) if cur.kind == var.kind => {
                                         // Merge
@@ -189,12 +192,15 @@ impl Pure<'_> {
             let mut found_other = false;
             let if_need_work = stmts.iter().any(|stmt| {
                 match stmt.as_stmt() {
-                    Some(Stmt::Decl(Decl::Var(
-                        v @ box VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        },
-                    ))) => {
+                    Some(Stmt::Decl(Decl::Var(v)))
+                        if matches!(
+                            &**v,
+                            VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            }
+                        ) =>
+                    {
                         if !(found_other && found_vars_without_init)
                             && v.decls.iter().all(|v| v.init.is_none())
                         {
