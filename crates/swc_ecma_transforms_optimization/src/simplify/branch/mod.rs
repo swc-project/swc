@@ -619,10 +619,10 @@ impl VisitMut for Remover {
                         let mut done = false;
                         stmts.move_flat_map(|s| {
                             if done {
-                                match &s {
+                                match s {
                                     Stmt::Decl(Decl::Var(var))
                                         if matches!(
-                                            &**var,
+                                            &*var,
                                             VarDecl {
                                                 kind: VarDeclKind::Var,
                                                 ..
@@ -1812,14 +1812,19 @@ fn is_ok_to_inline_block(s: &[Stmt]) -> bool {
     }
 
     // variable declared as `var` is hoisted
-    let last_var = s.iter().rposition(|s| {
-        matches!(
-            s,
-            Stmt::Decl(Decl::Var(box VarDecl {
-                kind: VarDeclKind::Var,
-                ..
-            }))
-        )
+    let last_var = s.iter().rposition(|s| match s {
+        Stmt::Decl(Decl::Var(v))
+            if matches!(
+                &**v,
+                VarDecl {
+                    kind: VarDeclKind::Var,
+                    ..
+                },
+            ) =>
+        {
+            true
+        }
+        _ => false,
     });
 
     let last_var = if let Some(pos) = last_var {
