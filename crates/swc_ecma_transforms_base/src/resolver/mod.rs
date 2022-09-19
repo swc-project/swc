@@ -1565,15 +1565,21 @@ impl VisitMut for Hoister<'_, '_> {
                     }
                 }
 
-                Decl::TsModule(box TsModuleDecl {
-                    global: false,
-                    id: TsModuleName::Ident(id),
-                    ..
-                }) => {
+                Decl::TsModule(v)
+                    if matches!(
+                        &**v,
+                        TsModuleDecl {
+                            global: false,
+                            id: TsModuleName::Ident(_),
+                            ..
+                        },
+                    ) =>
+                {
                     if !self.in_block {
                         let old_in_type = self.resolver.in_type;
                         self.resolver.in_type = false;
-                        self.resolver.modify(id, DeclKind::Lexical);
+                        self.resolver
+                            .modify(v.id.as_mut_ident().unwrap(), DeclKind::Lexical);
                         self.resolver.in_type = old_in_type;
                     }
                 }
@@ -1805,11 +1811,18 @@ impl VisitMut for Hoister<'_, '_> {
 
         for item in stmts {
             match item {
-                Stmt::Decl(Decl::Var(box VarDecl {
-                    kind: VarDeclKind::Var,
-                    ..
-                }))
-                | Stmt::Decl(Decl::Fn(..)) => {
+                Stmt::Decl(Decl::Var(v))
+                    if matches!(
+                        &**v,
+                        VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        }
+                    ) =>
+                {
+                    item.visit_mut_with(self);
+                }
+                Stmt::Decl(Decl::Fn(..)) => {
                     item.visit_mut_with(self);
                 }
                 _ => {
