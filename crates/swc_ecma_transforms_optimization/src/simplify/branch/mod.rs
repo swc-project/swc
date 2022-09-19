@@ -1201,7 +1201,7 @@ impl VisitMut for Remover {
                         return Stmt::Empty(EmptyStmt { span: v.span });
                     }
 
-                    Stmt::Decl(Decl::Var(VarDecl { decls, ..v }))
+                    VarDecl { decls, ..v }.into()
                 }
 
                 _ => stmt,
@@ -1335,12 +1335,15 @@ impl Remover {
                             }
 
                             if !decls.is_empty() {
-                                new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(box VarDecl {
-                                    span: DUMMY_SP,
-                                    kind: VarDeclKind::Var,
-                                    decls,
-                                    declare: false,
-                                }))));
+                                new_stmts.push(T::from_stmt(
+                                    VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        decls,
+                                        declare: false,
+                                    }
+                                    .into(),
+                                ));
                             }
 
                             let stmt_like = T::from_stmt(stmt);
@@ -1407,15 +1410,13 @@ impl Remover {
                                         if let Some(var) =
                                             alt.and_then(|alt| alt.extract_var_ids_as_var())
                                         {
-                                            new_stmts
-                                                .push(T::from_stmt(Stmt::Decl(Decl::Var(box var))))
+                                            new_stmts.push(T::from_stmt(var.into()))
                                         }
                                         *cons
                                     } else {
                                         // Hoist vars from cons
                                         if let Some(var) = cons.extract_var_ids_as_var() {
-                                            new_stmts
-                                                .push(T::from_stmt(Stmt::Decl(Decl::Var(box var))))
+                                            new_stmts.push(T::from_stmt(var.into()))
                                         }
                                         match alt {
                                             Some(alt) => *alt,
