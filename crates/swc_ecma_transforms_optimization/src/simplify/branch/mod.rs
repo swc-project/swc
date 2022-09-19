@@ -1166,7 +1166,7 @@ impl VisitMut for Remover {
                     }
                 }
 
-                Stmt::Decl(Decl::Var(box v)) => {
+                Stmt::Decl(Decl::Var(v)) => {
                     let decls = v.decls.move_flat_map(|v| {
                         if !is_literal(&v.init) {
                             return Some(v);
@@ -1201,7 +1201,7 @@ impl VisitMut for Remover {
                         return Stmt::Empty(EmptyStmt { span: v.span });
                     }
 
-                    VarDecl { decls, ..v }.into()
+                    VarDecl { decls, ..*v }.into()
                 }
 
                 _ => stmt,

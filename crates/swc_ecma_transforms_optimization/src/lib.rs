@@ -1,7 +1,6 @@
 #![deny(clippy::all)]
 #![deny(unused)]
 #![allow(clippy::match_like_matches_macro)]
-#![feature(box_patterns)]
 
 pub use self::{
     const_modules::const_modules,

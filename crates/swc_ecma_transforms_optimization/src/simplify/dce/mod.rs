@@ -730,37 +730,43 @@ impl VisitMut for TreeShaker {
         {
             //
             if args.is_empty() {
-                if let Expr::Fn(FnExpr {
-                    ident: None,
-                    function:
-                        box Function {
+                match &mut **callee {
+                    Expr::Fn(FnExpr {
+                        ident: None,
+                        function: f,
+                    }) if matches!(
+                        &**f,
+                        Function {
                             is_async: false,
                             is_generator: false,
-                            params,
-                            body: Some(BlockStmt { stmts: body, .. }),
+                            body: Some(..),
                             ..
-                        },
-                }) = &mut **callee
-                {
-                    if params.is_empty() && body.len() == 1 {
-                        if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) = &mut body[0] {
-                            if let Expr::Object(ObjectLit { props, .. }) = &**arg {
-                                if props.iter().all(|p| match p {
-                                    PropOrSpread::Spread(_) => false,
-                                    PropOrSpread::Prop(p) => match &**p {
-                                        Prop::Shorthand(_) => true,
-                                        Prop::KeyValue(p) => p.value.is_ident(),
-                                        _ => false,
-                                    },
-                                }) {
-                                    self.changed = true;
-                                    debug!("Dropping a wrapped esm");
-                                    *n = *arg.take();
-                                    return;
+                        }
+                    ) =>
+                    {
+                        if f.params.is_empty() && f.body.as_ref().unwrap().stmts.len() == 1 {
+                            if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) =
+                                &mut f.body.as_mut().unwrap().stmts[0]
+                            {
+                                if let Expr::Object(ObjectLit { props, .. }) = &**arg {
+                                    if props.iter().all(|p| match p {
+                                        PropOrSpread::Spread(_) => false,
+                                        PropOrSpread::Prop(p) => match &**p {
+                                            Prop::Shorthand(_) => true,
+                                            Prop::KeyValue(p) => p.value.is_ident(),
+                                            _ => false,
+                                        },
+                                    }) {
+                                        self.changed = true;
+                                        debug!("Dropping a wrapped esm");
+                                        *n = *arg.take();
+                                        return;
+                                    }
                                 }
                             }
                         }
                     }
+                    _ => (),
                 }
             }
         }
