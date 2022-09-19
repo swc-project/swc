@@ -32,17 +32,6 @@ db.numberOxen = db.foonly, Dragon;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-!function(Dragon) {
-    "use strict";
-    _inherits(Firedrake, Dragon);
-    var _super = _create_super(Firedrake);
-    function Firedrake() {
-        return _class_call_check(this, Firedrake), _super.call(this);
-    }
-    return Firedrake;
-}(function(numberEaten) {
-    this.numberEaten = numberEaten;
-});
 var c = new (function(Wagon1) {
     "use strict";
     _inherits(Conestoga, Wagon1);

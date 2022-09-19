@@ -38,19 +38,7 @@ Promise.resolve().then(function() {
 });
 var p2 = Promise.resolve().then(function() {
     return _interopRequireWildcard(require("./0"));
-});
-!function() {
-    "use strict";
-    function C() {
-        _classCallCheck(this, C);
-    }
-    return C.prototype.method = function() {
-        Promise.resolve().then(function() {
-            return _interopRequireWildcard(require("./0"));
-        });
-    }, C;
-}();
-var D = function() {
+}), D = function() {
     "use strict";
     function D() {
         _classCallCheck(this, D);

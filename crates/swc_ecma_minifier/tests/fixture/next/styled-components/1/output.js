@@ -5067,7 +5067,7 @@
             ].forEach(function(e) {
                 He[e] = He(e);
             });
-            var $e = function() {
+            var t, $e = function() {
                 function e(e, t) {
                     this.rules = e, this.componentId = t, this.isStatic = re(e), Z.registerId(this.componentId + 1);
                 }
@@ -5081,45 +5081,41 @@
                     e > 2 && Z.registerId(this.componentId + e), this.removeStyles(e, n), this.createStyles(e, t, n, r);
                 }, e;
             }();
-            !function() {
-                function e() {
-                    var e = this;
-                    this._emitSheetCSS = function() {
-                        var t = e.instance.toString();
-                        if (!t) return "";
-                        var n = q();
-                        return "<style " + [
-                            n && 'nonce="' + n + '"',
-                            A + '="true"',
-                            'data-styled-version="5.3.5"'
-                        ].filter(Boolean).join(" ") + ">" + t + "</style>";
-                    }, this.getStyleTags = function() {
-                        return e.sealed ? j(2) : e._emitSheetCSS();
-                    }, this.getStyleElement = function() {
-                        if (e.sealed) return j(2);
-                        var t, n = ((t = {})[A] = "", t["data-styled-version"] = "5.3.5", t.dangerouslySetInnerHTML = {
-                            __html: e.instance.toString()
-                        }, t), o = q();
-                        return o && (n.nonce = o), [
-                            react.createElement("style", v({}, n, {
-                                key: "sc-0-0"
-                            }))
-                        ];
-                    }, this.seal = function() {
-                        e.sealed = !0;
-                    }, this.instance = new Z({
-                        isServer: !0
-                    }), this.sealed = !1;
-                }
-                var t = e.prototype;
-                return t.collectStyles = function(e) {
-                    return this.sealed ? j(2) : react.createElement(ye, {
-                        sheet: this.instance
-                    }, e);
-                }, t.interleaveWithNodeStream = function(e) {
-                    return j(3);
-                }, e;
-            }();
+            (t = (function() {
+                var e = this;
+                this._emitSheetCSS = function() {
+                    var t = e.instance.toString();
+                    if (!t) return "";
+                    var n = q();
+                    return "<style " + [
+                        n && 'nonce="' + n + '"',
+                        A + '="true"',
+                        'data-styled-version="5.3.5"'
+                    ].filter(Boolean).join(" ") + ">" + t + "</style>";
+                }, this.getStyleTags = function() {
+                    return e.sealed ? j(2) : e._emitSheetCSS();
+                }, this.getStyleElement = function() {
+                    if (e.sealed) return j(2);
+                    var t, n = ((t = {})[A] = "", t["data-styled-version"] = "5.3.5", t.dangerouslySetInnerHTML = {
+                        __html: e.instance.toString()
+                    }, t), o = q();
+                    return o && (n.nonce = o), [
+                        react.createElement("style", v({}, n, {
+                            key: "sc-0-0"
+                        }))
+                    ];
+                }, this.seal = function() {
+                    e.sealed = !0;
+                }, this.instance = new Z({
+                    isServer: !0
+                }), this.sealed = !1;
+            }).prototype).collectStyles = function(e) {
+                return this.sealed ? j(2) : react.createElement(ye, {
+                    sheet: this.instance
+                }, e);
+            }, t.interleaveWithNodeStream = function(e) {
+                return j(3);
+            };
             var object_assign = __webpack_require__(6086), object_assign_default = __webpack_require__.n(object_assign), merge = function(a, b) {
                 var _assign, result = object_assign_default()({}, a, b);
                 for(var key in a)a[key] && "object" == typeof b[key] && object_assign_default()(result, ((_assign = {})[key] = object_assign_default()(a[key], b[key]), _assign));
