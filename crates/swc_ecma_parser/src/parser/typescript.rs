@@ -2873,7 +2873,7 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Const,
                     declare: false,
@@ -2891,7 +2891,7 @@ mod tests {
                         }))),
                         definite: false,
                     }],
-                })));
+                }))));
                 vec![second]
             },
         };

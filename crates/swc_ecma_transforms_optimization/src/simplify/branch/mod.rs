@@ -433,12 +433,12 @@ impl VisitMut for Remover {
                         if v {
                             // Preserve variables
                             if let Some(var) = alt.and_then(|alt| alt.extract_var_ids_as_var()) {
-                                stmts.push(Stmt::Decl(Decl::Var(var)))
+                                stmts.push(Stmt::Decl(Decl::Var(Box::new(var))))
                             }
                             stmts.push(*cons);
                         } else {
                             if let Some(var) = cons.extract_var_ids_as_var() {
-                                stmts.push(Stmt::Decl(Decl::Var(var)))
+                                stmts.push(Stmt::Decl(Decl::Var(Box::new(var))))
                             }
 
                             if let Some(alt) = alt {
@@ -588,12 +588,12 @@ impl VisitMut for Remover {
                         return Stmt::Block(block);
                     }
 
-                    Stmt::Try(box TryStmt {
+                    Stmt::Try(Box::new(TryStmt {
                         span,
                         block,
                         handler,
                         finalizer,
-                    })
+                    }))
                 }
 
                 Stmt::Switch(mut s) => {
@@ -624,14 +624,18 @@ impl VisitMut for Remover {
                                     },
                                 )) = s
                                 {
-                                    return Some(Stmt::Decl(Decl::Var(box VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Var,
-                                        decls: var
-                                            .decls
-                                            .move_map(|decl| VarDeclarator { init: None, ..decl }),
-                                        declare: false,
-                                    })));
+                                    return Some(
+                                        VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: VarDeclKind::Var,
+                                            decls: var.decls.move_map(|decl| VarDeclarator {
+                                                init: None,
+                                                ..decl
+                                            }),
+                                            declare: false,
+                                        }
+                                        .into(),
+                                    );
                                 }
 
                                 return None;
@@ -802,12 +806,13 @@ impl VisitMut for Remover {
                             if !decls.is_empty() {
                                 prepend_stmt(
                                     &mut stmts,
-                                    Stmt::Decl(Decl::Var(box VarDecl {
+                                    VarDecl {
                                         span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
                                         decls,
                                         declare: false,
-                                    })),
+                                    }
+                                    .into(),
                                 );
                             }
 
@@ -865,12 +870,13 @@ impl VisitMut for Remover {
                                     if !vars.is_empty() {
                                         prepend_stmt(
                                             &mut stmts,
-                                            Stmt::Decl(Decl::Var(box VarDecl {
+                                            VarDecl {
                                                 span: DUMMY_SP,
                                                 kind: VarDeclKind::Var,
                                                 declare: Default::default(),
                                                 decls: take(&mut vars),
-                                            })),
+                                            }
+                                            .into(),
                                         )
                                     }
 
@@ -1048,12 +1054,13 @@ impl VisitMut for Remover {
                                 })
                                 .collect();
                             if !decls.is_empty() {
-                                return Stmt::Decl(Decl::Var(box VarDecl {
+                                return VarDecl {
                                     span: DUMMY_SP,
                                     kind: VarDeclKind::Var,
                                     decls,
                                     declare: false,
-                                }));
+                                }
+                                .into();
                             }
                             return Stmt::Empty(EmptyStmt { span: s.span });
                         }
@@ -1076,7 +1083,7 @@ impl VisitMut for Remover {
 
                     let decl = s.body.extract_var_ids_as_var();
                     let body = if let Some(var) = decl {
-                        Stmt::Decl(Decl::Var(box var))
+                        var.into()
                     } else {
                         Stmt::Empty(EmptyStmt { span: s.span })
                     };
@@ -1194,7 +1201,7 @@ impl VisitMut for Remover {
                         return Stmt::Empty(EmptyStmt { span: v.span });
                     }
 
-                    Stmt::Decl(Decl::Var(box VarDecl { decls, ..v }))
+                    Stmt::Decl(Decl::Var(VarDecl { decls, ..v }))
                 }
 
                 _ => stmt,

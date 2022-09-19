@@ -455,7 +455,7 @@ impl Swcify for ObjectMethod {
     fn swcify(self, ctx: &Context) -> Self::Output {
         MethodProp {
             key: self.key.swcify(ctx),
-            function: Function {
+            function: Box::new(Function {
                 params: self.params.swcify(ctx),
                 decorators: self.decorator.swcify(ctx).unwrap_or_default(),
                 span: ctx.span(&self.base),
@@ -464,7 +464,7 @@ impl Swcify for ObjectMethod {
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                 return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
-            },
+            }),
         }
     }
 }
@@ -648,7 +648,7 @@ impl Swcify for ClassExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ClassExpr {
             ident: self.id.swcify(ctx).map(|v| v.id),
-            class: swc_ecma_ast::Class {
+            class: Box::new(swc_ecma_ast::Class {
                 span: ctx.span(&self.base),
                 decorators: self.decorators.swcify(ctx).unwrap_or_default(),
                 body: self.body.swcify(ctx),
@@ -657,7 +657,7 @@ impl Swcify for ClassExpression {
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
                 super_type_params: self.super_type_parameters.swcify(ctx).map(Box::new),
                 implements: self.implements.swcify(ctx).unwrap_or_default(),
-            },
+            }),
         }
     }
 }
