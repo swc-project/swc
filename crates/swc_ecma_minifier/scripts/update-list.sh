@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# This script updates golden.txt and TODO.txt
+# This script updates passing.txt and TODO.txt
 # 
 #
 # Note that even if a test is ignored, this script will invoke it.
@@ -14,14 +14,14 @@ function sortFile() {
 
 # Clean the ignore list
 echo '' > tests/TODO.txt
-echo '' > tests/golden.txt
+echo '' > tests/passing.txt
 mv tests/postponed.txt tests/postponed.tmp.txt
 echo '' > tests/postponed.txt
 
 export SWC_RUN=0
 export SWC_CHECK=0
 
-# Update golden.txt
+# Update passing.txt
 cargo test --features concurrent --test compress fixture_tests__terser__compress__ \
   | grep 'fixture_tests__terser__compress__' \
   | grep 'js .\.\. ok$' \
@@ -29,12 +29,12 @@ cargo test --features concurrent --test compress fixture_tests__terser__compress
   | sed -e 's! ... ok!!' \
   | sed -e 's!__!/!g' \
   | sed -e 's!_js!.js!' \
-  >> tests/golden.txt
+  >> tests/passing.txt
 
-sortFile tests/golden.txt
+sortFile tests/passing.txt
 
 # Don't mark passing tests as postponed
-comm -23 tests/postponed.tmp.txt tests/golden.txt > tests/nodup.txt
+comm -23 tests/postponed.tmp.txt tests/passing.txt > tests/nodup.txt
 mv tests/nodup.txt tests/postponed.txt
 rm tests/postponed.tmp.txt
 
