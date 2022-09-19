@@ -305,7 +305,7 @@ where
 
                         Stmt::Decl(Decl::Var(var))
                             if matches!(
-                                &*v,
+                                &*var,
                                 VarDecl {
                                     kind: VarDeclKind::Var,
                                     ..
