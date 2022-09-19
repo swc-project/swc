@@ -311,10 +311,15 @@ impl VisitMut for BlockScopedVars {
         n.right.visit_mut_with(self);
 
         match n.left {
-            VarDeclOrPat::VarDecl(box VarDecl {
-                kind: VarDeclKind::Let | VarDeclKind::Const,
-                ..
-            }) => {
+            VarDeclOrPat::VarDecl(v)
+                if matches!(
+                    &*v,
+                    VarDecl {
+                        kind: VarDeclKind::Let | VarDeclKind::Const,
+                        ..
+                    }
+                ) =>
+            {
                 self.with_scope(ScopeKind::Block, |v| {
                     n.left.visit_mut_with(v);
                     n.body.visit_mut_with(v);
@@ -331,10 +336,15 @@ impl VisitMut for BlockScopedVars {
         n.right.visit_mut_with(self);
 
         match n.left {
-            VarDeclOrPat::VarDecl(box VarDecl {
-                kind: VarDeclKind::Let | VarDeclKind::Const,
-                ..
-            }) => {
+            VarDeclOrPat::VarDecl(v)
+                if matches!(
+                    &*v,
+                    VarDecl {
+                        kind: VarDeclKind::Let | VarDeclKind::Const,
+                        ..
+                    }
+                ) =>
+            {
                 self.with_scope(ScopeKind::Block, |v| {
                     n.left.visit_mut_with(v);
                     n.body.visit_mut_with(v);
@@ -349,10 +359,15 @@ impl VisitMut for BlockScopedVars {
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
         match n.init {
-            Some(VarDeclOrExpr::VarDecl(box VarDecl {
-                kind: VarDeclKind::Let | VarDeclKind::Const,
-                ..
-            })) => {
+            Some(VarDeclOrExpr::VarDecl(v))
+                if matches!(
+                    &*v,
+                    VarDecl {
+                        kind: VarDeclKind::Let | VarDeclKind::Const,
+                        ..
+                    }
+                ) =>
+            {
                 self.with_scope(ScopeKind::Block, |v| {
                     n.init.visit_mut_with(v);
                     n.update.visit_mut_with(v);
