@@ -557,12 +557,15 @@ where
     ) -> Option<Vec<Mergable<'a>>> {
         Some(match s {
             Stmt::Expr(e) => vec![Mergable::Expr(&mut e.expr)],
-            Stmt::Decl(Decl::Var(
-                v @ box VarDecl {
-                    kind: VarDeclKind::Var | VarDeclKind::Let,
-                    ..
-                },
-            )) => {
+            Stmt::Decl(Decl::Var(v))
+                if matches!(
+                    &**v,
+                    VarDecl {
+                        kind: VarDeclKind::Var | VarDeclKind::Let,
+                        ..
+                    }
+                ) =>
+            {
                 if options.reduce_vars || options.collapse_vars {
                     v.decls.iter_mut().map(Mergable::Var).collect()
                 } else {
