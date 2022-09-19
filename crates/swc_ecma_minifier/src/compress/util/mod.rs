@@ -616,13 +616,18 @@ pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
             ..
         })) => false,
 
-        Stmt::Decl(
-            Decl::Var(box VarDecl {
-                kind: VarDeclKind::Var,
-                ..
-            })
-            | Decl::Fn(..),
-        ) => true,
+        Stmt::Decl(Decl::Var(v))
+            if matches!(
+                &**v,
+                VarDecl {
+                    kind: VarDeclKind::Var,
+                    ..
+                }
+            ) =>
+        {
+            true
+        }
+        Stmt::Decl(Decl::Fn(..)) => true,
         Stmt::Decl(..) => false,
         _ => true,
     }
