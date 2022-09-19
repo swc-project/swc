@@ -25,9 +25,9 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             }
             if (null != indentationInfo) {
                 var edit = this.GetIndentEdit(indentationInfo, token.Span.startPosition(), sameLineIndent);
-                null != edit && (this.RegisterIndentation(edit, sameLineIndent), result.add(edit), token.Token == AuthorTokenKind.atkComment) && this.GetCommentIndentationEdits(token).foreach(function(item) {
+                null != edit && (this.RegisterIndentation(edit, sameLineIndent), result.add(edit), token.Token == AuthorTokenKind.atkComment && this.GetCommentIndentationEdits(token).foreach(function(item) {
                     result.add(item);
-                });
+                }));
             }
             return result;
         }, _proto.GetCommentIndentationEdits = function(token) {

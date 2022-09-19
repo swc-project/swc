@@ -752,7 +752,7 @@
         }
         if (last) for(var i$1 = 0; i$1 < last.length; ++i$1){
             var span$1 = last[i$1];
-            (null != span$1.to && (span$1.to += offset), null == span$1.from) ? !getMarkedSpanFor(first, span$1.marker) && (span$1.from = offset, sameLine && (first || (first = [])).push(span$1)) : (span$1.from += offset, sameLine && (first || (first = [])).push(span$1));
+            null != span$1.to && (span$1.to += offset), null == span$1.from ? !getMarkedSpanFor(first, span$1.marker) && (span$1.from = offset, sameLine && (first || (first = [])).push(span$1)) : (span$1.from += offset, sameLine && (first || (first = [])).push(span$1));
         }
         first && (first = clearEmptySpans(first)), last && last != first && (last = clearEmptySpans(last));
         var newMarkers = [

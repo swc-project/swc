@@ -1091,7 +1091,7 @@
                             var prevScroll = this.$lastScroll, t = ev.domEvent.timeStamp, dt = t - prevScroll.t, vx = dt ? ev.wheelX / dt : prevScroll.vx, vy = dt ? ev.wheelY / dt : prevScroll.vy;
                             dt < 550 && (vx = (vx + prevScroll.vx) / 2, vy = (vy + prevScroll.vy) / 2);
                             var direction = Math.abs(vx / vy), canScroll = !1;
-                            if ((direction >= 1 && editor.renderer.isScrollableBy(ev.wheelX * ev.speed, 0) && (canScroll = !0), direction <= 1 && editor.renderer.isScrollableBy(0, ev.wheelY * ev.speed) && (canScroll = !0), canScroll) ? prevScroll.allowed = t : t - prevScroll.allowed < 550 && (Math.abs(vx) <= 1.5 * Math.abs(prevScroll.vx) && Math.abs(vy) <= 1.5 * Math.abs(prevScroll.vy) ? (canScroll = !0, prevScroll.allowed = t) : prevScroll.allowed = 0), prevScroll.t = t, prevScroll.vx = vx, prevScroll.vy = vy, canScroll) return editor.renderer.scrollBy(ev.wheelX * ev.speed, ev.wheelY * ev.speed), ev.stop();
+                            if (direction >= 1 && editor.renderer.isScrollableBy(ev.wheelX * ev.speed, 0) && (canScroll = !0), direction <= 1 && editor.renderer.isScrollableBy(0, ev.wheelY * ev.speed) && (canScroll = !0), canScroll ? prevScroll.allowed = t : t - prevScroll.allowed < 550 && (Math.abs(vx) <= 1.5 * Math.abs(prevScroll.vx) && Math.abs(vy) <= 1.5 * Math.abs(prevScroll.vy) ? (canScroll = !0, prevScroll.allowed = t) : prevScroll.allowed = 0), prevScroll.t = t, prevScroll.vx = vx, prevScroll.vy = vy, canScroll) return editor.renderer.scrollBy(ev.wheelX * ev.speed, ev.wheelY * ev.speed), ev.stop();
                         }
                     };
                 }).call(DefaultHandlers.prototype), exports.DefaultHandlers = DefaultHandlers;
@@ -1258,11 +1258,11 @@
                     }, this), editor.on("mousedown", this.onMouseDown.bind(mouseHandler));
                     var dragSelectionMarker, x, y, timerId, range, dragCursor, mouseTarget = editor.container, counter = 0;
                     function onDragInterval() {
-                        var cursor, now, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement, cursor1, now1, vMovement1, hMovement, prevCursor = dragCursor;
-                        cursor1 = dragCursor = editor.renderer.screenToTextCoordinates(x, y), now1 = Date.now(), vMovement1 = !prevCursor || cursor1.row != prevCursor.row, hMovement = !prevCursor || cursor1.column != prevCursor.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor1), cursorMovedTime = now1, cursorPointOnCaretMoved = {
+                        var cursor, now, vMovement, hMovement, cursor1, now1, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement1, prevCursor = dragCursor;
+                        cursor = dragCursor = editor.renderer.screenToTextCoordinates(x, y), now = Date.now(), vMovement = !prevCursor || cursor.row != prevCursor.row, hMovement = !prevCursor || cursor.column != prevCursor.column, !cursorMovedTime || vMovement || hMovement ? (editor.moveCursorToPosition(cursor), cursorMovedTime = now, cursorPointOnCaretMoved = {
                             x: x,
                             y: y
-                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor = dragCursor, now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, nearestXOffset = Math.min((offsets = {
+                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor1 = dragCursor, now1 = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, nearestXOffset = Math.min((offsets = {
                             x: {
                                 left: x - (editorRect = editor.renderer.scroller.getBoundingClientRect()).left,
                                 right: editorRect.right - x
@@ -1272,9 +1272,9 @@
                                 bottom: editorRect.bottom - y
                             }
                         }).x.left, offsets.x.right), nearestYOffset = Math.min(offsets.y.top, offsets.y.bottom), scrollCursor = {
-                            row: cursor.row,
-                            column: cursor.column
-                        }, nearestXOffset / characterWidth <= 2 && (scrollCursor.column += offsets.x.left < offsets.x.right ? -3 : 2), nearestYOffset / lineHeight <= 1 && (scrollCursor.row += offsets.y.top < offsets.y.bottom ? -1 : 1), vScroll = cursor.row != scrollCursor.row, hScroll = cursor.column != scrollCursor.column, vMovement = !prevCursor || cursor.row != prevCursor.row, vScroll || hScroll && !vMovement ? autoScrollStartTime ? now - autoScrollStartTime >= 200 && editor.renderer.scrollCursorIntoView(scrollCursor) : autoScrollStartTime = now : autoScrollStartTime = null;
+                            row: cursor1.row,
+                            column: cursor1.column
+                        }, nearestXOffset / characterWidth <= 2 && (scrollCursor.column += offsets.x.left < offsets.x.right ? -3 : 2), nearestYOffset / lineHeight <= 1 && (scrollCursor.row += offsets.y.top < offsets.y.bottom ? -1 : 1), vScroll = cursor1.row != scrollCursor.row, hScroll = cursor1.column != scrollCursor.column, vMovement1 = !prevCursor || cursor1.row != prevCursor.row, vScroll || hScroll && !vMovement1 ? autoScrollStartTime ? now1 - autoScrollStartTime >= 200 && editor.renderer.scrollCursorIntoView(scrollCursor) : autoScrollStartTime = now1 : autoScrollStartTime = null;
                     }
                     function addDragMarker() {
                         range = editor.selection.toOrientedRange(), dragSelectionMarker = editor.session.addMarker(range, "ace_selection", editor.getSelectionStyle()), editor.clearSelection(), editor.isFocused() && editor.renderer.$cursorLayer.setBlinking(!1), clearInterval(timerId), onDragInterval(), timerId = setInterval(onDragInterval, 20), counter = 0, event.addListener(document, "mousemove", onMouseMove);
@@ -1395,7 +1395,7 @@
                                 if (e.editor.inMultiSelectMode && (e.getAccelKey() || e.getShiftKey())) return;
                                 this.mousedownEvent.time = Date.now();
                                 var eventTarget = e.domEvent.target || e.domEvent.srcElement;
-                                ("unselectable" in eventTarget && (eventTarget.unselectable = "on"), editor.getDragDelay()) ? (useragent.isWebKit && (this.cancelDrag = !0, editor.container.draggable = !0), this.setState("dragWait")) : this.startDrag(), this.captureMouse(e, this.onMouseDrag.bind(this)), e.defaultPrevented = !0;
+                                "unselectable" in eventTarget && (eventTarget.unselectable = "on"), editor.getDragDelay() ? (useragent.isWebKit && (this.cancelDrag = !0, editor.container.draggable = !0), this.setState("dragWait")) : this.startDrag(), this.captureMouse(e, this.onMouseDrag.bind(this)), e.defaultPrevented = !0;
                             }
                         }
                     };
