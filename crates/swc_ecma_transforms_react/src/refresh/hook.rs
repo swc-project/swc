@@ -244,13 +244,8 @@ impl<'a> VisitMut for HookRegister<'a> {
         e.visit_mut_children_with(self);
 
         match e {
-            Expr::Fn(FnExpr {
-                function: box Function {
-                    body: Some(body), ..
-                },
-                ..
-            }) => {
-                let sig = collect_hooks(&mut body.stmts, self.cm);
+            Expr::Fn(FnExpr { function: f, .. }) if f.body.is_some() => {
+                let sig = collect_hooks(&mut f.body.as_mut().unwrap().stmts, self.cm);
 
                 if let Some(HookSig { handle, hooks }) = sig {
                     self.ident.push(handle.clone());
@@ -282,15 +277,11 @@ impl<'a> VisitMut for HookRegister<'a> {
             } = decl
             {
                 match init.as_mut() {
-                    Expr::Fn(FnExpr {
-                        function:
-                            box Function {
-                                body: Some(body), ..
-                            },
-                        ..
-                    }) => {
-                        body.visit_mut_with(self);
-                        if let Some(sig) = collect_hooks(&mut body.stmts, self.cm) {
+                    Expr::Fn(FnExpr { function: f, .. }) if f.body.is_some() => {
+                        f.body.visit_mut_with(self);
+                        if let Some(sig) =
+                            collect_hooks(&mut f.body.as_mut().unwrap().stmts, self.cm)
+                        {
                             self.gen_hook_register_stmt(id.clone(), sig);
                         }
                     }
@@ -312,16 +303,16 @@ impl<'a> VisitMut for HookRegister<'a> {
         d.visit_mut_children_with(self);
 
         // only when expr has ident
-        if let DefaultDecl::Fn(FnExpr {
-            ident: Some(ident),
-            function: box Function {
-                body: Some(body), ..
-            },
-        }) = d
-        {
-            if let Some(sig) = collect_hooks(&mut body.stmts, self.cm) {
-                self.gen_hook_register_stmt(ident.clone(), sig);
+        match d {
+            DefaultDecl::Fn(FnExpr {
+                ident: Some(ident),
+                function: f,
+            }) if f.body.is_some() => {
+                if let Some(sig) = collect_hooks(&mut f.body.as_mut().unwrap().stmts, self.cm) {
+                    self.gen_hook_register_stmt(ident.clone(), sig);
+                }
             }
+            _ => {}
         }
     }
 
