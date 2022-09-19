@@ -1,6 +1,5 @@
 #![deny(clippy::all)]
 #![feature(box_patterns)]
-#![feature(box_syntax)]
 
 use std::cmp::Ordering;
 
