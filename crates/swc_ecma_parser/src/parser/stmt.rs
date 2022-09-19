@@ -1952,7 +1952,7 @@ export default function waitUntil(callback, options = {}) {
         match parse_for_head("let [, , t] = simple_array; t < 10; t++") {
             ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
-                VarDeclOrExpr::VarDecl(box VarDecl {
+                VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,
                     declare: false,
                     kind: VarDeclKind::Let,
@@ -1974,7 +1974,7 @@ export default function waitUntil(callback, options = {}) {
                         )))),
                         definite: false
                     }]
-                })
+                }))
             ),
             _ => unreachable!(),
         }
@@ -1984,7 +1984,7 @@ export default function waitUntil(callback, options = {}) {
         match parse_for_head("let {num} = obj; num < 11; num++") {
             ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
-                VarDeclOrExpr::VarDecl(box VarDecl {
+                VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,
                     declare: false,
                     kind: VarDeclKind::Let,
@@ -2003,7 +2003,7 @@ export default function waitUntil(callback, options = {}) {
                         init: Some(Box::new(Expr::Ident(Ident::new("obj".into(), span)))),
                         definite: false
                     }]
-                })
+                }))
             ),
             _ => unreachable!(),
         }
@@ -2180,7 +2180,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: box Class {
+                class: Box::new(Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2195,7 +2195,7 @@ export default function waitUntil(callback, options = {}) {
                             stmts: vec!(stmt("1 + 1;")),
                         }
                     }))
-                }
+                })
             }))
         );
     }
@@ -2217,7 +2217,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: box Class {
+                class: Box::new(Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2241,7 +2241,7 @@ export default function waitUntil(callback, options = {}) {
                             },
                         })
                     )
-                }
+                })
             }))
         );
     }
@@ -2268,7 +2268,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: box Class {
+                class: Box::new(Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2283,7 +2283,7 @@ export default function waitUntil(callback, options = {}) {
                             stmts: vec!(stmt("1 + 1;")),
                         }
                     }))
-                }
+                })
             }))
         );
     }
@@ -2308,7 +2308,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: box Class {
+                class: Box::new(Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2323,7 +2323,7 @@ export default function waitUntil(callback, options = {}) {
                             stmts: Vec::new(),
                         }
                     }))
-                }
+                })
             }))
         );
     }
