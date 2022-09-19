@@ -408,12 +408,12 @@ where
                 self.store(e.id.sym.clone(), e.id.span.ctxt, false);
             }
 
-            Decl::TsInterface(v) => self.store(v.id.sym.clone(), id.span.ctxt, false),
+            Decl::TsInterface(v) => self.store(v.id.sym.clone(), v.id.span.ctxt, false),
             Decl::TsModule(box TsModuleDecl {
                 id: TsModuleName::Ident(ref id),
                 ..
             }) => self.store(id.sym.clone(), id.span.ctxt, false),
-            Decl::TsTypeAlias(v) => self.store(v.id.sym.clone(), id.span.ctxt, false),
+            Decl::TsTypeAlias(v) => self.store(v.id.sym.clone(), v.id.span.ctxt, false),
 
             Decl::TsModule(box TsModuleDecl {
                 id:

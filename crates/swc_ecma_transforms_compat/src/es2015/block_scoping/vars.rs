@@ -313,7 +313,7 @@ impl VisitMut for BlockScopedVars {
         match &n.left {
             VarDeclOrPat::VarDecl(v)
                 if matches!(
-                    &*v,
+                    &**v,
                     VarDecl {
                         kind: VarDeclKind::Let | VarDeclKind::Const,
                         ..
@@ -338,7 +338,7 @@ impl VisitMut for BlockScopedVars {
         match &n.left {
             VarDeclOrPat::VarDecl(v)
                 if matches!(
-                    &*v,
+                    &**v,
                     VarDecl {
                         kind: VarDeclKind::Let | VarDeclKind::Const,
                         ..
@@ -361,7 +361,7 @@ impl VisitMut for BlockScopedVars {
         match &n.init {
             Some(VarDeclOrExpr::VarDecl(v))
                 if matches!(
-                    &*v,
+                    &**v,
                     VarDecl {
                         kind: VarDeclKind::Let | VarDeclKind::Const,
                         ..
