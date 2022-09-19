@@ -2303,28 +2303,14 @@ impl<I: Tokens> Parser<I> {
             "declare" => {
                 let decl = self.try_parse_ts_declare(start, decorators)?;
                 if let Some(mut decl) = decl {
-                    match decl {
-                        Decl::Class(ClassDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::Fn(FnDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::Var(box VarDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::TsInterface(box TsInterfaceDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::TsTypeAlias(box TsTypeAliasDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::TsEnum(box TsEnumDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::TsModule(box TsModuleDecl {
-                            ref mut declare, ..
-                        }) => *declare = true,
+                    match &mut decl {
+                        Decl::Class(ClassDecl { declare, .. })
+                        | Decl::Fn(FnDecl { declare, .. }) => *declare = true,
+                        Decl::Var(v) => v.declare = true,
+                        Decl::TsInterface(v) => v.declare = true,
+                        Decl::TsTypeAlias(v) => v.declare = true,
+                        Decl::TsEnum(v) => v.declare = true,
+                        Decl::TsModule(v) => v.declare = true,
                     }
                     Ok(Some(decl))
                 } else {
