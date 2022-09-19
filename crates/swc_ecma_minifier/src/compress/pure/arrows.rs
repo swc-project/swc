@@ -135,7 +135,7 @@ impl Pure<'_> {
             {
                 *p = Prop::Method(MethodProp {
                     key: kv.key.take(),
-                    function: box Function {
+                    function: Box::new(Function {
                         params: m
                             .params
                             .take()
@@ -153,7 +153,7 @@ impl Pure<'_> {
                         is_async: m.is_async,
                         type_params: Default::default(),
                         return_type: Default::default(),
-                    },
+                    }),
                 });
             }
         }

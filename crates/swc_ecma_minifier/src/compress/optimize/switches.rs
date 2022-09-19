@@ -127,12 +127,15 @@ where
             let mut stmts = Vec::new();
 
             if !var_ids.is_empty() {
-                stmts.push(Stmt::Decl(Decl::Var(box VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: var_ids,
-                })))
+                stmts.push(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: var_ids,
+                    }
+                    .into(),
+                )
             }
 
             stmts.push(discriminant.take().into_stmt());
@@ -157,12 +160,13 @@ where
                 *s = Stmt::Block(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![
-                        Stmt::Decl(Decl::Var(box VarDecl {
+                        VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
                             declare: Default::default(),
                             decls: var_ids,
-                        })),
+                        }
+                        .into(),
                         s.take(),
                     ],
                 })

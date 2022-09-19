@@ -413,12 +413,15 @@ where
                                 .collect::<Vec<_>>();
 
                             if !vars.is_empty() {
-                                self.prepend_stmts.push(Stmt::Decl(Decl::Var(box VarDecl {
-                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                                    kind: VarDeclKind::Var,
-                                    declare: Default::default(),
-                                    decls: vars,
-                                })));
+                                self.prepend_stmts.push(
+                                    VarDecl {
+                                        span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                        kind: VarDeclKind::Var,
+                                        declare: Default::default(),
+                                        decls: vars,
+                                    }
+                                    .into(),
+                                );
                             }
                         }
 
@@ -767,12 +770,15 @@ where
         if !vars.is_empty() {
             trace_op!("iife: Creating variables: {:?}", vars);
 
-            self.prepend_stmts.push(Stmt::Decl(Decl::Var(box VarDecl {
-                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                kind: VarDeclKind::Var,
-                declare: Default::default(),
-                decls: vars,
-            })));
+            self.prepend_stmts.push(
+                VarDecl {
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: vars,
+                }
+                .into(),
+            );
         }
 
         for mut stmt in body.stmts.take() {
