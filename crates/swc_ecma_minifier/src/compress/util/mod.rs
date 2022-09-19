@@ -680,7 +680,7 @@ impl UnreachableHandler {
         if v.vars.is_empty() {
             *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
         } else {
-            *s = Stmt::Decl(Decl::Var(box VarDecl {
+            *s = VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: false,
@@ -696,7 +696,8 @@ impl UnreachableHandler {
                         definite: false,
                     })
                     .collect(),
-            }))
+            }
+            .into()
         }
 
         true

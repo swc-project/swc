@@ -250,12 +250,15 @@ impl Pure<'_> {
         if !prepender.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                T::from_stmt(Stmt::Decl(Decl::Var(box VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: prepender.vars,
-                }))),
+                T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: prepender.vars,
+                    }
+                    .into(),
+                ),
             );
         }
     }
