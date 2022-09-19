@@ -409,19 +409,15 @@ where
             }
 
             Decl::TsInterface(v) => self.store(v.id.sym.clone(), v.id.span.ctxt, false),
-            Decl::TsModule(box TsModuleDecl {
-                id: TsModuleName::Ident(ref id),
-                ..
-            }) => self.store(id.sym.clone(), id.span.ctxt, false),
+
             Decl::TsTypeAlias(v) => self.store(v.id.sym.clone(), v.id.span.ctxt, false),
 
-            Decl::TsModule(box TsModuleDecl {
-                id:
-                    TsModuleName::Str(Str {
-                        ref value, span, ..
-                    }),
-                ..
-            }) => self.store(value.clone(), span.ctxt, false),
+            Decl::TsModule(m) => match m.id {
+                TsModuleName::Ident(id) => self.store(id.sym.clone(), id.span.ctxt, false),
+                TsModuleName::Str(Str {
+                    ref value, span, ..
+                }) => self.store(value.clone(), span.ctxt, false),
+            },
         }
     }
 }
