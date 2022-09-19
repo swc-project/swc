@@ -48,7 +48,7 @@ impl Operator<'_> {
 
         let class_expr = ClassExpr {
             ident: Some(orig_name),
-            class: box class.take(),
+            class: Box::new(class.take()),
         };
 
         Some(class_expr)
@@ -120,12 +120,13 @@ impl<'a> VisitMut for Operator<'a> {
                         init: Some(Box::new(Expr::Class(expr))),
                         definite: false,
                     };
-                    *decl = Decl::Var(box VarDecl {
+                    *decl = VarDecl {
                         span,
                         kind: VarDeclKind::Let,
                         declare: false,
                         decls: vec![var],
-                    });
+                    }
+                    .into();
                     return;
                 }
 
@@ -324,17 +325,17 @@ impl<'a> VisitMut for Operator<'a> {
                 if renamed.is_empty() {
                     *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                         span,
-                        decl: Decl::Var(box VarDecl {
+                        decl: Decl::Var(Box::new(VarDecl {
                             decls,
                             ..*var.take()
-                        }),
+                        })),
                     }));
                     return;
                 }
-                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(box VarDecl {
+                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     decls,
                     ..*var.take()
-                })));
+                }))));
                 self.extra
                     .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
