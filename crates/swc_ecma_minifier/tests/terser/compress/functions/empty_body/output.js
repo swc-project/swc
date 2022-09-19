@@ -1,3 +1,3 @@
 function f() {
-    return function noop() {};
+    return function() {};
 }

@@ -610,7 +610,11 @@ where
                         class: c.class,
                     })),
                     Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                        ident: Some(f.ident),
+                        ident: if IdentUsageFinder::find(&f.ident.to_id(), &f.function) {
+                            Some(f.ident)
+                        } else {
+                            None
+                        },
                         function: f.function,
                     })),
                     _ => {
