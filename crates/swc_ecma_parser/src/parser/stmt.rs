@@ -1029,22 +1029,12 @@ impl<'a, I: Tokens> Parser<I> {
 
             let body = Box::new(if is!(p, "function") {
                 let f = p.parse_fn_decl(vec![])?;
-                if let Decl::Fn(FnDecl {
-                    function:
-                        box Function {
-                            span,
-                            is_generator,
-                            is_async,
-                            ..
-                        },
-                    ..
-                }) = f
-                {
+                if let Decl::Fn(FnDecl { function, .. }) = f {
                     if p.ctx().strict {
-                        p.emit_err(span, SyntaxError::LabelledFunctionInStrict)
+                        p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
                     }
-                    if is_generator || is_async {
-                        p.emit_err(span, SyntaxError::LabelledGeneratorOrAsync)
+                    if function.is_generator || function.is_async {
+                        p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
                     }
                 }
 
