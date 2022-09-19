@@ -106,12 +106,17 @@ where
                                 | Stmt::ForIn(..)
                                 | Stmt::ForOf(..) => true,
 
-                                Stmt::Decl(Decl::Var(
-                                    v @ box VarDecl {
-                                        kind: VarDeclKind::Var,
-                                        ..
-                                    },
-                                )) => v.decls.iter().all(|vd| vd.init.is_none()),
+                                Stmt::Decl(Decl::Var(v))
+                                    if matches!(
+                                        &**v,
+                                        VarDecl {
+                                            kind: VarDeclKind::Var,
+                                            ..
+                                        }
+                                    ) =>
+                                {
+                                    v.decls.iter().all(|vd| vd.init.is_none())
+                                }
 
                                 Stmt::Decl(Decl::Fn(..)) => true,
 
