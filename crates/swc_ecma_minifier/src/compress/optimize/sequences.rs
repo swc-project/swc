@@ -1890,7 +1890,16 @@ where
         );
 
         let to = match a {
-            Mergable::Var(a) => a.init.take().unwrap_or_else(|| undefined(DUMMY_SP)),
+            Mergable::Var(a) => {
+                if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                    if usage.usage_count == 1 {
+                        report_change!("sequences: Dropping inlined variable");
+                        a.name.take();
+                    }
+                }
+
+                a.init.take().unwrap_or_else(|| undefined(DUMMY_SP))
+            }
             Mergable::Expr(a) => Box::new(a.take()),
         };
 
