@@ -402,20 +402,18 @@ where
                 }
             }
 
-            Decl::TsEnum(box TsEnumDecl { ref id, .. }) => {
+            Decl::TsEnum(e) => {
                 // Currently swc cannot remove constant enums
-                self.store(id.sym.clone(), id.span.ctxt, true);
-                self.store(id.sym.clone(), id.span.ctxt, false);
+                self.store(e.id.sym.clone(), id.span.ctxt, true);
+                self.store(e.id.sym.clone(), id.span.ctxt, false);
             }
 
-            Decl::TsInterface(box TsInterfaceDecl { ref id, .. })
-            | Decl::TsModule(box TsModuleDecl {
+            Decl::TsInterface(v) => self.store(v.id.sym.clone(), id.span.ctxt, false),
+            Decl::TsModule(box TsModuleDecl {
                 id: TsModuleName::Ident(ref id),
                 ..
-            })
-            | Decl::TsTypeAlias(box TsTypeAliasDecl { ref id, .. }) => {
-                self.store(id.sym.clone(), id.span.ctxt, false)
-            }
+            }) => self.store(id.sym.clone(), id.span.ctxt, false),
+            Decl::TsTypeAlias(v) => self.store(v.id.sym.clone(), id.span.ctxt, false),
 
             Decl::TsModule(box TsModuleDecl {
                 id:
