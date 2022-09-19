@@ -223,18 +223,19 @@ where
                 && ref_count == 1
             {
                 match init {
-                    Expr::Fn(FnExpr {
-                        function: box Function { is_async: true, .. },
-                        ..
-                    })
-                    | Expr::Fn(FnExpr {
-                        function:
-                            box Function {
-                                is_generator: true, ..
-                            },
-                        ..
-                    })
-                    | Expr::Arrow(ArrowExpr { is_async: true, .. })
+                    Expr::Fn(FnExpr { function: f, .. }) | Expr::Fn(FnExpr { function: f, .. })
+                        if matches!(
+                            &**f,
+                            Function { is_async: true, .. }
+                                | Function {
+                                    is_generator: true,
+                                    ..
+                                }
+                        ) =>
+                    {
+                        return
+                    }
+                    Expr::Arrow(ArrowExpr { is_async: true, .. })
                     | Expr::Arrow(ArrowExpr {
                         is_generator: true, ..
                     }) => return,
