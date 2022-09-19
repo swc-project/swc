@@ -749,7 +749,7 @@
         } else config._isValid = !1;
     }
     function configFromRFC2822(config) {
-        var weekdayStr, parsedInput, config1, year, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr, result, parsedArray, match = rfc2822.exec((0, config._i).replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, ""));
+        var year, weekdayStr, parsedInput, config1, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr, result, parsedArray, match = rfc2822.exec((0, config._i).replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, ""));
         if (match) {
             if (yearStr = match[4], monthStr = match[3], dayStr = match[2], hourStr = match[5], minuteStr = match[6], secondStr = match[7], result = [
                 (year = parseInt(yearStr, 10)) <= 49 ? 2000 + year : year <= 999 ? 1900 + year : year,
