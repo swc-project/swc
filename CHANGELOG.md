@@ -10,6 +10,12 @@
 
 - **(es/minifier)** Remove more pure calls (#5900) ([83c7887](https://github.com/swc-project/swc/commit/83c7887600bcb391203911f3c82b62e16a217120))
 
+### Features
+
+
+
+- **(es/minifier)** Drop function identifier in a single pass (#5901) ([aacf7aa](https://github.com/swc-project/swc/commit/aacf7aaf80034509cf20e4b54d87c2e95ae9b3df))
+
 ## [1.3.2] - 2022-09-19
 
 ### Bug Fixes
