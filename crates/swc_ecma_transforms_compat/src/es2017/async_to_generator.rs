@@ -365,9 +365,7 @@ impl<C: Comments> Actual<C> {
                 }
             }
 
-            Expr::Fn(fn_expr @ FnExpr { function, .. })
-                if matches!(&**function, Function { is_async: true, .. }) =>
-            {
+            Expr::Fn(fn_expr) if fn_expr.function.is_async => {
                 let mut wrapper = FunctionWrapper::from(fn_expr.take());
                 wrapper.ignore_function_name = self.c.ignore_function_name;
                 wrapper.ignore_function_length = self.c.ignore_function_length;
