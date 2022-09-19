@@ -1707,14 +1707,14 @@ impl VisitMut for Hoister<'_, '_> {
 
     fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
         match n {
-            VarDeclOrExpr::VarDecl(box VarDecl {
-                kind: VarDeclKind::Let,
-                ..
-            })
-            | VarDeclOrExpr::VarDecl(box VarDecl {
-                kind: VarDeclKind::Const,
-                ..
-            }) => {}
+            VarDeclOrExpr::VarDecl(v)
+                if matches!(
+                    &**v,
+                    VarDecl {
+                        kind: VarDeclKind::Let | VarDeclKind::Const,
+                        ..
+                    }
+                ) => {}
             _ => {
                 n.visit_mut_children_with(self);
             }
@@ -1723,14 +1723,14 @@ impl VisitMut for Hoister<'_, '_> {
 
     fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
         match n {
-            VarDeclOrPat::VarDecl(box VarDecl {
-                kind: VarDeclKind::Let,
-                ..
-            })
-            | VarDeclOrPat::VarDecl(box VarDecl {
-                kind: VarDeclKind::Const,
-                ..
-            }) => {}
+            VarDeclOrPat::VarDecl(v)
+                if matches!(
+                    &**v,
+                    VarDecl {
+                        kind: VarDeclKind::Let | VarDeclKind::Const,
+                        ..
+                    }
+                ) => {}
             // Hoister should not handle lhs of for in statement below
             //
             // const b = [];
