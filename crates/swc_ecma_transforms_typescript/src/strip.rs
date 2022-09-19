@@ -2543,11 +2543,8 @@ where
                 }
 
                 // Strip out ts-only extensions
-                Stmt::Decl(Decl::Fn(FnDecl {
-                    function: box Function { body: None, .. },
-                    ..
-                }))
-                | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
+                Stmt::Decl(Decl::Fn(FnDecl { function: f, .. })) if f.body.is_none() => continue,
+                Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
 
                 Stmt::Decl(Decl::Class(mut class)) => {
                     class.visit_mut_with(self);
