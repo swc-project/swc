@@ -1246,14 +1246,19 @@ where
                 //
                 // TODO: Support multiple statements.
                 if bs.stmts.len() == 1
-                    && bs.stmts.iter().all(|stmt| {
-                        matches!(
-                            stmt,
-                            Stmt::Decl(Decl::Var(box VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            }))
-                        )
+                    && bs.stmts.iter().all(|stmt| match stmt {
+                        Stmt::Decl(Decl::Var(v))
+                            if matches!(
+                                &**v,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                }
+                            ) =>
+                        {
+                            true
+                        }
+                        _ => false,
                     })
                 {
                     report_change!("optimizer: Unwrapping a block with variable statements");
