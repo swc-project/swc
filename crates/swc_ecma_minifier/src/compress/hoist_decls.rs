@@ -119,7 +119,7 @@ impl Hoister<'_> {
 
                         Stmt::Decl(Decl::Var(var))
                             if matches!(
-                                &**var,
+                                &*var,
                                 VarDecl {
                                     kind: VarDeclKind::Var,
                                     ..
@@ -181,11 +181,15 @@ impl Hoister<'_> {
                             })))
                         }
 
-                        Stmt::Decl(Decl::Var(box VarDecl {
-                            kind: VarDeclKind::Var,
-                            decls,
-                            ..
-                        })) => {
+                        Stmt::Decl(Decl::Var(v))
+                            if matches!(
+                                &*v,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                }
+                            ) =>
+                        {
                             // It can be merged because we didn't found normal statement.
                             //
                             // Code like
@@ -194,7 +198,7 @@ impl Hoister<'_> {
                             // var b = 3;
                             //
                             // will be merged.
-                            var_decls.extend(decls.into_iter().filter(|decl| {
+                            var_decls.extend(v.decls.into_iter().filter(|decl| {
                                 // We should preserve if init exists because
                                 //
                                 // var a = 2, a = 3;
