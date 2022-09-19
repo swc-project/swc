@@ -69,3 +69,7 @@
 @media not (((resolution: -300dpi))) {  body { background: green; }  }
 
 @media (grid) and (max-width: 15em) { body { background: green; } }
+
+@media (max-width: calc(5px + 1rem)) { body { color: red; } }
+
+@media (-webkit-calc(10px + 100px) < width <= calc(1000px + 10px)) { body { color: red; } }
