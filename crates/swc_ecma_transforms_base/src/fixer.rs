@@ -466,37 +466,33 @@ impl VisitMut for Fixer<'_> {
         if s.await_token.is_none() {
             match &s.left {
                 VarDeclOrPat::Pat(p)
-                    if match &**p {
+                    if matches!(
+                        &**p,
                         Pat::Ident(BindingIdent {
-                            id:
-                                id @ Ident {
-                                    sym: js_word!("async"),
-                                    ..
-                                },
+                            id: Ident {
+                                sym: js_word!("async"),
+                                ..
+                            },
                             ..
-                        }) => true,
-                        _ => false,
-                    } =>
+                        })
+                    ) =>
                 {
-                    let expr = Expr::Ident(p.expect_ident().take());
+                    let expr = Expr::Ident(p.clone().expect_ident().id);
                     s.left = VarDeclOrPat::Pat(Pat::Expr(Box::new(expr)).into());
                 }
                 _ => (),
             }
 
-            match &mut s.left {
-                VarDeclOrPat::Pat(e) => match &mut **e {
-                    Pat::Expr(expr) => {
-                        if let Expr::Ident(Ident {
-                            sym: js_word!("async"),
-                            ..
-                        }) = &**expr
-                        {
-                            self.wrap(&mut *expr);
-                        }
+            if let VarDeclOrPat::Pat(e) = &mut s.left {
+                if let Pat::Expr(expr) = &mut **e {
+                    if let Expr::Ident(Ident {
+                        sym: js_word!("async"),
+                        ..
+                    }) = &**expr
+                    {
+                        self.wrap(&mut *expr);
                     }
-                },
-                _ => (),
+                }
             }
         }
 
