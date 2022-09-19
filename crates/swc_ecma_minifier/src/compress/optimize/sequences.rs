@@ -132,12 +132,15 @@ where
 
             if stmts.len() == 2 {
                 match stmts[1].as_stmt() {
-                    Some(Stmt::Decl(Decl::Var(
-                        v @ box VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        },
-                    ))) => {
+                    Some(Stmt::Decl(Decl::Var(v)))
+                        if matches!(
+                            &**v,
+                            VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            },
+                        ) =>
+                    {
                         if v.decls.iter().all(|vd| vd.init.is_none()) {
                             return;
                         }
@@ -300,12 +303,15 @@ where
                             new_stmts.push(T::from_stmt(Stmt::ForOf(stmt)));
                         }
 
-                        Stmt::Decl(Decl::Var(
-                            var @ box VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            },
-                        )) if var.decls.iter().all(|v| v.init.is_none()) => {
+                        Stmt::Decl(Decl::Var(var))
+                            if matches!(
+                                &*v,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                }
+                            ) && var.decls.iter().all(|v| v.init.is_none()) =>
+                        {
                             new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(var))));
                         }
 
