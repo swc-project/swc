@@ -59,23 +59,7 @@ define([
         ], function(m) {
             return resolve(_interopRequireWildcard(m));
         }, reject);
-    });
-    !function() {
-        "use strict";
-        function C() {
-            _classCallCheck(this, C);
-        }
-        return C.prototype.method = function() {
-            new Promise(function(resolve, reject) {
-                return require([
-                    "./0"
-                ], function(m) {
-                    return resolve(_interopRequireWildcard(m));
-                }, reject);
-            });
-        }, C;
-    }();
-    var D = function() {
+    }), D = function() {
         "use strict";
         function D() {
             _classCallCheck(this, D);

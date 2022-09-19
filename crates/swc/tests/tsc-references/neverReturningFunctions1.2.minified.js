@@ -1,22 +1,5 @@
 //// [neverReturningFunctions1.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
-    "use strict";
-    function Test() {
-        _class_call_check(this, Test);
-    }
-    var _proto = Test.prototype;
-    return _proto.fail = function(message) {
-        throw Error(message);
-    }, _proto.f1 = function(x) {
-        void 0 === x && this.fail("undefined argument"), x.length;
-    }, _proto.f2 = function(x) {
-        if (x >= 0) return x;
-        this.fail("negative number");
-    }, _proto.f3 = function(x) {
-        this.fail();
-    }, Test;
-}(), registerComponent("test-component", {
+registerComponent("test-component", {
     schema: {
         myProperty: {
             default: [],
@@ -43,3 +26,4 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         return f * this.data.num * this.system.data.counter;
     }
 });
+export { };
