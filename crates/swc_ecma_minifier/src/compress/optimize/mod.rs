@@ -45,7 +45,6 @@ mod collapse_vars;
 mod conditionals;
 mod dead_code;
 mod evaluate;
-mod fns;
 mod if_return;
 mod iife;
 mod inline;
