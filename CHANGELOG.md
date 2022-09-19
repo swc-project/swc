@@ -29,6 +29,9 @@
 - **(es/minifier)** Move assign with seq init into seq (#5847) ([63fb0c4](https://github.com/swc-project/swc/commit/63fb0c4ad34698d4d3f0c49ff5a78f6e446e64f9))
 
 
+- **(es/minifier)** Drop variable from the sequential inliner (#5896) ([4e656af](https://github.com/swc-project/swc/commit/4e656af1ecddadc4fa96e79aaf7338b7f22a672c))
+
+
 - **(es/plugin)** Enable plugin for bytecheck flags (#5885) ([2d4d04d](https://github.com/swc-project/swc/commit/2d4d04d06beec5c88e8515c95298a0bf5d961d8c))
 
 
@@ -41,7 +44,7 @@
 
 
 
-- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))- **general**: Fix publish script ([720b3e0](https://github.com/swc-project/swc/commit/720b3e05c1e5fa9ab5bdae5f6d1268d6f6bce885))
+- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))- **general**: Fix publish script ([720b3e0](https://github.com/swc-project/swc/commit/720b3e05c1e5fa9ab5bdae5f6d1268d6f6bce885))- **general**: Remove `.prettierrc.json` (#5895) ([89f0a4c](https://github.com/swc-project/swc/commit/89f0a4c5ac66d30ac2b9bf51db488a9946acea65))
 
 ### Performance
 
