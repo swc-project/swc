@@ -117,12 +117,15 @@ impl Hoister<'_> {
                             fn_decls.push(T::from_stmt(stmt))
                         }
 
-                        Stmt::Decl(Decl::Var(
-                            var @ box VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            },
-                        )) if found_non_var_decl => {
+                        Stmt::Decl(Decl::Var(var))
+                            if matches!(
+                                &**var,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                }
+                            ) && found_non_var_decl =>
+                        {
                             let mut exprs = vec![];
                             for decl in var.decls {
                                 let ids: Vec<Ident> = find_pat_ids(&decl.name);
