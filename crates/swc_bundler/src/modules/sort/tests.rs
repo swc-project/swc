@@ -512,11 +512,10 @@ fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
             | ModuleDecl::ExportDefaultDecl(ExportDefaultDecl { span, .. })
             | ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { span, .. })
             | ModuleDecl::ExportAll(ExportAll { span, .. })
-            | ModuleDecl::TsImportEquals(box TsImportEqualsDecl { span, .. })
             | ModuleDecl::TsExportAssignment(TsExportAssignment { span, .. })
-            | ModuleDecl::TsNamespaceExport(TsNamespaceExportDecl { span, .. }) => {
-                span.ctxt = ctxt;
-            }
+            | ModuleDecl::TsNamespaceExport(TsNamespaceExportDecl { span, .. }) => span.ctxt = ctxt,
+
+            ModuleDecl::TsImportEquals(v) => v.span.ctxt = ctxt,
         },
         ModuleItem::Stmt(stmt) => match stmt {
             Stmt::Empty(_) => {}
@@ -530,31 +529,21 @@ fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
             | Stmt::If(IfStmt { span, .. })
             | Stmt::Switch(SwitchStmt { span, .. })
             | Stmt::Throw(ThrowStmt { span, .. })
-            | Stmt::Try(box TryStmt { span, .. })
             | Stmt::While(WhileStmt { span, .. })
             | Stmt::DoWhile(DoWhileStmt { span, .. })
             | Stmt::For(ForStmt { span, .. })
             | Stmt::ForIn(ForInStmt { span, .. })
             | Stmt::ForOf(ForOfStmt { span, .. })
-            | Stmt::Expr(ExprStmt { span, .. }) => {
-                span.ctxt = ctxt;
-            }
+            | Stmt::Expr(ExprStmt { span, .. }) => span.ctxt = ctxt,
+            Stmt::Try(v) => v.span.ctxt = ctxt,
             Stmt::Decl(decl) => match decl {
-                Decl::Class(ClassDecl {
-                    class: box Class { span, .. },
-                    ..
-                })
-                | Decl::Fn(FnDecl {
-                    function: box Function { span, .. },
-                    ..
-                })
-                | Decl::Var(box VarDecl { span, .. })
-                | Decl::TsInterface(box TsInterfaceDecl { span, .. })
-                | Decl::TsTypeAlias(box TsTypeAliasDecl { span, .. })
-                | Decl::TsEnum(box TsEnumDecl { span, .. })
-                | Decl::TsModule(box TsModuleDecl { span, .. }) => {
-                    span.ctxt = ctxt;
-                }
+                Decl::Class(ClassDecl { class: v, .. }) => v.span.ctxt = ctxt,
+                Decl::Fn(FnDecl { function: v, .. }) => v.span.ctxt = ctxt,
+                Decl::Var(v) => v.span.ctxt = ctxt,
+                Decl::TsInterface(v) => v.span.ctxt = ctxt,
+                Decl::TsTypeAlias(v) => v.span.ctxt = ctxt,
+                Decl::TsEnum(v) => v.span.ctxt = ctxt,
+                Decl::TsModule(v) => v.span.ctxt = ctxt,
             },
         },
     }
