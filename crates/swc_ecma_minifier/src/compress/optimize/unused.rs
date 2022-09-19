@@ -65,10 +65,8 @@ where
                     self.drop_unused_vars(var.span, &mut var.name, None);
                 }
                 // I don't know why, but terser preserves this
-                Expr::Fn(FnExpr {
-                    function: box Function { is_async: true, .. },
-                    ..
-                }) => {}
+                Expr::Fn(FnExpr { function, .. })
+                    if matches!(&**function, Function { is_async: true, .. }) => {}
                 _ => {
                     self.drop_unused_vars(var.span, &mut var.name, Some(init));
 
