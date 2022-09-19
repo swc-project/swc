@@ -391,13 +391,6 @@ where
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.reorder_stmts(stmts);
-
-        #[cfg(debug_assertions)]
-        {
-            stmts.visit_with(&mut AssertValid);
-        }
-
         self.merge_sequences_in_stmts(stmts);
 
         #[cfg(debug_assertions)]
