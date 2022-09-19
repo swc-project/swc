@@ -6,7 +6,6 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-
 #[cfg(test)]
 mod tests;
 
@@ -3034,10 +3033,12 @@ where
     }
 }
 
-fn is_math_function(name: &str) -> bool {
+pub(crate) fn is_math_function(name: &str) -> bool {
     matches!(
         &*name.to_ascii_lowercase(),
         "calc"
+            | "-moz-calc"
+            | "-webkit-calc"
             | "sin"
             | "cos"
             | "tan"

@@ -733,6 +733,7 @@ define!({
         Dimension(Dimension),
         Ident(Ident),
         Ratio(Ratio),
+        Function(Function),
     }
 
     pub struct MediaFeaturePlain {

@@ -350,6 +350,9 @@ pub enum MediaFeatureValue {
 
     #[tag("Ratio")]
     Ratio(Ratio),
+
+    #[tag("Function")]
+    Function(Function),
 }
 
 #[ast_node("MediaFeaturePlain")]
