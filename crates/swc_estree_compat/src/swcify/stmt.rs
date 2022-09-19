@@ -538,9 +538,12 @@ impl Swcify for ExportNamedDeclaration {
                         .map(PropOrSpread::Prop)
                         .collect()
                 })
-                .map(|props| ObjectLit {
-                    span: DUMMY_SP,
-                    props,
+                .map(|props| {
+                    ObjectLit {
+                        span: DUMMY_SP,
+                        props,
+                    }
+                    .into()
                 }),
         }
     }
@@ -619,7 +622,7 @@ impl Swcify for ImportDeclaration {
         ImportDecl {
             span: ctx.span(&self.base),
             specifiers: self.specifiers.swcify(ctx),
-            src: self.source.swcify(ctx),
+            src: self.source.swcify(ctx).into(),
             type_only: false,
             asserts: self
                 .assertions
@@ -632,9 +635,12 @@ impl Swcify for ImportDeclaration {
                         .map(PropOrSpread::Prop)
                         .collect()
                 })
-                .map(|props| ObjectLit {
-                    span: DUMMY_SP,
-                    props,
+                .map(|props| {
+                    ObjectLit {
+                        span: DUMMY_SP,
+                        props,
+                    }
+                    .into()
                 }),
         }
     }
