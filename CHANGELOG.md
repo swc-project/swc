@@ -5,6 +5,9 @@
 
 
 
+- **(cli)** Add missing comma (#5902) ([ccca6d0](https://github.com/swc-project/swc/commit/ccca6d0a8866b9e34e1778e176ed47d19e30be78))
+
+
 - **(es/minifier)** Remove more pure calls (#5900) ([83c7887](https://github.com/swc-project/swc/commit/83c7887600bcb391203911f3c82b62e16a217120))
 
 ## [1.3.2] - 2022-09-19
