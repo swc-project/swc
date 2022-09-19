@@ -388,7 +388,7 @@ where
             return;
         }
 
-        match *decl {
+        match &decl {
             Decl::Class(ClassDecl { ref ident, .. }) | Decl::Fn(FnDecl { ref ident, .. }) => {
                 self.store(ident.sym.clone(), ident.span.ctxt, true);
             }
@@ -412,7 +412,7 @@ where
 
             Decl::TsTypeAlias(v) => self.store(v.id.sym.clone(), v.id.span.ctxt, false),
 
-            Decl::TsModule(m) => match m.id {
+            Decl::TsModule(m) => match &m.id {
                 TsModuleName::Ident(id) => self.store(id.sym.clone(), id.span.ctxt, false),
                 TsModuleName::Str(Str {
                     ref value, span, ..

@@ -85,82 +85,91 @@ impl VisitMut for ImportExportAssign {
 
         for item in n.drain(..) {
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(box TsImportEqualsDecl {
-                    span,
-                    declare: false,
-                    is_export,
-                    is_type_only: false,
-                    id,
-                    module_ref: TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { expr, .. }),
-                })) if self.config != TsImportExportAssignConfig::Preserve => match self.config {
-                    TsImportExportAssignConfig::Classic => {
-                        // const foo = require("foo")
-                        let mut var_decl = cjs_require
-                            .clone()
-                            .as_call(DUMMY_SP, vec![expr.as_arg()])
-                            .into_var_decl(VarDeclKind::Const, id.clone().into());
-                        var_decl.span = span;
-
-                        stmts.push(Stmt::Decl(var_decl.into()).into());
-
-                        // exports.foo = foo;
-                        if is_export {
-                            stmts.push(
-                                id.make_assign_to(
-                                    op!("="),
-                                    member_expr!(DUMMY_SP, exports.foo).into(),
-                                )
-                                .into_stmt()
-                                .into(),
-                            )
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(v))
+                    if matches!(
+                        &*v,
+                        TsImportEqualsDecl {
+                            declare: false,
+                            is_type_only: false,
+                            module_ref: TsModuleRef::TsExternalModuleRef(TsExternalModuleRef {
+                                expr,
+                                ..
+                            }),
                         }
-                    }
-                    TsImportExportAssignConfig::EsNext => {
-                        // TS1202
-                        HANDLER.with(|handler| {
+                    ) && self.config != TsImportExportAssignConfig::Preserve =>
+                {
+                    let expr = v.module_ref.expect_ts_external_module_ref().expr;
+
+                    match self.config {
+                        TsImportExportAssignConfig::Classic => {
+                            // const foo = require("foo")
+                            let mut var_decl = cjs_require
+                                .clone()
+                                .as_call(DUMMY_SP, vec![expr.as_arg()])
+                                .into_var_decl(VarDeclKind::Const, v.id.clone().into());
+                            var_decl.span = v.span;
+
+                            stmts.push(Stmt::Decl(var_decl.into()).into());
+
+                            // exports.foo = foo;
+                            if v.is_export {
+                                stmts.push(
+                                    v.id.make_assign_to(
+                                        op!("="),
+                                        member_expr!(DUMMY_SP, exports.foo).into(),
+                                    )
+                                    .into_stmt()
+                                    .into(),
+                                )
+                            }
+                        }
+                        TsImportExportAssignConfig::EsNext => {
+                            // TS1202
+                            HANDLER.with(|handler| {
                             handler
                                 .struct_span_err(
-                                    span,
+                                    v.span,
                                     r#"Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead."#,
                                 )
                                 .emit()
                         });
-                    }
-                    TsImportExportAssignConfig::NodeNext => {
-                        // const foo = __require("foo")
-                        stmts.push(
-                            Stmt::Decl(
-                                require
-                                    .clone()
-                                    .as_call(span, vec![expr.as_arg()])
-                                    .into_var_decl(VarDeclKind::Const, id.clone().into())
-                                    .into(),
-                            )
-                            .into(),
-                        );
-
-                        // export { foo }
-                        if is_export {
-                            stmts.push(ModuleItem::ModuleDecl(
-                                NamedExport {
-                                    span,
-                                    specifiers: vec![ExportNamedSpecifier {
-                                        span,
-                                        orig: id.into(),
-                                        exported: None,
-                                        is_type_only: false,
-                                    }
-                                    .into()],
-                                    src: None,
-                                    type_only: false,
-                                    asserts: None,
-                                }
-                                .into(),
-                            ))
                         }
+                        TsImportExportAssignConfig::NodeNext => {
+                            // const foo = __require("foo")
+                            stmts.push(
+                                Stmt::Decl(
+                                    require
+                                        .clone()
+                                        .as_call(v.span, vec![expr.as_arg()])
+                                        .into_var_decl(VarDeclKind::Const, v.id.clone().into())
+                                        .into(),
+                                )
+                                .into(),
+                            );
+
+                            // export { foo }
+                            if v.is_export {
+                                stmts.push(ModuleItem::ModuleDecl(
+                                    NamedExport {
+                                        span: v.span,
+                                        specifiers: vec![ExportNamedSpecifier {
+                                            span: v.span,
+                                            orig: v.id.into(),
+                                            exported: None,
+                                            is_type_only: false,
+                                        }
+                                        .into()],
+                                        src: None,
+                                        type_only: false,
+                                        asserts: None,
+                                    }
+                                    .into(),
+                                ))
+                            }
+                        }
+                        TsImportExportAssignConfig::Preserve => unreachable!(),
                     }
-                    TsImportExportAssignConfig::Preserve => unreachable!(),
-                },
+                }
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export_assign)) => {
                     self.export_assign.get_or_insert(export_assign);
                 }
