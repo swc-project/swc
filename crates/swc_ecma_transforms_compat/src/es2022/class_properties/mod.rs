@@ -273,8 +273,8 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 }
                 match stmt {
                     Stmt::Expr(e) => exprs.push(e.expr),
-                    Stmt::Decl(Decl::Var(box VarDecl { decls, .. })) => {
-                        for mut decl in decls {
+                    Stmt::Decl(Decl::Var(v)) => {
+                        for mut decl in v.decls {
                             let init = decl.init.take();
 
                             if let Some(init) = init {
