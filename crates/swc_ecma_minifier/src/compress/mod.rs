@@ -388,11 +388,11 @@ where
         stmts.retain(|stmt| match stmt {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::Var(box VarDecl { decls, .. }),
+                decl: Decl::Var(v),
                 ..
             }))
-            | ModuleItem::Stmt(Stmt::Decl(Decl::Var(box VarDecl { decls, .. })))
-                if decls.is_empty() =>
+            | ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
+                if v.decls.is_empty() =>
             {
                 false
             }

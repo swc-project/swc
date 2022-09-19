@@ -604,11 +604,16 @@ where
         }
 
         if !body.stmts.iter().all(|stmt| match stmt {
-            Stmt::Decl(Decl::Var(box VarDecl {
-                kind: VarDeclKind::Var | VarDeclKind::Let,
-                decls,
-                ..
-            })) => {
+            Stmt::Decl(Decl::Var(var))
+                if matches!(
+                    &**var,
+                    VarDecl {
+                        kind: VarDeclKind::Var | VarDeclKind::Let,
+                        decls,
+                        ..
+                    }
+                ) =>
+            {
                 if decls.iter().any(|decl| match &decl.name {
                     Pat::Ident(BindingIdent {
                         id:
