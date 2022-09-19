@@ -26,9 +26,9 @@ pub fn try_escape_if_shorter(input: &str) -> Option<String> {
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L193
 fn escape_ident(mut value: &str) -> String {
     if value.is_empty() {
-        return "".to_string();
+        return String::new();
     }
-    let mut result = "".to_string();
+    let mut result = String::new();
 
     if let Some(stripped) = value.strip_prefix("--") {
         result += "--";
@@ -52,7 +52,7 @@ fn escape_ident(mut value: &str) -> String {
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L220
 fn escape_name(value: &str) -> String {
-    let mut result = "".to_string();
+    let mut result = String::new();
     let mut chunk_start = 0;
     for (i, b) in value.bytes().enumerate() {
         let escaped = match b {
@@ -62,13 +62,13 @@ fn escape_name(value: &str) -> String {
             _ => None,
         };
         result += &value[chunk_start..i];
-        result += &*(if let Some(escaped) = escaped {
-            escaped.to_string()
+        if let Some(escaped) = escaped {
+            result += escaped;
         } else if (b'\x01'..=b'\x1F').contains(&b) || b == b'\x7F' {
-            hex_escape(b)
+            result += &*hex_escape(b);
         } else {
-            char_escape(b)
-        });
+            result += &*char_escape(b);
+        };
         chunk_start = i + 1;
     }
 
@@ -90,11 +90,17 @@ fn hex_escape(ascii_byte: u8) -> String {
         b3 = [b'\\', HEX_DIGITS[ascii_byte as usize], b' '];
         &b3[..]
     };
+
+    // SAFETY: We know it's valid to convert bytes to &str 'cause it's all valid
+    // ASCII
     unsafe { str::from_utf8_unchecked(bytes) }.to_string()
 }
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L185
 fn char_escape(ascii_byte: u8) -> String {
     let bytes = [b'\\', ascii_byte];
+
+    // SAFETY: We know it's valid to convert bytes to &str 'cause it's all valid
+    // ASCII
     unsafe { str::from_utf8_unchecked(&bytes) }.to_string()
 }

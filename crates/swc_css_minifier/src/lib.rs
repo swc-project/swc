@@ -3,6 +3,7 @@
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::needless_update)]
 
+use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
 use swc_css_visit::VisitMutWith;
 
@@ -19,17 +20,17 @@ pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
 }
 
 #[inline]
-fn is_css_wide_keywords(ident: &str) -> bool {
-    match &*ident.to_ascii_lowercase() {
-        "none"
+fn is_css_wide_keywords(ident: &JsWord) -> bool {
+    match ident.to_ascii_lowercase() {
+        js_word!("none")
         // CSS Values and Units Level 3: https://drafts.csswg.org/css-values-3/#common-keywords
-        | "initial"
-        | "inherit"
-        | "unset"
-        | "default"
+        |  js_word!("initial")
+        |  js_word!("inherit")
+        |  js_word!("unset")
+        |  js_word!("default")
         // CSS Cascading and Inheritance Level 5: https://drafts.csswg.org/css-cascade-5/#defaulting-keywords
-        | "revert"
-        | "revert-layer" => true,
+        |  js_word!("revert")
+        |  js_word!("revert-layer") => true,
         _ => false
     }
 }

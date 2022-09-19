@@ -9,7 +9,7 @@ impl Compressor {
     pub(super) fn compress_keyframes_at_rule(&mut self, at_rule: &mut AtRule) {
         match at_rule.prelude.as_deref() {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
-                if !is_css_wide_keywords(&*string.value) =>
+                if !is_css_wide_keywords(&string.value) =>
             {
                 at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
                     if let Some(escaped) = crate::escape::try_escape_if_shorter(&*string.value) {

@@ -423,11 +423,12 @@ impl Compressor {
                     }
                 }
                 js_word!("animation") if !declaration.value.is_empty() => {
-                    let first = declaration.value.remove(0);
-                    if let ComponentValue::Str(ident) = &first {
+                    let first = declaration.value.get(0).cloned();
+                    if let Some(ComponentValue::Str(ident)) = first {
+                        declaration.value.remove(0);
                         match &*ident.value.to_ascii_lowercase() {
-                            it if crate::is_css_wide_keywords(it) => {
-                                declaration.value.insert(0, first);
+                            _ if crate::is_css_wide_keywords(&ident.value) => {
+                                declaration.value.insert(0, ComponentValue::Str(ident));
                             }
                             to_be_identify => {
                                 declaration.value.insert(
@@ -450,8 +451,6 @@ impl Compressor {
                                 );
                             }
                         }
-                    } else {
-                        declaration.value.insert(0, first);
                     }
                 }
                 js_word!("animation-name") => {
@@ -463,7 +462,7 @@ impl Compressor {
                             ComponentValue::Str(ref ident) => {
                                 let value = ident.value.to_ascii_lowercase();
                                 match &*value {
-                                    it if crate::is_css_wide_keywords(it) => node,
+                                    _ if crate::is_css_wide_keywords(&ident.value) => node,
                                     to_be_identify => {
                                         if let Some(escaped) =
                                             crate::escape::try_escape_if_shorter(to_be_identify)
