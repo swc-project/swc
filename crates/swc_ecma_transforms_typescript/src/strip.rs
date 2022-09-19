@@ -1115,19 +1115,23 @@ where
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     type_only: true,
                     ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
-                    box TsImportEqualsDecl {
-                        is_type_only: true,
-                        module_ref: TsModuleRef::TsExternalModuleRef(..),
-                        ..
-                    }
-                    | box TsImportEqualsDecl {
-                        declare: true,
-                        module_ref: TsModuleRef::TsExternalModuleRef(..),
-                        ..
-                    },
-                )) => continue,
+                })) => continue,
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(v))
+                    if matches!(
+                        &*v,
+                        TsImportEqualsDecl {
+                            is_type_only: true,
+                            module_ref: TsModuleRef::TsExternalModuleRef(..),
+                            ..
+                        } | TsImportEqualsDecl {
+                            declare: true,
+                            module_ref: TsModuleRef::TsExternalModuleRef(..),
+                            ..
+                        }
+                    ) =>
+                {
+                    continue
+                }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(mut i)) => {
                     i.visit_mut_with(self);
