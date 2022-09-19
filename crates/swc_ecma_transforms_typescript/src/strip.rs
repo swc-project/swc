@@ -2255,19 +2255,23 @@ where
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     type_only: true,
                     ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
-                    box TsImportEqualsDecl {
-                        is_type_only: true,
-                        module_ref: TsModuleRef::TsExternalModuleRef(..),
-                        ..
-                    }
-                    | box TsImportEqualsDecl {
-                        declare: true,
-                        module_ref: TsModuleRef::TsExternalModuleRef(..),
-                        ..
-                    },
-                )) => continue,
+                })) => continue,
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(v))
+                    if matches!(
+                        &*v,
+                        TsImportEqualsDecl {
+                            is_type_only: true,
+                            module_ref: TsModuleRef::TsExternalModuleRef(..),
+                            ..
+                        } | TsImportEqualsDecl {
+                            declare: true,
+                            module_ref: TsModuleRef::TsExternalModuleRef(..),
+                            ..
+                        }
+                    ) =>
+                {
+                    continue
+                }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(mut i)) => {
                     i.visit_mut_with(self);
@@ -2505,9 +2509,12 @@ where
             match decl {
                 Decl::TsInterface(..)
                 | Decl::TsTypeAlias(..)
-                | Decl::Var(box VarDecl { declare: true, .. })
                 | Decl::Class(ClassDecl { declare: true, .. })
                 | Decl::Fn(FnDecl { declare: true, .. }) => {
+                    *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+                }
+
+                Decl::Var(v) if matches!(&**v, VarDecl { declare: true, .. }) => {
                     *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
                 }
 
