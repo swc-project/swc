@@ -310,7 +310,7 @@ impl VisitMut for BlockScopedVars {
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
         n.right.visit_mut_with(self);
 
-        match n.left {
+        match &n.left {
             VarDeclOrPat::VarDecl(v)
                 if matches!(
                     &*v,
@@ -335,7 +335,7 @@ impl VisitMut for BlockScopedVars {
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
         n.right.visit_mut_with(self);
 
-        match n.left {
+        match &n.left {
             VarDeclOrPat::VarDecl(v)
                 if matches!(
                     &*v,
@@ -358,7 +358,7 @@ impl VisitMut for BlockScopedVars {
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
-        match n.init {
+        match &n.init {
             Some(VarDeclOrExpr::VarDecl(v))
                 if matches!(
                     &*v,

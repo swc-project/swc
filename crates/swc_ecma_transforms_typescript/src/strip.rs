@@ -404,8 +404,8 @@ where
 
             Decl::TsEnum(e) => {
                 // Currently swc cannot remove constant enums
-                self.store(e.id.sym.clone(), id.span.ctxt, true);
-                self.store(e.id.sym.clone(), id.span.ctxt, false);
+                self.store(e.id.sym.clone(), e.id.span.ctxt, true);
+                self.store(e.id.sym.clone(), e.id.span.ctxt, false);
             }
 
             Decl::TsInterface(v) => self.store(v.id.sym.clone(), id.span.ctxt, false),
