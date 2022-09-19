@@ -1967,23 +1967,21 @@ where
     }
 
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
-        members.retain(|member| match *member {
+        members.retain(|member| match member {
             ClassMember::TsIndexSignature(..) => false,
             ClassMember::Constructor(Constructor { body: None, .. }) => false,
             ClassMember::Method(ClassMethod {
                 is_abstract: true, ..
-            })
-            | ClassMember::Method(ClassMethod {
-                function: box Function { body: None, .. },
-                ..
             }) => false,
             ClassMember::PrivateMethod(PrivateMethod {
                 is_abstract: true, ..
-            })
-            | ClassMember::PrivateMethod(PrivateMethod {
-                function: box Function { body: None, .. },
-                ..
             }) => false,
+            ClassMember::PrivateMethod(PrivateMethod { function: f, .. })
+            | ClassMember::Method(ClassMethod { function: f, .. })
+                if f.body.is_none() =>
+            {
+                false
+            }
             ClassMember::ClassProp(ClassProp { declare: true, .. }) => false,
             ClassMember::ClassProp(ClassProp {
                 value: None,
