@@ -37,13 +37,18 @@ impl Pure<'_> {
                             Stmt::Decl(Decl::Var(r)) => l.kind == r.kind,
                             Stmt::For(ForStmt { init: None, .. }) => l.kind == VarDeclKind::Var,
                             Stmt::For(ForStmt {
-                                init:
-                                    Some(VarDeclOrExpr::VarDecl(box VarDecl {
-                                        kind: VarDeclKind::Var,
-                                        ..
-                                    })),
+                                init: Some(VarDeclOrExpr::VarDecl(v)),
                                 ..
-                            }) => l.kind == VarDeclKind::Var,
+                            }) if matches!(
+                                &**v,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                },
+                            ) =>
+                            {
+                                l.kind == VarDeclKind::Var
+                            }
                             _ => false,
                         },
                         _ => false,
