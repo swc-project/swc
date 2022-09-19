@@ -65,6 +65,9 @@
 
 
 
+- **(es/minifier)** Add a test for a fixed issue (#5897) ([0bbcfe1](https://github.com/swc-project/swc/commit/0bbcfe15ee25e6debfb3dbed2d97fbf65bbb885a))
+
+
 - **(es/modules)** Add tests for `jsc.paths` (#5876) ([0d492bf](https://github.com/swc-project/swc/commit/0d492bfce1681dbbdbe8701f6e928002cc6ce6cd))
 
 
