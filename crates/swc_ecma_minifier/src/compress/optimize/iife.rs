@@ -609,7 +609,6 @@ where
                     &**var,
                     VarDecl {
                         kind: VarDeclKind::Var | VarDeclKind::Let,
-                        decls,
                         ..
                     }
                 ) =>
