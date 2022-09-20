@@ -209,8 +209,6 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn write_comment(&mut self, s: &str) -> Result {
         self.write(None, s)?;
         if self.srcmap.is_some() {
-        self.write(None, s, false)?;
-        {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
                 self.line_count = self.line_count + line_start_of_s.len() - 1;
