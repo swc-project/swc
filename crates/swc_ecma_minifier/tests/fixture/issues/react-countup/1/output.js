@@ -5,7 +5,8 @@
     {
         8273: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
+            __webpack_require__.r(__webpack_exports__);
+            __webpack_require__.d(__webpack_exports__, {
                 CountUp: function() {
                     return CountUp;
                 }
@@ -53,7 +54,8 @@
                 }
                 return t.prototype.determineDirectionAndSmartEasing = function() {
                     var t = this.finalEndVal ? this.finalEndVal : this.endVal;
-                    if (this.countDown = this.startVal > t, Math.abs(t - this.startVal) > this.options.smartEasingThreshold) {
+                    this.countDown = this.startVal > t;
+                    if (Math.abs(t - this.startVal) > this.options.smartEasingThreshold) {
                         this.finalEndVal = t;
                         var a = this.countDown ? 1 : -1;
                         this.endVal = t + a * this.options.smartEasingAmount, this.duration = this.duration / 2;
@@ -100,12 +102,18 @@
                     var key, i, target = function(source, excluded) {
                         if (null == source) return {};
                         var key, i, target = {}, sourceKeys = Object.keys(source);
-                        for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                        for(i = 0; i < sourceKeys.length; i++){
+                            key = sourceKeys[i];
+                            excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                        }
                         return target;
                     }(source, excluded);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i = 0; i < sourceSymbolKeys.length; i++){
+                            key = sourceSymbolKeys[i];
+                            !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        }
                     }
                     return target;
                 }(_param, [
@@ -126,16 +134,29 @@
                     "placeholder",
                     "blurDataURL"
                 ]), layout = sizes ? "responsive" : "intrinsic";
-                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
+                if ("layout" in all) {
+                    all.layout && (layout = all.layout);
+                    delete all.layout;
+                }
                 var src1, staticSrc = "";
                 if ("object" == typeof (src1 = src) && (isStaticRequire(src1) || void 0 !== src1.src)) {
                     var staticImageData = isStaticRequire(src) ? src.default : src;
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
-                    if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
+                    blurDataURL = blurDataURL || staticImageData.blurDataURL;
+                    staticSrc = staticImageData.src;
+                    if (!layout || "fill" !== layout) {
+                        height = height || staticImageData.height;
+                        width = width || staticImageData.width;
+                        if (!staticImageData.height || !staticImageData.width) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
+                    }
                 }
                 src = "string" == typeof src ? src : staticSrc;
                 var widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                (src.startsWith("data:") || src.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src) && (isLazy = !1);
+                if (src.startsWith("data:") || src.startsWith("blob:")) {
+                    unoptimized = !0;
+                    isLazy = !1;
+                }
+                loadedImageURLs.has(src) && (isLazy = !1);
                 var arr, ref2 = function(arr) {
                     if (Array.isArray(arr)) return arr;
                 }(arr = _useIntersection.useIntersection({
@@ -144,9 +165,13 @@
                 })) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done); _n = !0){
+                            _arr.push(_s.value);
+                            if (i && _arr.length === i) break;
+                        }
                     } catch (err) {
-                        _d = !0, _e = err;
+                        _d = !0;
+                        _e = err;
                     } finally{
                         try {
                             _n || null == _i.return || _i.return();
@@ -203,10 +228,33 @@
                     backgroundImage: 'url("'.concat(blurDataURL, '")'),
                     backgroundPosition: objectPosition || "0% 0%"
                 } : {};
-                if ("fill" === layout) wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
-                else if (void 0 !== widthInt && void 0 !== heightInt) {
+                if ("fill" === layout) {
+                    wrapperStyle.display = "block";
+                    wrapperStyle.position = "absolute";
+                    wrapperStyle.top = 0;
+                    wrapperStyle.left = 0;
+                    wrapperStyle.bottom = 0;
+                    wrapperStyle.right = 0;
+                } else if (void 0 !== widthInt && void 0 !== heightInt) {
                     var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? "100%" : "".concat(100 * quotient, "%");
-                    "responsive" === layout ? (wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvg = '<svg width="'.concat(widthInt, '" height="').concat(heightInt, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>')) : "fixed" === layout && (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
+                    if ("responsive" === layout) {
+                        wrapperStyle.display = "block";
+                        wrapperStyle.position = "relative";
+                        hasSizer = !0;
+                        sizerStyle.paddingTop = paddingTop;
+                    } else if ("intrinsic" === layout) {
+                        wrapperStyle.display = "inline-block";
+                        wrapperStyle.position = "relative";
+                        wrapperStyle.maxWidth = "100%";
+                        hasSizer = !0;
+                        sizerStyle.maxWidth = "100%";
+                        sizerSvg = '<svg width="'.concat(widthInt, '" height="').concat(heightInt, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>');
+                    } else if ("fixed" === layout) {
+                        wrapperStyle.display = "inline-block";
+                        wrapperStyle.position = "relative";
+                        wrapperStyle.width = widthInt;
+                        wrapperStyle.height = heightInt;
+                    }
                 }
                 var imgAttributes = {
                     src: emptyDataURL,
@@ -247,11 +295,18 @@
                     "data-nimg": layout,
                     className: className,
                     ref: function(img) {
-                        setRef(img), function(img, src, layout, placeholder, onLoadingComplete) {
+                        setRef(img);
+                        !function(img, src, layout, placeholder, onLoadingComplete) {
                             if (img) {
                                 var handleLoad = function() {
                                     img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && onLoadingComplete({
+                                        if ("blur" === placeholder) {
+                                            img.style.filter = "none";
+                                            img.style.backgroundSize = "none";
+                                            img.style.backgroundImage = "none";
+                                        }
+                                        loadedImageURLs.add(src);
+                                        onLoadingComplete && onLoadingComplete({
                                             naturalWidth: img.naturalWidth,
                                             naturalHeight: img.naturalHeight
                                         });
@@ -296,7 +351,8 @@
                     var source = null != _arguments[i] ? _arguments[i] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-                    }))), ownKeys.forEach(function(key) {
+                    })));
+                    ownKeys.forEach(function(key) {
                         var obj, value;
                         obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
@@ -379,6 +435,12 @@
             }, configDeviceSizes = ref1.deviceSizes, configImageSizes = ref1.imageSizes, configLoader = ref1.loader, configPath = ref1.path;
             ref1.domains;
             var allSizes = _toConsumableArray(configDeviceSizes).concat(_toConsumableArray(configImageSizes));
+            configDeviceSizes.sort(function(a, b) {
+                return a - b;
+            });
+            allSizes.sort(function(a, b) {
+                return a - b;
+            });
             function generateImgAttrs(param) {
                 var src = param.src, unoptimized = param.unoptimized, layout = param.layout, width = param.width, quality = param.quality, sizes = param.sizes, loader = param.loader;
                 if (unoptimized) return {
@@ -447,25 +509,25 @@
             function normalizeSrc(src) {
                 return "/" === src[0] ? src.slice(1) : src;
             }
-            configDeviceSizes.sort(function(a, b) {
-                return a - b;
-            }), allSizes.sort(function(a, b) {
-                return a - b;
-            });
         },
         7190: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.useIntersection = function(param) {
+            });
+            exports.useIntersection = function(param) {
                 var arr, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = function(arr) {
                     if (Array.isArray(arr)) return arr;
                 }(arr = _react.useState(!1)) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done); _n = !0){
+                            _arr.push(_s.value);
+                            if (i && _arr.length === i) break;
+                        }
                     } catch (err) {
-                        _d = !0, _e = err;
+                        _d = !0;
+                        _e = err;
                     } finally{
                         try {
                             _n || null == _i.return || _i.return();
@@ -478,7 +540,11 @@
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var callback, ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
+                    if (unobserve.current) {
+                        unobserve.current();
+                        unobserve.current = void 0;
+                    }
+                    !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
                         return isVisible && setVisible(isVisible);
                     }, id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
@@ -497,7 +563,12 @@
                     }({
                         rootMargin: rootMargin
                     })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
-                        elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
+                        elements.delete(el);
+                        observer.unobserve(el);
+                        if (0 === elements.size) {
+                            observer.disconnect();
+                            observers.delete(id);
+                        }
                     }));
                 }, [
                     isDisabled,
@@ -526,7 +597,8 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.toBase64 = function(str) {
+            });
+            exports.toBase64 = function(str) {
                 return window.btoa(str);
             };
         },
@@ -534,13 +606,16 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.imageConfigDefault = exports.VALID_LOADERS = void 0, exports.VALID_LOADERS = [
+            });
+            exports.imageConfigDefault = exports.VALID_LOADERS = void 0;
+            exports.VALID_LOADERS = [
                 "default",
                 "imgix",
                 "cloudinary",
                 "akamai",
                 "custom"
-            ], exports.imageConfigDefault = {
+            ];
+            exports.imageConfigDefault = {
                 deviceSizes: [
                     640,
                     750,
@@ -588,7 +663,8 @@
                     var symbols = Object.getOwnPropertySymbols(object);
                     enumerableOnly && (symbols = symbols.filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-                    })), keys.push.apply(keys, symbols);
+                    }));
+                    keys.push.apply(keys, symbols);
                 }
                 return keys;
             }
@@ -625,12 +701,18 @@
                 var key, i, target = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++){
+                        key = sourceKeys[i];
+                        excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                    }
                     return target;
                 }(source, excluded);
                 if (Object.getOwnPropertySymbols) {
                     var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                    for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                    for(i = 0; i < sourceSymbolKeys.length; i++){
+                        key = sourceSymbolKeys[i];
+                        !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                    }
                 }
                 return target;
             }
@@ -701,36 +783,49 @@
                             });
                         });
                     };
-                    delay && delay > 0 ? timerRef.current = setTimeout(run, 1000 * delay) : run(), null == onStart || onStart({
+                    delay && delay > 0 ? timerRef.current = setTimeout(run, 1000 * delay) : run();
+                    null == onStart || onStart({
                         pauseResume: pauseResume,
                         reset: reset,
                         update: update
                     });
                 }), pauseResume = useEventCallback(function() {
-                    getCountUp().pauseResume(), null == onPauseResume || onPauseResume({
+                    getCountUp().pauseResume();
+                    null == onPauseResume || onPauseResume({
                         reset: reset,
                         start: restart,
                         update: update
                     });
                 }), reset = useEventCallback(function() {
-                    timerRef.current && clearTimeout(timerRef.current), getCountUp().reset(), null == onReset || onReset({
+                    timerRef.current && clearTimeout(timerRef.current);
+                    getCountUp().reset();
+                    null == onReset || onReset({
                         pauseResume: pauseResume,
                         start: restart,
                         update: update
                     });
                 }), update = useEventCallback(function(newEnd) {
-                    getCountUp().update(newEnd), null == onUpdate || onUpdate({
+                    getCountUp().update(newEnd);
+                    null == onUpdate || onUpdate({
                         pauseResume: pauseResume,
                         reset: reset,
                         start: restart
                     });
                 }), restart = useEventCallback(function() {
-                    reset(), start();
+                    reset();
+                    start();
                 }), maybeInitialize = useEventCallback(function(shouldReset) {
-                    startOnMount && (shouldReset && reset(), start());
+                    if (startOnMount) {
+                        shouldReset && reset();
+                        start();
+                    }
                 });
                 return React.useEffect(function() {
-                    isInitializedRef.current ? enableReinitialize && maybeInitialize(!0) : (isInitializedRef.current = !0, maybeInitialize());
+                    if (isInitializedRef.current) enableReinitialize && maybeInitialize(!0);
+                    else {
+                        isInitializedRef.current = !0;
+                        maybeInitialize();
+                    }
                 }, [
                     enableReinitialize,
                     isInitializedRef,
@@ -771,7 +866,8 @@
                 })), start = _useCountUp.start, reset = _useCountUp.reset, updateCountUp = _useCountUp.update, pauseResume = _useCountUp.pauseResume, getCountUp = _useCountUp.getCountUp, restart = useEventCallback(function() {
                     start();
                 }), update = useEventCallback(function(end) {
-                    props.preserveValue || reset(), updateCountUp(end);
+                    props.preserveValue || reset();
+                    updateCountUp(end);
                 }), initializeOnMount = useEventCallback(function() {
                     if ("function" == typeof props.children && !(containerRef.current instanceof Element)) {
                         console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.');

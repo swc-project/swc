@@ -1,2 +1,7 @@
 //// [classExtendingClassLikeType.ts]
-Base, getBase(), getBase(), getBase(), getBase(), getBadBase();
+Base;
+getBase();
+getBase();
+getBase();
+getBase();
+getBadBase();

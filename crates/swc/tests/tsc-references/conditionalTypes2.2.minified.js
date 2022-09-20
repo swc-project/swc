@@ -1,2 +1,3 @@
 //// [conditionalTypes2.ts]
-exportCommand(save), gg(ff);
+exportCommand(save);
+gg(ff);

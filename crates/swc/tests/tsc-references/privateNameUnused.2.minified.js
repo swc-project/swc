@@ -9,16 +9,20 @@ export class A {
         _class_private_field_init(this, _used, {
             writable: !0,
             value: "used"
-        }), _class_private_field_init(this, _unused, {
+        });
+        _class_private_field_init(this, _unused, {
             writable: !0,
             value: "unused"
-        }), console.log(_class_private_field_get(this, _used));
+        });
+        console.log(_class_private_field_get(this, _used));
     }
 }
 var _used1 = new WeakSet(), _unused1 = new WeakSet();
 export class A2 {
     constructor(){
-        _class_private_method_init(this, _used1), _class_private_method_init(this, _unused1), console.log(_class_private_method_get(this, _used1, used).call(this));
+        _class_private_method_init(this, _used1);
+        _class_private_method_init(this, _unused1);
+        console.log(_class_private_method_get(this, _used1, used).call(this));
     }
 }
 function used() {}
@@ -28,10 +32,12 @@ export class A3 {
         _class_private_field_init(this, _used2, {
             get: get_used,
             set: set_used
-        }), _class_private_field_init(this, _unused2, {
+        });
+        _class_private_field_init(this, _unused2, {
             get: get_unused,
             set: set_unused
-        }), console.log(_class_private_field_get(this, _used2));
+        });
+        console.log(_class_private_field_get(this, _used2));
     }
 }
 function get_used() {

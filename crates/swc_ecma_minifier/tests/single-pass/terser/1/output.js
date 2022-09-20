@@ -14,13 +14,21 @@ def_optimize(AST_Call, function(self, compressor) {
                         var el = exp.expression.elements[i];
                         if (el instanceof AST_Expansion) break EXIT;
                         var value = el.evaluate(compressor);
-                        value !== el ? consts.push(value) : (consts.length > 0 && (elements.push(make_node(AST_String, self, {
-                            value: consts.join(separator)
-                        })), consts.length = 0), elements.push(el));
+                        if (value !== el) consts.push(value);
+                        else {
+                            if (consts.length > 0) {
+                                elements.push(make_node(AST_String, self, {
+                                    value: consts.join(separator)
+                                }));
+                                consts.length = 0;
+                            }
+                            elements.push(el);
+                        }
                     }
-                    if (consts.length > 0 && elements.push(make_node(AST_String, self, {
+                    consts.length > 0 && elements.push(make_node(AST_String, self, {
                         value: consts.join(separator)
-                    })), 0 == elements.length) return make_node(AST_String, self, {
+                    }));
+                    if (0 == elements.length) return make_node(AST_String, self, {
                         value: ""
                     });
                     if (1 == elements.length) {
@@ -33,17 +41,23 @@ def_optimize(AST_Call, function(self, compressor) {
                             right: elements[0]
                         });
                     }
-                    if ("" == separator) return first = elements[0].is_string(compressor) || elements[1].is_string(compressor) ? elements.shift() : make_node(AST_String, self, {
-                        value: ""
-                    }), elements.reduce(function(prev, el) {
-                        return make_node(AST_Binary, el, {
-                            operator: "+",
-                            left: prev,
-                            right: el
+                    if ("" == separator) {
+                        first = elements[0].is_string(compressor) || elements[1].is_string(compressor) ? elements.shift() : make_node(AST_String, self, {
+                            value: ""
                         });
-                    }, first).optimize(compressor);
+                        return elements.reduce(function(prev, el) {
+                            return make_node(AST_Binary, el, {
+                                operator: "+",
+                                left: prev,
+                                right: el
+                            });
+                        }, first).optimize(compressor);
+                    }
                     var node = self.clone();
-                    return node.expression = node.expression.clone(), node.expression.expression = node.expression.expression.clone(), node.expression.expression.elements = elements, best_of(compressor, self, node);
+                    node.expression = node.expression.clone();
+                    node.expression.expression = node.expression.expression.clone();
+                    node.expression.expression.elements = elements;
+                    return best_of(compressor, self, node);
                 }
             }
         }

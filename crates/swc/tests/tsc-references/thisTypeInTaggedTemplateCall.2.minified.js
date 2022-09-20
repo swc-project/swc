@@ -4,4 +4,5 @@ class Foo {
         return new this();
     }
 }
-Foo.m`test`, Foo.m`test`;
+Foo.m`test`;
+Foo.m`test`;

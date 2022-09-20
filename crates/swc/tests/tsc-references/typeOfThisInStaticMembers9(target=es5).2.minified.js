@@ -20,9 +20,13 @@ var D = function(C) {
 }(C);
 D.arrowFunctionBoundary = function() {
     return _get(_get_prototype_of(D), "f", D) + 1;
-}, D.functionExprBoundary = function() {
+};
+D.functionExprBoundary = function() {
     return _get(_get_prototype_of(D), "f", this) + 2;
-}, D.classExprBoundary = function _class() {
+};
+D.classExprBoundary = function _class() {
     "use strict";
-    _class_call_check(this, _class), this.a = _get(_get_prototype_of(_class.prototype), "f", this) + 3;
-}, D.functionAndClassDeclBoundary = void 0;
+    _class_call_check(this, _class);
+    this.a = _get(_get_prototype_of(_class.prototype), "f", this) + 3;
+};
+D.functionAndClassDeclBoundary = void 0;

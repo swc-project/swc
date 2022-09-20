@@ -5,4 +5,5 @@ class C {
     }
     set [Symbol.hasInstance](x) {}
 }
-(new C)[Symbol.hasInstance] = 0, (new C)[Symbol.hasInstance] = "";
+(new C)[Symbol.hasInstance] = 0;
+(new C)[Symbol.hasInstance] = "";

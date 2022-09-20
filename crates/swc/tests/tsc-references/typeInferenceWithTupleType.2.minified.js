@@ -3,7 +3,8 @@ var combineResult = [
     "string",
     10
 ];
-combineResult[0], combineResult[1];
+combineResult[0];
+combineResult[1];
 var zipResult = function(array1, array2) {
     if (array1.length != array2.length) return [
         [
@@ -23,4 +24,7 @@ var zipResult = function(array1, array2) {
     5,
     6
 ]);
-zipResult[0], zipResult[0][0], f1(void 0), f2(void 0);
+zipResult[0];
+zipResult[0][0];
+f1(void 0);
+f2(void 0);

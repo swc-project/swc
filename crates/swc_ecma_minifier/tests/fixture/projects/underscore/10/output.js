@@ -1,7 +1,8 @@
 var eq = function(a, b, aStack, bStack) {
     if (a === b) return 0 !== a || 1 / a == 1 / b;
     if (null == a || null == b) return a === b;
-    a instanceof _ && (a = a._wrapped), b instanceof _ && (b = b._wrapped);
+    a instanceof _ && (a = a._wrapped);
+    b instanceof _ && (b = b._wrapped);
     var className = toString.call(a);
     if (className != toString.call(b)) return !1;
     switch(className){
@@ -19,12 +20,16 @@ var eq = function(a, b, aStack, bStack) {
     for(var length = aStack.length; length--;)if (aStack[length] == a) return bStack[length] == b;
     var aCtor = a.constructor, bCtor = b.constructor;
     if (aCtor !== bCtor && !(_.isFunction(aCtor) && aCtor instanceof aCtor && _.isFunction(bCtor) && bCtor instanceof bCtor)) return !1;
-    aStack.push(a), bStack.push(b);
+    aStack.push(a);
+    bStack.push(b);
     var size = 0, result = !0;
     if ("[object Array]" == className) {
         if (result = (size = a.length) == b.length) for(; size-- && (result = eq(a[size], b[size], aStack, bStack)););
     } else {
-        for(var key in a)if (_.has(a, key) && (size++, !(result = _.has(b, key) && eq(a[key], b[key], aStack, bStack)))) break;
+        for(var key in a)if (_.has(a, key)) {
+            size++;
+            if (!(result = _.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
+        }
         if (result) {
             for(key in b)if (_.has(b, key) && !size--) break;
             result = !size;

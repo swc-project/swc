@@ -4,8 +4,10 @@ function foo(x) {
 }
 foo(function(x) {
     return "";
-}), foo(function(x) {
+});
+foo(function(x) {
     return "";
-}), foo(function(x) {
+});
+foo(function(x) {
     return "";
 });

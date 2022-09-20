@@ -23,6 +23,7 @@ console.log(new class {
         _class_private_field_init(this, _name, {
             writable: !0,
             value: void 0
-        }), _class_private_field_set(this, _name, name);
+        });
+        _class_private_field_set(this, _name, name);
     }
 }("NAME").getValue(100));

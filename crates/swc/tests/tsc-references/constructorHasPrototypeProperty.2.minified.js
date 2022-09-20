@@ -16,8 +16,10 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         }
         return D;
     }(C);
-    C.prototype.foo, D.prototype.bar;
-}(NonGeneric || (NonGeneric = {})), function(Generic) {
+    C.prototype.foo;
+    D.prototype.bar;
+}(NonGeneric || (NonGeneric = {}));
+!function(Generic) {
     var C = function C() {
         "use strict";
         _class_call_check(this, C);
@@ -30,5 +32,6 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         }
         return D;
     }(C);
-    C.prototype.foo, D.prototype.baz;
+    C.prototype.foo;
+    D.prototype.baz;
 }(Generic || (Generic = {}));

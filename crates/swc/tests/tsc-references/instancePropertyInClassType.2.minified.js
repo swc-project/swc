@@ -6,7 +6,9 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
     var c = new (function() {
         "use strict";
         function C(a, b) {
-            _class_call_check(this, C), this.a = a, this.b = b;
+            _class_call_check(this, C);
+            this.a = a;
+            this.b = b;
         }
         return C.prototype.fn = function() {
             return this;
@@ -20,12 +22,18 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
             }
         ]), C;
     }())(1, 2), r = c.fn();
-    r.x, r.y, r.y = 4, c.y();
-}(NonGeneric || (NonGeneric = {})), function(Generic) {
+    r.x;
+    r.y;
+    r.y = 4;
+    c.y();
+}(NonGeneric || (NonGeneric = {}));
+!function(Generic) {
     var c = new (function() {
         "use strict";
         function C(a, b) {
-            _class_call_check(this, C), this.a = a, this.b = b;
+            _class_call_check(this, C);
+            this.a = a;
+            this.b = b;
         }
         return C.prototype.fn = function() {
             return this;
@@ -39,5 +47,8 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
             }
         ]), C;
     }())(1, ""), r = c.fn();
-    r.x, r.y, r.y = "", c.y();
+    r.x;
+    r.y;
+    r.y = "";
+    c.y();
 }(Generic || (Generic = {}));

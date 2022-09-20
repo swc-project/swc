@@ -12,7 +12,8 @@ System.register([
         ],
         execute: function() {
             _export("default", class {
-            }), foo();
+            });
+            foo();
         }
     };
 });

@@ -29,15 +29,18 @@ for(var x in function(x, y) {
     return x + y;
 });
 for(var x in i[42]);
-for(var x in !function(M) {
+!function(M) {
     var X = function X() {
         "use strict";
         _class_call_check(this, X);
     };
     M.X = X;
-}(M || (M = {})), M);
+}(M || (M = {}));
+for(var x in M);
 for(var x in M.X);
-for(var x in !function(Color) {
-    Color[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue";
-}(Color || (Color = {})), Color);
+!function(Color) {
+    Color[Color.Red = 0] = "Red";
+    Color[Color.Blue = 1] = "Blue";
+}(Color || (Color = {}));
+for(var x in Color);
 for(var x in Color.Blue);

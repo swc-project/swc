@@ -3,39 +3,50 @@ var p1 = {
     x: 10,
     y: 20,
     moveBy: function(dx, dy, dz) {
-        this.x += dx, this.y += dy, this.z && dz && (this.z += dz);
+        this.x += dx;
+        this.y += dy;
+        this.z && dz && (this.z += dz);
     }
 };
 f1({
     x: 10,
     y: 20,
     moveBy: function(dx, dy, dz) {
-        this.x += dx, this.y += dy, this.z && dz && (this.z += dz);
+        this.x += dx;
+        this.y += dy;
+        this.z && dz && (this.z += dz);
     }
-}), f2({
+});
+f2({
     x: 10,
     y: 20,
     moveBy: function(dx, dy, dz) {
-        this.x += dx, this.y += dy, this.z && dz && (this.z += dz);
+        this.x += dx;
+        this.y += dy;
+        this.z && dz && (this.z += dz);
     }
-}), makeObject({
+});
+makeObject({
     data: {
         x: 0,
         y: 0
     },
     methods: {
         moveBy: function(dx, dy) {
-            this.x += dx, this.y += dy;
+            this.x += dx;
+            this.y += dy;
         }
     }
-}), makeObject2({
+});
+makeObject2({
     data: {
         x: 0,
         y: 0
     },
     methods: {
         moveBy: function(dx, dy) {
-            this.x += dx, this.y += dy;
+            this.x += dx;
+            this.y += dy;
         }
     }
 });
@@ -65,7 +76,8 @@ var p12 = defineProps(p1, {
         }
     }
 });
-p12.foo = p12.foo + 1, p12.bar = p12.bar + 1;
+p12.foo = p12.foo + 1;
+p12.bar = p12.bar + 1;
 var vue = new Vue({
     data: function() {
         return {
@@ -90,4 +102,7 @@ var vue = new Vue({
         }
     }
 });
-vue.x, vue.f("abc"), vue.test, vue.hello;
+vue.x;
+vue.f("abc");
+vue.test;
+vue.hello;

@@ -7,4 +7,5 @@ var x = function(obj1, obj2) {
 }, {
     b: 42
 });
-x.a, x.b;
+x.a;
+x.b;

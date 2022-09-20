@@ -9,7 +9,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     var FileSystemObject = function() {
         "use strict";
         function FileSystemObject(path) {
-            _class_call_check(this, FileSystemObject), this.path = path;
+            _class_call_check(this, FileSystemObject);
+            this.path = path;
         }
         return _create_class(FileSystemObject, [
             {
@@ -50,5 +51,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     }(FileSystemObject);
     Test.Directory = Directory;
     var file = new File("foo/bar.txt", "foo");
-    file.isNetworked = file.isFile, file.isFSO = file.isNetworked, file.isFile = file.isFSO;
+    file.isNetworked = file.isFile;
+    file.isFSO = file.isNetworked;
+    file.isFile = file.isFSO;
 }(Test || (Test = {}));

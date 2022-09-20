@@ -1,7 +1,8 @@
 //// [destructuringObjectBindingPatternAndAssignment7.ts]
 var K;
 !function(K) {
-    K.a = "a", K.b = "b";
+    K.a = "a";
+    K.b = "b";
 }(K || (K = {}));
 const { [K.a]: aVal , [K.b]: bVal  } = {
     [K.a]: 1,

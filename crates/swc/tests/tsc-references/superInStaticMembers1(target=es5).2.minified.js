@@ -35,23 +35,38 @@ C._ = [
     void _get(_get_prototype_of(C), "w", C).call(C),
     function() {
         var Reflect;
-        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
+        Reflect || (Reflect = {});
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
         var Reflect;
-        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
+        Reflect || (Reflect = {});
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C)
-], _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), function() {
+];
+_superprop_get_w().call(_this);
+_superprop_get_w().call(_this);
+_superprop_get_w().call(_this);
+_superprop_get_w().call(_this);
+_superprop_get_w().call(_this);
+!function() {
     var Reflect;
-    Reflect || (Reflect = {}), _superprop_get_w().call(_this);
-}(), function() {
+    Reflect || (Reflect = {});
+    _superprop_get_w().call(_this);
+}();
+!function() {
     var Reflect;
-    Reflect || (Reflect = {}), _superprop_get_w().call(_this);
-}(), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this);
+    Reflect || (Reflect = {});
+    _superprop_get_w().call(_this);
+}();
+_superprop_get_w().call(_this);
+_superprop_get_w().call(_this);
+_superprop_get_w().call(_this);
+_superprop_get_w().call(_this);
 //// [varInContainingScopeStaticField1.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -185,7 +200,8 @@ var Reflect, C = function(B1) {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [enumInContainingScopeStaticBlock.ts]
 var Reflect;
-Reflect || (Reflect = {}), super.w.call(this);
+Reflect || (Reflect = {});
+super.w.call(this);
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -206,7 +222,8 @@ var Reflect, C = function(B1) {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [constEnumInContainingScopeStaticBlock.ts]
 var Reflect;
-Reflect || (Reflect = {}), super.w.call(this);
+Reflect || (Reflect = {});
+super.w.call(this);
 export { };
 //// [namespaceImportInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";

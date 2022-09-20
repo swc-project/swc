@@ -7,7 +7,8 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    });
+    Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: function() {
             return _default;
@@ -27,5 +28,8 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _asyncToGenerator = _asyncToGenerator.default, _interopRequireWildcard = _interopRequireWildcard.default, _tsGenerator = _tsGenerator.default;
+    });
+    _asyncToGenerator = _asyncToGenerator.default;
+    _interopRequireWildcard = _interopRequireWildcard.default;
+    _tsGenerator = _tsGenerator.default;
 });

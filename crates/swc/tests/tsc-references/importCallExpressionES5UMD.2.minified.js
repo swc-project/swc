@@ -5,17 +5,18 @@
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
 }(this, function(exports) {
     "use strict";
-    function foo() {
-        return "foo";
-    }
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "foo", {
+    });
+    Object.defineProperty(exports, "foo", {
         enumerable: !0,
         get: function() {
             return foo;
         }
     });
+    function foo() {
+        return "foo";
+    }
 });
 //// [1.ts]
 !function(global, factory) {
@@ -28,7 +29,8 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -40,7 +42,11 @@
         D: function() {
             return D;
         }
-    }), _classCallCheck = _classCallCheck.default, _interopRequireWildcard = _interopRequireWildcard.default, import("./0"), import("./0").then(function(zero) {
+    });
+    _classCallCheck = _classCallCheck.default;
+    _interopRequireWildcard = _interopRequireWildcard.default;
+    import("./0");
+    import("./0").then(function(zero) {
         return zero.foo();
     });
     var p2 = import("./0"), D = function() {

@@ -5,7 +5,10 @@ var C = function() {
     "use strict";
     function C(x) {
         var _this = this;
-        _class_call_check(this, C), this.x = x, this.ia = 1, this.ib = function() {
+        _class_call_check(this, C);
+        this.x = x;
+        this.ia = 1;
+        this.ib = function() {
             return _this.ia;
         };
     }
@@ -41,6 +44,7 @@ var C = function() {
         }
     ]), C;
 }();
-C.sa = 1, C.sb = function() {
+C.sa = 1;
+C.sb = function() {
     return 1;
 };

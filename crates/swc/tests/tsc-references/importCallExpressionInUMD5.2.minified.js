@@ -5,15 +5,16 @@
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
 }(this, function(exports) {
     "use strict";
-    function foo() {
-        return "foo";
-    }
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "foo", {
+    });
+    Object.defineProperty(exports, "foo", {
         enumerable: !0,
         get: ()=>foo
     });
+    function foo() {
+        return "foo";
+    }
 });
 //// [1.ts]
 !function(global, factory) {
@@ -26,5 +27,7 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _asyncToGenerator = _asyncToGenerator.default, _interopRequireWildcard = _interopRequireWildcard.default;
+    });
+    _asyncToGenerator = _asyncToGenerator.default;
+    _interopRequireWildcard = _interopRequireWildcard.default;
 });

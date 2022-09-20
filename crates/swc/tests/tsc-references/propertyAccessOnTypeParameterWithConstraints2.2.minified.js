@@ -33,9 +33,16 @@ var i, a, B = function(A) {
         return x.foo() + x.foo();
     }, C;
 }();
-new C().f(), new C().g(new B()), i.foo.foo(), i.foo.foo(), a().foo(), a().foo();
+new C().f();
+new C().g(new B());
+i.foo.foo();
+i.foo.foo();
+a().foo();
+a().foo();
 var aB = new B();
-a(aB, aB).foo(), a(aB, aB).foo(), ({
+a(aB, aB).foo();
+a(aB, aB).foo();
+({
     foo: function(x, y) {
         return x.foo() + x.foo();
     }

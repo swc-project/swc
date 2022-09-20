@@ -36,7 +36,8 @@
         },
         1767: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
+            __webpack_require__.r(__webpack_exports__);
+            __webpack_require__.d(__webpack_exports__, {
                 default: function() {
                     return PageWithSpread;
                 }
@@ -56,7 +57,8 @@
                         var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-                        }))), ownKeys.forEach(function(key) {
+                        })));
+                        ownKeys.forEach(function(key) {
                             _defineProperty(target, key, source[key]);
                         });
                     }
@@ -81,6 +83,7 @@
             179
         ], function() {
             return __webpack_require__(__webpack_require__.s = 2809);
-        }), _N_E = __webpack_require__.O();
+        });
+        _N_E = __webpack_require__.O();
     }
 ]);

@@ -9,5 +9,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         }
         return C.prototype[_$Symbol.iterator] = function() {}, C;
     }();
-    M.C = C, (new C)[_$Symbol.iterator];
-}(M || (M = {})), (new M.C)[Symbol.iterator];
+    M.C = C;
+    (new C)[_$Symbol.iterator];
+}(M || (M = {}));
+(new M.C)[Symbol.iterator];

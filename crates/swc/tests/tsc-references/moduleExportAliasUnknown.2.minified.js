@@ -1,2 +1,3 @@
 //// [bug27025.js]
-module.exports = window.nonprop, exports.foo = bar;
+module.exports = window.nonprop;
+exports.foo = bar;

@@ -7,4 +7,6 @@ var axios = new (function() {
     }
     return Axios.prototype.m = function() {}, Axios;
 }())();
-axios.m(), module.exports = axios, module.exports.default = axios;
+axios.m();
+module.exports = axios;
+module.exports.default = axios;

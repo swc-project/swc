@@ -2,22 +2,31 @@
 function Class() {}
 Class.prototype.containsError = function() {
     return this.notPresent;
-}, Class.prototype.m1 = function(a, b, c, d, tx, ty) {
+};
+Class.prototype.m1 = function(a, b, c, d, tx, ty) {
     return this;
-}, Class.prototype.m2 = function(x, y) {
+};
+Class.prototype.m2 = function(x, y) {
     return this;
-}, Class.prototype.m3 = function(x, y) {
+};
+Class.prototype.m3 = function(x, y) {
     return this;
-}, Class.prototype.m4 = function(angle) {
+};
+Class.prototype.m4 = function(angle) {
     return this;
-}, Class.prototype.m5 = function(matrix) {
+};
+Class.prototype.m5 = function(matrix) {
     return this;
-}, Class.prototype.m6 = function(x, y, pivotX, pivotY, scaleX, scaleY, rotation, skewX, skewY) {
+};
+Class.prototype.m6 = function(x, y, pivotX, pivotY, scaleX, scaleY, rotation, skewX, skewY) {
     return this;
-}, Class.prototype.m7 = function(matrix) {
+};
+Class.prototype.m7 = function(matrix) {
     return this;
-}, Class.prototype.m8 = function() {
+};
+Class.prototype.m8 = function() {
     return this;
-}, Class.prototype.m9 = function() {
+};
+Class.prototype.m9 = function() {
     return this;
 };

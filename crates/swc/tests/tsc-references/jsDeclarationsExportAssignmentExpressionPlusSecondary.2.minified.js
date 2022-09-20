@@ -5,7 +5,8 @@ module.exports = {
     desc: {
         item: "ok"
     }
-}, module.exports.Strings = {
+};
+module.exports.Strings = {
     a: "A",
     b: "B"
 };

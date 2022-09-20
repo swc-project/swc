@@ -14,4 +14,7 @@ var x, StringTreeCollection = function(StringTreeCollectionBase) {
     "use strict";
     _class_call_check(this, StringTreeCollectionBase);
 });
-"string" != typeof x && (x[0] = "", x[0] = new StringTreeCollection);
+if ("string" != typeof x) {
+    x[0] = "";
+    x[0] = new StringTreeCollection;
+}

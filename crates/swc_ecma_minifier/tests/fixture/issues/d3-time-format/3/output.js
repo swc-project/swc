@@ -15,22 +15,29 @@
                 function interval(date) {
                     return floori(date = 0 === arguments.length ? new Date() : new Date(+date)), date;
                 }
-                return interval.floor = function(date) {
+                interval.floor = function(date) {
                     return floori(date = new Date(+date)), date;
-                }, interval.ceil = function(date) {
+                };
+                interval.ceil = function(date) {
                     return floori(date = new Date(date - 1)), offseti(date, 1), floori(date), date;
-                }, interval.round = function(date) {
+                };
+                interval.round = function(date) {
                     var d0 = interval(date), d1 = interval.ceil(date);
                     return date - d0 < d1 - date ? d0 : d1;
-                }, interval.offset = function(date, step) {
+                };
+                interval.offset = function(date, step) {
                     return offseti(date = new Date(+date), null == step ? 1 : Math.floor(step)), date;
-                }, interval.range = function(start, stop, step) {
+                };
+                interval.range = function(start, stop, step) {
                     var previous, range = [];
-                    if (start = interval.ceil(start), step = null == step ? 1 : Math.floor(step), !(start < stop) || !(step > 0)) return range;
+                    start = interval.ceil(start);
+                    step = null == step ? 1 : Math.floor(step);
+                    if (!(start < stop) || !(step > 0)) return range;
                     do range.push(previous = new Date(+start)), offseti(start, step), floori(start);
                     while (previous < start && start < stop)
                     return range;
-                }, interval.filter = function(test) {
+                };
+                interval.filter = function(test) {
                     return newInterval(function(date) {
                         if (date >= date) for(; floori(date), !test(date);)date.setTime(date - 1);
                     }, function(date, step) {
@@ -39,15 +46,20 @@
                             else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
                         }
                     });
-                }, count && (interval.count = function(start, end) {
-                    return t0.setTime(+start), t1.setTime(+end), floori(t0), floori(t1), Math.floor(count(t0, t1));
-                }, interval.every = function(step) {
-                    return isFinite(step = Math.floor(step)) && step > 0 ? step > 1 ? interval.filter(field ? function(d) {
-                        return field(d) % step == 0;
-                    } : function(d) {
-                        return interval.count(0, d) % step == 0;
-                    }) : interval : null;
-                }), interval;
+                };
+                if (count) {
+                    interval.count = function(start, end) {
+                        return t0.setTime(+start), t1.setTime(+end), floori(t0), floori(t1), Math.floor(count(t0, t1));
+                    };
+                    interval.every = function(step) {
+                        return isFinite(step = Math.floor(step)) && step > 0 ? step > 1 ? interval.filter(field ? function(d) {
+                            return field(d) % step == 0;
+                        } : function(d) {
+                            return interval.count(0, d) % step == 0;
+                        }) : interval : null;
+                    };
+                }
+                return interval;
             }
             var millisecond = newInterval(function() {}, function(date, step) {
                 date.setTime(+date + step);
@@ -62,7 +74,8 @@
                 }, function(start, end) {
                     return (end - start) / k;
                 }) : millisecond : null;
-            }, millisecond.range;
+            };
+            millisecond.range;
             var second = newInterval(function(date) {
                 date.setTime(date - date.getMilliseconds());
             }, function(date, step) {
@@ -94,20 +107,28 @@
             });
             hour.range;
             var day = newInterval((date)=>date.setHours(0, 0, 0, 0), (date, step)=>date.setDate(date.getDate() + step), (start, end)=>(end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 60000) / 86400000, (date)=>date.getDate() - 1);
+            day.range;
             function weekday(i) {
                 return newInterval(function(date) {
-                    date.setDate(date.getDate() - (date.getDay() + 7 - i) % 7), date.setHours(0, 0, 0, 0);
+                    date.setDate(date.getDate() - (date.getDay() + 7 - i) % 7);
+                    date.setHours(0, 0, 0, 0);
                 }, function(date, step) {
                     date.setDate(date.getDate() + 7 * step);
                 }, function(start, end) {
                     return (end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 60000) / 604800000;
                 });
             }
-            day.range;
             var sunday = weekday(0), monday = weekday(1), tuesday = weekday(2), wednesday = weekday(3), thursday = weekday(4), friday = weekday(5), saturday = weekday(6);
-            sunday.range, monday.range, tuesday.range, wednesday.range, thursday.range, friday.range, saturday.range;
+            sunday.range;
+            monday.range;
+            tuesday.range;
+            wednesday.range;
+            thursday.range;
+            friday.range;
+            saturday.range;
             var month = newInterval(function(date) {
-                date.setDate(1), date.setHours(0, 0, 0, 0);
+                date.setDate(1);
+                date.setHours(0, 0, 0, 0);
             }, function(date, step) {
                 date.setMonth(date.getMonth() + step);
             }, function(start, end) {
@@ -117,7 +138,8 @@
             });
             month.range;
             var year = newInterval(function(date) {
-                date.setMonth(0, 1), date.setHours(0, 0, 0, 0);
+                date.setMonth(0, 1);
+                date.setHours(0, 0, 0, 0);
             }, function(date, step) {
                 date.setFullYear(date.getFullYear() + step);
             }, function(start, end) {
@@ -127,11 +149,14 @@
             });
             year.every = function(k) {
                 return isFinite(k = Math.floor(k)) && k > 0 ? newInterval(function(date) {
-                    date.setFullYear(Math.floor(date.getFullYear() / k) * k), date.setMonth(0, 1), date.setHours(0, 0, 0, 0);
+                    date.setFullYear(Math.floor(date.getFullYear() / k) * k);
+                    date.setMonth(0, 1);
+                    date.setHours(0, 0, 0, 0);
                 }, function(date, step) {
                     date.setFullYear(date.getFullYear() + step * k);
                 }) : null;
-            }, year.range;
+            };
+            year.range;
             var utcMinute = newInterval(function(date) {
                 date.setUTCSeconds(0, 0);
             }, function(date, step) {
@@ -161,20 +186,28 @@
             }, function(date) {
                 return date.getUTCDate() - 1;
             });
+            utcDay.range;
             function utcWeekday(i) {
                 return newInterval(function(date) {
-                    date.setUTCDate(date.getUTCDate() - (date.getUTCDay() + 7 - i) % 7), date.setUTCHours(0, 0, 0, 0);
+                    date.setUTCDate(date.getUTCDate() - (date.getUTCDay() + 7 - i) % 7);
+                    date.setUTCHours(0, 0, 0, 0);
                 }, function(date, step) {
                     date.setUTCDate(date.getUTCDate() + 7 * step);
                 }, function(start, end) {
                     return (end - start) / 604800000;
                 });
             }
-            utcDay.range;
             var utcSunday = utcWeekday(0), utcMonday = utcWeekday(1), utcTuesday = utcWeekday(2), utcWednesday = utcWeekday(3), utcThursday = utcWeekday(4), utcFriday = utcWeekday(5), utcSaturday = utcWeekday(6);
-            utcSunday.range, utcMonday.range, utcTuesday.range, utcWednesday.range, utcThursday.range, utcFriday.range, utcSaturday.range;
+            utcSunday.range;
+            utcMonday.range;
+            utcTuesday.range;
+            utcWednesday.range;
+            utcThursday.range;
+            utcFriday.range;
+            utcSaturday.range;
             var utcMonth = newInterval(function(date) {
-                date.setUTCDate(1), date.setUTCHours(0, 0, 0, 0);
+                date.setUTCDate(1);
+                date.setUTCHours(0, 0, 0, 0);
             }, function(date, step) {
                 date.setUTCMonth(date.getUTCMonth() + step);
             }, function(start, end) {
@@ -184,7 +217,8 @@
             });
             utcMonth.range;
             var utcYear = newInterval(function(date) {
-                date.setUTCMonth(0, 1), date.setUTCHours(0, 0, 0, 0);
+                date.setUTCMonth(0, 1);
+                date.setUTCHours(0, 0, 0, 0);
             }, function(date, step) {
                 date.setUTCFullYear(date.getUTCFullYear() + step);
             }, function(start, end) {
@@ -192,6 +226,16 @@
             }, function(date) {
                 return date.getUTCFullYear();
             });
+            utcYear.every = function(k) {
+                return isFinite(k = Math.floor(k)) && k > 0 ? newInterval(function(date) {
+                    date.setUTCFullYear(Math.floor(date.getUTCFullYear() / k) * k);
+                    date.setUTCMonth(0, 1);
+                    date.setUTCHours(0, 0, 0, 0);
+                }, function(date, step) {
+                    date.setUTCFullYear(date.getUTCFullYear() + step * k);
+                }) : null;
+            };
+            utcYear.range;
             function ticker(year, month, week, day, hour, minute) {
                 const tickIntervals = [
                     [
@@ -305,13 +349,6 @@
                     tickInterval
                 ];
             }
-            utcYear.every = function(k) {
-                return isFinite(k = Math.floor(k)) && k > 0 ? newInterval(function(date) {
-                    date.setUTCFullYear(Math.floor(date.getUTCFullYear() / k) * k), date.setUTCMonth(0, 1), date.setUTCHours(0, 0, 0, 0);
-                }, function(date, step) {
-                    date.setUTCFullYear(date.getUTCFullYear() + step * k);
-                }) : null;
-            }, utcYear.range;
             const [utcTicks, utcTickInterval] = ticker(utcYear, utcMonth, utcSunday, utcDay, utcHour, utcMinute), [timeTicks, timeTickInterval] = ticker(year, month, sunday, day, hour, minute);
             function localDate(d) {
                 if (0 <= d.y && d.y < 100) {
@@ -721,10 +758,23 @@
                     Z: parseZone,
                     "%": parseLiteralPercent
                 };
+                formats.x = newFormat(locale_date, formats);
+                formats.X = newFormat(locale_time, formats);
+                formats.c = newFormat(locale_dateTime, formats);
+                utcFormats.x = newFormat(locale_date, utcFormats);
+                utcFormats.X = newFormat(locale_time, utcFormats);
+                utcFormats.c = newFormat(locale_dateTime, utcFormats);
                 function newFormat(specifier, formats) {
                     return function(date) {
                         var c, pad, format, string = [], i = -1, j = 0, n = specifier.length;
-                        for(date instanceof Date || (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad)), string.push(c), j = i + 1);
+                        date instanceof Date || (date = new Date(+date));
+                        for(; ++i < n;)if (37 === specifier.charCodeAt(i)) {
+                            string.push(specifier.slice(j, i));
+                            null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0";
+                            (format = formats[c]) && (c = format(date, pad));
+                            string.push(c);
+                            j = i + 1;
+                        }
                         return string.push(specifier.slice(j, i)), string.join("");
                     };
                 }
@@ -734,10 +784,31 @@
                         if (parseSpecifier(d, specifier, string += "", 0) != string.length) return null;
                         if ("Q" in d) return new Date(d.Q);
                         if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
-                        if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
+                        !Z || "Z" in d || (d.Z = 0);
+                        "p" in d && (d.H = d.H % 12 + 12 * d.p);
+                        void 0 === d.m && (d.m = "q" in d ? d.q : 0);
+                        if ("V" in d) {
                             if (d.V < 1 || d.V > 53) return null;
-                            "w" in d || (d.w = 1), "Z" in d ? (week = (day1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
-                        } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day1 + 5) % 7 : d.w + 7 * d.U - (day1 + 6) % 7);
+                            "w" in d || (d.w = 1);
+                            if ("Z" in d) {
+                                week = (day1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day1 ? utcMonday.ceil(week) : utcMonday(week);
+                                week = utcDay.offset(week, (d.V - 1) * 7);
+                                d.y = week.getUTCFullYear();
+                                d.m = week.getUTCMonth();
+                                d.d = week.getUTCDate() + (d.w + 6) % 7;
+                            } else {
+                                week = (day1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day1 ? monday.ceil(week) : monday(week);
+                                week = day.offset(week, (d.V - 1) * 7);
+                                d.y = week.getFullYear();
+                                d.m = week.getMonth();
+                                d.d = week.getDate() + (d.w + 6) % 7;
+                            }
+                        } else if ("W" in d || "U" in d) {
+                            "w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0);
+                            day1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay();
+                            d.m = 0;
+                            d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day1 + 5) % 7 : d.w + 7 * d.U - (day1 + 6) % 7;
+                        }
                         return "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d);
                     };
                 }
@@ -750,7 +821,7 @@
                     }
                     return j;
                 }
-                return formats.x = newFormat(locale_date, formats), formats.X = newFormat(locale_time, formats), formats.c = newFormat(locale_dateTime, formats), utcFormats.x = newFormat(locale_date, utcFormats), utcFormats.X = newFormat(locale_time, utcFormats), utcFormats.c = newFormat(locale_dateTime, utcFormats), {
+                return {
                     format: function(specifier) {
                         var f = newFormat(specifier += "", formats);
                         return f.toString = function() {
@@ -830,7 +901,9 @@
                     "Nov",
                     "Dec"
                 ]
-            })).format, locale.parse, locale.utcFormat, locale.utcParse, __webpack_require__(73516), __webpack_require__(42287);
+            })).format, locale.parse, locale.utcFormat, locale.utcParse;
+            __webpack_require__(73516);
+            __webpack_require__(42287);
         }
     }
 ]);

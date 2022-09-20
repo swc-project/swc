@@ -7,7 +7,8 @@
 var React;
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "React", {
+});
+Object.defineProperty(exports, "React", {
     enumerable: !0,
     get: function() {
         return React;
@@ -18,7 +19,8 @@ Object.defineProperty(exports, "__esModule", {
 var foo;
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), (0, require("@swc/helpers/lib/_extends.js").default)({
+});
+(0, require("@swc/helpers/lib/_extends.js").default)({
     x: ""
 }, foo, {
     y: ""

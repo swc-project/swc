@@ -6,10 +6,14 @@ export const obj = {
         }
         var type, attached = this.retrieve("events");
         if (!attached) return this;
-        if (events) attached[events] && (attached[events].keys.each(function(fn) {
-            this.removeEvent(events, fn);
-        }, this), delete attached[events]);
-        else {
+        if (events) {
+            if (attached[events]) {
+                attached[events].keys.each(function(fn) {
+                    this.removeEvent(events, fn);
+                }, this);
+                delete attached[events];
+            }
+        } else {
             for(type in attached)this.removeEvents(type);
             this.eliminate("events");
         }

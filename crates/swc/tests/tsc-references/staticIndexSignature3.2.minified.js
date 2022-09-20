@@ -30,4 +30,11 @@ var B = function B() {
     }
     return DD;
 }(D);
-B.f, B[42], D.f, D[42], ED.f, ED[42], DD.f, DD[42];
+B.f;
+B[42];
+D.f;
+D[42];
+ED.f;
+ED[42];
+DD.f;
+DD[42];

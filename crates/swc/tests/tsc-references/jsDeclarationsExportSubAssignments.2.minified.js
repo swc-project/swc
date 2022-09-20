@@ -4,7 +4,8 @@ var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
 };
-module.exports = Foo, module.exports.Strings = {
+module.exports = Foo;
+module.exports.Strings = {
     a: "A",
     b: "B"
 };

@@ -22,4 +22,10 @@ var A = function A() {
     }
     return C;
 }(B);
-new A, new A(1), new B, new C, new B, new B, new B;
+new A;
+new A(1);
+new B;
+new C;
+new B;
+new B;
+new B;

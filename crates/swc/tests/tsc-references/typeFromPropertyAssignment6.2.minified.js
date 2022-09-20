@@ -4,6 +4,7 @@ Outer.Inner = class {
     messages() {
         return [];
     }
-}, Outer.i;
+};
+Outer.i;
 //// [b.js]
 Outer.i.messages();

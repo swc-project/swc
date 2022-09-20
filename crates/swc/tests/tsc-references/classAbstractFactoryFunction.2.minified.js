@@ -20,4 +20,7 @@ function NewA(Factory) {
 function NewB(Factory) {
     return new B;
 }
-NewA(A), NewA(B), NewB(A), NewB(B);
+NewA(A);
+NewA(B);
+NewB(A);
+NewB(B);

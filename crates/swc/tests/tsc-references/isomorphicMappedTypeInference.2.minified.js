@@ -8,7 +8,8 @@ applySpec({
             return "n";
         }
     }
-}), applySpec({
+});
+applySpec({
     foo: {
         bar: {
             baz: function(x) {
@@ -25,25 +26,31 @@ var foo = function(object, partial) {
 };
 foo(o, {
     b: 9
-}), o = foo(o, {
+});
+o = foo(o, {
     b: 9
-}), f20({
+});
+f20({
     foo: 42,
     bar: "hello"
-}), f21({
+});
+f21({
     foo: 42,
     bar: "hello"
-}), f22({
+});
+f22({
     foo: {
         value: 42
     },
     bar: {
         value: "hello"
     }
-}), f23({
+});
+f23({
     foo: 42,
     bar: "hello"
-}), f24({
+});
+f24({
     foo: 42,
     bar: "hello"
 });

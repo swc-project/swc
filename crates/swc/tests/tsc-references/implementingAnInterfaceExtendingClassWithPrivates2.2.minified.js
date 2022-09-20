@@ -1,6 +1,9 @@
 //// [implementingAnInterfaceExtendingClassWithPrivates2.ts]
 var M, M2;
-M || (M = {}), function(M2) {
+M || (M = {});
+!function(M2) {
     var b;
-    b.z, b.x, b.y;
+    b.z;
+    b.x;
+    b.y;
 }(M2 || (M2 = {}));

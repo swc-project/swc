@@ -14,8 +14,11 @@ define([
     "react-router"
 ], function(require, exports, _react, _reactRouter) {
     "use strict";
-    var M, X1;
+    var X1, M;
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _reactRouter.Route, (M || (M = {})).X = X1, M || (M = {}), X;
+    });
+    _reactRouter.Route;
+    (M || (M = {})).X = X1;
+    M || (M = {}), X;
 });

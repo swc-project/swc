@@ -9,24 +9,32 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
+    _extends = _extends.default;
     var defaultObj, obj = {
         yy: 10,
         yy1: "hello"
     }, obj1 = {
         yy: !0
     };
-    (_extends = _extends.default)({}, obj), _extends({}, {}), _extends({}, obj1, obj), _extends({}, obj1, {
+    _extends({}, obj);
+    _extends({}, {});
+    _extends({}, obj1, obj);
+    _extends({}, obj1, {
         yy: 42
     }, {
         yy1: "hi"
-    }), _extends({}, obj1, {
+    });
+    _extends({}, obj1, {
         yy: 10000,
         yy1: "true"
-    }), _extends({}, defaultObj, {
+    });
+    _extends({}, defaultObj, {
         yy: !0
-    }, obj), _extends({}, {
+    }, obj);
+    _extends({}, {
         "ignore-prop": 200
-    }), _extends({}, {
+    });
+    _extends({}, {
         yy: 500,
         "ignore-prop": "hello"
     }, {

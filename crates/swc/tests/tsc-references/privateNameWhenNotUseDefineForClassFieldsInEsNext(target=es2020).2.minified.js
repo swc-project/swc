@@ -10,14 +10,16 @@ class TestWithStatics {
         });
     }
 }
-TestWithStatics.dd = _class_private_field_get(new TestWithStatics(), _prop), TestWithStatics["X_ z_ zz"] = (_foo = new WeakMap(), (_Inner = class Inner {
+TestWithStatics.dd = _class_private_field_get(new TestWithStatics(), _prop);
+TestWithStatics["X_ z_ zz"] = (_foo = new WeakMap(), (_Inner = class Inner {
     m() {
         _class_private_field_get(new TestWithStatics(), _prop);
     }
     static M() {
         return class {
             m() {
-                _class_private_field_get(new TestWithStatics(), _prop), _class_private_field_get(new Inner(), _foo);
+                _class_private_field_get(new TestWithStatics(), _prop);
+                _class_private_field_get(new Inner(), _foo);
             }
         };
     }
@@ -29,6 +31,7 @@ TestWithStatics.dd = _class_private_field_get(new TestWithStatics(), _prop), Tes
     }
 }).C = class {
     m() {
-        _class_private_field_get(new TestWithStatics(), _prop), _class_private_field_get(new _Inner(), _foo);
+        _class_private_field_get(new TestWithStatics(), _prop);
+        _class_private_field_get(new _Inner(), _foo);
     }
 }, _Inner);

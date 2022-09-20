@@ -61,4 +61,15 @@ function _templateObject5() {
 function foo() {
     for(var _len = arguments.length, stuff = Array(_len), _key = 0; _key < _len; _key++)stuff[_key] = arguments[_key];
 }
-foo([]), foo([], 1), foo([], 1, 2), foo([], 1, !0), foo([], 1, "2"), foo([], 1, 2, 3), foo(_templateObject()), foo(_templateObject1(), 1), foo(_templateObject2(), 1, 2), foo(_templateObject3(), 1, !0), foo(_templateObject4(), 1, "2"), foo(_templateObject5(), 1, 2, 3);
+foo([]);
+foo([], 1);
+foo([], 1, 2);
+foo([], 1, !0);
+foo([], 1, "2");
+foo([], 1, 2, 3);
+foo(_templateObject());
+foo(_templateObject1(), 1);
+foo(_templateObject2(), 1, 2);
+foo(_templateObject3(), 1, !0);
+foo(_templateObject4(), 1, "2");
+foo(_templateObject5(), 1, 2, 3);

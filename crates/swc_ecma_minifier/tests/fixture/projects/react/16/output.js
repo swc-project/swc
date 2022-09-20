@@ -3,7 +3,9 @@ function advanceTimers(currentTime) {
         if (null === timer.callback) pop(timerQueue);
         else {
             if (!(timer.startTime <= currentTime)) return;
-            pop(timerQueue), timer.sortIndex = timer.expirationTime, push(taskQueue, timer);
+            pop(timerQueue);
+            timer.sortIndex = timer.expirationTime;
+            push(taskQueue, timer);
         }
         timer = peek(timerQueue);
     }

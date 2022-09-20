@@ -1,7 +1,8 @@
 //// [destructuringObjectBindingPatternAndAssignment7.ts]
 import _define_property from "@swc/helpers/src/_define_property.mjs";
 !function(K) {
-    K.a = "a", K.b = "b";
+    K.a = "a";
+    K.b = "b";
 }(K || (K = {}));
 var K, ref = function() {
     var _obj;

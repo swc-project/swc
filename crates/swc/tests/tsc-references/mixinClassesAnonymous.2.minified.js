@@ -14,7 +14,9 @@ var _class, Derived = function(Base) {
     return Derived;
 }(function Base(x, y) {
     "use strict";
-    _class_call_check(this, Base), this.x = x, this.y = y;
+    _class_call_check(this, Base);
+    this.x = x;
+    this.y = y;
 });
 function Tagged(superClass) {
     return function(superClass) {
@@ -30,7 +32,8 @@ function Tagged(superClass) {
         return C;
     }(superClass);
 }
-Tagged(Derived), Tagged(((_class = function(superClass) {
+Tagged(Derived);
+Tagged(((_class = function(superClass) {
     "use strict";
     _inherits(_class, superClass);
     var _super = _create_super(_class);

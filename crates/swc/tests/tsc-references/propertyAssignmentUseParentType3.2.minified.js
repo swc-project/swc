@@ -2,7 +2,8 @@
 function foo2() {
     return [];
 }
+foo2.join = "";
 function foo3() {
     return "";
 }
-foo2.join = "", foo3.trim = "";
+foo3.trim = "";

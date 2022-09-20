@@ -7,23 +7,29 @@ var arg = {
         return "";
     }
 };
-foo(arg), foo({
+foo(arg);
+foo({
     cb: function(x, y) {
         return "";
     }
-}), foo({
+});
+foo({
     cb: function(x, y) {
         return "";
     }
-}), foo(arg), foo({
+});
+foo(arg);
+foo({
     cb: function(x) {
         return "";
     }
-}), foo({
+});
+foo({
     cb: function(x) {
         return "";
     }
-}), foo({
+});
+foo({
     cb: function() {
         return "";
     }

@@ -4,7 +4,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]

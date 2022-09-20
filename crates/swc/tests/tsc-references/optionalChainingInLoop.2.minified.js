@@ -13,7 +13,8 @@ try {
                 item.v = !!(null === (ref = item.t) || void 0 === ref ? void 0 : ref.length);
             }
         } catch (err) {
-            _didIteratorError = !0, _iteratorError = err;
+            _didIteratorError = !0;
+            _iteratorError = err;
         } finally{
             try {
                 _iteratorNormalCompletion || null == _iterator.return || _iterator.return();
@@ -23,7 +24,8 @@ try {
         }
     }();
 } catch (err) {
-    _didIteratorError = !0, _iteratorError = err;
+    _didIteratorError = !0;
+    _iteratorError = err;
 } finally{
     try {
         _iteratorNormalCompletion || null == _iterator.return || _iterator.return();

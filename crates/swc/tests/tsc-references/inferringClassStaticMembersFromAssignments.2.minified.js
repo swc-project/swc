@@ -18,4 +18,11 @@ F2.staticProp = 0;
 //// [global.js]
 //// [b.ts]
 import * as a from "./a";
-a.C1.staticProp, a.C2.staticProp, a.F1.staticProp, a.F2.staticProp, C3.staticProp, C4.staticProp, F3.staticProp, F4.staticProp;
+a.C1.staticProp;
+a.C2.staticProp;
+a.F1.staticProp;
+a.F2.staticProp;
+C3.staticProp;
+C4.staticProp;
+F3.staticProp;
+F4.staticProp;

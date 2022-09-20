@@ -8,15 +8,16 @@ define([
     "exports"
 ], function(require, exports) {
     "use strict";
-    function f1() {}
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    });
+    Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: function() {
             return f1;
         }
     });
+    function f1() {}
 });
 //// [m2.ts]
 define([
@@ -26,15 +27,17 @@ define([
     "./m1"
 ], function(require, exports, _interopRequireDefault, _m1) {
     "use strict";
-    function f2() {
-        (0, _m1.default)();
-    }
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    });
+    Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: function() {
             return f2;
         }
-    }), _m1 = (_interopRequireDefault = _interopRequireDefault.default)(_m1);
+    });
+    _m1 = (_interopRequireDefault = _interopRequireDefault.default)(_m1);
+    function f2() {
+        (0, _m1.default)();
+    }
 });

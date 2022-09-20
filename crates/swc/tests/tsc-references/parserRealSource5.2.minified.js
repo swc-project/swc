@@ -10,7 +10,13 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     }, PrintContext = function() {
         "use strict";
         function PrintContext(outfile, parser) {
-            _class_call_check(this, PrintContext), this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
+            _class_call_check(this, PrintContext);
+            this.outfile = outfile;
+            this.parser = parser;
+            this.builder = "";
+            this.indent1 = "  ";
+            this.indentStrings = [];
+            this.indentAmt = 0;
         }
         var _proto = PrintContext.prototype;
         return _proto.increaseIndent = function() {
@@ -29,8 +35,12 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         }, _proto.write = function(s) {
             this.builder += s;
         }, _proto.writeLine = function(s) {
-            this.builder += s, this.outfile.WriteLine(this.builder), this.builder = "";
+            this.builder += s;
+            this.outfile.WriteLine(this.builder);
+            this.builder = "";
         }, PrintContext;
     }();
-    TypeScript.PrintContext = PrintContext, TypeScript.prePrintAST = prePrintAST, TypeScript.postPrintAST = postPrintAST;
+    TypeScript.PrintContext = PrintContext;
+    TypeScript.prePrintAST = prePrintAST;
+    TypeScript.postPrintAST = postPrintAST;
 }(TypeScript || (TypeScript = {}));

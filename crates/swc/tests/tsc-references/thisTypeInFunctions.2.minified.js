@@ -49,29 +49,44 @@ var impl = {
 };
 impl.explicitVoid1 = function() {
     return 12;
-}, impl.explicitVoid2 = function() {
+};
+impl.explicitVoid2 = function() {
     return 12;
-}, impl.explicitStructural = function() {
+};
+impl.explicitStructural = function() {
     return this.a;
-}, impl.explicitInterface = function() {
+};
+impl.explicitInterface = function() {
     return this.a;
-}, impl.explicitStructural = function() {
+};
+impl.explicitStructural = function() {
     return 12;
-}, impl.explicitInterface = function() {
+};
+impl.explicitInterface = function() {
     return 12;
-}, impl.explicitThis = function() {
+};
+impl.explicitThis = function() {
     return this.a;
-}, ({
+};
+({
     y: 12,
     f: function(x) {
         return x + this.y;
     }
-}).f(13), implicitThis(12), ({
+}).f(13);
+implicitThis(12);
+({
     notSpecified: 12,
     f: implicitThis
 }).f(12);
 var c = new C(), d = new D();
-c.explicitC, c.explicitC(12), c.explicitProperty(12), c.explicitThis(12), d.explicitC(12), d.explicitProperty(12), d.explicitThis(12);
+c.explicitC;
+c.explicitC(12);
+c.explicitProperty(12);
+c.explicitThis(12);
+d.explicitC(12);
+d.explicitProperty(12);
+d.explicitThis(12);
 var reconstructed = {
     n: 12,
     explicitThis: c.explicitThis,
@@ -79,35 +94,56 @@ var reconstructed = {
     explicitProperty: c.explicitProperty,
     explicitVoid: c.explicitVoid
 };
-reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstructed.explicitVoid)(12), c.explicitC = explicitCFunction, c.explicitC = function(m) {
+reconstructed.explicitThis(10);
+reconstructed.explicitProperty(11);
+(0, reconstructed.explicitVoid)(12);
+c.explicitC = explicitCFunction;
+c.explicitC = function(m) {
     return this.n + m;
-}, c.explicitProperty = explicitPropertyFunction, c.explicitProperty = function(m) {
+};
+c.explicitProperty = explicitPropertyFunction;
+c.explicitProperty = function(m) {
     return this.n + m;
-}, c.explicitProperty = reconstructed.explicitProperty, c.explicitC = function(m) {
+};
+c.explicitProperty = reconstructed.explicitProperty;
+c.explicitC = function(m) {
     return m;
-}, c.explicitThis = function(m) {
+};
+c.explicitThis = function(m) {
     return m;
-}, c.explicitProperty = function(m) {
+};
+c.explicitProperty = function(m) {
     return m;
-}, c.explicitC = function(m) {
+};
+c.explicitC = function(m) {
     return m + _this.n;
-}, c.explicitThis = function(m) {
+};
+c.explicitThis = function(m) {
     return m + _this.n;
-}, c.explicitProperty = function(m) {
+};
+c.explicitProperty = function(m) {
     return m + _this.n;
-}, c.explicitThis = explicitCFunction, c.explicitThis = function(m) {
+};
+c.explicitThis = explicitCFunction;
+c.explicitThis = function(m) {
     return this.n + m;
-}, c.explicitC = function(m) {
+};
+c.explicitC = function(m) {
     return this.n + m;
-}, c.explicitProperty = function(m) {
+};
+c.explicitProperty = function(m) {
     return this.n + m;
-}, c.explicitThis = function(m) {
+};
+c.explicitThis = function(m) {
     return this.n + m;
-}, c.explicitThis = function(m) {
+};
+c.explicitThis = function(m) {
     return this.n + m;
-}, c.explicitC = function(m) {
+};
+c.explicitC = function(m) {
     return this.n + m;
-}, c.explicitVoid = function(n) {
+};
+c.explicitVoid = function(n) {
     return n;
 };
 var Base1 = function() {
@@ -151,10 +187,19 @@ var Base1 = function() {
     }
     return Derived2;
 }(Base2), b1 = new Base1(), b2 = new Base2(), d1 = new Derived1(), d2 = new Derived2();
-d2.polymorphic = d1.polymorphic, d1.polymorphic = d2.polymorphic, d1.polymorphic = b2.polymorphic, d2.polymorphic = d1.explicit, b1.polymorphic = d2.polymorphic, b1.explicit = d2.polymorphic, new function() {
+d2.polymorphic = d1.polymorphic;
+d1.polymorphic = d2.polymorphic;
+d1.polymorphic = b2.polymorphic;
+d2.polymorphic = d1.explicit;
+b1.polymorphic = d2.polymorphic;
+b1.explicit = d2.polymorphic;
+new function() {
     this.a = 12;
-}(), new function() {
+}();
+new function() {
     this.x = "ok";
-}(), new function() {
+}();
+new function() {
     this.x = "ok";
-}(), f.call(12);
+}();
+f.call(12);

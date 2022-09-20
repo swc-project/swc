@@ -15,5 +15,6 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _classCallCheck = _classCallCheck.default;
+    });
+    _classCallCheck = _classCallCheck.default;
 });

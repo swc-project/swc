@@ -7,7 +7,8 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -32,15 +33,16 @@
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {});
 }(this, function(exports) {
     "use strict";
-    function backup() {
-        return "backup";
-    }
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "backup", {
+    });
+    Object.defineProperty(exports, "backup", {
         enumerable: !0,
         get: ()=>backup
     });
+    function backup() {
+        return "backup";
+    }
 });
 //// [2.ts]
 !function(global, factory) {
@@ -52,14 +54,17 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "D", {
+    });
+    Object.defineProperty(exports, "D", {
         enumerable: !0,
         get: ()=>D
-    }), _interopRequireWildcard = _interopRequireWildcard.default;
+    });
+    _interopRequireWildcard = _interopRequireWildcard.default;
     class D {
         myModule = import("./0");
         method() {
-            import("./0"), this.myModule.then((Zero)=>{
+            import("./0");
+            this.myModule.then((Zero)=>{
                 console.log(Zero.foo());
             }, async (err)=>{
                 console.log(err);

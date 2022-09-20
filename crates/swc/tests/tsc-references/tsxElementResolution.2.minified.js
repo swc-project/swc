@@ -7,4 +7,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         _class_call_check(this, Name);
     };
     Dotted.Name = Name;
-}(Dotted || (Dotted = {})), Dotted.Name;
+}(Dotted || (Dotted = {}));
+Dotted.Name;

@@ -11,7 +11,9 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     var Y, Point;
     Y = X.Y || (X.Y = {}), Point = function Point(x, y) {
         "use strict";
-        _class_call_check(this, Point), this.x = x, this.y = y;
+        _class_call_check(this, Point);
+        this.x = x;
+        this.y = y;
     }, Y.Point = Point;
 }(X || (X = {}));
 //// [simple.ts]

@@ -8,5 +8,6 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _extends = _extends.default;
+    });
+    _extends = _extends.default;
 });

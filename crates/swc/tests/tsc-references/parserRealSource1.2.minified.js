@@ -49,12 +49,15 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     };
     !function(CompilerDiagnostics) {
         var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
+        CompilerDiagnostics.analysisPass = 0;
         function Alert(output) {
             diagnosticWriter && diagnosticWriter.Alert(output);
         }
-        CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
+        CompilerDiagnostics.Alert = Alert;
+        CompilerDiagnostics.debugPrint = function(s) {
             debug && Alert(s);
-        }, CompilerDiagnostics.assert = function(condition, s) {
+        };
+        CompilerDiagnostics.assert = function(condition, s) {
             debug && !condition && Alert(s);
         };
     }(TypeScript.CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {}));
@@ -80,7 +83,13 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     var LoggerAdapter = function() {
         "use strict";
         function LoggerAdapter(logger) {
-            _class_call_check(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
+            _class_call_check(this, LoggerAdapter);
+            this.logger = logger;
+            this._information = this.logger.information();
+            this._debug = this.logger.debug();
+            this._warning = this.logger.warning();
+            this._error = this.logger.error();
+            this._fatal = this.logger.fatal();
         }
         var _proto = LoggerAdapter.prototype;
         return _proto.information = function() {
@@ -101,7 +110,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     var BufferedLogger = function() {
         "use strict";
         function BufferedLogger() {
-            _class_call_check(this, BufferedLogger), this.logContents = [];
+            _class_call_check(this, BufferedLogger);
+            this.logContents = [];
         }
         var _proto = BufferedLogger.prototype;
         return _proto.information = function() {
@@ -118,5 +128,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             this.logContents.push(s);
         }, BufferedLogger;
     }();
-    TypeScript.BufferedLogger = BufferedLogger, TypeScript.timeFunction = timeFunction, TypeScript.stringToLiteral = stringToLiteral;
+    TypeScript.BufferedLogger = BufferedLogger;
+    TypeScript.timeFunction = timeFunction;
+    TypeScript.stringToLiteral = stringToLiteral;
 }(TypeScript || (TypeScript = {}));

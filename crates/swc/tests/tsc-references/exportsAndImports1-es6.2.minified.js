@@ -4,7 +4,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
@@ -23,10 +24,16 @@ function f() {}
 class C {
 }
 !function(E) {
-    E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
-}(E || (E = {})), function(D) {
-    D[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C";
-}(D || (D = {})), function(M) {
+    E[E.A = 0] = "A";
+    E[E.B = 1] = "B";
+    E[E.C = 2] = "C";
+}(E || (E = {}));
+!function(D) {
+    D[D.A = 0] = "A";
+    D[D.B = 1] = "B";
+    D[D.C = 2] = "C";
+}(D || (D = {}));
+!function(M) {
     var x;
     M.x = x;
 }(M || (M = {}));
@@ -35,7 +42,8 @@ var a = M.x;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
@@ -57,7 +65,8 @@ const _t1 = require("./t1");
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]

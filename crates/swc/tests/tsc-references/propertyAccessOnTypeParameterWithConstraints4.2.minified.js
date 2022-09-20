@@ -9,7 +9,11 @@ new (function() {
         var x;
         return x.notHere() + x.notHere();
     }, C;
-}())().f(), i.foo.notHere(), i.foo.notHere(), a().notHere(), a().notHere();
+}())().f();
+i.foo.notHere();
+i.foo.notHere();
+a().notHere();
+a().notHere();
 var i, a, b = {
     foo: function(x) {
         return x.notHere() + x.notHere();

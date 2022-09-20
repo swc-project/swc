@@ -6,8 +6,25 @@ var TargetHasOptional, SourceHasOptional, Base = function Base() {
 };
 !function(TargetHasOptional) {
     var c, a, d, e, f;
-    new Base(), c = d, c = e, c = f, c = a, a = d, a = e, a = f, a = c;
-}(TargetHasOptional || (TargetHasOptional = {})), function(SourceHasOptional) {
+    new Base();
+    c = d;
+    c = e;
+    c = f;
+    c = a;
+    a = d;
+    a = e;
+    a = f;
+    a = c;
+}(TargetHasOptional || (TargetHasOptional = {}));
+!function(SourceHasOptional) {
     var c, a, d, e, f;
-    new Base(), c = d, c = e, c = f, c = a, a = d, a = e, a = f, a = c;
+    new Base();
+    c = d;
+    c = e;
+    c = f;
+    c = a;
+    a = d;
+    a = e;
+    a = f;
+    a = c;
 }(SourceHasOptional || (SourceHasOptional = {}));

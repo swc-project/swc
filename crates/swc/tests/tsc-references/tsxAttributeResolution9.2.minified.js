@@ -15,12 +15,14 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "MyComponent", {
+    });
+    Object.defineProperty(exports, "MyComponent", {
         enumerable: !0,
         get: function() {
             return MyComponent;
         }
-    }), _classCallCheck = _classCallCheck.default;
+    });
+    _classCallCheck = _classCallCheck.default;
     var MyComponent = function() {
         "use strict";
         function MyComponent() {

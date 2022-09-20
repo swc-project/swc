@@ -13,9 +13,11 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     }())();
     c.foo(function(x) {
         return "";
-    }), c.foo(function(x) {
+    });
+    c.foo(function(x) {
         return "";
-    }), c.foo(function(x) {
+    });
+    c.foo(function(x) {
         return "";
     });
     var c2 = new (function() {
@@ -29,20 +31,26 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     }())();
     c2.foo(function(x) {
         return 1;
-    }), c2.foo(function(x) {
+    });
+    c2.foo(function(x) {
         return 1;
     });
-}(ImmediatelyFix || (ImmediatelyFix = {})), function(WithCandidates) {
+}(ImmediatelyFix || (ImmediatelyFix = {}));
+!function(WithCandidates) {
     var c, c2;
     c.foo2(1, function(a) {
         return "";
-    }), c.foo2(1, function(a) {
+    });
+    c.foo2(1, function(a) {
         return "";
-    }), c.foo2("", function(a) {
+    });
+    c.foo2("", function(a) {
         return 1;
-    }), c2.foo3(1, function(a) {
+    });
+    c2.foo3(1, function(a) {
         return "";
-    }, ""), c2.foo3(1, function(a) {
+    }, "");
+    c2.foo3(1, function(a) {
         return "";
     }, "");
 }(WithCandidates || (WithCandidates = {}));

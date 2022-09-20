@@ -18,7 +18,8 @@ var StringIterator = function() {
 try {
     for(var _step, _iterator = (new StringIterator)[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_step.value;
 } catch (err) {
-    _didIteratorError = !0, _iteratorError = err;
+    _didIteratorError = !0;
+    _iteratorError = err;
 } finally{
     try {
         _iteratorNormalCompletion || null == _iterator.return || _iterator.return();

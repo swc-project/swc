@@ -5,7 +5,8 @@ var c = new (function() {
     function C() {
         _class_call_check(this, C);
         var self = this;
-        self.x = 1, self.m = function() {
+        self.x = 1;
+        self.m = function() {
             console.log(self.x);
         };
     }
@@ -14,4 +15,6 @@ var c = new (function() {
         self.y = 2;
     }, C;
 }())();
-c.x, c.y, c.m();
+c.x;
+c.y;
+c.m();

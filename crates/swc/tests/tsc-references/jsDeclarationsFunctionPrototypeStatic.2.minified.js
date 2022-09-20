@@ -1,3 +1,6 @@
 //// [source.js]
+module.exports = MyClass;
 function MyClass() {}
-module.exports = MyClass, MyClass.staticMethod = function() {}, MyClass.prototype.method = function() {}, MyClass.staticProperty = 123;
+MyClass.staticMethod = function() {};
+MyClass.prototype.method = function() {};
+MyClass.staticProperty = 123;

@@ -8,9 +8,12 @@ let C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), class
         return b + (_class_private_method_get(this, _baz, baz).call(this).next().value || 0) + ((await _class_private_method_get(this, _qux, qux).call(this).next()).value || 0);
     }
     constructor(){
-        _class_private_method_init(this, _bar), _class_private_method_init(this, _baz), _class_private_method_init(this, _qux);
+        _class_private_method_init(this, _bar);
+        _class_private_method_init(this, _baz);
+        _class_private_method_init(this, _qux);
     }
 });
+new C().foo().then(console.log);
 async function bar() {
     return await Promise.resolve(42);
 }
@@ -20,4 +23,3 @@ function* baz() {
 async function* qux() {
     yield await Promise.resolve(42);
 }
-new C().foo().then(console.log);

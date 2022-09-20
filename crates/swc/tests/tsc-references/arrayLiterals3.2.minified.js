@@ -22,7 +22,9 @@ _to_consumable_array([
         "hello",
         "string"
     ]
-]), _to_consumable_array(temp1), _to_consumable_array(temp1).concat(_to_consumable_array([
+]);
+_to_consumable_array(temp1);
+_to_consumable_array(temp1).concat(_to_consumable_array([
     "s",
     "t",
     "r"

@@ -3,7 +3,11 @@ export const obj = {
         var xml;
         if (!data || "string" != typeof data) return null;
         try {
-            window.DOMParser ? xml = new DOMParser().parseFromString(data, "text/xml") : ((xml = new ActiveXObject("Microsoft.XMLDOM")).async = "false", xml.loadXML(data));
+            if (window.DOMParser) xml = new DOMParser().parseFromString(data, "text/xml");
+            else {
+                (xml = new ActiveXObject("Microsoft.XMLDOM")).async = "false";
+                xml.loadXML(data);
+            }
         } catch (e) {
             xml = void 0;
         }

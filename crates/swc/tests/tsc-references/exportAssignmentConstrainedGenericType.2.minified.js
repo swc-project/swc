@@ -11,7 +11,8 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var foo = require("./foo_0");
-new foo(!0), new foo({
+new foo(!0);
+new foo({
     a: "test",
     b: 42
 }).test.b;

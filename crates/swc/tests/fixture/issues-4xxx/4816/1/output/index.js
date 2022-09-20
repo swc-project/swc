@@ -7,8 +7,8 @@ export function right() {
     action(), foo();
 }
 export function between() {
-    // between
-    return check() || action(), foo();
+    return check() || action(), // between
+    foo();
 }
 export function end() {
     return check() || action(), foo();

@@ -5,7 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 var _instanceof = require("@swc/helpers/lib/_instanceof.js").default;
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), exports.default = void 0;
+});
+exports.default = void 0;
 var _react = function(obj) {
     if (obj && obj.__esModule) return obj;
     if (null === obj || "object" !== _typeof(obj) && "function" != typeof obj) return {
@@ -54,14 +55,18 @@ function ownKeys(object, enumerableOnly) {
         var symbols = Object.getOwnPropertySymbols(object);
         enumerableOnly && (symbols = symbols.filter(function(sym) {
             return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        })), keys.push.apply(keys, symbols);
+        }));
+        keys.push.apply(keys, symbols);
     }
     return keys;
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+        descriptor.enumerable = descriptor.enumerable || !1;
+        descriptor.configurable = !0;
+        "value" in descriptor && (descriptor.writable = !0);
+        Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
 function _assertThisInitialized(self) {
@@ -95,15 +100,17 @@ var ItemsList = function(_Component) {
                 writable: !0,
                 configurable: !0
             }
-        }), superClass && _setPrototypeOf(subClass, superClass);
+        });
+        superClass && _setPrototypeOf(subClass, superClass);
     }(ItemsList, _Component);
-    var Derived, Constructor, protoProps, staticProps, _super = function() {
+    var Constructor, protoProps, staticProps, Derived, _super = function() {
         var self, call, result, Super = _getPrototypeOf(ItemsList);
         if (function() {
             if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
+                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                return !0;
             } catch (e) {
                 return !1;
             }
@@ -171,7 +178,8 @@ var ItemsList = function(_Component) {
         }
     ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
 }(_react.Component);
-exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
+exports.default = ItemsList;
+_defineProperty(ItemsList, "propTypes", {
     items: _propTypes.default.array.isRequired,
     itemProps: _propTypes.default.oneOfType([
         _propTypes.default.object,
@@ -185,6 +193,7 @@ exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
     getItemId: _propTypes.default.func.isRequired,
     theme: _propTypes.default.func.isRequired,
     keyPrefix: _propTypes.default.string.isRequired
-}), _defineProperty(ItemsList, "defaultProps", {
+});
+_defineProperty(ItemsList, "defaultProps", {
     sectionIndex: null
 });

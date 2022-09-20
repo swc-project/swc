@@ -11,7 +11,8 @@ export var A = function A() {
 };
 export var C;
 !function(C) {
-    C[C.One = 0] = "One", C[C.Two = 1] = "Two";
+    C[C.One = 0] = "One";
+    C[C.Two = 1] = "Two";
 }(C || (C = {}));
 export { _default as default };
 //// [/b.ts]

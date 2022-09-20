@@ -10,7 +10,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    });
+    Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: function() {
             return _default;
@@ -30,7 +31,14 @@ define([
         value: !0
     });
     var _t11 = (_interopRequireWildcard = _interopRequireWildcard.default)(_t1);
-    _t1.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default;
+    _t1.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
 });
 //// [t3.ts]
 define([
@@ -42,7 +50,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -74,5 +83,12 @@ define([
         }
     });
     var _t11 = (_interopRequireWildcard = _interopRequireWildcard.default)(_t1);
-    _t1.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default;
+    _t1.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
+    _t11.default;
 });

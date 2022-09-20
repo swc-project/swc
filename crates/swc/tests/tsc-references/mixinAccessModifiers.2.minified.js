@@ -27,7 +27,9 @@ Mix(Private, function Private2() {
     "use strict";
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     _class_call_check(this, Private2);
-}), Mix(Private, Protected), Mix(Private, Public);
+});
+Mix(Private, Protected);
+Mix(Private, Public);
 var C4 = function(_superClass) {
     "use strict";
     _inherits(C4, _superClass);
@@ -36,9 +38,13 @@ var C4 = function(_superClass) {
         return _class_call_check(this, C4), _super.apply(this, arguments);
     }
     return C4.prototype.f = function(c4, c5, c6) {
-        c4.p, c5.p, c6.p;
+        c4.p;
+        c5.p;
+        c6.p;
     }, C4.g = function() {
-        C4.s, C5.s, C6.s;
+        C4.s;
+        C5.s;
+        C6.s;
     }, C4;
 }(Mix(Protected, Protected2)), C5 = function(_superClass) {
     "use strict";
@@ -48,9 +54,13 @@ var C4 = function(_superClass) {
         return _class_call_check(this, C5), _super.apply(this, arguments);
     }
     return C5.prototype.f = function(c4, c5, c6) {
-        c4.p, c5.p, c6.p;
+        c4.p;
+        c5.p;
+        c6.p;
     }, C5.g = function() {
-        C4.s, C5.s, C6.s;
+        C4.s;
+        C5.s;
+        C6.s;
     }, C5;
 }(Mix(Protected, Public)), C6 = function(_superClass) {
     "use strict";
@@ -60,8 +70,12 @@ var C4 = function(_superClass) {
         return _class_call_check(this, C6), _super.apply(this, arguments);
     }
     return C6.prototype.f = function(c4, c5, c6) {
-        c4.p, c5.p, c6.p;
+        c4.p;
+        c5.p;
+        c6.p;
     }, C6.g = function() {
-        C4.s, C5.s, C6.s;
+        C4.s;
+        C5.s;
+        C6.s;
     }, C6;
 }(Mix(Public, Public2));

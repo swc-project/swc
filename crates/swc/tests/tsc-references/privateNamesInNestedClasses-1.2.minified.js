@@ -23,7 +23,8 @@ class A {
             }
         }
         let a = new A();
-        new B().bar(a), new B().baz(a);
+        new B().bar(a);
+        new B().baz(a);
         let b = new B();
         new B().quux(b);
     }
@@ -31,7 +32,8 @@ class A {
         _class_private_field_init(this, _foo, {
             writable: !0,
             value: "A's #foo"
-        }), _class_private_field_init(this, _bar, {
+        });
+        _class_private_field_init(this, _bar, {
             writable: !0,
             value: "A's #bar"
         });

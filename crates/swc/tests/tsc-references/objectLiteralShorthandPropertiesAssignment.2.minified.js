@@ -5,4 +5,6 @@ function bar(name, id) {
         id: id
     };
 }
-bar("Hello", 5), bar("Hello", 5), bar("Hello", 5);
+bar("Hello", 5);
+bar("Hello", 5);
+bar("Hello", 5);

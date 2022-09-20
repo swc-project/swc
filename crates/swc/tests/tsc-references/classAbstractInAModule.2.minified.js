@@ -19,4 +19,6 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         return B;
     }(A);
     M.B = B;
-}(M || (M = {})), new M.A, new M.B;
+}(M || (M = {}));
+new M.A;
+new M.B;

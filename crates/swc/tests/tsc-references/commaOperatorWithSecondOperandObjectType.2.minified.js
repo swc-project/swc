@@ -4,4 +4,5 @@ var STRING, CLASS = function CLASS() {
     "use strict";
     _class_call_check(this, CLASS);
 };
-STRING.toLowerCase(), new CLASS(), STRING.toLowerCase(), new CLASS();
+STRING.toLowerCase(), new CLASS();
+STRING.toLowerCase(), new CLASS();

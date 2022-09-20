@@ -27,4 +27,5 @@ var Base = function Base() {
     }
     return Derived2;
 }(Base);
-new Derived1(), new Derived2(), new Derived1(), new Derived1();
+new Derived1(), new Derived2();
+new Derived1(), new Derived1();

@@ -7,7 +7,13 @@ var EE = function() {
     }
     return EE.prototype.on = function(s) {}, EE;
 }(), npmlog = module.exports = new EE();
-npmlog.on("hi"), module.exports.on("hi"), npmlog.x = 1, module.exports.y = 2, npmlog.y, module.exports.x;
+npmlog.on("hi");
+module.exports.on("hi");
+npmlog.x = 1;
+module.exports.y = 2;
+npmlog.y;
+module.exports.x;
 //// [use.js]
 var npmlog = require("./npmlog");
-npmlog.x, npmlog.on;
+npmlog.x;
+npmlog.on;

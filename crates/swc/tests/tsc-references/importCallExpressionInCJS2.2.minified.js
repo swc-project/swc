@@ -1,25 +1,27 @@
 //// [0.ts]
 "use strict";
-function foo() {
-    return "foo";
-}
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "foo", {
+});
+Object.defineProperty(exports, "foo", {
     enumerable: !0,
     get: ()=>foo
 });
+function foo() {
+    return "foo";
+}
 //// [1.ts]
 "use strict";
-function backup() {
-    return "backup";
-}
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "backup", {
+});
+Object.defineProperty(exports, "backup", {
     enumerable: !0,
     get: ()=>backup
 });
+function backup() {
+    return "backup";
+}
 //// [2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

@@ -11,7 +11,10 @@ export default function cubehelix(h, s, l, opacity) {
     }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
 }
 export function Cubehelix(h, s, l, opacity) {
-    this.h = +h, this.s = +s, this.l = +l, this.opacity = +opacity;
+    this.h = +h;
+    this.s = +s;
+    this.l = +l;
+    this.opacity = +opacity;
 }
 define(Cubehelix, cubehelix, extend(Color, {
     brighter: function(k) {

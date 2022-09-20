@@ -6,7 +6,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "App", {
+});
+Object.defineProperty(exports, "App", {
     enumerable: !0,
     get: function() {
         return App;
@@ -27,7 +28,8 @@ var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, 
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "Button", {
+});
+Object.defineProperty(exports, "Button", {
     enumerable: !0,
     get: function() {
         return Button;

@@ -36,7 +36,8 @@
         },
         1918: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
+            __webpack_require__.r(__webpack_exports__);
+            __webpack_require__.d(__webpack_exports__, {
                 default: function() {
                     return PageWithNoSpread;
                 }
@@ -66,6 +67,7 @@
             179
         ], function() {
             return __webpack_require__(__webpack_require__.s = 5467);
-        }), _N_E = __webpack_require__.O();
+        });
+        _N_E = __webpack_require__.O();
     }
 ]);

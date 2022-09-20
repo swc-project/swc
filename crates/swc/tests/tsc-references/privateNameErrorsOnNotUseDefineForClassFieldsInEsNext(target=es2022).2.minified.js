@@ -9,13 +9,15 @@ class TestWithErrors {
         }
         static C = class {
             m() {
-                new TestWithErrors().#prop, new Inner().#foo;
+                new TestWithErrors().#prop;
+                new Inner().#foo;
             }
         };
         static M() {
             return class {
                 m() {
-                    new TestWithErrors().#prop, new Inner().#foo;
+                    new TestWithErrors().#prop;
+                    new Inner().#foo;
                 }
             };
         }
@@ -31,13 +33,15 @@ class TestNoErrors {
         }
         C = class {
             m() {
-                new TestNoErrors().#prop, new Inner().#foo;
+                new TestNoErrors().#prop;
+                new Inner().#foo;
             }
         };
         static M() {
             return class {
                 m() {
-                    new TestNoErrors().#prop, new Inner().#foo;
+                    new TestNoErrors().#prop;
+                    new Inner().#foo;
                 }
             };
         }

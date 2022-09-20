@@ -9,7 +9,9 @@ var t = (function() {
         return this;
     }, C;
 })().bar();
-t.foo, t.bar(), new t(1);
+t.foo;
+t.bar();
+new t(1);
 var t2 = (function() {
     "use strict";
     function C2(x) {
@@ -19,4 +21,6 @@ var t2 = (function() {
         return this;
     }, C2;
 })().bar();
-t2.foo, t2.bar(), new t2("");
+t2.foo;
+t2.bar();
+new t2("");

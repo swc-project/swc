@@ -3,7 +3,8 @@ import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 _object_spread_props(_object_spread({}, {}), {
     x: 0
-}).x, _object_spread({
+}).x;
+_object_spread({
     y: 0
 }, {}).y;
 var ref = _object_spread({

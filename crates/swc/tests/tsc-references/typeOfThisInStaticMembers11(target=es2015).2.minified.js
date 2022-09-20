@@ -27,7 +27,8 @@ D = _ts_decorate([
 ], D);
 class CC {
 }
-_define_property(CC, "a", 1), _define_property(CC, "b", CC.a + 1);
+_define_property(CC, "a", 1);
+_define_property(CC, "b", CC.a + 1);
 class DD extends CC {
     static foo() {
         return this.c + 1;
@@ -39,6 +40,10 @@ class DD extends CC {
         this.c = v + 1;
     }
 }
-_define_property(DD, "c", 2), _define_property(DD, "d", DD.c + 1), _define_property(DD, "e", _get(_get_prototype_of(DD), "a", DD) + DD.c + 1), _define_property(DD, "f", ()=>DD.c + 1), _define_property(DD, "ff", function() {
+_define_property(DD, "c", 2);
+_define_property(DD, "d", DD.c + 1);
+_define_property(DD, "e", _get(_get_prototype_of(DD), "a", DD) + DD.c + 1);
+_define_property(DD, "f", ()=>DD.c + 1);
+_define_property(DD, "ff", function() {
     this.c;
 });

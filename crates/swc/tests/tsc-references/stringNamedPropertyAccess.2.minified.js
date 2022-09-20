@@ -4,4 +4,7 @@ var i, a, C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-(void 0)["a b"], C["c d"], i["a b"], a["a b"];
+(void 0)["a b"];
+C["c d"];
+i["a b"];
+a["a b"];

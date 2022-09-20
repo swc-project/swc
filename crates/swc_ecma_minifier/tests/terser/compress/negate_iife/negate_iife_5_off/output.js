@@ -1,8 +1,6 @@
-!(function () {
+!function() {
     return t;
-})()
-    ? bar(false)
-    : foo(true),
-    (function () {
-        console.log("something");
-    })();
+}() ? bar(false) : foo(true);
+(function() {
+    console.log("something");
+})();

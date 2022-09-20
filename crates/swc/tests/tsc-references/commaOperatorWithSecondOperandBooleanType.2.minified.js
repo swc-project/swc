@@ -1,3 +1,4 @@
 //// [commaOperatorWithSecondOperandBooleanType.ts]
 var NUMBER;
-++NUMBER, ++NUMBER;
+++NUMBER;
+++NUMBER;

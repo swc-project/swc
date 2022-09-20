@@ -31,9 +31,14 @@ var c, RoyalGuard = function() {
     }
     return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard(), b = new LeadGuard();
+b.isFollower = b.isLeader;
+b.isLeader = b.isFollower;
+a.isFollower = a.isLeader;
+a.isLeader = a.isFollower;
 function invalidGuard(c) {
     return !1;
 }
-b.isFollower = b.isLeader, b.isLeader = b.isFollower, a.isFollower = a.isLeader, a.isLeader = a.isFollower, ({
+({
     invalidGuard: invalidGuard
-}).invalidGuard(c), (0, a.isFollower)() ? a.follow() : a.lead();
+}).invalidGuard(c);
+(0, a.isFollower)() ? a.follow() : a.lead();

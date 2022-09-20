@@ -7,4 +7,5 @@ var i = {
             p: void 0
         })
 };
-i[Symbol.iterator], i[Symbol.toStringTag]();
+i[Symbol.iterator];
+i[Symbol.toStringTag]();

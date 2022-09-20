@@ -7,7 +7,8 @@ try {
         "3"
     ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)(ref = _sliced_to_array(_step.value, 2))[0], ref[1];
 } catch (err) {
-    _didIteratorError = !0, _iteratorError = err;
+    _didIteratorError = !0;
+    _iteratorError = err;
 } finally{
     try {
         _iteratorNormalCompletion || null == _iterator.return || _iterator.return();

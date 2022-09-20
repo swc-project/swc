@@ -12,7 +12,8 @@ System.register([
         ],
         execute: function() {
             _export("default", Foo = class {
-            }), _export("default", Foo = _ts_decorate([
+            });
+            _export("default", Foo = _ts_decorate([
                 decorator
             ], Foo));
         }
@@ -32,7 +33,8 @@ System.register([
         ],
         execute: function() {
             _export("default", _class = class {
-            }), _export("default", _class = _ts_decorate([
+            });
+            _export("default", _class = _ts_decorate([
                 decorator
             ], _class));
         }

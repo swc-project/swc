@@ -10,7 +10,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -34,15 +35,16 @@ define([
     "exports"
 ], function(require, exports) {
     "use strict";
-    function backup() {
-        return "backup";
-    }
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "backup", {
+    });
+    Object.defineProperty(exports, "backup", {
         enumerable: !0,
         get: ()=>backup
     });
+    function backup() {
+        return "backup";
+    }
 });
 //// [2.ts]
 define([
@@ -53,10 +55,12 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "D", {
+    });
+    Object.defineProperty(exports, "D", {
         enumerable: !0,
         get: ()=>D
-    }), _interopRequireWildcard = _interopRequireWildcard.default;
+    });
+    _interopRequireWildcard = _interopRequireWildcard.default;
     class D {
         myModule = new Promise((resolve, reject)=>require([
                 "./0"
@@ -64,7 +68,8 @@ define([
         method() {
             new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(_interopRequireWildcard(m)), reject)), this.myModule.then((Zero)=>{
+                ], (m)=>resolve(_interopRequireWildcard(m)), reject));
+            this.myModule.then((Zero)=>{
                 console.log(Zero.foo());
             }, async (err)=>{
                 console.log(err);

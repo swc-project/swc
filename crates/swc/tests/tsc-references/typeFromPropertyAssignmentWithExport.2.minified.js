@@ -1,3 +1,4 @@
 //// [a.js]
 export var Adapter = {};
-Adapter.prop = {}, Adapter.asyncMethod = function() {};
+Adapter.prop = {};
+Adapter.asyncMethod = function() {};

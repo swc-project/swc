@@ -1,6 +1,13 @@
 //// [mergeTwoInterfaces.ts]
 var a, b, M;
-a.foo, a.bar, b.foo, b.bar, function(M) {
+a.foo;
+a.bar;
+b.foo;
+b.bar;
+!function(M) {
     var a, b;
-    a.foo, a.bar, b.foo, b.bar;
+    a.foo;
+    a.bar;
+    b.foo;
+    b.bar;
 }(M || (M = {}));

@@ -9,4 +9,5 @@ class C {
 }
 C.s = _class_private_method_get(_ref = new C(), _method, function() {
     return 42;
-}).call(_ref), console.log(C.s);
+}).call(_ref);
+console.log(C.s);

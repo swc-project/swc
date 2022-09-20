@@ -2,7 +2,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "x", {
+});
+Object.defineProperty(exports, "x", {
     enumerable: !0,
     get: function() {
         return x;
@@ -13,7 +14,8 @@ var x = 42;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "y", {
+});
+Object.defineProperty(exports, "y", {
     enumerable: !0,
     get: function() {
         return y;
@@ -26,4 +28,5 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var foo = require("./foo_0");
-foo.x, foo.y;
+foo.x;
+foo.y;

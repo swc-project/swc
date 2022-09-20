@@ -7,7 +7,8 @@ var A = function A() {
     _class_call_check(this, A);
 }, B2 = function B2() {
     "use strict";
-    _class_call_check(this, B2), this.anon = function(A) {
+    _class_call_check(this, B2);
+    this.anon = function(A) {
         _inherits(_class, A);
         var _super = _create_super(_class);
         function _class() {
@@ -56,4 +57,6 @@ var A = function A() {
     }
     return Inner;
 }(A)), c = new C(), k = new K(), s = new S();
-c.genericVar = 12, k.genericVar = 12, s.genericVar = 12;
+c.genericVar = 12;
+k.genericVar = 12;
+s.genericVar = 12;

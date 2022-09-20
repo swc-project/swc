@@ -2,7 +2,8 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Rectangle = function Rectangle() {
     "use strict";
-    _class_call_check(this, Rectangle), console.log("I'm a rectangle!");
+    _class_call_check(this, Rectangle);
+    console.log("I'm a rectangle!");
 };
 module.exports = {
     Rectangle: Rectangle
@@ -12,7 +13,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Rectangle = require("./rectangle").Rectangle, Render = function() {
     "use strict";
     function Render() {
-        _class_call_check(this, Render), this.objects = [];
+        _class_call_check(this, Render);
+        this.objects = [];
     }
     return Render.prototype.addRectangle = function() {
         var obj = new Rectangle();
@@ -24,4 +26,5 @@ module.exports = {
 };
 //// [test.js]
 var render = new (require("./index")).Render();
-render.addRectangle(), console.log("Objects", render.objects);
+render.addRectangle();
+console.log("Objects", render.objects);

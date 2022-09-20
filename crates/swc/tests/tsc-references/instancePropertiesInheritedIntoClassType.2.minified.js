@@ -16,7 +16,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     }(function() {
         "use strict";
         function C(a, b) {
-            _class_call_check(this, C), this.a = a, this.b = b;
+            _class_call_check(this, C);
+            this.a = a;
+            this.b = b;
         }
         return C.prototype.fn = function() {
             return this;
@@ -30,8 +32,12 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
             }
         ]), C;
     }()))(1, 2), r = d.fn();
-    r.x, r.y, r.y = 4, d.y();
-}(NonGeneric || (NonGeneric = {})), function(Generic) {
+    r.x;
+    r.y;
+    r.y = 4;
+    d.y();
+}(NonGeneric || (NonGeneric = {}));
+!function(Generic) {
     var d = new (function(C) {
         "use strict";
         _inherits(D, C);
@@ -43,7 +49,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     }(function() {
         "use strict";
         function C(a, b) {
-            _class_call_check(this, C), this.a = a, this.b = b;
+            _class_call_check(this, C);
+            this.a = a;
+            this.b = b;
         }
         return C.prototype.fn = function() {
             return this;
@@ -57,5 +65,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
             }
         ]), C;
     }()))(1, ""), r = d.fn();
-    r.x, r.y, r.y = "", d.y();
+    r.x;
+    r.y;
+    r.y = "";
+    d.y();
 }(Generic || (Generic = {}));

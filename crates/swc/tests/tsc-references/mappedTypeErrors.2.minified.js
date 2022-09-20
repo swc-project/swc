@@ -10,13 +10,19 @@ var foo = {
 setState(foo, {
     a: "test",
     b: 43
-}), setState(foo, {
+});
+setState(foo, {
     a: "hi"
-}), setState(foo, {
+});
+setState(foo, {
     b: void 0
-}), setState(foo, {}), setState(foo, foo), setState(foo, {
+});
+setState(foo, {});
+setState(foo, foo);
+setState(foo, {
     a: void 0
-}), setState(foo, {
+});
+setState(foo, {
     c: !0
 });
 var c = new (function() {
@@ -31,12 +37,18 @@ var c = new (function() {
 c.setState({
     a: "test",
     b: 43
-}), c.setState({
+});
+c.setState({
     a: "hi"
-}), c.setState({
+});
+c.setState({
     b: void 0
-}), c.setState({}), c.setState(foo), c.setState({
+});
+c.setState({});
+c.setState(foo);
+c.setState({
     a: void 0
-}), c.setState({
+});
+c.setState({
     c: !0
 });

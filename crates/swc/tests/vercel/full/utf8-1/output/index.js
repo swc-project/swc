@@ -17,12 +17,13 @@ function p() {
                     ];
                     e.label = 1;
                 case 1:
-                    return e.trys.push([
+                    e.trys.push([
                         1,
                         4,
                         ,
                         5
-                    ]), [
+                    ]);
+                    return [
                         4,
                         fetch("undefined" != typeof __webpack_runtime_id__ ? "".concat(d).concat(u, ".").concat(__webpack_runtime_id__, ".hot-update.json") : "".concat(d).concat(u, ".hot-update.json"))
                     ];
@@ -32,14 +33,20 @@ function p() {
                         e.sent().json()
                     ];
                 case 3:
-                    return a = e.sent(), r = "/" === i ? "index" : i, (Array.isArray(a.c) ? a.c : Object.keys(a.c)).some(function(e) {
+                    a = e.sent();
+                    r = "/" === i ? "index" : i;
+                    (Array.isArray(a.c) ? a.c : Object.keys(a.c)).some(function(e) {
                         return -1 !== e.indexOf("pages".concat(r.startsWith("/") ? r : "/".concat(r))) || -1 !== e.indexOf("pages".concat(r.startsWith("/") ? r : "/".concat(r)).replace(/\//g, "\\"));
-                    }) ? document.location.reload(!0) : u = _, [
+                    }) ? document.location.reload(!0) : u = _;
+                    return [
                         3,
                         5
                     ];
                 case 4:
-                    return c = e.sent(), console.error("Error occurred checking for update", c), document.location.reload(!0), [
+                    c = e.sent();
+                    console.error("Error occurred checking for update", c);
+                    document.location.reload(!0);
+                    return [
                         3,
                         5
                     ];
@@ -56,14 +63,18 @@ n(function(e) {
         var t = JSON.parse(e.data);
         if ("sync" === t.action || "built" === t.action) {
             if (!t.hash) return;
-            _ = t.hash, function() {
+            _ = t.hash;
+            !function() {
                 p.apply(this, arguments);
             }();
         } else "reloadPage" === t.action && document.location.reload(!0);
     } catch (a) {
         console.warn("Invalid HMR message: " + e.data + "\n" + a);
     }
-}), c({
+});
+c({
     assetPrefix: s,
     path: "/_next/webpack-hmr"
-}), a(), r(o.page);
+});
+a();
+r(o.page);

@@ -11,58 +11,75 @@
     if (!nativeURLSearchParams || !isSupportObjectConstructor || !decodesPlusesCorrectly || !encodesAmpersandsCorrectly) {
         prototype.append = function(name, value) {
             appendTo(this[__URLSearchParams__], name, value);
-        }, prototype.delete = function(name) {
+        };
+        prototype.delete = function(name) {
             delete this[__URLSearchParams__][name];
-        }, prototype.get = function(name) {
+        };
+        prototype.get = function(name) {
             var dict = this[__URLSearchParams__];
             return this.has(name) ? dict[name][0] : null;
-        }, prototype.getAll = function(name) {
+        };
+        prototype.getAll = function(name) {
             var dict = this[__URLSearchParams__];
             return this.has(name) ? dict[name].slice(0) : [];
-        }, prototype.has = function(name) {
+        };
+        prototype.has = function(name) {
             return hasOwnProperty(this[__URLSearchParams__], name);
-        }, prototype.set = function(name, value) {
+        };
+        prototype.set = function(name, value) {
             this[__URLSearchParams__][name] = [
                 "" + value
             ];
-        }, prototype.toString = function() {
+        };
+        prototype.toString = function() {
             var i, key, name, value, dict = this[__URLSearchParams__], query = [];
-            for(key in dict)for(i = 0, name = encode(key), value = dict[key]; i < value.length; i++)query.push(name + "=" + encode(value[i]));
+            for(key in dict){
+                name = encode(key);
+                for(i = 0, value = dict[key]; i < value.length; i++)query.push(name + "=" + encode(value[i]));
+            }
             return query.join("&");
-        }, decodesPlusesCorrectly && nativeURLSearchParams && !isSupportObjectConstructor && self.Proxy ? (propValue = new Proxy(nativeURLSearchParams, {
+        };
+        decodesPlusesCorrectly && nativeURLSearchParams && !isSupportObjectConstructor && self.Proxy ? (propValue = new Proxy(nativeURLSearchParams, {
             construct: function(target, args) {
                 return new target(new URLSearchParamsPolyfill(args[0]).toString());
             }
-        })).toString = Function.prototype.toString.bind(URLSearchParamsPolyfill) : propValue = URLSearchParamsPolyfill, Object.defineProperty(self, "URLSearchParams", {
+        })).toString = Function.prototype.toString.bind(URLSearchParamsPolyfill) : propValue = URLSearchParamsPolyfill;
+        Object.defineProperty(self, "URLSearchParams", {
             value: propValue
         });
         var USPProto = self.URLSearchParams.prototype;
-        USPProto.polyfill = !0, USPProto.forEach = USPProto.forEach || function(callback, thisArg) {
+        USPProto.polyfill = !0;
+        USPProto.forEach = USPProto.forEach || function(callback, thisArg) {
             var dict = parseToDict(this.toString());
             Object.getOwnPropertyNames(dict).forEach(function(name) {
                 dict[name].forEach(function(value) {
                     callback.call(thisArg, value, name, this);
                 }, this);
             }, this);
-        }, USPProto.sort = USPProto.sort || function() {
+        };
+        USPProto.sort = USPProto.sort || function() {
             var k, i, j, dict = parseToDict(this.toString()), keys = [];
             for(k in dict)keys.push(k);
-            for(keys.sort(), i = 0; i < keys.length; i++)this.delete(keys[i]);
+            keys.sort();
+            for(i = 0; i < keys.length; i++)this.delete(keys[i]);
             for(i = 0; i < keys.length; i++){
                 var key = keys[i], values = dict[key];
                 for(j = 0; j < values.length; j++)this.append(key, values[j]);
             }
-        }, USPProto.keys = USPProto.keys || function() {
+        };
+        USPProto.keys = USPProto.keys || function() {
             var items = [];
             return this.forEach(function(item, name) {
                 items.push(name);
             }), makeIterator(items);
-        }, USPProto.values = USPProto.values || function() {
+        };
+        USPProto.values = USPProto.values || function() {
             var items = [];
             return this.forEach(function(item) {
                 items.push(item);
             }), makeIterator(items);
-        }, USPProto.entries = USPProto.entries || function() {
+        };
+        USPProto.entries = USPProto.entries || function() {
             var items = [];
             return this.forEach(function(item, name) {
                 items.push([
@@ -70,10 +87,12 @@
                     item
                 ]);
             }), makeIterator(items);
-        }, iterable && (USPProto[self.Symbol.iterator] = USPProto[self.Symbol.iterator] || USPProto.entries);
+        };
+        iterable && (USPProto[self.Symbol.iterator] = USPProto[self.Symbol.iterator] || USPProto.entries);
     }
     function URLSearchParamsPolyfill(search) {
-        ((search = search || "") instanceof URLSearchParams || search instanceof URLSearchParamsPolyfill) && (search = search.toString()), this[__URLSearchParams__] = parseToDict(search);
+        ((search = search || "") instanceof URLSearchParams || search instanceof URLSearchParamsPolyfill) && (search = search.toString());
+        this[__URLSearchParams__] = parseToDict(search);
     }
     function encode(str) {
         var replace = {

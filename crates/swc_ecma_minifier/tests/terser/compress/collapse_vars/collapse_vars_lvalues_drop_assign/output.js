@@ -1,26 +1,26 @@
 function f0(x) {
     var i = ++x;
-    return (x += i);
+    return x += i;
 }
 function f1(x) {
-    var a = (x -= 3);
-    return (x += a);
+    var a = x -= 3;
+    return x += a;
 }
 function f2(x) {
-    var z = x,
-        a = ++z;
-    return (z += a);
+    var z = x, a = ++z;
+    return z += a;
 }
 function f3(x) {
-    var a = (x -= 3);
+    var a = x -= 3;
     return x + a;
 }
 function f4(x) {
-    var a = (x -= 3);
+    var a = x -= 3;
     return x + a;
 }
 function f5(x) {
-    e1(), e2();
+    e1();
+    e2();
     var c = --x;
     return x - c;
 }

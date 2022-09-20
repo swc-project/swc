@@ -6,6 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 Promise.resolve(...[
     "PathModule"
-]).then((p)=>_interopRequireWildcard(require(p))), Promise.resolve(...[
+]).then((p)=>_interopRequireWildcard(require(p)));
+Promise.resolve(...[
     "./0"
-]).then((p)=>_interopRequireWildcard(require(p))), Promise.resolve().then((p)=>_interopRequireWildcard(require(p))), Promise.resolve().then(()=>_interopRequireWildcard(require("pathToModule", "secondModule")));
+]).then((p)=>_interopRequireWildcard(require(p)));
+Promise.resolve().then((p)=>_interopRequireWildcard(require(p)));
+Promise.resolve().then(()=>_interopRequireWildcard(require("pathToModule", "secondModule")));

@@ -15,7 +15,8 @@ _extends({}, overEmit.a[0]), _object_without_properties(overEmit.b, [
 ]), _object_without_properties(overEmit, [
     "a",
     "b"
-]), _extends({}, overEmit.a[0]), _object_without_properties(overEmit.b, [
+]);
+_extends({}, overEmit.a[0]), _object_without_properties(overEmit.b, [
     "z"
 ]), _object_without_properties(overEmit, [
     "a",

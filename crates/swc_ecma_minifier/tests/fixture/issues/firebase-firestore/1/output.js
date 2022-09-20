@@ -760,7 +760,8 @@
                     return e.mapValue.fields;
                 }
                 applyChanges(t, e, n) {
-                    for (const e1 of (ct(e, (e, n)=>t[e] = n), n))delete t[e1];
+                    ct(e, (e, n)=>t[e] = n);
+                    for (const e1 of n)delete t[e1];
                 }
                 clone() {
                     return new Ut(Bt(this.value));
@@ -987,7 +988,8 @@
                 let s = 0;
                 for(let i = 0; i < t.position.length; i++){
                     const r = e[i], o = t.position[i];
-                    if (s = r.field.isKeyField() ? Pt.comparator(Pt.fromName(o.referenceValue), n.key) : Dt(o, n.data.field(r.field)), "desc" === r.dir && (s *= -1), 0 !== s) break;
+                    s = r.field.isKeyField() ? Pt.comparator(Pt.fromName(o.referenceValue), n.key) : Dt(o, n.data.field(r.field));
+                    if ("desc" === r.dir && (s *= -1), 0 !== s) break;
                 }
                 return t.before ? s <= 0 : s < 0;
             }
@@ -1494,7 +1496,8 @@
                     return t + (this.isRed() ? 0 : 1);
                 }
             }
-            mn.EMPTY = null, mn.RED = !0, mn.BLACK = !1, mn.EMPTY = new class {
+            mn.EMPTY = null, mn.RED = !0, mn.BLACK = !1;
+            mn.EMPTY = new class {
                 constructor(){
                     this.size = 0;
                 }
@@ -1847,7 +1850,8 @@
                     return e && e.q ? null : this.tt.Tt(t);
                 }
                 lt(t) {
-                    this.et.set(t, new kn()), this.tt.getRemoteKeysForTarget(t).forEach((e)=>{
+                    this.et.set(t, new kn());
+                    this.tt.getRemoteKeysForTarget(t).forEach((e)=>{
                         this.ct(t, e, null);
                     });
                 }
@@ -2075,7 +2079,8 @@
                     this.name = t, this.readTime = e, this.bundledQuery = n;
                 }
             }
-            Bs.store = "namedQueries", Bs.keyPath = "name", vs.store, Vs.store, Ss.store, Ns.store, ks.store, Ps.store, Os.store, $s.store, Ms.store, xs.store, Fs.store, Ls.store, Bs.store;
+            Bs.store = "namedQueries", Bs.keyPath = "name";
+            vs.store, Vs.store, Ss.store, Ns.store, ks.store, Ps.store, Os.store, $s.store, Ms.store, xs.store, Fs.store, Ls.store, Bs.store;
             class Ks {
                 constructor(){
                     this.onCommittedListeners = [];
@@ -2393,7 +2398,8 @@
                 Dn(t, e, n) {
                     let s, i;
                     return this.He.getDocumentsMatchingQuery(t, e, n).next((n)=>(s = n, this.In.getAllMutationBatchesAffectingQuery(t, e))).next((e)=>(i = e, this.Cn(t, i, s).next((t)=>{
-                            for (const t1 of (s = t, i))for (const e of t1.mutations){
+                            s = t;
+                            for (const t1 of i)for (const e of t1.mutations){
                                 const n = e.key;
                                 let i1 = s.get(n);
                                 null == i1 && (i1 = Kt.newInvalidDocument(n), s = s.insert(n, i1)), Ye(e, i1, t1.localWriteTime), i1.isFoundDocument() || (s = s.remove(n));
@@ -2470,8 +2476,14 @@
                     return n.In.getAllMutationBatches(t).next((o)=>(r = o, s = n.persistence.getMutationQueue(e), i = new rr(n.jn, s, n.persistence.getIndexManager()), s.getAllMutationBatches(t))).next((e)=>{
                         const n = [], s = [];
                         let o = Pn();
-                        for (const t1 of r)for (const e1 of (n.push(t1.batchId), t1.mutations))o = o.add(e1.key);
-                        for (const t2 of e)for (const e2 of (s.push(t2.batchId), t2.mutations))o = o.add(e2.key);
+                        for (const t1 of r){
+                            n.push(t1.batchId);
+                            for (const e1 of t1.mutations)o = o.add(e1.key);
+                        }
+                        for (const t2 of e){
+                            s.push(t2.batchId);
+                            for (const e2 of t2.mutations)o = o.add(e2.key);
+                        }
                         return i.Pn(t, o).next((t)=>({
                                 Wn: t,
                                 removedBatchIds: n,
@@ -2700,7 +2712,8 @@
                     const i = this.fs;
                     this.fs++, this.In.length > 0 && this.In[this.In.length - 1];
                     const r = new ni(i, e, n, s);
-                    for (const e1 of (this.In.push(r), s))this.ds = this.ds.add(new Pr(e1.key, i)), this.Ht.addToCollectionParentIndex(t, e1.key.path.popLast());
+                    this.In.push(r);
+                    for (const e1 of s)this.ds = this.ds.add(new Pr(e1.key, i)), this.Ht.addToCollectionParentIndex(t, e1.key.path.popLast());
                     return js.resolve(r);
                 }
                 lookupMutationBatch(t, e) {
@@ -2920,7 +2933,8 @@
             class Cr {
                 constructor(t, e){
                     var t1, e1;
-                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = (t1 = this.Ht, e1 = (t)=>this.referenceDelegate.Ps(t), new Vr(t1, e1)), this.N = new ri(e), this.Je = new Rr(this.N);
+                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this);
+                    this.Ht = new pi(), this.He = (t1 = this.Ht, e1 = (t)=>this.referenceDelegate.Ps(t), new Vr(t1, e1)), this.N = new ri(e), this.Je = new Rr(this.N);
                 }
                 start() {
                     return Promise.resolve();
@@ -3090,10 +3104,12 @@
                     window.addEventListener("online", this.Ei), window.addEventListener("offline", this.Ai);
                 }
                 Ii() {
-                    for (const t of ($("ConnectivityMonitor", "Network connectivity changed: AVAILABLE"), this.bi))t(0);
+                    $("ConnectivityMonitor", "Network connectivity changed: AVAILABLE");
+                    for (const t of this.bi)t(0);
                 }
                 Ri() {
-                    for (const t of ($("ConnectivityMonitor", "Network connectivity changed: UNAVAILABLE"), this.bi))t(1);
+                    $("ConnectivityMonitor", "Network connectivity changed: UNAVAILABLE");
+                    for (const t of this.bi)t(1);
                 }
                 static bt() {
                     return "undefined" != typeof window && void 0 !== window.addEventListener && void 0 !== window.removeEventListener;
@@ -3960,7 +3976,8 @@
                         }), d = !0) : u && !h && (n.track({
                             type: 1,
                             doc: u
-                        }), d = !0, (c || a) && (o = !0)), d && (h ? (r = r.add(h), i = f ? i.add(t) : i.delete(t)) : (r = r.delete(t), i = i.delete(t)));
+                        }), d = !0, (c || a) && (o = !0));
+                        d && (h ? (r = r.add(h), i = f ? i.add(t) : i.delete(t)) : (r = r.delete(t), i = i.delete(t)));
                     }), _e(this.query) || me(this.query)) for(; r.size > this.query.limit;){
                         const t1 = _e(this.query) ? r.last() : r.first();
                         r = r.delete(t1.key), i = i.delete(t1.key), n.track({
@@ -4102,9 +4119,12 @@
             async function ic(t, e) {
                 const s = t.Oo.get(e), i = t.Fo.get(s.targetId);
                 if (i.length > 1) return t.Fo.set(s.targetId, i.filter((t)=>!Ae(t, e))), void t.Oo.delete(e);
-                t.isPrimaryClient ? (t.sharedClientState.removeLocalQueryTarget(s.targetId), t.sharedClientState.isActiveQueryTarget(s.targetId) || await gr(t.localStore, s.targetId, !1).then(()=>{
-                    t.sharedClientState.clearQueryState(s.targetId), ao(t.remoteStore, s.targetId), wc(t, s.targetId);
-                }).catch(Fi)) : (wc(t, s.targetId), await gr(t.localStore, s.targetId, !0));
+                if (t.isPrimaryClient) {
+                    t.sharedClientState.removeLocalQueryTarget(s.targetId);
+                    t.sharedClientState.isActiveQueryTarget(s.targetId) || await gr(t.localStore, s.targetId, !1).then(()=>{
+                        t.sharedClientState.clearQueryState(s.targetId), ao(t.remoteStore, s.targetId), wc(t, s.targetId);
+                    }).catch(Fi);
+                } else wc(t, s.targetId), await gr(t.localStore, s.targetId, !0);
             }
             async function oc(t, e) {
                 try {
@@ -4183,7 +4203,8 @@
                 } else await gr(s.localStore, e, !1).then(()=>wc(s, e, n)).catch(Fi);
             }
             function wc(t, e, n = null) {
-                for (const s of (t.sharedClientState.removeLocalQueryTarget(e), t.Fo.get(e)))t.Oo.delete(s), n && t.$o.Go(s, n);
+                t.sharedClientState.removeLocalQueryTarget(e);
+                for (const s of t.Fo.get(e))t.Oo.delete(s), n && t.$o.Go(s, n);
                 t.Fo.delete(e), t.isPrimaryClient && t.Uo.cs(e).forEach((e)=>{
                     t.Uo.containsKey(e) || _c(t, e);
                 });
@@ -4194,7 +4215,11 @@
                 null !== n && (ao(t.remoteStore, n), t.Lo = t.Lo.remove(e), t.Bo.delete(n), yc(t));
             }
             function mc(t, e, n) {
-                for (const s of n)s instanceof Jo ? (t.Uo.addReference(s.key, e), gc(t, s)) : s instanceof Yo ? ($("SyncEngine", "Document no longer in limbo: " + s.key), t.Uo.removeReference(s.key, e), t.Uo.containsKey(s.key) || _c(t, s.key)) : L();
+                for (const s of n)if (s instanceof Jo) t.Uo.addReference(s.key, e), gc(t, s);
+                else if (s instanceof Yo) {
+                    $("SyncEngine", "Document no longer in limbo: " + s.key), t.Uo.removeReference(s.key, e);
+                    t.Uo.containsKey(s.key) || _c(t, s.key);
+                } else L();
             }
             function gc(t, e) {
                 const n = e.key, s = n.path.canonicalString();
@@ -4651,7 +4676,8 @@
                 }
                 Cc(t) {
                     return this.Sc().then(()=>{
-                        for (const e of (this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs), this.yc))if (e.skipDelay(), "all" !== t && e.timerId === t) break;
+                        this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs);
+                        for (const e of this.yc)if (e.skipDelay(), "all" !== t && e.timerId === t) break;
                         return this.Sc();
                     });
                 }

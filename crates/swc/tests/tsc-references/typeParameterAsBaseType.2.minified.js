@@ -1,2 +1,3 @@
 //// [typeParameterAsBaseType.ts]
-T, U;
+T;
+U;

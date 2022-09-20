@@ -2,4 +2,5 @@
 var test = function(dibbity) {
     return dibbity;
 };
-test(1), test("hi");
+test(1);
+test("hi");

@@ -7,7 +7,8 @@ define([
     _classCallCheck = _classCallCheck.default;
     var Foo = function Foo() {
         "use strict";
-        _classCallCheck(this, Foo), this.test = "test";
+        _classCallCheck(this, Foo);
+        this.test = "test";
     };
     return (Foo || (Foo = {})).answer = 42, Foo;
 });
@@ -20,5 +21,6 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), 42 === _foo0.answer && new _foo0();
+    });
+    42 === _foo0.answer && new _foo0();
 });

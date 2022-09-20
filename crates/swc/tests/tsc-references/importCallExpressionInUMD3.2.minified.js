@@ -7,7 +7,8 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "B", {
+    });
+    Object.defineProperty(exports, "B", {
         enumerable: !0,
         get: ()=>B
     });
@@ -25,12 +26,14 @@
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireWildcardMjs);
 }(this, function(exports, _interopRequireWildcard) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    });
+    _interopRequireWildcard = _interopRequireWildcard.default;
     async function foo() {
         class C extends (await import("./0")).B {
         }
         new C().print();
     }
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    }), _interopRequireWildcard = _interopRequireWildcard.default, foo();
+    foo();
 });

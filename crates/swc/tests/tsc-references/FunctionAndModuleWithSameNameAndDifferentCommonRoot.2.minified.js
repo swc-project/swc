@@ -18,4 +18,5 @@ var B;
     };
 }(B || (B = {}));
 //// [test.ts]
-A.Point, B.Point.Origin;
+A.Point;
+B.Point.Origin;

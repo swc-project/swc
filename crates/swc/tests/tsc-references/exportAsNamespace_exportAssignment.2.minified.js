@@ -7,7 +7,8 @@ module.exports = {};
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "ns", {
+});
+Object.defineProperty(exports, "ns", {
     enumerable: !0,
     get: function() {
         return _a;

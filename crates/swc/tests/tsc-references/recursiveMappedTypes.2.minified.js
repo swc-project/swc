@@ -1,3 +1,4 @@
 //// [recursiveMappedTypes.ts]
-product.users, x.type;
+product.users;
+x.type;
 export { };

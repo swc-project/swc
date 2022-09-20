@@ -1,4 +1,5 @@
 //// [mod.js]
-module.exports = function() {}, module.exports();
+module.exports = function() {};
+module.exports();
 //// [npm.js]
 require("./mod")();

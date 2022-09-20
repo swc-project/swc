@@ -25,7 +25,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         return Derived2;
     }(Base);
     new Derived(), new Derived2();
-}(OnlyDerived || (OnlyDerived = {})), function(WithBase) {
+}(OnlyDerived || (OnlyDerived = {}));
+!function(WithBase) {
     var Base = function Base() {
         "use strict";
         _class_call_check(this, Base);

@@ -1,1 +1,7 @@
-for (; bar() && (x(), y(), !foo()); ) z(), k();
+for(; bar();){
+    x();
+    y();
+    if (foo()) break;
+    z();
+    k();
+}

@@ -13,4 +13,6 @@ var C = function C() {
 new function A() {
     "use strict";
     _class_call_check(this, A);
-}, new B, new C;
+};
+new B;
+new C;

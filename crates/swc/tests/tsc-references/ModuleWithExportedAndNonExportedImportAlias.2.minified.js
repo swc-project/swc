@@ -4,10 +4,13 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(B) {
     var Line = function Line(start, end) {
         "use strict";
-        _class_call_check(this, Line), this.start = start, this.end = end;
+        _class_call_check(this, Line);
+        this.start = start;
+        this.end = end;
     };
     B.Line = Line;
-}(B || (B = {})), function(Geometry) {
+}(B || (B = {}));
+!function(Geometry) {
     var Points = A;
     Geometry.Points = Points;
     var Lines = B, Origin = Geometry.Origin = {
@@ -18,4 +21,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         x: 1,
         y: 0
     });
-}(Geometry || (Geometry = {})), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;
+}(Geometry || (Geometry = {}));
+Geometry.Origin;
+Geometry.Unit;
+Geometry.Lines.Line;

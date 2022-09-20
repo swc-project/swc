@@ -14,5 +14,5 @@ let C = (_x = new WeakMap(), class {
         });
     }
 });
-function set_x(x) {}
 console.log(new C().m());
+function set_x(x) {}

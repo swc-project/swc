@@ -1,4 +1,5 @@
 var names, i, l;
-for(i = 0, l = (names = name ? [
+names = name ? [
     name
-] : _.keys(this._events)).length; i < l; i++)name = names[i];
+] : _.keys(this._events);
+for(i = 0, l = names.length; i < l; i++)name = names[i];

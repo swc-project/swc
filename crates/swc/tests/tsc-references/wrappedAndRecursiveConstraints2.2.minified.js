@@ -4,4 +4,5 @@ var C = function C(x) {
     "use strict";
     _class_call_check(this, C);
 };
-new C(1), new C(new C(""));
+new C(1);
+new C(new C(""));

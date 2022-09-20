@@ -13,9 +13,14 @@ var Derived = function(Base) {
     return Derived;
 }(function Base(x) {
     "use strict";
-    _class_call_check(this, Base), this.a = 1, this.a = x;
+    _class_call_check(this, Base);
+    this.a = 1;
+    this.a = x;
 });
-new Derived(), new Derived(1), new Derived(1, 2), new Derived(1, 2, 3);
+new Derived();
+new Derived(1);
+new Derived(1, 2);
+new Derived(1, 2, 3);
 var D = function(Base2) {
     "use strict";
     _inherits(D, Base2);
@@ -27,6 +32,10 @@ var D = function(Base2) {
     return D;
 }(function Base2(x) {
     "use strict";
-    _class_call_check(this, Base2), this.a = x;
+    _class_call_check(this, Base2);
+    this.a = x;
 });
-new D(), new D(new Date()), new D(new Date(), new Date()), new D(new Date(), new Date(), new Date());
+new D();
+new D(new Date());
+new D(new Date(), new Date());
+new D(new Date(), new Date(), new Date());

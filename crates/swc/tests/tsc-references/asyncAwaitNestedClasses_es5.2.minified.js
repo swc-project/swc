@@ -31,11 +31,13 @@ A.B = ((_B = function() {
                             _B.func2()
                         ];
                     case 1:
-                        return _state.sent(), [
+                        _state.sent();
+                        return [
                             2
                         ];
                 }
             });
         })();
     }, C;
-}(), _B), A.B.C.func();
+}(), _B);
+A.B.C.func();

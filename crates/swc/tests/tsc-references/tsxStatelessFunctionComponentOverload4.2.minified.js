@@ -9,21 +9,27 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
+    _extends = _extends.default;
     var obj2, obj = {
         yy: 10,
         yy1: "hello"
     };
-    (_extends = _extends.default)({}, obj, {
+    _extends({}, obj, {
         yy1: !0
-    }), _extends({}, obj, {
+    });
+    _extends({}, obj, {
         extra: "extra attr"
-    }), _extends({}, obj, {
+    });
+    _extends({}, obj, {
         y1: 10000
-    }), _extends({}, obj, {
+    });
+    _extends({}, obj, {
         yy: !0
-    }), _extends({}, obj2, {
+    });
+    _extends({}, obj2, {
         extra: "extra attr"
-    }), _extends({}, obj2, {
+    });
+    _extends({}, obj2, {
         yy: !0
     });
 });

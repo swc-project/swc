@@ -5,7 +5,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var BaseA = function() {
     "use strict";
     function BaseA(x) {
-        _class_call_check(this, BaseA), this.x = x;
+        _class_call_check(this, BaseA);
+        this.x = x;
     }
     return BaseA.prototype.createInstance = function() {
         new BaseA(1);
@@ -13,7 +14,8 @@ var BaseA = function() {
 }(), BaseB = function() {
     "use strict";
     function BaseB(x) {
-        _class_call_check(this, BaseB), this.x = x;
+        _class_call_check(this, BaseB);
+        this.x = x;
     }
     return BaseB.prototype.createInstance = function() {
         new BaseB(2);
@@ -21,7 +23,8 @@ var BaseA = function() {
 }(), BaseC = function() {
     "use strict";
     function BaseC(x) {
-        _class_call_check(this, BaseC), this.x = x;
+        _class_call_check(this, BaseC);
+        this.x = x;
     }
     return BaseC.prototype.createInstance = function() {
         new BaseC(3);
@@ -77,4 +80,9 @@ var BaseA = function() {
         new BaseC(11);
     }, DerivedC;
 }(BaseC);
-new BaseA(1), new BaseB(1), new BaseC(1), new DerivedA(1), new DerivedB(1), new DerivedC(1);
+new BaseA(1);
+new BaseB(1);
+new BaseC(1);
+new DerivedA(1);
+new DerivedB(1);
+new DerivedC(1);

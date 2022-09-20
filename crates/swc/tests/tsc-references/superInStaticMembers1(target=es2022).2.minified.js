@@ -19,10 +19,12 @@ super.w(), (()=>{
     super.w();
 })(), super.w(), super.w(), (()=>{
     let Reflect;
-    Reflect || (Reflect = {}), super.w();
+    Reflect || (Reflect = {});
+    super.w();
 })(), (()=>{
     let Reflect;
-    Reflect || (Reflect = {}), super.w();
+    Reflect || (Reflect = {});
+    super.w();
 })(), super.w(), super.w(), super.w(), super.w();
 export { };
 //// [varInContainingScopeStaticField1.ts]
@@ -69,7 +71,8 @@ export { };
 export { };
 //// [enumInContainingScopeStaticField.ts]
 var Reflect;
-Reflect || (Reflect = {}), super.w();
+Reflect || (Reflect = {});
+super.w();
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
 var Reflect;
@@ -77,7 +80,8 @@ Reflect || (Reflect = {});
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
 var Reflect;
-Reflect || (Reflect = {}), super.w();
+Reflect || (Reflect = {});
+super.w();
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
 var Reflect;

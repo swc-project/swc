@@ -1,3 +1,5 @@
 //// [interfaceExtendingClassWithPrivates2.ts]
 var i;
-i.z, i.x, i.y;
+i.z;
+i.x;
+i.y;

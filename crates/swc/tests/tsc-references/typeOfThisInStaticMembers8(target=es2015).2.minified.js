@@ -1,10 +1,14 @@
 //// [typeOfThisInStaticMembers8.ts]
 class C {
 }
-C.f = 1, C.arrowFunctionBoundary = ()=>C.f + 1, C.functionExprBoundary = function() {
+C.f = 1;
+C.arrowFunctionBoundary = ()=>C.f + 1;
+C.functionExprBoundary = function() {
     return this.f + 2;
-}, C.classExprBoundary = class {
+};
+C.classExprBoundary = class {
     constructor(){
         this.a = this.f + 3;
     }
-}, C.functionAndClassDeclBoundary = void 0;
+};
+C.functionAndClassDeclBoundary = void 0;

@@ -9,11 +9,17 @@ var E1, E2, C = function C() {
 };
 !function(E1) {
     E1[E1.one = 0] = "one";
-}(E1 || (E1 = {})), function(E2) {
+}(E1 || (E1 = {}));
+!function(E2) {
     E2[E2.one = 0] = "one";
 }(E2 || (E2 = {}));
 var classCDTuple = [
     new C(),
     new D()
 ];
-classCDTuple[2], classCDTuple[5], E1.one, E2.one, new C(), new C(), new D(), t4[2] = 10;
+classCDTuple[2];
+classCDTuple[5];
+E1.one, E2.one;
+new C();
+new C(), new D();
+t4[2] = 10;

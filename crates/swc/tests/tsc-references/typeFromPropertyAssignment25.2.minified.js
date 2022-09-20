@@ -5,8 +5,10 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var Common = {};
 Common.I = function _class() {
     "use strict";
-    _class_call_check(this, _class), this.i = 1;
-}, Common.O = function(_I) {
+    _class_call_check(this, _class);
+    this.i = 1;
+};
+Common.O = function(_I) {
     "use strict";
     _inherits(_class, _I);
     var _super = _create_super(_class);
@@ -17,4 +19,6 @@ Common.I = function _class() {
     return _class;
 }(Common.I);
 var o = new Common.O(), i = new Common.I();
-o.i, o.o, i.i;
+o.i;
+o.o;
+i.i;

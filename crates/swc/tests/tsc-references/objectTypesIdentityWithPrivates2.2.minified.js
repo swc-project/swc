@@ -15,4 +15,5 @@ var C = function C() {
     return D;
 }(C);
 function foo4(x) {}
-foo4(new C()), foo4(new D());
+foo4(new C());
+foo4(new D());

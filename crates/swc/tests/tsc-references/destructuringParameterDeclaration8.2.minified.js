@@ -1,18 +1,22 @@
 //// [destructuringParameterDeclaration8.ts]
 function test(param) {
-    param.method, param.nested.p;
+    param.method;
+    param.nested.p;
 }
-test({}), test({
+test({});
+test({
     method: "x",
     nested: {
         p: "a"
     }
-}), test({
+});
+test({
     method: "z",
     nested: {
         p: "b"
     }
-}), test({
+});
+test({
     method: "one",
     nested: {
         p: "a"

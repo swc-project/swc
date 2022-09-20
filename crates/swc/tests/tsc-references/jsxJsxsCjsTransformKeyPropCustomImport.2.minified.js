@@ -8,6 +8,7 @@ var _extends = require("@swc/helpers/lib/_extends.js").default, props = {
 };
 _extends({
     key: "foo"
-}, props), _extends({}, props, {
+}, props);
+_extends({}, props, {
     key: "bar"
 });

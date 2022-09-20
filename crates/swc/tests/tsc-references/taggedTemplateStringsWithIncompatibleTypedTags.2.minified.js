@@ -113,4 +113,14 @@ function _templateObject11() {
         return data;
     }, data;
 }
-f(_templateObject()), f(_templateObject1(), 1, 2), f(_templateObject2()).member, f(_templateObject3(), 1, 2).member, f(_templateObject4()).member, f(_templateObject5(), 1, 2).member, f(_templateObject6())[0].member(_templateObject7(), 1, 2), f(_templateObject8(), 1, 2).member.member(_templateObject9(), 1, 2), f(_templateObject10(), !0, !0).member.member(_templateObject11(), 1, 2), f.thisIsNotATag("abc"), f.thisIsNotATag("abc".concat(1, "def", 2, "ghi"));
+f(_templateObject());
+f(_templateObject1(), 1, 2);
+f(_templateObject2()).member;
+f(_templateObject3(), 1, 2).member;
+f(_templateObject4()).member;
+f(_templateObject5(), 1, 2).member;
+f(_templateObject6())[0].member(_templateObject7(), 1, 2);
+f(_templateObject8(), 1, 2).member.member(_templateObject9(), 1, 2);
+f(_templateObject10(), !0, !0).member.member(_templateObject11(), 1, 2);
+f.thisIsNotATag("abc");
+f.thisIsNotATag("abc".concat(1, "def", 2, "ghi"));

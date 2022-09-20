@@ -4,26 +4,32 @@ function Person(name) {
 }
 Person.prototype.describe = function() {
     return "Person called " + this.name;
-}, Object.defineProperty(Person.prototype, "thing", {
+};
+Object.defineProperty(Person.prototype, "thing", {
     value: 42,
     writable: !0
-}), Object.defineProperty(Person.prototype, "readonlyProp", {
+});
+Object.defineProperty(Person.prototype, "readonlyProp", {
     value: "Smith",
     writable: !1
-}), Object.defineProperty(Person.prototype, "rwAccessors", {
+});
+Object.defineProperty(Person.prototype, "rwAccessors", {
     get: function() {
         return 98122;
     },
     set: function(_) {}
-}), Object.defineProperty(Person.prototype, "readonlyAccessor", {
+});
+Object.defineProperty(Person.prototype, "readonlyAccessor", {
     get: function() {
         return 21.75;
     }
-}), Object.defineProperty(Person.prototype, "setonlyAccessor", {
+});
+Object.defineProperty(Person.prototype, "setonlyAccessor", {
     set: function(str) {
         this.rwAccessors = Number(str);
     }
-}), module.exports = Person;
+});
+module.exports = Person;
 //// [validator.ts]
 //! 
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.

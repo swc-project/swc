@@ -4,7 +4,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
@@ -22,7 +23,8 @@ var x = 1, y = 2;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
@@ -41,7 +43,8 @@ function foo() {}
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
@@ -64,11 +67,17 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var _exportStar = require("@swc/helpers/lib/_export_star.js").default;
-_exportStar(require("./t1"), exports), _exportStar(require("./t2"), exports), _exportStar(require("./t3"), exports);
+_exportStar(require("./t1"), exports);
+_exportStar(require("./t2"), exports);
+_exportStar(require("./t3"), exports);
 //// [main.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var _t4 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./t4"));
-_t4.default, _t4.x, _t4.y, _t4.z, _t4.foo;
+_t4.default;
+_t4.x;
+_t4.y;
+_t4.z;
+_t4.foo;

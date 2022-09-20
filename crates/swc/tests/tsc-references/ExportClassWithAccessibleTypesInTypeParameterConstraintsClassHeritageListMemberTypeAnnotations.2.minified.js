@@ -8,7 +8,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         "use strict";
         _class_call_check(this, Point);
     };
-    A.Point = Point, A.Origin = {
+    A.Point = Point;
+    A.Origin = {
         x: 0,
         y: 0
     };
@@ -21,14 +22,17 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         }
         return Point3d;
     }(Point);
-    A.Point3d = Point3d, A.Origin3d = {
+    A.Point3d = Point3d;
+    A.Origin3d = {
         x: 0,
         y: 0,
         z: 0
     };
     var Line = function Line(start, end) {
         "use strict";
-        _class_call_check(this, Line), this.start = start, this.end = end;
+        _class_call_check(this, Line);
+        this.start = start;
+        this.end = end;
     };
     A.Line = Line;
 }(A || (A = {}));

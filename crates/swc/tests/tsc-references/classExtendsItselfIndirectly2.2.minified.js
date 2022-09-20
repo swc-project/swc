@@ -22,7 +22,8 @@ var M, N, O, C = function(_E) {
         return D;
     }(C);
     M.D = D;
-}(M || (M = {})), function(N) {
+}(M || (M = {}));
+!function(N) {
     var E = function(_D) {
         "use strict";
         _inherits(E, _D);
@@ -33,8 +34,9 @@ var M, N, O, C = function(_E) {
         return E;
     }(M.D);
     N.E = E;
-}(N || (N = {})), function(O) {
-    var P, Q, P1, D2, Q1, E2, C2 = function(_E2) {
+}(N || (N = {}));
+!function(O) {
+    var Q, E2, P, Q1, P1, D2, C2 = function(_E2) {
         "use strict";
         _inherits(C2, _E2);
         var _super = _create_super(C2);
@@ -42,7 +44,7 @@ var M, N, O, C = function(_E) {
             return _class_call_check(this, C2), _super.apply(this, arguments);
         }
         return C2;
-    }(Q.E2);
+    }(Q1.E2);
     P1 = P || (P = {}), D2 = function(C2) {
         "use strict";
         _inherits(D2, C2);
@@ -51,7 +53,8 @@ var M, N, O, C = function(_E) {
             return _class_call_check(this, D2), _super.apply(this, arguments);
         }
         return D2;
-    }(C2), P1.D2 = D2, Q1 = Q || (Q = {}), E2 = function(_D2) {
+    }(C2), P1.D2 = D2;
+    Q = Q1 || (Q1 = {}), E2 = function(_D2) {
         "use strict";
         _inherits(E2, _D2);
         var _super = _create_super(E2);
@@ -59,5 +62,5 @@ var M, N, O, C = function(_E) {
             return _class_call_check(this, E2), _super.apply(this, arguments);
         }
         return E2;
-    }(P.D2), Q1.E2 = E2;
+    }(P.D2), Q.E2 = E2;
 }(O || (O = {}));

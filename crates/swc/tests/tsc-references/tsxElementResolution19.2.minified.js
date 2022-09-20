@@ -15,12 +15,14 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "MyClass", {
+    });
+    Object.defineProperty(exports, "MyClass", {
         enumerable: !0,
         get: function() {
             return MyClass;
         }
-    }), _classCallCheck = _classCallCheck.default;
+    });
+    _classCallCheck = _classCallCheck.default;
     var MyClass = function MyClass() {
         "use strict";
         _classCallCheck(this, MyClass);
@@ -37,5 +39,7 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _react = (_interopRequireWildcard = _interopRequireWildcard.default)(_react), _file1.MyClass;
+    });
+    _react = (_interopRequireWildcard = _interopRequireWildcard.default)(_react);
+    _file1.MyClass;
 });

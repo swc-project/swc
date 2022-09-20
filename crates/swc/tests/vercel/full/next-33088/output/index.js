@@ -27,7 +27,8 @@ export default function i() {
                                 r.sent().json()
                             ];
                         case 2:
-                            return u(r.sent()), [
+                            u(r.sent());
+                            return [
                                 2
                             ];
                     }

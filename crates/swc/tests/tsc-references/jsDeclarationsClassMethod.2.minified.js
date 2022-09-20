@@ -6,7 +6,8 @@ function C1() {
 }
 C1.prototype.method = function(x, y) {
     return x + y;
-}, C1.staticProp = function(x, y) {
+};
+C1.staticProp = function(x, y) {
     return x + y;
 };
 class C2 {
@@ -16,6 +17,7 @@ class C2 {
 }
 C2.prototype.method2 = function(x, y) {
     return x + y;
-}, C2.staticProp = function(x, y) {
+};
+C2.staticProp = function(x, y) {
     return x + y;
 };

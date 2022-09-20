@@ -12,9 +12,11 @@ class AbstractBase {
 class DerivedFromConcrete extends Mixin(ConcreteBase) {
 }
 const wasConcrete = new DerivedFromConcrete();
-wasConcrete.baseMethod(), wasConcrete.mixinMethod();
+wasConcrete.baseMethod();
+wasConcrete.mixinMethod();
 class DerivedFromAbstract extends Mixin(AbstractBase) {
     abstractBaseMethod() {}
 }
 const wasAbstract = new DerivedFromAbstract();
-wasAbstract.abstractBaseMethod(), wasAbstract.mixinMethod();
+wasAbstract.abstractBaseMethod();
+wasAbstract.mixinMethod();

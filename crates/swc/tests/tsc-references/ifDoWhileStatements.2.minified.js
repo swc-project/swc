@@ -7,23 +7,26 @@ var M, N, C = function C() {
     "use strict";
     _class_call_check(this, D);
 };
-for(!function(M) {
+!function(M) {
     var F2 = function(x) {
         return x.toString();
     }, A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
-    M.A = A, M.F2 = F2;
-}(M || (M = {})), function(N) {
+    M.A = A;
+    M.F2 = F2;
+}(M || (M = {}));
+!function(N) {
     var F2 = function(x) {
         return x.toString();
     }, A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
-    N.A = A, N.F2 = F2;
-}(N || (N = {}));;);
+    N.A = A;
+    N.F2 = F2;
+}(N || (N = {}));
 for(;;);
 for(;;);
 for(;;);
@@ -39,10 +42,13 @@ for(;;);
 for(;;);
 for(;;);
 for(;;);
-for(new C(); new C(););
+for(;;);
+new C();
+for(; new C(););
 do ;
 while (new C());
-for(new D(); new D(););
+new D();
+for(; new D(););
 do ;
 while (new D());
 for(;;);

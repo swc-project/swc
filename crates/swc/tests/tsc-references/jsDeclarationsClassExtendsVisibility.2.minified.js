@@ -18,7 +18,8 @@ var Foo = function(Bar) {
     }
     return Foo;
 }(require("./bar"));
-module.exports = Foo, module.exports.Strings = {
+module.exports = Foo;
+module.exports.Strings = {
     a: "A",
     b: "B"
 };

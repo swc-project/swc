@@ -15,7 +15,9 @@ var Handler = function() {
         }
     ]), Handler;
 }();
-Handler.statische = function() {}, module.exports = Handler, module.exports.Strings = {
+Handler.statische = function() {};
+module.exports = Handler;
+module.exports.Strings = {
     a: "A",
     b: "B"
 };

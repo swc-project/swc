@@ -2,7 +2,8 @@
 foo({
     kind: "a",
     data: 42
-}), foo({
+});
+foo({
     kind: "b",
     data: [
         1,

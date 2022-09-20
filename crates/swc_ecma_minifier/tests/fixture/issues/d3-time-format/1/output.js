@@ -170,10 +170,23 @@ export default function formatLocale(locale) {
         Z: parseZone,
         "%": parseLiteralPercent
     };
+    formats.x = newFormat(locale_date, formats);
+    formats.X = newFormat(locale_time, formats);
+    formats.c = newFormat(locale_dateTime, formats);
+    utcFormats.x = newFormat(locale_date, utcFormats);
+    utcFormats.X = newFormat(locale_time, utcFormats);
+    utcFormats.c = newFormat(locale_dateTime, utcFormats);
     function newFormat(specifier, formats) {
         return function(date) {
             var c, pad, format, string = [], i = -1, j = 0, n = specifier.length;
-            for(date instanceof Date || (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad)), string.push(c), j = i + 1);
+            date instanceof Date || (date = new Date(+date));
+            for(; ++i < n;)if (37 === specifier.charCodeAt(i)) {
+                string.push(specifier.slice(j, i));
+                null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0";
+                (format = formats[c]) && (c = format(date, pad));
+                string.push(c);
+                j = i + 1;
+            }
             return string.push(specifier.slice(j, i)), string.join("");
         };
     }
@@ -183,10 +196,31 @@ export default function formatLocale(locale) {
             if (parseSpecifier(d, specifier, string += "", 0) != string.length) return null;
             if ("Q" in d) return new Date(d.Q);
             if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
-            if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
+            !Z || "Z" in d || (d.Z = 0);
+            "p" in d && (d.H = d.H % 12 + 12 * d.p);
+            void 0 === d.m && (d.m = "q" in d ? d.q : 0);
+            if ("V" in d) {
                 if (d.V < 1 || d.V > 53) return null;
-                "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? timeMonday.ceil(week) : timeMonday(week), week = timeDay.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
-            } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7);
+                "w" in d || (d.w = 1);
+                if ("Z" in d) {
+                    week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? utcMonday.ceil(week) : utcMonday(week);
+                    week = utcDay.offset(week, (d.V - 1) * 7);
+                    d.y = week.getUTCFullYear();
+                    d.m = week.getUTCMonth();
+                    d.d = week.getUTCDate() + (d.w + 6) % 7;
+                } else {
+                    week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? timeMonday.ceil(week) : timeMonday(week);
+                    week = timeDay.offset(week, (d.V - 1) * 7);
+                    d.y = week.getFullYear();
+                    d.m = week.getMonth();
+                    d.d = week.getDate() + (d.w + 6) % 7;
+                }
+            } else if ("W" in d || "U" in d) {
+                "w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0);
+                day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay();
+                d.m = 0;
+                d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7;
+            }
             return "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d);
         };
     }
@@ -199,7 +233,7 @@ export default function formatLocale(locale) {
         }
         return j;
     }
-    return formats.x = newFormat(locale_date, formats), formats.X = newFormat(locale_time, formats), formats.c = newFormat(locale_dateTime, formats), utcFormats.x = newFormat(locale_date, utcFormats), utcFormats.X = newFormat(locale_time, utcFormats), utcFormats.c = newFormat(locale_dateTime, utcFormats), {
+    return {
         format: function(specifier) {
             var f = newFormat(specifier += "", formats);
             return f.toString = function() {

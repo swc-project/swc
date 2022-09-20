@@ -6,9 +6,15 @@ function f2(b1) {
 }
 function f3(c1) {
     var a;
-    if ((a = b(a / 2)) < 0) return a++, ++c1 / 2;
+    if ((a = b(a / 2)) < 0) {
+        a++;
+        return ++c1 / 2;
+    }
 }
 function f4(c1) {
     var a;
-    if ((a = b(a / 2)) < 0) return a++, ++c1 / 2;
+    if ((a = b(a / 2)) < 0) {
+        a++;
+        return ++c1 / 2;
+    }
 }

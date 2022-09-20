@@ -6,6 +6,16 @@ export const obj = {
             curCSSTop,
             curCSSLeft
         ]) > -1, props = {}, curPosition = {};
-        calculatePosition ? (curTop = (curPosition = curElem.position()).top, curLeft = curPosition.left) : (curTop = parseFloat(curCSSTop) || 0, curLeft = parseFloat(curCSSLeft) || 0), jQuery.isFunction(options) && (options = options.call(elem, i, curOffset)), null != options.top && (props.top = options.top - curOffset.top + curTop), null != options.left && (props.left = options.left - curOffset.left + curLeft), "using" in options ? options.using.call(elem, props) : curElem.css(props);
+        if (calculatePosition) {
+            curTop = (curPosition = curElem.position()).top;
+            curLeft = curPosition.left;
+        } else {
+            curTop = parseFloat(curCSSTop) || 0;
+            curLeft = parseFloat(curCSSLeft) || 0;
+        }
+        jQuery.isFunction(options) && (options = options.call(elem, i, curOffset));
+        null != options.top && (props.top = options.top - curOffset.top + curTop);
+        null != options.left && (props.left = options.left - curOffset.left + curLeft);
+        "using" in options ? options.using.call(elem, props) : curElem.css(props);
     }
 };

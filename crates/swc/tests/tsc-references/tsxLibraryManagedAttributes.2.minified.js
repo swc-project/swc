@@ -15,9 +15,11 @@ Component.propTypes = {
     foo: PropTypes.number,
     bar: PropTypes.node,
     baz: PropTypes.string.isRequired
-}, Component.defaultProps = {
+};
+Component.defaultProps = {
     foo: 42
-}, function(ReactComponent1) {
+};
+(function(ReactComponent1) {
     "use strict";
     _inherits(JustPropTypes, ReactComponent1);
     var _super = _create_super(JustPropTypes);
@@ -25,10 +27,11 @@ Component.propTypes = {
         return _class_call_check(this, JustPropTypes), _super.apply(this, arguments);
     }
     return JustPropTypes;
-}(ReactComponent).propTypes = {
+})(ReactComponent).propTypes = {
     foo: PropTypes.number,
     bar: PropTypes.node.isRequired
-}, function(ReactComponent1) {
+};
+(function(ReactComponent1) {
     "use strict";
     _inherits(JustDefaultProps, ReactComponent1);
     var _super = _create_super(JustDefaultProps);
@@ -36,7 +39,7 @@ Component.propTypes = {
         return _class_call_check(this, JustDefaultProps), _super.apply(this, arguments);
     }
     return JustDefaultProps;
-}(ReactComponent).defaultProps = {
+})(ReactComponent).defaultProps = {
     foo: 42
 };
 var BothWithSpecifiedGeneric = function(ReactComponent1) {
@@ -52,9 +55,11 @@ BothWithSpecifiedGeneric.propTypes = {
     foo: PropTypes.string,
     bar: PropTypes.node,
     baz: PropTypes.number.isRequired
-}, BothWithSpecifiedGeneric.defaultProps = {
+};
+BothWithSpecifiedGeneric.defaultProps = {
     foo: "yo"
-}, function(ReactComponent1) {
+};
+(function(ReactComponent1) {
     "use strict";
     _inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent1);
     var _super = _create_super(JustPropTypesWithSpecifiedGeneric);
@@ -62,10 +67,11 @@ BothWithSpecifiedGeneric.propTypes = {
         return _class_call_check(this, JustPropTypesWithSpecifiedGeneric), _super.apply(this, arguments);
     }
     return JustPropTypesWithSpecifiedGeneric;
-}(ReactComponent).propTypes = {
+})(ReactComponent).propTypes = {
     foo: PropTypes.string,
     bar: PropTypes.node.isRequired
-}, function(ReactComponent1) {
+};
+(function(ReactComponent1) {
     "use strict";
     _inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent1);
     var _super = _create_super(JustDefaultPropsWithSpecifiedGeneric);
@@ -73,6 +79,6 @@ BothWithSpecifiedGeneric.propTypes = {
         return _class_call_check(this, JustDefaultPropsWithSpecifiedGeneric), _super.apply(this, arguments);
     }
     return JustDefaultPropsWithSpecifiedGeneric;
-}(ReactComponent).defaultProps = {
+})(ReactComponent).defaultProps = {
     foo: "no"
 };

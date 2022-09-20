@@ -7,6 +7,10 @@ var anyCtor, anyCtor1, nestedCtor, T = function T(n) {
 new function C0() {
     "use strict";
     _class_call_check(this, C0);
-}, new T, new anyCtor, new anyCtor1(void 0);
+};
+new T;
+new anyCtor;
+new anyCtor1(void 0);
 var nested = new new new nestedCtor()()();
-new nested(), new nested();
+new nested();
+new nested();

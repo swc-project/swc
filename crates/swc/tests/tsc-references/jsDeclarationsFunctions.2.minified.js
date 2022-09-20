@@ -17,10 +17,10 @@ export function e(a, b) {
 export function f(a) {
     return a;
 }
+f.self = f;
 function g(a, b) {
     return a.x && b.y();
 }
-f.self = f;
 function hh(a, b) {
     return a.x && b.y();
 }

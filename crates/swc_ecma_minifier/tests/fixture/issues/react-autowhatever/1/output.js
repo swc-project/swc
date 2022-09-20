@@ -6,7 +6,10 @@ import compareObjects from "./compareObjects";
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+        descriptor.enumerable = descriptor.enumerable || !1;
+        descriptor.configurable = !0;
+        "value" in descriptor && (descriptor.writable = !0);
+        Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
 function _defineProperty(obj, key, value) {
@@ -27,7 +30,8 @@ function _objectSpread(target) {
         var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-        }))), ownKeys.forEach(function(key) {
+        })));
+        ownKeys.forEach(function(key) {
             _defineProperty(target, key, source[key]);
         });
     }
@@ -41,6 +45,17 @@ function _setPrototypeOf(o, p) {
 var ItemsList = function(Component) {
     "use strict";
     var protoProps, staticProps;
+    !function(subClass, superClass) {
+        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: !0,
+                configurable: !0
+            }
+        });
+        superClass && _setPrototypeOf(subClass, superClass);
+    }(ItemsList, Component);
     function ItemsList() {
         var _this, call;
         return !function(instance, Constructor) {
@@ -52,16 +67,7 @@ var ItemsList = function(Component) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }, _this;
     }
-    return !function(subClass, superClass) {
-        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: !0,
-                configurable: !0
-            }
-        }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList, Component), protoProps = [
+    return protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -113,7 +119,8 @@ ItemsList.propTypes = {
     getItemId: PropTypes.func.isRequired,
     theme: PropTypes.func.isRequired,
     keyPrefix: PropTypes.string.isRequired
-}, ItemsList.defaultProps = {
+};
+ItemsList.defaultProps = {
     sectionIndex: null
 };
 export { ItemsList as default };

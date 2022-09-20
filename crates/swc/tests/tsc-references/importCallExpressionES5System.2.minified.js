@@ -20,9 +20,12 @@ System.register([
             }
         ],
         execute: function() {
-            _context.import("./0"), _context.import("./0").then(function(zero) {
+            _context.import("./0");
+            _context.import("./0").then(function(zero) {
                 return zero.foo();
-            }), _export("p2", _context.import("./0")), _export("D", function() {
+            });
+            _export("p2", _context.import("./0"));
+            _export("D", function() {
                 "use strict";
                 function D() {
                     _class_call_check(this, D);

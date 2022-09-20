@@ -1,3 +1,4 @@
 //// [a.js]
 var oc;
-(void 0).y, oc.x;
+(void 0).y;
+oc.x;

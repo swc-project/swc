@@ -4,7 +4,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
@@ -18,7 +19,8 @@ const a = 1, b = 2;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
@@ -33,7 +35,8 @@ const _exportStar = require("@swc/helpers/lib/_export_star.js").default, _intero
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]

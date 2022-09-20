@@ -20,16 +20,20 @@
         }, __webpack_require__.r = function(exports1) {
             "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(exports1, Symbol.toStringTag, {
                 value: "Module"
-            }), Object.defineProperty(exports1, "__esModule", {
+            });
+            Object.defineProperty(exports1, "__esModule", {
                 value: !0
             });
         }, __webpack_require__.t = function(value, mode) {
-            if (1 & mode && (value = __webpack_require__(value)), 8 & mode || 4 & mode && "object" == typeof value && value && value.__esModule) return value;
+            1 & mode && (value = __webpack_require__(value));
+            if (8 & mode || 4 & mode && "object" == typeof value && value && value.__esModule) return value;
             var ns = Object.create(null);
-            if (__webpack_require__.r(ns), Object.defineProperty(ns, "default", {
+            __webpack_require__.r(ns);
+            Object.defineProperty(ns, "default", {
                 enumerable: !0,
                 value: value
-            }), 2 & mode && "string" != typeof value) for(var key in value)__webpack_require__.d(ns, key, (function(key) {
+            });
+            if (2 & mode && "string" != typeof value) for(var key in value)__webpack_require__.d(ns, key, (function(key) {
                 return value[key];
             }).bind(null, key));
             return ns;
@@ -52,13 +56,15 @@
                     configurable: !0,
                     writable: !0
                 }) : obj[key] = value, obj;
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             function _getPrototypeOf(o) {
@@ -66,23 +72,29 @@
                     return o.__proto__ || Object.getPrototypeOf(o);
                 }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _getPrototypeOf(o);
             }
-            module1.exports = _getPrototypeOf, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            module1.exports = _getPrototypeOf;
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function(instance, Constructor) {
                 if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    descriptor.enumerable = descriptor.enumerable || !1;
+                    descriptor.configurable = !0;
+                    "value" in descriptor && (descriptor.writable = !0);
+                    Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
             module1.exports = function(Constructor, protoProps, staticProps) {
                 return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1, __webpack_require__) {
             var _typeof = __webpack_require__(19).default, assertThisInitialized = __webpack_require__(1);
@@ -90,7 +102,8 @@
                 if (call && ("object" === _typeof(call) || "function" == typeof call)) return call;
                 if (void 0 !== call) throw TypeError("Derived constructors may only return object or undefined");
                 return assertThisInitialized(self1);
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1, __webpack_require__) {
             var setPrototypeOf = __webpack_require__(41);
@@ -102,8 +115,10 @@
                         writable: !0,
                         configurable: !0
                     }
-                }), superClass && setPrototypeOf(subClass, superClass);
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+                });
+                superClass && setPrototypeOf(subClass, superClass);
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1, __webpack_require__) {
             module1.exports = {
@@ -157,23 +172,32 @@
             "use strict";
             __webpack_require__.d(__webpack_exports__, "h", function() {
                 return imageRef;
-            }), __webpack_require__.d(__webpack_exports__, "i", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "i", function() {
                 return otsuThreshold;
-            }), __webpack_require__.d(__webpack_exports__, "b", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "b", function() {
                 return cv_utils_cluster;
-            }), __webpack_require__.d(__webpack_exports__, "j", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "j", function() {
                 return topGeneric;
-            }), __webpack_require__.d(__webpack_exports__, "e", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "e", function() {
                 return grayAndHalfSampleFromCanvasData;
-            }), __webpack_require__.d(__webpack_exports__, "c", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "c", function() {
                 return computeGray;
-            }), __webpack_require__.d(__webpack_exports__, "f", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "f", function() {
                 return halfSample;
-            }), __webpack_require__.d(__webpack_exports__, "g", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "g", function() {
                 return hsv2rgb;
-            }), __webpack_require__.d(__webpack_exports__, "a", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "a", function() {
                 return calculatePatchSize;
-            }), __webpack_require__.d(__webpack_exports__, "d", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "d", function() {
                 return computeImageArea;
             });
             var gl_vec2 = __webpack_require__(7), gl_vec3 = __webpack_require__(84), vec2 = {
@@ -189,19 +213,24 @@
                         ])
                     }, pointMap = {};
                     function _add(pointToAdd) {
-                        pointMap[pointToAdd.id] = pointToAdd, points.push(pointToAdd);
+                        pointMap[pointToAdd.id] = pointToAdd;
+                        points.push(pointToAdd);
                     }
                     function updateCenter() {
                         var i, sum = 0;
                         for(i = 0; i < points.length; i++)sum += points[i].rad;
-                        center.rad = sum / points.length, center.vec = vec2.clone([
+                        center.rad = sum / points.length;
+                        center.vec = vec2.clone([
                             Math.cos(center.rad),
                             Math.sin(center.rad)
                         ]);
                     }
                     return _add(point), updateCenter(), {
                         add: function(pointToAdd) {
-                            pointMap[pointToAdd.id] || (_add(pointToAdd), updateCenter());
+                            if (!pointMap[pointToAdd.id]) {
+                                _add(pointToAdd);
+                                updateCenter();
+                            }
                         },
                         fits: function(otherPoint) {
                             return Math.abs(vec2.dot(otherPoint.point.vec, center.vec)) > threshold;
@@ -268,7 +297,11 @@
                             for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, bucketCnt = 1 << bitsPerPixel, hist = new Int32Array(bucketCnt); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
                         }(imageWrapper, bitsPerPixel);
-                        for(var k = 1; k < max; k++)0 == (p12 = (p1 = px(0, k)) * (p2 = px(k + 1, max))) && (p12 = 1), m12 = mx(0, k) * p2 - mx(k + 1, max) * p1, vet[k] = m12 * m12 / p12;
+                        for(var k = 1; k < max; k++){
+                            0 == (p12 = (p1 = px(0, k)) * (p2 = px(k + 1, max))) && (p12 = 1);
+                            m12 = mx(0, k) * p2 - mx(k + 1, max) * p1;
+                            vet[k] = m12 * m12 / p12;
+                        }
                         return array_helper.a.maxIndex(vet);
                     }() << 8 - bitsPerPixel;
                 }(imageWrapper);
@@ -279,12 +312,16 @@
             }
             function cv_utils_cluster(points, threshold, property) {
                 var i, k, thisCluster, point, clusters = [];
+                property || (property = "rad");
                 function addToCluster(newPoint) {
                     var found = !1;
-                    for(k = 0; k < clusters.length; k++)(thisCluster = clusters[k]).fits(newPoint) && (thisCluster.add(newPoint), found = !0);
+                    for(k = 0; k < clusters.length; k++)if ((thisCluster = clusters[k]).fits(newPoint)) {
+                        thisCluster.add(newPoint);
+                        found = !0;
+                    }
                     return found;
                 }
-                for(property || (property = "rad"), i = 0; i < points.length; i++)addToCluster(point = cluster.createPoint(points[i], i, property)) || clusters.push(cluster.create(point, threshold));
+                for(i = 0; i < points.length; i++)addToCluster(point = cluster.createPoint(points[i], i, property)) || clusters.push(cluster.create(point, threshold));
                 return clusters;
             }
             function topGeneric(list, top, scoreFunc) {
@@ -295,13 +332,27 @@
                 };
                 for(i = 0; i < list.length; i++)if ((score = scoreFunc.apply(this, [
                     list[i]
-                ])) > min) for(pos = 0, (hit = queue[minIdx]).score = score, hit.item = list[i], min = Number.MAX_VALUE; pos < top; pos++)queue[pos].score < min && (min = queue[pos].score, minIdx = pos);
+                ])) > min) {
+                    (hit = queue[minIdx]).score = score;
+                    hit.item = list[i];
+                    min = Number.MAX_VALUE;
+                    for(pos = 0; pos < top; pos++)if (queue[pos].score < min) {
+                        min = queue[pos].score;
+                        minIdx = pos;
+                    }
+                }
                 return queue;
             }
             function grayAndHalfSampleFromCanvasData(canvasData, size, outArray) {
                 for(var i, topRowIdx = 0, bottomRowIdx = size.x, endIdx = Math.floor(canvasData.length / 4), outWidth = size.x / 2, outImgIdx = 0, inWidth = size.x; bottomRowIdx < endIdx;){
-                    for(i = 0; i < outWidth; i++)outArray[outImgIdx] = (0.299 * canvasData[4 * topRowIdx + 0] + 0.587 * canvasData[4 * topRowIdx + 1] + 0.114 * canvasData[4 * topRowIdx + 2] + (0.299 * canvasData[(topRowIdx + 1) * 4 + 0] + 0.587 * canvasData[(topRowIdx + 1) * 4 + 1] + 0.114 * canvasData[(topRowIdx + 1) * 4 + 2]) + (0.299 * canvasData[4 * bottomRowIdx + 0] + 0.587 * canvasData[4 * bottomRowIdx + 1] + 0.114 * canvasData[4 * bottomRowIdx + 2]) + (0.299 * canvasData[(bottomRowIdx + 1) * 4 + 0] + 0.587 * canvasData[(bottomRowIdx + 1) * 4 + 1] + 0.114 * canvasData[(bottomRowIdx + 1) * 4 + 2])) / 4, outImgIdx++, topRowIdx += 2, bottomRowIdx += 2;
-                    topRowIdx += inWidth, bottomRowIdx += inWidth;
+                    for(i = 0; i < outWidth; i++){
+                        outArray[outImgIdx] = (0.299 * canvasData[4 * topRowIdx + 0] + 0.587 * canvasData[4 * topRowIdx + 1] + 0.114 * canvasData[4 * topRowIdx + 2] + (0.299 * canvasData[(topRowIdx + 1) * 4 + 0] + 0.587 * canvasData[(topRowIdx + 1) * 4 + 1] + 0.114 * canvasData[(topRowIdx + 1) * 4 + 2]) + (0.299 * canvasData[4 * bottomRowIdx + 0] + 0.587 * canvasData[4 * bottomRowIdx + 1] + 0.114 * canvasData[4 * bottomRowIdx + 2]) + (0.299 * canvasData[(bottomRowIdx + 1) * 4 + 0] + 0.587 * canvasData[(bottomRowIdx + 1) * 4 + 1] + 0.114 * canvasData[(bottomRowIdx + 1) * 4 + 2])) / 4;
+                        outImgIdx++;
+                        topRowIdx += 2;
+                        bottomRowIdx += 2;
+                    }
+                    topRowIdx += inWidth;
+                    bottomRowIdx += inWidth;
                 }
             }
             function computeGray(imageData, outArray, config) {
@@ -311,8 +362,14 @@
             }
             function halfSample(inImgWrapper, outImgWrapper) {
                 for(var inImg = inImgWrapper.data, inWidth = inImgWrapper.size.x, outImg = outImgWrapper.data, topRowIdx = 0, bottomRowIdx = inWidth, endIdx = inImg.length, outWidth = inWidth / 2, outImgIdx = 0; bottomRowIdx < endIdx;){
-                    for(var i = 0; i < outWidth; i++)outImg[outImgIdx] = Math.floor((inImg[topRowIdx] + inImg[topRowIdx + 1] + inImg[bottomRowIdx] + inImg[bottomRowIdx + 1]) / 4), outImgIdx++, topRowIdx += 2, bottomRowIdx += 2;
-                    topRowIdx += inWidth, bottomRowIdx += inWidth;
+                    for(var i = 0; i < outWidth; i++){
+                        outImg[outImgIdx] = Math.floor((inImg[topRowIdx] + inImg[topRowIdx + 1] + inImg[bottomRowIdx] + inImg[bottomRowIdx + 1]) / 4);
+                        outImgIdx++;
+                        topRowIdx += 2;
+                        bottomRowIdx += 2;
+                    }
+                    topRowIdx += inWidth;
+                    bottomRowIdx += inWidth;
                 }
             }
             function hsv2rgb(hsv) {
@@ -321,15 +378,41 @@
                     0,
                     0
                 ], h = hsv[0], s = hsv[1], v = hsv[2], c = v * s, x = c * (1 - Math.abs(h / 60 % 2 - 1)), m = v - c, r = 0, g = 0, b = 0;
-                return h < 60 ? (r = c, g = x) : h < 120 ? (r = x, g = c) : h < 180 ? (g = c, b = x) : h < 240 ? (g = x, b = c) : h < 300 ? (r = x, b = c) : h < 360 && (r = c, b = x), rgb[0] = (r + m) * 255 | 0, rgb[1] = (g + m) * 255 | 0, rgb[2] = (b + m) * 255 | 0, rgb;
+                if (h < 60) {
+                    r = c;
+                    g = x;
+                } else if (h < 120) {
+                    r = x;
+                    g = c;
+                } else if (h < 180) {
+                    g = c;
+                    b = x;
+                } else if (h < 240) {
+                    g = x;
+                    b = c;
+                } else if (h < 300) {
+                    r = x;
+                    b = c;
+                } else if (h < 360) {
+                    r = c;
+                    b = x;
+                }
+                return rgb[0] = (r + m) * 255 | 0, rgb[1] = (g + m) * 255 | 0, rgb[2] = (b + m) * 255 | 0, rgb;
             }
             function _computeDivisors(n) {
-                for(var largeDivisors = [], divisors = [], i = 1; i < Math.sqrt(n) + 1; i++)n % i == 0 && (divisors.push(i), i !== n / i && largeDivisors.unshift(Math.floor(n / i)));
+                for(var largeDivisors = [], divisors = [], i = 1; i < Math.sqrt(n) + 1; i++)if (n % i == 0) {
+                    divisors.push(i);
+                    i !== n / i && largeDivisors.unshift(Math.floor(n / i));
+                }
                 return divisors.concat(largeDivisors);
             }
             function calculatePatchSize(patchSize, imgSize) {
                 var optimalPatchSize, divisorsX = _computeDivisors(imgSize.x), divisorsY = _computeDivisors(imgSize.y), wideSide = Math.max(imgSize.x, imgSize.y), common = function(arr1, arr2) {
-                    for(var i = 0, j = 0, result = []; i < arr1.length && j < arr2.length;)arr1[i] === arr2[j] ? (result.push(arr1[i]), i++, j++) : arr1[i] > arr2[j] ? j++ : i++;
+                    for(var i = 0, j = 0, result = []; i < arr1.length && j < arr2.length;)if (arr1[i] === arr2[j]) {
+                        result.push(arr1[i]);
+                        i++;
+                        j++;
+                    } else arr1[i] > arr2[j] ? j++ : i++;
                     return result;
                 }(divisorsX, divisorsY), nrOfPatchesList = [
                     8,
@@ -392,19 +475,31 @@
             "use strict";
             __webpack_exports__.a = {
                 drawRect: function(pos, size, ctx, style) {
-                    ctx.strokeStyle = style.color, ctx.fillStyle = style.color, ctx.lineWidth = style.lineWidth || 1, ctx.beginPath(), ctx.strokeRect(pos.x, pos.y, size.x, size.y);
+                    ctx.strokeStyle = style.color;
+                    ctx.fillStyle = style.color;
+                    ctx.lineWidth = style.lineWidth || 1;
+                    ctx.beginPath();
+                    ctx.strokeRect(pos.x, pos.y, size.x, size.y);
                 },
                 drawPath: function(path, def, ctx, style) {
-                    ctx.strokeStyle = style.color, ctx.fillStyle = style.color, ctx.lineWidth = style.lineWidth, ctx.beginPath(), ctx.moveTo(path[0][def.x], path[0][def.y]);
+                    ctx.strokeStyle = style.color;
+                    ctx.fillStyle = style.color;
+                    ctx.lineWidth = style.lineWidth;
+                    ctx.beginPath();
+                    ctx.moveTo(path[0][def.x], path[0][def.y]);
                     for(var j = 1; j < path.length; j++)ctx.lineTo(path[j][def.x], path[j][def.y]);
-                    ctx.closePath(), ctx.stroke();
+                    ctx.closePath();
+                    ctx.stroke();
                 },
                 drawImage: function(imageData, size, ctx) {
                     var canvasData = ctx.getImageData(0, 0, size.x, size.y), data = canvasData.data, canvasDataPos = data.length, imageDataPos = imageData.length;
                     if (canvasDataPos / imageDataPos != 4) return !1;
                     for(; imageDataPos--;){
                         var value = imageData[imageDataPos];
-                        data[--canvasDataPos] = 255, data[--canvasDataPos] = value, data[--canvasDataPos] = value, data[--canvasDataPos] = value;
+                        data[--canvasDataPos] = 255;
+                        data[--canvasDataPos] = value;
+                        data[--canvasDataPos] = value;
+                        data[--canvasDataPos] = value;
                     }
                     return ctx.putImageData(canvasData, 0, 0), !0;
                 }
@@ -419,7 +514,8 @@
                 shuffle: function(arr) {
                     for(var i = arr.length - 1; i >= 0; i--){
                         var j = Math.floor(Math.random() * i), x = arr[i];
-                        arr[i] = arr[j], arr[j] = x;
+                        arr[i] = arr[j];
+                        arr[j] = x;
                     }
                     return arr;
                 },
@@ -462,7 +558,16 @@
             var ImageWrapper = function() {
                 function ImageWrapper(size, data) {
                     var ArrayType = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : Uint8Array, initialize = arguments.length > 3 ? arguments[3] : void 0;
-                    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, ImageWrapper), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "data", void 0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "size", void 0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "indexMapping", void 0), data ? this.data = data : (this.data = new ArrayType(size.x * size.y), initialize && _array_helper__WEBPACK_IMPORTED_MODULE_6__.a.init(this.data, 0)), this.size = size;
+                    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, ImageWrapper);
+                    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "data", void 0);
+                    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "size", void 0);
+                    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "indexMapping", void 0);
+                    if (data) this.data = data;
+                    else {
+                        this.data = new ArrayType(size.x * size.y);
+                        initialize && _array_helper__WEBPACK_IMPORTED_MODULE_6__.a.init(this.data, 0);
+                    }
+                    this.size = size;
                 }
                 return _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(ImageWrapper, [
                     {
@@ -475,7 +580,8 @@
                     {
                         key: "subImageAsCopy",
                         value: function(imageWrapper, from) {
-                            assertNumberPositive(from.x), assertNumberPositive(from.y);
+                            assertNumberPositive(from.x);
+                            assertNumberPositive(from.y);
                             for(var _imageWrapper$size = imageWrapper.size, sizeX = _imageWrapper$size.x, sizeY = _imageWrapper$size.y, x = 0; x < sizeX; x++)for(var y = 0; y < sizeY; y++)imageWrapper.data[y * sizeX + x] = this.data[(from.y + y) * this.size.x + from.x + x];
                             return imageWrapper;
                         }
@@ -494,8 +600,14 @@
                                     x: [],
                                     y: []
                                 };
-                                for(var i = 0; i < this.size.x; i++)this.indexMapping.x[i] = i, this.indexMapping.x[i + this.size.x] = i;
-                                for(var _i = 0; _i < this.size.y; _i++)this.indexMapping.y[_i] = _i, this.indexMapping.y[_i + this.size.y] = _i;
+                                for(var i = 0; i < this.size.x; i++){
+                                    this.indexMapping.x[i] = i;
+                                    this.indexMapping.x[i + this.size.x] = i;
+                                }
+                                for(var _i = 0; _i < this.size.y; _i++){
+                                    this.indexMapping.y[_i] = _i;
+                                    this.indexMapping.y[_i + this.size.y] = _i;
+                                }
                             }
                             return this.data[this.indexMapping.y[y + this.size.y] * this.size.x + this.indexMapping.x[x + this.size.x]];
                         }
@@ -529,11 +641,32 @@
                                 theta: 0,
                                 rad: 0
                             };
-                            for(y = 0; y < height; y++)for(x = 0, ysq = y * y; x < width; x++)(val = data[y * width + x]) > 0 && (label = labelSum[val - 1], label.m00 += 1, label.m01 += y, label.m10 += x, label.m11 += x * y, label.m02 += ysq, label.m20 += x * x);
-                            for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, tmp = 0.5 * Math.atan(tmp = (label.m02 / label.m00 - y_ * y_ - (label.m20 / label.m00 - x_ * x_)) / (2 * mu11)) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
-                                Math.cos(tmp),
-                                Math.sin(tmp)
-                            ]), result.push(label));
+                            for(y = 0; y < height; y++){
+                                ysq = y * y;
+                                for(x = 0; x < width; x++)if ((val = data[y * width + x]) > 0) {
+                                    label = labelSum[val - 1];
+                                    label.m00 += 1;
+                                    label.m01 += y;
+                                    label.m10 += x;
+                                    label.m11 += x * y;
+                                    label.m02 += ysq;
+                                    label.m20 += x * x;
+                                }
+                            }
+                            for(i = 0; i < labelCount; i++)if (!isNaN((label = labelSum[i]).m00) && 0 !== label.m00) {
+                                x_ = label.m10 / label.m00;
+                                y_ = label.m01 / label.m00;
+                                mu11 = label.m11 / label.m00 - x_ * y_;
+                                tmp = 0.5 * Math.atan(tmp = (label.m02 / label.m00 - y_ * y_ - (label.m20 / label.m00 - x_ * x_)) / (2 * mu11)) + (mu11 >= 0 ? PI_4 : -PI_4) + PI;
+                                label.theta = (180 * tmp / PI + 90) % 180 - 90;
+                                label.theta < 0 && (label.theta += 180);
+                                label.rad = tmp > PI ? tmp - PI : tmp;
+                                label.vec = vec2.clone([
+                                    Math.cos(tmp),
+                                    Math.sin(tmp)
+                                ]);
+                                result.push(label);
+                            }
                             return result;
                         }
                     },
@@ -542,7 +675,10 @@
                         value: function() {
                             for(var scale = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 1.0, ret = new Uint8ClampedArray(4 * this.size.x * this.size.y), y = 0; y < this.size.y; y++)for(var x = 0; x < this.size.x; x++){
                                 var pixel = y * this.size.x + x, current = this.get(x, y) * scale;
-                                ret[4 * pixel + 0] = current, ret[4 * pixel + 1] = current, ret[4 * pixel + 2] = current, ret[4 * pixel + 3] = 255;
+                                ret[4 * pixel + 0] = current;
+                                ret[4 * pixel + 1] = current;
+                                ret[4 * pixel + 2] = current;
+                                ret[4 * pixel + 3] = 255;
                             }
                             return ret;
                         }
@@ -553,7 +689,8 @@
                             var scale = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1.0, ctx = canvas.getContext("2d");
                             if (!ctx) throw Error("Unable to get canvas context");
                             var frame = ctx.getImageData(0, 0, canvas.width, canvas.height), data = this.getAsRGBA(scale);
-                            canvas.width = this.size.x, canvas.height = this.size.y;
+                            canvas.width = this.size.x;
+                            canvas.height = this.size.y;
                             var newFrame = new ImageData(data, frame.width, frame.height);
                             ctx.putImageData(newFrame, 0, 0);
                         }
@@ -580,9 +717,13 @@
                             ], result = [], ctx = canvas.getContext("2d");
                             if (!ctx) throw Error("Unable to get canvas context");
                             for(var frame = ctx.getImageData(from.x, from.y, this.size.x, this.size.y), data = frame.data, length = this.data.length; length--;){
-                                hsv[0] = this.data[length] * adjustedScale, result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
+                                hsv[0] = this.data[length] * adjustedScale;
+                                result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
                                 var pos = 4 * length, _result = result, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
-                                data[pos] = _result2[0], data[pos + 1] = _result2[1], data[pos + 2] = _result2[2], data[pos + 3] = 255;
+                                data[pos] = _result2[0];
+                                data[pos + 1] = _result2[1];
+                                data[pos + 2] = _result2[2];
+                                data[pos + 3] = 255;
                             }
                             ctx.putImageData(frame, from.x, from.y);
                         }
@@ -597,15 +738,23 @@
         function(module1, exports1, __webpack_require__) {
             var superPropBase = __webpack_require__(227);
             function _get(target, property, receiver) {
-                return "undefined" != typeof Reflect && Reflect.get ? (module1.exports = _get = Reflect.get, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _get = function(target, property, receiver) {
-                    var base = superPropBase(target, property);
-                    if (base) {
-                        var desc = Object.getOwnPropertyDescriptor(base, property);
-                        return desc.get ? desc.get.call(receiver) : desc.value;
-                    }
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _get(target, property, receiver || target);
+                if ("undefined" != typeof Reflect && Reflect.get) {
+                    module1.exports = _get = Reflect.get;
+                    module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+                } else {
+                    module1.exports = _get = function(target, property, receiver) {
+                        var base = superPropBase(target, property);
+                        if (base) {
+                            var desc = Object.getOwnPropertyDescriptor(base, property);
+                            return desc.get ? desc.get.call(receiver) : desc.value;
+                        }
+                    };
+                    module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+                }
+                return _get(target, property, receiver || target);
             }
-            module1.exports = _get, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            module1.exports = _get;
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function(value) {
@@ -634,13 +783,21 @@
         },
         function(module1, exports1) {
             function _typeof(obj) {
-                return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? (module1.exports = _typeof = function(obj) {
-                    return typeof obj;
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _typeof = function(obj) {
-                    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _typeof(obj);
+                if ("function" == typeof Symbol && "symbol" == typeof Symbol.iterator) {
+                    module1.exports = _typeof = function(obj) {
+                        return typeof obj;
+                    };
+                    module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+                } else {
+                    module1.exports = _typeof = function(obj) {
+                        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+                    };
+                    module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+                }
+                return _typeof(obj);
             }
-            module1.exports = _typeof, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            module1.exports = _typeof;
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
@@ -666,7 +823,8 @@
                         _next(void 0);
                     });
                 };
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -710,8 +868,14 @@
                     function _trace(current, color, label, edgelabel) {
                         var i, y, x;
                         for(i = 0; i < 7; i++){
-                            if (imageData[pos = (y = current.cy + searchDirections[current.dir][0]) * width + (x = current.cx + searchDirections[current.dir][1])] === color && (0 === labelData[pos] || labelData[pos] === label)) return labelData[pos] = label, current.cy = y, current.cx = x, !0;
-                            0 === labelData[pos] && (labelData[pos] = edgelabel), current.dir = (current.dir + 1) % 8;
+                            if (imageData[pos = (y = current.cy + searchDirections[current.dir][0]) * width + (x = current.cx + searchDirections[current.dir][1])] === color && (0 === labelData[pos] || labelData[pos] === label)) {
+                                labelData[pos] = label;
+                                current.cy = y;
+                                current.cx = x;
+                                return !0;
+                            }
+                            0 === labelData[pos] && (labelData[pos] = edgelabel);
+                            current.dir = (current.dir + 1) % 8;
                         }
                         return !1;
                     }
@@ -736,10 +900,30 @@
                                     dir: 0
                                 };
                                 if (_trace(current, color, label, edgelabel)) {
-                                    Cv = Fv = vertex2D(sx, sy, current.dir), ldir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P;
-                                    do current.dir = (current.dir + 6) % 8, _trace(current, color, label, edgelabel), ldir !== current.dir ? (Cv.dir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P) : (Cv.dir = ldir, Cv.x = current.cx, Cv.y = current.cy), ldir = current.dir;
-                                    while (current.cx !== sx || current.cy !== sy)
-                                    Fv.prev = Cv.prev, Cv.prev.next = Fv;
+                                    Cv = Fv = vertex2D(sx, sy, current.dir);
+                                    ldir = current.dir;
+                                    (P = vertex2D(current.cx, current.cy, 0)).prev = Cv;
+                                    Cv.next = P;
+                                    P.next = null;
+                                    Cv = P;
+                                    do {
+                                        current.dir = (current.dir + 6) % 8;
+                                        _trace(current, color, label, edgelabel);
+                                        if (ldir !== current.dir) {
+                                            Cv.dir = current.dir;
+                                            (P = vertex2D(current.cx, current.cy, 0)).prev = Cv;
+                                            Cv.next = P;
+                                            P.next = null;
+                                            Cv = P;
+                                        } else {
+                                            Cv.dir = ldir;
+                                            Cv.x = current.cx;
+                                            Cv.y = current.cy;
+                                        }
+                                        ldir = current.dir;
+                                    }while (current.cx !== sx || current.cy !== sy)
+                                    Fv.prev = Cv.prev;
+                                    Cv.prev.next = Fv;
                                 }
                                 return Fv;
                             }(sy, sx, label, color, edgelabel);
@@ -770,16 +954,25 @@
                 };
                 function boxFromPatches(patches) {
                     var overAvg, i, j, patch, transMat, box, scale, minx = _binaryImageWrapper.size.x, miny = _binaryImageWrapper.size.y, maxx = -_binaryImageWrapper.size.x, maxy = -_binaryImageWrapper.size.y;
-                    for(i = 0, overAvg = 0; i < patches.length; i++)overAvg += (patch = patches[i]).rad, _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
-                        color: "red"
-                    });
-                    for(overAvg /= patches.length, (overAvg = (180 * overAvg / Math.PI + 90) % 180 - 90) < 0 && (overAvg += 180), overAvg = (180 - overAvg) * Math.PI / 180, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.copy(gl_mat2__WEBPACK_IMPORTED_MODULE_1__.create(), [
+                    overAvg = 0;
+                    for(i = 0; i < patches.length; i++){
+                        overAvg += (patch = patches[i]).rad;
+                        _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                            color: "red"
+                        });
+                    }
+                    overAvg /= patches.length;
+                    (overAvg = (180 * overAvg / Math.PI + 90) % 180 - 90) < 0 && (overAvg += 180);
+                    overAvg = (180 - overAvg) * Math.PI / 180;
+                    transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.copy(gl_mat2__WEBPACK_IMPORTED_MODULE_1__.create(), [
                         Math.cos(overAvg),
                         Math.sin(overAvg),
                         -Math.sin(overAvg),
                         Math.cos(overAvg)
-                    ]), i = 0; i < patches.length; i++){
-                        for(j = 0, patch = patches[i]; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(patch.box[j], patch.box[j], transMat);
+                    ]);
+                    for(i = 0; i < patches.length; i++){
+                        patch = patches[i];
+                        for(j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(patch.box[j], patch.box[j], transMat);
                         _config.debug.boxFromPatches.showTransformed && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(patch.box, {
                             x: 0,
                             y: 1
@@ -788,8 +981,16 @@
                             lineWidth: 2
                         });
                     }
-                    for(i = 0; i < patches.length; i++)for(j = 0, patch = patches[i]; j < 4; j++)patch.box[j][0] < minx && (minx = patch.box[j][0]), patch.box[j][0] > maxx && (maxx = patch.box[j][0]), patch.box[j][1] < miny && (miny = patch.box[j][1]), patch.box[j][1] > maxy && (maxy = patch.box[j][1]);
-                    for(box = [
+                    for(i = 0; i < patches.length; i++){
+                        patch = patches[i];
+                        for(j = 0; j < 4; j++){
+                            patch.box[j][0] < minx && (minx = patch.box[j][0]);
+                            patch.box[j][0] > maxx && (maxx = patch.box[j][0]);
+                            patch.box[j][1] < miny && (miny = patch.box[j][1]);
+                            patch.box[j][1] > maxy && (maxy = patch.box[j][1]);
+                        }
+                    }
+                    box = [
                         [
                             minx,
                             miny
@@ -806,31 +1007,38 @@
                             minx,
                             maxy
                         ]
-                    ], _config.debug.boxFromPatches.showTransformedBox && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
+                    ];
+                    _config.debug.boxFromPatches.showTransformedBox && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
                         x: 0,
                         y: 1
                     }, _canvasContainer.ctx.binary, {
                         color: "#ff0000",
                         lineWidth: 2
-                    }), scale = _config.halfSample ? 2 : 1, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.invert(transMat, transMat), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(box[j], box[j], transMat);
-                    for(_config.debug.boxFromPatches.showBB && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
+                    });
+                    scale = _config.halfSample ? 2 : 1;
+                    transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.invert(transMat, transMat);
+                    for(j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(box[j], box[j], transMat);
+                    _config.debug.boxFromPatches.showBB && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
                         x: 0,
                         y: 1
                     }, _canvasContainer.ctx.binary, {
                         color: "#ff0000",
                         lineWidth: 2
-                    }), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.scale(box[j], box[j], scale);
+                    });
+                    for(j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.scale(box[j], box[j], scale);
                     return box;
                 }
                 function skeletonize(x, y) {
-                    _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y));
+                    _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y));
+                    _skeletonizer.skeletonize();
+                    _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y));
                 }
                 function describePatch(moments, patchPos, x, y) {
                     var k, avg, matchingMoments, patch, eligibleMoments = [], patchesFound = [], minComponentWeight = Math.ceil(_patchSize.x / 3);
                     if (moments.length >= 2) {
                         for(k = 0; k < moments.length; k++)moments[k].m00 > minComponentWeight && eligibleMoments.push(moments[k]);
                         if (eligibleMoments.length >= 2) {
-                            for(k = 0, matchingMoments = function(moments) {
+                            matchingMoments = function(moments) {
                                 var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
                                     return e.getPoints().length;
                                 }), points = [], result = [];
@@ -839,38 +1047,44 @@
                                     for(var i = 0; i < points.length; i++)result.push(points[i].point);
                                 }
                                 return result;
-                            }(eligibleMoments), avg = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
-                            matchingMoments.length > 1 && matchingMoments.length >= eligibleMoments.length / 4 * 3 && matchingMoments.length > moments.length / 4 && (avg /= matchingMoments.length, patch = {
-                                index: patchPos[1] * _numPatches.x + patchPos[0],
-                                pos: {
-                                    x: x,
-                                    y: y
-                                },
-                                box: [
-                                    gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                        x,
-                                        y
-                                    ]),
-                                    gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                        x + _subImageWrapper.size.x,
-                                        y
-                                    ]),
-                                    gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                        x + _subImageWrapper.size.x,
-                                        y + _subImageWrapper.size.y
-                                    ]),
-                                    gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                        x,
-                                        y + _subImageWrapper.size.y
+                            }(eligibleMoments);
+                            avg = 0;
+                            for(k = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
+                            if (matchingMoments.length > 1 && matchingMoments.length >= eligibleMoments.length / 4 * 3 && matchingMoments.length > moments.length / 4) {
+                                avg /= matchingMoments.length;
+                                patch = {
+                                    index: patchPos[1] * _numPatches.x + patchPos[0],
+                                    pos: {
+                                        x: x,
+                                        y: y
+                                    },
+                                    box: [
+                                        gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                            x,
+                                            y
+                                        ]),
+                                        gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                            x + _subImageWrapper.size.x,
+                                            y
+                                        ]),
+                                        gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                            x + _subImageWrapper.size.x,
+                                            y + _subImageWrapper.size.y
+                                        ]),
+                                        gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                            x,
+                                            y + _subImageWrapper.size.y
+                                        ])
+                                    ],
+                                    moments: matchingMoments,
+                                    rad: avg,
+                                    vec: gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                        Math.cos(avg),
+                                        Math.sin(avg)
                                     ])
-                                ],
-                                moments: matchingMoments,
-                                rad: avg,
-                                vec: gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                    Math.cos(avg),
-                                    Math.sin(avg)
-                                ])
-                            }, patchesFound.push(patch));
+                                };
+                                patchesFound.push(patch);
+                            }
                         }
                     }
                     return patchesFound;
@@ -878,7 +1092,9 @@
                 __webpack_exports__.a = {
                     init: function(inputImageWrapper, config) {
                         var skeletonImageData;
-                        _config = config, _inputImageWrapper = inputImageWrapper, _currentImageWrapper = _config.halfSample ? new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a({
+                        _config = config;
+                        _inputImageWrapper = inputImageWrapper;
+                        _currentImageWrapper = _config.halfSample ? new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a({
                             x: _inputImageWrapper.size.x / 2 | 0,
                             y: _inputImageWrapper.size.y / 2 | 0
                         }) : _inputImageWrapper, _patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.a)(_config.patchSize, _currentImageWrapper.size), _numPatches.x = _currentImageWrapper.size.x / _patchSize.x | 0, _numPatches.y = _currentImageWrapper.size.y / _patchSize.y | 0, _binaryImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_currentImageWrapper.size, void 0, Uint8Array, !1), _labelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_patchSize, void 0, Array, !0), skeletonImageData = new ArrayBuffer(65536), _subImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_patchSize, new Uint8Array(skeletonImageData, 0, _patchSize.x * _patchSize.y)), _skelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_patchSize, new Uint8Array(skeletonImageData, _patchSize.x * _patchSize.y * 3, _patchSize.x * _patchSize.y), void 0, !0), _skeletonizer = Object(_skeletonizer__WEBPACK_IMPORTED_MODULE_8__.a)("undefined" != typeof window ? window : "undefined" != typeof self ? self : global, {
@@ -886,23 +1102,45 @@
                         }, skeletonImageData), _imageToPatchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a({
                             x: _currentImageWrapper.size.x / _subImageWrapper.size.x | 0,
                             y: _currentImageWrapper.size.y / _subImageWrapper.size.y | 0
-                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_imageToPatchGrid.size, void 0, Int32Array, !0), _config.useWorker || "undefined" == typeof document || (_canvasContainer.dom.binary = document.createElement("canvas"), _canvasContainer.dom.binary.className = "binaryBuffer", !0 === _config.debug.showCanvas && document.querySelector("#debug").appendChild(_canvasContainer.dom.binary), _canvasContainer.ctx.binary = _canvasContainer.dom.binary.getContext("2d"), _canvasContainer.dom.binary.width = _binaryImageWrapper.size.x, _canvasContainer.dom.binary.height = _binaryImageWrapper.size.y);
+                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__.a(_imageToPatchGrid.size, void 0, Int32Array, !0);
+                        !function() {
+                            if (!_config.useWorker && "undefined" != typeof document) {
+                                _canvasContainer.dom.binary = document.createElement("canvas");
+                                _canvasContainer.dom.binary.className = "binaryBuffer";
+                                !0 === _config.debug.showCanvas && document.querySelector("#debug").appendChild(_canvasContainer.dom.binary);
+                                _canvasContainer.ctx.binary = _canvasContainer.dom.binary.getContext("2d");
+                                _canvasContainer.dom.binary.width = _binaryImageWrapper.size.x;
+                                _canvasContainer.dom.binary.height = _binaryImageWrapper.size.y;
+                            }
+                        }();
                     },
                     locate: function() {
-                        _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
+                        _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.f)(_inputImageWrapper, _currentImageWrapper);
+                        Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
                         var patchesFound = function() {
                             var i, j, x, y, moments, rasterResult, patch, patchesFound = [];
-                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)skeletonize(x = _subImageWrapper.size.x * i, y = _subImageWrapper.size.y * j), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
-                                x: x,
-                                y: y
-                            }), moments = _labelImageWrapper.moments(rasterResult.count), patchesFound = patchesFound.concat(describePatch(moments, [
-                                i,
-                                j
-                            ], x, y));
-                            if (_config.debug.showFoundPatches) for(i = 0; i < patchesFound.length; i++)patch = patchesFound[i], _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
-                                color: "#99ff00",
-                                lineWidth: 2
-                            });
+                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++){
+                                skeletonize(x = _subImageWrapper.size.x * i, y = _subImageWrapper.size.y * j);
+                                _skelImageWrapper.zeroBorder();
+                                _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0);
+                                rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0);
+                                _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
+                                    x: x,
+                                    y: y
+                                });
+                                moments = _labelImageWrapper.moments(rasterResult.count);
+                                patchesFound = patchesFound.concat(describePatch(moments, [
+                                    i,
+                                    j
+                                ], x, y));
+                            }
+                            if (_config.debug.showFoundPatches) for(i = 0; i < patchesFound.length; i++){
+                                patch = patchesFound[i];
+                                _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                                    color: "#99ff00",
+                                    lineWidth: 2
+                                });
+                            }
                             return patchesFound;
                         }();
                         if (patchesFound.length < _numPatches.x * _numPatches.y * 0.05) return null;
@@ -926,27 +1164,53 @@
                                     x: currentIdx % _patchLabelGrid.size.x,
                                     y: currentIdx / _patchLabelGrid.size.x | 0
                                 };
-                                if (currentIdx < _patchLabelGrid.data.length) for(dir = 0, currentPatch = _imageToPatchGrid.data[currentIdx], _patchLabelGrid.data[currentIdx] = label; dir < _tracer__WEBPACK_IMPORTED_MODULE_7__.a.searchDirections.length; dir++){
-                                    if (y = current.y + _tracer__WEBPACK_IMPORTED_MODULE_7__.a.searchDirections[dir][0], x = current.x + _tracer__WEBPACK_IMPORTED_MODULE_7__.a.searchDirections[dir][1], idx = y * _patchLabelGrid.size.x + x, 0 === _patchGrid.data[idx]) {
-                                        _patchLabelGrid.data[idx] = Number.MAX_VALUE;
-                                        continue;
+                                if (currentIdx < _patchLabelGrid.data.length) {
+                                    currentPatch = _imageToPatchGrid.data[currentIdx];
+                                    _patchLabelGrid.data[currentIdx] = label;
+                                    for(dir = 0; dir < _tracer__WEBPACK_IMPORTED_MODULE_7__.a.searchDirections.length; dir++){
+                                        y = current.y + _tracer__WEBPACK_IMPORTED_MODULE_7__.a.searchDirections[dir][0];
+                                        x = current.x + _tracer__WEBPACK_IMPORTED_MODULE_7__.a.searchDirections[dir][1];
+                                        idx = y * _patchLabelGrid.size.x + x;
+                                        if (0 === _patchGrid.data[idx]) {
+                                            _patchLabelGrid.data[idx] = Number.MAX_VALUE;
+                                            continue;
+                                        }
+                                        0 === _patchLabelGrid.data[idx] && Math.abs(gl_vec2__WEBPACK_IMPORTED_MODULE_0__.dot(_imageToPatchGrid.data[idx].vec, currentPatch.vec)) > 0.95 && trace(idx);
                                     }
-                                    0 === _patchLabelGrid.data[idx] && Math.abs(gl_vec2__WEBPACK_IMPORTED_MODULE_0__.dot(_imageToPatchGrid.data[idx].vec, currentPatch.vec)) > 0.95 && trace(idx);
                                 }
                             }
-                            for(_common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchLabelGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_imageToPatchGrid.data, null), j = 0; j < patchesFound.length; j++)patch = patchesFound[j], _imageToPatchGrid.data[patch.index] = patch, _patchGrid.data[patch.index] = 1;
-                            for(_patchGrid.zeroBorder(); (currIdx = notYetProcessed()) < _patchLabelGrid.data.length;)label++, trace(currIdx);
-                            if (_config.debug.showPatchLabels) for(j = 0; j < _patchLabelGrid.data.length; j++)_patchLabelGrid.data[j] > 0 && _patchLabelGrid.data[j] <= label && (patch = _imageToPatchGrid.data[j], hsv[0] = _patchLabelGrid.data[j] / (label + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
-                                color: "rgb(".concat(rgb.join(","), ")"),
-                                lineWidth: 2
-                            }));
+                            _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchGrid.data, 0);
+                            _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchLabelGrid.data, 0);
+                            _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_imageToPatchGrid.data, null);
+                            for(j = 0; j < patchesFound.length; j++){
+                                patch = patchesFound[j];
+                                _imageToPatchGrid.data[patch.index] = patch;
+                                _patchGrid.data[patch.index] = 1;
+                            }
+                            _patchGrid.zeroBorder();
+                            for(; (currIdx = notYetProcessed()) < _patchLabelGrid.data.length;){
+                                label++;
+                                trace(currIdx);
+                            }
+                            if (_config.debug.showPatchLabels) {
+                                for(j = 0; j < _patchLabelGrid.data.length; j++)if (_patchLabelGrid.data[j] > 0 && _patchLabelGrid.data[j] <= label) {
+                                    patch = _imageToPatchGrid.data[j];
+                                    hsv[0] = _patchLabelGrid.data[j] / (label + 1) * 360;
+                                    Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.g)(hsv, rgb);
+                                    _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                                        color: "rgb(".concat(rgb.join(","), ")"),
+                                        lineWidth: 2
+                                    });
+                                }
+                            }
                             return label;
                         }(patchesFound);
                         if (maxLabel < 1) return null;
                         var topLabels = function(maxLabel) {
                             var i, sum, labelHist = [];
                             for(i = 0; i < maxLabel; i++)labelHist.push(0);
-                            for(sum = _patchLabelGrid.data.length; sum--;)_patchLabelGrid.data[sum] > 0 && labelHist[_patchLabelGrid.data[sum] - 1]++;
+                            sum = _patchLabelGrid.data.length;
+                            for(; sum--;)_patchLabelGrid.data[sum] > 0 && labelHist[_patchLabelGrid.data[sum] - 1]++;
                             return (labelHist = labelHist.map(function(val, idx) {
                                 return {
                                     val: val,
@@ -969,29 +1233,52 @@
                                 0
                             ];
                             for(i = 0; i < topLabels.length; i++){
-                                for(sum = _patchLabelGrid.data.length, patches.length = 0; sum--;)_patchLabelGrid.data[sum] === topLabels[i].label && (patch = _imageToPatchGrid.data[sum], patches.push(patch));
-                                if ((box = boxFromPatches(patches)) && (boxes.push(box), _config.debug.showRemainingPatchLabels)) for(j = 0; j < patches.length; j++)patch = patches[j], hsv[0] = topLabels[i].label / (maxLabel + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
-                                    color: "rgb(".concat(rgb.join(","), ")"),
-                                    lineWidth: 2
-                                });
+                                sum = _patchLabelGrid.data.length;
+                                patches.length = 0;
+                                for(; sum--;)if (_patchLabelGrid.data[sum] === topLabels[i].label) {
+                                    patch = _imageToPatchGrid.data[sum];
+                                    patches.push(patch);
+                                }
+                                if (box = boxFromPatches(patches)) {
+                                    boxes.push(box);
+                                    if (_config.debug.showRemainingPatchLabels) for(j = 0; j < patches.length; j++){
+                                        patch = patches[j];
+                                        hsv[0] = topLabels[i].label / (maxLabel + 1) * 360;
+                                        Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.g)(hsv, rgb);
+                                        _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                                            color: "rgb(".concat(rgb.join(","), ")"),
+                                            lineWidth: 2
+                                        });
+                                    }
+                                }
                             }
                             return boxes;
                         }(topLabels, maxLabel);
                     },
                     checkImageConstraints: function(inputStream, config) {
                         var patchSize, area, width = inputStream.getWidth(), height = inputStream.getHeight(), thisHalfSample = config.halfSample ? 0.5 : 1;
-                        inputStream.getConfig().area && (area = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.d)(width, height, inputStream.getConfig().area), inputStream.setTopRight({
-                            x: area.sx,
-                            y: area.sy
-                        }), inputStream.setCanvasSize({
-                            x: width,
-                            y: height
-                        }), width = area.sw, height = area.sh);
+                        if (inputStream.getConfig().area) {
+                            area = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.d)(width, height, inputStream.getConfig().area);
+                            inputStream.setTopRight({
+                                x: area.sx,
+                                y: area.sy
+                            });
+                            inputStream.setCanvasSize({
+                                x: width,
+                                y: height
+                            });
+                            width = area.sw;
+                            height = area.sh;
+                        }
                         var size = {
                             x: Math.floor(width * thisHalfSample),
                             y: Math.floor(height * thisHalfSample)
                         };
-                        if (patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.a)(config.patchSize, size), console.log("Patch-Size: ".concat(JSON.stringify(patchSize))), inputStream.setWidth(Math.floor(Math.floor(size.x / patchSize.x) * (1 / thisHalfSample) * patchSize.x)), inputStream.setHeight(Math.floor(Math.floor(size.y / patchSize.y) * (1 / thisHalfSample) * patchSize.y)), inputStream.getWidth() % patchSize.x == 0 && inputStream.getHeight() % patchSize.y == 0) return !0;
+                        patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.a)(config.patchSize, size);
+                        console.log("Patch-Size: ".concat(JSON.stringify(patchSize)));
+                        inputStream.setWidth(Math.floor(Math.floor(size.x / patchSize.x) * (1 / thisHalfSample) * patchSize.x));
+                        inputStream.setHeight(Math.floor(Math.floor(size.y / patchSize.y) * (1 / thisHalfSample) * patchSize.y));
+                        if (inputStream.getWidth() % patchSize.x == 0 && inputStream.getHeight() % patchSize.y == 0) return !0;
                         throw Error("Image dimensions do not comply with the current settings: Width (".concat(width, " )and height (").concat(height, ") must a multiple of ").concat(patchSize.x));
                     }
                 };
@@ -1001,12 +1288,18 @@
             var listCacheClear = __webpack_require__(92), listCacheDelete = __webpack_require__(93), listCacheGet = __webpack_require__(94), listCacheHas = __webpack_require__(95), listCacheSet = __webpack_require__(96);
             function ListCache(entries) {
                 var index = -1, length = null == entries ? 0 : entries.length;
-                for(this.clear(); ++index < length;){
+                this.clear();
+                for(; ++index < length;){
                     var entry = entries[index];
                     this.set(entry[0], entry[1]);
                 }
             }
-            ListCache.prototype.clear = listCacheClear, ListCache.prototype.delete = listCacheDelete, ListCache.prototype.get = listCacheGet, ListCache.prototype.has = listCacheHas, ListCache.prototype.set = listCacheSet, module1.exports = ListCache;
+            ListCache.prototype.clear = listCacheClear;
+            ListCache.prototype.delete = listCacheDelete;
+            ListCache.prototype.get = listCacheGet;
+            ListCache.prototype.has = listCacheHas;
+            ListCache.prototype.set = listCacheSet;
+            module1.exports = ListCache;
         },
         function(module1, exports1, __webpack_require__) {
             var eq = __webpack_require__(26);
@@ -1062,7 +1355,8 @@
             var arrayWithoutHoles = __webpack_require__(224), iterableToArray = __webpack_require__(225), unsupportedIterableToArray = __webpack_require__(60), nonIterableSpread = __webpack_require__(226);
             module1.exports = function(arr) {
                 return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1, __webpack_require__) {
             module1.exports = {
@@ -1108,17 +1402,25 @@
         },
         function(module1, exports1) {
             module1.exports = function(module1) {
-                return module1.webpackPolyfill || (module1.deprecate = function() {}, module1.paths = [], module1.children || (module1.children = []), Object.defineProperty(module1, "loaded", {
-                    enumerable: !0,
-                    get: function() {
-                        return module1.l;
-                    }
-                }), Object.defineProperty(module1, "id", {
-                    enumerable: !0,
-                    get: function() {
-                        return module1.i;
-                    }
-                }), module1.webpackPolyfill = 1), module1;
+                if (!module1.webpackPolyfill) {
+                    module1.deprecate = function() {};
+                    module1.paths = [];
+                    module1.children || (module1.children = []);
+                    Object.defineProperty(module1, "loaded", {
+                        enumerable: !0,
+                        get: function() {
+                            return module1.l;
+                        }
+                    });
+                    Object.defineProperty(module1, "id", {
+                        enumerable: !0,
+                        get: function() {
+                            return module1.i;
+                        }
+                    });
+                    module1.webpackPolyfill = 1;
+                }
+                return module1;
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -1138,7 +1440,8 @@
                     return o.__proto__ = p, o;
                 }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _setPrototypeOf(o, p);
             }
-            module1.exports = _setPrototypeOf, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            module1.exports = _setPrototypeOf;
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), isObjectLike = __webpack_require__(18);
@@ -1180,12 +1483,18 @@
             var mapCacheClear = __webpack_require__(109), mapCacheDelete = __webpack_require__(116), mapCacheGet = __webpack_require__(118), mapCacheHas = __webpack_require__(119), mapCacheSet = __webpack_require__(120);
             function MapCache(entries) {
                 var index = -1, length = null == entries ? 0 : entries.length;
-                for(this.clear(); ++index < length;){
+                this.clear();
+                for(; ++index < length;){
                     var entry = entries[index];
                     this.set(entry[0], entry[1]);
                 }
             }
-            MapCache.prototype.clear = mapCacheClear, MapCache.prototype.delete = mapCacheDelete, MapCache.prototype.get = mapCacheGet, MapCache.prototype.has = mapCacheHas, MapCache.prototype.set = mapCacheSet, module1.exports = MapCache;
+            MapCache.prototype.clear = mapCacheClear;
+            MapCache.prototype.delete = mapCacheDelete;
+            MapCache.prototype.get = mapCacheGet;
+            MapCache.prototype.has = mapCacheHas;
+            MapCache.prototype.set = mapCacheSet;
+            module1.exports = MapCache;
         },
         function(module1, exports1, __webpack_require__) {
             var baseAssignValue = __webpack_require__(37), eq = __webpack_require__(26);
@@ -1197,7 +1506,8 @@
             var getNative = __webpack_require__(35), defineProperty = function() {
                 try {
                     var func = getNative(Object, "defineProperty");
-                    return func({}, "", {}), func;
+                    func({}, "", {});
+                    return func;
                 } catch (e) {}
             }();
             module1.exports = defineProperty;
@@ -1268,17 +1578,20 @@
                 if (o) {
                     if ("string" == typeof o) return arrayLikeToArray(o, minLen);
                     var n = Object.prototype.toString.call(o).slice(8, -1);
-                    if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
+                    "Object" === n && o.constructor && (n = o.constructor.name);
+                    if ("Map" === n || "Set" === n) return Array.from(o);
                     if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
                 }
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function(arr, len) {
                 (null == len || len > arr.length) && (len = arr.length);
                 for(var i = 0, arr2 = Array(len); i < len; i++)arr2[i] = arr[i];
                 return arr2;
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = 0.000001;
@@ -1346,7 +1659,13 @@
         function(module1, exports1) {
             module1.exports = function(out, a) {
                 var x = a[0], y = a[1], z = a[2], len = x * x + y * y + z * z;
-                return len > 0 && (len = 1 / Math.sqrt(len), out[0] = a[0] * len, out[1] = a[1] * len, out[2] = a[2] * len), out;
+                if (len > 0) {
+                    len = 1 / Math.sqrt(len);
+                    out[0] = a[0] * len;
+                    out[1] = a[1] * len;
+                    out[2] = a[2] * len;
+                }
+                return out;
             };
         },
         function(module1, exports1) {
@@ -1397,7 +1716,8 @@
             var arrayWithHoles = __webpack_require__(153), iterableToArrayLimit = __webpack_require__(154), unsupportedIterableToArray = __webpack_require__(60), nonIterableRest = __webpack_require__(155);
             module1.exports = function(arr, i) {
                 return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1, __webpack_require__) {
             module1.exports = {
@@ -1478,7 +1798,8 @@
                     }), setPrototypeOf(Wrapper, Class);
                 }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _wrapNativeSuper(Class);
             }
-            module1.exports = _wrapNativeSuper, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            module1.exports = _wrapNativeSuper;
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -1508,16 +1829,51 @@
                         rasterize: function(depthlabel) {
                             var color, bc, lc, labelindex, cx, cy, vertex, p, cc, sc, pos, i, colorMap = [], connectedCount = 0;
                             for(i = 0; i < 400; i++)colorMap[i] = 0;
-                            for(cy = 1, colorMap[0] = imageData[0], cc = null; cy < height - 1; cy++)for(cx = 1, labelindex = 0, bc = colorMap[0]; cx < width - 1; cx++)if (0 === labelData[pos = cy * width + cx]) {
-                                if ((color = imageData[pos]) !== bc) {
-                                    if (0 === labelindex) colorMap[lc = connectedCount + 1] = color, bc = color, null !== (vertex = tracer.contourTracing(cy, cx, lc, color, Rasterizer.DIR.OUTSIDE_EDGE)) && (connectedCount++, labelindex = lc, (p = Rasterizer.createContour2D()).dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = labelindex, p.firstVertex = vertex, p.nextpeer = cc, p.insideContours = null, null !== cc && (cc.prevpeer = p), cc = p);
-                                    else if (null !== (vertex = tracer.contourTracing(cy, cx, Rasterizer.DIR.INSIDE_EDGE, color, labelindex))) {
-                                        for((p = Rasterizer.createContour2D()).firstVertex = vertex, p.insideContours = null, 0 === depthlabel ? p.dir = Rasterizer.CONTOUR_DIR.CCW_DIR : p.dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = depthlabel, sc = cc; null !== sc && sc.index !== labelindex;)sc = sc.nextpeer;
-                                        null !== sc && (p.nextpeer = sc.insideContours, null !== sc.insideContours && (sc.insideContours.prevpeer = p), sc.insideContours = p);
-                                    }
-                                } else labelData[pos] = labelindex;
-                            } else labelData[pos] === Rasterizer.DIR.OUTSIDE_EDGE || labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? (labelindex = 0, bc = labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? imageData[pos] : colorMap[0]) : bc = colorMap[labelindex = labelData[pos]];
-                            for(sc = cc; null !== sc;)sc.index = depthlabel, sc = sc.nextpeer;
+                            colorMap[0] = imageData[0];
+                            cc = null;
+                            for(cy = 1; cy < height - 1; cy++){
+                                labelindex = 0;
+                                bc = colorMap[0];
+                                for(cx = 1; cx < width - 1; cx++)if (0 === labelData[pos = cy * width + cx]) {
+                                    if ((color = imageData[pos]) !== bc) {
+                                        if (0 === labelindex) {
+                                            colorMap[lc = connectedCount + 1] = color;
+                                            bc = color;
+                                            if (null !== (vertex = tracer.contourTracing(cy, cx, lc, color, Rasterizer.DIR.OUTSIDE_EDGE))) {
+                                                connectedCount++;
+                                                labelindex = lc;
+                                                (p = Rasterizer.createContour2D()).dir = Rasterizer.CONTOUR_DIR.CW_DIR;
+                                                p.index = labelindex;
+                                                p.firstVertex = vertex;
+                                                p.nextpeer = cc;
+                                                p.insideContours = null;
+                                                null !== cc && (cc.prevpeer = p);
+                                                cc = p;
+                                            }
+                                        } else if (null !== (vertex = tracer.contourTracing(cy, cx, Rasterizer.DIR.INSIDE_EDGE, color, labelindex))) {
+                                            (p = Rasterizer.createContour2D()).firstVertex = vertex;
+                                            p.insideContours = null;
+                                            0 === depthlabel ? p.dir = Rasterizer.CONTOUR_DIR.CCW_DIR : p.dir = Rasterizer.CONTOUR_DIR.CW_DIR;
+                                            p.index = depthlabel;
+                                            sc = cc;
+                                            for(; null !== sc && sc.index !== labelindex;)sc = sc.nextpeer;
+                                            if (null !== sc) {
+                                                p.nextpeer = sc.insideContours;
+                                                null !== sc.insideContours && (sc.insideContours.prevpeer = p);
+                                                sc.insideContours = p;
+                                            }
+                                        }
+                                    } else labelData[pos] = labelindex;
+                                } else if (labelData[pos] === Rasterizer.DIR.OUTSIDE_EDGE || labelData[pos] === Rasterizer.DIR.INSIDE_EDGE) {
+                                    labelindex = 0;
+                                    bc = labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? imageData[pos] : colorMap[0];
+                                } else bc = colorMap[labelindex = labelData[pos]];
+                            }
+                            sc = cc;
+                            for(; null !== sc;){
+                                sc.index = depthlabel;
+                                sc = sc.nextpeer;
+                            }
                             return {
                                 cc: cc,
                                 count: connectedCount
@@ -1526,8 +1882,19 @@
                         debug: {
                             drawContour: function(canvas, firstContour) {
                                 var iq, q, p, ctx = canvas.getContext("2d"), pq = firstContour;
-                                for(ctx.strokeStyle = "red", ctx.fillStyle = "red", ctx.lineWidth = 1, iq = null !== pq ? pq.insideContours : null; null !== pq;){
-                                    switch(null !== iq ? (q = iq, iq = iq.nextpeer) : (q = pq, iq = null !== (pq = pq.nextpeer) ? pq.insideContours : null), q.dir){
+                                ctx.strokeStyle = "red";
+                                ctx.fillStyle = "red";
+                                ctx.lineWidth = 1;
+                                iq = null !== pq ? pq.insideContours : null;
+                                for(; null !== pq;){
+                                    if (null !== iq) {
+                                        q = iq;
+                                        iq = iq.nextpeer;
+                                    } else {
+                                        q = pq;
+                                        iq = null !== (pq = pq.nextpeer) ? pq.insideContours : null;
+                                    }
+                                    switch(q.dir){
                                         case Rasterizer.CONTOUR_DIR.CW_DIR:
                                             ctx.strokeStyle = "red";
                                             break;
@@ -1537,9 +1904,13 @@
                                         case Rasterizer.CONTOUR_DIR.UNKNOWN_DIR:
                                             ctx.strokeStyle = "green";
                                     }
-                                    p = q.firstVertex, ctx.beginPath(), ctx.moveTo(p.x, p.y);
-                                    do p = p.next, ctx.lineTo(p.x, p.y);
-                                    while (p !== q.firstVertex)
+                                    p = q.firstVertex;
+                                    ctx.beginPath();
+                                    ctx.moveTo(p.x, p.y);
+                                    do {
+                                        p = p.next;
+                                        ctx.lineTo(p.x, p.y);
+                                    }while (p !== q.firstVertex)
                                     ctx.stroke();
                                 }
                             }
@@ -1707,10 +2078,12 @@
             var Stack = __webpack_require__(91), assignMergeValue = __webpack_require__(48), baseFor = __webpack_require__(121), baseMergeDeep = __webpack_require__(123), isObject = __webpack_require__(14), keysIn = __webpack_require__(56), safeGet = __webpack_require__(54);
             function baseMerge(object, source, srcIndex, customizer, stack) {
                 object !== source && baseFor(source, function(srcValue, key) {
-                    if (stack || (stack = new Stack()), isObject(srcValue)) baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
+                    stack || (stack = new Stack());
+                    if (isObject(srcValue)) baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
                     else {
                         var newValue = customizer ? customizer(safeGet(object, key), srcValue, key + "", object, source, stack) : void 0;
-                        void 0 === newValue && (newValue = srcValue), assignMergeValue(object, key, newValue);
+                        void 0 === newValue && (newValue = srcValue);
+                        assignMergeValue(object, key, newValue);
                     }
                 }, keysIn);
             }
@@ -1722,11 +2095,17 @@
                 var data = this.__data__ = new ListCache(entries);
                 this.size = data.size;
             }
-            Stack.prototype.clear = stackClear, Stack.prototype.delete = stackDelete, Stack.prototype.get = stackGet, Stack.prototype.has = stackHas, Stack.prototype.set = stackSet, module1.exports = Stack;
+            Stack.prototype.clear = stackClear;
+            Stack.prototype.delete = stackDelete;
+            Stack.prototype.get = stackGet;
+            Stack.prototype.has = stackHas;
+            Stack.prototype.set = stackSet;
+            module1.exports = Stack;
         },
         function(module1, exports1) {
             module1.exports = function() {
-                this.__data__ = [], this.size = 0;
+                this.__data__ = [];
+                this.size = 0;
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -1753,16 +2132,21 @@
             var assocIndexOf = __webpack_require__(25);
             module1.exports = function(key, value) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                return index < 0 ? (++this.size, data.push([
-                    key,
-                    value
-                ])) : data[index][1] = value, this;
+                if (index < 0) {
+                    ++this.size;
+                    data.push([
+                        key,
+                        value
+                    ]);
+                } else data[index][1] = value;
+                return this;
             };
         },
         function(module1, exports1, __webpack_require__) {
             var ListCache = __webpack_require__(24);
             module1.exports = function() {
-                this.__data__ = new ListCache(), this.size = 0;
+                this.__data__ = new ListCache();
+                this.size = 0;
             };
         },
         function(module1, exports1) {
@@ -1852,7 +2236,8 @@
         function(module1, exports1, __webpack_require__) {
             var Hash = __webpack_require__(110), ListCache = __webpack_require__(24), Map1 = __webpack_require__(44);
             module1.exports = function() {
-                this.size = 0, this.__data__ = {
+                this.size = 0;
+                this.__data__ = {
                     hash: new Hash(),
                     map: new (Map1 || ListCache)(),
                     string: new Hash()
@@ -1863,17 +2248,24 @@
             var hashClear = __webpack_require__(111), hashDelete = __webpack_require__(112), hashGet = __webpack_require__(113), hashHas = __webpack_require__(114), hashSet = __webpack_require__(115);
             function Hash(entries) {
                 var index = -1, length = null == entries ? 0 : entries.length;
-                for(this.clear(); ++index < length;){
+                this.clear();
+                for(; ++index < length;){
                     var entry = entries[index];
                     this.set(entry[0], entry[1]);
                 }
             }
-            Hash.prototype.clear = hashClear, Hash.prototype.delete = hashDelete, Hash.prototype.get = hashGet, Hash.prototype.has = hashHas, Hash.prototype.set = hashSet, module1.exports = Hash;
+            Hash.prototype.clear = hashClear;
+            Hash.prototype.delete = hashDelete;
+            Hash.prototype.get = hashGet;
+            Hash.prototype.has = hashHas;
+            Hash.prototype.set = hashSet;
+            module1.exports = Hash;
         },
         function(module1, exports1, __webpack_require__) {
             var nativeCreate = __webpack_require__(28);
             module1.exports = function() {
-                this.__data__ = nativeCreate ? nativeCreate(null) : {}, this.size = 0;
+                this.__data__ = nativeCreate ? nativeCreate(null) : {};
+                this.size = 0;
             };
         },
         function(module1, exports1) {
@@ -1965,9 +2357,28 @@
                 var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : void 0, isCommon = void 0 === newValue;
                 if (isCommon) {
                     var isArr = isArray(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
-                    newValue = srcValue, isArr || isBuff || isTyped ? isArray(objValue) ? newValue = objValue : isArrayLikeObject(objValue) ? newValue = copyArray(objValue) : isBuff ? (isCommon = !1, newValue = cloneBuffer(srcValue, !0)) : isTyped ? (isCommon = !1, newValue = cloneTypedArray(srcValue, !0)) : newValue = [] : isPlainObject(srcValue) || isArguments(srcValue) ? (newValue = objValue, isArguments(objValue) ? newValue = toPlainObject(objValue) : (!isObject(objValue) || isFunction(objValue)) && (newValue = initCloneObject(srcValue))) : isCommon = !1;
+                    newValue = srcValue;
+                    if (isArr || isBuff || isTyped) {
+                        if (isArray(objValue)) newValue = objValue;
+                        else if (isArrayLikeObject(objValue)) newValue = copyArray(objValue);
+                        else if (isBuff) {
+                            isCommon = !1;
+                            newValue = cloneBuffer(srcValue, !0);
+                        } else if (isTyped) {
+                            isCommon = !1;
+                            newValue = cloneTypedArray(srcValue, !0);
+                        } else newValue = [];
+                    } else if (isPlainObject(srcValue) || isArguments(srcValue)) {
+                        newValue = objValue;
+                        isArguments(objValue) ? newValue = toPlainObject(objValue) : (!isObject(objValue) || isFunction(objValue)) && (newValue = initCloneObject(srcValue));
+                    } else isCommon = !1;
                 }
-                isCommon && (stack.set(srcValue, newValue), mergeFunc(newValue, srcValue, srcIndex, customizer, stack), stack.delete(srcValue)), assignMergeValue(object, key, newValue);
+                if (isCommon) {
+                    stack.set(srcValue, newValue);
+                    mergeFunc(newValue, srcValue, srcIndex, customizer, stack);
+                    stack.delete(srcValue);
+                }
+                assignMergeValue(object, key, newValue);
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -2001,7 +2412,8 @@
         function(module1, exports1) {
             module1.exports = function(source, array) {
                 var index = -1, length = source.length;
-                for(array || (array = Array(length)); ++index < length;)array[index] = source[index];
+                array || (array = Array(length));
+                for(; ++index < length;)array[index] = source[index];
                 return array;
             };
         },
@@ -2061,7 +2473,9 @@
         },
         function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), isLength = __webpack_require__(40), isObjectLike = __webpack_require__(18), typedArrayTags = {};
-            typedArrayTags["[object Float32Array]"] = typedArrayTags["[object Float64Array]"] = typedArrayTags["[object Int8Array]"] = typedArrayTags["[object Int16Array]"] = typedArrayTags["[object Int32Array]"] = typedArrayTags["[object Uint8Array]"] = typedArrayTags["[object Uint8ClampedArray]"] = typedArrayTags["[object Uint16Array]"] = typedArrayTags["[object Uint32Array]"] = !0, typedArrayTags["[object Arguments]"] = typedArrayTags["[object Array]"] = typedArrayTags["[object ArrayBuffer]"] = typedArrayTags["[object Boolean]"] = typedArrayTags["[object DataView]"] = typedArrayTags["[object Date]"] = typedArrayTags["[object Error]"] = typedArrayTags["[object Function]"] = typedArrayTags["[object Map]"] = typedArrayTags["[object Number]"] = typedArrayTags["[object Object]"] = typedArrayTags["[object RegExp]"] = typedArrayTags["[object Set]"] = typedArrayTags["[object String]"] = typedArrayTags["[object WeakMap]"] = !1, module1.exports = function(value) {
+            typedArrayTags["[object Float32Array]"] = typedArrayTags["[object Float64Array]"] = typedArrayTags["[object Int8Array]"] = typedArrayTags["[object Int16Array]"] = typedArrayTags["[object Int32Array]"] = typedArrayTags["[object Uint8Array]"] = typedArrayTags["[object Uint8ClampedArray]"] = typedArrayTags["[object Uint16Array]"] = typedArrayTags["[object Uint32Array]"] = !0;
+            typedArrayTags["[object Arguments]"] = typedArrayTags["[object Array]"] = typedArrayTags["[object ArrayBuffer]"] = typedArrayTags["[object Boolean]"] = typedArrayTags["[object DataView]"] = typedArrayTags["[object Date]"] = typedArrayTags["[object Error]"] = typedArrayTags["[object Function]"] = typedArrayTags["[object Map]"] = typedArrayTags["[object Number]"] = typedArrayTags["[object Object]"] = typedArrayTags["[object RegExp]"] = typedArrayTags["[object Set]"] = typedArrayTags["[object String]"] = typedArrayTags["[object WeakMap]"] = !1;
+            module1.exports = function(value) {
                 return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
             };
         },
@@ -2097,7 +2511,8 @@
                 object || (object = {});
                 for(var index = -1, length = props.length; ++index < length;){
                     var key = props[index], newValue = customizer ? customizer(object[key], source[key], key, object, source) : void 0;
-                    void 0 === newValue && (newValue = source[key]), isNew ? baseAssignValue(object, key, newValue) : assignValue(object, key, newValue);
+                    void 0 === newValue && (newValue = source[key]);
+                    isNew ? baseAssignValue(object, key, newValue) : assignValue(object, key, newValue);
                 }
                 return object;
             };
@@ -2137,7 +2552,13 @@
             module1.exports = function(assigner) {
                 return baseRest(function(object, sources) {
                     var index = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : void 0, guard = length > 2 ? sources[2] : void 0;
-                    for(customizer = assigner.length > 3 && "function" == typeof customizer ? (length--, customizer) : void 0, guard && isIterateeCall(sources[0], sources[1], guard) && (customizer = length < 3 ? void 0 : customizer, length = 1), object = Object(object); ++index < length;){
+                    customizer = assigner.length > 3 && "function" == typeof customizer ? (length--, customizer) : void 0;
+                    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+                        customizer = length < 3 ? void 0 : customizer;
+                        length = 1;
+                    }
+                    object = Object(object);
+                    for(; ++index < length;){
                         var source = sources[index];
                         source && assigner(object, source, index, customizer);
                     }
@@ -2190,7 +2611,8 @@
                 var count = 0, lastCalled = 0;
                 return function() {
                     var stamp = nativeNow(), remaining = 16 - (stamp - lastCalled);
-                    if (lastCalled = stamp, remaining > 0) {
+                    lastCalled = stamp;
+                    if (remaining > 0) {
                         if (++count >= 800) return arguments[0];
                     } else count = 0;
                     return func.apply(void 0, arguments);
@@ -2208,10 +2630,12 @@
         function(module1, exports1) {
             "undefined" == typeof window || window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
                 window.setTimeout(callback, 1000 / 60);
-            }), "function" != typeof Math.imul && (Math.imul = function(a, b) {
+            });
+            "function" != typeof Math.imul && (Math.imul = function(a, b) {
                 var al = 0xffff & a, bl = 0xffff & b;
                 return al * bl + ((a >>> 16 & 0xffff) * bl + al * (b >>> 16 & 0xffff) << 16 >>> 0) | 0;
-            }), "function" != typeof Object.assign && (Object.assign = function(target) {
+            });
+            "function" != typeof Object.assign && (Object.assign = function(target) {
                 "use strict";
                 if (null === target) throw TypeError("Cannot convert undefined or null to object");
                 for(var to = Object(target), index = 1; index < arguments.length; index++){
@@ -2224,7 +2648,8 @@
         function(module1, exports1) {
             module1.exports = function(arr) {
                 if (Array.isArray(arr)) return arr;
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function(arr, i) {
@@ -2232,9 +2657,13 @@
                 if (null != _i) {
                     var _arr = [], _n = !0, _d = !1;
                     try {
-                        for(_i = _i.call(arr); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+                        for(_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = !0){
+                            _arr.push(_s.value);
+                            if (i && _arr.length === i) break;
+                        }
                     } catch (err) {
-                        _d = !0, _e = err;
+                        _d = !0;
+                        _e = err;
                     } finally{
                         try {
                             _n || null == _i.return || _i.return();
@@ -2244,12 +2673,14 @@
                     }
                     return _arr;
                 }
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function() {
                 throw TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function(a) {
@@ -2365,7 +2796,12 @@
         function(module1, exports1) {
             module1.exports = function(out, a) {
                 var x = a[0], y = a[1], len = x * x + y * y;
-                return len > 0 && (len = 1 / Math.sqrt(len), out[0] = a[0] * len, out[1] = a[1] * len), out;
+                if (len > 0) {
+                    len = 1 / Math.sqrt(len);
+                    out[0] = a[0] * len;
+                    out[1] = a[1] * len;
+                }
+                return out;
             };
         },
         function(module1, exports1) {
@@ -2419,7 +2855,16 @@
         function(module1, exports1, __webpack_require__) {
             module1.exports = function(a, stride, offset, count, fn, arg) {
                 var i, l;
-                for(stride || (stride = 2), offset || (offset = 0), l = count ? Math.min(count * stride + offset, a.length) : a.length, i = offset; i < l; i += stride)vec[0] = a[i], vec[1] = a[i + 1], fn(vec, vec, arg), a[i] = vec[0], a[i + 1] = vec[1];
+                stride || (stride = 2);
+                offset || (offset = 0);
+                l = count ? Math.min(count * stride + offset, a.length) : a.length;
+                for(i = offset; i < l; i += stride){
+                    vec[0] = a[i];
+                    vec[1] = a[i + 1];
+                    fn(vec, vec, arg);
+                    a[i] = vec[0];
+                    a[i + 1] = vec[1];
+                }
                 return a;
             };
             var vec = __webpack_require__(63)();
@@ -2429,8 +2874,12 @@
                 var mSq = a[0] * a[0] + a[1] * a[1];
                 if (mSq > max * max) {
                     var n = Math.sqrt(mSq);
-                    out[0] = a[0] / n * max, out[1] = a[1] / n * max;
-                } else out[0] = a[0], out[1] = a[1];
+                    out[0] = a[0] / n * max;
+                    out[1] = a[1] / n * max;
+                } else {
+                    out[0] = a[0];
+                    out[1] = a[1];
+                }
                 return out;
             };
         },
@@ -2443,7 +2892,8 @@
         function(module1, exports1, __webpack_require__) {
             module1.exports = function(a, b) {
                 var tempA = fromValues(a[0], a[1], a[2]), tempB = fromValues(b[0], b[1], b[2]);
-                normalize(tempA, tempA), normalize(tempB, tempB);
+                normalize(tempA, tempA);
+                normalize(tempB, tempB);
                 var cosine = dot(tempA, tempB);
                 return cosine > 1.0 ? 0 : Math.acos(cosine);
             };
@@ -2599,7 +3049,18 @@
         function(module1, exports1, __webpack_require__) {
             module1.exports = function(a, stride, offset, count, fn, arg) {
                 var i, l;
-                for(stride || (stride = 3), offset || (offset = 0), l = count ? Math.min(count * stride + offset, a.length) : a.length, i = offset; i < l; i += stride)vec[0] = a[i], vec[1] = a[i + 1], vec[2] = a[i + 2], fn(vec, vec, arg), a[i] = vec[0], a[i + 1] = vec[1], a[i + 2] = vec[2];
+                stride || (stride = 3);
+                offset || (offset = 0);
+                l = count ? Math.min(count * stride + offset, a.length) : a.length;
+                for(i = offset; i < l; i += stride){
+                    vec[0] = a[i];
+                    vec[1] = a[i + 1];
+                    vec[2] = a[i + 2];
+                    fn(vec, vec, arg);
+                    a[i] = vec[0];
+                    a[i + 1] = vec[1];
+                    a[i + 2] = vec[2];
+                }
                 return a;
             };
             var vec = __webpack_require__(72)();
@@ -2608,24 +3069,28 @@
             var arrayLikeToArray = __webpack_require__(61);
             module1.exports = function(arr) {
                 if (Array.isArray(arr)) return arrayLikeToArray(arr);
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function(iter) {
                 if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function() {
                 throw TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1, __webpack_require__) {
             var getPrototypeOf = __webpack_require__(2);
             module1.exports = function(object, property) {
                 for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = getPrototypeOf(object)););
                 return object;
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1, __webpack_require__) {
             var runtime = function(exports1) {
@@ -2639,7 +3104,9 @@
                             if ("throw" === method) throw arg;
                             return doneResult();
                         }
-                        for(context.method = method, context.arg = arg;;){
+                        context.method = method;
+                        context.arg = arg;
+                        for(;;){
                             var delegate = context.delegate;
                             if (delegate) {
                                 var delegateResult = maybeInvokeDelegate(delegate, context);
@@ -2650,22 +3117,31 @@
                             }
                             if ("next" === context.method) context.sent = context._sent = context.arg;
                             else if ("throw" === context.method) {
-                                if (state === GenStateSuspendedStart) throw state = GenStateCompleted, context.arg;
+                                if (state === GenStateSuspendedStart) {
+                                    state = GenStateCompleted;
+                                    throw context.arg;
+                                }
                                 context.dispatchException(context.arg);
                             } else "return" === context.method && context.abrupt("return", context.arg);
                             state = GenStateExecuting;
                             var record = tryCatch(innerFn, self1, context);
                             if ("normal" === record.type) {
-                                if (state = context.done ? GenStateCompleted : "suspendedYield", record.arg === ContinueSentinel) continue;
+                                state = context.done ? GenStateCompleted : "suspendedYield";
+                                if (record.arg === ContinueSentinel) continue;
                                 return {
                                     value: record.arg,
                                     done: context.done
                                 };
                             }
-                            "throw" === record.type && (state = GenStateCompleted, context.method = "throw", context.arg = record.arg);
+                            if ("throw" === record.type) {
+                                state = GenStateCompleted;
+                                context.method = "throw";
+                                context.arg = record.arg;
+                            }
                         }
                     }), generator;
                 }
+                exports1.wrap = wrap;
                 function tryCatch(fn, obj, arg) {
                     try {
                         return {
@@ -2679,7 +3155,6 @@
                         };
                     }
                 }
-                exports1.wrap = wrap;
                 var GenStateSuspendedStart = "suspendedStart", GenStateExecuting = "executing", GenStateCompleted = "completed", ContinueSentinel = {};
                 function Generator() {}
                 function GeneratorFunction() {}
@@ -2691,6 +3166,9 @@
                 var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([])));
                 NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
                 var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
+                GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+                GeneratorFunctionPrototype.constructor = GeneratorFunction;
+                GeneratorFunctionPrototype[toStringTagSymbol] = GeneratorFunction.displayName = "GeneratorFunction";
                 function defineIteratorMethods(prototype) {
                     [
                         "next",
@@ -2702,6 +3180,23 @@
                         };
                     });
                 }
+                exports1.isGeneratorFunction = function(genFun) {
+                    var ctor = "function" == typeof genFun && genFun.constructor;
+                    return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
+                };
+                exports1.mark = function(genFun) {
+                    if (Object.setPrototypeOf) Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+                    else {
+                        genFun.__proto__ = GeneratorFunctionPrototype;
+                        toStringTagSymbol in genFun || (genFun[toStringTagSymbol] = "GeneratorFunction");
+                    }
+                    return genFun.prototype = Object.create(Gp), genFun;
+                };
+                exports1.awrap = function(arg) {
+                    return {
+                        __await: arg
+                    };
+                };
                 function AsyncIterator(generator, PromiseImpl) {
                     var previousPromise;
                     this._invoke = function(method, arg) {
@@ -2717,7 +3212,8 @@
                                         }, function(err) {
                                             invoke("throw", err, resolve, reject);
                                         }) : PromiseImpl.resolve(value).then(function(unwrapped) {
-                                            result.value = unwrapped, resolve(result);
+                                            result.value = unwrapped;
+                                            resolve(result);
                                         }, function(error) {
                                             return invoke("throw", error, resolve, reject);
                                         });
@@ -2728,37 +3224,96 @@
                         return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
                     };
                 }
+                defineIteratorMethods(AsyncIterator.prototype);
+                AsyncIterator.prototype[asyncIteratorSymbol] = function() {
+                    return this;
+                };
+                exports1.AsyncIterator = AsyncIterator;
+                exports1.async = function(innerFn, outerFn, self1, tryLocsList, PromiseImpl) {
+                    void 0 === PromiseImpl && (PromiseImpl = Promise);
+                    var iter = new AsyncIterator(wrap(innerFn, outerFn, self1, tryLocsList), PromiseImpl);
+                    return exports1.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
+                        return result.done ? result.value : iter.next();
+                    });
+                };
                 function maybeInvokeDelegate(delegate, context) {
                     var method = delegate.iterator[context.method];
                     if (method === undefined) {
-                        if (context.delegate = null, "throw" === context.method) {
-                            if (delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-                            context.method = "throw", context.arg = TypeError("The iterator does not provide a 'throw' method");
+                        context.delegate = null;
+                        if ("throw" === context.method) {
+                            if (delegate.iterator.return) {
+                                context.method = "return";
+                                context.arg = undefined;
+                                maybeInvokeDelegate(delegate, context);
+                                if ("throw" === context.method) return ContinueSentinel;
+                            }
+                            context.method = "throw";
+                            context.arg = TypeError("The iterator does not provide a 'throw' method");
                         }
                         return ContinueSentinel;
                     }
                     var record = tryCatch(method, delegate.iterator, context.arg);
                     if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
                     var info = record.arg;
-                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+                    if (!info) return context.method = "throw", context.arg = TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel;
+                    if (!info.done) return info;
+                    context[delegate.resultName] = info.value;
+                    context.next = delegate.nextLoc;
+                    if ("return" !== context.method) {
+                        context.method = "next";
+                        context.arg = undefined;
+                    }
+                    return context.delegate = null, ContinueSentinel;
                 }
+                defineIteratorMethods(Gp);
+                Gp[toStringTagSymbol] = "Generator";
+                Gp[iteratorSymbol] = function() {
+                    return this;
+                };
+                Gp.toString = function() {
+                    return "[object Generator]";
+                };
                 function pushTryEntry(locs) {
                     var entry = {
                         tryLoc: locs[0]
                     };
-                    1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
+                    1 in locs && (entry.catchLoc = locs[1]);
+                    if (2 in locs) {
+                        entry.finallyLoc = locs[2];
+                        entry.afterLoc = locs[3];
+                    }
+                    this.tryEntries.push(entry);
                 }
                 function resetTryEntry(entry) {
                     var record = entry.completion || {};
-                    record.type = "normal", delete record.arg, entry.completion = record;
+                    record.type = "normal";
+                    delete record.arg;
+                    entry.completion = record;
                 }
                 function Context(tryLocsList) {
                     this.tryEntries = [
                         {
                             tryLoc: "root"
                         }
-                    ], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
+                    ];
+                    tryLocsList.forEach(pushTryEntry, this);
+                    this.reset(!0);
                 }
+                exports1.keys = function(object) {
+                    var keys = [];
+                    for(var key in object)keys.push(key);
+                    return keys.reverse(), function next() {
+                        for(; keys.length;){
+                            var key = keys.pop();
+                            if (key in object) {
+                                next.value = key;
+                                next.done = !1;
+                                return next;
+                            }
+                        }
+                        return next.done = !0, next;
+                    };
+                };
                 function values(iterable) {
                     if (iterable) {
                         var iteratorMethod = iterable[iteratorSymbol];
@@ -2766,7 +3321,11 @@
                         if ("function" == typeof iterable.next) return iterable;
                         if (!isNaN(iterable.length)) {
                             var i = -1, next = function next() {
-                                for(; ++i < iterable.length;)if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
+                                for(; ++i < iterable.length;)if (hasOwn.call(iterable, i)) {
+                                    next.value = iterable[i];
+                                    next.done = !1;
+                                    return next;
+                                }
                                 return next.value = undefined, next.done = !0, next;
                             };
                             return next.next = next;
@@ -2776,47 +3335,25 @@
                         next: doneResult
                     };
                 }
+                exports1.values = values;
                 function doneResult() {
                     return {
                         value: undefined,
                         done: !0
                     };
                 }
-                return GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype, GeneratorFunctionPrototype.constructor = GeneratorFunction, GeneratorFunctionPrototype[toStringTagSymbol] = GeneratorFunction.displayName = "GeneratorFunction", exports1.isGeneratorFunction = function(genFun) {
-                    var ctor = "function" == typeof genFun && genFun.constructor;
-                    return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
-                }, exports1.mark = function(genFun) {
-                    return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, toStringTagSymbol in genFun || (genFun[toStringTagSymbol] = "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
-                }, exports1.awrap = function(arg) {
-                    return {
-                        __await: arg
-                    };
-                }, defineIteratorMethods(AsyncIterator.prototype), AsyncIterator.prototype[asyncIteratorSymbol] = function() {
-                    return this;
-                }, exports1.AsyncIterator = AsyncIterator, exports1.async = function(innerFn, outerFn, self1, tryLocsList, PromiseImpl) {
-                    void 0 === PromiseImpl && (PromiseImpl = Promise);
-                    var iter = new AsyncIterator(wrap(innerFn, outerFn, self1, tryLocsList), PromiseImpl);
-                    return exports1.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
-                        return result.done ? result.value : iter.next();
-                    });
-                }, defineIteratorMethods(Gp), Gp[toStringTagSymbol] = "Generator", Gp[iteratorSymbol] = function() {
-                    return this;
-                }, Gp.toString = function() {
-                    return "[object Generator]";
-                }, exports1.keys = function(object) {
-                    var keys = [];
-                    for(var key in object)keys.push(key);
-                    return keys.reverse(), function next() {
-                        for(; keys.length;){
-                            var key = keys.pop();
-                            if (key in object) return next.value = key, next.done = !1, next;
-                        }
-                        return next.done = !0, next;
-                    };
-                }, exports1.values = values, Context.prototype = {
+                return Context.prototype = {
                     constructor: Context,
                     reset: function(skipTempReset) {
-                        if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for(var name in this)"t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
+                        this.prev = 0;
+                        this.next = 0;
+                        this.sent = this._sent = undefined;
+                        this.done = !1;
+                        this.delegate = null;
+                        this.method = "next";
+                        this.arg = undefined;
+                        this.tryEntries.forEach(resetTryEntry);
+                        if (!skipTempReset) for(var name in this)"t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
                     },
                     stop: function() {
                         this.done = !0;
@@ -2828,7 +3365,14 @@
                         if (this.done) throw exception;
                         var context = this;
                         function handle(loc, caught) {
-                            return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught;
+                            record.type = "throw";
+                            record.arg = exception;
+                            context.next = loc;
+                            if (caught) {
+                                context.method = "next";
+                                context.arg = undefined;
+                            }
+                            return !!caught;
                         }
                         for(var i = this.tryEntries.length - 1; i >= 0; --i){
                             var entry = this.tryEntries[i], record = entry.completion;
@@ -2860,12 +3404,22 @@
                     },
                     complete: function(record, afterLoc) {
                         if ("throw" === record.type) throw record.arg;
-                        return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
+                        if ("break" === record.type || "continue" === record.type) this.next = record.arg;
+                        else if ("return" === record.type) {
+                            this.rval = this.arg = record.arg;
+                            this.method = "return";
+                            this.next = "end";
+                        } else "normal" === record.type && afterLoc && (this.next = afterLoc);
+                        return ContinueSentinel;
                     },
                     finish: function(finallyLoc) {
                         for(var i = this.tryEntries.length - 1; i >= 0; --i){
                             var entry = this.tryEntries[i];
-                            if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
+                            if (entry.finallyLoc === finallyLoc) {
+                                this.complete(entry.completion, entry.afterLoc);
+                                resetTryEntry(entry);
+                                return ContinueSentinel;
+                            }
                         }
                     },
                     catch: function(tryLoc) {
@@ -2961,7 +3515,8 @@
                 };
                 return memoized.cache = new (memoize.Cache || MapCache)(), memoized;
             }
-            memoize.Cache = MapCache, module1.exports = memoize;
+            memoize.Cache = MapCache;
+            module1.exports = memoize;
         },
         function(module1, exports1, __webpack_require__) {
             var baseToString = __webpack_require__(237);
@@ -2998,7 +3553,8 @@
                         var objValue = nested[key];
                         void 0 === (newValue = customizer ? customizer(objValue, key, nested) : void 0) && (newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {});
                     }
-                    assignValue(nested, key, newValue), nested = nested[key];
+                    assignValue(nested, key, newValue);
+                    nested = nested[key];
                 }
                 return object;
             };
@@ -3042,7 +3598,9 @@
             var arrayPush = __webpack_require__(246), isFlattenable = __webpack_require__(247);
             module1.exports = function baseFlatten(array, depth, predicate, isStrict, result) {
                 var index = -1, length = array.length;
-                for(predicate || (predicate = isFlattenable), result || (result = []); ++index < length;){
+                predicate || (predicate = isFlattenable);
+                result || (result = []);
+                for(; ++index < length;){
                     var value = array[index];
                     depth > 0 && predicate(value) ? depth > 1 ? baseFlatten(value, depth - 1, predicate, isStrict, result) : arrayPush(result, value) : isStrict || (result[result.length] = value);
                 }
@@ -3064,32 +3622,43 @@
         function(module1, exports1) {
             module1.exports = function(fn) {
                 return -1 !== Function.toString.call(fn).indexOf("[native code]");
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1, __webpack_require__) {
             var setPrototypeOf = __webpack_require__(41), isNativeReflectConstruct = __webpack_require__(250);
             function _construct(Parent, args, Class) {
-                return isNativeReflectConstruct() ? (module1.exports = _construct = Reflect.construct, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _construct = function(Parent, args, Class) {
-                    var a = [
-                        null
-                    ];
-                    a.push.apply(a, args);
-                    var instance = new (Function.bind.apply(Parent, a))();
-                    return Class && setPrototypeOf(instance, Class.prototype), instance;
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _construct.apply(null, arguments);
+                if (isNativeReflectConstruct()) {
+                    module1.exports = _construct = Reflect.construct;
+                    module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+                } else {
+                    module1.exports = _construct = function(Parent, args, Class) {
+                        var a = [
+                            null
+                        ];
+                        a.push.apply(a, args);
+                        var instance = new (Function.bind.apply(Parent, a))();
+                        return Class && setPrototypeOf(instance, Class.prototype), instance;
+                    };
+                    module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+                }
+                return _construct.apply(null, arguments);
             }
-            module1.exports = _construct, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            module1.exports = _construct;
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function() {
                 if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                 if ("function" == typeof Proxy) return !0;
                 try {
-                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                    return !0;
                 } catch (e) {
                     return !1;
                 }
-            }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
+            };
+            module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
         function(module1, exports1) {
             module1.exports = function(a) {
@@ -3100,8 +3669,14 @@
             module1.exports = function(out, a) {
                 if (out === a) {
                     var a1 = a[1];
-                    out[1] = a[2], out[2] = a1;
-                } else out[0] = a[0], out[1] = a[2], out[2] = a[1], out[3] = a[3];
+                    out[1] = a[2];
+                    out[2] = a1;
+                } else {
+                    out[0] = a[0];
+                    out[1] = a[2];
+                    out[2] = a[1];
+                    out[3] = a[3];
+                }
                 return out;
             };
         },
@@ -3167,49 +3742,70 @@
         },
         function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "BarcodeDecoder", function() {
+            __webpack_require__.r(__webpack_exports__);
+            __webpack_require__.d(__webpack_exports__, "BarcodeDecoder", function() {
                 return barcode_decoder;
-            }), __webpack_require__.d(__webpack_exports__, "Readers", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "Readers", function() {
                 return reader_namespaceObject;
-            }), __webpack_require__.d(__webpack_exports__, "CameraAccess", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "CameraAccess", function() {
                 return camera_access;
-            }), __webpack_require__.d(__webpack_exports__, "ImageDebug", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "ImageDebug", function() {
                 return image_debug.a;
-            }), __webpack_require__.d(__webpack_exports__, "ImageWrapper", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "ImageWrapper", function() {
                 return image_wrapper.a;
-            }), __webpack_require__.d(__webpack_exports__, "ResultCollector", function() {
+            });
+            __webpack_require__.d(__webpack_exports__, "ResultCollector", function() {
                 return result_collector;
             });
             var BarcodeDirection, streamRef, reader_namespaceObject = {};
-            __webpack_require__.r(reader_namespaceObject), __webpack_require__.d(reader_namespaceObject, "BarcodeReader", function() {
+            __webpack_require__.r(reader_namespaceObject);
+            __webpack_require__.d(reader_namespaceObject, "BarcodeReader", function() {
                 return barcode_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "TwoOfFiveReader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "TwoOfFiveReader", function() {
                 return _2of5_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "NewCodabarReader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "NewCodabarReader", function() {
                 return codabar_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "Code128Reader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "Code128Reader", function() {
                 return code_128_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "Code32Reader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "Code32Reader", function() {
                 return code_32_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "Code39Reader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "Code39Reader", function() {
                 return code_39_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "Code39VINReader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "Code39VINReader", function() {
                 return code_39_vin_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "Code93Reader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "Code93Reader", function() {
                 return code_93_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "EAN2Reader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "EAN2Reader", function() {
                 return ean_2_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "EAN5Reader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "EAN5Reader", function() {
                 return ean_5_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "EAN8Reader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "EAN8Reader", function() {
                 return ean_8_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "EANReader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "EANReader", function() {
                 return ean_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "I2of5Reader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "I2of5Reader", function() {
                 return i2of5_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "UPCEReader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "UPCEReader", function() {
                 return upc_e_reader;
-            }), __webpack_require__.d(reader_namespaceObject, "UPCReader", function() {
+            });
+            __webpack_require__.d(reader_namespaceObject, "UPCReader", function() {
                 return upc_reader;
             });
             var helpers_typeof = __webpack_require__(19), typeof_default = __webpack_require__.n(helpers_typeof), merge = __webpack_require__(16), merge_default = __webpack_require__.n(merge);
@@ -3223,45 +3819,93 @@
             Bresenham.getBarcodeLine = function(imageWrapper, p1, p2) {
                 var error, y, tmp, x, val, x0 = 0 | p1.x, y0 = 0 | p1.y, x1 = 0 | p2.x, y1 = 0 | p2.y, steep = Math.abs(y1 - y0) > Math.abs(x1 - x0), line = [], imageData = imageWrapper.data, width = imageWrapper.size.x, min = 255, max = 0;
                 function read(a, b) {
-                    min = (val = imageData[b * width + a]) < min ? val : min, max = val > max ? val : max, line.push(val);
+                    min = (val = imageData[b * width + a]) < min ? val : min;
+                    max = val > max ? val : max;
+                    line.push(val);
                 }
-                steep && (tmp = x0, x0 = y0, y0 = tmp, tmp = x1, x1 = y1, y1 = tmp), x0 > x1 && (tmp = x0, x0 = x1, x1 = tmp, tmp = y0, y0 = y1, y1 = tmp);
+                if (steep) {
+                    tmp = x0;
+                    x0 = y0;
+                    y0 = tmp;
+                    tmp = x1;
+                    x1 = y1;
+                    y1 = tmp;
+                }
+                if (x0 > x1) {
+                    tmp = x0;
+                    x0 = x1;
+                    x1 = tmp;
+                    tmp = y0;
+                    y0 = y1;
+                    y1 = tmp;
+                }
                 var deltaX = x1 - x0, deltaY = Math.abs(y1 - y0);
-                error = deltaX / 2 | 0, y = y0;
+                error = deltaX / 2 | 0;
+                y = y0;
                 var yStep = y0 < y1 ? 1 : -1;
-                for(x = x0; x < x1; x++)steep ? read(y, x) : read(x, y), (error -= deltaY) < 0 && (y += yStep, error += deltaX);
+                for(x = x0; x < x1; x++){
+                    steep ? read(y, x) : read(x, y);
+                    if ((error -= deltaY) < 0) {
+                        y += yStep;
+                        error += deltaX;
+                    }
+                }
                 return {
                     line: line,
                     min: min,
                     max: max
                 };
-            }, Bresenham.toBinaryLine = function(result) {
+            };
+            Bresenham.toBinaryLine = function(result) {
                 var slope, slope2, currentDir, dir, i, j, min = result.min, max = result.max, line = result.line, center = min + (max - min) / 2, extrema = [], threshold = (max - min) / 12, rThreshold = -threshold;
-                for(currentDir = line[0] > center ? Slope.DIR.UP : Slope.DIR.DOWN, extrema.push({
+                currentDir = line[0] > center ? Slope.DIR.UP : Slope.DIR.DOWN;
+                extrema.push({
                     pos: 0,
                     val: line[0]
-                }), i = 0; i < line.length - 2; i++)dir = (slope = line[i + 1] - line[i]) + (slope2 = line[i + 2] - line[i + 1]) < rThreshold && line[i + 1] < 1.5 * center ? Slope.DIR.DOWN : slope + slope2 > threshold && line[i + 1] > 0.5 * center ? Slope.DIR.UP : currentDir, currentDir !== dir && (extrema.push({
-                    pos: i,
-                    val: line[i]
-                }), currentDir = dir);
-                for(extrema.push({
+                });
+                for(i = 0; i < line.length - 2; i++){
+                    dir = (slope = line[i + 1] - line[i]) + (slope2 = line[i + 2] - line[i + 1]) < rThreshold && line[i + 1] < 1.5 * center ? Slope.DIR.DOWN : slope + slope2 > threshold && line[i + 1] > 0.5 * center ? Slope.DIR.UP : currentDir;
+                    if (currentDir !== dir) {
+                        extrema.push({
+                            pos: i,
+                            val: line[i]
+                        });
+                        currentDir = dir;
+                    }
+                }
+                extrema.push({
                     pos: line.length,
                     val: line[line.length - 1]
-                }), j = extrema[0].pos; j < extrema[1].pos; j++)line[j] = line[j] > center ? 0 : 1;
-                for(i = 1; i < extrema.length - 1; i++)for(threshold = extrema[i + 1].val > extrema[i].val ? extrema[i].val + (extrema[i + 1].val - extrema[i].val) / 3 * 2 | 0 : extrema[i + 1].val + (extrema[i].val - extrema[i + 1].val) / 3 | 0, j = extrema[i].pos; j < extrema[i + 1].pos; j++)line[j] = line[j] > threshold ? 0 : 1;
+                });
+                for(j = extrema[0].pos; j < extrema[1].pos; j++)line[j] = line[j] > center ? 0 : 1;
+                for(i = 1; i < extrema.length - 1; i++){
+                    threshold = extrema[i + 1].val > extrema[i].val ? extrema[i].val + (extrema[i + 1].val - extrema[i].val) / 3 * 2 | 0 : extrema[i + 1].val + (extrema[i].val - extrema[i + 1].val) / 3 | 0;
+                    for(j = extrema[i].pos; j < extrema[i + 1].pos; j++)line[j] = line[j] > threshold ? 0 : 1;
+                }
                 return {
                     line: line,
                     threshold: threshold
                 };
-            }, Bresenham.debug = {
+            };
+            Bresenham.debug = {
                 printFrequency: function(line, canvas) {
                     var i, ctx = canvas.getContext("2d");
-                    for(canvas.width = line.length, canvas.height = 256, ctx.beginPath(), ctx.strokeStyle = "blue", i = 0; i < line.length; i++)ctx.moveTo(i, 255), ctx.lineTo(i, 255 - line[i]);
-                    ctx.stroke(), ctx.closePath();
+                    canvas.width = line.length;
+                    canvas.height = 256;
+                    ctx.beginPath();
+                    ctx.strokeStyle = "blue";
+                    for(i = 0; i < line.length; i++){
+                        ctx.moveTo(i, 255);
+                        ctx.lineTo(i, 255 - line[i]);
+                    }
+                    ctx.stroke();
+                    ctx.closePath();
                 },
                 printPattern: function(line, canvas) {
                     var i, ctx = canvas.getContext("2d");
-                    for(i = 0, canvas.width = line.length, ctx.fillColor = "black"; i < line.length; i++)1 === line[i] && ctx.fillRect(i, 0, 1, 100);
+                    canvas.width = line.length;
+                    ctx.fillColor = "black";
+                    for(i = 0; i < line.length; i++)1 === line[i] && ctx.fillRect(i, 0, 1, 100);
                 }
             };
             var BarcodeDirection1, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
@@ -3283,7 +3927,10 @@
                         value: function(counter, code, maxSingleError) {
                             var error = 0, singleError = 0, sum = 0, modulo = 0, barWidth = 0, scaled = 0;
                             maxSingleError = maxSingleError || this.SINGLE_CODE_ERROR || 1;
-                            for(var i = 0; i < counter.length; i++)sum += counter[i], modulo += code[i];
+                            for(var i = 0; i < counter.length; i++){
+                                sum += counter[i];
+                                modulo += code[i];
+                            }
                             if (sum < modulo) return Number.MAX_VALUE;
                             maxSingleError *= barWidth = sum / modulo;
                             for(var _i = 0; _i < counter.length; _i++){
@@ -3311,14 +3958,23 @@
                         value: function(pattern) {
                             this._row = pattern;
                             var result = this.decode();
-                            return null === result ? (this._row.reverse(), (result = this.decode()) && (result.direction = BarcodeDirection.Reverse, result.start = this._row.length - result.start, result.end = this._row.length - result.end)) : result.direction = BarcodeDirection.Forward, result && (result.format = this.FORMAT), result;
+                            if (null === result) {
+                                this._row.reverse();
+                                if (result = this.decode()) {
+                                    result.direction = BarcodeDirection.Reverse;
+                                    result.start = this._row.length - result.start;
+                                    result.end = this._row.length - result.end;
+                                }
+                            } else result.direction = BarcodeDirection.Forward;
+                            return result && (result.format = this.FORMAT), result;
                         }
                     },
                     {
                         key: "_matchRange",
                         value: function(start, end, value) {
                             var i;
-                            for(i = start = start < 0 ? 0 : start; i < end; i++)if (this._row[i] !== value) return !1;
+                            start = start < 0 ? 0 : start;
+                            for(i = start; i < end; i++)if (this._row[i] !== value) return !1;
                             return !0;
                         }
                     },
@@ -3327,7 +3983,11 @@
                         value: function() {
                             var offset = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this._nextUnset(this._row), end = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : this._row.length, isWhite = !(arguments.length > 2) || void 0 === arguments[2] || arguments[2], counters = [], counterPos = 0;
                             counters[counterPos] = 0;
-                            for(var i = offset; i < end; i++)this._row[i] ^ (isWhite ? 1 : 0) ? counters[counterPos]++ : (counters[++counterPos] = 1, isWhite = !isWhite);
+                            for(var i = offset; i < end; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counters[counterPos]++;
+                            else {
+                                counters[++counterPos] = 1;
+                                isWhite = !isWhite;
+                            }
                             return counters;
                         }
                     },
@@ -3339,7 +3999,8 @@
                             for(var i = start; i < end; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counters[counterPos]++;
                             else {
                                 if (++counterPos === numCounters) break;
-                                counters[counterPos] = 1, isWhite = !isWhite;
+                                counters[counterPos] = 1;
+                                isWhite = !isWhite;
                             }
                             return counters;
                         }
@@ -3362,7 +4023,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -4277,12 +4939,21 @@
                                     correction && this._correct(counter, correction);
                                     for(var code = 0; code < this.CODE_PATTERN.length; code++){
                                         var error = this._matchPattern(counter, this.CODE_PATTERN[code]);
-                                        error < bestMatch.error && (bestMatch.code = code, bestMatch.error = error);
+                                        if (error < bestMatch.error) {
+                                            bestMatch.code = code;
+                                            bestMatch.error = error;
+                                        }
                                     }
-                                    if (bestMatch.end = i, -1 === bestMatch.code || bestMatch.error > this.AVG_CODE_ERROR) return null;
-                                    return this.CODE_PATTERN[bestMatch.code] && (bestMatch.correction.bar = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.bar), bestMatch.correction.space = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.space)), bestMatch;
+                                    bestMatch.end = i;
+                                    if (-1 === bestMatch.code || bestMatch.error > this.AVG_CODE_ERROR) return null;
+                                    if (this.CODE_PATTERN[bestMatch.code]) {
+                                        bestMatch.correction.bar = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.bar);
+                                        bestMatch.correction.space = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.space);
+                                    }
+                                    return bestMatch;
                                 }
-                                counter[++counterPos] = 1, isWhite = !isWhite;
+                                counter[++counterPos] = 1;
+                                isWhite = !isWhite;
                             }
                             return null;
                         }
@@ -4290,7 +4961,8 @@
                     {
                         key: "_correct",
                         value: function(counter, correction) {
-                            this._correctBars(counter, correction.bar, this.MODULE_INDICES.bar), this._correctBars(counter, correction.space, this.MODULE_INDICES.space);
+                            this._correctBars(counter, correction.bar, this.MODULE_INDICES.bar);
+                            this._correctBars(counter, correction.space, this.MODULE_INDICES.space);
                         }
                     },
                     {
@@ -4319,13 +4991,25 @@
                                         return prev + next;
                                     }, 0), code = this.START_CODE_A; code <= this.START_CODE_C; code++){
                                         var error = this._matchPattern(counter, this.CODE_PATTERN[code]);
-                                        error < bestMatch.error && (bestMatch.code = code, bestMatch.error = error);
+                                        if (error < bestMatch.error) {
+                                            bestMatch.code = code;
+                                            bestMatch.error = error;
+                                        }
                                     }
-                                    if (bestMatch.error < this.AVG_CODE_ERROR) return bestMatch.start = i - sum, bestMatch.end = i, bestMatch.correction.bar = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.bar), bestMatch.correction.space = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.space), bestMatch;
+                                    if (bestMatch.error < this.AVG_CODE_ERROR) {
+                                        bestMatch.start = i - sum;
+                                        bestMatch.end = i;
+                                        bestMatch.correction.bar = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.bar);
+                                        bestMatch.correction.space = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.space);
+                                        return bestMatch;
+                                    }
                                     for(var j = 0; j < 4; j++)counter[j] = counter[j + 2];
-                                    counter[4] = 0, counter[5] = 0, counterPos--;
+                                    counter[4] = 0;
+                                    counter[5] = 0;
+                                    counterPos--;
                                 } else counterPos++;
-                                counter[counterPos] = 1, isWhite = !isWhite;
+                                counter[counterPos] = 1;
+                                isWhite = !isWhite;
                             }
                             return null;
                         }
@@ -4357,54 +5041,74 @@
                                         return null;
                                 }
                             }(code.code), done = !1, shiftNext = !1, unshift = shiftNext, removeLastCharacter = !0, multiplier = 0, rawResult = [], result = []; !done;){
-                                if (unshift = shiftNext, shiftNext = !1, null !== (code = this._decodeCode(code.end, code.correction))) switch(code.code !== this.STOP_CODE && (removeLastCharacter = !0), code.code !== this.STOP_CODE && (rawResult.push(code.code), checksum += ++multiplier * code.code), decodedCodes.push(code), codeset){
-                                    case this.CODE_A:
-                                        if (code.code < 64) result.push(String.fromCharCode(32 + code.code));
-                                        else if (code.code < 96) result.push(String.fromCharCode(code.code - 64));
-                                        else switch(code.code !== this.STOP_CODE && (removeLastCharacter = !1), code.code){
-                                            case this.CODE_SHIFT:
-                                                shiftNext = !0, codeset = this.CODE_B;
-                                                break;
-                                            case this.CODE_B:
-                                                codeset = this.CODE_B;
-                                                break;
-                                            case this.CODE_C:
-                                                codeset = this.CODE_C;
-                                                break;
-                                            case this.STOP_CODE:
-                                                done = !0;
-                                        }
-                                        break;
-                                    case this.CODE_B:
-                                        if (code.code < 96) result.push(String.fromCharCode(32 + code.code));
-                                        else switch(code.code !== this.STOP_CODE && (removeLastCharacter = !1), code.code){
-                                            case this.CODE_SHIFT:
-                                                shiftNext = !0, codeset = this.CODE_A;
-                                                break;
-                                            case this.CODE_A:
-                                                codeset = this.CODE_A;
-                                                break;
-                                            case this.CODE_C:
-                                                codeset = this.CODE_C;
-                                                break;
-                                            case this.STOP_CODE:
-                                                done = !0;
-                                        }
-                                        break;
-                                    case this.CODE_C:
-                                        if (code.code < 100) result.push(code.code < 10 ? "0" + code.code : code.code);
-                                        else switch(code.code !== this.STOP_CODE && (removeLastCharacter = !1), code.code){
-                                            case this.CODE_A:
-                                                codeset = this.CODE_A;
-                                                break;
-                                            case this.CODE_B:
-                                                codeset = this.CODE_B;
-                                                break;
-                                            case this.STOP_CODE:
-                                                done = !0;
-                                        }
-                                }
-                                else done = !0;
+                                unshift = shiftNext;
+                                shiftNext = !1;
+                                if (null !== (code = this._decodeCode(code.end, code.correction))) {
+                                    code.code !== this.STOP_CODE && (removeLastCharacter = !0);
+                                    if (code.code !== this.STOP_CODE) {
+                                        rawResult.push(code.code);
+                                        checksum += ++multiplier * code.code;
+                                    }
+                                    decodedCodes.push(code);
+                                    switch(codeset){
+                                        case this.CODE_A:
+                                            if (code.code < 64) result.push(String.fromCharCode(32 + code.code));
+                                            else if (code.code < 96) result.push(String.fromCharCode(code.code - 64));
+                                            else {
+                                                code.code !== this.STOP_CODE && (removeLastCharacter = !1);
+                                                switch(code.code){
+                                                    case this.CODE_SHIFT:
+                                                        shiftNext = !0;
+                                                        codeset = this.CODE_B;
+                                                        break;
+                                                    case this.CODE_B:
+                                                        codeset = this.CODE_B;
+                                                        break;
+                                                    case this.CODE_C:
+                                                        codeset = this.CODE_C;
+                                                        break;
+                                                    case this.STOP_CODE:
+                                                        done = !0;
+                                                }
+                                            }
+                                            break;
+                                        case this.CODE_B:
+                                            if (code.code < 96) result.push(String.fromCharCode(32 + code.code));
+                                            else {
+                                                code.code !== this.STOP_CODE && (removeLastCharacter = !1);
+                                                switch(code.code){
+                                                    case this.CODE_SHIFT:
+                                                        shiftNext = !0;
+                                                        codeset = this.CODE_A;
+                                                        break;
+                                                    case this.CODE_A:
+                                                        codeset = this.CODE_A;
+                                                        break;
+                                                    case this.CODE_C:
+                                                        codeset = this.CODE_C;
+                                                        break;
+                                                    case this.STOP_CODE:
+                                                        done = !0;
+                                                }
+                                            }
+                                            break;
+                                        case this.CODE_C:
+                                            if (code.code < 100) result.push(code.code < 10 ? "0" + code.code : code.code);
+                                            else {
+                                                code.code !== this.STOP_CODE && (removeLastCharacter = !1);
+                                                switch(code.code){
+                                                    case this.CODE_A:
+                                                        codeset = this.CODE_A;
+                                                        break;
+                                                    case this.CODE_B:
+                                                        codeset = this.CODE_B;
+                                                        break;
+                                                    case this.STOP_CODE:
+                                                        done = !0;
+                                                }
+                                            }
+                                    }
+                                } else done = !0;
                                 unshift && (codeset = codeset === this.CODE_A ? this.CODE_B : this.CODE_A);
                             }
                             return null === code ? null : (code.end = this._nextUnset(this._row, code.end), this._verifyTrailingWhitespace(code) && (checksum -= multiplier * rawResult[rawResult.length - 1]) % 103 === rawResult[rawResult.length - 1] && result.length) ? (removeLastCharacter && result.splice(result.length - 1, 1), {
@@ -4429,7 +5133,10 @@
                     {
                         key: "calculateCorrection",
                         value: function(expected, normalized, indices) {
-                            for(var length = indices.length, sumNormalized = 0, sumExpected = 0; length--;)sumExpected += expected[indices[length]], sumNormalized += normalized[indices[length]];
+                            for(var length = indices.length, sumNormalized = 0, sumExpected = 0; length--;){
+                                sumExpected += expected[indices[length]];
+                                sumNormalized += normalized[indices[length]];
+                            }
                             return sumExpected / sumNormalized;
                         }
                     }
@@ -4441,7 +5148,8 @@
                     var symbols = Object.getOwnPropertySymbols(object);
                     enumerableOnly && (symbols = symbols.filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-                    })), keys.push.apply(keys, symbols);
+                    }));
+                    keys.push.apply(keys, symbols);
                 }
                 return keys;
             }
@@ -4608,7 +5316,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -4644,15 +5353,24 @@
                             else {
                                 if (counterPos === counter.length - 1) {
                                     var error = this._matchPattern(counter, pattern);
-                                    if (error < 0.48 && bestMatch.error && error < bestMatch.error) return found = !0, bestMatch.error = error, bestMatch.start = i - counter.reduce(function(sum, value) {
-                                        return sum + value;
-                                    }, 0), bestMatch.end = i, bestMatch;
+                                    if (error < 0.48 && bestMatch.error && error < bestMatch.error) {
+                                        found = !0;
+                                        bestMatch.error = error;
+                                        bestMatch.start = i - counter.reduce(function(sum, value) {
+                                            return sum + value;
+                                        }, 0);
+                                        bestMatch.end = i;
+                                        return bestMatch;
+                                    }
                                     if (tryHarder) {
                                         for(var j = 0; j < counter.length - 2; j++)counter[j] = counter[j + 2];
-                                        counter[counter.length - 2] = 0, counter[counter.length - 1] = 0, counterPos--;
+                                        counter[counter.length - 2] = 0;
+                                        counter[counter.length - 1] = 0;
+                                        counterPos--;
                                     }
                                 } else counterPos++;
-                                counter[counterPos] = 1, isWhite = !isWhite;
+                                counter[counterPos] = 1;
+                                isWhite = !isWhite;
                             }
                             return found ? bestMatch : null;
                         }
@@ -4677,12 +5395,17 @@
                                 if (counterPos === counter.length - 1) {
                                     for(var code = 0; code < coderange; code++){
                                         var error = this._matchPattern(counter, CODE_PATTERN[code]);
-                                        bestMatch.end = i, error < bestMatch.error && (bestMatch.code = code, bestMatch.error = error);
+                                        bestMatch.end = i;
+                                        if (error < bestMatch.error) {
+                                            bestMatch.code = code;
+                                            bestMatch.error = error;
+                                        }
                                     }
                                     if (bestMatch.error > 0.48) return null;
                                     return bestMatch;
                                 }
-                                counter[++counterPos] = 1, isWhite = !isWhite;
+                                counter[++counterPos] = 1;
+                                isWhite = !isWhite;
                             }
                             return null;
                         }
@@ -4693,7 +5416,8 @@
                             for(var offset = this._nextSet(this._row), startInfo = null; !startInfo && (startInfo = this._findPattern(START_PATTERN, offset, !1, !0));){
                                 var leadingWhitespaceStart = startInfo.start - (startInfo.end - startInfo.start);
                                 if (leadingWhitespaceStart >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
-                                offset = startInfo.end, startInfo = null;
+                                offset = startInfo.end;
+                                startInfo = null;
                             }
                             return null;
                         }
@@ -4710,7 +5434,12 @@
                         value: function(inCode, result, decodedCodes) {
                             for(var outCode = _objectSpread({}, inCode), codeFrequency = 0x0, i = 0; i < 6; i++){
                                 if (!(outCode = this._decodeCode(outCode.end))) return null;
-                                outCode.code >= 10 ? (outCode.code -= 10, codeFrequency |= 1 << 5 - i) : codeFrequency |= 0 << 5 - i, result.push(outCode.code), decodedCodes.push(outCode);
+                                if (outCode.code >= 10) {
+                                    outCode.code -= 10;
+                                    codeFrequency |= 1 << 5 - i;
+                                } else codeFrequency |= 0 << 5 - i;
+                                result.push(outCode.code);
+                                decodedCodes.push(outCode);
                             }
                             var firstDigit = this._calculateFirstDigit(codeFrequency);
                             if (null === firstDigit) return null;
@@ -4720,7 +5449,8 @@
                             decodedCodes.push(middlePattern);
                             for(var _i = 0; _i < 6; _i++){
                                 if (!(middlePattern = this._decodeCode(middlePattern.end, 10))) return null;
-                                decodedCodes.push(middlePattern), result.push(middlePattern.code);
+                                decodedCodes.push(middlePattern);
+                                result.push(middlePattern.code);
                             }
                             return middlePattern;
                         }
@@ -4778,7 +5508,10 @@
                                 start: startInfo.start,
                                 end: startInfo.end
                             };
-                            if (decodedCodes.push(code), !(code = this._decodePayload(code, result, decodedCodes)) || !(code = this._findEnd(code.end, !1)) || (decodedCodes.push(code), !this._checksum(result))) return null;
+                            decodedCodes.push(code);
+                            if (!(code = this._decodePayload(code, result, decodedCodes)) || !(code = this._findEnd(code.end, !1))) return null;
+                            decodedCodes.push(code);
+                            if (!this._checksum(result)) return null;
                             if (this.supplements.length > 0) {
                                 var supplement = this._decodeExtensions(code.end);
                                 if (!supplement || !supplement.decodedCodes) return null;
@@ -4857,7 +5590,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -4903,9 +5637,12 @@
                                     }
                                     patternStart += counter[0] + counter[1];
                                     for(var j = 0; j < 7; j++)counter[j] = counter[j + 2];
-                                    counter[7] = 0, counter[8] = 0, counterPos--;
+                                    counter[7] = 0;
+                                    counter[8] = 0;
+                                    counterPos--;
                                 } else counterPos++;
-                                counter[counterPos] = 1, isWhite = !isWhite;
+                                counter[counterPos] = 1;
+                                isWhite = !isWhite;
                             }
                             return null;
                         }
@@ -4914,10 +5651,18 @@
                         key: "_toPattern",
                         value: function(counters) {
                             for(var numCounters = counters.length, maxNarrowWidth = 0, numWideBars = numCounters, wideBarWidth = 0; numWideBars > 3;){
-                                maxNarrowWidth = this._findNextWidth(counters, maxNarrowWidth), numWideBars = 0;
-                                for(var pattern = 0, i = 0; i < numCounters; i++)counters[i] > maxNarrowWidth && (pattern |= 1 << numCounters - 1 - i, numWideBars++, wideBarWidth += counters[i]);
+                                maxNarrowWidth = this._findNextWidth(counters, maxNarrowWidth);
+                                numWideBars = 0;
+                                for(var pattern = 0, i = 0; i < numCounters; i++)if (counters[i] > maxNarrowWidth) {
+                                    pattern |= 1 << numCounters - 1 - i;
+                                    numWideBars++;
+                                    wideBarWidth += counters[i];
+                                }
                                 if (3 === numWideBars) {
-                                    for(var _i = 0; _i < numCounters && numWideBars > 0; _i++)if (counters[_i] > maxNarrowWidth && (numWideBars--, 2 * counters[_i] >= wideBarWidth)) return -1;
+                                    for(var _i = 0; _i < numCounters && numWideBars > 0; _i++)if (counters[_i] > maxNarrowWidth) {
+                                        numWideBars--;
+                                        if (2 * counters[_i] >= wideBarWidth) return -1;
+                                    }
                                     return pattern;
                                 }
                             }
@@ -4965,7 +5710,10 @@
                                 counters = this._toCounters(nextStart, counters);
                                 var pattern = this._toPattern(counters);
                                 if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
-                                result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
+                                result.push(decodedChar);
+                                lastStart = nextStart;
+                                nextStart += array_helper.a.sum(counters);
+                                nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyTrailingWhitespace(lastStart, nextStart, counters)) ? {
                                 code: result.join(""),
@@ -4987,7 +5735,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -5077,7 +5826,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -5101,7 +5851,10 @@
                     {
                         key: "_computeAlternatingThreshold",
                         value: function(offset, end) {
-                            for(var min = Number.MAX_VALUE, max = 0, counter = 0, i = offset; i < end; i += 2)(counter = this._counters[i]) > max && (max = counter), counter < min && (min = counter);
+                            for(var min = Number.MAX_VALUE, max = 0, counter = 0, i = offset; i < end; i += 2){
+                                (counter = this._counters[i]) > max && (max = counter);
+                                counter < min && (min = counter);
+                            }
                             return (min + max) / 2.0 | 0;
                         }
                     },
@@ -5110,7 +5863,11 @@
                         value: function(offset) {
                             var end = offset + 7;
                             if (end > this._counters.length) return -1;
-                            for(var barThreshold = this._computeAlternatingThreshold(offset, end), spaceThreshold = this._computeAlternatingThreshold(offset + 1, end), bitmask = 64, threshold = 0, pattern = 0, i = 0; i < 7; i++)threshold = (1 & i) == 0 ? barThreshold : spaceThreshold, this._counters[offset + i] > threshold && (pattern |= bitmask), bitmask >>= 1;
+                            for(var barThreshold = this._computeAlternatingThreshold(offset, end), spaceThreshold = this._computeAlternatingThreshold(offset + 1, end), bitmask = 64, threshold = 0, pattern = 0, i = 0; i < 7; i++){
+                                threshold = (1 & i) == 0 ? barThreshold : spaceThreshold;
+                                this._counters[offset + i] > threshold && (pattern |= bitmask);
+                                bitmask >>= 1;
+                            }
                             return pattern;
                         }
                     },
@@ -5133,12 +5890,16 @@
                         value: function() {
                             for(var start = this._nextUnset(this._row), end = start, i = 1; i < this._counters.length; i++){
                                 var pattern = this._toPattern(i);
-                                if (-1 !== pattern && this._isStartEnd(pattern)) return start += this._sumCounters(0, i), end = start + this._sumCounters(i, i + 8), {
-                                    start: start,
-                                    end: end,
-                                    startCounter: i,
-                                    endCounter: i + 8
-                                };
+                                if (-1 !== pattern && this._isStartEnd(pattern)) {
+                                    start += this._sumCounters(0, i);
+                                    end = start + this._sumCounters(i, i + 8);
+                                    return {
+                                        start: start,
+                                        end: end,
+                                        startCounter: i,
+                                        endCounter: i + 8
+                                    };
+                                }
                             }
                             return null;
                         }
@@ -5206,7 +5967,9 @@
                                 pattern = this._charToPattern(result[i]);
                                 for(var j = 6; j >= 0; j--){
                                     var kind = (1 & j) == 2 ? categorization.bar : categorization.space, cat = (1 & pattern) == 1 ? kind.wide : kind.narrow;
-                                    cat.size += this._counters[pos + j], cat.counts++, pattern >>= 1;
+                                    cat.size += this._counters[pos + j];
+                                    cat.counts++;
+                                    pattern >>= 1;
                                 }
                                 pos += 8;
                             }
@@ -5215,7 +5978,9 @@
                                 "bar"
                             ].forEach(function(key) {
                                 var newkind = categorization[key];
-                                newkind.wide.min = Math.floor((newkind.narrow.size / newkind.narrow.counts + newkind.wide.size / newkind.wide.counts) / 2), newkind.narrow.max = Math.ceil(newkind.wide.min), newkind.wide.max = Math.ceil((2.0 * newkind.wide.size + 1.5) / newkind.wide.counts);
+                                newkind.wide.min = Math.floor((newkind.narrow.size / newkind.narrow.counts + newkind.wide.size / newkind.wide.counts) / 2);
+                                newkind.narrow.max = Math.ceil(newkind.wide.min);
+                                newkind.wide.max = Math.ceil((2.0 * newkind.wide.size + 1.5) / newkind.wide.counts);
                             }), categorization;
                         }
                     },
@@ -5237,13 +6002,16 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            if (this._counters = this._fillCounters(), !(start = this._findStart())) return null;
+                            this._counters = this._fillCounters();
+                            if (!(start = this._findStart())) return null;
                             var pattern, nextStart = start.startCounter, result = [];
                             do {
                                 if ((pattern = this._toPattern(nextStart)) < 0) return null;
                                 var decodedChar = this._patternToChar(pattern);
                                 if (null === decodedChar) return null;
-                                if (result.push(decodedChar), nextStart += 8, result.length > 1 && this._isStartEnd(pattern)) break;
+                                result.push(decodedChar);
+                                nextStart += 8;
+                                if (result.length > 1 && this._isStartEnd(pattern)) break;
                             }while (nextStart < this._counters.length)
                             if (result.length - 2 < 4 || !this._isStartEnd(pattern) || !this._verifyWhitespace(start.startCounter, nextStart - 8) || !this._validateResult(result, start.startCounter)) return null;
                             nextStart = nextStart > this._counters.length ? this._counters.length : nextStart;
@@ -5265,7 +6033,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -5300,7 +6069,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -5326,13 +6096,15 @@
                         value: function(inCode, result, decodedCodes) {
                             for(var code = inCode, i = 0; i < 4; i++){
                                 if (!(code = this._decodeCode(code.end, 10))) return null;
-                                result.push(code.code), decodedCodes.push(code);
+                                result.push(code.code);
+                                decodedCodes.push(code);
                             }
                             if (null === (code = this._findPattern(MIDDLE_PATTERN, code.end, !0, !1))) return null;
                             decodedCodes.push(code);
                             for(var _i = 0; _i < 4; _i++){
                                 if (!(code = this._decodeCode(code.end, 10))) return null;
-                                decodedCodes.push(code), result.push(code.code);
+                                decodedCodes.push(code);
+                                result.push(code.code);
                             }
                             return code;
                         }
@@ -5344,7 +6116,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -5373,7 +6146,13 @@
                             if (void 0 === offset) return null;
                             for(var i = 0; i < 2 && offset < end; i++){
                                 if (!(code = this._decodeCode(offset))) return null;
-                                decodedCodes.push(code), result.push(code.code % 10), code.code >= 10 && (codeFrequency |= 1 << 1 - i), 1 !== i && (offset = this._nextSet(this._row, code.end), offset = this._nextUnset(this._row, offset));
+                                decodedCodes.push(code);
+                                result.push(code.code % 10);
+                                code.code >= 10 && (codeFrequency |= 1 << 1 - i);
+                                if (1 !== i) {
+                                    offset = this._nextSet(this._row, code.end);
+                                    offset = this._nextUnset(this._row, offset);
+                                }
                             }
                             if (2 !== result.length || parseInt(result.join("")) % 4 !== codeFrequency) return null;
                             var startInfo = this._findStart();
@@ -5405,7 +6184,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -5433,7 +6213,13 @@
                             row && (this._row = row);
                             for(var codeFrequency = 0, offset = start, end = this._row.length, code = null, result = [], decodedCodes = [], i = 0; i < 5 && offset < end; i++){
                                 if (!(code = this._decodeCode(offset))) return null;
-                                decodedCodes.push(code), result.push(code.code % 10), code.code >= 10 && (codeFrequency |= 1 << 4 - i), 4 !== i && (offset = this._nextSet(this._row, code.end), offset = this._nextUnset(this._row, offset));
+                                decodedCodes.push(code);
+                                result.push(code.code % 10);
+                                code.code >= 10 && (codeFrequency |= 1 << 4 - i);
+                                if (4 !== i) {
+                                    offset = this._nextSet(this._row, code.end);
+                                    offset = this._nextUnset(this._row, offset);
+                                }
                             }
                             if (5 !== result.length || function(result) {
                                 for(var length = result.length, sum = 0, i = length - 2; i >= 0; i -= 2)sum += result[i];
@@ -5463,7 +6249,8 @@
                     var symbols = Object.getOwnPropertySymbols(object);
                     enumerableOnly && (symbols = symbols.filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-                    })), keys.push.apply(keys, symbols);
+                    }));
+                    keys.push.apply(keys, symbols);
                 }
                 return keys;
             }
@@ -5473,7 +6260,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -5541,7 +6329,12 @@
                                 return target;
                             }({}, inCode), codeFrequency = 0x0, i = 0; i < 6; i++){
                                 if (!(outCode = this._decodeCode(outCode.end))) return null;
-                                outCode.code >= 10 && (outCode.code = outCode.code - 10, codeFrequency |= 1 << 5 - i), result.push(outCode.code), decodedCodes.push(outCode);
+                                if (outCode.code >= 10) {
+                                    outCode.code = outCode.code - 10;
+                                    codeFrequency |= 1 << 5 - i;
+                                }
+                                result.push(outCode.code);
+                                decodedCodes.push(outCode);
                             }
                             return this._determineParity(codeFrequency, result) ? outCode : null;
                         }
@@ -5549,7 +6342,11 @@
                     {
                         key: "_determineParity",
                         value: function(codeFrequency, result) {
-                            for(var nrSystem = 0; nrSystem < this.CODE_FREQUENCY.length; nrSystem++)for(var i = 0; i < this.CODE_FREQUENCY[nrSystem].length; i++)if (codeFrequency === this.CODE_FREQUENCY[nrSystem][i]) return result.unshift(nrSystem), result.push(i), !0;
+                            for(var nrSystem = 0; nrSystem < this.CODE_FREQUENCY.length; nrSystem++)for(var i = 0; i < this.CODE_FREQUENCY[nrSystem].length; i++)if (codeFrequency === this.CODE_FREQUENCY[nrSystem][i]) {
+                                result.unshift(nrSystem);
+                                result.push(i);
+                                return !0;
+                            }
                             return !1;
                         }
                     },
@@ -5613,7 +6410,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -5627,21 +6425,28 @@
                 });
                 function I2of5Reader(opts) {
                     var _this;
-                    return classCallCheck_default()(this, I2of5Reader), _this = _super.call(this, merge_default()({
+                    classCallCheck_default()(this, I2of5Reader);
+                    _this = _super.call(this, merge_default()({
                         normalizeBarSpaceWidth: !1
-                    }, opts)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
+                    }, opts));
+                    defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
                         1,
                         1
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.38), defineProperty_default()(assertThisInitialized_default()(_this), "START_PATTERN", [
+                    ]);
+                    defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78);
+                    defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.38);
+                    defineProperty_default()(assertThisInitialized_default()(_this), "START_PATTERN", [
                         1,
                         1,
                         1,
                         1
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
+                    ]);
+                    defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
                         1,
                         1,
                         3
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_PATTERN", [
+                    ]);
+                    defineProperty_default()(assertThisInitialized_default()(_this), "CODE_PATTERN", [
                         [
                             1,
                             1,
@@ -5712,7 +6517,14 @@
                             3,
                             1
                         ]
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "MAX_CORRECTION_FACTOR", 5), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "i2of5"), opts.normalizeBarSpaceWidth && (_this.SINGLE_CODE_ERROR = 0.38, _this.AVG_CODE_ERROR = 0.09), _this.config = opts, possibleConstructorReturn_default()(_this, assertThisInitialized_default()(_this));
+                    ]);
+                    defineProperty_default()(assertThisInitialized_default()(_this), "MAX_CORRECTION_FACTOR", 5);
+                    defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "i2of5");
+                    if (opts.normalizeBarSpaceWidth) {
+                        _this.SINGLE_CODE_ERROR = 0.38;
+                        _this.AVG_CODE_ERROR = 0.09;
+                    }
+                    return _this.config = opts, possibleConstructorReturn_default()(_this, assertThisInitialized_default()(_this));
                 }
                 return createClass_default()(I2of5Reader, [
                     {
@@ -5728,8 +6540,15 @@
                                 ], correction = [
                                     0,
                                     0
-                                ], correctionRatio = this.MAX_CORRECTION_FACTOR, correctionRatioInverse = 1 / correctionRatio, i = 0; i < counter.length; i++)counterSum[i % 2] += counter[i], codeSum[i % 2] += code[i];
-                                correction[0] = codeSum[0] / counterSum[0], correction[1] = codeSum[1] / counterSum[1], correction[0] = Math.max(Math.min(correction[0], correctionRatio), correctionRatioInverse), correction[1] = Math.max(Math.min(correction[1], correctionRatio), correctionRatioInverse), this.barSpaceRatio = correction;
+                                ], correctionRatio = this.MAX_CORRECTION_FACTOR, correctionRatioInverse = 1 / correctionRatio, i = 0; i < counter.length; i++){
+                                    counterSum[i % 2] += counter[i];
+                                    codeSum[i % 2] += code[i];
+                                }
+                                correction[0] = codeSum[0] / counterSum[0];
+                                correction[1] = codeSum[1] / counterSum[1];
+                                correction[0] = Math.max(Math.min(correction[0], correctionRatio), correctionRatioInverse);
+                                correction[1] = Math.max(Math.min(correction[1], correctionRatio), correctionRatioInverse);
+                                this.barSpaceRatio = correction;
                                 for(var _i = 0; _i < counter.length; _i++)counter[_i] *= this.barSpaceRatio[_i % 2];
                             }
                             return get_default()(getPrototypeOf_default()(I2of5Reader.prototype), "_matchPattern", this).call(this, counter, code);
@@ -5743,19 +6562,29 @@
                                 start: 0,
                                 end: 0
                             }, epsilon = this.AVG_CODE_ERROR;
-                            isWhite = isWhite || !1, tryHarder = tryHarder || !1, offset || (offset = this._nextSet(this._row));
+                            isWhite = isWhite || !1;
+                            tryHarder = tryHarder || !1;
+                            offset || (offset = this._nextSet(this._row));
                             for(var i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     var sum = counter.reduce(function(prev, next) {
                                         return prev + next;
                                     }, 0), error = this._matchPattern(counter, pattern);
-                                    if (error < epsilon) return bestMatch.error = error, bestMatch.start = i - sum, bestMatch.end = i, bestMatch;
+                                    if (error < epsilon) {
+                                        bestMatch.error = error;
+                                        bestMatch.start = i - sum;
+                                        bestMatch.end = i;
+                                        return bestMatch;
+                                    }
                                     if (!tryHarder) return null;
                                     for(var j = 0; j < counter.length - 2; j++)counter[j] = counter[j + 2];
-                                    counter[counter.length - 2] = 0, counter[counter.length - 1] = 0, counterPos--;
+                                    counter[counter.length - 2] = 0;
+                                    counter[counter.length - 1] = 0;
+                                    counterPos--;
                                 } else counterPos++;
-                                counter[counterPos] = 1, isWhite = !isWhite;
+                                counter[counterPos] = 1;
+                                isWhite = !isWhite;
                             }
                             return null;
                         }
@@ -5764,8 +6593,10 @@
                         key: "_findStart",
                         value: function() {
                             for(var leadingWhitespaceStart = 0, offset = this._nextSet(this._row), startInfo = null, narrowBarWidth = 1; !startInfo && (startInfo = this._findPattern(this.START_PATTERN, offset, !1, !0));){
-                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / 4), (leadingWhitespaceStart = startInfo.start - 10 * narrowBarWidth) >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
-                                offset = startInfo.end, startInfo = null;
+                                narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / 4);
+                                if ((leadingWhitespaceStart = startInfo.start - 10 * narrowBarWidth) >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) return startInfo;
+                                offset = startInfo.end;
+                                startInfo = null;
                             }
                             return null;
                         }
@@ -5782,7 +6613,8 @@
                         value: function() {
                             this._row.reverse();
                             var endInfo = this._findPattern(this.STOP_PATTERN);
-                            if (this._row.reverse(), null === endInfo) return null;
+                            this._row.reverse();
+                            if (null === endInfo) return null;
                             var tmp = endInfo.start;
                             return endInfo.start = this._row.length - endInfo.end, endInfo.end = this._row.length - tmp, null !== endInfo ? this._verifyTrailingWhitespace(endInfo) : null;
                         }
@@ -5808,7 +6640,10 @@
                                 end: 0
                             }, code = 0; code < this.CODE_PATTERN.length; code++){
                                 var error = this._matchPattern(counter, this.CODE_PATTERN[code]);
-                                error < bestMatch.error && (bestMatch.code = code, bestMatch.error = error);
+                                if (error < bestMatch.error) {
+                                    bestMatch.code = code;
+                                    bestMatch.error = error;
+                                }
                             }
                             return bestMatch.error < epsilon ? bestMatch : null;
                         }
@@ -5832,9 +6667,16 @@
                                     0
                                 ]
                             ], codes = null; pos < counterLength;){
-                                for(var i = 0; i < 5; i++)counterPair[0][i] = counters[pos] * this.barSpaceRatio[0], counterPair[1][i] = counters[pos + 1] * this.barSpaceRatio[1], pos += 2;
+                                for(var i = 0; i < 5; i++){
+                                    counterPair[0][i] = counters[pos] * this.barSpaceRatio[0];
+                                    counterPair[1][i] = counters[pos + 1] * this.barSpaceRatio[1];
+                                    pos += 2;
+                                }
                                 if (!(codes = this._decodePair(counterPair))) return null;
-                                for(var _i2 = 0; _i2 < codes.length; _i2++)result.push(codes[_i2].code + ""), decodedCodes.push(codes[_i2]);
+                                for(var _i2 = 0; _i2 < codes.length; _i2++){
+                                    result.push(codes[_i2].code + "");
+                                    decodedCodes.push(codes[_i2]);
+                                }
                             }
                             return codes;
                         }
@@ -5957,7 +6799,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -5997,12 +6840,20 @@
                                 if (counterPos === counter.length - 1) {
                                     sum = 0;
                                     for(var j = 0; j < counter.length; j++)sum += counter[j];
-                                    if ((error = this._matchPattern(counter, pattern)) < epsilon) return bestMatch.error = error, bestMatch.start = _i - sum, bestMatch.end = _i, bestMatch;
+                                    if ((error = this._matchPattern(counter, pattern)) < epsilon) {
+                                        bestMatch.error = error;
+                                        bestMatch.start = _i - sum;
+                                        bestMatch.end = _i;
+                                        return bestMatch;
+                                    }
                                     if (!tryHarder) return null;
                                     for(var _j = 0; _j < counter.length - 2; _j++)counter[_j] = counter[_j + 2];
-                                    counter[counter.length - 2] = 0, counter[counter.length - 1] = 0, counterPos--;
+                                    counter[counter.length - 2] = 0;
+                                    counter[counter.length - 1] = 0;
+                                    counterPos--;
                                 } else counterPos++;
-                                counter[counterPos] = 1, isWhite = !isWhite;
+                                counter[counterPos] = 1;
+                                isWhite = !isWhite;
                             }
                             return null;
                         }
@@ -6012,8 +6863,10 @@
                         value: function() {
                             for(var startInfo = null, offset = this._nextSet(this._row), narrowBarWidth = 1, leadingWhitespaceStart = 0; !startInfo;){
                                 if (!(startInfo = this._findPattern(_2of5_reader_START_PATTERN, offset, !1, !0))) return null;
-                                if (narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / START_PATTERN_LENGTH), (leadingWhitespaceStart = startInfo.start - 5 * narrowBarWidth) >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) break;
-                                offset = startInfo.end, startInfo = null;
+                                narrowBarWidth = Math.floor((startInfo.end - startInfo.start) / START_PATTERN_LENGTH);
+                                if ((leadingWhitespaceStart = startInfo.start - 5 * narrowBarWidth) >= 0 && this._matchRange(leadingWhitespaceStart, startInfo.start, 0)) break;
+                                offset = startInfo.end;
+                                startInfo = null;
                             }
                             return startInfo;
                         }
@@ -6030,7 +6883,8 @@
                         value: function() {
                             this._row.reverse();
                             var offset = this._nextSet(this._row), endInfo = this._findPattern(STOP_PATTERN, offset, !1, !0);
-                            if (this._row.reverse(), null === endInfo) return null;
+                            this._row.reverse();
+                            if (null === endInfo) return null;
                             var tmp = endInfo.start;
                             return endInfo.start = this._row.length - endInfo.end, endInfo.end = this._row.length - tmp, null !== endInfo ? this._verifyTrailingWhitespace(endInfo) : null;
                         }
@@ -6051,7 +6905,10 @@
                                 end: 0
                             }, code = 0; code < _2of5_reader_CODE_PATTERN.length; code++){
                                 var error = this._matchPattern(counter, _2of5_reader_CODE_PATTERN[code]);
-                                error < bestMatch.error && (bestMatch.code = code, bestMatch.error = error);
+                                if (error < bestMatch.error) {
+                                    bestMatch.code = code;
+                                    bestMatch.error = error;
+                                }
                             }
                             return bestMatch.error < epsilon ? bestMatch : null;
                         }
@@ -6066,9 +6923,13 @@
                                 0,
                                 0
                             ], code = null; pos < counterLength;){
-                                for(var i = 0; i < 5; i++)counter[i] = counters[pos] * this.barSpaceRatio[0], pos += 2;
+                                for(var i = 0; i < 5; i++){
+                                    counter[i] = counters[pos] * this.barSpaceRatio[0];
+                                    pos += 2;
+                                }
                                 if (!(code = this._decodeCode(counter))) return null;
-                                result.push("".concat(code.code)), decodedCodes.push(code);
+                                result.push("".concat(code.code));
+                                decodedCodes.push(code);
                             }
                             return code;
                         }
@@ -6153,7 +7014,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -6217,9 +7079,12 @@
                                     }
                                     patternStart += counter[0] + counter[1];
                                     for(var j = 0; j < 4; j++)counter[j] = counter[j + 2];
-                                    counter[4] = 0, counter[5] = 0, counterPos--;
+                                    counter[4] = 0;
+                                    counter[5] = 0;
+                                    counterPos--;
                                 } else counterPos++;
-                                counter[counterPos] = 1, isWhite = !isWhite;
+                                counter[counterPos] = 1;
+                                isWhite = !isWhite;
                             }
                             return null;
                         }
@@ -6265,7 +7130,8 @@
                                             decodedChar = String.fromCharCode(nextCharCode + 32);
                                             break;
                                         default:
-                                            return console.warn("* code_93_reader _decodeExtended hit default case, this may be an error", decodedChar), null;
+                                            console.warn("* code_93_reader _decodeExtended hit default case, this may be an error", decodedChar);
+                                            return null;
                                     }
                                     result.push(decodedChar);
                                 } else result.push(_char2);
@@ -6304,7 +7170,10 @@
                                 counters = this._toCounters(nextStart, counters);
                                 var pattern = this._toPattern(counters);
                                 if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
-                                result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
+                                result.push(decodedChar);
+                                lastStart = nextStart;
+                                nextStart += array_helper.a.sum(counters);
+                                nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyEnd(lastStart, nextStart) && this._verifyChecksums(result)) ? (result = result.slice(0, result.length - 2), null === (result = this._decodeExtended(result))) ? null : {
                                 code: result.join(""),
@@ -6326,7 +7195,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -6368,7 +7238,9 @@
                             var result = get_default()(getPrototypeOf_default()(Code32Reader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            if (!code || (code = code.replace(code_32_reader_patterns.AEIO, ""), !this._checkChecksum(code))) return null;
+                            if (!code) return null;
+                            code = code.replace(code_32_reader_patterns.AEIO, "");
+                            if (!this._checkChecksum(code)) return null;
                             var code32 = this._decodeCode32(code);
                             return code32 ? (result.code = code32, result) : null;
                         }
@@ -6406,19 +7278,63 @@
                             overlay: null
                         }
                     }, _barcodeReaders = [];
+                    !function() {
+                        if ("undefined" != typeof document) {
+                            var $debug = document.querySelector("#debug.detection");
+                            _canvas.dom.frequency = document.querySelector("canvas.frequency");
+                            if (!_canvas.dom.frequency) {
+                                _canvas.dom.frequency = document.createElement("canvas");
+                                _canvas.dom.frequency.className = "frequency";
+                                $debug && $debug.appendChild(_canvas.dom.frequency);
+                            }
+                            _canvas.ctx.frequency = _canvas.dom.frequency.getContext("2d");
+                            _canvas.dom.pattern = document.querySelector("canvas.patternBuffer");
+                            if (!_canvas.dom.pattern) {
+                                _canvas.dom.pattern = document.createElement("canvas");
+                                _canvas.dom.pattern.className = "patternBuffer";
+                                $debug && $debug.appendChild(_canvas.dom.pattern);
+                            }
+                            _canvas.ctx.pattern = _canvas.dom.pattern.getContext("2d");
+                            _canvas.dom.overlay = document.querySelector("canvas.drawingBuffer");
+                            _canvas.dom.overlay && (_canvas.ctx.overlay = _canvas.dom.overlay.getContext("2d"));
+                        }
+                    }();
+                    initReaders();
+                    !function() {
+                        if ("undefined" != typeof document) {
+                            var i, vis = [
+                                {
+                                    node: _canvas.dom.frequency,
+                                    prop: config.debug.showFrequency
+                                },
+                                {
+                                    node: _canvas.dom.pattern,
+                                    prop: config.debug.showPattern
+                                }
+                            ];
+                            for(i = 0; i < vis.length; i++)!0 === vis[i].prop ? vis[i].node.style.display = "block" : vis[i].node.style.display = "none";
+                        }
+                    }();
                     function initReaders() {
                         config.readers.forEach(function(readerConfig) {
                             var reader, configuration = {}, supplements = [];
-                            "object" === typeof_default()(readerConfig) ? (reader = readerConfig.format, configuration = readerConfig.config) : "string" == typeof readerConfig && (reader = readerConfig), console.log("Before registering reader: ", reader), configuration.supplements && (supplements = configuration.supplements.map(function(supplement) {
+                            if ("object" === typeof_default()(readerConfig)) {
+                                reader = readerConfig.format;
+                                configuration = readerConfig.config;
+                            } else "string" == typeof readerConfig && (reader = readerConfig);
+                            console.log("Before registering reader: ", reader);
+                            configuration.supplements && (supplements = configuration.supplements.map(function(supplement) {
                                 return new READERS[supplement]();
                             }));
                             try {
                                 var readerObj = new READERS[reader](configuration, supplements);
                                 _barcodeReaders.push(readerObj);
                             } catch (err) {
-                                throw console.error("* Error constructing reader ", reader, err), err;
+                                console.error("* Error constructing reader ", reader, err);
+                                throw err;
                             }
-                        }), console.log("Registered Readers: ".concat(_barcodeReaders.map(function(reader) {
+                        });
+                        console.log("Registered Readers: ".concat(_barcodeReaders.map(function(reader) {
                             return JSON.stringify({
                                 format: reader.FORMAT,
                                 config: reader.config
@@ -6427,20 +7343,26 @@
                     }
                     function tryDecode(line) {
                         var i, result = null, barcodeLine = Bresenham.getBarcodeLine(inputImageWrapper, line[0], line[1]);
-                        for(config.debug.showFrequency && (image_debug.a.drawPath(line, {
-                            x: "x",
-                            y: "y"
-                        }, _canvas.ctx.overlay, {
-                            color: "red",
-                            lineWidth: 3
-                        }), Bresenham.debug.printFrequency(barcodeLine.line, _canvas.dom.frequency)), Bresenham.toBinaryLine(barcodeLine), config.debug.showPattern && Bresenham.debug.printPattern(barcodeLine.line, _canvas.dom.pattern), i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodePattern(barcodeLine.line);
+                        if (config.debug.showFrequency) {
+                            image_debug.a.drawPath(line, {
+                                x: "x",
+                                y: "y"
+                            }, _canvas.ctx.overlay, {
+                                color: "red",
+                                lineWidth: 3
+                            });
+                            Bresenham.debug.printFrequency(barcodeLine.line, _canvas.dom.frequency);
+                        }
+                        Bresenham.toBinaryLine(barcodeLine);
+                        config.debug.showPattern && Bresenham.debug.printPattern(barcodeLine.line, _canvas.dom.pattern);
+                        for(i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodePattern(barcodeLine.line);
                         return null === result ? null : {
                             codeResult: result,
                             barcodeLine: barcodeLine
                         };
                     }
                     function _decodeFromBoundingBox(box) {
-                        var line, result, line1, ctx = _canvas.ctx.overlay;
+                        var line, result, ctx = _canvas.ctx.overlay;
                         config.debug.drawBoundingBox && ctx && image_debug.a.drawPath(box, {
                             x: 0,
                             y: 1
@@ -6448,7 +7370,7 @@
                             color: "blue",
                             lineWidth: 2
                         });
-                        var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line = [
+                        var line1, lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line = [
                             {
                                 x: (box[1][0] - box[0][0]) / 2 + box[0][0],
                                 y: (box[1][1] - box[0][1]) / 2 + box[0][1]
@@ -6464,16 +7386,27 @@
                                     y: amount * Math.sin(angle),
                                     x: amount * Math.cos(angle)
                                 };
-                                line[0].y -= extension.y, line[0].x -= extension.x, line[1].y += extension.y, line[1].x += extension.x;
+                                line[0].y -= extension.y;
+                                line[0].x -= extension.x;
+                                line[1].y += extension.y;
+                                line[1].x += extension.x;
                             }
-                            for(extendLine(ext); ext > 1 && (!inputImageWrapper.inImageWithBorder(line[0]) || !inputImageWrapper.inImageWithBorder(line[1]));)extendLine(-(ext -= Math.ceil(ext / 2)));
+                            extendLine(ext);
+                            for(; ext > 1 && (!inputImageWrapper.inImageWithBorder(line[0]) || !inputImageWrapper.inImageWithBorder(line[1]));)extendLine(-(ext -= Math.ceil(ext / 2)));
                             return line;
                         }(line, lineAngle, Math.floor(0.1 * lineLength))) ? null : (null === (result = tryDecode(line)) && (result = function(box, line, lineAngle) {
                             var i, dir, extension, sideLength = Math.sqrt(Math.pow(box[1][0] - box[0][0], 2) + Math.pow(box[1][1] - box[0][1], 2)), result = null, xdir = Math.sin(lineAngle), ydir = Math.cos(lineAngle);
-                            for(i = 1; i < 16 && null === result; i++)extension = {
-                                y: (dir = sideLength / 16 * i * (i % 2 == 0 ? -1 : 1)) * xdir,
-                                x: dir * ydir
-                            }, line[0].y += extension.x, line[0].x -= extension.y, line[1].y += extension.x, line[1].x -= extension.y, result = tryDecode(line);
+                            for(i = 1; i < 16 && null === result; i++){
+                                extension = {
+                                    y: (dir = sideLength / 16 * i * (i % 2 == 0 ? -1 : 1)) * xdir,
+                                    x: dir * ydir
+                                };
+                                line[0].y += extension.x;
+                                line[0].x -= extension.y;
+                                line[1].y += extension.x;
+                                line[1].x -= extension.y;
+                                result = tryDecode(line);
+                            }
                             return result;
                         }(box, line, lineAngle)), null === result) ? null : (result && config.debug.drawScanline && ctx && image_debug.a.drawPath(line, {
                             x: "x",
@@ -6489,26 +7422,7 @@
                             threshold: result.barcodeLine.threshold
                         });
                     }
-                    return function() {
-                        if ("undefined" != typeof document) {
-                            var $debug = document.querySelector("#debug.detection");
-                            _canvas.dom.frequency = document.querySelector("canvas.frequency"), !_canvas.dom.frequency && (_canvas.dom.frequency = document.createElement("canvas"), _canvas.dom.frequency.className = "frequency", $debug && $debug.appendChild(_canvas.dom.frequency)), _canvas.ctx.frequency = _canvas.dom.frequency.getContext("2d"), _canvas.dom.pattern = document.querySelector("canvas.patternBuffer"), !_canvas.dom.pattern && (_canvas.dom.pattern = document.createElement("canvas"), _canvas.dom.pattern.className = "patternBuffer", $debug && $debug.appendChild(_canvas.dom.pattern)), _canvas.ctx.pattern = _canvas.dom.pattern.getContext("2d"), _canvas.dom.overlay = document.querySelector("canvas.drawingBuffer"), _canvas.dom.overlay && (_canvas.ctx.overlay = _canvas.dom.overlay.getContext("2d"));
-                        }
-                    }(), initReaders(), function() {
-                        if ("undefined" != typeof document) {
-                            var i, vis = [
-                                {
-                                    node: _canvas.dom.frequency,
-                                    prop: config.debug.showFrequency
-                                },
-                                {
-                                    node: _canvas.dom.pattern,
-                                    prop: config.debug.showPattern
-                                }
-                            ];
-                            for(i = 0; i < vis.length; i++)!0 === vis[i].prop ? vis[i].node.style.display = "block" : vis[i].node.style.display = "none";
-                        }
-                    }(), {
+                    return {
                         decodeFromBoundingBox: function(box) {
                             return _decodeFromBoundingBox(box);
                         },
@@ -6516,7 +7430,8 @@
                             var i, result, barcodes = [], multiple = config.multiple;
                             for(i = 0; i < boxes.length; i++){
                                 var box = boxes[i];
-                                if ((result = _decodeFromBoundingBox(box) || {}).box = box, multiple) barcodes.push(result);
+                                (result = _decodeFromBoundingBox(box) || {}).box = box;
+                                if (multiple) barcodes.push(result);
                                 else if (result.codeResult) return result;
                             }
                             if (multiple) return {
@@ -6534,7 +7449,9 @@
                             READERS[name] = reader;
                         },
                         setReaders: function(readers) {
-                            config.readers = readers, _barcodeReaders.length = 0, initReaders();
+                            config.readers = readers;
+                            _barcodeReaders.length = 0;
+                            initReaders();
                         }
                     };
                 }
@@ -6569,9 +7486,11 @@
                             return !!subscriber.once;
                         }).forEach(function(subscriber) {
                             publishSubscription(subscriber, data);
-                        }), event.subscribers = subscribers.filter(function(subscriber) {
+                        });
+                        event.subscribers = subscribers.filter(function(subscriber) {
                             return !subscriber.once;
-                        }), event.subscribers.forEach(function(subscriber) {
+                        });
+                        event.subscribers.forEach(function(subscriber) {
                             publishSubscription(subscriber, data);
                         });
                     },
@@ -6598,7 +7517,8 @@
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                        return !0;
                     } catch (e) {
                         return !1;
                     }
@@ -6634,7 +7554,13 @@
                 return new Promise(function(resolve, reject) {
                     var attempts = 10;
                     !function checkVideo() {
-                        attempts > 0 ? video.videoWidth > 10 && video.videoHeight > 10 ? (console.log("* dev: checkVideo found ".concat(video.videoWidth, "px x ").concat(video.videoHeight, "px")), resolve()) : window.setTimeout(checkVideo, 500) : reject(new Exception_Exception("Unable to play video stream. Is webcam working?", -1)), attempts--;
+                        if (attempts > 0) {
+                            if (video.videoWidth > 10 && video.videoHeight > 10) {
+                                console.log("* dev: checkVideo found ".concat(video.videoWidth, "px x ").concat(video.videoHeight, "px"));
+                                resolve();
+                            } else window.setTimeout(checkVideo, 500);
+                        } else reject(new Exception_Exception("Unable to play video stream. Is webcam working?", -1));
+                        attempts--;
                     }();
                 });
             }
@@ -6647,15 +7573,22 @@
                     return regenerator_default.a.wrap(function(_context2) {
                         for(;;)switch(_context2.prev = _context2.next){
                             case 0:
-                                return _context2.next = 2, getUserMedia(constraints);
+                                _context2.next = 2;
+                                return getUserMedia(constraints);
                             case 2:
-                                if (streamRef = stream = _context2.sent, !video) {
+                                streamRef = stream = _context2.sent;
+                                if (!video) {
                                     _context2.next = 11;
                                     break;
                                 }
-                                return video.setAttribute("autoplay", "true"), video.setAttribute("muted", "true"), video.setAttribute("playsinline", "true"), video.srcObject = stream, video.addEventListener("loadedmetadata", function() {
+                                video.setAttribute("autoplay", "true");
+                                video.setAttribute("muted", "true");
+                                video.setAttribute("playsinline", "true");
+                                video.srcObject = stream;
+                                video.addEventListener("loadedmetadata", function() {
                                     video.play();
-                                }), _context2.abrupt("return", waitForVideo(video));
+                                });
+                                return _context2.abrupt("return", waitForVideo(video));
                             case 11:
                                 return _context2.abrupt("return", Promise.resolve());
                             case 12:
@@ -6666,13 +7599,24 @@
                 }))).apply(this, arguments);
             }
             function pickConstraints() {
-                var normalized, videoConstraints = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (normalized = pick_default()(videoConstraints, [
-                    "width",
-                    "height",
-                    "facingMode",
-                    "aspectRatio",
-                    "deviceId"
-                ]), void 0 !== videoConstraints.minAspectRatio && videoConstraints.minAspectRatio > 0 && (normalized.aspectRatio = videoConstraints.minAspectRatio, console.log("WARNING: Constraint 'minAspectRatio' is deprecated; Use 'aspectRatio' instead")), void 0 !== videoConstraints.facing && (normalized.facingMode = videoConstraints.facing, console.log("WARNING: Constraint 'facing' is deprecated. Use 'facingMode' instead'")), normalized);
+                var videoConstraints = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = function(videoConstraints) {
+                    var normalized = pick_default()(videoConstraints, [
+                        "width",
+                        "height",
+                        "facingMode",
+                        "aspectRatio",
+                        "deviceId"
+                    ]);
+                    if (void 0 !== videoConstraints.minAspectRatio && videoConstraints.minAspectRatio > 0) {
+                        normalized.aspectRatio = videoConstraints.minAspectRatio;
+                        console.log("WARNING: Constraint 'minAspectRatio' is deprecated; Use 'aspectRatio' instead");
+                    }
+                    if (void 0 !== videoConstraints.facing) {
+                        normalized.facingMode = videoConstraints.facing;
+                        console.log("WARNING: Constraint 'facing' is deprecated. Use 'facingMode' instead'");
+                    }
+                    return normalized;
+                }(videoConstraints);
                 return video && video.deviceId && video.facingMode && delete video.facingMode, Promise.resolve({
                     audio: !1,
                     video: video
@@ -6684,9 +7628,11 @@
                     return regenerator_default.a.wrap(function(_context3) {
                         for(;;)switch(_context3.prev = _context3.next){
                             case 0:
-                                return _context3.next = 2, enumerateDevices();
+                                _context3.next = 2;
+                                return enumerateDevices();
                             case 2:
-                                return devices = _context3.sent, _context3.abrupt("return", devices.filter(function(device) {
+                                devices = _context3.sent;
+                                return _context3.abrupt("return", devices.filter(function(device) {
                                     return "videoinput" === device.kind;
                                 }));
                             case 4:
@@ -6709,9 +7655,12 @@
                         return regenerator_default.a.wrap(function(_context) {
                             for(;;)switch(_context.prev = _context.next){
                                 case 0:
-                                    return QuaggaJSCameraAccess.requestedVideoElement = video, _context.next = 3, pickConstraints(videoConstraints);
+                                    QuaggaJSCameraAccess.requestedVideoElement = video;
+                                    _context.next = 3;
+                                    return pickConstraints(videoConstraints);
                                 case 3:
-                                    return newConstraints = _context.sent, _context.abrupt("return", initCamera(video, newConstraints));
+                                    newConstraints = _context.sent;
+                                    return _context.abrupt("return", initCamera(video, newConstraints));
                                 case 5:
                                 case "end":
                                     return _context.stop();
@@ -6723,7 +7672,10 @@
                     var tracks = streamRef && streamRef.getVideoTracks();
                     return null !== QuaggaJSCameraAccess.requestedVideoElement && QuaggaJSCameraAccess.requestedVideoElement.pause(), new Promise(function(resolve) {
                         setTimeout(function() {
-                            tracks && tracks.length && tracks[0].stop(), streamRef = null, QuaggaJSCameraAccess.requestedVideoElement = null, resolve();
+                            tracks && tracks.length && tracks[0].stop();
+                            streamRef = null;
+                            QuaggaJSCameraAccess.requestedVideoElement = null;
+                            resolve();
                         }, 0);
                     });
                 },
@@ -6741,11 +7693,21 @@
                     return {
                         addResult: function(data, imageSize, codeResult) {
                             var list, filter, result = {};
-                            capacity && codeResult && !((list = config.blacklist) && list.some(function(item) {
+                            if (capacity && codeResult && !((list = config.blacklist) && list.some(function(item) {
                                 return Object.keys(item).every(function(key) {
                                     return item[key] === codeResult[key];
                                 });
-                            })) && ("function" != typeof (filter = config.filter) || filter(codeResult)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
+                            })) && ("function" != typeof (filter = config.filter) || filter(codeResult))) {
+                                capacity--;
+                                result.codeResult = codeResult;
+                                if (capture) {
+                                    canvas.width = imageSize.x;
+                                    canvas.height = imageSize.y;
+                                    image_debug.a.drawImage(data, imageSize, ctx);
+                                    result.frame = canvas.toDataURL();
+                                }
+                                results.push(result);
+                            }
                         },
                         getResults: function() {
                             return results;
@@ -6801,11 +7763,28 @@
                     }
                 }
             }, gl_vec2 = __webpack_require__(7), QuaggaContext_QuaggaContext = function QuaggaContext() {
-                classCallCheck_default()(this, QuaggaContext), defineProperty_default()(this, "config", void 0), defineProperty_default()(this, "inputStream", void 0), defineProperty_default()(this, "framegrabber", void 0), defineProperty_default()(this, "inputImageWrapper", void 0), defineProperty_default()(this, "stopped", !1), defineProperty_default()(this, "boxSize", void 0), defineProperty_default()(this, "resultCollector", void 0), defineProperty_default()(this, "decoder", void 0), defineProperty_default()(this, "workerPool", []), defineProperty_default()(this, "onUIThread", !0), defineProperty_default()(this, "canvasContainer", new QuaggaContext_CanvasContainer());
+                classCallCheck_default()(this, QuaggaContext);
+                defineProperty_default()(this, "config", void 0);
+                defineProperty_default()(this, "inputStream", void 0);
+                defineProperty_default()(this, "framegrabber", void 0);
+                defineProperty_default()(this, "inputImageWrapper", void 0);
+                defineProperty_default()(this, "stopped", !1);
+                defineProperty_default()(this, "boxSize", void 0);
+                defineProperty_default()(this, "resultCollector", void 0);
+                defineProperty_default()(this, "decoder", void 0);
+                defineProperty_default()(this, "workerPool", []);
+                defineProperty_default()(this, "onUIThread", !0);
+                defineProperty_default()(this, "canvasContainer", new QuaggaContext_CanvasContainer());
             }, QuaggaContext_CanvasInfo = function CanvasInfo() {
-                classCallCheck_default()(this, CanvasInfo), defineProperty_default()(this, "image", void 0), defineProperty_default()(this, "overlay", void 0);
+                classCallCheck_default()(this, CanvasInfo);
+                defineProperty_default()(this, "image", void 0);
+                defineProperty_default()(this, "overlay", void 0);
             }, QuaggaContext_CanvasContainer = function CanvasContainer() {
-                classCallCheck_default()(this, CanvasContainer), defineProperty_default()(this, "ctx", void 0), defineProperty_default()(this, "dom", void 0), this.ctx = new QuaggaContext_CanvasInfo(), this.dom = new QuaggaContext_CanvasInfo();
+                classCallCheck_default()(this, CanvasContainer);
+                defineProperty_default()(this, "ctx", void 0);
+                defineProperty_default()(this, "dom", void 0);
+                this.ctx = new QuaggaContext_CanvasInfo();
+                this.dom = new QuaggaContext_CanvasInfo();
             }, barcode_locator = __webpack_require__(23);
             function getViewPort_getViewPort(target) {
                 return "undefined" == typeof document ? null : target instanceof HTMLElement && target.nodeName && 1 === target.nodeType ? target : document.querySelector("string" == typeof target ? target : "#interactive.viewport");
@@ -6827,7 +7806,8 @@
                     var fileReader = new FileReader();
                     fileReader.onload = function(e) {
                         return resolve(e.target.result);
-                    }, fileReader.readAsArrayBuffer(blob);
+                    };
+                    fileReader.readAsArrayBuffer(blob);
                 });
             }
             function readEXIFData(file, start, exifTags) {
@@ -6856,18 +7836,18 @@
                 return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
             }
             var ImageLoader = {};
-            function addOnloadHandler(img, htmlImagesArray) {
-                img.onload = function() {
-                    htmlImagesArray.loaded(this);
-                };
-            }
             ImageLoader.load = function(directory, callback, offset, size, sequence) {
                 var i, img, num, htmlImagesSrcArray = Array(size), htmlImagesArray = Array(htmlImagesSrcArray.length);
                 if (!1 === sequence) htmlImagesSrcArray[0] = directory;
-                else for(i = 0; i < htmlImagesSrcArray.length; i++)num = offset + i, htmlImagesSrcArray[i] = "".concat(directory, "image-").concat("00".concat(num).slice(-3), ".jpg");
-                for(i = 0, htmlImagesArray.notLoaded = [], htmlImagesArray.addImage = function(image) {
+                else for(i = 0; i < htmlImagesSrcArray.length; i++){
+                    num = offset + i;
+                    htmlImagesSrcArray[i] = "".concat(directory, "image-").concat("00".concat(num).slice(-3), ".jpg");
+                }
+                htmlImagesArray.notLoaded = [];
+                htmlImagesArray.addImage = function(image) {
                     htmlImagesArray.notLoaded.push(image);
-                }, htmlImagesArray.loaded = function(loadedImg) {
+                };
+                htmlImagesArray.loaded = function(loadedImg) {
                     for(var notloadedImgs = htmlImagesArray.notLoaded, x = 0; x < notloadedImgs.length; x++)if (notloadedImgs[x] === loadedImg) {
                         notloadedImgs.splice(x, 1);
                         for(var y = 0; y < htmlImagesSrcArray.length; y++){
@@ -6881,38 +7861,58 @@
                         }
                         break;
                     }
-                    0 === notloadedImgs.length && (console.log("Images loaded"), !1 === sequence ? (function(src) {
-                        var tags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags;
-                        return /^blob:/i.test(src) ? new Promise(function(resolve, reject) {
-                            var http = new XMLHttpRequest();
-                            http.open("GET", src, !0), http.responseType = "blob", http.onreadystatechange = function() {
-                                http.readyState === XMLHttpRequest.DONE && (200 === http.status || 0 === http.status) && resolve(this.response);
-                            }, http.onerror = reject, http.send();
-                        }).then(readToBuffer).then(function(buffer) {
-                            return function(file) {
-                                var selectedTags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags, dataView = new DataView(file), length = file.byteLength, exifTags = selectedTags.reduce(function(result, selectedTag) {
-                                    var exifTag = Object.keys(ExifTags).filter(function(tag) {
-                                        return ExifTags[tag] === selectedTag;
-                                    })[0];
-                                    return exifTag && (result[exifTag] = selectedTag), result;
-                                }, {}), offset = 2;
-                                if (0xff !== dataView.getUint8(0) || 0xd8 !== dataView.getUint8(1)) return !1;
-                                for(; offset < length && 0xff === dataView.getUint8(offset);){
-                                    if (0xe1 === dataView.getUint8(offset + 1)) return readEXIFData(dataView, offset + 4, exifTags);
-                                    offset += 2 + dataView.getUint16(offset + 2);
-                                }
-                                return !1;
-                            }(buffer, tags);
-                        }) : Promise.resolve(null);
-                    })(directory, [
-                        "orientation"
-                    ]).then(function(tags) {
-                        htmlImagesArray[0].tags = tags, callback(htmlImagesArray);
-                    }).catch(function(e) {
-                        console.log(e), callback(htmlImagesArray);
-                    }) : callback(htmlImagesArray));
-                }; i < htmlImagesSrcArray.length; i++)img = new Image(), htmlImagesArray.addImage(img), addOnloadHandler(img, htmlImagesArray), img.src = htmlImagesSrcArray[i];
+                    if (0 === notloadedImgs.length) {
+                        console.log("Images loaded");
+                        !1 === sequence ? (function(src) {
+                            var tags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags;
+                            return /^blob:/i.test(src) ? new Promise(function(resolve, reject) {
+                                var http = new XMLHttpRequest();
+                                http.open("GET", src, !0);
+                                http.responseType = "blob";
+                                http.onreadystatechange = function() {
+                                    http.readyState === XMLHttpRequest.DONE && (200 === http.status || 0 === http.status) && resolve(this.response);
+                                };
+                                http.onerror = reject;
+                                http.send();
+                            }).then(readToBuffer).then(function(buffer) {
+                                return function(file) {
+                                    var selectedTags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags, dataView = new DataView(file), length = file.byteLength, exifTags = selectedTags.reduce(function(result, selectedTag) {
+                                        var exifTag = Object.keys(ExifTags).filter(function(tag) {
+                                            return ExifTags[tag] === selectedTag;
+                                        })[0];
+                                        return exifTag && (result[exifTag] = selectedTag), result;
+                                    }, {}), offset = 2;
+                                    if (0xff !== dataView.getUint8(0) || 0xd8 !== dataView.getUint8(1)) return !1;
+                                    for(; offset < length && 0xff === dataView.getUint8(offset);){
+                                        if (0xe1 === dataView.getUint8(offset + 1)) return readEXIFData(dataView, offset + 4, exifTags);
+                                        offset += 2 + dataView.getUint16(offset + 2);
+                                    }
+                                    return !1;
+                                }(buffer, tags);
+                            }) : Promise.resolve(null);
+                        })(directory, [
+                            "orientation"
+                        ]).then(function(tags) {
+                            htmlImagesArray[0].tags = tags;
+                            callback(htmlImagesArray);
+                        }).catch(function(e) {
+                            console.log(e);
+                            callback(htmlImagesArray);
+                        }) : callback(htmlImagesArray);
+                    }
+                };
+                for(i = 0; i < htmlImagesSrcArray.length; i++){
+                    img = new Image();
+                    htmlImagesArray.addImage(img);
+                    addOnloadHandler(img, htmlImagesArray);
+                    img.src = htmlImagesSrcArray[i];
+                }
             };
+            function addOnloadHandler(img, htmlImagesArray) {
+                img.onload = function() {
+                    htmlImagesArray.loaded(this);
+                };
+            }
             var inputStreamFactory = {
                 createVideoStream: function(video) {
                     var _calculatedWidth, _calculatedHeight, _config = null, _eventNames = [
@@ -6946,7 +7946,8 @@
                             _calculatedHeight = height;
                         },
                         setInputStream: function(config) {
-                            _config = config, this.setAttribute("src", void 0 !== config.src ? config.src : "");
+                            _config = config;
+                            this.setAttribute("src", void 0 !== config.src ? config.src : "");
                         },
                         ended: function() {
                             return video.ended;
@@ -6968,7 +7969,10 @@
                             (null === (_config4 = _config) || void 0 === _config4 ? void 0 : _config4.type) !== "LiveStream" && this.setAttribute("currentTime", time.toString());
                         },
                         addEventListener: function(event, f, bool) {
-                            -1 !== _eventNames.indexOf(event) ? (_eventHandlers[event] || (_eventHandlers[event] = []), _eventHandlers[event].push(f)) : video.addEventListener(event, f, bool);
+                            if (-1 !== _eventNames.indexOf(event)) {
+                                _eventHandlers[event] || (_eventHandlers[event] = []);
+                                _eventHandlers[event].push(f);
+                            } else video.addEventListener(event, f, bool);
                         },
                         clearEventHandlers: function() {
                             _eventNames.forEach(function(eventName) {
@@ -6980,16 +7984,19 @@
                         },
                         trigger: function(eventName, args) {
                             var _config2, _config3, width, height, j, handlers = _eventHandlers[eventName];
-                            if ("canrecord" === eventName && (width = video.videoWidth, height = video.videoHeight, _calculatedWidth = null !== (_config2 = _config) && void 0 !== _config2 && _config2.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, _calculatedHeight = null !== (_config3 = _config) && void 0 !== _config3 && _config3.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = _calculatedWidth, _canvasSize.y = _calculatedHeight), handlers && handlers.length > 0) for(j = 0; j < handlers.length; j++)handlers[j].apply(inputStream, args);
+                            "canrecord" === eventName && (width = video.videoWidth, height = video.videoHeight, _calculatedWidth = null !== (_config2 = _config) && void 0 !== _config2 && _config2.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, _calculatedHeight = null !== (_config3 = _config) && void 0 !== _config3 && _config3.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = _calculatedWidth, _canvasSize.y = _calculatedHeight);
+                            if (handlers && handlers.length > 0) for(j = 0; j < handlers.length; j++)handlers[j].apply(inputStream, args);
                         },
                         setTopRight: function(topRight) {
-                            _topRight.x = topRight.x, _topRight.y = topRight.y;
+                            _topRight.x = topRight.x;
+                            _topRight.y = topRight.y;
                         },
                         getTopRight: function() {
                             return _topRight;
                         },
                         setCanvasSize: function(size) {
-                            _canvasSize.x = size.x, _canvasSize.y = size.y;
+                            _canvasSize.x = size.x;
+                            _canvasSize.y = size.y;
                         },
                         getCanvasSize: function() {
                             return _canvasSize;
@@ -7046,18 +8053,38 @@
                         },
                         setInputStream: function(stream) {
                             var _config7;
-                            _config = stream, !1 === stream.sequence ? (baseUrl = stream.src, size = 1) : (baseUrl = stream.src, size = stream.length), loaded = !1, ImageLoader.load(baseUrl, function(imgs) {
+                            _config = stream;
+                            if (!1 === stream.sequence) {
+                                baseUrl = stream.src;
+                                size = 1;
+                            } else {
+                                baseUrl = stream.src;
+                                size = stream.length;
+                            }
+                            loaded = !1, ImageLoader.load(baseUrl, function(imgs) {
                                 var _config5, _config6;
-                                if (imgArray = imgs, imgs[0].tags && imgs[0].tags.orientation) switch(imgs[0].tags.orientation){
+                                imgArray = imgs;
+                                if (imgs[0].tags && imgs[0].tags.orientation) switch(imgs[0].tags.orientation){
                                     case 6:
                                     case 8:
-                                        width = imgs[0].img.height, height = imgs[0].img.width;
+                                        width = imgs[0].img.height;
+                                        height = imgs[0].img.width;
                                         break;
                                     default:
-                                        width = imgs[0].img.width, height = imgs[0].img.height;
+                                        width = imgs[0].img.width;
+                                        height = imgs[0].img.height;
                                 }
-                                else width = imgs[0].img.width, height = imgs[0].img.height;
-                                calculatedWidth = null !== (_config5 = _config) && void 0 !== _config5 && _config5.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, calculatedHeight = null !== (_config6 = _config) && void 0 !== _config6 && _config6.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = calculatedWidth, _canvasSize.y = calculatedHeight, loaded = !0, frameIdx = 0, setTimeout(function() {
+                                else {
+                                    width = imgs[0].img.width;
+                                    height = imgs[0].img.height;
+                                }
+                                calculatedWidth = null !== (_config5 = _config) && void 0 !== _config5 && _config5.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width;
+                                calculatedHeight = null !== (_config6 = _config) && void 0 !== _config6 && _config6.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height;
+                                _canvasSize.x = calculatedWidth;
+                                _canvasSize.y = calculatedHeight;
+                                loaded = !0;
+                                frameIdx = 0;
+                                setTimeout(function() {
                                     publishEvent("canrecord", []);
                                 }, 0);
                             }, 1, size, null === (_config7 = _config) || void 0 === _config7 ? void 0 : _config7.sequence);
@@ -7079,7 +8106,10 @@
                             frameIdx = time;
                         },
                         addEventListener: function(event, f) {
-                            -1 !== _eventNames.indexOf(event) && (_eventHandlers[event] || (_eventHandlers[event] = []), _eventHandlers[event].push(f));
+                            if (-1 !== _eventNames.indexOf(event)) {
+                                _eventHandlers[event] || (_eventHandlers[event] = []);
+                                _eventHandlers[event].push(f);
+                            }
                         },
                         clearEventHandlers: function() {
                             Object.keys(_eventHandlers).forEach(function(ind) {
@@ -7087,34 +8117,91 @@
                             });
                         },
                         setTopRight: function(topRight) {
-                            _topRight.x = topRight.x, _topRight.y = topRight.y;
+                            _topRight.x = topRight.x;
+                            _topRight.y = topRight.y;
                         },
                         getTopRight: function() {
                             return _topRight;
                         },
                         setCanvasSize: function(canvasSize) {
-                            _canvasSize.x = canvasSize.x, _canvasSize.y = canvasSize.y;
+                            _canvasSize.x = canvasSize.x;
+                            _canvasSize.y = canvasSize.y;
                         },
                         getCanvasSize: function() {
                             return _canvasSize;
                         },
                         getFrame: function() {
                             var frame, _imgArray;
-                            return loaded ? (!paused && (frame = null === (_imgArray = imgArray) || void 0 === _imgArray ? void 0 : _imgArray[frameIdx], frameIdx < size - 1 ? frameIdx++ : setTimeout(function() {
-                                _ended = !0, publishEvent("ended", []);
-                            }, 0)), frame) : null;
+                            if (!loaded) return null;
+                            if (!paused) {
+                                frame = null === (_imgArray = imgArray) || void 0 === _imgArray ? void 0 : _imgArray[frameIdx];
+                                frameIdx < size - 1 ? frameIdx++ : setTimeout(function() {
+                                    _ended = !0;
+                                    publishEvent("ended", []);
+                                }, 0);
+                            }
+                            return frame;
                         }
                     };
                     return inputStream;
                 }
             }, cv_utils = __webpack_require__(8), TO_RADIANS = Math.PI / 180, FrameGrabber = {};
+            FrameGrabber.create = function(inputStream, canvas) {
+                var _canvas, _that = {}, _streamConfig = inputStream.getConfig(), _videoSize = Object(cv_utils.h)(inputStream.getRealWidth(), inputStream.getRealHeight()), _canvasSize = inputStream.getCanvasSize(), _size = Object(cv_utils.h)(inputStream.getWidth(), inputStream.getHeight()), topRight = inputStream.getTopRight(), _sx = topRight.x, _sy = topRight.y, _ctx = null, _data = null;
+                return (_canvas = canvas || document.createElement("canvas")).width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext("2d"), _data = new Uint8Array(_size.x * _size.y), console.log("FrameGrabber", JSON.stringify({
+                    size: _size,
+                    topRight: topRight,
+                    videoSize: _videoSize,
+                    canvasSize: _canvasSize
+                })), _that.attachData = function(data) {
+                    _data = data;
+                }, _that.getData = function() {
+                    return _data;
+                }, _that.grab = function() {
+                    var ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
+                    if (drawable) {
+                        !function(canvas, targetSize) {
+                            if (canvas.width !== targetSize.x) {
+                                console.log("WARNING: canvas-size needs to be adjusted");
+                                canvas.width = targetSize.x;
+                            }
+                            if (canvas.height !== targetSize.y) {
+                                console.log("WARNING: canvas-size needs to be adjusted");
+                                canvas.height = targetSize.y;
+                            }
+                        }(_canvas, _canvasSize);
+                        if ("ImageStream" === _streamConfig.type) {
+                            drawable = frame.img;
+                            if (frame.tags && frame.tags.orientation) switch(frame.tags.orientation){
+                                case 6:
+                                    drawAngle = 90 * TO_RADIANS;
+                                    break;
+                                case 8:
+                                    drawAngle = -90 * TO_RADIANS;
+                            }
+                        }
+                        if (0 !== drawAngle) {
+                            _ctx.translate(_canvasSize.x / 2, _canvasSize.y / 2);
+                            _ctx.rotate(drawAngle);
+                            _ctx.drawImage(drawable, -_canvasSize.y / 2, -_canvasSize.x / 2, _canvasSize.y, _canvasSize.x);
+                            _ctx.rotate(-drawAngle);
+                            _ctx.translate(-_canvasSize.x / 2, -_canvasSize.y / 2);
+                        } else _ctx.drawImage(drawable, 0, 0, _canvasSize.x, _canvasSize.y);
+                        return ctxData = _ctx.getImageData(_sx, _sy, _size.x, _size.y).data, doHalfSample ? Object(cv_utils.e)(ctxData, _size, _data) : Object(cv_utils.c)(ctxData, _data, _streamConfig), !0;
+                    }
+                    return !1;
+                }, _that.getSize = function() {
+                    return _size;
+                }, _that;
+            };
             function qworker_ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
                 if (Object.getOwnPropertySymbols) {
                     var symbols = Object.getOwnPropertySymbols(object);
                     enumerableOnly && (symbols = symbols.filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-                    })), keys.push.apply(keys, symbols);
+                    }));
+                    keys.push.apply(keys, symbols);
                 }
                 return keys;
             }
@@ -7129,34 +8216,6 @@
                 }
                 return target;
             }
-            FrameGrabber.create = function(inputStream, canvas) {
-                var _canvas, _that = {}, _streamConfig = inputStream.getConfig(), _videoSize = Object(cv_utils.h)(inputStream.getRealWidth(), inputStream.getRealHeight()), _canvasSize = inputStream.getCanvasSize(), _size = Object(cv_utils.h)(inputStream.getWidth(), inputStream.getHeight()), topRight = inputStream.getTopRight(), _sx = topRight.x, _sy = topRight.y, _ctx = null, _data = null;
-                return (_canvas = canvas || document.createElement("canvas")).width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext("2d"), _data = new Uint8Array(_size.x * _size.y), console.log("FrameGrabber", JSON.stringify({
-                    size: _size,
-                    topRight: topRight,
-                    videoSize: _videoSize,
-                    canvasSize: _canvasSize
-                })), _that.attachData = function(data) {
-                    _data = data;
-                }, _that.getData = function() {
-                    return _data;
-                }, _that.grab = function() {
-                    var canvas, targetSize, ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
-                    if (drawable) {
-                        if (canvas = _canvas, targetSize = _canvasSize, canvas.width !== targetSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.width = targetSize.x), canvas.height !== targetSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.height = targetSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
-                            case 6:
-                                drawAngle = 90 * TO_RADIANS;
-                                break;
-                            case 8:
-                                drawAngle = -90 * TO_RADIANS;
-                        }
-                        return 0 !== drawAngle ? (_ctx.translate(_canvasSize.x / 2, _canvasSize.y / 2), _ctx.rotate(drawAngle), _ctx.drawImage(drawable, -_canvasSize.y / 2, -_canvasSize.x / 2, _canvasSize.y, _canvasSize.x), _ctx.rotate(-drawAngle), _ctx.translate(-_canvasSize.x / 2, -_canvasSize.y / 2)) : _ctx.drawImage(drawable, 0, 0, _canvasSize.x, _canvasSize.y), ctxData = _ctx.getImageData(_sx, _sy, _size.x, _size.y).data, doHalfSample ? Object(cv_utils.e)(ctxData, _size, _data) : Object(cv_utils.c)(ctxData, _data, _streamConfig), !0;
-                    }
-                    return !1;
-                }, _that.getSize = function() {
-                    return _size;
-                }, _that;
-            };
             var workerPool = [];
             function workerInterface(factory) {
                 if (factory) {
@@ -7189,11 +8248,17 @@
                 self.onmessage = function(e) {
                     if ("init" === e.data.cmd) {
                         var config = e.data.config;
-                        config.numOfWorkers = 0, imageWrapper = new Quagga.ImageWrapper({
+                        config.numOfWorkers = 0;
+                        imageWrapper = new Quagga.ImageWrapper({
                             x: e.data.size.x,
                             y: e.data.size.y
-                        }, new Uint8Array(e.data.imageData)), Quagga.init(config, workerInterfaceReady, imageWrapper), Quagga.onProcessed(onProcessed);
-                    } else "process" === e.data.cmd ? (imageWrapper.data = new Uint8Array(e.data.imageData), Quagga.start()) : "setReaders" === e.data.cmd ? Quagga.setReaders(e.data.readers) : "registerReader" === e.data.cmd && Quagga.registerReader(e.data.name, e.data.reader);
+                        }, new Uint8Array(e.data.imageData));
+                        Quagga.init(config, workerInterfaceReady, imageWrapper);
+                        Quagga.onProcessed(onProcessed);
+                    } else if ("process" === e.data.cmd) {
+                        imageWrapper.data = new Uint8Array(e.data.imageData);
+                        Quagga.start();
+                    } else "setReaders" === e.data.cmd ? Quagga.setReaders(e.data.readers) : "registerReader" === e.data.cmd && Quagga.registerReader(e.data.name, e.data.reader);
                 };
             }
             function initWorker(config, inputStream, cb) {
@@ -7207,8 +8272,18 @@
                     busy: !0
                 };
                 workerThread.worker.onmessage = function(e) {
-                    "initialized" === e.data.event ? (URL.revokeObjectURL(blobURL), workerThread.busy = !1, workerThread.imageData = new Uint8Array(e.data.imageData), console.log("Worker initialized"), cb(workerThread)) : "processed" === e.data.event ? (workerThread.imageData = new Uint8Array(e.data.imageData), workerThread.busy = !1) : "error" === e.data.event && console.log("Worker error: " + e.data.message);
-                }, workerThread.worker.postMessage({
+                    if ("initialized" === e.data.event) {
+                        URL.revokeObjectURL(blobURL);
+                        workerThread.busy = !1;
+                        workerThread.imageData = new Uint8Array(e.data.imageData);
+                        console.log("Worker initialized");
+                        cb(workerThread);
+                    } else if ("processed" === e.data.event) {
+                        workerThread.imageData = new Uint8Array(e.data.imageData);
+                        workerThread.busy = !1;
+                    } else "error" === e.data.event && console.log("Worker error: " + e.data.message);
+                };
+                workerThread.worker.postMessage({
                     cmd: "init",
                     size: {
                         x: inputStream.getWidth(),
@@ -7227,41 +8302,78 @@
             function adjustWorkerPool(capacity, config, inputStream, cb) {
                 var increaseBy = capacity - workerPool.length;
                 if (0 === increaseBy && cb) cb();
-                else if (increaseBy < 0) workerPool.slice(increaseBy).forEach(function(workerThread) {
-                    workerThread.worker.terminate(), console.log("Worker terminated!");
-                }), workerPool = workerPool.slice(0, increaseBy), cb && cb();
-                else {
+                else if (increaseBy < 0) {
+                    workerPool.slice(increaseBy).forEach(function(workerThread) {
+                        workerThread.worker.terminate();
+                        console.log("Worker terminated!");
+                    });
+                    workerPool = workerPool.slice(0, increaseBy);
+                    cb && cb();
+                } else {
                     var workerInitialized = function(workerThread) {
-                        workerPool.push(workerThread), workerPool.length >= capacity && cb && cb();
+                        workerPool.push(workerThread);
+                        workerPool.length >= capacity && cb && cb();
                     };
                     if (config) for(var i = 0; i < increaseBy; i++)initWorker(config, inputStream, workerInitialized);
                 }
             }
             function moveBox(box, xOffset, yOffset) {
-                for(var corner = box.length; corner--;)box[corner][0] += xOffset, box[corner][1] += yOffset;
+                for(var corner = box.length; corner--;){
+                    box[corner][0] += xOffset;
+                    box[corner][1] += yOffset;
+                }
             }
             var quagga_Quagga = function() {
                 var _stop;
                 function Quagga() {
                     var _this = this;
-                    classCallCheck_default()(this, Quagga), defineProperty_default()(this, "context", new QuaggaContext_QuaggaContext()), defineProperty_default()(this, "canRecord", function(callback) {
+                    classCallCheck_default()(this, Quagga);
+                    defineProperty_default()(this, "context", new QuaggaContext_QuaggaContext());
+                    defineProperty_default()(this, "canRecord", function(callback) {
                         var _this$context$config;
-                        _this.context.config && (barcode_locator.a.checkImageConstraints(_this.context.inputStream, null === (_this$context$config = _this.context.config) || void 0 === _this$context$config ? void 0 : _this$context$config.locator), _this.initCanvas(), _this.context.framegrabber = FrameGrabber.create(_this.context.inputStream, _this.context.canvasContainer.dom.image), void 0 === _this.context.config.numOfWorkers && (_this.context.config.numOfWorkers = 0), adjustWorkerPool(_this.context.config.numOfWorkers, _this.context.config, _this.context.inputStream, function() {
-                            var _this$context$config2;
-                            (null === (_this$context$config2 = _this.context.config) || void 0 === _this$context$config2 ? void 0 : _this$context$config2.numOfWorkers) === 0 && _this.initializeData(), _this.ready(callback);
-                        }));
-                    }), defineProperty_default()(this, "update", function() {
+                        if (_this.context.config) {
+                            barcode_locator.a.checkImageConstraints(_this.context.inputStream, null === (_this$context$config = _this.context.config) || void 0 === _this$context$config ? void 0 : _this$context$config.locator);
+                            _this.initCanvas();
+                            _this.context.framegrabber = FrameGrabber.create(_this.context.inputStream, _this.context.canvasContainer.dom.image);
+                            void 0 === _this.context.config.numOfWorkers && (_this.context.config.numOfWorkers = 0);
+                            adjustWorkerPool(_this.context.config.numOfWorkers, _this.context.config, _this.context.inputStream, function() {
+                                var _this$context$config2;
+                                (null === (_this$context$config2 = _this.context.config) || void 0 === _this$context$config2 ? void 0 : _this$context$config2.numOfWorkers) === 0 && _this.initializeData();
+                                _this.ready(callback);
+                            });
+                        }
+                    });
+                    defineProperty_default()(this, "update", function() {
                         if (_this.context.onUIThread) {
-                            var frameGrabber, availableWorker, _this$context$inputIm2, _this$context$inputIm, workersUpdated = (frameGrabber = _this.context.framegrabber, workerPool.length ? !!(availableWorker = workerPool.filter(function(workerThread) {
-                                return !workerThread.busy;
-                            })[0]) && (frameGrabber.attachData(availableWorker.imageData), frameGrabber.grab() && (availableWorker.busy = !0, availableWorker.worker.postMessage({
-                                cmd: "process",
-                                imageData: availableWorker.imageData
-                            }, [
-                                availableWorker.imageData.buffer
-                            ])), !0) : null);
-                            workersUpdated || (_this.context.framegrabber.attachData(null === (_this$context$inputIm = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm ? void 0 : _this$context$inputIm.data), _this.context.framegrabber.grab() && !workersUpdated && _this.locateAndDecode());
-                        } else _this.context.framegrabber.attachData(null === (_this$context$inputIm2 = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm2 ? void 0 : _this$context$inputIm2.data), _this.context.framegrabber.grab(), _this.locateAndDecode();
+                            var _this$context$inputIm2, _this$context$inputIm, workersUpdated = function(frameGrabber) {
+                                var availableWorker;
+                                if (workerPool.length) {
+                                    if (!(availableWorker = workerPool.filter(function(workerThread) {
+                                        return !workerThread.busy;
+                                    })[0])) return !1;
+                                    frameGrabber.attachData(availableWorker.imageData);
+                                    if (frameGrabber.grab()) {
+                                        availableWorker.busy = !0;
+                                        availableWorker.worker.postMessage({
+                                            cmd: "process",
+                                            imageData: availableWorker.imageData
+                                        }, [
+                                            availableWorker.imageData.buffer
+                                        ]);
+                                    }
+                                    return !0;
+                                }
+                                return null;
+                            }(_this.context.framegrabber);
+                            if (!workersUpdated) {
+                                _this.context.framegrabber.attachData(null === (_this$context$inputIm = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm ? void 0 : _this$context$inputIm.data);
+                                _this.context.framegrabber.grab() && !workersUpdated && _this.locateAndDecode();
+                            }
+                        } else {
+                            _this.context.framegrabber.attachData(null === (_this$context$inputIm2 = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm2 ? void 0 : _this$context$inputIm2.data);
+                            _this.context.framegrabber.grab();
+                            _this.locateAndDecode();
+                        }
                     });
                 }
                 return createClass_default()(Quagga, [
@@ -7294,14 +8406,18 @@
                                     inputImageWrapper: inputImageWrapper,
                                     boxSize: boxSize
                                 }), inputImageWrapper1 = _initBuffers2.inputImageWrapper, boxSize1 = _initBuffers2.boxSize;
-                                this.context.inputImageWrapper = inputImageWrapper1, this.context.boxSize = boxSize1;
+                                this.context.inputImageWrapper = inputImageWrapper1;
+                                this.context.boxSize = boxSize1;
                             }
                         }
                     },
                     {
                         key: "initializeData",
                         value: function(imageWrapper) {
-                            this.context.config && (this.initBuffers(imageWrapper), this.context.decoder = barcode_decoder.create(this.context.config.decoder, this.context.inputImageWrapper));
+                            if (this.context.config) {
+                                this.initBuffers(imageWrapper);
+                                this.context.decoder = barcode_decoder.create(this.context.config.decoder, this.context.inputImageWrapper);
+                            }
                         }
                     },
                     {
@@ -7313,7 +8429,8 @@
                     {
                         key: "ready",
                         value: function(callback) {
-                            this.context.inputStream.play(), callback();
+                            this.context.inputStream.play();
+                            callback();
                         }
                     },
                     {
@@ -7349,11 +8466,18 @@
                                     }
                                 };
                                 var dom = container.dom;
-                                return "undefined" != typeof document && viewport && ("ImageStream" !== type || viewport.contains(dom.image) || viewport.appendChild(dom.image), viewport.contains(dom.overlay) || viewport.appendChild(dom.overlay)), container;
+                                if ("undefined" != typeof document && viewport) {
+                                    "ImageStream" !== type || viewport.contains(dom.image) || viewport.appendChild(dom.image);
+                                    viewport.contains(dom.overlay) || viewport.appendChild(dom.overlay);
+                                }
+                                return container;
                             }(this.context);
                             if (container) {
                                 var ctx = container.ctx, dom = container.dom;
-                                this.context.canvasContainer.dom.image = dom.image, this.context.canvasContainer.dom.overlay = dom.overlay, this.context.canvasContainer.ctx.image = ctx.image, this.context.canvasContainer.ctx.overlay = ctx.overlay;
+                                this.context.canvasContainer.dom.image = dom.image;
+                                this.context.canvasContainer.dom.overlay = dom.overlay;
+                                this.context.canvasContainer.ctx.image = ctx.image;
+                                this.context.canvasContainer.ctx.overlay = ctx.overlay;
                             }
                         }
                     },
@@ -7376,12 +8500,17 @@
                                             };
                                         case "LiveStream":
                                             var _video = null;
-                                            return !viewport || (_video = viewport.querySelector("video")) || (_video = document.createElement("video"), viewport.appendChild(_video)), {
+                                            if (viewport && !(_video = viewport.querySelector("video"))) {
+                                                _video = document.createElement("video");
+                                                viewport.appendChild(_video);
+                                            }
+                                            return {
                                                 video: _video,
                                                 inputStream: InputStream.createLiveStream(_video)
                                             };
                                         default:
-                                            return console.error("* setupInputStream invalid type ".concat(type)), {
+                                            console.error("* setupInputStream invalid type ".concat(type));
+                                            return {
                                                 video: null,
                                                 inputStream: null
                                             };
@@ -7391,7 +8520,11 @@
                                     return inputStream.trigger("canrecord");
                                 }).catch(function(err) {
                                     return callback(err);
-                                }), inputStream.setAttribute("preload", "auto"), inputStream.setInputStream(this.context.config.inputStream), inputStream.addEventListener("canrecord", this.canRecord.bind(void 0, callback)), this.context.inputStream = inputStream;
+                                });
+                                inputStream.setAttribute("preload", "auto");
+                                inputStream.setInputStream(this.context.config.inputStream);
+                                inputStream.addEventListener("canrecord", this.canRecord.bind(void 0, callback));
+                                this.context.inputStream = inputStream;
                             }
                         }
                     },
@@ -7412,10 +8545,15 @@
                     {
                         key: "transformResult",
                         value: function(result) {
-                            var line, _this2 = this, topRight = this.context.inputStream.getTopRight(), xOffset = topRight.x, yOffset = topRight.y;
-                            if ((0 !== xOffset || 0 !== yOffset) && (result.barcodes && result.barcodes.forEach(function(barcode) {
-                                return _this2.transformResult(barcode);
-                            }), result.line && 2 === result.line.length && (line = result.line, line[0].x += xOffset, line[0].y += yOffset, line[1].x += xOffset, line[1].y += yOffset), result.box && moveBox(result.box, xOffset, yOffset), result.boxes && result.boxes.length > 0)) for(var i = 0; i < result.boxes.length; i++)moveBox(result.boxes[i], xOffset, yOffset);
+                            var line, xOffset, yOffset, _this2 = this, topRight = this.context.inputStream.getTopRight(), xOffset1 = topRight.x, yOffset1 = topRight.y;
+                            if (0 !== xOffset1 || 0 !== yOffset1) {
+                                result.barcodes && result.barcodes.forEach(function(barcode) {
+                                    return _this2.transformResult(barcode);
+                                });
+                                result.line && 2 === result.line.length && (line = result.line, xOffset = xOffset1, yOffset = yOffset1, line[0].x += xOffset, line[0].y += yOffset, line[1].x += xOffset, line[1].y += yOffset);
+                                result.box && moveBox(result.box, xOffset1, yOffset1);
+                                if (result.boxes && result.boxes.length > 0) for(var i = 0; i < result.boxes.length; i++)moveBox(result.boxes[i], xOffset1, yOffset1);
+                            }
                         }
                     },
                     {
@@ -7441,7 +8579,13 @@
                         key: "publishResult",
                         value: function() {
                             var result = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null, imageData = arguments.length > 1 ? arguments[1] : void 0, resultToPublish = result;
-                            result && this.context.onUIThread && (this.transformResult(result), this.addResult(result, imageData), resultToPublish = result.barcodes || result), events.publish("processed", resultToPublish), this.hasCodeResult(result) && events.publish("detected", resultToPublish);
+                            if (result && this.context.onUIThread) {
+                                this.transformResult(result);
+                                this.addResult(result, imageData);
+                                resultToPublish = result.barcodes || result;
+                            }
+                            events.publish("processed", resultToPublish);
+                            this.hasCodeResult(result) && events.publish("detected", resultToPublish);
                         }
                     },
                     {
@@ -7450,7 +8594,8 @@
                             var boxes = this.getBoundingBoxes();
                             if (boxes) {
                                 var _this$context$inputIm3, decodeResult = this.context.decoder.decodeFromBoundingBoxes(boxes) || {};
-                                decodeResult.boxes = boxes, this.publishResult(decodeResult, null === (_this$context$inputIm3 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm3 ? void 0 : _this$context$inputIm3.data);
+                                decodeResult.boxes = boxes;
+                                this.publishResult(decodeResult, null === (_this$context$inputIm3 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm3 ? void 0 : _this$context$inputIm3.data);
                             } else {
                                 var _this$context$inputIm4, imageResult = this.context.decoder.decodeFromImage(this.context.inputImageWrapper);
                                 imageResult ? this.publishResult(imageResult, null === (_this$context$inputIm4 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm4 ? void 0 : _this$context$inputIm4.data) : this.publishResult();
@@ -7464,7 +8609,14 @@
                             this.context.stopped = !1;
                             var context = this.context;
                             !function newFrame(timestamp) {
-                                next = next || timestamp, context.stopped || (timestamp >= next && (next += delay, _this4.update()), window.requestAnimationFrame(newFrame));
+                                next = next || timestamp;
+                                if (!context.stopped) {
+                                    if (timestamp >= next) {
+                                        next += delay;
+                                        _this4.update();
+                                    }
+                                    window.requestAnimationFrame(newFrame);
+                                }
                             }(performance.now());
                         }
                     },
@@ -7482,11 +8634,14 @@
                             return regenerator_default.a.wrap(function(_context) {
                                 for(;;)switch(_context.prev = _context.next){
                                     case 0:
-                                        if (this.context.stopped = !0, adjustWorkerPool(0), !(null !== (_this$context$config7 = this.context.config) && void 0 !== _this$context$config7 && _this$context$config7.inputStream && "LiveStream" === this.context.config.inputStream.type)) {
+                                        this.context.stopped = !0;
+                                        adjustWorkerPool(0);
+                                        if (!(null !== (_this$context$config7 = this.context.config) && void 0 !== _this$context$config7 && _this$context$config7.inputStream && "LiveStream" === this.context.config.inputStream.type)) {
                                             _context.next = 6;
                                             break;
                                         }
-                                        return _context.next = 5, camera_access.release();
+                                        _context.next = 5;
+                                        return camera_access.release();
                                     case 5:
                                         this.context.inputStream.clearEventHandlers();
                                     case 6:
@@ -7501,7 +8656,8 @@
                     {
                         key: "setReaders",
                         value: function(readers) {
-                            this.context.decoder && this.context.decoder.setReaders(readers), workerPool.forEach(function(workerThread) {
+                            this.context.decoder && this.context.decoder.setReaders(readers);
+                            workerPool.forEach(function(workerThread) {
                                 return workerThread.worker.postMessage({
                                     cmd: "setReaders",
                                     readers: readers
@@ -7512,7 +8668,9 @@
                     {
                         key: "registerReader",
                         value: function(name, reader) {
-                            barcode_decoder.registerReader(name, reader), this.context.decoder && this.context.decoder.registerReader(name, reader), workerPool.forEach(function(workerThread) {
+                            barcode_decoder.registerReader(name, reader);
+                            this.context.decoder && this.context.decoder.registerReader(name, reader);
+                            workerPool.forEach(function(workerThread) {
                                 return workerThread.worker.postMessage({
                                     cmd: "registerReader",
                                     name: name,
@@ -7525,11 +8683,19 @@
             }(), instance = new quagga_Quagga(), quagga_context = instance.context, QuaggaJSStaticInterface = {
                 init: function(config, cb, imageWrapper) {
                     var promise, quaggaInstance = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : instance;
-                    return cb || (promise = new Promise(function(resolve, reject) {
+                    cb || (promise = new Promise(function(resolve, reject) {
                         cb = function(err) {
                             err ? reject(err) : resolve();
                         };
-                    })), quaggaInstance.context.config = merge_default()({}, config_config, config), quaggaInstance.context.config.numOfWorkers > 0 && (quaggaInstance.context.config.numOfWorkers = 0), imageWrapper ? (quaggaInstance.context.onUIThread = !1, quaggaInstance.initializeData(imageWrapper), cb && cb()) : quaggaInstance.initInputStream(cb), promise;
+                    }));
+                    quaggaInstance.context.config = merge_default()({}, config_config, config);
+                    quaggaInstance.context.config.numOfWorkers > 0 && (quaggaInstance.context.config.numOfWorkers = 0);
+                    if (imageWrapper) {
+                        quaggaInstance.context.onUIThread = !1;
+                        quaggaInstance.initializeData(imageWrapper);
+                        cb && cb();
+                    } else quaggaInstance.initInputStream(cb);
+                    return promise;
                 },
                 start: function() {
                     return instance.start();
@@ -7586,7 +8752,7 @@
                 },
                 decodeSingle: function(config, resultCallback) {
                     var _this = this, quaggaInstance = new quagga_Quagga();
-                    return (config = merge_default()({
+                    (config = merge_default()({
                         inputStream: {
                             type: "ImageStream",
                             sequence: !1,
@@ -7597,12 +8763,20 @@
                         locator: {
                             halfSample: !1
                         }
-                    }, config)).numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ("undefined" == typeof Blob || "undefined" == typeof Worker) && (console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0"), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
+                    }, config)).numOfWorkers > 0 && (config.numOfWorkers = 0);
+                    if (config.numOfWorkers > 0 && ("undefined" == typeof Blob || "undefined" == typeof Worker)) {
+                        console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0");
+                        config.numOfWorkers = 0;
+                    }
+                    return new Promise(function(resolve, reject) {
                         try {
                             _this.init(config, function() {
                                 events.once("processed", function(result) {
-                                    quaggaInstance.stop(), resultCallback && resultCallback.call(null, result), resolve(result);
-                                }, !0), quaggaInstance.start();
+                                    quaggaInstance.stop();
+                                    resultCallback && resultCallback.call(null, result);
+                                    resolve(result);
+                                }, !0);
+                                quaggaInstance.start();
                             }, null, quaggaInstance);
                         } catch (err) {
                             reject(err);

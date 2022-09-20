@@ -5,4 +5,12 @@ var condObject, C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-foo(), new C(), C.doIt(), condObject.valueOf(), foo(), new C(), C.doIt(), condObject.valueOf(), C.doIt();
+foo();
+new C();
+C.doIt();
+condObject.valueOf();
+foo();
+new C();
+C.doIt();
+condObject.valueOf();
+C.doIt();

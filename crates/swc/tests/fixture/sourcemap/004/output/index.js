@@ -11,7 +11,8 @@
                     children: t.foo
                 });
             };
-            u.r(t), u.d(t, {
+            u.r(t);
+            u.d(t, {
                 __N_SSG: function() {
                     return i;
                 },
@@ -37,6 +38,7 @@
             179
         ], function() {
             return n(n.s = 7139);
-        }), _N_E = n.O();
+        });
+        _N_E = n.O();
     }
 ]);

@@ -11,7 +11,8 @@ var M, _extends = require("@swc/helpers/lib/_extends.js").default;
 !function(M) {
     var React;
     M.React = React;
-}(M || (M = {})), M || (M = {}), _extends({
+}(M || (M = {}));
+M || (M = {}), _extends({
     x: ""
 }, void 0, {
     y: ""

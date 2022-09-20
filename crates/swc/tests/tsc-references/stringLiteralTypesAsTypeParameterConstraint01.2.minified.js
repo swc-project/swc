@@ -2,4 +2,5 @@
 var h = function(x) {
     return x;
 };
-h("foo"), h("bar");
+h("foo");
+h("bar");

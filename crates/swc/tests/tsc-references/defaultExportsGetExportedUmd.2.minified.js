@@ -7,7 +7,8 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    });
+    Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: ()=>Foo
     });
@@ -21,11 +22,12 @@
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.bTs = {});
 }(this, function(exports) {
     "use strict";
-    function foo() {}
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    });
+    Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: ()=>foo
     });
+    function foo() {}
 });

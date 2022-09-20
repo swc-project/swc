@@ -15,4 +15,6 @@ let C = (_D = class D {
         return 42;
     }).call(_D)
 }, _D);
-console.log(C.getClass().getField()), C.getClass().#method, C.getClass().#field;
+console.log(C.getClass().getField());
+C.getClass().#method;
+C.getClass().#field;

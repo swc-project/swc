@@ -9,13 +9,15 @@ class TestWithStatics {
         }
         static C = class {
             m() {
-                new TestWithStatics().#prop, new Inner().#foo;
+                new TestWithStatics().#prop;
+                new Inner().#foo;
             }
         };
         static M() {
             return class {
                 m() {
-                    new TestWithStatics().#prop, new Inner().#foo;
+                    new TestWithStatics().#prop;
+                    new Inner().#foo;
                 }
             };
         }
@@ -31,13 +33,15 @@ class TestNonStatics {
         }
         C = class {
             m() {
-                new TestNonStatics().#prop, new Inner().#foo;
+                new TestNonStatics().#prop;
+                new Inner().#foo;
             }
         };
         static M() {
             return class {
                 m() {
-                    new TestNonStatics().#prop, new Inner().#foo;
+                    new TestNonStatics().#prop;
+                    new Inner().#foo;
                 }
             };
         }

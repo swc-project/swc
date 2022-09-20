@@ -1,6 +1,11 @@
-if (x = 5, y) z();
-for(i = 0, x = 5; i < 5; i++)console.log(i);
-for(x = 5; i < 5; i++)console.log(i);
-switch(x = 5, y){
+x = 5;
+if (y) z();
+x = 5;
+for(i = 0; i < 5; i++)console.log(i);
+x = 5;
+for(; i < 5; i++)console.log(i);
+x = 5;
+switch(y){
 }
-with (x = 5, obj);
+x = 5;
+with (obj);

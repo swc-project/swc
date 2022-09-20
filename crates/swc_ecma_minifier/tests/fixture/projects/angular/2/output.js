@@ -1,4 +1,5 @@
 var h = destination.$$hashKey;
-for(var key in forEach(destination, function(value, key) {
+forEach(destination, function(value, key) {
     delete destination[key];
-}), source)destination[key] = copy(source[key]);
+});
+for(var key in source)destination[key] = copy(source[key]);

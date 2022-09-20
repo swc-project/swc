@@ -1,12 +1,16 @@
 //// [objectLiteralContextualTyping.ts]
 foo({
     name: "Sprocket"
-}), foo({
+});
+foo({
     name: "Sprocket",
     description: "Bumpy wheel"
-}), foo({
+});
+foo({
     name: "Sprocket",
     description: !1
-}), foo({
+});
+foo({
     a: 10
-}), bar({});
+});
+bar({});

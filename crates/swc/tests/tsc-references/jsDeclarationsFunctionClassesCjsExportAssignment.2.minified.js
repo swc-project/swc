@@ -16,4 +16,5 @@ Context.prototype = {
     construct: function(input) {
         return arguments.length > 1 && void 0 !== arguments[1] && arguments[1], input;
     }
-}, module.exports = Context;
+};
+module.exports = Context;

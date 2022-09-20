@@ -8,4 +8,5 @@ var D = function D() {
     "use strict";
     _class_call_check(this, D);
 };
-new D(), new D();
+new D();
+new D();

@@ -29,5 +29,6 @@ var B;
     (Point = B.Point || (B.Point = {})).Origin = {
         x: 0,
         y: 0
-    }, B.Point = Point;
+    };
+    B.Point = Point;
 }(B || (B = {}));

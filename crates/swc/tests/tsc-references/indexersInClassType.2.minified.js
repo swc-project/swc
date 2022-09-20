@@ -9,4 +9,5 @@ var r = new (function() {
         return this;
     }, C;
 }())().fn();
-r[1], r.a;
+r[1];
+r.a;

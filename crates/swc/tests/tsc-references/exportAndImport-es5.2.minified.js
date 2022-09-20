@@ -2,20 +2,22 @@
 "use strict";
 //// [m1.ts]
 "use strict";
-function f1() {}
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "default", {
+});
+Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
         return f1;
     }
 });
+function f1() {}
 //// [m2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "default", {
+});
+Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
         return f2;

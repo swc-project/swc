@@ -3,7 +3,8 @@ System.register([], function(_export, _context) {
     return {
         setters: [],
         execute: function() {
-            _export("a", 1), _export("b", 2);
+            _export("a", 1);
+            _export("b", 2);
         }
     };
 });
@@ -16,7 +17,9 @@ System.register([
             function(_0) {}
         ],
         execute: function() {
-            _export("_ns", ns), ns.a, ns.b;
+            _export("_ns", ns);
+            ns.a;
+            ns.b;
         }
     };
 });
@@ -33,7 +36,8 @@ System.register([
             }
         ],
         execute: function() {
-            foo.ns.a, foo.ns.b;
+            foo.ns.a;
+            foo.ns.b;
         }
     };
 });

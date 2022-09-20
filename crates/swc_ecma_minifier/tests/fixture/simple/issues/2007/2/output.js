@@ -1,6 +1,7 @@
 function func() {
     (async ()=>{
-        await this.foo(), this.bar();
+        await this.foo();
+        this.bar();
     })();
 }
 func();

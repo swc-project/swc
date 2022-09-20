@@ -17,7 +17,10 @@ var d, d2, D = function(C) {
     }
     return C.prototype.thing = function() {}, C.other = function() {}, C;
 }());
-d.foo, d.bar, d.thing(), D.other();
+d.foo;
+d.bar;
+d.thing();
+D.other();
 var D2 = function(C2) {
     "use strict";
     _inherits(D2, C2);
@@ -33,4 +36,7 @@ var D2 = function(C2) {
     }
     return C2.prototype.thing = function(x) {}, C2.other = function(x) {}, C2;
 }());
-d2.foo, d2.bar, d2.thing(""), D2.other(1);
+d2.foo;
+d2.bar;
+d2.thing("");
+D2.other(1);

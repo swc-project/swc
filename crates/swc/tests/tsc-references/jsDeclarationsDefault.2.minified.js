@@ -10,7 +10,8 @@ export { foo as bar };
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var Foo = function Foo() {
     "use strict";
-    _class_call_check(this, Foo), this.a = null;
+    _class_call_check(this, Foo);
+    this.a = null;
 };
 export var X = Foo;
 export { Foo as default, Foo as Bar };

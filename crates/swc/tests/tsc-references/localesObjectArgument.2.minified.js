@@ -1,18 +1,27 @@
 //// [localesObjectArgument.ts]
 const enUS = new Intl.Locale("en-US"), deDE = new Intl.Locale("de-DE"), jaJP = new Intl.Locale("ja-JP"), now = new Date();
-now.toLocaleString(enUS), now.toLocaleDateString(enUS), now.toLocaleTimeString(enUS), now.toLocaleString([
+now.toLocaleString(enUS);
+now.toLocaleDateString(enUS);
+now.toLocaleTimeString(enUS);
+now.toLocaleString([
     deDE,
     jaJP
-]), now.toLocaleDateString([
+]);
+now.toLocaleDateString([
     deDE,
     jaJP
-]), now.toLocaleTimeString([
+]);
+now.toLocaleTimeString([
     deDE,
     jaJP
-]), 1000..toLocaleString(enUS), 1000..toLocaleString([
+]);
+1000..toLocaleString(enUS);
+1000..toLocaleString([
     deDE,
     jaJP
-]), 123456789123456789n.toLocaleString(enUS), 123456789123456789n.toLocaleString([
+]);
+123456789123456789n.toLocaleString(enUS);
+123456789123456789n.toLocaleString([
     deDE,
     jaJP
 ]);

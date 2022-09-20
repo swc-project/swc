@@ -12,4 +12,5 @@ NS.K = function() {
     return _class.prototype.values = function() {
         return new NS.K();
     }, _class;
-}(), exports.K = NS.K;
+}();
+exports.K = NS.K;

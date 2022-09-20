@@ -1,2 +1,3 @@
 //// [mod.js]
-C.prototype = {}, C.prototype.bar.foo = {};
+C.prototype = {};
+C.prototype.bar.foo = {};

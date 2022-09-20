@@ -16,7 +16,8 @@ foo({
         d: "world",
         e: 3
     }
-}), foo({
+});
+foo({
     x: [
         "string",
         1
@@ -36,15 +37,19 @@ baz([
     "string",
     1,
     !0
-]), baz([
+]);
+baz([
     "string",
     1,
     !0
-]), baz(array), baz([
+]);
+baz(array);
+baz([
     "string",
     1,
     !0
-].concat(_to_consumable_array(array))), foo({
+].concat(_to_consumable_array(array)));
+foo({
     x: [
         "string",
         1

@@ -1,6 +1,10 @@
 export const obj = {
     setRequestHeader: function(name, value) {
         var lname = name.toLowerCase();
-        return state || (name = requestHeadersNames[lname] = requestHeadersNames[lname] || name, requestHeaders[name] = value), this;
+        if (!state) {
+            name = requestHeadersNames[lname] = requestHeadersNames[lname] || name;
+            requestHeaders[name] = value;
+        }
+        return this;
     }
 };

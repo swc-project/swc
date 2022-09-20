@@ -9,4 +9,8 @@ var C = function() {
         return v;
     }, _class;
 }();
-C.a, C.a = 1, C[2], C[2] = 42, new C().foo(1);
+C.a;
+C.a = 1;
+C[2];
+C[2] = 42;
+new C().foo(1);

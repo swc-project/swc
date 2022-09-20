@@ -4,7 +4,8 @@ _extends({}, {
     x: function(n) {
         return 0;
     }
-}), _extends({}, {
+});
+_extends({}, {
     x: function(n) {
         return n.len;
     }

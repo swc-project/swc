@@ -8,7 +8,10 @@ var Base = function() {
         _class_call_check(this, Base);
     }
     return Base.staticMethod = function() {
-        Base.x, Derived1.x, Derived2.x, Derived3.x;
+        Base.x;
+        Derived1.x;
+        Derived2.x;
+        Derived3.x;
     }, Base;
 }(), Derived1 = function(Base1) {
     "use strict";
@@ -18,7 +21,10 @@ var Base = function() {
         return _class_call_check(this, Derived1), _super.apply(this, arguments);
     }
     return Derived1.staticMethod1 = function() {
-        Base.x, Derived1.x, Derived2.x, Derived3.x;
+        Base.x;
+        Derived1.x;
+        Derived2.x;
+        Derived3.x;
     }, Derived1;
 }(Base), Derived2 = function(Base1) {
     "use strict";
@@ -28,7 +34,10 @@ var Base = function() {
         return _class_call_check(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2.staticMethod2 = function() {
-        Base.x, Derived1.x, Derived2.x, Derived3.x;
+        Base.x;
+        Derived1.x;
+        Derived2.x;
+        Derived3.x;
     }, Derived2;
 }(Base), Derived3 = function(Derived11) {
     "use strict";
@@ -38,7 +47,13 @@ var Base = function() {
         return _class_call_check(this, Derived3), _super.apply(this, arguments);
     }
     return Derived3.staticMethod3 = function() {
-        Base.x, Derived1.x, Derived2.x, Derived3.x;
+        Base.x;
+        Derived1.x;
+        Derived2.x;
+        Derived3.x;
     }, Derived3;
 }(Derived1);
-Base.x, Derived1.x, Derived2.x, Derived3.x;
+Base.x;
+Derived1.x;
+Derived2.x;
+Derived3.x;

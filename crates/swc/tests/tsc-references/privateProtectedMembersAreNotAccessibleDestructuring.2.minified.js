@@ -12,4 +12,7 @@ var k = new (function() {
         ref.priv, ref.prot;
     }, K;
 }())();
-k.priv, k.prot, k.privateMethod, k.priv, k.prot, k.privateMethod;
+k.priv;
+k.prot;
+k.privateMethod;
+k.priv, k.prot, k.privateMethod;

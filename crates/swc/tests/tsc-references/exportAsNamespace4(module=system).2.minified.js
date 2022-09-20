@@ -3,7 +3,8 @@ System.register([], function(_export, _context) {
     return {
         setters: [],
         execute: function() {
-            _export("a", 1), _export("b", 2);
+            _export("a", 1);
+            _export("b", 2);
         }
     };
 });
@@ -54,7 +55,10 @@ System.register([
             }
         ],
         execute: function() {
-            foo.a, foo1.a, foo.b, foo1.b;
+            foo.a;
+            foo1.a;
+            foo.b;
+            foo1.b;
         }
     };
 });

@@ -49,7 +49,8 @@ _object_without_properties(complex.x, [
 ]), _object_without_properties(complex, [
     "x",
     "y"
-]), _object_without_properties(complex.x, [
+]);
+_object_without_properties(complex.x, [
     "ka"
 ]), _object_without_properties(complex, [
     "x",
@@ -61,7 +62,8 @@ var _ref = {
 }, { x  } = _ref;
 _object_without_properties(_ref, [
     "x"
-]), _object_without_properties(_tmp = {
+]);
+_object_without_properties(_tmp = {
     x: 1,
     y: 2
 }, [

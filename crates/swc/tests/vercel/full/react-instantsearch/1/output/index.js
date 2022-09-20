@@ -5,7 +5,8 @@ export default function t(t) {
             return n;
         },
         setState: function(t) {
-            n = t, e.forEach(function(t) {
+            n = t;
+            e.forEach(function(t) {
                 return t();
             });
         },

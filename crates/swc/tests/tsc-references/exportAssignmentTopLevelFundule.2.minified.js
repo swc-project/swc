@@ -17,5 +17,6 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), 42 === _foo0.answer && _foo0();
+    });
+    42 === _foo0.answer && _foo0();
 });

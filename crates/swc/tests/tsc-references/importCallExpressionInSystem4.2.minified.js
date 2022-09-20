@@ -40,7 +40,8 @@ System.register([], function(_export, _context) {
             _export("D", class {
                 myModule = _context.import("./0");
                 method() {
-                    _context.import("./0"), this.myModule.then((Zero)=>{
+                    _context.import("./0");
+                    this.myModule.then((Zero)=>{
                         console.log(Zero.foo());
                     }, async (err)=>{
                         console.log(err);

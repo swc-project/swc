@@ -28,18 +28,21 @@ function f(a) {
         a.y
     ];
 }
+f({
+    x: new Derived(),
+    y: new Derived2()
+});
+f({
+    x: new Base(),
+    y: new Derived2()
+});
 function f2(a) {
     return function(x) {
         return a.y;
     };
 }
-f({
+f2({
     x: new Derived(),
     y: new Derived2()
-}), f({
-    x: new Base(),
-    y: new Derived2()
-}), f2({
-    x: new Derived(),
-    y: new Derived2()
-}), f2(i);
+});
+f2(i);

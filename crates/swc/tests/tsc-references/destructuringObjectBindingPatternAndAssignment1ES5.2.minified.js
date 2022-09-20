@@ -12,4 +12,5 @@ function foo1() {
         prop1: 2
     };
 }
-foo1().prop1, foo1().prop2;
+foo1().prop1;
+foo1().prop2;

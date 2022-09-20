@@ -3,12 +3,15 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 exports.Bar = function _class() {
     "use strict";
     _class_call_check(this, _class);
-}, module.exports = {
+};
+module.exports = {
     Baz: function Baz() {
         "use strict";
         _class_call_check(this, Baz);
     }
-}, exports.Quid = 2, module.exports = {
+};
+exports.Quid = 2;
+module.exports = {
     Quack: 2
 };
 //// [use.js]

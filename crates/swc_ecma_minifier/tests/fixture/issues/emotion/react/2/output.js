@@ -54,18 +54,24 @@ function handleInterpolation(mergedProps, registered, interpolation) {
         case "boolean":
             return "";
         case "object":
-            if (1 === interpolation.anim) return cursor = {
-                name: interpolation.name,
-                styles: interpolation.styles,
-                next: cursor
-            }, interpolation.name;
+            if (1 === interpolation.anim) {
+                cursor = {
+                    name: interpolation.name,
+                    styles: interpolation.styles,
+                    next: cursor
+                };
+                return interpolation.name;
+            }
             if (void 0 !== interpolation.styles) {
                 var next = interpolation.next;
-                if (void 0 !== next) for(; void 0 !== next;)cursor = {
-                    name: next.name,
-                    styles: next.styles,
-                    next: cursor
-                }, next = next.next;
+                if (void 0 !== next) for(; void 0 !== next;){
+                    cursor = {
+                        name: next.name,
+                        styles: next.styles,
+                        next: cursor
+                    };
+                    next = next.next;
+                }
                 return interpolation.styles + ";";
             }
             return function(mergedProps, registered, obj) {
@@ -92,7 +98,8 @@ function handleInterpolation(mergedProps, registered, interpolation) {
         case "function":
             if (void 0 !== mergedProps) {
                 var previousCursor = cursor, result = interpolation(mergedProps);
-                return cursor = previousCursor, handleInterpolation(mergedProps, registered, result);
+                cursor = previousCursor;
+                return handleInterpolation(mergedProps, registered, result);
             }
     }
     if (null == registered) return interpolation;
@@ -104,20 +111,31 @@ export function serializeStyles(args, registered, mergedProps) {
     var match, stringMode = !0, styles = "";
     cursor = void 0;
     var strings = args[0];
-    null == strings || void 0 === strings.raw ? (stringMode = !1, styles += handleInterpolation(mergedProps, registered, strings)) : styles += strings[0];
-    for(var i = 1; i < args.length; i++)styles += handleInterpolation(mergedProps, registered, args[i]), stringMode && (styles += strings[i]);
+    if (null == strings || void 0 === strings.raw) {
+        stringMode = !1;
+        styles += handleInterpolation(mergedProps, registered, strings);
+    } else styles += strings[0];
+    for(var i = 1; i < args.length; i++){
+        styles += handleInterpolation(mergedProps, registered, args[i]);
+        stringMode && (styles += strings[i]);
+    }
     labelPattern.lastIndex = 0;
     for(var identifierName = ""; null !== (match = labelPattern.exec(styles));)identifierName += "-" + match[1];
     return {
         name: function(str) {
-            for(var k, h = 0, i = 0, len = str.length; len >= 4; ++i, len -= 4)k = (0xffff & (k = 0xff & str.charCodeAt(i) | (0xff & str.charCodeAt(++i)) << 8 | (0xff & str.charCodeAt(++i)) << 16 | (0xff & str.charCodeAt(++i)) << 24)) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16), k ^= k >>> 24, h = (0xffff & k) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^ (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+            for(var k, h = 0, i = 0, len = str.length; len >= 4; ++i, len -= 4){
+                k = (0xffff & (k = 0xff & str.charCodeAt(i) | (0xff & str.charCodeAt(++i)) << 8 | (0xff & str.charCodeAt(++i)) << 16 | (0xff & str.charCodeAt(++i)) << 24)) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16);
+                k ^= k >>> 24;
+                h = (0xffff & k) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^ (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+            }
             switch(len){
                 case 3:
                     h ^= (0xff & str.charCodeAt(i + 2)) << 16;
                 case 2:
                     h ^= (0xff & str.charCodeAt(i + 1)) << 8;
                 case 1:
-                    h ^= 0xff & str.charCodeAt(i), h = (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+                    h ^= 0xff & str.charCodeAt(i);
+                    h = (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
             }
             return h ^= h >>> 13, (((h = (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16)) ^ h >>> 15) >>> 0).toString(36);
         }(styles) + identifierName,

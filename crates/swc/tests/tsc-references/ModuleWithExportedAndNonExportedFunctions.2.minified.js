@@ -6,5 +6,10 @@ var A;
     }, fng = function(s) {
         return null;
     };
-    A.fn = fn, A.fng = fng;
-}(A || (A = {})), A.fn, A.fng, A.fn2, A.fng2;
+    A.fn = fn;
+    A.fng = fng;
+}(A || (A = {}));
+A.fn;
+A.fng;
+A.fn2;
+A.fng2;

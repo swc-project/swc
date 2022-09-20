@@ -4,17 +4,18 @@ define([
     "exports"
 ], function(require, exports) {
     "use strict";
-    function foo() {
-        return "foo";
-    }
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "foo", {
+    });
+    Object.defineProperty(exports, "foo", {
         enumerable: !0,
         get: function() {
             return foo;
         }
     });
+    function foo() {
+        return "foo";
+    }
 });
 //// [1.ts]
 define([
@@ -26,7 +27,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -38,13 +40,17 @@ define([
         D: function() {
             return D;
         }
-    }), _classCallCheck = _classCallCheck.default, _interopRequireWildcard = _interopRequireWildcard.default, new Promise(function(resolve, reject) {
+    });
+    _classCallCheck = _classCallCheck.default;
+    _interopRequireWildcard = _interopRequireWildcard.default;
+    new Promise(function(resolve, reject) {
         return require([
             "./0"
         ], function(m) {
             return resolve(_interopRequireWildcard(m));
         }, reject);
-    }), new Promise(function(resolve, reject) {
+    });
+    new Promise(function(resolve, reject) {
         return require([
             "./0"
         ], function(m) {

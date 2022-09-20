@@ -1,6 +1,10 @@
 function f() {
-    return foo(), bar(), baz();
+    foo();
+    bar();
+    return baz();
 }
 function g() {
-    throw foo(), bar(), Error();
+    foo();
+    bar();
+    throw Error();
 }

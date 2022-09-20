@@ -6,4 +6,5 @@ function incr() {
 const oobj = {
     obj
 };
-obj[incr()] ??= incr(), oobj.obj[incr()] ??= incr();
+obj[incr()] ??= incr();
+oobj.obj[incr()] ??= incr();

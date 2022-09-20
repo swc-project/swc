@@ -1,8 +1,10 @@
 //// [dependentDestructuredVariables.ts]
 const { value , done  } = it.next();
 f50((kind, data)=>{
-    'A' === kind && data.toFixed(), 'B' === kind && data.toUpperCase();
-}), readFile('hello', (err, data)=>{
+    'A' === kind && data.toFixed();
+    'B' === kind && data.toUpperCase();
+});
+readFile('hello', (err, data)=>{
     null === err ? data.length : err.message;
 });
 const reducer = (op, args)=>{
@@ -17,7 +19,8 @@ const reducer = (op, args)=>{
 reducer("add", {
     a: 1,
     b: 3
-}), reducer("concat", {
+});
+reducer("concat", {
     firstArr: [
         1,
         2

@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "default", {
+});
+Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
         return o;
@@ -49,6 +50,8 @@ var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@
 }(r(require("react")).Component);
 o.propTypes = {
     items: 500
-}, o.defaultProps = {
+};
+o.defaultProps = {
     sectionIndex: null
-}, new o();
+};
+new o();

@@ -7,10 +7,12 @@ import _class_private_method_init from "@swc/helpers/src/_class_private_method_i
 var _a = new WeakMap(), _b = new WeakSet(), _c = new WeakMap();
 export class C {
     constructor(){
-        _class_private_method_init(this, _b), _class_private_field_init(this, _c, {
+        _class_private_method_init(this, _b);
+        _class_private_field_init(this, _c, {
             get: void 0,
             set: set_c
-        }), _class_private_field_init(this, _a, {
+        });
+        _class_private_field_init(this, _a, {
             writable: !0,
             value: 1
         });

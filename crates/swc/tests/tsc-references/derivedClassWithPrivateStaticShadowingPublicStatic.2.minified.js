@@ -38,4 +38,11 @@ var Base = function() {
         }
     ]), Derived;
 }(Base);
-Base.x, Derived.x, Base.fn(), Derived.fn(), Base.a, Base.a = 2, Derived.a, Derived.a = 2;
+Base.x;
+Derived.x;
+Base.fn();
+Derived.fn();
+Base.a;
+Base.a = 2;
+Derived.a;
+Derived.a = 2;

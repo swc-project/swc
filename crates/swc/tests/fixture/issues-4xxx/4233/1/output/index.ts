@@ -1,6 +1,7 @@
 !function() {
     try {} catch (e) {
-        throw(// hi
-        baz(), e);
+        // hi
+        baz();
+        throw e;
     }
 }();

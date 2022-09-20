@@ -6,4 +6,5 @@ var x = {
     kind: "A",
     a: 100
 };
-hasKind(x, "A"), hasKind(x, "B");
+hasKind(x, "A");
+hasKind(x, "B");

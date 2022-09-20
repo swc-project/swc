@@ -4,7 +4,9 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 var Base = function Base(x) {
     "use strict";
-    _class_call_check(this, Base), this.a = 1, this.a = x;
+    _class_call_check(this, Base);
+    this.a = 1;
+    this.a = x;
 }, Derived = function(Base) {
     "use strict";
     _inherits(Derived, Base);
@@ -24,7 +26,9 @@ var Base = function Base(x) {
     }
     return Derived2;
 }(Derived);
-new Derived(), new Derived2(1), new Derived("", "");
+new Derived();
+new Derived2(1);
+new Derived("", "");
 var D2 = function(D) {
     "use strict";
     _inherits(D2, D);
@@ -44,4 +48,6 @@ var D2 = function(D) {
     }
     return D;
 }(Base));
-new D2(), new D2(new Date()), new D2(new Date(), new Date());
+new D2();
+new D2(new Date());
+new D2(new Date(), new Date());

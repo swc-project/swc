@@ -31,7 +31,8 @@ var b, crate, RoyalGuard = function() {
     }
     return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard();
-a.isLeader() ? a.lead() : a.isFollower() && a.follow(), b.isLeader() ? b.lead() : b.isFollower() && b.follow();
+a.isLeader() ? a.lead() : a.isFollower() && a.follow();
+b.isLeader() ? b.lead() : b.isFollower() && b.follow();
 var holder2 = {
     a: a
 };
@@ -39,9 +40,11 @@ holder2.a.isLeader(), holder2.a;
 var ArrowGuard = function ArrowGuard() {
     "use strict";
     var _this = this;
-    _class_call_check(this, ArrowGuard), this.isElite = function() {
+    _class_call_check(this, ArrowGuard);
+    this.isElite = function() {
         return _instanceof(_this, ArrowElite);
-    }, this.isMedic = function() {
+    };
+    this.isMedic = function() {
         return _instanceof(_this, ArrowMedic);
     };
 }, ArrowElite = function(ArrowGuard) {
@@ -61,7 +64,10 @@ var ArrowGuard = function ArrowGuard() {
     }
     return ArrowMedic.prototype.heal = function() {}, ArrowMedic;
 }(ArrowGuard), guard = new ArrowGuard();
-guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), a.isFollower = b.isFollower, a.isLeader = b.isLeader;
+guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal();
+crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0);
+a.isFollower = b.isFollower;
+a.isLeader = b.isLeader;
 var MimicGuard = function() {
     "use strict";
     function MimicGuard() {
@@ -90,4 +96,9 @@ var MimicGuard = function() {
     }
     return MimicFollower.prototype.follow = function() {}, MimicFollower;
 }(MimicGuard), mimic = new MimicGuard();
-a.isLeader = mimic.isLeader, a.isFollower = mimic.isFollower, mimic.isFollower() && (mimic.follow(), mimic.isFollower = a.isFollower);
+a.isLeader = mimic.isLeader;
+a.isFollower = mimic.isFollower;
+if (mimic.isFollower()) {
+    mimic.follow();
+    mimic.isFollower = a.isFollower;
+}

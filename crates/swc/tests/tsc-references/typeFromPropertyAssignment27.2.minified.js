@@ -6,4 +6,5 @@ C.prototype = {
     q: 2
 };
 var c = new C();
-c.p, c.q;
+c.p;
+c.q;

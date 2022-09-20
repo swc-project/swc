@@ -21,11 +21,13 @@ const manager = function() {
         },
         l: function(m, n, o) {
             const p = j(m);
-            p.set(n, o), m.observe(n);
+            p.set(n, o);
+            m.observe(n);
         },
         q: function(r, s) {
             const t = j(r);
-            t.delete(s), r.unobserve(s);
+            t.delete(s);
+            r.unobserve(s);
         }
     };
 }();

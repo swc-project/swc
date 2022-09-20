@@ -5,7 +5,9 @@ export function treeSubTree(tree, pathObj) {
             children: {},
             childCount: 0
         };
-        child = new Tree(next, child, childNode), path = pathPopFront(path), next = pathGetFront(path);
+        child = new Tree(next, child, childNode);
+        path = pathPopFront(path);
+        next = pathGetFront(path);
     }
     return child;
 }

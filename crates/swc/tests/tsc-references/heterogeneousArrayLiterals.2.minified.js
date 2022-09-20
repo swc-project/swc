@@ -14,4 +14,5 @@ var WithContextualType, Derived = function(Base) {
     "use strict";
     _class_call_check(this, Base);
 });
-Derived || (Derived = {}), WithContextualType || (WithContextualType = {});
+Derived || (Derived = {});
+WithContextualType || (WithContextualType = {});

@@ -6,7 +6,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var C = function() {
     "use strict";
     function C(a, b) {
-        _class_call_check(this, C), this.a = a, this.b = b;
+        _class_call_check(this, C);
+        this.a = a;
+        this.b = b;
     }
     return C.fn = function() {
         return this;
@@ -20,7 +22,8 @@ var C = function() {
         }
     ]), C;
 }(), r = C.fn();
-r.x, r.foo;
+r.x;
+r.foo;
 var r = (function(C) {
     "use strict";
     _inherits(D, C);
@@ -30,4 +33,5 @@ var r = (function(C) {
     }
     return D;
 })(C).fn();
-r.x, r.foo;
+r.x;
+r.foo;

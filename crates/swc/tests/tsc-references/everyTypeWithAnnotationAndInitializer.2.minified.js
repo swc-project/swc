@@ -14,5 +14,11 @@ var M, C = function C() {
         "use strict";
         _class_call_check(this, A);
     };
-    M.A = A, M.F2 = F2;
-}(M || (M = {})), new C(), new C(), new D(), new C(), new M.A();
+    M.A = A;
+    M.F2 = F2;
+}(M || (M = {}));
+new C();
+new C();
+new D();
+new C();
+new M.A();

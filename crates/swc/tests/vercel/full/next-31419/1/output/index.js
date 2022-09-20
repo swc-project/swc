@@ -7,25 +7,32 @@ Promise.all(assignAll).then(function() {
         return n(this, function(a) {
             switch(a.label){
                 case 0:
-                    for(c in e = function(u) {
+                    e = function(u) {
                         var t, e;
                         return n(this, function(n) {
                             switch(n.label){
                                 case 0:
-                                    return t = r[u], s += "'".concat(t.id, "', "), [
+                                    t = r[u];
+                                    s += "'".concat(t.id, "', ");
+                                    return [
                                         4,
                                         listOfUser(t.id)
                                     ];
                                 case 1:
-                                    return n.sent().forEach(function(r) {
+                                    n.sent().forEach(function(r) {
                                         insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(t.id, "', now());");
-                                    }), [
+                                    });
+                                    return [
                                         2
                                     ];
                             }
                         });
-                    }, s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', i = [], r);
-                    o = 0, a.label = 1;
+                    };
+                    s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ';
+                    i = [];
+                    for(c in r);
+                    o = 0;
+                    a.label = 1;
                 case 1:
                     if (!(o < i.length)) return [
                         3,
@@ -38,7 +45,8 @@ Promise.all(assignAll).then(function() {
                 case 2:
                     a.label = 3;
                 case 3:
-                    return o++, [
+                    o++;
+                    return [
                         3,
                         1
                     ];

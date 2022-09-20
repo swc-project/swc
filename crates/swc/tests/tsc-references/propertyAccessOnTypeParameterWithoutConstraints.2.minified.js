@@ -10,7 +10,12 @@ new (function() {
         var x;
         return x.toString() + x.toString();
     }, C;
-}())().f(), i.foo.toString(), i.foo.toString(), a().toString(), a().toString(), ({
+}())().f();
+i.foo.toString();
+i.foo.toString();
+a().toString();
+a().toString();
+({
     foo: function(x) {
         return x.toString() + x.toString();
     }

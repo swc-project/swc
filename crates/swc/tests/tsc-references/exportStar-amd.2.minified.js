@@ -10,7 +10,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -33,7 +34,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -57,7 +59,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -87,7 +90,10 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), (_exportStar = _exportStar.default)(_t1, exports), _exportStar(_t2, exports), _exportStar(_t3, exports);
+    });
+    (_exportStar = _exportStar.default)(_t1, exports);
+    _exportStar(_t2, exports);
+    _exportStar(_t3, exports);
 });
 //// [main.ts]
 define([
@@ -99,5 +105,10 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), (_t4 = (_interopRequireWildcard = _interopRequireWildcard.default)(_t4)).default, _t4.x, _t4.y, _t4.z, _t4.foo;
+    });
+    (_t4 = (_interopRequireWildcard = _interopRequireWildcard.default)(_t4)).default;
+    _t4.x;
+    _t4.y;
+    _t4.z;
+    _t4.foo;
 });

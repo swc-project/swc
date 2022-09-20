@@ -2,10 +2,13 @@
 var E, a;
 !function(E) {
     E[E.x = 0] = "x";
-}(E || (E = {})), extractIndexer({
+}(E || (E = {}));
+extractIndexer({
     [a]: ""
-}), extractIndexer({
+});
+extractIndexer({
     [E.x]: ""
-}), extractIndexer({
+});
+extractIndexer({
     0: ""
 });

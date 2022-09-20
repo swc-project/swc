@@ -2,4 +2,5 @@
 module.exports = {};
 //// [bug40140.js]
 var u = require("untyped");
-u.assignment.nested = !0, u.noError();
+u.assignment.nested = !0;
+u.noError();

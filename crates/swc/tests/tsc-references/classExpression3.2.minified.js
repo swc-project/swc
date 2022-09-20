@@ -22,6 +22,9 @@ var c = new (function(_superClass) {
     return _class;
 }(function _class() {
     "use strict";
-    _class_call_check(this, _class), this.a = 1;
+    _class_call_check(this, _class);
+    this.a = 1;
 })))();
-c.a, c.b, c.c;
+c.a;
+c.b;
+c.c;

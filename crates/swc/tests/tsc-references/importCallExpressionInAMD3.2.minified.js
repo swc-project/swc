@@ -6,7 +6,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "B", {
+    });
+    Object.defineProperty(exports, "B", {
         enumerable: !0,
         get: ()=>B
     });
@@ -23,6 +24,10 @@ define([
     "@swc/helpers/src/_interop_require_wildcard.mjs"
 ], function(require, exports, _interopRequireWildcard) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    });
+    _interopRequireWildcard = _interopRequireWildcard.default;
     async function foo() {
         class C extends (await new Promise((resolve, reject)=>require([
                 "./0"
@@ -30,7 +35,5 @@ define([
         }
         new C().print();
     }
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    }), _interopRequireWildcard = _interopRequireWildcard.default, foo();
+    foo();
 });

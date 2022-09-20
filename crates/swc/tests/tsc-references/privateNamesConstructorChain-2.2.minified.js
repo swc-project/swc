@@ -5,7 +5,8 @@ import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static
 var _foo = new WeakMap();
 class Parent {
     accessChildProps() {
-        _class_private_field_get(new Child(), _foo), _class_static_private_field_spec_get(Child, Parent, _bar);
+        _class_private_field_get(new Child(), _foo);
+        _class_static_private_field_spec_get(Child, Parent, _bar);
     }
     constructor(){
         _class_private_field_init(this, _foo, {
@@ -20,10 +21,12 @@ var _bar = {
 }, _foo1 = new WeakMap(), _bar1 = new WeakMap();
 class Child extends Parent {
     constructor(...args){
-        super(...args), _class_private_field_init(this, _foo1, {
+        super(...args);
+        _class_private_field_init(this, _foo1, {
             writable: !0,
             value: "foo"
-        }), _class_private_field_init(this, _bar1, {
+        });
+        _class_private_field_init(this, _bar1, {
             writable: !0,
             value: "bar"
         });

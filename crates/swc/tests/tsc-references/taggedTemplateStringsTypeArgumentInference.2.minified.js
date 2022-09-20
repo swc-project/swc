@@ -280,57 +280,83 @@ function _templateObject27() {
         return data;
     }, data;
 }
+_templateObject();
+_templateObject1();
+_templateObject2();
+_templateObject3();
+_templateObject4();
+_templateObject5();
 function someGenerics3(strs, producer) {}
-function someGenerics4(strs, n, f) {}
-function someGenerics5(strs, n, f) {}
-function someGenerics6(strs, a, b, c) {}
-function someGenerics7(strs, a, b, c) {}
-_templateObject(), _templateObject1(), _templateObject2(), _templateObject3(), _templateObject4(), _templateObject5(), someGenerics3(_templateObject6(), function() {
+someGenerics3(_templateObject6(), function() {
     return "";
-}), someGenerics3(_templateObject7(), function() {}), someGenerics3(_templateObject8(), function() {
+});
+someGenerics3(_templateObject7(), function() {});
+someGenerics3(_templateObject8(), function() {
     return 3;
-}), someGenerics4(_templateObject9(), 4, function() {
+});
+function someGenerics4(strs, n, f) {}
+someGenerics4(_templateObject9(), 4, function() {
     return null;
-}), someGenerics4(_templateObject10(), "", function() {
+});
+someGenerics4(_templateObject10(), "", function() {
     return 3;
-}), someGenerics4(_templateObject11(), null, null), someGenerics5(_templateObject12(), 4, function() {
+});
+someGenerics4(_templateObject11(), null, null);
+function someGenerics5(strs, n, f) {}
+someGenerics5(_templateObject12(), 4, function() {
     return null;
-}), someGenerics5(_templateObject13(), "", function() {
+});
+someGenerics5(_templateObject13(), "", function() {
     return 3;
-}), someGenerics5(_templateObject14(), null, null), someGenerics6(_templateObject15(), function(n) {
+});
+someGenerics5(_templateObject14(), null, null);
+function someGenerics6(strs, a, b, c) {}
+someGenerics6(_templateObject15(), function(n) {
     return n;
 }, function(n) {
     return n;
 }, function(n) {
     return n;
-}), someGenerics6(_templateObject16(), function(n) {
+});
+someGenerics6(_templateObject16(), function(n) {
     return n;
 }, function(n) {
     return n;
 }, function(n) {
     return n;
-}), someGenerics6(_templateObject17(), function(n) {
+});
+someGenerics6(_templateObject17(), function(n) {
     return n;
 }, function(n) {
     return n;
 }, function(n) {
     return n;
-}), someGenerics7(_templateObject18(), function(n) {
+});
+function someGenerics7(strs, a, b, c) {}
+someGenerics7(_templateObject18(), function(n) {
     return n;
 }, function(n) {
     return n;
 }, function(n) {
     return n;
-}), someGenerics7(_templateObject19(), function(n) {
+});
+someGenerics7(_templateObject19(), function(n) {
     return n;
 }, function(n) {
     return n;
 }, function(n) {
     return n;
-}), someGenerics7(_templateObject20(), function(n) {
+});
+someGenerics7(_templateObject20(), function(n) {
     return n;
 }, function(n) {
     return n;
 }, function(n) {
     return n;
-}), (_templateObject21(), someGenerics7)(_templateObject22(), null, null, null), _templateObject23(), _templateObject24(), _templateObject25(), _templateObject26(), _templateObject27();
+});
+(_templateObject21(), someGenerics7)(_templateObject22(), null, null, null);
+_templateObject23();
+_templateObject24();
+_templateObject25();
+_templateObject26();
+_templateObject27();

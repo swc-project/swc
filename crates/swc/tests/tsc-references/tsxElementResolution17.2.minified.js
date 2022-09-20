@@ -16,5 +16,6 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _elements1.MyElement;
+    });
+    _elements1.MyElement;
 });

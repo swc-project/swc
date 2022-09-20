@@ -6,7 +6,11 @@ F.prototype = {
     [_str]: "ok"
 };
 const inst = new F();
-inst[_str], inst[_sym], module.exports.F = F, module.exports.S = _sym;
+inst[_str];
+inst[_sym];
+module.exports.F = F;
+module.exports.S = _sym;
 //// [usage.js]
 const x = require("./lateBoundAssignmentDeclarationSupport5.js"), inst = new x.F();
-inst["my-fake-sym"], inst[x.S];
+inst["my-fake-sym"];
+inst[x.S];

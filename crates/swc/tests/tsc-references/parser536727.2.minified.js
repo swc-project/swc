@@ -7,6 +7,8 @@ var g = function(x) {
 }, x = function() {
     return g;
 };
-foo(g), foo(function() {
+foo(g);
+foo(function() {
     return g;
-}), foo(x);
+});
+foo(x);

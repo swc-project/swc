@@ -1,2 +1,3 @@
 //// [genericObjectRest.ts]
-Symbol(), Symbol();
+Symbol();
+Symbol();

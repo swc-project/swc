@@ -2,5 +2,6 @@
 var Errors;
 !function(Errors) {
     var WithNonGenericSignaturesInBaseType, WithGenericSignaturesInBaseType;
-    WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {}), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {});
+    WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {});
+    WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {});
 }(Errors || (Errors = {}));

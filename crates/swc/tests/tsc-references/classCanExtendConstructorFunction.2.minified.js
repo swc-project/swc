@@ -9,9 +9,12 @@ function Wagon(numberOxen) {
 }
 Wagon.circle = function(wagons) {
     return wagons ? wagons.length : 3.14;
-}, Wagon.prototype.load = function(supplies) {}, Wagon.prototype.weight = function(supplies) {
+};
+Wagon.prototype.load = function(supplies) {};
+Wagon.prototype.weight = function(supplies) {
     return supplies ? supplies.length : -1;
-}, Wagon.prototype.speed = function() {
+};
+Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
 var db = new (function(Wagon) {
@@ -24,10 +27,12 @@ var db = new (function(Wagon) {
     }
     return Sql.prototype.load = function(files, format) {
         if ("xmlolololol" === format) throw Error("please do not use XML. It was a joke.");
-        _get(_get_prototype_of(Sql.prototype), "speed", this).call(this), _get(_get_prototype_of(Sql.prototype), "weight", this).call(this);
+        _get(_get_prototype_of(Sql.prototype), "speed", this).call(this);
+        _get(_get_prototype_of(Sql.prototype), "weight", this).call(this);
     }, Sql;
 }(Wagon))();
-db.numberOxen = db.foonly, Dragon;
+db.numberOxen = db.foonly;
+Dragon;
 //// [second.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
@@ -44,7 +49,8 @@ var c = new (function(Wagon1) {
         return others.length;
     }, Conestoga;
 }(Wagon))(!0);
-c.drunkOO, c.numberOxen;
+c.drunkOO;
+c.numberOxen;
 //// [generic.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
@@ -63,6 +69,9 @@ var Chowder = function(Soup) {
         return this.flavour;
     }, Chowder;
 }(Soup);
-new Soup(1).flavour, new Chowder({
+new Soup(1).flavour;
+new Chowder({
     claim: "ignorant"
-}).flavour.claim, new Chowder(), new Chowder(0);
+}).flavour.claim;
+new Chowder();
+new Chowder(0);

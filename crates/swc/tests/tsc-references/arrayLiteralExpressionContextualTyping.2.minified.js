@@ -14,11 +14,13 @@ var tup = [
     1,
     2,
     3
-])), [
+]));
+[
     1,
     2,
     3
-].concat(_to_consumable_array(tup)), [
+].concat(_to_consumable_array(tup));
+[
     1,
     2,
     3

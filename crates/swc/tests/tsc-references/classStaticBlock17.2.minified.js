@@ -18,7 +18,8 @@ let a = new class {
         _class_private_field_init(this, _x, {
             writable: !0,
             value: void 0
-        }), _class_private_field_set(this, _x, v);
+        });
+        _class_private_field_set(this, _x, v);
     }
 }(41);
 new class {
@@ -26,4 +27,5 @@ new class {
         let x = friendA.getX(a);
         friendA.setX(a, x + 1);
     }
-}(a), a.getX();
+}(a);
+a.getX();

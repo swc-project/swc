@@ -6,7 +6,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "B", {
+    });
+    Object.defineProperty(exports, "B", {
         enumerable: !0,
         get: ()=>B
     });
@@ -25,7 +26,9 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _interopRequireWildcard = _interopRequireWildcard.default, function(x) {
+    });
+    _interopRequireWildcard = _interopRequireWildcard.default;
+    !function(x) {
         x.then((value)=>{
             new value.B().print();
         });

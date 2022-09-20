@@ -1,5 +1,5 @@
 import n from "@swc/helpers/src/_instanceof.mjs";
-import { timeDay as t, timeSunday as e, timeMonday as r, timeThursday as u, timeYear as c, utcDay as i, utcSunday as o, utcMonday as f, utcThursday as a, utcYear as l } from "d3-time";
+import { timeDay as t, timeSunday as e, timeMonday as r, timeThursday as u, timeYear as i, utcDay as c, utcSunday as o, utcMonday as f, utcThursday as a, utcYear as l } from "d3-time";
 function g(n) {
     if (0 <= n.y && n.y < 100) {
         var t = new Date(-1, n.m, n.d, n.H, n.M, n.S, n.L);
@@ -28,27 +28,55 @@ function h(n, t, e) {
 export default function v(e) {
     var u = function(t, e) {
         return function(r) {
-            var u, c, i, o = [], f = -1, a = 0, l = t.length;
-            for(n(r, Date) || (r = new Date(+r)); ++f < l;)37 === t.charCodeAt(f) && (o.push(t.slice(a, f)), null != (c = y[u = t.charAt(++f)]) ? u = t.charAt(++f) : c = "e" === u ? " " : "0", (i = e[u]) && (u = i(r, c)), o.push(u), a = f + 1);
+            var u, i, c, o = [], f = -1, a = 0, l = t.length;
+            n(r, Date) || (r = new Date(+r));
+            for(; ++f < l;)if (37 === t.charCodeAt(f)) {
+                o.push(t.slice(a, f));
+                null != (i = y[u = t.charAt(++f)]) ? u = t.charAt(++f) : i = "e" === u ? " " : "0";
+                (c = e[u]) && (u = c(r, i));
+                o.push(u);
+                a = f + 1;
+            }
             return o.push(t.slice(a, f)), o.join("");
         };
-    }, c = function(n, e) {
+    }, i = function(n, e) {
         return function(u) {
-            var c, a, l = h(1900, void 0, 1);
+            var i, a, l = h(1900, void 0, 1);
             if (o(l, n, u += "", 0) != u.length) return null;
             if ("Q" in l) return new Date(l.Q);
             if ("s" in l) return new Date(1000 * l.s + ("L" in l ? l.L : 0));
-            if (!e || "Z" in l || (l.Z = 0), "p" in l && (l.H = l.H % 12 + 12 * l.p), void 0 === l.m && (l.m = "q" in l ? l.q : 0), "V" in l) {
+            !e || "Z" in l || (l.Z = 0);
+            "p" in l && (l.H = l.H % 12 + 12 * l.p);
+            void 0 === l.m && (l.m = "q" in l ? l.q : 0);
+            if ("V" in l) {
                 if (l.V < 1 || l.V > 53) return null;
-                "w" in l || (l.w = 1), "Z" in l ? (c = (a = (c = s(h(l.y, 0, 1))).getUTCDay()) > 4 || 0 === a ? f.ceil(c) : f(c), c = i.offset(c, (l.V - 1) * 7), l.y = c.getUTCFullYear(), l.m = c.getUTCMonth(), l.d = c.getUTCDate() + (l.w + 6) % 7) : (c = (a = (c = g(h(l.y, 0, 1))).getDay()) > 4 || 0 === a ? r.ceil(c) : r(c), c = t.offset(c, (l.V - 1) * 7), l.y = c.getFullYear(), l.m = c.getMonth(), l.d = c.getDate() + (l.w + 6) % 7);
-            } else ("W" in l || "U" in l) && ("w" in l || (l.w = "u" in l ? l.u % 7 : "W" in l ? 1 : 0), a = "Z" in l ? s(h(l.y, 0, 1)).getUTCDay() : g(h(l.y, 0, 1)).getDay(), l.m = 0, l.d = "W" in l ? (l.w + 6) % 7 + 7 * l.W - (a + 5) % 7 : l.w + 7 * l.U - (a + 6) % 7);
+                "w" in l || (l.w = 1);
+                if ("Z" in l) {
+                    i = (a = (i = s(h(l.y, 0, 1))).getUTCDay()) > 4 || 0 === a ? f.ceil(i) : f(i);
+                    i = c.offset(i, (l.V - 1) * 7);
+                    l.y = i.getUTCFullYear();
+                    l.m = i.getUTCMonth();
+                    l.d = i.getUTCDate() + (l.w + 6) % 7;
+                } else {
+                    i = (a = (i = g(h(l.y, 0, 1))).getDay()) > 4 || 0 === a ? r.ceil(i) : r(i);
+                    i = t.offset(i, (l.V - 1) * 7);
+                    l.y = i.getFullYear();
+                    l.m = i.getMonth();
+                    l.d = i.getDate() + (l.w + 6) % 7;
+                }
+            } else if ("W" in l || "U" in l) {
+                "w" in l || (l.w = "u" in l ? l.u % 7 : "W" in l ? 1 : 0);
+                a = "Z" in l ? s(h(l.y, 0, 1)).getUTCDay() : g(h(l.y, 0, 1)).getDay();
+                l.m = 0;
+                l.d = "W" in l ? (l.w + 6) % 7 + 7 * l.W - (a + 5) % 7 : l.w + 7 * l.U - (a + 6) % 7;
+            }
             return "Z" in l ? (l.H += l.Z / 100 | 0, l.M += l.Z % 100, s(l)) : g(l);
         };
     }, o = function(n, t, e, r) {
-        for(var u, c, i = 0, o = t.length, f = e.length; i < o;){
+        for(var u, i, c = 0, o = t.length, f = e.length; c < o;){
             if (r >= f) return -1;
-            if (37 === (u = t.charCodeAt(i++))) {
-                if (!(c = n9[(u = t.charAt(i++)) in y ? t.charAt(i++) : u]) || (r = c(n, e, r)) < 0) return -1;
+            if (37 === (u = t.charCodeAt(c++))) {
+                if (!(i = n9[(u = t.charAt(c++)) in y ? t.charAt(c++) : u]) || (r = i(n, e, r)) < 0) return -1;
             } else if (u != e.charCodeAt(r++)) return -1;
         }
         return r;
@@ -106,7 +134,7 @@ export default function v(e) {
         d: $,
         e: $,
         f: P,
-        g: nc,
+        g: ni,
         G: no,
         H: _,
         I: z,
@@ -127,7 +155,7 @@ export default function v(e) {
         x: null,
         X: null,
         y: nu,
-        Y: ni,
+        Y: nc,
         Z: nf,
         "%": nY
     }, n5 = {
@@ -205,7 +233,7 @@ export default function v(e) {
             }, t;
         },
         parse: function(n) {
-            var t = c(n += "", !1);
+            var t = i(n += "", !1);
             return t.toString = function() {
                 return n;
             }, t;
@@ -217,7 +245,7 @@ export default function v(e) {
             }, t;
         },
         utcParse: function(n) {
-            var t = c(n += "", !0);
+            var t = i(n += "", !0);
             return t.toString = function() {
                 return n;
             }, t;
@@ -230,8 +258,8 @@ var y = {
     0: "0"
 }, C = /^\s*\d+/, U = /^%/, d = /[\\^$*+?|[\]().{}]/g;
 function D(n, t, e) {
-    var r = n < 0 ? "-" : "", u = (r ? -n : n) + "", c = u.length;
-    return r + (c < e ? Array(e - c + 1).join(t) + u : u);
+    var r = n < 0 ? "-" : "", u = (r ? -n : n) + "", i = u.length;
+    return r + (i < e ? Array(e - i + 1).join(t) + u : u);
 }
 function x(n) {
     return n.replace(d, "\\$&");
@@ -337,7 +365,7 @@ function z(n, t) {
     return D(n.getHours() % 12 || 12, t, 2);
 }
 function E(n, e) {
-    return D(1 + t.count(c(n), n), e, 3);
+    return D(1 + t.count(i(n), n), e, 3);
 }
 function O(n, t) {
     return D(n.getMilliseconds(), t, 3);
@@ -359,28 +387,28 @@ function K(n) {
     return 0 === t ? 7 : t;
 }
 function N(n, t) {
-    return D(e.count(c(n) - 1, n), t, 2);
+    return D(e.count(i(n) - 1, n), t, 2);
 }
 function nn(n) {
     var t = n.getDay();
     return t >= 4 || 0 === t ? u(n) : u.ceil(n);
 }
 function nt(n, t) {
-    return n = nn(n), D(u.count(c(n), n) + (4 === c(n).getDay()), t, 2);
+    return n = nn(n), D(u.count(i(n), n) + (4 === i(n).getDay()), t, 2);
 }
 function ne(n) {
     return n.getDay();
 }
 function nr(n, t) {
-    return D(r.count(c(n) - 1, n), t, 2);
+    return D(r.count(i(n) - 1, n), t, 2);
 }
 function nu(n, t) {
     return D(n.getFullYear() % 100, t, 2);
 }
-function nc(n, t) {
+function ni(n, t) {
     return n = nn(n), D(n.getFullYear() % 100, t, 2);
 }
-function ni(n, t) {
+function nc(n, t) {
     return D(n.getFullYear() % 10000, t, 4);
 }
 function no(n, t) {
@@ -401,7 +429,7 @@ function ng(n, t) {
     return D(n.getUTCHours() % 12 || 12, t, 2);
 }
 function ns(n, t) {
-    return D(1 + i.count(l(n), n), t, 3);
+    return D(1 + c.count(l(n), n), t, 3);
 }
 function nh(n, t) {
     return D(n.getUTCMilliseconds(), t, 3);

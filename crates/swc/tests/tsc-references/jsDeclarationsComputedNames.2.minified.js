@@ -15,6 +15,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var TopLevelSym = Symbol(), InnerSym = Symbol();
 export var MyClass = function MyClass() {
     "use strict";
-    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], _class_call_check(this, MyClass), this[InnerSym] = "ok";
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+    _class_call_check(this, MyClass);
+    this[InnerSym] = "ok";
 };
 MyClass[TopLevelSym] = 12;

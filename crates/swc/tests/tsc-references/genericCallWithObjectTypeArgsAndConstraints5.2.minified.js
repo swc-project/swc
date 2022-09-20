@@ -5,6 +5,7 @@ function foo(t, t2) {
         return t2;
     };
 }
-foo(d, c), foo(function() {
+foo(d, c);
+foo(function() {
     return 1;
 }, function() {});

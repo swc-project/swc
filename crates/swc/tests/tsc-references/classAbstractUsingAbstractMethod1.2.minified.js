@@ -24,4 +24,5 @@ var A = function A() {
     }
     return C;
 }(A), a = new B;
-a.foo(), (a = new C).foo();
+a.foo();
+(a = new C).foo();

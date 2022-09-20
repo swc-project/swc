@@ -1,2 +1,4 @@
 //// [nullishCoalescingOperator1.ts]
-foo(), foo(), foo();
+foo();
+foo();
+foo();

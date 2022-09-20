@@ -13,4 +13,5 @@ var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
 };
-as(_templateObject()), as(Foo);
+as(_templateObject());
+as(Foo);

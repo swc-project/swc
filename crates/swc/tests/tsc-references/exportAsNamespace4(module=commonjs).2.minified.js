@@ -2,7 +2,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
+});
+!function(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: !0,
         get: all[name]
@@ -20,7 +21,8 @@ var a = 1, b = 2;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "default", {
+});
+Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
         return _0;
@@ -31,7 +33,8 @@ var _0 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(r
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "default", {
+});
+Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
         return _default;
@@ -44,4 +47,7 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default, _1 = _interopRequireDefault(require("./1")), _11 = _interopRequireDefault(require("./11"));
-_1.default.a, _11.default.a, _1.default.b, _11.default.b;
+_1.default.a;
+_11.default.a;
+_1.default.b;
+_11.default.b;

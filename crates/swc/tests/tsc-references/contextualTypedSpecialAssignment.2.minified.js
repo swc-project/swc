@@ -4,14 +4,17 @@ var ns = {};
 ns.x = {
     status: "done",
     m: function(n) {}
-}, ns.x = {
+};
+ns.x = {
     status: "done",
     m: function(n) {}
-}, ns.x;
+};
+ns.x;
 var Thing = function() {
     "use strict";
     function Thing() {
-        _class_call_check(this, Thing), this.s = {
+        _class_call_check(this, Thing);
+        this.s = {
             status: "done",
             m: function(n) {}
         };
@@ -26,13 +29,18 @@ var Thing = function() {
 exports.x = {
     status: "done",
     m: function(n) {}
-}, exports.x, module.exports.y = {
+};
+exports.x;
+module.exports.y = {
     status: "done",
     m: function(n) {}
-}, module.exports.y, Thing.prototype.x = {
+};
+module.exports.y;
+Thing.prototype.x = {
     status: "done",
     m: function(n) {}
-}, Thing.prototype.x;
+};
+Thing.prototype.x;
 //// [mod.js]
 module.exports = {
     status: "done",

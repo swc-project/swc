@@ -14,7 +14,8 @@ System.register([
             _export("C", C = function C() {
                 "use strict";
                 _class_call_check(void 0, C);
-            }), C.x = 1;
+            });
+            C.x = 1;
         }
     };
 });

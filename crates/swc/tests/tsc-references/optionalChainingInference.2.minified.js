@@ -1,18 +1,25 @@
 //// [optionalChainingInference.ts]
 unbox({
     value: null == su ? void 0 : su.length
-}), unbox({
+});
+unbox({
     value: null == su ? void 0 : su.length
-}), unbox({
+});
+unbox({
     value: null == su ? void 0 : su.length
-}), unbox({
+});
+unbox({
     value: null == fnu ? void 0 : fnu()
-}), unbox({
+});
+unbox({
     value: null == su ? void 0 : su.length
-}), unbox({
+});
+unbox({
     value: null == osu ? void 0 : osu.prop.length
-}), unbox({
+});
+unbox({
     value: null == osu ? void 0 : osu.prop.length
-}), unbox({
+});
+unbox({
     value: null == ofnu ? void 0 : ofnu.prop()
 });

@@ -6,7 +6,10 @@ import { hasMultipleIndices } from "./indexUtils";
 import { version as ReactVersion } from "react";
 import version from "./version";
 function addAlgoliaAgents(searchClient) {
-    "function" == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent(`react (${ReactVersion})`), searchClient.addAlgoliaAgent(`react-instantsearch (${version})`));
+    if ("function" == typeof searchClient.addAlgoliaAgent) {
+        searchClient.addAlgoliaAgent(`react (${ReactVersion})`);
+        searchClient.addAlgoliaAgent(`react-instantsearch (${version})`);
+    }
 }
 const isMultiIndexContext = (widget)=>hasMultipleIndices({
         ais: widget.props.contextValue,
@@ -19,7 +22,8 @@ export default function createInstantSearchManager({ indexName , initialState ={
     const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
     });
-    addAlgoliaAgents(searchClient), helper.on("search", function() {
+    addAlgoliaAgents(searchClient);
+    helper.on("search", function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(()=>{
             const { resultsFacetValues , ...partialState } = store.getState();
             store.setState({
@@ -37,7 +41,8 @@ export default function createInstantSearchManager({ indexName , initialState ={
             ...store.getState(),
             metadata,
             searching: !0
-        }), search();
+        });
+        search();
     });
     !function(client, results) {
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
@@ -178,25 +183,33 @@ export default function createInstantSearchManager({ indexName , initialState ={
             const { mainParameters , derivedParameters  } = getSearchParameters(helper.state);
             helper.derivedHelpers.slice().forEach((derivedHelper)=>{
                 derivedHelper.detach();
-            }), derivedParameters.forEach(({ indexId , parameters  })=>{
+            });
+            derivedParameters.forEach(({ indexId , parameters  })=>{
                 const derivedHelper = helper.derive(()=>parameters);
                 derivedHelper.on("result", handleSearchSuccess({
                     indexId
                 })).on("error", handleSearchError);
-            }), helper.setState(mainParameters), helper.search();
+            });
+            helper.setState(mainParameters);
+            helper.search();
         }
     }
     function handleSearchSuccess({ indexId  }) {
         return (event)=>{
             const state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length;
             let results = state.results ? state.results : {};
-            results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results, results = isDerivedHelpersEmpty ? event.results : {
+            results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results;
+            results = isDerivedHelpersEmpty ? event.results : {
                 ...results,
                 [indexId]: event.results
             };
             const currentState = store.getState();
             let nextIsSearchStalled = currentState.isSearchStalled;
-            helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1);
+            if (!helper.hasPendingRequests()) {
+                clearTimeout(stalledSearchTimer);
+                stalledSearchTimer = null;
+                nextIsSearchStalled = !1;
+            }
             const { resultsFacetValues , ...partialState } = currentState;
             store.setState({
                 ...partialState,
@@ -210,7 +223,10 @@ export default function createInstantSearchManager({ indexName , initialState ={
     function handleSearchError({ error  }) {
         const currentState = store.getState();
         let nextIsSearchStalled = currentState.isSearchStalled;
-        helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1);
+        if (!helper.hasPendingRequests()) {
+            clearTimeout(stalledSearchTimer);
+            nextIsSearchStalled = !1;
+        }
         const { resultsFacetValues , ...partialState } = currentState;
         store.setState({
             ...partialState,
@@ -230,7 +246,8 @@ export default function createInstantSearchManager({ indexName , initialState ={
             store.setState({
                 ...store.getState(),
                 searchingForFacetValues: !0
-            }), helper.searchForFacetValues(facetName, query, Math.max(1, Math.min(maxFacetHits, 100))).then((content)=>{
+            });
+            helper.searchForFacetValues(facetName, query, Math.max(1, Math.min(maxFacetHits, 100))).then((content)=>{
                 store.setState({
                     ...store.getState(),
                     error: null,
@@ -260,20 +277,24 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 widgets: nextSearchState,
                 metadata,
                 searching: !0
-            }), search();
+            });
+            search();
         },
         transitionState: function(nextSearchState) {
             const searchState = store.getState().widgets;
             return widgetsManager.getWidgets().filter((widget)=>Boolean(widget.transitionState)).reduce((res, widget)=>widget.transitionState(searchState, res), nextSearchState);
         },
         updateClient: function(client) {
-            addAlgoliaAgents(client), helper.setClient(client), search();
+            addAlgoliaAgents(client);
+            helper.setClient(client);
+            search();
         },
         updateIndex: function(newIndex) {
             initialSearchParameters = initialSearchParameters.setIndex(newIndex);
         },
         clearCache: function() {
-            helper.clearCache(), search();
+            helper.clearCache();
+            search();
         },
         skipSearch: function() {
             skip = !0;

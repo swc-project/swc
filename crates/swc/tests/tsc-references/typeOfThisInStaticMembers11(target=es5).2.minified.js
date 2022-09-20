@@ -48,7 +48,8 @@ var CC = function CC() {
     "use strict";
     _class_call_check(this, CC);
 };
-_define_property(CC, "a", 1), _define_property(CC, "b", CC.a + 1);
+_define_property(CC, "a", 1);
+_define_property(CC, "b", CC.a + 1);
 var DD = function(CC) {
     "use strict";
     _inherits(DD, CC);
@@ -74,8 +75,12 @@ var DD = function(CC) {
         }
     ]), DD;
 }(CC);
-_define_property(DD, "c", 2), _define_property(DD, "d", DD.c + 1), _define_property(DD, "e", _get(_get_prototype_of(DD), "a", DD) + DD.c + 1), _define_property(DD, "f", function() {
+_define_property(DD, "c", 2);
+_define_property(DD, "d", DD.c + 1);
+_define_property(DD, "e", _get(_get_prototype_of(DD), "a", DD) + DD.c + 1);
+_define_property(DD, "f", function() {
     return DD.c + 1;
-}), _define_property(DD, "ff", function() {
+});
+_define_property(DD, "ff", function() {
     this.c;
 });

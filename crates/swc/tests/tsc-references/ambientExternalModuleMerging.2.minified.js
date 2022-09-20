@@ -7,7 +7,9 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _m.x, _m.y;
+    });
+    _m.x;
+    _m.y;
 });
 //// [ambientExternalModuleMerging_declare.ts]
 define([

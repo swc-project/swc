@@ -4,6 +4,7 @@ function f15(x) {
 }
 f15({
     value: 10
-}), f15({
+});
+f15({
     error: Error("boom")
 });

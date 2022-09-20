@@ -7,7 +7,8 @@ var Generic;
         }
         set y(v) {}
     }();
-    c.y = c.y, new class {
+    c.y = c.y;
+    new class {
         #value;
         get value() {
             return this.#value;

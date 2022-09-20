@@ -5,9 +5,11 @@ extend1({
     },
     mine: 12,
     foo: function() {
-        this.url, this.willDestroy;
+        this.url;
+        this.willDestroy;
     }
-}), extend2({
+});
+extend2({
     init: function() {
         this.mine;
     },
@@ -15,7 +17,8 @@ extend1({
     foo: function() {
         this.mine;
     }
-}), simple({
+});
+simple({
     foo: function(n) {
         return n.length + this.bar();
     },

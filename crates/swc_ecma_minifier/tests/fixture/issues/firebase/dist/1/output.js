@@ -16,9 +16,12 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
 }(modularAPIs), FirebaseAppImpl = function() {
     function FirebaseAppImpl(_delegate, firebase) {
         var _this = this;
-        this._delegate = _delegate, this.firebase = firebase, modularAPIs._addComponent(_delegate, new component.Component("app-compat", function() {
+        this._delegate = _delegate;
+        this.firebase = firebase;
+        modularAPIs._addComponent(_delegate, new component.Component("app-compat", function() {
             return _this;
-        }, "PUBLIC")), this.container = _delegate.container;
+        }, "PUBLIC"));
+        this.container = _delegate.container;
     }
     return Object.defineProperty(FirebaseAppImpl.prototype, "automaticDataCollectionEnabled", {
         get: function() {
@@ -44,18 +47,21 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
     }), FirebaseAppImpl.prototype.delete = function() {
         var _this = this;
         return new Promise(function(resolve) {
-            _this._delegate.checkDestroyed(), resolve();
+            _this._delegate.checkDestroyed();
+            resolve();
         }).then(function() {
             return _this.firebase.INTERNAL.removeApp(_this.name), modularAPIs.deleteApp(_this._delegate);
         });
     }, FirebaseAppImpl.prototype._getService = function(name, instanceIdentifier) {
-        void 0 === instanceIdentifier && (instanceIdentifier = modularAPIs._DEFAULT_ENTRY_NAME), this._delegate.checkDestroyed();
+        void 0 === instanceIdentifier && (instanceIdentifier = modularAPIs._DEFAULT_ENTRY_NAME);
+        this._delegate.checkDestroyed();
         var _a, provider = this._delegate.container.getProvider(name);
         return provider.isInitialized() || (null === (_a = provider.getComponent()) || void 0 === _a ? void 0 : _a.instantiationMode) !== "EXPLICIT" || provider.initialize(), provider.getImmediate({
             identifier: instanceIdentifier
         });
     }, FirebaseAppImpl.prototype._removeServiceInstance = function(name, instanceIdentifier) {
-        void 0 === instanceIdentifier && (instanceIdentifier = modularAPIs._DEFAULT_ENTRY_NAME), this._delegate.container.getProvider(name).clearInstance(instanceIdentifier);
+        void 0 === instanceIdentifier && (instanceIdentifier = modularAPIs._DEFAULT_ENTRY_NAME);
+        this._delegate.container.getProvider(name).clearInstance(instanceIdentifier);
     }, FirebaseAppImpl.prototype._addComponent = function(component) {
         modularAPIs._addComponent(this._delegate, component);
     }, FirebaseAppImpl.prototype._addOrOverwriteComponent = function(component) {
@@ -89,12 +95,15 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
                     var componentName = component.name, componentNameWithoutCompat = componentName.replace("-compat", "");
                     if (modularAPIs__namespace._registerComponent(component) && "PUBLIC" === component.type) {
                         var serviceNamespace = function(appArg) {
-                            if (void 0 === appArg && (appArg = app()), "function" != typeof appArg[componentNameWithoutCompat]) throw ERROR_FACTORY.create("invalid-app-argument", {
+                            void 0 === appArg && (appArg = app());
+                            if ("function" != typeof appArg[componentNameWithoutCompat]) throw ERROR_FACTORY.create("invalid-app-argument", {
                                 appName: componentName
                             });
                             return appArg[componentNameWithoutCompat]();
                         };
-                        void 0 !== component.serviceProps && util.deepExtend(serviceNamespace, component.serviceProps), namespace[componentNameWithoutCompat] = serviceNamespace, firebaseAppImpl.prototype[componentNameWithoutCompat] = function() {
+                        void 0 !== component.serviceProps && util.deepExtend(serviceNamespace, component.serviceProps);
+                        namespace[componentNameWithoutCompat] = serviceNamespace;
+                        firebaseAppImpl.prototype[componentNameWithoutCompat] = function() {
                             for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
                             return this._getService.bind(this, componentName).apply(this, component.multipleInstances ? args : []);
                         };
@@ -110,19 +119,22 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
                 modularAPIs: modularAPIs__namespace
             }
         };
-        function app(name) {
-            if (name = name || modularAPIs__namespace._DEFAULT_ENTRY_NAME, !util.contains(apps, name)) throw ERROR_FACTORY.create("no-app", {
-                appName: name
-            });
-            return apps[name];
-        }
-        return namespace.default = namespace, Object.defineProperty(namespace, "apps", {
+        namespace.default = namespace;
+        Object.defineProperty(namespace, "apps", {
             get: function() {
                 return Object.keys(apps).map(function(name) {
                     return apps[name];
                 });
             }
-        }), app.App = firebaseAppImpl, namespace;
+        });
+        function app(name) {
+            name = name || modularAPIs__namespace._DEFAULT_ENTRY_NAME;
+            if (!util.contains(apps, name)) throw ERROR_FACTORY.create("no-app", {
+                appName: name
+            });
+            return apps[name];
+        }
+        return app.App = firebaseAppImpl, namespace;
     }(FirebaseAppImpl);
     return namespace.INTERNAL = tslib.__assign(tslib.__assign({}, namespace.INTERNAL), {
         createFirebaseNamespace: createFirebaseNamespace,
@@ -139,4 +151,5 @@ if (util.isBrowser() && void 0 !== self.firebase) {
     var sdkVersion = self.firebase.SDK_VERSION;
     sdkVersion && sdkVersion.indexOf("LITE") >= 0 && logger.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
 }
-modularAPIs.registerVersion("@firebase/app-compat", "0.1.5", void 0), module.exports = firebase$1;
+modularAPIs.registerVersion("@firebase/app-compat", "0.1.5", void 0);
+module.exports = firebase$1;

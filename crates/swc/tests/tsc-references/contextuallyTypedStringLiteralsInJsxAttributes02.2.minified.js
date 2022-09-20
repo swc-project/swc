@@ -6,14 +6,10 @@ define([
     "react"
 ], function(require, exports, _extends, _react) {
     "use strict";
-    function MainButton(props) {
-        return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);
-    }
-    function NoOverload(buttonProps) {}
-    function NoOverload1(linkProps) {}
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -28,23 +24,33 @@ define([
         NoOverload1: function() {
             return NoOverload1;
         }
-    }), (_extends = _extends.default)({}, {
+    });
+    _extends = _extends.default;
+    function MainButton(props) {
+        return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);
+    }
+    _extends({}, {
         onClick: function(k) {
             console.log(k);
         }
     }, {
         extra: !0
-    }), _extends({}, {
+    });
+    _extends({}, {
         goTo: "home"
     }, {
         extra: !0
-    }), _extends({}, {
+    });
+    function NoOverload(buttonProps) {}
+    _extends({}, {
         onClick: function(k) {
             console.log(k);
         }
     }, {
         extra: !0
-    }), _extends({}, {
+    });
+    function NoOverload1(linkProps) {}
+    _extends({}, {
         goTo: "home"
     }, {
         extra: !0

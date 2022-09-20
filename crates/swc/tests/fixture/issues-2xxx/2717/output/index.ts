@@ -9,16 +9,23 @@ export function saveTheme(t) {
     return e(this, function(e) {
         switch(e.label){
             case 0:
-                return s = t.type, [
+                s = t.type;
+                return [
                     4,
                     r(selectThemeObject)
                 ];
             case 1:
-                return o = e.sent(), window.localStorage.setItem("theme", JSON.stringify({
+                o = e.sent();
+                window.localStorage.setItem("theme", JSON.stringify({
                     theme: o.theme,
                     mode: o.mode,
                     palette: o.palette
-                })), s === c && (n = window.document.querySelector("body")) && (n.classList.add("light" === o.mode ? "light" : "dark"), n.classList.remove("light" === o.mode ? "dark" : "light")), [
+                }));
+                if (s === c && (n = window.document.querySelector("body"))) {
+                    n.classList.add("light" === o.mode ? "light" : "dark");
+                    n.classList.remove("light" === o.mode ? "dark" : "light");
+                }
+                return [
                     2
                 ];
         }
@@ -37,7 +44,8 @@ export default function n() {
                     ], saveTheme)
                 ];
             case 1:
-                return e.sent(), [
+                e.sent();
+                return [
                     2
                 ];
         }

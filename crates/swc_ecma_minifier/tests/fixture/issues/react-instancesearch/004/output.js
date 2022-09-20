@@ -6,7 +6,10 @@ import { hasMultipleIndices } from "./indexUtils";
 import { version as ReactVersion } from "react";
 import version from "./version";
 function addAlgoliaAgents(searchClient) {
-    "function" == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent("react (".concat(ReactVersion, ")")), searchClient.addAlgoliaAgent("react-instantsearch (".concat(version, ")")));
+    if ("function" == typeof searchClient.addAlgoliaAgent) {
+        searchClient.addAlgoliaAgent("react (".concat(ReactVersion, ")"));
+        searchClient.addAlgoliaAgent("react-instantsearch (".concat(version, ")"));
+    }
 }
 var _obj, isMultiIndexContext = function(widget) {
     return hasMultipleIndices({
@@ -27,9 +30,12 @@ export default function createInstantSearchManager(param) {
     var indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, skipSearch = function() {
         skip = !0;
     }, updateClient = function(client) {
-        addAlgoliaAgents(client), helper.setClient(client), search();
+        addAlgoliaAgents(client);
+        helper.setClient(client);
+        search();
     }, clearCache = function() {
-        helper.clearCache(), search();
+        helper.clearCache();
+        search();
     }, getMetadata = function(state) {
         return widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.getMetadata);
@@ -75,22 +81,31 @@ export default function createInstantSearchManager(param) {
             var ref = getSearchParameters(helper.state), mainParameters = ref.mainParameters, derivedParameters = ref.derivedParameters;
             helper.derivedHelpers.slice().forEach(function(derivedHelper) {
                 derivedHelper.detach();
-            }), derivedParameters.forEach(function(param) {
+            });
+            derivedParameters.forEach(function(param) {
                 var indexId = param.indexId, parameters = param.parameters;
                 helper.derive(function() {
                     return parameters;
                 }).on("result", handleSearchSuccess({
                     indexId: indexId
                 })).on("error", handleSearchError);
-            }), helper.setState(mainParameters), helper.search();
+            });
+            helper.setState(mainParameters);
+            helper.search();
         }
     }, handleSearchSuccess = function(param) {
         var indexId = param.indexId;
         return function(event) {
             var state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length, results = state.results ? state.results : {};
-            results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results, results = isDerivedHelpersEmpty ? event.results : swcHelpers.objectSpread({}, results, swcHelpers.defineProperty({}, indexId, event.results));
+            results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results;
+            results = isDerivedHelpersEmpty ? event.results : swcHelpers.objectSpread({}, results, swcHelpers.defineProperty({}, indexId, event.results));
             var currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
-            helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1), currentState.resultsFacetValues;
+            if (!helper.hasPendingRequests()) {
+                clearTimeout(stalledSearchTimer);
+                stalledSearchTimer = null;
+                nextIsSearchStalled = !1;
+            }
+            currentState.resultsFacetValues;
             var partialState = swcHelpers.objectWithoutProperties(currentState, [
                 "resultsFacetValues"
             ]);
@@ -103,7 +118,11 @@ export default function createInstantSearchManager(param) {
         };
     }, handleSearchError = function(param) {
         var error = param.error, currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
-        helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1), currentState.resultsFacetValues;
+        if (!helper.hasPendingRequests()) {
+            clearTimeout(stalledSearchTimer);
+            nextIsSearchStalled = !1;
+        }
+        currentState.resultsFacetValues;
         var partialState = swcHelpers.objectWithoutProperties(currentState, [
             "resultsFacetValues"
         ]);
@@ -190,7 +209,8 @@ export default function createInstantSearchManager(param) {
         store.setState(swcHelpers.objectSpread({}, store.getState(), {
             metadata: metadata,
             searching: !0
-        })), search();
+        }));
+        search();
     }, transitionState = function(nextSearchState) {
         var searchState = store.getState().widgets;
         return widgetsManager.getWidgets().filter(function(widget) {
@@ -204,12 +224,14 @@ export default function createInstantSearchManager(param) {
             widgets: nextSearchState,
             metadata: metadata,
             searching: !0
-        })), search();
+        }));
+        search();
     }, onSearchForFacetValues = function(param) {
         var facetName = param.facetName, query = param.query, _maxFacetHits = param.maxFacetHits;
         store.setState(swcHelpers.objectSpread({}, store.getState(), {
             searchingForFacetValues: !0
-        })), helper.searchForFacetValues(facetName, query, Math.max(1, Math.min(void 0 === _maxFacetHits ? 10 : _maxFacetHits, 100))).then(function(content) {
+        }));
+        helper.searchForFacetValues(facetName, query, Math.max(1, Math.min(void 0 === _maxFacetHits ? 10 : _maxFacetHits, 100))).then(function(content) {
             store.setState(swcHelpers.objectSpread({}, store.getState(), {
                 error: null,
                 searchingForFacetValues: !1,
@@ -232,10 +254,11 @@ export default function createInstantSearchManager(param) {
             return void 0 !== meta.id ? res.concat(meta.id) : res;
         }, []);
     }, helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
-    addAlgoliaAgents(searchClient), helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
+    addAlgoliaAgents(searchClient);
+    helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
         indexId: indexName
     })).on("error", handleSearchError);
-    var state, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(onWidgetsUpdate);
+    var skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(onWidgetsUpdate);
     !function(client, results) {
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
             if (client.transporter && !client._cacheHydrated) {
@@ -277,7 +300,7 @@ export default function createInstantSearchManager(param) {
             hydrateSearchClientWithSingleIndexRequest(client, results);
         }
     }(searchClient, resultsState);
-    var store = (state = {
+    var state, listeners, store = (state = {
         widgets: void 0 === _initialState ? {} : _initialState,
         metadata: resultsState ? resultsState.metadata.map(function(datum) {
             return swcHelpers.objectSpread({
@@ -314,7 +337,8 @@ export default function createInstantSearchManager(param) {
             return state;
         },
         setState: function(nextState) {
-            state = nextState, listeners.forEach(function(listener) {
+            state = nextState;
+            listeners.forEach(function(listener) {
                 return listener();
             });
         },

@@ -5,4 +5,5 @@ var o = {
         return "b";
     }
 };
-o.a, o.n;
+o.a;
+o.n;

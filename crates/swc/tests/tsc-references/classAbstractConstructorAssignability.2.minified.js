@@ -14,4 +14,6 @@ var A = function A() {
     }
     return B;
 }(A);
-new B, new A, new B;
+new B;
+new A;
+new B;

@@ -15,37 +15,51 @@ new class {
         let foo = {
             bar: 1
         };
-        console.log(_class_private_field_get(this, _value)), _class_private_field_set(this, _value, {
+        console.log(_class_private_field_get(this, _value));
+        _class_private_field_set(this, _value, {
             foo
-        }), _class_private_field_set(this, _value, {
+        });
+        _class_private_field_set(this, _value, {
             foo
-        }), _class_private_field_get(this, _value).foo = foo, ({ o: _class_private_field_destructure(this, _value).value  } = {
+        });
+        _class_private_field_get(this, _value).foo = foo;
+        ({ o: _class_private_field_destructure(this, _value).value  } = {
             o: {
                 foo
             }
-        }), _class_private_field_destructure(this, _value).value = _extends({}, {
+        });
+        _class_private_field_destructure(this, _value).value = _extends({}, {
             foo
-        }), ({ foo: _class_private_field_get(this, _value).foo  } = {
+        });
+        ({ foo: _class_private_field_get(this, _value).foo  } = {
             foo
-        }), _tmp = {
+        });
+        _tmp = {
             foo
-        }, _class_private_field_get(this, _value).foo = _extends({}, _tmp.foo), _class_private_field_get(this, _value), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
+        }, _class_private_field_get(this, _value).foo = _extends({}, _tmp.foo);
+        _class_private_field_get(this, _value);
+        [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
             1,
             2,
             3
-        ], _class_private_field_get(this, _valueOne), _class_private_field_get(this, _valueRest), _class_private_field_set(this, _valueCompound, _class_private_field_get(this, _valueCompound) + 3);
+        ];
+        _class_private_field_get(this, _valueOne), _class_private_field_get(this, _valueRest);
+        _class_private_field_set(this, _valueCompound, _class_private_field_get(this, _valueCompound) + 3);
     }
     constructor(){
         _class_private_field_init(this, _value, {
             get: void 0,
             set: set_value
-        }), _class_private_field_init(this, _valueRest, {
+        });
+        _class_private_field_init(this, _valueRest, {
             get: void 0,
             set: set_valueRest
-        }), _class_private_field_init(this, _valueOne, {
+        });
+        _class_private_field_init(this, _valueOne, {
             get: void 0,
             set: set_valueOne
-        }), _class_private_field_init(this, _valueCompound, {
+        });
+        _class_private_field_init(this, _valueCompound, {
             get: void 0,
             set: set_valueCompound
         });

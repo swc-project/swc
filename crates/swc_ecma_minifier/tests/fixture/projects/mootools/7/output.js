@@ -2,7 +2,8 @@ export const exported = {
     toQueryString: function(object, base) {
         var queryString = [];
         return Object.each(object, function(value, key) {
-            switch(base && (key = base + "[" + key + "]"), typeOf(value)){
+            base && (key = base + "[" + key + "]");
+            switch(typeOf(value)){
                 case "object":
                     result = Object.toQueryString(value, key);
                     break;
@@ -10,7 +11,8 @@ export const exported = {
                     var result, qs = {};
                     value.each(function(val, i) {
                         qs[i] = val;
-                    }), result = Object.toQueryString(qs, key);
+                    });
+                    result = Object.toQueryString(qs, key);
                     break;
                 default:
                     result = key + "=" + encodeURIComponent(value);

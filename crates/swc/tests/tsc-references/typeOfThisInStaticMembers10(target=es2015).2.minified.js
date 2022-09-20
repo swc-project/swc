@@ -26,7 +26,8 @@ D = _ts_decorate([
 ], D);
 class CC {
 }
-CC.a = 1, CC.b = CC.a + 1;
+CC.a = 1;
+CC.b = CC.a + 1;
 class DD extends CC {
     static foo() {
         return this.c + 1;
@@ -38,6 +39,10 @@ class DD extends CC {
         this.c = v + 1;
     }
 }
-DD.c = 2, DD.d = DD.c + 1, DD.e = _get(_get_prototype_of(DD), "a", DD) + DD.c + 1, DD.f = ()=>DD.c + 1, DD.ff = function() {
+DD.c = 2;
+DD.d = DD.c + 1;
+DD.e = _get(_get_prototype_of(DD), "a", DD) + DD.c + 1;
+DD.f = ()=>DD.c + 1;
+DD.ff = function() {
     this.c;
 };

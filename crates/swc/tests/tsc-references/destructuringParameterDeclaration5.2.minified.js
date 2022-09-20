@@ -30,20 +30,28 @@ function d0() {
         x: new Class()
     }).x;
 }
-new Class(), d0({
+new Class();
+d0({
     x: 1
-}), d0({
+});
+d0({
     x: {}
-}), d0({
+});
+d0({
     x: "string"
-}), ({
+});
+({
     x: new Class()
-}).x, ({
+}).x;
+({
     x: new SubClass()
-}).x, ({
+}).x;
+({
     y: new SubD()
-}).y, ({
+}).y;
+({
     y: new SubClass()
-}).y, ({
+}).y;
+({
     y: new Class()
-}).y, ({}).y;
+}).y;

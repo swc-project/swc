@@ -8,7 +8,8 @@ var B = function B() {
     "use strict";
     _class_call_check(this, B);
 };
-B.a = 1, B.b = 2;
+B.a = 1;
+B.b = 2;
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -18,4 +19,6 @@ var C = function(B) {
     }
     return C;
 }(B);
-C.b = 3, C.c = _get(_get_prototype_of(C), "a", C), C.b, super.b, super.a;
+C.b = 3;
+C.c = _get(_get_prototype_of(C), "a", C);
+C.b, super.b, super.a;

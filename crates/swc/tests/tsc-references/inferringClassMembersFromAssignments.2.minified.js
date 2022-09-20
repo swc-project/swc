@@ -5,15 +5,28 @@ var C = function() {
     "use strict";
     function C() {
         var _this = this;
-        _class_call_check(this, C), this.prop = function() {
+        _class_call_check(this, C);
+        this.prop = function() {
             Math.random() ? _this.inPropertyDeclaration = 0 : _this.inPropertyDeclaration = "string";
-        }, Math.random() ? this.inConstructor = 0 : this.inConstructor = "string", this.inMultiple = 0;
+        };
+        Math.random() ? this.inConstructor = 0 : this.inConstructor = "string";
+        this.inMultiple = 0;
     }
     var _proto = C.prototype;
     return _proto.method = function() {
-        Math.random() ? (this.inMethod = 0, this.inMethodNullable = null) : (this.inMethod = "string", this.inMethodNullable = void 0), this.inMultiple = "string", this.inMultipleMethods = "string";
+        if (Math.random()) {
+            this.inMethod = 0;
+            this.inMethodNullable = null;
+        } else {
+            this.inMethod = "string";
+            this.inMethodNullable = void 0;
+        }
+        this.inMultiple = "string";
+        this.inMultipleMethods = "string";
     }, _proto.get = function() {
-        Math.random() ? this.inGetter = 0 : this.inGetter = "string", this.inMultiple = !1, this.inMultipleMethods = !1;
+        Math.random() ? this.inGetter = 0 : this.inGetter = "string";
+        this.inMultiple = !1;
+        this.inMultipleMethods = !1;
     }, _proto.set = function() {
         Math.random() ? this.inSetter = 0 : this.inSetter = "string";
     }, C.method = function() {
@@ -29,4 +42,17 @@ C.prop = function() {
 };
 //// [b.ts]
 var c = new C();
-c.inConstructor, c.inMethod, c.inGetter, c.inSetter, c.inPropertyDeclaration, c.inNestedArrowFunction, c.inMultiple, c.inMultipleMethods, c.inMethodNullable, C.inStaticMethod, C.inStaticGetter, C.inStaticSetter, C.inStaticPropertyDeclaration, C.inStaticNestedArrowFunction;
+c.inConstructor;
+c.inMethod;
+c.inGetter;
+c.inSetter;
+c.inPropertyDeclaration;
+c.inNestedArrowFunction;
+c.inMultiple;
+c.inMultipleMethods;
+c.inMethodNullable;
+C.inStaticMethod;
+C.inStaticGetter;
+C.inStaticSetter;
+C.inStaticPropertyDeclaration;
+C.inStaticNestedArrowFunction;

@@ -1,5 +1,6 @@
 //// [conditionalTypes1.ts]
-f5("a"), assign({
+f5("a");
+assign({
     o: 1,
     b: 2,
     c: [

@@ -1,4 +1,5 @@
 //// [circularMultipleAssignmentDeclaration.js]
 ns.next = ns.next || {
     shared: {}
-}, ns.next.shared.mymethod = {};
+};
+ns.next.shared.mymethod = {};

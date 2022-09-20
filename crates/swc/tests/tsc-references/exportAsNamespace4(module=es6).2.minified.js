@@ -10,4 +10,7 @@ export default ns;
 //// [2.ts]
 import foo from "./1";
 import foo1 from "./11";
-foo.a, foo1.a, foo.b, foo1.b;
+foo.a;
+foo1.a;
+foo.b;
+foo1.b;

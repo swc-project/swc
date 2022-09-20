@@ -3,4 +3,13 @@ function regexCheck(regex) {
         return null !== code && regex.test(String.fromCharCode(code));
     };
 }
-console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));
+console.log(regexCheck("Foo"));

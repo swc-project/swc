@@ -9,4 +9,11 @@ var i, a, c = new (function() {
         return x;
     }, C;
 }())();
-c = i, i = c = a, i = a, a = c, a = i, c.foo("hi"), c.foo("bye"), c.foo("hm");
+c = i;
+i = c = a;
+i = a;
+a = c;
+a = i;
+c.foo("hi");
+c.foo("bye");
+c.foo("hm");

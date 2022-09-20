@@ -14,7 +14,8 @@ var C = function(Base) {
     "use strict";
     _class_call_check(this, Base);
 });
-new C(), new C(1);
+new C();
+new C(1);
 var D = function(Base2) {
     "use strict";
     _inherits(D, Base2);
@@ -27,4 +28,9 @@ var D = function(Base2) {
     "use strict";
     _class_call_check(this, Base2);
 });
-new D(), new D(1), new D(), new D(1), new D(), new D(1);
+new D();
+new D(1);
+new D();
+new D(1);
+new D();
+new D(1);

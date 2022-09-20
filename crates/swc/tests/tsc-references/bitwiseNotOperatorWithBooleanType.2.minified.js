@@ -14,4 +14,8 @@ var M, A = function() {
     M.n = n;
 }(M || (M = {}));
 var objA = new A();
-objA.a, M.n, A.foo(), objA.a, M.n;
+objA.a;
+M.n;
+A.foo();
+objA.a;
+M.n;

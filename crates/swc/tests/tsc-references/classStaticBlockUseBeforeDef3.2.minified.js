@@ -8,12 +8,14 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     return A.doSomething = function() {
         console.log("gotcha!");
     }, A;
-})().doSomething(), console.log(FOO);
+})().doSomething();
+console.log(FOO);
 var FOO = "FOO";
-console.log(FOO), function() {
+console.log(FOO);
+(function() {
     "use strict";
     function CFA() {
         _class_call_check(this, CFA);
     }
     return CFA.doSomething = function() {}, CFA;
-}().t = 1;
+})().t = 1;

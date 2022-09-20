@@ -5,4 +5,5 @@ const array = [
 ], values = [
     ...array
 ];
-array.length = 0, console.log(values);
+array.length = 0;
+console.log(values);

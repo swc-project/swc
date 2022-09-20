@@ -8,4 +8,5 @@ import * as types from "./b";
 export { types as default };
 //// [/d.ts]
 import types from "./c";
-new types.A(), new types.B();
+new types.A();
+new types.B();

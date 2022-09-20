@@ -16,5 +16,6 @@ define([
     var color;
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), color === _foo0.green && (color = _foo0.answer);
+    });
+    color === _foo0.green && (color = _foo0.answer);
 });

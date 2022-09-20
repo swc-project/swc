@@ -25,7 +25,8 @@ Errors || (Errors = {}), foo2(function(x) {
     return null;
 }), foo17(function(x) {
     return null;
-}), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}), foo2(function(x) {
+});
+WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}), foo2(function(x) {
     return [
         ""
     ];

@@ -21,7 +21,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         }
         return Point3d;
     }(Point);
-    A.Point3d = Point3d, A.Origin3d = {
+    A.Point3d = Point3d;
+    A.Origin3d = {
         x: 0,
         y: 0,
         z: 0
@@ -29,7 +30,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     var Line = function() {
         "use strict";
         function Line(start, end) {
-            _class_call_check(this, Line), this.start = start, this.end = end;
+            _class_call_check(this, Line);
+            this.start = start;
+            this.end = end;
         }
         return Line.fromorigin2d = function(p) {
             return null;

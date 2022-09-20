@@ -10,7 +10,8 @@ B.prototype.m = function() {
     this.x = 2;
 };
 var b = new B();
-b.id, b.x;
+b.id;
+b.x;
 //// [other.js]
 "use strict";
 module.exports = function() {

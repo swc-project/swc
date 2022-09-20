@@ -43,7 +43,8 @@ var CC = function CC() {
     "use strict";
     _class_call_check(this, CC);
 };
-CC.a = 1, CC.b = CC.a + 1;
+CC.a = 1;
+CC.b = CC.a + 1;
 var DD = function(CC) {
     "use strict";
     _inherits(DD, CC);
@@ -65,8 +66,12 @@ var DD = function(CC) {
         }
     ]), DD;
 }(CC);
-DD.c = 2, DD.d = DD.c + 1, DD.e = _get(_get_prototype_of(DD), "a", DD) + DD.c + 1, DD.f = function() {
+DD.c = 2;
+DD.d = DD.c + 1;
+DD.e = _get(_get_prototype_of(DD), "a", DD) + DD.c + 1;
+DD.f = function() {
     return DD.c + 1;
-}, DD.ff = function() {
+};
+DD.ff = function() {
     this.c;
 };

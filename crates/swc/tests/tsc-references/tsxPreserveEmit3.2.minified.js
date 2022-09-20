@@ -15,7 +15,8 @@ define([
     var React;
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "React", {
+    });
+    Object.defineProperty(exports, "React", {
         enumerable: !0,
         get: function() {
             return React;

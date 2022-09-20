@@ -7,12 +7,14 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "Object", {
+    });
+    Object.defineProperty(exports, "Object", {
         enumerable: !0,
         get: function() {
             return Object;
         }
-    }), _classCallCheck = _classCallCheck.default;
+    });
+    _classCallCheck = _classCallCheck.default;
     var Object = function Object() {
         "use strict";
         _classCallCheck(this, Object);

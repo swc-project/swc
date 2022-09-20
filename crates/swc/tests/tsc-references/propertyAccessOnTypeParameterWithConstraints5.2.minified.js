@@ -30,7 +30,11 @@ new (function() {
         var x;
         return x.foo() + x.foo() + x.notHere();
     }, C;
-}())().f(), i.foo.notHere(), i.foo.foo(), a().notHere(), a().foo();
+}())().f();
+i.foo.notHere();
+i.foo.foo();
+a().notHere();
+a().foo();
 var b = {
     foo: function(x) {
         return x.foo() + x.notHere();

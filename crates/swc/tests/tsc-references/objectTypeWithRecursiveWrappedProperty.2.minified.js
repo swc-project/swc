@@ -4,4 +4,5 @@ var List = function List() {
     "use strict";
     _class_call_check(this, List);
 };
-new List(), new List(), new List();
+new List();
+new List(), new List();

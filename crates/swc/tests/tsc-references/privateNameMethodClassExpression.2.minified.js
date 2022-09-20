@@ -12,13 +12,16 @@ let C = (_field = new WeakMap(), _method = new WeakSet(), class {
         return _class_private_field_get(this, _field);
     }
     constructor(){
-        _class_private_method_init(this, _method), _class_private_field_init(this, _field, {
+        _class_private_method_init(this, _method);
+        _class_private_field_init(this, _field, {
             writable: !0,
             value: _class_private_method_get(this, _method, method).call(this)
         });
     }
 });
+console.log(C.getInstance().getField());
+C.getInstance().#method;
+C.getInstance().#field;
 function method() {
     return 42;
 }
-console.log(C.getInstance().getField()), C.getInstance().#method, C.getInstance().#field;

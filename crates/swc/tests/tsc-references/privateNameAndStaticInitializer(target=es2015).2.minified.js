@@ -6,7 +6,8 @@ class A {
         _class_private_field_init(this, _foo, {
             writable: !0,
             value: 1
-        }), _class_private_field_init(this, _prop, {
+        });
+        _class_private_field_init(this, _prop, {
             writable: !0,
             value: 2
         });

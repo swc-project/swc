@@ -9,7 +9,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     var guard, general, FileSystemObject = function() {
         "use strict";
         function FileSystemObject(path) {
-            _class_call_check(this, FileSystemObject), this.path = path;
+            _class_call_check(this, FileSystemObject);
+            this.path = path;
         }
         return _create_class(FileSystemObject, [
             {
@@ -50,5 +51,17 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     }(FileSystemObject);
     Test.Directory = Directory;
     var file = new File("foo/bar.txt", "foo");
-    file.isNetworked = !1, file.isFSO = file.isFile, file.isFile = !0, file.isFile, file.isFile ? (file.content, file.isNetworked && (file.host, file.content)) : file.isDirectory ? file.children : file.isNetworked && file.host, guard.isLeader ? guard.lead() : guard.isFollower && guard.follow(), general.isMoreSpecific && general.do();
+    file.isNetworked = !1;
+    file.isFSO = file.isFile;
+    file.isFile = !0;
+    file.isFile;
+    if (file.isFile) {
+        file.content;
+        if (file.isNetworked) {
+            file.host;
+            file.content;
+        }
+    } else file.isDirectory ? file.children : file.isNetworked && file.host;
+    guard.isLeader ? guard.lead() : guard.isFollower && guard.follow();
+    general.isMoreSpecific && general.do();
 }(Test || (Test = {}));

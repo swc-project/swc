@@ -6,7 +6,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -31,12 +32,14 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    });
+    Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: function() {
             return _0;
         }
-    }), _0 = (_interopRequireWildcard = _interopRequireWildcard.default)(_0);
+    });
+    _0 = (_interopRequireWildcard = _interopRequireWildcard.default)(_0);
 });
 //// [11.ts]
 define([
@@ -48,7 +51,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    });
+    Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: function() {
             return _default;
@@ -67,5 +71,11 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _1 = (_interopRequireDefault = _interopRequireDefault.default)(_1), _11 = _interopRequireDefault(_11), _1.default.a, _11.default.a, _1.default.b, _11.default.b;
+    });
+    _1 = (_interopRequireDefault = _interopRequireDefault.default)(_1);
+    _11 = _interopRequireDefault(_11);
+    _1.default.a;
+    _11.default.a;
+    _1.default.b;
+    _11.default.b;
 });

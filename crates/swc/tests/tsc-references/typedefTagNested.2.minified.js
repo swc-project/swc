@@ -4,4 +4,6 @@ var sala = {
     not: 0,
     nested: "ok"
 };
-sala.name, sala.not, sala.nested;
+sala.name;
+sala.not;
+sala.nested;

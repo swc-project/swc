@@ -2,10 +2,6 @@
 var TypeScript;
 !function(TypeScript1) {
     !function(AstWalkerWithDetailCallback) {
-        function AstWalkerCallback(pre, ast, callback) {
-            var nodeType = ast.nodeType, callbackString = NodeType._map[nodeType] + "Callback";
-            return callback[callbackString] ? callback[callbackString](pre, ast) : !callback.DefaultCallback || callback.DefaultCallback(pre, ast);
-        }
         AstWalkerWithDetailCallback.walk = function(script, callback) {
             var pre = function(cur, parent) {
                 return walker.options.goChildren = AstWalkerCallback(!0, cur, callback), cur;
@@ -14,5 +10,9 @@ var TypeScript;
             }, walker = TypeScript.getAstWalkerFactory().getWalker(pre, post);
             walker.walk(script, null);
         };
+        function AstWalkerCallback(pre, ast, callback) {
+            var nodeType = ast.nodeType, callbackString = NodeType._map[nodeType] + "Callback";
+            return callback[callbackString] ? callback[callbackString](pre, ast) : !callback.DefaultCallback || callback.DefaultCallback(pre, ast);
+        }
     }(TypeScript1.AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {}));
 }(TypeScript || (TypeScript = {}));

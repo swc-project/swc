@@ -12,7 +12,10 @@ export default function c(i, h, e, n) {
     }(i) : new Cubehelix(i, h, e, null == n ? 1 : n);
 }
 export function Cubehelix(t, i, h, e) {
-    this.h = +t, this.s = +i, this.l = +h, this.opacity = +e;
+    this.h = +t;
+    this.s = +i;
+    this.l = +h;
+    this.opacity = +e;
 }
 i(Cubehelix, c, h(e, {
     brighter: function(t) {

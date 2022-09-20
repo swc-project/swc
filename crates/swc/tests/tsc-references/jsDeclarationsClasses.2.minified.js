@@ -28,7 +28,8 @@ export var D = function D(a, b) {
 export var E = function() {
     "use strict";
     function E(a, b) {
-        _class_call_check(this, E), this.initializedField = 12;
+        _class_call_check(this, E);
+        this.initializedField = 12;
     }
     return _create_class(E, [
         {
@@ -97,7 +98,9 @@ export var J = function J() {
 export var K = function() {
     "use strict";
     function K() {
-        _class_call_check(this, K), this.p1 = 12, this.p2 = "ok";
+        _class_call_check(this, K);
+        this.p1 = 12;
+        this.p2 = "ok";
     }
     return K.prototype.method = function() {
         return this.p1;
@@ -114,11 +117,13 @@ export var L = function(K) {
 }(K);
 export var M = function(_superClass) {
     "use strict";
+    _inherits(M, null);
+    _create_super(M);
     function M() {
         var _this;
         return _class_call_check(this, M), _this.prop = 12, _possible_constructor_return(_this);
     }
-    return _inherits(M, null), _create_super(M), M;
+    return M;
 }(null);
 export var N = function(L) {
     "use strict";

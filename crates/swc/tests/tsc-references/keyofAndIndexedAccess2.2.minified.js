@@ -9,7 +9,8 @@ export function getEntity(id, state) {
 }
 export class c {
     constructor(){
-        this.a = "b", this.a = "b";
+        this.a = "b";
+        this.a = "b";
     }
 }
 for (let action of [

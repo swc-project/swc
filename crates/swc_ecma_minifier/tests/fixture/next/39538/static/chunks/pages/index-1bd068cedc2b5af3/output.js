@@ -30,7 +30,8 @@
             var _defineProperty = __webpack_require__(1412).Z, _slicedToArray = __webpack_require__(8693).Z, _toConsumableArray = __webpack_require__(9947).Z;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.default = function(_param) {
+            });
+            exports.default = function(_param) {
                 var sizerSvgUrl, _obj, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyRoot = _param.lazyRoot, lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, style = _param.style, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = _object_without_properties_loose(_param, [
                     "src",
                     "sizes",
@@ -62,7 +63,10 @@
                 }, [
                     configContext
                 ]), layout = sizes ? "responsive" : "intrinsic";
-                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
+                if ("layout" in all) {
+                    all.layout && (layout = all.layout);
+                    delete all.layout;
+                }
                 var loader = defaultImageLoader;
                 if ("loader" in all) {
                     if (all.loader) {
@@ -81,11 +85,22 @@
                 if ("object" == typeof (src1 = src) && (isStaticRequire(src1) || void 0 !== src1.src)) {
                     var staticImageData = isStaticRequire(src) ? src.default : src;
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
-                    if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
+                    blurDataURL = blurDataURL || staticImageData.blurDataURL;
+                    staticSrc = staticImageData.src;
+                    if (!layout || "fill" !== layout) {
+                        height = height || staticImageData.height;
+                        width = width || staticImageData.width;
+                        if (!staticImageData.height || !staticImageData.width) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
+                    }
                 }
                 src = "string" == typeof src ? src : staticSrc;
                 var isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                (src.startsWith("data:") || src.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
+                if (src.startsWith("data:") || src.startsWith("blob:")) {
+                    unoptimized = !0;
+                    isLazy = !1;
+                }
+                loadedImageURLs.has(src) && (isLazy = !1);
+                experimentalUnoptimized && (unoptimized = !0);
                 var ref = _slicedToArray(_react.useState(!1), 2), blurComplete = ref[0], setBlurComplete = ref[1], ref1 = _slicedToArray(_useIntersection.useIntersection({
                     rootRef: void 0 === _lazyRoot ? null : _lazyRoot,
                     rootMargin: lazyBoundary || "200px",
@@ -136,10 +151,33 @@
                     filter: "blur(20px)",
                     backgroundImage: 'url("'.concat(blurDataURL, '")')
                 };
-                if ("fill" === layout) wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
-                else if (void 0 !== widthInt && void 0 !== heightInt) {
+                if ("fill" === layout) {
+                    wrapperStyle.display = "block";
+                    wrapperStyle.position = "absolute";
+                    wrapperStyle.top = 0;
+                    wrapperStyle.left = 0;
+                    wrapperStyle.bottom = 0;
+                    wrapperStyle.right = 0;
+                } else if (void 0 !== widthInt && void 0 !== heightInt) {
                     var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? "100%" : "".concat(100 * quotient, "%");
-                    "responsive" === layout ? (wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvgUrl = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27".concat(widthInt, "%27%20height=%27").concat(heightInt, "%27/%3e")) : "fixed" === layout && (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
+                    if ("responsive" === layout) {
+                        wrapperStyle.display = "block";
+                        wrapperStyle.position = "relative";
+                        hasSizer = !0;
+                        sizerStyle.paddingTop = paddingTop;
+                    } else if ("intrinsic" === layout) {
+                        wrapperStyle.display = "inline-block";
+                        wrapperStyle.position = "relative";
+                        wrapperStyle.maxWidth = "100%";
+                        hasSizer = !0;
+                        sizerStyle.maxWidth = "100%";
+                        sizerSvgUrl = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27".concat(widthInt, "%27%20height=%27").concat(heightInt, "%27/%3e");
+                    } else if ("fixed" === layout) {
+                        wrapperStyle.display = "inline-block";
+                        wrapperStyle.position = "relative";
+                        wrapperStyle.width = widthInt;
+                        wrapperStyle.height = heightInt;
+                    }
                 }
                 var imgAttributes = {
                     src: emptyDataURL,
@@ -163,8 +201,12 @@
                     onLoadingCompleteRef.current = onLoadingComplete;
                 }, [
                     onLoadingComplete
-                ]), useLayoutEffect(function() {
-                    previousImageSrc.current !== src && (resetIntersected(), previousImageSrc.current = src);
+                ]);
+                useLayoutEffect(function() {
+                    if (previousImageSrc.current !== src) {
+                        resetIntersected();
+                        previousImageSrc.current = src;
+                    }
                 }, [
                     resetIntersected,
                     src
@@ -379,15 +421,22 @@
                 throw Error('Unknown "loader" found in "next.config.js". Expected: '.concat(_imageConfig.VALID_LOADERS.join(", "), ". Received: ").concat(loaderKey));
             }
             function handleLoading(img, src, layout, placeholder, onLoadingCompleteRef, setBlurComplete) {
-                img && img.src !== emptyDataURL && img["data-loaded-src"] !== src && (img["data-loaded-src"] = src, ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                    if (img.parentNode && (loadedImageURLs.add(src), "blur" === placeholder && setBlurComplete(!0), null == onLoadingCompleteRef ? void 0 : onLoadingCompleteRef.current)) {
-                        var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
-                        onLoadingCompleteRef.current({
-                            naturalWidth: naturalWidth,
-                            naturalHeight: naturalHeight
-                        });
-                    }
-                }));
+                if (img && img.src !== emptyDataURL && img["data-loaded-src"] !== src) {
+                    img["data-loaded-src"] = src;
+                    ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
+                        if (img.parentNode) {
+                            loadedImageURLs.add(src);
+                            "blur" === placeholder && setBlurComplete(!0);
+                            if (null == onLoadingCompleteRef ? void 0 : onLoadingCompleteRef.current) {
+                                var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
+                                onLoadingCompleteRef.current({
+                                    naturalWidth: naturalWidth,
+                                    naturalHeight: naturalHeight
+                                });
+                            }
+                        }
+                    });
+                }
             }
             var ImageElement = function(_param) {
                 var imgAttributes = _param.imgAttributes, widthInt = (_param.heightInt, _param.widthInt), qualityInt = _param.qualityInt, layout = _param.layout, className = _param.className, imgStyle = _param.imgStyle, blurStyle = _param.blurStyle, isLazy = _param.isLazy, placeholder = _param.placeholder, loading = _param.loading, srcString = _param.srcString, config = _param.config, unoptimized = _param.unoptimized, loader = _param.loader, onLoadingCompleteRef = _param.onLoadingCompleteRef, setBlurComplete = _param.setBlurComplete, setIntersection = _param.setIntersection, onLoad = _param.onLoad, onError = _param.onError, noscriptSizes = (_param.isVisible, _param.noscriptSizes), rest = _object_without_properties_loose(_param, [
@@ -420,7 +469,8 @@
                     className: className,
                     style: _extends({}, imgStyle, blurStyle),
                     ref: _react.useCallback(function(img) {
-                        setIntersection(img), (null == img ? void 0 : img.complete) && handleLoading(img, srcString, layout, placeholder, onLoadingCompleteRef, setBlurComplete);
+                        setIntersection(img);
+                        (null == img ? void 0 : img.complete) && handleLoading(img, srcString, layout, placeholder, onLoadingCompleteRef, setBlurComplete);
                     }, [
                         setIntersection,
                         srcString,
@@ -430,10 +480,12 @@
                         setBlurComplete
                     ]),
                     onLoad: function(event) {
-                        handleLoading(event.currentTarget, srcString, layout, placeholder, onLoadingCompleteRef, setBlurComplete), onLoad && onLoad(event);
+                        handleLoading(event.currentTarget, srcString, layout, placeholder, onLoadingCompleteRef, setBlurComplete);
+                        onLoad && onLoad(event);
                     },
                     onError: function(event) {
-                        "blur" === placeholder && setBlurComplete(!0), onError && onError(event);
+                        "blur" === placeholder && setBlurComplete(!0);
+                        onError && onError(event);
                     }
                 })), (isLazy || "blur" === placeholder) && _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({
                     config: config,
@@ -455,9 +507,13 @@
             function normalizeSrc(src) {
                 return "/" === src[0] ? src.slice(1) : src;
             }
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: !0
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         757: function(module, exports, __webpack_require__) {
             "use strict";
@@ -467,11 +523,16 @@
             var _slicedToArray = __webpack_require__(8693).Z;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.useIntersection = function(param) {
+            });
+            exports.useIntersection = function(param) {
                 var rootRef = param.rootRef, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = _slicedToArray(_react.useState(!1), 2), visible = ref[0], setVisible = ref[1], ref1 = _slicedToArray(_react.useState(null), 2), element = ref1[0], setElement = ref1[1];
                 return _react.useEffect(function() {
                     if (hasIntersectionObserver) {
-                        if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) {
+                        if (unobserve.current) {
+                            unobserve.current();
+                            unobserve.current = void 0;
+                        }
+                        if (!isDisabled && !visible) {
                             var callback, ref, id, observer, elements;
                             return element && element.tagName && (unobserve.current = (callback = function(isVisible) {
                                 return isVisible && setVisible(isVisible);
@@ -498,15 +559,19 @@
                                 root: null == rootRef ? void 0 : rootRef.current,
                                 rootMargin: rootMargin
                             })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
-                                if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
-                                    observer.disconnect(), observers.delete(id);
+                                elements.delete(element);
+                                observer.unobserve(element);
+                                if (0 === elements.size) {
+                                    observer.disconnect();
+                                    observers.delete(id);
                                     var index = idList.findIndex(function(obj) {
                                         return obj.root === id.root && obj.margin === id.margin;
                                     });
                                     index > -1 && idList.splice(index, 1);
                                 }
                             })), function() {
-                                null == unobserve.current || unobserve.current(), unobserve.current = void 0;
+                                null == unobserve.current || unobserve.current();
+                                unobserve.current = void 0;
                             };
                         }
                     } else if (!visible) {
@@ -532,13 +597,18 @@
                 ];
             };
             var _react = __webpack_require__(959), _requestIdleCallback = __webpack_require__(6501), hasIntersectionObserver = "function" == typeof IntersectionObserver, observers = new Map(), idList = [];
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: !0
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         1107: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
+            __webpack_require__.r(__webpack_exports__);
+            __webpack_require__.d(__webpack_exports__, {
                 default: function() {
                     return pages;
                 }
@@ -547,7 +617,8 @@
                 new Image(40, 40).src = "/vercel.svg";
             }, pages = function() {
                 return (0, react.useEffect)(function() {
-                    console.log(40), preloadImage();
+                    console.log(40);
+                    preloadImage();
                 }, []), (0, jsx_runtime.jsxs)("div", {
                     className: Home_module_default().container,
                     children: [
@@ -697,6 +768,7 @@
             179
         ], function() {
             return __webpack_require__(__webpack_require__.s = 5702);
-        }), _N_E = __webpack_require__.O();
+        });
+        _N_E = __webpack_require__.O();
     }
 ]);

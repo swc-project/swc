@@ -1,3 +1,4 @@
 function f(x) {
-    if ((a(), x)) return b(), !1;
+    a();
+    if (x) return b(), !1;
 }

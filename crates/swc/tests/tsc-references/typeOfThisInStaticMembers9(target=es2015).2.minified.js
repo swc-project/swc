@@ -6,10 +6,13 @@ class C {
 C.f = 1;
 class D extends C {
 }
-D.arrowFunctionBoundary = ()=>_get(_get_prototype_of(D), "f", D) + 1, D.functionExprBoundary = function() {
+D.arrowFunctionBoundary = ()=>_get(_get_prototype_of(D), "f", D) + 1;
+D.functionExprBoundary = function() {
     return _get(_get_prototype_of(D), "f", this) + 2;
-}, D.classExprBoundary = class {
+};
+D.classExprBoundary = class {
     constructor(){
         this.a = super.f + 3;
     }
-}, D.functionAndClassDeclBoundary = void 0;
+};
+D.functionAndClassDeclBoundary = void 0;

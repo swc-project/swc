@@ -11,7 +11,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -21,7 +22,7 @@ define([
             return E;
         },
         D: function() {
-            return D;
+            return D1;
         },
         M: function() {
             return M;
@@ -51,7 +52,7 @@ define([
             return E;
         },
         D1: function() {
-            return D;
+            return D1;
         },
         M1: function() {
             return M;
@@ -59,14 +60,17 @@ define([
         a1: function() {
             return a;
         }
-    }), _classCallCheck = _classCallCheck.default;
-    var E, D, M, v = 1;
+    });
+    _classCallCheck = _classCallCheck.default;
+    var D, x, E, D1, M, v = 1;
     function f() {}
-    var E1, D1, x, C = function C() {
+    var E1, C = function C() {
         "use strict";
         _classCallCheck(this, C);
     };
-    (E1 = E || (E = {}))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C", (D1 = D || (D = {}))[D1.A = 0] = "A", D1[D1.B = 1] = "B", D1[D1.C = 2] = "C", (M || (M = {})).x = x;
+    (E1 = E || (E = {}))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C";
+    (D = D1 || (D1 = {}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C";
+    (M || (M = {})).x = x;
     var a = M.x;
 });
 //// [t2.ts]
@@ -78,7 +82,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
@@ -125,7 +130,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
+    });
+    !function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]

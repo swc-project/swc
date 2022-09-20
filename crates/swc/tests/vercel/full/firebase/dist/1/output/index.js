@@ -16,9 +16,12 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
 }(i), p = function() {
     var e = function(e, t) {
         var n = this;
-        this._delegate = e, this.firebase = t, i._addComponent(e, new r.Component("app-compat", function() {
+        this._delegate = e;
+        this.firebase = t;
+        i._addComponent(e, new r.Component("app-compat", function() {
             return n;
-        }, "PUBLIC")), this.container = e.container;
+        }, "PUBLIC"));
+        this.container = e.container;
     };
     return Object.defineProperty(e.prototype, "automaticDataCollectionEnabled", {
         get: function() {
@@ -44,18 +47,21 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
     }), e.prototype.delete = function() {
         var e = this;
         return new Promise(function(t) {
-            e._delegate.checkDestroyed(), t();
+            e._delegate.checkDestroyed();
+            t();
         }).then(function() {
             return e.firebase.INTERNAL.removeApp(e.name), i.deleteApp(e._delegate);
         });
     }, e.prototype._getService = function(e, t) {
-        void 0 === t && (t = i._DEFAULT_ENTRY_NAME), this._delegate.checkDestroyed();
+        void 0 === t && (t = i._DEFAULT_ENTRY_NAME);
+        this._delegate.checkDestroyed();
         var n, r = this._delegate.container.getProvider(e);
         return r.isInitialized() || (null === (n = r.getComponent()) || void 0 === n ? void 0 : n.instantiationMode) !== "EXPLICIT" || r.initialize(), r.getImmediate({
             identifier: t
         });
     }, e.prototype._removeServiceInstance = function(e, t) {
-        void 0 === t && (t = i._DEFAULT_ENTRY_NAME), this._delegate.container.getProvider(e).clearInstance(t);
+        void 0 === t && (t = i._DEFAULT_ENTRY_NAME);
+        this._delegate.container.getProvider(e).clearInstance(t);
     }, e.prototype._addComponent = function(e) {
         i._addComponent(this._delegate, e);
     }, e.prototype._addOrOverwriteComponent = function(e) {
@@ -73,7 +79,8 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
     }, b = (r = p, i = function(e) {
         delete d[e];
     }, a = function(e) {
-        if (e = e || o._DEFAULT_ENTRY_NAME, !t.contains(d, e)) throw c.create("no-app", {
+        e = e || o._DEFAULT_ENTRY_NAME;
+        if (!t.contains(d, e)) throw c.create("no-app", {
             appName: e
         });
         return d[e];
@@ -85,12 +92,15 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
         var n = e.name, i = n.replace("-compat", "");
         if (o._registerComponent(e) && "PUBLIC" === e.type) {
             var p = function(e) {
-                if (void 0 === e && (e = a()), "function" != typeof e[i]) throw c.create("invalid-app-argument", {
+                void 0 === e && (e = a());
+                if ("function" != typeof e[i]) throw c.create("invalid-app-argument", {
                     appName: n
                 });
                 return e[i]();
             };
-            void 0 !== e.serviceProps && t.deepExtend(p, e.serviceProps), f[i] = p, r.prototype[i] = function() {
+            void 0 !== e.serviceProps && t.deepExtend(p, e.serviceProps);
+            f[i] = p;
+            r.prototype[i] = function() {
                 for(var t = [], r = 0; r < arguments.length; r++)t[r] = arguments[r];
                 return this._getService.bind(this, n).apply(this, e.multipleInstances ? t : []);
             };
@@ -135,4 +145,5 @@ if (t.isBrowser() && void 0 !== self.firebase) {
     var d = self.firebase.SDK_VERSION;
     d && d.indexOf("LITE") >= 0 && l.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
 }
-i.registerVersion("@firebase/app-compat", "0.1.5", void 0), module.exports = u;
+i.registerVersion("@firebase/app-compat", "0.1.5", void 0);
+module.exports = u;

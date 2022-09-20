@@ -8,12 +8,14 @@ define([
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "MainButton", {
+    });
+    Object.defineProperty(exports, "MainButton", {
         enumerable: !0,
         get: function() {
             return MainButton;
         }
-    }), _extends = _extends.default;
+    });
+    _extends = _extends.default;
     var obj3, obj0 = {
         to: "world"
     };
@@ -22,23 +24,29 @@ define([
     }
     _extends({
         onClick: function(e) {}
-    }, obj0), _extends({}, {
+    }, obj0);
+    _extends({}, {
         to: "10000"
     }, {
         onClick: function() {}
-    }), _extends({}, {
+    });
+    _extends({}, {
         to: "10000"
     }, {
         onClick: function(k) {}
-    }), _extends({}, obj3, {
+    });
+    _extends({}, obj3, {
         to: !0
-    }), _extends({}, {
+    });
+    _extends({}, {
         onClick: function(e) {}
-    }, obj0), _extends({}, {
+    }, obj0);
+    _extends({}, {
         onClick: function(e) {}
     }, {
         children: 10
-    }), _extends({}, {
+    });
+    _extends({}, {
         onClick: function(e) {}
     }, {
         children: "hello",
