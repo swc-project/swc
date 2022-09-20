@@ -31,6 +31,9 @@
 
 - **(es/minifier)** Invoke DCE only before the first compression (#5907) ([1df7243](https://github.com/swc-project/swc/commit/1df72430a56cc85ac41c6f9753d7c7e6d5ea279a))
 
+
+- **(es/minifier)** Optimize analyzer (#5908) ([a9873e5](https://github.com/swc-project/swc/commit/a9873e505d33b4537e341a618f524931870a0db4))
+
 ## [1.3.2] - 2022-09-19
 
 ### Bug Fixes
