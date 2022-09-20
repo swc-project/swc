@@ -23,8 +23,15 @@
 #![allow(clippy::match_like_matches_macro)]
 
 use once_cell::sync::Lazy;
-use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext};
+use swc_common::{
+    comments::Comments,
+    pass::{Repeat, Repeated},
+    sync::Lrc,
+    SourceMap, SyntaxContext,
+};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helpers::{Helpers, HELPERS};
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 
@@ -162,6 +169,50 @@ pub fn optimize(
         // TODO: enclose
         // toplevel = toplevel.wrap_enclose(options.enclose);
     }
+        if let Some(ref mut t) = timings {
+            t.section("compress");
+        }
+        if let Some(options) = &options.compress {
+            {
+                let _timer = timer!("compress ast");
+                {
+                    if options.unused {
+                        let _timer = timer!("remove dead code");
+
+                        let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
+                            swc_ecma_transforms_optimization::simplify::dce::Config {
+                                module_mark: None,
+                                top_level: options.top_level(),
+                                top_retain: options.top_retain.clone(),
+                            },
+                            extra.unresolved_mark,
+                        );
+
+                        loop {
+                            #[cfg(feature = "debug")]
+                            let start = n.dump();
+
+                            m.visit_mut_with(&mut visitor);
+
+                            #[cfg(feature = "debug")]
+                            if visitor.changed() {
+                                let src = n.dump();
+                                debug!(
+                                    "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
+                                    start, src
+                                );
+                            }
+
+                            if !visitor.changed() {
+                                break;
+                            }
+
+                            visitor.reset();
+                        }
+
+                        debug_assert_valid(&m);
+                    }
+                }
 
     // We don't need validation.
 
