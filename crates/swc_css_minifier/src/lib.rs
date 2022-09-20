@@ -20,9 +20,8 @@ pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
 }
 
 #[inline]
-fn is_css_wide_keywords(ident: &JsWord) -> bool {
+fn is_css_wide_keyword(ident: &JsWord) -> bool {
     match ident.to_ascii_lowercase() {
-        js_word!("none")
         // CSS Values and Units Level 3: https://drafts.csswg.org/css-values-3/#common-keywords
         |  js_word!("initial")
         |  js_word!("inherit")

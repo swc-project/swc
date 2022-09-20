@@ -427,7 +427,9 @@ impl Compressor {
                     if let Some(ComponentValue::Str(ident)) = first {
                         declaration.value.remove(0);
                         match &*ident.value.to_ascii_lowercase() {
-                            _ if crate::is_css_wide_keywords(&ident.value) => {
+                            _ if crate::is_css_wide_keyword(&ident.value)
+                                || ident.value.to_ascii_lowercase() == js_word!("none") =>
+                            {
                                 declaration.value.insert(0, ComponentValue::Str(ident));
                             }
                             to_be_identify => {
@@ -462,7 +464,11 @@ impl Compressor {
                             ComponentValue::Str(ref ident) => {
                                 let value = ident.value.to_ascii_lowercase();
                                 match &*value {
-                                    _ if crate::is_css_wide_keywords(&ident.value) => node,
+                                    _ if crate::is_css_wide_keyword(&ident.value)
+                                        || ident.value.to_ascii_lowercase() == js_word!("none") =>
+                                    {
+                                        node
+                                    }
                                     to_be_identify => {
                                         if let Some(escaped) =
                                             crate::escape::try_escape_if_shorter(to_be_identify)

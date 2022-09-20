@@ -3,13 +3,14 @@ use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
 use super::Compressor;
-use crate::is_css_wide_keywords;
+use crate::is_css_wide_keyword;
 
 impl Compressor {
     pub(super) fn compress_keyframes_at_rule(&mut self, at_rule: &mut AtRule) {
         match at_rule.prelude.as_deref() {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
-                if !is_css_wide_keywords(&string.value) =>
+                if !is_css_wide_keyword(&string.value)
+                    && string.value.to_ascii_lowercase() != js_word!("none") =>
             {
                 at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
                     if let Some(escaped) = crate::escape::try_escape_if_shorter(&*string.value) {
