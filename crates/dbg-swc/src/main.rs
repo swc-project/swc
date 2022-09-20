@@ -1,5 +1,3 @@
-#![feature(box_syntax)]
-
 use std::{env, path::PathBuf, str::FromStr, sync::Arc};
 
 use anyhow::{bail, Result};

@@ -674,12 +674,12 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let span = span!(self, start);
-        Ok(Stmt::Try(TryStmt {
+        Ok(Stmt::Try(Box::new(TryStmt {
             span,
             block,
             handler,
             finalizer,
-        }))
+        })))
     }
 
     fn parse_catch_clause(&mut self) -> PResult<Option<CatchClause>> {
@@ -730,10 +730,10 @@ impl<'a, I: Tokens> Parser<I> {
                     | Pat::Rest(RestPat { type_ann, .. })
                     | Pat::Object(ObjectPat { type_ann, .. })
                     | Pat::Assign(AssignPat { type_ann, .. }) => {
-                        *type_ann = Some(TsTypeAnn {
+                        *type_ann = Some(Box::new(TsTypeAnn {
                             span: span!(self, type_ann_start),
                             type_ann: ty,
-                        });
+                        }));
                     }
                     Pat::Invalid(_) => {}
                     Pat::Expr(_) => {}
@@ -746,7 +746,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<VarDecl> {
+    pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<Box<VarDecl>> {
         let start = cur_pos!(self);
         let kind = match bump!(self) {
             tok!("const") => VarDeclKind::Const,
@@ -780,12 +780,12 @@ impl<'a, I: Tokens> Parser<I> {
                     let span = Span::new(pos, pos, Default::default());
                     self.emit_err(span, SyntaxError::TS1123);
 
-                    return Ok(VarDecl {
+                    return Ok(Box::new(VarDecl {
                         span: span!(self, start),
                         kind,
                         declare: false,
                         decls: vec![],
-                    });
+                    }));
                 }
                 Err(..) => {}
                 _ => {}
@@ -836,12 +836,12 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        Ok(VarDecl {
+        Ok(Box::new(VarDecl {
             span: span!(self, start),
             declare: false,
             kind,
             decls,
-        })
+        }))
     }
 
     fn parse_var_declarator(
@@ -1029,22 +1029,12 @@ impl<'a, I: Tokens> Parser<I> {
 
             let body = Box::new(if is!(p, "function") {
                 let f = p.parse_fn_decl(vec![])?;
-                if let Decl::Fn(FnDecl {
-                    function:
-                        Function {
-                            span,
-                            is_generator,
-                            is_async,
-                            ..
-                        },
-                    ..
-                }) = f
-                {
+                if let Decl::Fn(FnDecl { function, .. }) = &f {
                     if p.ctx().strict {
-                        p.emit_err(span, SyntaxError::LabelledFunctionInStrict)
+                        p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
                     }
-                    if is_generator || is_async {
-                        p.emit_err(span, SyntaxError::LabelledGeneratorOrAsync)
+                    if function.is_generator || function.is_async {
+                        p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
                     }
                 }
 
@@ -1197,7 +1187,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            return self.parse_for_each_head(VarDeclOrPat::Pat(pat));
+            return self.parse_for_each_head(VarDeclOrPat::Pat(Box::new(pat)));
         }
 
         expect_exact!(self, ';');
@@ -1370,7 +1360,7 @@ mod tests {
     fn catch_rest_pat() {
         assert_eq_ignore_span!(
             stmt("try {} catch({ ...a34 }) {}"),
-            Stmt::Try(TryStmt {
+            Stmt::Try(Box::new(TryStmt {
                 span,
                 block: BlockStmt {
                     span,
@@ -1396,7 +1386,7 @@ mod tests {
                     }
                 }),
                 finalizer: None
-            })
+            }))
         );
     }
 
@@ -1418,7 +1408,7 @@ mod tests {
             Stmt::ForOf(ForOfStmt {
                 span,
                 await_token: Some(span),
-                left: VarDeclOrPat::VarDecl(VarDecl {
+                left: VarDeclOrPat::VarDecl(Box::new(VarDecl {
                     span,
                     kind: VarDeclKind::Const,
                     decls: vec![VarDeclarator {
@@ -1428,7 +1418,7 @@ mod tests {
                         definite: false,
                     }],
                     declare: false,
-                }),
+                })),
                 right: Box::new(Expr::Ident(Ident::new("b".into(), span))),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),
@@ -1486,7 +1476,7 @@ mod tests {
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
                 ident: Ident::new("Foo".into(), span),
-                class: Class {
+                class: Box::new(Class {
                     span,
                     decorators: vec![
                         Decorator {
@@ -1504,7 +1494,7 @@ mod tests {
                     is_abstract: false,
                     super_type_params: None,
                     type_params: None,
-                },
+                }),
                 declare: false,
             }))
         );
@@ -1952,7 +1942,7 @@ export default function waitUntil(callback, options = {}) {
         match parse_for_head("let [, , t] = simple_array; t < 10; t++") {
             ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
-                VarDeclOrExpr::VarDecl(VarDecl {
+                VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,
                     declare: false,
                     kind: VarDeclKind::Let,
@@ -1974,7 +1964,7 @@ export default function waitUntil(callback, options = {}) {
                         )))),
                         definite: false
                     }]
-                })
+                }))
             ),
             _ => unreachable!(),
         }
@@ -1984,7 +1974,7 @@ export default function waitUntil(callback, options = {}) {
         match parse_for_head("let {num} = obj; num < 11; num++") {
             ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
-                VarDeclOrExpr::VarDecl(VarDecl {
+                VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,
                     declare: false,
                     kind: VarDeclKind::Let,
@@ -2003,7 +1993,7 @@ export default function waitUntil(callback, options = {}) {
                         init: Some(Box::new(Expr::Ident(Ident::new("obj".into(), span)))),
                         definite: false
                     }]
-                })
+                }))
             ),
             _ => unreachable!(),
         }
@@ -2180,7 +2170,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: Class {
+                class: Box::new(Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2195,7 +2185,7 @@ export default function waitUntil(callback, options = {}) {
                             stmts: vec!(stmt("1 + 1;")),
                         }
                     }))
-                }
+                })
             }))
         );
     }
@@ -2217,7 +2207,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: Class {
+                class: Box::new(Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2241,7 +2231,7 @@ export default function waitUntil(callback, options = {}) {
                             },
                         })
                     )
-                }
+                })
             }))
         );
     }
@@ -2268,7 +2258,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: Class {
+                class: Box::new(Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2283,7 +2273,7 @@ export default function waitUntil(callback, options = {}) {
                             stmts: vec!(stmt("1 + 1;")),
                         }
                     }))
-                }
+                })
             }))
         );
     }
@@ -2308,7 +2298,7 @@ export default function waitUntil(callback, options = {}) {
                     sym: "Foo".into(),
                     optional: false,
                 }),
-                class: Class {
+                class: Box::new(Class {
                     span,
                     decorators: Vec::new(),
                     super_class: None,
@@ -2323,7 +2313,7 @@ export default function waitUntil(callback, options = {}) {
                             stmts: Vec::new(),
                         }
                     }))
-                }
+                })
             }))
         );
     }

@@ -1073,7 +1073,8 @@ where
                             span: DUMMY_SP,
                             raw: None,
                             value: "react".into(),
-                        },
+                        }
+                        .into(),
                         type_only: Default::default(),
                         asserts: Default::default(),
                     })),
@@ -1149,7 +1150,8 @@ where
                             span: DUMMY_SP,
                             raw: None,
                             value: value.into(),
-                        },
+                        }
+                        .into(),
                         type_only: Default::default(),
                         asserts: Default::default(),
                     })),

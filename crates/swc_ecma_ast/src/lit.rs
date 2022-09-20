@@ -72,7 +72,7 @@ pub struct BigInt {
         any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
         with(EncodeBigInt)
     )]
-    pub value: BigIntValue,
+    pub value: Box<BigIntValue>,
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
@@ -90,12 +90,12 @@ impl EqIgnoreSpan for BigInt {
 pub struct EncodeBigInt;
 
 #[cfg(any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
-impl rkyv::with::ArchiveWith<BigIntValue> for EncodeBigInt {
+impl rkyv::with::ArchiveWith<Box<BigIntValue>> for EncodeBigInt {
     type Archived = rkyv::Archived<String>;
     type Resolver = rkyv::Resolver<String>;
 
     unsafe fn resolve_with(
-        field: &BigIntValue,
+        field: &Box<BigIntValue>,
         pos: usize,
         resolver: Self::Resolver,
         out: *mut Self::Archived,
@@ -108,30 +108,33 @@ impl rkyv::with::ArchiveWith<BigIntValue> for EncodeBigInt {
 }
 
 #[cfg(any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
-impl<S> rkyv::with::SerializeWith<BigIntValue, S> for EncodeBigInt
+impl<S> rkyv::with::SerializeWith<Box<BigIntValue>, S> for EncodeBigInt
 where
     S: ?Sized + rkyv::ser::Serializer,
 {
-    fn serialize_with(field: &BigIntValue, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+    fn serialize_with(
+        field: &Box<BigIntValue>,
+        serializer: &mut S,
+    ) -> Result<Self::Resolver, S::Error> {
         let field = field.to_string();
         rkyv::string::ArchivedString::serialize_from_str(&field, serializer)
     }
 }
 
 #[cfg(any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, BigIntValue, D> for EncodeBigInt
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Box<BigIntValue>, D> for EncodeBigInt
 where
     D: ?Sized + rkyv::Fallible,
 {
     fn deserialize_with(
         field: &rkyv::Archived<String>,
         deserializer: &mut D,
-    ) -> Result<BigIntValue, D::Error> {
+    ) -> Result<Box<BigIntValue>, D::Error> {
         use rkyv::Deserialize;
 
         let s: String = field.deserialize(deserializer)?;
 
-        Ok(s.parse().unwrap())
+        Ok(Box::new(s.parse().unwrap()))
     }
 }
 
@@ -140,7 +143,7 @@ where
 impl<'a> arbitrary::Arbitrary<'a> for BigInt {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
-        let value = u.arbitrary::<usize>()?.into();
+        let value = Box::new(u.arbitrary::<usize>()?.into());
         let raw = Some(u.arbitrary::<String>()?.into());
 
         Ok(Self { span, value, raw })
@@ -152,7 +155,7 @@ impl From<BigIntValue> for BigInt {
     fn from(value: BigIntValue) -> Self {
         BigInt {
             span: DUMMY_SP,
-            value,
+            value: Box::new(value),
             raw: None,
         }
     }

@@ -146,7 +146,7 @@ where
                 export,
                 is_export_assign,
             )
-            .map(Into::into),
+            .map(From::from),
         );
 
         stmts.extend(n.take().into_iter().filter(|item| match item {
@@ -258,7 +258,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export.into_iter().map(Into::into).collect();
+        let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
 
         let lexer_reexport = if is_node {
             self.emit_lexer_ts_reexport(&link)
@@ -405,52 +405,59 @@ where
         module_map: &mut ImportMap,
         has_ts_import_equals: &mut bool,
     ) -> ModuleItem {
-        if let ModuleDecl::TsImportEquals(TsImportEqualsDecl {
-            span,
-            declare: false,
-            is_export,
-            is_type_only: false,
-            id,
-            module_ref:
-                TsModuleRef::TsExternalModuleRef(TsExternalModuleRef {
-                    expr:
-                        Str {
-                            span: src_span,
-                            value: src,
-                            ..
-                        },
-                    ..
-                }),
-        }) = module_decl
-        {
-            *has_ts_import_equals = true;
-
-            let require = self
-                .resolver
-                .make_require_call(self.unresolved_mark, src, src_span);
-
-            if is_export {
-                // exports.foo = require("mod")
-                module_map.insert(id.to_id(), (self.exports(), Some(id.sym.clone())));
-
-                let assign_expr = AssignExpr {
+        match module_decl {
+            ModuleDecl::TsImportEquals(v)
+                if matches!(
+                    &*v,
+                    TsImportEqualsDecl {
+                        declare: false,
+                        is_type_only: false,
+                        module_ref: TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { .. }),
+                        ..
+                    }
+                ) =>
+            {
+                let TsImportEqualsDecl {
                     span,
-                    op: op!("="),
-                    left: id.as_pat_or_expr(),
-                    right: Box::new(require),
-                };
+                    is_export,
+                    id,
+                    module_ref,
+                    ..
+                } = *v;
+                let Str {
+                    span: src_span,
+                    value: src,
+                    ..
+                } = module_ref.expect_ts_external_module_ref().expr;
 
-                assign_expr.into_stmt()
-            } else {
-                // const foo = require("mod")
-                let mut var_decl = require.into_var_decl(self.const_var_kind, id.into());
-                var_decl.span = span;
+                *has_ts_import_equals = true;
 
-                Stmt::Decl(var_decl.into())
+                let require = self
+                    .resolver
+                    .make_require_call(self.unresolved_mark, src, src_span);
+
+                if is_export {
+                    // exports.foo = require("mod")
+                    module_map.insert(id.to_id(), (self.exports(), Some(id.sym.clone())));
+
+                    let assign_expr = AssignExpr {
+                        span,
+                        op: op!("="),
+                        left: id.as_pat_or_expr(),
+                        right: Box::new(require),
+                    };
+
+                    assign_expr.into_stmt()
+                } else {
+                    // const foo = require("mod")
+                    let mut var_decl = require.into_var_decl(self.const_var_kind, id.into());
+                    var_decl.span = span;
+
+                    Stmt::Decl(var_decl.into())
+                }
+                .into()
             }
-            .into()
-        } else {
-            module_decl.into()
+            _ => module_decl.into(),
         }
     }
 
@@ -647,7 +654,7 @@ fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Exp
 pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDecl {
     let data = private_ident!("data");
     let data_decl = expr.into_var_decl(var_kind, data.clone().into());
-    let data_stmt = Stmt::Decl(Decl::Var(data_decl));
+    let data_stmt = data_decl.into();
     let overwrite_stmt = data
         .clone()
         .into_lazy_fn(Default::default())
@@ -671,6 +678,7 @@ pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDe
             is_async: false,
             type_params: None,
             return_type: None,
-        },
+        }
+        .into(),
     }
 }

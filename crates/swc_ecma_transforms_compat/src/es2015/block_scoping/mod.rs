@@ -203,34 +203,30 @@ impl BlockScoping {
             self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: var_name.clone().into(),
-                init: Some(Box::new(
-                    FnExpr {
-                        ident: None,
-                        function: Function {
-                            span: DUMMY_SP,
-                            params: args
-                                .iter()
-                                .map(|i| {
-                                    let ctxt = flow_helper.mutated.get(i).copied().unwrap_or(i.1);
+                init: Some(
+                    Function {
+                        span: DUMMY_SP,
+                        params: args
+                            .iter()
+                            .map(|i| {
+                                let ctxt = flow_helper.mutated.get(i).copied().unwrap_or(i.1);
 
-                                    Param {
-                                        span: DUMMY_SP,
-                                        decorators: Default::default(),
-                                        pat: Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
-                                            .into(),
-                                    }
-                                })
-                                .collect(),
-                            decorators: Default::default(),
-                            body: Some(body_stmt),
-                            is_generator: flow_helper.has_yield,
-                            is_async: false,
-                            type_params: None,
-                            return_type: None,
-                        },
+                                Param {
+                                    span: DUMMY_SP,
+                                    decorators: Default::default(),
+                                    pat: Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt)).into(),
+                                }
+                            })
+                            .collect(),
+                        decorators: Default::default(),
+                        body: Some(body_stmt),
+                        is_generator: flow_helper.has_yield,
+                        is_async: false,
+                        type_params: None,
+                        return_type: None,
                     }
                     .into(),
-                )),
+                ),
                 definite: false,
             });
 
@@ -260,7 +256,7 @@ impl BlockScoping {
 
                 let mut stmts = vec![
                     // var _ret = _loop(i);
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         declare: false,
@@ -270,7 +266,8 @@ impl BlockScoping {
                             init: Some(Box::new(call.take())),
                             definite: false,
                         }],
-                    })),
+                    }
+                    .into(),
                 ];
 
                 if flow_helper.has_return {
@@ -540,12 +537,15 @@ impl BlockScoping {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: take(&mut self.vars),
-                }))),
+                T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: take(&mut self.vars),
+                    }
+                    .into(),
+                ),
             );
         }
     }

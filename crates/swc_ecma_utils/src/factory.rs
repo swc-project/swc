@@ -120,7 +120,7 @@ pub trait ExprFactory: Into<Expr> {
         if support_arrow {
             self.into_lazy_arrow(params).into()
         } else {
-            self.into_lazy_fn(params.into_iter().map(Into::into).collect())
+            self.into_lazy_fn(params.into_iter().map(From::from).collect())
                 .into_fn_expr(None)
                 .into()
         }
@@ -349,7 +349,7 @@ pub trait FunctionFactory: Into<Function> {
     fn into_fn_expr(self, ident: Option<Ident>) -> FnExpr {
         FnExpr {
             ident,
-            function: self.into(),
+            function: Box::new(self.into()),
         }
     }
 
@@ -358,7 +358,7 @@ pub trait FunctionFactory: Into<Function> {
         FnDecl {
             ident,
             declare: false,
-            function: self.into(),
+            function: Box::new(self.into()),
         }
     }
 
@@ -366,7 +366,7 @@ pub trait FunctionFactory: Into<Function> {
     fn into_method_prop(self, key: PropName) -> MethodProp {
         MethodProp {
             key,
-            function: self.into(),
+            function: Box::new(self.into()),
         }
     }
 }

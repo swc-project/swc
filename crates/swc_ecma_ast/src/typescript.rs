@@ -155,9 +155,9 @@ pub struct TsCallSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
 #[ast_node("TsConstructSignatureDeclaration")]
@@ -167,9 +167,9 @@ pub struct TsConstructSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
 #[ast_node("TsPropertySignature")]
@@ -185,9 +185,9 @@ pub struct TsPropertySignature {
     pub init: Option<Box<Expr>>,
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
 #[ast_node("TsGetterSignature")]
@@ -200,7 +200,7 @@ pub struct TsGetterSignature {
     pub computed: bool,
     pub optional: bool,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
 #[ast_node("TsSetterSignature")]
@@ -226,9 +226,9 @@ pub struct TsMethodSignature {
     pub optional: bool,
     pub params: Vec<TsFnParam>,
     #[serde(default)]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
 #[ast_node("TsIndexSignature")]
@@ -237,7 +237,7 @@ pub struct TsMethodSignature {
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 
     pub readonly: bool,
     #[serde(rename = "static")]
@@ -467,9 +467,9 @@ pub struct TsFnType {
     pub params: Vec<TsFnParam>,
 
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
-    pub type_ann: TsTypeAnn,
+    pub type_ann: Box<TsTypeAnn>,
 }
 
 #[ast_node("TsConstructorType")]
@@ -479,9 +479,9 @@ pub struct TsConstructorType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
-    pub type_ann: TsTypeAnn,
+    pub type_ann: Box<TsTypeAnn>,
     pub is_abstract: bool,
 }
 
@@ -492,7 +492,7 @@ pub struct TsTypeRef {
     pub span: Span,
     pub type_name: TsEntityName,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamInstantiation>,
+    pub type_params: Option<Box<TsTypeParamInstantiation>>,
 }
 
 #[ast_node("TsTypePredicate")]
@@ -503,7 +503,7 @@ pub struct TsTypePredicate {
     pub asserts: bool,
     pub param_name: TsThisTypeOrIdent,
     #[serde(rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
 #[ast_node]
@@ -526,7 +526,7 @@ pub struct TsTypeQuery {
     pub span: Span,
     pub expr_name: TsTypeQueryExpr,
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
 #[ast_node]
@@ -549,7 +549,7 @@ pub struct TsImportType {
     pub arg: Str,
     pub qualifier: Option<TsEntityName>,
     #[serde(rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
 #[ast_node("TsTypeLiteral")]
@@ -583,7 +583,7 @@ pub struct TsTupleElement {
     pub span: Span,
     /// `Ident` or `RestPat { arg: Ident }`
     pub label: Option<Pat>,
-    pub ty: TsType,
+    pub ty: Box<TsType>,
 }
 
 #[ast_node("TsOptionalType")]
@@ -830,7 +830,7 @@ pub struct TsInterfaceDecl {
     pub id: Ident,
     pub declare: bool,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
     pub extends: Vec<TsExprWithTypeArgs>,
     pub body: TsInterfaceBody,
 }
@@ -851,7 +851,7 @@ pub struct TsExprWithTypeArgs {
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
 #[ast_node("TsTypeAliasDeclaration")]
@@ -862,7 +862,7 @@ pub struct TsTypeAliasDecl {
     pub declare: bool,
     pub id: Ident,
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
 }
@@ -1087,5 +1087,5 @@ pub struct TsInstantiation {
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,
     #[serde(rename = "typeArguments")]
-    pub type_args: TsTypeParamInstantiation,
+    pub type_args: Box<TsTypeParamInstantiation>,
 }

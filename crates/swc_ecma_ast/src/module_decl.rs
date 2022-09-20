@@ -33,7 +33,7 @@ pub enum ModuleDecl {
     ExportAll(ExportAll),
 
     #[tag("TsImportEqualsDeclaration")]
-    TsImportEquals(TsImportEqualsDecl),
+    TsImportEquals(Box<TsImportEqualsDecl>),
 
     #[tag("TsExportAssignment")]
     TsExportAssignment(TsExportAssignment),
@@ -78,13 +78,13 @@ pub struct ImportDecl {
     pub specifiers: Vec<ImportSpecifier>,
 
     #[serde(rename = "source")]
-    pub src: Str,
+    pub src: Box<Str>,
 
     #[serde(default, rename = "typeOnly")]
     pub type_only: bool,
 
     #[serde(default)]
-    pub asserts: Option<ObjectLit>,
+    pub asserts: Option<Box<ObjectLit>>,
 }
 
 impl Take for ImportDecl {
@@ -107,10 +107,10 @@ pub struct ExportAll {
     pub span: Span,
 
     #[serde(rename = "source")]
-    pub src: Str,
+    pub src: Box<Str>,
 
     #[serde(default)]
-    pub asserts: Option<ObjectLit>,
+    pub asserts: Option<Box<ObjectLit>>,
 }
 
 impl Take for ExportAll {
@@ -134,13 +134,13 @@ pub struct NamedExport {
     pub specifiers: Vec<ExportSpecifier>,
 
     #[serde(rename = "source")]
-    pub src: Option<Str>,
+    pub src: Option<Box<Str>>,
 
     #[serde(rename = "typeOnly")]
     pub type_only: bool,
 
     #[serde(default)]
-    pub asserts: Option<ObjectLit>,
+    pub asserts: Option<Box<ObjectLit>>,
 }
 
 impl Take for NamedExport {
@@ -176,7 +176,7 @@ pub enum DefaultDecl {
     Fn(FnExpr),
 
     #[tag("TsInterfaceDeclaration")]
-    TsInterfaceDecl(TsInterfaceDecl),
+    TsInterfaceDecl(Box<TsInterfaceDecl>),
 }
 
 #[ast_node]

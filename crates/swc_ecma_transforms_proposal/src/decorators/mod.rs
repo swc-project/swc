@@ -112,7 +112,7 @@ impl Fold for Decorators {
 
                 let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
-                Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     declare: false,
@@ -122,7 +122,8 @@ impl Fold for Decorators {
                         definite: false,
                         init: Some(decorate_call),
                     }],
-                })
+                }
+                .into()
             }
             _ => decl,
         }
@@ -186,17 +187,20 @@ impl Fold for Decorators {
                     let ident = $ident;
                     let decorate_call = Box::new(self.fold_class_inner(ident.clone(), class));
 
-                    buf.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Let,
-                        declare: false,
-                        decls: vec![VarDeclarator {
+                    buf.push(
+                        VarDecl {
                             span: DUMMY_SP,
-                            name: ident.clone().into(),
-                            init: Some(decorate_call),
-                            definite: false,
-                        }],
-                    }))));
+                            kind: VarDeclKind::Let,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: ident.clone().into(),
+                                init: Some(decorate_call),
+                                definite: false,
+                            }],
+                        }
+                        .into(),
+                    );
 
                     // export { Foo as default }
                     buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -254,12 +258,13 @@ impl Fold for Decorators {
         if !self.vars.is_empty() {
             prepend_stmt(
                 &mut buf,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: take(&mut self.vars),
-                }))),
+                }
+                .into(),
             )
         }
 
@@ -268,7 +273,8 @@ impl Fold for Decorators {
 }
 
 impl Decorators {
-    fn fold_class_inner(&mut self, ident: Ident, mut class: Class) -> Expr {
+    #[allow(clippy::boxed_local)]
+    fn fold_class_inner(&mut self, ident: Ident, mut class: Box<Class>) -> Expr {
         let initialize = private_ident!("_initialize");
         let super_class_ident = class
             .super_class
@@ -402,8 +408,9 @@ impl Decorators {
                                         ident: fn_name.map(IdentExt::private),
                                         function: Function {
                                             decorators: vec![],
-                                            ..method.function
-                                        },
+                                            ..*method.function
+                                        }
+                                        .into(),
                                     }
                                     .into(),
                                 ),
@@ -523,7 +530,8 @@ impl Decorators {
 
                                             type_params: Default::default(),
                                             return_type: Default::default(),
-                                        },
+                                        }
+                                        .into(),
                                     }),
                                     _ => Prop::KeyValue(KeyValueProp {
                                         key: PropName::Ident(quote_ident!("value")),
@@ -547,71 +555,65 @@ impl Decorators {
             class.decorators,
             iter::once({
                 // function(_initialize) {}
-                FnExpr {
-                    ident: None,
-                    function: Function {
-                        span: DUMMY_SP,
+                Function {
+                    span: DUMMY_SP,
 
-                        params: iter::once(Pat::Ident(initialize.into()))
-                            .chain(super_class_ident.map(Pat::from))
-                            .map(|pat| Param {
-                                span: DUMMY_SP,
-                                decorators: vec![],
-                                pat,
-                            })
-                            .collect(),
-
-                        decorators: Default::default(),
-                        is_async: false,
-                        is_generator: false,
-
-                        body: Some(BlockStmt {
+                    params: iter::once(Pat::Ident(initialize.into()))
+                        .chain(super_class_ident.map(Pat::from))
+                        .map(|pat| Param {
                             span: DUMMY_SP,
-                            stmts: if !self.is_in_strict {
-                                // 'use strict';
-                                Some(Lit::Str(quote_str!("use strict")).into_stmt())
-                            } else {
-                                None
-                            }
-                            .into_iter()
-                            .chain(iter::once(Stmt::Decl(Decl::Class(ClassDecl {
-                                ident: ident.clone(),
-                                class: Class {
-                                    decorators: Default::default(),
-                                    body: vec![constructor],
-                                    ..class
-                                },
-                                declare: false,
-                            }))))
-                            .chain(iter::once(Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(Box::new(Expr::Object(ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: vec![
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("F")),
-                                                value: Box::new(Expr::Ident(ident)),
-                                            },
-                                        ))),
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("d")),
-                                                value: Box::new(Expr::Array(ArrayLit {
-                                                    span: DUMMY_SP,
-                                                    elems: descriptors,
-                                                })),
-                                            },
-                                        ))),
-                                    ],
-                                }))),
-                            })))
-                            .collect(),
-                        }),
+                            decorators: vec![],
+                            pat,
+                        })
+                        .collect(),
 
-                        return_type: Default::default(),
-                        type_params: Default::default(),
-                    },
+                    decorators: Default::default(),
+                    is_async: false,
+                    is_generator: false,
+
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: if !self.is_in_strict {
+                            // 'use strict';
+                            Some(Lit::Str(quote_str!("use strict")).into_stmt())
+                        } else {
+                            None
+                        }
+                        .into_iter()
+                        .chain(iter::once(Stmt::Decl(Decl::Class(ClassDecl {
+                            ident: ident.clone(),
+                            class: Class {
+                                decorators: Default::default(),
+                                body: vec![constructor],
+                                ..*class
+                            }
+                            .into(),
+                            declare: false,
+                        }))))
+                        .chain(iter::once(Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(Box::new(Expr::Object(ObjectLit {
+                                span: DUMMY_SP,
+                                props: vec![
+                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("F")),
+                                        value: Box::new(Expr::Ident(ident)),
+                                    }))),
+                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                        key: PropName::Ident(quote_ident!("d")),
+                                        value: Box::new(Expr::Array(ArrayLit {
+                                            span: DUMMY_SP,
+                                            elems: descriptors,
+                                        })),
+                                    }))),
+                                ],
+                            }))),
+                        })))
+                        .collect(),
+                    }),
+
+                    return_type: Default::default(),
+                    type_params: Default::default(),
                 }
                 .as_arg()
             })

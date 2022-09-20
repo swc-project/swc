@@ -107,17 +107,11 @@ impl DuplicateBindings {
         self.lexical_function = lexical_function;
 
         if lexical_function {
-            self.visit_with_stmt_like(s, |s| {
-                if let Stmt::Decl(Decl::Fn(FnDecl {
-                    ident,
-                    function: Function { body: Some(_), .. },
-                    ..
-                })) = s
-                {
-                    Some(ident.clone())
-                } else {
-                    None
-                }
+            self.visit_with_stmt_like(s, |s| match s {
+                Stmt::Decl(Decl::Fn(FnDecl {
+                    ident, function: f, ..
+                })) if f.body.is_some() => Some(ident.clone()),
+                _ => None,
             });
         } else {
             s.visit_children_with(self);
@@ -308,19 +302,15 @@ impl Visit for DuplicateBindings {
 
         self.lexical_function = true;
 
-        self.visit_with_stmt_like(&m.body, |s| {
-            if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                ident,
-                function: Function { body: Some(_), .. },
-                ..
+        self.visit_with_stmt_like(&m.body, |s| match s {
+            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                ident, function: f, ..
             })))
             | ModuleItem::ModuleDecl(
                 ModuleDecl::ExportDecl(ExportDecl {
                     decl:
                         Decl::Fn(FnDecl {
-                            ident,
-                            function: Function { body: Some(_), .. },
-                            ..
+                            ident, function: f, ..
                         }),
                     ..
                 })
@@ -328,16 +318,12 @@ impl Visit for DuplicateBindings {
                     decl:
                         DefaultDecl::Fn(FnExpr {
                             ident: Some(ident),
-                            function: Function { body: Some(..), .. },
+                            function: f,
                         }),
                     ..
                 }),
-            ) = s
-            {
-                Some(ident.clone())
-            } else {
-                None
-            }
+            ) if f.body.is_some() => Some(ident.clone()),
+            _ => None,
         });
     }
 

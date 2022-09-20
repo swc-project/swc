@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::boxed_local)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
 
@@ -1247,15 +1248,13 @@ pub trait ExprExt {
                     }
             }
 
-            Expr::Fn(FnExpr {
-                function:
-                    Function {
-                        params,
-                        body: Some(BlockStmt { stmts, .. }),
-                        ..
-                    },
-                ..
-            }) if params.iter().all(|p| p.pat.is_ident()) && stmts.is_empty() => true,
+            Expr::Fn(FnExpr { function: f, .. })
+                if f.params.iter().all(|p| p.pat.is_ident())
+                    && f.body.is_some()
+                    && f.body.as_ref().unwrap().stmts.is_empty() =>
+            {
+                true
+            }
 
             _ => false,
         }

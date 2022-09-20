@@ -323,25 +323,23 @@ impl VisitMut for TemplateLiteral {
                                 span: DUMMY_SP,
                                 left: PatOrExpr::Pat(Box::new(fn_ident.clone().into())),
                                 op: op!("="),
-                                right: Box::new(Expr::Fn(FnExpr {
-                                    ident: None,
-                                    function: Function {
+                                right: Function {
+                                    span: DUMMY_SP,
+                                    is_async: false,
+                                    is_generator: false,
+                                    params: vec![],
+                                    body: Some(BlockStmt {
                                         span: DUMMY_SP,
-                                        is_async: false,
-                                        is_generator: false,
-                                        params: vec![],
-                                        body: Some(BlockStmt {
+                                        stmts: vec![Stmt::Return(ReturnStmt {
                                             span: DUMMY_SP,
-                                            stmts: vec![Stmt::Return(ReturnStmt {
-                                                span: DUMMY_SP,
-                                                arg: Some(Box::new(quote_ident!("data").into())),
-                                            })],
-                                        }),
-                                        decorators: Default::default(),
-                                        type_params: Default::default(),
-                                        return_type: Default::default(),
-                                    },
-                                })),
+                                            arg: Some(Box::new(quote_ident!("data").into())),
+                                        })],
+                                    }),
+                                    decorators: Default::default(),
+                                    type_params: Default::default(),
+                                    return_type: Default::default(),
+                                }
+                                .into(),
                             })
                         };
 
@@ -349,7 +347,7 @@ impl VisitMut for TemplateLiteral {
                             span: DUMMY_SP,
 
                             stmts: vec![
-                                Stmt::Decl(Decl::Var(data_decl)),
+                                data_decl.into(),
                                 assign_expr.into_stmt(),
                                 Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
@@ -365,7 +363,7 @@ impl VisitMut for TemplateLiteral {
                 self.added.push(Stmt::Decl(Decl::Fn(FnDecl {
                     declare: false,
                     ident: fn_ident.clone(),
-                    function: f,
+                    function: f.into(),
                 })));
 
                 *e = Expr::Call(CallExpr {

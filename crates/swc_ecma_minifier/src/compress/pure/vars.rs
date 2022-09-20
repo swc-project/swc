@@ -37,13 +37,18 @@ impl Pure<'_> {
                             Stmt::Decl(Decl::Var(r)) => l.kind == r.kind,
                             Stmt::For(ForStmt { init: None, .. }) => l.kind == VarDeclKind::Var,
                             Stmt::For(ForStmt {
-                                init:
-                                    Some(VarDeclOrExpr::VarDecl(VarDecl {
-                                        kind: VarDeclKind::Var,
-                                        ..
-                                    })),
+                                init: Some(VarDeclOrExpr::VarDecl(v)),
                                 ..
-                            }) => l.kind == VarDeclKind::Var,
+                            }) if matches!(
+                                &**v,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                },
+                            ) =>
+                            {
+                                l.kind == VarDeclKind::Var
+                            }
                             _ => false,
                         },
                         _ => false,
@@ -57,7 +62,7 @@ impl Pure<'_> {
         report_change!("join_vars: Joining variables");
         self.changed = true;
 
-        let mut cur: Option<VarDecl> = None;
+        let mut cur: Option<Box<VarDecl>> = None;
 
         let mut new: Vec<T> = Vec::with_capacity(stmts.len() * 2 + 1);
         stmts.take().into_iter().for_each(|stmt| {
@@ -80,12 +85,15 @@ impl Pure<'_> {
                             }
                         },
                         Stmt::For(mut stmt) => match &mut stmt.init {
-                            Some(VarDeclOrExpr::VarDecl(
-                                var @ VarDecl {
-                                    kind: VarDeclKind::Var,
-                                    ..
-                                },
-                            )) => {
+                            Some(VarDeclOrExpr::VarDecl(var))
+                                if matches!(
+                                    &**var,
+                                    VarDecl {
+                                        kind: VarDeclKind::Var,
+                                        ..
+                                    }
+                                ) =>
+                            {
                                 match &mut cur {
                                     Some(cur) if cur.kind == var.kind => {
                                         // Merge
@@ -184,12 +192,15 @@ impl Pure<'_> {
             let mut found_other = false;
             let if_need_work = stmts.iter().any(|stmt| {
                 match stmt.as_stmt() {
-                    Some(Stmt::Decl(Decl::Var(
-                        v @ VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        },
-                    ))) => {
+                    Some(Stmt::Decl(Decl::Var(v)))
+                        if matches!(
+                            &**v,
+                            VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            }
+                        ) =>
+                    {
                         if !(found_other && found_vars_without_init)
                             && v.decls.iter().all(|v| v.init.is_none())
                         {
@@ -250,12 +261,15 @@ impl Pure<'_> {
         if !prepender.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: prepender.vars,
-                }))),
+                T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: prepender.vars,
+                    }
+                    .into(),
+                ),
             );
         }
     }

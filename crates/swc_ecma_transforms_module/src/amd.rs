@@ -169,7 +169,7 @@ where
 
         stmts.extend(
             self.handle_import_export(&mut import_map, link, export, is_export_assign)
-                .map(Into::into),
+                .map(From::from),
         );
 
         stmts.extend(n.take().into_iter().filter_map(|item| match item {
@@ -338,7 +338,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export.into_iter().map(Into::into).collect();
+        let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
@@ -416,9 +416,9 @@ where
                 // mod = _introp(mod);
                 // var mod1 = _introp(mod);
                 if need_new_var {
-                    let stmt: Stmt = Stmt::Decl(Decl::Var(
-                        import_expr.into_var_decl(self.const_var_kind, new_var_ident.into()),
-                    ));
+                    let stmt: Stmt = import_expr
+                        .into_var_decl(self.const_var_kind, new_var_ident.into())
+                        .into();
 
                     stmts.push(stmt)
                 } else if need_interop {

@@ -616,13 +616,18 @@ pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
             ..
         })) => false,
 
-        Stmt::Decl(
-            Decl::Var(VarDecl {
-                kind: VarDeclKind::Var,
-                ..
-            })
-            | Decl::Fn(..),
-        ) => true,
+        Stmt::Decl(Decl::Var(v))
+            if matches!(
+                &**v,
+                VarDecl {
+                    kind: VarDeclKind::Var,
+                    ..
+                }
+            ) =>
+        {
+            true
+        }
+        Stmt::Decl(Decl::Fn(..)) => true,
         Stmt::Decl(..) => false,
         _ => true,
     }
@@ -680,7 +685,7 @@ impl UnreachableHandler {
         if v.vars.is_empty() {
             *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
         } else {
-            *s = Stmt::Decl(Decl::Var(VarDecl {
+            *s = VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: false,
@@ -696,7 +701,8 @@ impl UnreachableHandler {
                         definite: false,
                     })
                     .collect(),
-            }))
+            }
+            .into()
         }
 
         true

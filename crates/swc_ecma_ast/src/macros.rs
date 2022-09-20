@@ -219,3 +219,18 @@ macro_rules! bridge_pat_from {
         bridge_from!(Box<crate::Pat>, crate::Pat, $src);
     };
 }
+
+macro_rules! bridge_stmt_from {
+    ($bridge:ty, $src:ty) => {
+        bridge_from!(crate::Stmt, $bridge, $src);
+        bridge_from!(crate::ModuleItem, crate::Stmt, $src);
+    };
+}
+
+macro_rules! bridge_decl_from {
+    ($bridge:ty, $src:ty) => {
+        bridge_from!(crate::Decl, $bridge, $src);
+        bridge_from!(crate::Stmt, crate::Decl, $src);
+        bridge_from!(crate::ModuleItem, crate::Stmt, $src);
+    };
+}

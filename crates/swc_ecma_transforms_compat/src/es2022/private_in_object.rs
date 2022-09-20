@@ -375,12 +375,13 @@ impl VisitMut for PrivateInObject {
         if !self.vars.is_empty() {
             prepend_stmt(
                 ns,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: take(&mut self.vars),
-                }))),
+                }
+                .into(),
             );
         }
     }
@@ -446,12 +447,13 @@ impl VisitMut for PrivateInObject {
         if !self.vars.is_empty() {
             prepend_stmt(
                 s,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: take(&mut self.vars),
-                })),
+                }
+                .into(),
             );
         }
     }

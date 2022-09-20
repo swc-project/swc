@@ -135,7 +135,7 @@ where
 
                                 let mut decl = self.fold_class_as_var_decl(ident.clone(), class);
                                 decl.visit_mut_children_with(self);
-                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(decl))));
+                                buf.push(T::from_stmt(decl.into()));
 
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportNamed(
@@ -176,7 +176,7 @@ where
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
                                         ExportDecl {
                                             span,
-                                            decl: Decl::Var(decl),
+                                            decl: decl.into(),
                                         },
                                     )) {
                                         Ok(t) => t,
@@ -230,7 +230,9 @@ where
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {
         if let Decl::Class(decl) = n {
-            *n = Decl::Var(self.fold_class_as_var_decl(decl.ident.take(), decl.class.take()))
+            *n = self
+                .fold_class_as_var_decl(decl.ident.take(), decl.class.take())
+                .into()
         };
 
         n.visit_mut_children_with(self);
@@ -361,7 +363,7 @@ where
         }
     }
 
-    fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
+    fn fold_class_as_var_decl(&mut self, ident: Ident, class: Box<Class>) -> VarDecl {
         let span = class.span;
         let mut rhs = self.fold_class(Some(ident.clone()), class);
 
@@ -406,7 +408,7 @@ where
     ///   };
     /// }()
     /// ```
-    fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
+    fn fold_class(&mut self, class_name: Option<Ident>, class: Box<Class>) -> Expr {
         let span = class.span;
 
         // Ident of the super class *inside* function.
@@ -505,19 +507,16 @@ where
 
         let call = CallExpr {
             span,
-            callee: Expr::Fn(FnExpr {
-                ident: None,
-                function: Function {
-                    span,
-                    is_async: false,
-                    is_generator: false,
-                    params,
-                    body: Some(body),
-                    decorators: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                },
-            })
+            callee: Function {
+                span,
+                is_async: false,
+                is_generator: false,
+                params,
+                body: Some(body),
+                decorators: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+            }
             .as_callee(),
             args,
             type_args: Default::default(),
@@ -531,7 +530,7 @@ where
         &mut self,
         class_name: Option<Ident>,
         super_class_ident: Option<Ident>,
-        class: Class,
+        class: Box<Class>,
     ) -> Vec<Stmt> {
         let class_name = class_name.unwrap_or_else(|| quote_ident!("_class"));
         let mut stmts = vec![];
@@ -596,22 +595,25 @@ where
             class_name_sym.span.ctxt = class_name.span.ctxt;
 
             if !self.config.super_is_callable_constructor {
-                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: vec![VarDeclarator {
+                stmts.push(
+                    VarDecl {
                         span: DUMMY_SP,
-                        name: var.clone().into(),
-                        init: Some(Box::new(Expr::Call(CallExpr {
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            callee: helper!(create_super, "createSuper"),
-                            args: vec![class_name_sym.as_arg()],
-                            type_args: Default::default(),
-                        }))),
-                        definite: Default::default(),
-                    }],
-                })));
+                            name: var.clone().into(),
+                            init: Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: helper!(create_super, "createSuper"),
+                                args: vec![class_name_sym.as_arg()],
+                                type_args: Default::default(),
+                            }))),
+                            definite: Default::default(),
+                        }],
+                    }
+                    .into(),
+                );
                 var
             } else {
                 super_class.clone()
@@ -706,12 +708,13 @@ where
                 if !vars.is_empty() {
                     prepend_stmt(
                         &mut body,
-                        Stmt::Decl(Decl::Var(VarDecl {
+                        VarDecl {
                             span: DUMMY_SP,
                             declare: false,
                             kind: VarDeclKind::Var,
                             decls: vars,
-                        })),
+                        }
+                        .into(),
                     );
                 }
 
@@ -848,7 +851,7 @@ where
         if let Some(mark) = folder.this_alias_mark {
             prepend_stmt(
                 &mut body,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     declare: false,
                     kind: VarDeclKind::Var,
@@ -858,19 +861,21 @@ where
                         init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                         definite: false,
                     }],
-                })),
+                }
+                .into(),
             );
         }
 
         if !vars.is_empty() {
             prepend_stmt(
                 &mut body,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: vars,
-                })),
+                }
+                .into(),
             );
         }
 
@@ -1047,7 +1052,7 @@ where
             if let Some(mark) = folder.this_alias_mark {
                 prepend_stmt(
                     &mut m.function.body.as_mut().unwrap().stmts,
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         declare: false,
                         kind: VarDeclKind::Var,
@@ -1057,19 +1062,21 @@ where
                             init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
                             definite: false,
                         }],
-                    })),
+                    }
+                    .into(),
                 );
             }
 
             if !vars.is_empty() {
                 prepend_stmt(
                     &mut m.function.body.as_mut().unwrap().stmts,
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         declare: false,
                         decls: vars,
-                    })),
+                    }
+                    .into(),
                 );
             }
 
@@ -1119,19 +1126,22 @@ where
             props.retain(|_, v| {
                 if let Some(method) = v.method.take() {
                     if res.is_empty() {
-                        res.push(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
+                        res.push(
+                            VarDecl {
                                 span: DUMMY_SP,
-                                name: proto.clone().into(),
-                                init: Some(Box::new(
-                                    class_name.clone().make_member(quote_ident!("prototype")),
-                                )),
-                                definite: false,
-                            }],
-                        })))
+                                kind: VarDeclKind::Var,
+                                declare: false,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: proto.clone().into(),
+                                    init: Some(Box::new(
+                                        class_name.clone().make_member(quote_ident!("prototype")),
+                                    )),
+                                    definite: false,
+                                }],
+                            }
+                            .into(),
+                        );
                     }
                     let span = method.span();
                     let prop = *v.key_prop.clone();

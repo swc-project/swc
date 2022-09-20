@@ -1,5 +1,3 @@
-#![feature(bench_black_box)]
-
 use std::path::PathBuf;
 
 use dashmap::DashMap;
