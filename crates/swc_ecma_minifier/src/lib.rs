@@ -23,12 +23,7 @@
 #![allow(clippy::match_like_matches_macro)]
 
 use once_cell::sync::Lazy;
-use swc_common::{
-    comments::Comments,
-    pass::{Repeat, Repeated},
-    sync::Lrc,
-    SourceMap, SyntaxContext,
-};
+use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_visit::VisitMutWith;
@@ -245,7 +240,7 @@ pub fn optimize(
         let _timer = timer!("postcompress");
 
         m.visit_mut_with(&mut postcompress_optimizer(options));
-        m.visit_mut_with(&mut Repeat::new(pure_optimizer(
+        m.visit_mut_with(&mut pure_optimizer(
             options,
             None,
             marks,
@@ -255,7 +250,7 @@ pub fn optimize(
                 #[cfg(feature = "debug")]
                 debug_infinite_loop: false,
             },
-        )));
+        ));
     }
 
     if let Some(ref mut _t) = timings {
