@@ -139,10 +139,10 @@ pub fn optimize(
             },
         };
 
-        if let Some(options) = &options.compress {
+        if let Some(_options) = &options.compress {
             let _timer = timer!("precompress");
 
-            m.visit_mut_with(&mut precompress_optimizer(&module_info, options, marks));
+            m.visit_mut_with(&mut precompress_optimizer());
         }
 
         if options.compress.is_some() {
