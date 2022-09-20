@@ -225,7 +225,12 @@ impl Pure<'_> {
             });
 
             // Check for nested variable declartions.
-            let mut v = VarWithOutInitCounter::default();
+            let mut v = VarWithOutInitCounter {
+                target,
+                need_work: Default::default(),
+                found_var_without_init: Default::default(),
+                found_var_with_init: Default::default(),
+            };
             stmts.visit_with(&mut v);
             if !if_need_work && !v.need_work {
                 return;
@@ -269,8 +274,8 @@ impl Pure<'_> {
 
 /// See if there's two [VarDecl] which has [VarDeclarator] without the
 /// initializer.
-#[derive(Default)]
 pub(super) struct VarWithOutInitCounter {
+    target: VarDeclKind,
     need_work: bool,
     found_var_without_init: bool,
     found_var_with_init: bool,
@@ -292,7 +297,7 @@ impl Visit for VarWithOutInitCounter {
     fn visit_var_decl(&mut self, v: &VarDecl) {
         v.visit_children_with(self);
 
-        if v.kind != VarDeclKind::Var {
+        if v.kind != self.target {
             return;
         }
 
