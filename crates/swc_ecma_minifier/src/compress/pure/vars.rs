@@ -237,7 +237,8 @@ impl Pure<'_> {
             }
         }
 
-        self.changed = true;
+        // TODO(kdy1): Fix this. This results in an infinite loop.
+        // self.changed = true;
         report_change!("collapse_vars: Collapsing variables without an initializer");
 
         let vars = {
