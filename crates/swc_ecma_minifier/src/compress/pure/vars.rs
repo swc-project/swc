@@ -330,6 +330,15 @@ impl Visit for VarWithOutInitCounter {
         }
     }
 
+    fn visit_block_stmt(&mut self, n: &BlockStmt) {
+        if self.target != VarDeclKind::Var {
+            // noop
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat) {}
 }
 
@@ -361,6 +370,15 @@ impl VisitMut for VarMover {
         if let ModuleItem::Stmt(_) = s {
             s.visit_mut_children_with(self);
         }
+    }
+
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        if self.target != VarDeclKind::Var {
+            // noop
+            return;
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
