@@ -78,28 +78,28 @@ pub(crate) struct VarUsageInfo {
     pub inline_prevented: bool,
 
     /// The number of direct reference to this identifier.
-    pub ref_count: usize,
+    pub ref_count: u32,
 
     /// `true` if a variable is conditionally initialized.
     pub cond_init: bool,
 
     /// `false` if it's only used.
     pub declared: bool,
-    pub declared_count: usize,
+    pub declared_count: u32,
 
     /// `true` if the enclosing function defines this variable as a parameter.
     pub declared_as_fn_param: bool,
 
     pub declared_as_fn_expr: bool,
 
-    pub assign_count: usize,
-    pub mutation_by_call_count: usize,
+    pub assign_count: u32,
+    pub mutation_by_call_count: u32,
 
     /// The number of direct and indirect reference to this identifier.
     /// ## Things to note
     ///
     /// - Update is counted as usage
-    pub usage_count: usize,
+    pub usage_count: u32,
 
     /// The variable itself is modified.
     pub reassigned_with_assignment: bool,
@@ -109,7 +109,6 @@ pub(crate) struct VarUsageInfo {
 
     pub has_property_access: bool,
     pub has_property_mutation: bool,
-    pub accessed_props: AHashMap<JsWord, usize>,
 
     pub exported: bool,
     /// True if used **above** the declaration or in init. (Not eval order).
@@ -118,8 +117,6 @@ pub(crate) struct VarUsageInfo {
     /// a closest function and used only within it and not used by child
     /// functions.
     pub is_fn_local: bool,
-
-    used_by_nested_fn: bool,
 
     pub executed_multiple_time: bool,
     pub used_in_cond: bool,
@@ -140,6 +137,10 @@ pub(crate) struct VarUsageInfo {
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
     infects: Vec<Id>,
+
+    used_by_nested_fn: bool,
+
+    pub accessed_props: Box<AHashMap<JsWord, u32>>,
 }
 
 impl VarUsageInfo {
@@ -184,7 +185,7 @@ pub(crate) struct ProgramData {
 
     pub scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    initialized_vars: IndexSet<Id>,
+    initialized_vars: IndexSet<Id, ahash::RandomState>,
 }
 
 impl ProgramData {
