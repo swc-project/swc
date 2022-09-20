@@ -117,12 +117,15 @@ impl Hoister<'_> {
                             fn_decls.push(T::from_stmt(stmt))
                         }
 
-                        Stmt::Decl(Decl::Var(
-                            var @ VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            },
-                        )) if found_non_var_decl => {
+                        Stmt::Decl(Decl::Var(var))
+                            if matches!(
+                                &*var,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                }
+                            ) && found_non_var_decl =>
+                        {
                             let mut exprs = vec![];
                             for decl in var.decls {
                                 let ids: Vec<Ident> = find_pat_ids(&decl.name);
@@ -178,11 +181,15 @@ impl Hoister<'_> {
                             })))
                         }
 
-                        Stmt::Decl(Decl::Var(VarDecl {
-                            kind: VarDeclKind::Var,
-                            decls,
-                            ..
-                        })) => {
+                        Stmt::Decl(Decl::Var(v))
+                            if matches!(
+                                &*v,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                }
+                            ) =>
+                        {
                             // It can be merged because we didn't found normal statement.
                             //
                             // Code like
@@ -191,7 +198,7 @@ impl Hoister<'_> {
                             // var b = 3;
                             //
                             // will be merged.
-                            var_decls.extend(decls.into_iter().filter(|decl| {
+                            var_decls.extend(v.decls.into_iter().filter(|decl| {
                                 // We should preserve if init exists because
                                 //
                                 // var a = 2, a = 3;
@@ -225,12 +232,15 @@ impl Hoister<'_> {
                         Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
                         _ => {
                             if let Stmt::Throw(..) = stmt {
-                                fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                    span: DUMMY_SP,
-                                    kind: VarDeclKind::Var,
-                                    declare: false,
-                                    decls: var_decls.take(),
-                                }))));
+                                fn_decls.push(T::from_stmt(
+                                    VarDecl {
+                                        span: DUMMY_SP,
+                                        kind: VarDeclKind::Var,
+                                        declare: false,
+                                        decls: var_decls.take(),
+                                    }
+                                    .into(),
+                                ));
                             }
                             found_non_var_decl = true;
                             new_stmts.push(T::from_stmt(stmt))
@@ -241,12 +251,15 @@ impl Hoister<'_> {
             }
         }
 
-        fn_decls.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: false,
-            decls: var_decls,
-        }))));
+        fn_decls.push(T::from_stmt(
+            VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: var_decls,
+            }
+            .into(),
+        ));
         fn_decls.extend(new_stmts);
 
         drop_invalid_stmts(&mut fn_decls);

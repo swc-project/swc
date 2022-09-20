@@ -68,14 +68,19 @@ impl Pure<'_> {
         };
 
         // If we negate a block, these variables will have narrower scope.
-        if stmts[pos_of_if..].iter().any(|s| {
-            matches!(
-                s,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    kind: VarDeclKind::Const | VarDeclKind::Let,
-                    ..
-                }))
-            )
+        if stmts[pos_of_if..].iter().any(|s| match s {
+            Stmt::Decl(Decl::Var(v))
+                if matches!(
+                    &**v,
+                    VarDecl {
+                        kind: VarDeclKind::Const | VarDeclKind::Let,
+                        ..
+                    }
+                ) =>
+            {
+                true
+            }
+            _ => false,
         }) {
             return;
         }

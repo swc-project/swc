@@ -111,7 +111,7 @@ fn wrap_module(
     // ... body of foo
     let module_fn = Expr::Fn(FnExpr {
         ident: None,
-        function: Function {
+        function: Box::new(Function {
             params: vec![
                 // module
                 Param {
@@ -149,12 +149,12 @@ fn wrap_module(
             is_async: false,
             type_params: None,
             return_type: None,
-        },
+        }),
     });
 
     // var load = __swcpack_require__.bind(void 0, moduleDecl)
 
-    Stmt::Decl(Decl::Var(VarDecl {
+    Stmt::Decl(Decl::Var(Box::new(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Var,
         declare: false,
@@ -174,7 +174,7 @@ fn wrap_module(
             }))),
             definite: false,
         }],
-    }))
+    })))
 }
 
 struct RequireReplacer<'a, 'b, L, R>
@@ -296,7 +296,7 @@ where
                     }
                     ImportSpecifier::Namespace(ns) => {
                         self.replaced = true;
-                        *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                        *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             span: i.span,
                             kind: VarDeclKind::Var,
                             declare: false,
@@ -314,14 +314,14 @@ where
                                 )),
                                 definite: false,
                             }],
-                        })));
+                        }))));
                         return;
                     }
                 }
             }
 
             self.replaced = true;
-            *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+            *node = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: i.span,
                 kind: VarDeclKind::Var,
                 declare: false,
@@ -341,7 +341,7 @@ where
                     }))),
                     definite: false,
                 }],
-            })));
+            }))));
         }
     }
 }

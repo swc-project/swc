@@ -383,6 +383,30 @@ where
     fn visit_mut_module(&mut self, n: &mut Module) {
         self.optimize_unit_repeatedly(n);
     }
+
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.retain(|stmt| match stmt {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(v),
+                ..
+            }))
+            | ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
+                if v.decls.is_empty() =>
+            {
+                false
+            }
+            _ => true,
+        });
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        stmts.retain(|stmt| match stmt {
+            Stmt::Empty(..) => false,
+            Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => false,
+            _ => true,
+        });
+    }
 }
 
 #[derive(PartialEq, Eq)]

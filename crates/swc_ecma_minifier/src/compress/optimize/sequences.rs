@@ -106,12 +106,17 @@ where
                                 | Stmt::ForIn(..)
                                 | Stmt::ForOf(..) => true,
 
-                                Stmt::Decl(Decl::Var(
-                                    v @ VarDecl {
-                                        kind: VarDeclKind::Var,
-                                        ..
-                                    },
-                                )) => v.decls.iter().all(|vd| vd.init.is_none()),
+                                Stmt::Decl(Decl::Var(v))
+                                    if matches!(
+                                        &**v,
+                                        VarDecl {
+                                            kind: VarDeclKind::Var,
+                                            ..
+                                        }
+                                    ) =>
+                                {
+                                    v.decls.iter().all(|vd| vd.init.is_none())
+                                }
 
                                 Stmt::Decl(Decl::Fn(..)) => true,
 
@@ -127,12 +132,15 @@ where
 
             if stmts.len() == 2 {
                 match stmts[1].as_stmt() {
-                    Some(Stmt::Decl(Decl::Var(
-                        v @ VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        },
-                    ))) => {
+                    Some(Stmt::Decl(Decl::Var(v)))
+                        if matches!(
+                            &**v,
+                            VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            },
+                        ) =>
+                    {
                         if v.decls.iter().all(|vd| vd.init.is_none()) {
                             return;
                         }
@@ -295,12 +303,15 @@ where
                             new_stmts.push(T::from_stmt(Stmt::ForOf(stmt)));
                         }
 
-                        Stmt::Decl(Decl::Var(
-                            var @ VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            },
-                        )) if var.decls.iter().all(|v| v.init.is_none()) => {
+                        Stmt::Decl(Decl::Var(var))
+                            if matches!(
+                                &*var,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                }
+                            ) && var.decls.iter().all(|v| v.init.is_none()) =>
+                        {
                             new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(var))));
                         }
 
@@ -552,12 +563,15 @@ where
     ) -> Option<Vec<Mergable<'a>>> {
         Some(match s {
             Stmt::Expr(e) => vec![Mergable::Expr(&mut e.expr)],
-            Stmt::Decl(Decl::Var(
-                v @ VarDecl {
-                    kind: VarDeclKind::Var | VarDeclKind::Let,
-                    ..
-                },
-            )) => {
+            Stmt::Decl(Decl::Var(v))
+                if matches!(
+                    &**v,
+                    VarDecl {
+                        kind: VarDeclKind::Var | VarDeclKind::Let,
+                        ..
+                    }
+                ) =>
+            {
                 if options.reduce_vars || options.collapse_vars {
                     v.decls.iter_mut().map(Mergable::Var).collect()
                 } else {

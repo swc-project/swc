@@ -49,23 +49,29 @@ impl Parallel for Exponentiation {
 impl ParExplode for Exponentiation {
     fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.vars.is_empty() {
-            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: self.vars.take(),
-                declare: false,
-            })));
+            stmts.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: self.vars.take(),
+                    declare: false,
+                }
+                .into(),
+            );
         }
     }
 
     fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
         if !self.vars.is_empty() {
-            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: self.vars.take(),
-                declare: false,
-            }))));
+            stmts.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: self.vars.take(),
+                    declare: false,
+                }
+                .into(),
+            );
         }
     }
 }

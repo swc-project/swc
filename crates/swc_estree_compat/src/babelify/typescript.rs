@@ -62,7 +62,7 @@ impl Babelify for TsFnType {
                 .into_iter()
                 .map(|p| p.babelify(ctx).into())
                 .collect(),
-            type_parameters: self.type_params.babelify(ctx),
+            type_parameters: self.type_params.babelify(ctx).map(From::from),
             type_annotation: Some(Box::alloc().init(self.type_ann.babelify(ctx))),
         }
     }

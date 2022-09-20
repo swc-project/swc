@@ -23,16 +23,24 @@ pub enum Decl {
     #[is(name = "fn_decl")]
     Fn(FnDecl),
     #[tag("VariableDeclaration")]
-    Var(VarDecl),
+    Var(Box<VarDecl>),
     #[tag("TsInterfaceDeclaration")]
-    TsInterface(TsInterfaceDecl),
+    TsInterface(Box<TsInterfaceDecl>),
     #[tag("TsTypeAliasDeclaration")]
-    TsTypeAlias(TsTypeAliasDecl),
+    TsTypeAlias(Box<TsTypeAliasDecl>),
     #[tag("TsEnumDeclaration")]
-    TsEnum(TsEnumDecl),
+    TsEnum(Box<TsEnumDecl>),
     #[tag("TsModuleDeclaration")]
-    TsModule(TsModuleDecl),
+    TsModule(Box<TsModuleDecl>),
 }
+
+bridge_decl_from!(Box<VarDecl>, VarDecl);
+bridge_decl_from!(Box<TsInterfaceDecl>, TsInterfaceDecl);
+bridge_decl_from!(Box<TsTypeAliasDecl>, TsTypeAliasDecl);
+bridge_decl_from!(Box<TsEnumDecl>, TsEnumDecl);
+bridge_decl_from!(Box<TsModuleDecl>, TsModuleDecl);
+bridge_stmt_from!(Decl, ClassDecl);
+bridge_stmt_from!(Decl, FnDecl);
 
 impl Take for Decl {
     fn dummy() -> Self {
@@ -52,7 +60,7 @@ pub struct FnDecl {
 
     #[serde(flatten)]
     #[span]
-    pub function: Function,
+    pub function: Box<Function>,
 }
 
 impl Take for FnDecl {
@@ -77,7 +85,7 @@ pub struct ClassDecl {
 
     #[serde(flatten)]
     #[span]
-    pub class: Class,
+    pub class: Box<Class>,
 }
 
 #[ast_node("VariableDeclaration")]

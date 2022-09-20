@@ -19,6 +19,12 @@
 
 - **(es/minifier)** Drop function identifier in a single pass (#5901) ([aacf7aa](https://github.com/swc-project/swc/commit/aacf7aaf80034509cf20e4b54d87c2e95ae9b3df))
 
+### Performance
+
+
+
+- **(es)** Optimize memory layout of AST (#5829) ([1a182ef](https://github.com/swc-project/swc/commit/1a182ef8d90c2294ac67e8cdee63bfab2c295bae))
+
 ## [1.3.2] - 2022-09-19
 
 ### Bug Fixes

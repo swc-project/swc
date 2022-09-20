@@ -255,12 +255,17 @@ where
     T: StmtLike,
 {
     let var = match t.as_stmt() {
-        Some(Stmt::Decl(Decl::Var(
-            v @ VarDecl {
-                kind: VarDeclKind::Var,
-                ..
-            },
-        ))) => v,
+        Some(Stmt::Decl(Decl::Var(v)))
+            if matches!(
+                &**v,
+                VarDecl {
+                    kind: VarDeclKind::Var,
+                    ..
+                }
+            ) =>
+        {
+            v
+        }
         _ => return false,
     };
     var.decls.iter().all(|decl| decl.init.is_none())

@@ -72,7 +72,7 @@ pub enum Stmt {
     /// A try statement. If handler is null then finalizer must be a BlockStmt.
     #[tag("TryStatement")]
     #[is(name = "try_stmt")]
-    Try(TryStmt),
+    Try(Box<TryStmt>),
 
     #[tag("WhileStatement")]
     #[is(name = "while_stmt")]
@@ -138,6 +138,8 @@ impl Take for Stmt {
         Self::Empty(EmptyStmt { span: DUMMY_SP })
     }
 }
+
+bridge_stmt_from!(Box<TryStmt>, TryStmt);
 
 #[ast_node("ExpressionStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -375,11 +377,14 @@ pub struct CatchClause {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum VarDeclOrPat {
     #[tag("VariableDeclaration")]
-    VarDecl(VarDecl),
+    VarDecl(Box<VarDecl>),
 
     #[tag("*")]
-    Pat(Pat),
+    Pat(Box<Pat>),
 }
+
+bridge_from!(VarDeclOrPat, Box<VarDecl>, VarDecl);
+bridge_from!(VarDeclOrPat, Box<Pat>, Pat);
 
 impl Take for VarDeclOrPat {
     fn dummy() -> Self {
@@ -393,11 +398,14 @@ impl Take for VarDeclOrPat {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum VarDeclOrExpr {
     #[tag("VariableDeclaration")]
-    VarDecl(VarDecl),
+    VarDecl(Box<VarDecl>),
 
     #[tag("*")]
     Expr(Box<Expr>),
 }
+
+bridge_from!(VarDeclOrExpr, Box<VarDecl>, VarDecl);
+bridge_from!(VarDeclOrExpr, Box<Expr>, Expr);
 
 impl Take for VarDeclOrExpr {
     fn dummy() -> Self {

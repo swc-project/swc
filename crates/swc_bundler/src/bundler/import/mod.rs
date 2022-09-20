@@ -250,7 +250,7 @@ where
                         let decl = ImportDecl {
                             span,
                             specifiers: vec![],
-                            src: src.clone(),
+                            src: Box::new(src.clone()),
                             type_only: false,
                             asserts: None,
                         };
@@ -657,7 +657,7 @@ where
                                 })
                             })
                             .collect(),
-                        src,
+                        src: Box::new(src),
                         type_only: false,
                         asserts: None,
                     };

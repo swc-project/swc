@@ -240,7 +240,7 @@ impl MemberInitRecord {
                             })),
                         })
                     } else {
-                        Stmt::Decl(Decl::Var(VarDecl {
+                        VarDecl {
                             span,
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
@@ -250,7 +250,8 @@ impl MemberInitRecord {
                                 definite: false,
                             }],
                             declare: false,
-                        }))
+                        }
+                        .into()
                     })
                 }
                 MemberInit::PrivAccessor(PrivAccessor {
@@ -273,7 +274,7 @@ impl MemberInitRecord {
                         })),
                     })
                 } else {
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    VarDecl {
                         span,
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
@@ -283,7 +284,8 @@ impl MemberInitRecord {
                             definite: false,
                         }],
                         declare: false,
-                    }))
+                    }
+                    .into()
                 }),
                 MemberInit::PrivMethod(PrivMethod {
                     span,

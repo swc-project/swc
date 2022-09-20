@@ -45,7 +45,6 @@ mod collapse_vars;
 mod conditionals;
 mod dead_code;
 mod evaluate;
-mod fns;
 mod if_return;
 mod iife;
 mod inline;
@@ -392,13 +391,6 @@ where
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.reorder_stmts(stmts);
-
-        #[cfg(debug_assertions)]
-        {
-            stmts.visit_with(&mut AssertValid);
-        }
-
         self.merge_sequences_in_stmts(stmts);
 
         #[cfg(debug_assertions)]
@@ -636,7 +628,7 @@ where
 
             Expr::Class(cls) => {
                 let exprs: Vec<Box<Expr>> =
-                    extract_class_side_effect(&self.expr_ctx, cls.class.take())
+                    extract_class_side_effect(&self.expr_ctx, *cls.class.take())
                         .into_iter()
                         .filter_map(|mut e| self.ignore_return_value(&mut e))
                         .map(Box::new)
@@ -1169,7 +1161,7 @@ where
             let orig = take(stmts);
             let mut new = Vec::with_capacity(orig.len());
 
-            let mut var_decl: Option<VarDecl> = None;
+            let mut var_decl: Option<Box<VarDecl>> = None;
 
             for stmt in orig {
                 match stmt {
@@ -1246,14 +1238,19 @@ where
                 //
                 // TODO: Support multiple statements.
                 if bs.stmts.len() == 1
-                    && bs.stmts.iter().all(|stmt| {
-                        matches!(
-                            stmt,
-                            Stmt::Decl(Decl::Var(VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            }))
-                        )
+                    && bs.stmts.iter().all(|stmt| match stmt {
+                        Stmt::Decl(Decl::Var(v))
+                            if matches!(
+                                &**v,
+                                VarDecl {
+                                    kind: VarDeclKind::Var,
+                                    ..
+                                }
+                            ) =>
+                        {
+                            true
+                        }
+                        _ => false,
                     })
                 {
                     report_change!("optimizer: Unwrapping a block with variable statements");
@@ -1856,7 +1853,7 @@ where
 
         self.functions
             .entry(f.ident.to_id())
-            .or_insert_with(|| FnMetadata::from(&f.function));
+            .or_insert_with(|| FnMetadata::from(&*f.function));
 
         if !self.options.keep_fargs && self.options.unused {
             self.drop_unused_params(&mut f.function.params);
@@ -1876,7 +1873,7 @@ where
         if let Some(ident) = &e.ident {
             self.functions
                 .entry(ident.to_id())
-                .or_insert_with(|| FnMetadata::from(&e.function));
+                .or_insert_with(|| FnMetadata::from(&*e.function));
         }
 
         if !self.options.keep_fnames {
@@ -2290,7 +2287,7 @@ where
         if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
             match s {
                 // We use var decl with no declarator to indicate we dropped an decl.
-                Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
+                Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
@@ -2412,7 +2409,7 @@ where
 
         match s {
             // We use var decl with no declarator to indicate we dropped an decl.
-            Stmt::Decl(Decl::Var(VarDecl { decls, .. })) if decls.is_empty() => {
+            Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }

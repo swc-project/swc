@@ -302,7 +302,7 @@ where
                         ImportDecl {
                             span: src.span,
                             specifiers: vec![],
-                            src,
+                            src: Box::new(src),
                             type_only: false,
                             asserts: None,
                         },
@@ -341,7 +341,7 @@ where
                     module_id: id,
                     local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
                     export_ctxt: SyntaxContext::empty().apply_mark(export_mark),
-                    src: decl.src,
+                    src: *decl.src,
                 };
                 files.push((src.clone(), file_name));
 

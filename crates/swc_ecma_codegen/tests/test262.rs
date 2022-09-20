@@ -1,5 +1,3 @@
-#![feature(bench_black_box)]
-
 use std::{
     env,
     fs::read_to_string,

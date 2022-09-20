@@ -121,7 +121,7 @@ impl Visit for SuperCallFinder {
     }
 }
 
-pub(super) fn constructor_fn(c: Constructor) -> Function {
+pub(super) fn constructor_fn(c: Constructor) -> Box<Function> {
     Function {
         span: DUMMY_SP,
         decorators: Default::default(),
@@ -140,6 +140,7 @@ pub(super) fn constructor_fn(c: Constructor) -> Function {
         type_params: Default::default(),
         return_type: Default::default(),
     }
+    .into()
 }
 
 /// # In
@@ -322,7 +323,7 @@ impl VisitMut for ConstructorFolder<'_> {
                         .into_stmt()
                     }
                     Some(SuperFoldingMode::Var) => {
-                        *stmt = Stmt::Decl(Decl::Var(VarDecl {
+                        *stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             span: DUMMY_SP,
                             declare: false,
                             kind: VarDeclKind::Var,
@@ -332,7 +333,7 @@ impl VisitMut for ConstructorFolder<'_> {
                                 init: Some(expr),
                                 definite: false,
                             }],
-                        }))
+                        })))
                     }
                     None => {
                         *stmt = Stmt::Return(ReturnStmt {

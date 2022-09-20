@@ -374,11 +374,7 @@ pub enum PropOrSpread {
     Prop(Box<Prop>),
 }
 
-impl From<Prop> for PropOrSpread {
-    fn from(p: Prop) -> Self {
-        Self::Prop(Box::new(p))
-    }
-}
+bridge_from!(PropOrSpread, Box<Prop>, Prop);
 
 impl Take for PropOrSpread {
     fn dummy() -> Self {
@@ -495,7 +491,7 @@ pub struct FnExpr {
 
     #[serde(flatten)]
     #[span]
-    pub function: Function,
+    pub function: Box<Function>,
 }
 
 impl Take for FnExpr {
@@ -507,14 +503,17 @@ impl Take for FnExpr {
     }
 }
 
-impl From<Function> for FnExpr {
-    fn from(function: Function) -> Self {
+impl From<Box<Function>> for FnExpr {
+    fn from(function: Box<Function>) -> Self {
         Self {
             ident: None,
             function,
         }
     }
 }
+
+bridge_from!(FnExpr, Box<Function>, Function);
+bridge_expr_from!(FnExpr, Box<Function>);
 
 /// Class expression.
 #[ast_node("ClassExpression")]
@@ -526,7 +525,7 @@ pub struct ClassExpr {
 
     #[serde(flatten)]
     #[span]
-    pub class: Class,
+    pub class: Box<Class>,
 }
 
 impl Take for ClassExpr {
@@ -538,11 +537,14 @@ impl Take for ClassExpr {
     }
 }
 
-impl From<Class> for ClassExpr {
-    fn from(class: Class) -> Self {
+impl From<Box<Class>> for ClassExpr {
+    fn from(class: Box<Class>) -> Self {
         Self { ident: None, class }
     }
 }
+
+bridge_from!(ClassExpr, Box<Class>, Class);
+bridge_expr_from!(ClassExpr, Box<Class>);
 
 #[derive(Spanned, Clone, Debug, PartialEq, Serialize)]
 #[cfg_attr(
@@ -776,7 +778,7 @@ pub struct CallExpr {
     pub args: Vec<ExprOrSpread>,
 
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
@@ -803,7 +805,7 @@ pub struct NewExpr {
     pub args: Option<Vec<ExprOrSpread>>,
 
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
@@ -854,10 +856,10 @@ pub struct ArrowExpr {
     pub is_generator: bool,
 
     #[serde(default, rename = "typeParameters")]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[serde(default)]
-    pub return_type: Option<TsTypeAnn>,
+    pub return_type: Option<Box<TsTypeAnn>>,
 }
 
 impl Take for ArrowExpr {
@@ -959,7 +961,7 @@ pub struct TaggedTpl {
     pub tag: Box<Expr>,
 
     #[serde(default, rename = "typeParameters")]
-    pub type_params: Option<TsTypeParamInstantiation>,
+    pub type_params: Option<Box<TsTypeParamInstantiation>>,
 
     #[serde(rename = "template")]
     pub tpl: Tpl,
@@ -1133,14 +1135,13 @@ impl Spanned for ExprOrSpread {
     }
 }
 
-impl From<Expr> for ExprOrSpread {
-    fn from(e: Expr) -> Self {
-        Self {
-            spread: None,
-            expr: Box::new(e),
-        }
+impl From<Box<Expr>> for ExprOrSpread {
+    fn from(expr: Box<Expr>) -> Self {
+        Self { expr, spread: None }
     }
 }
+
+bridge_from!(ExprOrSpread, Box<Expr>, Expr);
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -1375,7 +1376,7 @@ pub struct OptCall {
     pub args: Vec<ExprOrSpread>,
 
     #[serde(default, rename = "typeArguments")]
-    pub type_args: Option<TsTypeParamInstantiation>,
+    pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
@@ -1432,6 +1433,8 @@ impl From<OptCall> for CallExpr {
         }
     }
 }
+
+bridge_expr_from!(CallExpr, OptCall);
 
 test_de!(
     jsx_element,

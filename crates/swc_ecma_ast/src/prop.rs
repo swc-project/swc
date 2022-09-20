@@ -66,7 +66,7 @@ pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
     #[serde(default)]
     pub body: Option<BlockStmt>,
 }
@@ -76,7 +76,7 @@ pub struct GetterProp {
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
-    pub param: Pat,
+    pub param: Box<Pat>,
     #[serde(default)]
     pub body: Option<BlockStmt>,
 }
@@ -88,7 +88,7 @@ pub struct MethodProp {
 
     #[serde(flatten)]
     #[span]
-    pub function: Function,
+    pub function: Box<Function>,
 }
 
 #[ast_node]

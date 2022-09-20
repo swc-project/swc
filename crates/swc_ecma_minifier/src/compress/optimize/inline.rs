@@ -104,14 +104,12 @@ where
                         op: op!("!"), arg, ..
                     }) if matches!(&**arg, Expr::Lit(..)) => {}
 
-                    Expr::Fn(FnExpr {
-                        function:
-                            Function {
-                                body: Some(body), ..
-                            },
-                        ..
-                    }) => {
-                        if body.stmts.len() == 1 && matches!(&body.stmts[0], Stmt::Return(..)) {
+                    Expr::Fn(FnExpr { function, .. })
+                        if matches!(&**function, Function { body: Some(..), .. }) =>
+                    {
+                        if function.body.as_ref().unwrap().stmts.len() == 1
+                            && matches!(&function.body.as_ref().unwrap().stmts[0], Stmt::Return(..))
+                        {
                         } else {
                             log_abort!("inline: [x] It's not fn-local");
                             return;
@@ -225,18 +223,19 @@ where
                 && ref_count == 1
             {
                 match init {
-                    Expr::Fn(FnExpr {
-                        function: Function { is_async: true, .. },
-                        ..
-                    })
-                    | Expr::Fn(FnExpr {
-                        function:
-                            Function {
-                                is_generator: true, ..
-                            },
-                        ..
-                    })
-                    | Expr::Arrow(ArrowExpr { is_async: true, .. })
+                    Expr::Fn(FnExpr { function: f, .. }) | Expr::Fn(FnExpr { function: f, .. })
+                        if matches!(
+                            &**f,
+                            Function { is_async: true, .. }
+                                | Function {
+                                    is_generator: true,
+                                    ..
+                                }
+                        ) =>
+                    {
+                        return
+                    }
+                    Expr::Arrow(ArrowExpr { is_async: true, .. })
                     | Expr::Arrow(ArrowExpr {
                         is_generator: true, ..
                     }) => return,

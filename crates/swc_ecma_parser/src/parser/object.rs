@@ -73,7 +73,7 @@ impl<I: Tokens> Parser<I> {
                 Token::BigInt { .. } => match bump!(p) {
                     Token::BigInt { value, raw } => PropName::BigInt(BigInt {
                         span: span!(p, start),
-                        value: *value,
+                        value,
                         raw: Some(raw),
                     }),
                     _ => unreachable!(),
@@ -300,6 +300,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                 false,
                                 false,
                             )
+                            .map(|v| *v)
                             .map(
                                 |Function {
                                      body, return_type, ..
@@ -318,51 +319,54 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     })))
                                 },
                             ),
-                        js_word!("set") => parser
-                            .parse_fn_args_body(
-                                // no decorator in an object literal
-                                vec![],
-                                start,
-                                |p| {
-                                    let params = p.parse_formal_params()?;
+                        js_word!("set") => {
+                            parser
+                                .parse_fn_args_body(
+                                    // no decorator in an object literal
+                                    vec![],
+                                    start,
+                                    |p| {
+                                        let params = p.parse_formal_params()?;
 
-                                    if params.iter().filter(|p| is_not_this(p)).count() != 1 {
-                                        p.emit_err(key_span, SyntaxError::SetterParam);
-                                    }
-
-                                    if !params.is_empty() {
-                                        if let Pat::Rest(..) = params[0].pat {
-                                            p.emit_err(
-                                                params[0].span(),
-                                                SyntaxError::RestPatInSetter,
-                                            );
+                                        if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                                            p.emit_err(key_span, SyntaxError::SetterParam);
                                         }
-                                    }
 
-                                    if p.input.syntax().typescript()
-                                        && p.input.target() == EsVersion::Es3
-                                    {
-                                        p.emit_err(key_span, SyntaxError::TS1056);
-                                    }
+                                        if !params.is_empty() {
+                                            if let Pat::Rest(..) = params[0].pat {
+                                                p.emit_err(
+                                                    params[0].span(),
+                                                    SyntaxError::RestPatInSetter,
+                                                );
+                                            }
+                                        }
 
-                                    Ok(params)
-                                },
-                                false,
-                                false,
-                            )
-                            .map(|Function { params, body, .. }| {
-                                // debug_assert_eq!(params.len(), 1);
-                                PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                    span: span!(parser, start),
-                                    key,
-                                    body,
-                                    param: params
-                                        .into_iter()
-                                        .map(|p| p.pat)
-                                        .next()
-                                        .unwrap_or(Pat::Invalid(Invalid { span: key_span })),
-                                })))
-                            }),
+                                        if p.input.syntax().typescript()
+                                            && p.input.target() == EsVersion::Es3
+                                        {
+                                            p.emit_err(key_span, SyntaxError::TS1056);
+                                        }
+
+                                        Ok(params)
+                                    },
+                                    false,
+                                    false,
+                                )
+                                .map(|v| *v)
+                                .map(|Function { params, body, .. }| {
+                                    // debug_assert_eq!(params.len(), 1);
+                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                        span: span!(parser, start),
+                                        key,
+                                        body,
+                                        param: Box::new(
+                                            params.into_iter().map(|p| p.pat).next().unwrap_or(
+                                                Pat::Invalid(Invalid { span: key_span }),
+                                            ),
+                                        ),
+                                    })))
+                                })
+                        }
                         js_word!("async") => parser
                             .parse_fn_args_body(
                                 // no decorator in an object literal

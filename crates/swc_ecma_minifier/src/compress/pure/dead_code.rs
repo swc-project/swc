@@ -259,12 +259,12 @@ impl Pure<'_> {
 
             if !decls.is_empty() {
                 new_stmts.push(
-                    Stmt::Decl(Decl::Var(VarDecl {
+                    Stmt::from(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls,
                         declare: false,
-                    }))
+                    })
                     .into(),
                 );
             }
@@ -528,12 +528,15 @@ impl Pure<'_> {
                                         .collect();
                                 }
                                 if !var_ids.is_empty() {
-                                    new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Var,
-                                        declare: Default::default(),
-                                        decls: var_ids,
-                                    }))))
+                                    new.push(T::from_stmt(
+                                        VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: VarDeclKind::Var,
+                                            declare: Default::default(),
+                                            decls: var_ids,
+                                        }
+                                        .into(),
+                                    ))
                                 }
                                 new.push(T::from_stmt(*s.cons.take()));
                             } else {
@@ -549,12 +552,15 @@ impl Pure<'_> {
                                     })
                                     .collect();
                                 if !var_ids.is_empty() {
-                                    new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Var,
-                                        declare: Default::default(),
-                                        decls: var_ids,
-                                    }))))
+                                    new.push(T::from_stmt(
+                                        VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: VarDeclKind::Var,
+                                            declare: Default::default(),
+                                            decls: var_ids,
+                                        }
+                                        .into(),
+                                    ))
                                 }
                                 if let Some(alt) = s.alt.take() {
                                     new.push(T::from_stmt(*alt));
