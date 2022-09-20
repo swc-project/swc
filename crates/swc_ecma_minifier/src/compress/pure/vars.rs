@@ -242,6 +242,7 @@ impl Pure<'_> {
 
         let vars = {
             let mut v = VarMover {
+                target,
                 vars: Default::default(),
                 var_decl_kind: Default::default(),
             };
@@ -252,7 +253,7 @@ impl Pure<'_> {
 
         // Prepend vars
 
-        let mut prepender = VarPrepender { vars };
+        let mut prepender = VarPrepender { target, vars };
         stmts.visit_mut_with(&mut prepender);
 
         if !prepender.vars.is_empty() {
@@ -261,7 +262,7 @@ impl Pure<'_> {
                 T::from_stmt(
                     VarDecl {
                         span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
+                        kind: target,
                         declare: Default::default(),
                         decls: prepender.vars,
                     }
@@ -334,6 +335,8 @@ impl Visit for VarWithOutInitCounter {
 
 /// Moves all variable without initializer.
 pub(super) struct VarMover {
+    target: VarDeclKind,
+
     vars: Vec<VarDeclarator>,
     var_decl_kind: Option<VarDeclKind>,
 }
@@ -393,7 +396,7 @@ impl VisitMut for VarMover {
     fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
         d.visit_mut_children_with(self);
 
-        if self.var_decl_kind.unwrap() != VarDeclKind::Var {
+        if self.var_decl_kind.unwrap() != self.target {
             return;
         }
 
@@ -438,6 +441,8 @@ impl VisitMut for VarMover {
 }
 
 pub(super) struct VarPrepender {
+    target: VarDeclKind,
+
     vars: Vec<VarDeclarator>,
 }
 
@@ -462,7 +467,7 @@ impl VisitMut for VarPrepender {
             return;
         }
 
-        if v.kind != VarDeclKind::Var {
+        if v.kind != self.target {
             return;
         }
 
