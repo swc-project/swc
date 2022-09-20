@@ -184,7 +184,7 @@ pub(crate) struct ProgramData {
 
     pub scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    initialized_vars: IndexSet<Id>,
+    initialized_vars: IndexSet<Id, ahash::RandomState>,
 }
 
 impl ProgramData {
