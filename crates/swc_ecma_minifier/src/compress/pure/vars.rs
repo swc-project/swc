@@ -192,15 +192,7 @@ impl Pure<'_> {
             let mut found_other = false;
             let if_need_work = stmts.iter().any(|stmt| {
                 match stmt.as_stmt() {
-                    Some(Stmt::Decl(Decl::Var(v)))
-                        if matches!(
-                            &**v,
-                            VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            }
-                        ) =>
-                    {
+                    Some(Stmt::Decl(Decl::Var(v))) if v.kind == target => {
                         if !(found_other && found_vars_without_init)
                             && v.decls.iter().all(|v| v.init.is_none())
                         {
