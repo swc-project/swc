@@ -2,6 +2,7 @@ use std::{env, fs, path::PathBuf, process::Command};
 
 use anyhow::{bail, Context, Result};
 use sha1::{Digest, Sha1};
+use tracing::debug;
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct JsExecOptions {
@@ -66,6 +67,8 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
 
         return Ok(output);
     }
+
+    debug!("Executing nodejs:\n{}", js_code);
 
     let mut c = Command::new("node");
 
