@@ -25,6 +25,7 @@ use crate::{
     mode::Mode,
     option::CompressOptions,
     util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
+    DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -73,6 +74,10 @@ where
         }
         if self.ctx.in_asm {
             log_abort!("sequences: asm.js is not supported");
+            return;
+        }
+
+        if DISABLE_BUGGY_PASSES {
             return;
         }
 
