@@ -176,7 +176,7 @@ impl Pure<'_> {
     /// This merges all variables to first variable declartion with an
     /// initializer. If such variable declaration is not found, variables are
     /// prepended to `stmts`.
-    pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
+    pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>, target: VarDeclKind)
     where
         T: StmtLike,
         Vec<T>:
