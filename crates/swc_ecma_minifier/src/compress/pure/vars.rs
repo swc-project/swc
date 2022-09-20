@@ -462,6 +462,15 @@ impl VisitMut for VarPrepender {
 
     fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        if self.target != VarDeclKind::Var {
+            // noop
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
         if self.vars.is_empty() {
             return;
