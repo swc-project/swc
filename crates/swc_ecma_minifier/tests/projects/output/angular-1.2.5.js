@@ -911,7 +911,7 @@
         };
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
-            var setTimeout2;
+            var interval, setTimeout2;
             return isUndefined(pollTimeout) && function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
@@ -2946,6 +2946,7 @@
             adjustedMatchers.push(function(matcher) {
                 if ("self" === matcher) return matcher;
                 if (isString(matcher)) {
+                    var s;
                     if (matcher.indexOf("***") > -1) throw $sceMinErr("iwcard", "Illegal sequence *** in string matcher.  String: {0}", matcher);
                     return RegExp("^" + (matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*")) + "$");
                 }
@@ -3450,7 +3451,7 @@
                 form.$setValidity(validationToken, !0, control);
             }), arrayRemove(controls, control);
         }, form.$setValidity = function(validationToken, isValid, control) {
-            var array, queue = errors[validationToken];
+            var array, obj, queue = errors[validationToken];
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {
