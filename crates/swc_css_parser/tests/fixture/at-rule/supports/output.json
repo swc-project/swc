@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 3019,
+    "end": 3104,
     "ctxt": 0
   },
   "rules": [
@@ -8132,6 +8132,288 @@
                       },
                       "value": "yellow",
                       "raw": "yellow"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 3020,
+        "end": 3103,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 3021,
+          "end": 3029,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
+        "type": "SupportsCondition",
+        "span": {
+          "start": 3030,
+          "end": 3058,
+          "ctxt": 0
+        },
+        "conditions": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 3031,
+              "end": 3057,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 3031,
+                "end": 3036,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 3038,
+                  "end": 3057,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 3038,
+                    "end": 3042,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "CalcSum",
+                    "span": {
+                      "start": 3043,
+                      "end": 3056,
+                      "ctxt": 0
+                    },
+                    "expressions": [
+                      {
+                        "type": "CalcProduct",
+                        "span": {
+                          "start": 3043,
+                          "end": 3048,
+                          "ctxt": 0
+                        },
+                        "expressions": [
+                          {
+                            "type": "Length",
+                            "span": {
+                              "start": 3043,
+                              "end": 3048,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 3043,
+                                "end": 3046,
+                                "ctxt": 0
+                              },
+                              "value": 100.0,
+                              "raw": "100"
+                            },
+                            "unit": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 3046,
+                                "end": 3048,
+                                "ctxt": 0
+                              },
+                              "value": "px",
+                              "raw": "px"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "CalcOperator",
+                        "span": {
+                          "start": 3049,
+                          "end": 3050,
+                          "ctxt": 0
+                        },
+                        "value": "+"
+                      },
+                      {
+                        "type": "CalcProduct",
+                        "span": {
+                          "start": 3051,
+                          "end": 3056,
+                          "ctxt": 0
+                        },
+                        "expressions": [
+                          {
+                            "type": "Length",
+                            "span": {
+                              "start": 3051,
+                              "end": 3056,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 3051,
+                                "end": 3054,
+                                "ctxt": 0
+                              },
+                              "value": 100.0,
+                              "raw": "100"
+                            },
+                            "unit": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 3054,
+                                "end": 3056,
+                                "ctxt": 0
+                              },
+                              "value": "px",
+                              "raw": "px"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 3059,
+          "end": 3103,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "QualifiedRule",
+            "span": {
+              "start": 3065,
+              "end": 3101,
+              "ctxt": 0
+            },
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 3065,
+                "end": 3068,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 3065,
+                    "end": 3068,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 3065,
+                        "end": 3068,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": {
+                        "type": "TagNameSelector",
+                        "span": {
+                          "start": 3065,
+                          "end": 3068,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "WqName",
+                          "span": {
+                            "start": 3065,
+                            "end": 3068,
+                            "ctxt": 0
+                          },
+                          "prefix": null,
+                          "value": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 3065,
+                              "end": 3068,
+                              "ctxt": 0
+                            },
+                            "value": "div",
+                            "raw": "div"
+                          }
+                        }
+                      },
+                      "subclassSelectors": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 3069,
+                "end": 3101,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 3079,
+                    "end": 3094,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3079,
+                      "end": 3089,
+                      "ctxt": 0
+                    },
+                    "value": "background",
+                    "raw": "background"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 3091,
+                        "end": 3094,
+                        "ctxt": 0
+                      },
+                      "value": "red",
+                      "raw": "red"
                     }
                   ],
                   "important": null

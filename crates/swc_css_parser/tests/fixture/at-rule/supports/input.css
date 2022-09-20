@@ -135,3 +135,9 @@
         background: yellow;
     }
 }
+
+@supports (width: calc(100px + 100px)) {
+    div {
+        background: red;
+    }
+}

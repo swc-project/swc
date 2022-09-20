@@ -5,7 +5,7 @@
    :               ^^^
    `----
 
-  x Expected number, ident or dimension token
+  x Expected number, ident, dimension or function token
    ,-[$DIR/tests/recovery/at-rule/media/feature-value-missing/input.css:1:1]
  1 | @media screen and (min-width: ) {}
    :                               ^
