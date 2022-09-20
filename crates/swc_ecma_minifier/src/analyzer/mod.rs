@@ -109,7 +109,6 @@ pub(crate) struct VarUsageInfo {
 
     pub has_property_access: bool,
     pub has_property_mutation: bool,
-    pub accessed_props: AHashMap<JsWord, u32>,
 
     pub exported: bool,
     /// True if used **above** the declaration or in init. (Not eval order).
@@ -118,8 +117,6 @@ pub(crate) struct VarUsageInfo {
     /// a closest function and used only within it and not used by child
     /// functions.
     pub is_fn_local: bool,
-
-    used_by_nested_fn: bool,
 
     pub executed_multiple_time: bool,
     pub used_in_cond: bool,
@@ -140,6 +137,10 @@ pub(crate) struct VarUsageInfo {
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
     infects: Vec<Id>,
+
+    used_by_nested_fn: bool,
+
+    pub accessed_props: Box<AHashMap<JsWord, u32>>,
 }
 
 impl VarUsageInfo {
