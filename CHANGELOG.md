@@ -25,6 +25,12 @@
 
 - **(es)** Optimize memory layout of AST (#5829) ([1a182ef](https://github.com/swc-project/swc/commit/1a182ef8d90c2294ac67e8cdee63bfab2c295bae))
 
+
+- **(es/minifier)** Make more passes parallel (#5906) ([6bbd3f4](https://github.com/swc-project/swc/commit/6bbd3f4c14eb243b697dc12593ada1b196a0cad8))
+
+
+- **(es/minifier)** Invoke DCE only before the first compression (#5907) ([1df7243](https://github.com/swc-project/swc/commit/1df72430a56cc85ac41c6f9753d7c7e6d5ea279a))
+
 ## [1.3.2] - 2022-09-19
 
 ### Bug Fixes

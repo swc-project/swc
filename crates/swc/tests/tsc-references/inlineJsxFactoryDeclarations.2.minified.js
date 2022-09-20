@@ -1,6 +1,7 @@
 //// [renderer.d.ts]
 export { dom as default };
 //// [otherreacty.tsx]
+import * as React from "./renderer";
 //// [other.tsx]
 import { dom as h } from "./renderer";
 export var prerendered = h("h", null);
