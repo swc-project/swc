@@ -14,6 +14,9 @@
 
 
 
+- **(css/parser)** Parse more math functions in `@media` (#5904) ([2bf2419](https://github.com/swc-project/swc/commit/2bf24195f2e9803f24f335b637ff9e7ea394402b))
+
+
 - **(es/minifier)** Drop function identifier in a single pass (#5901) ([aacf7aa](https://github.com/swc-project/swc/commit/aacf7aaf80034509cf20e4b54d87c2e95ae9b3df))
 
 ## [1.3.2] - 2022-09-19

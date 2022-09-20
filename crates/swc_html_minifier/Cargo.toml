@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "data/**/*.json"]
 license = "Apache-2.0"
 name = "swc_html_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.71.10"
+version = "0.72.0"
 
 [lib]
 bench = false
@@ -22,10 +22,10 @@ serde_json               = "1.0.61"
 swc_atoms                = { version = "0.4.15", path = "../swc_atoms" }
 swc_cached               = { version = "0.3.11", path = "../swc_cached" }
 swc_common               = { version = "0.28.8", path = "../swc_common" }
-swc_css_ast              = { version = "0.112.7", path = "../swc_css_ast" }
-swc_css_codegen          = { version = "0.122.7", path = "../swc_css_codegen" }
-swc_css_minifier         = { version = "0.87.10", path = "../swc_css_minifier" }
-swc_css_parser           = { version = "0.121.7", path = "../swc_css_parser" }
+swc_css_ast              = { version = "0.113.0", path = "../swc_css_ast" }
+swc_css_codegen          = { version = "0.123.0", path = "../swc_css_codegen" }
+swc_css_minifier         = { version = "0.88.0", path = "../swc_css_minifier" }
+swc_css_parser           = { version = "0.122.0", path = "../swc_css_parser" }
 swc_ecma_ast             = { version = "0.91.8", path = "../swc_ecma_ast" }
 swc_ecma_codegen         = { version = "0.124.14", path = "../swc_ecma_codegen" }
 swc_ecma_minifier        = { version = "0.154.30", path = "../swc_ecma_minifier" }
