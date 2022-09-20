@@ -30,7 +30,6 @@ use swc_common::{
     SourceMap, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helpers::{Helpers, HELPERS};
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
