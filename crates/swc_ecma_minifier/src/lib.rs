@@ -249,7 +249,7 @@ pub fn optimize(
                 break;
             }
 
-            m.visit_mut_with(&mut pure_optimizer(
+            let mut v = pure_optimizer(
                 options,
                 None,
                 marks,
@@ -259,7 +259,11 @@ pub fn optimize(
                     #[cfg(feature = "debug")]
                     debug_infinite_loop: false,
                 },
-            ));
+            );
+            m.visit_mut_with(&mut v);
+            if !v.changed() {
+                break;
+            }
         }
     }
 
