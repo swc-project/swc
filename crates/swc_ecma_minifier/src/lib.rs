@@ -240,17 +240,27 @@ pub fn optimize(
         let _timer = timer!("postcompress");
 
         m.visit_mut_with(&mut postcompress_optimizer(options));
-        m.visit_mut_with(&mut pure_optimizer(
-            options,
-            None,
-            marks,
-            PureOptimizerConfig {
-                force_str_for_tpl: Minification::force_str_for_tpl(),
-                enable_join_vars: true,
-                #[cfg(feature = "debug")]
-                debug_infinite_loop: false,
-            },
-        ));
+
+        let mut pass = 0;
+        loop {
+            pass += 1;
+
+            if pass > 3 {
+                break;
+            }
+
+            m.visit_mut_with(&mut pure_optimizer(
+                options,
+                None,
+                marks,
+                PureOptimizerConfig {
+                    force_str_for_tpl: Minification::force_str_for_tpl(),
+                    enable_join_vars: true,
+                    #[cfg(feature = "debug")]
+                    debug_infinite_loop: false,
+                },
+            ));
+        }
     }
 
     if let Some(ref mut _t) = timings {
