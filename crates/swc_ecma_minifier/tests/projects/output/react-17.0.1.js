@@ -480,7 +480,7 @@
             case REACT_BLOCK_TYPE:
                 return describeNativeComponentFrame(type._render, !1);
             case REACT_LAZY_TYPE:
-                var prototype, fn, fn1, payload = type._payload, init = type._init;
+                var Component, prototype, fn, fn1, payload = type._payload, init = type._init;
                 try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                 } catch (x) {}

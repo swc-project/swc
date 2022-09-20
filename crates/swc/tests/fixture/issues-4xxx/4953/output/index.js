@@ -1,8 +1,8 @@
 "use strict";
 function e(e, t) {
     "use strict";
-    var r;
-    (r = function(e) {
+    var r, n;
+    (n = function(e) {
         "use strict";
         e.vr = function(e, t, r) {
             return function() {
