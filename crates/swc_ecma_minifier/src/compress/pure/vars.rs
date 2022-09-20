@@ -255,7 +255,9 @@ impl Pure<'_> {
         // Prepend vars
 
         let mut prepender = VarPrepender { target, vars };
-        stmts.visit_mut_with(&mut prepender);
+        if target == VarDeclKind::Var {
+            stmts.visit_mut_with(&mut prepender);
+        }
 
         if !prepender.vars.is_empty() {
             prepend_stmt(
