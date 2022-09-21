@@ -2555,7 +2555,7 @@
                                 let e1 = function(t) {
                                     const e = Wn(t);
                                     return 4 === e.length ? ht.emptyPath() : Xn(e);
-                                }(t.parent);
+                                }(t.parent), e2;
                                 const n1 = t.structuredQuery, s1 = n1.from ? n1.from.length : 0;
                                 let i1 = null;
                                 if (s1 > 0) {
@@ -2636,7 +2636,7 @@
                                         }
                                     }(t1.direction));
                                 }));
-                                let c1 = null, e2;
+                                let c1 = null;
                                 n1.limit && (c1 = At(e2 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e2);
                                 let a = null;
                                 n1.startAt && (a = fs(n1.startAt));
@@ -4090,12 +4090,11 @@
                 }
             }
             async function nc(t, e) {
+                let s, i;
                 const n = function(t) {
                     const e = t;
                     return e.remoteStore.remoteSyncer.applyRemoteEvent = oc.bind(null, e), e.remoteStore.remoteSyncer.getRemoteKeysForTarget = Ec.bind(null, e), e.remoteStore.remoteSyncer.rejectListen = ac.bind(null, e), e.$o.Rr = qo.bind(null, e.eventManager), e.$o.Go = Ko.bind(null, e.eventManager), e;
-                }(t);
-                let s, i;
-                const r = n.Oo.get(e);
+                }(t), r = n.Oo.get(e);
                 if (r) s = r.targetId, n.sharedClientState.addLocalQueryTarget(s), i = r.view.xo();
                 else {
                     const t1 = await function(t, e) {
@@ -4140,7 +4139,8 @@
                         let i = n.Un;
                         return n.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
                             var t1, e1, n1, s1, i1;
-                            const r = n.jn.newChangeBuffer({
+                            let r;
+                            const r1 = n.jn.newChangeBuffer({
                                 trackRemovals: !0
                             });
                             i = n.Un;
@@ -4156,10 +4156,10 @@
                                     i = i.insert(r, u), t1 = c, e1 = u, n1 = e, e1.resumeToken.approximateByteSize() > 0 || L(), (0 === t1.resumeToken.approximateByteSize() || e1.snapshotVersion.toMicroseconds() - t1.snapshotVersion.toMicroseconds() >= 3e8 || n1.addedDocuments.size + n1.modifiedDocuments.size + n1.removedDocuments.size > 0) && o.push(n.ze.updateTargetData(t, u));
                                 }
                             });
-                            let c = pn, r1;
+                            let c = pn;
                             if (e.documentUpdates.forEach((s, i)=>{
                                 e.resolvedLimboDocuments.has(s) && o.push(n.persistence.referenceDelegate.updateLimboDocument(t, s));
-                            }), o.push((t1 = t, e1 = r, n1 = e.documentUpdates, s1 = s, i1 = void 0, r1 = Pn(), n1.forEach((t)=>r1 = r1.add(t)), e1.getEntries(t1, r1).next((t)=>{
+                            }), o.push((t1 = t, e1 = r1, n1 = e.documentUpdates, s1 = s, i1 = void 0, r = Pn(), n1.forEach((t)=>r = r.add(t)), e1.getEntries(t1, r).next((t)=>{
                                 let r = pn;
                                 return n1.forEach((n, o)=>{
                                     const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s1;
@@ -4171,7 +4171,7 @@
                                 const e2 = n.ze.getLastRemoteSnapshotVersion(t).next((e)=>n.ze.setTargetsMetadata(t, t.currentSequenceNumber, s));
                                 o.push(e2);
                             }
-                            return js.waitFor(o).next(()=>r.apply(t)).next(()=>n.Qn.vn(t, c)).next(()=>c);
+                            return js.waitFor(o).next(()=>r1.apply(t)).next(()=>n.Qn.vn(t, c)).next(()=>c);
                         }).then((t)=>(n.Un = i, t));
                     }(t.localStore, e);
                     e.targetChanges.forEach((t1, e)=>{
@@ -4653,8 +4653,8 @@
                 Pc(t) {
                     const e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
                             var t1;
-                            this.Tc = t, this.Ec = !1;
                             let e;
+                            this.Tc = t, this.Ec = !1;
                             const e1 = (e = (t1 = t).message || "", t1.stack && (e = t1.stack.includes(t1.message) ? t1.stack : t1.message + "\n" + t1.stack), e);
                             throw O("INTERNAL UNHANDLED ERROR: ", e1), t;
                         }).then((t)=>(this.Ec = !1, t))));

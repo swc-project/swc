@@ -1,5 +1,3 @@
 //// [logicalAssignment11.ts]
-let x, d;
-null != d || (d = null != x ? x : "x"), d.length;
-let e;
-null != e || (e = null != x ? x : "x"), e.length;
+let x, d, e;
+null != d || (d = null != x ? x : "x"), d.length, null != e || (e = null != x ? x : "x"), e.length;
