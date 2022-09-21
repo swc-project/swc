@@ -225,14 +225,19 @@ impl Pure<'_> {
             });
 
             // Check for nested variable declartions.
-            let mut v = VarWithOutInitCounter {
-                target,
-                need_work: Default::default(),
-                found_var_without_init: Default::default(),
-                found_var_with_init: Default::default(),
+            let visitor_need_work = if target == VarDeclKind::Var {
+                let mut v = VarWithOutInitCounter {
+                    target,
+                    need_work: Default::default(),
+                    found_var_without_init: Default::default(),
+                    found_var_with_init: Default::default(),
+                };
+                stmts.visit_with(&mut v);
+                v.need_work
+            } else {
+                false
             };
-            stmts.visit_with(&mut v);
-            if !if_need_work && !v.need_work {
+            if !if_need_work && !visitor_need_work {
                 return;
             }
         }
@@ -260,18 +265,25 @@ impl Pure<'_> {
         }
 
         if !prepender.vars.is_empty() {
-            prepend_stmt(
-                stmts,
-                T::from_stmt(
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: target,
-                        declare: Default::default(),
-                        decls: prepender.vars,
-                    }
-                    .into(),
-                ),
-            );
+            match stmts.get_mut(0).and_then(|v| v.as_stmt_mut()) {
+                Some(Stmt::Decl(Decl::Var(v))) if v.kind == target => {
+                    v.decls.extend(prepender.vars);
+                }
+                _ => {
+                    prepend_stmt(
+                        stmts,
+                        T::from_stmt(
+                            VarDecl {
+                                span: DUMMY_SP,
+                                kind: target,
+                                declare: Default::default(),
+                                decls: prepender.vars,
+                            }
+                            .into(),
+                        ),
+                    );
+                }
+            }
         }
     }
 }
