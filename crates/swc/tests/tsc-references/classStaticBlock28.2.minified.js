@@ -1,2 +1,3 @@
 //// [classStaticBlock28.ts]
-console.log(1);
+var foo;
+foo = 1, console.log(foo);
