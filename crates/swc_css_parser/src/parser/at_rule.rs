@@ -437,8 +437,17 @@ where
                                 ..parser.ctx
                             };
 
+
+                            let func = parser.with_ctx(ctx).parse_as::<Function>()?;
+                            if func.value.is_empty() {
+                                parser.errors.push(Error::new(
+                                    func.span,
+                                    ErrorKind::Expected("layer function expected to have exactly one ident argument"),
+                                ));
+                            }
+
                             let name = ImportPreludeLayerName::Function(
-                                parser.with_ctx(ctx).parse_as::<Function>()?,
+                                func
                             );
 
                             parser.input.skip_ws();

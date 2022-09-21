@@ -1,0 +1,6 @@
+
+  x Expected layer function expected to have exactly one ident argument
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :                   ^^^^^^^
+   `----

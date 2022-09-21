@@ -1,0 +1,48 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :  ^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :         ^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :                   ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :                   ^^^^^
+   `----
