@@ -10038,3 +10038,74 @@ fn issue_5799() {
 
     run_default_exec_test(src);
 }
+
+#[test]
+fn issue_5914() {
+    let src = r###"
+        class Test {
+            constructor(config) {
+            const that = this;
+            this.config = config;
+            this.options = {
+                config() {
+                return that.config;
+                },
+            };
+            }
+        }
+      
+        const instance = new Test(42);
+        console.log(instance.options.config); 
+    "###;
+
+    let config = r###"
+        {
+            "arguments": false,
+            "arrows": true,
+            "booleans": true,
+            "booleans_as_integers": false,
+            "collapse_vars": true,
+            "comparisons": true,
+            "computed_props": true,
+            "conditionals": true,
+            "dead_code": true,
+            "directives": true,
+            "drop_console": false,
+            "drop_debugger": true,
+            "evaluate": true,
+            "expression": false,
+            "hoist_funs": false,
+            "hoist_props": true,
+            "hoist_vars": false,
+            "if_return": true,
+            "join_vars": true,
+            "keep_classnames": false,
+            "keep_fargs": true,
+            "keep_fnames": false,
+            "keep_infinity": false,
+            "loops": true,
+            "negate_iife": true,
+            "properties": true,
+            "reduce_funcs": false,
+            "reduce_vars": false,
+            "side_effects": true,
+            "switches": true,
+            "typeofs": true,
+            "unsafe": false,
+            "unsafe_arrows": false,
+            "unsafe_comps": false,
+            "unsafe_Function": false,
+            "unsafe_math": false,
+            "unsafe_symbols": false,
+            "unsafe_methods": false,
+            "unsafe_proto": false,
+            "unsafe_regexp": false,
+            "unsafe_undefined": false,
+            "unused": true,
+            "const_to_let": true,
+            "pristine_globals": true
+        }
+    "###;
+
+    run_exec_test(src, config, false);
+}
