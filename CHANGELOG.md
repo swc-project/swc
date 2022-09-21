@@ -46,6 +46,9 @@
 
 - **(es)** Accept arguments (#5916) ([fe40d83](https://github.com/swc-project/swc/commit/fe40d8312b7153de1e334d552e9f6bcafc9cc161))
 
+
+- **(es/minifier)** Add a test for a wrong issue (#5923) ([0b34bcb](https://github.com/swc-project/swc/commit/0b34bcb40e844f8a78e8c239ed8b0eeed2ef6992))
+
 ## [1.3.2] - 2022-09-19
 
 ### Bug Fixes
