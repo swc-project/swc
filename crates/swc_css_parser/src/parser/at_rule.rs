@@ -438,21 +438,45 @@ where
                             };
 
                             let func = parser.with_ctx(ctx).parse_as::<Function>()?;
-                            if func.value.is_empty() {
+                            if func.value.len() != 1 {
                                 parser.errors.push(Error::new(
                                     func.span,
                                     ErrorKind::Expected(
-                                        "layer function expected to have exactly one ident \
-                                         argument",
+                                        "layer function inside @import expected to have exactly \
+                                         one ident argument",
                                     ),
                                 ));
+                                None
+                            } else if let ComponentValue::LayerName {
+                                0: LayerName { name: name_raw, .. },
+                            } = &func.value[0]
+                            {
+                                let name = ImportPreludeLayerName::Function(func.clone());
+
+                                parser.input.skip_ws();
+
+                                if name_raw.is_empty() {
+                                    parser.errors.push(Error::new(
+                                        func.span,
+                                        ErrorKind::Expected(
+                                            "layer function inside @import expected to have \
+                                             exactly one ident argument",
+                                        ),
+                                    ));
+                                    None
+                                } else {
+                                    Some(Box::new(name))
+                                }
+                            } else {
+                                parser.errors.push(Error::new(
+                                    func.span,
+                                    ErrorKind::Expected(
+                                        "layer function inside @import expected to have exactly \
+                                         one ident argument",
+                                    ),
+                                ));
+                                None
                             }
-
-                            let name = ImportPreludeLayerName::Function(func);
-
-                            parser.input.skip_ws();
-
-                            Some(Box::new(name))
                         }
                         _ => None,
                     };
