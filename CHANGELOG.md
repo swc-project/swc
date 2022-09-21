@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Drop function identifier in a single pass (#5901) ([aacf7aa](https://github.com/swc-project/swc/commit/aacf7aaf80034509cf20e4b54d87c2e95ae9b3df))
 
+
+- **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))
+
 ### Performance
 
 
@@ -33,6 +36,12 @@
 
 
 - **(es/minifier)** Optimize analyzer (#5908) ([a9873e5](https://github.com/swc-project/swc/commit/a9873e505d33b4537e341a618f524931870a0db4))
+
+### Testing
+
+
+
+- **(es)** Accept arguments (#5916) ([fe40d83](https://github.com/swc-project/swc/commit/fe40d8312b7153de1e334d552e9f6bcafc9cc161))
 
 ## [1.3.2] - 2022-09-19
 
