@@ -1,10 +1,6 @@
 #![feature(bench_black_box)]
 
-use std::{
-    fs::read_to_string,
-    path::PathBuf,
-    process::{Command, Stdio},
-};
+use std::{fs::read_to_string, path::PathBuf};
 
 use rustc_hash::FxHashSet;
 use sourcemap::SourceMap;
@@ -12,6 +8,7 @@ use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfi
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 
 const IGNORED_PASS_TESTS: &[&str] = &[
     // Temporally ignored
@@ -212,18 +209,24 @@ fn identity(entry: PathBuf) {
 }
 
 fn get_expected(code: &str, is_module: bool) -> (String, SourceMap, String) {
-    let mut c = Command::new("node");
-    c.arg("tests/babel.mjs");
-    c.arg(code);
-    c.arg(if is_module { "module" } else { "script" });
-    c.stderr(Stdio::inherit());
-
-    let output = c.output().expect("failed to get output");
-
-    let v = serde_json::from_str::<serde_json::Map<String, serde_json::Value>>(
-        &String::from_utf8_lossy(&output.stdout),
+    let output = exec_node_js(
+        include_str!("./babel.mjs"),
+        JsExecOptions {
+            cache: true,
+            module: true,
+            args: vec![
+                code.to_string(),
+                if is_module {
+                    "module".into()
+                } else {
+                    "script".into()
+                },
+            ],
+        },
     )
-    .unwrap();
+    .expect("failed to get output");
+
+    let v = serde_json::from_str::<serde_json::Map<String, serde_json::Value>>(&output).unwrap();
 
     let code = v.get("code").unwrap().as_str().unwrap();
     let map = v.get("map").unwrap().as_str().unwrap();

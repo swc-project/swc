@@ -1,10 +1,10 @@
 import { parse } from "@babel/parser";
 import generate from "@babel/generator";
 
-const code = process.argv[2];
+const code = process.argv[1];
 const ast = parse(code, {
     sourceFilename: 'input.js',
-    sourceType: process.argv[3],
+    sourceType: process.argv[2],
 });
 
 const output = generate.default(
