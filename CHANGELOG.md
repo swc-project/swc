@@ -26,6 +26,9 @@
 - **(es/minifier)** Drop function identifier in a single pass (#5901) ([aacf7aa](https://github.com/swc-project/swc/commit/aacf7aaf80034509cf20e4b54d87c2e95ae9b3df))
 
 
+- **(es/minifier)** Collapse `let` without init (#5909) ([19ce273](https://github.com/swc-project/swc/commit/19ce2737b16f2f6daf5f2eb53dc7a70ceefb107d))
+
+
 - **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))
 
 ### Performance
