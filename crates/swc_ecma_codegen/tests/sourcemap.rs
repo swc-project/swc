@@ -210,7 +210,7 @@ fn identity(entry: PathBuf) {
 
 fn get_expected(code: &str, is_module: bool) -> (String, SourceMap, String) {
     let output = exec_node_js(
-        include_str!("./babel.mjs"),
+        include_str!("./srcmap.mjs"),
         JsExecOptions {
             cache: true,
             module: true,
