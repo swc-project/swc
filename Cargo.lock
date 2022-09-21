@@ -3295,7 +3295,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.112.0"
+version = "0.112.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3840,7 +3840,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.78.0"
+version = "0.78.1"
 dependencies = [
  "num-bigint",
  "serde",
@@ -4057,7 +4057,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.25.8"
+version = "0.25.9"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4213,7 +4213,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.5.2"
+version = "0.5.3"
 dependencies = [
  "either",
  "swc_visit_macros",
@@ -4221,7 +4221,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit_macros"
-version = "0.5.3"
+version = "0.5.4"
 dependencies = [
  "Inflector",
  "pmutil",
@@ -4296,7 +4296,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "0.3.8"
+version = "0.3.9"
 dependencies = [
  "serde",
  "swc_atoms",
