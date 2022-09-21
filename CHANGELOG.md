@@ -52,6 +52,9 @@
 
 - **(es/minifier)** Add a test for a wrong issue (#5923) ([0b34bcb](https://github.com/swc-project/swc/commit/0b34bcb40e844f8a78e8c239ed8b0eeed2ef6992))
 
+
+- **(es/minifier)** Add an execution test for a fixed issue (#5925) ([31711e7](https://github.com/swc-project/swc/commit/31711e76af84aa52766a511af7b772390144f1ee))
+
 ## [1.3.2] - 2022-09-19
 
 ### Bug Fixes
