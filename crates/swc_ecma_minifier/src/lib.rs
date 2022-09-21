@@ -189,16 +189,17 @@ pub fn optimize(
 
                     loop {
                         #[cfg(feature = "debug")]
-                        let start = n.dump();
+                        let start = crate::debug::dump(&m, false);
 
                         m.visit_mut_with(&mut visitor);
 
                         #[cfg(feature = "debug")]
                         if visitor.changed() {
-                            let src = n.dump();
-                            debug!(
+                            let src = crate::debug::dump(&m, false);
+                            tracing::debug!(
                                 "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
-                                start, src
+                                start,
+                                src
                             );
                         }
 
