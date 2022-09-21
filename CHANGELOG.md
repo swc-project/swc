@@ -34,6 +34,12 @@
 
 - **(es/minifier)** Optimize analyzer (#5908) ([a9873e5](https://github.com/swc-project/swc/commit/a9873e505d33b4537e341a618f524931870a0db4))
 
+### Testing
+
+
+
+- **(es)** Accept arguments (#5916) ([fe40d83](https://github.com/swc-project/swc/commit/fe40d8312b7153de1e334d552e9f6bcafc9cc161))
+
 ## [1.3.2] - 2022-09-19
 
 ### Bug Fixes
