@@ -1,4 +1,5 @@
 asm/asm_mixed/input.js
+collapse_vars/cascade_call/input.js
 collapse_vars/collapse_vars_do_while/input.js
 collapse_vars/collapse_vars_misc1/input.js
 dead_code/dead_code_constant_boolean_should_warn_more/input.js
@@ -11,9 +12,14 @@ drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
 drop_unused/unused_circular_references_1/input.js
 evaluate/issue_2535_1/input.js
+functions/issue_2428/input.js
+functions/issue_2531_2/input.js
 functions/issue_2531_3/input.js
 harmony/issue_2794_3/input.js
 hoist_props/contains_this_1/input.js
+hoist_props/issue_2377_1/input.js
+hoist_props/issue_2377_2/input.js
+hoist_props/issue_2377_3/input.js
 identity/inline_identity_inline_function/input.js
 issue_t120/issue_t120_2/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
@@ -27,6 +33,7 @@ pure_funcs/unary/input.js
 pure_getters/issue_2265_3/input.js
 reduce_vars/defun_inline_3/input.js
 reduce_vars/multi_def_3/input.js
+reduce_vars/var_assign_1/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 sequences/issue_2062/input.js
 sequences/issue_27/input.js

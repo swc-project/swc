@@ -108,7 +108,7 @@
                             var r = getLens(e), t = r[0], f = r[1];
                             return (t + f) * 3 / 4 - f;
                         }, r.toByteArray = function(e) {
-                            var r, h, t = getLens(e), i = t[0], o = t[1], u = new n((i + o) * 3 / 4 - o), a = 0, s = o > 0 ? i - 4 : i;
+                            var r, h, r1, t, t1 = getLens(e), i = t1[0], o = t1[1], u = new n((r1 = i, t = o, (r1 + t) * 3 / 4 - t)), a = 0, s = o > 0 ? i - 4 : i;
                             for(h = 0; h < s; h += 4)r = f[e.charCodeAt(h)] << 18 | f[e.charCodeAt(h + 1)] << 12 | f[e.charCodeAt(h + 2)] << 6 | f[e.charCodeAt(h + 3)], u[a++] = r >> 16 & 255, u[a++] = r >> 8 & 255, u[a++] = 255 & r;
                             return 2 === o && (r = f[e.charCodeAt(h)] << 2 | f[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f[e.charCodeAt(h)] << 10 | f[e.charCodeAt(h + 1)] << 4 | f[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
                         }, r.fromByteArray = function(e) {
@@ -298,8 +298,8 @@
                             var i = r.length;
                             f > i / 2 && (f = i / 2);
                             for(var o = 0; o < f; ++o){
-                                var u = parseInt(r.substr(2 * o, 2), 16);
-                                if (u != u) break;
+                                var e1, u = parseInt(r.substr(2 * o, 2), 16);
+                                if ((e1 = u) != e1) break;
                                 e[t + o] = u;
                             }
                             return o;
@@ -417,7 +417,8 @@
                         }), Buffer.poolSize = 8192, Buffer.from = function(e, r, t) {
                             return from(e, r, t);
                         }, Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype), Object.setPrototypeOf(Buffer, Uint8Array), Buffer.alloc = function(e, r, t) {
-                            return (assertSize(e), e <= 0) ? createBuffer(e) : void 0 !== r ? "string" == typeof t ? createBuffer(e).fill(r, t) : createBuffer(e).fill(r) : createBuffer(e);
+                            var e1, r1, t1;
+                            return e1 = e, r1 = r, t1 = t, (assertSize(e1), e1 <= 0) ? createBuffer(e1) : void 0 !== r1 ? "string" == typeof t1 ? createBuffer(e1).fill(r1, t1) : createBuffer(e1).fill(r1) : createBuffer(e1);
                         }, Buffer.allocUnsafe = function(e) {
                             return allocUnsafe(e);
                         }, Buffer.allocUnsafeSlow = function(e) {
@@ -507,7 +508,7 @@
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
                             else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                            var n = this.length - r;
+                            var e1, n = this.length - r;
                             if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
                             f || (f = "utf8");
                             for(var i = !1;;)switch(f){
@@ -517,9 +518,10 @@
                                 case "utf-8":
                                     return utf8Write(this, e, r, t);
                                 case "ascii":
+                                    return asciiWrite(this, e, r, t);
                                 case "latin1":
                                 case "binary":
-                                    return asciiWrite(this, e, r, t);
+                                    return e1 = this, asciiWrite(e1, e, r, t);
                                 case "base64":
                                     return base64Write(this, e, r, t);
                                 case "ucs2":
@@ -590,12 +592,18 @@
                         }, Buffer.prototype.readDoubleBE = function(e, r) {
                             return e >>>= 0, r || checkOffset(e, 8, this.length), n.read(this, e, !1, 52, 8);
                         }, Buffer.prototype.writeUIntLE = function(e, r, t, f) {
-                            e = +e, r >>>= 0, t >>>= 0, f || checkInt(this, e, r, t, Math.pow(2, 8 * t) - 1, 0);
+                            if (e = +e, r >>>= 0, t >>>= 0, !f) {
+                                var n = Math.pow(2, 8 * t) - 1;
+                                checkInt(this, e, r, t, n, 0);
+                            }
                             var i = 1, o = 0;
                             for(this[r] = 255 & e; ++o < t && (i *= 256);)this[r + o] = e / i & 255;
                             return r + t;
                         }, Buffer.prototype.writeUIntBE = function(e, r, t, f) {
-                            e = +e, r >>>= 0, t >>>= 0, f || checkInt(this, e, r, t, Math.pow(2, 8 * t) - 1, 0);
+                            if (e = +e, r >>>= 0, t >>>= 0, !f) {
+                                var n = Math.pow(2, 8 * t) - 1;
+                                checkInt(this, e, r, t, n, 0);
+                            }
                             var i = t - 1, o = 1;
                             for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)this[r + i] = e / o & 255;
                             return r + t;
@@ -1977,7 +1985,7 @@
                         }
                         function formatValue(r, e, o) {
                             if (r.customInspect && e && isFunction(e.inspect) && e.inspect !== t.inspect && !(e.constructor && e.constructor.prototype === e)) {
-                                var t1, e1, o1, l, n = e.inspect(o, r);
+                                var r1, t1, e1, o1, l, n = e.inspect(o, r);
                                 return isString(n) || (n = formatValue(r, n, o)), n;
                             }
                             var i = function(r, t) {
@@ -1989,7 +1997,7 @@
                                 return isNumber(t) ? r.stylize("" + t, "number") : isBoolean(t) ? r.stylize("" + t, "boolean") : isNull(t) ? r.stylize("null", "null") : void 0;
                             }(r, e);
                             if (i) return i;
-                            var r1, t2, a = Object.keys(e), y = (r1 = a, t2 = {}, r1.forEach(function(r, e) {
+                            var r2, t2, a = Object.keys(e), y = (r2 = a, t2 = {}, r2.forEach(function(r, e) {
                                 t2[r] = !0;
                             }), t2);
                             if (r.showHidden && (a = Object.getOwnPropertyNames(e)), isError(e) && (a.indexOf("message") >= 0 || a.indexOf("description") >= 0)) return formatError(e);
@@ -2016,9 +2024,9 @@
                                 }), i;
                             }(r, e, o, y, a) : a.map(function(t) {
                                 return formatProperty(r, e, o, y, t, u);
-                            }), r.seen.pop(), t1 = f, e1 = s, o1 = 0, l.reduce(function(r, t) {
+                            }), r.seen.pop(), r1 = l, t1 = f, e1 = s, o1 = 0, r1.reduce(function(r, t) {
                                 return o1++, t.indexOf("\n") >= 0 && o1++, r + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                            }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + l.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + l.join(", ") + " " + e1[1]) : s[0] + f + s[1];
+                            }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + r1.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + r1.join(", ") + " " + e1[1]) : s[0] + f + s[1];
                         }
                         function formatError(r) {
                             return "[" + Error.prototype.toString.call(r) + "]";

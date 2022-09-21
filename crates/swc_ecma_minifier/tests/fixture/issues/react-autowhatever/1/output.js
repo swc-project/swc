@@ -40,15 +40,15 @@ function _setPrototypeOf(o, p) {
 }
 var ItemsList = function(Component) {
     "use strict";
-    var protoProps, staticProps;
+    var Constructor, protoProps, staticProps;
     function ItemsList() {
-        var _this, call;
+        var _this, self, call, obj;
         return !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-        }(this, ItemsList), call = _getPrototypeOf(ItemsList).apply(this, arguments), (_this = call && ("object" == (call && "undefined" != typeof Symbol && call.constructor === Symbol ? "symbol" : typeof call) || "function" == typeof call) ? call : function(self) {
+        }(this, ItemsList), self = this, call = _getPrototypeOf(ItemsList).apply(this, arguments), (_this = call && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : function(self) {
             if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
             return self;
-        }(this)).storeHighlightedItemReference = function(highlightedItem) {
+        }(self)).storeHighlightedItemReference = function(highlightedItem) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }, _this;
     }
@@ -61,7 +61,7 @@ var ItemsList = function(Component) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList, Component), protoProps = [
+    }(ItemsList, Component), Constructor = ItemsList, protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -97,7 +97,7 @@ var ItemsList = function(Component) {
                 }));
             }
         }
-    ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
+    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ItemsList;
 }(Component);
 ItemsList.propTypes = {
     items: PropTypes.array.isRequired,

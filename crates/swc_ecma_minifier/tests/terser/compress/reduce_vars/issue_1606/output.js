@@ -1,5 +1,6 @@
 function f() {
     var a, b;
     function g() {}
-    x(2);
+    b = 2;
+    x(b);
 }
