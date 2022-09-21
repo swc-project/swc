@@ -4,8 +4,13 @@ try {
     const code = process.argv[1];
 
     const output = await minify(code, {
-        sourceMap: true,
-        compress: false, mangle: false,
+        sourceMap: {
+            filename: 'input.js',
+            url: 'output.js.map',
+            includeSources: true,
+        },
+        compress: false,
+        mangle: false,
     });
 
     console.log(JSON.stringify({
