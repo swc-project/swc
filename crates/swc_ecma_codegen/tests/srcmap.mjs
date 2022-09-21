@@ -1,24 +1,10 @@
-import { parse } from "@babel/parser";
-import generate from "@babel/generator";
+import { minify } from "terser";
 
 const code = process.argv[1];
-const ast = parse(code, {
-    sourceFilename: 'input.js',
-    sourceType: process.argv[2],
-});
 
-const output = generate.default(
-    ast,
-    {
-        sourceMaps: true,
-        minified: true,
-        comments: false,
-        sourceFileName: 'input.js',
-    },
-    code
-);
+const output = await minify(code, { sourceMap: true, });
 
 console.log(JSON.stringify({
     code: output.code,
-    map: JSON.stringify(output.map),
+    map: output.map,
 }))
