@@ -1868,6 +1868,8 @@ where
         let start = self.input.cur_span().lo;
         let mut name = vec![];
 
+        let entered = is!(self, Ident);
+
         while is!(self, Ident) {
             let span = self.input.cur_span();
             let token = bump!(self);
@@ -1887,6 +1889,11 @@ where
             if is!(self, ".") {
                 eat!(self, ".");
             }
+        }
+
+        if !entered {
+            // if first argument is not ident, without bump! will cause infinite loop
+            bump!(self);
         }
 
         Ok(LayerName {
