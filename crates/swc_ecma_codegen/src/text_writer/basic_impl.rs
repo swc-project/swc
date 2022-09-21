@@ -62,7 +62,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
         if self.srcmap.is_some() {
             self.line_pos += data.chars().count();
         }
-        self.line_pos += data.chars().count();
 
         Ok(())
     }
