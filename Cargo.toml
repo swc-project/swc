@@ -36,14 +36,8 @@ debug = true
 
 # Without this, printing diff consumes more than a minute.
 
-[profile.dev.package."*"]
+[profile.dev.package.pretty_assertions]
 opt-level = 3
 
-[profile.dev.build-override]
-opt-level = 3
-
-[profile.test.package."*"]
-opt-level = 3
-
-[profile.test.build-override]
+[profile.test.package.pretty_assertions]
 opt-level = 3
