@@ -3,7 +3,7 @@ export function string_create() {
 }
 export class StringSchema extends BaseSchema {
     matches(regex, options) {
-        let excludeEmptyString = !1, message, name;
+        let message, name, excludeEmptyString = !1;
         return options && ("object" == typeof options ? { excludeEmptyString =!1 , message , name  } = options : message = options), this.test({
             name: name || "matches",
             message: message || string.matches,

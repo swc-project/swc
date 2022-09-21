@@ -20,3 +20,4 @@ swc_common       = { version = "0.28.8", path = "../swc_common" }
 swc_ecma_ast     = { version = "0.92.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.125.0", path = "../swc_ecma_codegen" }
 testing          = { version = "0.30.8", path = "../testing" }
+tracing          = "0.1.32"

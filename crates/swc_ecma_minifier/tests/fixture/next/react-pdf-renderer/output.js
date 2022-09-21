@@ -21036,10 +21036,8 @@
                             return 'The value "' + t + '" is invalid for option "' + e + '"';
                         }, TypeError), r("ERR_INVALID_ARG_TYPE", function(e, t, r) {
                             var i, o, a, u, l, s, c, f;
-                            let d;
-                            "string" == typeof t && (i = "not ", t.substr(!o || o < 0 ? 0 : +o, i.length) === i) ? (d = "must not be", t = t.replace(/^not /, "")) : d = "must be";
-                            let p;
-                            if (a = e, u = " argument", (void 0 === l || l > a.length) && (l = a.length), a.substring(l - u.length, l) === u) p = `The ${e} ${d} ${n(t, "type")}`;
+                            let d, p;
+                            if ("string" == typeof t && (i = "not ", t.substr(!o || o < 0 ? 0 : +o, i.length) === i) ? (d = "must not be", t = t.replace(/^not /, "")) : d = "must be", a = e, u = " argument", (void 0 === l || l > a.length) && (l = a.length), a.substring(l - u.length, l) === u) p = `The ${e} ${d} ${n(t, "type")}`;
                             else {
                                 const h = (s = e, "number" != typeof f && (f = 0), f + (c = ".").length > s.length || -1 === s.indexOf(c, f)) ? "argument" : "property";
                                 p = `The "${e}" ${h} ${d} ${n(t, "type")}`;
