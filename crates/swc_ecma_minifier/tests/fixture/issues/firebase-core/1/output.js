@@ -64,10 +64,11 @@
                     this.service = service, this.serviceName = serviceName, this.errors = errors;
                 }
                 create(code, ...data) {
-                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? template.replace(PATTERN, (_, key)=>{
-                        const value = customData[key];
+                    var template, data1;
+                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template1 = this.errors[code], message = template1 ? (template = template1, data1 = customData, template.replace(PATTERN, (_, key)=>{
+                        const value = data1[key];
                         return null != value ? String(value) : `<${key}?>`;
-                    }) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
+                    })) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
                     return error;
                 }
             }
@@ -1919,13 +1920,13 @@
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, value;
-                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }(i);
                 return target;
@@ -2099,8 +2100,8 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var callback, ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
+                    var element, callback, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (element = el, callback = function(isVisible) {
                         return isVisible && setVisible(isVisible);
                     }, id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
@@ -2118,8 +2119,8 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
-                        elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
+                    })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
+                        elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
                     isDisabled,

@@ -472,8 +472,8 @@
                 return _react.useEffect(function() {
                     if (hasIntersectionObserver) {
                         if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) {
-                            var callback, ref, id, observer, elements;
-                            return element && element.tagName && (unobserve.current = (callback = function(isVisible) {
+                            var element1, callback, ref, id, observer, elements;
+                            return element && element.tagName && (unobserve.current = (element1 = element, callback = function(isVisible) {
                                 return isVisible && setVisible(isVisible);
                             }, id = (ref = function(options) {
                                 var instance, id = {
@@ -497,8 +497,8 @@
                             }({
                                 root: null == rootRef ? void 0 : rootRef.current,
                                 rootMargin: rootMargin
-                            })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
-                                if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
+                            })).id, observer = ref.observer, (elements = ref.elements).set(element1, callback), observer.observe(element1), function() {
+                                if (elements.delete(element1), observer.unobserve(element1), 0 === elements.size) {
                                     observer.disconnect(), observers.delete(id);
                                     var index = idList.findIndex(function(obj) {
                                         return obj.root === id.root && obj.margin === id.margin;
