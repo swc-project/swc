@@ -53,6 +53,7 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         JsExecOptions {
             cache: true,
             module: false,
+            ..Default::default()
         },
     )?;
 
