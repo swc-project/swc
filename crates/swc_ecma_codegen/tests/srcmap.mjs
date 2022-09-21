@@ -14,7 +14,7 @@ try {
     if (e.toString().includes("SyntaxError")) {
         console.log(JSON.stringify({
             code: '',
-            map: {},
+            map: '{}',
         }));
     } else {
         throw e;
