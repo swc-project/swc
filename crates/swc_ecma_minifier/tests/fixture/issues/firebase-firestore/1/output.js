@@ -2552,16 +2552,16 @@
                             var t1, e;
                             const e1 = function(t) {
                                 var t1, t2, e, n, s, i, o, c;
-                                let e1 = function(t) {
+                                let e1, e2 = function(t) {
                                     const e = Wn(t);
                                     return 4 === e.length ? ht.emptyPath() : Xn(e);
-                                }(t.parent), e2;
+                                }(t.parent);
                                 const n1 = t.structuredQuery, s1 = n1.from ? n1.from.length : 0;
                                 let i1 = null;
                                 if (s1 > 0) {
                                     1 === s1 || L();
                                     const t3 = n1.from[0];
-                                    t3.allDescendants ? i1 = t3.collectionId : e1 = e1.child(t3.collectionId);
+                                    t3.allDescendants ? i1 = t3.collectionId : e2 = e2.child(t3.collectionId);
                                 }
                                 let r = [];
                                 n1.where && (r = function hs(t) {
@@ -2637,11 +2637,11 @@
                                     }(t1.direction));
                                 }));
                                 let c1 = null;
-                                n1.limit && (c1 = At(e2 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e2);
+                                n1.limit && (c1 = At(e1 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e1);
                                 let a = null;
                                 n1.startAt && (a = fs(n1.startAt));
                                 let u = null;
-                                return n1.endAt && (u = fs(n1.endAt)), t2 = e1, e = i1, n = o1, s = r, i = c1, o = a, c = u, new fe(t2, e, n, s, i, "F", o, c);
+                                return n1.endAt && (u = fs(n1.endAt)), t2 = e2, e = i1, n = o1, s = r, i = c1, o = a, c = u, new fe(t2, e, n, s, i, "F", o, c);
                             }({
                                 parent: t.parent,
                                 structuredQuery: t.structuredQuery

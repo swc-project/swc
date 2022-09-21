@@ -8942,7 +8942,7 @@
                 throw TypeError('val must be string, number or Buffer');
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
-                let indexSize = 1, i, arrLength = arr.length, valLength = val.length;
+                let i, indexSize = 1, arrLength = arr.length, valLength = val.length;
                 if (void 0 !== encoding && ('ucs2' === (encoding = String(encoding).toLowerCase()) || 'ucs-2' === encoding || 'utf16le' === encoding || 'utf-16le' === encoding)) {
                     if (arr.length < 2 || val.length < 2) return -1;
                     indexSize = 2, arrLength /= 2, valLength /= 2, byteOffset /= 2;
