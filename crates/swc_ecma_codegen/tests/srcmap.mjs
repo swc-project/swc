@@ -3,7 +3,10 @@ import { minify } from "terser";
 try {
     const code = process.argv[1];
 
-    const output = await minify(code, { sourceMap: true, });
+    const output = await minify(code, {
+        sourceMap: true,
+        compress: false, mangle: false,
+    });
 
     console.log(JSON.stringify({
         code: output.code,
