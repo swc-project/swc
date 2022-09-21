@@ -44,7 +44,7 @@ fn cargo_cache_root() -> PathBuf {
 /// Executes `js_code` and capture thw output.
 pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
     if opts.cache {
-        let hash = calc_hash(js_code);
+        let hash = calc_hash(&format!("{:?}:{}", opts.args, js_code));
         let cache_dir = cargo_cache_root().join(".swc-node-exec-cache");
         let cache_path = cache_dir.join(format!("{}.stdout", hash));
 
@@ -75,11 +75,13 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
         c.arg("--input-type=commonjs");
     }
 
-    let output = c
-        .arg("-e")
-        .arg(js_code)
-        .output()
-        .context("failed to execute output of minifier")?;
+    c.arg("-e").arg(js_code);
+
+    for arg in opts.args {
+        c.arg(arg);
+    }
+
+    let output = c.output().context("failed to execute output of minifier")?;
 
     if !output.status.success() {
         bail!(
