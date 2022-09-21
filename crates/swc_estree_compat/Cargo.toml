@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_estree_compat"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.149.4"
+version       = "0.149.5"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -38,7 +38,7 @@ swc_node_comments = { version = "0.15.8", path = "../swc_node_comments/" }
 [dev-dependencies]
 criterion           = "0.3"
 pretty_assertions   = "1.1"
-swc                 = { version = "0.227.4", path = "../swc" }
+swc                 = { version = "0.227.5", path = "../swc" }
 swc_ecma_ast        = { version = "0.92.0", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "0.120.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "0.194.1", path = "../swc_ecma_transforms/" }

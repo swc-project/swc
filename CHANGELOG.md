@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Remove more pure calls (#5900) ([83c7887](https://github.com/swc-project/swc/commit/83c7887600bcb391203911f3c82b62e16a217120))
 
+
+- **(es/minifier)** Fix analysis of assignments (#5924) ([e303f7e](https://github.com/swc-project/swc/commit/e303f7e8530a2c16f908d4132b077540eb1ecc58))
+
 ### Features
 
 
