@@ -815,6 +815,21 @@ impl Pure<'_> {
                     return;
                 }
 
+                Expr::Member(MemberExpr {
+                    obj,
+                    prop: MemberProp::Ident(..),
+                    ..
+                }) => {
+                    if let Expr::Ident(Ident {
+                        sym: js_word!("arguments"),
+                        ..
+                    }) = &**obj
+                    {
+                        e.take();
+                        return;
+                    }
+                }
+
                 _ => {}
             }
         }
