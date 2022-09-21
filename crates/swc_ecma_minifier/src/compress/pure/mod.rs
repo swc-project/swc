@@ -119,12 +119,12 @@ impl Pure<'_> {
             stmts.visit_with(&mut AssertValid);
         }
 
-        // self.collapse_vars_without_init(stmts, VarDeclKind::Let);
+        self.collapse_vars_without_init(stmts, VarDeclKind::Let);
 
-        // #[cfg(debug_assertions)]
-        // {
-        //     stmts.visit_with(&mut AssertValid);
-        // }
+        #[cfg(debug_assertions)]
+        {
+            stmts.visit_with(&mut AssertValid);
+        }
 
         self.collapse_vars_without_init(stmts, VarDeclKind::Var);
 
