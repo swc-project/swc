@@ -6,7 +6,6 @@ try {
     const output = await minify(code, {
         sourceMap: {
             filename: 'input.js',
-            url: 'output.js.map',
             includeSources: true,
         },
         compress: false,
