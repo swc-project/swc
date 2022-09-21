@@ -11,7 +11,7 @@ try {
     }))
 } catch (e) {
     // Ignore syntax error
-    if (e instanceof SyntaxError) {
+    if (e.toString().includes("SyntaxError")) {
         console.log(JSON.stringify({
             code: '',
             map: {},
