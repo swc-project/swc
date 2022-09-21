@@ -8,6 +8,9 @@
 - **(cli)** Add missing comma (#5902) ([ccca6d0](https://github.com/swc-project/swc/commit/ccca6d0a8866b9e34e1778e176ed47d19e30be78))
 
 
+- **(css/parser)** Fix infinite loop about `@import` and `layer`  (#5919) ([10cdbed](https://github.com/swc-project/swc/commit/10cdbed05e3d0f2430a21a7f3c6a185f56ea0861))
+
+
 - **(es/minifier)** Remove more pure calls (#5900) ([83c7887](https://github.com/swc-project/swc/commit/83c7887600bcb391203911f3c82b62e16a217120))
 
 ### Features
