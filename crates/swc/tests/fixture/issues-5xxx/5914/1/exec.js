@@ -3,7 +3,7 @@ class Test {
         const that = this;
         this.config = config;
         this.options = {
-            config() {
+            get config() {
                 return that.config;
             },
         };

@@ -10048,8 +10048,8 @@ fn issue_5914() {
             const that = this;
             this.config = config;
             this.options = {
-                config() {
-                return that.config;
+                get config() {
+                    return that.config;
                 },
             };
             }
