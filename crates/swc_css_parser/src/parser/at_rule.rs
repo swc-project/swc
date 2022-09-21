@@ -1892,8 +1892,7 @@ where
         }
 
         if !entered {
-            // if first argument is not ident,
-            //
+            // if first argument is not ident, without bump! will cause infinite loop
             bump!(self);
         }
 
