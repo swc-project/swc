@@ -244,8 +244,9 @@ impl ProgramData {
         e.used_in_cond |= ctx.in_cond;
 
         if is_modify && ctx.is_exact_reassignment {
-            if is_first || ctx.is_op_assign {
+            if is_first {
                 e.assign_count += 1;
+                e.reassigned_with_assignment = true;
             }
 
             if ctx.is_op_assign {
